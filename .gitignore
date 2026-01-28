@@ -29,6 +29,10 @@ __pycache__/
 *.mp3
 *.onnx
 
+# Build artifacts
+.build-epub/
+*.epub
+
 # Personal notes & temp filesà
 to-ignore/
 .grepai/
