@@ -1,3 +1,9 @@
+---
+title: "Exploration Before Implementation"
+description: "Ask Claude for multiple approaches with trade-offs before coding to prevent anchoring bias"
+tags: [workflow, architecture, design-patterns]
+---
+
 # Exploration Before Implementation
 
 > **Confidence**: Tier 2 — Validated by practitioner studies (+20-30% decision quality, +40% alternatives identified).
@@ -151,12 +157,12 @@ Show your reasoning for each phase.
 
 ## Integration with Claude Code
 
-### With /plan Mode
+### With Plan Mode
 
-Exploration happens **before** `/plan`:
+Exploration happens **before** entering Plan Mode:
 
 ```
-# Step 1: Explore (no /plan yet)
+# Step 1: Explore (not in Plan Mode yet)
 I need to add caching to the API. What are my options?
 
 # Claude responds with 4 approaches
@@ -164,8 +170,7 @@ I need to add caching to the API. What are my options?
 # Step 2: Choose
 Let's go with approach C (edge caching with Cloudflare).
 
-# Step 3: Plan
-/plan
+# Step 3: Plan (press Shift+Tab twice to enter Plan Mode)
 Implement edge caching using Cloudflare Workers.
 Follow the patterns in our existing middleware.
 ```
@@ -186,16 +191,16 @@ Use quantified comparison (1-10 scale) for:
 - Time to implement
 ```
 
-### With TodoWrite
+### With Task Tool
 
-Track exploration as a task:
+Track exploration as tasks:
 
 ```
-TodoWrite:
-- [x] Explore caching approaches (4 options analyzed)
-- [x] Choose approach: edge caching with Cloudflare
-- [ ] Implement cache invalidation
-- [ ] Add cache headers to responses
+TaskCreate: "Explore caching approaches"
+TaskCreate: "Choose approach based on analysis"
+TaskCreate: "Implement cache invalidation"
+TaskCreate: "Add cache headers to responses"
+# Mark completed as you progress with TaskUpdate
 ```
 
 ---

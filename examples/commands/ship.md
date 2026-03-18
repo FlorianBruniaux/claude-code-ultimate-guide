@@ -1,3 +1,8 @@
+---
+name: ship
+description: "Comprehensive pre-deployment verification to ensure release readiness"
+---
+
 # Ship Command - Pre-Deploy Checklist
 
 Comprehensive pre-deployment verification to ensure release readiness.

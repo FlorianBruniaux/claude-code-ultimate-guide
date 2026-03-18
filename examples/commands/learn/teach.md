@@ -1,3 +1,8 @@
+---
+name: learn-teach
+description: "Step-by-step explanation of a concept with progressive depth"
+---
+
 # Teach Me
 
 Step-by-step explanation of a concept with progressive depth.

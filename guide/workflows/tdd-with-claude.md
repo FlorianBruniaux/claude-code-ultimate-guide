@@ -1,3 +1,9 @@
+---
+title: "TDD with Claude Code"
+description: "Test-Driven Development workflow with explicit prompting for red-green-refactor cycles"
+tags: [workflow, tdd, testing]
+---
+
 # TDD with Claude Code
 
 > **Confidence**: Tier 1 — Based on official Anthropic best practices and extensive community validation.
@@ -155,35 +161,40 @@ Claude creates todos:
 - [ ] REFACTOR: Clean up
 ```
 
-### With /plan Mode
+### With Plan Mode
 
 Use planning for test strategy:
 
 ```
-/plan
+[Press Shift+Tab to enter Plan Mode]
 
 I need to implement a shopping cart with TDD.
 Plan the test cases before we start writing any code.
 ```
 
-Claude will explore codebase, then propose test plan before any implementation.
+Claude will explore codebase in read-only mode, then propose test plan before any implementation.
 
 ### With Hooks
 
-Auto-run tests on file changes:
+Auto-run tests after edits using a PostToolUse hook:
 
-```yaml
-# .claude/hooks.yaml
-post_edit:
-  - pattern: "**/*.test.ts"
-    command: "npm test -- --testPathPattern=$FILE"
-  - pattern: "**/*.ts"
-    command: "npm test --watchAll=false"
+```json
+// In .claude/settings.json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "command": "npm test --watchAll=false 2>&1 | head -20"
+      }
+    ]
+  }
+}
 ```
 
 ### With Sub-Agents
 
-Delegate test writing to specialized agent:
+Delegate test writing to scope-focused agent:
 
 ```
 Use the test-writer agent to create comprehensive tests for
@@ -298,7 +309,7 @@ Run tests after each change to ensure they stay green.
 
 ## See Also
 
-- [../methodologies.md](../methodologies.md) — Full methodology reference
+- [../core/methodologies.md](../core/methodologies.md) — Full methodology reference
 - [Tight Feedback Loops](../ultimate-guide.md) — Section 9.5
 - [examples/skills/tdd-workflow.md](../../examples/skills/tdd-workflow.md) — TDD skill template
 - [Anthropic Best Practices](https://www.anthropic.com/engineering/claude-code-best-practices)

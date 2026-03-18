@@ -1,3 +1,9 @@
+---
+title: "Database Branch Setup with Worktrees"
+description: "Guide for isolated feature development using database branches with Neon or PlanetScale"
+tags: [workflow, git, devops]
+---
+
 # Database Branch Setup with Worktrees
 
 Complete guide for isolated feature development with database branches.

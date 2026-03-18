@@ -1,3 +1,9 @@
+---
+title: "DevOps/SRE CLAUDE.md Template"
+description: "CLAUDE.md configuration for infrastructure projects and SRE workflows"
+tags: [claude-md, template, devops, ci-cd, observability]
+---
+
 # DevOps/SRE CLAUDE.md Template
 
 A CLAUDE.md configuration optimized for infrastructure projects and SRE workflows.

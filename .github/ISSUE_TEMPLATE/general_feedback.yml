@@ -1,0 +1,42 @@
+name: General Feedback
+description: Share general feedback about the guide, site UX, or accessibility
+title: "[Feedback]: "
+labels: ["feedback"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        All feedback is welcome — from quick thoughts to detailed suggestions.
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Feedback type
+      options:
+        - Site UX / Navigation
+        - Content quality
+        - Accessibility
+        - Performance
+        - Feature request
+        - Compliment / kudos
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: message
+    attributes:
+      label: Your feedback
+      description: Share whatever is on your mind
+      placeholder: "I think the guide would be better if..."
+    validations:
+      required: true
+
+  - type: input
+    id: page
+    attributes:
+      label: Page URL (optional)
+      description: Which page does your feedback relate to?
+      placeholder: "https://cc.bruniaux.com/..."
+    validations:
+      required: false

@@ -1,0 +1,54 @@
+<!-- Header Template -->
+<header class="header">
+  <div class="container">
+    <nav class="nav" aria-label="Main navigation">
+      <!-- Logo -->
+      <a href="/" class="logo">
+        <span class="logo-icon">>_</span>
+        <span class="logo-text">{{PROJECT_NAME}}</span>
+      </a>
+
+      <!-- Navigation Links -->
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#install">Install</a>
+        <a href="#faq">FAQ</a>
+        {{#if DOCS_URL}}
+        <a href="{{DOCS_URL}}">Docs</a>
+        {{/if}}
+      </div>
+
+      <!-- Actions -->
+      <div class="nav-actions">
+        <!-- Search Trigger -->
+        <button class="search-trigger" aria-label="Search (⌘K)">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.35-4.35"/>
+          </svg>
+          <span>Search</span>
+          <kbd>⌘K</kbd>
+        </button>
+
+        <!-- GitHub Star -->
+        <a href="{{GITHUB_URL}}" class="btn btn-github-star" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/>
+          </svg>
+          <span class="btn-github-text">Star on GitHub</span>
+        </a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!--
+PLACEHOLDERS:
+- {{PROJECT_NAME}}: Project name for logo
+- {{GITHUB_URL}}: GitHub repository URL
+- {{DOCS_URL}}: Documentation URL (optional)
+
+NOTE:
+- Search trigger requires search-modal.html and search.js
+- GitHub star button shows icon only on mobile (text hidden via CSS)
+-->

@@ -1,3 +1,9 @@
+---
+title: "Design Pattern Quality Evaluation Checklist"
+description: "Systematic scoring criteria for evaluating design pattern implementation quality"
+tags: [cheatsheet, design-patterns, code-review]
+---
+
 # Design Pattern Quality Evaluation Checklist
 
 Systematic criteria for evaluating the quality of design pattern implementations.

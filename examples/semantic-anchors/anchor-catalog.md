@@ -1,3 +1,9 @@
+---
+title: "Semantic Anchors Catalog"
+description: "Curated vocabulary of precise technical terms that improve Claude Code output quality"
+tags: [reference, semantic-anchors, architecture]
+---
+
 # Semantic Anchors Catalog
 
 > **Concept**: Alexandre Soyer

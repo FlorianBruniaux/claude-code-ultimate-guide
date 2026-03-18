@@ -1,3 +1,8 @@
+---
+name: diagnose
+description: "Interactive troubleshooting assistant for Claude Code issues"
+---
+
 # Claude Code Diagnostic Assistant
 
 Interactive troubleshooting assistant for Claude Code issues. Supports FR/EN.
@@ -46,7 +51,7 @@ cat .claude/settings.json 2>/dev/null || echo "No project settings"
 ls -la CLAUDE.md .claude/CLAUDE.md ~/.claude/CLAUDE.md 2>/dev/null
 
 # MCP config
-cat ~/.claude/mcp.json 2>/dev/null || echo "No MCP config"
+cat ~/.claude.json 2>/dev/null | jq '.mcpServers // empty' || echo "No MCP config"
 ```
 
 ### Step 4: Present Categories
@@ -145,13 +150,13 @@ cat ~/.claude/settings.json | jq '.permissions.allow'
 
 **Likely causes**:
 1. Server not installed globally
-2. Wrong path in mcp.json
+2. Wrong path in MCP config
 3. Missing environment variables
 
 **Quick diagnostic**:
 ```bash
 # Check MCP config
-cat ~/.claude/mcp.json | jq '.mcpServers'
+cat ~/.claude.json | jq '.mcpServers'
 
 # Check if server binary exists
 which mcp-server-sequential
@@ -199,8 +204,8 @@ which mcp-server-sequential
 **Diagnosis**: Hook file naming or location issue.
 
 **Solution**:
-1. Verify hook is in `.claude/hooks/` or `~/.claude/hooks/`
-2. Check filename matches event: `PreToolUse.sh`, `PostToolUse.sh`
-3. Ensure hook is executable: `chmod +x hook.sh`
+1. Verify hooks are configured in `.claude/settings.json` or `~/.claude/settings.json`
+2. Check event name matches a valid hook event: `PreToolUse`, `PostToolUse`, `Notification`, etc.
+3. Ensure the command referenced in the hook exists and is executable
 
 $ARGUMENTS

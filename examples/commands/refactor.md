@@ -1,3 +1,8 @@
+---
+name: refactor
+description: "Analyze code for SOLID violations and suggest targeted improvements"
+---
+
 # SOLID Refactoring Assistant
 
 Analyze code for SOLID violations and suggest targeted improvements.

@@ -1,0 +1,56 @@
+name: Bug Report
+description: Report an error or issue in the guide
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting this issue!
+
+  - type: dropdown
+    id: section
+    attributes:
+      label: Guide Section
+      description: Which section contains the error?
+      options:
+        - Getting Started
+        - Installation
+        - Configuration
+        - MCP Servers
+        - Tools & Commands
+        - Best Practices
+        - Security
+        - Agent Teams
+        - Advanced Topics
+        - Examples
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What's the issue?
+      placeholder: "The guide says X but actually Y is correct"
+    validations:
+      required: true
+
+  - type: textarea
+    id: location
+    attributes:
+      label: Location
+      description: Where in the guide is this issue?
+      placeholder: "Section 5.3, paragraph 2 OR guide/05-tools/mcp-servers.md line 42"
+    validations:
+      required: true
+
+  - type: textarea
+    id: correction
+    attributes:
+      label: Suggested Correction
+      description: What should it say instead?
+      placeholder: "It should say..."
+    validations:
+      required: false

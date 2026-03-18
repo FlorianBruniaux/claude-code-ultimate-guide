@@ -291,3 +291,20 @@ questions:
       file: "guide/ultimate-guide.md"
       section: "4.4 Best Practices"
       anchor: "#explicit-activation-triggers"
+
+  - id: "04-018"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "What is the invocation reliability difference between AGENTS.md (eager context) and Skills (lazy invocation)?"
+    options:
+      a: "Skills are more reliable than AGENTS.md"
+      b: "Both have 100% reliability"
+      c: "AGENTS.md: 100% reliable (always loaded) vs Skills: 53-79% auto-invoked"
+      d: "AGENTS.md is deprecated in favor of Skills"
+    correct: "c"
+    explanation: |
+      AGENTS.md uses eager context loading - always present in Claude's context, so 100% reliable activation. Skills use lazy invocation - auto-detected and invoked only when Claude recognizes the need, achieving 53-79% auto-invocation rate. Trade-off: AGENTS.md costs context tokens on every session, Skills save tokens but may miss activations. Use AGENTS.md for critical behaviors, Skills for optional capabilities.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "AGENTS.md vs Skills Evaluation"
+      anchor: "#agentsmd-vs-skills-evaluation"

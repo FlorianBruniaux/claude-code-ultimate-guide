@@ -1,0 +1,18 @@
+ISSUE: Q01-001 - [critical] CORRECT_ANSWER - Guide shows npm as Universal Method, not curl
+PASS: Q01-002
+PASS: Q01-003
+PASS: Q01-004
+PASS: Q01-005
+PASS: Q01-006
+PASS: Q01-007
+PASS: Q01-008
+PASS: Q01-009
+PASS: Q01-010
+PASS: Q01-011
+PASS: Q01-012
+PASS: Q01-013
+ISSUE: Q01-014 - [warning] AMBIGUITY - Guide context doesn't clearly list what's preserved vs not preserved
+PASS: Q01-015
+PASS: Q01-016
+PASS: Q01-017
+PASS: Q01-018

@@ -5,9 +5,10 @@
 *.swo
 *~
 
-# Claude Code (ignore personal config, but keep shared commands)
+# Claude Code (ignore personal config, but keep shared commands and agents)
 .claude/
 !.claude/commands/
+!.claude/agents/
 
 # OS
 .DS_Store
@@ -33,12 +34,23 @@ __pycache__/
 .build-epub/
 *.epub
 
-# Personal notes & temp filesà
+# Personal notes & temp files
 to-ignore/
+docs/drafts/
 .grepai/
 whitepapers/
 claudedocs/
 .mcp.json
 
+# Book (work in progress, not public yet)
+book/
+
 # Multi-provider (will be moved to dedicated repo)
 examples/multi-provider/
+
+# MCP server build output
+mcp-server/dist/
+mcp-server/node_modules/
+
+# Vitals provenance data
+.vitals/

@@ -172,3 +172,37 @@ questions:
       file: "guide/security-hardening.md"
       section: "Security Posture Levels"
       anchor: "#security-posture-levels"
+
+  - id: "13-011"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "Which sandbox isolation approach combines microVM isolation with network policies for agent autonomy?"
+    options:
+      a: "E2B (hosted cloud sandboxes)"
+      b: "Fly.io Sprites (edge compute)"
+      c: "Docker Sandboxes (with custom templates and network policies)"
+      d: "Cloudflare Sandbox SDK"
+    correct: "c"
+    explanation: |
+      Docker Sandboxes provide microVM-level isolation with customizable network policies. Key features: custom Dockerfile templates for reproducible environments, network policies to control egress/ingress, volume mounts for persistent storage, and CPU/memory limits. This approach suits teams wanting full control over sandbox configuration while maintaining strong isolation.
+    doc_reference:
+      file: "guide/sandbox-isolation.md"
+      section: "Docker Sandboxes"
+      anchor: "#docker-sandboxes"
+
+  - id: "13-012"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power", "pm"]
+    question: "What is the GitHub Issue Auto-Creation Bug (#13797) and why is it dangerous?"
+    options:
+      a: "Issues get automatically deleted"
+      b: "Claude Code accidentally creates public GitHub issues containing private project details"
+      c: "Issues are created but remain private"
+      d: "Only affects paid enterprise accounts"
+    correct: "b"
+    explanation: |
+      The GitHub Issue Auto-Creation Bug (#13797) causes Claude Code to accidentally create public GitHub issues containing private project details. Over 17 accidental disclosures documented, affecting v2.0.65+. The danger: internal code, architecture decisions, and private context leak publicly. Mitigation: disable the gh CLI tool or restrict GitHub permissions.
+    doc_reference:
+      file: "guide/known-issues.md"
+      section: "GitHub Issue Auto-Creation Bug"
+      anchor: "#github-issue-auto-creation-bug"

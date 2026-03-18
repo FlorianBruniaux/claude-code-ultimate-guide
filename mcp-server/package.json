@@ -1,0 +1,48 @@
+{
+  "name": "claude-code-ultimate-guide-mcp",
+  "version": "1.1.0",
+  "description": "MCP server for the Claude Code Ultimate Guide — search, read, and explore 20K+ lines of documentation directly from Claude Code",
+  "keywords": [
+    "mcp",
+    "claude-code",
+    "anthropic",
+    "documentation",
+    "guide"
+  ],
+  "author": "Florian Bruniaux",
+  "license": "MIT",
+  "homepage": "https://github.com/FlorianBruniaux/claude-code-ultimate-guide",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FlorianBruniaux/claude-code-ultimate-guide.git",
+    "directory": "mcp-server"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "bin": {
+    "claude-code-ultimate-guide-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts",
+    "content"
+  ],
+  "scripts": {
+    "build": "tsup && chmod +x dist/index.js",
+    "dev": "GUIDE_ROOT=.. node --watch dist/index.js",
+    "start": "node dist/index.js",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.6.0",
+    "yaml": "^2.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,3 +1,9 @@
+---
+title: "Agent Vibes - Complete Voice Catalog"
+description: "Reference catalog of available TTS voices with quality ratings and language support"
+tags: [reference, tts, integration]
+---
+
 # Agent Vibes - Complete Voice Catalog
 
 **Total Voices**: 15 installed + 50+ available

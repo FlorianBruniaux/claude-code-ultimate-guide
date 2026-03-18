@@ -1,3 +1,8 @@
+---
+name: release-notes
+description: "Generate release notes in multiple formats from git commits"
+---
+
 # Release Notes Generator
 
 Generate release notes in 3 formats from git commits for production releases.

@@ -1,19 +1,55 @@
+---
+name: git-worktree
+description: "Create isolated git worktrees for feature development without switching branches"
+---
+
 # Git Worktree Setup
 
 Create isolated git worktrees for feature development without switching branches.
 
-**Core principle:** Systematic directory selection + safety verification = reliable isolation.
+**Core principle:** Smart directory selection + symlink optimization + background verification = fast, reliable isolation.
+
+**Requires:** Git 2.5.0+ (July 2015)
+
+**Companion commands:** [`/git-worktree-status`](./git-worktree-status.md) | [`/git-worktree-remove`](./git-worktree-remove.md) | [`/git-worktree-clean`](./git-worktree-clean.md)
 
 ## Process
 
-1. **Check Existing Directories**: `.worktrees/` or `worktrees/`
-2. **Verify .gitignore**: Ensure worktree dir is ignored
-3. **Create Worktree**: `git worktree add`
-4. **Detect Database Provider**: Check for DB branching capability
-5. **Suggest Database Branch**: Remind user with exact commands
-6. **Install Dependencies**: Auto-detect package manager
-7. **Run Baseline Tests**: Verify clean state
-8. **Report Location**: Confirm ready
+1. **Validate Branch Name**: Check naming convention and conflicts
+2. **Check Existing Directories**: `.worktrees/` or `worktrees/`
+3. **Verify .gitignore**: Ensure worktree dir is ignored
+4. **Create Worktree**: `git worktree add`
+5. **Symlink Dependencies**: Reuse `node_modules/` from main worktree
+6. **Detect Database Provider**: Check for DB branching capability
+7. **Install Dependencies**: Auto-detect package manager (if not symlinking)
+8. **Run Background Verification**: Type check + tests in background
+9. **Report Location**: Confirm ready with status
+
+## Flags
+
+| Flag | Effect |
+|------|--------|
+| `--fast` | Skip dependency install and baseline tests |
+| `--isolated` | Fresh `node_modules` install (no symlink) |
+| `--skip-install` | Skip dependency install, keep baseline tests |
+
+## Branch Name Validation
+
+```bash
+# Auto-prefix based on naming convention
+# "auth" → "feat/auth" (default prefix)
+# "fix/login-bug" → kept as-is
+# "refactor/db-layer" → kept as-is
+
+# Accepted prefixes: feat/, fix/, refactor/, chore/, docs/, test/, perf/
+# If no prefix → default to feat/
+
+# Reject invalid characters
+echo "$BRANCH_NAME" | grep -qE '^[a-zA-Z0-9/_-]+$' || exit 1
+
+# Check branch doesn't already exist
+git show-ref --verify --quiet "refs/heads/$BRANCH_NAME" && echo "Branch already exists" && exit 1
+```
 
 ## Directory Selection
 
@@ -61,11 +97,35 @@ git worktree add .worktrees/$BRANCH_NAME -b $BRANCH_NAME
 cd .worktrees/$BRANCH_NAME
 ```
 
-## Auto-Detect Setup
+## Dependency Optimization (Node.js)
+
+**Default behavior:** Symlink `node_modules` from main worktree to avoid duplicate installs (~30s saved).
 
 ```bash
-# Node.js
-if [ -f package.json ]; then pnpm install; fi
+# Symlink node_modules (default, unless --isolated)
+if [ -d "../../node_modules" ] && [ ! "$ISOLATED" = true ]; then
+  ln -s "$(cd ../.. && pwd)/node_modules" node_modules
+  echo "Symlinked node_modules from main worktree"
+fi
+
+# With --isolated: fresh install
+if [ "$ISOLATED" = true ]; then
+  pnpm install   # or npm/yarn based on lockfile detection
+fi
+```
+
+**When to use `--isolated`:**
+- Schema changes requiring different package versions
+- Testing dependency upgrades
+- Debugging `node_modules` issues
+
+## Auto-Detect Setup (Multi-Stack)
+
+```bash
+# Node.js (if not symlinked)
+if [ -f package.json ] && [ ! -L node_modules ]; then
+  pnpm install   # Detect from lockfile: pnpm-lock.yaml / yarn.lock / package-lock.json
+fi
 
 # Rust
 if [ -f Cargo.toml ]; then cargo build; fi
@@ -78,30 +138,44 @@ if [ -f pyproject.toml ]; then poetry install; fi
 if [ -f go.mod ]; then go mod download; fi
 ```
 
-## Baseline Verification
+## Background Verification
+
+**Instead of blocking on full test suite, run verification in background:**
 
 ```bash
-# Run tests to verify clean state
-pnpm test        # Node.js
-cargo test       # Rust
-pytest           # Python
-go test ./...    # Go
+# Create log directory
+mkdir -p .worktree-logs
+
+# Background type check (Node.js)
+if [ -f tsconfig.json ]; then
+  npx tsc --noEmit > .worktree-logs/typecheck.log 2>&1 &
+  echo "Type check running in background (check with /git-worktree-status)"
+fi
+
+# Background test run
+if [ -f package.json ]; then
+  npx vitest run --reporter=json > .worktree-logs/tests.log 2>&1 &
+  echo "Tests running in background (check with /git-worktree-status)"
+fi
 ```
 
-**If tests fail:** Report failures, ask whether to proceed.
-**If tests pass:** Report ready.
+**With `--fast`:** Skip all verification.
 
 ## Final Report
 
 ```
 Worktree ready at <full-path>
-Tests passing (<N> tests, 0 failures)
+Branch: feat/auth (created from main)
+Dependencies: symlinked from main worktree
+Background checks: type check + tests running
+Check status: /git-worktree-status
+
 Ready to implement <feature-name>
 ```
 
 ## Database Branch Suggestion
 
-**After worktree creation, command detects database provider and suggests isolation.**
+**After worktree creation, detect database provider and suggest isolation.**
 
 ### Quick Command Reference
 
@@ -115,9 +189,9 @@ Ready to implement <feature-name>
 **Example output:**
 
 ```
-✅ Worktree created at .worktrees/feature-auth
+Worktree created at .worktrees/feat/auth
 
-💡 DB Isolation: neonctl branches create --name feature-auth --parent main
+DB Isolation: neonctl branches create --name feat-auth --parent main
    Then update .env with new DATABASE_URL
    Full guide: ../workflows/database-branch-setup.md
 ```
@@ -134,16 +208,16 @@ Ready to implement <feature-name>
 **/.claude/settings.local.json
 ```
 
-**Why:** Without this, `.env` files won't be copied to worktrees → Claude sessions fail.
+**Why:** Without this, `.env` files won't be copied to worktrees.
 
 ### When to Create Database Branch
 
 | Scenario | Create Branch? |
 |----------|---------------|
-| Schema migrations | ✅ Yes |
-| Data model refactoring | ✅ Yes |
-| Bug fix (no schema change) | ❌ No |
-| Performance experiments | ✅ Yes |
+| Schema migrations | Yes |
+| Data model refactoring | Yes |
+| Bug fix (no schema change) | No |
+| Performance experiments | Yes |
 
 **See:** [Database Branch Setup Guide](../workflows/database-branch-setup.md) for complete workflows.
 
@@ -154,12 +228,15 @@ Ready to implement <feature-name>
 | `.worktrees/` exists | Use it (verify .gitignore) |
 | `worktrees/` exists | Use it (verify .gitignore) |
 | Both exist | Use `.worktrees/` |
-| Neither exists | Check CLAUDE.md → Ask user |
+| Neither exists | Check CLAUDE.md, then ask user |
 | Not in .gitignore | Add + commit immediately |
+| No branch prefix | Auto-prefix with `feat/` |
+| Node.js project | Symlink `node_modules` by default |
+| `--fast` flag | Skip install + tests |
+| `--isolated` flag | Fresh `node_modules` install |
 | Neon detected | Suggest `neonctl branches create` |
 | PlanetScale detected | Suggest `pscale branch create` |
 | No .worktreeinclude | Create with `.env` pattern |
-| Tests fail | Report + ask to proceed |
 
 ## Common Mistakes
 
@@ -169,8 +246,8 @@ Ready to implement <feature-name>
 **Assuming directory location**
 - Follow priority: existing > CLAUDE.md > ask
 
-**Proceeding with failing tests**
-- Can't distinguish new bugs from pre-existing
+**Installing full node_modules in every worktree**
+- Wastes disk and time. Use symlink by default, `--isolated` only when needed
 
 **Not copying .env to worktree**
 - Symptom: Claude fails with "DATABASE_URL not found"
@@ -180,34 +257,13 @@ Ready to implement <feature-name>
 - Symptom: Migration conflicts, broken dev environment
 - Fix: Create database branch before modifying schema
 
-## Cleanup (After Work Complete)
-
-```bash
-# 1. Remove git worktree
-git worktree remove .worktrees/$BRANCH_NAME
-
-# Or force if uncommitted changes
-git worktree remove --force .worktrees/$BRANCH_NAME
-
-# 2. If you created a database branch, delete it
-# Neon:
-neonctl branches delete $BRANCH_NAME
-
-# PlanetScale:
-pscale branch delete <database-name> $BRANCH_NAME
-
-# Local schema:
-psql $DATABASE_URL -c "DROP SCHEMA ${BRANCH_NAME/\//_} CASCADE;"
-
-# 3. Prune stale references
-git worktree prune
-```
-
 ## Usage
 
 ```
-/git-worktree feature/auth
+/git-worktree auth
 /git-worktree fix/session-bug
+/git-worktree feature/new-api --fast
+/git-worktree refactor/db-layer --isolated
 ```
 
 Branch name: $ARGUMENTS

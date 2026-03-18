@@ -1,0 +1,207 @@
+name: Claude Code Review (Prompt-Based)
+
+# Pattern: externalized prompt + anti-hallucination protocol
+# Prompt file: .github/prompts/code-review.md
+# Copy it alongside this workflow: examples/github-actions/prompts/code-review.md
+
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review]
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  claude-review:
+    # Run on PR events (non-draft) OR on /claude-review comment
+    if: |
+      (github.event_name == 'pull_request' && github.event.pull_request.draft == false) ||
+      (github.event_name == 'issue_comment' &&
+       github.event.issue.pull_request != null &&
+       contains(github.event.comment.body, '/claude-review'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Claude Code Review
+        uses: anthropics/claude-code-action@v1
+        with:
+          # OAuth token via Claude GitHub App (no API key needed)
+          # Install: https://github.com/apps/claude
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+
+          # Or use API key directly:
+          # anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+
+          model: claude-sonnet-4-6
+
+          # Load prompt from external file — edit that file to customize review criteria
+          prompt_file: .github/prompts/code-review.md
+
+          # Read-only tools: Claude can inspect the codebase but cannot modify it
+          allowed_tools: >-
+            Read,
+            Glob,
+            Grep,
+            mcp__github__get_pull_request,
+            mcp__github__get_pull_request_diff,
+            mcp__github__create_pending_pull_request_review,
+            mcp__github__add_comment_to_pending_review,
+            mcp__github__submit_pending_pull_request_review,
+            mcp__github__list_pull_request_files,
+            mcp__github__list_commits
+
+      - name: Handle review failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.payload.pull_request?.number ?? context.payload.issue?.number;
+            if (prNumber) {
+              github.rest.issues.createComment({
+                issue_number: prNumber,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: '⚠️ **Claude review failed** — Check the Actions log for details. A human reviewer should cover this PR.'
+              });
+            }
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # OPTIONAL: Multi-Reviewer Synthesis
+  #
+  # Enable this job when you have external reviewers posting on PRs:
+  #   - Gemini Code Assist (free via Google Workspace)
+  #   - Greptile (~$30/month flat, cross-file analysis)
+  #   - CodeRabbit Pro ($15/dev/month)
+  #
+  # How it works:
+  #   1. Waits 5 minutes for external reviewers to post their feedback
+  #   2. Collects all reviews and comments via GitHub API
+  #   3. Claude synthesizes: identifies consensus (2+ reviewers) vs. unique catches
+  #
+  # To enable: remove the `if: false` condition below.
+  # To install external reviewers: see examples/github-actions/README.md#multi-model-review
+  # ─────────────────────────────────────────────────────────────────────────────
+  multi-reviewer-synthesis:
+    needs: claude-review
+    if: |
+      false &&
+      (
+        (github.event_name == 'pull_request' && github.event.pull_request.draft == false) ||
+        (github.event_name == 'issue_comment' &&
+         github.event.issue.pull_request != null &&
+         contains(github.event.comment.body, '/claude-review'))
+      )
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Wait for external reviewers
+        run: |
+          echo "Waiting 5 minutes for external reviewers to post..."
+          sleep 300
+
+      - name: Collect all PR reviews and comments
+        id: collect
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.payload.pull_request?.number ?? context.payload.issue?.number;
+
+            // Fetch structured reviews (from Greptile, CodeRabbit, Gemini bots)
+            const { data: reviews } = await github.rest.pulls.listReviews({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber,
+            });
+
+            // Fetch issue comments (bot summaries posted as comments)
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+            });
+
+            const reviewData = reviews
+              .filter(r => r.body && r.body.length > 20)
+              .map(r => ({ reviewer: r.user.login, state: r.state, body: r.body.slice(0, 1500) }));
+
+            const commentData = comments
+              .filter(c => c.body && c.body.length > 50)
+              .map(c => ({ author: c.user.login, body: c.body.slice(0, 1500) }));
+
+            const uniqueReviewers = new Set([
+              ...reviewData.map(r => r.reviewer),
+              ...commentData.map(c => c.author),
+            ]);
+
+            // Skip synthesis if only 1 reviewer posted (no consensus to surface)
+            if (uniqueReviewers.size < 2) {
+              core.setOutput('skip', 'true');
+              core.setOutput('reason', `Only ${uniqueReviewers.size} reviewer found — need 2+ for synthesis`);
+              return;
+            }
+
+            core.setOutput('skip', 'false');
+            core.setOutput('pr_number', prNumber.toString());
+            core.setOutput('data', JSON.stringify({ reviews: reviewData, comments: commentData }));
+
+      - name: Skip notice
+        if: steps.collect.outputs.skip == 'true'
+        run: echo "Synthesis skipped — ${{ steps.collect.outputs.reason }}"
+
+      - name: Claude synthesis
+        if: steps.collect.outputs.skip == 'false'
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          model: claude-sonnet-4-6
+          # mcp__github__create_issue_comment posts a plain comment (not a review)
+          allowed_tools: >-
+            mcp__github__create_issue_comment
+          direct_prompt: |
+            You are synthesizing automated code review feedback for PR #${{ steps.collect.outputs.pr_number }}.
+
+            All reviews and comments collected:
+
+            ${{ steps.collect.outputs.data }}
+
+            Your task:
+            1. Group findings by theme (security, performance, correctness, architecture)
+            2. Identify consensus: any finding raised by 2+ reviewers is high-signal
+            3. Surface unique catches — important issues only one reviewer flagged
+            4. Post a synthesis using `mcp__github__create_issue_comment` with this structure:
+
+            ---
+            ## Multi-Reviewer Synthesis
+
+            > Reviewed by: [comma-separated reviewer names]
+
+            ### Consensus (raised by 2+ reviewers)
+            | Finding | Reviewers | Severity |
+            |---------|-----------|----------|
+            | [finding] | [name1], [name2] | Must Fix / Should Fix |
+
+            ### Unique catches
+            **[Reviewer]:** [what they caught that others missed — critical items only]
+
+            ### Recommendation
+            [Overall: approve / request changes / needs discussion]
+            ---
+
+            Rules:
+            - Only include consensus findings that are actionable (skip style/nitpick consensus)
+            - For unique catches, only surface items of 🔴 Must Fix or 🟡 Should Fix severity
+            - If all reviewers agree the PR is clean: state that directly and skip the tables

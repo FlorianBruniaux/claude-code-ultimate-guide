@@ -1,3 +1,9 @@
+---
+title: "Creational Design Patterns"
+description: "Reference for Singleton, Factory, Builder, Prototype and other object creation patterns"
+tags: [reference, design-patterns, architecture]
+---
+
 # Creational Design Patterns
 
 Patterns that deal with object creation mechanisms, trying to create objects in a manner suitable to the situation.

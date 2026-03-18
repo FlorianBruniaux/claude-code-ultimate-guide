@@ -279,3 +279,66 @@ questions:
       file: "guide/ai-ecosystem.md"
       section: "8. Cost & Subscription Strategy"
       anchor: "#8-cost--subscription-strategy"
+
+  - id: "15-011"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "What cost savings does the Claude Code to LM Studio bridge provide?"
+    options:
+      a: "20-30% savings on API costs"
+      b: "50% savings but slower execution"
+      c: "80-90% savings by planning with Opus then executing free with local LLM"
+      d: "No savings but better privacy"
+    correct: "c"
+    explanation: |
+      The Claude Code to LM Studio bridge provides 80-90% cost savings. Strategy: use Opus for planning phase (~$0.50-2 per session) then execute implementation with a free local LLM via LM Studio. The bridge script translates Claude's plan into local LLM instructions. Trade-off: local LLMs are less capable but free.
+    doc_reference:
+      file: "examples/scripts/bridge.py"
+      section: "LM Studio Bridge"
+      anchor: "#lm-studio-bridge"
+
+  - id: "15-012"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "What are the 3 documented external orchestration systems for multi-agent Claude Code?"
+    options:
+      a: "LangChain, AutoGPT, CrewAI"
+      b: "Vercel AI SDK, Fly.io Machines, Railway"
+      c: "Gas Town (Steve Yegge), multiclaude (dlorenc), agent-chat (Justin Abrahms)"
+      d: "Kubernetes, Docker Compose, Terraform"
+    correct: "c"
+    explanation: |
+      Three documented external orchestration systems:
+
+      1. **Gas Town** (Steve Yegge) - Multi-agent coordination with shared context
+      2. **multiclaude** (dlorenc) - Parallel Claude Code instances with task distribution
+      3. **agent-chat** (Justin Abrahms) - Inter-agent communication protocol
+
+      These are community-built tools, not official Anthropic products. Each solves multi-agent coordination differently.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "External Orchestration"
+      anchor: "#external-orchestration"
+
+  - id: "15-013"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "What 3 areas should sub-agents audit when evaluating a skeleton project before forking?"
+    options:
+      a: "Performance, Cost, Scalability"
+      b: "UI, API, Database"
+      c: "Security, Architecture, Developer Experience (DX)"
+      d: "Tests, Documentation, CI/CD"
+    correct: "c"
+    explanation: |
+      Skeleton project evaluation uses 3 specialized sub-agents:
+
+      1. **Security** - Audit dependencies, secrets management, auth patterns, known vulnerabilities
+      2. **Architecture** - Evaluate code organization, patterns, scalability, maintainability
+      3. **Developer Experience (DX)** - Check setup complexity, documentation quality, tooling, onboarding friction
+
+      Each agent produces a score and recommendations before the fork decision.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Skeleton Projects Workflow"
+      anchor: "#skeleton-projects-workflow"

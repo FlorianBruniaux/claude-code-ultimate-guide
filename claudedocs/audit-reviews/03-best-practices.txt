@@ -1,0 +1,19 @@
+PASS: Q03-001
+PASS: Q03-002
+PASS: Q03-003
+PASS: Q03-004
+PASS: Q03-005
+PASS: Q03-006
+PASS: Q03-007
+PASS: Q03-008
+PASS: Q03-009
+PASS: Q03-010
+ISSUE: Q03-011 - [critical] CORRECT_ANSWER - Guide states CLAUDE.md in .claude/ should be committed (project memory), not gitignored
+PASS: Q03-012
+PASS: Q03-013
+PASS: Q03-014
+PASS: Q03-015
+PASS: Q03-016
+PASS: Q03-017
+ISSUE: Q03-018 - [warning] FACTUAL_ACCURACY - Explanation mixes guide's 8 domains with Boris Cherny's 4 methods without clear distinction; potential confusion
+PASS: Q03-019

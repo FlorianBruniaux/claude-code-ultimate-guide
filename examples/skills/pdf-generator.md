@@ -25,6 +25,34 @@ This skill assists with:
 | **Typst** | 0.13.0 | Modern typography (integrated) |
 | **Pandoc** | 3.x | Markdown conversion (integrated) |
 
+### Pipeline de génération
+
+```
+  SOURCE              OUTIL           TEMPLATE              OUTPUT
+  ──────              ─────           ────────              ──────
+
+  .qmd  ──────────► Quarto ────► --to whitepaper-typst ──► Typst 0.13 ──► .pdf ✅
+  (Markdown           │           (_extensions/               (~270K–1.7M,
+  + YAML)             │            typst-template.typ)         stylé)
+                      │
+                      └──────► --to epub ──► Pandoc ──────────────────► .epub
+                                             + epub-styles.css
+
+  ⚠️  --to pdf (sans template) → PDF petit, non stylé → Toujours préférer --to whitepaper-typst
+```
+
+### Formats disponibles
+
+```
+  ┌──────────────────────┬────────────────────────┬──────────────────┐
+  │ Format               │ Commande               │ Sortie           │
+  ├──────────────────────┼────────────────────────┼──────────────────┤
+  │ PDF stylé ✅         │ --to whitepaper-typst  │ ~270K–1.7M       │
+  │ PDF standard ❌      │ --to pdf               │ ~80-190K, brut   │
+  │ EPUB                 │ --to epub              │ epub-output/     │
+  └──────────────────────┴────────────────────────┴──────────────────┘
+```
+
 ## Quick Start
 
 ### Installation

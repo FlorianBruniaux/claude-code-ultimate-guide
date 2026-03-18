@@ -1,0 +1,11 @@
+PASS: Q14-001
+PASS: Q14-002
+PASS: Q14-003
+PASS: Q14-004
+PASS: Q14-005
+PASS: Q14-006
+PASS: Q14-007
+PASS: Q14-008
+PASS: Q14-009
+PASS: Q14-010
+ISSUE: Q14-011 - [warning] CORRECT_ANSWER - Both interpretations are technically valid in guide context (ai-traceability.md lines 114-138), but the nuance is slightly different. Guide shows Assisted-by is for when you're the primary author with AI help (LLVM standard), Co-Authored-By is Claude's default (shared authorship). The answer is correct in principle but could be more precise.

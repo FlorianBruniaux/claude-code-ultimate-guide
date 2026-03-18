@@ -1,3 +1,9 @@
+---
+title: "PDF Generation with Claude Code"
+description: "Generate professional PDFs using Claude Code with Quarto and Typst stack"
+tags: [workflow, guide, integration]
+---
+
 # PDF Generation with Claude Code
 
 > **Confidence**: Tier 2 — Based on production-tested workflow with Quarto/Typst stack.
@@ -84,6 +90,54 @@ quarto preview document.qmd  # Hot-reload
 │                  document.pdf                   │
 │        (Professional typography output)         │
 └─────────────────────────────────────────────────┘
+```
+
+### Output Formats & Commands
+
+```
+  FORMAT                COMMANDE                      SORTIE
+  ──────                ────────                      ──────
+
+  PDF standard    →  quarto render doc.qmd            doc.pdf
+                     --to typst                       (sans template custom)
+
+  PDF stylé ✅    →  quarto render doc.qmd            doc.pdf
+                     --to whitepaper-typst            (~270K–1.7M, Bold Guy)
+                     (format custom via _extensions/)
+
+  EPUB            →  quarto render doc.qmd            doc.epub
+                     --to epub
+
+  Preview         →  quarto preview doc.qmd           hot-reload navigateur
+```
+
+### Extension Structure
+
+```
+  _extensions/
+  └── whitepaper/
+      ├── _extension.yml       ← déclare le format "whitepaper-typst"
+      ├── typst-template.typ   ← design system (couleurs, typo, callouts)
+      └── typst-show.typ       ← bridge Quarto → Typst
+
+  ⚠️  Si tu maintiens des copies dans fr/ en/ et racine :
+      garder les 3 fichiers typst-template.typ synchronisés
+```
+
+### Troubleshooting Rapide
+
+```
+  SYMPTÔME                        CAUSE                    FIX
+  ────────                        ─────                    ───
+  PDF petit (~80-190K), non stylé  --to pdf au lieu de      Utiliser --to whitepaper-typst
+                                   --to whitepaper-typst
+
+  Erreur "bibliography"            @ref dans titre callout   Supprimer le @ du titre
+                                   → interprété comme cit.
+
+  Table rendue comme code          Backtick ``` non fermé    Compter les ``` (doit être pair)
+
+  "Extension not found"            Mauvais répertoire        Vérifier _extensions/ path
 ```
 
 | Component | Version | Role |
@@ -278,7 +332,7 @@ Create a Quarto extension for our company's document style:
 
 For complex documents:
 ```
-/plan
+[Press Shift+Tab to enter Plan Mode]
 
 I need to create a series of 5 technical whitepapers.
 Plan the structure:
@@ -290,13 +344,20 @@ Plan the structure:
 
 ### With Hooks
 
-Auto-generate PDF on save:
+Auto-generate PDF after edits using a PostToolUse hook:
 
-```yaml
-# .claude/hooks.yaml
-post_edit:
-  - pattern: "**/*.qmd"
-    command: "quarto render $FILE"
+```json
+// In .claude/settings.json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "command": "if echo \"$TOOL_INPUT\" | grep -q '.qmd'; then quarto render \"$FILE\"; fi"
+      }
+    ]
+  }
+}
 ```
 
 ---

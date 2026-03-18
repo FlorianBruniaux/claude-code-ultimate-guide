@@ -105,25 +105,25 @@ questions:
   - id: "08-005"
     difficulty: "junior"
     profiles: ["junior", "senior", "power"]
-    question: "Where is the global MCP configuration file located?"
+    question: "Where is the user-scope MCP configuration stored?"
     options:
       a: "~/.mcp/config.json"
-      b: "~/.claude/mcp.json"
+      b: "~/.claude.json"
       c: "/etc/claude/mcp.json"
       d: "~/.config/claude/mcp.json"
     correct: "b"
     explanation: |
-      The global MCP configuration is at `~/.claude/mcp.json`.
+      MCP servers are configured in `~/.claude.json` under the `"mcpServers"` field.
 
       Configuration locations:
-      - `~/.claude/mcp.json` - Global (applies to all projects)
-      - `/project/.claude/mcp.json` - Project-specific (overrides global)
+      - `~/.claude.json` (field `"mcpServers"`) - User/local scope
+      - `.mcp.json` at project root - Project scope (shareable via VCS)
 
       The configuration specifies which servers to run and their settings.
     doc_reference:
       file: "guide/ultimate-guide.md"
       section: "8.3 Configuration"
-      anchor: "#mcpjson-location"
+      anchor: "#mcp-configuration-location"
 
   - id: "08-006"
     difficulty: "senior"
@@ -177,24 +177,26 @@ questions:
   - id: "08-008"
     difficulty: "junior"
     profiles: ["junior", "senior", "power"]
-    question: "What variable can you use in mcp.json to reference the current project path?"
+    question: "What syntax does Claude Code use for environment variable substitution in MCP config?"
     options:
       a: "${projectPath}"
       b: "${workspaceFolder}"
-      c: "${cwd}"
+      c: "${VAR_NAME}"
       d: "${PROJECT_DIR}"
-    correct: "b"
+    correct: "c"
     explanation: |
-      The `${workspaceFolder}` variable expands to the current project path.
+      Claude Code uses standard shell-style `${VAR}` syntax for environment variable expansion.
 
-      Variable substitution in mcp.json:
-      - `${workspaceFolder}` - Current project path
-      - `${env:VAR_NAME}` - Environment variable
+      Variable substitution in MCP config:
+      - `${VAR}` - Environment variable value
+      - `${VAR:-default}` - Environment variable with fallback
+
+      Note: `${workspaceFolder}` and `${env:VAR_NAME}` are VS Code conventions, not Claude Code.
 
       Example:
       ```json
       "env": {
-        "PROJECT_PATH": "${workspaceFolder}"
+        "DATABASE_URL": "${DATABASE_URL}"
       }
       ```
     doc_reference:
@@ -414,3 +416,59 @@ questions:
       file: "guide/ultimate-guide.md"
       section: "4.3 Figma MCP Integration"
       anchor: "#setup-options"
+
+  - id: "08-018"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "What are the 2 core primitives of MCP Apps architecture?"
+    options:
+      a: "Functions and Routes"
+      b: "Commands and Events"
+      c: "Tools with UI metadata and UI resources (ui:// scheme)"
+      d: "Plugins and Themes"
+    correct: "c"
+    explanation: |
+      MCP Apps (SEP-1865) introduce 2 core primitives:
+
+      1. **Tools with UI metadata** - Standard MCP tools annotated with rendering hints (input forms, output displays)
+      2. **UI resources (ui:// scheme)** - Resources that return UI components instead of data
+
+      Together, these allow MCP servers to provide both functionality and user interface, enabling richer agent-to-user interactions.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "MCP Apps"
+      anchor: "#mcp-apps"
+
+  - id: "08-019"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "What does the 'auto:N' threshold control in MCP tool configuration?"
+    options:
+      a: "Maximum concurrent MCP connections"
+      b: "Cache size for tool results"
+      c: "Lazy loading - tools loaded only when description matches user intent, N = max tools to auto-load"
+      d: "Retry count for failed tool calls"
+    correct: "c"
+    explanation: |
+      The `auto:N` threshold enables lazy loading for MCP tools. Instead of loading all tools at session start (which wastes context), tools are only loaded when their description matches the user's intent. N controls the maximum number of tools to auto-load per intent match. This reduces context usage for MCP servers with many tools.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "MCP Configuration"
+      anchor: "#mcp-configuration"
+
+  - id: "08-020"
+    difficulty: "intermediate"
+    profiles: ["junior", "senior", "power"]
+    question: "Which MCP server scored highest (9.0/10) in the production ecosystem evaluation?"
+    options:
+      a: "Playwright MCP (8.8/10)"
+      b: "Context7 MCP (8.5/10)"
+      c: "Semgrep MCP - SAST, secrets, and supply chain analysis"
+      d: "Kubernetes MCP (8.4/10)"
+    correct: "c"
+    explanation: |
+      Semgrep MCP scored 9.0/10 in the production MCP ecosystem evaluation. It provides static application security testing (SAST), secrets detection, and supply chain analysis. Top scores: Semgrep (9.0), Playwright (8.8), Context7 (8.5), Kubernetes (8.4). Evaluation criteria: reliability, token efficiency, production readiness.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "MCP Servers Ecosystem"
+      anchor: "#mcp-servers-ecosystem"

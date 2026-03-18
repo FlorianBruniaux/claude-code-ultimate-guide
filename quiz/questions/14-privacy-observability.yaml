@@ -172,3 +172,25 @@ questions:
       file: "guide/observability.md"
       section: "Native Commands"
       anchor: "#native-commands"
+
+  - id: "14-011"
+    difficulty: "intermediate"
+    profiles: ["junior", "senior", "power"]
+    question: "When should you use 'Co-Authored-By' vs 'Assisted-By' in git commits?"
+    options:
+      a: "Always use Co-Authored-By for any AI involvement"
+      b: "Co-Authored-By when AI generated significant code, Assisted-By when AI only advised or reviewed"
+      c: "Never attribute AI in commits"
+      d: "Use both on every commit"
+    correct: "b"
+    explanation: |
+      AI traceability in git commits:
+
+      - **Co-Authored-By**: When AI generated significant portions of code (implementation, refactoring)
+      - **Assisted-By**: When AI only advised, reviewed, or suggested minor changes
+
+      This distinction matters for code ownership, audit trails, and understanding who (or what) actually wrote the code. Some teams add this to CLAUDE.md as a mandatory commit convention.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "AI Traceability"
+      anchor: "#ai-traceability"

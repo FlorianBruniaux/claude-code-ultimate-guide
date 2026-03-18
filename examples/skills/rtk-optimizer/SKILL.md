@@ -18,18 +18,35 @@ tags: [optimization, tokens, efficiency, git]
 
 ## Supported Commands
 
-### ✅ High-Value (>70% reduction)
+### Git (>70% reduction)
 - `git log` → `rtk git log` (92.3% reduction)
 - `git status` → `rtk git status` (76.0% reduction)
 - `find` → `rtk find` (76.3% reduction)
 
-### ✅ Medium-Value (50-70% reduction)
+### Medium-Value (50-70% reduction)
 - `git diff` → `rtk git diff` (55.9% reduction)
 - `cat <large-file>` → `rtk read <file>` (62.5% reduction)
 
-### ❌ Not Recommended
-- `ls` (worse with RTK: -274%)
-- `grep` (buggy in v0.2.0)
+### JS/TS Stack (70-90% reduction)
+- `pnpm list` → `rtk pnpm list` (82% reduction)
+- `pnpm test` / `vitest run` → `rtk vitest run` (90% reduction)
+
+### Rust Toolchain (80-90% reduction)
+- `cargo test` → `rtk cargo test` (90% reduction)
+- `cargo build` → `rtk cargo build` (80% reduction)
+- `cargo clippy` → `rtk cargo clippy` (80% reduction)
+
+### Python & Go (90% reduction)
+- `pytest` → `rtk python pytest` (90% reduction)
+- `go test` → `rtk go test` (90% reduction)
+
+### GitHub CLI (79-87% reduction)
+- `gh pr view` → `rtk gh pr view` (87% reduction)
+- `gh pr checks` → `rtk gh pr checks` (79% reduction)
+
+### File Operations
+- `ls` → `rtk ls` (condensed output)
+- `grep` → `rtk grep` (filtered output)
 
 ## Activation Examples
 
@@ -43,16 +60,16 @@ tags: [optimization, tokens, efficiency, git]
 
 Before first use, verify RTK is installed:
 ```bash
-rtk --version  # Should output: rtk 0.2.0
+rtk --version  # Should output: rtk 0.16.0+
 ```
 
 If not installed:
 ```bash
-curl -fsSL "https://github.com/pszymkowiak/rtk/releases/latest/download/rtk-aarch64-apple-darwin.tar.gz" -o rtk.tar.gz
-tar -xzf rtk.tar.gz
-sudo mv rtk /usr/local/bin/
-sudo chmod +x /usr/local/bin/rtk
-rm rtk.tar.gz
+# Homebrew (macOS/Linux)
+brew install rtk-ai/tap/rtk
+
+# Cargo (all platforms)
+cargo install rtk
 ```
 
 ## Usage Pattern
@@ -74,7 +91,7 @@ Optional: Track cumulative savings across session:
 
 ```bash
 # At session end
-rtk gain  # Shows total token savings for session
+rtk gain  # Shows total token savings for session (SQLite-backed)
 ```
 
 ## Edge Cases
@@ -91,8 +108,10 @@ Enable via CLAUDE.md:
 
 Use RTK (Rust Token Killer) for high-verbosity commands:
 - git operations (log, status, diff)
-- file finding
-- large file reading
+- package managers (pnpm, npm)
+- build tools (cargo, go)
+- test frameworks (vitest, pytest)
+- file finding and reading
 ```
 
 ## Metrics (Verified)
@@ -108,18 +127,18 @@ Based on real-world testing:
 
 ## Limitations
 
-- RTK v0.2.0 (8 stars on GitHub, low adoption)
-- Some commands buggy (grep returns empty)
-- ls command worse with RTK (-274% increase)
-- Requires manual installation (not on npm/brew yet)
+- 446 stars on GitHub, actively maintained (30 releases in 23 days)
+- Not suitable for interactive commands
+- Rapid development cadence (check for breaking changes)
 
 ## Recommendation
 
-**Use RTK for**: git workflows, file finding, large file reading
-**Skip RTK for**: ls, grep, small outputs, quick exploration
+**Use RTK for**: git workflows, file operations, test frameworks, build tools, package managers
+**Skip RTK for**: small outputs, quick exploration, interactive commands
 
 ## References
 
-- RTK GitHub: https://github.com/pszymkowiak/rtk
+- RTK GitHub: https://github.com/rtk-ai/rtk
+- RTK Website: https://www.rtk-ai.app/
 - Evaluation: `docs/resource-evaluations/rtk-evaluation.md`
 - CLAUDE.md template: `examples/claude-md/rtk-optimized.md`

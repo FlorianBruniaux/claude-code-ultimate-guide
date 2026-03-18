@@ -1,3 +1,9 @@
+---
+title: "Task Management Workflow"
+description: "Multi-session task coordination using Tasks API and TodoWrite for complex projects"
+tags: [workflow, guide, agents]
+---
+
 # Task Management Workflow
 
 **Version**: Claude Code v2.1.16+
@@ -29,7 +35,7 @@ Task management in Claude Code evolved significantly in v2.1.16 with the introdu
 | **Multi-session** | ❌ Lost on session end | ✅ Survives across sessions |
 | **Dependencies** | ❌ Manual ordering | ✅ Task blocking (A blocks B) |
 | **Coordination** | Single agent | ✅ Multi-agent with broadcast |
-| **Status tracking** | pending/in_progress/completed | pending/in_progress/completed/failed |
+| **Status tracking** | pending/in_progress/completed | pending/in_progress/completed |
 | **When to use** | Simple single-session todos | Complex multi-session projects |
 
 **Migration flag** (v2.1.19+):
@@ -201,7 +207,7 @@ Tasks for 'auth-system-v2':
 # ✅ Task remains completed
 
 # If tests fail:
-> "TaskUpdate task-refresh status=failed, add error details to metadata"
+> "TaskUpdate task-refresh status=in_progress, add error details to metadata and fix issues"
 ```
 
 ---
@@ -367,7 +373,7 @@ Convert strategic plans into executable task hierarchies.
 ```bash
 # Step 1: Enter plan mode
 claude
-> "Shift+Tab×2" # Enter plan mode
+> [Press Shift+Tab to enter Plan Mode]
 
 # Step 2: Create architectural plan
 > "Design architecture for microservices migration:
@@ -653,7 +659,7 @@ TaskUpdate: {id: "login-feature", status: "completed"}
 # If tests pass:
 TaskUpdate: {id: "login-feature", status: "completed", metadata: {test_results: "pass"}}
 # If tests fail:
-TaskUpdate: {id: "login-feature", status: "failed", metadata: {test_results: "3 failures", error_log: "..."}}
+TaskUpdate: {id: "login-feature", status: "in_progress", metadata: {test_results: "3 failures", error_log: "..."}}
 ```
 
 ---

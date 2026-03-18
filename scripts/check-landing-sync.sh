@@ -196,6 +196,42 @@ fi
 echo ""
 
 # ===================
+# 7. MCP VS CLI PAGE SYNC
+# ===================
+MCP_GUIDE="$GUIDE_DIR/guide/ecosystem/mcp-vs-cli.md"
+MCP_LANDING="$LANDING_DIR/src/pages/ecosystem/mcp-vs-cli.astro"
+
+echo -e "${BLUE}7. MCP vs CLI page sync${NC}"
+
+if [ ! -f "$MCP_GUIDE" ]; then
+    echo -e "   ${YELLOW}INFO${NC}: guide/ecosystem/mcp-vs-cli.md not found (skip)"
+elif [ ! -f "$MCP_LANDING" ]; then
+    echo -e "   ${RED}MISSING${NC}: landing page src/pages/ecosystem/mcp-vs-cli.astro not found"
+    ISSUES=$((ISSUES + 1))
+else
+    # Count H2 sections in guide
+    GUIDE_H2=$(grep -c '^## ' "$MCP_GUIDE" || true)
+    # Count guidance table rows (lines starting with | followed by content, skip header/separator)
+    GUIDE_TABLE_ROWS=$(grep -cE '^\| [^-]' "$MCP_GUIDE" || true)
+    # Count <tr> rows in landing (approximate — includes header rows)
+    LANDING_TR=$(grep -c '<tr>' "$MCP_LANDING" || true)
+
+    echo "   Guide H2 sections: $GUIDE_H2"
+    echo "   Guide table rows:  $GUIDE_TABLE_ROWS"
+    echo "   Landing <tr> rows: $LANDING_TR"
+
+    # Loose check: if landing has zero <tr>, something is wrong
+    if [ "$LANDING_TR" -lt 5 ]; then
+        echo -e "   ${RED}ERROR${NC}: Landing page has too few table rows — may be out of sync"
+        ISSUES=$((ISSUES + 1))
+    else
+        echo -e "   ${GREEN}OK${NC} (landing page exists, has table content)"
+        echo "   Tip: if you update the guide section, mirror changes in mcp-vs-cli.astro"
+    fi
+fi
+echo ""
+
+# ===================
 # SUMMARY
 # ===================
 echo "=== Summary ==="

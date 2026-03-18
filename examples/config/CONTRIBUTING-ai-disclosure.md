@@ -1,3 +1,9 @@
+---
+title: "AI Assistance Disclosure (CONTRIBUTING.md Template)"
+description: "CONTRIBUTING.md template section for disclosing AI tool usage in pull requests"
+tags: [template, config, ai-ecosystem]
+---
+
 # AI Assistance Disclosure (CONTRIBUTING.md Template)
 
 > Copy this section into your project's CONTRIBUTING.md

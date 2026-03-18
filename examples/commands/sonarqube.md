@@ -1,3 +1,8 @@
+---
+name: sonarqube
+description: "Analyze SonarCloud quality issues for a specific PR"
+---
+
 # SonarQube Analysis
 
 Analyze SonarCloud quality issues for a specific PR. Generates comprehensive report with metrics, top violators, and action plan.

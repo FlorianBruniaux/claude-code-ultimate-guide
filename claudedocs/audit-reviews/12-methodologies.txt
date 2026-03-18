@@ -1,0 +1,15 @@
+PASS: Q12-001
+PASS: Q12-002
+PASS: Q12-003
+PASS: Q12-004
+PASS: Q12-005
+PASS: Q12-006
+PASS: Q12-007
+PASS: Q12-008
+PASS: Q12-009
+PASS: Q12-010
+PASS: Q12-011
+ISSUE: Q12-012 - [critical] CORRECT_ANSWER - Guide shows 3 sub-agent types (Explore, Plan, general-purpose) but option b incorrectly lists 4 types including Bash as a sub-agent type. Bash is a TOOL not a sub-agent type.
+PASS: Q12-013
+PASS: Q12-014
+PASS: Q12-015

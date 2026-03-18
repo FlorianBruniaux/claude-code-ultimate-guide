@@ -257,3 +257,49 @@ questions:
       file: "guide/learning-with-ai.md"
       section: "Embracing AI Tools"
       anchor: "#embracing-ai-tools"
+
+  - id: "11-016"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "What are the 3 failure modes identified in Addy Osmani's '80% Problem' of agentic coding?"
+    options:
+      a: "Context loss, token overflow, hallucination"
+      b: "Overengineering, assumption propagation, sycophantic agreement"
+      c: "Slow responses, wrong language, missed tests"
+      d: "Memory leaks, race conditions, deadlocks"
+    correct: "b"
+    explanation: |
+      Addy Osmani's "80% Problem" identifies 3 failure modes:
+
+      1. **Overengineering** - AI adds unnecessary complexity (abstraction layers, premature optimization)
+      2. **Assumption propagation** - One wrong assumption cascades through the codebase
+      3. **Sycophantic agreement** - AI agrees with bad ideas instead of pushing back
+
+      The 80% refers to AI getting you 80% of the way, with the last 20% requiring deep human understanding.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Practitioner Insights"
+      anchor: "#practitioner-insights"
+
+  - id: "11-017"
+    difficulty: "intermediate"
+    profiles: ["junior", "senior", "power"]
+    question: "What are the 3 symptoms of vibe coding 'context overload'?"
+    options:
+      a: "Memory leaks, slow startup, API rate limits"
+      b: "Big-bang context dumps, 5K+ line prompts, performance degradation"
+      c: "Lost files, broken imports, missing tests"
+      d: "Excessive commits, merge conflicts, branch proliferation"
+    correct: "b"
+    explanation: |
+      Context overload symptoms in vibe coding:
+
+      1. **Big-bang context dumps** - Pasting entire codebases into prompts
+      2. **5K+ line prompts** - Exceeding effective context window usage
+      3. **Performance degradation** - Claude's quality drops as context grows
+
+      The fix: progressive disclosure (feed context incrementally), use CLAUDE.md for persistent context, and start fresh sessions between phases.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Vibe Coding Anti-Patterns"
+      anchor: "#vibe-coding-anti-patterns"

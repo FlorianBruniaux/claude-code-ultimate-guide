@@ -1,0 +1,63 @@
+name: Content Suggestion
+description: Suggest new content, an update, or a correction to the guide
+title: "[Content]: "
+labels: ["content"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve the guide! Your suggestion matters.
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type of suggestion
+      options:
+        - New content
+        - Update existing content
+        - Correction (factual error)
+        - Improve clarity
+        - Add example
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: section
+    attributes:
+      label: Guide section
+      description: Which section does this relate to?
+      options:
+        - Getting Started
+        - Installation & Setup
+        - Configuration
+        - MCP Servers
+        - Tools & Commands
+        - Best Practices
+        - Security
+        - Agent Teams
+        - Advanced Topics
+        - Examples & Templates
+        - Cheatsheet
+        - Quiz
+        - Other / New section
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What should be added, updated, or corrected?
+      placeholder: "The guide is missing X. It would be useful because..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References (optional)
+      description: Links to official docs, blog posts, or sources that support your suggestion
+      placeholder: "https://docs.anthropic.com/..."
+    validations:
+      required: false

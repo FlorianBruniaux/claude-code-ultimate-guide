@@ -1,0 +1,701 @@
+# Claude Code Official Releases (condensed)
+# Source: github.com/anthropics/claude-code/CHANGELOG.md
+# Purpose: Track Claude Code product releases for documentation sync
+# Maintained: Manual updates when new releases are announced
+
+latest: "2.1.59"
+updated: "2026-02-26"
+
+# ════════════════════════════════════════════════════════════════
+# RELEASES (newest first, condensed highlights only)
+# ════════════════════════════════════════════════════════════════
+releases:
+
+  # ─────────────────────────────────────────────────────────────
+  # 2.1.x Series (January-February 2026)
+  # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.59"
+    date: "2026-02-26"
+    highlights:
+      - "⭐ Auto-memory: Claude automatically saves useful context; manage with /memory"
+      - "⭐ /copy command: interactive picker for selecting individual code blocks or full response"
+      - "Smarter 'always allow' prefix suggestions for compound bash commands (per-subcommand prefixes)"
+      - "Fixed MCP OAuth token refresh race condition with multiple simultaneous instances"
+      - "Fixed config file corruption wiping authentication when multiple instances ran simultaneously"
+    breaking: []
+
+  - version: "2.1.58"
+    date: "2026-02-26"
+    highlights:
+      - "Remote Control expanded to more users"
+    breaking: []
+
+  - version: "2.1.56"
+    date: "2026-02-25"
+    highlights:
+      - "VSCode: Fixed another cause of 'command claude-vscode.editor.openLast not found' crashes"
+    breaking: []
+
+  - version: "2.1.55"
+    date: "2026-02-25"
+    highlights:
+      - "Fixed BashTool failing on Windows with EINVAL error"
+    breaking: []
+
+  - version: "2.1.53"
+    date: "2026-02-25"
+    highlights:
+      - "Stability fixes: panic on Windows, crashes on process spawn (Windows), WebAssembly crashes (Linux x64/Windows x64/ARM64)"
+      - "Fixed graceful shutdown leaving stale sessions with Remote Control; `--worktree` flag sometimes ignored on first launch"
+      - "Fixed UI flicker where user input disappeared briefly after submission; bulk agent kill (ctrl+f) single notification"
+    breaking: []
+
+  - version: "2.1.52"
+    date: "2026-02-24"
+    highlights:
+      - "VSCode: Fixed extension crash on Windows ('command claude-vscode.editor.openLast not found')"
+    breaking: []
+
+  - version: "2.1.51"
+    date: "2026-02-24"
+    highlights:
+      - "⭐ `claude remote-control` subcommand for external builds enabling local environment serving"
+      - "BashTool skips login shell by default when shell snapshot available (was `CLAUDE_BASH_NO_LOGIN=true`); tool results persist to disk at 50K chars (was 100K)"
+      - "SDK: `CLAUDE_CODE_ACCOUNT_UUID`, `CLAUDE_CODE_USER_EMAIL`, `CLAUDE_CODE_ORGANIZATION_UUID` env vars for account metadata"
+      - "/model picker shows human-readable labels (e.g., 'Sonnet 4.5') for pinned versions; custom npm registries for plugin installs"
+    breaking: []
+
+  - version: "2.1.50"
+    date: "2026-02-21"
+    highlights:
+      - "⭐ `WorktreeCreate` and `WorktreeRemove` hook events for custom VCS setup/teardown with agent worktree isolation"
+      - "`isolation: worktree` in agent definitions for declarative worktree isolation; `claude agents` CLI command to list configured agents"
+      - "Opus 4.6 (fast mode) now has full 1M context window; `CLAUDE_CODE_DISABLE_1M_CONTEXT` env var to disable it"
+      - "Major memory leak fixes + startup performance improvements for headless mode; `CLAUDE_CODE_SIMPLE` now fully minimal"
+    breaking: []
+
+  - version: "2.1.49"
+    date: "2026-02-20"
+    highlights:
+      - "⭐ `--worktree` / `-w` flag to start Claude in isolated git worktree; subagents support `isolation: 'worktree'`"
+      - "Agent definitions support `background: true` to always run as background task"
+      - "`ConfigChange` hook event for enterprise security auditing (fires when config files change during session)"
+      - "Simple mode now includes file edit tool; many bug fixes for background agents, permissions, sessions"
+    breaking: []
+
+  - version: "2.1.47"
+    date: "2026-02-19"
+    highlights:
+      - "VS Code plan preview auto-updates as Claude iterates, commenting enabled when plan is ready"
+      - "⭐ `ctrl+f` to kill all background agents (replaces double-ESC); background agents continue when ESC pressed"
+      - "Added `last_assistant_message` field to Stop/SubagentStop hook inputs"
+      - "70+ bug fixes: PDF compaction, Unicode curly quotes, parallel file edits, OSC 8 hyperlinks, Windows rendering, session persistence"
+    breaking: []
+
+  - version: "2.1.46"
+    date: "2026-02-19"
+    highlights:
+      - "Fixed orphaned Claude Code processes after terminal disconnect on macOS"
+      - "Added support for using claude.ai MCP connectors in Claude Code"
+    breaking: []
+
+  - version: "2.1.45"
+    date: "2026-02-17"
+    highlights:
+      - "⭐ Claude Sonnet 4.6 model support"
+      - "`spinnerTipsOverride` setting for customizable spinner tips (with `excludeDefault` option)"
+      - "SDK: `SDKRateLimitInfo` and `SDKRateLimitEvent` types for rate limit tracking"
+      - "Fixed Agent Teams on Bedrock/Vertex/Foundry; improved memory for large shell outputs"
+    breaking: []
+
+  - version: "2.1.44"
+    date: "2026-02-17"
+    highlights:
+      - "Fixed auth refresh errors"
+    breaking: []
+
+  - version: "2.1.43"
+    date: "2026-02-17"
+    highlights:
+      - "Fixed AWS auth refresh hanging indefinitely (3-minute timeout added)"
+      - "Fixed structured-outputs beta header sent unconditionally on Vertex/Bedrock"
+      - "Fixed spurious warnings for non-agent markdown files in `.claude/agents/`"
+    breaking: []
+
+  - version: "2.1.42"
+    date: "2026-02-14"
+    highlights:
+      - "Optimized startup via deferred Zod schema construction"
+      - "Improved prompt cache hit rate by moving date outside system prompt"
+      - "Opus 4.6 effort callout for eligible users"
+      - "Better error messaging for image dimension limits (suggests `/compact`)"
+    breaking: []
+
+  - version: "2.1.41"
+    date: "2026-02-13"
+    highlights:
+      - "Guard against launching Claude Code inside another Claude Code session"
+      - "`claude auth login/status/logout` CLI subcommands"
+      - "Windows ARM64 (win32-arm64) native binary support"
+      - "`speed` attribute in OTel events for fast mode visibility"
+      - "`/rename` auto-generates session name from conversation context"
+      - "Fixed Agent Teams wrong model for Bedrock/Vertex/Foundry"
+      - "Multiple stability fixes (FileReadTool FIFOs, MCP images, background tasks, stale permissions)"
+    breaking: []
+
+  - version: "2.1.39"
+    date: "2026-02-10"
+    highlights:
+      - "Improved terminal rendering performance"
+      - "Fixed fatal errors being swallowed instead of displayed"
+      - "Fixed process hanging after session close"
+      - "Fixed character loss at terminal screen boundary"
+    breaking: []
+
+  - version: "2.1.38"
+    date: "2026-02-10"
+    highlights:
+      - "Fixed VS Code terminal scroll-to-top regression"
+      - "Fixed Tab key queueing slash commands instead of autocompleting"
+      - "Security: Heredoc delimiter parsing to prevent command smuggling"
+      - "Security: Blocked writes to `.claude/skills` in sandbox mode"
+    breaking: []
+
+  - version: "2.1.37"
+    date: "2026-02-08"
+    highlights:
+      - "Fixed /fast not immediately available after enabling /extra-usage"
+    breaking: []
+
+  - version: "2.1.36"
+    date: "2026-02-08"
+    highlights:
+      - "⭐ Fast mode now available for Opus 4.6"
+    breaking: []
+
+  - version: "2.1.34"
+    date: "2026-02-07"
+    highlights:
+      - "Fixed crash when agent teams setting changed between renders"
+      - "Security fix: Sandbox-excluded commands could bypass Bash ask permission"
+    breaking:
+      - "Security fix: sandbox.excludedCommands / dangerouslyDisableSandbox bypass with autoAllowBashIfSandboxed"
+
+  - version: "2.1.33"
+    date: "2026-02-06"
+    highlights:
+      - "Agent teams fixes: tmux sessions, availability warnings"
+      - "`TeammateIdle` and `TaskCompleted` hook events for multi-agent workflows"
+      - "Agent frontmatter: `memory` field (user/project/local), `Task(agent_type)` sub-agent restriction"
+      - "VSCode: Remote sessions, branch/message count in session picker"
+    breaking: []
+
+  - version: "2.1.32"
+    date: "2026-02-05"
+    highlights:
+      - "⭐ Opus 4.6 is now available"
+      - "⭐ Agent teams preview (CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1)"
+      - "⭐ Automatic memory recording and recall"
+      - "'Summarize from here' for partial conversation summarization"
+    breaking: []
+
+  - version: "2.1.31"
+    date: "2026-02-03"
+    highlights:
+      - "Session resume hint on exit showing how to continue"
+      - "Fixed PDF errors locking sessions & bash sandbox errors"
+      - "LSP compatibility improvements & terminal rendering fixes"
+    breaking: []
+
+  - version: "2.1.30"
+    date: "2026-02-02"
+    highlights:
+      - "`pages` parameter for Read tool PDFs (e.g., `pages: '1-5'`)"
+      - "Pre-configured OAuth for MCP servers (Slack support)"
+      - "⭐ `/debug` command for session troubleshooting"
+      - "git log/show read-only flags support"
+      - "Task tool metrics (tokens, duration, tool uses)"
+    breaking: []
+
+  - version: "2.1.29"
+    date: "2026-01-31"
+    highlights:
+      - "Fixed startup performance with saved hook context"
+      - "Improved session recovery speed for long-duration sessions"
+    breaking: []
+
+  - version: "2.1.27"
+    date: "2026-01-29"
+    highlights:
+      - "`--from-pr` flag to resume sessions linked to GitHub PR number/URL"
+      - "Sessions auto-linked to PRs when created via `gh pr create`"
+      - "Windows: Fixed bash execution and console flashing issues"
+      - "VSCode: Fixed OAuth token expiration (401 errors)"
+    breaking: []
+
+  - version: "2.1.25"
+    date: "2026-01-30"
+    highlights:
+      - "Fixed beta header validation for Bedrock/Vertex gateway users"
+    breaking: []
+
+  - version: "2.1.23"
+    date: "2026-01-29"
+    highlights:
+      - "Customizable spinner verbs setting (spinnerVerbs)"
+      - "mTLS and corporate proxy connectivity fixes"
+      - "Improved terminal rendering performance"
+    breaking: []
+
+  - version: "2.1.22"
+    date: "2026-01-28"
+    highlights:
+      - "Improved task UI performance with virtualization"
+      - "Vim selection and deletion fixes"
+      - "LSP improvements: Kotlin support, UTF-16 ranges"
+    breaking: []
+
+  - version: "2.1.21"
+    date: "2026-01-28"
+    highlights:
+      - "Skills/commands can specify required/recommended Claude Code version"
+      - "New TaskCreate fields: category, checklist, parentId"
+      - "Automatic Claude Code update checking at session start"
+      - "Tasks appear in /context with 'Disable tasks' shortcut"
+    breaking: []
+
+  - version: "2.1.20"
+    date: "2026-01-27"
+    highlights:
+      - "TaskUpdate: status='deleted' for task removal"
+      - "PR review status indicator (colored dot + link)"
+    breaking: []
+
+  - version: "2.1.19"
+    date: "2026-01-25"
+    highlights:
+      - "New: CLAUDE_CODE_ENABLE_TASKS env var (set false for old task system)"
+      - "New: Shorthand $0, $1 for arguments in custom commands"
+      - "[VSCode] Session forking and rewind enabled for all users"
+      - "Fixed: Multiple session resuming/naming issues with git worktrees"
+    breaking:
+      - "Indexed argument syntax changed: $ARGUMENTS.0 → $ARGUMENTS[0] (bracket syntax)"
+
+  - version: "2.1.18"
+    date: "2026-01-24"
+    highlights:
+      - "⭐ Customizable keyboard shortcuts with /keybindings command"
+      - "Per-context keybindings, chord sequences, workflow personalization"
+    breaking: []
+
+  - version: "2.1.17"
+    date: "2026-01-23"
+    highlights:
+      - "Fix: Crashes on processors without AVX instruction support"
+    breaking: []
+
+  - version: "2.1.16"
+    date: "2026-01-22"
+    highlights:
+      - "⭐ New task management system with dependency tracking"
+      - "[VSCode] Native plugin management support"
+      - "[VSCode] OAuth users can browse/resume remote sessions"
+      - "Fixed: OOM crashes when resuming sessions with heavy subagent usage"
+    breaking: []
+
+  - version: "2.1.15"
+    date: "2026-01-22"
+    highlights:
+      - "⚠️ Deprecation notice for npm installations (use `claude install`)"
+      - "UI rendering performance improved with React Compiler"
+      - "Fixed: MCP stdio server timeout not killing child process"
+    breaking:
+      - "npm installations deprecated - migrate to native installer"
+
+  - version: "2.1.14"
+    date: "2026-01-21"
+    highlights:
+      - "History-based autocomplete in bash mode (! + Tab)"
+      - "Search in installed plugins list"
+      - "Git commit SHA pinning for plugins"
+      - "Multiple fixes: context window, memory, autocomplete"
+    breaking: []
+
+  - version: "2.1.12"
+    date: "2026-01-18"
+    highlights:
+      - "Bug fix: Message rendering"
+    breaking: []
+
+  - version: "2.1.11"
+    date: "2026-01-17"
+    highlights:
+      - "Fix: Excessive MCP connection requests for HTTP/SSE transports"
+    breaking: []
+
+  - version: "2.1.10"
+    date: "2026-01-17"
+    highlights:
+      - "New `Setup` hook event (--init, --init-only, --maintenance flags)"
+      - "Keyboard shortcut 'c' to copy OAuth URL"
+      - "File suggestions show as removable attachments"
+      - "[VSCode] Plugin install count + trust warnings"
+    breaking: []
+
+  - version: "2.1.9"
+    date: "2026-01-16"
+    highlights:
+      - "`auto:N` syntax for MCP tool search threshold"
+      - "`plansDirectory` setting for custom plan file locations"
+      - "Session URL attribution to commits/PRs from web sessions"
+      - "PreToolUse hooks can return `additionalContext`"
+      - "${CLAUDE_SESSION_ID} string substitution for skills"
+    breaking: []
+
+  - version: "2.1.7"
+    date: "2026-01-15"
+    highlights:
+      - "`showTurnDuration` setting to hide turn duration messages"
+      - "MCP tool search auto mode enabled by default"
+      - "Inline display of agent final response in task notifications"
+    breaking:
+      - "OAuth/API Console URLs: console.anthropic.com → platform.claude.com"
+      - "Security fix: Wildcard permission rules could match compound commands"
+
+  - version: "2.1.6"
+    date: "2026-01-14"
+    highlights:
+      - "Search functionality in /config command"
+      - "Date range filtering in /stats (r to cycle)"
+      - "Auto-discovery of skills from nested .claude/skills directories"
+      - "Updates section in /doctor showing auto-update channel"
+    breaking:
+      - "Security fix: Permission bypass via shell line continuation"
+
+  - version: "2.1.5"
+    date: "2026-01-13"
+    highlights:
+      - "`CLAUDE_CODE_TMPDIR` env var for custom temp directory"
+    breaking: []
+
+  - version: "2.1.4"
+    date: "2026-01-12"
+    highlights:
+      - "`CLAUDE_CODE_DISABLE_BACKGROUND_TASKS` env var"
+    breaking: []
+
+  - version: "2.1.3"
+    date: "2026-01-11"
+    highlights:
+      - "Merged slash commands and skills (simplified mental model)"
+      - "Release channel toggle (stable/latest) in /config"
+      - "/doctor warnings for unreachable permission rules"
+    breaking: []
+
+  - version: "2.1.2"
+    date: "2026-01-10"
+    highlights:
+      - "Windows Package Manager (winget) support"
+      - "Clickable hyperlinks for file paths (OSC 8 terminals)"
+      - "Shift+Tab shortcut in plan mode for auto-accept edits"
+      - "Large bash outputs saved to disk instead of truncated"
+    breaking:
+      - "Security fix: Command injection in bash command processing"
+      - "Deprecated: C:\\ProgramData\\ClaudeCode managed settings path"
+
+  - version: "2.1.0"
+    date: "2026-01-08"
+    highlights:
+      - "⭐ MAJOR: Automatic skill hot-reload"
+      - "⭐ MAJOR: Shift+Enter works OOTB (iTerm2, WezTerm, Ghostty, Kitty)"
+      - "⭐ MAJOR: New Vim motions (;, y, p, text objects, >>, <<, J)"
+      - "Unified Ctrl+B for backgrounding all tasks"
+      - "/plan command shortcut"
+      - "Slash command autocomplete anywhere in input"
+      - "`language` setting for response language"
+      - "Skills context: fork support"
+      - "Hooks support in agent/skill frontmatter"
+      - "MCP list_changed notifications support"
+      - "/teleport and /remote-env commands"
+      - "Tab support for disabling specific agents"
+      - "--tools flag in interactive mode"
+      - "YAML-style lists in frontmatter allowed-tools"
+    breaking:
+      - "OAuth URLs: console.anthropic.com → platform.claude.com"
+      - "Removed permission prompt for entering plan mode"
+      - "[SDK] Minimum zod peer dependency: ^4.0.0"
+
+  # ─────────────────────────────────────────────────────────────
+  # 2.0.x Series (December 2025 - January 2026)
+  # ─────────────────────────────────────────────────────────────
+
+  - version: "2.0.76"
+    date: "2026-01-05"
+    highlights:
+      - "Fix: macOS code-sign warning with Claude in Chrome"
+    breaking: []
+
+  - version: "2.0.74"
+    date: "2026-01-04"
+    highlights:
+      - "⭐ LSP (Language Server Protocol) tool for code intelligence"
+      - "/terminal-setup for Kitty, Alacritty, Zed, Warp"
+      - "Ctrl+T in /theme to toggle syntax highlighting"
+      - "Grouped skills/agents by source in /context"
+    breaking: []
+
+  - version: "2.0.73"
+    date: "2026-01-03"
+    highlights:
+      - "Clickable [Image #N] links"
+      - "Alt-Y yank-pop to cycle kill ring history"
+      - "Search filtering in plugin discover screen"
+      - "[VSCode] Tab icon badges (permissions, unread)"
+    breaking: []
+
+  - version: "2.0.72"
+    date: "2026-01-02"
+    highlights:
+      - "⭐ Claude in Chrome (Beta) - browser control from Claude Code"
+      - "Reduced terminal flickering"
+      - "QR code for mobile app"
+      - "Thinking toggle: Tab → Alt+T"
+    breaking: []
+
+  - version: "2.0.71"
+    date: "2026-01-01"
+    highlights:
+      - "/config toggle for prompt suggestions"
+      - "/settings alias for /config"
+      - "New Rust-based syntax highlighting engine"
+    breaking: []
+
+  - version: "2.0.70"
+    date: "2025-12-30"
+    highlights:
+      - "Enter key accepts/submits prompt suggestions immediately"
+      - "Wildcard syntax mcp__server__* for MCP tool permissions"
+      - "Auto-update toggle for plugin marketplaces"
+      - "3x memory usage improvement for large conversations"
+    breaking:
+      - "Removed # shortcut for quick memory entry"
+
+  - version: "2.0.68"
+    date: "2025-12-28"
+    highlights:
+      - "IME support for Chinese, Japanese, Korean"
+      - "Enterprise managed settings support"
+      - "Improved plan mode exit UX"
+    breaking: []
+
+  - version: "2.0.67"
+    date: "2025-12-26"
+    highlights:
+      - "⭐ Thinking mode enabled by default for Opus 4.5"
+      - "Thinking config moved to /config"
+      - "Search in /permissions with / shortcut"
+    breaking: []
+
+  - version: "2.0.65"
+    date: "2025-12-24"
+    highlights:
+      - "Alt+P to switch models while writing prompt"
+      - "Context window info in status line"
+      - "`fileSuggestion` setting for custom @ search"
+      - "CLAUDE_CODE_SHELL env var"
+    breaking: []
+
+  - version: "2.0.64"
+    date: "2025-12-22"
+    highlights:
+      - "⭐ Instant auto-compacting"
+      - "⭐ Async agents and bash commands with wake-up messages"
+      - "/stats with usage graphs, streaks, favorite model"
+      - "Named sessions: /rename, /resume <name>"
+      - "Support for .claude/rules/ directory"
+      - "Image dimension metadata for coordinate mappings"
+    breaking:
+      - "Unshipped AgentOutputTool/BashOutputTool → TaskOutputTool"
+
+  - version: "2.0.62"
+    date: "2025-12-20"
+    highlights:
+      - "`attribution` setting for commit/PR bylines"
+      - "(Recommended) indicator in multiple-choice questions"
+    breaking:
+      - "Deprecated: includeCoAuthoredBy (use attribution)"
+
+  - version: "2.0.60"
+    date: "2025-12-18"
+    highlights:
+      - "⭐ Background agents (work while you work)"
+      - "--disable-slash-commands CLI flag"
+      - "Model name in Co-Authored-By commits"
+      - "/mcp enable|disable [server-name]"
+    breaking: []
+
+  - version: "2.0.58"
+    date: "2025-12-16"
+    highlights:
+      - "⭐ Opus 4.5 available for Pro users"
+    breaking:
+      - "[Windows] Managed settings prefer C:\\Program Files\\ClaudeCode"
+
+  - version: "2.0.57"
+    date: "2025-12-15"
+    highlights:
+      - "Feedback input when rejecting plans"
+      - "[VSCode] Streaming message support"
+    breaking: []
+
+  - version: "2.0.55"
+    date: "2025-12-13"
+    highlights:
+      - "Improved AskUserQuestion auto-submit"
+      - "Better fuzzy matching for @ file suggestions"
+    breaking:
+      - "Proxy DNS opt-in: CLAUDE_CODE_PROXY_RESOLVES_HOSTS=true"
+
+  - version: "2.0.51"
+    date: "2025-12-10"
+    highlights:
+      - "⭐ MAJOR: Opus 4.5 released"
+      - "⭐ MAJOR: Claude Code for Desktop"
+      - "Updated usage limits for Opus 4.5"
+      - "Plan Mode builds more precise plans"
+    breaking: []
+
+  - version: "2.0.45"
+    date: "2025-12-05"
+    highlights:
+      - "⭐ Microsoft Foundry support"
+      - "PermissionRequest hook for auto-approve/deny"
+      - "& prefix for background tasks to web"
+    breaking: []
+
+  - version: "2.0.43"
+    date: "2025-12-03"
+    highlights:
+      - "`permissionMode` field for custom agents"
+      - "`skills` frontmatter for auto-loading subagent skills"
+      - "SubagentStart hook event"
+    breaking: []
+
+  - version: "2.0.41"
+    date: "2025-12-01"
+    highlights:
+      - "Model parameter for prompt-based stop hooks"
+      - "Plugins: sharing and installing output styles"
+      - "Allow more safe git commands without approval"
+      - "Teleporting from web auto-sets upstream branch"
+    breaking: []
+
+  - version: "2.0.37"
+    date: "2025-11-28"
+    highlights:
+      - "Matcher values for Notification hook events"
+      - "Output Styles: keep-coding-instructions option"
+    breaking: []
+
+  - version: "2.0.35"
+    date: "2025-11-26"
+    highlights:
+      - "Improved fuzzy search for commands"
+      - "CLAUDE_CODE_EXIT_AFTER_STOP_DELAY env var"
+    breaking:
+      - "Migrated ignorePatterns to deny permissions"
+
+  - version: "2.0.32"
+    date: "2025-11-23"
+    highlights:
+      - "Output styles un-deprecated (community feedback)"
+      - "`companyAnnouncements` setting"
+    breaking: []
+
+  - version: "2.0.30"
+    date: "2025-11-20"
+    highlights:
+      - "`allowUnsandboxedCommands` sandbox setting"
+      - "`disallowedTools` for custom agent definitions"
+      - "Prompt-based stop hooks"
+      - "SSE MCP servers on native build"
+    breaking:
+      - "Deprecated: Output styles (later un-deprecated in 2.0.32)"
+      - "Removed: Custom ripgrep configuration"
+
+  - version: "2.0.28"
+    date: "2025-11-18"
+    highlights:
+      - "⭐ Plan mode: introduced Plan subagent"
+      - "Subagents: resume capability"
+      - "Subagents: dynamic model selection"
+      - "--max-budget-usd flag (SDK)"
+      - "Git-based plugins branch/tag support (#branch)"
+    breaking: []
+
+  - version: "2.0.27"
+    date: "2025-11-15"
+    highlights:
+      - "New UI for permission prompts"
+      - "Branch filtering and search in session resume"
+    breaking: []
+
+  - version: "2.0.25"
+    date: "2025-11-12"
+    highlights: []
+    breaking:
+      - "Removed legacy SDK entrypoint → @anthropic-ai/claude-agent-sdk"
+
+  - version: "2.0.24"
+    date: "2025-11-10"
+    highlights:
+      - "Claude Code Web: Web → CLI teleport"
+      - "Sandbox mode for BashTool (Linux & Mac)"
+      - "Bedrock: awsAuthRefresh output display"
+    breaking: []
+
+# ════════════════════════════════════════════════════════════════
+# SUMMARY - Key Breaking Changes by Area
+# ════════════════════════════════════════════════════════════════
+breaking_summary:
+  urls:
+    - "OAuth/API Console: console.anthropic.com → platform.claude.com (v2.1.0, v2.1.7)"
+  windows:
+    - "Managed settings: C:\\ProgramData\\ClaudeCode → C:\\Program Files\\ClaudeCode (v2.0.58, deprecated v2.1.2)"
+  sdk:
+    - "Removed legacy SDK entrypoint → @anthropic-ai/claude-agent-sdk (v2.0.25)"
+    - "Minimum zod peer dependency: ^4.0.0 (v2.1.0)"
+  shortcuts:
+    - "Removed # shortcut for quick memory (v2.0.70)"
+  security:
+    - "Command injection fix in bash processing (v2.1.2)"
+    - "Wildcard permission rules compound commands fix (v2.1.7)"
+    - "Shell line continuation permission bypass fix (v2.1.6)"
+    - "Sandbox-excluded commands bypass with autoAllowBashIfSandboxed (v2.1.34)"
+    - "Heredoc delimiter command smuggling prevention (v2.1.38)"
+  installation:
+    - "npm installations deprecated - use native installer (v2.1.15)"
+  behavior:
+    - "ultrathink/think keywords now cosmetic only — thinking default with Opus 4.5 (v2.0.67)"
+  syntax:
+    - "Indexed argument syntax changed: $ARGUMENTS.0 → $ARGUMENTS[0] (v2.1.19)"
+
+# ════════════════════════════════════════════════════════════════
+# MILESTONE FEATURES (quick reference)
+# ════════════════════════════════════════════════════════════════
+milestones:
+  "2.1.36": "Fast mode for Opus 4.6"
+  "2.1.32": "Opus 4.6, Agent teams preview, Automatic memory"
+  "2.1.18": "Customizable keyboard shortcuts with /keybindings"
+  "2.1.16": "New task management system with dependency tracking"
+  "2.1.0": "Skill hot-reload, Shift+Enter OOTB, Vim motions, /plan command"
+  "2.0.74": "LSP tool for code intelligence"
+  "2.0.72": "Claude in Chrome (browser control)"
+  "2.0.67": "Thinking mode default for Opus 4.5"
+  "2.0.64": "Instant auto-compact, async agents, named sessions"
+  "2.0.60": "Background agents"
+  "2.0.51": "Opus 4.5, Claude Code for Desktop"
+  "2.0.45": "Microsoft Foundry, PermissionRequest hook"
+  "2.0.28": "Plan subagent, subagent resume/model selection"
+  "2.0.24": "Web teleport, Sandbox mode"

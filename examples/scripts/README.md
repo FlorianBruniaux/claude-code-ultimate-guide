@@ -1,3 +1,9 @@
+---
+title: "Scripts"
+description: "Utility scripts for Claude Code power users: audits, health checks, and session management"
+tags: [template, debugging, security, workflows]
+---
+
 # Scripts
 
 Utility scripts for Claude Code power users.
@@ -11,8 +17,17 @@ Utility scripts for Claude Code power users.
 | `clean-reinstall-claude.sh/.ps1` | Clean reinstall of Claude Code |
 | `fresh-context-loop.sh` | Run Claude Code in fresh context loops |
 | `session-search.sh` | Search across Claude Code session histories |
+| `cc-sessions.py` | Advanced session search with incremental indexing (Python) |
 | `session-stats.sh` | Statistics about Claude Code sessions |
 | `bridge.py` | Bridge: Claude Code → doobidoo → LM Studio |
+| `bridge-plan-schema.json` | JSON Schema for bridge plan v1 format |
+| `migrate-arguments-syntax.sh` | Migrate v1 → v2 slash command argument syntax (bash) |
+| `migrate-arguments-syntax.ps1` | Migrate v1 → v2 slash command argument syntax (PowerShell) |
+| `rtk-benchmark.sh` | Benchmark RTK token savings vs raw commands |
+| `sync-claude-config.sh` | Sync Claude config files across machines |
+| `sonnetplan.sh` | Run Claude with Sonnet replacing Opus (cost optimization alias) |
+| `test-prompt-caching.ts` | Verify Anthropic prompt caching is active (no deps, fetch only) |
+| `smart-suggest-roi.py` | Analyze acceptance rate of smart-suggest hook suggestions vs session activity |
 
 ---
 
@@ -253,6 +268,55 @@ Search across all Claude Code session histories.
 ```bash
 ./session-search.sh "authentication"
 ```
+
+---
+
+## Session Manager (Advanced)
+
+Advanced CLI for session search, browse, resume & pattern discovery with incremental indexing.
+
+**vs session-search.sh**: Faster search (~200ms vs ~400ms), partial ID resume, branch filter, worktree support, incremental JSONL index, and `discover` subcommand for automated config optimization.
+
+**GitHub**: [FlorianBruniaux/cc-sessions](https://github.com/FlorianBruniaux/cc-sessions)
+
+```bash
+# Search in current project
+cc-sessions search "notion"
+
+# Search all projects
+cc-sessions --all search "stripe"
+
+# Filter by date and branch
+cc-sessions search "auth" --since 7d --branch develop
+
+# Recent sessions
+cc-sessions recent 10
+
+# Resume with partial ID
+cc-sessions resume 8d472d
+
+# JSON output for scripting
+cc-sessions --json search "prisma" | jq -r '.[].id'
+
+# Discover recurring patterns (n-gram, local, free)
+cc-sessions --all discover
+
+# Discover with semantic analysis via claude --print
+cc-sessions --all discover --llm
+
+# JSON output for scripting
+cc-sessions --all discover --json | jq '.[] | select(.category == "skill")'
+```
+
+**Install from GitHub**:
+```bash
+curl -sL https://raw.githubusercontent.com/FlorianBruniaux/cc-sessions/main/cc-sessions \
+  -o ~/.local/bin/cc-sessions && chmod +x ~/.local/bin/cc-sessions
+```
+
+**Or copy locally**: `cp cc-sessions.py ~/bin/cc-sessions && chmod +x ~/bin/cc-sessions`
+
+> [GitHub repo](https://github.com/FlorianBruniaux/cc-sessions) · [Gist](https://gist.github.com/FlorianBruniaux/992d4d1107592d9e98ca9d89838871c6)
 
 ---
 

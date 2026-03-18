@@ -1,3 +1,8 @@
+---
+name: learn-alternatives
+description: "Compare different approaches to solve the same problem"
+---
+
 # Show Alternatives
 
 Compare different approaches to solve the same problem.

@@ -1,0 +1,41 @@
+# examples/team-config/profile-template.yaml
+# Profile template for Profile-Based Module Assembly
+# Copy to profiles/<your-name>.yaml and customize
+
+# Required fields
+name: "YourName"                        # Developer name (used in generated header)
+os: "macos"                             # macos | linux | windows
+tools:
+  - claude-code                         # List all AI tools you use
+  # - cursor                            # Uncomment if you use Cursor
+  # - windsurf                          # Uncomment if you use Windsurf
+
+# Communication style affects verbosity of AI explanations
+communication_style: "concise"          # verbose | concise | terse
+
+# Module selection
+modules:
+  # Core modules: always included, regardless of OS or tools
+  core:
+    - core-standards                    # Architecture, naming, patterns
+    - git-workflow                      # Git conventions
+    - test-conventions                  # Testing patterns
+    # - typescript-rules                # Uncomment if TypeScript project
+    # - python-rules                    # Uncomment if Python project
+
+  # Conditional modules: included based on os/tools above
+  # The assembler automatically includes these based on your profile values
+  conditional:
+    # OS-specific (auto-filtered by 'os' field above)
+    - macos-paths                       # macOS paths (/opt/homebrew, etc.)
+    - linux-paths                       # Linux paths (/usr/local, etc.)
+
+    # Tool-specific (auto-filtered by 'tools' list above)
+    - cursor-rules                      # Cursor-specific instructions
+    - windsurf-rules                    # Windsurf-specific instructions
+
+# Optional preferences
+preferences:
+  language: "english"                   # english | french | spanish | etc.
+  token_budget: "medium"                # low | medium | high
+  # low: minimal context, high: comprehensive context

@@ -1,3 +1,9 @@
+---
+title: "Structural Design Patterns"
+description: "Reference for Adapter, Decorator, Facade, Proxy and other composition patterns"
+tags: [reference, design-patterns, architecture]
+---
+
 # Structural Design Patterns
 
 Patterns that deal with object composition and relationships between entities, providing ways to assemble objects and classes into larger structures.

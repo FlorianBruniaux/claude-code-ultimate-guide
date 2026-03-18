@@ -1,3 +1,9 @@
+---
+title: "Voice Refine - Before/After Examples"
+description: "Real-world examples of verbose voice input transformed into structured prompts"
+tags: [reference, tts, skill]
+---
+
 # Voice Refine - Before/After Examples
 
 Real-world transformations from verbose voice input to structured prompts.

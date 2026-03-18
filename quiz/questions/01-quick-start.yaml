@@ -165,9 +165,9 @@ questions:
       b: "Ctrl+C"
       c: "Esc"
       d: "Ctrl+Q"
-    correct: "b"
+    correct: "c"
     explanation: |
-      Ctrl+C cancels the current operation in Claude Code. This is useful for stopping long-running analysis or when Claude is taking an approach you don't want. Esc dismisses the current suggestion, while Ctrl+R retries the last operation. Knowing these shortcuts helps maintain control during your workflow.
+      Esc cancels (stops) the current operation in Claude Code. Press Esc once to stop Claude mid-action, and double-tap Esc (Esc+Esc) to open the rewind menu. Ctrl+C is the standard terminal interrupt but Esc is the primary in-app shortcut for stopping operations. Knowing these shortcuts helps maintain control during your workflow.
     doc_reference:
       file: "guide/ultimate-guide.md"
       section: "1.3 Essential Commands"

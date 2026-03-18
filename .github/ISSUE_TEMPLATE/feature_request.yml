@@ -1,0 +1,65 @@
+name: Feature Request
+description: Suggest new content or improvements for the guide
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting an improvement!
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type
+      description: What kind of addition is this?
+      options:
+        - New section/chapter
+        - New example
+        - Expand existing section
+        - New best practice
+        - New MCP server documentation
+        - New tool documentation
+        - Tutorial/walkthrough
+        - Cheatsheet addition
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: topic
+    attributes:
+      label: Topic
+      description: What topic should be covered?
+      placeholder: "I'd like to see coverage of..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Why is this important?
+      description: What problem does this solve? Who would benefit?
+      placeholder: "This would help users who..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: outline
+    attributes:
+      label: Suggested Outline
+      description: What should this cover? (optional)
+      placeholder: |
+        - Key concept 1
+        - Key concept 2
+        - Example
+    validations:
+      required: false
+
+  - type: textarea
+    id: resources
+    attributes:
+      label: Relevant Resources
+      description: Links to documentation, examples, or references
+    validations:
+      required: false

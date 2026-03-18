@@ -1,3 +1,8 @@
+---
+name: optimize
+description: "Analyze and suggest performance improvements for code, queries, or systems"
+---
+
 # Performance Optimizer
 
 Analyze and suggest performance improvements for code, queries, or systems.

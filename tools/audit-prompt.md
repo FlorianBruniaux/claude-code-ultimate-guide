@@ -53,7 +53,7 @@ cd your-project-directory
 claude
 ```
 
-> **Note**: With Opus 4.5, thinking mode is enabled by default at maximum depth. Use Alt+T to toggle if needed.
+> **Note**: With Opus 4.6, thinking mode is enabled by default at maximum depth. Use Alt+T to toggle if needed.
 
 ### Step 3: Paste and Execute
 
@@ -308,7 +308,7 @@ For each category, evaluate against these criteria based on Phase 1 scan results
 - [ ] Other relevant MCPs for the project needs
 
 **Thinking Mode & Trinity (Guide Section 9.1)**
-- [ ] Understanding of thinking mode (enabled by default in Opus 4.5, Alt+T to toggle)
+- [ ] Understanding of thinking mode (enabled by default in Opus 4.6, Alt+T to toggle)
 - [ ] Trinity pattern documented for complex workflows
 
 **CI/CD Integration (Guide Section 9.3)**
@@ -344,6 +344,26 @@ For each category, evaluate against these criteria based on Phase 1 scan results
 - [ ] Using git blame/log for code understanding
 - [ ] Finding domain experts via git history
 - [ ] Understanding code evolution patterns
+
+**Rules Templates (Guide Section 3.2)**
+- [ ] `.claude/rules/` directory exists with auto-loaded rule files
+- [ ] Rules cover relevant domains (architecture, code quality, testing)
+- [ ] Rules are concise and actionable (not duplicating CLAUDE.md content)
+
+**Sandbox & Permissions (Guide Section 1.4)**
+- [ ] Understanding of sandbox modes (Docker container vs native process-level)
+- [ ] Permission modes configured appropriately for the project
+- [ ] Sensitive file patterns blocked via `permissions.deny` (`.env*`, `*.pem`, `credentials*`)
+
+**Security Commands (Guide: security-hardening.md)**
+- [ ] `/security-check` available for quick config scans (~30s)
+- [ ] `/security-audit` available for comprehensive audits (2-5min, scored /100)
+- [ ] Awareness of threat database (`threat-db.yaml`) for known attack patterns
+
+**Plan-Validate-Execute Pipeline (Guide: workflows/plan-pipeline.md)**
+- [ ] Awareness of pipeline workflow for complex features (power users)
+- [ ] `/plan-start`, `/plan-validate`, `/plan-execute` commands installed if applicable
+- [ ] ADR learning loop understood for accumulating architectural decisions
 
 #### 2.2 Calculate Health Score
 
@@ -395,20 +415,23 @@ For each ❌ or ⚠️ item, provide:
 Instead of reading the entire guide, use these line ranges for targeted extraction:
 
 ```bash
-# Memory Files best practices
-sed -n '2184,2314p' guide/ultimate-guide.md
+# Line numbers from reference.yaml (deep_dive keys) — verify with:
+# grep "memory_files\|hooks\|mcp_servers\|context_management\|plan_mode" machine-readable/reference.yaml
 
-# Hooks section
-sed -n '3962,4528p' guide/ultimate-guide.md
+# Memory Files best practices (deep_dive: memory_files)
+sed -n '3054,3254p' guide/ultimate-guide.md
 
-# MCP Servers section
-sed -n '4529,5076p' guide/ultimate-guide.md
+# Hooks section (deep_dive: hooks)
+sed -n '8300,8800p' guide/ultimate-guide.md
 
-# Context Management
-sed -n '910,1423p' guide/ultimate-guide.md
+# MCP Servers section (deep_dive: mcp_servers)
+sed -n '9500,10000p' guide/ultimate-guide.md
 
-# Plan Mode
-sed -n '1424,1601p' guide/ultimate-guide.md
+# Context Management (deep_dive: context_management)
+sed -n '1000,1500p' guide/ultimate-guide.md
+
+# Plan Mode (deep_dive: plan_mode)
+sed -n '1500,1700p' guide/ultimate-guide.md
 ```
 
 **Suggested Templates**:
@@ -509,12 +532,16 @@ Here's an example of what the audit report looks like:
 | **PreToolUse** | Hook that runs BEFORE Claude executes a tool - great for security checks |
 | **PostToolUse** | Hook that runs AFTER Claude executes a tool - great for formatting |
 | **Plan Mode** | Read-only exploration mode for safe analysis before making changes |
-| **Thinking Mode** | Extended thinking (Opus 4.5: ON by default). Toggle with Alt+T, configure in /config |
+| **Thinking Mode** | Extended thinking (Opus 4.6: ON by default). Toggle with Alt+T, configure in /config |
 | **Trinity Pattern** | Combining Plan Mode + Extended Thinking + MCP for complex tasks |
 | **Verify Gate** | CI/CD pattern: build → lint → test → typecheck before merge |
-| **Context Zones** | Green (0-50%), Yellow (50-70%), Red (70%+) - context usage thresholds |
+| **Context Zones** | < 70% optimal, 75% auto-compact trigger, 85% handoff recommended, 95% force handoff |
 | **Data Retention** | Anthropic stores conversations: 5 years (default), 30 days (opt-out), 0 days (Enterprise ZDR) |
 | **permissions.deny** | Settings to block Claude from reading sensitive files like `.env`, credentials |
+| **Rules** | Auto-loaded `.claude/rules/*.md` files providing contextual instructions every session |
+| **Permission Modes** | Trust levels for Claude's tool access: default deny, allowlist, or prompt-on-use |
+| **Sandbox** | OS-level isolation (Docker container or native process-level). Toggle with `/sandbox` |
+| **Plugins** | Community extensions installable via `/install-plugin owner/repo` |
 
 ### Priority Levels Explained
 
@@ -579,10 +606,10 @@ Here's an example of what the audit report looks like:
 ## 8. Related Resources
 
 - [The Ultimate Claude Code Guide](../guide/ultimate-guide.md) - Full reference
-- [Architecture & Internals](../guide/architecture.md) - How Claude Code works
+- [Architecture & Internals](../guide/core/architecture.md) - How Claude Code works
 - [Cheatsheet](../guide/cheatsheet.md) - Quick daily reference
 - [Claude Code Official Docs](https://docs.anthropic.com/en/docs/claude-code) - Anthropic documentation
 
 ---
 
-*Last updated: January 2026 | Version 2.9 - Fixed MCP detection (now checks ~/.claude.json)*
+*Last updated: March 2026 | Version 3.0 - Updated for guide v3.32.2 (Opus 4.6, new checklist categories, glossary, context zones)*

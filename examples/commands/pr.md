@@ -1,3 +1,8 @@
+---
+name: pr
+description: "Analyze changes, detect scope issues, and create a well-structured PR"
+---
+
 # Create Pull Request
 
 Analyze changes, detect scope issues, and create a well-structured PR following project conventions.

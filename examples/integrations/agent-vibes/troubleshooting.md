@@ -1,3 +1,9 @@
+---
+title: "Agent Vibes - Troubleshooting Guide"
+description: "Diagnostic steps and solutions for common Agent Vibes TTS issues"
+tags: [guide, tts, debugging, integration]
+---
+
 # Agent Vibes - Troubleshooting Guide
 
 **Common Issues**: 7 scenarios with step-by-step solutions

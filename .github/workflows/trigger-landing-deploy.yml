@@ -1,0 +1,26 @@
+name: Trigger landing site rebuild
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "guide/**"
+      - "machine-readable/**"
+      - "examples/**"
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispatch rebuild to landing site
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.LANDING_DEPLOY_TOKEN }}
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: 'FlorianBruniaux',
+              repo: 'claude-code-ultimate-guide-landing',
+              workflow_id: 'deploy.yml',
+              ref: 'main',
+            })
+            console.log('Landing site rebuild triggered')

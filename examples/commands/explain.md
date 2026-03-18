@@ -1,3 +1,8 @@
+---
+name: explain
+description: "Explain code, concepts, or system behavior with adjustable depth levels"
+---
+
 # Code Explainer
 
 Explain code, concepts, or system behavior with adjustable depth levels.

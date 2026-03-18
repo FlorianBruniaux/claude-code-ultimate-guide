@@ -1,0 +1,42 @@
+<!-- Hero Section Template -->
+<section class="hero">
+  <div class="container">
+    <!-- Badges -->
+    <div class="hero-badges">
+      <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="MIT License">
+      <img src="https://img.shields.io/github/v/tag/{{GITHUB_USER}}/{{REPO_NAME}}?label=version" alt="Version">
+      <img src="https://img.shields.io/badge/Platform-{{PLATFORM}}-blue.svg" alt="Platform">
+    </div>
+
+    <!-- Title -->
+    <h1 class="hero-title">{{PROJECT_TITLE}}</h1>
+
+    <!-- Tagline -->
+    <p class="hero-tagline">{{PROJECT_TAGLINE}}</p>
+
+    <!-- Stats -->
+    <div class="hero-stats">
+      <span class="stat"><strong>{{STAT_1_VALUE}}</strong> {{STAT_1_LABEL}}</span>
+      <span class="stat"><strong>{{STAT_2_VALUE}}</strong> {{STAT_2_LABEL}}</span>
+      <span class="stat"><strong>{{STAT_3_VALUE}}</strong> {{STAT_3_LABEL}}</span>
+    </div>
+
+    <!-- CTAs -->
+    <div class="hero-ctas">
+      <a href="#install" class="btn btn-primary">Quick Start</a>
+      <a href="{{GITHUB_URL}}" class="btn btn-secondary">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<!--
+PLACEHOLDERS:
+- {{GITHUB_USER}}: GitHub username
+- {{REPO_NAME}}: Repository name
+- {{PLATFORM}}: Platform badge text (e.g., "macOS | Linux")
+- {{PROJECT_TITLE}}: Main title from README H1
+- {{PROJECT_TAGLINE}}: Tagline from TL;DR or first paragraph
+- {{STAT_N_VALUE}}: Numeric stat value
+- {{STAT_N_LABEL}}: Stat label
+- {{GITHUB_URL}}: Full GitHub repository URL
+-->

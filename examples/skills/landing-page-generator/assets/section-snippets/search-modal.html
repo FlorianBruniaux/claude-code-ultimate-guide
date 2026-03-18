@@ -1,0 +1,40 @@
+<!-- Search Modal Template -->
+<div id="search-modal" class="search-modal" hidden role="dialog" aria-modal="true" aria-label="Search">
+  <div class="search-modal-backdrop"></div>
+  <div class="search-modal-content">
+    <div class="search-input-wrapper">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input
+        type="text"
+        id="search-input"
+        class="search-input"
+        placeholder="Search features, FAQ..."
+        autocomplete="off"
+        aria-describedby="search-status"
+      >
+      <kbd>ESC</kbd>
+    </div>
+    <ul id="search-results" class="search-results" role="listbox" aria-label="Search results">
+      <!-- Results populated by search.js -->
+    </ul>
+    <div id="search-status" class="search-status" aria-live="polite"></div>
+  </div>
+</div>
+
+<!--
+USAGE:
+1. Include this modal at the end of <body>, before scripts
+2. Load search-data.js before search.js
+3. search.js handles opening (Cmd+K), keyboard nav, and results
+
+SEARCH DATA FORMAT (in search-data.js):
+window.SEARCH_FEATURES = [
+  { id: 'f1', type: 'feature', title: 'Feature Name', content: 'keywords', url: '#features' }
+];
+window.SEARCH_FAQ = [
+  { id: 'q1', type: 'faq', title: 'Question?', content: 'answer keywords', url: '#faq' }
+];
+-->

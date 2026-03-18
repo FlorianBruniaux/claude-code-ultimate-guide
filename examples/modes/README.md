@@ -1,3 +1,9 @@
+---
+title: "Behavioral Modes"
+description: "Ready-to-use behavioral mode files for customizing Claude Code behavior"
+tags: [config, template, workflows]
+---
+
 # Behavioral Modes
 
 Ready-to-use behavioral mode files for Claude Code. Copy to `~/.claude/` and reference in your `CLAUDE.md`.

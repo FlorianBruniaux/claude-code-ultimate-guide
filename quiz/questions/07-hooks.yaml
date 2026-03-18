@@ -40,13 +40,20 @@ questions:
     explanation: |
       The `PreToolUse` event fires before any tool runs.
 
-      Common event types:
-      - **PreToolUse**: Before tool execution (ideal for security validation)
-      - **PostToolUse**: After tool execution (for formatting, logging)
+      Claude Code supports 17 hook events:
+      - **PreToolUse**: Before tool execution (security validation)
+      - **PostToolUse**: After tool succeeds (formatting, logging)
+      - **PostToolUseFailure**: After tool fails (error logging)
       - **UserPromptSubmit**: When user sends a message (context enrichment)
       - **Notification**: When Claude sends a notification
       - **SessionStart/SessionEnd**: Session lifecycle events
-      - **Stop**: When user interrupts
+      - **Stop**: When Claude finishes responding
+      - **PermissionRequest**: Permission dialog appears
+      - **SubagentStart/SubagentStop**: Sub-agent lifecycle
+      - **TeammateIdle/TaskCompleted**: Agent team events
+      - **ConfigChange**: Config file changes during session
+      - **WorktreeCreate/WorktreeRemove**: Worktree lifecycle
+      - **PreCompact**: Before context compaction
     doc_reference:
       file: "guide/ultimate-guide.md"
       section: "7.1 The Event System"
@@ -65,17 +72,22 @@ questions:
     explanation: |
       Hooks receive JSON data on stdin with information about the event.
 
-      Example input structure:
+      Example input structure (common fields + event-specific fields):
       ```json
       {
+        "session_id": "abc123",
+        "transcript_path": "/home/user/.claude/projects/.../transcript.jsonl",
+        "cwd": "/project",
+        "permission_mode": "default",
+        "hook_event_name": "PreToolUse",
         "tool_name": "Bash",
         "tool_input": {
           "command": "git status"
-        },
-        "session_id": "abc123",
-        "cwd": "/project"
+        }
       }
       ```
+
+      Common fields sent to all events: `session_id`, `transcript_path`, `cwd`, `permission_mode`, `hook_event_name`.
 
       Hooks typically parse this with: `INPUT=$(cat)` followed by `jq` for JSON extraction.
     doc_reference:
@@ -124,10 +136,11 @@ questions:
     explanation: |
       The `UserPromptSubmit` event is ideal for context enrichment.
 
-      Use cases:
+      Use cases by event:
       - **UserPromptSubmit**: Add context (git status, current branch, staged files)
       - **PreToolUse**: Security validation (block dangerous commands)
       - **PostToolUse**: Formatting, logging, quality checks
+      - **SessionStart**: Initialize environment, scan CLAUDE.md for injections
       - **Notification**: Sound alerts, desktop notifications
 
       The context enricher example adds git branch, last commit, and staged/unstaged info.
@@ -380,3 +393,43 @@ questions:
       file: "guide/ultimate-guide.md"
       section: "7.2 Creating Hooks"
       anchor: "#hook-registration-settingsjson"
+
+  - id: "07-015"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "What configuration parameter makes a hook run asynchronously (v2.1.0+)?"
+    options:
+      a: "background: true"
+      b: "async: true"
+      c: "nonblocking: true"
+      d: "mode: async"
+    correct: "b"
+    explanation: |
+      Since Claude Code v2.1.0, hooks support `async: true` in their configuration. This makes the hook fire without blocking Claude's execution. Useful for logging, notifications, or analytics hooks where you don't need to wait for the result before continuing.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Hook Execution Model"
+      anchor: "#hook-execution-model"
+
+  - id: "07-016"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "What are the 3 limitations of async hooks compared to sync hooks?"
+    options:
+      a: "Can't access stdin, can't write files, can't read environment variables"
+      b: "No exit code feedback (can't block), no additionalContext returned, no blocking capability"
+      c: "Can't use network, can't spawn processes, can't read files"
+      d: "Limited to 1s timeout, no stderr capture, no argument passing"
+    correct: "b"
+    explanation: |
+      Async hooks trade control for speed:
+
+      1. **No exit code feedback** - Can't block Claude based on success/failure
+      2. **No additionalContext** - Can't inject context back into the conversation
+      3. **No blocking capability** - Fire-and-forget only
+
+      Use async for non-critical operations (logging, telemetry). Use sync for security gates, formatting, and validation.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Hook Execution Model"
+      anchor: "#hook-execution-model"

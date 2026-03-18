@@ -463,3 +463,54 @@ questions:
       file: "guide/ultimate-guide.md"
       section: "10.2 Keyboard Shortcuts"
       anchor: "#input--navigation"
+
+  - id: "10-019"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "What does the '--from-pr' flag do in Claude Code v2.1.27?"
+    options:
+      a: "Creates a new pull request"
+      b: "Resumes sessions linked to a GitHub PR number or URL"
+      c: "Fetches all PR comments into context"
+      d: "Closes a pull request"
+    correct: "b"
+    explanation: |
+      The `--from-pr` flag (v2.1.27) lets you resume Claude Code sessions linked to a specific GitHub PR. Usage: `claude --from-pr 123` or `claude --from-pr https://github.com/org/repo/pull/123`. This loads the PR context (diff, comments, checks) directly into the session.
+    doc_reference:
+      file: "guide/claude-code-releases.md"
+      section: "v2.1.27"
+      anchor: "#v2127"
+
+  - id: "10-020"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "What breaking change was introduced in Claude Code v2.1.19 for hook/command arguments?"
+    options:
+      a: "Arguments removed entirely"
+      b: "Migration from $ARGUMENTS.0 (dot syntax) to $ARGUMENTS[0] (bracket syntax)"
+      c: "New $PARAMS variable replaced $ARGUMENTS"
+      d: "Arguments now require JSON format"
+    correct: "b"
+    explanation: |
+      Claude Code v2.1.19 changed argument access syntax from dot notation (`$ARGUMENTS.0`) to bracket notation (`$ARGUMENTS[0]`). This breaking change affects all custom commands and hooks that reference arguments. Update your scripts to use the new bracket syntax.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Breaking Changes"
+      anchor: "#breaking-changes"
+
+  - id: "10-021"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power", "pm"]
+    question: "According to the guide's 'Myths vs Reality' section, what is the truth about 'hidden Claude Code features'?"
+    options:
+      a: "Secret flags exist for power users"
+      b: "Hidden features require an enterprise plan"
+      c: "There are no hidden features - Anthropic uses progressive rollout, not secret flags"
+      d: "Beta flags are stored in .claude/config"
+    correct: "c"
+    explanation: |
+      The Myths vs Reality section debunks the "hidden features" myth. Anthropic uses progressive rollout (features gradually enabled for users) rather than secret flags or hidden configurations. All features are documented in release notes. There is no secret power-user mode.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Myths vs Reality"
+      anchor: "#myths-vs-reality"

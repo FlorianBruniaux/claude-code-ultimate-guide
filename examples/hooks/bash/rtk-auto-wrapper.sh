@@ -18,6 +18,8 @@
 #        }]
 #      }
 #    }
+#
+# Or use `rtk init` for automatic hook setup.
 
 # Check if RTK is installed
 if ! command -v rtk &> /dev/null; then
@@ -39,6 +41,15 @@ declare -A RTK_COMMANDS=(
     ["git status"]="76.0"
     ["git diff"]="55.9"
     ["find"]="76.3"
+    ["cargo test"]="90.0"
+    ["cargo build"]="80.0"
+    ["cargo clippy"]="80.0"
+    ["pnpm list"]="82.0"
+    ["pnpm outdated"]="90.0"
+    ["pnpm test"]="90.0"
+    ["python pytest"]="90.0"
+    ["python -m pytest"]="90.0"
+    ["go test"]="90.0"
 )
 
 # Check if command matches RTK-optimizable pattern
@@ -48,7 +59,7 @@ for cmd in "${!RTK_COMMANDS[@]}"; do
 
         # Suggest RTK wrapper
         cat << EOF
-💡 RTK Optimization Available
+RTK Optimization Available
 
 Command: $COMMAND
 Suggested: rtk $COMMAND
@@ -65,20 +76,6 @@ EOF
         exit 0
     fi
 done
-
-# Check for commands that should NOT use RTK
-if [[ "$COMMAND" == "ls"* ]] && [[ "$COMMAND" == "rtk "* ]]; then
-    cat << EOF
-⚠️ RTK Not Recommended
-
-Command: $COMMAND
-Issue: RTK ls produces worse output (-274% token increase)
-Suggestion: Use plain 'ls' instead
-
-Blocking RTK usage for this command.
-EOF
-    exit 2  # Block the command
-fi
 
 # Continue with original command
 exit 0

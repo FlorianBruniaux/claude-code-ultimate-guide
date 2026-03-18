@@ -1,0 +1,51 @@
+# CodeRabbit configuration — copy to your repo root as .coderabbit.yaml
+# Docs: https://docs.coderabbit.ai/guides/configure-coderabbit
+#
+# CodeRabbit Pro: $15/dev/month — adds Q&A, sequence diagrams, interactive walkthrough
+# Free tier: unlimited public repos
+
+reviews:
+  # Language for review comments (default: en)
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+
+  # Severity labels used in CodeRabbit comments
+  # Maps to: Nitpick, Minor, Major, Critical
+  path_filters:
+    # Ignore generated files and lockfiles
+    - "!**/node_modules/**"
+    - "!**/*.lock"
+    - "!**/dist/**"
+    - "!**/build/**"
+    - "!**/__generated__/**"
+    - "!**/migrations/**"     # Remove this if you want DB migration reviews
+
+  path_instructions:
+    # Focus deeper on security-sensitive paths
+    - path: "src/server/api/**"
+      instructions: |
+        Focus on: authentication/authorization checks, input validation,
+        SQL injection risks, rate limiting, and sensitive data exposure.
+    - path: "src/components/**"
+      instructions: |
+        Focus on: React best practices, accessibility (ARIA, keyboard nav),
+        performance (memo, useMemo, unnecessary re-renders), and XSS risks.
+    - path: "prisma/**"
+      instructions: |
+        Focus on: migration safety, index coverage for queried fields,
+        cascade delete risks, and data integrity constraints.
+
+  # Auto-approve low-risk PRs (docs, tests only)
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - main
+      - develop
+
+chat:
+  # Allow @coderabbitai commands in PR comments
+  auto_reply: true

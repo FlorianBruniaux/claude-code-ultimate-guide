@@ -523,3 +523,544 @@ questions:
       file: "guide/methodologies.md"
       section: "Tier 4: Feature Delivery"
       anchor: "#tier-4-feature-delivery"
+
+  - id: "09-022"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "What are the 5 layers of 'Mechanic Stacking'?"
+    options:
+      a: "Plan Mode, Extended Thinking, Rev the Engine, Split-Role, Permutation"
+      b: "Plan Mode, Sequential Thinking, Context7, Serena, Playwright"
+      c: "CLAUDE.md, Plan Mode, Extended Thinking, MCP Servers, Hooks"
+      d: "Plan Mode, Extended Thinking, Rev the Engine, Multi-Agent, Hooks"
+    correct: "a"
+    explanation: |
+      Mechanic Stacking layers 5 techniques for maximum Claude Code power:
+
+      1. **Plan Mode** - Safe exploration without changes
+      2. **Extended Thinking** - Deep internal reasoning
+      3. **Rev the Engine** - Progressive warm-up prompts
+      4. **Split-Role** - Separate architect/implementer/reviewer
+      5. **Permutation** - Systematic variation testing
+
+      Each layer compounds the previous one's effectiveness.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Mechanic Stacking"
+      anchor: "#mechanic-stacking"
+
+  - id: "09-023"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "What is a 'Permutation Framework' in Claude Code?"
+    options:
+      a: "A/B testing of UI variants"
+      b: "CLAUDE.md-driven systematic variation testing: define dimensions, generate variants, implement, evaluate"
+      c: "Random code generation for benchmarks"
+      d: "Automated regression test suite"
+    correct: "b"
+    explanation: |
+      A Permutation Framework uses CLAUDE.md to drive systematic variation testing. The workflow: define variation dimensions (e.g., algorithm choice, data structure, caching strategy), generate all combinations, implement each variant, evaluate with metrics. This ensures you explore the solution space methodically rather than picking the first approach.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Permutation Frameworks"
+      anchor: "#permutation-frameworks"
+
+  - id: "09-024"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "What mental model describes the developer as an orchestrator of Claude instances?"
+    options:
+      a: "Pipeline Manager"
+      b: "Agent Supervisor"
+      c: "You Are the Main Thread - CPU scheduler analogy where developer dispatches tasks to agents"
+      d: "Task Router"
+    correct: "c"
+    explanation: |
+      "You Are the Main Thread" uses the CPU scheduler analogy: the developer is the main thread dispatching work to Claude instances (worker threads). You manage priorities, context switches, and synchronization. Key insight: you don't write code - you manage the agents that write code. This shifts the skill from coding to orchestration.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "You Are the Main Thread"
+      anchor: "#you-are-the-main-thread"
+
+  - id: "09-025"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "When task list items consistently diverge from actual work done, what does the guide recommend?"
+    options:
+      a: "Delete the task list and start over"
+      b: "Add more granular detail to each task"
+      c: "Use divergence patterns as diagnostic: too broad = break down, too narrow = step back, wrong priorities = re-align with goals"
+      d: "Ignore the divergence and continue"
+    correct: "c"
+    explanation: |
+      Task list divergence is diagnostic, not failure. Patterns reveal issues:
+
+      - **Too broad** tasks → break down into smaller pieces
+      - **Too narrow** tasks → step back and think bigger
+      - **Wrong priorities** → re-align tasks with actual goals
+      - **Consistent drift** → your mental model of the problem is wrong
+
+      Use divergence as signal, not noise.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Task Management Patterns"
+      anchor: "#task-management-patterns"
+
+  - id: "09-026"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "What is the 'occurrence rule' for claiming established patterns in code reviews?"
+    options:
+      a: ">5 occurrences = established, 2-5 = emerging, <2 = not established"
+      b: ">10 occurrences = established, 3-10 = emerging, <3 = not established"
+      c: "Based on file count, not occurrences"
+      d: ">20 occurrences = established, 5-20 = emerging, <5 = not established"
+    correct: "b"
+    explanation: |
+      Anti-hallucination safeguards for code reviews define the occurrence rule:
+
+      - **>10 occurrences** = established pattern (safe to reference)
+      - **3-10 occurrences** = emerging pattern (mention cautiously)
+      - **<3 occurrences** = NOT an established pattern (don't claim it is)
+
+      This prevents Claude from hallucinating "established conventions" from a few examples.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Anti-Hallucination Safeguards"
+      anchor: "#anti-hallucination-safeguards"
+
+  - id: "09-027"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "What are the 3 specialized agents in multi-agent code review?"
+    options:
+      a: "Security Reviewer, Performance Analyst, UX Reviewer"
+      b: "Linter, Type Checker, Test Runner"
+      c: "Consistency Auditor, SOLID Analyst, Defensive Code Auditor"
+      d: "Junior Reviewer, Senior Reviewer, Architect Reviewer"
+    correct: "c"
+    explanation: |
+      Multi-agent PR review uses 3 specialized agents:
+
+      1. **Consistency Auditor** - Checks naming conventions, import patterns, code style adherence
+      2. **SOLID Analyst** - Reviews architectural principles, dependency injection, single responsibility
+      3. **Defensive Code Auditor** - Validates error handling, input validation, edge cases
+
+      Each agent has anti-hallucination safeguards (occurrence rule, file-scoped claims).
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Multi-Agent PR Review"
+      anchor: "#multi-agent-pr-review"
+
+  - id: "09-028"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "What is 'comprehension debt' according to Addy Osmani's '80% Problem'?"
+    options:
+      a: "Documentation debt - missing docs"
+      b: "Code you shipped but don't fully understand - distinct from technical debt"
+      c: "Review debt - unreviewed PRs"
+      d: "Design debt - skipped design phase"
+    correct: "b"
+    explanation: |
+      Comprehension debt is code you shipped but don't fully understand. It's distinct from technical debt (code you understand but know is suboptimal). With AI-generated code, comprehension debt grows silently: you accept suggestions without deep understanding. The fix: always be able to explain WHY, not just WHAT.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Practitioner Insights"
+      anchor: "#practitioner-insights"
+
+  - id: "09-029"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "What is the '4-step cycle' for CLAUDE.md as compounding memory (Boris Cherny)?"
+    options:
+      a: "Write, Test, Deploy, Monitor"
+      b: "Plan, Execute, Review, Commit"
+      c: "Error, Rule, Read, Never repeated"
+      d: "Ask, Implement, Validate, Ship"
+    correct: "c"
+    explanation: |
+      Boris Cherny's mental model for CLAUDE.md as compounding memory:
+
+      1. **Error** - Claude makes a mistake
+      2. **Rule** - You add a rule to CLAUDE.md preventing it
+      3. **Read** - Claude reads CLAUDE.md on every session start
+      4. **Never repeated** - The mistake never happens again
+
+      Goal: never correct Claude twice for the same mistake. CLAUDE.md compounds over time.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Boris Cherny Mental Models"
+      anchor: "#boris-cherny-mental-models"
+
+  - id: "09-030"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "How do you enable agent teams in Claude Code v2.1.32+?"
+    options:
+      a: "Use /agent-teams command"
+      b: "Set CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 or add to settings.json"
+      c: "Install agent-teams plugin from skills.sh"
+      d: "Use --teams CLI flag"
+    correct: "b"
+    explanation: |
+      Agent teams require experimental feature flag. Two methods:
+
+      1. **Environment variable**: `export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
+      2. **Settings file**: Add `{"experimental": {"agentTeams": true}}` to ~/.claude/settings.json
+
+      Also requires Opus 4.6 model minimum. Feature is experimental (research preview).
+    doc_reference:
+      file: "guide/workflows/agent-teams.md"
+      section: "Setup & Configuration"
+      anchor: "#3-setup--configuration"
+
+  - id: "09-031"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "When should you use Agent Teams instead of Multi-Instance workflows?"
+    options:
+      a: "Always - agent teams are superior"
+      b: "When tasks need coordination on shared codebase (read-heavy analysis)"
+      c: "When tasks are completely independent (separate projects)"
+      d: "When budget is tight (agent teams are cheaper)"
+    correct: "b"
+    explanation: |
+      **Agent Teams** = Automatic coordination on shared codebase (git-based)
+      Best for: Read-heavy tasks (code review, bug tracing, analysis)
+
+      **Multi-Instance** = Manual orchestration, independent tasks
+      Best for: Separate projects, no shared state, no coordination needed
+
+      Key: Use Teams when coordination matters, Multi-Instance when parallelization without coordination.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "9.20 Agent Teams"
+      anchor: "#920-agent-teams-multi-agent-coordination"
+
+  - id: "09-032"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "What is the main limitation of agent teams?"
+    options:
+      a: "Cannot spawn more than 2 agents"
+      b: "Read-heavy tasks work well, write-heavy tasks risk merge conflicts"
+      c: "Only works on macOS"
+      d: "Requires expensive hardware"
+    correct: "b"
+    explanation: |
+      **Critical limitation**: Read-heavy > Write-heavy trade-off
+
+      ✅ Good: Code review (agents read, analyze, report)
+      ✅ Good: Bug tracing (agents read logs, trace execution)
+      ⚠️ Risky: Refactoring shared types (merge conflicts)
+      ❌ Bad: Same file modified by multiple agents
+
+      Mitigation: Assign non-overlapping file sets, use interface-first approach.
+      Token cost is also significant (3x+ multiplier).
+    doc_reference:
+      file: "guide/workflows/agent-teams.md"
+      section: "Limitations & Gotchas"
+      anchor: "#6-limitations--gotchas"
+
+  - id: "09-033"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "What minimum Claude model is required for agent teams?"
+    options:
+      a: "Haiku"
+      b: "Sonnet 4.5"
+      c: "Opus 4.5"
+      d: "Opus 4.6"
+    correct: "d"
+    explanation: |
+      Agent teams require **Opus 4.6 minimum** (released Feb 2026 with v2.1.32).
+
+      This is because:
+      - Each agent needs 1M token context window
+      - Git-based coordination requires advanced reasoning
+      - Team lead must synthesize findings from multiple teammates
+
+      Lower models (Sonnet, Haiku) cannot spawn agent teams.
+    doc_reference:
+      file: "guide/workflows/agent-teams.md"
+      section: "Prerequisites"
+      anchor: "#prerequisites"
+
+  - id: "09-034"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "In agent teams architecture, what is the role of the 'team lead'?"
+    options:
+      a: "Execute all tasks while teammates observe"
+      b: "Break down tasks, spawn teammates, synthesize findings"
+      c: "Monitor costs and prevent token overuse"
+      d: "Resolve merge conflicts manually"
+    correct: "b"
+    explanation: |
+      **Team lead** (main session) responsibilities:
+
+      1. **Break down tasks** into subtasks
+      2. **Spawn teammate sessions** (each with 1M token context)
+      3. **Synthesize findings** from all agents after completion
+
+      **Teammates** work independently on assigned tasks, report back to team lead.
+      Navigation: Use Shift+Up/Down to switch between agents.
+    doc_reference:
+      file: "guide/workflows/agent-teams.md"
+      section: "Architecture Deep-Dive"
+      anchor: "#2-architecture-deep-dive"
+
+  - id: "09-035"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "Which production metric was validated for agent teams?"
+    options:
+      a: "Fountain: 50% faster screening, CRED: 2x execution speed"
+      b: "GitHub: 10x PRs reviewed, Vercel: 99% uptime"
+      c: "Anthropic: 100% bug-free code generation"
+      d: "Meta: 5x developer productivity"
+    correct: "a"
+    explanation: |
+      **Validated production metrics** (2026 Agentic Coding Trends Report):
+
+      - **Fountain** (workforce management): 50% faster screening, 40% onboarding, 2x conversions
+      - **CRED** (15M users, financial services): 2x execution speed across dev lifecycle
+      - **Anthropic Research**: Autonomous C compiler completion (no human intervention)
+
+      These validate agent teams work in production for complex, read-heavy tasks.
+    doc_reference:
+      file: "guide/workflows/agent-teams.md"
+      section: "Production Use Cases"
+      anchor: "#4-production-use-cases"
+
+  - id: "09-036"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "What is the typical token cost multiplier for agent teams (3 agents)?"
+    options:
+      a: "Same as single agent (no overhead)"
+      b: "1.5x (minimal overhead)"
+      c: "3x+ (each agent runs separate model inference)"
+      d: "10x (exponential cost)"
+    correct: "c"
+    explanation: |
+      **Token cost multiplier: 3x+** for 3 agents
+
+      Why:
+      - Each agent runs **separate model inference**
+      - 3 agents = 3x input tokens, 3x output tokens
+      - Context loading per agent (1M tokens × 3)
+      - Coordination overhead (team lead synthesis)
+
+      Cost justified when time saved > cost increase (production issues, critical analysis).
+      Budget-constrained projects should use single agent.
+    doc_reference:
+      file: "guide/workflows/agent-teams.md"
+      section: "Cost Trade-offs"
+      anchor: "#cost-trade-offs"
+
+  - id: "09-037"
+    difficulty: "intermediate"
+    profiles: ["intermediate", "senior", "power"]
+    question: "You need to rename a function across 50 files. Which model and effort level is most appropriate?"
+    options:
+      a: "Opus, effort: max — renaming at scale requires deep reasoning"
+      b: "Sonnet, effort: high — large scope requires careful analysis"
+      c: "Haiku, effort: low — mechanical find-replace, no design decisions"
+      d: "Sonnet, effort: medium — safe default for any multi-file operation"
+    correct: "c"
+    explanation: |
+      **Haiku + low effort** is correct for mechanical tasks like renaming across files.
+
+      The key question: does this task require reasoning, design decisions, or judgment?
+      - Rename = find-replace. Pattern is known, approach is decided.
+      - No edge cases requiring analysis.
+      - Haiku is 60x cheaper than Opus on input tokens.
+
+      Using Opus here wastes tokens on reasoning that doesn't add value.
+      Save Opus for tasks where its depth changes the outcome.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.5 Model Selection & Thinking Guide"
+      anchor: "#25-model-selection--thinking-guide"
+
+  - id: "09-038"
+    difficulty: "intermediate"
+    profiles: ["intermediate", "senior", "power"]
+    question: "What does `model: haiku` in an agent's YAML frontmatter do?"
+    options:
+      a: "Sets the agent's communication style to be more concise"
+      b: "Forces the agent to use Haiku for all its sub-agent spawning"
+      c: "Configures the agent to run on the Haiku model instead of the session default"
+      d: "Enables cost-saving mode that reduces tool calls"
+    correct: "c"
+    explanation: |
+      `model: haiku` in agent frontmatter sets the **model used for that specific agent**,
+      overriding the session default.
+
+      This is how you implement the planner/implementer pattern:
+      ```yaml
+      # planner.md
+      model: opus    # Deep reasoning for strategy
+
+      # implementer.md
+      model: haiku   # Cost-effective for mechanical execution
+      ```
+
+      Each agent runs independently with its configured model.
+      The session model (your default Sonnet) is unaffected.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.5 Model per Agent Patterns"
+      anchor: "#model-per-agent-patterns"
+
+  - id: "09-039"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "What does the `effort` parameter actually control in Opus 4.6?"
+    options:
+      a: "Only the thinking token budget (how many tokens for extended reasoning)"
+      b: "The overall computational budget: thinking, tool calls, text verbosity, and analysis depth"
+      c: "The maximum number of tool calls per response"
+      d: "A quality gate that filters low-confidence outputs"
+    correct: "b"
+    explanation: |
+      `effort` controls the **overall computational budget** — not just thinking.
+
+      At `effort: low`:
+      - Fewer tool calls (combines operations when possible)
+      - No explanatory preamble before actions
+      - Concise responses
+
+      At `effort: high`:
+      - More tool calls with detailed explanations
+      - Describes plan before executing
+      - Comprehensive analysis and summaries
+
+      This means `effort` affects behavior even when thinking is disabled (Alt+T off).
+      It's a holistic efficiency dial, not a thinking toggle.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.5 Effort Levels"
+      anchor: "#effort-levels"
+
+  - id: "09-040"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "What is the observable impact of `effort: low` on tool usage?"
+    options:
+      a: "Claude refuses to use any tools and responds from memory only"
+      b: "Claude combines tool operations to minimize calls and skips explanatory preamble"
+      c: "Claude limits itself to 3 tool calls maximum per response"
+      d: "Claude uses only Read tools, no Write or Edit tools"
+    correct: "b"
+    explanation: |
+      At `effort: low`, Claude optimizes for efficiency:
+
+      **Tool usage**: Combines operations that would normally be separate calls.
+      Instead of Read → Analyze → Read → Analyze, it might do a single targeted Read.
+
+      **No preamble**: Skips "I'll now read the file to understand..." introductions.
+      Actions happen directly, without narration.
+
+      **Result**: Faster, cheaper execution for tasks that don't need transparency.
+      Best for sub-agents in automated pipelines, classification tasks, lookups.
+
+      Example task suited for `low`: `"Rename getUserById to findUserById across src/"`
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.5 Effort Levels"
+      anchor: "#effort-levels"
+
+  - id: "09-041"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "In the planner/implementer agent pattern, which model should each role use?"
+    options:
+      a: "Planner: Sonnet, Implementer: Haiku"
+      b: "Planner: Opus, Implementer: Sonnet"
+      c: "Planner: Opus, Implementer: Haiku"
+      d: "Both: Sonnet (consistency matters more than cost)"
+    correct: "c"
+    explanation: |
+      **Planner: Opus** — Strategy requires deep reasoning.
+      Planning errors compound through all implementation steps.
+      A wrong architecture decision caught at planning cost = minutes to fix.
+      The same error found post-implementation = days.
+
+      **Implementer: Haiku** — Mechanical execution.
+      The approach is already decided by the planner.
+      No design decisions = no need for deep reasoning.
+      Haiku is 60x cheaper than Opus on input tokens.
+
+      **When Haiku isn't enough**: If the implementation requires judgment calls,
+      the implementer should stop and report rather than decide — or you use Sonnet instead.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.5 Model per Agent Patterns"
+      anchor: "#model-per-agent-patterns"
+
+  - id: "09-042"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "What is Adaptive Thinking in Opus 4.6, and how does it differ from Opus 4.5's thinking?"
+    options:
+      a: "Adaptive Thinking lets the model choose which language to respond in based on complexity"
+      b: "The model dynamically allocates reasoning depth based on query complexity, replacing the fixed budget_tokens parameter"
+      c: "Thinking is now split across multiple API calls for longer reasoning chains"
+      d: "Adaptive Thinking is always-on at maximum depth, same as Opus 4.5 v2.0.67+"
+    correct: "b"
+    explanation: |
+      **Opus 4.6 Adaptive Thinking** replaces the fixed `budget_tokens` approach.
+
+      | Version | Thinking Control |
+      |---------|-----------------|
+      | Opus 4.5 (pre-v2.0.67) | Keyword-triggered, fixed budgets (4K/10K/32K) |
+      | Opus 4.5 (v2.0.67+) | Always-on at max budget, toggled with Alt+T |
+      | **Opus 4.6** | Dynamic depth via `effort` parameter |
+
+      With Adaptive Thinking, the model decides HOW MUCH reasoning a query needs:
+      - Simple lookup → minimal reasoning depth
+      - Multi-system architecture analysis → maximum depth
+
+      `budget_tokens` is **deprecated** on Opus 4.6 and returns an error if used.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.5 Effort Levels"
+      anchor: "#effort-levels"
+
+  - id: "09-043"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "When should you use `effort: max`, and what happens if you use it on Sonnet?"
+    options:
+      a: "Use for any complex task; Sonnet silently downgrades to `effort: high`"
+      b: "Use for cross-system reasoning on Opus 4.6 only; returns an API error on other models"
+      c: "Use when you want maximum thinking tokens; works on all models but costs more"
+      d: "Use for batch operations; Sonnet uses it to parallelize tool calls"
+    correct: "b"
+    explanation: |
+      **`effort: max` is Opus 4.6 exclusive.**
+
+      Use it for tasks requiring:
+      - Cross-system race condition analysis
+      - Multi-service dependency tracing
+      - Decisions that are expensive or impossible to reverse
+      - Adversarial security reasoning across a full codebase
+
+      Example:
+      ```
+      "Analyze the microservices event pipeline for race conditions across
+       order-service, inventory-service, and notification-service"
+      ```
+
+      **On any other model** (Sonnet, Haiku, Opus 4.5): API returns an error.
+      It is not silently downgraded. You must explicitly use a different effort level.
+
+      `effort: high` is the default and works across models that support the parameter.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "2.5 Effort Levels"
+      anchor: "#effort-levels"

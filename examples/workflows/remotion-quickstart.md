@@ -1,3 +1,9 @@
+---
+title: "Remotion + Claude Code Quickstart"
+description: "15-minute quickstart to create programmatic videos with Remotion and Claude Code"
+tags: [tutorial, workflow, integration]
+---
+
 # Remotion + Claude Code Quickstart
 
 **Objectif**: Créer votre première vidéo programmatique avec Remotion et Claude Code en 15 minutes.

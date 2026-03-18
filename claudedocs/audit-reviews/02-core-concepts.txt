@@ -1,0 +1,18 @@
+PASS: Q02-001
+PASS: Q02-002
+PASS: Q02-003
+PASS: Q02-004
+PASS: Q02-005
+PASS: Q02-006
+ISSUE: Q02-007 - [warning] AMBIGUITY - Guide context shows generic section header, not specific content about context poisoning
+PASS: Q02-008
+PASS: Q02-009
+PASS: Q02-010
+PASS: Q02-011
+PASS: Q02-012
+PASS: Q02-013
+PASS: Q02-014
+ISSUE: Q02-015 - [warning] AMBIGUITY - Guide context points to Fresh Context Pattern section, not XML prompts usage
+PASS: Q02-016
+PASS: Q02-017
+ISSUE: Q02-018 - [warning] FACTUAL_ACCURACY - Explanation says "76% fewer tokens with better results" but this specific metric is not in guide context provided

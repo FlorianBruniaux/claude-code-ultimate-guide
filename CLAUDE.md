@@ -10,12 +10,15 @@ This repository is the **comprehensive documentation for Claude Code** (Anthropi
 
 ```
 guide/                    # Core documentation
-├── ultimate-guide.md     # Main guide (~9900 lines, the reference)
+├── ultimate-guide.md     # Main guide (~20K lines, the reference)
 ├── cheatsheet.md         # 1-page printable summary
-├── architecture.md       # How Claude Code works internally
-├── methodologies.md      # TDD, SDD, BDD workflows
-├── data-privacy.md       # What data is sent to Anthropic
-├── security-hardening.md # Security best practices
+├── cowork.md             # Cowork redirect page
+├── core/                 # Architecture, methodologies, releases, known-issues, visual-reference
+├── security/             # security-hardening, sandbox-isolation, sandbox-native, production-safety, data-privacy
+├── ecosystem/            # ai-ecosystem, mcp-servers-ecosystem, third-party-tools, remarkable-ai
+├── roles/                # ai-roles, adoption-approaches, learning-with-ai, agent-evaluation
+├── ops/                  # devops-sre, observability, ai-traceability
+├── diagrams/             # Mermaid visual diagrams
 └── workflows/            # Step-by-step workflow guides
 
 examples/                 # Production-ready templates
@@ -29,12 +32,17 @@ machine-readable/         # For LLM consumption
 ├── reference.yaml        # Condensed index (~2K tokens)
 └── llms.txt              # AI indexation file
 
+whitepapers/              # Focused whitepapers (FR + EN)
+├── fr/                   # 10 source files in French (.qmd)
+└── en/                   # 10 translated files in English (.qmd)
+# Published at: https://www.florian.bruniaux.com/guides
+
 tools/                    # Interactive utilities
 ├── audit-prompt.md       # Setup audit prompt
 └── onboarding-prompt.md  # Personalized learning prompt
 
 docs/                     # Public documentation (tracked)
-└── resource-evaluations/ # External resource evaluations (14 files)
+└── resource-evaluations/ # External resource evaluations (68 files)
 
 claudedocs/               # Claude working documents (gitignored)
 ├── resource-evaluations/ # Research working docs (prompts, private audits)
@@ -45,7 +53,7 @@ claudedocs/               # Claude working documents (gitignored)
 
 | File | Purpose |
 |------|---------|
-| `VERSION` | Single source of truth for version (currently 3.9.9) |
+| `VERSION` | Single source of truth for version (currently 3.34.1) |
 | `guide/ultimate-guide.md` | The main reference (search here first) |
 | `guide/cheatsheet.md` | Quick reference for daily use |
 | `machine-readable/reference.yaml` | LLM-optimized index with line numbers |
@@ -65,6 +73,64 @@ claudedocs/               # Claude working documents (gitignored)
 echo "3.7.0" > VERSION && ./scripts/sync-version.sh
 ```
 
+### Whitepaper Generation (PDF + EPUB)
+
+```bash
+# --- PDF (default format: whitepaper-typst → Typst → PDF) ---
+
+# Single file
+cd whitepapers/fr && quarto render 00-introduction-serie.qmd
+
+# All FR whitepapers
+cd whitepapers/fr && quarto render *.qmd
+
+# All EN whitepapers
+cd whitepapers/en && quarto render *.qmd
+
+# Preview with hot-reload
+cd whitepapers/fr && quarto preview 00-introduction-serie.qmd
+
+# Batch with error summary (loop)
+cd whitepapers/fr && for f in *.qmd; do echo "→ $f" && quarto render "$f" 2>&1 | grep -E "(Output created|ERROR)"; done
+
+# --- EPUB (format: epub → Pandoc → EPUB3) ---
+
+# Single file
+cd whitepapers/fr && quarto render 00-introduction-serie.qmd --to epub
+
+# All EPUBs (FR + EN) → epub-output/{fr,en}/
+cd whitepapers && ./render-epub.sh all
+cd whitepapers && ./render-epub.sh fr   # French only
+cd whitepapers && ./render-epub.sh en   # English only
+```
+
+**PDF stack** : Quarto → Typst 0.13 → PDF. Template : `whitepapers/_extensions/whitepaper/`. Palette Bold Guy (warm beige + orange brûlé).
+
+**EPUB stack** : Quarto → Pandoc → EPUB3. CSS : `whitepapers/epub-styles.css`. Cover : `_extensions/whitepaper/assets/claude-code-ai-logo.jpg`.
+
+**Skill disponible** : `/pdf-generator` pour aide contextuelle (template YAML, stack, dépannage).
+
+### Recap Cards (Fiches Mémo Thématiques)
+
+Fiches A4 1-page imprimables, format intermédiaire entre cheatsheet et whitepapers.
+
+```bash
+# Single card
+cd whitepapers/recap-cards/fr && quarto render 01-commandes-essentielles.qmd --to recap-card-typst
+
+# All FR cards (via script)
+cd whitepapers/recap-cards && ./render-recap-cards.sh fr
+
+# All cards (FR + EN)
+cd whitepapers/recap-cards && ./render-recap-cards.sh all
+```
+
+**Stack** : Extension `recap-card` (`whitepapers/_extensions/recap-card/`). Format `recap-card-typst`. Même palette Bold Guy.
+
+**Source des fiches** : `whitepapers/recap-cards/fr/*.qmd` (FR), `whitepapers/recap-cards/en/*.qmd` (EN à venir).
+
+**25 fiches planifiées** — 5 prototypes Phase 1-2 livrés : 01, 03, 04, 06, 25.
+
 ### Before Committing
 ```bash
 # Verify versions are synchronized
@@ -77,19 +143,32 @@ Custom slash commands available in this project:
 
 | Command | Description |
 |---------|-------------|
+| `/release <bump-type>` | Release guide version (CHANGELOG + VERSION + sync + commit + push) |
 | `/update-infos-release [bump-type]` | Update Claude Code releases tracking + optional guide version bump |
 | `/version` | Display current guide and Claude Code versions with stats |
 | `/changelog [count]` | View recent CHANGELOG entries (default: 5) |
 | `/sync` | Check guide/landing synchronization status |
+| `/audit-agents-skills [path]` | Audit quality of agents, skills, and commands in .claude/ config |
+| `/security-check` | Quick config check against known threats database (~30s) |
+| `/security-audit` | Full 6-phase security audit with score /100 (2-5min) |
+| `/update-threat-db` | Research & update threat intelligence database |
 
 **Examples:**
 ```
+/release patch                 # Bump patch + release (3.20.4 → 3.20.5)
+/release minor                 # Bump minor + release (3.20.4 → 3.21.0)
 /update-infos-release          # Update CC releases only
 /update-infos-release patch    # Update CC + bump guide (3.9.11 → 3.9.12)
 /update-infos-release minor    # Update CC + bump guide (3.9.11 → 3.10.0)
 /version                       # Show versions and content stats
 /changelog 10                  # Last 10 CHANGELOG entries
 /sync                          # Check guide/landing sync status
+/audit-agents-skills           # Audit current project
+/audit-agents-skills --fix     # Audit + fix suggestions
+/audit-agents-skills ~/other   # Audit another project
+/security-check                # Quick scan config vs known threats
+/security-audit                # Full audit with posture score /100
+/update-threat-db              # Research + update threat-db.yaml
 ```
 
 These commands are defined in `.claude/commands/` and automate:
@@ -98,6 +177,41 @@ These commands are defined in `.claude/commands/` and automate:
 - CHANGELOG updates
 - Landing site synchronization verification
 - Git commit and push to both repositories
+
+### Command Naming Conventions
+
+Implicit prefixes used in `.claude/commands/`:
+
+| Prefix | Pattern | Examples |
+|--------|---------|---------|
+| `audit-*` | Quality checks with scored output | `audit-agents-skills`, `audit-deps` |
+| `update-*` | Sync or refresh data from external source | `update-infos-release`, `update-threat-db` |
+| `security-*` | Security scans, ascending depth | `security-check` (quick), `security-audit` (full) |
+| *(no prefix)* | Core guide workflow commands | `release`, `sync`, `version`, `changelog` |
+
+When adding a new command, pick the prefix that matches the action type. Avoid creating new prefix categories unless the existing four don't fit.
+
+## Behavioral Rules
+
+These rules come from observed friction patterns in actual sessions on this repo.
+
+### Always update CHANGELOG.md
+After any file modification or feature implementation, update `CHANGELOG.md` under `[Unreleased]`. Never skip this step unless explicitly told to. This is the most common missed step.
+
+### Be exhaustive on first pass
+When asked to analyze, audit, or review anything — read every relevant file. Do not do a superficial scan. If unsure of scope, ask rather than delivering shallow results. This applies to resource evaluations, doc audits, and codebase reviews.
+
+### Use absolute paths
+When referencing files in documentation, reports, or resource evaluations, always use full absolute paths. Never relative paths.
+
+### Closing checklist
+After completing all requested tasks, always confirm unprompted:
+1. Files changed (list them)
+2. CHANGELOG.md updated
+3. Committed and pushed (if applicable) — include the commit hash
+
+### Bias toward action
+Do not spend extended time in exploration or planning loops. Produce files and concrete output early, then iterate. If stuck for more than 2 attempts on any step, explain the blocker instead of looping.
 
 ## Conventions
 
@@ -169,6 +283,18 @@ Après ces modifications, **rappeler** de mettre à jour le landing:
 2. **Ajout/suppression templates** → Recalculer count, mettre à jour landing
 3. **Modification Golden Rules ou FAQ** → Répercuter sur landing
 4. **Changement significatif du guide** (>100 lignes)
+
+### Rebuild du guide reader (à chaque release)
+
+Le landing expose le contenu du guide sur `cc.bruniaux.com/guide/`. Le contenu est généré depuis ce repo au moment du build — **jamais commité dans le landing**.
+
+```bash
+# Depuis le repo landing, avant chaque push sur main :
+cd ../claude-code-ultimate-guide-landing
+node scripts/prepare-guide-content.mjs && pnpm build
+```
+
+**Quand le faire** : à chaque release (`/release patch|minor|major`) pour que le site reflète la dernière version du guide.
 
 ### Commande de vérification
 
@@ -256,7 +382,7 @@ Ce guide fait partie d'un écosystème de 4 repositories interconnectés, sépar
 |--------|---------|
 | **GitHub** | https://github.com/FlorianBruniaux/claude-code-ultimate-guide |
 | **Local** | `/Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide/` |
-| **Contenu** | Guide 11K lignes, 66+ templates, workflows, architecture |
+| **Contenu** | Guide ~19K lignes, 116 templates, workflows, architecture |
 | **Audience** | Développeurs, DevOps, tech leads |
 
 ### 2. Claude Cowork Guide (repo dédié)
@@ -279,7 +405,7 @@ Ce guide fait partie d'un écosystème de 4 repositories interconnectés, sépar
 | Aspect | Détails |
 |--------|---------|
 | **Local** | `/Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide-landing/` |
-| **Contenu** | Page marketing, badges, FAQ, quiz (227 questions) |
+| **Contenu** | Page marketing, badges, FAQ, quiz (274 questions) |
 | **Sync avec** | Guide principal (version, templates, guide lines) |
 
 ### 4. Cowork Landing Site
@@ -355,7 +481,7 @@ Ce repo maintient un historique condensé des releases officielles de Claude Cod
 | Fichier | Rôle |
 |---------|------|
 | `machine-readable/claude-code-releases.yaml` | Source de vérité (YAML) |
-| `guide/claude-code-releases.md` | Version lisible (Markdown) |
+| `guide/core/claude-code-releases.md` | Version lisible (Markdown) |
 | `scripts/update-cc-releases.sh` | Script de vérification des nouvelles versions |
 
 ### Vérifier les nouvelles versions
@@ -400,6 +526,7 @@ External resources (articles, videos, discussions) are evaluated before integrat
 ### Process
 
 1. **Research**: Initial Perplexity search → Save prompt + results in `claudedocs/resource-evaluations/` (private)
+1b. **Cross-reference**: Si ressource liée à Claude Code, vérifier les claims contre `https://code.claude.com/docs/llms-full.txt` (source officielle ~98KB)
 2. **Evaluation**: Systematic scoring (1-5) → Create evaluation file in `docs/resource-evaluations/` (tracked)
 3. **Challenge**: Technical review by agent to ensure objectivity
 4. **Decision**: Integrate (score 3+), mention (score 2), or reject (score 1)
@@ -408,7 +535,7 @@ External resources (articles, videos, discussions) are evaluated before integrat
 
 | Location | Content | Tracking |
 |----------|---------|----------|
-| `docs/resource-evaluations/` | Final evaluations (14 files) | ✅ Git tracked (public) |
+| `docs/resource-evaluations/` | Final evaluations (68 files) | ✅ Git tracked (public) |
 | `claudedocs/resource-evaluations/` | Working docs, prompts, private audits | ❌ Gitignored (private) |
 
 ### Scoring Grid
@@ -426,8 +553,9 @@ See full methodology: [`docs/resource-evaluations/README.md`](docs/resource-eval
 ## Quick Lookups
 
 For answering questions about Claude Code:
+0. **Doc officielle Anthropic (LLM-optimized)**: `https://code.claude.com/docs/llms.txt` (index ~65 pages) ou `https://code.claude.com/docs/llms-full.txt` (doc complète ~98KB) pour les faits officiels
 1. Search `machine-readable/reference.yaml` first (has line numbers to full guide)
 2. Use those line numbers to read relevant sections from `guide/ultimate-guide.md`
 3. Check `examples/` for ready-to-use templates
-4. Check `guide/claude-code-releases.md` for recent features/changes
-5. Si info manquante ou incertaine → demander une recherche Perplexity
+4. Check `guide/core/claude-code-releases.md` for recent features/changes
+5. Si info manquante ou incertaine → demander une recherche Perplexity (communauté, comparaisons, retours)

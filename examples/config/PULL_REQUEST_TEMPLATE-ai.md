@@ -1,3 +1,9 @@
+---
+title: "Pull Request Template with AI Disclosure"
+description: "GitHub PR template with built-in AI assistance disclosure section"
+tags: [template, config, ai-ecosystem]
+---
+
 # Pull Request Template with AI Disclosure
 
 > Save as `.github/PULL_REQUEST_TEMPLATE.md` in your repository

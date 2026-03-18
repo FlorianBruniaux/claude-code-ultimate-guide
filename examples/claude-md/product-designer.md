@@ -1,3 +1,9 @@
+---
+title: "Product Designer CLAUDE.md Template"
+description: "CLAUDE.md configuration for design-to-code workflows using Figma MCP"
+tags: [claude-md, template, design-patterns, mcp]
+---
+
 # Product Designer CLAUDE.md Template
 
 A CLAUDE.md configuration optimized for design-to-code workflows using Figma MCP.

@@ -133,7 +133,7 @@ questions:
       d: "Git commands with glob patterns"
     correct: "b"
     explanation: |
-      The pattern 'Bash(git *)' matches any git command. Permission patterns use wildcards: 'Bash(git *)' matches any git command, 'Bash(pnpm *)' matches any pnpm command, 'mcp__serena__*' matches all Serena MCP tools. You can also use specific patterns like 'Bash(git status:*)' to match only git status.
+      The pattern 'Bash(git *)' matches any git command. Permission patterns use wildcards: 'Bash(git *)' matches any git command, 'Bash(pnpm *)' matches any pnpm command, 'mcp__serena__*' matches all Serena MCP tools. You can also use specific patterns like 'Bash(git status *)' to match only git status. Note: the legacy ':*' suffix syntax is deprecated, use space instead (e.g. 'Bash(git *)' not 'Bash(git:*)').
     doc_reference:
       file: "guide/ultimate-guide.md"
       section: "3.3 Settings & Permissions"
@@ -196,12 +196,12 @@ questions:
     question: "What does 'allowedTools' configuration do differently from permission categories?"
     options:
       a: "Nothing, they are the same"
-      b: "Provides granular control with tool-specific patterns in ~/.claude.json"
+      b: "Provides granular control with tool-specific patterns in ~/.claude/settings.json"
       c: "Only works for MCP tools"
       d: "Requires admin privileges"
     correct: "b"
     explanation: |
-      The allowedTools configuration in ~/.claude.json provides granular control with specific patterns. For example: 'Read(*)' allows all reads, 'Bash(git status:*)' allows only git status, 'Bash(pnpm *:*)' allows pnpm commands. You can set progressive permission levels from beginner (very restrictive) to advanced. Never use --dangerously-skip-permissions.
+      The allowedTools configuration in ~/.claude/settings.json provides granular control with specific patterns. For example: 'Read' allows all reads, 'Bash(git status *)' allows only git status, 'Bash(pnpm *)' allows pnpm commands. You can set progressive permission levels from beginner (very restrictive) to advanced. Never use --dangerously-skip-permissions. Note: use the tool name without parentheses for "all uses" (e.g. 'Read' not 'Read(*)').
     doc_reference:
       file: "guide/ultimate-guide.md"
       section: "3.3 Settings & Permissions"
@@ -291,3 +291,48 @@ questions:
       file: "guide/ultimate-guide.md"
       section: "3.3 Settings & Permissions"
       anchor: "#settingsjson-team-configuration"
+
+  - id: "03-018"
+    difficulty: "senior"
+    profiles: ["senior", "power"]
+    question: "How many verification domains does the guide recommend for comprehensive quality checks?"
+    options:
+      a: "3 domains (lint, test, build)"
+      b: "8 domains: frontend, backend, types, style, performance, accessibility, security, UX"
+      c: "5 domains: syntax, logic, performance, security, style"
+      d: "12 domains covering every possible check"
+    correct: "b"
+    explanation: |
+      Boris Cherny's verification loops recommend 8 domains for comprehensive quality:
+
+      1. Frontend (UI renders correctly)
+      2. Backend (API responds correctly)
+      3. Types (TypeScript/type checks pass)
+      4. Style (linting passes)
+      5. Performance (no regressions)
+      6. Accessibility (WCAG compliance)
+      7. Security (no vulnerabilities)
+      8. UX (user flows work end-to-end)
+
+      CLAUDE.md should define which domains to check for each type of change.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Verification Loops"
+      anchor: "#verification-loops"
+
+  - id: "03-019"
+    difficulty: "intermediate"
+    profiles: ["junior", "senior", "power"]
+    question: "What is the 'Fresh Context Pattern' and when should you use it?"
+    options:
+      a: "Clearing browser cache before testing"
+      b: "Starting a new session with clean context after implementation phase to avoid accumulated noise"
+      c: "Resetting git to a clean state"
+      d: "Deleting the .claude folder to start fresh"
+    correct: "b"
+    explanation: |
+      The Fresh Context Pattern means starting a new Claude Code session between exploration and implementation phases. During exploration, context accumulates noise (dead ends, rejected approaches, debugging output). A fresh session gives Claude clean context focused purely on implementation, improving output quality.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Fresh Context Pattern"
+      anchor: "#fresh-context-pattern"

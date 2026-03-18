@@ -6,7 +6,7 @@
 # Purpose: Verify MCP configuration has not been tampered with
 #
 # This hook addresses CVE-2025-54135 and CVE-2025-54136 by:
-#   - Computing hash of ~/.claude/mcp.json
+#   - Computing hash of ~/.claude.json (MCP config location)
 #   - Comparing against stored baseline
 #   - Alerting on unauthorized modifications
 #   - Checking project-level .mcp.json for suspicious content
@@ -22,7 +22,7 @@
 #   }
 #
 # Initial setup (run once to create baseline):
-#   sha256sum ~/.claude/mcp.json > ~/.claude/.mcp-baseline.sha256
+#   sha256sum ~/.claude.json > ~/.claude/.mcp-baseline.sha256
 #
 # Exit codes:
 #   0 = allow (config unchanged or no baseline)
@@ -36,7 +36,7 @@
 set -euo pipefail
 
 # Configuration paths
-MCP_CONFIG="${HOME}/.claude/mcp.json"
+MCP_CONFIG="${HOME}/.claude.json"
 MCP_BASELINE="${HOME}/.claude/.mcp-baseline.sha256"
 PROJECT_MCP=".mcp.json"
 
@@ -51,11 +51,11 @@ if [[ -f "$MCP_CONFIG" ]]; then
         BASELINE_HASH=$(awk '{print $1}' "$MCP_BASELINE" 2>/dev/null || echo "")
 
         if [[ -n "$CURRENT_HASH" && -n "$BASELINE_HASH" && "$CURRENT_HASH" != "$BASELINE_HASH" ]]; then
-            WARNINGS+=("MCP config modified since baseline was created. Review ~/.claude/mcp.json for unauthorized changes. Run 'sha256sum ~/.claude/mcp.json > ~/.claude/.mcp-baseline.sha256' to update baseline if changes are legitimate.")
+            WARNINGS+=("MCP config modified since baseline was created. Review ~/.claude.json for unauthorized changes. Run 'sha256sum ~/.claude.json > ~/.claude/.mcp-baseline.sha256' to update baseline if changes are legitimate.")
         fi
     else
         # No baseline - suggest creating one
-        WARNINGS+=("No MCP config baseline found. Consider running: sha256sum ~/.claude/mcp.json > ~/.claude/.mcp-baseline.sha256")
+        WARNINGS+=("No MCP config baseline found. Consider running: sha256sum ~/.claude.json > ~/.claude/.mcp-baseline.sha256")
     fi
 
     # === CHECK FOR SUSPICIOUS MCP SERVERS ===

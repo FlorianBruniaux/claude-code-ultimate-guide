@@ -7,7 +7,7 @@
 ### MCP Security Hardening ✅
 Unified security research covering MCP vulnerabilities, prompt injection, and secret detection.
 
-**Completed**: [Security Hardening Guide](./guide/security-hardening.md) covers:
+**Completed**: [Security Hardening Guide](./guide/security/security-hardening.md) covers:
 - CVE-2025-53109/53110, 54135, 54136 with mitigations
 - MCP vetting workflow with 5-minute audit checklist
 - MCP Safe List (community vetted)
@@ -26,22 +26,9 @@ Unified security research covering MCP vulnerabilities, prompt injection, and se
 
 ## Medium Priority
 
-### CI/CD Workflows Gallery
-Concrete GitHub Actions examples for Claude Code integration.
+### CI/CD Workflows Gallery ✅
 
-**Topics:**
-- Automated PR review workflows
-- Test generation pipelines
-- Cost optimization patterns for API calls in CI
-- Pre-commit hooks integration
-
-**Perplexity Query:**
-```
-GitHub Actions workflows for AI coding assistants 2024-2025:
-- Automated code review with Claude/GPT
-- Cost optimization for API calls in CI/CD
-- Real examples from open source projects
-```
+**Completed**: [GitHub Actions Workflows](./guide/workflows/github-actions.md) — 5 patterns using `anthropics/claude-code-action` (PR review, auto-review, issue triage, security, scheduled maintenance). Includes cost control, fork safety, Bedrock/Vertex auth alternatives. Cross-linked from section 9.3 of the main guide.
 
 ### MCP Server Catalog
 Exhaustive list of MCP servers with real-world use cases.
@@ -85,6 +72,36 @@ CLAUDE.md configuration examples by framework:
 
 ## Watching (Waiting for Demand)
 
+a### prompt-caching MCP Plugin
+
+MCP plugin that automates `cache_control` placement for developers building apps on the Anthropic SDK. Installed locally at `/Users/florianbruniaux/Sites/prompt-caching` and connected to Claude Code via `~/.claude.json`.
+
+**Status:** Testing in progress. Real usage data required before any documentation decision.
+
+**What we know:**
+- 29 stars, v1.3.0, solo maintainer — maintenance risk
+- Author-reported benchmarks (80-92% savings) — unverified, cannot cite
+- Fills a real gap: no other MCP tool does this; Spring AI / LiteLLM / Pydantic AI serve different audiences
+- Blog post (Mathieu Grenier) independently documents the same pain point + 5 antipatterns — score 3/5, worth integrating in "Strategy 6" regardless
+
+**Open questions:**
+- [ ] Do real sessions on this project actually hit the cache? (run `get_cache_stats` after 10+ turns)
+- [ ] Is the plugin stable enough to recommend? Any errors, memory leaks, session issues?
+- [ ] What are the real savings on a CLAUDE.md-heavy project like this guide?
+
+**If test results are positive (cache hits confirmed, no stability issues):**
+- Add to `guide/ecosystem/third-party-tools.md` with verified stats (not README claims)
+- Add to landing third-party tools section
+- Score upgrade: 3/5 → 4/5
+
+**If test results are inconclusive or plugin is unstable:**
+- Move to Discarded Ideas
+- Keep the Mathieu Grenier blog post integration (independent value)
+
+**Check again:** After 1 week of real usage
+
+---
+
 ### Multi-LLM Consultation Patterns
 Using external LLMs (Gemini, GPT-4) as "second opinion" from Claude Code.
 
@@ -97,6 +114,32 @@ Using external LLMs (Gemini, GPT-4) as "second opinion" from Claude Code.
 
 **If implementing:**
 - `examples/scripts/gemini-second-opinion.sh`
+
+### Type-Driven API Design for AI Agent Efficiency
+Schema-first development impact on Claude Code token consumption.
+
+**Status:** Anecdotal only (no empirical data). Reevaluate if benchmarks emerge.
+
+**Resource evaluated (Feb 2026):**
+- [ShipTypes](https://shiptypes.com/) by Boris Tane (Cloudflare)
+- **Score:** 2/5 (Marginal) — Claims "types → fewer tokens" unverified
+- **Full evaluation:** `docs/resource-evaluations/shiptypes-evaluation.md`
+
+**What's missing:**
+- Benchmark comparing token consumption: typed APIs (tRPC/Zod) vs untyped (REST/docs)
+- A/B test showing AI agent iterations with/sans types
+- Case study with reproducible metrics
+
+**Reevaluation triggers:**
+- [ ] Academic paper/blog with empirical data (token consumption metrics)
+- [ ] Anthropic official recommendation on schema-first for Claude Code
+- [ ] 5+ community discussions/issues requesting this topic
+
+**If validated (score upgrade to 4/5):**
+- Add subsection in `guide/core/methodologies.md` (after CDD, line 172)
+- Use micro-integration template: `docs/resource-evaluations/shiptypes-evaluation.md` (section "Integration Plan")
+
+**Check again:** August 2026
 - 3-line mention in "See Also" section
 - No full guide (maintenance burden, scope creep)
 

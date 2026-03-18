@@ -1,0 +1,22 @@
+<!-- Risk Banner Template (Above Fold) -->
+<div class="risk-banner" role="alert">
+  <div class="container">
+    <span class="risk-icon">⚠️</span>
+    <span class="risk-text">
+      <strong>{{RISK_LABEL}}:</strong> {{RISK_MESSAGE}}
+    </span>
+    <a href="#risk-disclosure" class="risk-link">Learn more →</a>
+  </div>
+</div>
+
+<!--
+PLACEHOLDERS:
+- {{RISK_LABEL}}: Label (e.g., "Risk Disclosure", "Warning", "Important Notice")
+- {{RISK_MESSAGE}}: Brief warning message (max 100 chars)
+
+USE WHEN:
+- Project uses reverse-engineered APIs
+- ToS/legal considerations exist
+- Security caveats apply
+- Beta/experimental status
+-->

@@ -38,6 +38,11 @@
       "command": "memory",
       "args": ["server"],
       "description": "Semantic memory with cross-session search (complements Serena)"
+    },
+    "kairn": {
+      "command": "python",
+      "args": ["-m", "kairn", "serve"],
+      "description": "Knowledge graph memory with biological decay — auto-expires stale info (complements doobidoo/Serena)"
     }
   }
 }

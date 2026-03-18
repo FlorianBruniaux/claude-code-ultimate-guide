@@ -1,3 +1,8 @@
+---
+name: generate-tests
+description: "Generate comprehensive tests for specified code"
+---
+
 # Generate Tests
 
 Generate comprehensive tests for specified code.

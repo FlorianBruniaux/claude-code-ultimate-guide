@@ -1,3 +1,8 @@
+---
+name: catchup
+description: "Restore context after /clear by summarizing recent work and project state"
+---
+
 # Context Catchup
 
 Restore context after `/clear` - summarize recent work and project state.

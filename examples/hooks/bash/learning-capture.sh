@@ -1,6 +1,6 @@
 #!/bin/bash
 # Hook: Stop - Capture one learning insight at session end
-# Event: Stop (when user ends session or interrupts)
+# Event: Stop (when Claude finishes responding)
 # Purpose: Build a learning journal with minimal friction
 #
 # Exit codes:

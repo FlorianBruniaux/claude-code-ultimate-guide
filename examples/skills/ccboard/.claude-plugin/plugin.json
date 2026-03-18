@@ -1,0 +1,45 @@
+{
+  "name": "ccboard",
+  "version": "0.1.0",
+  "description": "Comprehensive TUI/Web dashboard for Claude Code monitoring and management",
+  "homepage": "https://github.com/{OWNER}/ccboard",
+  "repository": "https://github.com/{OWNER}/ccboard",
+  "license": "MIT OR Apache-2.0",
+  "requires": {
+    "binary": "ccboard",
+    "rustVersion": "1.70+",
+    "cargo": true
+  },
+  "keywords": [
+    "dashboard",
+    "monitoring",
+    "tui",
+    "mcp",
+    "sessions",
+    "costs",
+    "analytics",
+    "visualization"
+  ],
+  "categories": [
+    "productivity",
+    "development-tools",
+    "monitoring"
+  ],
+  "commands": [
+    "/dashboard",
+    "/mcp-status",
+    "/costs",
+    "/sessions",
+    "/ccboard-web",
+    "/ccboard-install"
+  ],
+  "features": [
+    "8 interactive tabs (Dashboard, Sessions, Config, Hooks, Agents, Costs, History, MCP)",
+    "Real-time monitoring with file watcher",
+    "MCP server management and status detection",
+    "Cost tracking and analytics",
+    "Session exploration and search",
+    "File editing with $EDITOR integration",
+    "Dual interface: TUI (Ratatui) and Web (Axum)"
+  ]
+}

@@ -1,3 +1,9 @@
+---
+title: "Behavioral Design Patterns"
+description: "Reference for Observer, Strategy, Command, Chain of Responsibility and other behavior patterns"
+tags: [reference, design-patterns, architecture]
+---
+
 # Behavioral Design Patterns
 
 Patterns concerned with algorithms and the assignment of responsibilities between objects, focusing on communication patterns.

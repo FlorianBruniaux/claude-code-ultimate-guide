@@ -1,0 +1,15 @@
+PASS: Q09-015
+PASS: Q09-016
+PASS: Q09-017
+PASS: Q09-018
+PASS: Q09-019
+PASS: Q09-020
+PASS: Q09-021
+PASS: Q09-022
+PASS: Q09-023
+PASS: Q09-024
+PASS: Q09-025
+ISSUE: Q09-026 - [warning] FACTUAL_ACCURACY - Guide says ">10 occurrences = established" (line 5227) not ">10 occurrences", threshold should be "10+" or "≥10"
+PASS: Q09-027
+ISSUE: Q09-028 - [info] FACTUAL_ACCURACY - Guide references Osmani's article which mentions "comprehension debt" but doesn't explicitly define it as "Code you shipped but don't fully understand" - explanation is correct but attribution could be clearer
+ISSUE: Q09-029 - [critical] CORRECT_ANSWER - Guide quote says "I treat Claude.md as compounding memory: every mistake becomes a durable rule for the team" (line 12856) - the 4-step cycle explanation is NOT from Boris Cherny, it's an interpretation. The correct answer explains a process not explicitly stated in the guide.

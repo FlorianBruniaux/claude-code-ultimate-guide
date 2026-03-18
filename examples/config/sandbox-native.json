@@ -1,0 +1,55 @@
+{
+  "$schema": "https://code.claude.com/schemas/settings.json",
+  "description": "Native Claude Code sandbox configuration example",
+  "sandbox": {
+    "autoAllowMode": true,
+    "allowUnsandboxedCommands": false,
+
+    "filesystem": {
+      "allowedWritePaths": [
+        "${CWD}",
+        "/tmp"
+      ],
+      "deniedReadPaths": [
+        "${HOME}/.ssh",
+        "${HOME}/.aws",
+        "${HOME}/.kube",
+        "${HOME}/.gnupg",
+        "${HOME}/.config/gcloud"
+      ]
+    },
+
+    "network": {
+      "policy": "deny",
+      "allowedDomains": [
+        "api.anthropic.com",
+        "registry.npmjs.com",
+        "registry.yarnpkg.com",
+        "files.pythonhosted.org",
+        "pypi.org",
+        "github.com",
+        "api.github.com",
+        "raw.githubusercontent.com",
+        "objects.githubusercontent.com",
+        "codeload.github.com"
+      ]
+    },
+
+    "excludedCommands": [
+      "docker",
+      "kubectl",
+      "podman",
+      "vagrant"
+    ]
+  },
+
+  "comments": {
+    "autoAllowMode": "Bash commands auto-approved if sandboxed (recommended for daily dev)",
+    "allowUnsandboxedCommands": "Disable escape hatch for maximum security",
+    "allowedWritePaths": "${CWD} = current working directory. /tmp for temporary files.",
+    "deniedReadPaths": "Block access to credentials and sensitive configs",
+    "network.policy": "deny = block all, allow only specified domains (denylist mode)",
+    "allowedDomains": "Whitelist only trusted package registries and VCS hosts",
+    "excludedCommands": "Tools incompatible with sandbox - run outside (with permission prompts)"
+  }
+}

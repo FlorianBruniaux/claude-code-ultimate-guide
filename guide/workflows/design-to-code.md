@@ -1,3 +1,9 @@
+---
+title: "Design-to-Code Workflow with Figma MCP"
+description: "Automated design system implementation using Figma MCP Server for 1:1 design-code parity"
+tags: [workflow, mcp, integration]
+---
+
 # Design-to-Code Workflow with Figma MCP
 
 > **Confidence**: Tier 2 — Based on documented production case studies (Parallel HQ, builder.io), MCP server specifications, and community workflows.

@@ -1,0 +1,390 @@
+# Scoring Criteria for Audit Agents/Skills/Commands
+# Version: 1.0.0
+# Last updated: 2026-02-07
+
+# =============================================================================
+# AGENTS (32 points max)
+# =============================================================================
+
+agents:
+  max_points: 32
+
+  categories:
+    identity:
+      weight: 3
+      description: "Determines discoverability and activation (if users can't find/invoke, quality is irrelevant)"
+      criteria:
+        - id: A1.1
+          name: "Clear name"
+          points: 3
+          detection: "frontmatter.name exists and is descriptive (not generic like 'agent1')"
+          check: "Grep frontmatter for 'name:' field, verify not matching pattern: agent\\d+|test|example"
+
+        - id: A1.2
+          name: "Description with triggers"
+          points: 3
+          detection: "description contains 'when', 'use', or 'trigger' keywords"
+          check: "Case-insensitive search in description for: when|use|trigger"
+
+        - id: A1.3
+          name: "Model specified"
+          points: 3
+          detection: "frontmatter has 'model:' field (sonnet/haiku/opus)"
+          check: "Grep frontmatter for 'model: (sonnet|haiku|opus)'"
+
+        - id: A1.4
+          name: "Tools restricted appropriately"
+          points: 3
+          detection: "tools list doesn't include Bash unless justified, or has explanation for risky tools"
+          check: "If 'Bash' in tools, verify justification nearby (within 200 chars). If no justification, flag."
+
+    prompt_quality:
+      weight: 2
+      description: "Determines reliability and accuracy of agent responses"
+      criteria:
+        - id: A2.1
+          name: "Role defined"
+          points: 2
+          detection: "contains 'You are' or 'Your role' statement defining agent persona"
+          check: "Case-insensitive search for: you are|your role|you act as"
+
+        - id: A2.2
+          name: "Output format specified"
+          points: 2
+          detection: "has section titled 'Output', 'Format', or 'Deliverables'"
+          check: "Section headers matching: ^#{1,3}\\s+(Output|Format|Deliverables)"
+
+        - id: A2.3
+          name: "Scope/limits defined"
+          points: 2
+          detection: "has section defining scope, triggers, or when NOT to use"
+          check: "Section headers or content with: Scope|Limits|Triggers|When (not )?to use"
+
+        - id: A2.4
+          name: "Anti-hallucination measures"
+          points: 2
+          detection: "contains keywords: verify, cite, source, evidence, or warnings against hallucination"
+          check: "Search for: verify|cite|citation|source|evidence|hallucination|don't invent"
+
+    validation:
+      weight: 1
+      description: "Ensures robustness through comprehensive testing scenarios"
+      criteria:
+        - id: A3.1
+          name: "3+ usage examples"
+          points: 1
+          detection: "has 'Examples', 'Usage', or 'Scenarios' section with at least 3 distinct examples"
+          check: "Count examples in Examples/Usage/Scenarios section. Flag if <3."
+
+        - id: A3.2
+          name: "Edge cases documented"
+          points: 1
+          detection: "mentions 'edge case', 'error', 'failure', or 'limitation'"
+          check: "Search for: edge case|corner case|error|failure|limitation|known issue"
+
+        - id: A3.3
+          name: "Integration documented"
+          points: 1
+          detection: "references other agents, skills, or tools it works with"
+          check: "Search for references to other agents/skills: uses|integrates with|works with|see also"
+
+        - id: A3.4
+          name: "Error handling described"
+          points: 1
+          detection: "mentions 'fallback', 'recovery', 'error handling', or failure modes"
+          check: "Search for: fallback|recovery|error handling|failure mode|graceful degradation"
+
+    design:
+      weight: 2
+      description: "Determines maintainability and scalability"
+      criteria:
+        - id: A4.1
+          name: "Single responsibility"
+          points: 2
+          detection: "file size <5000 tokens AND description is focused"
+          check: "Token count <5000 AND description not containing: general|multi-purpose|various"
+
+        - id: A4.2
+          name: "No duplication"
+          points: 2
+          detection: "description doesn't overlap >50% with other agents"
+          check: "Jaccard similarity with all other agent descriptions. Flag if >0.5."
+
+        - id: A4.3
+          name: "Composable (skills references)"
+          points: 2
+          detection: "references skills or other agents it can invoke"
+          check: "Search for: skill:|invoke|call|delegate to|uses"
+
+        - id: A4.4
+          name: "Reasonable token budget"
+          points: 2
+          detection: "file size <8000 tokens (avoids context bloat)"
+          check: "Token count (words × 1.3). Flag if >8000."
+
+# =============================================================================
+# SKILLS (32 points max)
+# =============================================================================
+
+skills:
+  max_points: 32
+
+  categories:
+    structure:
+      weight: 3
+      description: "Ensures spec compatibility with Claude Code runtime"
+      criteria:
+        - id: S1.1
+          name: "Valid SKILL.md or frontmatter"
+          points: 3
+          detection: "file named 'SKILL.md' OR has YAML frontmatter with 'name:' field"
+          check: "Filename == 'SKILL.md' OR frontmatter.name exists"
+
+        - id: S1.2
+          name: "Name valid"
+          points: 3
+          detection: "name is lowercase, 1-64 chars, matches pattern [a-z0-9-]+"
+          check: "Regex: ^[a-z0-9-]{1,64}$ (no spaces, uppercase, special chars)"
+
+        - id: S1.3
+          name: "Description non-empty"
+          points: 3
+          detection: "description field exists and is >20 characters"
+          check: "frontmatter.description length >20"
+
+        - id: S1.4
+          name: "Allowed-tools specified"
+          points: 3
+          detection: "frontmatter has 'allowed-tools:' field listing tool permissions"
+          check: "frontmatter.allowed-tools exists (list or 'all')"
+
+    content:
+      weight: 2
+      description: "Determines usability and learning curve"
+      criteria:
+        - id: S2.1
+          name: "Methodology/workflow described"
+          points: 2
+          detection: "has section titled 'Methodology', 'Workflow', 'Process', or numbered steps"
+          check: "Section headers: Methodology|Workflow|Process OR numbered list (1., 2., 3.)"
+
+        - id: S2.2
+          name: "Output format specified"
+          points: 2
+          detection: "has section specifying deliverable format (Markdown, JSON, report)"
+          check: "Section: Output|Format|Deliverables OR mentions: markdown|json|yaml|report"
+
+        - id: S2.3
+          name: "Examples provided"
+          points: 2
+          detection: "has 'Examples', 'Usage', or 'Scenarios' section with concrete instances"
+          check: "Section: Examples|Usage|Scenarios with code blocks or concrete examples"
+
+        - id: S2.4
+          name: "Checklists included"
+          points: 2
+          detection: "contains Markdown checkbox syntax '- [ ]' or '- [x]'"
+          check: "Regex: ^\\s*-\\s+\\[[x ]\\]"
+
+    technical:
+      weight: 1
+      description: "Prevents portability issues and security risks"
+      criteria:
+        - id: S3.1
+          name: "Scripts have error handling"
+          points: 1
+          detection: "if bundled scripts exist, contain 'set -e', 'trap', or '|| exit'"
+          check: "If .sh/.bash/.zsh files exist: grep for 'set -e|trap|\\|\\| exit'"
+
+        - id: S3.2
+          name: "No hardcoded paths"
+          points: 1
+          detection: "no absolute paths like '/Users/', '/home/', 'C:\\' in code or instructions"
+          check: "Grep for: /Users/|/home/|C:\\\\|D:\\\\"
+
+        - id: S3.3
+          name: "No secrets"
+          points: 1
+          detection: "no keywords: password, secret, token, api_key, credentials in plaintext"
+          check: "Grep for: password|secret|token|api[_-]?key|credential (not in comments about avoiding secrets)"
+
+        - id: S3.4
+          name: "Dependencies documented"
+          points: 1
+          detection: "if external tools required, has 'Requirements', 'Dependencies', or 'Prerequisites'"
+          check: "Section: Requirements|Dependencies|Prerequisites OR list of required tools"
+
+    design:
+      weight: 2
+      description: "Determines findability and maintainability"
+      criteria:
+        - id: S4.1
+          name: "Single responsibility"
+          points: 2
+          detection: "description is focused on one domain (not 'general' or multi-purpose)"
+          check: "Description not containing: general|multi-purpose|various|multiple"
+
+        - id: S4.2
+          name: "Clear triggers"
+          points: 2
+          detection: "has section defining 'When to use', 'Triggers', or 'Activation criteria'"
+          check: "Section or content: When to use|Triggers|Activation|Use cases"
+
+        - id: S4.3
+          name: "No overlap with other skills"
+          points: 2
+          detection: "description doesn't duplicate >50% of keywords from other skills"
+          check: "Jaccard similarity with all other skill descriptions. Flag if >0.5."
+
+        - id: S4.4
+          name: "Portable"
+          points: 2
+          detection: "no Claude Code-specific extensions that break portability"
+          check: "No references to non-standard APIs or proprietary extensions"
+
+# =============================================================================
+# COMMANDS (20 points max)
+# =============================================================================
+
+commands:
+  max_points: 20
+
+  categories:
+    structure:
+      weight: 3
+      description: "Determines usability and learnability"
+      criteria:
+        - id: C1.1
+          name: "Valid frontmatter"
+          points: 3
+          detection: "has YAML frontmatter with both 'name:' and 'description:' fields"
+          check: "frontmatter.name AND frontmatter.description exist"
+
+        - id: C1.2
+          name: "Argument-hint if takes args"
+          points: 3
+          detection: "if $ARGUMENTS variable used in body, frontmatter has 'argument-hint:'"
+          check: "If body contains $ARGUMENTS: verify frontmatter.argument-hint exists"
+
+        - id: C1.3
+          name: "Step-by-step workflow"
+          points: 3
+          detection: "body contains numbered sections (1., 2., 3.) or clear phase structure"
+          check: "Regex: ^#{1,3}\\s+(Phase|Step)\\s+\\d+|^\\d+\\."
+
+        - id: C1.4
+          name: "Usage examples"
+          points: 3
+          detection: "has section titled 'Usage', 'Examples', or shows invocation patterns"
+          check: "Section: Usage|Examples OR code blocks with command invocation"
+
+    quality:
+      weight: 2
+      description: "Determines reliability and production readiness"
+      criteria:
+        - id: C2.1
+          name: "Error handling"
+          points: 2
+          detection: "mentions 'error', 'failure', 'fallback', or conditional paths"
+          check: "Search for: error|failure|fallback|if.*fails|on failure"
+
+        - id: C2.2
+          name: "Output format defined"
+          points: 2
+          detection: "specifies what command outputs (report, file, summary) and structure"
+          check: "Section: Output|Deliverables OR mentions output format explicitly"
+
+        - id: C2.3
+          name: "Validation gates"
+          points: 2
+          detection: "contains checkpoints, verification steps, or 'before proceeding' checks"
+          check: "Search for: checkpoint|verify|validation|before proceeding|confirm"
+
+        - id: C2.4
+          name: "Arguments parsed properly"
+          points: 2
+          detection: "if takes args, shows how to parse/validate $ARGUMENTS"
+          check: "If $ARGUMENTS used: shows parsing logic (default values, validation, case statement)"
+
+# =============================================================================
+# GRADING SCALE
+# =============================================================================
+
+grades:
+  A:
+    min: 90
+    max: 100
+    label: "Production-ready"
+    color: "green"
+    description: "Excellent quality, minimal risk, deploy with confidence"
+
+  B:
+    min: 80
+    max: 89
+    label: "Good (production threshold)"
+    color: "yellow"
+    description: "Meets production standards, minor improvements recommended"
+
+  C:
+    min: 70
+    max: 79
+    label: "Needs improvement"
+    color: "yellow"
+    description: "Not production-ready, address gaps before deployment"
+
+  D:
+    min: 60
+    max: 69
+    label: "Significant gaps"
+    color: "red"
+    description: "Major issues, requires substantial refactoring"
+
+  F:
+    min: 0
+    max: 59
+    label: "Critical issues"
+    color: "red"
+    description: "Unsafe for production, complete rewrite recommended"
+
+# =============================================================================
+# DETECTION UTILITIES
+# =============================================================================
+
+detection_patterns:
+  frontmatter:
+    regex: "^---\\n(.*?)\\n---"
+    parser: "yaml.safe_load"
+
+  section_headers:
+    regex: "^#{1,6}\\s+(.+)$"
+    case_insensitive: true
+
+  code_blocks:
+    regex: "```[a-z]*\\n([\\s\\S]*?)\\n```"
+
+  markdown_checkboxes:
+    regex: "^\\s*-\\s+\\[[x ]\\]"
+
+  numbered_lists:
+    regex: "^\\d+\\."
+
+  token_estimate:
+    formula: "word_count × 1.3"
+    rationale: "1 token ≈ 0.75 words (GPT tokenization)"
+
+# =============================================================================
+# METADATA
+# =============================================================================
+
+metadata:
+  version: "1.0.0"
+  last_updated: "2026-02-07"
+  based_on:
+    - "Claude Code Ultimate Guide (line 4921: Agent Validation Checklist)"
+    - "LangChain Agent Report 2026 (industry best practices)"
+    - "Community feedback (production failure patterns)"
+
+  revision_history:
+    - version: "1.0.0"
+      date: "2026-02-07"
+      changes: "Initial release with 16-criteria framework"

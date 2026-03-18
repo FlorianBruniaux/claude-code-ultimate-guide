@@ -1,3 +1,9 @@
+---
+title: "Learning Mode"
+description: "CLAUDE.md mode for just-in-time skill explanations when techniques are first used"
+tags: [config, workflows, agents]
+---
+
 # Learning Mode
 
 **Purpose**: Just-in-time skill development with contextual explanations when techniques are first used

@@ -1,0 +1,216 @@
+name: Context Drift Check
+
+# Detects structural degradation in CLAUDE.md on a weekly schedule.
+# Opens a GitHub issue automatically when problems are found.
+#
+# Setup:
+#   1. Copy this file to .github/workflows/context-drift.yml
+#   2. Make sure canary-check.sh is committed and executable
+#   3. Adjust the cron schedule and threshold values as needed
+#
+# The workflow checks:
+#   - Structural validity (broken @imports, size, conflicts)
+#   - CLAUDE.md size trend (warns when exceeding threshold)
+#   - Broken @import references
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'   # Every Monday at 9:00 AM UTC
+  workflow_dispatch:        # Allow manual trigger from GitHub UI
+    inputs:
+      project_dir:
+        description: 'Project directory to check (relative to repo root)'
+        required: false
+        default: '.'
+
+env:
+  # Customize these thresholds for your project
+  CLAUDE_MD_MAX_LINES: 500
+  CLAUDE_MD_WARN_LINES: 400
+
+jobs:
+  drift-check:
+    name: Check CLAUDE.md for drift
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write       # Required to open issues on failure
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # Full history needed for git log checks
+
+      - name: Make canary script executable
+        run: chmod +x ./examples/context-engineering/canary-check.sh
+
+      - name: Run structural canary checks
+        id: canary
+        run: |
+          PROJECT_DIR="${{ github.event.inputs.project_dir || '.' }}"
+          ./examples/context-engineering/canary-check.sh "$PROJECT_DIR"
+        continue-on-error: true  # Capture exit code without stopping workflow
+
+      - name: Check CLAUDE.md size against thresholds
+        id: size_check
+        run: |
+          FILE="CLAUDE.md"
+          if [ ! -f "$FILE" ]; then
+            echo "::warning::CLAUDE.md not found at repo root"
+            exit 0
+          fi
+
+          CURRENT=$(wc -l < "$FILE" | tr -d ' ')
+          echo "current_lines=$CURRENT" >> "$GITHUB_OUTPUT"
+
+          if [ "$CURRENT" -gt "$CLAUDE_MD_MAX_LINES" ]; then
+            echo "::error::CLAUDE.md has $CURRENT lines (max: $CLAUDE_MD_MAX_LINES). Consider modularizing with @imports."
+            echo "size_status=fail" >> "$GITHUB_OUTPUT"
+          elif [ "$CURRENT" -gt "$CLAUDE_MD_WARN_LINES" ]; then
+            echo "::warning::CLAUDE.md has $CURRENT lines (warn threshold: $CLAUDE_MD_WARN_LINES). Getting large."
+            echo "size_status=warn" >> "$GITHUB_OUTPUT"
+          else
+            echo "CLAUDE.md size: $CURRENT lines (OK)"
+            echo "size_status=ok" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check for stale @imports
+        id: import_check
+        run: |
+          FILE="CLAUDE.md"
+          if [ ! -f "$FILE" ]; then
+            exit 0
+          fi
+
+          BROKEN=0
+          while IFS= read -r line; do
+            if [[ "$line" =~ ^@([^[:space:]].+)$ ]]; then
+              IMPORT="${BASH_REMATCH[1]}"
+              if [ ! -f "$IMPORT" ]; then
+                echo "::error::Broken @import in CLAUDE.md: @$IMPORT"
+                BROKEN=$((BROKEN + 1))
+              fi
+            fi
+          done < "$FILE"
+
+          echo "broken_imports=$BROKEN" >> "$GITHUB_OUTPUT"
+
+          if [ "$BROKEN" -gt 0 ]; then
+            echo "::error::Found $BROKEN broken @import(s) in CLAUDE.md"
+          else
+            echo "All @imports resolve correctly"
+          fi
+
+      - name: Check CLAUDE.md is git-tracked and recent
+        id: freshness_check
+        run: |
+          FILE="CLAUDE.md"
+          if [ ! -f "$FILE" ]; then
+            exit 0
+          fi
+
+          # Check if tracked
+          if ! git ls-files --error-unmatch "$FILE" > /dev/null 2>&1; then
+            echo "::warning::CLAUDE.md is not tracked in git"
+            exit 0
+          fi
+
+          # Get days since last update
+          LAST_COMMIT_DATE=$(git log -1 --format="%cd" --date=format:"%Y-%m-%d" -- "$FILE")
+          TODAY=$(date +%Y-%m-%d)
+          DAYS_OLD=$(( ($(date -d "$TODAY" +%s 2>/dev/null || date -j -f "%Y-%m-%d" "$TODAY" +%s) - $(date -d "$LAST_COMMIT_DATE" +%s 2>/dev/null || date -j -f "%Y-%m-%d" "$LAST_COMMIT_DATE" +%s)) / 86400 ))
+
+          echo "days_old=$DAYS_OLD" >> "$GITHUB_OUTPUT"
+          echo "last_updated=$LAST_COMMIT_DATE" >> "$GITHUB_OUTPUT"
+
+          if [ "$DAYS_OLD" -gt 90 ]; then
+            echo "::warning::CLAUDE.md was last updated $DAYS_OLD days ago ($LAST_COMMIT_DATE). Consider reviewing for stale rules."
+          else
+            echo "CLAUDE.md freshness: last updated $DAYS_OLD days ago ($LAST_COMMIT_DATE) — OK"
+          fi
+
+      - name: Collect check results
+        id: summary
+        if: always()
+        run: |
+          CANARY_STATUS="${{ steps.canary.outcome }}"
+          BROKEN_IMPORTS="${{ steps.import_check.outputs.broken_imports || 0 }}"
+          SIZE_STATUS="${{ steps.size_check.outputs.size_status || 'ok' }}"
+          CURRENT_LINES="${{ steps.size_check.outputs.current_lines || 0 }}"
+          DAYS_OLD="${{ steps.freshness_check.outputs.days_old || 0 }}"
+          LAST_UPDATED="${{ steps.freshness_check.outputs.last_updated || 'unknown' }}"
+
+          ISSUES=0
+          [ "$CANARY_STATUS" = "failure" ] && ISSUES=$((ISSUES + 1))
+          [ "$BROKEN_IMPORTS" -gt 0 ] && ISSUES=$((ISSUES + BROKEN_IMPORTS))
+          [ "$SIZE_STATUS" = "fail" ] && ISSUES=$((ISSUES + 1))
+
+          echo "total_issues=$ISSUES" >> "$GITHUB_OUTPUT"
+          echo "summary_lines=$CURRENT_LINES" >> "$GITHUB_OUTPUT"
+          echo "summary_days=$DAYS_OLD" >> "$GITHUB_OUTPUT"
+          echo "summary_updated=$LAST_UPDATED" >> "$GITHUB_OUTPUT"
+
+      - name: Open issue on failure
+        if: always() && steps.summary.outputs.total_issues > 0
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issues = parseInt('${{ steps.summary.outputs.total_issues }}');
+            const lines = '${{ steps.summary.outputs.summary_lines }}';
+            const daysOld = '${{ steps.summary.outputs.summary_days }}';
+            const lastUpdated = '${{ steps.summary.outputs.summary_updated }}';
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+
+            // Check if there's already an open issue for drift
+            const openIssues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'ai-context,maintenance',
+              state: 'open',
+            });
+
+            if (openIssues.data.length > 0) {
+              // Add a comment to the existing issue instead of opening a new one
+              const existingIssue = openIssues.data[0];
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existingIssue.number,
+                body: `Weekly check still finding issues (${issues} problem(s)).\n\nRun: ${runUrl}\nCLAUDE.md: ${lines} lines, last updated: ${lastUpdated} (${daysOld} days ago)`,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: `Context Drift Detected — CLAUDE.md needs review`,
+                body: [
+                  `The weekly context drift check found **${issues} problem(s)** in \`CLAUDE.md\`.`,
+                  ``,
+                  `## Details`,
+                  `- File size: ${lines} lines`,
+                  `- Last updated: ${lastUpdated} (${daysOld} days ago)`,
+                  `- Workflow run: ${runUrl}`,
+                  ``,
+                  `## Action Required`,
+                  `1. Review the workflow logs for specific issues`,
+                  `2. Run \`./examples/context-engineering/canary-check.sh .\` locally for details`,
+                  `3. Fix broken @imports, reduce file size, or update stale rules`,
+                  `4. Close this issue once CLAUDE.md is back in good shape`,
+                  ``,
+                  `_This issue was opened automatically by the context drift check workflow._`,
+                ].join('\n'),
+                labels: ['ai-context', 'maintenance'],
+              });
+            }
+
+      - name: Final status
+        if: always()
+        run: |
+          ISSUES="${{ steps.summary.outputs.total_issues }}"
+          if [ "$ISSUES" -gt 0 ]; then
+            echo "Context drift check: FAILED ($ISSUES issues)"
+            exit 1
+          else
+            echo "Context drift check: PASSED"
+          fi

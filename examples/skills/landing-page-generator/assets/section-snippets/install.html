@@ -1,0 +1,90 @@
+<!-- Quick Start / Install Section Template -->
+<section id="install" class="install">
+  <div class="container">
+    <h2 class="section-title">Quick Start</h2>
+
+    <!-- One-liner install -->
+    <div class="install-hero">
+      <p class="install-intro">Get started in {{INSTALL_TIME}}:</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">bash</span>
+          <button class="copy-btn" onclick="copyCode(this)" aria-label="Copy code">📋 Copy</button>
+        </div>
+        <pre><code>{{INSTALL_COMMAND}}</code></pre>
+      </div>
+    </div>
+
+    <!-- Setup steps -->
+    <div class="install-steps">
+      <h3>Setup</h3>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">bash</span>
+          <button class="copy-btn" onclick="copyCode(this)" aria-label="Copy code">📋 Copy</button>
+        </div>
+        <pre><code>{{SETUP_COMMANDS}}</code></pre>
+      </div>
+    </div>
+
+    <!-- Usage example -->
+    <div class="install-usage">
+      <h3>First Usage</h3>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">bash</span>
+          <button class="copy-btn" onclick="copyCode(this)" aria-label="Copy code">📋 Copy</button>
+        </div>
+        <pre><code>{{USAGE_EXAMPLE}}</code></pre>
+      </div>
+    </div>
+
+    <!-- Link to full docs -->
+    <p class="install-more">
+      <a href="{{DOCS_URL}}">Full installation guide →</a>
+    </p>
+  </div>
+</section>
+
+<!--
+PLACEHOLDERS:
+- {{INSTALL_TIME}}: Time estimate (e.g., "30 seconds", "2 minutes")
+- {{INSTALL_COMMAND}}: One-liner install command
+- {{SETUP_COMMANDS}}: Additional setup (aliases, config)
+- {{USAGE_EXAMPLE}}: First usage example
+- {{DOCS_URL}}: Link to full documentation
+-->
+
+<style>
+.install-hero {
+  max-width: 800px;
+  margin: 0 auto var(--space-2xl);
+}
+
+.install-intro {
+  text-align: center;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-md);
+}
+
+.install-steps,
+.install-usage {
+  max-width: 800px;
+  margin: 0 auto var(--space-xl);
+}
+
+.install-steps h3,
+.install-usage h3 {
+  font-size: 1.1rem;
+  margin-bottom: var(--space-md);
+  color: var(--text-secondary);
+}
+
+.install-more {
+  text-align: center;
+  margin-top: var(--space-xl);
+}
+</style>

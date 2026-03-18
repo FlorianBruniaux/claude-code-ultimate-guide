@@ -1,0 +1,20 @@
+PASS: Q08-001
+PASS: Q08-002
+PASS: Q08-003
+PASS: Q08-004
+PASS: Q08-005
+PASS: Q08-006
+PASS: Q08-007
+PASS: Q08-008
+PASS: Q08-009
+PASS: Q08-010
+PASS: Q08-011
+PASS: Q08-012
+PASS: Q08-013
+PASS: Q08-014
+PASS: Q08-015
+PASS: Q08-016
+PASS: Q08-017
+PASS: Q08-018
+ISSUE: Q08-019 - [critical] CORRECT_ANSWER - The explanation states "There is no configurable 'auto:N' parameter" yet the question claims auto:N controls lazy loading. The guide (architecture.md:996) shows ENABLE_TOOL_SEARCH=auto:N sets thresholds (5%/10%/20% context), NOT max tools. The 10,000 token threshold is automatic. The question confuses threshold configuration with tool count.
+PASS: Q08-020

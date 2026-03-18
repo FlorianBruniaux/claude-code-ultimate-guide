@@ -1,0 +1,82 @@
+# Developer Profile Template
+# Customize and save as: .claude/profiles/<your-name>.yaml
+# Run: ts-node assembler.ts --profile .claude/profiles/<your-name>.yaml
+#
+# This profile drives context assembly: it selects which shared modules to include,
+# sets preferences that can be referenced by modules, and allows per-developer overrides
+# without touching the shared module files.
+#
+# Naming convention: use lowercase, no spaces. Example: alice.yaml, bob-ml.yaml
+
+profile:
+  name: "developer-name"           # Used in assembled CLAUDE.md header
+  role: "fullstack"                # frontend | backend | fullstack | devops | ml
+  seniority: "mid"                 # junior | mid | senior | staff
+  tools:
+    primary_lang: "typescript"     # typescript | python | rust | go | java | kotlin
+    frontend: "react"              # react | vue | angular | svelte | none
+    backend: "node"                # node | fastapi | actix | gin | spring | rails
+    database: "postgres"           # postgres | mysql | mongodb | redis | sqlite
+    cloud: "aws"                   # aws | gcp | azure | none
+    test_framework: "vitest"       # vitest | jest | pytest | go-test | cargo-test
+  style:
+    verbosity: "concise"           # verbose | concise | minimal
+    # verbose: include rationale in explanations, add inline comments liberally
+    # concise: explain when not obvious, comment only complex logic
+    # minimal: no unsolicited explanation, comments only on public APIs
+    comment_style: "inline"        # none | inline | jsdoc
+    # none: no comments generated
+    # inline: short // comments on complex lines
+    # jsdoc: full JSDoc/docstring blocks on all public functions
+    test_coverage: "required"      # none | optional | required
+    # none: no tests generated unless explicitly asked
+    # optional: generate tests on request or for complex logic
+    # required: always generate tests alongside new functions
+
+# Modules are markdown files in .claude/modules/ that contain focused rule sets.
+# The assembler concatenates them in order to build the final CLAUDE.md.
+# Use subdirectories to organize by domain (e.g., frontend/, backend/, shared/).
+modules:
+  include:
+    # Core — always include these
+    - shared/core-rules.md          # General coding standards
+    - shared/git-conventions.md     # Commit format, branch naming, PR requirements
+    - shared/security-rules.md      # Input validation, secret handling, dependency policy
+
+    # Role-specific — uncomment what applies
+    # Frontend
+    # - frontend/react-patterns.md   # Component structure, hooks, state management
+    # - frontend/accessibility.md    # WCAG requirements, ARIA patterns
+    # - frontend/css-conventions.md  # CSS modules, utility classes, design tokens
+
+    # Backend
+    # - backend/api-design.md        # REST conventions, error formats, versioning
+    # - backend/database-patterns.md # Query patterns, migrations, indexing
+    # - backend/auth-patterns.md     # JWT, OAuth, session management
+
+    # DevOps
+    # - devops/ci-cd.md              # Pipeline conventions, deployment gates
+    # - devops/docker-patterns.md    # Dockerfile standards, compose conventions
+    # - devops/observability.md      # Logging format, metric naming, tracing
+
+    # ML
+    # - ml/model-evaluation.md       # Evaluation methodology, bias checks
+    # - ml/experiment-tracking.md    # MLflow/W&B conventions, artifact naming
+    # - ml/data-pipeline.md          # Data validation, transformation patterns
+
+  exclude:
+    []
+    # Explicitly exclude modules from the base set (e.g., if shared/security-rules.md
+    # has a section that conflicts with your team's approach):
+    # - shared/security-rules.md
+
+overrides:
+  # Per-developer additions — appended after all modules as a "Personal Rules" section.
+  # Keep these minimal: shared knowledge belongs in shared modules, not personal overrides.
+  # Good use cases: personal debugging preferences, tooling shortcuts, IDE-specific notes.
+  custom_rules:
+    []
+    # Examples:
+    # - "Always run `pnpm typecheck` before declaring a TypeScript task complete"
+    # - "Use zod for all external input validation, not manual type guards"
+    # - "When unsure about a regex, use a named capture group and add a comment"

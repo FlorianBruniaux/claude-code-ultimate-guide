@@ -1,3 +1,9 @@
+---
+title: "Learning Mode CLAUDE.md Template"
+description: "CLAUDE.md configuration for developers who want to learn while coding"
+tags: [claude-md, template, workflows, memory]
+---
+
 # Learning Mode CLAUDE.md Template
 
 A CLAUDE.md configuration optimized for developers who want to learn, not just produce code.

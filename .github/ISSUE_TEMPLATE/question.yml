@@ -1,0 +1,52 @@
+name: Question
+description: Ask about Claude Code usage or guide content
+title: "[Question]: "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before asking, please check:
+        - [The Guide](https://cc.bruniaux.com/)
+        - [Existing Issues](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/issues)
+        - [Official Docs](https://docs.claude.ai/)
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      description: What's your question about?
+      options:
+        - Claude Code usage
+        - MCP servers
+        - Configuration
+        - Tools & commands
+        - Best practices
+        - Security
+        - Agent teams
+        - Installation
+        - Troubleshooting
+        - Guide content
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: What would you like to know?
+      placeholder: "How do I..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: What have you tried? What's your use case?
+      placeholder: |
+        I'm trying to...
+        I've looked at...
+    validations:
+      required: false

@@ -1,0 +1,145 @@
+{
+  "__comment": "settings.local.json - Machine-specific overrides (gitignored)",
+  "__usage": [
+    "This file allows you to override team settings.json without Git conflicts",
+    "Place in: .claude/settings.local.json (project) or ~/.claude/settings.local.json (global)",
+    "Precedence: global < project settings.json < settings.local.json",
+    "This file should be listed in .gitignore"
+  ],
+
+  "__example_use_cases": [
+    "1. Skip linting on laptop (slower hardware)",
+    "2. Use different MCP endpoints for local development",
+    "3. Personal permission overrides without affecting team",
+    "4. Machine-specific hooks (e.g., notify Slack only on CI server)"
+  ],
+
+  "hooks": {
+    "__comment": "Override team hooks for this machine only",
+
+    "PreToolUse": [
+      {
+        "__example": "Skip expensive pre-commit checks on laptop",
+        "matcher": "Bash|Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Skipping security check (local override)'",
+            "timeout": 100
+          }
+        ]
+      }
+    ],
+
+    "PostToolUse": [
+      {
+        "__example": "Disable auto-formatting on this machine (prefer manual)",
+        "matcher": "Edit|Write",
+        "hooks": []
+      }
+    ],
+
+    "UserPromptSubmit": [
+      {
+        "__example": "Add machine-specific context (hostname, branch info)",
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/local-context.sh"
+          }
+        ]
+      }
+    ]
+  },
+
+  "permissions": {
+    "__comment": "Personal permission overrides (more permissive or restrictive)",
+
+    "allow": [
+      "Bash(npm *)",
+      "Bash(pnpm *)",
+      "Bash(git *)",
+      "Edit",
+      "Write",
+      "WebSearch"
+    ],
+
+    "deny": [
+      "__example": "Block dangerous commands even if team allows them",
+      "Bash(rm -rf *)",
+      "Bash(sudo *)",
+      "Bash(dd *)",
+      "Bash(mkfs.*)"
+    ],
+
+    "ask": [
+      "__example": "Ask before expensive operations (slow on laptop)",
+      "Bash(npm run build)",
+      "Bash(docker build)",
+      "Bash(cargo build --release)"
+    ]
+  },
+
+  "mcpServers": {
+    "__comment": "Machine-specific MCP server overrides",
+    "__use_case": "Use local MCP server instead of team's remote endpoint",
+
+    "postgres": {
+      "__example": "Override team's production DB with local dev DB",
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-postgres"],
+      "env": {
+        "DATABASE_URL": "postgresql://localhost:5432/dev_db"
+      }
+    },
+
+    "serena": {
+      "__example": "Use local Serena build for development",
+      "command": "node",
+      "args": ["/Users/yourname/dev/serena-mcp/dist/index.js"],
+      "env": {
+        "DEBUG": "true"
+      }
+    }
+  },
+
+  "__real_world_examples": {
+    "__laptop_skip_heavy_checks": {
+      "hooks": {
+        "PreToolUse": [
+          {
+            "matcher": "Bash|Edit|Write",
+            "hooks": [
+              {
+                "type": "command",
+                "command": "true",
+                "timeout": 10
+              }
+            ]
+          }
+        ]
+      }
+    },
+
+    "__ci_server_strict": {
+      "permissions": {
+        "deny": [
+          "Bash(git push)",
+          "Bash(npm publish)",
+          "WebSearch"
+        ]
+      }
+    },
+
+    "__local_dev_overrides": {
+      "mcpServers": {
+        "database": {
+          "env": {
+            "DATABASE_URL": "postgresql://localhost:5432/test"
+          }
+        }
+      }
+    }
+  }
+}

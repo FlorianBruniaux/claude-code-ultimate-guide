@@ -1,0 +1,18 @@
+PASS: Q04-001
+PASS: Q04-002
+PASS: Q04-003
+PASS: Q04-004
+PASS: Q04-005
+PASS: Q04-006
+PASS: Q04-007
+PASS: Q04-008
+PASS: Q04-009
+PASS: Q04-010
+ISSUE: Q04-011 - [warning] AMBIGUITY - The guide context (line 17354) is irrelevant to multi-agent orchestration pattern; the correct context appears at lines 5280-5310
+PASS: Q04-012
+PASS: Q04-013
+PASS: Q04-014
+PASS: Q04-015
+PASS: Q04-016
+PASS: Q04-017
+ISSUE: Q04-018 - [warning] FACTUAL_ACCURACY - Stats cited as "53-79%" but guide (line 6259) shows "~56%" auto-invocation rate from Gao 2026; also "100% reliable" for CLAUDE.md is overstated (no source confirms 100%)

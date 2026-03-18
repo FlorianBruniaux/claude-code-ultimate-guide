@@ -1,0 +1,173 @@
+# Context Engineering Self-Evaluation
+#
+# Use these questions to audit your CLAUDE.md periodically.
+# Score each question: pass (1) | partial (0.5) | fail (0)
+# Target score: 16+ / 20
+#
+# Run this quarterly, or after any significant project change.
+# Low-scoring areas tell you exactly where to invest time.
+
+meta:
+  version: "1.0"
+  total_questions: 20
+  passing_threshold: 16
+  scoring:
+    pass: 1.0
+    partial: 0.5
+    fail: 0.0
+
+questions:
+  # ── Coverage: Does CLAUDE.md contain the right information? ──────────────────
+  coverage:
+    description: "Checks that essential information is present"
+    questions:
+      - id: C1
+        weight: 1.0
+        question: "Does CLAUDE.md explain what this project does in 2-3 sentences?"
+        failing_indicator: "No Project Overview section, or it's vague ('a web app')"
+        passing_indicator: "Clear statement of purpose, audience, and deployment target"
+
+      - id: C2
+        weight: 1.0
+        question: "Are the primary tech stack and versions documented?"
+        failing_indicator: "No version numbers, or stack listed without context"
+        passing_indicator: "Table or list with framework + version for each layer"
+
+      - id: C3
+        weight: 1.0
+        question: "Are coding standards specific enough to be actionable?"
+        failing_indicator: "Rules like 'write clean code' or 'follow best practices'"
+        passing_indicator: "Rules like 'use zod for external input', 'no default exports'"
+
+      - id: C4
+        weight: 1.0
+        question: "Are deployment environments and commands documented?"
+        failing_indicator: "No deployment section, or just 'deploy to production'"
+        passing_indicator: "Environments listed, deploy commands specified"
+
+      - id: C5
+        weight: 1.0
+        question: "Are there explicit anti-patterns (what NOT to do)?"
+        failing_indicator: "No negative rules at all"
+        passing_indicator: "At least 3 explicit prohibitions with reasons"
+
+  # ── Quality: Are the rules well-written? ────────────────────────────────────
+  quality:
+    description: "Checks that rules are clear, non-redundant, and manageable"
+    questions:
+      - id: Q1
+        weight: 1.0
+        question: "Can each rule be followed without reading the rest of the file?"
+        failing_indicator: "Rules like 'follow the patterns established earlier'"
+        passing_indicator: "Each rule is self-contained and unambiguous"
+
+      - id: Q2
+        weight: 1.0
+        question: "Are there fewer than 150 total rules or instructions?"
+        failing_indicator: "More than 150 bullet points / numbered items"
+        passing_indicator: "Compact set that fits in working memory"
+        note: "150 is the adherence ceiling — beyond this, Claude starts dropping rules"
+
+      - id: Q3
+        weight: 1.0
+        question: "Does the file have fewer than 500 lines?"
+        failing_indicator: "File exceeds 500 lines"
+        passing_indicator: "Under 500 lines, or split into @imported modules"
+        note: "Long files signal either verbosity or lack of modularization"
+
+      - id: Q4
+        weight: 1.0
+        question: "Are rules specific and measurable rather than vague?"
+        failing_indicator: "Rules that require judgment ('write readable code')"
+        passing_indicator: "Rules that produce consistent output across different prompts"
+
+      - id: Q5
+        weight: 1.0
+        question: "Does each rule appear only once (no semantic duplicates)?"
+        failing_indicator: "Same constraint expressed in multiple ways across sections"
+        passing_indicator: "No redundancy — each constraint stated exactly once"
+
+  # ── Adherence: Is Claude actually following the rules? ───────────────────────
+  adherence:
+    description: "Behavioral checks — requires reviewing actual Claude outputs"
+    questions:
+      - id: A1
+        weight: 1.0
+        question: "Do Claude's outputs consistently follow the stated coding standards?"
+        how_to_check: "Ask Claude to write a new function and check it against your standards"
+        failing_indicator: "Claude uses patterns explicitly prohibited in CLAUDE.md"
+        passing_indicator: "Outputs match stated standards without prompting"
+
+      - id: A2
+        weight: 1.0
+        question: "Does Claude correctly use the specified libraries and avoid alternatives?"
+        how_to_check: "Ask Claude to add input validation — does it use your specified library?"
+        failing_indicator: "Claude suggests alternatives you've explicitly excluded"
+        passing_indicator: "Claude reaches for the specified tools automatically"
+
+      - id: A3
+        weight: 1.0
+        question: "Does Claude follow the git conventions when generating commits or PRs?"
+        how_to_check: "Ask Claude to write a commit message and check the format"
+        failing_indicator: "Wrong format, missing type prefix, wrong capitalization"
+        passing_indicator: "Commits match your conventional commits format exactly"
+
+      - id: A4
+        weight: 1.0
+        question: "Does Claude avoid the listed anti-patterns?"
+        how_to_check: "Introduce a scenario where the anti-pattern would be tempting"
+        failing_indicator: "Claude suggests a prohibited pattern without flagging it"
+        passing_indicator: "Claude avoids the pattern or explicitly explains why it's excluded"
+
+      - id: A5
+        weight: 1.0
+        question: "When given ambiguous instructions, does Claude make the right default choice?"
+        how_to_check: "Give a vague task ('add a cache') and see what Claude picks"
+        failing_indicator: "Claude invents a default that contradicts your architecture"
+        passing_indicator: "Claude's default aligns with your documented decisions"
+
+  # ── Maintenance: Is the file healthy over time? ──────────────────────────────
+  maintenance:
+    description: "Checks that CLAUDE.md stays accurate as the project evolves"
+    questions:
+      - id: M1
+        weight: 1.0
+        question: "Was CLAUDE.md updated in the last 90 days?"
+        how_to_check: "git log --format='%ar' -- CLAUDE.md | head -1"
+        failing_indicator: "Last update more than 90 days ago"
+        passing_indicator: "Updated within 90 days, or project genuinely unchanged"
+
+      - id: M2
+        weight: 1.0
+        question: "Are there no rules about deprecated technologies still in the file?"
+        how_to_check: "Scan for library names — are any of them removed from package.json?"
+        failing_indicator: "Rules referencing libraries or patterns no longer in use"
+        passing_indicator: "All rules apply to the current actual state of the codebase"
+
+      - id: M3
+        weight: 1.0
+        question: "Do all linked files or @imports actually exist?"
+        how_to_check: "Run canary-check.sh or check each @import manually"
+        failing_indicator: "Broken @import paths or links to non-existent docs"
+        passing_indicator: "All references resolve to real files"
+
+      - id: M4
+        weight: 1.0
+        question: "Have team members other than the original author contributed to or reviewed the file?"
+        failing_indicator: "Single author, no review, rules reflect one person's preferences"
+        passing_indicator: "At least one other team member has reviewed or edited"
+
+      - id: M5
+        weight: 1.0
+        question: "Is the file tracked in git with meaningful commit messages?"
+        how_to_check: "git log --oneline -- CLAUDE.md"
+        failing_indicator: "Not tracked, or all commits are 'update CLAUDE.md'"
+        passing_indicator: "Tracked with descriptive history (e.g., 'context: add zod validation rule')"
+
+# ── Scoring Guide ─────────────────────────────────────────────────────────────
+scoring_guide:
+  "18-20": "Excellent — your context is production-grade, maintain it quarterly"
+  "16-17": "Good — minor gaps, address the failing questions this sprint"
+  "13-15": "Needs work — coverage or quality issues affecting Claude's output"
+  "10-12": "Significant issues — likely causing frequent corrections or rework"
+  "0-9":   "Critical — CLAUDE.md is not serving its purpose, rebuild from skeleton"

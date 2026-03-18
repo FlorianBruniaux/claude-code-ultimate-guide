@@ -1,3 +1,9 @@
+---
+title: "GitHub Actions Workflows for Claude Code"
+description: "Ready-to-use CI/CD workflows integrating Claude Code into GitHub Actions"
+tags: [ci-cd, devops, template, workflows]
+---
+
 # GitHub Actions Workflows for Claude Code
 
 Ready-to-use GitHub Actions workflows that integrate Claude Code into your CI/CD pipeline.
@@ -13,7 +19,44 @@ Ready-to-use GitHub Actions workflows that integrate Claude Code into your CI/CD
 
 ## Available Workflows
 
-### 1. Auto PR Review (`claude-pr-auto-review.yml`)
+### 1. Code Review — Prompt-Based (`claude-code-review.yml`) ⭐ Recommended
+
+**Robust pattern** with externalized prompt, anti-hallucination protocol, and `/claude-review` on-demand trigger.
+
+The review logic lives in `.github/prompts/code-review.md`, so you can iterate on criteria without touching the workflow YAML. The prompt enforces a verification step before every finding — Claude must confirm an issue with `Read`/`Grep` before reporting it.
+
+**Features:**
+- Triggers on PR open/sync/ready **and** `/claude-review` comment
+- Externalized prompt: edit `code-review.md` to tune criteria for your stack
+- Anti-hallucination protocol: no invented line numbers or unverified claims
+- Structured output: `🔴 MUST FIX` / `🟡 SHOULD FIX` / `🟢 CAN SKIP` table + inline comments
+- Read-only `allowed_tools` (no write access to repo)
+- OAuth token support (no API key needed if Claude GitHub App is installed)
+
+**Setup:**
+```bash
+# Copy both files into your repo
+cp examples/github-actions/claude-code-review.yml .github/workflows/
+mkdir -p .github/prompts
+cp examples/github-actions/prompts/code-review.md .github/prompts/
+
+# Add secret: CLAUDE_CODE_OAUTH_TOKEN (or ANTHROPIC_API_KEY)
+# Install Claude GitHub App: https://github.com/apps/claude
+```
+
+**Customization:**
+Edit `.github/prompts/code-review.md` to add your stack conventions:
+```markdown
+## Stack Context
+- TypeScript strict mode, no `any`
+- React Server Components — no `useEffect` for data fetching
+- All DB writes must go through the repository layer
+- New API routes require integration tests
+```
+
+---
+
+### 2. Auto PR Review (`claude-pr-auto-review.yml`)
 
 **Enhanced version** with comprehensive review criteria and smart filtering.
 
@@ -102,6 +145,91 @@ To automatically apply suggested labels, edit the workflow file and change:
 cp examples/github-actions/claude-issue-triage.yml .github/workflows/
 
 # Open a new issue - Claude will automatically triage it
+```
+
+---
+
+---
+
+## Multi-Model Review Setup
+
+Running Claude alongside other automated reviewers (Gemini, Greptile, CodeRabbit) surfaces issues that any single model misses. The pattern: each service reviews independently, then Claude synthesizes the consensus.
+
+**Why multi-model?**
+Each model has blind spots. Points raised by 2+ independent reviewers are high-signal; unique catches from each model add coverage you'd otherwise miss.
+
+### Recommended stack ($30/month flat)
+
+| Service | Cost | Strength |
+|---------|------|----------|
+| **Claude Code Review** (this workflow) | Included in Anthropic plan | Deep reasoning, codebase-aware |
+| **Gemini Code Assist** | $0 (included in Google Workspace) | Independent LLM, different training data |
+| **Greptile** | ~$30/month flat | Cross-file context, dependency graphs |
+
+**Alternative**: CodeRabbit Pro ($15/dev/month) adds interactive Q&A and sequence diagrams.
+
+### Setup
+
+**Step 1: Install Gemini Code Assist**
+
+1. GitHub Marketplace → search "Gemini Code Assist"
+2. Install and authorize on your repo
+3. Gemini will automatically review new PRs (posts as `gemini-code-assist[bot]`)
+4. Optional config via `.gemini/config.yaml`:
+   ```yaml
+   code_review:
+     comment_severity_threshold: MEDIUM
+     max_comments_per_review: 20
+   ```
+
+**Step 2: Install Greptile**
+
+1. [greptile.com](https://greptile.com) → connect GitHub account
+2. Select your repo — Greptile indexes the codebase (~5 min)
+3. Configure in dashboard: target branches, focus paths
+4. Reviews post as `greptile[bot]` comments on PRs
+
+**Step 3: Enable synthesis job**
+
+In `claude-code-review.yml`, remove `false &&` from the synthesis job condition:
+
+```yaml
+# Before (disabled):
+if: |
+  false &&
+  (github.event_name == 'pull_request' ...
+
+# After (enabled):
+if: |
+  (github.event_name == 'pull_request' ...
+```
+
+**Step 4: Configure CodeRabbit (optional)**
+
+Copy `.coderabbit.yaml` from this directory to your repo root. Edit `path_instructions` to match your stack.
+
+### How the synthesis works
+
+The `multi-reviewer-synthesis` job in `claude-code-review.yml`:
+
+1. Waits 5 minutes after the Claude review (external bots post within 2-3 min)
+2. Collects all reviews and comments via GitHub API
+3. Skips silently if fewer than 2 reviewers have posted
+4. Claude identifies consensus (same finding flagged by 2+ reviewers) vs. unique catches
+5. Posts a structured synthesis comment on the PR
+
+### Files in this directory
+
+```
+examples/github-actions/
+├── README.md                      # This file
+├── claude-code-review.yml         # Main review + optional synthesis job
+├── .coderabbit.yaml               # CodeRabbit config (copy to repo root)
+├── claude-pr-auto-review.yml      # Inline prompt auto-review (alternative)
+├── claude-security-review.yml     # Security-focused scan
+├── claude-issue-triage.yml        # Issue triage workflow
+└── prompts/
+    └── code-review.md             # Externalized review prompt (copy to .github/prompts/)
 ```
 
 ---
@@ -204,9 +332,13 @@ These workflows consume Anthropic API credits:
 ```
 examples/github-actions/
 ├── README.md                        # This file
-├── claude-pr-auto-review.yml        # Auto PR review workflow
+├── claude-code-review.yml           # Prompt-based review + optional synthesis job
+├── .coderabbit.yaml                 # CodeRabbit config (copy to repo root)
+├── claude-pr-auto-review.yml        # Inline prompt auto-review (alternative)
 ├── claude-security-review.yml       # Security scanning workflow
-└── claude-issue-triage.yml          # Issue triage workflow
+├── claude-issue-triage.yml          # Issue triage workflow
+└── prompts/
+    └── code-review.md               # Externalized review prompt (copy to .github/prompts/)
 ```
 
 ## Resources

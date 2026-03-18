@@ -1,0 +1,70 @@
+name: Quiz Issue
+description: Report an error in a quiz question (wrong answer, typo, outdated content)
+title: "[Quiz]: "
+labels: ["quiz"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Found a problem in the quiz? Help us fix it!
+
+  - type: input
+    id: question_id
+    attributes:
+      label: Question ID
+      description: The ID shown in the quiz (e.g. 01-042)
+      placeholder: "XX-YYY"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - Quick Start
+        - Configuration
+        - Tools & Commands
+        - MCP Servers
+        - Best Practices
+        - Security
+        - Agent Teams
+        - Advanced Topics
+        - Git & Workflows
+        - Performance
+        - Debugging
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: error_type
+    attributes:
+      label: Type of issue
+      options:
+        - Wrong correct answer marked
+        - All answer options are incorrect
+        - Question is outdated (Claude Code changed)
+        - Typo or grammar error
+        - Confusing or ambiguous wording
+        - Missing context in explanation
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the issue
+      description: What's wrong and what should it say instead?
+      placeholder: "The question says X is correct, but actually Y is correct because..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggested_fix
+    attributes:
+      label: Suggested fix (optional)
+      description: If you know the correct answer or fix, share it here
+    validations:
+      required: false

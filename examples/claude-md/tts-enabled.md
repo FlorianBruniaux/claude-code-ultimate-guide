@@ -1,3 +1,9 @@
+---
+title: "TTS-Enabled Project Template"
+description: "CLAUDE.md configuration for projects using Agent Vibes text-to-speech"
+tags: [claude-md, template, tts]
+---
+
 # Project with TTS Enabled
 
 This is a template `CLAUDE.md` file for projects using Agent Vibes TTS.

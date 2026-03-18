@@ -1,3 +1,9 @@
+---
+title: "Agent Vibes TTS - Complete Installation Guide"
+description: "Step-by-step installation guide for Agent Vibes text-to-speech integration on macOS"
+tags: [guide, tts, integration]
+---
+
 # Agent Vibes TTS - Complete Installation Guide
 
 **Time Required**: ~18 minutes

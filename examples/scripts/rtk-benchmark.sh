@@ -4,13 +4,13 @@
 
 set -e
 
-echo "🚀 RTK Benchmark - T3 Stack Edition"
+echo "RTK Benchmark - T3 Stack Edition"
 echo "===================================="
 echo ""
 
 # Check RTK installation
 if ! command -v rtk &> /dev/null; then
-    echo "❌ RTK not found. Install from: https://github.com/pszymkowiak/rtk"
+    echo "RTK not found. Install from: https://github.com/rtk-ai/rtk"
     exit 1
 fi
 
@@ -56,16 +56,16 @@ benchmark() {
             reduction="N/A"
         fi
 
-        status="✅"
+        status="OK"
         if [ "$rtk_chars" -eq 0 ] || [ "$reduction" = "N/A" ]; then
-            status="❌"
+            status="FAIL"
             reduction="N/A"
         fi
     else
         rtk_chars="N/A"
         rtk_tokens="N/A"
         reduction="N/A"
-        status="🚫 Not supported"
+        status="Not tested"
     fi
 
     # Write to results file
@@ -78,7 +78,7 @@ echo "|---------|------------------|-------------------|-------------|----------
 
 # Git commands
 echo ""
-echo "📊 Git Commands"
+echo "Git Commands"
 echo "==============="
 benchmark "git log -20" "git log -20" "rtk git log -- -20"
 benchmark "git status" "git status" "rtk git status"
@@ -86,55 +86,74 @@ benchmark "git diff HEAD~1" "git diff HEAD~1" "rtk git diff HEAD~1"
 
 # Find commands
 echo ""
-echo "📊 Find Commands"
+echo "Find Commands"
 echo "================"
 benchmark "find src/ -name '*.ts'" "find src/ -name '*.ts' 2>/dev/null || echo ''" "rtk find '*.ts' src/ 2>/dev/null || echo ''"
 benchmark "find src/ -name '*.tsx'" "find src/ -name '*.tsx' 2>/dev/null || echo ''" "rtk find '*.tsx' src/ 2>/dev/null || echo ''"
 
 # pnpm commands
 echo ""
-echo "📊 pnpm Commands (unsupported)"
+echo "pnpm Commands"
 echo "=============================="
-benchmark "pnpm list --depth=0" "pnpm list --depth=0 2>&1" ""
-benchmark "pnpm outdated" "pnpm outdated 2>&1 || echo 'All packages up-to-date'" ""
+benchmark "pnpm list --depth=0" "pnpm list --depth=0 2>&1" "rtk pnpm list 2>&1"
+benchmark "pnpm outdated" "pnpm outdated 2>&1 || echo 'All packages up-to-date'" "rtk pnpm outdated 2>&1 || echo 'All packages up-to-date'"
 
 # Test framework
 echo ""
-echo "📊 Test Framework (unsupported)"
+echo "Test Framework"
 echo "==============================="
-benchmark "pnpm test (first 50 lines)" "pnpm test 2>&1 | head -50" ""
+benchmark "pnpm test (first 50 lines)" "pnpm test 2>&1 | head -50" "rtk vitest run 2>&1 | head -50"
 
 # TypeScript
 echo ""
-echo "📊 TypeScript Compiler (unsupported)"
+echo "TypeScript Compiler"
 echo "===================================="
-benchmark "pnpm tsc --noEmit" "pnpm tsc --noEmit 2>&1 || echo 'No errors'" ""
+benchmark "pnpm tsc --noEmit" "pnpm tsc --noEmit 2>&1 || echo 'No errors'" "rtk tsc 2>&1 || echo 'No errors'"
 
 # Prisma
 echo ""
-echo "📊 Prisma (unsupported)"
+echo "Prisma"
 echo "======================="
-benchmark "pnpm prisma migrate status" "pnpm prisma migrate status 2>&1" ""
+benchmark "pnpm prisma migrate status" "pnpm prisma migrate status 2>&1" "rtk prisma migrate status 2>&1"
 
 # Build
 echo ""
-echo "📊 Build Tools (unsupported)"
+echo "Build Tools"
 echo "============================"
-benchmark "pnpm build (first 30 lines)" "pnpm build 2>&1 | head -30" ""
+benchmark "pnpm build (first 30 lines)" "pnpm build 2>&1 | head -30" "rtk next 2>&1 | head -30"
+
+# Cargo (Rust projects)
+echo ""
+echo "Cargo (Rust)"
+echo "============================"
+benchmark "cargo test" "cargo test 2>&1 || echo 'No Cargo.toml'" "rtk cargo test 2>&1 || echo 'No Cargo.toml'"
+benchmark "cargo build" "cargo build 2>&1 || echo 'No Cargo.toml'" "rtk cargo build 2>&1 || echo 'No Cargo.toml'"
+
+# Python
+echo ""
+echo "Python"
+echo "============================"
+benchmark "pytest" "python -m pytest 2>&1 || echo 'No pytest'" "rtk python pytest 2>&1 || echo 'No pytest'"
+
+# Go
+echo ""
+echo "Go"
+echo "============================"
+benchmark "go test" "go test ./... 2>&1 || echo 'No go.mod'" "rtk go test 2>&1 || echo 'No go.mod'"
 
 echo "" >> "$RESULTS_FILE"
 echo "---" >> "$RESULTS_FILE"
 echo "" >> "$RESULTS_FILE"
 echo "**Legend**:" >> "$RESULTS_FILE"
-echo "- ✅ Works: RTK filtering successful" >> "$RESULTS_FILE"
-echo "- ❌ Broken: RTK returned error or 0 bytes" >> "$RESULTS_FILE"
-echo "- 🚫 Not supported: RTK doesn't handle this command" >> "$RESULTS_FILE"
+echo "- OK: RTK filtering successful" >> "$RESULTS_FILE"
+echo "- FAIL: RTK returned error or 0 bytes" >> "$RESULTS_FILE"
+echo "- Not tested: Command not benchmarked with RTK" >> "$RESULTS_FILE"
 echo "" >> "$RESULTS_FILE"
-echo "**Token estimation**: chars / 4 ≈ tokens (rough approximation)" >> "$RESULTS_FILE"
+echo "**Token estimation**: chars / 4 ~ tokens (rough approximation)" >> "$RESULTS_FILE"
 
 echo ""
-echo "✅ Benchmark complete!"
-echo "📄 Results saved to: $RESULTS_FILE"
+echo "Benchmark complete!"
+echo "Results saved to: $RESULTS_FILE"
 echo ""
-echo "📊 Summary:"
+echo "Summary:"
 cat "$RESULTS_FILE" | grep "^|" | tail -n +2

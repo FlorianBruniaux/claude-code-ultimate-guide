@@ -1,0 +1,14 @@
+PASS: Q09-001
+PASS: Q09-002
+ISSUE: Q09-003 - [critical] CORRECT_ANSWER - Guide shows no CLI flag for headless mode, only mentions "Headless Mode" as section title with no content
+PASS: Q09-004
+ISSUE: Q09-005 - [warning] AMBIGUITY - "Rev the Engine" describes multiple rounds of PLANNING (think → plan → think harder → refine), not write-critique-improve cycles as stated in explanation
+ISSUE: Q09-006 - [warning] FACTUAL_ACCURACY - Guide context excerpt shows generic "## Output Format" header (line 4849) unrelated to CLI flags; actual flag exists but wrong context provided
+PASS: Q09-007
+PASS: Q09-008
+PASS: Q09-009
+PASS: Q09-010
+PASS: Q09-011
+PASS: Q09-012
+PASS: Q09-013
+PASS: Q09-014

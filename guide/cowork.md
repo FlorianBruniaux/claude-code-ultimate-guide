@@ -1,3 +1,9 @@
+---
+title: "Claude Cowork: Agentic Desktop for Knowledge Work"
+description: "Summary of Claude's agentic desktop feature for non-technical knowledge workers"
+tags: [guide, agents, workflows]
+---
+
 # Claude Cowork: Agentic Desktop for Knowledge Work
 
 > **📦 Complete documentation migrated to dedicated repository**
@@ -21,17 +27,30 @@
 
 ---
 
-## Quick Comparison
+## Three Claude Tools: Which One for You?
 
-| Aspect | Claude Code | Cowork | Projects |
-|--------|-------------|--------|----------|
-| **User** | Developers | Knowledge workers | Everyone |
-| **Interface** | Terminal | Desktop app | Web chat |
-| **Execute code** | Yes | No | No |
-| **File access** | Full | Folder sandbox | Upload only |
-| **Maturity** | Production | Research preview | Production |
+Three tools, one subscription ($20/mo Pro). They're complementary, not competing.
 
-→ [Full Comparison](https://github.com/FlorianBruniaux/claude-cowork-guide/blob/main/reference/comparison.md)
+| | Claude AI | Claude Code | Cowork |
+|---|-----------|-------------|--------|
+| **Interface** | Web / Mobile | Terminal (CLI) | Desktop app |
+| **Tagline** | You write, think, search | You code at scale | You automate without code |
+| **Definition** | Generalist conversational assistant | Autonomous agent for full codebases | Agentic file workflows for non-devs |
+| **Primary use cases** | Writing, brainstorming, research | Debugging, refactoring, testing | File organization, PDF extraction, cross-app workflows |
+| **Executes code** | No | Yes | No |
+| **File system access** | Upload only | Full | Folder sandbox |
+| **Setup required** | None | npm install -g @anthropic-ai/claude-code | macOS app install |
+| **Maturity** | Production | Production | Research preview |
+| **Ideal profile** | Writer · Consultant · Student | Developer · Engineer · Tech Lead | Ops · Assistant · SMB non-tech |
+| **Main tradeoff** | No system access | Token costs on heavy projects | macOS only, limited config |
+
+→ [Full Cowork vs Code comparison](https://github.com/FlorianBruniaux/claude-cowork-guide/blob/main/reference/comparison.md)
+
+### Decision guide
+
+- **Writing a doc or doing research?** → Claude AI
+- **Coding: refactoring, debugging, tests?** → Claude Code (you're in the right place)
+- **Organizing files, extracting PDFs, no code?** → Cowork
 
 ---
 

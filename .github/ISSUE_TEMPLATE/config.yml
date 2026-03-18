@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Ask a question
+    url: https://github.com/FlorianBruniaux/claude-code-ultimate-guide/discussions
+    about: Use Discussions for questions and general conversation about the guide.

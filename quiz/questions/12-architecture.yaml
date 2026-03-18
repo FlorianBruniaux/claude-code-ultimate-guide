@@ -206,3 +206,54 @@ questions:
       file: "guide/architecture.md"
       section: "Sub-Agent Types"
       anchor: "#sub-agent-types"
+
+  - id: "12-013"
+    difficulty: "junior"
+    profiles: ["junior", "senior", "power"]
+    question: "What tool replaced TodoWrite for task management in Claude Code v2.1.16+?"
+    options:
+      a: "ProjectManager API"
+      b: "Kanban tool"
+      c: "Tasks API (TaskCreate, TaskGet, TaskList, TaskUpdate)"
+      d: "AgendaWrite tool"
+    correct: "c"
+    explanation: |
+      The Tasks API (v2.1.16+) replaced TodoWrite with 4 tools: TaskCreate (create tasks with descriptions), TaskGet (fetch full task details), TaskList (list all tasks with status), TaskUpdate (update status, dependencies, metadata). Key improvement: task dependencies via blockedBy/blocks fields.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Tasks API"
+      anchor: "#tasks-api"
+
+  - id: "12-014"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "What is the API cost overhead of fetching full details for 50 tasks via Tasks API?"
+    options:
+      a: "10x overhead (10 API calls)"
+      b: "25x overhead (25 API calls)"
+      c: "51x overhead (1 TaskList + 50 TaskGet calls required)"
+      d: "100x overhead (100 API calls)"
+    correct: "c"
+    explanation: |
+      Tasks API limitation: TaskList returns only summary fields (id, subject, status, owner, blockedBy). To get full details (description, metadata), you need individual TaskGet calls. For 50 tasks: 1 TaskList + 50 TaskGet = 51 API calls. This N+1 pattern is a known limitation compared to TodoWrite which returned everything in one call.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "Tasks API Limitations"
+      anchor: "#tasks-api-limitations"
+
+  - id: "12-015"
+    difficulty: "power"
+    profiles: ["power"]
+    question: "What is TeammateTool and what is its status?"
+    options:
+      a: "Production-ready multi-agent framework"
+      b: "Experimental multi-agent coordination (spawnTeam, discoverTeams, requestJoin, approveJoin) - unstable, no official support"
+      c: "Official Anthropic tool for team collaboration"
+      d: "Deprecated feature replaced by Tasks API"
+    correct: "b"
+    explanation: |
+      TeammateTool is an experimental multi-agent coordination tool with 4 operations: spawnTeam, discoverTeams, requestJoin, approveJoin. Status: unstable, not officially supported by Anthropic. It allows Claude instances to form teams and coordinate, but the API is subject to change without notice. Not recommended for production use.
+    doc_reference:
+      file: "guide/ultimate-guide.md"
+      section: "TeammateTool"
+      anchor: "#teammatetool"

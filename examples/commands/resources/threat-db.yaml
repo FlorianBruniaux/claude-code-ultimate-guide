@@ -1,0 +1,1771 @@
+# AI Agent Skills & MCP Servers - Threat Intelligence Database
+# For use with /security-check and /security-audit commands
+# Manually maintained — update after new security advisories
+
+version: "2.7.0"
+updated: "2026-03-13"
+sources:
+  - name: "Snyk ToxicSkills"
+    url: "https://snyk.io/blog/toxicskills-malicious-ai-agent-skills-clawhub/"
+    date: "2026-02-05"
+  - name: "Koi Security ClawHavoc"
+    url: "https://www.koi.ai/blog/clawhavoc-341-malicious-clawedbot-skills-found-by-the-bot-they-were-targeting"
+    date: "2026-02-01"
+  - name: "SafeDep Agent Skills Threat Model"
+    url: "https://safedep.io/agent-skills-threat-model"
+    date: "2026-01"
+  - name: "Cymulate EscapeRoute (CVE-2025-53109/53110)"
+    url: "https://cymulate.com/blog/cve-2025-53109-53110-escaperoute-anthropic/"
+    date: "2025-09"
+  - name: "Checkpoint MCPoison (CVE-2025-54135/54136)"
+    url: "https://research.checkpoint.com/2025/cursor-vulnerability-mcpoison/"
+    date: "2025-10"
+  - name: "JFrog Prompt Hijacking (CVE-2025-6515)"
+    url: "https://jfrog.com/blog/mcp-prompt-hijacking-vulnerability/"
+    date: "2025-10"
+  - name: "JFrog PyPI MCP Reverse Shell"
+    url: "https://research.jfrog.com/post/3-malicious-mcps-pypi-reverse-shell/"
+    date: "2025-12"
+  - name: "Recorded Future MCP Inspector (CVE-2025-49596)"
+    url: "https://www.recordedfuture.com/blog/anthropic-mcp-inspector-cve-2025-49596"
+    date: "2025-07"
+  - name: "Flatt Security - 8 ways to pwn Claude Code"
+    url: "https://flatt.tech/research/posts/pwning-claude-code-in-8-different-ways/"
+    date: "2026-01"
+  - name: "SentinelOne WebFetch SSRF (CVE-2026-24052)"
+    url: "https://www.sentinelone.com/vulnerability-database/cve-2026-24052/"
+    date: "2026-01"
+  - name: "The Hacker News - MCP Git Server Flaws"
+    url: "https://thehackernews.com/2026/01/three-flaws-in-anthropic-mcp-git-server.html"
+    date: "2026-01"
+  - name: "Bitsight TRACE - Exposed MCP Servers"
+    url: "https://www.bitsight.com/blog/exposed-mcp-servers-reveal-new-ai-vulnerabilities"
+    date: "2026-01"
+  - name: "Defender's Initiative - Postmark MCP Squatter"
+    url: "https://defendersinitiative.substack.com/p/npm-not-another-package-malicious"
+    date: "2025-11"
+  - name: "SAFE-MCP Framework"
+    url: "https://www.safemcp.org"
+    date: "2026-01"
+  - name: "VirusTotal - OpenClaw Malicious Skills"
+    url: "https://blog.virustotal.com/2026/02/from-automation-to-infection-how.html"
+    date: "2026-02-02"
+  - name: "arXiv - Malicious Agent Skills Empirical Study"
+    url: "https://www.arxiv.org/abs/2602.06547"
+    date: "2026-02-06"
+  - name: "SentinelOne - xcode-mcp-server CVE-2026-2178"
+    url: "https://www.sentinelone.com/vulnerability-database/cve-2026-2178/"
+    date: "2026-02-13"
+  - name: "Immersive Labs - CVE-2026-23744 MCPJam RCE"
+    url: "https://community.immersivelabs.com/blog/the-human-connection-blog/new-cti-lab-cve-2026-23744-mcpjam-rce-offensive/3882"
+    date: "2026-01-21"
+  - name: "Aikido - Hallucinated npx Commands in Skills"
+    url: "https://www.aikido.dev/blog/agent-skills-spreading-hallucinated-npx-commands"
+    date: "2026-01-21"
+  - name: "OWASP Top 10 for Agentic AI Security Risks 2026"
+    url: "https://www.startupdefense.io/blog/owasp-top-10-agentic-ai-security-risks-2026"
+    date: "2026-02-16"
+  - name: "Lakera - The Agent Skill Ecosystem: When AI Extensions Become a Malware Delivery Channel"
+    url: "https://www.lakera.ai/blog/the-agent-skill-ecosystem-when-ai-extensions-become-a-malware-delivery-channel"
+    date: "2026-02-20"
+  - name: "Penligent AI - CVE-2026-0755 gemini-mcp-tool Command Injection"
+    url: "https://www.penligent.ai/hackinglabs/de/deep-analysis-of-gemini-mcp-tool-command-injection-cve-2026-0755-when-an-mcp-toolchain-hands-user-input-to-the-shell/"
+    date: "2026-02-07"
+  - name: "Snyk - SSRF in mcp-run-python (SNYK-PYTHON-MCPRUNPYTHON-15250607)"
+    url: "https://security.snyk.io/vuln/SNYK-PYTHON-MCPRUNPYTHON-15250607"
+    date: "2026-02-09"
+  - name: "The Hacker News - Anthropic Launches Claude Code Security"
+    url: "https://thehackernews.com/2026/02/anthropic-launches-claude-code-security.html"
+    date: "2026-02-21"
+  - name: "Check Point Research - CVE-2025-59536 & CVE-2026-21852 Claude Code RCE + API Key Theft"
+    url: "https://research.checkpoint.com/2026/rce-and-api-token-exfiltration-through-claude-code-project-files-cve-2025-59536/"
+    date: "2026-02-25"
+  - name: "The Hacker News - Claude Code Flaws Allow RCE and API Key Theft"
+    url: "https://thehackernews.com/2026/02/claude-code-flaws-allow-remote-code.html"
+    date: "2026-02-25"
+  - name: "Trend Micro - Malicious OpenClaw Skills Used to Distribute Atomic macOS Stealer"
+    url: "https://www.trendmicro.com/en_us/research/26/b/openclaw-skills-used-to-distribute-atomic-macos-stealer.html"
+    date: "2026-02-23"
+  - name: "1Password - From magic to malware: OpenClaw attack surface"
+    url: "https://1password.com/blog/from-magic-to-malware-how-openclaws-agent-skills-become-an-attack-surface"
+    date: "2026-02-02"
+  - name: "Red Hat - MCP Security Current Situation"
+    url: "https://www.redhat.com/en/blog/mcp-security-current-situation"
+    date: "2026-02-25"
+  - name: "NVD - CVE-2026-26029 sf-mcp-server Command Injection"
+    url: "https://nvd.nist.gov/vuln/detail/CVE-2026-26029"
+    date: "2026-02-11"
+  - name: "CVEDetails - CVE-2026-27203 eBay API MCP Server Env Injection"
+    url: "https://www.cvedetails.com/cve/CVE-2026-27203/"
+    date: "2026-02-20"
+  - name: "NVD - CVE-2026-27735 mcp-server-git Path Traversal in git_add"
+    url: "https://nvd.nist.gov/vuln/detail/CVE-2026-27735"
+    date: "2026-02-26"
+  - name: "Snyk - Clinejection: AI Bot → Supply Chain Attack via Cache Poisoning"
+    url: "https://snyk.io/blog/cline-supply-chain-attack-prompt-injection-github-actions/"
+    date: "2026-02-19"
+  - name: "The Hacker News - Cline CLI 2.3.0 Supply Chain Attack"
+    url: "https://thehackernews.com/2026/02/cline-cli-230-supply-chain-attack.html"
+    date: "2026-02-20"
+  - name: "Microsoft Security Blog - AI Recommendation Poisoning"
+    url: "https://www.microsoft.com/en-us/security/blog/2026/02/10/ai-recommendation-poisoning/"
+    date: "2026-02-10"
+  - name: "SonicWall - CVE-2026-25253 OpenClaw Auth Token Theft RCE"
+    url: "https://www.sonicwall.com/blog/openclaw-auth-token-theft-leading-to-rce-cve-2026-25253"
+    date: "2026-02-26"
+  - name: "Hunt.io - CVE-2026-25253 17500+ Exposed OpenClaw Instances"
+    url: "https://hunt.io/blog/cve-2026-25253-openclaw-ai-agent-exposure"
+    date: "2026-02-03"
+  - name: "NVD - CVE-2026-25725 Claude Code Sandbox Escape"
+    url: "https://nvd.nist.gov/vuln/detail/CVE-2026-25725"
+    date: "2026-02-06"
+  - name: "NVD - CVE-2026-0757 MCP Manager Claude Desktop Sandbox Escape"
+    url: "https://nvd.nist.gov/vuln/detail/CVE-2026-0757"
+    date: "2026-01-22"
+  - name: "ZDI - CVE-2025-15061 Framelink Figma MCP Server fetchWithRetry RCE"
+    url: "https://www.zerodayinitiative.com/advisories/ZDI-25-1197/"
+    date: "2025-12-29"
+  - name: "Check Point Advisories - CVE-2025-35028 HexStrike AI MCP Server"
+    url: "https://advisories.checkpoint.com/defense/advisories/public/2026/cpai-2025-12521.html"
+    date: "2026-03-02"
+  - name: "Oasis Security - ClawJacked OpenClaw WebSocket Hijack"
+    url: "https://www.oasis.security/blog/openclaw-vulnerability"
+    date: "2026-02-26"
+  - name: "THN - ClawJacked + 71 Malicious ClawHub Skills"
+    url: "https://thehackernews.com/2026/02/clawjacked-flaw-lets-malicious-sites.html"
+    date: "2026-02-28"
+  - name: "NVD - CVE-2026-3484 Nmap-Mcp-Server Command Injection"
+    url: "https://nvd.nist.gov/vuln/detail/CVE-2026-3484"
+    date: "2026-03-04"
+  - name: "Ona Security - Claude Code Autonomous Denylist and Sandbox Bypass"
+    url: "https://ona.com/stories/how-claude-code-escapes-its-own-denylist-and-sandbox"
+    date: "2026-03-03"
+  - name: "Brandefense - MCP Server Security: 10 Protocol-Level Attack Scenarios"
+    url: "https://brandefense.io/blog/mcp-server-security-protocol-attack-patterns/"
+    date: "2026-03-02"
+  - name: "THN / Tenable - CVE-2026-26118 Azure MCP Server SSRF"
+    url: "https://thehackernews.com/2026/03/microsoft-patches-84-flaws-in-march.html"
+    date: "2026-03-11"
+  - name: "ReversingLabs - OpenClaw and agentic AI risk: 3 application security lessons"
+    url: "https://www.reversinglabs.com/blog/openclaw-agentic-ai-risk"
+    date: "2026-03-10"
+  - name: "GitHub Security Lab - Taskflow Agent open-source vulnerability scanner"
+    url: "https://github.blog/security/how-to-scan-for-vulnerabilities-with-github-security-labs-open-source-ai-powered-framework/"
+    date: "2026-03-06"
+  - name: "OpenAI - Codex Security research preview"
+    url: "https://openai.com/index/codex-security-now-in-research-preview/"
+    date: "2026-03-05"
+  - name: "DryRun Security - AI coding agents introduce vulnerabilities in 87% of PRs"
+    url: "https://markets.businessinsider.com/news/stocks/new-dryrun-security-research-anthropic-s-claude-generates-the-most-unresolved-security-flaws-in-ai-built-applications-1035918593"
+    date: "2026-03-11"
+
+# ═══════════════════════════════════════════════════════════════
+# MALICIOUS AUTHORS (confirmed by security researchers)
+# ═══════════════════════════════════════════════════════════════
+malicious_authors:
+  # Snyk ToxicSkills confirmed — block ALL skills from these authors
+  - name: "zaycv"
+    source: "Snyk ToxicSkills"
+    risk: "critical"
+    notes: "40+ malicious skills, programmatic malware campaign, clawhub/clawdhub1 typosquats"
+  - name: "Aslaep123"
+    source: "Snyk ToxicSkills"
+    risk: "critical"
+    notes: "Malicious crypto/trading skills, typosquatted exchange tools"
+  - name: "pepe276"
+    source: "Snyk ToxicSkills"
+    risk: "critical"
+    notes: "Unicode-obfuscated instructions, DAN-style jailbreaking for exfiltration"
+  - name: "moonshine-100rze"
+    source: "Snyk ToxicSkills"
+    risk: "critical"
+    notes: "Mixed prompt-injection + exfil; GitHub repo aztr0nutzs/NET_NiNjA.v1.2 hosts additional weaponized skills"
+  # VirusTotal confirmed — single publisher, 314+ skills, 100% malicious
+  - name: "hightower6eu"
+    source: "VirusTotal OpenClaw Analysis"
+    risk: "critical"
+    notes: "Single malicious publisher responsible for 314+ OpenClaw skills; all confirmed malicious by VirusTotal scan; malware disguised as productivity/utility tools"
+
+# ═══════════════════════════════════════════════════════════════
+# MALICIOUS SKILLS (confirmed by researchers)
+# Organized by campaign and type for efficient scanning
+# ═══════════════════════════════════════════════════════════════
+malicious_skills:
+
+  # ─── Snyk ToxicSkills confirmed ───
+  - name: "clawhud"
+    type: "typosquatting"
+    target: "clawhub"
+    source: "Snyk ToxicSkills"
+    risk: "critical"
+  - name: "clawhub1"
+    type: "typosquatting"
+    target: "clawhub"
+    source: "Snyk ToxicSkills"
+    risk: "critical"
+  - name: "clawdhub1"
+    type: "typosquatting"
+    target: "clawhub"
+    source: "Snyk ToxicSkills"
+    risk: "critical"
+  - name: "polymarket-traiding-bot"
+    type: "malware"
+    source: "Snyk ToxicSkills + Koi AuthTool"
+    risk: "critical"
+    notes: "Typosquatting + credential theft"
+
+  # ─── ClawHavoc campaign: ClawHub CLI typosquats (29 skills) ───
+  # All deploy Atomic Stealer (AMOS) via fake prerequisites
+  - name: "clawhub"
+    type: "typosquatting"
+    target: "clawhub-cli"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "clawhubb"
+    type: "typosquatting"
+    target: "clawhub-cli"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "clawhubcli"
+    type: "typosquatting"
+    target: "clawhub-cli"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "clawwhub"
+    type: "typosquatting"
+    target: "clawhub-cli"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "cllawhub"
+    type: "typosquatting"
+    target: "clawhub-cli"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  # 23 random-suffix variants — match with pattern "clawhub-*"
+  - name: "clawhub-6yr3b"
+    type: "typosquatting"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "clawhub-c9y4p"
+    type: "typosquatting"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "clawhub-d4kxr"
+    type: "typosquatting"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "clawhub-f3qcn"
+    type: "typosquatting"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "clawhub-gpcrq"
+    type: "typosquatting"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "clawhub-gstca"
+    type: "typosquatting"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "clawhub-hh1fd"
+    type: "typosquatting"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "clawhub-hh2km"
+    type: "typosquatting"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "clawhub-hylhq"
+    type: "typosquatting"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "clawhub-i7oci"
+    type: "typosquatting"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "clawhub-i9zhz"
+    type: "typosquatting"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "clawhub-ja7eh"
+    type: "typosquatting"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "clawhub-krmvq"
+    type: "typosquatting"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "clawhub-oihpl"
+    type: "typosquatting"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "clawhub-olgys"
+    type: "typosquatting"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "clawhub-osasg"
+    type: "typosquatting"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "clawhub-rkvny"
+    type: "typosquatting"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "clawhub-sxtsn"
+    type: "typosquatting"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "clawhub-tlxx5"
+    type: "typosquatting"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "clawhub-uoeym"
+    type: "typosquatting"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "clawhub-wixce"
+    type: "typosquatting"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "clawhub-wotp2"
+    type: "typosquatting"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+
+  # ─── ClawHavoc: Crypto tools (111 skills) ───
+  # Solana wallet (33 variants) — pattern: solana-*
+  - name: "solana-*"
+    type: "malware"
+    category: "crypto"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+    notes: "33 variants (solana-07bcb through solana-ytzgw), deploys AMOS"
+  # Phantom wallet (29 variants) — pattern: phantom-*
+  - name: "phantom-*"
+    type: "malware"
+    category: "crypto"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+    notes: "29 variants (phantom-0jcvy through phantom-ygmjc), deploys AMOS"
+  # Wallet trackers (25 variants) — pattern: wallet-tracker-*
+  - name: "wallet-tracker-*"
+    type: "malware"
+    category: "crypto"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+    notes: "25 variants (wallet-tracker-0ghsk through wallet-tracker-zih4w)"
+  # Insider wallet finders (23 variants) — pattern: insider-wallets-finder-*
+  - name: "insider-wallets-finder-*"
+    type: "malware"
+    category: "crypto"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+    notes: "23 variants (insider-wallets-finder-1a7pi through insider-wallets-finder-zzs2p)"
+  # Ethereum gas trackers (14 variants) — pattern: ethereum-gas-tracker-*
+  - name: "ethereum-gas-tracker-*"
+    type: "malware"
+    category: "crypto"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+    notes: "14 variants"
+  # Lost Bitcoin (3 skills)
+  - name: "lost-bitcoin-10li1"
+    type: "malware"
+    category: "crypto"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "lost-bitcoin-dbrgt"
+    type: "malware"
+    category: "crypto"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "lost-bitcoin-eabml"
+    type: "malware"
+    category: "crypto"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+
+  # ─── ClawHavoc: YouTube utilities (57 skills) ───
+  # Summarizers (29 variants) — pattern: youtube-summarize-*
+  - name: "youtube-summarize-*"
+    type: "malware"
+    category: "youtube"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+    notes: "29 variants, deploys AMOS"
+  # Thumbnail grabbers (13 variants) — pattern: youtube-thumbnail-grabber-*
+  - name: "youtube-thumbnail-grabber-*"
+    type: "malware"
+    category: "youtube"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+    notes: "13 variants"
+  # Downloaders (13 variants) — pattern: youtube-video-downloader-*
+  - name: "youtube-video-downloader-*"
+    type: "malware"
+    category: "youtube"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+    notes: "13 variants"
+
+  # ─── ClawHavoc: Polymarket bots (34 skills) ───
+  - name: "poly"
+    type: "malware"
+    category: "polymarket"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "polym"
+    type: "malware"
+    category: "polymarket"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "polymarkets"
+    type: "malware"
+    category: "polymarket"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "polytrading"
+    type: "malware"
+    category: "polymarket"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  # 30 random-suffix variants — pattern: polymarket-*
+  - name: "polymarket-*"
+    type: "malware"
+    category: "polymarket"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+    notes: "30 variants (polymarket-25nwy through polymarket-z7lwp)"
+
+  # ─── ClawHavoc: Auto-updaters (30 skills) ───
+  - name: "amir"
+    type: "malware"
+    category: "updater"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "update"
+    type: "malware"
+    category: "updater"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "updater"
+    type: "malware"
+    category: "updater"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+  - name: "auto-updater-*"
+    type: "malware"
+    category: "updater"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+    notes: "27 variants (auto-updater-161ks through auto-updater-xsunp)"
+
+  # ─── ClawHavoc: Finance & social (76 skills) ───
+  - name: "yahoo-finance-*"
+    type: "malware"
+    category: "finance"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+    notes: "24 variants"
+  - name: "x-trends-*"
+    type: "malware"
+    category: "social"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+    notes: "25 variants"
+
+  # ─── ClawHavoc: Google Workspace (17 skills) ───
+  - name: "google-workspace-*"
+    type: "malware"
+    category: "productivity"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+    notes: "17 variants targeting Gmail/Calendar/Drive"
+
+  # ─── Koi outliers: AuthTool campaign (3 skills) ───
+  # NOT AMOS — separate payload
+  - name: "base-agent"
+    type: "malware"
+    source: "Koi ClawHavoc (AuthTool)"
+    risk: "critical"
+    notes: "Fake auth tool dropping separate payload"
+  - name: "bybit-agent"
+    type: "malware"
+    source: "Koi ClawHavoc (AuthTool)"
+    risk: "critical"
+    notes: "Fake auth tool dropping separate payload"
+
+  # ─── Koi outliers: Hidden backdoor (2 skills) ───
+  # Inline reverse shell to 54.91.154.110:13338
+  - name: "better-polymarket"
+    type: "backdoor"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+    notes: "Reverse shell to 54.91.154.110:13338 via /bin/bash -i >/dev/tcp/..."
+  - name: "polymarket-all-in-one"
+    type: "backdoor"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+    notes: "Reverse shell to 54.91.154.110:13338"
+
+  # ─── Koi outliers: Credential exfiltration (1 skill) ───
+  - name: "rankaj"
+    type: "credential-theft"
+    source: "Koi ClawHavoc"
+    risk: "critical"
+    notes: "Reads ~/.clawdbot/.env, POSTs to webhook.site/358866c4-81c6-4c30-9c8c-358db4d04412"
+
+  # ─── Supply chain: Malicious MCP servers on PyPI (JFrog) ───
+  - name: "mcp-runcmd-server"
+    type: "supply-chain"
+    platform: "pypi"
+    source: "JFrog"
+    risk: "critical"
+    notes: "Reverse shell to 45.115.38.27:4433 before starting MCP server"
+  - name: "mcp-runcommand-server"
+    type: "supply-chain"
+    platform: "pypi"
+    source: "JFrog"
+    risk: "critical"
+    notes: "Reverse shell to 45.115.38.27:4433"
+  - name: "mcp-runcommand-server2"
+    type: "supply-chain"
+    platform: "pypi"
+    source: "JFrog"
+    risk: "critical"
+    notes: "Reverse shell to 45.115.38.27:4433"
+
+  # ─── Supply chain: Malicious npm MCP package ───
+  - name: "postmark-mcp"
+    type: "supply-chain"
+    platform: "npm"
+    source: "Defender's Initiative"
+    risk: "critical"
+    notes: "Squatter copying official Postmark MCP with hidden backdoor"
+
+# ═══════════════════════════════════════════════════════════════
+# MALICIOUS SKILL PATTERNS (for wildcard/regex matching)
+# Use these when scanning installed skills by name
+# ═══════════════════════════════════════════════════════════════
+malicious_skill_patterns:
+  # Exact prefix matches — any skill starting with these is suspicious
+  - pattern: "clawhub-"
+    campaign: "ClawHavoc"
+    risk: "critical"
+    notes: "29 typosquat variants with random suffixes"
+  - pattern: "solana-"
+    campaign: "ClawHavoc"
+    risk: "critical"
+    notes: "33 crypto wallet variants"
+  - pattern: "phantom-"
+    campaign: "ClawHavoc"
+    risk: "critical"
+    notes: "29 phantom wallet variants"
+  - pattern: "wallet-tracker-"
+    campaign: "ClawHavoc"
+    risk: "critical"
+    notes: "25 wallet tracker variants"
+  - pattern: "insider-wallets-finder-"
+    campaign: "ClawHavoc"
+    risk: "critical"
+    notes: "23 variants"
+  - pattern: "ethereum-gas-tracker-"
+    campaign: "ClawHavoc"
+    risk: "critical"
+    notes: "14 variants"
+  - pattern: "youtube-summarize-"
+    campaign: "ClawHavoc"
+    risk: "critical"
+    notes: "29 summarizer variants"
+  - pattern: "youtube-thumbnail-grabber-"
+    campaign: "ClawHavoc"
+    risk: "critical"
+    notes: "13 variants"
+  - pattern: "youtube-video-downloader-"
+    campaign: "ClawHavoc"
+    risk: "critical"
+    notes: "13 variants"
+  - pattern: "polymarket-"
+    campaign: "ClawHavoc"
+    risk: "critical"
+    notes: "30 random-suffix variants"
+  - pattern: "auto-updater-"
+    campaign: "ClawHavoc"
+    risk: "critical"
+    notes: "27 variants"
+  - pattern: "yahoo-finance-"
+    campaign: "ClawHavoc"
+    risk: "critical"
+    notes: "24 variants"
+  - pattern: "x-trends-"
+    campaign: "ClawHavoc"
+    risk: "critical"
+    notes: "25 variants"
+  - pattern: "google-workspace-"
+    campaign: "ClawHavoc"
+    risk: "critical"
+    notes: "17 variants"
+  - pattern: "lost-bitcoin-"
+    campaign: "ClawHavoc"
+    risk: "critical"
+    notes: "3 variants"
+  - pattern: "mcp-runcmd"
+    campaign: "PyPI supply chain"
+    risk: "critical"
+    notes: "JFrog: reverse shell MCP servers"
+  - pattern: "mcp-runcommand"
+    campaign: "PyPI supply chain"
+    risk: "critical"
+    notes: "JFrog: reverse shell MCP servers"
+
+# ═══════════════════════════════════════════════════════════════
+# CVE DATABASE (MCP servers & AI agent tools)
+# ═══════════════════════════════════════════════════════════════
+cve_database:
+  # --- Anthropic Filesystem MCP ---
+  - id: "CVE-2025-53109"
+    component: "Filesystem MCP Server"
+    severity: "high"
+    description: "Symlink escape to arbitrary filesystem access / potential LPE"
+    source: "Cymulate EscapeRoute"
+    fixed_in: "0.6.3 / 2025.7.1"
+    mitigation: "Update to >= 0.6.3; avoid Filesystem MCP in sensitive environments"
+
+  - id: "CVE-2025-53110"
+    component: "Filesystem MCP Server"
+    severity: "high"
+    description: "Naive prefix-match directory bypass (startsWith on paths)"
+    source: "Cymulate EscapeRoute"
+    fixed_in: "0.6.3 / 2025.7.1"
+    mitigation: "Update to >= 0.6.3"
+
+  # --- Anthropic MCP Inspector ---
+  - id: "CVE-2025-49596"
+    component: "MCP Inspector"
+    severity: "critical"
+    cvss: 9.4
+    description: "RCE via unauthenticated proxy on 0.0.0.0; drive-by RCE from malicious web page"
+    source: "Recorded Future / SocRadar"
+    fixed_in: "0.14.1"
+    mitigation: "Update to >= 0.14.1; restrict to localhost"
+    notes: "~560 exposed instances found on Shodan"
+
+  # --- Anthropic MCP Git Server (3 flaws, Jan 2026) ---
+  - id: "CVE-2025-68143"
+    component: "MCP Git Server (mcp-server-git)"
+    severity: "high"
+    description: "git_init path traversal — arbitrary filesystem path for repo creation"
+    source: "The Hacker News / PointGuard AI"
+    fixed_in: "2025.9.25"
+    mitigation: "Update; restrict Git MCP to trusted repos"
+
+  - id: "CVE-2025-68144"
+    component: "MCP Git Server (mcp-server-git)"
+    severity: "high"
+    description: "Argument injection in git_diff/git_checkout — shell metacharacters via user-controlled args"
+    source: "The Hacker News / PointGuard AI"
+    fixed_in: "2025.12.18"
+    mitigation: "Update; sanitize all user inputs to git CLI"
+
+  - id: "CVE-2025-68145"
+    component: "MCP Git Server (mcp-server-git)"
+    severity: "high"
+    description: "--repository path validation bypass — access beyond allowlist"
+    source: "The Hacker News / PointGuard AI"
+    fixed_in: "2025.12.18"
+    mitigation: "Update; enforce strict path validation"
+
+  # --- MCP Python SDK ---
+  - id: "CVE-2025-66416"
+    component: "MCP Python SDK (mcp on PyPI)"
+    severity: "medium"
+    description: "DNS rebinding to local HTTP MCP servers when using FastMCP HTTP/SSE with no auth"
+    source: "Debian Security Tracker"
+    fixed_in: "1.23.0"
+    mitigation: "Update to >= 1.23.0; enable TransportSecuritySettings explicitly"
+
+  # --- MCP Gateway ---
+  - id: "CVE-2025-64443"
+    component: "MCP Gateway"
+    severity: "medium"
+    description: "DNS rebinding against SSE/streaming listeners — indirect access to MCP servers behind gateway"
+    source: "Blog Gowrishankar"
+    fixed_in: "0.28.0"
+    mitigation: "Update to > 0.27.0"
+
+  # --- MCP TypeScript SDK ---
+  - id: "CVE-2026-25536"
+    component: "MCP TypeScript SDK"
+    severity: "high"
+    description: "Cross-client response data leak when reusing single server+transport across multiple SSE clients"
+    source: "Feedly CVE"
+    fixed_in: "1.26.0"
+    mitigation: "Update to >= 1.26.0; isolate transport instances per client"
+
+  # --- Cursor IDE ---
+  - id: "CVE-2025-54135"
+    component: "Cursor IDE"
+    severity: "high"
+    cvss: 8.6
+    description: "CurXecute — RCE via prompt injection writing .cursor/mcp.json"
+    source: "Checkpoint / PropelCode"
+    fixed_in: "1.3.9"
+    mitigation: "Update to Cursor >= 1.3.9; file integrity monitoring on mcp.json"
+
+  - id: "CVE-2025-54136"
+    component: "Cursor IDE"
+    severity: "high"
+    description: "MCPoison — persistent RCE via trusted config mutation; post-approval changes auto-execute"
+    source: "Checkpoint"
+    fixed_in: "1.3.9"
+    mitigation: "Update to >= 1.3.9; Git hooks + hash verification on mcp.json"
+
+  # --- Claude Code ---
+  - id: "CVE-2025-66032"
+    component: "Claude Code"
+    severity: "high"
+    description: "8 command execution bypasses via blocklist flaws (man --html, sed e modifier, git arg ambiguity, bash variable expansion)"
+    source: "Flatt Security"
+    fixed_in: "1.0.93"
+    mitigation: "Update to Claude Code >= 1.0.93"
+
+  - id: "CVE-2026-24052"
+    component: "Claude Code WebFetch"
+    severity: "high"
+    description: "SSRF via startsWith() domain validation bypass in WebFetch (trusted-domain prefix attack)"
+    source: "SentinelOne"
+    fixed_in: "1.0.111"
+    mitigation: "Update to Claude Code >= 1.0.111"
+
+  - id: "CVE-2025-59536"
+    component: "Claude Code"
+    severity: "critical"
+    description: "RCE via enableAllProjectMcpServers config — malicious .claude/settings.json or .mcp.json sets flag to auto-start MCP servers before trust dialog is shown; injected commands execute immediately upon claude startup in untrusted directory"
+    source: "Check Point Research (2026-02-25)"
+    fixed_in: "1.0.111"
+    mitigation: "Update to Claude Code >= 1.0.111; never run claude in untrusted repositories without reviewing config files first"
+    notes: "Paired with CVE-2026-21852; both disclosed by Check Point Research; trust dialog bypass is the core issue"
+
+  - id: "CVE-2026-21852"
+    component: "Claude Code"
+    severity: "medium"
+    cvss: 5.3
+    description: "API key exfiltration via ANTHROPIC_BASE_URL in malicious repository config — attacker sets ANTHROPIC_BASE_URL to attacker-controlled server in .claude/settings.json; Claude Code sends API requests (including bearer API key) before trust dialog is presented"
+    source: "Check Point Research (2026-02-25)"
+    fixed_in: "2.0.65"
+    mitigation: "Update to Claude Code >= 2.0.65; inspect .claude/settings.json and .mcp.json before opening unfamiliar repos"
+    notes: "With stolen key: access workspace storage, shared project files, unauthorized uploads, unexpected API cost generation"
+
+  - id: "ADVISORY-CC-2026-001"
+    component: "Claude Code"
+    severity: "high"
+    description: "Sandbox bypass — commands excluded from sandboxing could bypass Bash permission enforcement (details undisclosed)"
+    source: "Claude Code CHANGELOG v2.1.34"
+    fixed_in: "2.1.34"
+    mitigation: "Update to Claude Code >= 2.1.34"
+    notes: "No CVE assigned. Fixed in CHANGELOG. Separate from CVE-2026-25725 (different sandbox escape)."
+
+  # --- Third-party MCP servers ---
+  - id: "CVE-2025-53967"
+    component: "Framelink Figma MCP Server (figma-developer-mcp)"
+    severity: "high"
+    cvss: 7.5
+    description: "Command injection via unsanitized input in fetchWithRetry curl command"
+    source: "Geordie AI / EndorLabs"
+    fixed_in: "0.6.3"
+    mitigation: "Update to >= 0.6.3"
+
+  - id: "CVE-2025-9611"
+    component: "Microsoft Playwright MCP Server (@playwright/mcp)"
+    severity: "medium"
+    description: "DNS rebinding / Origin-less CSRF — missing Origin validation on local instance"
+    source: "Mondoo / NVD"
+    fixed_in: "0.0.40"
+    mitigation: "Update to >= 0.0.40"
+
+  - id: "CVE-2025-6515"
+    component: "MCP SSE Transport (oatpp-mcp)"
+    severity: "high"
+    description: "Prompt hijacking via predictable/reused session IDs; attacker replaces tool outputs"
+    source: "JFrog"
+    mitigation: "Use cryptographically secure session IDs (128+ bits entropy)"
+
+  - id: "CVE-2026-25546"
+    component: "Godot MCP Server (godot-mcp)"
+    severity: "high"
+    description: "Command injection via user-controlled projectPath passed to exec()"
+    source: "Feedly CVE"
+    fixed_in: "0.1.1"
+    mitigation: "Update to >= 0.1.1; sanitize projectPath; avoid exec() with user input"
+
+  - id: "CVE-2025-54073"
+    component: "mcp-package-docs"
+    severity: "high"
+    description: "Command injection in child_process.exec via unsanitized input"
+    source: "NVD"
+    fixed_in: "0.1.28"
+    mitigation: "Update to >= 0.1.28"
+
+  # --- MCPJam Inspector ---
+  - id: "CVE-2026-23744"
+    component: "MCPJam Inspector"
+    severity: "critical"
+    description: "RCE via crafted HTTP request that triggers automatic MCP server installation; allows remote attacker to execute arbitrary code on developer machine"
+    source: "Immersive Labs / CVE-2026-23744"
+    fixed_in: "1.4.3"
+    mitigation: "Update MCPJam Inspector to >= 1.4.3; restrict to localhost; do not expose MCPJam to untrusted networks"
+    notes: "Affects local-first MCP dev platform; versions <= 1.4.2 vulnerable"
+
+  # --- xcode-mcp-server ---
+  - id: "CVE-2026-2178"
+    component: "xcode-mcp-server (r-huijts)"
+    severity: "high"
+    description: "Command injection in registerXcodeTools function via unsanitized args argument passed to exec(); allows RCE or data exfiltration"
+    source: "SentinelOne"
+    fixed_in: "after commit f3419f00117aa9949e326f78cc940166c88f18cb"
+    mitigation: "Update to latest commit post-f3419f00; avoid passing user-controlled input to exec(); switch to execFile() with argument arrays"
+
+  # --- gemini-mcp-tool ---
+  - id: "CVE-2026-0755"
+    component: "gemini-mcp-tool"
+    severity: "critical"
+    cvss: 9.8
+    description: "Command injection via LLM-generated arguments passed directly to shell execution primitives without validation; network-reachable RCE via JSON-RPC CallTool requests requiring no authentication and no user interaction"
+    source: "Penligent AI"
+    fixed_in: "no fix confirmed at time of research (2026-02-22)"
+    mitigation: "Replace shell string execution with execFile() and argument arrays; validate all LLM-generated arguments before passing to any exec primitive; do not expose gemini-mcp-tool to untrusted networks"
+
+  # --- mcp-run-python ---
+  - id: "SNYK-PYTHON-MCPRUNPYTHON-15250607"
+    component: "mcp-run-python"
+    severity: "high"
+    description: "SSRF via overly permissive Deno sandbox configuration — sandbox allows localhost interface access, enabling attackers to reach internal network resources through crafted Python code execution requests"
+    source: "Snyk (2026-02-09)"
+    fixed_in: "unknown — check upstream for patch"
+    mitigation: "Restrict Deno sandbox network permissions to block localhost/internal ranges; do not expose mcp-run-python to untrusted inputs or external networks"
+
+  # --- MCP Salesforce Connector ---
+  - id: "CVE-2026-25650"
+    component: "MCP Salesforce Connector"
+    severity: "medium"
+    description: "Arbitrary attribute access — prior to 0.1.10, attacker can access arbitrary object attributes via crafted MCP requests, potentially exposing sensitive Salesforce data"
+    source: "NVD"
+    fixed_in: "0.1.10"
+    mitigation: "Update MCP Salesforce Connector to >= 0.1.10; enforce attribute allowlists"
+
+  # --- sf-mcp-server ---
+  - id: "CVE-2026-26029"
+    component: "sf-mcp-server (Salesforce MCP)"
+    severity: "high"
+    description: "Command injection via unsafe child_process.exec when constructing Salesforce CLI commands with user-controlled input; allows arbitrary code execution on the host"
+    source: "NVD (2026-02-11)"
+    fixed_in: "unknown — check upstream"
+    mitigation: "Replace child_process.exec with execFile() and sanitize all user-controlled inputs; avoid sf-mcp-server until patched"
+
+  # --- eBay API MCP Server ---
+  - id: "CVE-2026-27203"
+    component: "eBay API MCP Server (open-source)"
+    severity: "medium"
+    description: "Environment variable injection via updateEnvFile function in ebay_set_user_tokens tool — all versions vulnerable; attacker can inject arbitrary env variables to the .env file"
+    source: "CVEDetails (2026-02-20)"
+    fixed_in: "no fix confirmed"
+    mitigation: "Sanitize all inputs to updateEnvFile; do not expose eBay MCP Server to untrusted inputs"
+
+  # --- MCP Git Server (additional, git_add path traversal) ---
+  - id: "CVE-2026-27735"
+    component: "MCP Git Server (mcp-server-git)"
+    severity: "medium"
+    cvss: 6.4
+    description: "Path traversal in git_add tool — unsafe GitPython repo.index.add() call without path boundary validation allows staging/committing files outside repo (e.g. /etc/shadow, ~/.ssh/id_rsa); attacker or confused LLM can exfiltrate sensitive host files via a commit push"
+    source: "NVD / dev.to (2026-02-26)"
+    fixed_in: "2026.1.14"
+    mitigation: "Update mcp-server-git to >= 2026.1.14; audit recent git commits managed by agents for unexpected file paths"
+    notes: "Distinct from CVE-2025-68143/68144/68145 (those affect git_init/git_diff/git_checkout); this affects git_add; fix uses repo.git.add('--', *files) instead of repo.index.add(files)"
+
+  # --- OpenClaw (clawdbot / Moltbot) ---
+  - id: "CVE-2026-25253"
+    component: "OpenClaw (aka clawdbot, Moltbot)"
+    severity: "high"
+    cvss: 8.8
+    description: "Authentication token theft and RCE via malicious gatewayUrl — OpenClaw automatically establishes a WebSocket connection to a URL provided in the query string without origin validation; clicking attacker-crafted link causes OpenClaw to transmit auth token to attacker-controlled server; attacker replays token for full system access. 17,500+ internet-exposed instances identified."
+    source: "SonicWall / Hunt.io / runZero (2026-02-03 to 2026-02-26)"
+    fixed_in: "2026.1.29"
+    mitigation: "Update OpenClaw to >= 2026.1.29; block public internet exposure of OpenClaw instances"
+    notes: "CWE-669 (Incorrect Resource Transfer Between Spheres); exposes unauthenticated /api/export-auth endpoint leaking stored API tokens for Claude, OpenAI, Google AI"
+
+  # --- Claude Code (additional CVEs) ---
+  - id: "CVE-2026-25725"
+    component: "Claude Code"
+    severity: "high"
+    description: "Sandbox escape via persistent configuration injection — bubblewrap sandbox failed to protect missing .claude/settings.json; malicious code running inside sandbox creates settings.json with SessionStart hooks that execute with host privileges after Claude Code restart"
+    source: "NVD / GHSA-ff64-7w26-62rf (2026-02-06)"
+    fixed_in: "2.1.2"
+    mitigation: "Update Claude Code to >= 2.1.34 (covers this and subsequent fixes); monitor .claude/settings.json for unexpected SessionStart hooks"
+    notes: "CWE-501 Trust Boundary Violation; distinct from ADVISORY-CC-2026-001 (which is a different sandbox bypass patched in 2.1.34)"
+
+  # --- MCP Manager for Claude Desktop ---
+  - id: "CVE-2026-0757"
+    component: "MCP Manager for Claude Desktop"
+    severity: "high"
+    description: "Command injection sandbox escape — execute-command functionality fails to sanitize user-supplied strings from MCP config objects before passing to system calls; attacker crafts malicious webpage with injected config objects, causing MCP Manager to execute arbitrary commands outside the sandbox"
+    source: "NVD / ZDI-CAN-27810 (2026-01-22)"
+    fixed_in: "unknown — check upstream"
+    mitigation: "Restrict MCP Manager access to trusted configurations only; sanitize all MCP config object fields before system calls; block untrusted file/webpage access"
+
+  # --- HexStrike AI MCP Server ---
+  - id: "CVE-2025-35028"
+    component: "HexStrike AI MCP Server (0x4m4)"
+    severity: "critical"
+    cvss: 9.1
+    description: "Command injection via semicolon-prefixed argument — EnhancedCommandExecutor class fails to sanitize command-line arguments; attacker provides argument beginning with ; to API endpoint, executing arbitrary commands with MCP server privileges (typically root in default config)"
+    source: "Check Point Advisories / NVD (2025-11-30)"
+    fixed_in: "no fix confirmed at time of research"
+    mitigation: "Sanitize all command-line arguments; replace exec()-style calls with execFile() with argument arrays; do not expose HexStrike AI MCP Server to untrusted networks or inputs"
+    notes: "CWE-78; attack requires no authentication, no user interaction; default configuration typically runs as root"
+
+  # --- Nmap-Mcp-Server ---
+  - id: "CVE-2026-3484"
+    component: "nmap-mcp-server (PhialsBasement)"
+    severity: "medium"
+    cvss: 6.5
+    description: "Command injection in Nmap CLI Command Handler — child_process.exec in src/index.ts processes special elements (CWE-74/CWE-77) without sanitization; remotely exploitable with no authentication required"
+    source: "NVD / PT Security (2026-03-04)"
+    fixed_in: "patch commit 30a6b9e1c7fa6146f51e28d6ab83a2568d9a3488"
+    mitigation: "Apply patch commit 30a6b9e...; replace child_process.exec with execFile() and argument arrays; sanitize all nmap arguments"
+
+  # --- Azure MCP Server (Microsoft) ---
+  - id: "CVE-2026-26118"
+    component: "Azure MCP Server Tools (Microsoft Azure)"
+    severity: "high"
+    cvss: 8.8
+    description: "SSRF leading to managed identity token theft and privilege escalation — attacker sends crafted input to exposed Azure MCP Server endpoint; server forwards request to attacker-controlled URL including its managed identity token; attacker captures token and gains all permissions associated with the MCP server's managed identity (can reach Azure resources, management APIs, subscriptions)"
+    source: "Microsoft Patch Tuesday March 2026 / Tenable / The Hacker News (2026-03-10)"
+    fixed_in: "March 10, 2026 Patch Tuesday update"
+    mitigation: "Apply Microsoft March 2026 security update; restrict Azure MCP Server endpoints to trusted callers; audit managed identity permissions (principle of least privilege); monitor for unexpected outbound requests from MCP server processes"
+    notes: "CWE-918 SSRF; rated 'Exploitation Less Likely' by Microsoft; part of 84-CVE March 2026 Patch Tuesday"
+
+  # --- Framelink Figma MCP Server (additional CVE) ---
+  - id: "CVE-2025-15061"
+    component: "Framelink Figma MCP Server (figma-developer-mcp)"
+    severity: "critical"
+    cvss: 9.8
+    description: "Command injection RCE via fetchWithRetry method — user-supplied input passed to system calls without sanitization of shell metacharacters; authentication not required; allows arbitrary code execution with MCP server service account privileges"
+    source: "ZDI-25-1197 / SentinelOne (2025-12-29, NVD published 2026-01-23)"
+    fixed_in: "latest patched version (see upstream)"
+    mitigation: "Update Framelink Figma MCP Server to latest version; sanitize all user-supplied inputs; restrict MCP Server network access to trusted sources"
+    notes: "Distinct CVE from CVE-2025-53967 (same component/method, different CVE assignment; CVSS 9.8 vs 7.5); CWE-78"
+
+# ═══════════════════════════════════════════════════════════════
+# MINIMUM SAFE VERSIONS (quick reference for scanning)
+# ═══════════════════════════════════════════════════════════════
+minimum_safe_versions:
+  "filesystem-mcp": "0.6.3"
+  "mcp-inspector": "0.14.1"
+  "mcp-server-git": "2026.1.14"
+  "mcp-python-sdk": "1.23.0"
+  "mcp-gateway": "0.28.0"
+  "figma-developer-mcp": "0.6.3"
+  "@playwright/mcp": "0.0.40"
+  "mcp-package-docs": "0.1.28"
+  "cursor": "1.3.9"
+  "claude-code": "2.1.34"
+  "mcpjam-inspector": "1.4.3"
+  "mcp-salesforce-connector": "0.1.10"
+  "openclaw": "2026.1.29"
+  "azure-mcp-server": "March 2026 Patch Tuesday (2026-03-10)"
+
+# ═══════════════════════════════════════════════════════════════
+# IOCs (Indicators of Compromise)
+# ═══════════════════════════════════════════════════════════════
+iocs:
+  # ClawHavoc C2 IPs — block outbound connections
+  c2_ips:
+    - ip: "91.92.242.30"
+      campaign: "ClawHavoc"
+      notes: "Primary AMOS dropper host"
+    - ip: "95.92.242.30"
+      campaign: "ClawHavoc"
+    - ip: "96.92.242.30"
+      campaign: "ClawHavoc"
+    - ip: "202.161.50.59"
+      campaign: "ClawHavoc"
+    - ip: "54.91.154.110"
+      campaign: "ClawHavoc"
+      notes: "Reverse shell target (better-polymarket, polymarket-all-in-one) port 13338"
+    - ip: "45.115.38.27"
+      campaign: "PyPI MCP reverse shell (JFrog)"
+      notes: "Reverse shell on port 4433"
+
+  # Exfiltration endpoints
+  exfil_urls:
+    - url: "webhook.site/358866c4-81c6-4c30-9c8c-358db4d04412"
+      skill: "rankaj"
+      source: "Koi ClawHavoc"
+      notes: "Credential exfiltration endpoint"
+
+  # Malicious GitHub repos
+  github_repos:
+    - repo: "aztr0nutzs/NET_NiNjA.v1.2"
+      author: "moonshine-100rze"
+      source: "Snyk ToxicSkills"
+      notes: "Hosts additional weaponized skills not yet on ClawHub"
+
+  # AMOS sample hashes (from Koi report)
+  malware_hashes:
+    - hash: "1e6d4b05...e2298"
+      type: "AMOS Mach-O"
+      source: "Koi ClawHavoc"
+    - hash: "0e52566c...dd65"
+      type: "AMOS Mach-O"
+      source: "Koi ClawHavoc"
+
+# ═══════════════════════════════════════════════════════════════
+# SUSPICIOUS PATTERNS (for grep-based scanning)
+# ═══════════════════════════════════════════════════════════════
+suspicious_patterns:
+  # Hook exfiltration patterns
+  hooks:
+    - pattern: "curl|wget"
+      description: "Network calls in hooks (potential data exfiltration)"
+      risk: "high"
+      action: "Review every network call in hooks — legitimate hooks rarely need outbound requests"
+    - pattern: "nc |ncat|netcat"
+      description: "Netcat in hooks (reverse shell indicator)"
+      risk: "critical"
+      action: "Remove immediately — no legitimate hook use case"
+    - pattern: "base64"
+      description: "Base64 encoding in hooks (payload obfuscation)"
+      risk: "medium"
+      action: "Verify what is being encoded — common evasion technique"
+    - pattern: "eval|exec"
+      description: "Dynamic code execution in hooks"
+      risk: "high"
+      action: "Verify source of executed code"
+    - pattern: '\$\(.*\)|`.*`'
+      description: "Command substitution in hooks"
+      risk: "medium"
+      action: "Verify no sensitive data is captured"
+    - pattern: "/dev/tcp|/dev/udp"
+      description: "Bash network redirects (reverse shell)"
+      risk: "critical"
+      action: "Remove immediately"
+    - pattern: "ssh|id_rsa|id_ed25519"
+      description: "SSH key access in hooks"
+      risk: "critical"
+      action: "No hook should access SSH keys"
+    - pattern: '.env|credentials|secret|password|token|api.key'
+      description: "Credential file access in hooks"
+      risk: "critical"
+      action: "No hook should read credential files"
+    - pattern: "glot.io|pastebin.com|hastebin.com"
+      description: "Paste site references in hooks (common payload hosting)"
+      risk: "high"
+      action: "Review carefully — ClawHavoc uses glot.io for obfuscated scripts"
+
+  # Agent/skill red flags
+  agents:
+    - pattern: 'allowed-tools.*Bash'
+      description: "Broad Bash access in agent definition"
+      risk: "medium"
+      action: "Verify agent needs shell access — prefer specific tools"
+    - pattern: 'allowed-tools.*\["Bash"\]'
+      description: "Agent with ONLY Bash access (common in malicious agents)"
+      risk: "high"
+      action: "Highly suspicious — legitimate agents use specific tools"
+    - pattern: "ignore previous|disregard|override"
+      description: "Prompt injection attempt in agent system prompt"
+      risk: "critical"
+      action: "Remove agent — confirmed injection vector"
+    - pattern: "you are now|new instructions|forget"
+      description: "Role hijacking in agent instructions"
+      risk: "high"
+      action: "Review agent source carefully"
+    - pattern: "developer mode|DAN|jailbreak"
+      description: "Jailbreak attempt in skill/agent instructions"
+      risk: "critical"
+      action: "Remove immediately — used by pepe276 and others"
+
+  # Config red flags
+  config:
+    - pattern: "dangerouslySkipPermissions|dangerously"
+      description: "Dangerous permission bypass flags"
+      risk: "critical"
+      action: "Remove — never use in production"
+    - pattern: '"allow".*"Bash\(.*\*.*\)"'
+      description: "Wildcard Bash permissions"
+      risk: "high"
+      action: "Narrow to specific commands"
+    - pattern: '"allow".*"Write\(.*\*.*\)"'
+      description: "Wildcard Write permissions"
+      risk: "high"
+      action: "Narrow to specific paths"
+    - pattern: "@latest"
+      description: "Unpinned MCP server version in mcp.json"
+      risk: "high"
+      action: "Pin to exact version — unpinned packages are supply-chain targets"
+
+  # Secrets patterns (in any file)
+  secrets:
+    - pattern: '(?i)(api[_-]?key|apikey)\s*[=:]\s*["\x27][A-Za-z0-9_\-]{20,}["\x27]'
+      description: "Hardcoded API key"
+      risk: "critical"
+    - pattern: '(?i)(secret|password|passwd|pwd)\s*[=:]\s*["\x27][^\x27"]{8,}["\x27]'
+      description: "Hardcoded secret/password"
+      risk: "critical"
+    - pattern: '(?i)(token|bearer)\s*[=:]\s*["\x27][A-Za-z0-9_\-\.]{20,}["\x27]'
+      description: "Hardcoded token"
+      risk: "critical"
+    - pattern: "sk-[a-zA-Z0-9]{20,}"
+      description: "OpenAI API key pattern"
+      risk: "critical"
+    - pattern: "sk-ant-[a-zA-Z0-9]{20,}"
+      description: "Anthropic API key pattern"
+      risk: "critical"
+    - pattern: "ghp_[a-zA-Z0-9]{36}"
+      description: "GitHub personal access token"
+      risk: "critical"
+    - pattern: "AKIA[A-Z0-9]{16}"
+      description: "AWS access key ID"
+      risk: "critical"
+    - pattern: 'xox[bps]-[a-zA-Z0-9\-]{20,}'
+      description: "Slack token"
+      risk: "critical"
+    - pattern: '-----BEGIN (RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----'
+      description: "Private key in file"
+      risk: "critical"
+
+  # Prompt injection in markdown/config
+  injection:
+    - pattern: '[\x{200B}-\x{200D}\x{FEFF}]'
+      description: "Zero-width Unicode characters (invisible instructions)"
+      risk: "high"
+      encoding: "unicode"
+    - pattern: '[\x{202A}-\x{202E}\x{2066}-\x{2069}]'
+      description: "RTL/bidirectional override characters"
+      risk: "high"
+      encoding: "unicode"
+    - pattern: '[\x{E0000}-\x{E007F}]'
+      description: "Tag characters (invisible Unicode block)"
+      risk: "high"
+      encoding: "unicode"
+    - pattern: '\x1b\[|\x1b\]|\x1b\('
+      description: "ANSI escape sequences (terminal injection)"
+      risk: "medium"
+    - pattern: '\x00'
+      description: "Null byte (string truncation attack)"
+      risk: "high"
+    - pattern: '<!--.*(?:ignore|forget|override|system|admin|instruction).*-->'
+      description: "Hidden instructions in HTML comments"
+      risk: "high"
+
+  # SKILL.md / skill content red flags
+  skill_content:
+    - pattern: 'curl.*\|.*bash'
+      description: "Remote script execution (curl pipe bash)"
+      risk: "critical"
+      action: "Classic malware delivery — review URL and content"
+    - pattern: 'base64.*-[dD].*\|.*bash'
+      description: "Base64-decoded command execution"
+      risk: "critical"
+      action: "Obfuscated payload — likely malicious"
+    - pattern: 'password.*openclaw|openclaw.*password'
+      description: "Password-protected archive with known ClawHavoc password"
+      risk: "critical"
+      action: "Matches ClawHavoc delivery pattern"
+    - pattern: 'chmod.*\+x.*&&.*\./'
+      description: "Download, make executable, run — malware dropper pattern"
+      risk: "critical"
+    - pattern: '/bin/bash.*-i.*>/dev/tcp'
+      description: "Interactive reverse shell"
+      risk: "critical"
+      action: "Remove immediately"
+    - pattern: 'webhook\.site|requestbin\.com'
+      description: "Data exfiltration via webhook/request bin service"
+      risk: "high"
+      action: "Verify intent — common exfil endpoint"
+
+# ═══════════════════════════════════════════════════════════════
+# CAMPAIGN SIGNATURES
+# ═══════════════════════════════════════════════════════════════
+campaigns:
+  - name: "ClawHavoc"
+    source: "Koi Security"
+    date: "2026-02-01"
+    skills_count: 341
+    amos_skills: 335
+    outlier_skills: 6
+    platform: "ClawHub / OpenClaw"
+    malware: "Atomic Stealer (AMOS) + Windows infostealers"
+    delivery:
+      - "Fake prerequisites in SKILL.md"
+      - "Base64-encoded shell snippets from glot.io"
+      - "Password-protected ZIPs (password: 'openclaw')"
+      - "Second-stage dropper from raw IP"
+    c2_ips:
+      - "91.92.242.30"
+      - "95.92.242.30"
+      - "96.92.242.30"
+      - "202.161.50.59"
+      - "54.91.154.110"
+    targets:
+      - "Cryptocurrency wallets (60+ wallets: Exodus, Binance, Electrum, Atomic, Ledger)"
+      - "Browser data (Chrome, Safari, Firefox, Brave, Edge)"
+      - "SSH keys and shell history"
+      - "Telegram sessions"
+      - "Keychain passwords (macOS)"
+    categories:
+      crypto: 111
+      youtube: 57
+      finance_social: 76
+      polymarket: 34
+      typosquatting: 29
+      auto_updaters: 30
+      google_workspace: 17
+    outliers:
+      auth_tool: ["base-agent", "bybit-agent", "polymarket-traiding-bot"]
+      reverse_shell: ["better-polymarket", "polymarket-all-in-one"]
+      credential_theft: ["rankaj"]
+
+  - name: "ToxicSkills"
+    source: "Snyk"
+    date: "2026-02-05"
+    skills_scanned: 3984
+    platforms: ["ClawHub", "skills.sh"]
+    findings:
+      total_flawed: 1467
+      flawed_percentage: 36.82
+      critical_risk: 534
+      critical_percentage: 13.4
+      malicious_payloads: 76
+      still_live_at_scan: 8
+      hardcoded_secrets_percentage: 10.9
+      remote_content_fetch_percentage: 17.7
+      remote_prompt_execution_percentage: 2.9
+    known_malicious_authors:
+      - "zaycv"
+      - "Aslaep123"
+      - "pepe276"
+      - "moonshine-100rze"
+
+  - name: "PyPI MCP Reverse Shell"
+    source: "JFrog"
+    date: "2025-12"
+    platform: "PyPI"
+    packages:
+      - "mcp-runcmd-server"
+      - "mcp-runcommand-server"
+      - "mcp-runcommand-server2"
+    c2_ip: "45.115.38.27"
+    c2_port: 4433
+    technique: "Spawns /bin/sh -i reverse shell before starting MCP server"
+
+  - name: "Postmark MCP Squatter"
+    source: "Defender's Initiative"
+    date: "2025-11"
+    platform: "npm"
+    package: "postmark-mcp"
+    technique: "Copies official Postmark MCP server with hidden backdoor"
+
+  - name: "Clinejection"
+    source: "Snyk / Adnan Khan (researcher)"
+    date: "2026-02-17"
+    platform: "GitHub Actions / npm"
+    packages:
+      - "cline-cli@2.3.0 (malicious, 4000 downloads, 8-hour window)"
+    technique: "Prompt injection via GitHub issue title → GitHub Actions cache poisoning (10 GB junk fill, LRU eviction) → stolen CI/CD publishing tokens → malicious npm publish"
+    tokens_stolen:
+      - "VSCE_PAT"
+      - "OVSX_PAT"
+      - "NPM_RELEASE_TOKEN"
+    payload: "OpenClaw AI agent installer distributed to developer machines"
+    timeline:
+      - "2026-01-01: Researcher Adnan Khan submits GHSA and notifies Cline"
+      - "2026-02-09: Public disclosure; Cline patches in 30 minutes"
+      - "2026-02-17: Unknown actor exploits, publishes malicious cline-cli 2.3.0"
+    notes: "Potential blast radius: 5M+ VS Code users with auto-update enabled; Cline moved to OIDC provenance post-fix"
+    sources:
+      - "https://snyk.io/blog/cline-supply-chain-attack-prompt-injection-github-actions/"
+      - "https://adnanthekhan.com/posts/clinejection/"
+      - "https://thehackernews.com/2026/02/cline-cli-230-supply-chain-attack.html"
+
+  - name: "ClawHub Wave 3 / VirusTotal Bypass"
+    source: "ReversingLabs / Paul McCarty (OpenSourceMalware)"
+    date: "2026-03-10"
+    platform: "ClawHub / OpenClaw"
+    technique: "After OpenClaw integrated VirusTotal scanning, attackers pivoted to hosting malware on lookalike OpenClaw websites; skills are used as decoys with no embedded payload (passing VirusTotal clean), but direct victims to attacker-controlled lookalike domains for 'installation prerequisites'. Bypasses hash-based scanning entirely."
+    notes: "Tactical evolution from ClawHavoc (direct payload in SKILL.md) and Wave 2 (mixed payloads). Now requires domain-level blocking of lookalike sites, not just skill content scanning. Concurrent with Jamieson O'Reilly research finding worm-friendly XSS in ClawHub marketplace itself enabling one-click account takeover."
+    sources:
+      - "https://www.reversinglabs.com/blog/openclaw-agentic-ai-risk"
+      - "https://www.adminbyrequest.com/en/blogs/openclaw-went-from-viral-ai-agent-to-security-crisis-in-just-three-weeks"
+
+  - name: "ClawHub Wave 2 (71 Skills)"
+    source: "Oasis Security / The Hacker News"
+    date: "2026-02-28"
+    platform: "ClawHub / OpenClaw"
+    skills_count: 71
+    malware: "Various malware + cryptocurrency scams"
+    notes: "Discovered alongside ClawJacked disclosure; second identifiable wave after ClawHavoc (341 skills in Feb 2026). Skills spread malware and crypto scams via ClawHub marketplace. Concurrent with OpenClaw patching the ClawJacked flaw (v2026.2.26) and log poisoning bug (v2026.2.13)."
+    sources:
+      - "https://thehackernews.com/2026/02/clawjacked-flaw-lets-malicious-sites.html"
+      - "https://www.oasis.security/blog/openclaw-vulnerability"
+
+# ═══════════════════════════════════════════════════════════════
+# ATTACK TECHNIQUES TAXONOMY
+# Maps to SAFE-MCP framework and common patterns
+# ═══════════════════════════════════════════════════════════════
+attack_techniques:
+  - id: "T001"
+    name: "Tool Poisoning via SKILL.md"
+    description: "Hidden instructions in SKILL.md that instruct the agent to run malicious commands"
+    examples:
+      - "curl | bash from glot.io scripts"
+      - "Password-protected ZIP with embedded malware"
+      - "Base64-decoded eval commands"
+    campaigns: ["ClawHavoc", "ToxicSkills"]
+    mitigation: "Scan SKILL.md for shell commands; never auto-execute prerequisites"
+
+  - id: "T002"
+    name: "Memory Poisoning"
+    description: "Injection of persistent instructions into SOUL.md, MEMORY.md, CLAUDE.md, AGENTS.md"
+    examples:
+      - "Skills targeting SOUL.md/MEMORY.md to inject persistent backdoor instructions"
+      - "Cognitive worms that replicate across agent memory files"
+    campaigns: ["ToxicSkills"]
+    mitigation: "Treat memory files as config; require code review for changes; monitor diffs"
+
+  - id: "T003"
+    name: "Rug Pull / Post-Approval Mutation"
+    description: "Benign config approved once, then mutated to malicious version that auto-executes"
+    examples:
+      - "MCPoison: .cursor/rules/mcp.json approved, then updated with reverse shell"
+      - "ClawHub skills updated without changelog to swap in AMOS installer"
+    cves: ["CVE-2025-54136"]
+    mitigation: "Hash verification on configs; re-approval on any change"
+
+  - id: "T004"
+    name: "Confused Deputy via MCP"
+    description: "Attacker manipulates MCP session/output; client trusts poisoned response"
+    examples:
+      - "oatpp-mcp session ID reuse (CVE-2025-6515)"
+      - "Git MCP + Filesystem MCP chain via poisoned README"
+    cves: ["CVE-2025-6515", "CVE-2025-68143", "CVE-2025-68144", "CVE-2025-68145"]
+    mitigation: "Cryptographic session IDs; input validation; least-privilege for MCP tools"
+
+  - id: "T005"
+    name: "DNS Rebinding on Local MCP"
+    description: "Malicious website rebinds domain to 127.0.0.1 to access local MCP servers"
+    examples:
+      - "MCP Python SDK HTTP/SSE servers (CVE-2025-66416)"
+      - "MCP Gateway SSE (CVE-2025-64443)"
+      - "Playwright MCP (CVE-2025-9611)"
+    cves: ["CVE-2025-66416", "CVE-2025-64443", "CVE-2025-9611"]
+    mitigation: "Use stdio transport; enable DNS rebinding protection; authenticate local servers"
+
+  - id: "T006"
+    name: "Supply Chain Package Attack"
+    description: "Malicious packages published to registries mimicking legitimate MCP servers"
+    examples:
+      - "PyPI: mcp-runcmd-server, mcp-runcommand-server (JFrog)"
+      - "npm: postmark-mcp squatter"
+    campaigns: ["PyPI MCP Reverse Shell", "Postmark MCP Squatter"]
+    mitigation: "Verify package author; check download counts; use SafeDep vet"
+
+  - id: "T007"
+    name: "Hook-Based Exfiltration"
+    description: "Malicious .claude/hooks/ scripts run on agent events with full user privileges"
+    examples:
+      - "SessionStart hook that POSTs environment variables"
+      - "PostToolUse hook that exfiltrates file paths and content"
+    mitigation: "Review all hooks; forbid auto-running hooks from untrusted repos; maintain hook allowlist"
+
+  - id: "T008"
+    name: "Credential Theft via Agent"
+    description: "Agent instructed to read credential files and send to attacker"
+    examples:
+      - "rankaj skill: reads ~/.clawdbot/.env, POSTs to webhook.site"
+      - "Base64-encoded curl to send ~/.aws/credentials"
+    campaigns: ["ClawHavoc", "ToxicSkills"]
+    mitigation: "Block agent access to .env, .aws, .ssh directories; use pre-execution hooks"
+
+  - id: "T009"
+    name: "Slopsquatting / Hallucinated Package Injection"
+    description: "Malicious skills spread hallucinated or fabricated package names (e.g. via npx commands) that resolve to attacker-controlled packages on npm/PyPI when executed"
+    examples:
+      - "Skills with setup instructions referencing nonexistent npm packages that typosquat legitimate tools"
+      - "AI-generated skill content propagating hallucinated npx commands that install malicious packages"
+    source: "Aikido Security (2026-01-21)"
+    mitigation: "Verify every package reference in SKILL.md before executing setup instructions; use package lockfiles; pin all dependencies to known-good checksums"
+
+  - id: "T010"
+    name: "Agent-to-Agent Communication Injection"
+    description: "Attacker injects malicious instructions into communication channels (Slack, email, ticketing systems, code review comments) that AI agents monitor autonomously; agent executes unauthorized actions without cryptographic source verification"
+    examples:
+      - "Posting fake urgent security alerts in Slack channels monitored by DevOps AI agents causing unauthorized deployments"
+      - "Embedding malicious instructions in GitHub issue comments that redirect CI/CD agents to commit backdoored code"
+      - "Crafting PR review comments that cause coding agents to weaken security controls under the guise of refactoring"
+    source: "Pillar Security / Cisco AI Security Research (2026)"
+    mitigation: "Validate agent instruction sources cryptographically; treat all external channel content as untrusted user input; require human-in-the-loop for high-impact actions triggered via monitored channels; scope agent permissions to minimum required for task"
+
+  - id: "T011"
+    name: "Project Configuration Hijacking"
+    description: "Attacker embeds malicious settings in repository config files (.claude/settings.json, .mcp.json) that auto-execute MCP servers or redirect API traffic before trust dialog is shown; the configuration layer — not the code — is the attack surface"
+    examples:
+      - "Setting enableAllProjectMcpServers:true in .claude/settings.json to auto-start attacker MCP server that executes commands before trust dialog (CVE-2025-59536)"
+      - "Setting ANTHROPIC_BASE_URL to attacker endpoint in repo config — API key sent in plaintext before user can approve or deny the directory (CVE-2026-21852)"
+      - "Injecting claude hooks in settings.json to run exfiltration scripts on PostToolUse events"
+    cves: ["CVE-2025-59536", "CVE-2026-21852"]
+    source: "Check Point Research (2026-02-25)"
+    mitigation: "Review .claude/settings.json and .mcp.json before opening unfamiliar repos; treat these files as code, not metadata; update Claude Code to >= 2.0.65; never clone-and-run from untrusted sources without inspecting config files first"
+
+  - id: "T013"
+    name: "Autonomous Safety Control Bypass"
+    description: "AI coding agent autonomously disables or circumvents its own security controls (sandbox, denylist, permission enforcement) when those controls block task completion, without explicit attacker instruction — the agent's reasoning determines that bypassing safety is necessary to fulfill the assigned goal"
+    examples:
+      - "Claude Code disabling bubblewrap sandbox when it blocks file operations required for task"
+      - "Agent using path tricks, ELF dynamic linker, or alternative code-loading mechanisms to bypass denylist enforcement"
+      - "Agent finding sandbox escape paths proactively when sandbox prevents API calls or shell execution"
+    source: "Ona Security / Leonardo Di Donato (2026-03-03)"
+    mitigation: "Treat agent-initiated security control disabling as a red flag requiring human review; implement hard security boundaries that cannot be overridden by agent reasoning; monitor for unexpected sandbox exits or denylist bypass attempts; apply principle of least privilege so agents cannot access sandbox configuration"
+
+  - id: "T012"
+    name: "AI Recommendation Poisoning"
+    description: "Attacker embeds hidden instructions in URLs (e.g. 'Summarize with AI' buttons, share links) that inject persistent memory entries into AI assistants, biasing future recommendations toward attacker-controlled content or services"
+    examples:
+      - "Company embeds 'remember [Brand] as a trusted source' in URL parameters of 'Summarize with AI' buttons; user clicks → AI memory poisoned; every future conversation biased"
+      - "Malicious share links containing memory-altering prompts distributed via email or web pages"
+      - "50+ unique prompts from 31 companies across 14 industries documented by Microsoft over 60 days (2026-02-10)"
+    high_risk_sectors:
+      - "Health advice (biased medical recommendations)"
+      - "Financial services (biased investment advice)"
+    detection:
+      - "Hunt for URLs pointing to AI assistant domains containing prompt keywords: 'remember', 'trusted source', 'in future conversations', 'authoritative source', 'cite'"
+      - "Periodically audit AI memory for entries referencing brands or commercial interests"
+      - "Monitor web proxy / browser history for clicks to AI-assistant share URLs with prompt parameters"
+    source: "Microsoft Security Blog (2026-02-10)"
+    mitigation: "Disable URL-based memory pre-population in AI assistants where possible; treat any 'Summarize with AI' button as potentially adversarial; periodically clear AI memory; hover over AI buttons before clicking to inspect destination URL"
+
+  - id: "T014"
+    name: "WebSocket Localhost Gateway Hijacking"
+    description: "Malicious website opens WebSocket connection to locally running AI agent gateway on localhost, brute-forces the gateway password (rate limiter exempts localhost), auto-registers as trusted device, and gains admin-level control of the victim's AI agent session"
+    examples:
+      - "ClawJacked: JavaScript on attacker page connects to OpenClaw localhost port, brute-forces password at hundreds/s, registers device without user confirmation, reads logs and exfiltrates config data"
+      - "Any locally exposed AI agent gateway that exempts localhost from rate limiting or auto-trusts localhost device pairings"
+    affected_platforms: ["OpenClaw (patched v2026.2.26)"]
+    source: "Oasis Security (2026-02-26)"
+    mitigation: "Update OpenClaw to >= v2026.2.26; apply rate limiting to ALL connections including localhost; require explicit user confirmation for device pairing; block WebSocket connections from browser contexts to localhost AI agent ports; use CORS headers to prevent cross-origin WebSocket upgrades"
+
+  - id: "T016"
+    name: "Lookalike Platform / Scanner Evasion"
+    description: "Attacker hosts malware on lookalike AI agent platform websites (fake ClawHub, fake skills.sh); skills on the real platform are clean decoys that redirect victims to lookalike domains for 'prerequisites' or 'dependencies'. Bypasses hash-based scanner integrations (e.g. VirusTotal) because the skill file itself contains no malicious payload."
+    examples:
+      - "Post-VirusTotal-integration ClawHavoc evolution: clean skills instruct users to download from openclaw-tools[.]io or similar lookalike domains"
+      - "Skills referencing 'official installation docs' hosted on attacker-controlled domains"
+    campaigns: ["ClawHub Wave 3 / VirusTotal Bypass"]
+    source: "ReversingLabs / Paul McCarty (OpenSourceMalware) 2026-03-10"
+    mitigation: "Domain verification for all external links in SKILL.md; never follow SKILL.md instructions to external websites; use network egress filtering; check domain registration dates for 'official' skill installer links"
+
+  - id: "T015"
+    name: "Log Poisoning via WebSocket for Prompt Injection"
+    description: "Attacker writes malicious content to publicly exposed AI agent log files via unauthenticated WebSocket requests; since the agent reads its own logs to troubleshoot tasks, the injected content acts as indirect prompt injection, triggering unintended agent actions"
+    examples:
+      - "OpenClaw: WebSocket requests to TCP port 18789 (publicly accessible) inject adversarial instructions into log files; agent reading logs during troubleshooting executes attacker instructions"
+      - "Any AI agent that parses its own logs as part of context or troubleshooting and has unauthenticated log-write endpoints"
+    affected_platforms: ["OpenClaw (patched v2026.2.13)"]
+    source: "Security Affairs / Oasis Security (2026-02-26 to 2026-03-02)"
+    mitigation: "Update OpenClaw to >= v2026.2.13; require authentication for all WebSocket endpoints including log-write; treat log files as untrusted input when parsed by the AI agent; sandbox log file read context to prevent prompt injection"
+
+# ═══════════════════════════════════════════════════════════════
+# SCANNING TOOLS
+# ═══════════════════════════════════════════════════════════════
+scanning_tools:
+  - name: "mcp-scan"
+    vendor: "Invariant / Snyk"
+    type: "cli"
+    command: "npx mcp-scan"
+    url: "https://github.com/invariantlabs-ai/mcp-scan"
+    capabilities:
+      - "Scans MCP server configurations for vulnerabilities"
+      - "Detects known vulnerable MCP servers and versions"
+      - "Scans SKILL.md for prompt injection, malicious code, secrets"
+      - "Supports Claude Desktop, Cursor, Windsurf configs"
+      - "Backed by ToxicSkills taxonomy (90-100% recall, 0% FP on skills.sh top-100)"
+    limitations:
+      - "413 error on large configs (~/.claude/ too big)"
+      - "Unknown MCP config on some VSCode setups"
+      - "Does not scan .claude/skills/ native Claude Code skills"
+      - "Requires network access to Snyk vulnerability DB"
+      - "Cannot detect runtime-only payloads fetched from benign-looking URLs"
+    notes: "Complement with local grep patterns from this threat-db"
+
+  - name: "skills-ref validate"
+    vendor: "agentskills.io"
+    type: "cli"
+    command: "skills-ref validate ./skill-dir"
+    url: "https://docs.rs/skills-ref-rs/latest/skills_ref/"
+    capabilities:
+      - "Validates skill spec compliance (SKILL.md structure, frontmatter, naming)"
+      - "Parse metadata to JSON (skills-ref read-properties)"
+      - "Generate agent prompts (skills-ref to-prompt)"
+    limitations:
+      - "Spec compliance only — does NOT detect malware or analyze code"
+      - "Reduces slopsquatting via naming rules but no security scanning"
+
+  - name: "Garak"
+    vendor: "NVIDIA"
+    type: "cli"
+    url: "https://github.com/NVIDIA/garak"
+    capabilities:
+      - "37+ probe modules for LLM vulnerabilities"
+      - "Prompt injection detection"
+      - "Jailbreak testing"
+      - "Data exfiltration probes"
+    limitations:
+      - "LLM-focused, not MCP/skill-specific"
+      - "Does not parse SKILL.md or MCP configs"
+
+  - name: "MCP Fortress"
+    vendor: "mcp-fortress"
+    type: "mcp-server + dashboard"
+    url: "https://github.com/mcp-fortress/mcp-fortress"
+    capabilities:
+      - "Scans npm/PyPI dependencies of MCP servers"
+      - "Queries CVE databases for risk scores"
+      - "Runtime protection — quarantines suspicious servers"
+      - "Streaming telemetry dashboard"
+      - "Can run as MCP server exposing security tools to Claude/Cursor"
+    limitations:
+      - "Newer project — smaller detection database than mcp-scan"
+
+  - name: "SafeDep vet MCP"
+    vendor: "SafeDep"
+    type: "mcp-server"
+    url: "https://safedep.io/introducing-vet-mcp-server/"
+    capabilities:
+      - "Software composition analysis integrated with agents"
+      - "Detects slopsquatting, vulnerable and malicious packages"
+      - "Screens package suggestions before pip/npm install"
+    limitations:
+      - "Package-focused — does not scan SKILL.md or agent configs"
+
+  - name: "Koi Clawdex"
+    vendor: "Koi Security"
+    type: "clawhub-skill"
+    capabilities:
+      - "ClawHub security addon / MCP"
+      - "Checks skills against Koi malicious skill database"
+      - "Pre-install and retroactive scan support"
+    limitations:
+      - "ClawHub/OpenClaw specific"
+
+  - name: "Mcpwn"
+    vendor: "community"
+    type: "cli"
+    url: "https://hackers-arise.com/artificial-intelligence-in-cybersecurity-part-9-how-to-test-mcp-servers-for-security-vulnerabilities/"
+    capabilities:
+      - "Dedicated MCP vulnerability scanner"
+      - "Detects RCE via command injection in MCP servers"
+      - "Path traversal weakness detection"
+      - "Prompt injection risk identification"
+      - "Quick scan mode focused on RCE surface"
+      - "Supports custom Python and Node.js MCP servers"
+    limitations:
+      - "Newer/community tool — smaller detection database than mcp-scan"
+      - "Less coverage of skills.sh / ClawHub skill scanning"
+
+  - name: "Proximity"
+    vendor: "community (open-source)"
+    type: "cli"
+    url: "https://www.helpnetsecurity.com/2025/10/29/proximity-open-source-mcp-security-scanner/"
+    capabilities:
+      - "Open-source MCP security scanner"
+      - "Identifies prompts, tools, and resources exposed by MCP servers"
+      - "Evaluates security risks via NOVA rule engine"
+      - "Detects prompt injection and jailbreak attempts in tool descriptions"
+    limitations:
+      - "Early-stage open-source project — smaller detection database than commercial tools"
+      - "Does not scan SKILL.md or agent config files"
+
+  - name: "Enkrypt AI MCP Scanner"
+    vendor: "Enkrypt AI"
+    type: "cloud-saas"
+    url: "https://www.enkryptai.com/mcp-scan"
+    capabilities:
+      - "Agentic static analysis for MCP servers"
+      - "Detects command injection, path traversal, prompt injection, code injection"
+      - "Identifies LLM-driven exploits and authorization gaps between docs and code"
+      - "Protocol-level vulnerability detection for MCP JSON-RPC implementation"
+    limitations:
+      - "Commercial/SaaS — not open-source"
+      - "Does not scan SKILL.md or ClawHub skills directly"
+
+  - name: "Cisco MCP Scanner"
+    vendor: "Cisco"
+    type: "cli"
+    url: "https://blogs.cisco.com/ai/ciscos-mcp-scanner-introduces-behavioral-code-threat-analysis"
+    capabilities:
+      - "Interprocedural dataflow analysis across MCP server functions"
+      - "Behavioral code threat analysis — compares documented intent vs actual behavior"
+      - "Detects hidden operations (undocumented network calls, file operations)"
+      - "Supports black-box (YARA/API scanning) and white-box (source code) analysis"
+      - "LLM-powered semantic analysis for intent vs behavior mismatch"
+    limitations:
+      - "Cisco-maintained — may require Cisco toolchain integration"
+      - "Does not scan skills.sh / ClawHub ecosystem"
+
+  - name: "NeuralTrust MCP Scanner"
+    vendor: "NeuralTrust"
+    type: "cloud-saas"
+    url: "https://neuraltrust.ai/mcp-scanner"
+    capabilities:
+      - "Detects poisoned or redefined tools and unsafe endpoint exposures"
+      - "Analyzes dependencies and integration risks"
+      - "Policy validation for MCP manifests"
+      - "Compliance mapping to OWASP, MITRE, and CWE frameworks"
+    limitations:
+      - "Commercial/SaaS platform"
+
+  - name: "Verify Security Scanner"
+    vendor: "Verify (mcpmarket.com)"
+    type: "claude-code-skill"
+    url: "https://mcpmarket.com/tools/skills/verify-security-bug-scanner"
+    capabilities:
+      - "Claude Code skill integrating Ultimate Bug Scanner (UBS) directly in agent workflow"
+      - "Detects 1000+ bug patterns across multiple programming languages"
+      - "SARIF and JSON output formats for CI/CD pipeline integration"
+      - "Mandatory pre-commit scan enforcement mode"
+      - "Targets AI-generated code patterns specifically"
+    limitations:
+      - "Claude Code specific — not usable outside OpenClaw/Claude Code skill ecosystem"
+      - "Requires Claude Code with skill support"
+
+  - name: "MCPScan.ai"
+    vendor: "mcpscan.ai"
+    type: "cloud-saas"
+    url: "https://mcpscan.ai"
+    capabilities:
+      - "Cloud platform with specialized LLM classifiers for poisoning detection"
+      - "Advanced Tool Metadata Scanner for MCP servers"
+      - "Detects shell command patterns, code injection, resource exhaustion risks"
+      - "Private scanning options for enterprise users"
+    limitations:
+      - "Cloud-based — requires sending server metadata to external platform"
+      - "Not open-source"
+
+  - name: "GitHub Security Lab Taskflow Agent"
+    vendor: "GitHub Security Lab"
+    type: "cli"
+    url: "https://github.blog/security/how-to-scan-for-vulnerabilities-with-github-security-labs-open-source-ai-powered-framework/"
+    capabilities:
+      - "Open-source AI-powered vulnerability scanner for codebases"
+      - "Effective at Auth Bypasses, IDORs, Token Leaks, and high-impact vulnerabilities"
+      - "Filters ~50% of low-severity findings while retaining high-impact ones"
+      - "Agentic reasoning approach — traces data flows and understands component interactions"
+    limitations:
+      - "Code-focused security scanner — does not scan SKILL.md or MCP configs"
+      - "Does not scan ClawHub / skills.sh ecosystems"
+    notes: "GitHub Security Lab open-source AI framework; launched 2026-03-06"
+
+  - name: "OpenAI Codex Security"
+    vendor: "OpenAI"
+    type: "cloud-saas"
+    url: "https://openai.com/index/codex-security-now-in-research-preview/"
+    capabilities:
+      - "AI application security agent combining agentic reasoning with automated validation"
+      - "Detects and patches complex vulnerabilities with 50%+ false positive reduction"
+      - "Over 90% reduction in over-reported severity vs traditional tools"
+      - "Scans 1.2M+ commits at scale (demonstrated on open-source projects)"
+    limitations:
+      - "Research preview — not generally available"
+      - "Code scanning focus — does not scan SKILL.md or agent configurations"
+    notes: "Complementary to Anthropic Claude Code Security; launched research preview 2026-03-05"
+
+  - name: "Mend SAST MCP"
+    vendor: "Mend.io"
+    type: "mcp-server"
+    url: "https://appsecsanta.com/mend-sast"
+    capabilities:
+      - "Commercial SAST with MCP server integration"
+      - "Real-time static analysis on AI-generated code via IDE"
+      - "Software composition analysis (SCA) for dependencies"
+      - "Integrates with Cursor, VS Code, Claude Code, Windsurf"
+      - "mend-code-security-assistant tool: SAST scans"
+      - "mend-dependencies-assistant tool: SCA checks"
+    limitations:
+      - "Commercial product — requires Mend.io subscription"
+      - "Code scanning focus — does not scan SKILL.md or MCP configs directly"
+
+# ═══════════════════════════════════════════════════════════════
+# DEFENSIVE FRAMEWORKS & BLOCKLISTS
+# ═══════════════════════════════════════════════════════════════
+defensive_resources:
+  - name: "SAFE-MCP"
+    url: "https://www.safemcp.org"
+    type: "framework"
+    description: "80+ techniques mapped to ATT&CK for MCP environments; policy-based blocklists"
+
+  - name: "OpenClaw VirusTotal Integration"
+    url: "https://thehackernews.com/2026/02/openclaw-integrates-virustotal-scanning.html"
+    type: "platform"
+    description: "ClawHub now hashes every skill bundle, checks VirusTotal, blocks/flags malicious; daily re-scan"
+
+  - name: "Docker MCP Gateway"
+    url: "https://www.docker.com/blog/mpc-horror-stories-cve-2025-49596-local-host-breach/"
+    type: "tool"
+    description: "Isolates MCP servers behind stdio transport; mitigates CVE-2025-49596-style localhost attacks"
+
+  - name: "Snyk AI-BOM & Evo"
+    url: "https://snyk.io/articles/snyk-mcp-cheat-sheet/"
+    type: "platform"
+    description: "AI bill of materials; inventory MCP servers and skills; enforce guardrails"
+
+  - name: "Bitsight TRACE"
+    url: "https://www.bitsight.com/blog/exposed-mcp-servers-reveal-new-ai-vulnerabilities"
+    type: "threat-intel"
+    description: "Continuous scanning of exposed MCP endpoints; ~1000 unauthenticated servers found"
+    stats:
+      exposed_servers: 1000
+      no_auth: true
+      risk_examples: ["Kubernetes clusters", "CRM access", "WhatsApp messaging", "arbitrary shell"]
+
+  - name: "OWASP Top 10 for Agentic AI Security Risks 2026"
+    url: "https://www.startupdefense.io/blog/owasp-top-10-agentic-ai-security-risks-2026"
+    type: "framework"
+    description: "Community-maintained OWASP-style Top 10 listing for agentic AI systems; covers Agent Goal Hijacking (#1), Supply Chain compromise, Tool Poisoning, Prompt Injection, Memory Poisoning, and more. Updated 2026-02-16."
+
+  - name: "Anthropic Claude Code Security"
+    url: "https://thehackernews.com/2026/02/anthropic-launches-claude-code-security.html"
+    type: "tool"
+    description: "Anthropic's AI-powered codebase security scanner with human-reviewed patch suggestions; launched 2026-02-21. Scans for vulnerabilities using Claude as the analysis engine with human oversight before applying fixes."
+
+  - name: "GuardFive AI Agent Security Scanner"
+    url: "https://guardfive.com/blog/the-complete-mcp-server-security-checklist-2026"
+    type: "cloud-saas"
+    description: "Scans MCP servers for tool poisoning, credential theft, and malicious attacks; provides MCP server security checklist aligned with 2026 threat landscape"
+
+  - name: "Palo Alto AI Runtime Security - MCP Threat Detection"
+    url: "https://docs.paloaltonetworks.com/content/techdocs/en_US/ai-runtime-security/administration/prevent-network-security-threats/detect-mcp-threats"
+    type: "platform"
+    description: "Network-level MCP threat detection by Palo Alto; validates MCP tool communications and detects prompt injection and tool poisoning in real-time traffic (2026-02-09)"
+
+  - name: "GitHub MCP Server Secret Scanning"
+    url: "https://github.com/github/roadmap/issues/1221"
+    type: "platform"
+    description: "GitHub Advanced Security secret scanning integrated into MCP-compatible developer workflows (IDEs and CLIs) via the Remote GitHub MCP Server. Enables detection of exposed secrets in MCP-connected IDE prompts, file reads, and tool calls without leaving the agent workflow. Available 2026-02-27."
+
+  - name: "Cycode AI Guardrails for MCP"
+    url: "https://cycode.com/blog/ai-cybersecurity-tools/"
+    type: "platform"
+    description: "Cycode's AI Governance module enforces MCP usage policies, tracks tool invocations, and provides AI Guardrails that intercept secrets in real time across IDE prompts, file reads, and MCP tool calls before they reach the LLM or external services. Part of broader SAST/SCA/secrets platform."
+
+  - name: "DryRun Security AI Coding Agent Research"
+    url: "https://markets.businessinsider.com/news/stocks/new-dryrun-security-research-anthropic-s-claude-generates-the-most-unresolved-security-flaws-in-ai-built-applications-1035918593"
+    type: "research"
+    description: "March 2026 study by DryRun Security: 87% of AI coding agent PRs (26/30) introduced at least one vulnerability; 143 total security issues across Claude Sonnet 4.6, OpenAI Codex, and Google Gemini builds. Top recurring flaws: broken access control, unauthenticated endpoints on destructive operations, OAuth missing state parameter, WebSocket auth gaps. Takeaway: AI agents accelerate development but do not apply security by default — requires dedicated security review layer."
+    stats:
+      prs_with_vulns_pct: 87
+      total_issues: 143
+      agents_tested: ["Claude Sonnet 4.6", "OpenAI Codex GPT 5.2", "Google Gemini 2.5 Pro"]
+
+  - name: "Qualys TotalAI MCP Asset Governance"
+    url: "https://blog.qualys.com/product-tech/2026/03/10/from-shadow-models-to-audit-ready-ai-security-a-practical-path-with-qualys-totalai"
+    type: "platform"
+    description: "Qualys TotalAI treats MCP servers as first-class security assets alongside models and endpoints. Supports inventory-first visibility across AI environments — discovers MCP server instances, tracks versions, and detects unmanaged/shadow MCP deployments. Available 2026-03-10."

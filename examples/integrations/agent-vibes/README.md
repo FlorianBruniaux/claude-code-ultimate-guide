@@ -1,3 +1,9 @@
+---
+title: "Agent Vibes TTS - Text-to-Speech for Claude Code"
+description: "Community MCP server adding text-to-speech capabilities to Claude Code"
+tags: [mcp, integration, plugin]
+---
+
 # Agent Vibes TTS - Text-to-Speech for Claude Code
 
 **Status**: Community MCP Server (optional)

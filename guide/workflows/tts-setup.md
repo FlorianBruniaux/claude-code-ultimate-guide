@@ -1,3 +1,9 @@
+---
+title: "TTS Setup Workflow - Agent Vibes Installation"
+description: "Add text-to-speech narration to Claude Code on macOS"
+tags: [workflow, tts, tutorial]
+---
+
 # TTS Setup Workflow - Agent Vibes Installation
 
 **Goal**: Add text-to-speech narration to Claude Code

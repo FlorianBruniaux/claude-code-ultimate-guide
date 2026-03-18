@@ -1,7 +1,6 @@
 ---
 name: validate-changes
 description: Evaluate staged changes using LLM-as-a-Judge before committing
-allowed-tools: Bash, Read, Grep, Glob, Task
 ---
 
 # Validate Changes Before Commit

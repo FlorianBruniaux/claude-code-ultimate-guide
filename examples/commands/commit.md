@@ -1,3 +1,8 @@
+---
+name: commit
+description: "Generate a conventional commit message for staged changes"
+---
+
 # Conventional Commit
 
 Generate a conventional commit message for staged changes.

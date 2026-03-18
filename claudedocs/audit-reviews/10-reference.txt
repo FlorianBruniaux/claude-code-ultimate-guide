@@ -1,0 +1,20 @@
+ISSUE: Q10-001 - [warning] CORRECT_ANSWER - Shift+Tab does NOT toggle plan/execute; it cycles through permission modes (default→auto→plan). Use /plan to explicitly enter Plan Mode.
+ISSUE: Q10-002 - [info] FACTUAL_ACCURACY - Explanation correct but context snippet does not show the Esc×2 shortcut (line 15862 only shows "Esc: Dismiss current suggestion", not Esc×2). Guide context incomplete.
+PASS: Q10-003
+ISSUE: Q10-004 - [warning] OUTDATED - Guide shows 75-90% for /compact (line 1449: "🔴 Red | 75-90% | Use /compact or /clear"). Explanation says 70-90% which conflicts. Threshold updated from 70% to 75% in recent versions.
+ISSUE: Q10-006 - [info] TRIVIAL - Question shows answer in option text: "Bash(git *)" is the only option with wildcard syntax matching the question "allow ALL git commands".
+PASS: Q10-007
+PASS: Q10-008
+PASS: Q10-009
+PASS: Q10-010
+PASS: Q10-011
+PASS: Q10-012
+PASS: Q10-013
+ISSUE: Q10-014 - [warning] FACTUAL_ACCURACY - Guide context shows "nano ~/.claude.json" (line 17354) which is NOT about .gitignore patterns. Correct info is in the explanation but context snippet is wrong file location.
+PASS: Q10-015
+PASS: Q10-016
+PASS: Q10-017
+PASS: Q10-018
+PASS: Q10-019
+PASS: Q10-020
+PASS: Q10-021
