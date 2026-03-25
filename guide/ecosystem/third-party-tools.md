@@ -330,6 +330,30 @@ A CLI that scaffolds pre-configured Claude Code setups with hooks, commands, sta
 
 ---
 
+### Claude Code Organizer
+
+A web dashboard and MCP server for organizing Claude Code configs across the full scope hierarchy (Global > Workspace > Project).
+
+| Attribute | Details |
+|-----------|---------|
+| **Source** | [GitHub: mcpware/claude-code-organizer](https://github.com/mcpware/claude-code-organizer) |
+| **Install** | `npx @mcpware/claude-code-organizer` |
+| **Language** | JavaScript (vanilla, zero dependencies) |
+| **License** | MIT |
+
+**Key features**:
+
+- Scans 11 categories in `~/.claude/`: memories, skills, MCP servers, commands, agents, rules, configs, hooks, plugins, plans, sessions
+- Visual scope inheritance tree showing what Claude loads per directory
+- Drag-and-drop items between scopes with undo on every action
+- Bulk operations (select multiple, move or delete at once)
+- Real-time search and filter across all scopes
+- MCP server mode (`--mcp`) so Claude can manage its own config programmatically
+
+**Limitations**: No inline editing of config content yet. No Windows support. Dashboard is read-write for memories/skills/MCP but locked for hooks/plugins/configs.
+
+---
+
 ## Configuration Quality
 
 Tools that score, audit, and maintain the quality of existing AI agent configs over time — as opposed to creating them from scratch.
