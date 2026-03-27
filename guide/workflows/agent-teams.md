@@ -1336,9 +1336,15 @@ echo "dist/" >> .gitignore
    dev.to, Jan 2026
    Integration patterns: Claude Code + plugins (Conductor, Superpowers, Context7)
 
+### Community Tools
+
+6. **[Claude Agent Teams UI](https://github.com/777genius/claude_agent_teams_ui)**
+   Open-source desktop app (Electron + React + TypeScript) for managing Claude Code agent teams.
+   Kanban board with real-time task tracking, code review diffs, cross-team communication, deep session analysis, and context monitoring. 100% free, runs locally.
+
 ### Practitioner Testimonials
 
-6. **[Paul Rayner LinkedIn Post](https://www.linkedin.com/posts/thepaulrayner_this-is-wild-i-just-upgraded-claude-code-activity-7425635159678414850-MNyv)**
+7. **[Paul Rayner LinkedIn Post](https://www.linkedin.com/posts/thepaulrayner_this-is-wild-i-just-upgraded-claude-code-activity-7425635159678414850-MNyv)**
    Paul Rayner (CEO Virtual Genius, EventStorming Handbook author), Feb 2026
    Production usage: 3 concurrent workflows (job search app, business ops, infrastructure)
 
