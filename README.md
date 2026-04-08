@@ -906,6 +906,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 ### Community Resources
 - [everything-claude-code](https://github.com/affaan-m/everything-claude-code) — Production configs (45k+⭐)
 - [awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) — Curated links
+- [YouTube Skills for Claude Code](https://github.com/ZeroPointRepo/youtube-skills) — 12 skills for search, transcripts, chapters, analysis
 - [SuperClaude Framework](https://github.com/SuperClaude-Org/SuperClaude_Framework) — Behavioral modes
 
 ### Tools

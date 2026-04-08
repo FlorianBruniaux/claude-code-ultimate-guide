@@ -24016,6 +24016,7 @@ The Claude Code ecosystem is growing rapidly. Here are curated resources to cont
 | [awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) | Commands, workflows, IDE integrations |
 | [awesome-claude-skills](https://github.com/ComposioHQ/awesome-claude-skills) | Custom skills collection |
 | [awesome-claude-skills (BehiSecc)](https://github.com/BehiSecc/awesome-claude-skills) | Skills taxonomy (62 skills, 12 categories) |
+| [youtube-skills](https://github.com/ZeroPointRepo/youtube-skills) | YouTube skills pack (search, transcripts, chapters, analysis) |
 | [awesome-claude](https://github.com/alvinunreal/awesome-claude) | General Claude resources (SDKs, tools) |
 
 #### Frameworks
