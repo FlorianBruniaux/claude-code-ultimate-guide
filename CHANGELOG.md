@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- **Copilot instructions file** (`.github/copilot-instructions.md`): Points Copilot users to `/CLAUDE.md` as the source of truth and reminds contributors to update `CHANGELOG.md`.
+
 - **Claude Code Releases**: Updated tracking to v2.1.123 (v2.1.120 through v2.1.123)
   - v2.1.120: Windows PowerShell fallback (no Git Bash required), claude ultrareview CI subcommand, ${CLAUDE_EFFORT} in skills
   - v2.1.121: alwaysLoad MCP config, plugin prune, PostToolUse output replacement for all tools, critical memory leak fixes
