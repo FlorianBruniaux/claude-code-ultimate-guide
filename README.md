@@ -631,6 +631,7 @@ claude plugin install session-summary@florian-claude-tools
 | [anthropics/claude-plugins-official](https://skills.sh/anthropics/claude-plugins-official) | Plugin dev tools (3.1K installs) | CLAUDE.md audit, automation discovery |
 | [skills.sh](https://skills.sh/) | Skills marketplace | One-command install (Vercel Labs) |
 | [awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) | Curation | Resource discovery |
+| [youtube-skills](https://github.com/ZeroPointRepo/youtube-skills) | 12 YouTube skills (search, transcripts, chapters) | Claude Code, Cursor, Windsurf, Cline |
 | [awesome-claude-skills](https://github.com/BehiSecc/awesome-claude-skills) | Skills taxonomy | 62 skills across 12 categories |
 | [awesome-claude-md](https://github.com/josix/awesome-claude-md) | CLAUDE.md examples | Annotated configs with scoring |
 | [AI Coding Agents Matrix](https://coding-agents-matrix.dev) | Technical comparison | Comparing 23+ alternatives |
