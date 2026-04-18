@@ -633,6 +633,7 @@ claude plugin install session-summary@florian-claude-tools
 | [awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) | Curation | Resource discovery |
 | [awesome-claude-skills](https://github.com/BehiSecc/awesome-claude-skills) | Skills taxonomy | 62 skills across 12 categories |
 | [awesome-claude-md](https://github.com/josix/awesome-claude-md) | CLAUDE.md examples | Annotated configs with scoring |
+| [claude-dash](https://github.com/krabat-l/claude-dash) | Real-time statusline plugin | Context health, quota, cost, cache, tool activity |
 | [AI Coding Agents Matrix](https://coding-agents-matrix.dev) | Technical comparison | Comparing 23+ alternatives |
 
 **Community**: 🇫🇷 [Dev With AI](https://www.devw.ai/) — 1500+ devs on Slack, meetups in Paris, Bordeaux, Lyon
