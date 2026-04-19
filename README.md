@@ -626,6 +626,7 @@ claude plugin install session-summary@florian-claude-tools
 | Project | Focus | Best For |
 |---------|-------|----------|
 | [everything-claude-code](https://github.com/affaan-m/everything-claude-code) | Production configs (45k+ stars) | Quick setup, battle-tested patterns |
+| [claude-debug](https://github.com/krabat-l/claude-debug) | Phase-gated debugging | Hook-enforced reproduce→root cause→fix |
 | [claude-code-templates](https://github.com/davila7/claude-code-templates) | Distribution (200+ templates) | CLI installation (17k stars) |
 | [anthropics/skills](https://github.com/anthropics/skills) | Official Anthropic skills (60K+ stars) | Documents, design, dev templates |
 | [anthropics/claude-plugins-official](https://skills.sh/anthropics/claude-plugins-official) | Plugin dev tools (3.1K installs) | CLAUDE.md audit, automation discovery |
