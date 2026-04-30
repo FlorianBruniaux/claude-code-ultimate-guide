@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
+- **YouTube Skills for Claude Code** (`README.md`, `guide/ultimate-guide.md`): Added [youtube-skills](https://github.com/ZeroPointRepo/youtube-skills) to the community resources and Awesome Lists sections — 12 skills for YouTube search, transcripts, chapters, and content analysis.
+
 ## [3.38.6] - 2026-04-06
 
 ### Documentation
