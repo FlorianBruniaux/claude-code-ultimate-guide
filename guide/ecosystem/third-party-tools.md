@@ -202,7 +202,36 @@ A web-based UI for browsing and reading Claude Code conversation history (JSONL 
 
 ---
 
-ti### Entire CLI
+### agenttrace
+
+A local TUI and report generator for inspecting AI coding-agent session history. It reads Claude Code JSONL logs alongside Codex CLI, Gemini CLI, Qwen Code, Cline, Aider, Cursor exports, OpenCode/OpenClaw, Hermes Agent, Pi, Oh My Pi, Kimi CLI, Copilot-style logs, and generic JSON/JSONL traces.
+
+| Attribute | Details |
+|-----------|---------|
+| **Source** | [GitHub: luoyuctl/agenttrace](https://github.com/luoyuctl/agenttrace) |
+| **Install** | `brew install luoyuctl/tap/agenttrace` or `go install github.com/luoyuctl/agenttrace/cmd/agenttrace@latest` |
+| **Language** | Go |
+| **License** | MIT |
+
+**Key features**:
+
+- Local dashboard for historical sessions, sorted by cost, tokens, elapsed time, and health
+- Per-session diagnostics for tool failures, latency gaps, retry loops, large parameters, anomalies, and diffs
+- JSON, Markdown, and HTML overview output for CI artifacts or team review
+- CI gates for average health, critical sessions, and tool failure rate
+- Demo mode (`agenttrace --demo`) for evaluating the UI before connecting local logs
+
+**When to choose agenttrace over claude-code-viewer**:
+
+- You need cost, latency, health, and failure diagnostics, not just conversation browsing
+- You use multiple coding agents and want one local view across their session logs
+- You want exportable reports or CI quality gates from session history
+
+**Limitations**: It is a local inspection/reporting tool, not a live collaborative UI. Cost estimates depend on the model pricing data and token fields available in each agent log format.
+
+---
+
+### Entire CLI
 
 Agent-native platform for Git-integrated session capture with rewindable checkpoints and governance layer.
 
