@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- **`scripts/generate-guide-exports.sh` — PDF build fails with Typst 0.14+** (`font fallback list must not be empty`). Pandoc's default Typst template leaves `mainfont`/`monofont` empty unless they are set via metadata, and Typst 0.14 made an empty font list a hard error (it was tolerated in 0.13, which is the version bundled with current Quarto on macOS). Added `-V mainfont="Libertinus Serif"` and `-V monofont="DejaVu Sans Mono"` to the `pandoc` invocation — both fonts are available out of the box on macOS and on Ubuntu (`fonts-libertinus` is pulled in by the `pandoc` apt package, `fonts-dejavu` is preinstalled). Verified end-to-end on Ubuntu 25.10 with pandoc 3.1.11 + standalone Typst 0.14.2: PDF builds successfully (556 pages, 8.4 MB) from `guide/ultimate-guide.md` v3.40.0.
+
 ### Documentation
 
 - **Claude Code Releases**: Updated tracking to v2.1.143 (from v2.1.141)

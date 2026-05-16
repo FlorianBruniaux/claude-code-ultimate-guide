@@ -137,6 +137,9 @@ if [ "$DO_PDF" = true ]; then
         warn "Typst not found — skipping PDF. Install: brew install typst"
     else
         log "Generating PDF (via Typst)..."
+        # Typst 0.14+ requires a non-empty font fallback list; pandoc's default
+        # Typst template leaves `mainfont`/`monofont` empty unless set. Pass
+        # widely-available fonts so the build works on Linux/macOS alike.
         pandoc \
             --from markdown-citations \
             --to pdf \
@@ -144,6 +147,8 @@ if [ "$DO_PDF" = true ]; then
             --metadata title="Claude Code Ultimate Guide" \
             --metadata author="Florian Bruniaux" \
             --metadata lang="en" \
+            -V mainfont="Libertinus Serif" \
+            -V monofont="DejaVu Sans Mono" \
             --toc \
             --toc-depth=2 \
             --pdf-engine="$TYPST_BIN" \
