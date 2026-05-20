@@ -2,7 +2,7 @@
  * Dynamic question generation using claude -p
  */
 
-import { execSync } from 'child_process';
+import { execFileSync } from 'child_process';
 import YAML from 'yaml';
 
 const TOPICS = {
@@ -69,7 +69,7 @@ Requirements:
 
   try {
     // Check if claude CLI is available
-    const result = execSync(`claude -p "${prompt.replace(/"/g, '\\"')}" --model haiku`, {
+    const result = execFileSync('claude', ['-p', prompt, '--model', 'haiku'], {
       encoding: 'utf-8',
       timeout: 30000,
       maxBuffer: 1024 * 1024
