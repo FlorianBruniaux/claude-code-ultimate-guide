@@ -1,9 +1,10 @@
+---
 # Pre-commit hooks for quality gates
 # Install: pip install pre-commit && pre-commit install
 # Run: pre-commit run --all-files
 
 default_language_version:
-  python: python3.10
+  python: python3
 
 repos:
   # Markdown linting
@@ -14,7 +15,7 @@ repos:
         name: Markdown lint
         args: [--fix]
         exclude: |
-          (?x)^(
+          (?x)(
             whitepapers/.*|
             claudedocs/.*|
             quiz/.*|
@@ -30,13 +31,13 @@ repos:
         name: YAML lint
         args: [--strict]
         exclude: |
-          (?x)^(
+          (?x)(
             whitepapers/.*|
             claudedocs/.*|
             node_modules/.*
           )$
 
-  # Check for broken symlinks
+  # Check for broken symlinks, JSON validity, line endings
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
     hooks:
@@ -54,7 +55,9 @@ repos:
         name: Check VERSION file consistency
         entry: scripts/check-version-sync.sh
         language: script
-        files: (^VERSION$|guide/ultimate-guide\.md$|guide/cheatsheet\.md$|machine-readable/reference\.yaml$)
+        files: >-
+          (^VERSION$|guide/ultimate-guide\.md$|guide/cheatsheet\.md$|
+          machine-readable/reference\.yaml$)
         stages: [commit]
 
   # Check for accidental commits of sensitive files
@@ -63,4 +66,4 @@ repos:
     hooks:
       - id: detect-private-key
       - id: detect-aws-credentials
-        allow_missing_credentials: true
+        args: [--allow-missing-credentials]

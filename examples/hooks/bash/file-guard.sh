@@ -16,16 +16,20 @@ fi
 
 FILE_PATH=$(echo "$INPUT" | jq -r '.tool_input.file_path // ""')
 
-# Load protection patterns from .agentignore or .aiignore
+# Load protection patterns from .agentignore or .aiignore (project-level),
+# falling back to ~/.agentignore for global home-directory protection
 IGNORE_FILE=""
 if [[ -f ".agentignore" ]]; then
     IGNORE_FILE=".agentignore"
 elif [[ -f ".aiignore" ]]; then
     IGNORE_FILE=".aiignore"
+elif [[ -f "$HOME/.agentignore" ]]; then
+    IGNORE_FILE="$HOME/.agentignore"
 fi
 
-# Default critical patterns (if no ignore file)
-CRITICAL_PATTERNS=(
+# Filename-only patterns — matched against basename to avoid false positives
+# (e.g. prevents "dotenv.py" matching ".env" via full-path regex)
+FILENAME_PATTERNS=(
     ".env"
     ".env.local"
     ".env.production"
@@ -34,34 +38,40 @@ CRITICAL_PATTERNS=(
     "*.p12"
     "credentials.json"
     "secrets.yaml"
-    "config/secrets/*"
+)
+
+# Path-based patterns — matched as substrings of the full path
+PATH_PATTERNS=(
     ".aws/credentials"
-    ".ssh/id_*"
+    ".ssh/id_"
+    "config/secrets/"
 )
 
 # Check against patterns
 is_protected() {
     local file="$1"
+    local basename
+    basename=$(basename "$file")
 
-    # Check ignore file patterns
+    # Check filename patterns against basename only
+    for pattern in "${FILENAME_PATTERNS[@]}"; do
+        [[ "$basename" == $pattern ]] && return 0
+    done
+
+    # Check path patterns as substrings of full path
+    for pattern in "${PATH_PATTERNS[@]}"; do
+        [[ "$file" == *"$pattern"* ]] && return 0
+    done
+
+    # Check ignore file patterns against basename (filename patterns)
+    # and full path (path-based patterns like "config/secrets/")
     if [[ -n "$IGNORE_FILE" ]]; then
         while IFS= read -r pattern; do
-            # Skip comments and empty lines
             [[ "$pattern" =~ ^#.*$ || -z "$pattern" ]] && continue
-
-            # Convert gitignore pattern to bash glob
-            if [[ "$file" == $pattern || "$file" =~ $pattern ]]; then
-                return 0
-            fi
+            [[ "$basename" == $pattern ]] && return 0
+            [[ "$file" == *"$pattern"* ]] && return 0
         done < "$IGNORE_FILE"
     fi
-
-    # Check critical patterns
-    for pattern in "${CRITICAL_PATTERNS[@]}"; do
-        if [[ "$file" == $pattern || "$file" =~ $pattern ]]; then
-            return 0
-        fi
-    done
 
     return 1
 }
