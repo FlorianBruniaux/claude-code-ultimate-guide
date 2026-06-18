@@ -111,5 +111,5 @@ When context hits 70%, run `/session-save` before `/compact` to preserve decisio
 ---
 
 **See also**:
-- [Session Teleportation](../../guide/ultimate-guide.md#916-session-teleportation): broader session management patterns
-- [Instinct-Based Learning](../../guide/ultimate-guide.md#924-instinct-based-continuous-learning): what to extract from sessions before closing
+- [Session Teleportation](../../../guide/ultimate-guide.md#916-session-teleportation): broader session management patterns
+- [Instinct-Based Learning](../../../guide/ultimate-guide.md#924-instinct-based-continuous-learning): what to extract from sessions before closing

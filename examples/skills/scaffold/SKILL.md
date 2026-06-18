@@ -397,7 +397,7 @@ If the user is unsure, show this table:
 
 ## Sources
 
-- Component types overview: [Section 3](../../guide/ultimate-guide.md)
-- Agent examples: [agents/](../agents/)
-- Hook examples: [hooks/](../hooks/)
-- Skill examples: [skills/](../skills/)
+- Component types overview: [Section 3](../../../guide/ultimate-guide.md)
+- Agent examples: [agents/](../../agents/)
+- Hook examples: [hooks/](../../hooks/)
+- Skill examples: [skills/](../../skills/)

@@ -135,7 +135,7 @@ If no plan file exists: note "No plan file found for this branch, skipping scope
 
 ### Multi-Agent Specialization
 
-Launch 3 parallel specialized agents (see [Split Role Sub-Agents](../../guide/ultimate-guide.md#split-role-sub-agents)):
+Launch 3 parallel specialized agents (see [Split Role Sub-Agents](../../../guide/ultimate-guide.md#split-role-sub-agents)):
 
 **Agent 1: Consistency Auditor**
 ```
