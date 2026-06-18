@@ -15,7 +15,7 @@ Create isolated git worktrees for feature development without switching branches
 
 **Requires:** Git 2.5.0+ (July 2015)
 
-**Companion commands:** [`/git-worktree-status`](./git-worktree-status.md) | [`/git-worktree-remove`](./git-worktree-remove.md) | [`/git-worktree-clean`](./git-worktree-clean.md)
+**Companion commands:** [`/git-worktree-status`](../../commands/git-worktree-status.md) | [`/git-worktree-remove`](../../commands/git-worktree-remove.md) | [`/git-worktree-clean`](../../commands/git-worktree-clean.md)
 
 ## Process
 
@@ -223,7 +223,7 @@ DB Isolation: neonctl branches create --name feat-auth --parent main
 | Bug fix (no schema change) | No |
 | Performance experiments | Yes |
 
-**See:** [Database Branch Setup Guide](../workflows/database-branch-setup.md) for complete workflows.
+**See:** [Database Branch Setup Guide](../../workflows/database-branch-setup.md) for complete workflows.
 
 ## Quick Reference
 
