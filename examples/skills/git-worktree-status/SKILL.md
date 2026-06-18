@@ -12,7 +12,7 @@ Check background verification tasks (type check, tests, build) launched by `/git
 
 **Core principle:** Non-blocking feedback on worktree health without interrupting development flow.
 
-**Part of:** [Worktree Lifecycle Suite](./git-worktree.md) | [`/git-worktree`](./git-worktree.md) | [`/git-worktree-remove`](./git-worktree-remove.md) | [`/git-worktree-clean`](./git-worktree-clean.md)
+**Part of:** [Worktree Lifecycle Suite](../../commands/git-worktree.md) | [`/git-worktree`](../../commands/git-worktree.md) | [`/git-worktree-remove`](../../commands/git-worktree-remove.md) | [`/git-worktree-clean`](../../commands/git-worktree-clean.md)
 
 ## Process
 

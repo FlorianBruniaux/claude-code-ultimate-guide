@@ -13,7 +13,7 @@ Safely remove a single git worktree with branch cleanup, merge verification, and
 
 **Core principle:** Safety checks first, then clean removal of worktree + branch + DB resources.
 
-**Part of:** [Worktree Lifecycle Suite](./git-worktree.md) | [`/git-worktree`](./git-worktree.md) | [`/git-worktree-status`](./git-worktree-status.md) | [`/git-worktree-clean`](./git-worktree-clean.md)
+**Part of:** [Worktree Lifecycle Suite](../../commands/git-worktree.md) | [`/git-worktree`](../../commands/git-worktree.md) | [`/git-worktree-status`](../../commands/git-worktree-status.md) | [`/git-worktree-clean`](../../commands/git-worktree-clean.md)
 
 ## Process
 

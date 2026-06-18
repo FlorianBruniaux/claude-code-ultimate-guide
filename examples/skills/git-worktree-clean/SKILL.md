@@ -13,7 +13,7 @@ Batch cleanup of stale git worktrees. Safely removes merged branches, reports di
 
 **Core principle:** Auto-clean merged worktrees, interactive review for unmerged, always report what was reclaimed.
 
-**Part of:** [Worktree Lifecycle Suite](./git-worktree.md) | [`/git-worktree`](./git-worktree.md) | [`/git-worktree-status`](./git-worktree-status.md) | [`/git-worktree-remove`](./git-worktree-remove.md)
+**Part of:** [Worktree Lifecycle Suite](../../commands/git-worktree.md) | [`/git-worktree`](../../commands/git-worktree.md) | [`/git-worktree-status`](../../commands/git-worktree-status.md) | [`/git-worktree-remove`](../../commands/git-worktree-remove.md)
 
 ## Process
 

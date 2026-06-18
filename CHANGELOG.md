@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
-- **Dead relative links in `git-worktree` skill** (`examples/skills/git-worktree/SKILL.md`): fixed 4 broken relative links that 404'd on GitHub. The three "Companion commands" links pointed at `./git-worktree-{status,remove,clean}.md` (same directory) instead of the actual command files at `../../commands/`, and the "Database Branch Setup Guide" link used `../workflows/` instead of `../../workflows/`. All four now resolve to existing files.
+- **Dead relative links across the `git-worktree` skill suite** (`examples/skills/git-worktree*/SKILL.md`): fixed 13 broken relative links that 404'd on GitHub. In `git-worktree/SKILL.md`, the three "Companion commands" links pointed at `./git-worktree-{status,remove,clean}.md` (same directory) instead of the command files at `../../commands/`, and the "Database Branch Setup Guide" link used `../workflows/` instead of `../../workflows/`. The `git-worktree-status`, `git-worktree-remove`, and `git-worktree-clean` skills each had a "Part of:" line whose three cross-references used `./*.md` (same directory) instead of `../../commands/`. All links now resolve to existing files.
 
 - **Security: shell injection in `claude-issue-triage.yml`** (`examples/github-actions/claude-issue-triage.yml`): `github.event.issue.title` and `github.event.issue.body` were interpolated directly into shell via `${{ }}`, allowing an attacker to inject arbitrary commands by crafting a malicious issue title. Fixed by moving both values to step-level `env:` (`ISSUE_TITLE`, `ISSUE_BODY`) and referencing them as plain shell variables, so GitHub Actions never interpolates user content into the script text. Reported in issue #50.
 
