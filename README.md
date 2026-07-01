@@ -927,12 +927,14 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 ### Community Resources
 - [everything-claude-code](https://github.com/affaan-m/everything-claude-code) — Production configs (45k+⭐)
 - [awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) — Curated links
+- [Vexilo · A field guide to Claude Code](https://vexilo.app/?lang=en) — Visual interactive index of 31 agents · 99 commands · 123 skills · 13 rules, organized around the 5-step workflow (Research → Plan → Test-first → Security → Commit). One-click "Teach Claude this handbook" primes your local Claude session with the whole index in 30 seconds. ([companion repo](https://github.com/lilhawk7077/claude-code-resources))
 - [SuperClaude Framework](https://github.com/SuperClaude-Org/SuperClaude_Framework) — Behavioral modes
 
 ### Tools
 - [Ask Zread](https://zread.ai/FlorianBruniaux/claude-code-ultimate-guide) — Ask questions about this guide
 - [Interactive Quiz](./quiz/) — 271 questions
 - [Landing Site](https://cc.bruniaux.com) — Visual navigation, cheat sheets, ebooks, quiz
+- [Vexilo](https://vexilo.app/?lang=en) — Visual field guide / interactive index, complementary to your Ultimate Guide (browse-by-scenario vs read-deep-here)
 - [RSS Feed](https://cc.bruniaux.com/rss.xml) — Subscribe to guide updates, new content, and CC releases
 
 ---
