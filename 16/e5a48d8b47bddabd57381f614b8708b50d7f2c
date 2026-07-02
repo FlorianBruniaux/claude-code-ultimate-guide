@@ -1,0 +1,21 @@
+guide/ecosystem/mcp-servers-ecosystem.md
+  s_a35e80f9b927b1::t_f2bf60b076dd6e 1183-1184,1187
+guide/workflows/support-csm-agent.md
+  s_a35e80f9b927b1::t_71933873f0eeb6 107
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "16e5a48d8b47bddabd57381f614b8708b50d7f2c",
+  "prompts": {},
+  "sessions": {
+    "s_a35e80f9b927b1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3fbab194-b474-4120-b88d-e4f4a9c6ac37",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
