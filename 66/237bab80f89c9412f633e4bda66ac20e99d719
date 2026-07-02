@@ -1,0 +1,121 @@
+examples/github-actions/.greptile/files.json
+  s_57189aaf4e81fc::t_4727b971308a31 1-23
+examples/github-actions/claude-code-review.yml
+  s_57189aaf4e81fc::t_d52caf3a7b8348 78-123
+examples/github-actions/claude-code-review-batched.yml
+  s_57189aaf4e81fc::t_51c08754888507 1-147
+whitepapers/recap-cards/fr/t06-settings-json.qmd
+  s_4cca2409e9c109::t_90522c2bfc8f09 7,9
+  s_4cca2409e9c109::t_4be191bc10bc38 33,37-39,45-49,68-69,72-73
+  s_4cca2409e9c109::t_de08ab1107f24c 103
+guide/workflows/code-review.md
+  s_57189aaf4e81fc::t_f48e69fe6ce963 3
+  s_57189aaf4e81fc::t_207c7199566588 9
+  s_a35e80f9b927b1::t_68c586bffdf3e2 145-149,155,159
+examples/github-actions/README.md
+  s_57189aaf4e81fc::t_c721d904d88e14 375-376,378
+  s_57189aaf4e81fc::t_67e8005e838056 248-255,260-270,272
+  s_57189aaf4e81fc::t_9501b443120ffc 22,26
+  s_57189aaf4e81fc::t_dfdc0b1531ffcf 122
+  s_57189aaf4e81fc::t_22f18bda82d03b 70
+  s_57189aaf4e81fc::t_1700aad675f015 62
+  s_57189aaf4e81fc::t_69a4f4baa92223 57-61,63-69,71-75,78-82,85
+  s_57189aaf4e81fc::t_859d88d8e6ca58 24
+  s_57189aaf4e81fc::t_782a256fc0985b 76-77
+  s_57189aaf4e81fc::t_302a51443e2a7d 52
+  s_57189aaf4e81fc::t_5efa1094cdab96 150
+  s_57189aaf4e81fc::t_32543f1a7706b5 214,217
+guide/workflows/multi-provider-code-review.md
+  s_57189aaf4e81fc::t_084b3b7c57f665 1-2,4-131
+  s_57189aaf4e81fc::t_8612580f315292 3
+whitepapers/recap-cards/fr/t04-permissions-glob-patterns.qmd
+  s_4cca2409e9c109::t_12cc369817c934 7,9
+  s_4cca2409e9c109::t_b2bed19ee4bc33 55,58-59,62-63
+whitepapers/recap-cards/fr/01-commandes-essentielles.qmd
+  s_4cca2409e9c109::t_701782dded63ce 6,9
+  s_4cca2409e9c109::t_1490ad60c0d605 73-75
+  s_4cca2409e9c109::t_677c70cc5a6b0a 10
+whitepapers/recap-cards/fr/04-context-management.qmd
+  s_4cca2409e9c109::t_831fe49fa8d75e 33-34
+  s_4cca2409e9c109::t_adf8a52189b607 6,9
+  s_4cca2409e9c109::t_75d7c00f234463 56-57
+  s_4cca2409e9c109::t_fb161b3101c378 10
+whitepapers/recap-cards/fr/03-permission-modes.qmd
+  s_4cca2409e9c109::t_7b547922a2c2f8 6,9
+  s_4cca2409e9c109::t_f110258951177f 10,20-27,29-31
+whitepapers/recap-cards/fr/m11-hooks-evenements-systeme.qmd
+  s_4cca2409e9c109::t_1b18a8635ea305 26,30
+  s_4cca2409e9c109::t_d209ffa2a36411 7,9
+examples/github-actions/.greptile/config.json
+  s_57189aaf4e81fc::t_58630a7c35d78f 1-25
+guide/workflows/README.md
+  s_57189aaf4e81fc::t_ebcc6ab02317fa 126-135
+CHANGELOG.md
+  s_57189aaf4e81fc::t_8fb9ba5a1ba1ca 22
+  s_4cca2409e9c109::t_997abed02acaea 11
+  s_4cca2409e9c109::t_bb44d88b19e5d7 12-13
+whitepapers/recap-cards/fr/t09-workspace-hygiene.qmd
+  s_4cca2409e9c109::t_721293dcbfe12c 9
+  s_4cca2409e9c109::t_18ab5b1fb47ddd 7
+  s_4cca2409e9c109::t_1caec817bf6a0f 66,72
+whitepapers/recap-cards/fr/c03-xml-prompting-anchors.qmd
+  s_4cca2409e9c109::t_7cb21a43b02ed3 7
+  s_4cca2409e9c109::t_8d16b8403e24d6 9,103
+whitepapers/recap-cards/fr/t10-config-multi-machine.qmd
+  s_4cca2409e9c109::t_845132ec227e94 9
+  s_4cca2409e9c109::t_caddbe13b46f6f 21-22
+  s_4cca2409e9c109::t_41b6b16b7c89db 7
+  s_4cca2409e9c109::t_e25712c2ed1070 38-40
+  s_4cca2409e9c109::t_ee00cdbae64737 99
+  s_4cca2409e9c109::t_3868f93efc916a 58
+examples/github-actions/.greptile/rules.md
+  s_57189aaf4e81fc::t_d08a36261518b7 48
+  s_57189aaf4e81fc::t_1a1f5cad41ce71 6,8,13
+  s_57189aaf4e81fc::t_eefed102bd5df9 1-5,7,9-12,14-47,49-57
+whitepapers/recap-cards/fr/c06-configuration-decision-guide.qmd
+  s_4cca2409e9c109::t_3e8ebd12bc3436 7,9
+  s_4cca2409e9c109::t_017af4ce5751c9 43-45
+whitepapers/CHANGELOG.md
+  s_4cca2409e9c109::t_16b5d683e56899 14-17,20-38
+  s_4cca2409e9c109::t_1b11e6e24bcc46 18-19
+machine-readable/reference.yaml
+  s_4cca2409e9c109::t_d40a3a58c25155 52-58
+whitepapers/fr/02-personnalisation.qmd
+  s_4cca2409e9c109::t_4465ade31384f4 5,1437
+whitepapers/fr/04-architecture.qmd
+  s_4cca2409e9c109::t_608184a0bc655c 5
+whitepapers/fr/07-guide-reference.qmd
+  s_4cca2409e9c109::t_a3d889c0ef2523 5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "66237bab80f89c9412f633e4bda66ac20e99d719",
+  "prompts": {},
+  "sessions": {
+    "s_4cca2409e9c109": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ac85cfe4-9c8f-4e55-89b1-dfc7d682dc10",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_57189aaf4e81fc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3cd334cd-c960-4862-9798-84d9fa6f2c5e",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_a35e80f9b927b1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3fbab194-b474-4120-b88d-e4f4a9c6ac37",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
