@@ -1,0 +1,32 @@
+docs/workflows/landing-sync.md
+  s_9acb8e63938425::t_045824e6130688 68-80
+CHANGELOG.md
+  s_0ec24d9d120f29::t_c43ed6539d78bc 11
+  s_9acb8e63938425::t_f1b02984ed2ae7 12-13
+machine-readable/reference.yaml
+  s_9acb8e63938425::t_30c9f4c492c3ff 506,508-509,511-515,517-518
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.9",
+  "base_commit_sha": "0c0d2e740c91d963a97eeb0f335a9b5a3c4829dc",
+  "prompts": {},
+  "sessions": {
+    "s_0ec24d9d120f29": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2137dcb5-7587-4b76-8bd4-c0bf85573fea",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_9acb8e63938425": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3284a083-6a2f-484b-ae90-34e393e711e6",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
