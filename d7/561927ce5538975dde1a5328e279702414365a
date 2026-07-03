@@ -1,0 +1,83 @@
+whitepapers/recap-cards/en/03-permission-modes.qmd
+  s_7822d22b95538c::t_00dae022a56c2f 19-30
+  s_7822d22b95538c::t_03efdc87d401cb 6,9
+whitepapers/recap-cards/en/m11-hooks-evenements-systeme.qmd
+  s_7822d22b95538c::t_7b1d524d1a0555 26,30
+  s_7822d22b95538c::t_c4af0a2015954a 7,9
+whitepapers/recap-cards/en/t02-mode-non-interactif.qmd
+  s_7822d22b95538c::t_640118a8a7c784 49,51,54
+  s_7822d22b95538c::t_bc1137ad8687bf 7,9
+whitepapers/recap-cards/en/c03-xml-prompting-anchors.qmd
+  s_7822d22b95538c::t_482e89668c6cdc 7,9
+  s_7822d22b95538c::t_bf040157ff16a8 103
+whitepapers/recap-cards/en/01-commandes-essentielles.qmd
+  s_7822d22b95538c::t_fd0ca93718ee68 6,9
+  s_7822d22b95538c::t_f1979d9a629216 98
+  s_7822d22b95538c::t_bd11d48e940e16 94
+  s_7822d22b95538c::t_d8f3800ee1986c 55-57
+whitepapers/recap-cards/en/t09-workspace-hygiene.qmd
+  s_7822d22b95538c::t_78190aa4469a08 66
+  s_7822d22b95538c::t_a63cdf6e4bd008 72
+  s_7822d22b95538c::t_89ac3ca55f9b7c 7,9
+whitepapers/recap-cards/en/c06-configuration-decision-guide.qmd
+  s_7822d22b95538c::t_ed1b037e333bce 43-45
+  s_7822d22b95538c::t_217532613eadaa 7,9
+whitepapers/CHANGELOG.md
+  s_0ec24d9d120f29::t_626aea3736a4fb 36-42
+  s_7822d22b95538c::t_2a8338e4831058 14-35
+whitepapers/recap-cards/en/c08-surface-attaque-menaces.qmd
+  s_7822d22b95538c::t_fe2ceab29d19dd 7,9
+  s_7822d22b95538c::t_270a2c9149f40f 60
+whitepapers/recap-cards/en/m07-todowrite-vs-tasks-api.qmd
+  s_7822d22b95538c::t_4e854955593c55 7,9
+  s_7822d22b95538c::t_04d3099ce43781 80,82
+  s_7822d22b95538c::t_ce6a31bd484620 44
+whitepapers/recap-cards/en/t06-settings-json.qmd
+  s_7822d22b95538c::t_a58ee4d8b1c2da 93
+  s_7822d22b95538c::t_df5ced79f02f7c 103
+  s_7822d22b95538c::t_1249032eb7a756 33,37-39,45-49
+  s_7822d22b95538c::t_6ed84494db319a 7,9
+  s_7822d22b95538c::t_8ac21daa561264 68-69,72-73
+whitepapers/recap-cards/en/04-context-management.qmd
+  s_7822d22b95538c::t_aa6f20061e9a4b 6,9
+  s_7822d22b95538c::t_d0a4e129f7878e 54-55
+  s_7822d22b95538c::t_72d315b87c9274 32-33
+CHANGELOG.md
+  s_7822d22b95538c::t_2b5d6b16b376b8 11
+whitepapers/recap-cards/en/t16-sandbox-natif-architecture.qmd
+  s_7822d22b95538c::t_42ea3cd8ce88cc 7,9
+  s_7822d22b95538c::t_88e62b5500c987 62
+whitepapers/recap-cards/en/t04-permissions-glob-patterns.qmd
+  s_7822d22b95538c::t_0c7db1d7619076 7,9
+  s_7822d22b95538c::t_5092b654bf5495 55,58-59,62-63
+whitepapers/recap-cards/en/t10-config-multi-machine.qmd
+  s_7822d22b95538c::t_1e71adc3abb424 21-22
+  s_7822d22b95538c::t_4b2056c5e159a9 38-40
+  s_7822d22b95538c::t_2f0c139e4f0c72 58
+  s_7822d22b95538c::t_7f3df1a81d69dd 99
+  s_7822d22b95538c::t_35d84cec37a44c 7,9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.9",
+  "base_commit_sha": "d7561927ce5538975dde1a5328e279702414365a",
+  "prompts": {},
+  "sessions": {
+    "s_0ec24d9d120f29": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2137dcb5-7587-4b76-8bd4-c0bf85573fea",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_7822d22b95538c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9f995c64-3d04-4e7f-bcba-7ed3d7a5d5fb",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
