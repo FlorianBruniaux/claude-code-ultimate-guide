@@ -1,0 +1,31 @@
+examples/skills/autoresearch/SKILL.md
+  s_ba053975a77173::t_4c72acedd0ecc1 3
+examples/skills/canary/SKILL.md
+  s_ba053975a77173::t_c24f4946144e25 3
+examples/skills/investigate/SKILL.md
+  s_ba053975a77173::t_075caddf20cc37 3
+examples/skills/plan-pipeline/ceo-review/SKILL.md
+  s_ba053975a77173::t_4cf1155631bd58 3
+examples/skills/plan-pipeline/eng-review/SKILL.md
+  s_ba053975a77173::t_7281a04b6066da 3
+examples/skills/qa/SKILL.md
+  s_ba053975a77173::t_6e91a44486334d 3
+CHANGELOG.md
+  s_ba053975a77173::t_80f732e31a2215 11-12,19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "eb4fbbd99a3daed693ba6659526428621ce9908d",
+  "prompts": {},
+  "sessions": {
+    "s_ba053975a77173": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2abf1e47-d5b1-4dad-a8cf-278219bd3e11",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
