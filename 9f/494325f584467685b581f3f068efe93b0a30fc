@@ -1,0 +1,41 @@
+CHANGELOG.md
+  s_3fc358c203adef::t_5dfcba97e8d323 49-50
+guide/core/credits.md
+  s_6f37177639fda9::t_174b2afa23a2c7 145-279
+guide/README.md
+  s_9b20cf32103975::t_03f6e1e685d5c5 71,95
+machine-readable/reference.yaml
+  s_9b20cf32103975::t_520d10da1e4394 360,362,368-373,375-377
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "9f494325f584467685b581f3f068efe93b0a30fc",
+  "prompts": {},
+  "sessions": {
+    "s_3fc358c203adef": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "10d76238-8645-49bf-856a-c85c5e1d69ee",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_6f37177639fda9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "967f71f3-5d4c-4503-a581-b2b36ea8d2dd",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_9b20cf32103975": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "cd5cdc86-c413-4568-be85-dd06a72f15cb",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
