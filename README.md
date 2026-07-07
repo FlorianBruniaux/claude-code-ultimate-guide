@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/florianbruniaux-claude-code-ultimate-guide-badge.png)](https://mseep.ai/app/florianbruniaux-claude-code-ultimate-guide)
+
 # Claude Code Ultimate Guide
 
 <!-- Website CTA -->
