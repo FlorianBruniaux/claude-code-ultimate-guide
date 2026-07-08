@@ -671,6 +671,7 @@ claude plugin install session-summary      # Session analytics dashboard (15 sec
 |------|---------|---------------|
 | [claude-code-security-review](https://github.com/anthropics/claude-code-security-review) | GitHub Action for automated security scanning | Anthropic (official) |
 | This Guide's Threat DB | Intelligence layer (28 CVEs, 655 malicious skills) | Community |
+- [JMT x402 Agent Tools](https://jmt-x402-proxy.jmthomasofficial.workers.dev) — 25 paid x402 endpoints on Base mainnet: web search, AI analysis, crypto/stock data, SEC filings, company intel, news, sentiment, macro dashboard. $0.001-$0.15/call USDC. Local LLM-powered.
 
 **Workflow**: Use GitHub Action for automation → Consult Threat DB for threat intelligence.
 
