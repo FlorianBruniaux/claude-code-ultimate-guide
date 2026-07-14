@@ -66,6 +66,22 @@ export function filterQuestions(questions, options) {
 }
 
 /**
+ * Select a quiz set, preferring questions that were not in the previous set.
+ */
+export function selectQuestions(questions, options, excludedQuestionIds = new Set()) {
+  const availableQuestions = excludedQuestionIds.size > 0
+    ? questions.filter(question => !excludedQuestionIds.has(question.id))
+    : questions;
+  const selectedQuestions = filterQuestions(availableQuestions, options);
+
+  if (selectedQuestions.length < options.count && excludedQuestionIds.size > 0) {
+    return shuffleArray(filterQuestions(questions, options)).slice(0, options.count);
+  }
+
+  return shuffleArray(selectedQuestions).slice(0, options.count);
+}
+
+/**
  * Weight questions by difficulty distribution
  */
 function weightByDifficulty(questions, weights, targetCount) {

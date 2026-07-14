@@ -9,7 +9,8 @@
   },
   "scripts": {
     "start": "node src/index.js",
-    "quiz": "node src/index.js"
+    "quiz": "node src/index.js",
+    "test": "node --test"
   },
   "keywords": [
     "claude",
