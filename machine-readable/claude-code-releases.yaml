@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.212"
-updated: "2026-07-16"
+latest: "2.1.215"
+updated: "2026-07-19"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,23 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-July 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.215"
+    date: "2026-07-19"
+    highlights:
+      - "Claude no longer runs the `/verify` and `/code-review` skills on its own; invoke them explicitly when you want them"
+
+  - version: "2.1.214"
+    date: "2026-07-18"
+    highlights:
+      - "⭐ Security: eight Bash permission-check fixes, commands over 10,000 characters now always prompt, file-descriptor redirects fail closed, zsh variable subscripts in `[[ ]]` prompt, and `Edit(src/**)`-style single-segment rules no longer auto-approve nested `src/` directories anywhere in the tree"
+      - "Added the EndConversation tool so Claude can end sessions with highly abusive users or jailbreak attempts, plus a periodic progress heartbeat for long-running tool calls that previously went silent"
+      - "OpenTelemetry: added `message.uuid`, `client_request_id`, and `tool_source` log attributes for message-level correlation, and `CLAUDE_CODE_OTEL_CONTENT_MAX_LENGTH` to configure the 60 KB content truncation limit"
+      - "Fixed background-session lifecycle bugs: idle sessions keeping the daemon alive, completed sessions being impossible to remove via `claude rm`, and a displaced daemon deleting its successor's control socket"
+    breaking:
+      - "Single-segment `dir/**` hook `if:` conditions now match only `<cwd>/dir`; write `**/dir/**` for any-depth matching (`deny`/`ask` permission rules keep their any-depth match)"
+      - "`file` commands using `-m`/`--magic-file` or `-f`/`--files-from` now require permission instead of being auto-allowed as read-only"
+      - "`docker` commands (including the Podman shim) carrying daemon-redirect flags (`--url`, `--connection`, `--identity`, Podman remote mode) now prompt for permission"
 
   - version: "2.1.212"
     date: "2026-07-16"
@@ -1628,6 +1645,8 @@ breaking_summary:
   syntax:
     - "Indexed argument syntax changed: $ARGUMENTS.0 → $ARGUMENTS[0] (v2.1.19)"
     - "`Write(path)`, `NotebookEdit(path)`, and `Glob(path)` permission rules now warn at startup — use `Edit(path)` or `Read(path)` (v2.1.210)"
+    - "Single-segment `dir/**` hook `if:` conditions match only `<cwd>/dir` — write `**/dir/**` for any-depth matching (`deny`/`ask` permission rules keep any-depth) (v2.1.214)"
+    - "`file -m`/`--magic-file`/`-f`/`--files-from` and `docker` daemon-redirect flags (`--url`, `--connection`, `--identity`) now require permission (v2.1.214)"
   plugins:
     - "`${user_config.*}` in shell-form plugin commands rejected; use exec form or `$CLAUDE_PLUGIN_OPTION_<KEY>` (v2.1.207)"
     - "Plugin option values (`pluginConfigs`) no longer read from project-level `.claude/settings.json` (v2.1.207)"
@@ -1636,6 +1655,7 @@ breaking_summary:
 # MILESTONE FEATURES (quick reference)
 # ════════════════════════════════════════════════════════════════
 milestones:
+  "2.1.214": "Eight Bash permission-check security fixes, EndConversation tool, heartbeat for long-running tool calls, OTel message-level correlation attributes"
   "2.1.212": "/fork copies the conversation into a new background session (in-session subagent renamed /subtask), WebSearch + subagent-spawn session caps, MCP calls auto-background after 2 min"
   "2.1.208": "Screen reader mode (opt-in plain-text rendering), vimInsertModeRemaps, CLAUDE_CODE_PROCESS_WRAPPER corporate launcher support"
   "2.1.207": "Bedrock/Vertex/Claude Platform on AWS default to Opus 4.8, terminal streaming perf fix, plugin shell-injection hardening"
