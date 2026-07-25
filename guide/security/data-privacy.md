@@ -420,7 +420,7 @@ Run `env | grep -iE 'key|secret|token|pass'` to see what environment variables a
 ## Go further
 
 - [Whitepapers](/whitepapers/) - in-depth security and privacy analyses
-- [Security](/security/) - CVE tracking, threat campaigns, and hardening
+- [Security](./security-hardening.md) - CVE tracking, threat campaigns, and hardening
 
 ---
 

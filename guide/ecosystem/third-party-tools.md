@@ -8,7 +8,7 @@ tags: [reference, integration, plugin, security]
 
 This page catalogs community-built tools that extend Claude Code, organized by use case. Every entry has been verified against its public repository or package registry. For each category, the "When to use" comparison explains which tool fits which workflow, because the right choice depends on your stack and constraints, not just star count.
 
-This is not a list of AI tools that complement Claude Code generally. It covers only tools whose primary purpose is extending the Claude Code CLI itself. For broader AI ecosystem coverage, see [AI Ecosystem](/guide/ai-ecosystem/). For MCP server recommendations, see [MCP Servers Ecosystem](/guide/mcp-servers-ecosystem/).
+This is not a list of AI tools that complement Claude Code generally. It covers only tools whose primary purpose is extending the Claude Code CLI itself. For broader AI ecosystem coverage, see [AI Ecosystem](./ai-ecosystem.md). For MCP server recommendations, see [MCP Servers Ecosystem](./mcp-servers-ecosystem.md).
 
 > **Last verified**: June 2026. 40+ tools across 17 categories.
 
@@ -1864,5 +1864,5 @@ As of February 2026, the community tooling ecosystem has notable gaps:
 
 ## Go further
 
-- [AI Ecosystem](/ecosystem/) - complementary AI tools and integrations
-- [Examples](/examples/) - ready-to-use Claude Code templates
+- [AI Ecosystem](./ai-ecosystem.md) - complementary AI tools and integrations
+- [Examples](../../examples/README.md) - ready-to-use Claude Code templates

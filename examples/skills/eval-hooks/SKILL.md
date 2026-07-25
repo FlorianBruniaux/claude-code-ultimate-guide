@@ -98,7 +98,7 @@ Other events match different fields (e.g. `SessionStart` matches on `source: sta
 
 ### The `if` field (v2.1.85+)
 
-The `if` field narrows a handler further by tool name AND arguments together, using [permission rule syntax](/en/permissions). Evaluated per handler (not per matcher group), so the process only spawns when both match.
+The `if` field narrows a handler further by tool name AND arguments together, using [permission rule syntax](../../../guide/core/tools-reference.md#permission-rule-formats). Evaluated per handler (not per matcher group), so the process only spawns when both match.
 
 ```json
 {

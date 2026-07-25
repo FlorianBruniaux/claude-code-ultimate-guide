@@ -1888,5 +1888,5 @@ When `is_complaint: true` with `detected_pattern: "your service is terrible"`, a
 
 ## Go further
 
-- [Examples](/examples/) - ready-to-use Claude Code templates
-- [Workflows](/guide/workflows/) - end-to-end workflow guides
+- [Examples](../../examples/README.md) - ready-to-use Claude Code templates
+- [Workflows](../workflows/README.md) - end-to-end workflow guides
