@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.207"
-updated: "2026-07-11"
+latest: "2.1.215"
+updated: "2026-07-19"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,64 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-July 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.215"
+    date: "2026-07-19"
+    highlights:
+      - "Claude no longer runs the `/verify` and `/code-review` skills on its own; invoke them explicitly when you want them"
+
+  - version: "2.1.214"
+    date: "2026-07-18"
+    highlights:
+      - "⭐ Security: eight Bash permission-check fixes, commands over 10,000 characters now always prompt, file-descriptor redirects fail closed, zsh variable subscripts in `[[ ]]` prompt, and `Edit(src/**)`-style single-segment rules no longer auto-approve nested `src/` directories anywhere in the tree"
+      - "Added the EndConversation tool so Claude can end sessions with highly abusive users or jailbreak attempts, plus a periodic progress heartbeat for long-running tool calls that previously went silent"
+      - "OpenTelemetry: added `message.uuid`, `client_request_id`, and `tool_source` log attributes for message-level correlation, and `CLAUDE_CODE_OTEL_CONTENT_MAX_LENGTH` to configure the 60 KB content truncation limit"
+      - "Fixed background-session lifecycle bugs: idle sessions keeping the daemon alive, completed sessions being impossible to remove via `claude rm`, and a displaced daemon deleting its successor's control socket"
+    breaking:
+      - "Single-segment `dir/**` hook `if:` conditions now match only `<cwd>/dir`; write `**/dir/**` for any-depth matching (`deny`/`ask` permission rules keep their any-depth match)"
+      - "`file` commands using `-m`/`--magic-file` or `-f`/`--files-from` now require permission instead of being auto-allowed as read-only"
+      - "`docker` commands (including the Podman shim) carrying daemon-redirect flags (`--url`, `--connection`, `--identity`, Podman remote mode) now prompt for permission"
+
+  - version: "2.1.212"
+    date: "2026-07-16"
+    highlights:
+      - "⭐ `/fork` now copies your conversation into a new background session (its own row in `claude agents`) while you keep working; the in-session subagent it used to launch is now `/subtask`"
+      - "Added a session-wide WebSearch cap (default 200, `CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION`) and a per-session subagent-spawn cap (default 200, `CLAUDE_CODE_MAX_SUBAGENTS_PER_SESSION`) to stop runaway loops; `/clear` resets the budget"
+      - "MCP tool calls running longer than 2 minutes now move to the background automatically so the session stays usable (`CLAUDE_CODE_MCP_AUTO_BACKGROUND_MS`)"
+      - "Security: fixed plan mode auto-running file-modifying Bash commands (`touch`, `rm`) without a permission prompt, and worktree creation following a committed `.claude/worktrees` symlink to create files outside the repository"
+    breaking:
+      - "Deprecated the Task tool's `mode` parameter (now ignored); subagents inherit the parent session's permission mode by default"
+
+  - version: "2.1.211"
+    date: "2026-07-15"
+    highlights:
+      - "Added `--forward-subagent-text` flag and `CLAUDE_CODE_FORWARD_SUBAGENT_TEXT` to include subagent text and thinking in stream-json output"
+      - "Security: permission previews relayed to chat channels now neutralize bidirectional-override, zero-width, and look-alike quote characters, so tool inputs cannot visually alter the approval message"
+      - "Security: auto mode no longer overrides a PreToolUse hook's `ask` decision for unsandboxed Bash (an `ask` now floors the decision at a prompt)"
+      - "Fixed subagents with an explicit model override reverting to the parent's model when resumed, and nested `.claude/rules/*.md` loading even when setting sources exclude project settings"
+
+  - version: "2.1.210"
+    date: "2026-07-14"
+    highlights:
+      - "Added a live elapsed-time counter to the collapsed tool summary line so long-running tool calls visibly tick instead of looking stuck"
+      - "Hardened the Agent tool against indirect prompt injection via content a subagent read, and fixed `ultracode` keyword opt-in firing on non-human input such as webhook payloads and relayed PR comments"
+      - "Fixed `isolation: 'worktree'` subagents being able to run git-mutating commands against the main repo checkout instead of their own isolated worktree"
+      - "Auto mode: the permission classifier now defaults to Sonnet 5 for external sessions, validated on the session's first request and pinned for the session"
+    breaking:
+      - "`Write(path)`, `NotebookEdit(path)`, and `Glob(path)` permission rules now trigger a startup warning; use `Edit(path)` or `Read(path)` instead"
+
+  - version: "2.1.209"
+    date: "2026-07-14"
+    highlights:
+      - "Fixed `/model` and other dialogs being blocked in `claude agents` background sessions (reverts an overly broad guard)"
+
+  - version: "2.1.208"
+    date: "2026-07-13"
+    highlights:
+      - "Added screen reader mode: opt-in plain-text rendering via `claude --ax-screen-reader`, `CLAUDE_AX_SCREEN_READER=1`, or `axScreenReader: true` in settings"
+      - "Added `vimInsertModeRemaps` for mapping two-key insert-mode sequences like `jj` to Escape, and `CLAUDE_CODE_PROCESS_WRAPPER` for running every Claude Code self-spawn through a corporate launcher"
+      - "Fixed the context window and auto-compact indicator briefly resetting to 200k after an auto-update, causing a false '100% context used' when resuming long-context sessions"
+      - "Fixed very large markdown tables stalling rendering; tables over 200 rows now show the first 200 with a '… N more rows' notice"
 
   - version: "2.1.207"
     date: "2026-07-11"
@@ -1583,8 +1641,12 @@ breaking_summary:
     - "ultrathink keyword re-introduced — now enables high effort for next turn (v2.1.68)"
     - "Dynamic workflow trigger keyword renamed `workflow` → `ultracode` (v2.1.160)"
     - "'default' permission mode renamed 'Manual' across CLI/VS Code/JetBrains — `--permission-mode manual` and `defaultMode: manual` now accepted alongside `default` (v2.1.200)"
+    - "Task tool's `mode` parameter deprecated (now ignored); subagents inherit the parent session's permission mode (v2.1.212)"
   syntax:
     - "Indexed argument syntax changed: $ARGUMENTS.0 → $ARGUMENTS[0] (v2.1.19)"
+    - "`Write(path)`, `NotebookEdit(path)`, and `Glob(path)` permission rules now warn at startup — use `Edit(path)` or `Read(path)` (v2.1.210)"
+    - "Single-segment `dir/**` hook `if:` conditions match only `<cwd>/dir` — write `**/dir/**` for any-depth matching (`deny`/`ask` permission rules keep any-depth) (v2.1.214)"
+    - "`file -m`/`--magic-file`/`-f`/`--files-from` and `docker` daemon-redirect flags (`--url`, `--connection`, `--identity`) now require permission (v2.1.214)"
   plugins:
     - "`${user_config.*}` in shell-form plugin commands rejected; use exec form or `$CLAUDE_PLUGIN_OPTION_<KEY>` (v2.1.207)"
     - "Plugin option values (`pluginConfigs`) no longer read from project-level `.claude/settings.json` (v2.1.207)"
@@ -1593,6 +1655,9 @@ breaking_summary:
 # MILESTONE FEATURES (quick reference)
 # ════════════════════════════════════════════════════════════════
 milestones:
+  "2.1.214": "Eight Bash permission-check security fixes, EndConversation tool, heartbeat for long-running tool calls, OTel message-level correlation attributes"
+  "2.1.212": "/fork copies the conversation into a new background session (in-session subagent renamed /subtask), WebSearch + subagent-spawn session caps, MCP calls auto-background after 2 min"
+  "2.1.208": "Screen reader mode (opt-in plain-text rendering), vimInsertModeRemaps, CLAUDE_CODE_PROCESS_WRAPPER corporate launcher support"
   "2.1.207": "Bedrock/Vertex/Claude Platform on AWS default to Opus 4.8, terminal streaming perf fix, plugin shell-injection hardening"
   "2.1.205": "/doctor becomes a full setup checkup (/checkup alias), agent view gains classifier-written headlines"
   "2.1.200": "'default' permission mode renamed 'Manual' (CLI/VS Code/JetBrains), AskUserQuestion no longer auto-continues by default"

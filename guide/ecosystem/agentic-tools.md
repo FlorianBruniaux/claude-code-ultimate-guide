@@ -1,7 +1,7 @@
 ---
 title: "Agent Tools: Beyond Claude Code"
-description: "Comparative guide to terminal coding agents, autonomous coders, and multi-agent frameworks. Covers Hermes Agent, Codex CLI, Aider, Devin, SWE-agent, CrewAI, LangGraph, and AutoGen with a decision framework."
-tags: [agents, hermes, codex-cli, aider, devin, swe-agent, crewai, langgraph, autogen, comparison]
+description: "Comparative guide to terminal coding agents, autonomous coders, multi-agent frameworks, and agent orchestrators. Covers Hermes Agent, Codex CLI, Aider, Devin, SWE-agent, CrewAI, LangGraph, AutoGen, MetaGPT, Symphony, and Paperclip with a decision framework."
+tags: [agents, hermes, codex-cli, aider, devin, swe-agent, crewai, langgraph, autogen, metagpt, symphony, paperclip, comparison]
 ---
 
 # Agent Tools: Beyond Claude Code
@@ -28,7 +28,10 @@ Autonomous issue fixer
   SWE-agent, Devin, claude -p in CI
         |
 Multi-agent framework (build your own)
-  CrewAI, LangGraph, AutoGen/MAF
+  CrewAI, LangGraph, AutoGen/MAF, MetaGPT
+        |
+Agent orchestrator (manage a fleet)
+  Symphony (issue → run), Paperclip (goal → org chart)
 ```
 
 **Interactive agents**: you stay in the loop, approve actions, redirect the agent. Best for daily coding, debugging, and exploratory work where requirements shift.
@@ -583,6 +586,38 @@ The operative distinction: Claude Code is a finished product you use as a develo
 
 ---
 
+### 3.5 MetaGPT
+
+The original "AI software company" framework: five fixed roles (Product Manager, Architect, Project Manager, Engineer, QA) chained into a pipeline that turns a one-line request into PRDs, diagrams, and code. Historically important, currently dormant.
+
+| Attribute | Details |
+|-----------|---------|
+| **GitHub** | [FoundationAgents/MetaGPT](https://github.com/FoundationAgents/MetaGPT) |
+| **Stars** | 69,384 (July 2026) |
+| **Language** | Python |
+| **License** | MIT |
+| **Latest release** | v0.8.1 (April 22, 2024) |
+| **Last commit** | January 2026 |
+| **Commercial product** | MGX (hosted, launched Feb 2025) |
+
+#### The Core Idea
+
+MetaGPT's thesis fits in one line from its paper: `Code = SOP(Team)`. Encode a software company's standard operating procedure, assign each step to a role, and the pipeline produces the artifacts a real team would produce. Each role hands a structured document to the next. An executable feedback loop retries up to three times when code fails to run.
+
+The framework earned an ICLR 2024 oral and a large following. It proved that role decomposition plus structured handoffs beats a single agent on greenfield generation tasks.
+
+#### Read the Dates Before You Adopt It
+
+The star count is misleading as an activity signal. The last tagged release is v0.8.1 from April 2024, and the repository has not received a commit since January 2026. Team attention moved to MGX, the hosted commercial product. The promised v1.0 open-source release has not shipped.
+
+Treat MetaGPT as a reference architecture rather than a dependency. Its structured-artifact-between-roles pattern is worth studying and shows up in nearly every framework that followed, including BMAD and Liza. The code itself is two years past its last release.
+
+#### Where It Stops
+
+Trust is assumed through process compliance. Nothing prevents an agent from ignoring the SOP; the system bets that a clearly described procedure will be followed. Failure handling is retry-based (the same agent tries again) rather than structural. There is no crash recovery, no role boundary enforced outside the prompt, and no review loop where a second agent can reject the first agent's work.
+
+---
+
 ## Section 4: Agent Orchestration Tools
 
 Tools that sit above agent frameworks and manage how agents are deployed, routed, and operated at scale. Not to be confused with multi-Claude orchestration tools (Gas Town, multiclaude) which are covered in [Third-Party Tools](./third-party-tools.md#multi-agent-orchestration).
@@ -635,6 +670,111 @@ The pattern is sound for anyone running 3+ Hermes agents. The specific repo is t
 
 ---
 
+### 4.4 Symphony (OpenAI)
+
+OpenAI's answer to "what do you build on top of Codex?" Symphony watches a Linear board, creates an isolated workspace per issue, spawns a Codex agent in it, and collects proof of work before the PR lands.
+
+| Attribute | Details |
+|-----------|---------|
+| **GitHub** | [openai/symphony](https://github.com/openai/symphony) |
+| **Stars** | 25,969 (July 2026) |
+| **Language** | Elixir (reference implementation) |
+| **License** | Apache 2.0 |
+| **Created** | February 26, 2026 |
+| **Last commit** | June 9, 2026 |
+| **Status** | Engineering preview, no tagged release |
+
+#### What It Actually Does
+
+The tagline is "manage work, not agents." Symphony polls a tracker, dispatches an agent per issue into its own workspace, and gathers evidence the work is real: CI status, PR review feedback, complexity analysis, and a walkthrough video. An engineer reviews the evidence instead of watching the agent type.
+
+The distribution model is unusual and worth noting. The repo's primary recommendation is not "install our binary" but "hand [SPEC.md](https://github.com/openai/symphony/blob/main/SPEC.md) to your favorite coding agent and have it build Symphony in the language of your choice." The Elixir version is an experimental reference implementation, built on BEAM/OTP for supervision and concurrency. The spec is the product.
+
+Symphony assumes you have already done [harness engineering](https://openai.com/index/harness-engineering/) on your codebase: making the repo legible to agents through tests, docs, and tooling. It positions itself as the step after that.
+
+#### Read the Warning Label
+
+The README opens with a bolded warning that this is "a low-key engineering preview for testing in trusted environments." No tagged release exists, and the repo has been quiet since June 9, 2026. The 26K stars measure OpenAI's distribution reach, not production readiness.
+
+#### Where It Stops
+
+Symphony is deliberately narrow: a scheduler, runner, and tracker reader. It does not review, and it does not enforce. The spec explicitly states it "does not require a single approval, sandbox, or operator-confirmation policy," leaving trust posture to whoever implements it. The agent self-certifies its own work; there is no second agent that can reject it. The reference implementation is Codex-only.
+
+That narrowness is a design choice, not an oversight. If you want dispatch and workspace isolation, Symphony is a clean spec to copy. If you want a review loop or a merge gate, you build that yourself.
+
+---
+
+### 4.5 Paperclip
+
+An org chart for agents. Paperclip models the corporate apparatus (roles, budgets, approval gates, delegation chains) and lets you point any agent runtime at it. The fastest-growing project in this entire page.
+
+| Attribute | Details |
+|-----------|---------|
+| **GitHub** | [paperclipai/paperclip](https://github.com/paperclipai/paperclip) |
+| **Stars** | 73,770 (July 2026), 13,731 forks |
+| **Language** | TypeScript (Node.js server + React UI) |
+| **License** | MIT |
+| **Created** | March 2, 2026 |
+| **Latest release** | v2026.707.0 (July 7, 2026) |
+| **Works with** | Hermes Agent/OpenClaw, Claude Code, Codex, Cursor, Bash, HTTP |
+
+#### What It Actually Does
+
+The README frames it precisely: "If OpenClaw is an employee, Paperclip is the company." You define a goal, hire a team (CEO, CTO, engineers, marketers, each backed by whatever agent runtime you like), set budgets, and monitor from a dashboard. It looks like a task manager. Underneath sit org charts, budget caps, governance rules, and cost tracking per agent, task, and goal.
+
+Runtime-agnostic by design, summarized in their own line: "if it can receive a heartbeat, it's hired." This is what makes it interesting next to Claude Code rather than in competition with it. Claude Code becomes one of the employees.
+
+#### Why the Traction Matters
+
+73K stars and 13.7K forks in roughly four months, with releases shipping weekly. Whatever you think of the "zero-human company" narrative, the adoption is real and the project is maintained. A plugin ecosystem has already formed around it ([awesome-paperclip](https://github.com/gsxdsm/awesome-paperclip), company-wizard templates, a Hermes adapter from Nous Research).
+
+#### Where It Stops
+
+Trust in Paperclip is organizational, not behavioral. It governs who may act and how much they may spend, with budget auto-pause and append-only audit trails. It does not govern how the work gets done inside an agent session. Their own docs are direct about it not being a code review tool. Nothing here stops an agent from modifying a test to make broken code pass; that is a different layer of the problem, addressed by [spec-first governance patterns](../workflows/spec-first.md).
+
+Different domain, too. Paperclip targets business operations broadly, not software engineering specifically. If your goal is shipping code, the org-chart abstraction may be more apparatus than the job needs.
+
+---
+
+### 4.6 CLI Agent Orchestrator (CAO, AWS Labs)
+
+A supervisor agent that delegates to worker agents, each one a real CLI process in its own tmux session, coordinated over MCP. Notable for a reason that has nothing to do with its features: it is the only orchestrator in this category with a defensible bus factor.
+
+| Attribute | Details |
+|-----------|---------|
+| **GitHub** | [awslabs/cli-agent-orchestrator](https://github.com/awslabs/cli-agent-orchestrator) |
+| **Stars** | 893 (July 2026), 172 forks, 71 open issues |
+| **Language** | Python 3.10+, distributed on PyPI as `cli-agent-orchestrator` |
+| **License** | Apache-2.0 |
+| **Created** | July 29, 2025 |
+| **Latest release** | v2.3.0 (July 12, 2026) |
+| **Contributors** | 41, top contributor at 20% of commits |
+| **Works with** | Claude Code, Kiro CLI, Codex CLI, Antigravity CLI, Hermes Agent, Kimi CLI, GitHub Copilot CLI, OpenCode, Cursor CLI |
+
+#### What It Actually Does
+
+One supervisor agent launches, messages, and coordinates multiple workers through three MCP primitives: `handoff` (synchronous, waits for completion), `assign` (asynchronous, fire and forget), and `send_message` (inbox delivery between agents). Every agent runs as a full CLI process in an isolated tmux session, which is the design decision that matters most: because it drives the real binary rather than wrapping an API, native features survive, including Claude Code sub-agents, Kiro custom agents, and provider auth.
+
+Two consequences follow that most orchestrators cannot offer. You can `tmux attach` to any running worker and steer it mid-task, rather than waiting for a sub-agent to finish and hoping. And you can mix providers inside one session, pinning a profile to a given CLI through agent frontmatter, so a Kiro supervisor can drive Claude Code workers.
+
+Around that core sit scheduled flows (cron-style unattended runs), a bundled Web UI, a `cao-ops-mcp` server that lets an agent spawn and monitor CAO sessions from its own chat loop, persistent cross-session memory via `memory_store` and `memory_recall`, and per-agent tool restrictions declared as `role` plus `allowedTools` in the profile, translated to each provider's native enforcement where one exists.
+
+#### Why It Is Listed Here At All
+
+A July 2026 market sweep of eight open-source multi-agent orchestrators, verified against the GitHub API rather than project READMEs, found seven with a single contributor holding 95% to 100% of commits. CAO was the exception, at 41 contributors and a top contributor holding 20%.
+
+The comparison that should stay with you: Mission Control ([builderz-labs/mission-control](https://github.com/builderz-labs/mission-control), MIT) carries 5,763 stars, 6.4 times CAO's count, and one person authored 78% of its commits. Sorting that market by stars selects almost exactly the wrong tool. This guide's position on star counts as an adoption proxy is stated at [Section 5](#the-model-lock-in-question) and in [`docs/resource-evaluations/README.md`](../../docs/resource-evaluations/README.md); CAO versus Mission Control is the cleanest illustration of it in the wild.
+
+#### Where It Stops
+
+CAO owns coordination and nothing else. It ships no quality gate of its own, and it is honest about this: whether an agent can declare "done" on broken code depends entirely on what the underlying CLI runs inside its worktree. Tool restrictions constrain which tools an agent may call, not whether its output is correct. Answer question 1 of the [governance checklist](../workflows/agentic-software-factories.md#4-five-governance-questions-before-you-adopt-anything) yourself, in your own CI, because CAO will not answer it for you.
+
+Isolation is process-level, not system-level. tmux separates contexts and gives real PTY access; it is not a sandbox. Agents inherit the environment, including secrets and configs. The `cao-server` is hardened for localhost specifically (host-header validation against DNS rebinding, WebSocket PTY refusing non-loopback connections), which tells you the intended deployment: your machine, not a shared host.
+
+No published case study with measured outcomes exists as of July 2026, which puts it in the same evidentiary position as every commercial platform in this category. AWS Labs backing means maintenance continuity, not proven production results.
+
+---
+
 ## Section 5: Decision Framework
 
 ### Full Comparison Matrix
@@ -648,9 +788,14 @@ The pattern is sound for anyone running 3+ Hermes agents. The specific repo is t
 | **Goose** | Yes | 46K | 15+ providers | Interactive + subagents | Rust | Pay-per-LLM-call |
 | **Devin** | No | N/A | Proprietary | Fully autonomous | Proprietary | $20-$500/mo |
 | **SWE-agent** | Yes (MIT) | 19K | Any (Claude, GPT...) | Autonomous (issue → PR) | Python | Pay-per-LLM-call |
-| **CrewAI** | Yes (MIT) | 52K | 50+ providers | Framework (build your own) | Python | Framework is free |
+| **CrewAI** | Yes (MIT) | 55K | 50+ providers | Framework (build your own) | Python | Framework is free |
 | **LangGraph** | Yes (MIT) | 33K | Any | Framework | Python/JS | Framework is free |
 | **AutoGen/MAF** | Yes (MIT) | 58K/11K | Any | Framework | Python/C#/TS | Framework is free |
+| **MetaGPT** | Yes (MIT) | 69K | Any | Framework (SOP pipeline) | Python | Framework is free |
+| **Symphony** | Yes (Apache 2.0) | 26K | Codex (reference impl) | Orchestrator (issue → run) | Elixir | Free + per-agent LLM cost |
+| **Paperclip** | Yes (MIT) | 74K | Any (heartbeat protocol) | Orchestrator (goal → org) | TypeScript | Free + per-agent LLM cost |
+
+Star counts read July 15, 2026 via the GitHub API. Two rows carry a caveat the number hides: MetaGPT's 69K sits on a repo whose last release was April 2024, and Symphony's 26K sits on an explicit engineering preview. Stars measure reach, not maintenance.
 
 ### Situation to Tool Guide
 
@@ -668,6 +813,10 @@ The pattern is sound for anyone running 3+ Hermes agents. The specific repo is t
 | Build in .NET + Python with Microsoft stack | AutoGen/MAF |
 | Anthropic ecosystem, cloud-hosted agents | Anthropic Agent SDK (see [ai-ecosystem.md §14](./ai-ecosystem.md#14-claude-managed-agents)) |
 | Manage a fleet of Hermes agents on VPS | Hermes Control Room pattern |
+| Study role decomposition and SOP pipelines | MetaGPT (read it, do not depend on it) |
+| Dispatch a tracker board to agents, one workspace per issue | Symphony spec (§4.4) |
+| Coordinate mixed agent runtimes under budgets and approvals | Paperclip |
+| Enforce how work gets done inside an agent session | None of the above (see [spec-first.md](../workflows/spec-first.md)) |
 
 ### The Model Lock-In Question
 
@@ -691,6 +840,7 @@ Interactive agents (Claude Code terminal, Hermes, Aider, Goose) give you real-ti
 
 ## Cross-References
 
+- **Orientation map for the whole subject** (spectrum, decision tree for closed platforms, governance checklist): [workflows/agentic-software-factories.md](../workflows/agentic-software-factories.md)
 - **Multi-Claude orchestration** (Gas Town, multiclaude, Ruflo, Conductor desktop): [Third-Party Tools: Multi-Agent Orchestration](./third-party-tools.md#multi-agent-orchestration)
 - **Goose deep dive**: [AI Ecosystem §11.1](./ai-ecosystem.md#111-goose-open-source-alternative-block)
 - **Building custom agents with Anthropic SDK**: [AI Ecosystem §14](./ai-ecosystem.md#14-claude-managed-agents)

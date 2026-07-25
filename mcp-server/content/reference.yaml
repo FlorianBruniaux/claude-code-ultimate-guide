@@ -4,7 +4,7 @@
 # Purpose: Condensed index for LLMs to quickly answer user questions about Claude Code
 
 version: "3.41.1"
-updated: "2026-07-02"
+updated: "2026-07-08"
 
 # ════════════════════════════════════════════════════════════════
 # DEEP DIVE - Line numbers in guide/ultimate-guide.md
@@ -291,6 +291,11 @@ deep_dive:
   rtk_version_tested: "v0.28.0"
   rtk_score: "5/5"
   rtk_installation: "cargo install rtk or brew install rtk-ai/tap/rtk"
+  # Edgee Compressor V2 (2026-07-02) - documented + cross-referenced with RTK
+  edgee_compressor_v2_guide: "guide/ecosystem/context-engineering-tools.md:419"
+  edgee_compressor_v2_source: "https://www.edgee.ai/blog/posts/introducing-compressor-v2-three-compression-layers-measured-end-to-end-for-a-50-cost-reduction"
+  edgee_rtk_lineage: "Edgee's tool-result-trimming layer explicitly credits RTK as its inspiration; TSR and brevity are the two layers RTK cannot cover"
+  vendor_claims_checklist: "guide/ops/ai-unit-economics.md:159 (How to read a vendor's cost-reduction claim: paired design, sign test ceiling at small n, bootstrap CI width, median vs aggregate)"
   # Google Antigravity (Agent-First IDE)
   antigravity_guide: "guide/ecosystem/ai-ecosystem.md:1366"
   antigravity_evaluation: "docs/resource-evaluations/google-antigravity-evaluation.md"
@@ -384,6 +389,7 @@ deep_dive:
   # AI Unit Economics (guide/ops/ai-unit-economics.md) - Added 2026-07-07
   ai_unit_economics_guide: "guide/ops/ai-unit-economics.md"
   ai_unit_economics_description: "Original synthesis on the unit economics of agentic AI usage: per-task cost decomposition, real cost levers (complexity routing, sub-agent isolation, exit criteria), the break-even point of an autonomous agent, and team budget governance. Flagged explicitly as original analysis, not a practitioner-sourced compilation."
+  ai_unit_economics_token_estimation: "guide/ops/ai-unit-economics.md#do-not-estimate-tokens-by-string-length (why chars/4 breaks: measured -35% on code, -23% on accented French, erring in the unsafe direction; wrong tokenizer for Claude; plus the count-the-wrong-string second-order bug)"
   # Learning with AI (guide/roles/learning-with-ai.md)
   learning_quick_check: "guide/roles/learning-with-ai.md:38"
   learning_uval_protocol: "guide/roles/learning-with-ai.md:218"
@@ -525,6 +531,7 @@ deep_dive:
   data_privacy_known_risks: "guide/security/data-privacy.md#2-known-risks"
   data_privacy_bug_command: "guide/security/data-privacy.md#risk-4-the-bug-command-sends-everything-retained-5-years"
   data_privacy_browser_native_messaging: "guide/security/data-privacy.md#risk-6-claude-desktop-browser-integration-silent-native-messaging-host-installation"
+  data_privacy_local_looking_client: "guide/security/data-privacy.md#risk-7-the-local-looking-network-client (a CLI/MCP server can be 'zero dependencies, no signup' and still POST every input to a third party; size-vs-functionality check; why MCP mode turns a discipline problem into a structural one since the agent picks the input)"
   data_privacy_protective_measures: "guide/security/data-privacy.md#3-protective-measures"
   data_privacy_file_exclusions: "guide/security/data-privacy.md#31-configure-file-exclusions"
   data_privacy_telemetry_optout: "guide/security/data-privacy.md#33-opt-out-of-telemetry-and-error-reporting"
@@ -558,6 +565,10 @@ deep_dive:
   third_party_claude_chic: "https://pypi.org/project/claudechic/"
   third_party_toad: "https://github.com/batrachianai/toad"
   third_party_conductor: "https://docs.conductor.build"
+  third_party_agent_orchestrator: "https://github.com/AgentWrapper/agent-orchestrator"
+  third_party_agent_orchestrator_guide: "guide/ecosystem/third-party-tools.md:1381"
+  third_party_agent_orchestrator_purpose: "OSS cross-platform equivalent to Conductor: 23 agent CLIs supported vs 2, git worktree isolation, automatic CI/review/conflict feedback loop. PostHog telemetry on by default."
+  third_party_agent_orchestrator_evaluation: "docs/resource-evaluations/agent-orchestrator-composio.md"
   # Project Context Bootstrapping (Added 2026-04-08)
   third_party_tools_context_bootstrap: "guide/ecosystem/third-party-tools.md:427"
   third_party_codesight: "https://github.com/Houseofmvps/codesight"
@@ -678,10 +689,13 @@ deep_dive:
   programmatic_billing_effective: "2026-06-15"
   programmatic_billing_announced: "2026-05-13"
   programmatic_billing_affects: "claude -p, Agent SDK (Python+TS), GitHub Actions, OpenClaw/Hermes/Conductor, custom harnesses, CI/CD pipelines, scheduled automation"
-  # Agent Tools comparison page (Hermes, Codex CLI, Aider, Devin, SWE-agent, CrewAI, LangGraph, AutoGen)
+  # Agent Tools comparison page (Hermes, Codex CLI, Aider, Devin, SWE-agent, CrewAI, LangGraph, AutoGen, MetaGPT, Symphony, Paperclip)
   agentic_tools_page: "guide/ecosystem/agentic-tools.md"
   agentic_tools_decision_framework: "guide/ecosystem/agentic-tools.md#section-5-decision-framework"
   agentic_tools_comparison_matrix: "guide/ecosystem/agentic-tools.md#full-comparison-matrix"
+  metagpt_tool: "guide/ecosystem/agentic-tools.md#35-metagpt"  # Code = SOP(Team), 5 fixed roles; 69K stars but last release v0.8.1 (Apr 2024), reference only, dormant
+  symphony_tool: "guide/ecosystem/agentic-tools.md#44-symphony-openai"  # OpenAI, Elixir, Apache-2.0; Linear board -> per-issue workspace -> Codex agent; engineering preview, spec-as-product
+  paperclip_tool: "guide/ecosystem/agentic-tools.md#45-paperclip"  # org chart/budgets/approvals for agent fleets; runtime-agnostic; 74K stars; governs who+how much, not how work is done
   programmatic_billing_unaffected: "Claude Code terminal (interactive), IDE integrations, web/desktop/mobile chat, human-in-the-loop workflows"
   programmatic_billing_credits: "Pro $20/mo | Max 5x $100/mo | Max 20x $200/mo — no rollover, not automatic (requires email activation)"
   programmatic_billing_overage_sonnet: "$3/MTok input, $15/MTok output (standard API rates)"
@@ -926,13 +940,43 @@ deep_dive:
   gsd_evaluation: "docs/resource-evaluations/gsd-evaluation.md"
   gsd_source: "https://github.com/glittercowboy/get-shit-done"
   gsd_note: "Overlap with existing patterns (Ralph Loop, Gas Town, BMAD)"
-  # Resource Evaluations (added 2026-01-26, updated 2026-02-07)
+  # Spec-driven agentic pipelines & AI software factories (added 2026-07-08)
+  bmad_method_tool_usage: "guide/workflows/spec-first.md#with-bmad-method-multi-role-planning"  # npx install, 3 planning tracks
+  bmad_method_strategic: "guide/core/methodologies.md#tier-1-strategic-orchestration"  # constitution.md, when to use/avoid
+  bmad_method_upstream: "https://github.com/bmad-code-org/BMAD-METHOD"
+  bmad_method_stars: "50,200+ (verified via gh api, 2026-07-08)"
+  bmad_method_evaluation: "docs/resource-evaluations/bmad-method-spec-driven-agents.md"
+  spec_kitty_tool: "guide/workflows/spec-first.md#with-spec-kitty-isolated-parallel-execution"  # git worktree isolation + kanban + audit trail
+  spec_kitty_upstream: "https://github.com/Priivacy-ai/spec-kitty"
+  spec_kitty_stars: "1,400+ (verified via gh api, 2026-07-08)"
+  spec_kitty_evaluation: "docs/resource-evaluations/spec-kitty-worktree-isolation.md"
+  openhands_tool: "guide/ecosystem/agentic-tools.md#24-openhands-all-hands-ai"  # dependency-graph parallel execution, Tier 0/Tier 1
+  openhands_upstream: "https://github.com/OpenHands/OpenHands"
+  openhands_stars: "79,900+ (verified via gh api, 2026-07-08)"
+  openhands_evaluation: "docs/resource-evaluations/openhands-autonomous-agent.md"
+  ai_software_factories_section: "guide/workflows/spec-first.md#full-cycle-ai-software-factories"  # Maleus, Factory.ai, Blitzy, Devin as a market category
+  ai_software_factories_governance_checklist: "4 questions: deterministic gate vs LLM self-grading / stop-the-line escalation / audit-trail traceability / spec stays authoritative after first generation"
+  ai_software_factories_maleus: "https://maleus.ai (Adrien Maret, Paris): natural-language intent to specs to owned app on customer infra"
+  ai_software_factories_liza_oss: "guide/workflows/spec-first.md#full-cycle-ai-software-factories"  # Liza = OSS reference architecture answering governance Q1-3 mechanically
+  liza_framework_upstream: "https://github.com/liza-mas/liza"
+  liza_framework_stars: "320, Apache-2.0, single-author (verified via gh api, 2026-07-12)"
+  liza_framework_governance: "Go supervisors enforce state/merge/TDD gates + adversarial doer/reviewer pairs + YAML blackboard audit trail + circuit breaker (explicit stop-the-line) + 55+ failure-mode behavioral contract"
+  liza_framework_evaluation: "docs/resource-evaluations/liza-mas-framework.md"
+  liza_satellite_tools_rejected: "docs/resource-evaluations/liza-mas-token-saving-cli-tools.md (scip-search/mdtoc/functional-clusters/stacklit-cli rejected 2026-06-10; framework itself is a separate, higher-scored object)"
+  # Agentic Software Factories orientation page (added 2026-07-15)
+  agentic_software_factories_hub: "guide/workflows/agentic-software-factories.md"  # single entry point: spectrum, decision tree, file map, governance checklist, velocity-trap case study
+  agentic_software_factories_spectrum: "guide/workflows/agentic-software-factories.md#1-the-spectrum-six-levels-six-costs"  # 6 levels: single session -> /batch -> Agent Teams -> dynamic-workflows -> plan-pipeline -> third-party orchestrator -> closed factory
+  agentic_software_factories_decision_tree: "guide/workflows/agentic-software-factories.md#2-the-missing-decision-tree-when-does-a-closed-software-factory-actually-win"  # closed platform vs native stack, branches on team size/budget/compliance
+  agentic_software_factories_governance_5th_question: "guide/workflows/agentic-software-factories.md#4-five-governance-questions-before-you-adopt-anything"  # extends spec-first.md's 4 questions with: is the advertised verification feature actually wired
+  agentic_software_factories_fusion_case_study: "docs/resource-evaluations/fusion-multi-agent-orchestrator.md"  # 727K lines/4 months, bus factor 1, verification module built but never wired into production
+  # Resource Evaluations (added 2026-01-26, updated 2026-02-07, synced 2026-07-08)
   resource_evaluations_directory: "docs/resource-evaluations/"
-  resource_evaluations_count: 86
+  resource_evaluations_count: 120
+  resource_evaluations_count_note: "Tracks docs/resource-evaluations/README.md's own running count, not a live file count. As of 2026-07-08 the folder holds 160 .md files but the README index table lists only 43 rows — most older evaluation files were never added to the index. Unresolved pre-existing gap, flagged not fixed."
   resource_evaluations_methodology: "docs/resource-evaluations/README.md"
   resource_evaluations_watchlist: "docs/resource-evaluations/watch-list.md"
-  resource_evaluations_appendix: "guide/ultimate-guide.md:20886"
-  resource_evaluations_readme_section: "README.md:307"
+  resource_evaluations_appendix: "guide/ultimate-guide.md:26294"
+  resource_evaluations_readme_section: "README.md:354"
   resource_evaluations_git_mcp: "docs/resource-evaluations/git-mcp-server-evaluation.md"
   resource_evaluations_anaconda_croce: "docs/resource-evaluations/anaconda-croce-evaluation.md"
   resource_evaluations_grenier_quality: "docs/resource-evaluations/grenier-agent-skill-quality.md"

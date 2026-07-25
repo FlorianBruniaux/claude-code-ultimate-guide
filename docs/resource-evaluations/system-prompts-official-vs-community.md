@@ -236,7 +236,7 @@ Claude system prompts (~5-15K tokens) are **publicly published** by Anthropic as
 
 **Core Components**:
 - **Tool definitions**: Bash, Read, Edit, Write, Grep, Glob, Task, TodoWrite
-- **Safety instructions**: Content policies, refusal patterns (see [Security Hardening](./security-hardening.md))
+- **Safety instructions**: Content policies, refusal patterns (see [Security Hardening](../../guide/security/security-hardening.md))
 - **Behavioral guidelines**: Task-first approach, MVP-first, no over-engineering
 - **Context instructions**: How to gather and use project context
 

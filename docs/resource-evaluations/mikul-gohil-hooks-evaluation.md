@@ -59,8 +59,8 @@
 
 **ALL meaningful information in the article originates from the official Claude Code CHANGELOG, not from original research by the author.**
 
-- Setup event: Added v2.1.10 ([releases.md:101](../../guide/claude-code-releases.md))
-- PreToolUse additionalContext: Added v2.1.9 ([releases.md:111](../../guide/claude-code-releases.md))
+- Setup event: Added v2.1.10 ([releases.md:101](../../guide/core/claude-code-releases.md))
+- PreToolUse additionalContext: Added v2.1.9 ([releases.md:111](../../guide/core/claude-code-releases.md))
 - Hook events: All documented in [official CHANGELOG](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md)
 
 ---
@@ -193,7 +193,7 @@ Create `scripts/sync-official-docs.sh`:
 
 - **Official CHANGELOG**: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
 - **Guide Section 7**: [ultimate-guide.md](../../guide/ultimate-guide.md) (lines 5949-6850+)
-- **Release History**: [claude-code-releases.md](../../guide/claude-code-releases.md)
+- **Release History**: [claude-code-releases.md](../../guide/core/claude-code-releases.md)
 - **Hook Templates**: [examples/hooks/bash/](../../examples/hooks/bash/)
 - **Article (rejected)**: https://www.mikul.me/blog/mastering-claude-code-hooks-automation-validation-logging
 

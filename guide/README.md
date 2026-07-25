@@ -110,6 +110,7 @@ Hands-on guides for effective development patterns:
 | [workflows/task-management.md](./workflows/task-management.md) | Multi-session task tracking, TodoWrite migration |
 | [workflows/agent-teams.md](./workflows/agent-teams.md) | Orchestrating multi-agent teams for complex tasks |
 | [workflows/agent-teams-quick-start.md](./workflows/agent-teams-quick-start.md) | Quick start guide for agent team patterns |
+| [workflows/agentic-software-factories.md](./workflows/agentic-software-factories.md) | Orientation map: from a single session to a software factory, and when a closed platform actually wins |
 | [workflows/dual-instance-planning.md](./workflows/dual-instance-planning.md) | Dual-instance planning: Opus plans, Sonnet executes |
 | [workflows/event-driven-agents.md](./workflows/event-driven-agents.md) | Event-driven agent coordination patterns |
 | [workflows/support-csm-agent.md](./workflows/support-csm-agent.md) | Internal support/CSM agent: ticket triage, DB diagnosis, CRM via MCP |

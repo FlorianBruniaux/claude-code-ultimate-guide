@@ -80,6 +80,9 @@ Les documents de travail bruts (prompts Perplexity, audits clients) restent dans
 | **OpenHands** (All Hands AI) | 4/5 | **4/5** | ✅ Integrated: agentic-tools.md §2.4 | [openhands-autonomous-agent.md](./openhands-autonomous-agent.md) |
 | **Spec-Kitty** (Priivacy-ai) | 3/5 | **3/5** | ✅ Mention: spec-first.md (worktree isolation) | [spec-kitty-worktree-isolation.md](./spec-kitty-worktree-isolation.md) |
 | **Agent Orchestrator** (AgentWrapper, ex-ComposioHQ) | 3/5 | **3/5** | ✅ Mention: third-party-tools.md (OSS equivalent to Conductor) | [agent-orchestrator-composio.md](./agent-orchestrator-composio.md) |
+| **Liza** (framework MAS, liza-mas/liza) | 3/5 | **3/5** | ✅ Mention: spec-first.md (OSS governance reference architecture) | [liza-mas-framework.md](./liza-mas-framework.md) |
+| **IA-QA CLI** (@ia-qa/cli, Jean-Christophe Jamet) | 3/5 | **2/5** | ⚠️ Watch only (thin client, tous les inputs partent sur un serveur tiers ; heuristiques mesurées à -35% sur du code) | [ia-qa-cli-llm-testing.md](./ia-qa-cli-llm-testing.md) |
+| **Fusion** (Runfusion/Fusion, MIT) | 4/5 | **4/5** | ✅ Case study only, not a recommended tool (double-checkout anti-cheat pattern + agentic velocity without architecture ; bus factor 1, 94% of commits by one person) | [fusion-multi-agent-orchestrator.md](./fusion-multi-agent-orchestrator.md) |
 
 ## Watch List
 
@@ -87,4 +90,4 @@ Ressources surveillées mais pas encore intégrées : [watch-list.md](./watch-li
 
 ---
 
-**Dernier update**: 2026-07-08 (120 évaluations)
+**Dernier update**: 2026-07-15 (162 fichiers d'évaluation sur disque, 45 indexés ci-dessus ; l'écart est un reliquat connu qui attend une passe d'audit dédiée)

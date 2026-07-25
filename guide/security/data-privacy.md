@@ -195,6 +195,38 @@ If you don't use the browser integration feature, you can safely delete the mani
 
 ---
 
+### Risk 7: The Local-Looking Network Client
+
+A CLI or MCP server can advertise "zero dependencies, no signup, no telemetry" and still send every input you give it to a server you do not control. Those three claims are about the *package*, not about the *data*. A thin HTTP client genuinely has zero dependencies, because it contains nothing.
+
+The tell is arithmetic. Compare the unpacked size against the advertised functionality before installing anything:
+
+```bash
+npm view <package> --json | grep -E '"unpackedSize"|"fileCount"|"dependencies"'
+```
+
+A package advertising 148 analysis tools in 17 KB across 3 files is not carrying 148 tools. It is carrying a `fetch` call. Real local implementations of tokenizers, scanners, or embedding math have a size floor that a network client does not. When the numbers do not add up, read the source before running it; at that size it takes minutes:
+
+```bash
+curl -sL $(npm view <package> dist.tarball) | tar -xzO package/index.js | head -50
+```
+
+Honest projects often say so plainly in a header comment or README. The problem is that the marketing copy and the architecture live in different places, and only one of them ends up in a LinkedIn post.
+
+**Why MCP mode makes this categorically worse:**
+
+In CLI mode, a human chooses each input. That is a discipline problem, and a careful team can live with a hosted tool by simply never pasting anything sensitive into it.
+
+In MCP mode, the agent chooses the input, and the agent has your codebase in context. It will pass a proprietary source file to a hosted `count_tokens` helper because that is a reasonable thing to do with a token counter. Nobody approved that specific call, because nobody was asked. The tool's own safety engineering does not help here: temp-file hardening and secret-parameter warnings protect against argv leaks and local attacks, not against an agent deciding on its own what to send.
+
+This converts a rule that a team can hold ("don't paste customer data into that tool") into one it cannot ("don't let the agent read the wrong file"). For regulated data, minors' data, or client source under NDA, that is disqualifying regardless of how well the client is written.
+
+**The check that matters:**
+
+For any hosted MCP server, ask whether there is a local execution path at all. If every tool call is a network call, then adding the server to `.mcp.json` means granting a third party read access to whatever your agent decides is relevant. "No signup" makes this worse rather than better: no account means no data processing agreement, no named subprocessor, and no retention policy you can point at during an audit.
+
+---
+
 ## 3. Protective Measures
 
 ### Immediate Actions
@@ -388,7 +420,7 @@ Run `env | grep -iE 'key|secret|token|pass'` to see what environment variables a
 ## Go further
 
 - [Whitepapers](/whitepapers/) - in-depth security and privacy analyses
-- [Security](/security/) - CVE tracking, threat campaigns, and hardening
+- [Security](./security-hardening.md) - CVE tracking, threat campaigns, and hardening
 
 ---
 

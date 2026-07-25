@@ -102,6 +102,36 @@ Cache reads are priced far below fresh input (a fraction of the input rate), whi
 
 The raw token counts for a real session live in the JSONL files at `~/.claude/projects/<project>/`. Tools like `ccusage` (see [observability.md §External Monitoring Tools](./observability.md#external-monitoring-tools)) read those files and produce exact per-session costs, so you do not have to estimate by hand once you want real numbers.
 
+### Do not estimate tokens by string length
+
+The cost function above is only as good as the token counts you feed it. The usual shortcut is `chars / 4`, which appears in countless helpers as a one-liner:
+
+```js
+const estimateTokens = (text) => Math.ceil(text.length / 4);   // wrong in the unsafe direction
+```
+
+It holds for English prose and falls apart everywhere else. Measured against the real `cl100k_base` tokenizer (July 2026):
+
+| Input type | Real tokens | `chars / 4` | Error |
+|-----------|-------------|-------------|-------|
+| English prose | 10 | 11 | +10% |
+| JavaScript snippet | 23 | 15 | **-35%** |
+| French text with accents | 22 | 17 | **-23%** |
+
+Two properties make this worse than a plain inaccuracy.
+
+The error direction is unsafe. The heuristic *underestimates* exactly where you care most, on code and on accented or non-Latin text, so it reports that a payload fits when it does not. A budget guard built on it lets through what it was written to stop, silently, and the failure surfaces later as a truncation or an API error rather than as a wrong number.
+
+The tokenizer is the wrong one anyway. `cl100k_base` is OpenAI's. Claude uses a different tokenizer, so a `chars / 4` estimate aimed at a Claude context window stacks a second error on top of the first. For real numbers, count with the provider's own endpoint ([Anthropic's token counting API](https://docs.claude.com/en/docs/build-with-claude/token-counting)) or read actual usage from the response, and keep heuristics for rough sizing only.
+
+**The subtler bug: count what you send, not what the user typed.**
+
+Even a correct tokenizer gives a wrong answer when it measures the wrong string. A guard that counts the raw user message, then sends a prompt assembled from that message plus a system header, role prefixes, and an instruction block, is under-counting by everything the wrapper adds. The gap is invisible in tests, because it grows with formatting that tests usually skip.
+
+Count the final serialized payload, immediately before the call, at the same place the request is built. If a fallback path trims the input to fit, it has to re-measure after trimming rather than assume the trim was enough.
+
+If you already log truncation events, that is where the answer lives. A counter on "guard said it fit, provider disagreed" turns this from an argument into a measurement.
+
 ---
 
 ## 3. The real cost-reduction levers
@@ -118,7 +148,7 @@ One production account put a number on it: routing prompts by complexity to chea
 
 Pushing a heavy task into a sub-agent with its own clean context, which returns only a synthesis to the supervisor, keeps the main context from filling with intermediate detail (*Dev With AI Meetup, multiple speakers, 2026*). The economic effect is direct: the supervisor's context stays small, so every subsequent turn on the main thread resends fewer tokens. Without isolation, the intermediate output of a heavy task pollutes the main context and inflates the input cost of every turn that follows, for no added value.
 
-The trade-off is that a sub-agent has its own input and output cost. Isolation pays off when the heavy task would otherwise bloat a long main thread. It does not pay off for a task so small that spawning a sub-agent costs more than the pollution it avoids.
+The trade-off is that a sub-agent has its own input and output cost. Isolation pays off when the heavy task would otherwise bloat a long main thread. It does not pay off for a task so small that spawning a sub-agent costs more than the pollution it avoids. The order of magnitude to keep in mind: practitioner reports put naive multi-agent workflows at 3 to 10 times the token cost of a single-agent run on the same task (AugmentCode and Bearplex field guides, 2026, vendor-internal measurements, not peer-reviewed). Structured output contracts, history compression, and KV-cache sharing claw back 30 to 80% of that overhead (Zylos Research, 2026, analytical). Treat every added agent as a cost node that has to justify itself with a measurable accuracy gain, not a default.
 
 ### Cap iterations and set explicit exit criteria
 
@@ -170,11 +200,13 @@ Every vendor selling a cost-optimization tool eventually publishes a number: "cu
 
 **Median beats aggregate.** Citing the median is a more conservative choice than citing a mean or an aggregate total, precisely because the median resists outliers. A mean can be pulled upward by a single exceptional task, while the median reflects the typical case. When a vendor reports a mean rather than a median without justifying the choice, and never shows the underlying distribution, that omission is worth asking about.
 
+**A token-volume cut is not a dollar cut.** The API prices token classes very differently. On Opus 4.8 (July 2026), model output runs $25 per million, fresh input $5, a cache read $0.50. Output is 50 times a cache read. So a tool that removes a large slab of cache_read tokens (a bloated tool catalog, a stale history) can advertise a 33% cut in token volume and deliver closer to 10% off the bill, because it trimmed the cheapest class. The reverse also holds: a tool that shortens the model's own output attacks the most expensive class and moves the dollar figure more than its token count suggests. When a claim is denominated in tokens, ask which class those tokens belong to before assuming the dollar figure follows.
+
 **A generic illustration.** Say a tool claims "35% average token-cost reduction" across 20 tasks. If 18 of them show a 10 to 15% gain and 2 show a 300% gain (because the old pipeline happened to loop on exactly those cases), the overall average is dominated by those 2 outliers. The median tells a different, more representative story of what a typical task should expect.
 
 **What a full evaluation covers: the SWE-bench Lite case.** This coding-agent benchmark measures the resolution rate of real GitHub issues, not just execution speed or cost. A tool that is twice as cheap but resolves half as many tickets is not a net improvement. That is a trade-off that needs pricing on both axes at once. Any cost claim that never mentions the associated success rate is telling an incomplete story (Jimenez et al., "SWE-bench: Can Language Models Resolve Real-World GitHub Issues?", 2023, [arxiv.org/abs/2310.06770](https://arxiv.org/abs/2310.06770)).
 
-A short checklist for the next "X% faster/cheaper" claim: is the comparison paired (same task, before and after), or two separate samples? Is the sample under 10 tasks, in which case a "significant" result needs to be near-perfect to actually be one? Is the cited number a median or a mean, and is the full distribution shown anywhere? Is a confidence interval given, and is it tight or does it span a huge range? Is a success or quality rate mentioned alongside the cost, or is cost the only thing highlighted? Without these answers, a performance number is a marketing claim dressed in statistics, not evidence.
+A short checklist for the next "X% faster/cheaper" claim: is the comparison paired (same task, before and after), or two separate samples? Is the sample under 10 tasks, in which case a "significant" result needs to be near-perfect to actually be one? Is the cited number a median or a mean, and is the full distribution shown anywhere? Is the reduction quoted in token volume or in dollars, and if tokens, which class (output, fresh input, or the far cheaper cache read)? Is a confidence interval given, and is it tight or does it span a huge range? Is a success or quality rate mentioned alongside the cost, or is cost the only thing highlighted? Without these answers, a performance number is a marketing claim dressed in statistics, not evidence.
 
 ---
 
