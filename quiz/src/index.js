@@ -14,10 +14,11 @@ import { parseArgs } from 'util';
 
 import { displayHeader, displayHelp } from './ui.js';
 import { selectProfile, selectTopics } from './prompts.js';
-import { loadQuestions, filterQuestions, shuffleArray } from './questions.js';
+import { loadQuestions, selectQuestions } from './questions.js';
 import { runQuiz } from './quiz.js';
 import { displayFinalScore, offerRetry } from './score.js';
 import { loadSession, saveSession } from './session.js';
+import { TOPICS, TOPIC_IDS, parseTopicIds } from './topics.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -55,30 +56,16 @@ const PROFILES = {
     name: 'Power User',
     description: '2 hours for full mastery',
     questionCount: 25,
-    focusTopics: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    focusTopics: TOPIC_IDS,
     difficultyWeight: { junior: 0.2, senior: 0.4, power: 0.4 }
   },
   pm: {
     name: 'Product Manager',
     description: '20 min overview',
     questionCount: 10,
-    focusTopics: [1, 2, 3],
+    focusTopics: [1, 2, 3, 16, 17],
     difficultyWeight: { junior: 1, senior: 0, power: 0 }
   }
-};
-
-// Topic names
-const TOPICS = {
-  1: 'Quick Start & Installation',
-  2: 'Core Concepts',
-  3: 'Memory & Settings',
-  4: 'Agents',
-  5: 'Skills',
-  6: 'Commands',
-  7: 'Hooks',
-  8: 'MCP Servers',
-  9: 'Advanced Patterns',
-  10: 'Reference & Troubleshooting'
 };
 
 async function main() {
@@ -107,7 +94,7 @@ async function main() {
   // Topic selection
   let selectedTopics;
   if (args.topics) {
-    selectedTopics = args.topics.split(',').map(t => parseInt(t.trim())).filter(t => t >= 1 && t <= 10);
+    selectedTopics = parseTopicIds(args.topics);
     if (selectedTopics.length === 0) selectedTopics = PROFILES[profile].focusTopics;
   } else {
     selectedTopics = await selectTopics(TOPICS, PROFILES[profile].focusTopics);
@@ -123,20 +110,19 @@ async function main() {
   // Load and filter questions
   const questionsDir = join(__dirname, '..', 'questions');
   const allQuestions = await loadQuestions(questionsDir);
-  const filteredQuestions = filterQuestions(allQuestions, {
+  const questionOptions = {
     profile,
     topics: selectedTopics,
     count: questionCount,
     difficultyWeight: PROFILES[profile].difficultyWeight
-  });
+  };
 
-  if (filteredQuestions.length === 0) {
+  const quizQuestions = selectQuestions(allQuestions, questionOptions);
+
+  if (quizQuestions.length === 0) {
     console.log('\nNo questions available for selected criteria. Try different topics.');
     process.exit(1);
   }
-
-  // Shuffle questions
-  const quizQuestions = shuffleArray(filteredQuestions).slice(0, questionCount);
 
   // Run quiz
   const results = await runQuiz(quizQuestions, {
@@ -169,7 +155,8 @@ async function main() {
     }
   } else if (retryChoice === 'new-quiz') {
     // Restart with different questions
-    const newQuestions = shuffleArray(filteredQuestions).slice(0, questionCount);
+    const previousQuestionIds = new Set(quizQuestions.map(question => question.id));
+    const newQuestions = selectQuestions(allQuestions, questionOptions, previousQuestionIds);
     const newResults = await runQuiz(newQuestions, {
       profile,
       topics: selectedTopics,

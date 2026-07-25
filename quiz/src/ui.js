@@ -3,6 +3,7 @@
  */
 
 import chalk from 'chalk';
+import { TOPICS } from './topics.js';
 
 export function displayHeader() {
   console.log(chalk.cyan('\n' + '='.repeat(60)));
@@ -22,7 +23,7 @@ ${chalk.yellow('Usage:')}
 
 ${chalk.yellow('Options:')}
   -p, --profile <type>   Pre-select profile (junior|senior|power|pm)
-  -t, --topics <list>    Quiz specific sections (1-10, comma-separated)
+  -t, --topics <list>    Quiz specific sections (1-17, comma-separated)
   -c, --count <n>        Limit number of questions (1-50)
   -d, --dynamic          Enable dynamic question generation via claude -p
   -h, --help             Show this help message
@@ -32,19 +33,10 @@ ${chalk.yellow('Profiles:')}
   junior   Junior Developer (15 questions, sections 1-3, 6)
   senior   Senior Developer (20 questions, sections 2-4, 7, 9)
   power    Power User (25 questions, all sections)
-  pm       Product Manager (10 questions, sections 1-3)
+  pm       Product Manager (10 questions, sections 1-3, 16-17)
 
 ${chalk.yellow('Topics:')}
-  1  Quick Start & Installation
-  2  Core Concepts
-  3  Memory & Settings
-  4  Agents
-  5  Skills
-  6  Commands
-  7  Hooks
-  8  MCP Servers
-  9  Advanced Patterns
-  10 Reference & Troubleshooting
+${Object.entries(TOPICS).map(([id, name]) => `  ${id.padStart(2)} ${name}`).join('\n')}
 
 ${chalk.yellow('Examples:')}
   npx claude-code-quiz                      # Interactive mode

@@ -6,19 +6,7 @@ import chalk from 'chalk';
 import { displayQuestion, displayCorrect, displayIncorrect, displayProgress } from './ui.js';
 import { promptAnswer, promptContinue } from './prompts.js';
 import { generateDynamicQuestion } from './dynamic.js';
-
-const TOPICS = {
-  1: 'Quick Start & Installation',
-  2: 'Core Concepts',
-  3: 'Memory & Settings',
-  4: 'Agents',
-  5: 'Skills',
-  6: 'Commands',
-  7: 'Hooks',
-  8: 'MCP Servers',
-  9: 'Advanced Patterns',
-  10: 'Reference & Troubleshooting'
-};
+import { TOPICS } from './topics.js';
 
 /**
  * Run the quiz with given questions

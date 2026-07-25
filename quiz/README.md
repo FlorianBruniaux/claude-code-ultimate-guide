@@ -52,7 +52,7 @@ node src/index.js [options]
 
 Options:
   -p, --profile <type>   Pre-select profile (junior|senior|power|pm)
-  -t, --topics <list>    Quiz specific sections (1-10, comma-separated)
+  -t, --topics <list>    Quiz specific sections (1-17, comma-separated)
   -c, --count <n>        Limit number of questions (1-50)
   -d, --dynamic          Enable dynamic question generation via claude -p
   -h, --help             Show help message
@@ -174,7 +174,7 @@ Time: 9 minutes 2 seconds
 | **Junior Developer** | 15 | Sections 1-3, 6 (essentials) |
 | **Senior Developer** | 20 | Sections 2-4, 7, 9 (architecture, automation) |
 | **Power User** | 25 | All sections |
-| **Product Manager** | 10 | Sections 1-3 (conceptual overview) |
+| **Product Manager** | 10 | Sections 1-3, 16-17 (conceptual and team overview) |
 
 ## Topics
 
@@ -190,6 +190,13 @@ Time: 9 minutes 2 seconds
 | 8 | MCP Servers | Context7, Serena, Sequential, plugins |
 | 9 | Advanced Patterns | The Trinity, CI/CD, composition |
 | 10 | Reference | Shortcuts, troubleshooting, daily workflow |
+| 11 | Learning with AI | Learning workflows, review habits, skill development |
+| 12 | Architecture Internals | Runtime architecture, context, tools, and execution |
+| 13 | Security Hardening | Threat models, safe configuration, and security checks |
+| 14 | Privacy & Observability | Data handling, privacy controls, and telemetry |
+| 15 | AI Ecosystem | Complementary tools and integration patterns |
+| 16 | Agent Harness & Context | Agent execution environments and context engineering |
+| 17 | Team Metrics for AI-Augmented Engineering | DORA, SPACE, and AI delivery metrics |
 
 ## Quiz Flow
 
@@ -205,7 +212,7 @@ Time: 9 minutes 2 seconds
                      │
                      ▼
 ┌─────────────────────────────────────────────┐
-│  Select Topics (All or Specific 1-10)       │
+│  Select Topics (All or Specific 1-17)       │
 └─────────────────────────────────────────────┘
                      │
                      ▼
