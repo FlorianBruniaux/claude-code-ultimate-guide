@@ -57,7 +57,7 @@ Khare argues that AI tools create a productivity paradox: faster task completion
 
 | Aspect | Article (Khare) | Guide (Current) |
 |--------|-----------------|-----------------|
-| **Productivity paradox** | ✅ Described (anecdotal) | ✅ Documented with RCT studies ([learning-with-ai.md](../guide/learning-with-ai.md) lines 100-153) |
+| **Productivity paradox** | ✅ Described (anecdotal) | ✅ Documented with RCT studies ([learning-with-ai.md](../../guide/roles/learning-with-ai.md) lines 100-153) |
 | **Review burden** | ✅ "Creator → Reviewer shift" | ✅ "Vibe Coding Trap" + Accept All pattern (lines 81-96) |
 | **Skill atrophy** | ✅ "Thinking atrophy" | ✅ "Three Patterns" + unemployability trajectory (lines 159-205) |
 | **Nondeterminism stress** | ➕ Explicit (output variance) | ⚠️ Implicit (UVAL "verify everything") |
@@ -192,8 +192,8 @@ This checkpoint prevents compounding exhaustion from extended sessions with dimi
 - Khare, S. (2026, February 8). AI Fatigue is Real and Nobody Talks About It. Retrieved from https://siddhantkhare.com/writing/ai-fatigue-is-real
 
 **Guide sections referenced:**
-- [Learning with AI](../guide/learning-with-ai.md) — Primary integration location
-- [Adoption Approaches](../guide/adoption-approaches.md) — Considered but not used
+- [Learning with AI](../../guide/roles/learning-with-ai.md) — Primary integration location
+- [Adoption Approaches](../../guide/roles/adoption-approaches.md) — Considered but not used
 
 **Related evaluations:**
 - [Beyond Vibe Coding](./beyond-vibe-coding.md) — Complementary perspective on AI-assisted development

@@ -39,7 +39,7 @@ Paul Rayner (CEO Virtual Genius, EventStorming Handbook author, Explore DDD foun
 | **"Agent teams functionality"** | ✅ **TRUE** | [CHANGELOG v2.1.32](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md) | Official experimental feature (`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`) |
 | **"Three concurrent agent teams"** | ⚠️ **PLAUSIBLE** | Personal testimonial | Not independently verifiable but consistent with feature capabilities |
 | **"Pretty impressive results"** | ⚠️ **SUBJECTIVE** | Opinion | No objective metrics, but validated by Perplexity research (Fountain 50%, CRED 2x) |
-| **"Beads framework (Steve Yegge)"** | ✅ **TRUE** | [Guide ai-ecosystem.md:1532](../guide/ai-ecosystem.md) | Referenced in Gas Town (beads.db) |
+| **"Beads framework (Steve Yegge)"** | ✅ **TRUE** | [Guide ai-ecosystem.md:1532](../../guide/ecosystem/ai-ecosystem.md) | Referenced in Gas Town (beads.db) |
 | **"Uncertainty beads vs teams"** | ✅ **LEGITIMATE** | Documentation gap | Guidance effectively absent in official docs and guide |
 
 ### Factual Corrections

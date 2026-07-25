@@ -134,7 +134,7 @@ my-plugin/
 
 ## Related Evaluations
 
-- [2026-01-24-se-cove-plugin.md](./2026-01-24-se-cove-plugin.md) - First plugin example integrated
+- [se-cove-plugin.md](./se-cove-plugin.md) - First plugin example integrated
 
 ---
 

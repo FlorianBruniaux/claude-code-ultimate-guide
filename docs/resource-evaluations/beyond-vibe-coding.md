@@ -134,7 +134,7 @@ Comprehensive book guiding developers from "vibe coding" (rapid AI-assisted prot
 ```markdown
 ### Addy Osmani (Google Chrome DX Lead)
 
-**"The 80% Problem in Agentic Coding"** ([Substack](https://addyo.substack.com/p/the-80-problem-in-agentic-coding), Jan 28, 2026) — Synthesizes productivity paradox: AI generates 80% fast, final 20% requires human judgment. Introduces "comprehension debt" concept. See [detailed evaluation](../docs/resource-evaluations/024-addy-osmani-80-percent-problem.md).
+**"The 80% Problem in Agentic Coding"** ([Substack](https://addyo.substack.com/p/the-80-problem-in-agentic-coding), Jan 28, 2026) — Synthesizes productivity paradox: AI generates 80% fast, final 20% requires human judgment. Introduces "comprehension debt" concept. See [detailed evaluation](./024-addy-osmani-80-percent-problem.md).
 
 **"Beyond Vibe Coding"** (O'Reilly, 2025) — Comprehensive book expanding on 70% problem framework, context engineering, and AI-assisted workflows. Covers Claude Code, Cursor, Copilot. Significant overlap with this guide's methodologies (TDD, spec-first, context management). External reference for cross-validation. [Book site](https://beyond.addy.ie)
 ```
