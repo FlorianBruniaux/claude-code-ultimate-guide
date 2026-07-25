@@ -94,6 +94,25 @@ Token-threshold switching between single-agent unified evaluation (cross-file de
 
 ---
 
+## Guillaume Laforge (Open Reasoning Format)
+
+**Blog**: [glaforge.dev](https://glaforge.dev/posts/2026/07/21/open-reasoning-format-encoding-and-remembering-agentic-behavior/)
+**Author**: Guillaume Laforge, Developer Advocate at Google Cloud, co-founder of Apache Groovy
+**License**: open spec (Markdown + YAML), reference CLI in Python
+
+The Open Reasoning Format (ORF) shaped the file-based experience-playbook track in [memory-systems.md §3.7](memory-systems.md#37-file-based-experience-playbooks-orf-diffmem). ORF's three-tier progressive disclosure for memory retrieval and its Abstracted-Insight / Validated-Path schema split are documented there, along with the ReasoningBank paper (arXiv 2509.25140) that ORF cites as its academic anchor.
+
+---
+
+## Growth Kinetics (DiffMem)
+
+**Repo**: [github.com/Growth-Kinetics/DiffMem](https://github.com/Growth-Kinetics/DiffMem)
+**License**: MIT claimed in the pyproject classifier (no LICENSE file present)
+
+DiffMem is documented as a case study in [memory-systems.md §3.7](memory-systems.md#37-file-based-experience-playbooks-orf-diffmem). Its LLM-agentic git-shell retrieval (an LLM that greps and blames the repo instead of querying an index) and its orphan-branch-per-user isolation are the extracted ideas. Its removal of BM25 in favor of full-LLM retrieval anchors the guide's "match retrieval to query shape" teaching point.
+
+---
+
 ## IFTTD (If This Then Dev) Podcast
 
 **Podcast**: [ifttd.io](https://www.ifttd.io/)

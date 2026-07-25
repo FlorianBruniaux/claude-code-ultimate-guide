@@ -33,8 +33,9 @@ Memory in Claude Code has no single canonical source — it spans native CC feat
    - [3.4 Kairn](#34-kairn)
    - [3.5 doobidoo mcp-memory-service](#35-doobidoo-mcp-memory-service)
    - [3.6 OpenMemory MCP](#36-openmemory-mcp)
-   - [3.7 Other Notable Tools](#37-other-notable-tools)
-   - [3.8 Master Comparison Table](#38-master-comparison-table)
+   - [3.7 File-Based Experience Playbooks (ORF, DiffMem)](#37-file-based-experience-playbooks-orf-diffmem)
+   - [3.8 Other Notable Tools](#38-other-notable-tools)
+   - [3.9 Master Comparison Table](#39-master-comparison-table)
 4. [Team Sharing](#4-team-sharing)
    - [4.1 The Trinity](#41-the-trinity-claudemd--mcpjson--skills)
    - [4.2 doobidoo + Cloudflare (Team Mode)](#42-doobidoo--cloudflare-team-mode)
@@ -541,7 +542,31 @@ The 4-tool surface is the correct architectural answer to the "53-tool memory MC
 
 ---
 
-### 3.7 Other Notable Tools
+### 3.7 File-Based Experience Playbooks (ORF, DiffMem)
+
+The tools above store memory in a database (SQLite, vectors, a graph). A separate track keeps everything in plain files committed to Git, with no server and no embedding API. It trades semantic-vector recall for zero infrastructure and version-controllable memory. Two projects define this track, and they made opposite retrieval choices. That contrast is the most useful lesson in this whole section.
+
+**Open Reasoning Format (ORF)**, by Guillaume Laforge (Google Cloud DevRel, Apache Groovy co-founder). When an agent resolves a tricky problem, it writes a "playbook" as a Markdown file with YAML frontmatter under `./experiences/`. A later session facing a similar task reloads that playbook and skips the dead ends already paid for once. Three parts: `experiences/INDEX.md` (a catalog the helper script auto-appends to, so it never drifts from the files), `experiences/<domain>/EXP-<date>-<seq>.md` (one playbook per file, five sections: Objective, The Trap, Abstracted Insight, Validated Path, Verification Checklist), and a `manage-experience/` Agent Skill backed by a reference Python CLI.
+
+Two hard constraints define ORF. First, zero server: no vector DB, no embedding call, just files that commit to version control. Second, on-demand loading via three-tier progressive disclosure: read the small index (~200 tokens), inspect the frontmatter descriptions of playbooks in the relevant category (~500 tokens), then load only the matching playbook (~800 tokens). This is the SKILL.md progressive-disclosure idea (the same three-layer pattern as §3.1 claude-mem) applied to a memory index. The schema's split between Abstracted Insight (the reusable principle) and Validated Path (the concrete fix that worked here) is deliberate: it is the mechanism meant to fight over-specific playbooks that never re-trigger.
+
+ORF is inspired by Google's **ReasoningBank** (arXiv 2509.25140, "Scaling Agent Self-Evolving with Reasoning Memory"), which distills strategies from both successful and failed trajectories into structured memory items. The key divergence is the whole bet: ReasoningBank retrieves items by embedding similarity, ORF drops embeddings and retrieves by filename plus one-line frontmatter descriptions read by the LLM. The cost is retrieval quality. An LLM scanning short descriptions misses matches a vector index would catch, which Laforge flags himself as an open question. Maturity: a well-designed proof of concept, self-reported as not yet used in production, with benchmarks too small to mean anything (SWE-bench "66.7% to 100%" is three tasks, one flipped). See the [full evaluation](../../docs/resource-evaluations/orf-open-reasoning-format.md).
+
+**DiffMem**, by Growth Kinetics: a git-native file memory that powers the "Annabelle" companion product. Same substrate as ORF (Markdown in a Git repo), opposite retrieval choice. DiffMem built a BM25 index, then deleted it (commit `c4fe4a3`) in favor of an LLM that shells the repo directly. One tool, `run(command=...)`, behind a base-command whitelist (`grep`, `git log/diff/blame/show`), with output truncated and a short timeout. Instead of an index, the agent greps and blames the repo to answer "when was this last true." Storage isolates each user on an **orphan Git branch** mounted via `git worktree`, so multi-tenant isolation is a real Git guarantee rather than a folder convention. It is a case study, not a recommended tool: bus factor one (one author under seven aliases is 78% of commits), no LICENSE file, and the retrieval core is untested and being rewritten. One caveat worth naming if you borrow the shell-tool idea: DiffMem validates only the base command before `subprocess.run(shell=True)`, so `$(...)` inside an argument is an injection risk against untrusted input. See the [full evaluation](../../docs/resource-evaluations/diffmem-git-native-memory.md).
+
+#### The lesson: match retrieval to query shape
+
+DiffMem built BM25 and abandoned it. That reads at first like evidence against BM25. It is the opposite. DiffMem's queries are natural-language questions about people and events (a companion recalling "what did the user say about their sister in March"). That is a semantic query shape, where keyword ranking underperforms and an LLM reasoning over `git blame` wins. A coding-agent memory has the inverse query shape: error strings, stack traces, and code symbols, where term overlap is high and lexical ranking (BM25) is not just sufficient, it often beats embeddings while costing a fraction of an LLM loop. Same files, same Git, opposite retrieval, because the queries differ. Do not copy a tool's retrieval choice without first checking that your queries look like theirs.
+
+#### Practitioner pattern: /retex + BM25 routing (this guide's own setup)
+
+This repository runs the file-based playbook pattern in production, without ORF's CLI. A `/retex` slash command writes a structured lesson (What happened, Root cause, Prevention rule, severity, tags) to `.claude/memories/retex-*.md`, and a `.claude/rules/retex-review.md` rule surfaces the three most recent at session start plus warns inline when a work pattern matches a known prevention rule. It is the same station ORF formalized, with more operational plumbing (session-start surfacing, severity, a 50-entry cap, interactive capture) and one fewer disclosure tier.
+
+The retrieval side is where the query-shape lesson pays off. A separate BM25 engine already powers a `UserPromptSubmit` skill-routing hook in a sibling project (the "smart-suggest-routing" pattern, documented at [cc.bruniaux.com/guide/workflows/smart-suggest-routing](https://cc.bruniaux.com/guide/workflows/smart-suggest-routing)), using BM25-plus with per-skill calibrated thresholds and zero external dependencies. Because retex queries are lexical (the error you just hit), the same engine pointed at a retex corpus is a stronger retrieval base than either ORF's LLM-reads-frontmatter or a vector index. The pragmatic hybrid: BM25 or a frontmatter-tag filter as the cheap default, and an LLM-agentic git-shell pass (DiffMem's idea) only when the lexical match misses.
+
+---
+
+### 3.8 Other Notable Tools
 
 | Tool | Stars | Key feature | Limitation |
 |------|-------|-------------|------------|
@@ -560,7 +585,7 @@ The 4-tool surface is the correct architectural answer to the "53-tool memory MC
 
 ---
 
-### 3.8 Master Comparison Table
+### 3.9 Master Comparison Table
 
 | Tool | Storage | Search | Auto hooks | Team | Token cost/yr |
 |------|---------|--------|------------|------|---------------|
@@ -573,6 +598,8 @@ The 4-tool surface is the correct architectural answer to the "53-tool memory MC
 | **Memori** | Graph + Vec hybrid | Graph + Vec | No | Design goal | — |
 | **codebase-memory-mcp** | AST graph | Structural | No | Filesystem share | Minimal |
 | **Pieces** | Local proprietary | ML | No | No (privacy-first) | Daemon overhead |
+| **ORF** | Markdown + Git files | LLM reads frontmatter | Via SKILL.md | Git commit | Retrieval-only, no server |
+| **DiffMem** | Markdown + Git (orphan branch) | LLM greps/blames repo | No | Orphan branch per user | LLM per read/write |
 
 ---
 
@@ -703,6 +730,8 @@ Section 10 documents the gap explicitly. The conventional read is "the market wi
 **Claude Code's multi-agent model is young**: Agent teams are a recent feature. Building shared memory on an evolving substrate has been correctly deferred by teams who could have done it.
 
 **The correct bet today**: CLAUDE.md + .mcp.json (static, zero infra) for shared standards, plus Notion MCP or Mem0 cloud (zero new infra) for dynamic shared memory. Plan a migration to agentmemory on a shared host or Memori when those tools' team stories mature.
+
+**Partial counter-example, file-based playbooks (§3.7)**: ORF and DiffMem sidestep the single-tenant-DNA barrier by having no database at all. Because a playbook is a plain file, `git commit experiences/` distributes one developer's agent fix to the whole team through the same review flow as code, no server and no auth model to build. DiffMem pushes this further with an orphan Git branch per user for real multi-tenant isolation. This solves distribution, not coordination: the two hard problems (consolidating overlapping playbooks and resolving conflicts between contributors) are exactly the open questions their authors name and leave unsolved. The Git-native path is the distribution mechanism §10 says is missing, but it inherits Git's merge semantics, which were not designed for semantic memory conflicts.
 
 ---
 
@@ -1063,6 +1092,8 @@ Numbers reported by tool vendors against these benchmarks should be read skeptic
 
 SimpleMem (arXiv:2601.02553) reports 43.24% F1 on LoCoMo with 30x fewer tokens. EvolveMem (arXiv:2605.13941) reports 54.3% F1 on LoCoMo via an evaluate-diagnose-propose-guard loop. Both IDs correspond to 2026; treat as recent preprints.
 
+**ReasoningBank** (Google, arXiv 2509.25140) is the academic anchor for the success-and-failure memory the file-based playbook track (§3.7) implements. It distills generalizable strategies from both successful and failed trajectories, then retrieves a few relevant items at test time via embedding search. The paper is the credible source ORF cites; the practical divergence (ORF and this guide's retex drop the embeddings for lexical or LLM-read retrieval) is a deployment tradeoff, not a disagreement with the paper.
+
 ### Memory Decay Models
 
 Three documented approaches with different theoretical grounding:
@@ -1083,7 +1114,9 @@ These gaps have no tooling answer as of May 2026:
 
 **Cross-project memory**: "What did I learn about connection pooling in project A that applies to project B?" Current solutions scope memory to a single repo or user. ICM gets closest (shared DB across tools) but remains single-user.
 
-**Memory versioning**: Zep/Graphiti is the only tool with bitemporal modeling. Every other tool's store is a snapshot. There is no Git equivalent for memory — no branches, no merges, no rollback. If a major refactor invalidates a year of accumulated memory, the only recovery path is `delete_all_memories`.
+**Memory versioning**: Zep/Graphiti is the only tool with bitemporal modeling. Every other tool's store is a snapshot. The database-backed tools have no Git equivalent for memory, no branches, no merges, no rollback. If a major refactor invalidates a year of accumulated memory, the only recovery path is `delete_all_memories`. The file-based playbook track (§3.7) is the partial exception: ORF and DiffMem store memory as committed files, so branches, diffs, and rollback come free from Git, and DiffMem uses `git blame` to answer point-in-time queries. What Git does not give them is semantic merge, which is why consolidation stays an open problem below.
+
+**Consolidation and staleness of experience playbooks**: The file-based track (§3.7) trades a database for plain files, and inherits two unsolved problems its authors name openly. Overlapping or contradictory playbooks are not merged (Git resolves text conflicts, not "these two lessons say opposite things"). Playbooks go stale silently as the frameworks they describe evolve, with no decay model and no re-validation trigger. A cheap partial fix is a lexical or BM25 pre-filter over playbook frontmatter so near-duplicates surface at write time, but detecting semantic contradiction still needs an LLM pass no tool ships today.
 
 **Conflict resolution between agents**: When two agents store contradictory memories about the same entity, the implicit policy is last-write-wins. CRDTs, vector clocks, and operational transforms are standard in collaborative editing and absent from every memory system here.
 
@@ -1109,4 +1142,7 @@ These gaps have no tooling answer as of May 2026:
 > - [Sleep-time Compute paper](https://arxiv.org/html/2504.13171v1) (arXiv:2504.13171, UC Berkeley + Letta, April 2025)
 > - [CLAUDE.md impact study](https://arxiv.org/abs/2602.11988) (Gloaguen et al., arXiv 2602.11988, Feb 2026)
 > - [Auto Dream system prompts](https://github.com/Piebald-AI/claude-code-system-prompts/blob/main/system-prompts/agent-prompt-dream-memory-consolidation.md)
+> - [ORF blog post](https://glaforge.dev/posts/2026/07/21/open-reasoning-format-encoding-and-remembering-agentic-behavior/) (Guillaume Laforge, July 2026)
+> - [ReasoningBank](https://arxiv.org/abs/2509.25140) (Google, arXiv 2509.25140, "Scaling Agent Self-Evolving with Reasoning Memory")
+> - [DiffMem GitHub](https://github.com/Growth-Kinetics/DiffMem)
 > - Claude Code release notes: v2.1.33, v2.1.59, v2.1.63, v2.1.83+
