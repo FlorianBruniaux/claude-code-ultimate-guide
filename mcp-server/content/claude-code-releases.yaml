@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.215"
-updated: "2026-07-19"
+latest: "2.1.220"
+updated: "2026-07-25"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,52 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-July 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.220"
+    date: "2026-07-24"
+    highlights:
+      - "Bug fixes and reliability improvements"
+
+  - version: "2.1.219"
+    date: "2026-07-24"
+    highlights:
+      - "⭐ Claude Opus 5 (`claude-opus-5`) becomes the default Opus model: 1M context, fast mode at $10/$50 per Mtok; Opus 4.7 dropped from fast mode, `/fast` now covers Opus 5 and Opus 4.8"
+      - "Added the `DirectoryAdded` hook (fires after `/add-dir` or the SDK `register_repo_root` control request), `sandbox.network.strictAllowlist` to deny non-allowlisted hosts without prompting, and the `workflowSizeGuideline` settings key"
+      - "Subagents can spawn nested subagents up to depth 3 again (was disabled in 2.1.217); set `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH=1` to opt out, and stream-json forwards depth-2+ subagent text when `--forward-subagent-text` is set"
+      - "Added `mcp_server_errors` to the headless stream-json init event and HTTP status/error text to `claude mcp list` and `/mcp` when a server fails to connect"
+    breaking:
+      - "Opus 4.7 removed from fast mode; `/fast` applies to Opus 5 and Opus 4.8 only"
+      - "Dynamic workflows default to a medium size guideline (aim for fewer than 15 agents); change it with Dynamic workflow size in `/config`"
+
+  - version: "2.1.218"
+    date: "2026-07-22"
+    highlights:
+      - "`/code-review` now runs as a background subagent, so review work no longer fills the conversation and stacked slash commands stay the review target"
+      - "Security: agent frontmatter hooks now require the agent file's own folder to have accepted workspace trust, so hooks no longer run from untrusted folders"
+      - "Fixed the left arrow key discarding the conversation with no undo, Windows paths with `\\u`-prefixed segments (like `C:\\Users\\unicorn`) being corrupted into CJK characters, and `/context` reporting stale pre-compact token usage"
+      - "Auto mode adjudicates the dangerous-rm, background-`&`, and suspicious-Windows-path checks instead of opening permission dialogs; plan mode with auto no longer prompts for Bash the static analyzer can't prove read-only"
+    breaking:
+      - "Skills with `context: fork` run in the background by default; opt out per skill with `background: false`"
+      - "Agent markdown files reject agent names containing `:`, which is reserved for plugin namespacing"
+      - "`/deep-research` starts only when invoked manually; Claude no longer launches it on its own"
+
+  - version: "2.1.217"
+    date: "2026-07-21"
+    highlights:
+      - "Added emoji shortcode autocomplete in the prompt input (`:heart:` inserts ❤️), disabled with the `emojiCompletionEnabled` setting"
+      - "Added a cap on concurrently-running subagents (default 20, `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS`) and fixed `--max-budget-usd` not stopping background subagents once the cap is reached"
+      - "Fixed a memory leak where truncated MCP tool outputs kept the full untruncated result in memory for the rest of the session, and Windows auto-update failures that could leave `claude.exe` missing"
+      - "Security: fixed background session isolation not canonicalizing symlinked working directories, which could let sessions escape their workspace folder"
+    breaking:
+      - "Subagents no longer spawn nested subagents by default (reverted in 2.1.219, which restored depth 3); set `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH` to control nesting"
+
+  - version: "2.1.216"
+    date: "2026-07-20"
+    highlights:
+      - "Added `sandbox.filesystem.disabled` to skip filesystem isolation while keeping network egress control"
+      - "Fixed a slowdown in long sessions where message normalization cost grew quadratically with the number of turns, causing multi-second stalls and slow resumes"
+      - "Fixed auto mode denying commands with 'HTTP 401' classifier errors after the OAuth token expired or rotated mid-session"
+      - "Fixed AskUserQuestion telling Claude to continue when the answer asked it to wait or explain first, and Claude Code on the web re-asking the same question after an idle period"
 
   - version: "2.1.215"
     date: "2026-07-19"
@@ -1636,17 +1682,24 @@ breaking_summary:
     - "npm installations deprecated - use native installer (v2.1.15)"
   models:
     - "Opus 4 and Opus 4.1 removed from Claude Code first-party API — auto-migrated to Opus 4.6 (v2.1.68)"
+    - "Opus 4.7 removed from fast mode; `/fast` applies to Opus 5 and Opus 4.8 only (v2.1.219)"
   behavior:
     - "ultrathink/think keywords now cosmetic only — thinking default with Opus 4.5 (v2.0.67)"
     - "ultrathink keyword re-introduced — now enables high effort for next turn (v2.1.68)"
     - "Dynamic workflow trigger keyword renamed `workflow` → `ultracode` (v2.1.160)"
     - "'default' permission mode renamed 'Manual' across CLI/VS Code/JetBrains — `--permission-mode manual` and `defaultMode: manual` now accepted alongside `default` (v2.1.200)"
     - "Task tool's `mode` parameter deprecated (now ignored); subagents inherit the parent session's permission mode (v2.1.212)"
+    - "Subagent nesting disabled by default (v2.1.217), then restored to depth 3; set `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH=1` to disable (v2.1.219)"
+    - "Skills with `context: fork` run in the background by default; opt out with `background: false` (v2.1.218)"
+    - "`/deep-research` starts only when invoked manually; Claude no longer launches it on its own (v2.1.218)"
+    - "Dynamic workflows default to a medium size guideline (fewer than 15 agents); change with Dynamic workflow size in `/config` (v2.1.219)"
   syntax:
     - "Indexed argument syntax changed: $ARGUMENTS.0 → $ARGUMENTS[0] (v2.1.19)"
     - "`Write(path)`, `NotebookEdit(path)`, and `Glob(path)` permission rules now warn at startup — use `Edit(path)` or `Read(path)` (v2.1.210)"
     - "Single-segment `dir/**` hook `if:` conditions match only `<cwd>/dir` — write `**/dir/**` for any-depth matching (`deny`/`ask` permission rules keep any-depth) (v2.1.214)"
     - "`file -m`/`--magic-file`/`-f`/`--files-from` and `docker` daemon-redirect flags (`--url`, `--connection`, `--identity`) now require permission (v2.1.214)"
+  agents:
+    - "Agent markdown files reject agent names containing `:`, reserved for plugin namespacing (v2.1.218)"
   plugins:
     - "`${user_config.*}` in shell-form plugin commands rejected; use exec form or `$CLAUDE_PLUGIN_OPTION_<KEY>` (v2.1.207)"
     - "Plugin option values (`pluginConfigs`) no longer read from project-level `.claude/settings.json` (v2.1.207)"
@@ -1655,6 +1708,9 @@ breaking_summary:
 # MILESTONE FEATURES (quick reference)
 # ════════════════════════════════════════════════════════════════
 milestones:
+  "2.1.219": "Claude Opus 5 becomes the default Opus model (1M context, fast mode $10/$50 per Mtok), DirectoryAdded hook, sandbox.network.strictAllowlist, subagent nesting restored to depth 3"
+  "2.1.218": "/code-review runs as a background subagent, agent frontmatter hooks require workspace trust, context: fork skills background by default"
+  "2.1.217": "Concurrent subagent cap (default 20), --max-budget-usd halts background subagents, MCP truncated-output memory leak fixed"
   "2.1.214": "Eight Bash permission-check security fixes, EndConversation tool, heartbeat for long-running tool calls, OTel message-level correlation attributes"
   "2.1.212": "/fork copies the conversation into a new background session (in-session subagent renamed /subtask), WebSearch + subagent-spawn session caps, MCP calls auto-background after 2 min"
   "2.1.208": "Screen reader mode (opt-in plain-text rendering), vimInsertModeRemaps, CLAUDE_CODE_PROCESS_WRAPPER corporate launcher support"
