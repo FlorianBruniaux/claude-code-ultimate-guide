@@ -9,9 +9,11 @@
 
 ---
 
-## Score: 3/5 (Moderate)
+## Score: 2/5 (Marginal)
 
-**Decision**: Integrate as a mention in `guide/core/memory-systems.md` (new file-based experience-playbook entry under §3) plus cite the ReasoningBank paper as the academic anchor for failure-and-success memory. Extract one documented pattern: 3-tier progressive disclosure applied to memory retrieval. Do not recommend the tool for production; it is a well-designed POC the author has not yet used in anger.
+**Note (post-challenge revision)**: initial score was 3/5. A skeptical review found the novelty was overstated. `memory-systems.md` §3.1 already documents 3-layer progressive disclosure (claude-mem), and §2.2-2.3 (Auto Memory + Auto Dream) is already a native file-based, no-vector, index-and-prune memory system. So most of what looked novel is covered. Revised down to 2/5.
+
+**Decision**: Minimal mention only. The one genuinely valuable, verified recommendation is independent of ORF: cite the ReasoningBank paper (arXiv 2509.25140) in `memory-systems.md`, since `grep -rli "reasoningbank" guide/` returns zero hits and it is the academic anchor for success-and-failure agent memory. Optionally add a one-paragraph note in §4 on git-committable experience playbooks as a team-sharing path. Do not add a tool entry, do not recommend for production (self-described not-battle-tested POC), cite no benchmark numbers.
 
 ---
 
@@ -43,6 +45,13 @@ Two hard design constraints:
 
 **The key design divergence from ReasoningBank.** ReasoningBank retrieves memory items via embedding search (vector similarity). ORF deliberately drops embeddings and retrieves by filename plus frontmatter descriptions read by the LLM. That is the whole bet: trade semantic-vector recall for zero infrastructure and Git-committable files. The cost is retrieval quality. An LLM scanning one-line descriptions will miss matches a vector index would catch, and the author himself flags this in his open questions ("experiences too specific won't trigger for other cases").
 
+**Closest analogs already in the guide (added post-challenge).** Two existing entries are structurally closer to ORF than the sources ORF itself cites, and both matter for the novelty call:
+
+- **claude-mem (§3.1)** already documents *"Progressive disclosure (3 layers to save tokens)"* with the same index → mid → full staging and token budget. ORF applies it to playbook files instead of session summaries, but the pattern is not new to the guide.
+- **Auto Memory + Auto Dream (§2.2-2.3)** is Claude Code's *native* file-based, no-vector, agent-authored memory with a consolidate/prune/index cycle. That is the same "plain files, no embeddings" shape ORF pitches as its differentiator.
+
+What is left as genuinely new, once those are subtracted: git-committable, per-domain, agent-authored experience playbooks with a fixed 5-section failure/fix schema, shared across a team by `git commit experiences/`. That narrow claim is real (Auto Memory is gitignored/per-user, claude-mem is SQLite not versionable files), but it is narrower than "progressive disclosure for memory," which was already covered.
+
 ---
 
 ## Scoring Breakdown
@@ -50,20 +59,20 @@ Two hard design constraints:
 | Criterion | Score | Rationale |
 |-----------|-------|-----------|
 | Relevance to CC users | 4/5 | Cross-session agent memory is a live problem; the SKILL.md format is directly CC-compatible. |
-| Novelty vs. guide | 4/5 | `memory-systems.md` lists mostly vector/semantic tools (SQLite-vec, ChromaDB). The file-based, no-embedding, Git-committable experience-playbook angle is not covered, and ReasoningBank is cited nowhere. |
+| Novelty vs. guide | 2/5 | Progressive disclosure for memory is already in §3.1 (claude-mem); native file-based no-vector memory is already in §2.2-2.3 (Auto Memory/Auto Dream). Only the git-committable per-domain 5-section playbook, and the missing ReasoningBank citation, are new. |
 | Technical quality | 3/5 | Clean design (progressive disclosure, auto-synced index, strict schema). Reference implementation is a single Python CLI. Very new, author states it is not battle-tested. |
 | Evidence quality | 1/5 | Benchmarks are statistical noise (see below), and the author says so plainly. |
 | Actionability | 3/5 | Copy one directory, `pip install pyyaml`, done. But no packaging, no consolidation/staleness handling. |
 
-**Overall: 3/5.** High novelty and relevance, dragged down by near-zero evidence and POC maturity.
+**Overall: 2/5.** Recomputed after the novelty correction: (4+2+3+1+3)/5 = 2.6, rounds to 2. Real relevance, but low novelty against existing guide coverage and near-zero evidence. Matches the README grid's "Marginal, minimal mention or skip".
 
 ---
 
 ## Patterns Worth Extracting
 
-### Pattern 1: Three-tier progressive disclosure for memory retrieval
+### Pattern 1: Three-tier progressive disclosure for memory retrieval (already in the guide)
 
-Most memory tools inject recalled context in one shot. ORF stages it with an explicit token budget: index (~200) → category frontmatter (~500) → single playbook (~800). The agent only pays for the playbook it actually needs. This is the SKILL.md progressive-disclosure idea applied to a memory index rather than a skill body. Concrete, cheap, and not named as a memory pattern in the guide today.
+ORF stages retrieval with an explicit token budget: index (~200) → category frontmatter (~500) → single playbook (~800). **Correction after challenge**: this is not new to the guide. `memory-systems.md` §3.1 already documents claude-mem's *"Progressive disclosure (3 layers to save tokens)"* with the same staging (search 50-100 tokens → timeline 500-1000 → full detail). ORF applies it to playbook files rather than session summaries. Nothing to extract; the pattern is covered.
 
 ### Pattern 2: Separate the abstract insight from the validated concrete path
 
@@ -94,21 +103,22 @@ The 5-section schema splits "Abstracted Insight" (the reusable principle, e.g. "
 
 | Item | Decision | Rationale |
 |------|----------|-----------|
-| Entry in `memory-systems.md` §3 (file-based experience track) | Add | Fills a real gap: the no-vector, Git-committable playbook approach. |
-| Cite ReasoningBank (arXiv 2509.25140) in §3 or §9 | Add | Academic anchor for success-and-failure memory; currently absent from the guide. |
-| Progressive-disclosure-for-retrieval note | Add | Concrete token-budgeted pattern, applied to memory rather than skills. |
-| One-paragraph note in §4 (Git-native team sharing) | Add | Partial answer to the structural team gap the guide flags. |
-| Recommend the tool for production | Skip | POC maturity, no packaging, unsolved consolidation/staleness. |
+| Cite ReasoningBank (arXiv 2509.25140) in §9 or §10 | **Add (the one real win)** | Verified gap: `grep -rli "reasoningbank" guide/` returns zero. Academic anchor for success-and-failure memory. Valuable independent of ORF. |
+| One-paragraph note in §4 (Git-committable playbooks for team sharing) | Add (optional) | Narrow but real: files commit to Git, a partial answer to the §4.7 structural team gap. Name ORF as the example. |
+| Full tool entry in `memory-systems.md` §3 | **Skip** | §3 already lists 8+ tools; ORF's core (progressive disclosure, file-based no-vector) is already covered by claude-mem §3.1 and Auto Memory §2.2-2.3. Catalog bloat. |
+| Progressive-disclosure-for-retrieval "new pattern" | **Skip** | Already documented in §3.1. The original eval was wrong to call it novel. |
+| Recommend the tool for production | Skip | POC maturity, no packaging, unsolved consolidation/staleness, not used in anger. |
 | Cite any benchmark number | Skip | Statistically meaningless, author agrees. |
-| Entry in `credits.md` | Add | Guillaume Laforge, open spec. |
+| Entry in `credits.md` | Add (only if the §4 note lands) | Guillaume Laforge, open spec. |
 
 ---
 
 ## Files to Modify (on integration)
 
+Reduced scope after the 2/5 revision:
+
 - `docs/resource-evaluations/orf-open-reasoning-format.md` (this file)
-- `docs/resource-evaluations/README.md`: index row
-- `guide/core/memory-systems.md`: §3 file-based experience entry + ReasoningBank citation + §4 Git-sharing note + progressive-disclosure pattern
-- `guide/core/credits.md`: Guillaume Laforge / ORF entry
-- `machine-readable/reference.yaml`: new entries if section added
+- `docs/resource-evaluations/README.md`: index row (2/5, minimal mention)
+- `guide/core/memory-systems.md`: ReasoningBank citation (the real win) + optional one-paragraph §4 note on git-committable playbooks. No new §3 tool entry.
+- `guide/core/credits.md`: only if the §4 note lands
 - `CHANGELOG.md`: [Unreleased] entry

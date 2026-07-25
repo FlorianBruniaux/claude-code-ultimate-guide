@@ -83,6 +83,7 @@ Les documents de travail bruts (prompts Perplexity, audits clients) restent dans
 | **Liza** (framework MAS, liza-mas/liza) | 3/5 | **3/5** | ✅ Mention: spec-first.md (OSS governance reference architecture) | [liza-mas-framework.md](./liza-mas-framework.md) |
 | **IA-QA CLI** (@ia-qa/cli, Jean-Christophe Jamet) | 3/5 | **2/5** | ⚠️ Watch only (thin client, tous les inputs partent sur un serveur tiers ; heuristiques mesurées à -35% sur du code) | [ia-qa-cli-llm-testing.md](./ia-qa-cli-llm-testing.md) |
 | **Fusion** (Runfusion/Fusion, MIT) | 4/5 | **4/5** | ✅ Case study only, not a recommended tool (double-checkout anti-cheat pattern + agentic velocity without architecture ; bus factor 1, 94% of commits by one person) | [fusion-multi-agent-orchestrator.md](./fusion-multi-agent-orchestrator.md) |
+| **ORF** (Open Reasoning Format, Guillaume Laforge) | 3/5 | **2/5** | ⚠️ Minimal mention (progressive disclosure + file-based memory already covered by claude-mem §3.1 and Auto Memory §2.2-2.3 ; keep only the ReasoningBank arXiv 2509.25140 citation gap) | [orf-open-reasoning-format.md](./orf-open-reasoning-format.md) |
 
 ## Watch List
 
@@ -90,4 +91,4 @@ Ressources surveillées mais pas encore intégrées : [watch-list.md](./watch-li
 
 ---
 
-**Dernier update**: 2026-07-15 (162 fichiers d'évaluation sur disque, 45 indexés ci-dessus ; l'écart est un reliquat connu qui attend une passe d'audit dédiée)
+**Dernier update**: 2026-07-25 (166 fichiers d'évaluation sur disque, 46 indexés ci-dessus ; l'écart est un reliquat connu qui attend une passe d'audit dédiée)
