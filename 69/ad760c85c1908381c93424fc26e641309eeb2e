@@ -1,0 +1,29 @@
+CHANGELOG.md
+  s_b37550850f81d4::t_4d983abc9d4b30 15-16
+docs/resource-evaluations/orf-open-reasoning-format.md
+  s_15abca7155e9cc::t_01d863ad52a14c 1-114
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "69ad760c85c1908381c93424fc26e641309eeb2e",
+  "prompts": {},
+  "sessions": {
+    "s_15abca7155e9cc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d0803eee-dc9f-4128-917d-82d6972c70aa",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_b37550850f81d4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dcb97690-06d5-4d16-a76d-6af56203e1b2",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
