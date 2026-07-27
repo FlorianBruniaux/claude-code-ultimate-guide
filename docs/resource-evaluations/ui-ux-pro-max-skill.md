@@ -16,7 +16,7 @@
 | **License** | MIT |
 | **Version** | v2.2.1 (26 jan 2026) |
 | **Created** | 30 nov 2025 |
-| **Stars** | 33,658 (vérifiés gh CLI) |
+| **Stars** | 33,658 (désormais 110,767 au 28/07/2026, vérifiés gh CLI) |
 | **Forks** | 3,327 (vérifiés gh CLI) |
 
 ---
@@ -33,7 +33,7 @@ Skill multi-plateforme (15 assistants AI) fournissant un moteur de design intell
 
 | Claim | Status | Source |
 |-------|--------|--------|
-| 33,658 stars | ✅ Vérifié | `gh api repos/nextlevelbuilder/ui-ux-pro-max-skill` |
+| 33,658 stars | ✅ Vérifié (désormais 110,767 au 28/07/2026) | `gh api repos/nextlevelbuilder/ui-ux-pro-max-skill` |
 | 3,327 forks | ✅ Vérifié | gh CLI |
 | Créé 30 nov 2025 | ✅ Vérifié | `created_at` gh CLI |
 | Mis à jour 23 fev 2026 | ✅ Vérifié | `updated_at` gh CLI |

@@ -28,7 +28,7 @@ The Git MCP Server is an official Anthropic MCP server providing programmatic Gi
 | **Multi-repo** | Configure multiple MCP server instances via --repository flag |
 | **IDE Integration** | Claude Desktop, VS Code (Stable + Insiders), Zed, Zencoder with one-click install buttons |
 | **Token Efficiency** | context_lines parameter (git_diff), structured output vs text parsing |
-| **Parent Repo** | 77,908+ stars (modelcontextprotocol/servers) |
+| **Parent Repo** | 77,908+ stars (now 88,958 as of 2026-07-28) (modelcontextprotocol/servers) |
 
 ### Use Cases
 

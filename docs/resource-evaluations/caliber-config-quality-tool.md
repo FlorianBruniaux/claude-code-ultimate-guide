@@ -10,7 +10,7 @@
 - Scoring is 100% local and deterministic: 6 categories (Existence 25 + Quality 25 + Grounding 20 + Accuracy 15 + Freshness 10 + Bonus 7), 61 checks, no LLM calls, no network requests
 - Drift detection is git-based: SHA256(file tree + dirty files) + git HEAD pointer cache, supports `caliber refresh` for automated doc updates after code changes
 - Learner module captures tool events via hooks → JSONL → incremental LLM analysis → `CALIBER_LEARNINGS.md` with 70% similarity deduplication
-- **GitHub: 65 stars, 12 forks, created 2026-03-10 (13 days old), MIT, TypeScript/Node.js ≥20**
+- **GitHub: 65 stars (now 1,223 as of 2026-07-28), 12 forks, created 2026-03-10 (13 days old), MIT, TypeScript/Node.js ≥20**
 
 ## 🎯 Score de pertinence (1-5)
 

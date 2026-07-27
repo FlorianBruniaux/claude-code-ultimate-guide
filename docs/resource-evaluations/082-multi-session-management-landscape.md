@@ -18,13 +18,13 @@ No single tool covers all use cases. The space is fragmented, actively evolving 
 
 | Score | Meaning |
 |-------|---------|
-| 5 | Essential — Major gap |
-| **4** | **High value — Significant improvement** |
-| 3 | Pertinent — Useful complement |
-| 2 | Marginal — Secondary info |
+| 5 | Essential (major gap) |
+| **4** | **High value (significant improvement)** |
+| 3 | Pertinent (useful complement) |
+| 2 | Marginal (secondary info) |
 | 1 | Out of scope |
 
-**Justification**: Multi-agent, multi-project workflows are increasingly common. The guide covers individual session hooks and notifications but has no consolidated view of the tooling available for running 3-10 parallel Claude Code sessions. vibetunnel (4 276 stars) and multi-agent-shogun (1 082 stars) signal strong community demand. Integration would fill a documented gap.
+**Justification**: Multi-agent, multi-project workflows are increasingly common. The guide covers individual session hooks and notifications but has no consolidated view of the tooling available for running 3-10 parallel Claude Code sessions. vibetunnel (4,276 stars, now 4,607 as of 2026-07-28) and multi-agent-shogun (1,082 stars, now 1,405 as of 2026-07-28) signal strong community demand. Integration would fill a documented gap.
 
 ---
 
@@ -34,9 +34,9 @@ No single tool covers all use cases. The space is fragmented, actively evolving 
 
 | Tool | GitHub | Stars | Stack | Key Features |
 |------|--------|-------|-------|-------------|
-| **claude-code-monitor (ccm)** | [onikan27/claude-code-monitor](https://github.com/onikan27/claude-code-monitor) | ⭐ 212 | TypeScript / Node | TUI vim-style (j/k, 1-9), session switching via AppleScript, mobile WebUI + QR code pairing, WebSocket real-time |
+| **claude-code-monitor (ccm)** | [onikan27/claude-code-monitor](https://github.com/onikan27/claude-code-monitor) | ⭐ 212 (now 269 as of 2026-07-28) | TypeScript / Node | TUI vim-style (j/k, 1-9), session switching via AppleScript, mobile WebUI + QR code pairing, WebSocket real-time |
 | **claude-code-dashboard** | [Stargx/claude-code-dashboard](https://github.com/Stargx/claude-code-dashboard) | ⭐ 5 | Node + Express + React | Auto-detects all sessions, token/cost per session, context progress bars, git branch, permission mode badges |
-| **sniffly** | [chiphuyen/sniffly](https://github.com/chiphuyen/sniffly) | ⭐ 1 170 | Python | Analytics-first: usage patterns, error breakdown, shareable dashboard. Post-hoc, not real-time |
+| **sniffly** | [chiphuyen/sniffly](https://github.com/chiphuyen/sniffly) | ⭐ 1,170 (now 1,252 as of 2026-07-28) | Python | Analytics-first: usage patterns, error breakdown, shareable dashboard. Post-hoc, not real-time |
 | **ClaudeCode-Dashboard** | [Quriov/ClaudeCode-Dashboard](https://github.com/Quriov/ClaudeCode-Dashboard) | ⭐ 0 | Next.js 16 + ReactFlow | Config topology viewer (hooks, agents, MCP, skills), not session monitoring |
 
 **Best pick**: `ccm` for real-time monitoring on macOS (easiest setup: `npx claude-code-monitor`). `sniffly` for post-session analytics on any platform.
@@ -47,10 +47,10 @@ No single tool covers all use cases. The space is fragmented, actively evolving 
 
 | Tool | GitHub | Stars | Stack | Key Features |
 |------|--------|-------|-------|-------------|
-| **vibetunnel** | [amantus-ai/vibetunnel](https://github.com/amantus-ai/vibetunnel) | ⭐ 4 276 | TypeScript + Swift | Wraps any terminal in browser tabs, multiple sessions, Git Follow Mode, VibeTunnelTalk voice narration |
+| **vibetunnel** | [amantus-ai/vibetunnel](https://github.com/amantus-ai/vibetunnel) | ⭐ 4,276 (now 4,607 as of 2026-07-28) | TypeScript + Swift | Wraps any terminal in browser tabs, multiple sessions, Git Follow Mode, VibeTunnelTalk voice narration |
 | **cc-hub** | [m0a/cc-hub](https://github.com/m0a/cc-hub) | ⭐ 1 | Go + tmux + Tailscale | Split panes + session color themes, file diff tracking (Claude edits vs git), mobile optimized, dashboard with cost stats |
 
-**Best pick**: `vibetunnel` for broad use (4 276 stars, very active). `cc-hub` if you need session color differentiation + file diffs per project (requires Tailscale).
+**Best pick**: `vibetunnel` for broad use (4,276 stars, now 4,607 as of 2026-07-28, very active). `cc-hub` if you need session color differentiation and file diffs per project (requires Tailscale).
 
 ---
 
@@ -58,12 +58,12 @@ No single tool covers all use cases. The space is fragmented, actively evolving 
 
 | Tool | GitHub | Stars | Stack | Key Features |
 |------|--------|-------|-------|-------------|
-| **claudio** | [Iron-Ham/claudio](https://github.com/Iron-Ham/claudio) | ⭐ 22 | Go + tmux | Isolated git worktrees, TUI dashboard, 14 color themes, task chaining (`--depends-on`), planning modes: UltraPlan / TripleShot / Adversarial Review, PR automation, cost limits |
-| **multi-agent-shogun** | [yohey-w/multi-agent-shogun](https://github.com/yohey-w/multi-agent-shogun) | ⭐ 1 082 | Shell + tmux | Shogun/Karo/Ashigaru hierarchy, 7 workers + 1 strategist, multi-CLI (Claude, Codex, Copilot, Kimi), zero API coordination cost |
+| **claudio** | [Iron-Ham/claudio](https://github.com/Iron-Ham/claudio) | ⭐ 22 (now 29 as of 2026-07-28) | Go + tmux | Isolated git worktrees, TUI dashboard, 14 color themes, task chaining (`--depends-on`), planning modes: UltraPlan / TripleShot / Adversarial Review, PR automation, cost limits |
+| **multi-agent-shogun** | [yohey-w/multi-agent-shogun](https://github.com/yohey-w/multi-agent-shogun) | ⭐ 1,082 (now 1,405 as of 2026-07-28) | Shell + tmux | Shogun/Karo/Ashigaru hierarchy, 7 workers + 1 strategist, multi-CLI (Claude, Codex, Copilot, Kimi), zero API coordination cost |
 | **zenportal** | [kgang/zenportal](https://github.com/kgang/zenportal) | ⭐ 1 | Python/Textual | Multi-CLI support, git worktrees per session, 3-tier config, session persistence via tmux |
-| **praktor** | [mtzanidakis/praktor](https://github.com/mtzanidakis/praktor) | ⭐ 17 | Go + Docker Compose | Telegram I/O (chat from phone), 1 Docker container per agent, cron tasks, swarms, AES-256-GCM secrets vault |
+| **praktor** | [mtzanidakis/praktor](https://github.com/mtzanidakis/praktor) | ⭐ 17 (now 40 as of 2026-07-28) | Go + Docker Compose | Telegram I/O (chat from phone), 1 Docker container per agent, cron tasks, swarms, AES-256-GCM secrets vault |
 
-**Best pick**: `claudio` for serious multi-project orchestration (isolated worktrees + color themes + advanced planning). `multi-agent-shogun` for high-parallelism fan-out patterns with tmux visibility.
+**Best pick**: `claudio` for serious multi-project orchestration (isolated worktrees, color themes, advanced planning). `multi-agent-shogun` (now 1,405 stars as of 2026-07-28) for high-parallelism fan-out patterns with tmux visibility.
 
 ---
 
@@ -74,7 +74,7 @@ No single tool covers all use cases. The space is fragmented, actively evolving 
 | **karina-voice-notification** | [t1seo/karina-voice-notification](https://github.com/t1seo/karina-voice-notification) | ⭐ 0 | Python (Qwen3-TTS) | Clone any voice from YouTube → custom `.wav` per project (DIY assembly) |
 | **sound-micro-server** | [arc-co/claude-code-notification-sound-micro-server](https://github.com/arc-co/claude-code-notification-sound-micro-server) | ⭐ 0 | Node.js | Browser-based sound via hook `Stop` + `curl POST`. Single sound for all sessions |
 | **ccnotify** | [Helmi/ccnotify](https://github.com/Helmi/ccnotify) | n/a | Shell | Voice notifications (spoken text) |
-| **claude-session-manager** | [Swarek/claude-session-manager](https://github.com/Swarek/claude-session-manager) | ⭐ 4 | Shell | Colored status line per session, session IDs (`cx` command), live description updates |
+| **claude-session-manager** | [Swarek/claude-session-manager](https://github.com/Swarek/claude-session-manager) | ⭐ 4 (now 6 as of 2026-07-28, note: renamed to blancmathis/claude-session-manager) | Shell | Colored status line per session, session IDs (`cx` command), live description updates |
 
 **Gap**: No tool provides per-project audio differentiation out of the box. The cleanest DIY approach: configure `settings.local.json` per project with a different audio file in the `Stop` hook.
 
@@ -109,7 +109,7 @@ No single tool covers all use cases. The space is fragmented, actively evolving 
 
 ## Key Findings
 
-**High adoption signal**: vibetunnel (4 276 stars) and multi-agent-shogun (1 082 stars) are the two breakout tools. Both are actively maintained and solve real problems at scale.
+**High adoption signal**: vibetunnel (4,276 stars, now 4,607 as of 2026-07-28) and multi-agent-shogun (1,082 stars, now 1,405 as of 2026-07-28) are the two breakout tools. Both are actively maintained and solve real problems at scale.
 
 **Missing feature**: Per-project audio differentiation does not exist as a packaged solution. DIY with `afplay` / `paplay` + `settings.local.json` hooks per project is the only current approach.
 

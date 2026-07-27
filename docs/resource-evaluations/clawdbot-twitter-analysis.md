@@ -96,8 +96,8 @@ Mais même cela est du padding sans valeur ajoutée.
 
 | Affirmation | Vérifiée | Source |
 |-------------|----------|--------|
-| Clawdbot open-source project | ✅ | GitHub, Perplexity |
-| 9.7k GitHub stars | ⚠️ Non confirmé | Stars non dans résultats Perplexity |
+| Clawdbot open-source project | ⚠️ | GitHub org may have changed (gh api redirects to openclaw/openclaw, archived or renamed) |
+| 9.7k GitHub stars | ⚠️ Non confirmé | Stars non dans résultats Perplexity, original repo not found at clawdbot/clawdbot as of 2026-07-28 |
 | 156 contributeurs | ✅ | Perplexity (GitHub data) |
 | 26 releases | ✅ | Perplexity (GitHub releases) |
 | Open source TypeScript | ✅ | GitHub (72.4% TS) |

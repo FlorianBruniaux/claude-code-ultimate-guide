@@ -10,7 +10,7 @@
 
 ## Summary
 
-Yagr is an autonomous automation agent whose execution layer generates deterministic n8n workflows instead of ephemeral scripts or blind API calls. When a user describes a task in plain English, Yagr architects, validates, and deploys an actual n8n workflow — which then becomes a durable, inspectable, auditable artifact. Built on top of n8n-as-code (the underlying library has 500+ GitHub stars; Yagr's own star count is unverified).
+Yagr is an autonomous automation agent whose execution layer generates deterministic n8n workflows instead of ephemeral scripts or blind API calls. When a user describes a task in plain English, Yagr architects, validates, and deploys an actual n8n workflow — which then becomes a durable, inspectable, auditable artifact. Built on top of n8n-as-code (the underlying library has 500+ GitHub stars; Yagr itself has 22 stars as of 2026-07-28).
 
 Key facts:
 - Install: `npm install -g @yagr/agent@latest`

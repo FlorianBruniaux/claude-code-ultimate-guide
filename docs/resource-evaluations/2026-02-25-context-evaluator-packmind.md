@@ -13,7 +13,7 @@
 - **Multi-agent**: Claude Code, Cursor, GitHub Copilot, OpenCode, OpenAI Codex
 - **Dual interface**: CLI local + web UI (context-evaluator.ai)
 - **Stack**: Bun, React, Tailwind CSS, TypeScript
-- **GitHub**: PackmindHub/context-evaluator | 8 stars | 2 contributeurs | v0.3.0 (23 fev 2026)
+- **GitHub**: PackmindHub/context-evaluator | 8 stars (désormais 31 au 28/07/2026) | 2 contributeurs | v0.3.0 (23 fev 2026)
 
 ---
 

@@ -295,7 +295,7 @@ A general-purpose agent, not just a coding tool. Originally built by Block (form
 
 **Full coverage in [AI Ecosystem §11.1: Goose](./ai-ecosystem.md#111-goose-open-source-alternative-block).**
 
-Quick stats: 45,900+ stars (May 2026), Rust (63%) + TypeScript (30%), Apache 2.0, daily active development, 368+ contributors. The headline difference from Claude Code: provider-agnostic (Claude, GPT, Gemini, Ollama, 15+ providers), with recipe-based reusable workflows and heterogeneous subagent teams where each subagent can run a different model.
+Quick stats: 51,819 stars as of 2026-07-27 (45,900+ in May 2026), Rust (63%) + TypeScript (30%), Apache 2.0, daily active development, 368+ contributors. The headline difference from Claude Code: provider-agnostic (Claude, GPT, Gemini, Ollama, 15+ providers), with recipe-based reusable workflows and heterogeneous subagent teams where each subagent can run a different model.
 
 ---
 
@@ -557,8 +557,8 @@ Microsoft's multi-agent framework, mid-transition from the original AutoGen libr
 | Attribute | Details (MAF) |
 |-----------|---------|
 | **GitHub** | [microsoft/agent-framework](https://github.com/microsoft/agent-framework) |
-| **Stars** | 10,800+ (MAF, active) |
-| **Legacy GitHub** | [microsoft/autogen](https://github.com/microsoft/autogen) (58,400 stars, maintenance mode since Sep 2025) |
+| **Stars** | 12,444 (MAF, active, verified 2026-07-27; was 10,800+ earlier) |
+| **Legacy GitHub** | [microsoft/autogen](https://github.com/microsoft/autogen) (60,033 stars as of 2026-07-27, was 58,400, maintenance mode since Sep 2025) |
 | **Language** | Python + C# + TypeScript |
 | **License** | MIT |
 | **Version** | python-1.6.0 (May 22, 2026) |
@@ -568,7 +568,7 @@ Microsoft's multi-agent framework, mid-transition from the original AutoGen libr
 
 MAF is the merge of AutoGen (Python, conversational multi-agent) and Semantic Kernel (C# + Python, function-calling abstractions). The result is a cross-runtime framework: Python agents can coordinate with .NET agents, all backed by the same messaging layer. It implements the A2A (Agent-to-Agent) protocol, Microsoft's contribution to agent interoperability, and supports MCP.
 
-The AutoGen star count (58,400) reflects its historical reputation. AutoGen pioneered the "conversable agent" pattern where agents talk to each other in a structured conversation loop. That pattern is still the dominant mental model in the framework even as the implementation evolved.
+The AutoGen star count (60,033 as of 2026-07-27) reflects its historical reputation. AutoGen pioneered the "conversable agent" pattern where agents talk to each other in a structured conversation loop. That pattern is still the dominant mental model in the framework even as the implementation evolved.
 
 #### When to Use MAF
 
@@ -645,11 +645,11 @@ An entirely separate project from the Gemini one. A YAML-first CLI for determini
 | Attribute | Details |
 |-----------|---------|
 | **GitHub** | [microsoft/conductor](https://github.com/microsoft/conductor) |
-| **Stars** | 158 (May 2026, brand new) |
+| **Stars** | 350 (2026-07-27, was 158 in May 2026, brand new at the time) |
 | **License** | MIT |
 | **Launched** | May 14, 2026 (Microsoft Open Source Blog) |
 
-Core idea: define your agent workflow in YAML (which agents run in sequence, which in parallel, which model each uses, what gets passed between stages) and execute it deterministically. No LLM in the orchestration loop, only in the agent steps. Supports both GitHub Copilot SDK and Anthropic Agent SDK as providers. Very early stage (158 stars, days old at time of writing), but backed by Microsoft's open-source team.
+Core idea: define your agent workflow in YAML (which agents run in sequence, which in parallel, which model each uses, what gets passed between stages) and execute it deterministically. No LLM in the orchestration loop, only in the agent steps. Supports both GitHub Copilot SDK and Anthropic Agent SDK as providers. Very early stage (350 stars as of 2026-07-27, up from 158 days after launch), but backed by Microsoft's open-source team.
 
 ---
 
@@ -694,7 +694,7 @@ Symphony assumes you have already done [harness engineering](https://openai.com/
 
 #### Read the Warning Label
 
-The README opens with a bolded warning that this is "a low-key engineering preview for testing in trusted environments." No tagged release exists, and the repo has been quiet since June 9, 2026. The 26K stars measure OpenAI's distribution reach, not production readiness.
+The README opens with a bolded warning that this is "a low-key engineering preview for testing in trusted environments." No tagged release exists, and the repo has been quiet since June 9, 2026. The 26,265 stars (2026-07-27) measure OpenAI's distribution reach, not production readiness.
 
 #### Where It Stops
 
@@ -711,7 +711,7 @@ An org chart for agents. Paperclip models the corporate apparatus (roles, budget
 | Attribute | Details |
 |-----------|---------|
 | **GitHub** | [paperclipai/paperclip](https://github.com/paperclipai/paperclip) |
-| **Stars** | 73,770 (July 2026), 13,731 forks |
+| **Stars** | 74,900 (2026-07-27), 13,956 forks |
 | **Language** | TypeScript (Node.js server + React UI) |
 | **License** | MIT |
 | **Created** | March 2, 2026 |
@@ -726,7 +726,7 @@ Runtime-agnostic by design, summarized in their own line: "if it can receive a h
 
 #### Why the Traction Matters
 
-73K stars and 13.7K forks in roughly four months, with releases shipping weekly. Whatever you think of the "zero-human company" narrative, the adoption is real and the project is maintained. A plugin ecosystem has already formed around it ([awesome-paperclip](https://github.com/gsxdsm/awesome-paperclip), company-wizard templates, a Hermes adapter from Nous Research).
+75K stars and 14K forks (2026-07-27) in roughly four months, with releases shipping weekly. Whatever you think of the "zero-human company" narrative, the adoption is real and the project is maintained. A plugin ecosystem has already formed around it ([awesome-paperclip](https://github.com/gsxdsm/awesome-paperclip), company-wizard templates, a Hermes adapter from Nous Research).
 
 #### Where It Stops
 
@@ -743,7 +743,7 @@ A supervisor agent that delegates to worker agents, each one a real CLI process 
 | Attribute | Details |
 |-----------|---------|
 | **GitHub** | [awslabs/cli-agent-orchestrator](https://github.com/awslabs/cli-agent-orchestrator) |
-| **Stars** | 893 (July 2026), 172 forks, 71 open issues |
+| **Stars** | 954 (2026-07-27), 184 forks, 73 open issues (was 893 / 172 / 71 in July 2026) |
 | **Language** | Python 3.10+, distributed on PyPI as `cli-agent-orchestrator` |
 | **License** | Apache-2.0 |
 | **Created** | July 29, 2025 |
@@ -763,7 +763,7 @@ Around that core sit scheduled flows (cron-style unattended runs), a bundled Web
 
 A July 2026 market sweep of eight open-source multi-agent orchestrators, verified against the GitHub API rather than project READMEs, found seven with a single contributor holding 95% to 100% of commits. CAO was the exception, at 41 contributors and a top contributor holding 20%.
 
-The comparison that should stay with you: Mission Control ([builderz-labs/mission-control](https://github.com/builderz-labs/mission-control), MIT) carries 5,763 stars, 6.4 times CAO's count, and one person authored 78% of its commits. Sorting that market by stars selects almost exactly the wrong tool. This guide's position on star counts as an adoption proxy is stated at [Section 5](#the-model-lock-in-question) and in [`docs/resource-evaluations/README.md`](../../docs/resource-evaluations/README.md); CAO versus Mission Control is the cleanest illustration of it in the wild.
+The comparison that should stay with you: Mission Control ([builderz-labs/mission-control](https://github.com/builderz-labs/mission-control), MIT) carries 5,862 stars as of 2026-07-27 (was 5,763), 6.1 times CAO's count, and one person authored 78% of its commits. Sorting that market by stars selects almost exactly the wrong tool. This guide's position on star counts as an adoption proxy is stated at [Section 5](#the-model-lock-in-question) and in [`docs/resource-evaluations/README.md`](../../docs/resource-evaluations/README.md); CAO versus Mission Control is the cleanest illustration of it in the wild.
 
 #### Where It Stops
 

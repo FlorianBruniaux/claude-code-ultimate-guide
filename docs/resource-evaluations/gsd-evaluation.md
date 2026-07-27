@@ -63,7 +63,7 @@
 
 **Raisons**:
 1. **Overlap >90%** avec concepts existants
-2. **Pas d'adoption mesurable significative** (7.5k stars mais repo récent créé 2025-12-14, pas d'historique prouvé)
+2. **Pas d'adoption mesurable significative** (7.5k stars, now 64,798 as of 2026-07-28, mais repo récent créé 2025-12-14, pas d'historique prouvé)
 3. **Coût de maintenance** (liens morts, versions obsolètes)
 4. **Le guide a déjà BMAD** pour multi-agent governance
 5. **Claims non vérifiées** ("Trusted by Amazon, Google..." sans preuve)
@@ -104,7 +104,7 @@
 | MIT License | ✅ | Badge visible + fichier LICENSE |
 | "Trusted by Amazon, Google, Shopify, Webflow" | ⚠️ Non vérifiable | **Aucune preuve, témoignages ou liens fournis** |
 | 6-stage workflow | ✅ | Confirmé: Initialize → Discuss → Plan → Execute → Verify → Complete |
-| 7.5k stars | ✅ | Snapshot au 2026-01-25 |
+| 7.5k stars | ✅ | Snapshot au 2026-01-25, now 64,798 as of 2026-07-28 |
 | Repo créé | ✅ | 2025-12-14 (commit initial) |
 
 **⚠️ Warning**: La claim "Trusted by engineers at Amazon, Google, Shopify, and Webflow" n'est pas vérifiable. Aucune attribution, lien, ou témoignage. Considérer comme marketing non validé.

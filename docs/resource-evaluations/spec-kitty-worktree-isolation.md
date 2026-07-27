@@ -28,7 +28,7 @@
 | ~~2~~ | ~~Marginal - Info secondaire / Redondant~~ |
 | ~~1~~ | ~~Hors scope - Non pertinent~~ |
 
-**Justification**: c'est l'implémentation open source la plus proche du pattern "isolation par worktree + gates de review + audit trail" décrit dans le talk WeScale/Maleus (juillet 2026), mais l'adoption reste modeste (1 397 stars, 120 forks) comparée à Spec Kit (118 688 ⭐) ou BMAD-METHOD (50 215 ⭐) déjà couverts ou en cours d'intégration. Utile en complément, pas urgent.
+**Justification**: c'est l'implémentation open source la plus proche du pattern "isolation par worktree + gates de review + audit trail" décrit dans le talk WeScale/Maleus (juillet 2026), mais l'adoption reste modeste (1 397 stars, now 1,449 as of 2026-07-28, 120 forks) comparée à Spec Kit (118 688 stars) ou BMAD-METHOD (50 215 stars) déjà couverts ou en cours d'intégration. Utile en complément, pas urgent.
 
 ---
 

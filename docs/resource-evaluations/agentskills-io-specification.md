@@ -1,7 +1,7 @@
 # Evaluation: agentskills.io - Agent Skills Open Specification
 
 **Date**: 2026-02-01
-**Source**: [agentskills.io](https://agentskills.io/home) | [GitHub: agentskills/agentskills](https://github.com/agentskills/agentskills) (8.2K stars) | [GitHub: anthropics/skills](https://github.com/anthropics/skills) (60.1K stars)
+**Source**: [agentskills.io](https://agentskills.io/home) | [GitHub: agentskills/agentskills](https://github.com/agentskills/agentskills) (8.2K stars, désormais 23 547 au 28/07/2026) | [GitHub: anthropics/skills](https://github.com/anthropics/skills) (60.1K stars, désormais 164 580 au 28/07/2026)
 **Maintainer**: Anthropic (open development, community contributions)
 **Type**: Open specification + reference implementation + official skill library
 **License**: Apache 2.0 (spec + open skills), Source-available (document skills)
@@ -123,8 +123,8 @@ Score 4/5 maintenu. L'argument "spec pour implementeurs" est valide mais le guid
 | Affirmation | Verifiee | Source |
 |-------------|----------|--------|
 | 26+ plateformes (logo carousel) | ✅ | agentskills.io/home (26 logos comptes) |
-| 8.2K stars agentskills/agentskills | ✅ | GitHub repo |
-| 60.1K stars anthropics/skills | ✅ | GitHub repo |
+| 8.2K stars agentskills/agentskills | ✅ | GitHub repo (désormais 23 547 au 28/07/2026) |
+| 60.1K stars anthropics/skills | ✅ | GitHub repo (désormais 164 580 au 28/07/2026) |
 | Cree par Anthropic | ✅ | agentskills.io ("originally developed by Anthropic") |
 | Standard ouvert | ✅ | agentskills.io ("released as an open standard") |
 | skills-ref CLI existe | ✅ | GitHub (agentskills/agentskills/skills-ref/) |

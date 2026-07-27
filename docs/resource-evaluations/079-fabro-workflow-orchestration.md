@@ -4,7 +4,7 @@ r# Resource Evaluation #079 — Fabro: Graph-Based Workflow Orchestrator for AI 
 **Type:** Open source tool (MIT) — standalone workflow orchestrator for AI coding agents
 **Author:** Bryan from qlty.sh (bryan@qlty.sh)
 **Evaluated:** 2026-03-17
-**Maturity at evaluation:** Created 2026-03-13 — 4 days old, 28 stars, 1 fork
+**Maturity at evaluation:** Created 2026-03-13 (4 days old, 28 stars, now 1,449 as of 2026-07-28), 1 fork
 
 ---
 
@@ -33,7 +33,7 @@ r# Resource Evaluation #079 — Fabro: Graph-Based Workflow Orchestrator for AI 
 
 **Final score: 3/5 (Watch)**
 
-**Justification:** Fabro falls directly in the "External Orchestration Frameworks" category already documented in the guide (`third-party-tools.md`). Its DOT graph approach is architecturally distinct from all three existing entries (Ruflo = swarms, Athena Flow = hooks layer, Pipelex = DSL). Git checkpointing per stage is a genuine differentiator — no equivalent found in the landscape. Direct Claude Code integration via `claude` pipeline is legitimate. However: 28 stars at 4 days old is the same immaturity profile as Athena Flow (#073, score 2/5). Raised to 3/5 vs Athena Flow because of stronger architectural clarity, a wider feature set with more evidence, and a genuinely unique Git checkpointing angle.
+**Justification:** Fabro falls directly in the "External Orchestration Frameworks" category already documented in the guide (`third-party-tools.md`). Its DOT graph approach is architecturally distinct from all three existing entries (Ruflo equals swarms, Athena Flow equals hooks layer, Pipelex equals DSL). Git checkpointing per stage is a genuine differentiator, with no equivalent found in competing frameworks. Direct Claude Code integration via `claude` pipeline is legitimate. However, 28 stars (now 1,449 as of 2026-07-28) at 4 days old shows the same early maturity profile as Athena Flow (#073, score 2/5). Raised to 3/5 vs Athena Flow because of stronger architectural clarity, a wider feature set with more evidence, and a genuinely unique Git checkpointing angle.
 
 ---
 
@@ -116,7 +116,7 @@ Points raised:
 
 | Claim | Verified | Source |
 |-------|----------|--------|
-| 28 GitHub stars | Verified | GitHub API direct |
+| 28 GitHub stars | Verified (now 1,449 as of 2026-07-28) | GitHub API direct |
 | Created 2026-03-13 | Verified | GitHub API `created_at` |
 | Rust, single binary, zero deps | Verified | README |
 | MIT license | Verified | GitHub API + README badge |

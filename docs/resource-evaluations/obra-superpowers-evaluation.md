@@ -36,7 +36,7 @@ Superpowers is a complete software development methodology packaged as a Claude 
 ### Justification
 
 **Points forts**:
-- ✅ **95,299 GitHub stars** (verified via GitHub API, March 18, 2026) — among the most-starred Claude Code resources in existence
+- ✅ **95,299 GitHub stars** (verified via GitHub API, March 18, 2026), now 262,101 as of 2026-07-28, among the most-starred Claude Code resources in existence
 - ✅ **7,546 forks** — genuine adoption signal, not bot-inflated
 - ✅ **Available on the official Claude Code plugin marketplace** — `/plugin install superpowers@claude-plugins-official`
 - ✅ **obra already in our guide** (line 8104, TDD skill at 721 skills.sh installs) — not mentioning the full suite is a credibility gap
@@ -69,7 +69,7 @@ At 95k stars on a Claude Code tool (verified), this is the dominant community me
 
 | Claim | Verified | Source |
 |-------|----------|--------|
-| 95k+ GitHub stars | ✅ 95,299 | GitHub API, March 18, 2026 |
+| 95k+ GitHub stars | ✅ 95,299 (now 262,101 as of 2026-07-28) | GitHub API, March 18, 2026 |
 | 7,546 forks | ✅ Exact | GitHub API |
 | MIT license | ✅ | GitHub API (`license.spdx_id: MIT`) |
 | Available on official Claude Code marketplace | ✅ | README: `/plugin install superpowers@claude-plugins-official` |

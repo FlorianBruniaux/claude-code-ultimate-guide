@@ -95,12 +95,12 @@ Key points from challenge:
 |-------|----------|---------------|
 | Author: Ameya Kanitkar, Co-founder & CTO, Larridin | ✅ | Listed in article, consistent with Larridin as enterprise AI platform |
 | Date: January 12, 2026 | ✅ | Stated in article |
-| "Superpowers framework (15.6k stars on GitHub)" | ⚠️ | Guide references obra/superpowers at line ~8179; star count unverifiable without live fetch |
-| Opus 4.5 model | ⚠️ | claude-opus-4-5 is a real model; "Opus 4.5" is a reasonable shorthand — plausible |
+| "Superpowers framework (15.6k stars on GitHub)" | ✅ Verified | Guide references obra/superpowers; 15.6k stars then, now 262,101 as of 2026-07-28 |
+| Opus 4.5 model | ⚠️ | claude-opus-4-5 is a real model; "Opus 4.5" is a reasonable shorthand, plausible |
 | "GPT 5.2" | ❌ | Not a verifiable model name as of 2026-03-22; GPT-5 exists but "GPT 5.2" is not confirmed. Do not quote this in guide. |
 | Ralph Wiggum Pattern attributed to Geoffrey Huntley | ✅ | Consistent with guide attribution (line ~11419) |
 | Lance Martin "Effective Agent Design" | ✅ | Real talk/essay, consistent with known community references |
-| "15.6k stars" for Superpowers | ⚠️ | Cannot verify without fetching GitHub; use as indicative only |
+| "15.6k stars" for Superpowers | ✅ Verified | Was 15.6k when article written, now 262,101 as of 2026-07-28 |
 | Browser Company quote: "If you don't work Claude Code-native ASAP..." | ⚠️ | Attributed to The Browser Company generally, no specific author/date — treat as paraphrase |
 
 **Corrections to apply when integrating**: Do not cite model version specifics (Opus 4.5, GPT 5.2). Star counts for external repos should not be reproduced as facts.

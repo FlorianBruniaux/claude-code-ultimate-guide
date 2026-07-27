@@ -42,7 +42,7 @@ This matters for our own context: DiffMem is not a validation of the file-plus-B
 | Evidence quality | 2/5 | "Production, powers Annabelle" but one workload; "50-year durability" unsupported; no eval harness (the notes' Eval section is four bookmark links). Latency and cost documented honestly though. |
 | Maturity / health | 2/5 | Bus factor one (Alex 78% under 7 aliases), no LICENSE file, no tags, no releases, not on PyPI. 897 stars is real traction but a classic star-vs-maintainership gap. |
 
-**Overall: 3/5.** More substantial than a weekend project (real production use, 897 stars, 8K LOC, strong docs) but carries hard disqualifiers (bus factor one, no license) plus an untested, in-rewrite retrieval core.
+**Overall: 3/5.** More substantial than a weekend project (real production use, 897 stars (now 898 as of 2026-07-28), 8K LOC, strong docs) but carries hard disqualifiers (bus factor one, no license) plus an untested, in-rewrite retrieval core.
 
 ---
 

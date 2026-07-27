@@ -5,7 +5,7 @@
 **Type:** Open source (MIT), framework d'orchestration multi-agent pour Claude Code
 **Author:** ruvnet
 **Evaluated:** 2026-03-05
-**Traction:** 18,839 stars, 2,096 forks, 452 PRs, 5,900+ commits
+**Traction:** 18,839 stars (now 66,272 as of 2026-07-28), 2,096 forks, 452 PRs, 5,900+ commits
 
 ---
 
@@ -66,7 +66,7 @@ Ruflo etait precedemment connu sous le nom **claude-flow** (github.com/ruvnet/cl
 
 **Score final: 3/5**
 
-**Justification:** 18.9k stars est un signal d'adoption reel pour un outil de niche. Le guide couvre l'orchestration multi-agent native (Task tool, TeammateTool) mais pas les frameworks externes qui remplacent/augmentent cette couche. Gap reel, categorie absente de `guide/third-party-tools.md`. Score abaisse de 4 a 3 suite au challenge: curl|bash install depuis CDN non audite, claims de performance non verifiables, rebrand recent = instabilite potentielle.
+**Justification:** 18.9k stars (now 66,272 as of 2026-07-28) est un signal d'adoption reel pour un outil de niche. Le guide couvre l'orchestration multi-agent native (Task tool, TeammateTool) mais pas les frameworks externes qui remplacent/augmentent cette couche. Gap reel, categorie absente de `guide/third-party-tools.md`. Score abaisse de 4 a 3 suite au challenge: curl|bash install depuis CDN non audite, claims de performance non verifiables, rebrand recent = instabilite potentielle.
 
 ---
 
@@ -100,7 +100,7 @@ La distinction est importante: Gas Town / multiclaude = lancer plusieurs Claude 
 4. **Exclure la voie curl|bash** des recommandations (voir section securite)
 
 **Framing correct pour l'entree guide:**
-> Ruflo (anciennement claude-flow) est le framework d'orchestration externe le plus adopte pour Claude Code (18.9k stars). Il ajoute une couche multi-agent complete au-dessus de Claude Code: 60+ agents specialises, routing Q-learning, persistance SQLite. A utiliser quand les capacites natives de Claude Code (Task tool, sous-agents) ne suffisent pas pour un use case.
+> Ruflo (anciennement claude-flow) est le framework d'orchestration externe le plus adopte pour Claude Code (18.9k stars, now 66,272 as of 2026-07-28). Il ajoute une couche multi-agent complete au-dessus de Claude Code: 60+ agents specialises, routing Q-learning, persistance SQLite. A utiliser quand les capacites natives de Claude Code (Task tool, sous-agents) ne suffisent pas pour un use case.
 
 ---
 
@@ -112,7 +112,7 @@ La distinction est importante: Gas Town / multiclaude = lancer plusieurs Claude 
 Points cles de l'agent:
 
 **Pourquoi 4/5 etait trop genereux:**
-- 18.9k stars avec 830 en un jour = spike de trending, pas adoption soutenue. Besoin de 3-4 semaines de donnees post-spike pour valider la retention
+- 18.9k stars (now 66,272 as of 2026-07-28) avec 830 en un jour = spike de trending, pas adoption soutenue. Besoin de 3-4 semaines de donnees post-spike pour valider la retention
 - Rebrand claude-flow → ruflo = evenement non trivial. L'URL curl|bash pointe encore sur l'ancien repo (`ruvnet/claude-flow`) — inconcistance qui indique une transition en cours
 - 84.8% SWE-Bench serait SOTA batant les labs fermees. Claim non credible sans paper + reproductibilite. Les autres chiffres (352x, 32.3%, <0.05ms) ont une precision artificielle sans source
 - "Byzantine fault tolerance + CRDT" dans un outil pour dev individuels = "architectural theater" (citation agent) si non documente en profondeur
@@ -133,7 +133,7 @@ Points cles de l'agent:
 
 | Affirmation | Verifiee | Source |
 |-------------|----------|--------|
-| 18,839 GitHub stars | Confirme | Perplexity (ranktracking #42 AI repos, 2026-03-05) |
+| 18,839 GitHub stars | Confirme (now 66,272 as of 2026-07-28) | Perplexity (ranktracking #42 AI repos, 2026-03-05) |
 | 2,096 forks, 452 PRs | Confirme | Perplexity cross-reference |
 | Trending: +830 stars le 3 mars 2026 | Confirme | GitHub ranking chinois (juejin.cn) |
 | MIT license | Vraisemblable | README (non inspecte directement) |

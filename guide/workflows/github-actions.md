@@ -6,7 +6,7 @@ tags: [workflow, ci-cd, github-actions, automation]
 
 # GitHub Actions Workflows with Claude Code
 
-> **Confidence**: Tier 1 — Official Anthropic action (`anthropics/claude-code-action`, 6.2k stars, v1.0).
+> **Confidence**: Tier 1, official Anthropic action (`anthropics/claude-code-action`, 8.5K stars as of 2026-07-27, was 6.2k, v1.0).
 
 Automate code reviews, issue triage, and quality gates by connecting Claude directly to your GitHub workflow. Two trigger models: `@claude` mentions (human-initiated) and scheduled/event automations (fully autonomous).
 

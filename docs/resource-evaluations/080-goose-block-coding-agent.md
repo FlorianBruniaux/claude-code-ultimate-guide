@@ -4,7 +4,7 @@
 **Type:** Open source tool (Apache 2.0) — on-machine AI coding agent
 **Author:** Block (formerly Square) — maintained by Block's engineering team
 **Evaluated:** 2026-03-17
-**Maturity at evaluation:** Launched officially January 2025, 33,166 stars, 3,058 forks
+**Maturity at evaluation:** Launched officially January 2025, 33,166 stars (now 51,819 as of 2026-07-28), 3,058 forks
 
 ---
 
@@ -51,7 +51,7 @@
 
 | Field | Current guide (Jan 2026) | Actual (Mar 2026) |
 |-------|--------------------------|-------------------|
-| GitHub Stars | 15,400+ | 33,166 |
+| GitHub Stars | 15,400+ | 33,166 (now 51,819 as of 2026-07-28) |
 | MCP servers | 3,000+ (table) vs 1,700+ (inconsistency) | 1,700+ (per Goose docs) |
 | Releases | 100+ | ~175+ (estimated, fast release cadence) |
 
@@ -96,7 +96,7 @@ Key points:
 
 | Claim | Verified | Source |
 |-------|----------|--------|
-| 33,166 GitHub stars | Verified | GitHub API (2026-03-17) |
+| 33,166 GitHub stars | Verified (now 51,819 as of 2026-07-28) | GitHub API (2026-03-17) |
 | 3,058 forks | Verified | GitHub API |
 | Apache 2.0 license | Verified | GitHub API + README |
 | Rust (primary language) | Verified | GitHub API (`language: "Rust"`) |

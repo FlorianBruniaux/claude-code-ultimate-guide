@@ -28,7 +28,7 @@
 | ~~2~~ | ~~Marginal - Info secondaire / Redondant~~ |
 | ~~1~~ | ~~Hors scope - Non pertinent~~ |
 
-**Justification**: `guide/ecosystem/agentic-tools.md` Section 2 (Autonomous Coding Agents) documente déjà Devin et SWE-agent en détail (tableaux comparatifs, pricing, cas d'usage) mais ne mentionne pas OpenHands nulle part dans le guide, malgré ses 79 947 stars, soit près de 3x SWE-agent et une popularité comparable à Devin. C'est l'omission la plus visible du guide sur ce segment.
+**Justification**: `guide/ecosystem/agentic-tools.md` Section 2 (Autonomous Coding Agents) documente déjà Devin et SWE-agent en détail (tableaux comparatifs, pricing, cas d'usage) mais ne mentionne pas OpenHands nulle part dans le guide, malgré ses 79 947 stars (now 82,324 as of 2026-07-28), soit près de 3x SWE-agent et une popularité comparable à Devin. C'est l'omission la plus visible du guide sur ce segment.
 
 ---
 
@@ -41,7 +41,7 @@
 | Exécution parallèle native | ✅ Graphe de dépendances Tier 0/1 | ❌ Non documenté | ❌ Séquentiel |
 | Gouvernance/audit trail complet | ⚠️ Réservé à Cloud/Enterprise (payant) | N/A (boîte noire) | ❌ |
 | Prix | Gratuit (self-host) + Cloud payant | $20-$500+/mo | Gratuit (self-host requis) |
-| Stars | 79 947 | N/A (closed source) | 19 300+ |
+| Stars | 79 947 (now 82,324 as of 2026-07-28) | N/A (closed source) | 19 300+ |
 
 ---
 
@@ -67,7 +67,7 @@
 
 | Affirmation | Vérifiée | Source/Commentaire |
 |-------------|----------|---------------------|
-| 79 947 stars, 10 194 forks | ✅ | Vérifié via `gh api repos/OpenHands/OpenHands` le 2026-07-08 |
+| 79 947 stars, 10 194 forks | ✅ | Vérifié via `gh api repos/OpenHands/OpenHands` le 2026-07-08 (now 82,324 stars as of 2026-07-28) |
 | Push le plus récent | ✅ | 2026-07-08, très activement maintenu |
 | Licence | ⚠️ | `NOASSERTION`, à vérifier manuellement (le repo affiche historiquement MIT côté doc, mais l'API ne le confirme pas automatiquement) |
 | Graphe de dépendances Tier 0/1 | ⚠️ Partiellement vérifié | Confirmé par la documentation officielle OpenHands SDK (docs.openhands.dev/sdk/guides/agent-delegation) citée dans la recherche, non testé en pratique |

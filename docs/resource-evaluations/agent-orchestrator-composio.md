@@ -10,7 +10,7 @@
 
 ## 📄 Résumé du contenu
 
-- **Repo renommé** : identifié initialement sous `ComposioHQ/agent-orchestrator` dans une recherche croisée sur le pattern "PRD → tâches → build isolé → gate → merge → audit trail" présenté au meetup GenAI France (Maleus, juillet 2026). L'API GitHub redirige désormais vers `AgentWrapper/agent-orchestrator` (org renommée), même repo (`repositories/1156994049`), 8 129 stars, license Apache-2.0
+- **Repo renommé** : identifié initialement sous `ComposioHQ/agent-orchestrator` dans une recherche croisée sur le pattern "PRD → tâches → build isolé → gate → merge → audit trail" présenté au meetup GenAI France (Maleus, juillet 2026). L'API GitHub redirige désormais vers `AgentWrapper/agent-orchestrator` (org renommée), même repo (`repositories/1156994049`), 8 129 stars (désormais 8 608 au 28/07/2026), license Apache-2.0
 - **Ce que c'est réellement** : pas un générateur PRD→code, mais un "meta-harness agent IDE" qui supervise plusieurs CLI d'agents de code en parallèle (Claude Code, Codex, Cursor, Aider, Goose, Devin et 18 autres, 23 harnesses au total), chacun dans son propre git worktree, avec app desktop + CLI
 - **Boucle de feedback automatique** : un observateur SCM (GitHub) route les échecs de CI, les commentaires de review et les conflits de merge vers la bonne session d'agent ("nudges"), documenté dans `docs/STATUS.md`
 - **Télémétrie par défaut** : le renderer Electron envoie des événements PostHog anonymisés, avec enregistrement de session (chemins et URLs locaux redacted), désactivable via `VITE_AO_POSTHOG_KEY` vide
@@ -46,7 +46,7 @@
 | Intégrations tierces | GitHub (SCM observer) | GitHub, Linear, Slack, VS Code |
 | Télémétrie | PostHog activé par défaut (opt-out via var d'env) | Non documenté publiquement |
 | Maturité | 5 mois, 416 issues ouvertes | Mature (versionné jusqu'à v0.37.0) |
-| Stars | 8 129 | N/A (propriétaire, pas de repo public) |
+| Stars | 8 129 (désormais 8 608 au 28/07/2026) | N/A (propriétaire, pas de repo public) |
 
 ---
 

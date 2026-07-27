@@ -25,7 +25,7 @@ Claimed ~63% output token reduction. Benchmark: 5 prompts, no repeated runs, no 
 explicitly acknowledges this in BENCHMARK.md: "directional indicator only, not a statistically controlled
 study." The headline figure should not be cited.
 
-- **Stars**: 865 (in ~24h — likely HN or newsletter spike, not validated adoption signal)
+- **Stars**: 865 (in ~24h, likely HN or newsletter spike, now 5,884 as of 2026-07-28 with sustained growth)
 - **Forks**: 33
 - **Created**: 2026-03-30 (one day old at time of evaluation)
 - **Author**: Drona Gangarapu

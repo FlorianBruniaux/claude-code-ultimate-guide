@@ -30,7 +30,7 @@
 **Key Points**:
 1. **Anthropic folder**: Contains "Claude Code 2.0.txt", "Claude for Chrome", and "Sonnet 4.5 Prompt.txt"
 2. **Scope**: 36 tools documented (Anthropic, Cursor, Windsurf, v0, Devin, etc.)
-3. **Community metrics**: 111k stars, 29k forks, GPL-3.0 license, 472 commits
+3. **Community metrics**: 111k stars (now 142,359 as of 2026-07-28), 29k forks, GPL-3.0 license, 472 commits
 4. **Volume**: 30,000+ lines of documentation
 5. **Security warning**: "Exposed prompts can become targets for hackers"
 
@@ -196,7 +196,7 @@ From Perplexity search:
 
 | Affirmation | Verified | Source | Correction |
 |-------------|----------|--------|------------|
-| **111k stars** | ✅ Confirmed | GitHub header (26/01/2026) | Dynamic metric |
+| **111k stars** | ✅ Confirmed | GitHub header (26/01/2026) (now 142,359 as of 2026-07-28) | Dynamic metric |
 | **29k forks** | ✅ Confirmed | GitHub header | Dynamic metric |
 | **472 commits** | ✅ Confirmed | Repository stats | Active (but methodology unclear) |
 | **36 tools** | ✅ Confirmed | README visible | Confirmed |

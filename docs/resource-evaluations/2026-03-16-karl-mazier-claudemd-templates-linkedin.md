@@ -13,7 +13,7 @@
 - Two-level CLAUDE.md structure: `~/.claude/CLAUDE.md` (global, ~30 lines) + `./CLAUDE.md` per repo (~40 lines). Global = coding philosophy/conventions. Project = what the agent can't discover from code alone.
 - References ETH Zurich paper arXiv 2602.11988: AI-generated context files yield -3% agent success rate and +20% inference cost. Human-written minimal files yield ~+4%.
 - Core rule: write only what the agent cannot discover independently from the codebase.
-- GitHub repo (https://github.com/reizam/claude-md-templates): 2 fork-ready templates + 3 slash commands installable via `npx skills add reizam/claude-md-templates` (generate global, generate project, audit existing CLAUDE.md).
+- GitHub repo (https://github.com/reizam/claude-md-templates): 2 fork-ready templates + 3 slash commands installable via `npx skills add reizam/claude-md-templates` (generate global, generate project, audit existing CLAUDE.md), 8 stars at evaluation (now 12 as of 2026-07-28).
 - The `Philosophy` section highlighted as the most critical part of global CLAUDE.md.
 
 ---
@@ -30,7 +30,7 @@
 
 **Score: 2/5**
 
-**Justification**: The ETH Zurich paper (arXiv 2602.11988) was already evaluated on 2026-02-19 and scored 4/5 with a full integration plan. This LinkedIn post is a community summary of that same paper without original analysis. The GitHub repo templates (8 stars, created 2026-02-27) are redundant with existing `examples/memory/CLAUDE.md.personal-template` (68 lines) and `CLAUDE.md.project-template` (72 lines) in the guide. One element is genuinely new: the `/claude-md-audit` slash command concept — a skill to analyze existing CLAUDE.md for bloat — which the guide doesn't have as an installable command.
+**Justification**: The ETH Zurich paper (arXiv 2602.11988) was already evaluated on 2026-02-19 and scored 4/5 with a full integration plan. This LinkedIn post is a community summary of that same paper without original analysis. The GitHub repo templates (8 stars at evaluation, now 12 as of 2026-07-28, created 2026-02-27) are redundant with existing `examples/memory/CLAUDE.md.personal-template` (68 lines) and `CLAUDE.md.project-template` (72 lines) in the guide. One element is genuinely new: the `/claude-md-audit` slash command concept, a skill to analyze existing CLAUDE.md for bloat, which the guide doesn't have as an installable command.
 
 ---
 

@@ -20,7 +20,7 @@ ICM is a persistent memory MCP server from the rtk-ai team (same authors as RTK/
 - Auto-deduplication (>85% similarity blocked)
 - Auto-extraction: pattern hooks, pre-compaction, session-start
 - Supports 14 editors/clients (Claude Code, Cursor, VS Code, Windsurf, Zed, Amp, Cline, etc.)
-- 52 stars, 55 commits as of March 2026
+- 52 stars as of March 2026 (now 508 as of 2026-07-28), 55 commits
 - License: Source-Available (free for individuals and teams ≤20; enterprise license required above)
 
 ---
@@ -86,7 +86,7 @@ Note: The knowledge retention benchmark uses a sample of 10 questions on Haiku �
 | Source-Available license, free ≤20 | ✅ | LICENSE file |
 | 9 Memoir relation types | ✅ | README full list |
 | 14 supported clients | ✅ | `icm init` documentation |
-| 52 stars | ✅ | GitHub as of 2026-03-14 |
+| 52 stars | ✅ | GitHub as of 2026-03-14 (now 508 as of 2026-07-28) |
 
 No hallucinations detected. All figures present in the source README.
 

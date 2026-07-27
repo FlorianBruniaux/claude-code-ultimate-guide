@@ -11,10 +11,10 @@
 
 | Tool | Stars | Language | License | Score | Decision |
 |------|-------|----------|---------|-------|----------|
-| scip-search | 0 | Go | Apache-2.0 | 1/5 | Reject |
-| mdtoc | 1 | Go | Apache-2.0 | 1/5 | Reject |
-| functional-clusters | 0 | Go | Apache-2.0 | 1/5 | Reject |
-| stacklit-cli | 2 | Go | MIT | 2/5 | Watch (one-line note only) |
+| scip-search | 0 (now 2 as of 2026-07-28) | Go | Apache-2.0 | 1/5 | Reject |
+| mdtoc | 1 (now 2 as of 2026-07-28) | Go | Apache-2.0 | 1/5 | Reject |
+| functional-clusters | 0 (now 1 as of 2026-07-28) | Go | Apache-2.0 | 1/5 | Reject |
+| stacklit-cli | 2 (now 5 as of 2026-07-28) | Go | MIT | 2/5 | Watch (one-line note only) |
 
 **Roster score: 1/5**: No tool clears the integration gate (score >= 3 required). stacklit-cli earns a single-line watch note as a Go-native variant of the already-documented stacklit.
 

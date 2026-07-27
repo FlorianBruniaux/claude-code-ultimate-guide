@@ -75,7 +75,7 @@ Le score 2/5 tient. Le gap CI/CD pour skills est réel mais ne justifie pas d'in
 
 | Affirmation | Vérifiée | Source |
 |-------------|----------|--------|
-| 3 stars GitHub | ✅ | GitHub repo (vérifié 2x) |
+| 3 stars GitHub | ✅ | GitHub repo (verified 2x, still 3 as of 2026-07-28) |
 | 0 forks | ✅ | GitHub repo |
 | 17 commits | ✅ | GitHub repo |
 | Apache 2.0 license | ✅ | GitHub repo |

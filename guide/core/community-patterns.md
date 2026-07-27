@@ -36,7 +36,7 @@ Quick-reference for Claude Code community patterns, workflow terms, and AI engin
 | Auto-compaction | Built-in mechanism that automatically compresses conversation context (~75% threshold in VS Code extensions, ~95% in CLI). Triggered silently unless you use `/compact` first. | Architecture | Context |
 | Auto-memories | Feature (v2.1.32+) where Claude automatically stores learned project context into a persistent memory file across sessions. | Claude Code | Memory |
 | autoApproveTools | Settings array listing tools that are auto-approved without interactive prompts. More granular than permission modes. | Claude Code | Configuration |
-| awesome-claude-code | Community-curated list of Claude Code resources, tools, and examples with 20K+ stars on GitHub. | Ecosystem | Community |
+| awesome-claude-code | Community-curated list of Claude Code resources, tools, and examples with 51K+ stars on GitHub (verified 2026-07-27, was 20K+). | Ecosystem | Community |
 | BMAD | Business-driven, Methodical AI Development: a structured planning framework for agentic AI projects (community methodology). | Methodology | Planning |
 | Boris Cherny pattern | Horizontal scaling approach: run multiple Claude Code instances in parallel, each on a git worktree, then merge. Named after Boris Cherny, creator of Claude Code and Head of Claude Code at Anthropic. | Workflow | Multi-Agent |
 | Bypass Permissions Mode | Maximum autonomy mode via `--dangerously-skip-permissions`: auto-approves all tools. Use only in isolated/sandboxed environments. | Claude Code | Permissions |

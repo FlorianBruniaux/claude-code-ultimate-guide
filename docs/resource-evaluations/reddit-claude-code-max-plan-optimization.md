@@ -14,7 +14,7 @@
 **Decision**: Do not integrate
 **Confidence**: High (comprehensive fact-check completed)
 
-Anonymous Reddit comment claiming "5x plan has better value than 20x" with optimization tips. **Main claim appears false** based on public pricing ratios (20x offers 4x capacity for 2x price = better value). All valid content already covered extensively in guide. Memory-search tool mentioned has minimal traction (15 stars).
+Anonymous Reddit comment claiming "5x plan has better value than 20x" with optimization tips. **Main claim appears false** based on public pricing ratios (20x offers 4x capacity for 2x price = better value). All valid content already covered extensively in guide. Memory-search tool mentioned has minimal traction (15 stars, now 22 as of 2026-07-28).
 
 ---
 

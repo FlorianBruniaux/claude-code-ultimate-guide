@@ -848,8 +848,8 @@ approval_required:
 
 ### Awesome Lists
 
-- **[awesome-claude-code-subagents](https://github.com/VoltAgent/awesome-claude-code-subagents)** (8.1k stars): Agent personas including SRE
-- **[awesome-claude-skills](https://github.com/travisvn/awesome-claude-skills)** (4.6k stars): Skills including infra-related
+- **[awesome-claude-code-subagents](https://github.com/VoltAgent/awesome-claude-code-subagents)** (23.8K stars, verified 2026-07-27, was 8.1k): Agent personas including SRE
+- **[awesome-claude-skills](https://github.com/travisvn/awesome-claude-skills)** (14.4K stars, verified 2026-07-27, was 4.6k): Skills including infra-related
 
 ### Official Resources
 

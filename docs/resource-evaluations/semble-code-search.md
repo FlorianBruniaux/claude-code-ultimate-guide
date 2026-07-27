@@ -28,7 +28,7 @@ Key facts, verified against the repo:
 
 | Attribute | Details |
 |-----------|---------|
-| **Stars** | ~5,000 (MIT, active development) |
+| **Stars** | ~5,000 (now 5,718 as of 2026-07-28, MIT, active development) |
 | **Install** | `pip install semble` then `semble mcp` |
 | **MCP integration** | Native server, no wrapper layer |
 | **Requires Ollama** | No. Model2Vec runs CPU-only, no external service |

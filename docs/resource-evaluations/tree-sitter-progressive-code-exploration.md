@@ -4,7 +4,7 @@
 **Type**: Pattern + MCP Servers + CLI Tool
 **Evaluated**: 2026-03-20
 **Evaluator**: Florian BRUNIAUX + Claude Sonnet 4.6
-**Context**: Signal from Alex Newman (Claude-MEM, 38k+ stars) — "14k tokens to 200 using tree-sitter progressive search"
+**Context**: Signal from Alex Newman (Claude-MEM, 38k+ stars, now 88,747 as of 2026-07-28), showing "14k tokens to 200 using tree-sitter progressive search"
 
 ---
 
@@ -50,7 +50,7 @@ Same pattern that Aider (40k+ stars) uses for its repo map, validated at scale.
 ### 1. jCodeMunch-MCP
 
 **GitHub**: https://github.com/jgravelle/jcodemunch-mcp
-**Stars**: ~1,200 | **License**: Non-commercial free / paid commercial ($79 indie)
+**Stars**: ~1,200 (now 2,290 as of 2026-07-28) | **License**: Non-commercial free / paid commercial ($79 indie)
 **Last commit**: March 19, 2026 | **Status**: Active, production-polished
 
 **What it does**: Indexes codebase once with tree-sitter, exposes symbols via MCP. Claude calls `get_symbol("filter_output")` instead of reading the whole file.
@@ -78,7 +78,7 @@ pip install jcodemunch-mcp
 ### 2. mcp-server-tree-sitter (wrale)
 
 **GitHub**: https://github.com/wrale/mcp-server-tree-sitter
-**Stars**: ~270 | **License**: Not specified | **Last commit**: February 25, 2026
+**Stars**: ~270 (now 311 as of 2026-07-28) | **License**: Not specified | **Last commit**: February 25, 2026
 
 **What it does**: Pure MCP server wrapping tree-sitter. Exposes AST queries, symbol extraction, dependency analysis, parse tree caching. Most complete feature set of the pure MCP options.
 
@@ -100,7 +100,7 @@ pip install mcp-server-tree-sitter
 ### 3. code-review-graph
 
 **GitHub**: https://github.com/tirth8205/code-review-graph
-**Stars**: ~2,000 | **License**: MIT | **Last commit**: March 17, 2026
+**Stars**: ~2,000 (now 26,910 as of 2026-07-28) | **License**: MIT | **Last commit**: March 17, 2026
 
 **What it does**: Persistent SQLite-backed code graph, updated incrementally on file edits and git commits. Exposes a code review tool that focuses on changed files and their dependencies only.
 
@@ -132,7 +132,7 @@ claude plugin marketplace add tirth8205/code-review-graph
 ### 4. CodeRLM
 
 **GitHub**: https://github.com/JaredStewart/coderlm
-**Stars**: 192 | **License**: MIT | **Last commit**: February 7, 2026
+**Stars**: 192 (now 294 as of 2026-07-28) | **License**: MIT | **Last commit**: February 7, 2026
 
 **What it does**: Rust server + tree-sitter index + Python CLI skill wrapper. Claude queries symbols on demand instead of file-reading. Ships as a Claude Code skill via `SessionStart`/`UserPromptSubmit` hooks.
 
@@ -146,7 +146,7 @@ claude plugin marketplace add tirth8205/code-review-graph
 
 ### 5. Aider Repo Map (reference implementation)
 
-**Project**: Aider (https://aider.chat) — 40k+ stars
+**Project**: Aider (https://aider.chat), 40k+ stars (now 47,733 as of 2026-07-28)
 **Approach**: tree-sitter + NetworkX graph + PageRank ranking + binary search for token budget
 
 **How it works**:
@@ -165,11 +165,11 @@ claude plugin marketplace add tirth8205/code-review-graph
 
 | Tool | Stars | Install | Token Claims | License | Use Case |
 |---|---|---|---|---|---|
-| jCodeMunch | ~1,200 | `claude mcp add jcodemunch uvx jcodemunch-mcp` | 10-25% realistic (95% cherry-pick) | Free non-commercial | Symbol lookup |
-| mcp-server-tree-sitter | ~270 | `pip install mcp-server-tree-sitter` | None published | Check license | Raw AST queries |
-| code-review-graph | ~2,000 | `pip install code-review-graph` | 6.8x avg (PR review) | MIT | PR code reviews |
-| CodeRLM | 192 | Cargo build needed | None published | MIT | On-demand exploration |
-| Aider repo map | 40k+ (Aider) | Built into Aider | 1k token budget (default) | Apache 2.0 | Full repo context |
+| jCodeMunch | ~1,200 (now 2,290 as of 2026-07-28) | `claude mcp add jcodemunch uvx jcodemunch-mcp` | 10-25% realistic (95% cherry-pick) | Free non-commercial | Symbol lookup |
+| mcp-server-tree-sitter | ~270 (now 311 as of 2026-07-28) | `pip install mcp-server-tree-sitter` | None published | Check license | Raw AST queries |
+| code-review-graph | ~2,000 (now 26,910 as of 2026-07-28) | `pip install code-review-graph` | 6.8x avg (PR review) | MIT | PR code reviews |
+| CodeRLM | 192 (now 294 as of 2026-07-28) | Cargo build needed | None published | MIT | On-demand exploration |
+| Aider repo map | 40k+ (now 47,733 as of 2026-07-28) | Built into Aider | 1k token budget (default) | Apache 2.0 | Full repo context |
 
 ---
 
@@ -261,13 +261,13 @@ Real-world reduction for typical feature work: **70-90%**. The 97% figures requi
 
 | Claim | Source | Status | Notes |
 |---|---|---|---|
-| Alex Newman, Claude-MEM creator | GitHub (thedotmack/claude-mem, 38k+ stars) | ✅ Verified | Stars confirmed at time of eval |
+| Alex Newman, Claude-MEM creator | GitHub (thedotmack/claude-mem, 38k+ stars, now 88,747 as of 2026-07-28) | ✅ Verified | Stars confirmed at time of eval |
 | "14k → 200 tokens" claim | Alex Newman's LinkedIn DM | ⚠️ Unverified | Plausible based on architecture, not independently tested |
 | jCodeMunch 95% token savings | jcodemunch-mcp marketing | ⚠️ Inflated | Controlled test shows 10-25%; 95% is cherry-picked single-symbol best case |
 | jCodeMunch A/B test -10.5% cache tokens | benchmarks/ab-test-naming-audit-2026-03-18.md | ✅ Credible | 50 iterations, methodology documented |
 | code-review-graph 6.8x average | Medium article + HN | ⚠️ Partially verified | File-count methodology more credible than quality scores (8.8/10) |
-| Aider 1k token default budget | aider.chat official docs | ✅ Verified | --map-tokens documented |
-| mcp-server-tree-sitter ~270 stars | GitHub (wrale/mcp-server-tree-sitter) | ✅ Verified | March 2026 |
+| Aider 1k token default budget (47,733 stars as of 2026-07-28) | aider.chat official docs | ✅ Verified | --map-tokens documented |
+| mcp-server-tree-sitter ~270 stars (now 311 as of 2026-07-28) | GitHub (wrale/mcp-server-tree-sitter) | ✅ Verified | March 2026 |
 | CodeRLM "Claude resistance" | Author README | ✅ Author admission | Requires explicit CLAUDE.md workaround |
 | tree-sitter used by VSCode/Neovim/Zed | Public documentation | ✅ Verified | Widely documented |
 

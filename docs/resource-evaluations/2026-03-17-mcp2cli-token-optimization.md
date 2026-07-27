@@ -6,7 +6,7 @@
 **Resource Type**: Open-source CLI tool (GitHub)
 **Author**: knowsuchagency (Stephan Fitzpatrick)
 **Published**: 2026-03-09
-**Stars**: 1,261 | **License**: MIT | **Language**: Python
+**Stars**: 1,261 (now 2,319 as of 2026-07-28) | **License**: MIT | **Language**: Python
 
 ---
 

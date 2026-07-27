@@ -84,7 +84,7 @@ The markdown mode enables reviewing `plan.md` or similar files inline before the
 
 | Signal | Value |
 |--------|-------|
-| Stars | 477 |
+| Stars | 477 (now 834 as of 2026-07-28) |
 | Forks | 36 |
 | Open issues | 7 (6 feature requests, 1 bug) |
 | Latest release | v0.16.2, 2026-06-09 |

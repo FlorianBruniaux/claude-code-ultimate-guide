@@ -52,7 +52,7 @@ GitHub repository curating Claude Code skills across 12 categories:
 
 | Claim | Reality | Status |
 |-------|---------|--------|
-| 5.5k stars, 489 forks | ✅ Confirmed | Verified |
+| 5.5k stars, 489 forks | ✅ Confirmed | Verified (now 9,842 stars as of 2026-07-28) |
 | 27 contributors, 81 commits | ✅ Confirmed | Verified |
 | Created October 2025 | ✅ 2025-10-17 | Verified |
 | 12 categories | ✅ Confirmed | Verified |
@@ -70,7 +70,7 @@ GitHub repository curating Claude Code skills across 12 categories:
 | **Installation guides** | ❌ Not provided |
 | **Usage examples** | ❌ Not provided |
 | **Maintenance** | ✅ Active (5 PRs open, recent activity) |
-| **Community** | ✅ Strong (5.5k stars in 3 months) |
+| **Community** | ✅ Strong (5.5k stars in 3 months, now 9,842 as of 2026-07-28) |
 | **License** | ❌ Not specified |
 
 ---
@@ -83,7 +83,7 @@ GitHub repository curating Claude Code skills across 12 categories:
 - Skills-only taxonomy (vs awesome-claude-code covering everything)
 - 12-category organization
 - Recent curation (reflects 2025-2026 ecosystem)
-- Strong community traction (5.5k stars in 3 months)
+- Strong community traction (5.5k stars in 3 months, now 9,842 as of 2026-07-28)
 
 ### What Claude Code Ultimate Guide Already Has
 

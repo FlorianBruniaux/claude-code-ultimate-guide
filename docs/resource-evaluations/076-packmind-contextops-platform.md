@@ -16,7 +16,7 @@ Packmind is a "ContextOps" platform (Packmind's own term) that captures engineer
 4. **Knowledge Ingestion from Team Tools** — Demo repo shows 6 ready-made use cases pulling context from GitHub PR comments, Slack, Jira, GitLab MRs, Confluence, Notion via their MCP servers.
 5. **Self-hostable** — Docker/Kubernetes, Apache-2.0 CLI. SaaS layer at packmind.com with unspecified pricing.
 
-**Traction:** 245 GitHub stars, 22 CLI releases in 6 months (v0.19.0→v0.22.0), active commits as of March 16 2026, 29 open issues.
+**Traction:** 245 GitHub stars (now 303 as of 2026-07-28), 22 CLI releases in 6 months (v0.19.0→v0.22.0), active commits as of March 16 2026, 29 open issues.
 
 ---
 
@@ -91,7 +91,7 @@ Score **adjusted to 4/5** — initial estimate of 3/5 was too conservative.
 | 22 CLI releases in 6 months | ✅ | GitHub releases tab |
 | Self-hostable Docker/Kubernetes | ✅ | README |
 | Continuous learning loop (bug → playbook) | ⚠️ Claimed | README + demo repo — no reproducible benchmark |
-| 245 GitHub stars | ✅ | GitHub (verified 2026-03-17) |
+| 245 GitHub stars | ✅ (now 303 as of 2026-07-28) | GitHub (verified 2026-03-17) |
 
 **Corrections**: None. No hallucinated figures. The learning loop claim must be presented as claimed behavior, not established fact.
 

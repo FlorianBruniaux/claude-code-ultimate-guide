@@ -48,7 +48,7 @@
 - `session-search.sh`: CLI search only, zero UI, no analytics
 - `ccboard`: cost-centric dashboard, full-text search not confirmed
 
-AgentsView fills this gap. However, the repo was created on February 19, 2026 (4 days before this evaluation), has 49 stars, and only 2 contributors. Too recent for a 4/5 (High Value) without established adoption. Wes McKinney's credibility (pandas creator) is a strong positive signal.
+AgentsView fills this gap. However, the repo was created on February 19, 2026 (4 days before this evaluation), has 49 stars (now 4,581 as of 2026-07-28, after rename to kenn-io/agentsview), and only 2 contributors. Too recent for a 4/5 (High Value) without established adoption. Wes McKinney's credibility (pandas creator) is a strong positive signal.
 
 ---
 

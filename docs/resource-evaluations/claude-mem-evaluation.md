@@ -15,7 +15,7 @@
 Claude-mem is a Claude Code plugin providing **automatic session memory** through AI-compressed capture of tool usage, observations, and decisions. It fills a gap in the guide: while Serena (symbol memory) and grepai (semantic search) are documented, **automatic session capture** is not.
 
 **Key Stats** (updated 2026-03-30):
-- 26.5k GitHub stars, 1.8k forks
+- 26.5k GitHub stars (now 88,747 as of 2026-07-28), 1.8k forks
 - 46 contributors
 - Latest: v10.6.3 (up from v9.1.1 at initial evaluation)
 - License: AGPL-3.0 + PolyForm Noncommercial

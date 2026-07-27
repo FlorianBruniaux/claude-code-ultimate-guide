@@ -178,7 +178,7 @@ Straude is the only tool in this list that is **social** — it uploads your sta
 
 ### RTK (Rust Token Killer)
 
-A CLI proxy that filters command outputs **before** they reach Claude's context. 69,042 stars, 4,279 forks (GitHub API, 2026-07-07), up from 446 in March 2026 and 24,397 in April 2026, a roughly 2.8x jump in under three months worth verifying against the full star-history graph before quoting in a high-stakes context.
+A CLI proxy that filters command outputs **before** they reach Claude's context. 73,531 stars, 4,597 forks (GitHub API, 2026-07-27), up from 69,042 on 2026-07-07, 446 in March 2026, and 24,397 in April 2026, continuing the same steep growth curve that's worth checking against the full star-history graph before quoting in a high-stakes context.
 
 | Attribute | Details |
 |-----------|---------|
@@ -216,7 +216,7 @@ A CLI proxy that filters command outputs **before** they reach Claude's context.
 
 ### Claude Code Usage Monitor
 
-Real-time usage monitor with burn-rate predictions and session-level warnings. The highest-starred dedicated monitoring tool for Claude Code as of May 2026, with approximately 7,955 stars.
+Real-time usage monitor with burn-rate predictions and session-level warnings. The highest-starred dedicated monitoring tool for Claude Code as of May 2026, with approximately 7,955 stars (8,540 as of 2026-07-27).
 
 | Attribute | Details |
 |-----------|---------|
@@ -977,7 +977,7 @@ caliber refresh
 | Detect config drift from code | Nothing | Git-based drift detection |
 | Distribute standards at org scale | Packmind | — |
 
-**Limitations**: Early-stage tool (March 2026, ~65 stars at time of writing). Multi-tool support (Claude Code + Cursor + Codex + Copilot) may produce generically adequate configs rather than deeply Claude Code-specific ones. Scoring rubric is not exposed as a standalone document — the categories are deterministic but not user-visible without reading the source.
+**Limitations**: Early-stage tool (March 2026, ~65 stars at time of writing; the project has since rebranded to `ai-setup` under caliber-ai-org and reached 1,223 stars by 2026-07-27). Multi-tool support (Claude Code + Cursor + Codex + Copilot) may produce generically adequate configs rather than deeply Claude Code-specific ones. Scoring rubric is not exposed as a standalone document — the categories are deterministic but not user-visible without reading the source.
 
 **Security note**: `caliber refresh` and `caliber watch` have write access to CLAUDE.md. Same risk class as Packmind: review generated output before accepting, particularly when using external sources (`caliber config`). Treat `.caliber/` config files with the same discipline as a secrets manager.
 
@@ -1052,7 +1052,7 @@ A zero-dependency CLI that analyzes a codebase via AST and generates structured 
 | **Install** | `npx codesight` (zero dependencies, zero config) |
 | **Language** | TypeScript — borrows the TS compiler from your project when present |
 | **License** | MIT |
-| **Status** | Early-stage (released April 2026, ~386 stars at time of writing) — APIs may evolve |
+| **Status** | Early-stage (released April 2026, ~386 stars at time of writing, 1,253 as of 2026-07-27), APIs may evolve |
 
 **Core commands**:
 
@@ -1458,9 +1458,9 @@ This section covers tools for running **multiple Claude Code instances in parall
 | Tool | Type | Key Feature |
 |------|------|-------------|
 | [Gas Town](https://github.com/steveyegge/gastown) | Multi-agent workspace | Steve Yegge's agent-first workspace manager |
-| [multiclaude](https://github.com/dlorenc/multiclaude) | Multi-agent spawner | tmux + git worktrees (383+ stars) |
+| [multiclaude](https://github.com/dlorenc/multiclaude) | Multi-agent spawner | tmux + git worktrees (559 stars, 2026-07-27) |
 | [agent-chat](https://github.com/justinabrahms/agent-chat) | Monitoring UI | Real-time SSE monitoring for Gas Town/multiclaude |
-| [abtop](https://github.com/graykode/abtop) | Fleet TUI monitor | htop-style: tokens, context %, rate limits, ports, subagent tree (584+ stars) |
+| [abtop](https://github.com/graykode/abtop) | Fleet TUI monitor | htop-style: tokens, context %, rate limits, ports, subagent tree (3,393 stars, 2026-07-27) |
 | [Conductor](#conductor) | Desktop app | macOS parallel agents (also listed above) |
 | [Piebald](#piebald) | Desktop/web app | Multi-provider + Windows + hooks compat (also listed above) |
 
@@ -1528,7 +1528,7 @@ tmux new -s work
 
 ### Ruflo (formerly claude-flow)
 
-**GitHub**: [github.com/ruvnet/ruflo](https://github.com/ruvnet/ruflo) (18.9k+ stars as of March 2026)
+**GitHub**: [github.com/ruvnet/ruflo](https://github.com/ruvnet/ruflo) (66.3K stars as of 2026-07-27, up from 18.9K+ in March 2026)
 **npm**: `ruflo` (formerly `claude-flow`) | **License**: MIT
 
 The most adopted external orchestration framework for Claude Code. Transforms it into a multi-agent platform with hierarchical swarms (queen + workers), 98 specialized agents (coders, testers, reviewers, architects, security auditors), and persistent memory via SQLite (AgentDB).
@@ -1589,7 +1589,7 @@ First shipped workflow: autonomous E2E test builder (Playwright CI-ready output)
 
 ### Pipelex + MTHDS
 
-**GitHub**: [github.com/Pipelex/pipelex](https://github.com/Pipelex/pipelex) — 623 stars (Mars 2026)
+**GitHub**: [github.com/Pipelex/pipelex](https://github.com/Pipelex/pipelex), 693 stars (2026-07-27, was 623 in March 2026)
 **License**: MIT | **Language**: Python | **Standard**: [mthds.ai](https://mthds.ai)
 
 > **Architectural distinction**: Pipelex n'orchestre pas des agents Claude Code — il fournit un **DSL déclaratif** (fichiers `.mthds`) pour définir des AI methods réutilisables. Là où Ruflo gère des swarms d'agents, Pipelex gère des pipelines multi-LLM typés et git-versionables.
@@ -1812,10 +1812,10 @@ Claude Code's plugin system supports community-built extensions. For detailed do
 - **[agentskills.io](https://agentskills.io)** - Open standard for agent skills (26+ platforms)
 
 **Notable skill packs**:
-- **[Superpowers](https://github.com/obra/superpowers)** — Complete software development methodology suite (95k+ stars, 7.5k forks, MIT). 7 context-aware skills covering the full development arc: spec elicitation through Socratic brainstorming, detailed implementation planning (2-5 min tasks with exact file paths), subagent-driven development with two-stage review (spec compliance then code quality), mandatory TDD enforcement (code written before a test gets deleted), code review, git worktree management, and branch lifecycle completion (merge/PR/discard decision). Skills trigger automatically based on context — no manual invocation needed. Install: `/plugin install superpowers@claude-plugins-official`. Created by Jesse Vincent (Prime Radiant), MIT. Also supports Cursor, Codex, OpenCode, and Gemini CLI.
+- **[Superpowers](https://github.com/obra/superpowers)**: Complete software development methodology suite (262K stars, 23.4K forks as of 2026-07-27, up from 95K+ stars / 7.5K forks earlier; MIT). 7 context-aware skills covering the full development arc: spec elicitation through Socratic brainstorming, detailed implementation planning (2-5 min tasks with exact file paths), subagent-driven development with two-stage review (spec compliance then code quality), mandatory TDD enforcement (code written before a test gets deleted), code review, git worktree management, and branch lifecycle completion (merge/PR/discard decision). Skills trigger automatically based on context — no manual invocation needed. Install: `/plugin install superpowers@claude-plugins-official`. Created by Jesse Vincent (Prime Radiant), MIT. Also supports Cursor, Codex, OpenCode, and Gemini CLI.
 - **[gstack](https://github.com/garrytan/gstack)** — 6-skill workflow suite covering the full ship cycle: strategic product gate (`/plan-ceo-review`), architecture review (`/plan-eng-review`), paranoid code review (`/review`), automated release (`/ship`), native browser QA (`/browse`), and retrospective (`/retro`). Created by Garry Tan (Y Combinator CEO). See [Cognitive Mode Switching](../workflows/gstack-workflow.md) for the workflow pattern and adoption guide.
 - **[Ponytail](https://github.com/DietrichGebert/ponytail)**: "Lazy senior dev" mode for AI agents. Before writing code, the agent stops at the first rung that holds: does this need to exist? → stdlib? → native platform feature? → installed dependency? → one line? → only then the minimum that works. Benchmarked at 80-94% less code, 47-77% lower cost, and 3-6x faster than an unconstrained agent across Haiku, Sonnet, and Opus (median of 10 runs, 5 tasks). Three intensity levels: `lite` (suggest the lazier path, let the user pick), `full` (enforce the ladder, default), `ultra` (YAGNI extremist, challenges the requirement in the same response). Deliberate shortcuts are marked with a `ponytail:` comment naming the ceiling and upgrade path; `/ponytail-debt` harvests them into a ledger so "later" stays visible. Four commands: `/ponytail [lite|full|ultra|off]`, `/ponytail-review` (over-engineering review of current diff), `/ponytail-audit` (whole-repo scan), `/ponytail-debt` (shortcut ledger). Install: `/plugin install ponytail@ponytail`. MIT. Supports 13 agents: Claude Code, Codex, GitHub Copilot CLI, Gemini CLI, Antigravity CLI, OpenCode, pi, OpenClaw, Cursor, Windsurf, Cline, Kiro, and VS Code with the Codex extension.
-- **[fable-mode](https://github.com/mrtooher/fable-mode)**: Execution discipline skill for complex tasks, structured as a 4-step loop: (1) write a numbered stage map with expected outputs before touching anything, (2) delegate independent stages to parallel subagents where the runtime allows, (3) verify each stage with a check that can actually fail (tests, diffs, sources read — not self-assessment), (4) self-critique as a skeptical reviewer before delivery. Named after the Claude Fable model but works on any model; honest that it shapes procedure, not capability ceiling. Three variants: `fable-mode` (inline on current model), `fable-sonnet` (pins a Sonnet subagent), `fable-haiku` (pins a Haiku subagent for cost-sensitive work). Includes 4 worked examples across domains — API null-path bug, mis-attributed research claim, SQL nulls silently dropped from an AVG, multi-session refactor with no done criteria — each showing exactly where the failable check catches what one-shot misses. Two operational rules worth noting: surface accumulated warnings at threshold 3 rather than one by one; anchor sed replacements on word boundaries to avoid corrupting compound words. Install: copy the skill directory to wherever your Claude environment loads skills from (no plugin registry entry yet). No license. 477 stars, 54 forks (June 2026, 5 days post-launch).
+- **[fable-mode](https://github.com/mrtooher/fable-mode)**: Execution discipline skill for complex tasks, structured as a 4-step loop: (1) write a numbered stage map with expected outputs before touching anything, (2) delegate independent stages to parallel subagents where the runtime allows, (3) verify each stage with a check that can actually fail (tests, diffs, sources read — not self-assessment), (4) self-critique as a skeptical reviewer before delivery. Named after the Claude Fable model but works on any model; honest that it shapes procedure, not capability ceiling. Three variants: `fable-mode` (inline on current model), `fable-sonnet` (pins a Sonnet subagent), `fable-haiku` (pins a Haiku subagent for cost-sensitive work). Includes 4 worked examples across domains — API null-path bug, mis-attributed research claim, SQL nulls silently dropped from an AVG, multi-session refactor with no done criteria — each showing exactly where the failable check catches what one-shot misses. Two operational rules worth noting: surface accumulated warnings at threshold 3 rather than one by one; anchor sed replacements on word boundaries to avoid corrupting compound words. Install: copy the skill directory to wherever your Claude environment loads skills from (no plugin registry entry yet). No license. 802 stars, 86 forks as of 2026-07-27 (was 477 stars, 54 forks at 5 days post-launch in June 2026).
 
 ---
 

@@ -6,7 +6,7 @@
 **Resource Type**: Open-source Claude Code command (GitHub)
 **Author**: VicKayro
 **Published**: 2026-02-26
-**Stars**: 60 | **Forks**: 6 | **License**: MIT (README-declared, no SPDX file)
+**Stars**: 60 (now 80 as of 2026-07-28) | **Forks**: 6 | **License**: MIT (README-declared, no SPDX file)
 
 ---
 

@@ -71,7 +71,7 @@ Article covering Claude Code plugins:
 | Source | Value | URL |
 |--------|-------|-----|
 | **Anthropic Official Docs** | Authoritative plugin structure, manifest schema | code.claude.com/docs/en/plugins |
-| **wshobson/agents** | 67 plugins, 99 agents, 107 skills (current) | github.com/wshobson/agents |
+| **wshobson/agents** | 67 plugins, 99 agents, 107 skills (current as of 2026-01-24), 38,296 GitHub stars as of 2026-07-28 | github.com/wshobson/agents |
 | **claude-plugins.dev** | 11,989 plugins, 63,065 skills indexed | claude-plugins.dev |
 | **claudemarketplaces.com** | Auto-scans GitHub for marketplaces | claudemarketplaces.com |
 | **Firecrawl analysis** | Actual install counts (Context7: 72k, Ralph: 57k) | firecrawl.dev/blog/best-claude-code-plugins |

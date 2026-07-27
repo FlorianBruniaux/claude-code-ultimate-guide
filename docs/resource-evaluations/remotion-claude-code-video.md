@@ -235,7 +235,7 @@ Pour les prochaines évaluations:
 | **Agent Skills existent** | ⚠️ Allégué | ✅ **CONFIRMÉ** | [Remotion Docs](https://www.remotion.dev/docs/ai/skills), [GitHub](https://github.com/remotion-dev/skills) |
 | **MCP Server** | ⚠️ Non vérifié | ✅ **CONFIRMÉ** (+ nuance Skills vs MCP) | [Remotion MCP](https://www.remotion.dev/docs/ai/mcp) |
 | **Copy as Markdown** | ⚠️ Screenshot uniquement | ✅ **CONFIRMÉ** (3 mécanismes) | [AI Docs](https://www.remotion.dev/docs/ai/) |
-| **Adoption** | ❓ Non mesurable | ✅ **MESURÉE**: 27K stars, $5M-8M ARR products | [GitHub](https://github.com/remotion-dev/remotion), [Latka](https://getlatka.com/companies/icon.me) |
+| **Adoption** | ❓ Non mesurable | ✅ **MESURÉE**: 27K stars (now 54,497 as of 2026-07-28), $5M-8M ARR products | [GitHub](https://github.com/remotion-dev/remotion), [Latka](https://getlatka.com/companies/icon.me) |
 | **Exemples After Effects** | ⚠️ Allégation Reddit | ❓ **NON RETROUVÉ** (comment deleted?) | Recherche Reddit infructueuse |
 | **Crédibilité auteur** | ❓ Inconnu | ✅ **HAUTE** (95%) - Dev Lead, no conflicts | [LinkedIn](https://www.linkedin.com/in/jpcaparas/) |
 

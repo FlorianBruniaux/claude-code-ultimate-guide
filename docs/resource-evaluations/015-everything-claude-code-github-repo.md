@@ -6,13 +6,13 @@
 **Resource Type**: GitHub Repository (Production Config Collection)
 **Author**: Affaan Mushtaq (@affaan-m)
 **Created**: 2026-01-18
-**Community Engagement**: 31.9k stars, 3.8k forks, active discussions
+**Community Engagement**: 31.9k stars (now 234,124 as of 2026-07-28), 3.8k forks, active discussions
 
 ---
 
 ## Executive Summary
 
-"Everything Claude Code" is a production-ready configuration collection built from 10+ months of intensive daily use by an Anthropic hackathon winner. Unlike our tutorial-focused Ultimate Guide, it provides **battle-tested configs, plugin system, and unique optimization patterns** (hookify, pass@k metrics, sandboxed subagents). With 31.9k stars in 9 days, it represents the largest community-validated Claude Code resource.
+"Everything Claude Code" is a production-ready configuration collection built from 10+ months of intensive daily use by an Anthropic hackathon winner. Unlike our tutorial-focused Ultimate Guide, it provides **battle-tested configs, plugin system, and unique optimization patterns** (hookify, pass@k metrics, sandboxed subagents). With 31.9k stars in 9 days (now 234,124 as of 2026-07-28), it represents the largest community-validated Claude Code resource.
 
 **Recommendation**: **CRITICAL (Score 5)** - Integrate immediately as complementary resource. Their production configs + our educational guide = complete ecosystem.
 
@@ -45,7 +45,7 @@
 **Verification Methods**:
 - Concrete production examples (not theoretical)
 - Plugin installation system ensures consistency
-- Community validation (31.9k stars = mass testing)
+- Community validation (31.9k stars (now 234,124 as of 2026-07-28) = mass testing)
 
 **Strengths**:
 - Every config proven in real-world scenarios
@@ -198,7 +198,7 @@
 ### 6. Community Validation (Score: 5/5)
 
 **Engagement Metrics**:
-- **31.9k stars** in 9 days (extraordinary velocity)
+- **31.9k stars** in 9 days (now 234,124 as of 2026-07-28, extraordinary velocity)
 - **3.8k forks** (active adaptation/experimentation)
 - **59 commits** (ongoing development)
 - **3 open issues** (responsive maintenance)
@@ -238,7 +238,7 @@
 1. **Add to Guide's "Community Resources" Section**:
    ```markdown
    ### Production Config Collection
-   - **Everything Claude Code** (31.9k⭐): Battle-tested agents, skills, hooks, commands from Anthropic hackathon winner
+   - **Everything Claude Code** (31.9k⭐, now 234,124 as of 2026-07-28): Battle-tested agents, skills, hooks, commands from Anthropic hackathon winner
      - Plugin installation system
      - Hookify (conversational hook creation)
      - pass@k verification metrics
@@ -281,7 +281,7 @@
    - Integration guide: Our educational content + Their configs
 
 7. **Add to Landing Site**:
-   - Badge: "Complementary Resource: Everything Claude Code (31.9k⭐)"
+   - Badge: "Complementary Resource: Everything Claude Code (31.9k⭐, now 234,124 as of 2026-07-28)"
    - Link from "Resources" section
    - Ecosystem diagram showing complementarity
 
@@ -315,7 +315,7 @@
 | **Breadth** | Comprehensive (66+ templates) | Specialized (15+ dirs) | Tie |
 | **Innovation** | Symbol system, MODE framework | Hookify, pass@k, sandboxed subagents | Tie |
 | **Distribution** | Git clone + manual setup | Plugin installation | Them |
-| **Validation** | Community review (200⭐) | Production use + 31.9k⭐ | Them |
+| **Validation** | Community review (200⭐) | Production use + 31.9k⭐ (now 234,124 as of 2026-07-28) | Them |
 | **Maintenance** | Active (daily updates) | Active (59 commits) | Tie |
 | **Accessibility** | Free, open-source | Free, MIT license | Tie |
 

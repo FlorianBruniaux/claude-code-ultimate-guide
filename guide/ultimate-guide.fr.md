@@ -7820,7 +7820,7 @@ Les skills semblent respecter les bonnes pratiques du hacking éthique et inclue
 
 Une alternative plus complète à la collection zebbern ci-dessus. claude-red est une bibliothèque organisée de **58 skills en sécurité offensive** couvrant 13 catégories de surfaces d'attaque, conçue pour des engagements red team autorisés, la chasse aux bugs bounty et les audits de sécurité sur vos propres systèmes.
 
-**Dépôt** : [SnailSploit/Claude-Red](https://github.com/SnailSploit/Claude-Red) — 1 200+ étoiles, licence MIT, maintenance active (mise à jour mai 2026).
+**Dépôt** : [SnailSploit/Claude-Red](https://github.com/SnailSploit/Claude-Red), 2 786 étoiles au 27/07/2026 (1 200+ auparavant), licence MIT, maintenance active (mise à jour mai 2026).
 
 **Catégories** : Applications web (16 skills : SQLi, XSS, SSRF, SSTI, XXE, IDOR, RCE, désérialisation, conditions de course, request smuggling, contournement WAF, GraphQL…), Auth & Identité (manipulation JWT, exploitation OAuth), Active Directory, Sans fil (13 skills), Cloud (AWS/Azure/GCP), Mobile (Android/iOS), IoT et embarqué, Infrastructure & Red Team, Développement d'exploits (6 skills), Fuzzing & Recherche de vulnérabilités, OSINT/Reconnaissance, Sécurité IA, et Utilitaires (checklist de triage rapide, reporting).
 
@@ -7933,7 +7933,7 @@ Si vous créez des skills spécialisés pour d'autres domaines (DevOps, data sci
 ### Génération automatique de skills : Claudeception
 
 **Dépôt** : [blader/Claudeception](https://github.com/blader/Claudeception)
-**Auteur** : Siqi Chen (@blader) | **Étoiles** : 1k+ | **Licence** : MIT
+**Auteur** : Siqi Chen (@blader) | **Étoiles** : 2 381 (27/07/2026, contre 1k+ auparavant) | **Licence** : MIT
 
 Contrairement aux dépôts de skills traditionnels, Claudeception est un **méta-skill** qui génère de nouveaux skills pendant les sessions Claude Code. Il répond à une limitation fondamentale : *« Chaque fois que vous utilisez un agent de codage IA, il repart de zéro. »*
 
@@ -8111,7 +8111,7 @@ Par défaut : **Désactivé** (opt-in pour la sécurité)
 
 **Dépôt** : [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill)
 **Site** : [ui-ux-pro-max-skill.nextlevelbuilder.io](https://ui-ux-pro-max-skill.nextlevelbuilder.io/) | [uupm.cc](https://uupm.cc)
-**Étoiles** : 33,7k | **Forks** : 3,3k | **Licence** : MIT | **Dernière version** : v2.2.1 (jan. 2026)
+**Étoiles** : 110,8K (27/07/2026, contre 33,7k) | **Forks** : 11,8K (contre 3,3k) | **Licence** : MIT | **Dernière version** : v2.2.1 (jan. 2026)
 
 UI UX Pro Max est le skill de design le plus populaire dans l'écosystème des assistants de codage IA. Il ajoute un **moteur de raisonnement design** à Claude Code (et 14 autres assistants), remplaçant l'UI générique générée par IA par des systèmes de design professionnels et adaptés au secteur.
 
@@ -11499,7 +11499,7 @@ Exécuter ceci avant de démarrer toute refactorisation touchant une fonction ut
 | Skills | `/mem-search`, `/smart-explore`, `/make-plan`, `/do`, `/timeline-report` |
 | Installation | `/plugin marketplace add thedotmack/claude-mem` |
 | Licence | AGPL-3.0 + PolyForm Noncommercial (vérifier pour usage commercial) |
-| Étoiles | 26,5K (v10.6.3, 2026-03-30) |
+| Étoiles | 88,7K au 27/07/2026 (contre 26,5K au 2026-03-30, v10.6.3) |
 
 **Avertissement de sécurité** : `GET /api/settings` expose les clés API en texte clair — définir `host: "127.0.0.1"`, jamais `"0.0.0.0"`.
 
@@ -11509,13 +11509,13 @@ Exécuter ceci avant de démarrer toute refactorisation touchant une fonction ut
 
 > **Couverture complète** : Voir [Memory Systems: claude-mem](./core/memory-systems.md#31-claude-mem) pour l'analyse complète de l'architecture, les types d'observations, le workflow de divulgation progressive, les contrôles de confidentialité et le tableau comparatif des coûts.
 
-> **Source** : [GitHub: thedotmack/claude-mem](https://github.com/thedotmack/claude-mem) (26,5K étoiles, AGPL-3.0)
+> **Source** : [GitHub: thedotmack/claude-mem](https://github.com/thedotmack/claude-mem) (88,7K étoiles au 27/07/2026, contre 26,5K auparavant, AGPL-3.0)
 
 ---
 
 ### Graphify (Graphes de connaissance de la base de code)
 
-**GitHub** : [safishamsi/graphify](https://github.com/safishamsi/graphify) | **PyPI** : `graphifyy` | **Étoiles** : 42K | **Licence** : MIT
+**GitHub** : [safishamsi/graphify](https://github.com/safishamsi/graphify), renommé `Graphify-Labs/graphify` | **PyPI** : `graphifyy` | **Étoiles** : 97,1K (27/07/2026, contre 42K) | **Licence** : MIT
 
 Graphify convertit un répertoire de projet en graphe de connaissance persistant et injecte un rapport structurel compact (`GRAPH_REPORT.md`) dans Claude Code. L'assistant répond aux questions d'architecture en lisant le graphe pré-construit plutôt qu'en re-scannant les fichiers bruts à chaque prompt. L'extraction initiale s'exécute une seule fois ; les sessions suivantes interrogent le graphe à un coût en tokens quasi nul.
 
@@ -11575,7 +11575,7 @@ pip install "graphifyy[video]"    # transcription .mp4, .mov, .mp3
 - Les affirmations d'efficacité en tokens de l'auteur (71,5x–120x moins de tokens vs exploration par grep) sont des benchmarks auto-rapportés sans reproduction indépendante. À traiter comme indicatif.
 - Pas de langage de requête natif — les requêtes de graphe passent par l'assistant IA, pas par Cypher/SQL.
 
-**Stats** : 42K étoiles GitHub | v0.7.4 (2026-05-04) | Python ≥3.10 | MIT
+**Stats** : 97,1K étoiles GitHub au 27/07/2026 (contre 42K) | v0.7.4 (2026-05-04) | Python ≥3.10 | MIT
 
 > **Source** : [safishamsi/graphify](https://github.com/safishamsi/graphify)
 
@@ -11931,7 +11931,7 @@ ast-grep est une **extension communautaire** pour des recherches structurelles s
 
 ### agent-browser (Vercel Labs) — Automatisation de navigateur native pour l'IA
 
-> **Statut** : Développement actif — v0.15.0 (fév. 2026). Plus de 12 100 étoiles. Cycle de publication rapide.
+> **Statut** : Développement actif, v0.15.0 (fév. 2026). 39,3K étoiles au 27/07/2026 (plus de 12 100 auparavant). Cycle de publication rapide.
 
 **Objectif** : CLI de navigateur headless conçu pour les agents IA. Utilise Playwright/CDP en arrière-plan mais optimise toutes les sorties pour la consommation par les LLM. Écrit en Rust pour un démarrage en sous-milliseconde.
 
@@ -12016,7 +12016,7 @@ Documenté en production chez Pulumi (2026-03-03) sur 6 scénarios de test dans 
 
 > **Couverture complète** : Voir [Memory Systems: doobidoo](./core/memory-systems.md#35-doobidoo-mcp-memory-service) pour l'installation, la configuration, les backends de stockage, les problèmes connus et la comparaison avec Kairn/ICM.
 
-> **Source** : [doobidoo/mcp-memory-service GitHub](https://github.com/doobidoo/mcp-memory-service) (~1,6K étoiles, v10.0.2)
+> **Source** : [doobidoo/mcp-memory-service GitHub](https://github.com/doobidoo/mcp-memory-service) ([NON VÉRIFIÉ, le compte GitHub `doobidoo` ne résout plus au contrôle du 27/07/2026, l'API renvoie 404. Dernier chiffre confirmé : ~1,6K étoiles], v10.0.2)
 
 ### Kairn : Mémoire en graphe de connaissances avec décroissance biologique
 
@@ -12061,7 +12061,7 @@ Utilisez Kairn quand la causalité est importante (« ceci se casse *à cause de
 
 > **Couverture complète** : Voir [Memory Systems: ICM](./core/memory-systems.md#33-icm-infinite-context-memory) pour la décomposition complète de l'architecture, les types de relations Memoir, les benchmarks et la comparaison avec Kairn/doobidoo.
 
-> **Source** : [rtk-ai/icm GitHub](https://github.com/rtk-ai/icm) (52 étoiles, Source-Available)
+> **Source** : [rtk-ai/icm GitHub](https://github.com/rtk-ai/icm) (508 étoiles au 27/07/2026, contre 52 auparavant, Source-Available)
 
 ### Pile mémoire MCP : Motifs de complémentarité
 
@@ -12251,7 +12251,7 @@ export GITHUB_PERSONAL_ACCESS_TOKEN=ghp_xxx
 
 **Différence avec `@modelcontextprotocol/server-github`** : Le serveur GitHub MCP officiel ajoute la prise en charge de Projects, l'authentification OAuth 2.1, GitHub Enterprise et l'endpoint hébergé à distance. Le serveur de référence npm est plus léger mais couvre moins de fonctionnalités.
 
-> **Source** : `github/github-mcp-server` — Go, licence MIT, 20 000+ étoiles, activement maintenu avec des releases régulières.
+> **Source** : `github/github-mcp-server`, Go, licence MIT, 31,8K étoiles au 27/07/2026 (contre 20 000+ auparavant), activement maintenu avec des releases régulières.
 
 </details>
 
@@ -13432,9 +13432,9 @@ L'écosystème de plugins Claude Code a considérablement évolué. Voici des re
 
 **Listes sélectionnées :**
 
-- [awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) (20k+ étoiles) - Commandes, templates, plugins
+- [awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) (51,1K étoiles au 27/07/2026, contre 20k+) - Commandes, templates, plugins
 - [awesome-claude-code-plugins](https://github.com/ccplugins/awesome-claude-code-plugins) - Sélection axée sur les plugins
-- [awesome-claude-skills](https://github.com/BehiSecc/awesome-claude-skills) (5,5k étoiles) - Taxonomie axée sur les skills (62 skills dans 12 catégories)
+- [awesome-claude-skills](https://github.com/BehiSecc/awesome-claude-skills) (9,8K étoiles au 27/07/2026, contre 5,5k) - Taxonomie axée sur les skills (62 skills dans 12 catégories)
 
 > **Source** : Statistiques issues de [claude-plugins.dev](https://claude-plugins.dev), [analyse Firecrawl](https://www.firecrawl.dev/blog/best-claude-code-plugins) (jan. 2026). Les chiffres évoluent rapidement.
 
@@ -17458,7 +17458,7 @@ grepai trace callers "MyFunction"  # Résultat vide → sûr à examiner pour su
 
 ### Caveman (Réponses IA Compressées)
 
-**GitHub** : [juliusbrussee/caveman](https://github.com/juliusbrussee/caveman) | **Stars** : 53K | **Licence** : MIT
+**GitHub** : [juliusbrussee/caveman](https://github.com/juliusbrussee/caveman) | **Stars** : 93,5K (27/07/2026, contre 53K) | **Licence** : MIT
 
 Caveman est un skill Claude Code (également disponible pour Cursor, Windsurf, Codex, Gemini CLI, et 26 autres agents) qui réécrit le style de sortie de l'assistant en fragments compressés et télégraphiques. Les articles, politesses, résumés de transition et explications verbeuses sont supprimés. Les blocs de code, chemins de fichiers, URLs, commandes, titres et numéros de version sont préservés verbatim.
 
@@ -17517,13 +17517,13 @@ Se déclenche également automatiquement sur des phrases comme « sois bref » o
 - Sessions de débogage où la transparence du raisonnement est importante
 - Chaînes multi-agents où les agents en aval analysent les réponses précédentes pour reconstruire l'état
 
-**Statistiques** : 53K étoiles GitHub | Créé le 2026-04-04 | MIT | Le harnais de benchmark (`evals/`) est encore en cours de maturation — traitez les pourcentages spécifiques comme directionnels
+**Statistiques** : 93,5K étoiles GitHub au 27/07/2026 (contre 53K) | Créé le 2026-04-04 | MIT | Le harnais de benchmark (`evals/`) est encore en cours de maturation, traitez les pourcentages spécifiques comme directionnels
 
 > **Source** : [juliusbrussee/caveman](https://github.com/juliusbrussee/caveman)
 
 ### Optimisation de la Sortie des Commandes avec RTK
 
-**RTK (Rust Token Killer)** filtre les sorties des commandes bash **avant** qu'elles n'atteignent le contexte de Claude, atteignant une réduction de tokens de 60-90% à travers les flux de travail git, de test et de développement. 446 étoiles, 38 forks, 700+ votes positifs sur r/ClaudeAI.
+**RTK (Rust Token Killer)** filtre les sorties des commandes bash **avant** qu'elles n'atteignent le contexte de Claude, atteignant une réduction de tokens de 60-90% à travers les flux de travail git, de test et de développement. 73 531 étoiles, 4 597 forks au 27/07/2026 (contre 446 étoiles, 38 forks auparavant), 700+ votes positifs sur r/ClaudeAI.
 
 **Dépôt :** [rtk-ai/rtk](https://github.com/rtk-ai/rtk) | **Site web :** [rtk-ai.app](https://www.rtk-ai.app/)
 
@@ -17717,7 +17717,7 @@ RTK gère les **sorties de commandes** (ce que vous exécutez). Smart explore g�
   rg "function_name" --type rust -n
 ```
 
-C'est le même schéma qu'Aider utilise pour sa repo map (40 000+ étoiles) — validé à grande échelle depuis 2023.
+C'est le même schéma qu'Aider utilise pour sa repo map (47,7K étoiles au 27/07/2026, contre 40 000+ auparavant), validé à grande échelle depuis 2023.
 
 **Approche A : Sans configuration — discipline CLAUDE.md**
 
@@ -17766,10 +17766,10 @@ python3 ~/.claude/scripts/extract-signatures.py src/
 | Cas d'usage | Outil | Installation |
 |---|---|---|
 | Exploration générale | mcp-server-tree-sitter | `pip install mcp-server-tree-sitter` |
-| Revues de code de PR | code-review-graph (MIT, 10 000+ étoiles) | `pip install code-review-graph` |
+| Revues de code de PR | code-review-graph (MIT, 26,9K étoiles au 27/07/2026, contre 10 000+) | `pip install code-review-graph` |
 | Recherche de symboles | jCodeMunch (gratuit non commercial) | `claude mcp add jcodemunch uvx jcodemunch-mcp` |
 
-**code-review-graph** est l'option autonome la plus solide : MIT, 10 000+ étoiles, réduction moyenne de 8,2x des tokens sur des bases de code réelles (gin : 16x, flask : 9x, FastAPI : 8x, Next.js : 8x). Construit un AST Tree-sitter de votre dépôt, suit le rayon d'impact de chaque modification, et expose 28 outils MCP pour que Claude ne lise que les fichiers pertinents. Supporte 23 langages + les notebooks Jupyter, se met à jour automatiquement à chaque commit git (ré-indexation < 2 s), et intègre un démon multi-dépôt pour les configurations indépendantes de l'éditeur.
+**code-review-graph** est l'option autonome la plus solide : MIT, 26,9K étoiles au 27/07/2026 (contre 10 000+ auparavant), réduction moyenne de 8,2x des tokens sur des bases de code réelles (gin : 16x, flask : 9x, FastAPI : 8x, Next.js : 8x). Construit un AST Tree-sitter de votre dépôt, suit le rayon d'impact de chaque modification, et expose 28 outils MCP pour que Claude ne lise que les fichiers pertinents. Supporte 23 langages + les notebooks Jupyter, se met à jour automatiquement à chaque commit git (ré-indexation < 2 s), et intègre un démon multi-dépôt pour les configurations indépendantes de l'éditeur.
 
 ```bash
 pip install code-review-graph
@@ -19127,7 +19127,7 @@ Bien que les git worktrees soient fondamentaux, la **productivité au quotidien*
 |------|----------|--------------|
 | **incident.io** | Wrapper bash personnalisé `w` | Auto-complétion, organisé dans `~/projects/worktrees/`, lancement automatique de Claude |
 | **GitHub #1052** | Fonctions Fish shell (8 commandes) | Commits LLM, automatisation du rebase, cycle de vie des worktrees |
-| **Worktrunk** | CLI Rust (1,6K étoiles, 64 versions) | Hooks de projet, statut CI, liens PR, multi-plateforme |
+| **Worktrunk** | CLI Rust (6,1K étoiles au 27/07/2026, contre 1,6K, 64 versions) | Hooks de projet, statut CI, liens PR, multi-plateforme |
 
 **Conclusion** : Le modèle de wrapper worktree est réinventé par les utilisateurs expérimentés. Le git vanilla est suffisant mais verbeux pour 5-10+ opérations de worktree quotidiennes.
 
@@ -19198,7 +19198,7 @@ alias wtd='git worktree remove'
 
 #### Option 1 : Worktrunk (Recommandé à grande échelle)
 
-**Description** : CLI Rust simplifiant la gestion des worktrees (1,6K étoiles, développement actif depuis 2023)
+**Description** : CLI Rust simplifiant la gestion des worktrees (6,1K étoiles au 27/07/2026, contre 1,6K, développement actif depuis 2023)
 
 **Fonctionnalités uniques absentes de git** :
 - **Hooks au niveau du projet** : Automatisation des actions post-création et pré-suppression
@@ -19389,7 +19389,7 @@ Coordonner plusieurs instances Claude sans chaos nécessite des outils.
 
 #### Headless PM (Open Source)
 
-**Projet** : [madviking/headless-pm](https://github.com/madviking/headless-pm) (158 étoiles)
+**Projet** : [madviking/headless-pm](https://github.com/madviking/headless-pm) (345 étoiles au 27/07/2026, contre 158 auparavant)
 
 **Architecture** :
 - **REST API** pour la coordination centralisée
@@ -25040,7 +25040,7 @@ Pour des **configurations éprouvées et prêtes à l'emploi** issues d'environn
 |-------|--------|-------|-------|
 | [**everything-claude-code**](https://github.com/affaan-m/everything-claude-code) | Affaan Mustafa (lauréat du hackathon Anthropic) | ⭐ 31.9k | Configurations de production issues de 10+ mois d'utilisation intensive |
 
-**Pourquoi c'est important** : Il s'agit de la **plus grande ressource Claude Code validée par la communauté** (31.9k étoiles en 9 jours). Contrairement aux tutoriels, ce sont des **configurations éprouvées en production**, forgées lors de la victoire au hackathon Anthropic (projet Zenith).
+**Pourquoi c'est important** : Il s'agit de la **plus grande ressource Claude Code validée par la communauté** (234K étoiles au 27/07/2026, contre 31,9k lors des 9 premiers jours ; le dépôt a depuis été renommé `affaan-m/ECC`). Contrairement aux tutoriels, ce sont des **configurations éprouvées en production**, forgées lors de la victoire au hackathon Anthropic (projet Zenith).
 
 **Innovations uniques introuvables ailleurs** :
 - **hookify** : Création de hooks conversationnelle (décrivez le besoin → JSON généré)

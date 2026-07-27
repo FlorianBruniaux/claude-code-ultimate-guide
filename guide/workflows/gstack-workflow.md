@@ -6,7 +6,7 @@ tags: [workflow, skills, planning, review, shipping, browser-automation]
 
 # Cognitive Mode Switching
 
-> **Confidence**: Tier 2 — Reference implementation: [gstack](https://github.com/garrytan/gstack) by Garry Tan (Y Combinator CEO), 1,100+ stars in 24h of launch (March 2026).
+> **Confidence**: Tier 2, reference implementation: [gstack](https://github.com/garrytan/gstack) by Garry Tan (Y Combinator CEO), 124.8K stars as of 2026-07-27 (1,100+ in the first 24h of launch, March 2026).
 
 **Reading time**: ~10 min
 **Prerequisites**: Claude Code skills basics, plan mode

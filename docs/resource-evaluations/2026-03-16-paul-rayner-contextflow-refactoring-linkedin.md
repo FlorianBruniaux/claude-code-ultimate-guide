@@ -97,7 +97,7 @@ Additional issues flagged:
 | "519 commits" in the repo | ⚠️ Minor discrepancy | GitHub shows 552 commits at eval time (post written ~2 weeks earlier) — timing explains the gap |
 | Commit breakdown percentages (30/22/23/14/5.4/2.3/2.3) | ✅ Internally consistent | Screenshot shows Claude's analysis output; numbers sum to ~99.3% (rounding). Verifiable by running the git prompt on the repo |
 | Code-only breakdown (44/32/21/3) | ✅ Internally consistent | Matches the full-breakdown numbers when non-code commits excluded |
-| ContextFlow is a DDD context mapping tool | ✅ Verified | GitHub confirms: TypeScript/React, 140 stars, MIT, maps bounded contexts/value streams/Wardley |
+| ContextFlow is a DDD context mapping tool | ✅ Verified | GitHub confirms: TypeScript/React, 140 stars (now 149 as of 2026-07-28), MIT, maps bounded contexts/value streams/Wardley |
 
 **No hallucinations detected. Minor discrepancy on commit count explained by post timing.**
 

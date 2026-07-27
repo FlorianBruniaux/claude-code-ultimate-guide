@@ -8,7 +8,7 @@ tags: [memory, claude-md, auto-memory, auto-dream, mcp, cross-session, team, mul
 
 > **Confidence**: Tier 1 (native stack, well-documented tools) / Tier 2 (newer tools, vendor benchmarks) / Tier 3 (emerging patterns, unverified claims)
 >
-> **Last updated**: May 2026
+> **Last updated**: May 2026 (star counts verified 2026-07-27 via GitHub API)
 
 > **Related**: [Context Engineering](./context-engineering.md) | [Architecture](./architecture.md) | [Settings Reference](./settings-reference.md) | [Agent Teams](../workflows/agent-teams.md)
 
@@ -330,7 +330,7 @@ Five gaps that external tooling addresses:
 
 ### 3.1 claude-mem
 
-**Repo**: github.com/thedotmack/claude-mem | **Stars**: ~26.5K | **License**: AGPL-3.0 + PolyForm Noncommercial
+**Repo**: github.com/thedotmack/claude-mem | **Stars**: ~88.7K (2026-07-27) | **License**: AGPL-3.0 + PolyForm Noncommercial
 
 Hooks into Claude Code lifecycle events (SessionStart, PostToolUse, Stop, SessionEnd). Records observations during sessions, semantically compresses them using an LLM worker (Bun, port 37777), stores results in SQLite plus optional Chroma vector search. Injects relevant context back at session start or when the agent faces a relevant task.
 
@@ -377,7 +377,7 @@ Layer 3: Details (full context)   → complete tool call + result
 
 ### 3.2 agentmemory
 
-**Repo**: github.com/rohitg00/agentmemory | **Stars**: 16,167 (May 2026, trending on Trendshift) | **License**: Apache 2.0 | **Language**: TypeScript
+**Repo**: github.com/rohitg00/agentmemory | **Stars**: 25,872 (2026-07-27, was 16,167 in May 2026) | **License**: Apache 2.0 | **Language**: TypeScript
 
 Memory server running on port 3111 with a real-time viewer on port 3113. Zero external dependencies — SQLite plus the in-house `iii engine`. No Cloudflare, no Neo4j, no Docker.
 
@@ -466,7 +466,7 @@ icm memoir export -m "project-arch" -f ascii
 
 ### 3.4 Kairn
 
-**Repo**: github.com/kairn-ai/kairn | **License**: MIT | **Language**: Python
+**Repo**: github.com/primeline-ai/kairn (renamed from kairn-ai/kairn) | **Stars**: 13 (2026-07-27) | **License**: MIT | **Language**: Python
 
 Long-term project memory organized as a knowledge graph with automatic biological decay — stale information expires on its own, preventing context pollution.
 
@@ -490,7 +490,7 @@ pip install kairn
 
 ### 3.5 doobidoo mcp-memory-service
 
-**Repo**: github.com/doobidoo/mcp-memory-service | **Version**: v10.0.2 | **Stars**: ~1.6K (May 2026) | **License**: MIT
+**Repo**: github.com/doobidoo/mcp-memory-service | **Version**: v10.0.2 | **Stars**: [UNVERIFIED, the `doobidoo` GitHub account no longer resolves as of the 2026-07-27 check (API returns 404). Last confirmed count: ~1.6K, May 2026. Verify before citing.] | **License**: MIT
 
 Semantic memory with cross-session search and multi-client support (13+ AI tools). Moved from ChromaDB to SQLite-vec at v8.0.0 (breaking change). Default backend is `sqlite_vec`.
 
@@ -574,12 +574,12 @@ The retrieval side is where the query-shape lesson pays off. A separate BM25 eng
 | **mcp-memory (Puliczek)** | — | Cloudflare D1 + Vectorize, cross-device | Network latency per retrieval |
 | **Claude Continuity** | — | Zero-config, full-state fidelity (not compression) | [UNVERIFIED — repo handle not confirmed] |
 | **MemPalace** | ~52.6K [UNVERIFIED] | Wings/rooms/drawers hierarchical index | 96.6% R@5 claim [UNVERIFIED] |
-| **Memori** | 14.7K | Memory neighborhoods, team design goal | CC adapter (memori-mcp) at 3 stars |
+| **Memori** | 15.7K (2026-07-27) | Memory neighborhoods, team design goal | CC adapter (memori-mcp) at 2 stars |
 | **codebase-memory-mcp** | 2.5K | AST tree-sitter graph, 155 languages, structural | Code structure only, not episodic |
 | **Pieces for Developers** | — | 9-month rolling capture, IDE + browser + terminal | Individual-only, commercial |
 | **claude-session-continuity-mcp** | — | 24 tools, auto error-to-solution pipeline | [UNVERIFIED — not confirmed by internal sources] |
 
-**Memori** (MemoriLabs) deserves special attention: 14,730 stars, LLM-agnostic, converts execution history into structured persistent state via a graph + vector hybrid. Team-scoped "memory neighborhoods" are a design goal, not an afterthought. The gap is the CC adapter — `memori-mcp` is a separate repo with 3 stars and sparse documentation. Worth tracking.
+**Memori** (MemoriLabs) deserves special attention: 15,671 stars (2026-07-27, up from 14,730 in May), LLM-agnostic, converts execution history into structured persistent state via a graph + vector hybrid. Team-scoped "memory neighborhoods" are a design goal, not an afterthought. The gap is the CC adapter, `memori-mcp` is a separate repo with 2 stars and sparse documentation. Worth tracking.
 
 **codebase-memory-mcp** (DeusData) solves a different problem: not "what did we discuss" but "what is the structure of this codebase." Claims sub-millisecond queries. Can index the Linux kernel (~28M lines, 75K files) in ~3 minutes. Zero config Claude Code integration via MCP. The "99% fewer tokens" claim needs independent verification; the structural approach is sound.
 
@@ -657,7 +657,7 @@ The recommended production path for teams using doobidoo is the Cloudflare backe
 
 ### 4.3 Mem0 Cloud MCP
 
-**Repo**: github.com/mem0ai/mem0 | **Stars**: ~55K (full repo) | **Free tier**: yes
+**Repo**: github.com/mem0ai/mem0 | **Stars**: ~61.9K (full repo, 2026-07-27) | **Free tier**: yes
 
 Cloud-hosted MCP server. No local installation, no infrastructure to manage. One-line setup:
 
@@ -679,7 +679,7 @@ Each team member adds the same URL to their `.mcp.json`. Memory scope (individua
 
 ### 4.4 Zep / Graphiti
 
-**Repo**: github.com/getzep/graphiti | **Stars**: ~24.5K | **Pricing**: self-hosted (Neo4j, free) or cloud ($25-$475/month)
+**Repo**: github.com/getzep/graphiti | **Stars**: ~29.3K (2026-07-27) | **Pricing**: self-hosted (Neo4j, free) or cloud ($25-$475/month)
 
 If the requirement is not just "remember context" but "understand how context changed over time," Graphiti is the only option with a clear answer. It builds a temporal knowledge graph on top of Neo4j: nodes are entities, edges are relationships, and every edge carries a validity window. A query like "what did the team decide about the auth service in March, before the direction change in April?" is answerable. Standard semantic vector search cannot do this.
 
@@ -707,7 +707,7 @@ Three tools designed specifically for multi-user scenarios, all released in 2026
 
 **Pindoc** (community listing, PulseMCP): "Code-pinned team memory for AI coding agents." Typed artifacts, MCP-native, self-hosting. Released April 2026. [UNVERIFIED — repo handle not independently confirmed]
 
-**Artel** (NicolasPrimeau): "Self-hosted shared memory and coordination mesh for AI agent fleets, with semantic search, task management, and async coordination." Released May 2026, 210 stars at listing time. [UNVERIFIED — too new for community feedback]
+**Artel** (NicolasPrimeau): "Self-hosted shared memory and coordination mesh for AI agent fleets, with semantic search, task management, and async coordination." Released May 2026, 7 stars as of the 2026-07-27 check (originally listed at 210 stars at launch, a drop worth flagging: treat early-listing counts on brand-new repos with caution rather than as a stable adoption signal).
 
 Memlord has the clearest multi-user model from available information. Artel targets agent fleet coordination most directly. Neither is ready for production CC use without personal evaluation.
 
@@ -962,8 +962,8 @@ flowchart TD
     C -->|No| D{Want zero-config auto-hooks?}
     C -->|Yes| E[mcp-memory Puliczek\nCloudflare D1 + Vectorize]
 
-    D -->|Yes, benchmarks matter| H[agentmemory\n16K stars, RRF hybrid, leases+signals]
-    D -->|Yes, just works| I[claude-mem\n26.5K stars, hooks, local SQLite]
+    D -->|Yes, benchmarks matter| H[agentmemory\n26K stars, RRF hybrid, leases+signals]
+    D -->|Yes, just works| I[claude-mem\n89K stars, hooks, local SQLite]
     D -->|No| G{Cross-tool portable?}
 
     G -->|Yes — Claude + Cursor + Desktop| J[OpenMemory MCP\n4 tools, local, mem0ai]
@@ -987,8 +987,8 @@ flowchart TD
 
 | Scenario | Recommended tool | Notes |
 |----------|-----------------|-------|
-| Solo, cross-session recall, auto-hooks | agentmemory | 16K stars, 12 hooks auto-wired, 0 external deps |
-| Solo, cross-session recall, proven | claude-mem | ~26.5K stars, hooks-based, AGPL-3.0 |
+| Solo, cross-session recall, auto-hooks | agentmemory | 26K stars, 12 hooks auto-wired, 0 external deps |
+| Solo, cross-session recall, proven | claude-mem | ~89K stars, hooks-based, AGPL-3.0 |
 | Solo, want human-readable KB | claude-memory-compiler | Daily logs + concept articles |
 | Solo, portable cross-tool memory | OpenMemory MCP | mem0ai, local dashboard, 4 tools |
 | Solo, cross-tool + knowledge graph | ICM (+ wire the hook) | 17 tools, local SQLite, typed relations |

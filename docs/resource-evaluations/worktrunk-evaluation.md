@@ -9,7 +9,7 @@
 - **Worktrunk** est un CLI Rust pour simplifier la gestion des git worktrees, créé par max-sixty (créateur de PRQL, 10K stars)
 - Réduit la syntaxe de `git worktree add -b feat ../repo.feat && cd ../repo.feat` à `wt switch -c feat`
 - 3 commandes core: `switch`, `remove`, `list` + hooks personnalisables + commit messages LLM
-- **GitHub: 1.6K stars, 54 forks, 15 contributeurs, v0.18.2 (Jan 2026), 64 releases actives**
+- **GitHub: 1.6K stars (désormais 6,103 au 28/07/2026), 54 forks, 15 contributeurs, v0.18.2 (Jan 2026), 64 releases actives**
 - Conçu spécifiquement pour les workflows multi-agents IA (Claude Code mentionné explicitement dans le README)
 
 ## 🎯 Score de pertinence (1-5)
@@ -207,7 +207,7 @@ Teams like incident.io and others built custom bash/fish wrappers. See:
 
 | Affirmation | Statut | Source | Corrections |
 |-------------|--------|--------|-------------|
-| 1.6K GitHub stars | ✅ Confirmé | GitHub repo (jan 2026) | - |
+| 1.6K GitHub stars | ✅ Confirmé (désormais 6,103 au 28/07/2026) | GitHub repo (jan 2026) | - |
 | Créé par max-sixty (PRQL author) | ✅ Confirmé | GitHub profile | - |
 | v0.18.2 release (Jan 2026) | ✅ Confirmé | GitHub releases | - |
 | Mentionné dans Anthropic best practices | ❌ **FAUX** | anthropic.com/engineering | **Correction**: Worktrunk n'est PAS mentionné. Seul git worktrees vanilla est recommandé. |

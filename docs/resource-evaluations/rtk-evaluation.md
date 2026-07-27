@@ -6,7 +6,7 @@
 **Resource Type**: CLI Tool (Rust)
 **Author**: rtk-ai (formerly pszymkowiak)
 **Version Tested**: v0.16.0 (previously v0.7.0, v0.2.0)
-**Community Engagement**: 446 stars, 38 forks, 700+ Reddit upvotes (r/ClaudeAI)
+**Community Engagement**: 446 stars (now 73,539 as of 2026-07-28), 38 forks, 700+ Reddit upvotes (r/ClaudeAI)
 
 ---
 
@@ -18,7 +18,7 @@
 
 | Aspect | v0.7.0 (2026-02-01) | v0.16.0 (2026-02-14) | Change |
 |--------|---------------------|----------------------|--------|
-| **Stars** | 17 | 446 | +2,524% |
+| **Stars** | 17 | 446 (now 73,539 as of 2026-07-28) | +2,524% |
 | **Forks** | 2 | 38 | +1,800% |
 | **Releases** | 7 | 30+ | 30 releases in 23 days |
 | **GitHub org** | pszymkowiak/rtk | rtk-ai/rtk | Org migration |
@@ -293,7 +293,7 @@ rtk cargo test           # 1,500 chars → ~450 tokens (90% ↓)
 **Stability Indicators**:
 - ✅ v0.7.0 released (2026-02-01)
 - ✅ Rust implementation (memory safe)
-- ✅ 17 stars, 2 forks (+113% growth in 4 days)
+- ✅ 17 stars (now 73,539 as of 2026-07-28), 2 forks (+113% growth in 4 days)
 - ✅ All critical bugs fixed (grep, ls, git args)
 - ✅ Architecture documentation (ARCHITECTURE.md)
 - ✅ SQLite for persistence (~/.local/share/rtk/history.db)
@@ -338,7 +338,7 @@ rtk cargo test           # 1,500 chars → ~450 tokens (90% ↓)
 
 | Metric | v0.2.0 (2026-01-28) | v0.7.0 (2026-02-01) | Growth |
 |--------|---------------------|---------------------|--------|
-| **Stars** | 8 | 17 | +113% |
+| **Stars** | 8 | 17 (now 73,539 as of 2026-07-28) | +113% |
 | **Forks** | 0 | 2 | +200% |
 | **Issues** | 0 | 1 open | Activity |
 | **PRs merged** | 0 | 10+ | Community contributions |

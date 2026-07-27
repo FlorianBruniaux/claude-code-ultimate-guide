@@ -9,7 +9,7 @@
 
 ## Summary
 
-`agent-trace` (pip package: `agent-strace`) is a Python tool — zero dependencies, stdlib only — that captures every tool call, user prompt, and assistant response in Claude Code via hooks, then lets you replay sessions in the terminal or export as OpenTelemetry spans. Created 2026-03-15. 7 stars at time of evaluation.
+`agent-trace` (pip package: `agent-strace`) is a Python tool (zero dependencies, stdlib only) that captures every tool call, user prompt, and assistant response in Claude Code via hooks, then lets you replay sessions in the terminal or export as OpenTelemetry spans. Created 2026-03-15. 7 stars at time of evaluation (now 77 as of 2026-07-28).
 
 The "strace for AI agents" framing is apt: it solves the "my agent modified 47 files and I have no idea why" problem by giving you a time-stamped, replayable record of every decision point.
 

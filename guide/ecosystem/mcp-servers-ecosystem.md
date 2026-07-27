@@ -149,7 +149,7 @@ These foundational MCP servers provide version control automation for all develo
 **Repository**: [modelcontextprotocol/servers/git](https://github.com/modelcontextprotocol/servers/tree/main/src/git)
 **License**: MIT
 **Status**: Early development (API subject to change)
-**Stars**: 77,908+ (parent repo)
+**Stars**: 88,957 (parent repo, verified 2026-07-27, was 77,908+)
 
 **Use Cases**:
 - **Automated commit workflows**: AI generates commit messages, stages changes, commits
@@ -247,7 +247,7 @@ See [official README](https://github.com/modelcontextprotocol/servers/tree/main/
 | Documentation | 9/10 | Comprehensive README, examples, but early dev warnings |
 | Tests | 8/10 | Automated CI, improving coverage |
 | Performance | 8/10 | Fast (<100ms), structured output reduces tokens |
-| Adoption | 8/10 | Official server, 77K+ stars, wide IDE support |
+| Adoption | 8/10 | Official server, 89K+ stars (2026-07-27), wide IDE support |
 
 #### Limitations & Workarounds
 
@@ -304,7 +304,7 @@ Is it a GitHub-specific operation (PRs, Issues, Actions)?
 #### Resources
 
 - **GitHub**: https://github.com/modelcontextprotocol/servers/tree/main/src/git
-- **Parent Repo**: https://github.com/modelcontextprotocol/servers (77,908+ stars)
+- **Parent Repo**: https://github.com/modelcontextprotocol/servers (88,957 stars, 2026-07-27)
 - **MCP Inspector**: Debug tool support for live testing
 - **Docker Hub**: `ghcr.io/modelcontextprotocol/mcp-server-git`
 
@@ -988,7 +988,7 @@ Result: Call graph showing 4 callers across 3 files
 
 **Repository**: [MinishLab/semble](https://github.com/MinishLab/semble)
 **License**: MIT
-**Status**: Active (v0.3.3, June 2026), ~5,000 stars
+**Status**: Active (v0.3.3, June 2026), ~5,718 stars (2026-07-27, was ~5,000)
 **Privacy**: Fully local (Model2Vec CPU-only), no data leaves your machine
 
 **Use Case**: Developer wants semantic code search without running Ollama locally. Semble builds a local index (Model2Vec + BM25 + RRF) on first run and caches it. Searches code, documentation, and configuration files by natural language query.
@@ -1032,7 +1032,7 @@ claude mcp add semble -- semble mcp
 | MCP integration | CLI wraps to MCP | Native MCP server |
 | Search scope | Code only | Code + documentation + configuration |
 | Call graph analysis | Yes (trace_callers, trace_callees, trace_graph) | No |
-| Community traction | Active maintainer | ~5,000 GitHub stars |
+| Community traction | Active maintainer | ~5,718 GitHub stars (2026-07-27) |
 
 **When to choose Semble over Grepai**: You want semantic code search but do not run Ollama locally. Semble's broader scope also helps in monorepos where navigating configuration and documentation matters as much as navigating code. Choose Grepai when call graph analysis is essential; Semble does not offer this capability.
 
@@ -1830,7 +1830,7 @@ This section documents the process for maintaining this guide with monthly ecosy
 
 **Community Sources**:
 - [GitHub topic: mcp-servers](https://github.com/topics/mcp-servers) (7260+ servers)
-- [Awesome MCP Servers](https://github.com/punkpeye/awesome-mcp-servers) (75.5k stars)
+- [Awesome MCP Servers](https://github.com/punkpeye/awesome-mcp-servers) (91.5K stars, 2026-07-27, was 75.5K)
 - [MCP Registry](https://github.blog/ai-and-ml/generative-ai/how-to-find-install-and-manage-mcp-servers-with-the-github-mcp-registry/)
 
 **Discussions**:

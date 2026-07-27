@@ -426,8 +426,8 @@ Claude Code can write its own MEMORY.md between sessions (Auto Memory) and conso
 
 **Cross-session tools for individual developers**
 
-- **claude-mem** (26.5K stars) — automatic session compression via hooks, no manual calls needed. Install: `/plugin marketplace add thedotmack/claude-mem`
-- **agentmemory** (16K stars) — BM25 + vector + graph hybrid retrieval, 12 auto-wired hooks, 95.2% R@5 on LongMemEval-S
+- **claude-mem** (89K stars, verified 2026-07-27) automatic session compression via hooks, no manual calls needed. Install: `/plugin marketplace add thedotmack/claude-mem`
+- **agentmemory** (26K stars, verified 2026-07-27) BM25 + vector + graph hybrid retrieval, 12 auto-wired hooks, 95.2% R@5 on LongMemEval-S
 - **ICM** (Rust binary) — episodic decay + permanent knowledge graph, `brew install icm`, 14 IDE clients
 
 **Team sharing**

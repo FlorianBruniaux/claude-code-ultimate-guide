@@ -326,7 +326,7 @@ openspec init
 
 ### With BMAD-METHOD (Multi-Role Planning)
 
-BMAD-METHOD ([bmad-code-org/BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD), 50,000+ stars) takes spec-first further: instead of one agent writing one plan, it runs 19+ role-specific agents (Analyst, PM, Architect, Dev, QA) through a planning chain, each producing a versioned artifact (Project Brief, PRD, Architecture Doc, UX spec) before a human signs off and any code gets written.
+BMAD-METHOD ([bmad-code-org/BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD), 51,176 stars as of 2026-07-27) takes spec-first further: instead of one agent writing one plan, it runs 19+ role-specific agents (Analyst, PM, Architect, Dev, QA) through a planning chain, each producing a versioned artifact (Project Brief, PRD, Architecture Doc, UX spec) before a human signs off and any code gets written.
 
 ```bash
 npx bmad-method install
@@ -343,7 +343,7 @@ For the strategic case (when BMAD's governance overhead pays off versus when it 
 
 ### With Spec-Kitty (Isolated Parallel Execution)
 
-Spec-kitty ([Priivacy-ai/spec-kitty](https://github.com/Priivacy-ai/spec-kitty), MIT) adds the piece Spec Kit and BMAD-METHOD leave out: each work package runs in its own git worktree, with a local kanban dashboard tracking the `next → review → accept → merge` loop and an audit trail of every merge decision. Smaller community than Spec Kit or BMAD-METHOD (under 1,500 stars as of July 2026), but it is the most direct open source implementation of "isolated agents, human-gated merge" available today.
+Spec-kitty ([Priivacy-ai/spec-kitty](https://github.com/Priivacy-ai/spec-kitty), MIT) adds the piece Spec Kit and BMAD-METHOD leave out: each work package runs in its own git worktree, with a local kanban dashboard tracking the `next → review → accept → merge` loop and an audit trail of every merge decision. Smaller community than Spec Kit or BMAD-METHOD (1,449 stars as of 2026-07-27), but it is the most direct open source implementation of "isolated agents, human-gated merge" available today.
 
 ```bash
 pipx install spec-kitty-cli
@@ -974,7 +974,7 @@ None of these cover the full governance stack end to end. The gap between "gener
 3. **Is every decision traceable?** Can you reconstruct, after the fact, which agent (and which model version) made a given change, and whether a human approved it? This matters most in regulated environments and matches the audit-trail pattern spec-kitty implements at the OSS scale (above).
 4. **Does the spec stay authoritative after the first generation?** See "Spec drift" immediately below: most platforms solve generation, few solve keeping the spec and the code in sync as the app evolves past its first version.
 
-The commercial products above are closed and managed, so you take their governance on trust. One open source project answers the first three questions in the open: [Liza](https://github.com/liza-mas/liza) (Apache-2.0, 320 stars, single-author as of July 2026) wraps coding-agent CLIs in deterministic Go supervisors that enforce state transitions, role boundaries, merge authority, and TDD gates mechanically rather than by prompt, pairs a doer agent with an adversarial reviewer on every task, records all state on an auditable YAML "blackboard", and ships a circuit breaker that triggers a checkpoint on detected loops or repeated failures, the stop-the-line mechanism of question 2 made explicit. Adoption is tiny and it is not production-proven beyond its author's own use, so treat it as a reference architecture for what mechanical (not prompt-level) governance looks like, not as a dependency to adopt. Its behavioral-contract idea (55+ documented LLM failure modes, each mapped to a countermeasure) is the same "non-overridable rules injected into every agent" pattern that governance-first commercial platforms describe. Full evaluation: [`docs/resource-evaluations/liza-mas-framework.md`](../../docs/resource-evaluations/liza-mas-framework.md).
+The commercial products above are closed and managed, so you take their governance on trust. One open source project answers the first three questions in the open: [Liza](https://github.com/liza-mas/liza) (Apache-2.0, 336 stars as of 2026-07-27, single-author) wraps coding-agent CLIs in deterministic Go supervisors that enforce state transitions, role boundaries, merge authority, and TDD gates mechanically rather than by prompt, pairs a doer agent with an adversarial reviewer on every task, records all state on an auditable YAML "blackboard", and ships a circuit breaker that triggers a checkpoint on detected loops or repeated failures, the stop-the-line mechanism of question 2 made explicit. Adoption is tiny and it is not production-proven beyond its author's own use, so treat it as a reference architecture for what mechanical (not prompt-level) governance looks like, not as a dependency to adopt. Its behavioral-contract idea (55+ documented LLM failure modes, each mapped to a countermeasure) is the same "non-overridable rules injected into every agent" pattern that governance-first commercial platforms describe. Full evaluation: [`docs/resource-evaluations/liza-mas-framework.md`](../../docs/resource-evaluations/liza-mas-framework.md).
 
 #### The consultancy-backed factory: a second cohort
 
@@ -1026,4 +1026,4 @@ No tool has a reliable, widely-adopted mechanism for automated spec-code synchro
 - [OpenSpec Documentation](https://github.com/Fission-AI/OpenSpec)
 - [tdd-with-claude.md](./tdd-with-claude.md) — Combine with TDD
 - [Spec-to-Code Factory](https://github.com/SylvainChabaud/spec-to-code-factory) — Implémentation référence complète avec enforcement outillé (6 gates via Node.js, invariants "No Spec No Code" + "No Task No Commit", ~900K tokens/projet)
-- [Superpowers](https://github.com/obra/superpowers) — Plugin suite (95k+ stars) with a `brainstorming` skill that enforces spec-first as a mandatory gate: the agent refuses to write code until a spec has been reviewed and approved. Install: `/plugin install superpowers@claude-plugins-official`.
+- [Superpowers](https://github.com/obra/superpowers): plugin suite (262K stars as of 2026-07-27, was 95k+) with a `brainstorming` skill that enforces spec-first as a mandatory gate: the agent refuses to write code until a spec has been reviewed and approved. Install: `/plugin install superpowers@claude-plugins-official`.

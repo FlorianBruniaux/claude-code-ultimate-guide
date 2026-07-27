@@ -70,7 +70,7 @@ Origine de cette évaluation : recherche sur les alternatives open source au pat
 
 | Affirmation | Vérifiée | Source/Commentaire |
 |-------------|----------|---------------------|
-| 50 215 stars, 5 781 forks | ✅ | Vérifié via `gh api repos/bmad-code-org/BMAD-METHOD` le 2026-07-08 |
+| 50 215 stars, 5 781 forks | ✅ | Vérifié via `gh api repos/bmad-code-org/BMAD-METHOD` le 2026-07-08 (now 51,183 as of 2026-07-28) |
 | License | ⚠️ | `NOASSERTION` retourné par l'API GitHub, pas de fichier LICENSE standard détecté automatiquement, à vérifier manuellement avant citation en tant que "MIT" dans le guide |
 | Push le plus récent | ✅ | 2026-07-08, projet activement maintenu |
 | "19+ agents, 50+ workflows" | ⚠️ Non vérifié en détail | Chiffre repris de la documentation du projet, non audité ligne à ligne |

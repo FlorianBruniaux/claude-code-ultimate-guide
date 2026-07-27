@@ -2588,7 +2588,7 @@ npx add-skill anthropics/claude-plugins-official  # CLAUDE.md auditor + plugin d
 
 ### claude-code-templates (GitHub)
 
-**URL**: [github.com/davila7/claude-code-templates](https://github.com/davila7/claude-code-templates) | **Stars**: 17K+
+**URL**: [github.com/davila7/claude-code-templates](https://github.com/davila7/claude-code-templates) | **Stars**: 29.9K (2026-07-27, was 17K+)
 
 **What it is**: GitHub-based distribution of full workflows (agents + commands + hooks + skills). Focuses on complete project templates rather than individual skills.
 
@@ -2732,7 +2732,7 @@ classDiagram
 
 ## 13. Autonomous Research Loops (autoresearch pattern)
 
-**Source**: [karpathy/autoresearch](https://github.com/karpathy/autoresearch) — 57K stars in 3 weeks (March 2026)
+**Source**: [karpathy/autoresearch](https://github.com/karpathy/autoresearch), 92.2K stars as of 2026-07-27 (57K stars in its first 3 weeks, March 2026)
 
 The autoresearch pattern lets an AI agent run improvement iterations overnight with zero human involvement per loop. Originally designed for ML research, the same pattern applies to code quality, refactoring, and any task with an objective, measurable metric.
 

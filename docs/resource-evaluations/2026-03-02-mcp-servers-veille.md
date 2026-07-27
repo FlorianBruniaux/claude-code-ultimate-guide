@@ -13,9 +13,9 @@ A research report evaluating 3 open-source MCP servers for Claude Code developme
 
 Key findings from the veille:
 
-- **GitHub MCP Server** (`github/github-mcp-server`): 27.1k stars, release v0.31.0 Feb 19 2026, official GitHub, Go, remote MCP at `api.githubcopilot.com/mcp/`, OAuth 2.1 + PAT, covers Issues/PRs/Projects/Enterprise
-- **Exa MCP Server** (`exa-labs/exa-mcp-server`): claimed 3.1k stars (unverified — see fact-check), no formal GitHub releases, TypeScript, key feature `get_code_context_exa` for dev-focused code search
-- **Graphiti MCP Server** (`rawr-ai/mcp-graphiti`): 74 stars, multi-project knowledge graph on Neo4j + Docker, Python/pipx, CLI (`graphiti compose`, `graphiti up`), early-stage project
+- **GitHub MCP Server** (`github/github-mcp-server`): 27.1k stars (now 31,775 as of 2026-07-28), release v0.31.0 Feb 19 2026, official GitHub, Go, remote MCP at `api.githubcopilot.com/mcp/`, OAuth 2.1 + PAT, covers Issues/PRs/Projects/Enterprise
+- **Exa MCP Server** (`exa-labs/exa-mcp-server`): claimed 3.1k stars (now 4,780 as of 2026-07-28, unverified, see fact-check), no formal GitHub releases, TypeScript, key feature `get_code_context_exa` for dev-focused code search
+- **Graphiti MCP Server** (`rawr-ai/mcp-graphiti`): 74 stars (now 100 as of 2026-07-28), multi-project knowledge graph on Neo4j + Docker, Python/pipx, CLI (`graphiti compose`, `graphiti up`), early-stage project
 
 ---
 
@@ -73,13 +73,13 @@ Key findings from the veille:
 
 | Claim | Verified | Notes |
 |-------|----------|-------|
-| GitHub MCP: 27.1k stars | ✅ (approximate) | Perplexity: "20k+" — compatible |
+| GitHub MCP: 27.1k stars | ✅ (now 31,775 as of 2026-07-28) | Perplexity: "20k+" (compatible) |
 | GitHub MCP: release v0.31.0 Feb 19 2026 | ✅ | 54 total releases confirmed |
 | GitHub MCP: Go implementation | ✅ | Confirmed |
 | GitHub MCP: OAuth 2.1 + PKCE | ✅ | Confirmed in GitHub changelog |
-| Exa: 3.1k stars | ❌ | Perplexity found ~220 stars — major discrepancy, not published |
+| Exa: 3.1k stars | ❌ | Perplexity found ~220 stars (major discrepancy, not published) |
 | Exa: no formal GitHub releases | ✅ | Confirmed — npm + hosted endpoint only |
-| Graphiti: 74 stars | ✅ | Approximately verified |
+| Graphiti: 74 stars | ✅ (now 100 as of 2026-07-28) | Approximately verified |
 | Graphiti: Neo4j + Docker dependency | ✅ | Confirmed in README |
 | Firecrawl: last release Sep 26 2025 | ✅ | v3.2.1 confirmed |
 | Chrome MCP: last release Jul 9 2025 | ✅ | v0.0.6 confirmed |

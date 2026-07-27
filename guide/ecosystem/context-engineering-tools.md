@@ -90,7 +90,7 @@ Compression addresses cost. Pruning addresses rot. Good context engineering does
 
 Most of the tooling in this page answers "how many tokens did we save?" A newer, narrower angle asks a different question: after `/compact` or any lossy summarization pass, how much of what remains is still load-bearing, versus dead weight that survived compaction by accident? The term circulating for the latter is "ghost tokens": content that costs budget but no longer does useful work, distinct from the noise MVC targets before compaction ever runs.
 
-`alexgreensh/token-optimizer` is the tool most associated with this framing (1,565 stars, up from 947 in May 2026, the fastest-growing entry in this category by percentage). Rather than reporting a single reduction percentage, it targets what survives a compaction pass and whether that surviving content is still relevant to the task at hand.
+`alexgreensh/token-optimizer` is the tool most associated with this framing (1,748 stars as of 2026-07-27, up from 1,565 in June and 947 in May 2026, the fastest-growing entry in this category by percentage). Rather than reporting a single reduction percentage, it targets what survives a compaction pass and whether that surviving content is still relevant to the task at hand.
 
 This is a genuinely distinct question from the raw-reduction metrics reported elsewhere on this page (Headroom's 92% on code search, RTK's 60 to 90% on shell output). Raw reduction measures how much was cut. Post-compaction quality measures whether what was kept is still correct and relevant. A tool could score well on the first metric and poorly on the second, if it happens to prune the wrong content. Treat this as an emerging measurement dimension, not yet a mature tooling category. Watch this angle rather than adopt it as a solved problem.
 
@@ -137,7 +137,7 @@ Headroom compresses what enters the context from tool outputs, structured data, 
 |-----------|---------|
 | **Source** | [GitHub: headroomlabs-ai/headroom](https://github.com/headroomlabs-ai/headroom) |
 | **Docs** | [headroom-docs.vercel.app](https://headroom-docs.vercel.app/docs) |
-| **Stars** | 57,223 (GitHub API, 2026-07-07), 4,205 forks |
+| **Stars** | 62,778 (GitHub API, 2026-07-27), 4,754 forks (was 57,223 / 4,205 on 2026-07-07) |
 | **Author** | Tejas Chopra (Senior Engineer, Netflix) |
 | **License** | Apache 2.0 |
 | **Install** | `pip install "headroom-ai[all]"` or `npm install headroom-ai` |
@@ -352,9 +352,9 @@ This is a shipped production feature at a major infrastructure vendor, not a sid
 
 ### Zero-install approach: claude-token-efficient
 
-[claude-token-efficient](https://github.com/drona23/claude-token-efficient) (5,700+ stars, June 2026) is a single `CLAUDE.md` file that instructs Claude to generate concise responses. No binary, no MCP server, no hooks.
+[claude-token-efficient](https://github.com/drona23/claude-token-efficient) (5,884 stars, verified 2026-07-27) is a single `CLAUDE.md` file that instructs Claude to generate concise responses. No binary, no MCP server, no hooks.
 
-The creator claims approximately 63% output token reduction. No methodology is published for that figure. The approach works within a real but narrow scope: if verbose model output is your primary cost driver, a style instruction in `CLAUDE.md` costs nothing to try. It cannot compress shell output, file reads, or tool responses. Those require tools like RTK, lean-ctx, Headroom, or tilth. The 5,700 stars reflect genuine demand for zero-config options, not validated performance across diverse workloads.
+The creator claims approximately 63% output token reduction. No methodology is published for that figure. The approach works within a real but narrow scope: if verbose model output is your primary cost driver, a style instruction in `CLAUDE.md` costs nothing to try. It cannot compress shell output, file reads, or tool responses. Those require tools like RTK, lean-ctx, Headroom, or tilth. The near-6K star count reflects genuine demand for zero-config options, not validated performance across diverse workloads.
 
 Use it as a starting point. When you hit the ceiling, the tools above address what a `CLAUDE.md` file cannot.
 
@@ -541,7 +541,7 @@ For Claude Code specifically, two mechanisms handle session-level memory:
 
 For multi-session and multi-agent workflows, persistent memory systems store information outside the context window and retrieve it selectively. The CC ecosystem has a three-tier model:
 
-**Individual (no team)**: claude-mem (26.5K stars, hooks-based auto-capture), agentmemory (16K stars, BM25+vector+graph fusion, 95.2% R@5), ICM (Rust binary, dual decay+graph architecture, `brew install icm`).
+**Individual (no team)**: claude-mem (89K stars, hooks-based auto-capture), agentmemory (26K stars, BM25+vector+graph fusion, 95.2% R@5), ICM (Rust binary, dual decay+graph architecture, `brew install icm`). Stars verified 2026-07-27.
 
 **Team sharing**: CLAUDE.md + `.mcp.json` + skills committed to the repo (the Trinity, zero infra). Mem0 Cloud MCP for pooled team memory. Zep/Graphiti for temporal knowledge graphs.
 

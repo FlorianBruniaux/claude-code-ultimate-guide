@@ -15,7 +15,7 @@
 - **Corpus**: 602+ documentation entries (as of 2026-03-16), covering OpenAI, Anthropic, Stripe, AWS, and others
 - **Community loop**: Users vote on doc quality (`chub feedback`), surfacing improvements to maintainers
 - **Claude Code integration**: SKILL.md support for dropping into `~/.claude/skills/`
-- **License**: MIT, 6,342 stars
+- **License**: MIT, 6,342 stars (now 13,861 as of 2026-07-28)
 
 ---
 

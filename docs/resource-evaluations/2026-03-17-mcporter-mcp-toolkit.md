@@ -5,7 +5,7 @@
 **Resource URL**: https://github.com/steipete/mcporter
 **Resource Type**: Open-source TypeScript toolkit (GitHub)
 **Author**: Peter Steinberger (PSPDFKit founder)
-**Stars**: 2,966 | **License**: MIT | **Language**: TypeScript
+**Stars**: 2,966 (now 4,831 as of 2026-07-28, repo moved to openclaw/mcporter) | **License**: MIT | **Language**: TypeScript
 **Website**: mcporter.dev
 
 ---

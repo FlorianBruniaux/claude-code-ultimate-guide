@@ -91,7 +91,7 @@ Organized in a 6-tier pyramid from strategic orchestration down to optimization 
 - **When to use**: Complex enterprise projects needing governance
 - **When to avoid**: MVPs, rapid prototyping, evolving requirements — BMAD is brittle when specs change mid-project
 - **Install and run it**: see [spec-first.md § With BMAD-METHOD](../workflows/spec-first.md#with-bmad-method-multi-role-planning) for the `npx bmad-method install` command and the three planning tracks (Quick Flow, BMad Method, Enterprise)
-- **Canonical repository**: [bmad-code-org/BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) (50,200+ stars, verified July 2026). The community port linked below (BMAD-AT-CLAUDE) is a Claude Code-specific fork, not the source project.
+- **Canonical repository**: [bmad-code-org/BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) (51,176 stars, verified 2026-07-27, was 50,200+ earlier in July). The community port linked below (BMAD-AT-CLAUDE) is a Claude Code-specific fork, not the source project.
 
 **GSD (Get Shit Done)** addresses context rot through systematic 6-phase workflow (Initialize → Discuss → Plan → Execute → Verify → Complete) with fresh 200k-token contexts per task. Core concepts (multi-agent orchestration, fresh context management) overlap significantly with existing patterns like Ralph Loop, Gas Town, and BMAD. See [resource evaluation](../../docs/resource-evaluations/gsd-evaluation.md) for detailed comparison.
 

@@ -48,7 +48,7 @@ Software Engineering adaptation of Meta's Chain-of-Verification for Claude Code.
 - **Author**: Janne Sinivirta (LinkedIn: vertti)
 - **Version**: 1.1.1 (2026-01-23)
 - **License**: MIT
-- **GitHub Stars**: ~78 (low community validation)
+- **GitHub Stars**: ~78 (now 20 as of 2026-07-28, low community validation)
 
 ---
 

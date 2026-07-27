@@ -38,7 +38,7 @@ Liza is a spec-driven multi-agent coding system (MAS) with two modes (solo Pairi
 | ~~2~~ | ~~Marginal~~ |
 | ~~1~~ | ~~Out of scope~~ |
 
-**Rationale**: Liza is the most complete open-source match we have found for the governance pattern presented at the GenAI France meetup (Solario/Maleus, July 2026) and documented in `guide/workflows/spec-first.md` (section "Full-cycle AI software factories"). It mechanically answers the four governance questions from that section, where OpenHands (no deterministic supervisor) and spec-kitty (worktree isolation but no behavioral contract and no circuit breaker) cover only part. The value to the guide is **architectural**, as a concrete illustration of what mechanical governance looks like versus prompt-level governance, not as a tool to adopt (322 stars, single author, unproven in production outside the author's own usage).
+**Rationale**: Liza is the most complete open-source match we have found for the governance pattern presented at the GenAI France meetup (Solario/Maleus, July 2026) and documented in `guide/workflows/spec-first.md` (section "Full-cycle AI software factories"). It mechanically answers the four governance questions from that section, where OpenHands (no deterministic supervisor) and spec-kitty (worktree isolation but no behavioral contract and no circuit breaker) cover only part. The value to the guide is **architectural**, as a concrete illustration of what mechanical governance looks like versus prompt-level governance, not as a tool to adopt (322 stars as of 2026-07-12, now 336 as of 2026-07-28, single author, unproven in production outside the author's own usage).
 
 ---
 
@@ -67,16 +67,16 @@ First, the taxonomy is built to produce a category of one. "Behavioral enforceme
 
 Second, and more measurable: **the survey understates every competitor's traction, always in the same direction.** Verified via `gh api` on 2026-07-15:
 
-| Framework | Survey figure | Actual (2026-07-15) | Gap |
-|-----------|---------------|---------------------|-----|
-| gstack ([garrytan/gstack](https://github.com/garrytan/gstack)) | ~100.7k | 122,026 | -17% |
-| Paperclip ([paperclipai/paperclip](https://github.com/paperclipai/paperclip)) | 14k, "just launched" | 73,770 | -81% |
-| GSD ([gsd-build/get-shit-done](https://github.com/gsd-build/get-shit-done)) | 37k | 64,742 | -43% |
-| MetaGPT ([FoundationAgents/MetaGPT](https://github.com/FoundationAgents/MetaGPT)) | 64k | 69,384 | -8% |
-| CrewAI ([crewAIInc/crewAI](https://github.com/crewAIInc/crewAI)) | 45k | 55,565 | -19% |
-| BMAD ([bmad-code-org/BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD)) | ~45.2k | 50,631 | -11% |
-| Symphony ([openai/symphony](https://github.com/openai/symphony)) | "New" | 25,969 | n/a |
-| Liza | "Early" | 322 | n/a |
+| Framework | Survey figure | Actual (2026-07-15) | Actual (2026-07-28) | Gap |
+|-----------|---------------|---------------------|-----|-----|
+| gstack ([garrytan/gstack](https://github.com/garrytan/gstack)) | ~100.7k | 122,026 | 124,807 | -17% |
+| Paperclip ([paperclipai/paperclip](https://github.com/paperclipai/paperclip)) | 14k, "just launched" | 73,770 | 74,902 | -81% |
+| GSD ([gsd-build/get-shit-done](https://github.com/gsd-build/get-shit-done)) | 37k | 64,742 | 64,798 | -43% |
+| MetaGPT ([FoundationAgents/MetaGPT](https://github.com/FoundationAgents/MetaGPT)) | 64k | 69,384 | 69,538 | -8% |
+| CrewAI ([crewAIInc/crewAI](https://github.com/crewAIInc/crewAI)) | 45k | 55,565 | 56,233 | -19% |
+| BMAD ([bmad-code-org/BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD)) | ~45.2k | 50,631 | 51,183 | -11% |
+| Symphony ([openai/symphony](https://github.com/openai/symphony)) | "New" | 25,969 | 26,265 | n/a |
+| Liza | "Early" | 322 | 336 | n/a |
 
 Staleness explains part of it (the doc is dated March-May 2026 and was read on 2026-07-15), but not the uniform direction, and not the survey's own internal inconsistency: it dates gstack to 2026-05-22 while dating BMAD to 2026-04-20, comparing figures taken a month apart in a single matrix. The practical effect is that the "Stars: Liza = Early vs GSD = 37k" row understates the real gap, which is 322 against 64,742.
 
@@ -112,14 +112,14 @@ Staleness explains part of it (the doc is dated March-May 2026 and was read on 2
 
 | Claim | Verified | Source/Comment |
 |-------|----------|----------------|
-| liza-mas/liza: 322 stars, 48 forks, Apache-2.0 | ✅ | `gh api repos/liza-mas/liza`, 2026-07-15 (320/47 on 2026-07-12) |
+| liza-mas/liza: 322 stars, 48 forks, Apache-2.0 | ✅ | `gh api repos/liza-mas/liza`, 2026-07-15 (320/47 on 2026-07-12; now 336 as of 2026-07-28) |
 | Created 2026-01-17, pushed 2026-07-15 | ✅ | Same, active project |
-| README: BMAD "~45.2k stars" | ❌ Understated | Actual: 50,631 (`gh api`, 2026-07-15) |
-| README: CrewAI "45k stars" | ❌ Understated | Actual: 55,565 (`gh api`, 2026-07-15) |
-| README: MetaGPT "64k stars" | ❌ Understated | Actual: 69,384 (`gh api`, 2026-07-15) |
-| Survey: gstack "~100.7k", GSD "37k", Paperclip "14k" | ❌ All understated | Actual: 122,026 / 64,742 / 73,770 (`gh api`, 2026-07-15). See survey section above. |
-| Survey: MetaGPT "no release since v0.8.1 (April 2024)" | ✅ | Confirmed: `gh api repos/FoundationAgents/MetaGPT/releases/latest` returns v0.8.1, 2024-04-22. Last commit January 2026. |
-| Survey: Symphony "Apache 2.0 initially reported, some sources say MIT" | ✅ Apache-2.0 | `gh api`, 2026-07-15. The ambiguity is resolved, it is Apache-2.0. |
+| README: BMAD "~45.2k stars" | ❌ Understated | Actual: 50,631 on 2026-07-15, now 51,183 as of 2026-07-28 |
+| README: CrewAI "45k stars" | ❌ Understated | Actual: 55,565 on 2026-07-15, now 56,233 as of 2026-07-28 |
+| README: MetaGPT "64k stars" | ❌ Understated | Actual: 69,384 on 2026-07-15, now 69,538 as of 2026-07-28 |
+| Survey: gstack "~100.7k", GSD "37k", Paperclip "14k" | ❌ All understated | Actual: 122,026 / 64,742 / 73,770 on 2026-07-15; now 124,807 / 64,798 / 74,902 as of 2026-07-28 |
+| Survey: MetaGPT "no release since v0.8.1 (April 2024)" | ✅ | Confirmed: `gh api repos/FoundationAgents/MetaGPT/releases/latest` returns v0.8.1, 2024-04-22. Last commit January 2026. Stars: 69,384 then, 69,538 now as of 2026-07-28 |
+| Survey: Symphony "Apache 2.0 initially reported, some sources say MIT" | ✅ Apache-2.0 | `gh api`, 2026-07-15. The ambiguity is resolved, it is Apache-2.0. Stars: 25,969 then, 26,265 now as of 2026-07-28 |
 | "L4 Collaborative Agent Networks alongside BMAD and BEADS" | ❌ Not independent | The only support for this ranking is Liza's README. Attributed to **Soufiane Keli, VP Software Engineering at Octo Technology (Accenture)**, not IBM as an earlier search in this session suggested. A Perplexity deep-research (2026-07-12) independently confirms no formal L1-L5 model is published on the Octo blog or elsewhere by Keli; the L1-L5 frameworks actually published (metacto, nextagile, boye-co) are by other authors. This is a comment-level endorsement, not a benchmark. Do not cite as external validation. |
 | Third-party community reception | ❌ None found | No dedicated Hacker News or Reddit thread (WebSearch 2026-07-12). The only activity is in the project's own GitHub Discussions. Confirms tiny adoption. |
 | Author: Tangi Vass, Staff Data/Backend Engineer | ✅ | Confirmed by his Medium articles and the project docs (lizamas.mintlify.app) |

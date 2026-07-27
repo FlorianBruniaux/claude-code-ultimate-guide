@@ -102,7 +102,7 @@ Pipeline multi-agents open-source entièrement construit sur Claude Code, qui tr
 | 6 gates de validation (Gate 0-5) | ✅ | GitHub README |
 | "No Spec, No Code" + "No Task, No Commit" | ✅ | GitHub README + LinkedIn post |
 | ~900K tokens total estimé | ✅ | LinkedIn post (screenshot + tableau) |
-| 8 stars / 22 commits | ✅ | GitHub (vérifié 2026-02-19) |
+| 8 stars / 22 commits | ✅ | GitHub (verified 2026-02-19, now 10 stars as of 2026-07-28) |
 | JavaScript 100% | ✅ | GitHub (WebFetch) |
 | Enforcement via Node.js scripts | ✅ | tools/validate-commit-msg.js mentionné dans README |
 

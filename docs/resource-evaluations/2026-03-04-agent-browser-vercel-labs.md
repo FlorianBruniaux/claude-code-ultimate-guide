@@ -4,7 +4,7 @@
 **Source**: https://github.com/vercel-labs/agent-browser
 **Type**: CLI Tool (Headless Browser Automation for AI Agents)
 **License**: MIT
-**Stars**: 12,100+ (as of 2026-03-04)
+**Stars**: 12,100+ (now 39,328 as of 2026-07-28)
 **Status**: Active development — v0.15.0 (February 2026), rapid release cycle
 
 ---
