@@ -1,0 +1,73 @@
+guide/core/agent-harness.md
+  s_0f6ebc758e9987::t_15724203d67e8e 5-10
+guide/core/claude-code-releases.md
+  s_0f6ebc758e9987::t_175bfe95092373 6-10
+guide/core/hooks-events-reference.md
+  s_c24c90e299949a::t_64da8d4c1c18f5 3
+guide/ecosystem/mcp-vs-cli.md
+  s_0f6ebc758e9987::t_545474da37734b 5-12
+guide/ecosystem/third-party-tools.md
+  s_c24c90e299949a::t_5061ca3fc07484 3
+guide/learning-path/04-agents.md
+  s_9499d9d9c4e029::t_30d860abe5dde9 1-5
+guide/learning-path/05-skills.md
+  s_c54dc0924c64f3::t_9dfba56e8a5e04 1-5
+guide/learning-path/07-advanced.md
+  s_c54dc0924c64f3::t_20bd59566088af 1-5
+guide/ops/observability.md
+  s_c24c90e299949a::t_66603254ab5497 5-9
+guide/security/data-privacy.md
+  s_0f6ebc758e9987::t_fa4e197b545b2f 5-10
+guide/security/security-hardening.md
+  s_0f6ebc758e9987::t_ddbe620eb5a6ba 5-8
+guide/workflows/changelog-fragments.md
+  s_678d026c6fc78a::t_3c96348d4d4003 1-5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "ec2e821c75374033a78ea03baab357e4ebc37284",
+  "prompts": {},
+  "sessions": {
+    "s_0f6ebc758e9987": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fa350-fe7f-7232-9f25-3d24449699bb",
+        "model": "gpt-5.5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_678d026c6fc78a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48ae19de-ed31-4ddb-992b-17432937c2fe",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_9499d9d9c4e029": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a505af53-5ad1-4696-96f8-2095cfa6f8d9",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_c24c90e299949a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ff2b68f1-90c8-42eb-82e8-7bf70c0b40a4",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_c54dc0924c64f3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "222c7834-6f4a-4f5b-8f04-600fe39b29d5",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
