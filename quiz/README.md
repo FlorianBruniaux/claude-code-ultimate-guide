@@ -25,7 +25,7 @@ node src/index.js
 
 - **4 User Profiles**: Junior, Senior, Power User, Product Manager
 - **17 Topic Categories**: From Quick Start to Advanced Patterns
-- **374 Curated Questions**: Practical knowledge, not trivia
+- **473 Curated Questions**: Practical knowledge, not trivia
 - **Immediate Feedback**: Learn from mistakes with explanations
 - **Documentation Links**: Direct references to guide sections
 - **Score Tracking**: See strengths and weak areas
@@ -298,9 +298,39 @@ Dynamic questions supplement the static pool when:
 - User requests fresh questions
 - Variety is needed for repeated quizzes
 
+## Question bank: source of truth
+
+The files under `questions/*.yaml` are **generated, not hand-edited**. The single
+source of truth for quiz questions is the web quiz in the landing repo, one
+Markdown file per question under `src/content/questions/`. The CLI YAML is
+regenerated from it.
+
+This is deliberate. The CLI bank and the web bank once drifted into two separate
+question sets (different totals, different answers in the same id slots). One
+canonical source plus a generator is what stops that from happening again.
+
+### Regenerating the CLI YAML
+
+From this `quiz/` directory:
+
+```bash
+# Rewrite questions/*.yaml from the web bank (sibling landing repo)
+pnpm sync-from-web
+
+# CI / pre-push guard: fail if the YAML is out of sync with the web bank
+pnpm sync-from-web:check
+```
+
+The generator lives at [`scripts/generate-from-web.mjs`](./scripts/generate-from-web.mjs).
+By default it reads `../../claude-code-ultimate-guide-landing/src/content/questions`;
+pass `--web <dir>` to point elsewhere. It preserves each category's header
+(name, `source_file`) and replaces only the questions.
+
 ## Contributing Questions
 
-We welcome question contributions! See [`templates/question-template.yaml`](./templates/question-template.yaml) for the format.
+Add or edit questions in the **web bank** (`src/content/questions/<NN-slug>/`),
+then regenerate the CLI YAML. Do not edit `questions/*.yaml` by hand; the next
+`sync-from-web` will overwrite your change.
 
 ### Quality Guidelines
 
@@ -317,11 +347,11 @@ We welcome question contributions! See [`templates/question-template.yaml`](./te
 
 ### Submitting Questions
 
-1. Fork the repository
-2. Add questions to the appropriate `questions/XX-category.yaml` file
-3. Follow the template format exactly
-4. Ensure `doc_reference` points to valid sections
-5. Submit a PR with description of added questions
+1. Fork the landing repository
+2. Add a Markdown question under `src/content/questions/<NN-category-slug>/`
+3. Ensure `doc_reference` points to a valid guide section
+4. Run `pnpm sync-from-web` in `quiz/` to regenerate the CLI YAML
+5. Submit a PR with both the new Markdown and the regenerated YAML
 
 ## Troubleshooting
 

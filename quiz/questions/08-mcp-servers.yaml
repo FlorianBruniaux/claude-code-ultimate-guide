@@ -1,19 +1,21 @@
-category: "MCP Servers"
+category: MCP Servers
 category_id: 8
-source_file: "guide/ultimate-guide.md"
-
+source_file: guide/ultimate-guide.md
 questions:
-  - id: "08-001"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What does MCP stand for in the context of Claude Code?"
+  - id: 08-001
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What does MCP stand for in the context of Claude Code?
     options:
-      a: "Model Compute Protocol"
-      b: "Model Context Protocol"
-      c: "Multi-Channel Processing"
-      d: "Module Configuration Protocol"
-    correct: "b"
-    explanation: |
+      a: Model Compute Protocol
+      b: Model Context Protocol
+      c: Multi-Channel Processing
+      d: Module Configuration Protocol
+    correct: b
+    explanation: |-
       MCP stands for Model Context Protocol.
 
       It is a standard for connecting AI models to external tools and data sources.
@@ -23,21 +25,22 @@ questions:
       - Database queries (Postgres)
       - Browser automation (Playwright)
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "8.1 What is MCP"
+      file: guide/ultimate-guide.md
+      section: 8.1 What is MCP
       anchor: "#81-what-is-mcp"
-
-  - id: "08-002"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "Which MCP server should you use to find all usages of a function across your codebase?"
+  - id: 08-002
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: Which MCP server should you use to find all usages of a function across your codebase?
     options:
-      a: "Context7"
-      b: "Sequential Thinking"
-      c: "Serena"
-      d: "Postgres"
-    correct: "c"
-    explanation: |
+      a: Context7
+      b: Sequential Thinking
+      c: Serena
+      d: Postgres
+    correct: c
+    explanation: |-
       Serena provides semantic code analysis with tools like `find_referencing_symbols`.
 
       Serena tools include:
@@ -48,21 +51,22 @@ questions:
 
       Use Serena for deep code understanding and symbol-level analysis.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "8.2 Available Servers"
+      file: guide/ultimate-guide.md
+      section: 8.2 Available Servers
       anchor: "#serena-semantic-code-analysis"
-
-  - id: "08-003"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "Which MCP server is best for looking up official library documentation?"
+  - id: 08-003
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: Which MCP server is best for looking up official library documentation?
     options:
-      a: "Serena"
-      b: "Context7"
-      c: "Sequential Thinking"
-      d: "mgrep"
-    correct: "b"
-    explanation: |
+      a: Serena
+      b: Context7
+      c: Sequential Thinking
+      d: mgrep
+    correct: b
+    explanation: |-
       Context7 is designed for accessing official library documentation.
 
       Use Context7 when:
@@ -73,21 +77,21 @@ questions:
       For example, "How does React useEffect work?" should use Context7
       to get the official documentation rather than generic knowledge.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "8.4 Server Selection Guide"
+      file: guide/ultimate-guide.md
+      section: 8.4 Server Selection Guide
       anchor: "#server-comparison"
-
-  - id: "08-004"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "Which MCP server provides persistent memory across sessions?"
+  - id: 08-004
+    difficulty: power
+    profiles:
+      - power
+    question: Which MCP server provides persistent memory across sessions?
     options:
-      a: "Context7"
-      b: "Postgres"
-      c: "Serena"
-      d: "Sequential Thinking"
-    correct: "c"
-    explanation: |
+      a: Context7
+      b: Postgres
+      c: Serena
+      d: Sequential Thinking
+    correct: c
+    explanation: |-
       Serena provides session memory that persists across conversations.
 
       Serena memory tools:
@@ -98,44 +102,47 @@ questions:
       Memory is stored in `.serena/memories/` and survives between Claude Code sessions.
       This is crucial for maintaining context on long-running projects.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "8.2 Available Servers"
-      anchor: "#session-memory-workflow"
-
-  - id: "08-005"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "Where is the user-scope MCP configuration stored?"
+      file: guide/ultimate-guide.md
+      section: Serena (Semantic Code Analysis)
+      anchor: "#serena-semantic-code-analysis"
+  - id: 08-005
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: Where is the global MCP configuration file located?
     options:
-      a: "~/.mcp/config.json"
-      b: "~/.claude.json"
-      c: "/etc/claude/mcp.json"
-      d: "~/.config/claude/mcp.json"
-    correct: "b"
-    explanation: |
-      MCP servers are configured in `~/.claude.json` under the `"mcpServers"` field.
+      a: ~/.mcp/config.json
+      b: ~/.claude.json
+      c: /etc/claude/mcp.json
+      d: ~/.config/claude/mcp.json
+    correct: b
+    explanation: |-
+      The global (user-scope) MCP configuration lives in `~/.claude.json` under the `mcpServers` field.
 
       Configuration locations:
-      - `~/.claude.json` (field `"mcpServers"`) - User/local scope
-      - `.mcp.json` at project root - Project scope (shareable via VCS)
+      - `~/.claude.json` - User scope (applies across your projects)
+      - `.mcp.json` in the project root - Project scope (shared with the team)
 
-      The configuration specifies which servers to run and their settings.
+      Claude Code explicitly does NOT read paths like `~/.claude/mcp.json` or `~/.claude/config/mcp.json`. Servers are normally registered via `claude mcp add`.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "8.3 Configuration"
+      file: guide/ultimate-guide.md
+      section: MCP Configuration Location
       anchor: "#mcp-configuration-location"
-
-  - id: "08-006"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What is the recommended MCP server for complex debugging scenarios?"
+  - id: 08-006
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is the recommended MCP server for complex debugging scenarios?
     options:
-      a: "Context7"
-      b: "Serena"
-      c: "Sequential Thinking"
-      d: "Postgres"
-    correct: "c"
-    explanation: |
+      a: Context7
+      b: Serena
+      c: Sequential Thinking
+      d: Postgres
+    correct: c
+    explanation: |-
       Sequential Thinking is designed for multi-step analysis with explicit reasoning.
 
       Use Sequential Thinking for:
@@ -146,21 +153,21 @@ questions:
       The `sequentialthinking` tool provides step-by-step reasoning that is
       ideal for problems requiring systematic investigation.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "8.4 Server Selection Guide"
+      file: guide/ultimate-guide.md
+      section: 8.4 Server Selection Guide
       anchor: "#decision-tree"
-
-  - id: "08-007"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "How can MCP servers work together effectively?"
+  - id: 08-007
+    difficulty: power
+    profiles:
+      - power
+    question: How can MCP servers work together effectively?
     options:
-      a: "They cannot - only one server at a time"
-      b: "Context7 for patterns -> Serena for code -> Sequential for analysis -> Playwright for testing"
-      c: "All servers must be configured identically"
-      d: "Servers must be chained in alphabetical order"
-    correct: "b"
-    explanation: |
+      a: They cannot - only one server at a time
+      b: Context7 for patterns -> Serena for code -> Sequential for analysis -> Playwright for testing
+      c: All servers must be configured identically
+      d: Servers must be chained in alphabetical order
+    correct: b
+    explanation: |-
       MCP servers can be combined for powerful workflows:
 
       1. **Context7** - Get official pattern for auth
@@ -170,51 +177,54 @@ questions:
 
       This combination leverages each server's strengths for comprehensive development.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "8.4 Server Selection Guide"
+      file: guide/ultimate-guide.md
+      section: 8.4 Server Selection Guide
       anchor: "#combining-servers"
-
-  - id: "08-008"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What syntax does Claude Code use for environment variable substitution in MCP config?"
+  - id: 08-008
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What variable can you use in mcp.json to reference the current project path?
     options:
-      a: "${projectPath}"
-      b: "${workspaceFolder}"
-      c: "${VAR_NAME}"
-      d: "${PROJECT_DIR}"
-    correct: "c"
-    explanation: |
-      Claude Code uses standard shell-style `${VAR}` syntax for environment variable expansion.
+      a: ${projectPath}
+      b: ${CLAUDE_PROJECT_DIR}
+      c: ${cwd}
+      d: ${PROJECT_DIR}
+    correct: b
+    explanation: |-
+      The `${CLAUDE_PROJECT_DIR}` variable expands to the absolute path of the project root and is auto-injected into stdio-type MCP server environments.
 
-      Variable substitution in MCP config:
-      - `${VAR}` - Environment variable value
-      - `${VAR:-default}` - Environment variable with fallback
+      Variable substitution in Claude Code uses standard shell-style syntax:
+      - `${CLAUDE_PROJECT_DIR}` - Absolute path to the project root
+      - `${VAR}` / `${VAR:-default}` - Environment variable with optional default
 
-      Note: `${workspaceFolder}` and `${env:VAR_NAME}` are VS Code conventions, not Claude Code.
+      Note: `${workspaceFolder}` and `${env:VAR_NAME}` are VS Code conventions that Claude Code does NOT support.
 
       Example:
       ```json
       "env": {
-        "DATABASE_URL": "${DATABASE_URL}"
+        "PROJECT_PATH": "${CLAUDE_PROJECT_DIR}"
       }
       ```
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "8.3 Configuration"
+      file: guide/ultimate-guide.md
+      section: 8.3 Configuration
       anchor: "#variable-substitution"
-
-  - id: "08-009"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What is the key advantage of Serena over Claude Code's built-in tools?"
+  - id: 08-009
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is the key advantage of Serena over Claude Code's built-in tools?
     options:
-      a: "It's faster"
-      b: "It provides indexation that Claude Code lacks"
-      c: "It uses less memory"
-      d: "It works offline"
-    correct: "b"
-    explanation: |
+      a: It's faster
+      b: It provides indexation that Claude Code lacks
+      c: It uses less memory
+      d: It works offline
+    correct: b
+    explanation: |-
       Serena fills a critical gap: Claude Code has no built-in indexation (unlike Cursor).
 
       Serena provides:
@@ -224,21 +234,21 @@ questions:
 
       For large codebases (>10k lines), Serena's indexation dramatically improves performance.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "8.2 Available Servers"
+      file: guide/ultimate-guide.md
+      section: 8.2 Available Servers
       anchor: "#serena-semantic-code-analysis"
-
-  - id: "08-010"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What distinguishes a Plugin from an MCP Server in Claude Code?"
+  - id: 08-010
+    difficulty: power
+    profiles:
+      - power
+    question: What distinguishes a Plugin from an MCP Server in Claude Code?
     options:
-      a: "Plugins are faster"
-      b: "Plugins bundle Claude-specific workflows; MCP servers add external tool capabilities"
-      c: "They are identical"
-      d: "MCP servers are for beginners, plugins for experts"
-    correct: "b"
-    explanation: |
+      a: Plugins are faster
+      b: Plugins bundle Claude-specific workflows; MCP servers add external tool capabilities
+      c: They are identical
+      d: MCP servers are for beginners, plugins for experts
+    correct: b
+    explanation: |-
       The rule of thumb:
       - **Plugin** = "How Claude thinks" (new workflows, specialized agents)
       - **MCP Server** = "What Claude can do" (new tools, external systems)
@@ -250,21 +260,23 @@ questions:
       - Plugins: `claude plugin install`
       - MCP: Add to `settings.json` MCP config
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "8.5 Plugin System"
+      file: guide/ultimate-guide.md
+      section: 8.5 Plugin System
       anchor: "#plugin-vs-mcp-server"
-
-  - id: "08-011"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "Which MCP server is used for browser automation and E2E testing?"
+  - id: 08-011
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: Which MCP server is used for browser automation and E2E testing?
     options:
-      a: "Serena"
-      b: "Context7"
-      c: "Playwright"
-      d: "Sequential Thinking"
-    correct: "c"
-    explanation: |
+      a: Serena
+      b: Context7
+      c: Playwright
+      d: Sequential Thinking
+    correct: c
+    explanation: |-
       Playwright MCP provides browser automation capabilities.
 
       Playwright tools include:
@@ -278,21 +290,22 @@ questions:
       - Visual validation
       - Browser debugging
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "8.2 Available Servers"
+      file: guide/ultimate-guide.md
+      section: 8.2 Available Servers
       anchor: "#playwright-browser-automation"
-
-  - id: "08-012"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "How do you add an MCP server with environment variables via CLI?"
+  - id: 08-012
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: How do you add an MCP server with environment variables via CLI?
     options:
-      a: "claude mcp add --env API_KEY=key server"
-      b: "claude mcp add -e API_KEY=key my-server -- npx @org/server"
-      c: "claude mcp install server --api-key key"
-      d: "claude add mcp server -k key"
-    correct: "b"
-    explanation: |
+      a: claude mcp add --env API_KEY=key server
+      b: claude mcp add -e API_KEY=key my-server -- npx @org/server
+      c: claude mcp install server --api-key key
+      d: claude add mcp server -k key
+    correct: b
+    explanation: |-
       Use the `-e` flag to pass environment variables:
 
       ```bash
@@ -306,21 +319,21 @@ questions:
 
       This is quicker than manually editing mcp.json.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "8.3 Configuration"
+      file: guide/ultimate-guide.md
+      section: 8.3 Configuration
       anchor: "#cli-based-mcp-configuration"
-
-  - id: "08-013"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is grepai's key differentiator compared to Serena?"
+  - id: 08-013
+    difficulty: power
+    profiles:
+      - power
+    question: What is grepai's key differentiator compared to Serena?
     options:
-      a: "It's faster"
-      b: "It provides semantic search by intent plus call graph analysis"
-      c: "It supports more languages"
-      d: "It has better documentation"
-    correct: "b"
-    explanation: |
+      a: It's faster
+      b: It provides semantic search by intent plus call graph analysis
+      c: It supports more languages
+      d: It has better documentation
+    correct: b
+    explanation: |-
       grepai excels at intent-based search using natural language, plus offers
       call graph analysis to trace function dependencies:
 
@@ -337,21 +350,22 @@ questions:
 
       Use grepai for exploring unfamiliar codebases or understanding dependencies.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "8.2 Available Servers"
+      file: guide/ultimate-guide.md
+      section: 8.2 Available Servers
       anchor: "#grepai-recommended-semantic-search"
-
-  - id: "08-014"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What command lists all installed plugins in Claude Code?"
+  - id: 08-014
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What command lists all installed plugins in Claude Code?
     options:
-      a: "claude plugins list"
-      b: "claude plugin"
-      c: "/plugins"
-      d: "claude list plugins"
-    correct: "b"
-    explanation: |
+      a: claude plugins list
+      b: claude plugin
+      c: /plugins
+      d: claude list plugins
+    correct: b
+    explanation: |-
       Running `claude plugin` (without subcommand) lists all installed plugins with status.
 
       Plugin commands:
@@ -362,72 +376,73 @@ questions:
       - `claude plugin uninstall <name>` - Remove plugin
       - `claude plugin validate <path>` - Validate plugin manifest
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "8.5 Plugin System"
+      file: guide/ultimate-guide.md
+      section: 8.5 Plugin System
       anchor: "#plugin-commands"
-
-  - id: "08-015"
-    difficulty: "intermediate"
-    profiles: ["senior", "power"]
-    question: "What is the main advantage of using Figma MCP over screenshots?"
+  - id: 08-015
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: What is the main advantage of using Figma MCP over screenshots?
     options:
-      a: "Higher image quality"
+      a: Higher image quality
       b: "3-10x fewer tokens: structured data vs. image analysis"
-      c: "Faster download speed"
-      d: "Works offline"
-    correct: "b"
-    explanation: |
-      Figma MCP provides 3-10x fewer tokens than screenshots because it returns structured data (React+Tailwind structure, design tokens) instead of requiring image analysis. Other benefits: direct token access, component mapping via Code Connect, iterative workflow without new screenshots.
+      c: Faster download speed
+      d: Works offline
+    correct: b
+    explanation: "Figma MCP provides 3-10x fewer tokens than screenshots because it returns structured data (React+Tailwind structure, design tokens) instead of requiring image analysis. Other benefits: direct token access, component mapping via Code Connect, iterative workflow without new screenshots."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "4.3 Figma MCP Integration"
+      file: guide/ultimate-guide.md
+      section: 4.3 Figma MCP Integration
       anchor: "#figma-mcp-integration"
-
-  - id: "08-016"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "Which Figma MCP tool retrieves design tokens (colors, spacing, typography)?"
+  - id: 08-016
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: Which Figma MCP tool retrieves design tokens (colors, spacing, typography)?
     options:
-      a: "get_design_context"
-      b: "get_variable_defs"
-      c: "get_metadata"
-      d: "get_screenshot"
-    correct: "b"
-    explanation: |
-      `get_variable_defs` retrieves design tokens like colors (--color-primary: #3B82F6), spacing (--spacing-md: 16px), and typography. Recommended workflow: get_metadata → get_design_context → get_variable_defs (once per project) → get_screenshot (only when visual reference needed).
+      a: get_design_context
+      b: get_variable_defs
+      c: get_metadata
+      d: get_screenshot
+    correct: b
+    explanation: "`get_variable_defs` retrieves design tokens like colors (--color-primary: #3B82F6), spacing (--spacing-md: 16px), and typography. Recommended workflow: get_metadata → get_design_context → get_variable_defs (once per project) → get_screenshot (only when visual reference needed)."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "4.3 Figma MCP Integration"
-      anchor: "#available-tools-via-figma-mcp"
-
-  - id: "08-017"
-    difficulty: "intermediate"
-    profiles: ["senior", "power"]
-    question: "What command adds the Figma MCP server for remote access?"
+      file: guide/ultimate-guide.md
+      section: 4.3 Figma MCP Integration
+      anchor: "#figma-mcp-integration"
+  - id: 08-017
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: What command adds the Figma MCP server for remote access?
     options:
-      a: "claude mcp install figma"
-      b: "claude mcp add --transport http figma https://mcp.figma.com/mcp"
-      c: "claude figma connect"
-      d: "npm install @figma/mcp"
-    correct: "b"
-    explanation: |
-      For remote MCP (all Figma plans, any machine): `claude mcp add --transport http figma https://mcp.figma.com/mcp`. For desktop MCP (requires Figma desktop app with Dev Mode): `claude mcp add --transport http figma-desktop http://127.0.0.1:3845/mcp`. Official Figma MCP was announced in 2025.
+      a: claude mcp install figma
+      b: claude mcp add --transport http figma https://mcp.figma.com/mcp
+      c: claude figma connect
+      d: npm install @figma/mcp
+    correct: b
+    explanation: "For remote MCP (all Figma plans, any machine): `claude mcp add --transport http figma https://mcp.figma.com/mcp`. For desktop MCP (requires Figma desktop app with Dev Mode): `claude mcp add --transport http figma-desktop http://127.0.0.1:3845/mcp`. Official Figma MCP was announced in 2025."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "4.3 Figma MCP Integration"
-      anchor: "#setup-options"
-
-  - id: "08-018"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What are the 2 core primitives of MCP Apps architecture?"
+      file: guide/ultimate-guide.md
+      section: 4.3 Figma MCP Integration
+      anchor: "#figma-mcp-integration"
+  - id: 08-018
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What are the 2 core primitives of MCP Apps architecture?
     options:
-      a: "Functions and Routes"
-      b: "Commands and Events"
-      c: "Tools with UI metadata and UI resources (ui:// scheme)"
-      d: "Plugins and Themes"
-    correct: "c"
-    explanation: |
+      a: Functions and Routes
+      b: Commands and Events
+      c: Tools with UI metadata and UI resources (ui:// scheme)
+      d: Plugins and Themes
+    correct: c
+    explanation: |-
       MCP Apps (SEP-1865) introduce 2 core primitives:
 
       1. **Tools with UI metadata** - Standard MCP tools annotated with rendering hints (input forms, output displays)
@@ -435,40 +450,191 @@ questions:
 
       Together, these allow MCP servers to provide both functionality and user interface, enabling richer agent-to-user interactions.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "MCP Apps"
-      anchor: "#mcp-apps"
-
-  - id: "08-019"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What does the 'auto:N' threshold control in MCP tool configuration?"
+      file: guide/ultimate-guide.md
+      section: What Are MCP Apps?
+      anchor: "#what-are-mcp-apps"
+  - id: 08-019
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What does the 'auto:N' threshold control in MCP tool configuration?
     options:
-      a: "Maximum concurrent MCP connections"
-      b: "Cache size for tool results"
-      c: "Lazy loading - tools loaded only when description matches user intent, N = max tools to auto-load"
-      d: "Retry count for failed tool calls"
-    correct: "c"
-    explanation: |
-      The `auto:N` threshold enables lazy loading for MCP tools. Instead of loading all tools at session start (which wastes context), tools are only loaded when their description matches the user's intent. N controls the maximum number of tools to auto-load per intent match. This reduces context usage for MCP servers with many tools.
-    doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "MCP Configuration"
-      anchor: "#mcp-configuration"
+      a: Maximum concurrent MCP connections
+      b: Cache size for tool results
+      c: Context percentage threshold that triggers automatic lazy loading (5%, 10%, or 20%)
+      d: Maximum number of tools to load per MCP server
+    correct: c
+    explanation: |-
+      The `ENABLE_TOOL_SEARCH=auto:N` setting controls the **context percentage threshold** that triggers lazy loading. Available values:
 
-  - id: "08-020"
-    difficulty: "intermediate"
-    profiles: ["junior", "senior", "power"]
-    question: "Which MCP server scored highest (9.0/10) in the production ecosystem evaluation?"
-    options:
-      a: "Playwright MCP (8.8/10)"
-      b: "Context7 MCP (8.5/10)"
-      c: "Semgrep MCP - SAST, secrets, and supply chain analysis"
-      d: "Kubernetes MCP (8.4/10)"
-    correct: "c"
-    explanation: |
-      Semgrep MCP scored 9.0/10 in the production MCP ecosystem evaluation. It provides static application security testing (SAST), secrets detection, and supply chain analysis. Top scores: Semgrep (9.0), Playwright (8.8), Context7 (8.5), Kubernetes (8.4). Evaluation criteria: reliability, token efficiency, production readiness.
+      - `auto:5` → Aggressive (5% context threshold) - for power users with 100+ tools
+      - `auto:10` → Default (10% context threshold) - balanced for 20-50 tools
+      - `auto:20` → Conservative (20% context threshold) - for lightweight setups with 5-10 tools
+
+      When tool definitions exceed this percentage of total context, Claude Code automatically activates lazy loading. Instead of loading all tools upfront, it provides a Tool Search tool for on-demand discovery, dramatically reducing baseline context usage.
+
+      **Example**: chrome-devtools MCP provides 26 tools consuming 17,000 tokens. With lazy loading, Claude only loads 3-5 relevant tools per query (~3K tokens)—a 91% reduction.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "MCP Servers Ecosystem"
-      anchor: "#mcp-servers-ecosystem"
+      file: guide/core/architecture.md
+      section: MCP Tool Search (Lazy Loading)
+      anchor: "#mcp-tool-search-lazy-loading"
+  - id: 08-020
+    difficulty: intermediate
+    profiles:
+      - junior
+      - senior
+      - power
+    question: Which MCP server scored highest (9.0/10) in the production ecosystem evaluation?
+    options:
+      a: Playwright MCP (8.8/10)
+      b: Context7 MCP (8.5/10)
+      c: Semgrep MCP - SAST, secrets, and supply chain analysis
+      d: Kubernetes MCP (8.4/10)
+    correct: c
+    explanation: "Semgrep MCP scored 9.0/10 in the production MCP ecosystem evaluation. It provides static application security testing (SAST), secrets detection, and supply chain analysis. Top scores: Semgrep (9.0), Playwright (8.8), Context7 (8.5), Kubernetes (8.4). Evaluation criteria: reliability, token efficiency, production readiness."
+    doc_reference:
+      file: guide/ultimate-guide.md
+      section: Community MCP Servers Ecosystem
+      anchor: "#community-mcp-servers-ecosystem"
+  - id: 08-021
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is the key difference between the official `git-mcp` and `github-mcp` servers?
+    options:
+      a: Git MCP is for Linux; GitHub MCP is for macOS and Windows
+      b: Git MCP uses OAuth; GitHub MCP uses API tokens
+      c: Git MCP is official Anthropic (12 local git tools, no auth); GitHub MCP is official GitHub (remote platform, requires GitHub Copilot for remote mode)
+      d: Git MCP works in CI/CD; GitHub MCP works only in interactive mode
+    correct: c
+    explanation: |-
+      `git-mcp` is the **official Anthropic Git server** — provides 12 local git tools (log, status, diff, commit, etc.) with no authentication required. It operates entirely on the local repository. `github-mcp` is the **official GitHub server** — connects to the remote GitHub platform and requires authentication. For remote mode (push, PR creation, issues), it requires a GitHub Copilot subscription. Choose `git-mcp` for local git operations and `github-mcp` for GitHub platform integration.
+      ---
+    doc_reference:
+      file: guide/diagrams/05-mcp-ecosystem.md
+      section: Official Servers
+      anchor: "#official-servers"
+  - id: 08-022
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: Which CLI subcommands let you authenticate or deauthenticate a named MCP server directly from the terminal, without going through the interactive /mcp menu?
+    options:
+      a: claude mcp auth <name>, which always opens a browser and has no headless option
+      b: claude mcp connect <name> --headless, added in the same release as the /mcp menu
+      c: claude mcp login <name> and claude mcp logout <name>, with a --no-browser flag that redirects the OAuth flow through stdin for SSH sessions
+      d: claude mcp auth-refresh <name>, which silently renews tokens without user interaction
+    correct: c
+    explanation: claude mcp login <name> and claude mcp logout <name> authenticate and deauthenticate a specific MCP server straight from the CLI. Both shipped in v2.1.186. The --no-browser flag redirects the OAuth flow through stdin instead of opening a browser tab, which matters for SSH sessions or headless containers where no browser is reachable. The other three options name commands that don't exist in Claude Code.
+    doc_reference:
+      file: guide/core/claude-code-releases.md
+      section: v2.1.186
+  - id: 08-023
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What does the CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT environment variable control?
+    options:
+      a: It sets how long Claude Code waits before retrying a failed MCP server connection at startup
+      b: It controls how long a remote MCP tool call can hang with no response before it aborts with an error, overriding the 5-minute default
+      c: It sets the interval between roots/list_changed notifications sent to MCP servers
+      d: It controls how long tool schemas stay cached before Claude Code re-fetches them from the server
+    correct: b
+    explanation: Before v2.1.187, a remote MCP tool call that never responded could hang a session indefinitely. That release made such calls abort with an error after a default 5-minute idle period, and CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT lets you override that default. It has nothing to do with connection retries at startup, roots notification intervals, or tool schema caching, which are separate mechanisms.
+    doc_reference:
+      file: guide/core/claude-code-releases.md
+      section: v2.1.187
+  - id: 08-024
+    difficulty: power
+    profiles:
+      - senior
+      - power
+    question: As of v2.1.203, how does Claude Code's MCP roots/list capability behave when a session's working directories change mid-session?
+    options:
+      a: It is computed once at session start and never updates, even if directories are added later with --add-dir
+      b: It only ever returns the single directory Claude Code was launched from, ignoring any additional working directories
+      c: It requires the MCP server to poll roots/list on a timer, since Claude Code does not push change notifications
+      d: It reflects the session's current additional working directories, and Claude Code sends notifications/roots/list_changed whenever they change, so servers can stay in sync dynamically
+    correct: d
+    explanation: v2.1.203 made the roots/list response reflect the session's current additional working directories, including ones added later via --add-dir or another mid-session mechanism, and Claude Code now sends a notifications/roots/list_changed event whenever that set changes. This lets an MCP server stay aligned with what the session considers in scope without polling. The other options describe a static or poll-based model that the actual push-notification design replaces.
+    doc_reference:
+      file: guide/core/claude-code-releases.md
+      section: v2.1.203
+  - id: 08-025
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+      - pm
+    question: A documented MCP design principle warns against exposing one tool per individual API operation. What should a well-designed MCP tool encapsulate instead?
+    options:
+      a: One tool per API endpoint, so the agent has maximum flexibility to compose any sequence of calls itself
+      b: As many tools as possible per server, so the model always has a specialized tool for any situation
+      c: Tools that encapsulate a complete user intent, such as placing an order including the active discount, rather than exposing individual API operations the agent must chain itself
+      d: Tools that return raw, unprocessed API responses, leaving all interpretation to the client model
+    correct: c
+    explanation: The guide's usage principles argue for designing MCP tools around complete user intents rather than individual API calls. A tool covering a single API operation forces the agent to chain several calls itself, and each call in that chain is an independent point of failure. A tool that wraps a full workflow, like placing an order with its discount already applied, keeps the model on one well-defined path instead of composing several fragile steps. Options a, b, and d describe the fragmented, over-specialized, or under-processed design the principle argues against.
+    doc_reference:
+      file: guide/ecosystem/mcp-servers-ecosystem.md
+      section: Usage Principles (Beyond the Evaluation Checklist)
+  - id: 08-026
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: Where is the user-scope MCP configuration stored?
+    options:
+      a: ~/.mcp/config.json
+      b: ~/.claude.json
+      c: /etc/claude/mcp.json
+      d: ~/.config/claude/mcp.json
+    correct: b
+    explanation: |-
+      MCP servers are configured in `~/.claude.json` under the `"mcpServers"` field.
+
+      Configuration locations:
+      - `~/.claude.json` (field `"mcpServers"`) - User/local scope
+      - `.mcp.json` at project root - Project scope (shareable via VCS)
+
+      The configuration specifies which servers to run and their settings.
+    doc_reference:
+      file: guide/ultimate-guide.md
+      section: 8.3 Configuration
+      anchor: "#mcp-configuration-location"
+  - id: 08-027
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What syntax does Claude Code use for environment variable substitution in MCP config?
+    options:
+      a: ${projectPath}
+      b: ${workspaceFolder}
+      c: ${VAR_NAME}
+      d: ${PROJECT_DIR}
+    correct: c
+    explanation: |-
+      Claude Code uses standard shell-style `${VAR}` syntax for environment variable expansion.
+
+      Variable substitution in MCP config:
+      - `${VAR}` - Environment variable value
+      - `${VAR:-default}` - Environment variable with fallback
+
+      Note: `${workspaceFolder}` and `${env:VAR_NAME}` are VS Code conventions, not Claude Code.
+
+      Example:
+      ```json
+      "env": {
+        "DATABASE_URL": "${DATABASE_URL}"
+      }
+      ```
+    doc_reference:
+      file: guide/ultimate-guide.md
+      section: 8.3 Configuration
+      anchor: "#variable-substitution"

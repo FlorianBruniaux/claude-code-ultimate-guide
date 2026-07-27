@@ -1,19 +1,20 @@
-category: "Advanced Patterns"
+category: Advanced Patterns
 category_id: 9
-source_file: "guide/ultimate-guide.md"
-
+source_file: guide/ultimate-guide.md
 questions:
-  - id: "09-001"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What are the three components of 'The Trinity' pattern?"
+  - id: 09-001
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What are the three components of 'The Trinity' pattern?
     options:
-      a: "Git, VSCode, Terminal"
-      b: "Plan Mode, Extended Thinking, Sequential Thinking"
-      c: "Serena, Context7, Playwright"
-      d: "Agent, Skill, Command"
-    correct: "b"
-    explanation: |
+      a: Git, VSCode, Terminal
+      b: Plan Mode, Extended Thinking, Sequential Thinking
+      c: Serena, Context7, Playwright
+      d: Agent, Skill, Command
+    correct: b
+    explanation: |-
       The Trinity is the most powerful Claude Code pattern combining:
 
       1. **Plan Mode** - Safe exploration without changes
@@ -23,21 +24,21 @@ questions:
       Combined, these provide maximum understanding before taking action.
       Use for architecture decisions, complex debugging, and legacy modernization.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "9.1 The Trinity"
+      file: guide/ultimate-guide.md
+      section: 9.1 The Trinity
       anchor: "#91-the-trinity"
-
-  - id: "09-002"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "How do you toggle thinking mode in Claude Code (Opus 4.5+)?"
+  - id: 09-002
+    difficulty: power
+    profiles:
+      - power
+    question: How do you toggle thinking mode in Claude Code (Opus 4.5+)?
     options:
-      a: "Use 'ultrathink' keyword in your prompt"
-      b: "Alt+T (or Option+T on macOS)"
-      c: "--think CLI flag"
-      d: "/thinking command"
-    correct: "b"
-    explanation: |
+      a: Use 'ultrathink' keyword in your prompt
+      b: Alt+T (or Option+T on macOS)
+      c: --think CLI flag
+      d: /thinking command
+    correct: b
+    explanation: |-
       With Opus 4.5 (v2.0.67+), thinking mode is enabled by default at maximum budget.
 
       **Controlling Thinking Mode:**
@@ -50,48 +51,54 @@ questions:
 
       Use Alt+T to disable thinking for simple tasks (faster, cheaper).
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "9.1 Extended Thinking"
-      anchor: "#extended-thinking-opus-45"
-
-  - id: "09-003"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What CLI flag runs Claude Code without interactive prompts for CI/CD?"
+      file: guide/ultimate-guide.md
+      section: Extended Thinking (Opus 4.5+) & Adaptive Thinking (Opus 4.6+)
+      anchor: "#extended-thinking-opus-45-adaptive-thinking-opus-46"
+  - id: 09-003
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What CLI flag runs Claude Code without interactive prompts for CI/CD?
     options:
-      a: "--ci"
-      b: "--headless"
-      c: "--batch"
-      d: "--automated"
-    correct: "b"
-    explanation: |
-      The `--headless` flag runs Claude Code without interactive prompts:
+      a: -p (prompt flag for non-interactive execution)
+      b: --headless
+      c: --batch
+      d: --automated
+    correct: a
+    explanation: |-
+      The `-p` flag provides a prompt directly on the command line, running Claude Code without interactive prompts:
 
       ```bash
       # Basic headless execution
-      claude --headless "Run the tests and report results"
+      claude -p "Run the tests and report results"
 
       # With timeout
-      claude --headless --timeout 300 "Build the project"
+      claude -p --timeout 300 "Build the project"
+
+      # With specific model
+      claude -p --model sonnet "Analyze code quality"
       ```
 
-      Essential for CI/CD integration, automated pipelines, and scripted workflows.
+      Note: There is no `--headless` flag. The `-p` flag inherently makes execution non-interactive by accepting the prompt as a CLI argument. Essential for CI/CD integration, automated pipelines, and scripted workflows.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "9.3 CI/CD Integration"
+      file: guide/ultimate-guide.md
+      section: 9.3 CI/CD Integration
       anchor: "#headless-mode"
-
-  - id: "09-004"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "How do you pipe content to Claude Code with a prompt?"
+  - id: 09-004
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: How do you pipe content to Claude Code with a prompt?
     options:
-      a: "claude | cat file.txt -p 'analyze'"
-      b: "cat file.txt | claude -p 'analyze this code'"
-      c: "claude < file.txt --prompt 'analyze'"
-      d: "file.txt > claude -p 'analyze'"
-    correct: "b"
-    explanation: |
+      a: claude | cat file.txt -p 'analyze'
+      b: cat file.txt | claude -p 'analyze this code'
+      c: claude < file.txt --prompt 'analyze'
+      d: file.txt > claude -p 'analyze'
+    correct: b
+    explanation: |-
       Use standard Unix piping with the `-p` flag:
 
       ```bash
@@ -102,53 +109,51 @@ questions:
 
       This enables powerful shell integration for automated code analysis.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "9.3 CI/CD Integration"
+      file: guide/ultimate-guide.md
+      section: 9.3 CI/CD Integration
       anchor: "#unix-piping-workflows"
-
-  - id: "09-005"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is the 'Rev the Engine' pattern?"
+  - id: 09-005
+    difficulty: power
+    profiles:
+      - power
+    question: What is the 'Rev the Engine' pattern?
     options:
-      a: "Running tests in parallel"
-      b: "Multiple rounds of write-critique-improve cycles"
-      c: "Restarting Claude Code between tasks"
-      d: "Using higher compute models"
-    correct: "b"
-    explanation: |
-      The "Rev the Engine" pattern uses multiple rounds of critique for quality:
+      a: Running tests in parallel
+      b: Multiple rounds of write-critique-improve cycles
+      c: Multiple rounds of planning and deep thinking before executing
+      d: Using higher compute models
+    correct: c
+    explanation: |-
+      The "Rev the Engine" pattern runs multiple rounds of **planning and deep thinking** before executing, like warming up an engine before driving.
 
-      ```
-      Round 1: [Initial implementation]
-      Critique: [What's wrong]
-      Improvement: [Better version]
+      **Standard workflow**: think → plan → execute
+      **Rev the Engine**: think → plan → think harder → refine plan → think hardest → finalize → execute
 
-      Round 2: [Improved implementation]
-      Critique: [What's still wrong]
-      Improvement: [Even better version]
+      **When to use**:
+      - Critical architectural decisions (irreversible, high-impact)
+      - Complex migrations affecting 10+ files
+      - Unfamiliar domains where first instincts are often wrong
 
-      Round 3: [Final implementation]
-      Final check: [Verification]
-      ```
+      **Why it works**: Each round forces Claude to reconsider assumptions. Round 2 typically catches 30-40% of issues that round 1 missed.
 
-      Typically 3 rounds are recommended for quality work.
+      **Note**: The guide also describes a variant pattern using write-critique-improve cycles (line 9761), but the primary definition focuses on planning iterations.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "9.2 Composition Patterns"
-      anchor: "#the-rev-the-engine-pattern"
-
-  - id: "09-006"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What output format flag gets structured JSON from Claude for scripting?"
+      file: guide/ultimate-guide.md
+      section: 2.3 Rev the Engine
+      line: 2337-2375
+  - id: 09-006
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What output format flag gets structured JSON from Claude for scripting?
     options:
-      a: "--format json"
-      b: "--output-format json"
-      c: "--json"
-      d: "--structured"
-    correct: "b"
-    explanation: |
+      a: --format json
+      b: --output-format json
+      c: --json
+      d: --structured
+    correct: b
+    explanation: |-
       Use `--output-format` to control response format:
 
       | Format | Use Case |
@@ -162,21 +167,23 @@ questions:
       git log --oneline -10 | claude -p 'Categorize commits' --output-format json
       ```
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "9.3 CI/CD Integration"
-      anchor: "#output-format-control"
-
-  - id: "09-007"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What is 'Vibe Coding' according to the guide?"
+      file: guide/ultimate-guide.md
+      section: 9.3 Output Format Control
+      line: 9894-9902
+  - id: 09-007
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What is 'Vibe Coding' according to the guide?
     options:
-      a: "Coding while listening to music"
-      b: "Rapid prototyping through natural conversation before committing to implementation"
-      c: "Using AI to generate random code"
-      d: "Coding in a relaxed environment"
-    correct: "b"
-    explanation: |
+      a: Coding while listening to music
+      b: Rapid prototyping through natural conversation before committing to implementation
+      c: Using AI to generate random code
+      d: Coding in a relaxed environment
+    correct: b
+    explanation: |-
       Vibe Coding is rapid prototyping through natural conversation.
 
       When to vibe code:
@@ -190,21 +197,21 @@ questions:
       - Focus on learning
       - Signal clearly: "This is vibe code, not for production"
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "9.8 Vibe Coding & Skeleton Projects"
+      file: guide/ultimate-guide.md
+      section: 9.8 Vibe Coding & Skeleton Projects
       anchor: "#vibe-coding"
-
-  - id: "09-008"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is the Verify Gate Pattern before creating a PR?"
+  - id: 09-008
+    difficulty: power
+    profiles:
+      - power
+    question: What is the Verify Gate Pattern before creating a PR?
     options:
-      a: "Just run tests"
-      b: "Build -> Lint -> Test -> Type-check -> THEN create PR"
-      c: "Create PR first, then fix issues"
-      d: "Manual review only"
-    correct: "b"
-    explanation: |
+      a: Just run tests
+      b: Build -> Lint -> Test -> Type-check -> THEN create PR
+      c: Create PR first, then fix issues
+      d: Manual review only
+    correct: b
+    explanation: |-
       The Verify Gate Pattern ensures all checks pass before PR creation:
 
       ```
@@ -219,21 +226,22 @@ questions:
 
       This prevents wasted CI cycles and review time.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "9.3 CI/CD Integration"
+      file: guide/ultimate-guide.md
+      section: 9.3 CI/CD Integration
       anchor: "#verify-gate-pattern"
-
-  - id: "09-009"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What is the key insight of 'Todo as Instruction Mirrors'?"
+  - id: 09-009
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is the key insight of 'Todo as Instruction Mirrors'?
     options:
-      a: "Todos are just for tracking"
-      b: "What you write as a todo becomes Claude's instruction"
-      c: "Todos should be vague for flexibility"
-      d: "Always use bullet points"
-    correct: "b"
-    explanation: |
+      a: Todos are just for tracking
+      b: What you write as a todo becomes Claude's instruction
+      c: Todos should be vague for flexibility
+      d: Always use bullet points
+    correct: b
+    explanation: |-
       The Mirror Principle: What you write as a todo becomes Claude's instruction.
 
       Bad (vague todo -> vague execution):
@@ -244,21 +252,21 @@ questions:
 
       Well-crafted todos guide Claude's execution with precision.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "9.6 Todo as Instruction Mirrors"
+      file: guide/ultimate-guide.md
+      section: 9.6 Todo as Instruction Mirrors
       anchor: "#the-mirror-principle"
-
-  - id: "09-010"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "According to 'Continuous Improvement Mindset', what should you ask after every manual intervention?"
+  - id: 09-010
+    difficulty: power
+    profiles:
+      - power
+    question: According to 'Continuous Improvement Mindset', what should you ask after every manual intervention?
     options:
-      a: "Was this my fault?"
-      b: "How can I improve the process so this error can be avoided next time?"
-      c: "Who is responsible for this?"
-      d: "Should I use a different AI?"
-    correct: "b"
-    explanation: |
+      a: Was this my fault?
+      b: How can I improve the process so this error can be avoided next time?
+      c: Who is responsible for this?
+      d: Should I use a different AI?
+    correct: b
+    explanation: |-
       After every manual intervention, ask:
       "How can I improve the process so this error or manual fix can be avoided next time?"
 
@@ -269,21 +277,23 @@ questions:
 
       The meta-skill: instead of fixing code, fix the system that produces the code.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "9.10 Continuous Improvement Mindset"
+      file: guide/ultimate-guide.md
+      section: 9.10 Continuous Improvement Mindset
       anchor: "#the-key-question"
-
-  - id: "09-011"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What is a Skeleton Project?"
+  - id: 09-011
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What is a Skeleton Project?
     options:
-      a: "A project with no code"
-      b: "A minimal, working template that establishes patterns before full implementation"
-      c: "A deprecated project"
-      d: "A project outline document"
-    correct: "b"
-    explanation: |
+      a: A project with no code
+      b: A minimal, working template that establishes patterns before full implementation
+      c: A deprecated project
+      d: A project outline document
+    correct: b
+    explanation: |-
       A skeleton project is a minimal, working template that establishes patterns.
 
       Skeleton principles:
@@ -294,21 +304,22 @@ questions:
 
       Progression: Skeleton (Day 1) -> MVP (Week 1) -> Full (Month 1)
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "9.8 Vibe Coding & Skeleton Projects"
+      file: guide/ultimate-guide.md
+      section: 9.8 Vibe Coding & Skeleton Projects
       anchor: "#skeleton-projects"
-
-  - id: "09-012"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What is OpusPlan mode?"
+  - id: 09-012
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is OpusPlan mode?
     options:
-      a: "Using only Opus for everything"
-      b: "Opus for planning, Sonnet for execution"
-      c: "A special debugging mode"
-      d: "Planning without AI"
-    correct: "b"
-    explanation: |
+      a: Using only Opus for everything
+      b: Opus for planning, Sonnet for execution
+      c: A special debugging mode
+      d: Planning without AI
+    correct: b
+    explanation: |-
       OpusPlan mode combines model strengths:
       - **Planning**: Opus for high-level thinking
       - **Execution**: Sonnet for implementation
@@ -323,21 +334,21 @@ questions:
       # Implement the plan...
       ```
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "9.13 Cost Optimization Strategies"
+      file: guide/ultimate-guide.md
+      section: 9.13 Cost Optimization Strategies
       anchor: "#model-selection-matrix"
-
-  - id: "09-013"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "When should you NOT use --dangerously-skip-permissions?"
+  - id: 09-013
+    difficulty: power
+    profiles:
+      - power
+    question: When should you NOT use --dangerously-skip-permissions?
     options:
-      a: "In CI/CD pipelines"
-      b: "On production systems or sensitive codebases"
-      c: "For automated testing"
-      d: "In Docker containers"
-    correct: "b"
-    explanation: |
+      a: In CI/CD pipelines
+      b: On production systems or sensitive codebases
+      c: For automated testing
+      d: In Docker containers
+    correct: b
+    explanation: |-
       Never use `--dangerously-skip-permissions` on production systems or sensitive codebases.
 
       Safe usage:
@@ -352,21 +363,22 @@ questions:
 
       The flag bypasses all permission prompts, creating security risks.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "9.11 Common Pitfalls & Best Practices"
+      file: guide/ultimate-guide.md
+      section: 9.11 Common Pitfalls & Best Practices
       anchor: "#security-pitfalls"
-
-  - id: "09-014"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What prompt format does the guide recommend for effective requests?"
+  - id: 09-014
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What prompt format does the guide recommend for effective requests?
     options:
-      a: "Simple natural language"
-      b: "WHAT, WHERE, HOW, VERIFY"
-      c: "Subject, Body, Footer"
-      d: "Title, Description, Acceptance Criteria"
-    correct: "b"
-    explanation: |
+      a: Simple natural language
+      b: WHAT, WHERE, HOW, VERIFY
+      c: Subject, Body, Footer
+      d: Title, Description, Acceptance Criteria
+    correct: b
+    explanation: |-
       The recommended prompt format:
 
       - **WHAT**: Concrete deliverable
@@ -382,21 +394,23 @@ questions:
       VERIFY: Empty email shows error, invalid format shows error
       ```
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "9.11 Common Pitfalls & Best Practices"
-      anchor: "#effective-prompt-format"
-
-  - id: "09-015"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What is the recommended learning progression for Claude Code?"
+      file: guide/ultimate-guide.md
+      section: Skipping the Plan
+      anchor: "#1-skipping-the-plan"
+  - id: 09-015
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What is the recommended learning progression for Claude Code?
     options:
-      a: "Learn everything at once"
-      b: "Start with advanced features"
+      a: Learn everything at once
+      b: Start with advanced features
       c: "Week 1: Basic commands -> Week 2: CLAUDE.md -> Week 3: Agents -> Month 2+: MCP servers"
-      d: "Skip to MCP servers immediately"
-    correct: "c"
-    explanation: |
+      d: Skip to MCP servers immediately
+    correct: c
+    explanation: |-
       The guide recommends progressive learning:
 
       1. **Week 1**: Basic commands, context management
@@ -407,21 +421,21 @@ questions:
       Start with simple, low-risk tasks and build up complexity gradually.
       This avoids overwhelm and builds solid fundamentals.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "9.11 Common Pitfalls & Best Practices"
-      anchor: "#learning--adoption-pitfalls"
-
-  - id: "09-016"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What git workflow enables working on multiple features simultaneously with isolated contexts?"
+      file: guide/ultimate-guide.md
+      section: 9.11 Common Pitfalls & Best Practices
+      anchor: "#learning-adoption-pitfalls"
+  - id: 09-016
+    difficulty: power
+    profiles:
+      - power
+    question: What git workflow enables working on multiple features simultaneously with isolated contexts?
     options:
-      a: "Git stash"
-      b: "Git worktrees"
-      c: "Git branches only"
-      d: "Git submodules"
-    correct: "b"
-    explanation: |
+      a: Git stash
+      b: Git worktrees
+      c: Git branches only
+      d: Git submodules
+    correct: b
+    explanation: |-
       Git worktrees create multiple working directories from the same repository.
 
       Benefits:
@@ -435,106 +449,107 @@ questions:
       git worktree add ../myproject-feature-a feature-a
       ```
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "9.12 Git Best Practices & Workflows"
+      file: guide/ultimate-guide.md
+      section: 9.12 Git Best Practices & Workflows
       anchor: "#git-worktrees-for-parallel-development"
-
-  - id: "09-017"
-    difficulty: "intermediate"
-    profiles: ["senior", "power"]
-    question: "What is SDD (Spec-Driven Development) and its key claim?"
+  - id: 09-017
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: What is SDD (Spec-Driven Development) and its key claim?
     options:
-      a: "Speed-based Development - fastest approach"
-      b: "Spec-Driven Development - one well-structured iteration equals 8 unstructured ones"
-      c: "Standard Driven Development - follows industry standards"
-      d: "Sequential Driven Development - linear workflow"
-    correct: "b"
-    explanation: |
-      SDD (Spec-Driven Development) means specifications BEFORE code. The key claim: one well-structured iteration equals 8 unstructured ones. CLAUDE.md IS your spec file. Best for APIs and contracts. High Claude fit (⭐⭐⭐).
+      a: Speed-based Development - fastest approach
+      b: Spec-Driven Development - one well-structured iteration equals 8 unstructured ones
+      c: Standard Driven Development - follows industry standards
+      d: Sequential Driven Development - linear workflow
+    correct: b
+    explanation: "SDD (Spec-Driven Development) means specifications BEFORE code. The key claim: one well-structured iteration equals 8 unstructured ones. CLAUDE.md IS your spec file. Best for APIs and contracts. High Claude fit (⭐⭐⭐)."
     doc_reference:
-      file: "guide/methodologies.md"
+      file: guide/core/methodologies.md
       section: "Tier 2: Specification & Architecture"
-      anchor: "#tier-2-specification--architecture"
-
-  - id: "09-018"
-    difficulty: "intermediate"
-    profiles: ["senior", "power"]
-    question: "What format does BDD (Behavior-Driven Development) use for test scenarios?"
+      anchor: "#tier-2-specification-architecture"
+  - id: 09-018
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: What format does BDD (Behavior-Driven Development) use for test scenarios?
     options:
-      a: "Arrange-Act-Assert"
-      b: "Given-When-Then (Gherkin)"
-      c: "Setup-Execute-Verify"
-      d: "Input-Process-Output"
-    correct: "b"
-    explanation: |
-      BDD uses Given-When-Then format (Gherkin). BDD is beyond testing - it's a collaboration process: (1) Discovery with devs/business, (2) Formulation with examples, (3) Automation via Cucumber. Example: Given product with 0 stock → When customer attempts purchase → Then system refuses.
+      a: Arrange-Act-Assert
+      b: Given-When-Then (Gherkin)
+      c: Setup-Execute-Verify
+      d: Input-Process-Output
+    correct: b
+    explanation: "BDD uses Given-When-Then format (Gherkin). BDD is beyond testing - it's a collaboration process: (1) Discovery with devs/business, (2) Formulation with examples, (3) Automation via Cucumber. Example: Given product with 0 stock → When customer attempts purchase → Then system refuses."
     doc_reference:
-      file: "guide/methodologies.md"
+      file: guide/core/methodologies.md
       section: "Tier 3: Behavior & Acceptance"
-      anchor: "#tier-3-behavior--acceptance"
-
-  - id: "09-019"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What are the three steps of the TDD cycle?"
+      anchor: "#tier-3-behavior-acceptance"
+  - id: 09-019
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What are the three steps of the TDD cycle?
     options:
-      a: "Plan-Develop-Test"
-      b: "Red-Green-Refactor"
-      c: "Write-Run-Fix"
-      d: "Design-Code-Review"
-    correct: "b"
-    explanation: |
-      The classic TDD cycle: (1) Red - write failing test, (2) Green - minimal code to pass, (3) Refactor - clean up while tests stay green. With Claude: be explicit "Write FAILING tests that don't exist yet." TDD is a core workflow (⭐⭐⭐).
+      a: Plan-Develop-Test
+      b: Red-Green-Refactor
+      c: Write-Run-Fix
+      d: Design-Code-Review
+    correct: b
+    explanation: "The classic TDD cycle: (1) Red - write failing test, (2) Green - minimal code to pass, (3) Refactor - clean up while tests stay green. With Claude: be explicit \"Write FAILING tests that don't exist yet.\" TDD is a core workflow (⭐⭐⭐)."
     doc_reference:
-      file: "guide/methodologies.md"
+      file: guide/core/methodologies.md
       section: "Tier 5: Implementation"
       anchor: "#tier-5-implementation"
-
-  - id: "09-020"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "How many development methodologies are documented in the methodologies reference?"
+  - id: 09-020
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: How many development methodologies are documented in the methodologies reference?
     options:
-      a: "5 methodologies"
-      b: "10 methodologies"
-      c: "15 methodologies"
-      d: "20 methodologies"
-    correct: "c"
-    explanation: |
-      15 methodologies organized in a 6-tier pyramid: Tier 1 (Strategic - BMAD), Tier 2 (Specification - SDD, Doc-Driven, Req-Driven, DDD), Tier 3 (Behavior - BDD, ATDD, CDD), Tier 4 (Feature - FDD, Context Engineering), Tier 5 (Implementation - TDD, Eval-Driven, Multi-Agent), Tier 6 (Optimization).
+      a: 5 methodologies
+      b: 10 methodologies
+      c: 15 methodologies
+      d: 20 methodologies
+    correct: c
+    explanation: "15 methodologies organized in a 6-tier pyramid: Tier 1 (Strategic - BMAD), Tier 2 (Specification - SDD, Doc-Driven, Req-Driven, DDD), Tier 3 (Behavior - BDD, ATDD, CDD), Tier 4 (Feature - FDD, Context Engineering), Tier 5 (Implementation - TDD, Eval-Driven, Multi-Agent), Tier 6 (Optimization)."
     doc_reference:
-      file: "guide/methodologies.md"
-      section: "The 15 Methodologies"
+      file: guide/core/methodologies.md
+      section: The 15 Methodologies
       anchor: "#the-15-methodologies"
-
-  - id: "09-021"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What is 'Context Engineering' as a methodology?"
+  - id: 09-021
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is 'Context Engineering' as a methodology?
     options:
-      a: "Engineering team context"
+      a: Engineering team context
       b: "Treating context as first-class design element: progressive disclosure, memory management, dynamic refresh"
-      c: "Building context menus"
-      d: "Managing environment variables"
-    correct: "b"
-    explanation: |
-      Context Engineering treats context as a design element. Key concepts: Progressive Disclosure (let agent discover incrementally), Memory Management (conversation vs persistent memory), Dynamic Refresh (rewrite TODO list before response). High Claude fit (⭐⭐⭐) for long sessions.
+      c: Building context menus
+      d: Managing environment variables
+    correct: b
+    explanation: "Context Engineering treats context as a design element. Key concepts: Progressive Disclosure (let agent discover incrementally), Memory Management (conversation vs persistent memory), Dynamic Refresh (rewrite TODO list before response). High Claude fit (⭐⭐⭐) for long sessions."
     doc_reference:
-      file: "guide/methodologies.md"
+      file: guide/core/methodologies.md
       section: "Tier 4: Feature Delivery"
       anchor: "#tier-4-feature-delivery"
-
-  - id: "09-022"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What are the 5 layers of 'Mechanic Stacking'?"
+  - id: 09-022
+    difficulty: power
+    profiles:
+      - power
+    question: What are the 5 layers of 'Mechanic Stacking'?
     options:
-      a: "Plan Mode, Extended Thinking, Rev the Engine, Split-Role, Permutation"
-      b: "Plan Mode, Sequential Thinking, Context7, Serena, Playwright"
-      c: "CLAUDE.md, Plan Mode, Extended Thinking, MCP Servers, Hooks"
-      d: "Plan Mode, Extended Thinking, Rev the Engine, Multi-Agent, Hooks"
-    correct: "a"
-    explanation: |
+      a: Plan Mode, Extended Thinking, Rev the Engine, Split-Role, Permutation
+      b: Plan Mode, Sequential Thinking, Context7, Serena, Playwright
+      c: CLAUDE.md, Plan Mode, Extended Thinking, MCP Servers, Hooks
+      d: Plan Mode, Extended Thinking, Rev the Engine, Multi-Agent, Hooks
+    correct: a
+    explanation: |-
       Mechanic Stacking layers 5 techniques for maximum Claude Code power:
 
       1. **Plan Mode** - Safe exploration without changes
@@ -545,55 +560,55 @@ questions:
 
       Each layer compounds the previous one's effectiveness.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "Mechanic Stacking"
+      file: guide/ultimate-guide.md
+      section: Mechanic Stacking
       anchor: "#mechanic-stacking"
-
-  - id: "09-023"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is a 'Permutation Framework' in Claude Code?"
+  - id: 09-023
+    difficulty: power
+    profiles:
+      - power
+    question: What is a 'Permutation Framework' in Claude Code?
     options:
-      a: "A/B testing of UI variants"
+      a: A/B testing of UI variants
       b: "CLAUDE.md-driven systematic variation testing: define dimensions, generate variants, implement, evaluate"
-      c: "Random code generation for benchmarks"
-      d: "Automated regression test suite"
-    correct: "b"
-    explanation: |
-      A Permutation Framework uses CLAUDE.md to drive systematic variation testing. The workflow: define variation dimensions (e.g., algorithm choice, data structure, caching strategy), generate all combinations, implement each variant, evaluate with metrics. This ensures you explore the solution space methodically rather than picking the first approach.
+      c: Random code generation for benchmarks
+      d: Automated regression test suite
+    correct: b
+    explanation: "A Permutation Framework uses CLAUDE.md to drive systematic variation testing. The workflow: define variation dimensions (e.g., algorithm choice, data structure, caching strategy), generate all combinations, implement each variant, evaluate with metrics. This ensures you explore the solution space methodically rather than picking the first approach."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "Permutation Frameworks"
-      anchor: "#permutation-frameworks"
-
-  - id: "09-024"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What mental model describes the developer as an orchestrator of Claude instances?"
+      file: guide/ultimate-guide.md
+      section: What Is a Permutation Framework?
+      anchor: "#what-is-a-permutation-framework"
+  - id: 09-024
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What mental model describes the developer as an orchestrator of Claude instances?
     options:
-      a: "Pipeline Manager"
-      b: "Agent Supervisor"
-      c: "You Are the Main Thread - CPU scheduler analogy where developer dispatches tasks to agents"
-      d: "Task Router"
-    correct: "c"
-    explanation: |
-      "You Are the Main Thread" uses the CPU scheduler analogy: the developer is the main thread dispatching work to Claude instances (worker threads). You manage priorities, context switches, and synchronization. Key insight: you don't write code - you manage the agents that write code. This shifts the skill from coding to orchestration.
+      a: Pipeline Manager
+      b: Agent Supervisor
+      c: You Are the Main Thread - CPU scheduler analogy where developer dispatches tasks to agents
+      d: Task Router
+    correct: c
+    explanation: "\"You Are the Main Thread\" uses the CPU scheduler analogy: the developer is the main thread dispatching work to Claude instances (worker threads). You manage priorities, context switches, and synchronization. Key insight: you don't write code - you manage the agents that write code. This shifts the skill from coding to orchestration."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "You Are the Main Thread"
+      file: guide/ultimate-guide.md
+      section: You Are the Main Thread
       anchor: "#you-are-the-main-thread"
-
-  - id: "09-025"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "When task list items consistently diverge from actual work done, what does the guide recommend?"
+  - id: 09-025
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: When task list items consistently diverge from actual work done, what does the guide recommend?
     options:
-      a: "Delete the task list and start over"
-      b: "Add more granular detail to each task"
+      a: Delete the task list and start over
+      b: Add more granular detail to each task
       c: "Use divergence patterns as diagnostic: too broad = break down, too narrow = step back, wrong priorities = re-align with goals"
-      d: "Ignore the divergence and continue"
-    correct: "c"
-    explanation: |
+      d: Ignore the divergence and continue
+    correct: c
+    explanation: |-
       Task list divergence is diagnostic, not failure. Patterns reveal issues:
 
       - **Too broad** tasks → break down into smaller pieces
@@ -603,108 +618,296 @@ questions:
 
       Use divergence as signal, not noise.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "Task Management Patterns"
-      anchor: "#task-management-patterns"
-
-  - id: "09-026"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What is the 'occurrence rule' for claiming established patterns in code reviews?"
+      file: guide/ultimate-guide.md
+      section: Task Lists as Diagnostic Tool
+      anchor: "#task-lists-as-diagnostic-tool"
+  - id: 09-026
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is the 'occurrence rule' for claiming established patterns in code reviews?
     options:
       a: ">5 occurrences = established, 2-5 = emerging, <2 = not established"
-      b: ">10 occurrences = established, 3-10 = emerging, <3 = not established"
-      c: "Based on file count, not occurrences"
+      b: 10+ occurrences = established, 3-10 = emerging, <3 = not established
+      c: Based on file count, not occurrences
       d: ">20 occurrences = established, 5-20 = emerging, <5 = not established"
-    correct: "b"
-    explanation: |
+    correct: b
+    explanation: |-
       Anti-hallucination safeguards for code reviews define the occurrence rule:
 
-      - **>10 occurrences** = established pattern (safe to reference)
+      - **10+ occurrences** = established pattern (safe to reference)
       - **3-10 occurrences** = emerging pattern (mention cautiously)
       - **<3 occurrences** = NOT an established pattern (don't claim it is)
 
       This prevents Claude from hallucinating "established conventions" from a few examples.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "Anti-Hallucination Safeguards"
-      anchor: "#anti-hallucination-safeguards"
-
-  - id: "09-027"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What are the 3 specialized agents in multi-agent code review?"
+      file: guide/ultimate-guide.md
+      section: Split Role Sub-Agents
+      anchor: "#split-role-sub-agents"
+  - id: 09-027
+    difficulty: power
+    profiles:
+      - power
+    question: What are the 3 specialized agents in multi-agent code review?
     options:
-      a: "Security Reviewer, Performance Analyst, UX Reviewer"
-      b: "Linter, Type Checker, Test Runner"
-      c: "Consistency Auditor, SOLID Analyst, Defensive Code Auditor"
-      d: "Junior Reviewer, Senior Reviewer, Architect Reviewer"
-    correct: "c"
-    explanation: |
+      a: Security Reviewer, Performance Analyst, UX Reviewer
+      b: Linter, Type Checker, Test Runner
+      c: Consistency Agent, SOLID Agent, Defensive Code Auditor
+      d: Junior Reviewer, Senior Reviewer, Architect Reviewer
+    correct: c
+    explanation: |-
       Multi-agent PR review uses 3 specialized agents:
 
-      1. **Consistency Auditor** - Checks naming conventions, import patterns, code style adherence
-      2. **SOLID Analyst** - Reviews architectural principles, dependency injection, single responsibility
+      1. **Consistency Agent** - Checks naming conventions, import patterns, code style adherence
+      2. **SOLID Agent** - Reviews architectural principles, dependency injection, single responsibility
       3. **Defensive Code Auditor** - Validates error handling, input validation, edge cases
 
       Each agent has anti-hallucination safeguards (occurrence rule, file-scoped claims).
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "Multi-Agent PR Review"
-      anchor: "#multi-agent-pr-review"
-
-  - id: "09-028"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What is 'comprehension debt' according to Addy Osmani's '80% Problem'?"
+      file: guide/ultimate-guide.md
+      section: Split Role Sub-Agents
+      anchor: "#split-role-sub-agents"
+  - id: 09-028
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is 'comprehension debt' according to Addy Osmani's '80% Problem'?
     options:
-      a: "Documentation debt - missing docs"
-      b: "Code you shipped but don't fully understand - distinct from technical debt"
-      c: "Review debt - unreviewed PRs"
-      d: "Design debt - skipped design phase"
-    correct: "b"
-    explanation: |
-      Comprehension debt is code you shipped but don't fully understand. It's distinct from technical debt (code you understand but know is suboptimal). With AI-generated code, comprehension debt grows silently: you accept suggestions without deep understanding. The fix: always be able to explain WHY, not just WHAT.
+      a: Documentation debt - missing docs
+      b: Code you shipped but don't fully understand - distinct from technical debt
+      c: Review debt - unreviewed PRs
+      d: Design debt - skipped design phase
+    correct: b
+    explanation: |-
+      **Comprehension debt** (from Osmani's "80% Problem" article): Code you shipped but don't fully understand, distinct from technical debt (code you understand but know is suboptimal).
+
+      Osmani synthesizes research showing that when AI generates 80%+ of code, developers risk accumulating comprehension debt by accepting suggestions without deep understanding.
+
+      **The guide connects this to "Vibe Coding Trap"**: accepting code based on "feels right" intuition rather than verified understanding.
+
+      **The fix**: Always be able to explain WHY the solution works, not just WHAT it does.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "Practitioner Insights"
-      anchor: "#practitioner-insights"
-
-  - id: "09-029"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What is the '4-step cycle' for CLAUDE.md as compounding memory (Boris Cherny)?"
+      file: guide/ecosystem/ai-ecosystem.md
+      section: Addy Osmani (Google Chrome Team)
+      anchor: "#addy-osmani-google-chrome-team"
+  - id: 09-029
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is the '4-step cycle' for CLAUDE.md as compounding memory?
     options:
-      a: "Write, Test, Deploy, Monitor"
-      b: "Plan, Execute, Review, Commit"
-      c: "Error, Rule, Read, Never repeated"
-      d: "Ask, Implement, Validate, Ship"
-    correct: "c"
-    explanation: |
-      Boris Cherny's mental model for CLAUDE.md as compounding memory:
+      a: Write, Test, Deploy, Monitor
+      b: Plan, Execute, Review, Commit
+      c: Error, Rule, Read, Never repeated
+      d: Ask, Implement, Validate, Ship
+    correct: c
+    explanation: |-
+      The guide interprets Boris Cherny's concept of CLAUDE.md as "compounding memory" into a 4-step cycle:
 
       1. **Error** - Claude makes a mistake
       2. **Rule** - You add a rule to CLAUDE.md preventing it
       3. **Read** - Claude reads CLAUDE.md on every session start
       4. **Never repeated** - The mistake never happens again
 
-      Goal: never correct Claude twice for the same mistake. CLAUDE.md compounds over time.
+      Boris Cherny states: "I treat Claude.md as compounding memory: every mistake becomes a durable rule for the team." The 4-step framework is the guide's interpretation of this principle, not an explicit quote from Boris.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "Boris Cherny Mental Models"
-      anchor: "#boris-cherny-mental-models"
-
-  - id: "09-030"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "How do you enable agent teams in Claude Code v2.1.32+?"
+      file: guide/ultimate-guide.md
+      section: "Real-World Case: Boris Cherny (Interval)"
+      anchor: "#real-world-case-boris-cherny-interval"
+  - id: 09-030
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is the "150-instruction ceiling" in context engineering?
     options:
-      a: "Use /agent-teams command"
-      b: "Set CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 or add to settings.json"
-      c: "Install agent-teams plugin from skills.sh"
-      d: "Use --teams CLI flag"
-    correct: "b"
-    explanation: |
+      a: You cannot exceed 150K tokens in a single CLAUDE.md file
+      b: The model stops responding after 150 consecutive instructions
+      c: When instruction count exceeds roughly 150, attention becomes unreliable and adherence drops sharply
+      d: Claude Code enforces a hard 150-rule limit and refuses to load more
+    correct: c
+    explanation: |-
+      The 150-instruction ceiling refers to the approximate point at which transformer attention becomes unreliable for maintaining adherence to all instructions simultaneously. Research and community data (HumanLayer: 15-25% adherence on large instruction sets) show that once the number of always-on instructions exceeds roughly 150, Claude begins missing rules or applying them inconsistently. The fix is path-scoping — loading rules only when relevant files are in scope — to keep the effective instruction count well below the ceiling.
+      ---
+    doc_reference:
+      file: guide/core/context-engineering.md
+      section: The Context Budget
+      anchor: "#2-the-context-budget"
+  - id: 09-031
+    difficulty: power
+    profiles:
+      - power
+    question: What does the ACE pipeline stand for in context engineering?
+    options:
+      a: Assemble → Check → Execute — build context, validate with canary tests, then run Claude
+      b: Audit → Compress → Evaluate — score context quality, remove bloat, then measure adherence
+      c: Agent → Context → Exit — spawn agents, inject context, then terminate on completion
+      d: Analyze → Configure → Embed — analyze codebase, configure rules, then embed in CLAUDE.md
+    correct: a
+    explanation: |-
+      ACE = **Assemble → Check → Execute**. Assemble builds context from the team profile and project modules, producing a CLAUDE.md specific to the developer and task. Check runs canary validation — 3-5 test prompts that verify key behaviors before the actual task. If canary checks fail, fix the context issue before proceeding. Execute runs Claude with the validated context on the actual task. The pipeline is structured for teams running Claude Code in automated or semi-automated workflows where context quality must be verified before each run.
+      ---
+    doc_reference:
+      file: guide/core/context-engineering.md
+      section: The ACE Pipeline
+      anchor: "#the-ace-pipeline"
+  - id: 09-032
+    difficulty: power
+    profiles:
+      - power
+    question: What is the Plan-Validate-Execute pipeline and what makes it different from using `/plan` mode?
+    options:
+      a: A 3-command workflow where each command runs in a separate terminal window simultaneously
+      b: A 3-command workflow (/plan-start, /plan-validate, /plan-execute) where planning, independent validation, and parallel execution are deliberately separated
+      c: Three phases of the /plan command toggled by pressing Tab between each
+      d: A git branching strategy with plan, staging, and production branches
+    correct: b
+    explanation: |-
+      The Plan-Validate-Execute pipeline runs in 3 explicit commands: `/plan-start` (5-phase planning with a dynamic research agent team + ADRs), `/plan-validate` (independent 2-layer review by specialist agents — no confirmation bias), `/plan-execute` (parallel worktree agents through to merged PR). The key differentiator from native `/plan` mode: research is done by specialized agents in parallel (not one agent sequentially), validation is independent from planning, and every significant decision generates an ADR that auto-resolves future decisions. Run `/clear` between commands to reset context.
+      ---
+    doc_reference:
+      file: guide/workflows/plan-pipeline.md
+      section: TL;DR
+      anchor: "#tldr"
+  - id: 09-033
+    difficulty: power
+    profiles:
+      - power
+    question: What is the dual-instance planning pattern (Jon Williams) and how does it scale compared to other multi-instance approaches?
+    options:
+      a: Two Claude instances running on different machines for redundancy
+      b: A planner instance and a reviewer instance that share the same working directory
+      c: Horizontal scaling with 5-15 parallel implementer agents
+      d: Vertical separation with one instance as Planner (read-only, creates specs) and another as Implementer (executes approved specs)
+    correct: d
+    explanation: |-
+      The dual-instance pattern creates a **vertical separation**: Instance 1 ("Claude Zero" or Planner) is read-only and creates detailed specs stored in `.claude/plans/`. Instance 2 (Implementer) reads approved specs and executes them. Jon Williams' pattern costs ~$100-200/month vs the Boris multi-instance pattern ($500-1K/month, horizontal scaling with 5-15 parallel agents). The dual-instance pattern is best for spec-heavy, quality-focused work where the planning/implementation separation reduces rework and correction loops.
+      ---
+    doc_reference:
+      file: guide/workflows/dual-instance-planning.md
+      section: Comparison to Other Patterns
+      anchor: "#comparison-to-other-patterns"
+  - id: 09-034
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: "What does `isolation: \"worktree\"` in an agent's YAML frontmatter do (v2.1.50+)?"
+    options:
+      a: Prevents the agent from reading files outside the current directory
+      b: Automatically spawns the agent in a fresh git worktree every time it is invoked (v2.1.50+)
+      c: Runs the agent in a Docker container with network isolation
+      d: Creates a virtual sandbox that blocks all file write operations
+    correct: b
+    explanation: |-
+      Setting `isolation: "worktree"` in an agent's frontmatter automatically spawns the agent in a fresh git worktree every time it is invoked. This replaces the earlier pattern of manually passing `isolation: "worktree"` to each individual Task tool call. The worktree is automatically created before the agent runs and cleaned up after it completes. This is the recommended approach for agents that perform large-scale refactors or generate changes that must not pollute the main working tree.
+      ---
+    doc_reference:
+      file: guide/ultimate-guide.md
+      section: Declarative isolation in agent definitions
+      anchor: "#declarative-isolation-in-agent-definitions"
+  - id: 09-035
+    difficulty: power
+    profiles:
+      - power
+    question: In the ACE pipeline, what happens when canary checks fail in the "Check" phase?
+    options:
+      a: If canary checks fail, the pipeline continues but logs warnings
+      b: Canary checks run after execution to validate results
+      c: If canary checks fail in the Check phase, the pipeline exits and you must fix the context issue before retrying
+      d: Failed canary checks trigger an auto-repair loop that modifies CLAUDE.md
+    correct: c
+    explanation: |-
+      When canary checks fail, the ACE pipeline **exits immediately** and prompts you to fix the context issue before retrying. The script design is explicit: if `CANARY_EXIT -ne 0`, print "Canary checks failed. Fix context issues before executing." and exit with code 1. This is intentional — running Claude with broken context causes downstream failures that are harder to debug. The canary set should be 3-5 test prompts that verify key behavioral requirements of your CLAUDE.md before each automated run.
+      ---
+    doc_reference:
+      file: guide/core/context-engineering.md
+      section: The ACE Pipeline
+      anchor: "#the-ace-pipeline"
+  - id: 09-036
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: In the guide's multi-provider code review architecture, why does a RAG-based tool like Greptile catch things Claude Code Action's own PR review misses?
+    options:
+      a: Greptile indexes the whole repository ahead of time and can search across every file for an invariant, while Claude Code Action's review is scoped to the diff of a single PR
+      b: Greptile runs a fine-tuned model that outperforms Claude at logic error detection within the same PR
+      c: Greptile blocks merges directly, whereas Claude Code Action only posts advisory comments
+      d: Claude Code Action cannot read multiple files during a review, so it only checks syntax within the changed lines
+    correct: a
+    explanation: "Greptile indexes the entire repository up front, so it can answer questions like whether a new query respects a scoping rule enforced across dozens of unrelated files. Claude Code Action reasons deeply about a diff with full codebase context, but it reviews one PR at a time and doesn't do repo-wide search. Option c reverses the actual role split: Claude Code Action is the tool allowed to block merge via the CI gate, not Greptile. Option d is wrong because Claude Code Action does reason about intent across full codebase context per PR, it just isn't scoped to search beyond that PR."
+    doc_reference:
+      file: guide/workflows/multi-provider-code-review.md
+      section: Why Three Providers, Not One
+      anchor: "#why-three-providers-not-one"
+  - id: 09-037
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: BMAD-METHOD and spec-kitty both extend spec-first development, but each adds a different missing piece. What does spec-kitty provide that BMAD-METHOD does not?
+    options:
+      a: Automatic regeneration of code from the spec whenever the two drift out of sync
+      b: A managed cloud service that runs the full spec-to-deploy cycle behind a single interface
+      c: "Isolated parallel execution: each work package runs in its own git worktree, tracked on a local kanban board with an audit trail of every merge decision"
+      d: A chain of 19+ role-specific agents (Analyst, PM, Architect, Dev, QA) that each produce a versioned planning artifact before a human signs off
+    correct: c
+    explanation: "Spec-kitty adds the piece both Spec Kit and BMAD-METHOD leave out: each work package runs in its own git worktree, with a local kanban dashboard tracking the review-accept-merge loop and an audit trail of every merge decision. Option d describes BMAD-METHOD itself, which runs 19+ role-specific agents through a planning chain but doesn't provide isolated parallel execution on its own. Option a refers to the still-unsolved spec drift problem that no tool handles reliably. Option b describes a different category entirely, the full-cycle AI software factories like Maleus, Factory.ai, and Blitzy."
+    doc_reference:
+      file: guide/workflows/spec-first.md
+      section: With Spec-Kitty (Isolated Parallel Execution)
+      anchor: "#with-spec-kitty-isolated-parallel-execution"
+  - id: 09-038
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+      - pm
+    question: In the support and CSM agent maturity model, at which level does the human-in-the-loop review step, a person reading the draft before it reaches a client, stop being required?
+    options:
+      a: It never stops being required. Every level from L0 through L5 assumes a human reviews the output before a client sees it
+      b: L2, once the agent gets read-only database access and its diagnoses become reliable enough
+      c: L3, once the agent can distinguish known bugs from new issues via the issue tracker integration
+      d: L5, once the agent has enough context to draft a full CSM pre-call briefing without supervision
+    correct: a
+    explanation: "The guide states this explicitly: the human-review step is not optional and should not get automated away even once the agent's accuracy looks good in practice, and every level in the pattern assumes a person reads the output before it reaches a client. Options b, c, and d each pick a specific level as the cutoff, but the whole point of the pattern is that human review is the permanent safety mechanism that makes granting deeper access, like L2's database read, an acceptable risk in the first place."
+    doc_reference:
+      file: guide/workflows/support-csm-agent.md
+      section: Security & Guardrails
+      anchor: "#security-guardrails"
+  - id: 09-039
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: The guide describes running LLM-as-judge evaluation asynchronously rather than synchronously on every user request. What is the reasoning behind that pattern?
+    options:
+      a: Running the judge synchronously would penalize every user with added latency to catch a failure rate that only affects a minority of interactions; instead the response is served immediately and judged afterward on the logged data
+      b: Asynchronous judging is required because the judge model is always smaller and slower than the production model, so it cannot keep up with real-time traffic
+      c: Synchronous judging is technically impossible because LLM-as-judge only works on batches of at least 50 requests at a time
+      d: Asynchronous judging avoids the cost of logging inputs and outputs, since only flagged responses need to be stored
+    correct: a
+    explanation: "The guide lays out the production pattern directly: serve the agent response immediately, log the input and output, run the judge model asynchronously on the logged data, then use the verdicts to update the dataset and flag regressions. Option b is wrong on the facts, the judge model is typically larger than the production model, not smaller, for example using Opus to judge Sonnet outputs. Options c and d invent constraints the guide never states."
+    doc_reference:
+      file: guide/roles/agent-evaluation.md
+      section: "LLM-as-Judge: Run Asynchronously"
+      anchor: "#llm-as-judge-run-asynchronously"
+  - id: 09-040
+    difficulty: power
+    profiles:
+      - power
+    question: How do you enable agent teams in Claude Code v2.1.32+?
+    options:
+      a: Use /agent-teams command
+      b: Set CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 or add to settings.json
+      c: Install agent-teams plugin from skills.sh
+      d: Use --teams CLI flag
+    correct: b
+    explanation: |-
       Agent teams require experimental feature flag. Two methods:
 
       1. **Environment variable**: `export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
@@ -712,21 +915,21 @@ questions:
 
       Also requires Opus 4.6 model minimum. Feature is experimental (research preview).
     doc_reference:
-      file: "guide/workflows/agent-teams.md"
-      section: "Setup & Configuration"
-      anchor: "#3-setup--configuration"
-
-  - id: "09-031"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "When should you use Agent Teams instead of Multi-Instance workflows?"
+      file: guide/workflows/agent-teams.md
+      section: Setup & Configuration
+      anchor: "#3-setup-configuration"
+  - id: 09-041
+    difficulty: power
+    profiles:
+      - power
+    question: When should you use Agent Teams instead of Multi-Instance workflows?
     options:
-      a: "Always - agent teams are superior"
-      b: "When tasks need coordination on shared codebase (read-heavy analysis)"
-      c: "When tasks are completely independent (separate projects)"
-      d: "When budget is tight (agent teams are cheaper)"
-    correct: "b"
-    explanation: |
+      a: Always - agent teams are superior
+      b: When tasks need coordination on shared codebase (read-heavy analysis)
+      c: When tasks are completely independent (separate projects)
+      d: When budget is tight (agent teams are cheaper)
+    correct: b
+    explanation: |-
       **Agent Teams** = Automatic coordination on shared codebase (git-based)
       Best for: Read-heavy tasks (code review, bug tracing, analysis)
 
@@ -735,21 +938,21 @@ questions:
 
       Key: Use Teams when coordination matters, Multi-Instance when parallelization without coordination.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "9.20 Agent Teams"
+      file: guide/ultimate-guide.md
+      section: 9.20 Agent Teams
       anchor: "#920-agent-teams-multi-agent-coordination"
-
-  - id: "09-032"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is the main limitation of agent teams?"
+  - id: 09-042
+    difficulty: power
+    profiles:
+      - power
+    question: What is the main limitation of agent teams?
     options:
-      a: "Cannot spawn more than 2 agents"
-      b: "Read-heavy tasks work well, write-heavy tasks risk merge conflicts"
-      c: "Only works on macOS"
-      d: "Requires expensive hardware"
-    correct: "b"
-    explanation: |
+      a: Cannot spawn more than 2 agents
+      b: Read-heavy tasks work well, write-heavy tasks risk merge conflicts
+      c: Only works on macOS
+      d: Requires expensive hardware
+    correct: b
+    explanation: |-
       **Critical limitation**: Read-heavy > Write-heavy trade-off
 
       ✅ Good: Code review (agents read, analyze, report)
@@ -760,21 +963,22 @@ questions:
       Mitigation: Assign non-overlapping file sets, use interface-first approach.
       Token cost is also significant (3x+ multiplier).
     doc_reference:
-      file: "guide/workflows/agent-teams.md"
-      section: "Limitations & Gotchas"
-      anchor: "#6-limitations--gotchas"
-
-  - id: "09-033"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What minimum Claude model is required for agent teams?"
+      file: guide/workflows/agent-teams.md
+      section: Limitations & Gotchas
+      anchor: "#6-limitations-gotchas"
+  - id: 09-043
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What minimum Claude model is required for agent teams?
     options:
-      a: "Haiku"
-      b: "Sonnet 4.5"
-      c: "Opus 4.5"
-      d: "Opus 4.6"
-    correct: "d"
-    explanation: |
+      a: Haiku
+      b: Sonnet 4.5
+      c: Opus 4.5
+      d: Opus 4.6
+    correct: d
+    explanation: |-
       Agent teams require **Opus 4.6 minimum** (released Feb 2026 with v2.1.32).
 
       This is because:
@@ -784,21 +988,21 @@ questions:
 
       Lower models (Sonnet, Haiku) cannot spawn agent teams.
     doc_reference:
-      file: "guide/workflows/agent-teams.md"
-      section: "Prerequisites"
+      file: guide/workflows/agent-teams.md
+      section: Prerequisites
       anchor: "#prerequisites"
-
-  - id: "09-034"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "In agent teams architecture, what is the role of the 'team lead'?"
+  - id: 09-044
+    difficulty: power
+    profiles:
+      - power
+    question: In agent teams architecture, what is the role of the 'team lead'?
     options:
-      a: "Execute all tasks while teammates observe"
-      b: "Break down tasks, spawn teammates, synthesize findings"
-      c: "Monitor costs and prevent token overuse"
-      d: "Resolve merge conflicts manually"
-    correct: "b"
-    explanation: |
+      a: Execute all tasks while teammates observe
+      b: Break down tasks, spawn teammates, synthesize findings
+      c: Monitor costs and prevent token overuse
+      d: Resolve merge conflicts manually
+    correct: b
+    explanation: |-
       **Team lead** (main session) responsibilities:
 
       1. **Break down tasks** into subtasks
@@ -808,21 +1012,21 @@ questions:
       **Teammates** work independently on assigned tasks, report back to team lead.
       Navigation: Use Shift+Up/Down to switch between agents.
     doc_reference:
-      file: "guide/workflows/agent-teams.md"
-      section: "Architecture Deep-Dive"
+      file: guide/workflows/agent-teams.md
+      section: Architecture Deep-Dive
       anchor: "#2-architecture-deep-dive"
-
-  - id: "09-035"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "Which production metric was validated for agent teams?"
+  - id: 09-045
+    difficulty: power
+    profiles:
+      - power
+    question: Which production metric was validated for agent teams?
     options:
       a: "Fountain: 50% faster screening, CRED: 2x execution speed"
       b: "GitHub: 10x PRs reviewed, Vercel: 99% uptime"
       c: "Anthropic: 100% bug-free code generation"
       d: "Meta: 5x developer productivity"
-    correct: "a"
-    explanation: |
+    correct: a
+    explanation: |-
       **Validated production metrics** (2026 Agentic Coding Trends Report):
 
       - **Fountain** (workforce management): 50% faster screening, 40% onboarding, 2x conversions
@@ -831,21 +1035,21 @@ questions:
 
       These validate agent teams work in production for complex, read-heavy tasks.
     doc_reference:
-      file: "guide/workflows/agent-teams.md"
-      section: "Production Use Cases"
+      file: guide/workflows/agent-teams.md
+      section: Production Use Cases
       anchor: "#4-production-use-cases"
-
-  - id: "09-036"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is the typical token cost multiplier for agent teams (3 agents)?"
+  - id: 09-046
+    difficulty: power
+    profiles:
+      - power
+    question: What is the typical token cost multiplier for agent teams (3 agents)?
     options:
-      a: "Same as single agent (no overhead)"
-      b: "1.5x (minimal overhead)"
-      c: "3x+ (each agent runs separate model inference)"
-      d: "10x (exponential cost)"
-    correct: "c"
-    explanation: |
+      a: Same as single agent (no overhead)
+      b: 1.5x (minimal overhead)
+      c: 3x+ (each agent runs separate model inference)
+      d: 10x (exponential cost)
+    correct: c
+    explanation: |-
       **Token cost multiplier: 3x+** for 3 agents
 
       Why:
@@ -857,21 +1061,22 @@ questions:
       Cost justified when time saved > cost increase (production issues, critical analysis).
       Budget-constrained projects should use single agent.
     doc_reference:
-      file: "guide/workflows/agent-teams.md"
-      section: "Cost Trade-offs"
+      file: guide/workflows/agent-teams.md
+      section: Cost Trade-offs
       anchor: "#cost-trade-offs"
-
-  - id: "09-037"
-    difficulty: "intermediate"
-    profiles: ["intermediate", "senior", "power"]
-    question: "You need to rename a function across 50 files. Which model and effort level is most appropriate?"
+  - id: 09-047
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: You need to rename a function across 50 files. Which model and effort level is most appropriate?
     options:
       a: "Opus, effort: max — renaming at scale requires deep reasoning"
       b: "Sonnet, effort: high — large scope requires careful analysis"
       c: "Haiku, effort: low — mechanical find-replace, no design decisions"
       d: "Sonnet, effort: medium — safe default for any multi-file operation"
-    correct: "c"
-    explanation: |
+    correct: c
+    explanation: |-
       **Haiku + low effort** is correct for mechanical tasks like renaming across files.
 
       The key question: does this task require reasoning, design decisions, or judgment?
@@ -882,21 +1087,22 @@ questions:
       Using Opus here wastes tokens on reasoning that doesn't add value.
       Save Opus for tasks where its depth changes the outcome.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "2.5 Model Selection & Thinking Guide"
-      anchor: "#25-model-selection--thinking-guide"
-
-  - id: "09-038"
-    difficulty: "intermediate"
-    profiles: ["intermediate", "senior", "power"]
+      file: guide/ultimate-guide.md
+      section: 2.5 Model Selection & Thinking Guide
+      anchor: "#25-model-selection-thinking-guide"
+  - id: 09-048
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
     question: "What does `model: haiku` in an agent's YAML frontmatter do?"
     options:
-      a: "Sets the agent's communication style to be more concise"
-      b: "Forces the agent to use Haiku for all its sub-agent spawning"
-      c: "Configures the agent to run on the Haiku model instead of the session default"
-      d: "Enables cost-saving mode that reduces tool calls"
-    correct: "c"
-    explanation: |
+      a: Sets the agent's communication style to be more concise
+      b: Forces the agent to use Haiku for all its sub-agent spawning
+      c: Configures the agent to run on the Haiku model instead of the session default
+      d: Enables cost-saving mode that reduces tool calls
+    correct: c
+    explanation: |-
       `model: haiku` in agent frontmatter sets the **model used for that specific agent**,
       overriding the session default.
 
@@ -912,21 +1118,22 @@ questions:
       Each agent runs independently with its configured model.
       The session model (your default Sonnet) is unaffected.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "2.5 Model per Agent Patterns"
+      file: guide/ultimate-guide.md
+      section: 2.5 Model per Agent Patterns
       anchor: "#model-per-agent-patterns"
-
-  - id: "09-039"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What does the `effort` parameter actually control in Opus 4.6?"
+  - id: 09-049
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What does the `effort` parameter actually control in Opus 4.6?
     options:
-      a: "Only the thinking token budget (how many tokens for extended reasoning)"
+      a: Only the thinking token budget (how many tokens for extended reasoning)
       b: "The overall computational budget: thinking, tool calls, text verbosity, and analysis depth"
-      c: "The maximum number of tool calls per response"
-      d: "A quality gate that filters low-confidence outputs"
-    correct: "b"
-    explanation: |
+      c: The maximum number of tool calls per response
+      d: A quality gate that filters low-confidence outputs
+    correct: b
+    explanation: |-
       `effort` controls the **overall computational budget** — not just thinking.
 
       At `effort: low`:
@@ -942,21 +1149,22 @@ questions:
       This means `effort` affects behavior even when thinking is disabled (Alt+T off).
       It's a holistic efficiency dial, not a thinking toggle.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "2.5 Effort Levels"
+      file: guide/ultimate-guide.md
+      section: 2.5 Effort Levels
       anchor: "#effort-levels"
-
-  - id: "09-040"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
+  - id: 09-050
+    difficulty: senior
+    profiles:
+      - senior
+      - power
     question: "What is the observable impact of `effort: low` on tool usage?"
     options:
-      a: "Claude refuses to use any tools and responds from memory only"
-      b: "Claude combines tool operations to minimize calls and skips explanatory preamble"
-      c: "Claude limits itself to 3 tool calls maximum per response"
-      d: "Claude uses only Read tools, no Write or Edit tools"
-    correct: "b"
-    explanation: |
+      a: Claude refuses to use any tools and responds from memory only
+      b: Claude combines tool operations to minimize calls and skips explanatory preamble
+      c: Claude limits itself to 3 tool calls maximum per response
+      d: Claude uses only Read tools, no Write or Edit tools
+    correct: b
+    explanation: |-
       At `effort: low`, Claude optimizes for efficiency:
 
       **Tool usage**: Combines operations that would normally be separate calls.
@@ -970,21 +1178,22 @@ questions:
 
       Example task suited for `low`: `"Rename getUserById to findUserById across src/"`
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "2.5 Effort Levels"
+      file: guide/ultimate-guide.md
+      section: 2.5 Effort Levels
       anchor: "#effort-levels"
-
-  - id: "09-041"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "In the planner/implementer agent pattern, which model should each role use?"
+  - id: 09-051
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: In the planner/implementer agent pattern, which model should each role use?
     options:
       a: "Planner: Sonnet, Implementer: Haiku"
       b: "Planner: Opus, Implementer: Sonnet"
       c: "Planner: Opus, Implementer: Haiku"
       d: "Both: Sonnet (consistency matters more than cost)"
-    correct: "c"
-    explanation: |
+    correct: c
+    explanation: |-
       **Planner: Opus** — Strategy requires deep reasoning.
       Planning errors compound through all implementation steps.
       A wrong architecture decision caught at planning cost = minutes to fix.
@@ -998,205 +1207,118 @@ questions:
       **When Haiku isn't enough**: If the implementation requires judgment calls,
       the implementer should stop and report rather than decide — or you use Sonnet instead.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "2.5 Model per Agent Patterns"
+      file: guide/ultimate-guide.md
+      section: 2.5 Model per Agent Patterns
       anchor: "#model-per-agent-patterns"
-
-  - id: "09-042"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is Adaptive Thinking in Opus 4.6, and how does it differ from Opus 4.5's thinking?"
+  - id: 09-052
+    difficulty: power
+    profiles:
+      - power
+    question: What does MAX_ITERATIONS=8 control in agent team workflows, and what happens when the limit is reached?
     options:
-      a: "Adaptive Thinking lets the model choose which language to respond in based on complexity"
-      b: "The model dynamically allocates reasoning depth based on query complexity, replacing the fixed budget_tokens parameter"
-      c: "Thinking is now split across multiple API calls for longer reasoning chains"
-      d: "Adaptive Thinking is always-on at maximum depth, same as Opus 4.5 v2.0.67+"
-    correct: "b"
-    explanation: |
-      **Opus 4.6 Adaptive Thinking** replaces the fixed `budget_tokens` approach.
-
-      | Version | Thinking Control |
-      |---------|-----------------|
-      | Opus 4.5 (pre-v2.0.67) | Keyword-triggered, fixed budgets (4K/10K/32K) |
-      | Opus 4.5 (v2.0.67+) | Always-on at max budget, toggled with Alt+T |
-      | **Opus 4.6** | Dynamic depth via `effort` parameter |
-
-      With Adaptive Thinking, the model decides HOW MUCH reasoning a query needs:
-      - Simple lookup → minimal reasoning depth
-      - Multi-system architecture analysis → maximum depth
-
-      `budget_tokens` is **deprecated** on Opus 4.6 and returns an error if used.
+      a: Maximum files an agent can read — agent stops reading and proceeds with available context
+      b: Maximum retry attempts on any failing task — agent stops and reports to the team lead rather than continuing to retry
+      c: Maximum number of teammate agents — team lead stops spawning and works sequentially
+      d: Maximum token budget per agent — agent switches to low-effort mode to conserve tokens
+    correct: b
+    explanation: Loop Guardrails prevent agents from getting stuck in unproductive retry cycles. MAX_ITERATIONS sets a hard cap on retry attempts for any single failing task. When the limit is reached, the agent stops and reports to the team lead instead of retrying. A reflection prompt ("What specifically failed? What one change would fix it?") runs before each retry, forcing the agent to change approach rather than repeat the same failing action. Without iteration limits, agents can consume their entire token budget retrying a blocked task while the rest of the work queue stalls.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "2.5 Effort Levels"
-      anchor: "#effort-levels"
-
-  - id: "09-043"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "When should you use `effort: max`, and what happens if you use it on Sonnet?"
-    options:
-      a: "Use for any complex task; Sonnet silently downgrades to `effort: high`"
-      b: "Use for cross-system reasoning on Opus 4.6 only; returns an API error on other models"
-      c: "Use when you want maximum thinking tokens; works on all models but costs more"
-      d: "Use for batch operations; Sonnet uses it to parallelize tool calls"
-    correct: "b"
-    explanation: |
-      **`effort: max` is Opus 4.6 exclusive.**
-
-      Use it for tasks requiring:
-      - Cross-system race condition analysis
-      - Multi-service dependency tracing
-      - Decisions that are expensive or impossible to reverse
-      - Adversarial security reasoning across a full codebase
-
-      Example:
-      ```
-      "Analyze the microservices event pipeline for race conditions across
-       order-service, inventory-service, and notification-service"
-      ```
-
-      **On any other model** (Sonnet, Haiku, Opus 4.5): API returns an error.
-      It is not silently downgraded. You must explicitly use a different effort level.
-
-      `effort: high` is the default and works across models that support the parameter.
-    doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "2.5 Effort Levels"
-      anchor: "#effort-levels"
-
-  - id: "09-044"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What does MAX_ITERATIONS=8 control in agent team workflows, and what happens when the limit is reached?"
-    options:
-      a: "Maximum files an agent can read — agent stops reading and proceeds with available context"
-      b: "Maximum retry attempts on any failing task — agent stops and reports to the team lead rather than continuing to retry"
-      c: "Maximum number of teammate agents — team lead stops spawning and works sequentially"
-      d: "Maximum token budget per agent — agent switches to low-effort mode to conserve tokens"
-    correct: "b"
-    explanation: |
-      Loop Guardrails prevent agents from getting stuck in unproductive retry cycles. MAX_ITERATIONS sets a hard cap on retry attempts for any single failing task. When the limit is reached, the agent stops and reports to the team lead instead of retrying. A reflection prompt ("What specifically failed? What one change would fix it?") runs before each retry, forcing the agent to change approach rather than repeat the same failing action. Without iteration limits, agents can consume their entire token budget retrying a blocked task while the rest of the work queue stalls.
-    doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "9.9 Multi-Agent Teams"
+      file: guide/workflows/agent-teams.md
+      section: Loop Guardrails
       anchor: "#loop-guardrails"
-
-  - id: "09-045"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "In the Dedicated Reviewer Teammate pattern, what is the recommended ratio and why must the reviewer be read-only?"
+  - id: 09-053
+    difficulty: power
+    profiles:
+      - power
+    question: In the Dedicated Reviewer Teammate pattern, what is the recommended ratio and why must the reviewer be read-only?
     options:
-      a: "1 reviewer per 10 builders — reviewer is a bottleneck at lower ratios; read-only prevents context overload"
-      b: "1 reviewer per 3-4 builders — fewer builders makes reviewer a bottleneck, more causes queue backup; read-only prevents merge conflicts"
-      c: "1 reviewer per builder — parity maximizes review coverage; read-only is optional"
-      d: "2 reviewers per builder — double review catches more bugs; read-only is required by the API"
-    correct: "b"
-    explanation: |
-      The Dedicated Reviewer Teammate adds a read-only agent that reviews on every TaskCompleted event. Ratio: 1 reviewer per 3-4 builders. Below this range the reviewer becomes a bottleneck. Above it, the review queue backs up and findings arrive too late to be acted on cleanly. Read-only is essential: a reviewer with write access will start fixing issues itself, creating merge conflicts and defeating the purpose of parallel isolation. The reviewer's job is to produce structured findings (blocking vs non-blocking), not to apply fixes.
+      a: 1 reviewer per 10 builders — reviewer is a bottleneck at lower ratios; read-only prevents context overload
+      b: 1 reviewer per 3-4 builders — fewer builders makes reviewer a bottleneck, more causes queue backup; read-only prevents merge conflicts
+      c: 1 reviewer per builder — parity maximizes review coverage; read-only is optional
+      d: 2 reviewers per builder — double review catches more bugs; read-only is required by the API
+    correct: b
+    explanation: "The Dedicated Reviewer Teammate adds a read-only agent that reviews on every TaskCompleted event. Ratio: 1 reviewer per 3-4 builders. Below this range the reviewer becomes a bottleneck. Above it, the review queue backs up and findings arrive too late to be acted on cleanly. Read-only is essential: a reviewer with write access will start fixing issues itself, creating merge conflicts and defeating the purpose of parallel isolation. The reviewer's job is to produce structured findings (blocking vs non-blocking), not to apply fixes."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "9.9 Multi-Agent Teams"
+      file: guide/workflows/agent-teams.md
+      section: Dedicated Reviewer Teammate
       anchor: "#dedicated-reviewer-teammate"
-
-  - id: "09-046"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is the WHY/WHAT structure in the Iterative Retrieval pattern for sub-agents, and what is the maximum number of retrieval cycles?"
+  - id: 09-054
+    difficulty: power
+    profiles:
+      - power
+    question: What is the WHY/WHAT structure in the Iterative Retrieval pattern for sub-agents, and what is the maximum number of retrieval cycles?
     options:
-      a: "WHY = task description, WHAT = output format — maximum 5 cycles"
-      b: "WHY = the problem being solved, WHAT = the specific task — maximum 3 cycles"
-      c: "WHY = reason for spawning the agent, WHAT = files to read — maximum 2 cycles"
-      d: "WHY = business rationale, WHAT = architecture decision — maximum 1 cycle"
-    correct: "b"
-    explanation: |
-      Iterative Retrieval gives sub-agents a bounded context budget. WHY = the problem being solved or constraint being met (gives the agent decision context). WHAT = the specific task to execute. An agent that only knows WHAT lacks the business constraints that prevent wrong choices. WHY steers implementation without additional correction cycles. Maximum 3 cycles: Cycle 1 uses initial context, Cycle 2 is a specific targeted request, Cycle 3 is a final targeted request where the agent must produce output regardless of remaining uncertainty.
+      a: WHY = task description, WHAT = output format — maximum 5 cycles
+      b: WHY = the problem being solved, WHAT = the specific task — maximum 3 cycles
+      c: WHY = reason for spawning the agent, WHAT = files to read — maximum 2 cycles
+      d: WHY = business rationale, WHAT = architecture decision — maximum 1 cycle
+    correct: b
+    explanation: "Iterative Retrieval gives sub-agents a bounded context budget. WHY = the problem being solved or constraint being met (gives the agent decision context). WHAT = the specific task to execute. An agent that only knows WHAT lacks the business constraints that prevent wrong choices. WHY steers implementation without additional correction cycles. Maximum 3 cycles: Cycle 1 uses initial context, Cycle 2 is a specific targeted request, Cycle 3 is a final targeted request where the agent must produce output regardless of remaining uncertainty."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "9.9 Multi-Agent Teams"
-      anchor: "#iterative-retrieval-for-sub-agents"
-
-  - id: "09-047"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "How does Claude Code structure its cache prefix hierarchy, and which layers are almost always cache hits?"
+      file: guide/workflows/agent-teams.md
+      section: 9. Iterative Retrieval for Sub-Agents
+      anchor: "#9-iterative-retrieval-for-sub-agents"
+  - id: 09-055
+    difficulty: power
+    profiles:
+      - power
+    question: How does Claude Code structure its cache prefix hierarchy, and which layers are almost always cache hits?
     options:
-      a: "messages > system > tools — messages layer is always a hit, tools layer is always a miss"
-      b: "system > tools > messages — only system prompt hits reliably"
-      c: "tools > system > messages — tools and system layers are almost always hits, messages layer varies"
-      d: "tools > messages > system — all three layers hit equally often"
-    correct: "c"
-    explanation: |
-      Every API call structures content in a fixed order: tools then system then messages. Cache matching always starts from the beginning of this prefix. Tools (the tool list) and system (CLAUDE.md) are stable across most turns. This means the first two layers are almost always cache hits, and only new message turns require fresh computation. Placing the most stable content first maximizes the proportion of each request served from cache at 0.1x base cost.
+      a: messages > system > tools — messages layer is always a hit, tools layer is always a miss
+      b: system > tools > messages — only system prompt hits reliably
+      c: tools > system > messages — tools and system layers are almost always hits, messages layer varies
+      d: tools > messages > system — all three layers hit equally often
+    correct: c
+    explanation: "Every API call structures content in a fixed order: tools then system then messages. Cache matching always starts from the beginning of this prefix. Tools (the tool list) and system (CLAUDE.md) are stable across most turns. This means the first two layers are almost always cache hits, and only new message turns require fresh computation. Placing the most stable content first maximizes the proportion of each request served from cache at 0.1x base cost."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "Cost Optimization"
+      file: guide/ultimate-guide.md
+      section: Cost Optimization
       anchor: "#how-claude-code-handles-caching-automatically"
-
-  - id: "09-048"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is the 20-block lookback in prompt caching, what problem does it cause in long sessions, and what is the fix?"
+  - id: 09-056
+    difficulty: power
+    profiles:
+      - power
+    question: What is the 20-block lookback in prompt caching, what problem does it cause in long sessions, and what is the fix?
     options:
-      a: "Claude reads only the last 20 user messages — older context is lost permanently; the fix is /save"
-      b: "Cache matching looks back approximately 20 message blocks — long sessions lose cache efficiency as early blocks fall outside the window; the fix is /compact"
-      c: "Cache is invalidated after 20 tool calls — agents must pause every 20 calls; the fix is to reduce tool usage"
-      d: "After 20 turns the session context is truncated — the fix is to start a new session"
-    correct: "b"
-    explanation: |
-      Cache matching uses a bounded lookback of approximately 20 blocks. In long sessions with many tool calls, blocks from early in the conversation fall outside this window and become cache misses even if their content hasn't changed. The practical consequence: very long sessions gradually lose cache efficiency at the message layer. The fix is /compact: it compresses conversation history into a single summary block, resetting the lookback window and restoring high cache hit rates for subsequent turns.
+      a: Claude reads only the last 20 user messages — older context is lost permanently; the fix is /save
+      b: Cache matching looks back approximately 20 message blocks — long sessions lose cache efficiency as early blocks fall outside the window; the fix is /compact
+      c: Cache is invalidated after 20 tool calls — agents must pause every 20 calls; the fix is to reduce tool usage
+      d: After 20 turns the session context is truncated — the fix is to start a new session
+    correct: b
+    explanation: "Cache matching uses a bounded lookback of approximately 20 blocks. In long sessions with many tool calls, blocks from early in the conversation fall outside this window and become cache misses even if their content hasn't changed. The practical consequence: very long sessions gradually lose cache efficiency at the message layer. The fix is /compact: it compresses conversation history into a single summary block, resetting the lookback window and restoring high cache hit rates for subsequent turns."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "Cost Optimization"
+      file: guide/ultimate-guide.md
+      section: Cost Optimization
       anchor: "#how-claude-code-handles-caching-automatically"
-
-  - id: "09-049"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "In the RPI workflow (Research > Plan > Implement), what artifact does each phase produce, and what happens at Gate 1?"
+  - id: 09-057
+    difficulty: power
+    profiles:
+      - power
+    question: In the RPI workflow (Research > Plan > Implement), what artifact does each phase produce, and what happens at Gate 1?
     options:
-      a: "Research produces NOTES.md, Plan produces SPEC.md, Implement produces code — Gate 1 is a code review"
-      b: "Research produces RESEARCH.md, Plan produces PLAN.md, Implement produces code — Gate 1 is a GO/NO-GO decision by the human before any planning begins"
-      c: "Research produces a prompt, Plan produces a task list, Implement produces a diff — Gate 1 is an automated test pass"
-      d: "All phases share a PROGRESS.md — gates are enforced by Claude automatically"
-    correct: "b"
-    explanation: |
-      RPI structures feature development into three locked phases. Phase 1 (Research): produces RESEARCH.md covering feasibility, risks, decision points, and an effort estimate. Gate 1: the human marks GO or NO-GO. Phase 2 (Plan): produces PLAN.md with architecture decisions and sequential implementation steps. Gate 2: human approves before any code is written. Phase 3 (Implement): produces working code with per-step test gates. Gate 1 is the most important: a NO-GO saves the cost of a full implementation that would need to be discarded.
+      a: Research produces NOTES.md, Plan produces SPEC.md, Implement produces code — Gate 1 is a code review
+      b: Research produces RESEARCH.md, Plan produces PLAN.md, Implement produces code — Gate 1 is a GO/NO-GO decision by the human before any planning begins
+      c: Research produces a prompt, Plan produces a task list, Implement produces a diff — Gate 1 is an automated test pass
+      d: All phases share a PROGRESS.md — gates are enforced by Claude automatically
+    correct: b
+    explanation: "RPI structures feature development into three locked phases. Phase 1 (Research): produces RESEARCH.md covering feasibility, risks, decision points, and an effort estimate. Gate 1: the human marks GO or NO-GO. Phase 2 (Plan): produces PLAN.md with architecture decisions and sequential implementation steps. Gate 2: human approves before any code is written. Phase 3 (Implement): produces working code with per-step test gates. Gate 1 is the most important: a NO-GO saves the cost of a full implementation that would need to be discarded."
     doc_reference:
-      file: "guide/workflows/rpi.md"
-      section: "RPI Workflow"
-      anchor: "#rpi-workflow"
-
-  - id: "09-050"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is the prompt caching minimum token threshold for Opus 4.6, and what is the practical implication for short CLAUDE.md files?"
+      file: guide/workflows/rpi.md
+      section: How the Gates Work
+      anchor: "#how-the-gates-work"
+  - id: 09-058
+    difficulty: power
+    profiles:
+      - power
+    question: What is the prompt caching minimum token threshold for Opus 4.6, and what is the practical implication for short CLAUDE.md files?
     options:
       a: "Opus 4.6: 1,024 tokens — any CLAUDE.md over one paragraph is cached"
       b: "Opus 4.6: 4,096 tokens — a CLAUDE.md under ~4,000 tokens is never cached on Opus 4.6"
       c: "Opus 4.6: 2,048 tokens — Opus and Sonnet share the same minimum"
       d: "Opus 4.6: 8,192 tokens — most CLAUDE.md files are too short to be cached"
-    correct: "b"
-    explanation: |
-      Minimum token thresholds for prompt caching eligibility vary by model. Opus 4.6, Opus 4.5, and Haiku 4.5 require 4,096 tokens minimum. Sonnet 4.6 requires 2,048 tokens. Sonnet 4.5 and earlier require 1,024 tokens. Blocks smaller than the threshold are never cached regardless of stability. A short CLAUDE.md that doesn't cross the threshold for the target model provides zero caching benefit, which is relevant for teams optimizing session costs on Opus 4.6.
+    correct: b
+    explanation: Minimum token thresholds for prompt caching eligibility vary by model. Opus 4.6, Opus 4.5, and Haiku 4.5 require 4,096 tokens minimum. Sonnet 4.6 requires 2,048 tokens. Sonnet 4.5 and earlier require 1,024 tokens. Blocks smaller than the threshold are never cached regardless of stability. A short CLAUDE.md that doesn't cross the threshold for the target model provides zero caching benefit, which is relevant for teams optimizing session costs on Opus 4.6.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "Cost Optimization"
+      file: guide/ultimate-guide.md
+      section: Cost Optimization
       anchor: "#how-claude-code-handles-caching-automatically"
-
-  - id: "09-051"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "How does Context Chaining differ from the Ralph Loop in multi-session workflows?"
-    options:
-      a: "Context Chaining is for single-session work; Ralph Loop spans multiple sessions"
-      b: "Context Chaining uses curated session-to-session summaries that capture key decisions; Ralph Loop re-feeds the full prior session transcript"
-      c: "Context Chaining relies on MCP servers for persistence; Ralph Loop uses CLAUDE.md files"
-      d: "There is no functional difference; they are two names for the same pattern"
-    correct: "b"
-    explanation: |
-      Context Chaining and Ralph Loop both maintain continuity across sessions but differ fundamentally in what they carry forward. Context Chaining produces a curated summary at session end capturing decisions made, current state, and what remains to do, then injects only that summary at the start of the next session. Ralph Loop re-feeds the complete prior session transcript, preserving raw detail at the cost of context bloat. Context Chaining is preferred when you want deliberate, lean continuity. Ralph Loop suits cases where the full history is genuinely needed.
-    doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "9.5 Tight Feedback Loops"
-      anchor: "#context-chaining"

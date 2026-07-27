@@ -1,90 +1,106 @@
-category: "Commands"
+category: Commands
 category_id: 6
-source_file: "guide/ultimate-guide.md"
-
+source_file: guide/ultimate-guide.md
 questions:
-  - id: "06-001"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "Where should custom commands be placed to make them available in Claude Code?"
+  - id: 06-001
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: Where should custom commands (user-invocable skills) be placed to make them available in Claude Code?
     options:
-      a: "~/.claude/commands/"
-      b: ".claude/commands/"
-      c: "/usr/local/claude/commands/"
-      d: ".claude/config/commands/"
-    correct: "b"
-    explanation: |
-      Custom commands are placed in `.claude/commands/` within your project directory.
+      a: ~/.claude/skills/
+      b: .claude/skills/
+      c: /usr/local/claude/commands/
+      d: .claude/config/commands/
+    correct: b
+    explanation: |-
+      Since CC 2.1.3, custom slash commands live in `.claude/skills/` as user-invocable skills. Each command is a folder with a `SKILL.md` file that includes `disable-model-invocation: true` in the frontmatter.
 
       This allows project-specific commands that can be committed with your codebase.
-      The global directory `~/.claude/` is for personal settings, not project commands.
+      The global directory `~/.claude/skills/` is for personal commands available across all projects.
 
-      Commands are organized in subdirectories:
-      - `.claude/commands/tech/` for development workflows
-      - `.claude/commands/product/` for product workflows
+      Skills are organized in subdirectories:
+      - `.claude/skills/tech/deploy/` for development workflows
+      - `.claude/skills/product/scope/` for product workflows
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "6.2 Creating Custom Commands"
+      file: guide/ultimate-guide.md
+      section: 6.2 Creating Custom Commands
       anchor: "#62-creating-custom-commands"
-
-  - id: "06-002"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "How do you invoke a custom command named `commit.md` located in `.claude/commands/tech/`?"
+  - id: 06-002
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: How do you invoke a user-invocable skill named `commit` located in `.claude/skills/tech/commit/`?
     options:
-      a: "/commit"
-      b: "/tech-commit"
-      c: "/tech:commit"
+      a: /commit
+      b: /tech-commit
+      c: /tech:commit
       d: "!tech/commit"
-    correct: "c"
-    explanation: |
-      Custom commands use the format `/folder:filename` (without the .md extension).
+    correct: c
+    explanation: |-
+      User-invocable skills use the format `/folder:name` based on their directory path under `.claude/skills/`.
 
-      So `.claude/commands/tech/commit.md` becomes `/tech:commit`.
-      This naming convention allows organizing commands by domain while keeping invocation intuitive.
+      So `.claude/skills/tech/commit/SKILL.md` becomes `/tech:commit`.
+      This naming convention allows organizing skills by domain while keeping invocation intuitive.
 
       Examples:
-      - `.claude/commands/tech/pr.md` -> `/tech:pr`
-      - `.claude/commands/product/scope.md` -> `/product:scope`
+      - `.claude/skills/tech/pr/SKILL.md` -> `/tech:pr`
+      - `.claude/skills/product/scope/SKILL.md` -> `/product:scope`
+
+      Since CC 2.1.3, these skills replace the old `.claude/commands/` files. The `disable-model-invocation: true` flag in the SKILL.md frontmatter ensures they only fire on explicit user invocation.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "6.2 Creating Custom Commands"
+      file: guide/ultimate-guide.md
+      section: 6.2 Creating Custom Commands
       anchor: "#command-naming"
-
-  - id: "06-003"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What variable is used in command files to access arguments passed to the command?"
+  - id: 06-003
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What variable is used in command files to access arguments passed to the command?
     options:
-      a: "$ARGS"
-      b: "$INPUT"
-      c: "$ARGUMENTS"
-      d: "$PARAMS"
-    correct: "c"
-    explanation: |
-      The `$ARGUMENTS` variable contains any text passed after the command invocation.
+      a: $ARGS
+      b: $INPUT
+      c: $ARGUMENTS
+      d: $PARAMS
+    correct: c
+    explanation: |-
+      The `$ARGUMENTS` variable contains text passed after the command invocation.
 
-      For example, when you run `/tech:deploy production`, the variable `$ARGUMENTS`
-      will contain `production`.
+      **Syntax options**:
+      - `$ARGUMENTS` → Full argument string
+      - `$ARGUMENTS[0]` → First argument
+      - `$ARGUMENTS[1]` → Second argument
+      - **Shorthand**: `$0`, `$1`, `$2` → Equivalent to `$ARGUMENTS[0]`, `$ARGUMENTS[1]`, `$ARGUMENTS[2]`
 
-      This enables dynamic commands that can adapt based on user input.
-      Commands should document how they handle arguments and what happens if none are provided.
+      **Example**: `/tech:deploy production staging`
+      - `$ARGUMENTS` = `"production staging"`
+      - `$0` or `$ARGUMENTS[0]` = `"production"`
+      - `$1` or `$ARGUMENTS[1]` = `"staging"`
+
+      Commands should document expected arguments and handle missing values gracefully.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "6.2 Creating Custom Commands"
+      file: guide/ultimate-guide.md
+      section: 6.2 Creating Custom Commands
       anchor: "#variable-interpolation"
-
-  - id: "06-004"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "Which built-in command shows all available commands including custom ones?"
+  - id: 06-004
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: Which built-in command shows all available commands including custom ones?
     options:
-      a: "/commands"
-      b: "/list"
-      c: "/help"
-      d: "/show"
-    correct: "c"
-    explanation: |
+      a: /commands
+      b: /list
+      c: /help
+      d: /show
+    correct: c
+    explanation: |-
       The `/help` command displays all available commands, both built-in and custom.
 
       Built-in commands include:
@@ -94,23 +110,24 @@ questions:
       - `/plan` - Enter Plan Mode
       - `/rewind` - Undo changes
 
-      Custom commands from `.claude/commands/` are also listed here.
+      User-invocable skills from `.claude/skills/` (with `disable-model-invocation: true`) are also listed here. Since CC 2.1.3, custom slash commands live in `.claude/skills/` rather than `.claude/commands/`.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "6.1 Slash Commands"
+      file: guide/ultimate-guide.md
+      section: 6.1 Slash Commands
       anchor: "#61-slash-commands"
-
-  - id: "06-005"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What sections should a well-structured command template include according to best practices?"
+  - id: 06-005
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What sections should a well-structured command template include according to best practices?
     options:
-      a: "Purpose, Steps, Output"
-      b: "Purpose, Process, Arguments, Output Format, Examples, Error Handling"
-      c: "Name, Description, Code"
-      d: "Title, Body, Footer"
-    correct: "b"
-    explanation: |
+      a: Purpose, Steps, Output
+      b: Purpose, Process, Arguments, Output Format, Examples, Error Handling
+      c: Name, Description, Code
+      d: Title, Body, Footer
+    correct: b
+    explanation: |-
       A complete command template should include:
 
       1. **Purpose** - Brief description of what the command does
@@ -122,21 +139,23 @@ questions:
 
       This comprehensive structure ensures consistent, reliable command execution.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "6.3 Command Template"
+      file: guide/ultimate-guide.md
+      section: 6.3 Command Template
       anchor: "#63-command-template"
-
-  - id: "06-006"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "Which command enters Plan Mode for safe, read-only exploration?"
+  - id: 06-006
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: Which command enters Plan Mode for safe, read-only exploration?
     options:
-      a: "/safe"
-      b: "/readonly"
-      c: "/plan"
-      d: "/explore"
-    correct: "c"
-    explanation: |
+      a: /safe
+      b: /readonly
+      c: /plan
+      d: /explore
+    correct: c
+    explanation: |-
       The `/plan` command enters Plan Mode, where Claude can analyze and explore
       the codebase without making any changes.
 
@@ -147,21 +166,22 @@ questions:
 
       Use `/execute` to exit Plan Mode when ready to make changes.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "6.1 Slash Commands"
+      file: guide/ultimate-guide.md
+      section: 6.1 Slash Commands
       anchor: "#built-in-commands"
-
-  - id: "06-007"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "In the commit command example, what is the recommended commit message format?"
+  - id: 06-007
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: In the commit command example, what is the recommended commit message format?
     options:
-      a: "Simple description"
+      a: Simple description
       b: "Conventional Commits: type(scope): description"
-      c: "Date - Author - Message"
+      c: Date - Author - Message
       d: "JIRA-123: Message"
-    correct: "b"
-    explanation: |
+    correct: b
+    explanation: |-
       The guide recommends Conventional Commits format: `type(scope): description`
 
       Common types:
@@ -174,21 +194,21 @@ questions:
 
       This provides consistent, parseable commit history useful for changelogs and releases.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "6.4 Command Examples"
+      file: guide/ultimate-guide.md
+      section: 6.4 Command Examples
       anchor: "#example-1-commit-command"
-
-  - id: "06-008"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What technique does the Problem Framer command use to find root causes?"
+  - id: 06-008
+    difficulty: power
+    profiles:
+      - power
+    question: What technique does the Problem Framer command use to find root causes?
     options:
-      a: "SWOT Analysis"
-      b: "5 Whys Analysis"
-      c: "Pareto Analysis"
-      d: "Fishbone Diagram"
-    correct: "b"
-    explanation: |
+      a: SWOT Analysis
+      b: 5 Whys Analysis
+      c: Pareto Analysis
+      d: Fishbone Diagram
+    correct: b
+    explanation: |-
       The Problem Framer command uses the "5 Whys Analysis" technique.
 
       This involves asking "Why?" five times to drill down to the root cause:
@@ -200,21 +220,23 @@ questions:
 
       The command then reframes the problem as: "How might we [action] for [user] so that [outcome]?"
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "6.4 Command Examples"
+      file: guide/ultimate-guide.md
+      section: 6.4 Command Examples
       anchor: "#example-3-problem-framer-command"
-
-  - id: "06-009"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What does the `/rewind` command do?"
+  - id: 06-009
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What does the `/rewind` command do?
     options:
-      a: "Restores a previous git commit"
-      b: "Undoes Claude's recent changes in the current session"
-      c: "Clears the entire conversation history"
-      d: "Rolls back the last command execution"
-    correct: "b"
-    explanation: |
+      a: Restores a previous git commit
+      b: Undoes Claude's recent changes in the current session
+      c: Clears the entire conversation history
+      d: Rolls back the last command execution
+    correct: b
+    explanation: |-
       The `/rewind` command undoes Claude's recent changes in the current session.
 
       Key points:
@@ -225,21 +247,22 @@ questions:
       For committed changes, use `git revert` instead.
       The keyboard shortcut `Esc×2` (double-tap Escape) also triggers rewind.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "6.1 Slash Commands"
+      file: guide/ultimate-guide.md
+      section: 6.1 Slash Commands
       anchor: "#built-in-commands"
-
-  - id: "06-010"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What should a PR command's error handling do if the user is NOT on a feature branch?"
+  - id: 06-010
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What should a PR command's error handling do if the user is NOT on a feature branch?
     options:
-      a: "Automatically create a feature branch"
-      b: "Proceed anyway with warnings"
+      a: Automatically create a feature branch
+      b: Proceed anyway with warnings
       c: "WARN: Create a feature branch first"
-      d: "Exit silently"
-    correct: "c"
-    explanation: |
+      d: Exit silently
+    correct: c
+    explanation: |-
       According to the PR command example, if the user is not on a feature branch,
       the command should WARN: "Create a feature branch first".
 
@@ -250,21 +273,21 @@ questions:
       - Suggests corrective actions
       - Prevents accidental mistakes
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "6.4 Command Examples"
+      file: guide/ultimate-guide.md
+      section: 6.4 Command Examples
       anchor: "#example-2-pr-command"
-
-  - id: "06-011"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is the recommended order of git commands in a PR creation workflow?"
+  - id: 06-011
+    difficulty: power
+    profiles:
+      - power
+    question: What is the recommended order of git commands in a PR creation workflow?
     options:
-      a: "push, diff, create PR"
-      b: "status, branch, log, diff, push if needed, create PR"
-      c: "add, commit, push, create PR"
-      d: "checkout, status, push, create PR"
-    correct: "b"
-    explanation: |
+      a: push, diff, create PR
+      b: status, branch, log, diff, push if needed, create PR
+      c: add, commit, push, create PR
+      d: checkout, status, push, create PR
+    correct: b
+    explanation: |-
       The recommended PR workflow order is:
 
       1. `git status` - Verify clean working directory
@@ -276,21 +299,23 @@ questions:
 
       This thorough process ensures quality PRs with proper context.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "6.4 Command Examples"
+      file: guide/ultimate-guide.md
+      section: 6.4 Command Examples
       anchor: "#example-2-pr-command"
-
-  - id: "06-012"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "How do you reference a file when talking to Claude Code?"
+  - id: 06-012
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: How do you reference a file when talking to Claude Code?
     options:
       a: "#filename"
       b: "@filename"
       c: "!filename"
-      d: "$filename"
-    correct: "b"
-    explanation: |
+      d: $filename
+    correct: b
+    explanation: |-
       The `@filename` syntax references a file in your conversation with Claude.
 
       Quick actions:
@@ -301,142 +326,275 @@ questions:
 
       This allows you to easily bring specific files into context for Claude to analyze.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "10.1 Commands Table"
+      file: guide/ultimate-guide.md
+      section: 10.1 Commands Table
       anchor: "#quick-actions"
-
-  - id: "06-013"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What does the `/powerup` command do in Claude Code (added in v2.1.90)?"
+  - id: 06-013
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What does the `/loop` command do in Claude Code (v2.1.71+)?
     options:
-      a: "Upgrades your Claude Code subscription to Pro tier"
-      b: "Increases the model effort level to maximum for the current session"
-      c: "Runs interactive animated lessons teaching Claude Code features with live terminal demos"
-      d: "Enables fast mode (2.5x speed) for the session"
-    correct: "c"
-    explanation: |
-      `/powerup` was added in v2.1.90 as a learning tool that delivers interactive animated lessons teaching Claude Code features through live terminal demonstrations. It is distinct from `/fast` (which toggles a faster, more expensive mode), from effort settings, and from subscription management. Think of it as an in-terminal tutorial system, useful for onboarding or discovering features you may have missed.
+      a: Repeats the last command once
+      b: Enters an infinite conversation loop with no session limit
+      c: Runs a prompt or slash command on a recurring interval (e.g., every 5 minutes)
+      d: Loops through all files in the current directory
+    correct: c
+    explanation: |-
+      `/loop [interval] [prompt]` runs a prompt or slash command on a recurring schedule. Example: `/loop 5m check the deploy` checks the deployment every 5 minutes until you stop it. This is useful for monitoring tasks, periodic status checks, or recurring automation without leaving Claude Code. The interval can be specified in minutes (`5m`), seconds (`30s`), or hours (`1h`).
+      ---
     doc_reference:
-      file: "guide/core/claude-code-releases.md"
-      section: "v2.1.90"
-      anchor: "#v2190"
-
-  - id: "06-014"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "You run `/loop 5m check the deploy`. How does Claude Code execute this, and how do you stop it?"
+      file: guide/ultimate-guide.md
+      section: 10.1 Commands Table
+      anchor: "#101-commands-table"
+  - id: 06-014
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What does the `/simplify` command do (v2.1.63+)?
     options:
-      a: "Runs the prompt once, then waits for manual re-trigger. Stop by closing the terminal."
-      b: "Executes the prompt every 5 minutes until you press Ctrl+C or send any new message"
-      c: "Creates a background cron job that continues even after Claude Code exits"
-      d: "Runs the prompt in a separate sub-agent session on a 5-minute schedule"
-    correct: "b"
-    explanation: |
-      `/loop [interval] [prompt]` runs the given prompt or slash command repeatedly at the specified interval. After each execution, Claude waits the interval and executes again. The default interval when none is provided is 10 minutes. Stopping is simple: press Ctrl+C or send any new message. The loop does not persist beyond the session. Common use cases include monitoring deploys, polling for PR feedback, and checking on background tasks.
+      a: Reformats code to match project style (equivalent to Prettier)
+      b: Reviews recently changed code for over-engineering, duplication, and redundant abstractions, then fixes them
+      c: Removes all comments and dead code from the current file
+      d: Summarizes the diff since last commit in plain language
+    correct: b
+    explanation: |-
+      `/simplify` reviews your **recently changed code** for over-engineering and redundant abstractions, then fixes the problems it finds. It operates at the architecture and structure level — analyzing for reuse opportunities, quality issues, and efficiency improvements — not at the formatting or linting level. It complements tools like ESLint or Prettier rather than replacing them. Run it after finishing a feature, before opening a pull request: `/simplify` (all changes) or `/simplify focus on error handling` (targeted scope).
+      ---
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "The /loop Command"
+      file: guide/ultimate-guide.md
+      section: The /simplify Command
+      anchor: "#the-simplify-command"
+  - id: 06-015
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What does the `/batch` command do in Claude Code (v2.1.63+)?
+    options:
+      a: Runs a single command in batch (non-interactive) mode
+      b: Groups multiple pending changes into one commit
+      c: Executes all queued agent tasks in sequence
+      d: Orchestrates large-scale codebase changes across 5-30 parallel agents in isolated worktrees, each opening its own PR
+    correct: d
+    explanation: |-
+      `/batch` distributes large-scale codebase changes across 5–30 parallel agents in isolated git worktrees. Each agent handles an independent portion of the work and opens its own pull request. The workflow is: (1) research and plan the change, (2) spawn parallel worktree agents, (3) each agent completes its portion and creates a PR. Ideal for migrations like `/batch migrate from react to vue` or `/batch add type annotations to all JavaScript files` — tasks that can be split into independent units.
+      ---
+    doc_reference:
+      file: guide/ultimate-guide.md
+      section: The /batch Command
+      anchor: "#the-batch-command"
+  - id: 06-016
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What do the `/stats` and `/rename` commands do (added in cheatsheet v3.32.2)?
+    options:
+      a: /stats shows usage chart + streak; /rename sets a custom name for the current session
+      b: /stats shows token costs; /rename renames the last CLAUDE.md file
+      c: /stats shows file diff stats; /rename renames the current git branch
+      d: Both commands are aliases for /status with different output formats
+    correct: a
+    explanation: |-
+      `/stats` displays a usage chart and streak — a visual summary of your Claude Code activity over time. `/rename [name]` gives the current session a custom name, making it easier to find in `/resume` history. Both were documented in the cheatsheet update alongside `/loop` and `/copy` (from releases v2.1.59–v2.1.71). These are quality-of-life commands for session management and personal usage tracking.
+      ---
+    doc_reference:
+      file: guide/cheatsheet.md
+      section: Essential Commands
+      anchor: "#essential-commands"
+  - id: 06-017
+    difficulty: power
+    profiles:
+      - senior
+      - power
+    question: As of v2.1.202, what is the difference between /review <pr> and /code-review <level> <pr#>?
+    options:
+      a: /review <pr> is the multi-agent option, /code-review <level> <pr#> is the fast single-pass option
+      b: /review <pr> is a fast single-pass review, /code-review <level> <pr#> runs a multi-agent review at a chosen effort level
+      c: They are aliases for the exact same command with no behavioral difference
+      d: /review only works on local diffs, /code-review only works on GitHub PRs
+    correct: b
+    explanation: "In v2.1.202, /review <pr> reverted to being a fast single-pass review, while /code-review <level> <pr#> handles the multi-agent, multi-pass review at a chosen effort level (low through max). This distinction had shifted before: at one point /review <pr> used the same engine as /code-review medium. Option c is wrong since the two now behave differently, and option d invents a local-versus-GitHub split that isn't the actual distinction."
+    doc_reference:
+      file: guide/core/claude-code-releases.md
+      section: v2.1.202
+  - id: 06-018
+    difficulty: intermediate
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What happened to the /agents interactive wizard command as of v2.1.198?
+    options:
+      a: It was merged into /config as a new tab
+      b: It was renamed to /subagents but works the same way
+      c: It still exists but now requires the --legacy flag
+      d: It was removed; subagents are managed by editing .claude/agents/ directly or asking Claude conversationally
+    correct: d
+    explanation: The /agents wizard was removed in v2.1.198. Subagents are now managed by editing files directly under .claude/agents/ or by asking Claude to create or edit them conversationally, rather than through a dedicated wizard command. It wasn't merged into /config, renamed, or gated behind a flag, it's gone as a standalone interactive flow.
+    doc_reference:
+      file: guide/core/claude-code-releases.md
+      section: v2.1.198
+  - id: 06-019
+    difficulty: power
+    profiles:
+      - senior
+      - power
+    question: As of v2.1.191, can /rewind still recover a conversation after you've run /clear?
+    options:
+      a: No, running /clear permanently discards the ability to rewind anything before it
+      b: Yes, /rewind can resume a conversation from before /clear was run
+      c: Only if the session was saved with /save before the /clear
+      d: Yes, but only within the same calendar day as the /clear
+    correct: b
+    explanation: Since v2.1.191, /rewind can resume a conversation from before /clear was run, so clearing the visible context no longer means losing the ability to go back. Before this change, /clear would have effectively been a point of no return for rewind purposes. Options c and d invent conditions, a manual save step and a time window, that the release notes don't mention.
+    doc_reference:
+      file: guide/core/claude-code-releases.md
+      section: v2.1.191
+  - id: 06-020
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: How do you invoke a custom command named `commit.md` located in `.claude/commands/tech/`?
+    options:
+      a: /commit
+      b: /tech-commit
+      c: /tech:commit
+      d: "!tech/commit"
+    correct: c
+    explanation: |-
+      Custom commands use the format `/folder:filename` (without the .md extension).
+
+      So `.claude/commands/tech/commit.md` becomes `/tech:commit`.
+      This naming convention allows organizing commands by domain while keeping invocation intuitive.
+
+      Examples:
+      - `.claude/commands/tech/pr.md` -> `/tech:pr`
+      - `.claude/commands/product/scope.md` -> `/product:scope`
+    doc_reference:
+      file: guide/ultimate-guide.md
+      section: 6.2 Creating Custom Commands
+      anchor: "#command-naming"
+  - id: 06-021
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: You run `/loop 5m check the deploy`. How does Claude Code execute this, and how do you stop it?
+    options:
+      a: Runs the prompt once, then waits for manual re-trigger. Stop by closing the terminal.
+      b: Executes the prompt every 5 minutes until you press Ctrl+C or send any new message
+      c: Creates a background cron job that continues even after Claude Code exits
+      d: Runs the prompt in a separate sub-agent session on a 5-minute schedule
+    correct: b
+    explanation: "`/loop [interval] [prompt]` runs the given prompt or slash command repeatedly at the specified interval. After each execution, Claude waits the interval and executes again. The default interval when none is provided is 10 minutes. Stopping is simple: press Ctrl+C or send any new message. The loop does not persist beyond the session. Common use cases include monitoring deploys, polling for PR feedback, and checking on background tasks."
+    doc_reference:
+      file: guide/ultimate-guide.md
+      section: The /loop Command
       anchor: "#the-loop-command"
-
-  - id: "06-015"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What is the key difference between `/branch` and starting a fresh `claude` session at a decision point?"
+  - id: 06-022
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is the key difference between `/branch` and starting a fresh `claude` session at a decision point?
     options:
-      a: "There is no difference — `/branch` is just an alias for starting a new session"
+      a: There is no difference — `/branch` is just an alias for starting a new session
       b: "`/branch` forks the current session into an independent copy that preserves all prior context, while a fresh session starts empty"
       c: "`/branch` creates a git branch automatically, while a fresh session does not"
       d: "`/branch` is only available in Plan Mode; a fresh session works in any mode"
-    correct: "b"
-    explanation: |
-      `/branch` creates a new independent session that starts from the current session's history. Both branches then evolve independently. The equivalent CLI approach is `claude --resume <session-id> --fork-session`. A fresh `claude` session starts with no conversation history, losing all context accumulated up to the decision point. Use `/branch` when you want to try two different approaches to the same problem without losing either starting point.
+    correct: b
+    explanation: "`/branch` creates a new independent session that starts from the current session's history. Both branches then evolve independently. The equivalent CLI approach is `claude --resume <session-id> --fork-session`. A fresh `claude` session starts with no conversation history, losing all context accumulated up to the decision point. Use `/branch` when you want to try two different approaches to the same problem without losing either starting point."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "Session Forking"
+      file: guide/ultimate-guide.md
+      section: Session Forking
       anchor: "#session-forking"
-
-  - id: "06-016"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What does the `argument-hint` frontmatter field do in a custom command or skill file?"
+  - id: 06-023
+    difficulty: power
+    profiles:
+      - power
+    question: What does the `argument-hint` frontmatter field do in a custom command or skill file?
     options:
-      a: "Provides a fallback value for `$ARGUMENTS` when the user invokes the command with no arguments"
-      b: "Displays placeholder text in the slash command picker UI showing the expected argument format"
-      c: "Validates the arguments against a schema before the command runs"
-      d: "Sets the default effort level when the command is invoked with arguments"
-    correct: "b"
-    explanation: |
-      `argument-hint` is a frontmatter field that controls what placeholder text appears in the slash command picker when a command or skill accepts `$ARGUMENTS`. When a user types the command name, the picker shows the hint as a visual guide to the expected argument format. Example: `argument-hint: "<env> [--skip-tests] [--dry-run]"`. This field has no effect on argument validation or default values — it is purely a UI affordance for discoverability.
+      a: Provides a fallback value for `$ARGUMENTS` when the user invokes the command with no arguments
+      b: Displays placeholder text in the slash command picker UI showing the expected argument format
+      c: Validates the arguments against a schema before the command runs
+      d: Sets the default effort level when the command is invoked with arguments
+    correct: b
+    explanation: '`argument-hint` is a frontmatter field that controls what placeholder text appears in the slash command picker when a command or skill accepts `$ARGUMENTS`. When a user types the command name, the picker shows the hint as a visual guide to the expected argument format. Example: `argument-hint: "<env> [--skip-tests] [--dry-run]"`. This field has no effect on argument validation or default values — it is purely a UI affordance for discoverability.'
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "6.3 Variable Interpolation"
+      file: guide/ultimate-guide.md
+      section: 6.3 Variable Interpolation
       anchor: "#variable-interpolation"
-
-  - id: "06-017"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "Among the guide's example commands `/investigate`, `/qa`, and `/canary`, which pairing of command to purpose is correct?"
+  - id: 06-024
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: Among the guide's example commands `/investigate`, `/qa`, and `/canary`, which pairing of command to purpose is correct?
     options:
       a: "`/investigate` = post-deploy monitoring; `/qa` = root-cause debugging; `/canary` = quality assurance testing"
       b: "`/investigate` = root-cause debugging before any fix; `/qa` = diff-aware web app QA testing; `/canary` = post-deploy production monitoring"
       c: "`/investigate` = code review workflow; `/qa` = canary deployment rollout; `/canary` = automated test generation"
       d: "`/investigate` = security vulnerability scan; `/qa` = test coverage report; `/canary` = gradual traffic rollout"
-    correct: "b"
-    explanation: |
-      All three are custom command templates in `examples/commands/`. `/investigate` enforces systematic root-cause analysis before writing any fix. `/qa` runs diff-aware, tiered quality assurance on a web app by identifying affected routes from the current branch's changes. `/canary` monitors a live application after deployment and compares against a pre-deploy baseline. These commands show how structured workflows can be encoded beyond simple prompts.
+    correct: b
+    explanation: All three are custom command templates in `examples/commands/`. `/investigate` enforces systematic root-cause analysis before writing any fix. `/qa` runs diff-aware, tiered quality assurance on a web app by identifying affected routes from the current branch's changes. `/canary` monitors a live application after deployment and compares against a pre-deploy baseline. These commands show how structured workflows can be encoded beyond simple prompts.
     doc_reference:
-      file: "examples/commands/"
-      section: "Custom Command Templates"
+      file: examples/commands/
+      section: Custom Command Templates
       anchor: "#command-examples"
-
-  - id: "06-018"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "You need deterministic CI/CD execution unaffected by local developer settings. Which CLI flag achieves this?"
+  - id: 06-025
+    difficulty: power
+    profiles:
+      - power
+    question: You need deterministic CI/CD execution unaffected by local developer settings. Which CLI flag achieves this?
     options:
       a: "`--dangerously-skip-permissions` — bypasses all permission checks for headless execution"
       b: "`--bare` — disables hooks, LSP, plugin sync, and skill directory scanning; requires ANTHROPIC_API_KEY"
       c: "`--no-mcp` — disables all MCP servers for a clean execution environment"
       d: "`-p` alone — print mode already provides a hermetic execution environment"
-    correct: "b"
-    explanation: |
-      `--bare` was added specifically for scripted `-p` calls in CI environments. It disables hooks, LSP, plugin sync, and skill directory walks so that local developer configuration never bleeds into pipeline execution. It also disables auto-memory entirely and requires `ANTHROPIC_API_KEY` or `apiKeyHelper` via `--settings`. Without `--bare`, a `claude -p` call in CI could pick up local hooks, plugins, and skills installed on the machine that set up the runner, making pipeline behavior non-deterministic.
+    correct: b
+    explanation: "`--bare` was added specifically for scripted `-p` calls in CI environments. It disables hooks, LSP, plugin sync, and skill directory walks so that local developer configuration never bleeds into pipeline execution. It also disables auto-memory entirely and requires `ANTHROPIC_API_KEY` or `apiKeyHelper` via `--settings`. Without `--bare`, a `claude -p` call in CI could pick up local hooks, plugins, and skills installed on the machine that set up the runner, making pipeline behavior non-deterministic."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "9.2 CI/CD Integration"
-      anchor: "#bare-flag"
-
-  - id: "06-019"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is the purpose of the `--channels` CLI flag?"
+      file: guide/ultimate-guide.md
+      section: GitHub Actions Integration
+      anchor: "#github-actions-integration"
+  - id: 06-026
+    difficulty: power
+    profiles:
+      - power
+    question: What is the purpose of the `--channels` CLI flag?
     options:
-      a: "Specifies which communication channels (Slack, email, webhook) receive Claude's output"
-      b: "Sets the number of parallel tool execution channels for improved performance"
-      c: "Enables a permission relay where MCP channel servers can forward tool approval prompts to an external system"
-      d: "Configures Claude to subscribe to specific event channels from external services"
-    correct: "c"
-    explanation: |
-      `--channels` is a permission relay mechanism. MCP servers that declare the `permission` capability can use it to forward tool approval prompts out of the terminal, for example to your phone, so you can approve or deny tool calls remotely without being at your keyboard. This is distinct from Remote Control (which mirrors the full session). The channels feature is specifically about delegating the permission decision flow to an external system.
+      a: Specifies which communication channels (Slack, email, webhook) receive Claude's output
+      b: Sets the number of parallel tool execution channels for improved performance
+      c: Enables a permission relay where MCP channel servers can forward tool approval prompts to an external system
+      d: Configures Claude to subscribe to specific event channels from external services
+    correct: c
+    explanation: "`--channels` is a permission relay mechanism. MCP servers that declare the `permission` capability can use it to forward tool approval prompts out of the terminal, for example to your phone, so you can approve or deny tool calls remotely without being at your keyboard. This is distinct from Remote Control (which mirrors the full session). The channels feature is specifically about delegating the permission decision flow to an external system."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "CLI Flags"
-      anchor: "#channels-flag"
-
-  - id: "06-020"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "When running `claude auth login`, what does the `--console` flag do?"
+      file: guide/ultimate-guide.md
+      section: Integration
+      anchor: "#integration"
+  - id: 06-027
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: When running `claude auth login`, what does the `--console` flag do?
     options:
-      a: "Outputs the authentication token to stdout instead of storing it in the keychain"
-      b: "Authenticates via Anthropic Console (API billing) instead of the default claude.ai OAuth flow"
-      c: "Opens a browser console debug view for troubleshooting authentication issues"
-      d: "Enables structured JSON output for the login command"
-    correct: "b"
-    explanation: |
-      The `--console` flag routes authentication through the Anthropic Console, which is the API billing path. This is the correct choice for teams and developers who access Claude Code via API keys managed in console.anthropic.com, as opposed to the standard claude.ai subscription OAuth flow. If your organization manages API credentials through the Anthropic Console rather than individual claude.ai accounts, use `claude auth login --console` to authenticate correctly.
+      a: Outputs the authentication token to stdout instead of storing it in the keychain
+      b: Authenticates via Anthropic Console (API billing) instead of the default claude.ai OAuth flow
+      c: Opens a browser console debug view for troubleshooting authentication issues
+      d: Enables structured JSON output for the login command
+    correct: b
+    explanation: The `--console` flag routes authentication through the Anthropic Console, which is the API billing path. This is the correct choice for teams and developers who access Claude Code via API keys managed in console.anthropic.com, as opposed to the standard claude.ai subscription OAuth flow. If your organization manages API credentials through the Anthropic Console rather than individual claude.ai accounts, use `claude auth login --console` to authenticate correctly.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "1.1 Installation"
-      anchor: "#console-auth"
+      file: guide/core/claude-code-releases.md
+      section: v2.1.79 (2026-03-19)
+      anchor: "#v2179-2026-03-19"

@@ -1,42 +1,47 @@
-category: "Reference"
+category: Reference
 category_id: 10
-source_file: "guide/ultimate-guide.md"
-
+source_file: guide/ultimate-guide.md
 questions:
-  - id: "10-001"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What keyboard shortcut enters Plan Mode (toggles plan/execute)?"
+  - id: 10-001
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What keyboard shortcut enters Plan Mode when using OpusPlan?
     options:
-      a: "Ctrl+P"
-      b: "Shift+Tab"
-      c: "Alt+P"
-      d: "Ctrl+Shift+P"
-    correct: "b"
-    explanation: |
-      `Shift+Tab` toggles between Plan Mode and Execute Mode.
+      a: Ctrl+P
+      b: Shift+Tab (with OpusPlan enabled)
+      c: Alt+P
+      d: /plan command
+    correct: b
+    explanation: |-
+      With OpusPlan enabled (`/model opusplan`), use `Shift+Tab` to enter/exit Plan Mode:
 
-      Plan Mode navigation:
-      - `Shift+Tab` once: Toggle plan/execute
-      - `Shift+Tab` twice: Enter deep Plan Mode (with Opus in OpusPlan)
+      - `Shift+Tab × 2` → Enter Plan Mode (Opus for planning)
+      - `Shift+Tab` (once) → Exit to Act Mode (Sonnet for execution)
 
-      Plan Mode allows safe, read-only exploration before making changes.
+      **Alternative**: Use `/plan` command to explicitly enter Plan Mode without OpusPlan.
+
+      **Note**: Shift+Tab shortcuts only work when OpusPlan is enabled. Without OpusPlan, use `/plan` command instead.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "10.2 Keyboard Shortcuts"
-      anchor: "#session-control"
-
-  - id: "10-002"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What keyboard shortcut rewinds to a previous checkpoint (undo Claude's changes)?"
+      file: guide/ultimate-guide.md
+      section: 2.3 OpusPlan Mode
+      line: 2295-2309
+  - id: 10-002
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What keyboard shortcut rewinds to a previous checkpoint (undo Claude's changes)?
     options:
-      a: "Ctrl+Z"
-      b: "Esc (double-tap)"
-      c: "Ctrl+R"
-      d: "Alt+Z"
-    correct: "b"
-    explanation: |
+      a: Ctrl+Z
+      b: Esc (double-tap)
+      c: Ctrl+R
+      d: Alt+Z
+    correct: b
+    explanation: |-
       Double-tap `Esc` (Esc×2) rewinds to the previous checkpoint.
 
       This is equivalent to the `/rewind` command.
@@ -44,21 +49,23 @@ questions:
 
       Use when Claude made a mistake and you want to try a different approach.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "10.2 Keyboard Shortcuts"
+      file: guide/ultimate-guide.md
+      section: 10.2 Keyboard Shortcuts
       anchor: "#session-control"
-
-  - id: "10-003"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What does `/compact` do?"
+  - id: 10-003
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What does `/compact` do?
     options:
-      a: "Compresses files on disk"
-      b: "Summarizes and compresses the conversation context"
-      c: "Minimizes the terminal window"
-      d: "Reduces Claude's response length"
-    correct: "b"
-    explanation: |
+      a: Compresses files on disk
+      b: Summarizes and compresses the conversation context
+      c: Minimizes the terminal window
+      d: Reduces Claude's response length
+    correct: b
+    explanation: |-
       `/compact` summarizes and compresses the conversation context.
 
       Use `/compact` when:
@@ -69,21 +76,22 @@ questions:
       This frees up context space while preserving important information.
       Check context usage with `/status`.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "10.1 Commands Table"
+      file: guide/ultimate-guide.md
+      section: 10.1 Commands Table
       anchor: "#built-in-commands"
-
-  - id: "10-004"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "At what context percentage should you run /compact according to best practices?"
+  - id: 10-004
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: At what context percentage should you run /compact according to best practices?
     options:
-      a: "50%"
-      b: "70-90%"
-      c: "95%+"
-      d: "Only when errors occur"
-    correct: "b"
-    explanation: |
+      a: 50%
+      b: 75-90%
+      c: 95%+
+      d: Only when errors occur
+    correct: b
+    explanation: |-
       Context management guidelines:
 
       | Context Level | Action |
@@ -93,47 +101,24 @@ questions:
       | **75-90%** | **Use `/compact`** |
       | 90%+ | Use `/clear` |
 
-      Proactive compaction at 70% prevents context degradation and maintains performance.
+      Proactive compaction at 75% prevents context degradation and maintains performance. The Red Zone (75-90%) is when you should run /compact or /clear to recover context.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "10.4 Troubleshooting"
+      file: guide/ultimate-guide.md
+      section: 10.4 Troubleshooting
       anchor: "#context-recovery"
-
-  - id: "10-005"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What keyboard shortcut cancels the current operation?"
+  - id: 10-006
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is the correct permission pattern to allow ALL git commands?
     options:
-      a: "Esc"
-      b: "Ctrl+C"
-      c: "Ctrl+Z"
-      d: "Alt+C"
-    correct: "b"
-    explanation: |
-      `Ctrl+C` cancels the current operation.
-
-      Important shortcuts:
-      - `Ctrl+C`: Cancel operation
-      - `Ctrl+D`: Exit Claude Code
-      - `Ctrl+R`: Retry last operation
-      - `Ctrl+L`: Clear screen (keeps context)
-      - `Esc`: Dismiss current suggestion
-    doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "10.2 Keyboard Shortcuts"
-      anchor: "#session-control"
-
-  - id: "10-006"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What is the correct permission pattern to allow ALL git commands?"
-    options:
-      a: 'Bash(git)'
-      b: 'Bash(git *)'
-      c: 'git:*'
-      d: 'Bash(*git*)'
-    correct: "b"
-    explanation: |
+      a: Bash(git)
+      b: Bash(git *)
+      c: git:*
+      d: Bash(*git*)
+    correct: b
+    explanation: |-
       The pattern `Bash(git *)` allows any git command.
 
       Permission pattern examples:
@@ -144,21 +129,23 @@ questions:
 
       Wildcards (*) enable flexible permission matching.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "10.3 Configuration Reference"
+      file: guide/ultimate-guide.md
+      section: 10.3 Configuration Reference
       anchor: "#permission-patterns"
-
-  - id: "10-007"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "Where should project-specific CLAUDE.md be placed (committed to git)?"
+  - id: 10-007
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: Where should project-specific CLAUDE.md be placed (committed to git)?
     options:
-      a: "~/.claude/CLAUDE.md"
-      b: "/project/.claude/CLAUDE.md"
-      c: "/project/CLAUDE.md"
-      d: "~/.config/claude/project.md"
-    correct: "c"
-    explanation: |
+      a: ~/.claude/CLAUDE.md
+      b: /project/.claude/CLAUDE.md
+      c: /project/CLAUDE.md
+      d: ~/.config/claude/project.md
+    correct: c
+    explanation: |-
       CLAUDE.md locations:
 
       | Location | Scope | Committed |
@@ -170,21 +157,22 @@ questions:
       The root `CLAUDE.md` is committed and shared with the team.
       The `.claude/CLAUDE.md` is personal and should be in `.gitignore`.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "10.3 Configuration Reference"
+      file: guide/ultimate-guide.md
+      section: 10.3 Configuration Reference
       anchor: "#claudemd-locations"
-
-  - id: "10-008"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What does the --mcp-debug flag do?"
+  - id: 10-008
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What does the --mcp-debug flag do?
     options:
-      a: "Disables MCP servers"
-      b: "Debugs MCP server connections with verbose output"
-      c: "Tests MCP configurations"
-      d: "Enables MCP auto-discovery"
-    correct: "b"
-    explanation: |
+      a: Disables MCP servers
+      b: Debugs MCP server connections with verbose output
+      c: Tests MCP configurations
+      d: Enables MCP auto-discovery
+    correct: b
+    explanation: |-
       The `--mcp-debug` flag enables debug mode for MCP server connections.
 
       MCP debugging techniques:
@@ -195,21 +183,21 @@ questions:
 
       Use when MCP servers aren't connecting or tools aren't appearing.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "10.4 Troubleshooting"
+      file: guide/ultimate-guide.md
+      section: 10.4 Troubleshooting
       anchor: "#mcp-debugging-techniques"
-
-  - id: "10-009"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "If an MCP server name validation fails with pattern error, what characters ARE allowed?"
+  - id: 10-009
+    difficulty: power
+    profiles:
+      - power
+    question: If an MCP server name validation fails with pattern error, what characters ARE allowed?
     options:
-      a: "Letters only"
-      b: "Letters, numbers, underscores, hyphens (max 64 chars)"
-      c: "Any characters except spaces"
-      d: "Alphanumeric and periods"
-    correct: "b"
-    explanation: |
+      a: Letters only
+      b: Letters, numbers, underscores, hyphens (max 64 chars)
+      c: Any characters except spaces
+      d: Alphanumeric and periods
+    correct: b
+    explanation: |-
       MCP server names must match: `^[a-zA-Z0-9_-]{1,64}`
 
       Allowed:
@@ -224,21 +212,23 @@ questions:
       - Special characters (@, #, etc.)
       - More than 64 characters
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "10.4 Troubleshooting"
+      file: guide/ultimate-guide.md
+      section: 10.4 Troubleshooting
       anchor: "#error-1-tool-name-validation-failed"
-
-  - id: "10-010"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What command shows session info including context usage and cost?"
+  - id: 10-010
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What command shows session info including context usage and cost?
     options:
-      a: "/info"
-      b: "/status"
-      c: "/stats"
-      d: "/session"
-    correct: "b"
-    explanation: |
+      a: /info
+      b: /status
+      c: /stats
+      d: /session
+    correct: b
+    explanation: |-
       The `/status` command shows session information.
 
       Output includes:
@@ -252,21 +242,22 @@ questions:
 
       Use `/stats` for usage statistics with activity graphs.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "10.1 Commands Table"
+      file: guide/ultimate-guide.md
+      section: 10.1 Commands Table
       anchor: "#built-in-commands"
-
-  - id: "10-011"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What flag limits maximum API spend in headless mode?"
+  - id: 10-011
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What flag limits maximum API spend in headless mode?
     options:
-      a: "--cost-limit"
-      b: "--max-budget-usd"
-      c: "--spending-cap"
-      d: "--budget"
-    correct: "b"
-    explanation: |
+      a: --cost-limit
+      b: --max-budget-usd
+      c: --spending-cap
+      d: --budget
+    correct: b
+    explanation: |-
       The `--max-budget-usd` flag sets maximum API spend (only with `--print`):
 
       ```bash
@@ -276,21 +267,23 @@ questions:
       This prevents runaway costs in automated pipelines.
       The operation stops if the budget is exceeded.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "10.3 Configuration Reference"
+      file: guide/ultimate-guide.md
+      section: 10.3 Configuration Reference
       anchor: "#cli-flags-reference"
-
-  - id: "10-012"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "How do you run a shell command directly from Claude Code prompt?"
+  - id: 10-012
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: How do you run a shell command directly from Claude Code prompt?
     options:
       a: "shell: command"
       b: "!command"
-      c: "$command"
-      d: "run command"
-    correct: "b"
-    explanation: |
+      c: $command
+      d: run command
+    correct: b
+    explanation: |-
       The `!command` prefix runs a shell command directly.
 
       Quick actions:
@@ -301,21 +294,22 @@ questions:
 
       Example: `!git status` runs git status without Claude interpreting it.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "10.1 Commands Table"
+      file: guide/ultimate-guide.md
+      section: 10.1 Commands Table
       anchor: "#quick-actions"
-
-  - id: "10-013"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What is the correct way to resume a specific session by ID?"
+  - id: 10-013
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is the correct way to resume a specific session by ID?
     options:
-      a: "claude --session abc123"
-      b: "claude -r abc123"
-      c: "claude --load abc123"
-      d: "claude -s abc123"
-    correct: "b"
-    explanation: |
+      a: claude --session abc123
+      b: claude -r abc123
+      c: claude --load abc123
+      d: claude -s abc123
+    correct: b
+    explanation: |-
       Use `-r` or `--resume` to resume a specific session:
 
       ```bash
@@ -327,30 +321,31 @@ questions:
 
       Combine with `-p` for scripting: `claude -r abc123 -p "check status"`
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "10.3 Configuration Reference"
+      file: guide/ultimate-guide.md
+      section: 10.3 Configuration Reference
       anchor: "#cli-flags-reference"
-
-  - id: "10-014"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is the recommended .gitignore pattern for Claude Code files?"
+  - id: 10-014
+    difficulty: power
+    profiles:
+      - power
+    question: What is the recommended .gitignore pattern for Claude Code files?
     options:
-      a: "Ignore all .claude/ contents"
-      b: "Ignore settings.local.json and .claude/CLAUDE.md, keep agents/commands/hooks"
-      c: "Don't ignore anything"
-      d: "Ignore only agents/"
-    correct: "b"
-    explanation: |
+      a: Ignore all .claude/ contents
+      b: Ignore settings.local.json and CLAUDE.local.md, keep agents/commands/hooks
+      c: Don't ignore anything
+      d: Ignore only agents/
+    correct: b
+    explanation: |-
       Recommended .gitignore:
 
       ```gitignore
       # Claude Code - Personal (ignore)
       .claude/settings.local.json
-      .claude/CLAUDE.md
+      CLAUDE.local.md
       .claude/.serena/
 
       # Claude Code - Team (keep/commit)
+      # .claude/CLAUDE.md (project memory)
       # .claude/agents/
       # .claude/commands/
       # .claude/hooks/
@@ -359,21 +354,23 @@ questions:
 
       This keeps team workflows shared while personal settings stay private.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "9.11 Common Pitfalls & Best Practices"
+      file: guide/ultimate-guide.md
+      section: 9.11 Common Pitfalls & Best Practices
       anchor: "#recommended-gitignore"
-
-  - id: "10-015"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What is the daily workflow morning setup according to the guide?"
+  - id: 10-015
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What is the daily workflow morning setup according to the guide?
     options:
-      a: "Just start coding"
-      b: "Git pull, /status, load project memory, review yesterday's progress"
-      c: "Run all tests first"
-      d: "Clear all context"
-    correct: "b"
-    explanation: |
+      a: Just start coding
+      b: Git pull, /status, load project memory, review yesterday's progress
+      c: Run all tests first
+      d: Clear all context
+    correct: b
+    explanation: |-
       Morning setup workflow:
 
       1. Git pull latest changes
@@ -383,21 +380,22 @@ questions:
 
       This ensures you start with fresh code and full context awareness.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "10.6 Daily Workflow & Checklists"
+      file: guide/ultimate-guide.md
+      section: 10.6 Daily Workflow & Checklists
       anchor: "#daily-workflow-pattern"
-
-  - id: "10-016"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What flag allows Claude's tools to access directories outside the current working directory?"
+  - id: 10-016
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What flag allows Claude's tools to access directories outside the current working directory?
     options:
-      a: "--include-dir"
-      b: "--add-dir"
-      c: "--context-dir"
-      d: "--load-dir"
-    correct: "b"
-    explanation: |
+      a: --include-dir
+      b: --add-dir
+      c: --context-dir
+      d: --load-dir
+    correct: b
+    explanation: |-
       Use `--add-dir` to allow tool access to additional directories:
 
       ```bash
@@ -408,21 +406,21 @@ questions:
       By default, Claude can only access files in the current working directory.
       Use --add-dir to extend permissions to other directories (e.g., shared libraries in a monorepo).
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "10.3 Configuration Reference"
+      file: guide/ultimate-guide.md
+      section: 10.3 Configuration Reference
       anchor: "#cli-flags-reference"
-
-  - id: "10-017"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "When Sequential Thinking MCP seems slow or unresponsive, what should you expect?"
+  - id: 10-017
+    difficulty: power
+    profiles:
+      - power
+    question: When Sequential Thinking MCP seems slow or unresponsive, what should you expect?
     options:
-      a: "It's broken and needs restart"
-      b: "10-30 second responses are normal due to significant compute"
-      c: "Switch to a different MCP"
-      d: "Reduce the query complexity"
-    correct: "b"
-    explanation: |
+      a: It's broken and needs restart
+      b: 10-30 second responses are normal due to significant compute
+      c: Switch to a different MCP
+      d: Reduce the query complexity
+    correct: b
+    explanation: |-
       Sequential Thinking uses significant compute - expect 10-30 second responses.
 
       This is not an error, just be patient.
@@ -434,21 +432,23 @@ questions:
 
       The longer response time reflects deeper analysis.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "10.4 Troubleshooting"
-      anchor: "#sequential-thinking-mcp-issues"
-
-  - id: "10-018"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What shortcut opens an external editor for composing long text input?"
+      file: guide/ultimate-guide.md
+      section: MCP Debugging Techniques
+      anchor: "#mcp-debugging-techniques"
+  - id: 10-018
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What shortcut opens an external editor for composing long text input?
     options:
-      a: "Ctrl+E"
-      b: "Ctrl+G"
-      c: "Ctrl+O"
-      d: "Ctrl+L"
-    correct: "b"
-    explanation: |
+      a: Ctrl+E
+      b: Ctrl+G
+      c: Ctrl+O
+      d: Ctrl+L
+    correct: b
+    explanation: |-
       `Ctrl+G` opens an external editor for composing long text.
 
       Useful input shortcuts:
@@ -460,57 +460,220 @@ questions:
 
       The external editor allows comfortable editing of complex prompts.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "10.2 Keyboard Shortcuts"
-      anchor: "#input--navigation"
-
-  - id: "10-019"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What does the '--from-pr' flag do in Claude Code v2.1.27?"
+      file: guide/ultimate-guide.md
+      section: 10.2 Keyboard Shortcuts
+      anchor: "#input-navigation"
+  - id: 10-019
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What does the '--from-pr' flag do in Claude Code v2.1.27?
     options:
-      a: "Creates a new pull request"
-      b: "Resumes sessions linked to a GitHub PR number or URL"
-      c: "Fetches all PR comments into context"
-      d: "Closes a pull request"
-    correct: "b"
-    explanation: |
-      The `--from-pr` flag (v2.1.27) lets you resume Claude Code sessions linked to a specific GitHub PR. Usage: `claude --from-pr 123` or `claude --from-pr https://github.com/org/repo/pull/123`. This loads the PR context (diff, comments, checks) directly into the session.
+      a: Creates a new pull request
+      b: Resumes sessions linked to a GitHub PR number or URL
+      c: Fetches all PR comments into context
+      d: Closes a pull request
+    correct: b
+    explanation: "The `--from-pr` flag (v2.1.27) lets you resume Claude Code sessions linked to a specific GitHub PR. Usage: `claude --from-pr 123` or `claude --from-pr https://github.com/org/repo/pull/123`. This loads the PR context (diff, comments, checks) directly into the session."
     doc_reference:
-      file: "guide/claude-code-releases.md"
-      section: "v2.1.27"
-      anchor: "#v2127"
-
-  - id: "10-020"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What breaking change was introduced in Claude Code v2.1.19 for hook/command arguments?"
+      file: guide/core/claude-code-releases.md
+      section: v2.1.27 (2026-01-29)
+      anchor: "#v2127-2026-01-29"
+  - id: 10-020
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What breaking change was introduced in Claude Code v2.1.19 for hook/command arguments?
     options:
-      a: "Arguments removed entirely"
-      b: "Migration from $ARGUMENTS.0 (dot syntax) to $ARGUMENTS[0] (bracket syntax)"
-      c: "New $PARAMS variable replaced $ARGUMENTS"
-      d: "Arguments now require JSON format"
-    correct: "b"
-    explanation: |
-      Claude Code v2.1.19 changed argument access syntax from dot notation (`$ARGUMENTS.0`) to bracket notation (`$ARGUMENTS[0]`). This breaking change affects all custom commands and hooks that reference arguments. Update your scripts to use the new bracket syntax.
+      a: Arguments removed entirely
+      b: Migration from $ARGUMENTS.0 (dot syntax) to $ARGUMENTS[0] (bracket syntax)
+      c: New $PARAMS variable replaced $ARGUMENTS
+      d: Arguments now require JSON format
+    correct: b
+    explanation: Claude Code v2.1.19 changed argument access syntax from dot notation (`$ARGUMENTS.0`) to bracket notation (`$ARGUMENTS[0]`). This breaking change affects all custom commands and hooks that reference arguments. Update your scripts to use the new bracket syntax.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "Breaking Changes"
-      anchor: "#breaking-changes"
-
-  - id: "10-021"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power", "pm"]
-    question: "According to the guide's 'Myths vs Reality' section, what is the truth about 'hidden Claude Code features'?"
+      file: guide/ultimate-guide.md
+      section: Variable Interpolation
+      anchor: "#variable-interpolation"
+  - id: 10-021
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+      - pm
+    question: According to the guide's 'Myths vs Reality' section, what is the truth about 'hidden Claude Code features'?
     options:
-      a: "Secret flags exist for power users"
-      b: "Hidden features require an enterprise plan"
-      c: "There are no hidden features - Anthropic uses progressive rollout, not secret flags"
-      d: "Beta flags are stored in .claude/config"
-    correct: "c"
-    explanation: |
-      The Myths vs Reality section debunks the "hidden features" myth. Anthropic uses progressive rollout (features gradually enabled for users) rather than secret flags or hidden configurations. All features are documented in release notes. There is no secret power-user mode.
+      a: Secret flags exist for power users
+      b: Hidden features require an enterprise plan
+      c: There are no hidden features - Anthropic uses progressive rollout, not secret flags
+      d: Beta flags are stored in .claude/config
+    correct: c
+    explanation: The Myths vs Reality section debunks the "hidden features" myth. Anthropic uses progressive rollout (features gradually enabled for users) rather than secret flags or hidden configurations. All features are documented in release notes. There is no secret power-user mode.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "Myths vs Reality"
-      anchor: "#myths-vs-reality"
+      file: guide/ultimate-guide.md
+      section: "Appendix D: Myths vs Reality"
+      anchor: "#appendix-d-myths-vs-reality"
+  - id: 10-022
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What are the effort levels in Claude Code after the v2.1.72 simplification?
+    options:
+      a: Four levels — low, medium, high, max — with icons ▲ △ ● ○
+      b: Three levels — quick, normal, deep — with symbols ○ ◐ ●
+      c: Three levels — low, medium, high — with symbols ○ ◐ ● (max was removed in v2.1.72)
+      d: Two levels — fast, thorough — toggled with Alt+T
+    correct: c
+    explanation: |-
+      v2.1.72 simplified effort to **three levels**: low (○), medium (◐), and high (●). The `max` level was removed. Use `/model` with left/right arrow keys to adjust the effort slider, the `effortLevel` setting in `settings.json`, or the `CLAUDE_CODE_EFFORT_LEVEL` environment variable. The new symbols provide quick visual reference in the UI. Use `/effort auto` to reset to the default adaptive behavior.
+      ---
+    doc_reference:
+      file: guide/core/claude-code-releases.md
+      section: v2.1.72 (2026-03-09)
+      anchor: "#v2172-2026-03-09"
+  - id: 10-023
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is "fast mode" for Opus 4.6 and what are its trade-offs?
+    options:
+      a: A mode that skips permission checks for 2.5x faster execution
+      b: Opus 4.6 running at 2.5x faster speed with 6x the price, enabled via /fast or speed:"fast" API parameter
+      c: A lightweight Haiku-based mode for simple tasks at reduced cost
+      d: Parallel tool execution mode that runs all tool calls simultaneously
+    correct: b
+    explanation: |-
+      Fast mode runs Opus 4.6 at **2.5x faster** speed but at **6x the price** ($30/$150 per 1M tokens vs $5/$25 standard). Enable it in Claude Code via `/fast`, or in the API by adding `speed: "fast"` and the `anthropic-beta: fast-mode-2026-02-01` header. It is the same Opus 4.6 model — same quality, same 1M context support — just optimized for speed at a significant cost premium. Best for time-critical tasks where latency matters more than cost.
+      ---
+    doc_reference:
+      file: guide/ultimate-guide.md
+      section: Pricing Model (as of April 2026)
+      anchor: "#pricing-model-as-of-april-2026"
+  - id: 10-024
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What does the restored `model` parameter on the Agent tool enable (v2.1.72)?
+    options:
+      a: It allows specifying a different model per Agent tool invocation, enabling different sub-agents to use different models
+      b: It sets the model for the entire session when passed to the first Agent tool call
+      c: It overrides the model used by background cron jobs
+      d: It was permanently removed in v2.1.72 and replaced by modelOverrides
+    correct: a
+    explanation: |-
+      The `model` parameter on the Agent tool (restored in v2.1.72) enables **per-invocation model overrides** — you can specify which model each sub-agent uses when spawning it via the Task tool. For example, an orchestrator on Opus 4.6 can spawn a code-review sub-agent on Sonnet for cost efficiency, or a security-audit sub-agent on Opus for thoroughness. This parameter was temporarily removed in a previous release and is now back with the same behavior as before.
+      ---
+    doc_reference:
+      file: guide/core/claude-code-releases.md
+      section: v2.1.72 (2026-03-09)
+      anchor: "#v2172-2026-03-09"
+  - id: 10-025
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What actionable information does the updated `/context` command now provide (v2.1.74)?
+    options:
+      a: A list of all active MCP server connections with ping times
+      b: Actionable suggestions — context-heavy tools, memory bloat warnings, and optimization tips
+      c: The full session transcript compressed to a summary
+      d: A breakdown of token usage by file type
+    correct: b
+    explanation: |-
+      The v2.1.74 `/context` command upgrade added **actionable suggestions** alongside the existing context usage display. It identifies context-heavy tools consuming disproportionate tokens, flags memory bloat, surfaces capacity warnings, and provides specific optimization tips to reduce context usage. This makes `/context` not just a passive meter but an active advisor for managing context health during long sessions.
+      ---
+    doc_reference:
+      file: guide/core/claude-code-releases.md
+      section: v2.1.74 (2026-03-12)
+      anchor: "#v2174-2026-03-12"
+  - id: 10-026
+    difficulty: junior
+    profiles:
+      - junior
+      - pm
+    question: What does Claude Code's fast mode actually do to the model being used?
+    options:
+      a: It switches the session to Haiku 4.5 for the rest of the conversation to reduce latency
+      b: It disables extended thinking entirely to cut response time, regardless of model
+      c: It runs the same model, currently Opus, at roughly 2.5x the speed for about 2x the token price; it does not switch to a smaller model
+      d: It routes requests through a regional low-latency API endpoint at the same price as standard mode
+    correct: c
+    explanation: Fast mode runs the current Opus model at faster output speed, roughly 2.5x faster, at about 2x the standard token price. It is the same model, not a downgrade to Haiku, and it does not touch the extended-thinking setting or route through a different endpoint.
+    doc_reference:
+      file: guide/ultimate-guide.md
+      section: Pricing Model
+  - id: 10-027
+    difficulty: intermediate
+    profiles:
+      - power
+    question: What does setting CLAUDE_CODE_DISABLE_MOUSE_CLICKS do in the terminal UI?
+    options:
+      a: Disables mouse click, drag, and hover handling in fullscreen mode, while wheel scroll keeps working
+      b: Disables wheel scroll only, forcing keyboard-only navigation everywhere
+      c: Disables the entire mouse subsystem, including outside fullscreen views
+      d: Hides the mouse cursor without changing any click behavior
+    correct: a
+    explanation: The env var disables mouse click, drag, and hover in fullscreen mode specifically, while keeping wheel scroll functional. It doesn't touch scroll behavior, doesn't extend outside fullscreen mode, and doesn't affect cursor visibility.
+    doc_reference:
+      file: guide/core/claude-code-releases.md
+      section: v2.1.195
+  - id: 10-028
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What keyboard shortcut enters Plan Mode (toggles plan/execute)?
+    options:
+      a: Ctrl+P
+      b: Shift+Tab
+      c: Alt+P
+      d: Ctrl+Shift+P
+    correct: b
+    explanation: |-
+      `Shift+Tab` toggles between Plan Mode and Execute Mode.
+
+      Plan Mode navigation:
+      - `Shift+Tab` once: Toggle plan/execute
+      - `Shift+Tab` twice: Enter deep Plan Mode (with Opus in OpusPlan)
+
+      Plan Mode allows safe, read-only exploration before making changes.
+    doc_reference:
+      file: guide/ultimate-guide.md
+      section: 10.2 Keyboard Shortcuts
+      anchor: "#session-control"
+  - id: 10-029
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What keyboard shortcut cancels the current operation?
+    options:
+      a: Esc
+      b: Ctrl+C
+      c: Ctrl+Z
+      d: Alt+C
+    correct: b
+    explanation: |-
+      `Ctrl+C` cancels the current operation.
+
+      Important shortcuts:
+      - `Ctrl+C`: Cancel operation
+      - `Ctrl+D`: Exit Claude Code
+      - `Ctrl+R`: Retry last operation
+      - `Ctrl+L`: Clear screen (keeps context)
+      - `Esc`: Dismiss current suggestion
+    doc_reference:
+      file: guide/ultimate-guide.md
+      section: 10.2 Keyboard Shortcuts
+      anchor: "#session-control"

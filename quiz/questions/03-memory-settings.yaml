@@ -1,309 +1,314 @@
-category: "Memory & Settings"
+category: Memory & Settings
 category_id: 3
-source_file: "guide/ultimate-guide.md"
-
+source_file: guide/ultimate-guide.md
 questions:
-  - id: "03-001"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power", "pm"]
-    question: "What is the correct precedence order for CLAUDE.md files (highest to lowest priority)?"
+  - id: 03-001
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+      - pm
+    question: What is the correct precedence order for CLAUDE.md files (highest to lowest priority)?
     options:
-      a: "Global > Project > Local"
-      b: "Local (.claude/CLAUDE.md) > Project (/project/CLAUDE.md) > Global (~/.claude/CLAUDE.md)"
-      c: "Project > Local > Global"
-      d: "All CLAUDE.md files have equal priority"
-    correct: "b"
-    explanation: |
-      The precedence is: Local (.claude/CLAUDE.md) > Project (/project/CLAUDE.md) > Global (~/.claude/CLAUDE.md). More specific beats more general. Local overrides are personal (gitignored), project settings are shared (committed), and global settings apply to all projects. This hierarchy allows personal preferences to override team conventions when needed. Enterprise note: `managed-settings.d/` provides an admin-controlled governance layer that sits above all three levels — policies deployed there cannot be overridden by any user-level CLAUDE.md.
+      a: Global > Project > Local
+      b: Local (.claude/CLAUDE.md) > Project (/project/CLAUDE.md) > Global (~/.claude/CLAUDE.md)
+      c: Project > Local > Global
+      d: All CLAUDE.md files have equal priority
+    correct: b
+    explanation: "The precedence is: Local (.claude/CLAUDE.md) > Project (/project/CLAUDE.md) > Global (~/.claude/CLAUDE.md). More specific beats more general. Local overrides are personal (gitignored), project settings are shared (committed), and global settings apply to all projects. This hierarchy allows personal preferences to override team conventions when needed."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "3.4 Precedence Rules"
+      file: guide/ultimate-guide.md
+      section: 3.4 Precedence Rules
       anchor: "#claudemd-precedence"
-
-  - id: "03-002"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "Where should team conventions be stored to be shared via version control?"
+  - id: 03-002
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: Where should team conventions be stored to be shared via version control?
     options:
-      a: "~/.claude/CLAUDE.md"
-      b: "/project/.claude/CLAUDE.md"
-      c: "/project/CLAUDE.md"
-      d: "/project/.claude/settings.local.json"
-    correct: "c"
-    explanation: |
-      Team conventions should be stored in `/project/CLAUDE.md` (the project root). This file is committed to git and shared with the team. Local overrides go in `/project/.claude/CLAUDE.md` (gitignored), and personal global preferences go in `~/.claude/CLAUDE.md`. This separation ensures team standards are enforced while allowing personal customization.
+      a: ~/.claude/CLAUDE.md
+      b: /project/.claude/CLAUDE.md
+      c: /project/CLAUDE.md
+      d: /project/.claude/settings.local.json
+    correct: c
+    explanation: Team conventions should be stored in `/project/CLAUDE.md` (the project root). This file is committed to git and shared with the team. Local overrides go in `/project/.claude/CLAUDE.md` (gitignored), and personal global preferences go in `~/.claude/CLAUDE.md`. This separation ensures team standards are enforced while allowing personal customization.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "3.1 Memory Files (CLAUDE.md)"
+      file: guide/ultimate-guide.md
+      section: 3.1 Memory Files (CLAUDE.md)
       anchor: "#level-2-project-projectclaudemd"
-
-  - id: "03-003"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What is the purpose of settings.local.json?"
+  - id: 03-003
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is the purpose of settings.local.json?
     options:
-      a: "Store team hook configurations"
-      b: "Define project-wide settings"
-      c: "Personal permission overrides (gitignored)"
-      d: "Configure MCP servers for the team"
-    correct: "c"
-    explanation: |
-      settings.local.json stores personal permission overrides and is gitignored. It allows you to customize which tools are auto-allowed, denied, or require asking for your personal workflow without affecting team settings. For example, you might allow all git commands while the team requires confirmation for certain operations.
+      a: Store team hook configurations
+      b: Define project-wide settings
+      c: Personal permission overrides (gitignored)
+      d: Configure MCP servers for the team
+    correct: c
+    explanation: settings.local.json stores personal permission overrides and is gitignored. It allows you to customize which tools are auto-allowed, denied, or require asking for your personal workflow without affecting team settings. For example, you might allow all git commands while the team requires confirmation for certain operations.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "3.3 Settings & Permissions"
+      file: guide/ultimate-guide.md
+      section: 3.3 Settings & Permissions
       anchor: "#settingslocaljson-personal-permissions"
-
-  - id: "03-004"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "Which folder contains custom agents, commands, hooks, and skills?"
+  - id: 03-004
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: Which folder contains custom agents, commands, hooks, and skills?
     options:
-      a: "~/.claude/"
-      b: "/project/CLAUDE.md"
-      c: "/project/.claude/"
-      d: "/project/config/"
-    correct: "c"
-    explanation: |
-      The `.claude/` folder in your project contains: agents/ (custom agent definitions), commands/ (custom slash commands), hooks/ (event-driven scripts), skills/ (knowledge modules), rules/ (auto-loaded conventions), and settings files. This is your project's Claude Code configuration directory for all extensions.
+      a: ~/.claude/
+      b: /project/CLAUDE.md
+      c: /project/.claude/
+      d: /project/config/
+    correct: c
+    explanation: "The `.claude/` folder in your project contains: agents/ (custom agent definitions), commands/ (custom slash commands), hooks/ (event-driven scripts), skills/ (knowledge modules), rules/ (auto-loaded conventions), and settings files. This is your project's Claude Code configuration directory for all extensions."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "3.2 The .claude/ Folder Structure"
+      file: guide/ultimate-guide.md
+      section: 3.2 The .claude/ Folder Structure
       anchor: "#full-structure"
-
-  - id: "03-005"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What is the permission behavior for tools listed in the 'deny' category?"
+  - id: 03-005
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is the permission behavior for tools listed in the 'deny' category?
     options:
-      a: "Ask for confirmation each time"
-      b: "Auto-approve without asking"
-      c: "Block completely"
-      d: "Log but allow"
-    correct: "c"
-    explanation: |
-      Tools in the 'deny' category are blocked completely - Claude cannot use them at all. The three permission behaviors are: 'allow' (auto-approve without asking), 'deny' (block completely), and 'ask' (prompt for confirmation). For example, denying "Bash(rm -rf *)" prevents accidental destructive operations.
+      a: Ask for confirmation each time
+      b: Auto-approve without asking
+      c: Block completely
+      d: Log but allow
+    correct: c
+    explanation: "Tools in the 'deny' category are blocked completely - Claude cannot use them at all. The three permission behaviors are: 'allow' (auto-approve without asking), 'deny' (block completely), and 'ask' (prompt for confirmation). For example, denying \"Bash(rm -rf *)\" prevents accidental destructive operations."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "3.3 Settings & Permissions"
+      file: guide/ultimate-guide.md
+      section: 3.3 Settings & Permissions
       anchor: "#permission-behavior"
-
-  - id: "03-006"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is the 'Single Source of Truth Pattern' for multi-tool AI setups?"
+  - id: 03-006
+    difficulty: power
+    profiles:
+      - power
+    question: What is the 'Single Source of Truth Pattern' for multi-tool AI setups?
     options:
-      a: "Use only one AI tool per project"
-      b: "Store conventions in docs/conventions/ and reference them from all AI tool configs"
-      c: "Copy the same rules to each AI tool's config"
-      d: "Let each AI tool define its own rules"
-    correct: "b"
-    explanation: |
-      The Single Source of Truth Pattern stores conventions in `/docs/conventions/` (coding-standards.md, architecture.md, testing.md, etc.) and references them from CLAUDE.md, CodeRabbit, and other tools. This prevents conflicts where one tool approves code that another flags. All tools enforce the same standards from one source.
+      a: Use only one AI tool per project
+      b: Store conventions in docs/conventions/ and reference them from all AI tool configs
+      c: Copy the same rules to each AI tool's config
+      d: Let each AI tool define its own rules
+    correct: b
+    explanation: The Single Source of Truth Pattern stores conventions in `/docs/conventions/` (coding-standards.md, architecture.md, testing.md, etc.) and references them from CLAUDE.md, CodeRabbit, and other tools. This prevents conflicts where one tool approves code that another flags. All tools enforce the same standards from one source.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "3.1 Memory Files (CLAUDE.md)"
+      file: guide/ultimate-guide.md
+      section: 3.1 Memory Files (CLAUDE.md)
       anchor: "#single-source-of-truth-pattern"
-
-  - id: "03-007"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What should be included in a project-level CLAUDE.md file?"
+  - id: 03-007
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What should be included in a project-level CLAUDE.md file?
     options:
-      a: "Only personal preferences"
-      b: "Tech stack, code conventions, architecture patterns, and common commands"
-      c: "API keys and secrets"
-      d: "Git history"
-    correct: "b"
-    explanation: |
-      Project CLAUDE.md should include: tech stack (frameworks, versions), code conventions (naming, patterns), architecture (folder structure, layers), and common commands (dev, test, lint). This gives Claude project context. Never include API keys or secrets. Keep it concise with examples, and update when conventions change.
+      a: Only personal preferences
+      b: Tech stack, code conventions, architecture patterns, and common commands
+      c: API keys and secrets
+      d: Git history
+    correct: b
+    explanation: "Project CLAUDE.md should include: tech stack (frameworks, versions), code conventions (naming, patterns), architecture (folder structure, layers), and common commands (dev, test, lint). This gives Claude project context. Never include API keys or secrets. Keep it concise with examples, and update when conventions change."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "3.1 Memory Files (CLAUDE.md)"
+      file: guide/ultimate-guide.md
+      section: 3.1 Memory Files (CLAUDE.md)
       anchor: "#level-2-project-projectclaudemd"
-
-  - id: "03-008"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What does the permission pattern 'Bash(git *)' match?"
+  - id: 03-008
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What does the permission pattern 'Bash(git *)' match?
     options:
-      a: "Only the exact command 'git'"
-      b: "Any git command"
-      c: "Git commands that start with asterisk"
-      d: "Git commands with glob patterns"
-    correct: "b"
-    explanation: |
-      The pattern 'Bash(git *)' matches any git command. Permission patterns use wildcards: 'Bash(git *)' matches any git command, 'Bash(pnpm *)' matches any pnpm command, 'mcp__serena__*' matches all Serena MCP tools. You can also use specific patterns like 'Bash(git status *)' to match only git status. Note: the legacy ':*' suffix syntax is deprecated, use space instead (e.g. 'Bash(git *)' not 'Bash(git:*)').
+      a: Only the exact command 'git'
+      b: Any git command
+      c: Git commands that start with asterisk
+      d: Git commands with glob patterns
+    correct: b
+    explanation: "The pattern 'Bash(git *)' matches any git command. Permission patterns use wildcards: 'Bash(git *)' matches any git command, 'Bash(pnpm *)' matches any pnpm command, 'mcp__serena__*' matches all Serena MCP tools. Both forms are equivalent per official docs: the :* suffix, as in 'Bash(git status:*)', is just an alternate way to write a trailing wildcard, not a deprecated form."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "3.3 Settings & Permissions"
+      file: guide/ultimate-guide.md
+      section: 3.3 Settings & Permissions
       anchor: "#permission-patterns"
-
-  - id: "03-009"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is 'Dynamic Memory' (Profile Switching)?"
+  - id: 03-009
+    difficulty: power
+    profiles:
+      - power
+    question: What is 'Dynamic Memory' (Profile Switching)?
     options:
-      a: "Claude's ability to remember across sessions"
-      b: "Temporarily modifying CLAUDE.md for specific tasks, then restoring"
-      c: "Automatic memory compression"
-      d: "Syncing memory between devices"
-    correct: "b"
-    explanation: |
-      Dynamic Memory means temporarily modifying CLAUDE.md for specific tasks then restoring it. Techniques include: git stash (stash original, modify, restore), profile library (keep profiles like security-audit.md, debugging.md in ~/.claude/profiles/), or parallel instances (different CLAUDE.md in different worktrees). Switch profiles with a script: `claude-profile security-audit`.
+      a: Claude's ability to remember across sessions
+      b: Temporarily modifying CLAUDE.md for specific tasks, then restoring
+      c: Automatic memory compression
+      d: Syncing memory between devices
+    correct: b
+    explanation: "Dynamic Memory means temporarily modifying CLAUDE.md for specific tasks then restoring it. Techniques include: git stash (stash original, modify, restore), profile library (keep profiles like security-audit.md, debugging.md in ~/.claude/profiles/), or parallel instances (different CLAUDE.md in different worktrees). Switch profiles with a script: `claude-profile security-audit`."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "3.3 Settings & Permissions"
+      file: guide/ultimate-guide.md
+      section: 3.3 Settings & Permissions
       anchor: "#dynamic-memory-profile-switching"
-
-  - id: "03-010"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What happens to files in the .claude/rules/ directory?"
+  - id: 03-010
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What happens to files in the .claude/rules/ directory?
     options:
-      a: "They must be manually imported"
-      b: "They are automatically loaded and combined"
-      c: "They override CLAUDE.md"
-      d: "They are ignored unless referenced"
-    correct: "b"
-    explanation: |
-      Files in `.claude/rules/` are automatically loaded and combined. You can create multiple files like code-conventions.md, git-workflow.md, and architecture.md - all are loaded automatically without manual imports. This allows modular organization of project conventions that Claude will follow.
+      a: They must be manually imported
+      b: They are automatically loaded and combined
+      c: They override CLAUDE.md
+      d: They are ignored unless referenced
+    correct: b
+    explanation: Files in `.claude/rules/` are automatically loaded and combined. You can create multiple files like code-conventions.md, git-workflow.md, and architecture.md - all are loaded automatically without manual imports. This allows modular organization of project conventions that Claude will follow.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "3.4 Precedence Rules"
+      file: guide/ultimate-guide.md
+      section: 3.4 Precedence Rules
       anchor: "#rules-auto-loading"
-
-  - id: "03-011"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "Which of these should be gitignored?"
+  - id: 03-011
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: Which of these should be gitignored?
     options:
-      a: "/project/CLAUDE.md"
-      b: ".claude/agents/"
-      c: ".claude/settings.local.json and .claude/CLAUDE.md"
-      d: ".claude/hooks/"
-    correct: "c"
-    explanation: |
-      Files that should be gitignored are: .claude/CLAUDE.md (local personal instructions) and .claude/settings.local.json (personal permissions). Files that should be committed include: agents/, commands/, hooks/, skills/, rules/, and settings.json. This separation allows personal customization while sharing team configurations.
+      a: /project/CLAUDE.md
+      b: .claude/agents/
+      c: .claude/settings.local.json and CLAUDE.local.md
+      d: .claude/hooks/
+    correct: c
+    explanation: "Files that should be gitignored are: CLAUDE.local.md (local personal instructions) and .claude/settings.local.json (personal permissions). Note: /project/CLAUDE.md (at project root) is project memory and should be committed, NOT gitignored. Other files to commit include: .claude/agents/, commands/, hooks/, skills/, rules/, and settings.json. This separation allows personal customization while sharing team configurations."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "3.2 The .claude/ Folder Structure"
+      file: guide/ultimate-guide.md
+      section: 3.2 The .claude/ Folder Structure
       anchor: "#what-goes-where"
-
-  - id: "03-012"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What does 'allowedTools' configuration do differently from permission categories?"
+  - id: 03-012
+    difficulty: power
+    profiles:
+      - power
+    question: What does 'allowedTools' configuration do differently from permission categories?
     options:
-      a: "Nothing, they are the same"
-      b: "Provides granular control with tool-specific patterns in ~/.claude/settings.json"
-      c: "Only works for MCP tools"
-      d: "Requires admin privileges"
-    correct: "b"
-    explanation: |
-      The allowedTools configuration in ~/.claude/settings.json provides granular control with specific patterns. For example: 'Read' allows all reads, 'Bash(git status *)' allows only git status, 'Bash(pnpm *)' allows pnpm commands. You can set progressive permission levels from beginner (very restrictive) to advanced. Never use --dangerously-skip-permissions. Note: use the tool name without parentheses for "all uses" (e.g. 'Read' not 'Read(*)').
+      a: Nothing, they are the same
+      b: Provides granular control with tool-specific patterns in .claude/settings.json
+      c: Only works for MCP tools
+      d: Requires admin privileges
+    correct: b
+    explanation: "The allowedTools configuration in .claude/settings.json or .claude/settings.local.json provides granular control with specific patterns. For example: 'Read(*)' allows all reads, 'Bash(git status *)' allows git status commands, 'Bash(pnpm *)' allows pnpm commands. You can set progressive permission levels from beginner (very restrictive) to advanced. Never use --dangerously-skip-permissions."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "3.3 Settings & Permissions"
-      anchor: "#allowedtools-configuration-alternative"
-
-  - id: "03-013"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What is the global config path on macOS/Linux?"
+      file: guide/ultimate-guide.md
+      section: allowedTools / autoApproveTools Configuration
+      anchor: "#allowedtools-autoapprovetools-configuration"
+  - id: 03-013
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What is the global config path on macOS/Linux?
     options:
-      a: "/etc/claude/"
-      b: "~/.claude/"
-      c: "/usr/local/claude/"
-      d: "~/.config/claude/"
-    correct: "b"
-    explanation: |
-      On macOS/Linux, the global config path is ~/.claude/. On Windows, it's %USERPROFILE%\.claude\ or C:\Users\YourName\.claude\. This directory contains your global CLAUDE.md, settings, and can include a profiles/ subdirectory for dynamic memory switching.
+      a: /etc/claude/
+      b: ~/.claude/
+      c: /usr/local/claude/
+      d: ~/.config/claude/
+    correct: b
+    explanation: On macOS/Linux, the global config path is ~/.claude/. On Windows, it's %USERPROFILE%\.claude\ or C:\Users\YourName\.claude\. This directory contains your global CLAUDE.md, settings, and can include a profiles/ subdirectory for dynamic memory switching.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "1.1 Installation"
+      file: guide/ultimate-guide.md
+      section: 1.1 Installation
       anchor: "#platform-specific-paths"
-
-  - id: "03-014"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What are the three levels of progressive permission in allowedTools?"
+  - id: 03-014
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What are the three levels of progressive permission in allowedTools?
     options:
-      a: "Admin, User, Guest"
-      b: "Beginner (very restrictive), Intermediate, Advanced"
-      c: "Read, Write, Execute"
-      d: "Low, Medium, High"
-    correct: "b"
-    explanation: |
-      The three progressive permission levels are: Beginner (very restrictive - only Read, Grep, Glob), Intermediate (adds Bash git/pnpm, TodoRead/Write), and Advanced (adds Edit, Write, WebFetch, Task). Start restrictive and expand as you gain confidence. This prevents accidents while learning.
+      a: Admin, User, Guest
+      b: Beginner (very restrictive), Intermediate, Advanced
+      c: Read, Write, Execute
+      d: Low, Medium, High
+    correct: b
+    explanation: "The three progressive permission levels are: Beginner (very restrictive - only Read, Grep, Glob), Intermediate (adds Bash git/pnpm, TodoRead/Write), and Advanced (adds Edit, Write, WebFetch, Task). Start restrictive and expand as you gain confidence. This prevents accidents while learning."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "3.3 Settings & Permissions"
-      anchor: "#progressive-permission-levels"
-
-  - id: "03-015"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "Why should you NEVER use --dangerously-skip-permissions?"
+      file: guide/ultimate-guide.md
+      section: allowedTools / autoApproveTools Configuration
+      anchor: "#allowedtools-autoapprovetools-configuration"
+  - id: 03-015
+    difficulty: power
+    profiles:
+      - power
+    question: Why should you NEVER use --dangerously-skip-permissions?
     options:
-      a: "It's deprecated"
-      b: "It can lead to destructive operations like rm -rf, force push to main, or DROP TABLE"
-      c: "It costs more"
-      d: "It's slower"
-    correct: "b"
-    explanation: |
-      Never use --dangerously-skip-permissions because it can lead to destructive operations. Horror stories include: `rm -rf node_modules` followed by `rm -rf .` (path error), `git push --force` to main unintentionally, `DROP TABLE users` in poorly generated migrations, and deletion of .env files with credentials. Always prefer granular allowedTools instead.
+      a: It's deprecated
+      b: It can lead to destructive operations like rm -rf, force push to main, or DROP TABLE
+      c: It costs more
+      d: It's slower
+    correct: b
+    explanation: "Never use --dangerously-skip-permissions because it can lead to destructive operations. Horror stories include: `rm -rf node_modules` followed by `rm -rf .` (path error), `git push --force` to main unintentionally, `DROP TABLE users` in poorly generated migrations, and deletion of .env files with credentials. Always prefer granular allowedTools instead."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "3.3 Settings & Permissions"
-      anchor: "#-warning-never-use---dangerously-skip-permissions"
-
-  - id: "03-016"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What should a global CLAUDE.md contain?"
+      file: guide/ultimate-guide.md
+      section: allowedTools / autoApproveTools Configuration
+      anchor: "#allowedtools-autoapprovetools-configuration"
+  - id: 03-016
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What should a global CLAUDE.md contain?
     options:
-      a: "Project-specific code conventions"
-      b: "Personal preferences that apply to all projects (communication style, preferred tools, safety rules)"
-      c: "Team member contact information"
-      d: "Git commit history"
-    correct: "b"
-    explanation: |
-      Global CLAUDE.md (~/.claude/CLAUDE.md) should contain personal preferences that apply to all your projects: communication style (be concise, use code examples), preferred tools (TypeScript over JavaScript, pnpm over npm), and safety rules (always run tests, never force push). Project-specific settings go in project CLAUDE.md.
+      a: Project-specific code conventions
+      b: Personal preferences that apply to all projects (communication style, preferred tools, safety rules)
+      c: Team member contact information
+      d: Git commit history
+    correct: b
+    explanation: "Global CLAUDE.md (~/.claude/CLAUDE.md) should contain personal preferences that apply to all your projects: communication style (be concise, use code examples), preferred tools (TypeScript over JavaScript, pnpm over npm), and safety rules (always run tests, never force push). Project-specific settings go in project CLAUDE.md."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "3.1 Memory Files (CLAUDE.md)"
+      file: guide/ultimate-guide.md
+      section: 3.1 Memory Files (CLAUDE.md)
       anchor: "#level-1-global-claudeclaudemd"
-
-  - id: "03-017"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What is stored in settings.json (not settings.local.json)?"
+  - id: 03-017
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is stored in settings.json (not settings.local.json)?
     options:
-      a: "Personal permissions"
-      b: "Hook configurations that are committed to the repo"
-      c: "API keys"
-      d: "Cost tracking data"
-    correct: "b"
-    explanation: |
-      settings.json stores hook configurations and is committed to the repo for team sharing. It defines hooks for PreToolUse, PostToolUse, UserPromptSubmit events - specifying matchers and hook scripts. Personal permission overrides go in settings.local.json (gitignored). This separation allows team automation while respecting personal preferences.
+      a: Personal permissions
+      b: Hook configurations that are committed to the repo
+      c: API keys
+      d: Cost tracking data
+    correct: b
+    explanation: settings.json stores hook configurations and is committed to the repo for team sharing. It defines hooks for PreToolUse, PostToolUse, UserPromptSubmit events - specifying matchers and hook scripts. Personal permission overrides go in settings.local.json (gitignored). This separation allows team automation while respecting personal preferences.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "3.3 Settings & Permissions"
+      file: guide/ultimate-guide.md
+      section: 3.3 Settings & Permissions
       anchor: "#settingsjson-team-configuration"
-
-  - id: "03-018"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "How many verification domains does the guide recommend for comprehensive quality checks?"
+  - id: 03-018
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: How many verification domains does the guide recommend for comprehensive quality checks?
     options:
-      a: "3 domains (lint, test, build)"
+      a: 3 domains (lint, test, build)
       b: "8 domains: frontend, backend, types, style, performance, accessibility, security, UX"
       c: "5 domains: syntax, logic, performance, security, style"
-      d: "12 domains covering every possible check"
-    correct: "b"
-    explanation: |
-      Boris Cherny's verification loops recommend 8 domains for comprehensive quality:
+      d: 12 domains covering every possible check
+    correct: b
+    explanation: |-
+      **The guide's 8 verification domains** (WHAT to check):
 
       1. Frontend (UI renders correctly)
       2. Backend (API responds correctly)
@@ -314,127 +319,295 @@ questions:
       7. Security (no vulnerabilities)
       8. UX (user flows work end-to-end)
 
-      CLAUDE.md should define which domains to check for each type of change.
+      **Separate concept - Boris Cherny's 4 verification methods** (HOW to check):
+      1. CLI tools (bash scripts)
+      2. Backend (automated tests)
+      3. Frontend (browser verification)
+      4. Mobile (simulator testing)
+
+      **Key distinction**: The guide's **8 domains** define comprehensive quality dimensions to verify. Boris's **4 methods** describe the technical approaches to perform verification. CLAUDE.md should define which domains apply to each change type.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "Verification Loops"
+      file: guide/ultimate-guide.md
+      section: Verification Loops
       anchor: "#verification-loops"
-
-  - id: "03-019"
-    difficulty: "intermediate"
-    profiles: ["junior", "senior", "power"]
-    question: "What is the 'Fresh Context Pattern' and when should you use it?"
+  - id: 03-019
+    difficulty: intermediate
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What is the 'Fresh Context Pattern' and when should you use it?
     options:
-      a: "Clearing browser cache before testing"
-      b: "Starting a new session with clean context after implementation phase to avoid accumulated noise"
-      c: "Resetting git to a clean state"
-      d: "Deleting the .claude folder to start fresh"
-    correct: "b"
-    explanation: |
-      The Fresh Context Pattern means starting a new Claude Code session between exploration and implementation phases. During exploration, context accumulates noise (dead ends, rejected approaches, debugging output). A fresh session gives Claude clean context focused purely on implementation, improving output quality.
+      a: Clearing browser cache before testing
+      b: Starting a new session with clean context after implementation phase to avoid accumulated noise
+      c: Resetting git to a clean state
+      d: Deleting the .claude folder to start fresh
+    correct: b
+    explanation: The Fresh Context Pattern means starting a new Claude Code session between exploration and implementation phases. During exploration, context accumulates noise (dead ends, rejected approaches, debugging output). A fresh session gives Claude clean context focused purely on implementation, improving output quality.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "Fresh Context Pattern"
-      anchor: "#fresh-context-pattern"
-
-  - id: "03-020"
-    difficulty: "intermediate"
-    profiles: ["senior", "power"]
-    question: "What are the three scopes for Claude Code's agent memory system?"
+      file: guide/ultimate-guide.md
+      section: Fresh Context Pattern (Ralph Loop)
+      anchor: "#fresh-context-pattern-ralph-loop"
+  - id: 03-020
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What does the `modelOverrides` setting introduced in v2.1.73 allow you to do?
     options:
-      a: "Local, Remote, Cloud"
-      b: "User (global), Project (repo-level), Local (gitignored per-machine)"
-      c: "Session, Persistent, Archived"
-      d: "Read-only, Write-once, Append-only"
-    correct: "b"
-    explanation: |
-      Agent Memory has 3 scopes: (1) User — global memory in ~/.claude/, applies to all projects, personal preferences and cross-project knowledge. (2) Project — repo-level memory in .claude/, committed to git, shared with the team. (3) Local — gitignored per-machine memory in .claude/memory/ (local), for machine-specific state that should not be shared. Understanding the scope prevents accidentally committing personal notes or missing team-level context.
+      a: Switches Claude to a different model mid-conversation
+      b: Maps model picker entries to custom provider model IDs (e.g., Bedrock ARNs)
+      c: Sets the default model for all new sessions
+      d: Overrides the model used by sub-agents only
+    correct: b
+    explanation: |-
+      `modelOverrides` lets you map model picker entries to custom provider model IDs — for example, pointing the "Opus" entry to a specific Bedrock inference profile ARN. This is useful on third-party providers (Bedrock, Vertex, Foundry) where the model IDs differ from first-party API names. It goes in `~/.claude/settings.json` and does not switch models mid-conversation; it redirects which provider model ID is used when you select a given model from the picker.
+      ---
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "Agent Memory Scopes"
-      anchor: "#agent-memory-scopes"
-
-  - id: "03-021"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What is managed-settings.d/ and what governance problem does it solve?"
+      file: guide/core/claude-code-releases.md
+      section: v2.1.73 (2026-03-11)
+      anchor: "#v2173-2026-03-11"
+  - id: 03-021
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What does the `autoMemoryDirectory` setting (v2.1.74) configure?
     options:
-      a: "A directory for storing backup copies of settings.json"
-      b: "An enterprise governance layer where admins drop config fragments that merge with project settings, overriding team-level settings"
-      c: "A directory for version-controlled settings history"
-      d: "A staging area for settings changes that need approval before applying"
-    correct: "b"
-    explanation: |
-      managed-settings.d/ is an enterprise governance mechanism: administrators drop JSON config fragments into this directory, and Claude Code merges them with (and overrides) project-level settings.json. This solves the problem of enforcing org-wide security policies (banned tools, required hooks, blocked paths) without modifying each team's repo. IT/Security teams control the managed layer; developers control their project layer; managed always wins conflicts.
+      a: The directory where CLAUDE.md files are searched
+      b: A folder Claude scans for context files on startup
+      c: The custom storage directory for auto-memory files
+      d: The path where session transcripts are archived
+    correct: c
+    explanation: |-
+      `autoMemoryDirectory` specifies where Claude Code stores memory files that it saves automatically via the auto-memory feature (v2.1.59+). By default, auto-memory writes to `~/.claude/projects/*/memory/MEMORY.md`. This setting lets teams redirect that storage — useful for shared drives or when you want all memory in a specific project subdirectory. It is set in `settings.json`, not in CLAUDE.md.
+      ---
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "managed-settings.d/"
-      anchor: "#managed-settingsd"
-
-  - id: "03-022"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is ${CLAUDE_PLUGIN_DATA} used for in Claude Code skills?"
+      file: guide/core/claude-code-releases.md
+      section: v2.1.74 (2026-03-12)
+      anchor: "#v2174-2026-03-12"
+  - id: 03-022
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is the key difference between `"Read(file_path:*.env*)"` and `"*.env"` in `permissions.deny`?
     options:
-      a: "A variable that stores the plugin's API key for authentication"
-      b: "A persistent storage path for skills to read/write cross-session data (not cleaned between sessions)"
-      c: "A temporary directory that is wiped after each skill execution"
-      d: "The path to the skill's source code directory"
-    correct: "b"
-    explanation: |
-      ${CLAUDE_PLUGIN_DATA} provides persistent storage for skills — a directory path that persists across sessions and is not wiped between runs. Skills can use it to store learned preferences, cached lookups, counters, or any state that should survive session restarts. Contrast with /tmp (ephemeral) or the project directory (pollutes repo). Example: a skill that tracks how many times it has been run, or caches expensive API results.
+      a: They are equivalent — both block the same operations
+      b: Simple patterns block the tool entirely; tool-qualified patterns only warn
+      c: Tool-qualified format requires a regex while simple patterns use globs
+      d: Tool-qualified format matches the full path argument; simple string matches only exact file names
+    correct: d
+    explanation: |-
+      The tool-qualified format `Read(file_path:*.env*)` matches against the **full path argument** passed to the Read tool, using glob patterns. The simple string form `"*.env"` only matches exact file names. For example, `Read(file_path:*.env*)` would block reads of `.env.production` or `config/.env.local`, while `"*.env"` would only block a file literally named `.env`. The tool-qualified format is more granular and recommended for sensitive file protection.
+      ---
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "Skill Persistent Storage"
-      anchor: "#skill-persistent-storage"
-
-  - id: "03-023"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What are the three hard limits for the MEMORY.md auto-memory system?"
+      file: guide/ultimate-guide.md
+      section: Permission Patterns
+      anchor: "#permission-patterns"
+  - id: 03-023
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: Since v2.1.72, what happens to HTML comments (`<!-- ... -->`) in CLAUDE.md?
     options:
-      a: "100 lines, 10KB, 50 files"
-      b: "200 lines (index cap), 25KB (file size max), 200 files (directory cap)"
-      c: "500 lines, 100KB, 1000 files"
-      d: "50 lines, 5KB, 20 files"
-    correct: "b"
-    explanation: |
-      MEMORY.md auto-memory has three hard limits: (1) 200-line cap — lines beyond 200 in MEMORY.md are truncated and never loaded into context; (2) 25KB max per memory file — larger files are split or truncated; (3) 200-file directory cap — the memory directory is capped at 200 individual memory files. These limits exist to prevent the memory system from consuming too much context window. Manage proactively: archive old memories, merge duplicates, keep the index concise.
+      a: HTML comments are stripped entirely from the CLAUDE.md file on disk
+      b: HTML comments are hidden from Claude when CLAUDE.md is auto-injected, but visible via the Read tool
+      c: HTML comments are treated as YAML metadata by Claude Code
+      d: HTML comments cause a parse error and prevent CLAUDE.md from loading
+    correct: b
+    explanation: |-
+      Starting in v2.1.72, HTML comments in CLAUDE.md are **hidden from Claude** when the file is auto-injected into context — they do not consume context tokens or influence Claude's behavior. However, they remain visible when explicitly read via the Read tool. This lets you embed developer notes, revision history, or internal documentation in CLAUDE.md that only appear when a human reads the file directly.
+      ---
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "MEMORY.md Limits"
-      anchor: "#memorymd-limits"
-
-  - id: "03-024"
-    difficulty: "intermediate"
-    profiles: ["senior", "power"]
-    question: "What does the `effort` frontmatter field in a skill do?"
+      file: guide/core/claude-code-releases.md
+      section: v2.1.72 (2026-03-09)
+      anchor: "#v2172-2026-03-09"
+  - id: 03-024
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What do the `spinnerVerbs` and `spinnerTipsOverride` settings control in `settings.json`?
     options:
-      a: "Sets the maximum token budget for the skill execution"
-      b: "Signals to the user the expected cognitive/time investment: ○ low, ◐ medium, ● high"
-      c: "Controls how many retries the skill attempts before failing"
-      d: "Specifies the minimum model tier required to run the skill"
-    correct: "b"
-    explanation: |
-      The `effort` frontmatter field is a UX signal for users: ○ = low effort (quick, <1 min), ◐ = medium effort (moderate, a few minutes), ● = high effort (substantial, may take many minutes or require review). It appears in the slash command picker so users can anticipate the investment before triggering a skill. Does not affect execution — purely informational.
+      a: Customize the rotating action words and tips shown in the terminal spinner while Claude works
+      b: Configure how Claude describes its reasoning steps in responses
+      c: Set the verbs Claude uses in commit messages
+      d: Define the progress bar style for long-running bash commands
+    correct: a
+    explanation: |-
+      `spinnerVerbs` replaces or extends the rotating action words shown in the terminal while Claude is working (e.g. "Analyzing…", "Caffeinating…"). Set `"mode": "replace"` to fully replace the defaults or `"mode": "add"` to extend them. `spinnerTipsOverride` customizes the tips shown alongside the spinner; use `"excludeDefault": true` to remove built-in tips entirely. These settings have zero functional effect — they are purely UX personalization for developers who want a more personal or fun terminal experience.
+      ---
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "Skill Frontmatter"
-      anchor: "#skill-frontmatter"
-
-  - id: "03-025"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What is the correct approach when MEMORY.md index approaches 200 lines?"
+      file: guide/ultimate-guide.md
+      section: Terminal Personalization Settings
+      anchor: "#terminal-personalization-settings"
+  - id: 03-025
+    difficulty: power
+    profiles:
+      - power
+    question: What is the "N×M×P fragmentation problem" in team AI configuration?
     options:
-      a: "Delete the oldest entries to stay under the limit"
-      b: "Archive stale entries to separate files, merge duplicates, and keep the index to short pointer lines under 150 chars each"
-      c: "Create a second MEMORY.md file as MEMORY2.md to extend capacity"
-      d: "Increase the limit by adding a setting in settings.json"
-    correct: "b"
-    explanation: |
-      When MEMORY.md approaches 200 lines: archive stale memories (move outdated content to an archive file but remove the index pointer), merge duplicates (two entries about the same topic → one updated entry), and ensure each index line is short (under ~150 chars) — the index is just pointers, not content. MEMORY.md is an index file; the actual content lives in individual memory files. Never create a second MEMORY.md — there is no MEMORY2.md support.
+      a: A formula for calculating API costs across multiple models
+      b: The number of agents needed for parallel execution (N tasks × M models × P priorities)
+      c: The fragmentation index measuring how outdated a CLAUDE.md is
+      d: The config drift formula showing how developers × tools × OS combinations cause fragmented AI instruction files
+    correct: d
+    explanation: |-
+      N×M×P describes how AI instruction files multiply: N developers × M tools (Claude Code, Cursor, Windsurf) × P operating systems (macOS, Linux). For a 5-dev team using 3 tools on 2 OS types, that's 30 potential configurations. In practice, this causes real drift — one dev adds TypeScript rules, another never gets them; macOS-specific paths break on Linux. The solution is **Profile-Based Module Assembly** (Section 3.5), which extracts reusable modules and auto-assembles the final instruction file per developer profile, achieving a measured 59% token context reduction.
+      ---
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "MEMORY.md Management"
-      anchor: "#memorymd-management"
+      file: guide/ultimate-guide.md
+      section: 3.5 Team Configuration at Scale
+      anchor: "#35-team-configuration-at-scale"
+  - id: 03-026
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: As of Claude Code v2.1.200, what changed for the permissions.defaultMode setting in settings.json?
+    options:
+      a: '"manual" replaces "default" outright, and the old value now throws a validation error'
+      b: '"manual" is accepted as an alias for "default" in permissions.defaultMode, selecting the same conservative approval-per-action mode'
+      c: '"manual" is a brand-new mode that behaves differently from the old "default" mode'
+      d: permissions.defaultMode was removed entirely in favor of a new top-level permissionMode key
+    correct: b
+    explanation: "v2.1.200 made \"defaultMode\": \"manual\" an accepted alias alongside the existing \"default\" value, matching the CLI's renamed \"Manual\" permission mode. Both values select the same behavior, the old value still works, nothing throws an error, and no key was removed or replaced."
+    doc_reference:
+      file: guide/core/claude-code-releases.md
+      section: v2.1.200
+  - id: 03-027
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: 'What does setting "respondToBashCommands": false in settings.json do, introduced in Claude Code v2.1.186?'
+    options:
+      a: It disables the ! bash command shortcut entirely, forcing you to use the Bash tool instead
+      b: It stops Claude from automatically responding to ! bash command output, restoring the earlier context-only behavior
+      c: It requires manual approval before every ! bash command runs, even in auto mode
+      d: It forces all ! bash commands to run inside a sandboxed subshell
+    correct: b
+    explanation: "v2.1.186 made ! bash commands automatically trigger a Claude response to their output. Setting \"respondToBashCommands\": false opts back into the earlier behavior, where ! output is added to context but doesn't prompt a reply. It doesn't disable the ! shortcut, doesn't add an approval step, and has nothing to do with sandboxing."
+    doc_reference:
+      file: guide/core/claude-code-releases.md
+      section: v2.1.186
+  - id: 03-028
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: How does Claude Code enforce organization-level model governance, per the v2.1.196 and v2.1.187 releases?
+    options:
+      a: Only through a separate admin-only CLI that regular developers never see
+      b: Admins set org or role default models shown in /model, and org-configured restrictions are enforced across the model picker, --model, /model, and the ANTHROPIC_MODEL env var
+      c: Through a ".claude/model-policy.json" file that each repository must commit
+      d: Model restrictions apply only to direct API calls, not to the CLI or IDE extensions
+    correct: b
+    explanation: "v2.1.196 added organization default models, set by admins in the org console, shown as \"Org default\" or \"Role default\" in /model when a member hasn't picked one. v2.1.187 added enforcement of org-configured model restrictions across every selection surface: the model picker, --model, /model, and the ANTHROPIC_MODEL env var. There is no separate admin-only CLI and no \".claude/model-policy.json\" file documented in the guide."
+    doc_reference:
+      file: guide/core/claude-code-releases.md
+      section: v2.1.196 and v2.1.187
+  - id: 03-029
+    difficulty: intermediate
+    profiles:
+      - senior
+      - pm
+    question: According to the guide's enterprise governance section, which three mechanisms do most organizations combine to make sure developers actually run with org-approved configuration?
+    options:
+      a: A shared settings.json committed to the team repo, a shared CLAUDE.md for behavior rules, and Anthropic Team/Enterprise admin console controls
+      b: A single environment variable exported on every developer's machine at login
+      c: A nightly script that overwrites each developer's local settings.json from a central server
+      d: A browser extension that intercepts and rewrites Claude Code API requests
+    correct: a
+    explanation: "Section 2.3 names three mechanisms: a shared settings.json committed at the repo root, picked up automatically by anyone who clones the repo with drift visible in git history; a shared CLAUDE.md for behavior rules and data classification; and the Anthropic Team/Enterprise admin console for org-wide usage policies and API key management. The guide is explicit that repo-level settings.json gives the most granular control and works on all plans, while the admin console is an additional layer for Enterprise customers, not a replacement. None of the other options appear in the guide."
+    doc_reference:
+      file: guide/security/enterprise-governance.md
+      section: 2.3 Propagating Settings to the Team
+      anchor: "#23-propagating-settings-to-the-team"
+  - id: 03-030
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: What are the three scopes for Claude Code's agent memory system?
+    options:
+      a: Local, Remote, Cloud
+      b: User (global), Project (repo-level), Local (gitignored per-machine)
+      c: Session, Persistent, Archived
+      d: Read-only, Write-once, Append-only
+    correct: b
+    explanation: "Agent Memory has 3 scopes: (1) User — global memory in ~/.claude/, applies to all projects, personal preferences and cross-project knowledge. (2) Project — repo-level memory in .claude/, committed to git, shared with the team. (3) Local — gitignored per-machine memory in .claude/memory/ (local), for machine-specific state that should not be shared. Understanding the scope prevents accidentally committing personal notes or missing team-level context."
+    doc_reference:
+      file: guide/ultimate-guide.md
+      section: Memory Scopes
+      anchor: "#memory-scopes"
+  - id: 03-031
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is managed-settings.d/ and what governance problem does it solve?
+    options:
+      a: A directory for storing backup copies of settings.json
+      b: An enterprise governance layer where admins drop config fragments that merge with project settings, overriding team-level settings
+      c: A directory for version-controlled settings history
+      d: A staging area for settings changes that need approval before applying
+    correct: b
+    explanation: "managed-settings.d/ is an enterprise governance mechanism: administrators drop JSON config fragments into this directory, and Claude Code merges them with (and overrides) project-level settings.json. This solves the problem of enforcing org-wide security policies (banned tools, required hooks, blocked paths) without modifying each team's repo. IT/Security teams control the managed layer; developers control their project layer; managed always wins conflicts."
+    doc_reference:
+      file: guide/ultimate-guide.md
+      section: Policy fragment deployment with managed-settings.d/ (v2.1.83+)
+      anchor: "#policy-fragment-deployment-with-managed-settingsd-v2183"
+  - id: 03-032
+    difficulty: power
+    profiles:
+      - power
+    question: What is ${CLAUDE_PLUGIN_DATA} used for in Claude Code skills?
+    options:
+      a: A variable that stores the plugin's API key for authentication
+      b: A persistent storage path for skills to read/write cross-session data (not cleaned between sessions)
+      c: A temporary directory that is wiped after each skill execution
+      d: The path to the skill's source code directory
+    correct: b
+    explanation: "${CLAUDE_PLUGIN_DATA} provides persistent storage for skills — a directory path that persists across sessions and is not wiped between runs. Skills can use it to store learned preferences, cached lookups, counters, or any state that should survive session restarts. Contrast with /tmp (ephemeral) or the project directory (pollutes repo). Example: a skill that tracks how many times it has been run, or caches expensive API results."
+    doc_reference:
+      file: guide/ultimate-guide.md
+      section: Plugin Commands
+      anchor: "#plugin-commands"
+  - id: 03-033
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What are the three hard limits for the MEMORY.md auto-memory system?
+    options:
+      a: 100 lines, 10KB, 50 files
+      b: 200 lines (index cap), 25KB (file size max), 200 files (directory cap)
+      c: 500 lines, 100KB, 1000 files
+      d: 50 lines, 5KB, 20 files
+    correct: b
+    explanation: "MEMORY.md auto-memory has three hard limits: (1) 200-line cap — lines beyond 200 in MEMORY.md are truncated and never loaded into context; (2) 25KB max per memory file — larger files are split or truncated; (3) 200-file directory cap — the memory directory is capped at 200 individual memory files. These limits exist to prevent the memory system from consuming too much context window. Manage proactively: archive old memories, merge duplicates, keep the index concise."
+    doc_reference:
+      file: guide/ultimate-guide.md
+      section: MEMORY.md Structure
+      anchor: "#memorymd-structure"
+  - id: 03-034
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is the correct approach when MEMORY.md index approaches 200 lines?
+    options:
+      a: Delete the oldest entries to stay under the limit
+      b: Archive stale entries to separate files, merge duplicates, and keep the index to short pointer lines under 150 chars each
+      c: Create a second MEMORY.md file as MEMORY2.md to extend capacity
+      d: Increase the limit by adding a setting in settings.json
+    correct: b
+    explanation: "When MEMORY.md approaches 200 lines: archive stale memories (move outdated content to an archive file but remove the index pointer), merge duplicates (two entries about the same topic → one updated entry), and ensure each index line is short (under ~150 chars) — the index is just pointers, not content. MEMORY.md is an index file; the actual content lives in individual memory files. Never create a second MEMORY.md — there is no MEMORY2.md support."
+    doc_reference:
+      file: guide/ultimate-guide.md
+      section: MEMORY.md Structure
+      anchor: "#memorymd-structure"

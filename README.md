@@ -9,7 +9,7 @@
 <p align="center">
   <a href="https://github.com/FlorianBruniaux/claude-code-ultimate-guide/stargazers"><img src="https://img.shields.io/github/stars/FlorianBruniaux/claude-code-ultimate-guide?style=for-the-badge" alt="Stars"/></a>
   <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Updated-juil._9,_2026_·_v3.41.1-brightgreen?style=for-the-badge" alt="Last Update"/></a>
-  <a href="./quiz/"><img src="https://img.shields.io/badge/Quiz-374_questions-orange?style=for-the-badge" alt="Quiz"/></a>
+  <a href="./quiz/"><img src="https://img.shields.io/badge/Quiz-473_questions-orange?style=for-the-badge" alt="Quiz"/></a>
   <a href="./examples/"><img src="https://img.shields.io/badge/Templates-275-green?style=for-the-badge" alt="Templates"/></a>
 </p>
 
@@ -78,7 +78,7 @@
 - ✅ **Visualize concepts** — 48 Mermaid diagrams covering model selection, master loop, memory hierarchy, multi-agent patterns, security threats, AI fluency paths
 - ✅ **Master methodologies** — TDD, SDD, BDD with AI collaboration (not just templates)
 - ✅ **Security mindset** — Threat modeling for AI systems (only guide with 28 CVEs + 655 malicious skills database)
-- ✅ **Test your knowledge** — 374-question quiz to validate understanding (no other resource offers this)
+- ✅ **Test your knowledge** — 473-question quiz to validate understanding (no other resource offers this)
 
 **Outcome**: Go from copy-pasting configs to designing your own agentic workflows with confidence.
 
@@ -94,7 +94,7 @@ Both guides serve different needs. Choose based on your priority.
 | **Quick setup** for projects | Available but not the priority | Battle-tested production configs |
 | **Learn trade-offs** (agents vs skills) | Decision frameworks + comparisons | Lists patterns, no trade-off analysis |
 | **Security hardening** | Only threat database (28 CVEs) | Basic patterns only |
-| **Test understanding** | 374-question quiz | Not available |
+| **Test understanding** | 473-question quiz | Not available |
 | **Methodologies** (TDD/SDD/BDD) | Full workflow guides | Not covered |
 | **Copy-paste ready** templates | 275 templates | 200+ templates |
 
@@ -123,7 +123,7 @@ Both guides serve different needs. Choose based on your priority.
 1. **Security-First** — 28 CVEs + 655 malicious skills tracked (no competitor has this depth)
 2. **Methodology Workflows** — TDD/SDD/BDD comparison + step-by-step guides
 3. **Comprehensive Reference** — 24K+ lines across 16 specialized guides (24× more reference material than everything-cc)
-4. **Educational Progression** — 374-question quiz + 7-module structured learning path (beginner → advanced)
+4. **Educational Progression** — 473-question quiz + 7-module structured learning path (beginner → advanced)
 5. **Interactive Assessment** — `/self-assessment` skill with personalized learning path recommendations
 
 **Recommended workflow:**
@@ -186,7 +186,7 @@ graph LR
     root --> guide[📖 guide/<br/>24K+ lines]
     root --> learning[🎓 learning-path/<br/>7 modules]
     root --> examples[📋 examples/<br/>275 templates]
-    root --> quiz[🧠 quiz/<br/>374 questions]
+    root --> quiz[🧠 quiz/<br/>473 questions]
     root --> tools[🔧 tools/<br/>utils]
     root --> machine[🤖 machine-readable/<br/>AI index]
     root --> docs[📚 docs/<br/>151 evaluations]
@@ -226,7 +226,7 @@ graph LR
 │  ├─ skills/             64 skills (9 on SkillHub)
 │  └─ scripts/            Utility scripts (audit, search)
 │
-├─ 🧠 quiz/               374 Questions
+├─ 🧠 quiz/               473 Questions
 │  ├─ 9 categories        Setup, Agents, MCP, Trust, Advanced...
 │  ├─ 4 profiles          Junior, Senior, Power User, PM
 │  └─ Instant feedback    Doc links + score tracking
@@ -297,7 +297,7 @@ graph LR
 
 ---
 
-### 📝 374-Question Knowledge Validation (Unique in Ecosystem)
+### 📝 473-Question Knowledge Validation (Unique in Ecosystem)
 
 **Outcome**: Verify your understanding + identify knowledge gaps.
 
@@ -823,7 +823,7 @@ Use this guide critically. Experiment. Share what works for you.
 </details>
 
 <details>
-<summary><strong>Knowledge Quiz</strong> (374 questions)</summary>
+<summary><strong>Knowledge Quiz</strong> (473 questions)</summary>
 
 Test your Claude Code knowledge with an interactive CLI quiz covering all guide sections.
 
@@ -936,7 +936,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 ### Tools
 - [Ask Zread](https://zread.ai/FlorianBruniaux/claude-code-ultimate-guide) — Ask questions about this guide
-- [Interactive Quiz](./quiz/) — 374 questions
+- [Interactive Quiz](./quiz/) — 473 questions
 - [Landing Site](https://cc.bruniaux.com) — Visual navigation, cheat sheets, ebooks, quiz
 - [Claude Code Version History](https://cc.bruniaux.com/releases/): every release with env vars, config flags, and breaking changes
 - [AI Ecosystem Guide](https://cc.bruniaux.com/guide/ai-ecosystem/): model comparisons, complementary tools, multi-provider setups

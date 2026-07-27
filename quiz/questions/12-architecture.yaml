@@ -1,344 +1,365 @@
-category: "Architecture Internals"
+category: Architecture Internals
 category_id: 12
-source_file: "guide/architecture.md"
-
+source_file: guide/architecture.md
 questions:
-  - id: "12-001"
-    difficulty: "intermediate"
-    profiles: ["senior", "power"]
-    question: "What is the core architecture pattern of Claude Code?"
+  - id: 12-001
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: What is the core architecture pattern of Claude Code?
     options:
-      a: "A DAG orchestrator with task planning"
-      b: "A simple while(tool_call) loop with no classifier"
-      c: "A RAG pipeline with embeddings"
-      d: "A multi-agent system with intent router"
-    correct: "b"
-    explanation: |
-      Claude Code runs a remarkably simple `while(tool_call)` loop. There is NO intent classifier, task router, RAG/embedding pipeline, DAG orchestrator, or planner/executor split. The model itself decides when to call tools, which tools to call, and when it's done. This is the "agentic loop" pattern.
+      a: A DAG orchestrator with task planning
+      b: A simple while(tool_call) loop with no classifier
+      c: A RAG pipeline with embeddings
+      d: A multi-agent system with intent router
+    correct: b
+    explanation: Claude Code runs a remarkably simple `while(tool_call)` loop. There is NO intent classifier, task router, RAG/embedding pipeline, DAG orchestrator, or planner/executor split. The model itself decides when to call tools, which tools to call, and when it's done. This is the "agentic loop" pattern.
     doc_reference:
-      file: "guide/architecture.md"
-      section: "The Master Loop"
+      file: guide/architecture.md
+      section: The Master Loop
       anchor: "#1-the-master-loop"
-
-  - id: "12-002"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "How many core tools does Claude Code have?"
+  - id: 12-002
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: How many core tools does Claude Code have?
     options:
-      a: "5 tools"
-      b: "8 tools"
-      c: "12 tools"
-      d: "Unlimited (model-dependent)"
-    correct: "b"
-    explanation: |
-      Claude Code has 8 core tools: Bash (universal adapter), Read (file contents), Edit (modify files), Write (create/overwrite), Grep (search contents), Glob (find files), Task (sub-agents), and the Tasks API for progress tracking. Note: TodoWrite was deprecated in v2.1.16+ and replaced by the Tasks API (TaskCreate, TaskGet, TaskList, TaskUpdate) which adds task dependencies via blockedBy/blocks fields.
+      a: 5 tools
+      b: 8 tools
+      c: 12 tools
+      d: Unlimited (model-dependent)
+    correct: b
+    explanation: "Claude Code has exactly 8 core tools: Bash (universal adapter), Read (file contents), Edit (modify files), Write (create/overwrite), Grep (search contents), Glob (find files), Task (sub-agents), and TodoWrite (progress tracking). That's the entire arsenal. Note: TodoWrite was replaced by the Tasks API (TaskCreate/TaskGet/TaskList/TaskUpdate) in v2.1.16+ for persistent task management with dependencies."
     doc_reference:
-      file: "guide/architecture.md"
-      section: "The Tool Arsenal"
+      file: guide/architecture.md
+      section: The Tool Arsenal
       anchor: "#2-the-tool-arsenal"
-
-  - id: "12-003"
-    difficulty: "intermediate"
-    profiles: ["senior", "power"]
-    question: "Which tool is described as Claude's 'swiss-army knife' and 'universal adapter'?"
+  - id: 12-003
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: Which tool is described as Claude's 'swiss-army knife' and 'universal adapter'?
     options:
-      a: "Read"
-      b: "Grep"
-      c: "Bash"
-      d: "Task"
-    correct: "c"
-    explanation: |
-      Bash is Claude's swiss-army knife. It can run any CLI tool (git, npm, docker, curl...), execute scripts, chain commands with pipes, and access system state. The model has been trained on massive amounts of shell data, making it highly effective as a universal adapter.
+      a: Read
+      b: Grep
+      c: Bash
+      d: Task
+    correct: c
+    explanation: Bash is Claude's swiss-army knife. It can run any CLI tool (git, npm, docker, curl...), execute scripts, chain commands with pipes, and access system state. The model has been trained on massive amounts of shell data, making it highly effective as a universal adapter.
     doc_reference:
-      file: "guide/architecture.md"
-      section: "The Bash Universal Adapter"
+      file: guide/architecture.md
+      section: The Bash Universal Adapter
       anchor: "#the-bash-universal-adapter"
-
-  - id: "12-004"
-    difficulty: "intermediate"
-    profiles: ["senior", "power"]
-    question: "What is the approximate context budget for Claude Code (e.g., with Sonnet 4.6)?"
+  - id: 12-004
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: What is the approximate context budget for Claude Code with Claude 3.5 Sonnet?
     options:
-      a: "~32K tokens"
-      b: "~100K tokens"
-      c: "~200K tokens"
-      d: "~500K tokens"
-    correct: "c"
-    explanation: |
-      Claude Code operates within a ~200K token context window. This is shared between: system prompt (~5-15K), CLAUDE.md files (~1-10K), conversation history (variable), tool results (variable), and reserved response buffer (~40-45K). Usable space is approximately 140-150K tokens.
+      a: ~32K tokens
+      b: ~100K tokens
+      c: ~200K tokens
+      d: ~500K tokens
+    correct: c
+    explanation: "Claude Code operates within a ~200K token context window. This is shared between: system prompt (~5-15K), CLAUDE.md files (~1-10K), conversation history (variable), tool results (variable), and reserved response buffer (~40-45K). Usable space is approximately 140-150K tokens."
     doc_reference:
-      file: "guide/architecture.md"
-      section: "Context Budget Breakdown"
+      file: guide/architecture.md
+      section: Context Budget Breakdown
       anchor: "#context-budget-breakdown"
-
-  - id: "12-005"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What are the reported auto-compaction thresholds for Claude Code?"
+  - id: 12-005
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What are the reported auto-compaction thresholds for Claude Code?
     options:
-      a: "50-60%"
-      b: "75-92% (conflicting reports)"
-      c: "95-99%"
-      d: "No auto-compaction exists"
-    correct: "b"
-    explanation: |
-      Auto-compaction thresholds vary by source: PromptLayer analysis reports 92%, community observations report 75-80%. When triggered, older conversation turns are summarized, tool results condensed, and recent context preserved. Use /compact to manually trigger summarization.
+      a: 50-60%
+      b: 75-92% (conflicting reports)
+      c: 95-99%
+      d: No auto-compaction exists
+    correct: b
+    explanation: "Auto-compaction thresholds vary by source: PromptLayer analysis reports 92%, community observations report 75-80%. When triggered, older conversation turns are summarized, tool results condensed, and recent context preserved. Use /compact to manually trigger summarization."
     doc_reference:
-      file: "guide/architecture.md"
-      section: "Auto-Compaction"
+      file: guide/architecture.md
+      section: Auto-Compaction
       anchor: "#auto-compaction"
-
-  - id: "12-006"
-    difficulty: "intermediate"
-    profiles: ["junior", "senior", "power"]
-    question: "What is the maximum depth for sub-agents spawned via the Task tool?"
+  - id: 12-006
+    difficulty: intermediate
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What is the maximum depth for sub-agents spawned via the Task tool?
     options:
-      a: "Unlimited depth"
-      b: "Depth = 3"
-      c: "Depth = 1 (cannot spawn sub-sub-agents)"
-      d: "Depth = 2"
-    correct: "c"
-    explanation: |
-      Sub-agents have a depth=1 limit. They CANNOT spawn sub-sub-agents. This prevents: recursive explosion (infinite resources), context pollution (accumulated context), debugging nightmares (multi-level chains), and unpredictable costs (nested token usage).
+      a: Unlimited depth
+      b: Depth = 3
+      c: Depth = 1 (cannot spawn sub-sub-agents)
+      d: Depth = 2
+    correct: c
+    explanation: "Sub-agents have a depth=1 limit. They CANNOT spawn sub-sub-agents. This prevents: recursive explosion (infinite resources), context pollution (accumulated context), debugging nightmares (multi-level chains), and unpredictable costs (nested token usage)."
     doc_reference:
-      file: "guide/architecture.md"
-      section: "Why Depth = 1?"
-      anchor: "#why-depth--1"
-
-  - id: "12-007"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What does a sub-agent receive when spawned by the Task tool?"
+      file: guide/core/architecture.md
+      section: Why Depth = 1?
+      anchor: "#why-depth-1"
+  - id: 12-007
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What does a sub-agent receive when spawned by the Task tool?
     options:
-      a: "Full conversation history + all file reads"
-      b: "Task description only (isolated fresh context)"
-      c: "Last 10 messages of conversation"
-      d: "System prompt + CLAUDE.md files"
-    correct: "b"
-    explanation: |
-      Sub-agents have ISOLATED context. They receive only the task description, have their own fresh context window, access the same tools (except Task), and return only a summary text. This isolation keeps the main context clean and prevents context pollution.
+      a: Full conversation history + all file reads
+      b: Task description only (isolated fresh context)
+      c: Last 10 messages of conversation
+      d: System prompt + CLAUDE.md files
+    correct: b
+    explanation: Sub-agents have ISOLATED context. They receive only the task description, have their own fresh context window, access the same tools (except Task), and return only a summary text. This isolation keeps the main context clean and prevents context pollution.
     doc_reference:
-      file: "guide/architecture.md"
-      section: "Isolation Model"
+      file: guide/architecture.md
+      section: Isolation Model
       anchor: "#isolation-model"
-
-  - id: "12-008"
-    difficulty: "intermediate"
-    profiles: ["senior", "power"]
-    question: "What are the 4 permission layers in Claude Code's security model?"
+  - id: 12-008
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: What are the 4 permission layers in Claude Code's security model?
     options:
-      a: "User, Admin, System, Root"
-      b: "Interactive prompts, Allow/Deny rules, Hooks, Sandbox"
-      c: "Read, Write, Execute, Delete"
-      d: "Local, Project, Global, Enterprise"
-    correct: "b"
-    explanation: |
-      Claude Code has 4 layered security: (1) Interactive prompts (allow once/always/deny), (2) Allow/Deny rules in settings.json, (3) Hooks (Pre/Post execution scripts), (4) Sandbox mode (filesystem + network isolation). Each layer adds protection.
+      a: User, Admin, System, Root
+      b: Interactive prompts, Allow/Deny rules, Hooks, Sandbox
+      c: Read, Write, Execute, Delete
+      d: Local, Project, Global, Enterprise
+    correct: b
+    explanation: "Claude Code has 4 layered security: (1) Interactive prompts (allow once/always/deny), (2) Allow/Deny rules in settings.json, (3) Hooks (Pre/Post execution scripts), (4) Sandbox mode (filesystem + network isolation). Each layer adds protection."
     doc_reference:
-      file: "guide/architecture.md"
-      section: "Permission & Security Model"
-      anchor: "#5-permission--security-model"
-
-  - id: "12-009"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What algorithm does the Edit tool use when exact match fails?"
+      file: guide/core/architecture.md
+      section: Permission & Security Model
+      anchor: "#5-permission-security-model"
+  - id: 12-009
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What algorithm does the Edit tool use when exact match fails?
     options:
-      a: "Returns error immediately"
-      b: "Fuzzy match (whitespace normalization, line ending normalization, context expansion)"
-      c: "Regex pattern matching"
-      d: "Semantic similarity search"
-    correct: "b"
-    explanation: |
-      When exact match fails, Edit attempts fuzzy matching: (1) Whitespace normalization (trailing spaces, indentation), (2) Line ending normalization (CRLF vs LF), (3) Context expansion (surrounding lines). Only if fuzzy match also fails does it return an error.
+      a: Returns error immediately
+      b: Fuzzy match (whitespace normalization, line ending normalization, context expansion)
+      c: Regex pattern matching
+      d: Semantic similarity search
+    correct: b
+    explanation: "When exact match fails, Edit attempts fuzzy matching: (1) Whitespace normalization (trailing spaces, indentation), (2) Line ending normalization (CRLF vs LF), (3) Context expansion (surrounding lines). Only if fuzzy match also fails does it return an error."
     doc_reference:
-      file: "guide/architecture.md"
-      section: "Fuzzy Matching Details"
+      file: guide/architecture.md
+      section: Fuzzy Matching Details
       anchor: "#fuzzy-matching-details"
-
-  - id: "12-010"
-    difficulty: "intermediate"
-    profiles: ["senior", "power"]
-    question: "What protocol does MCP (Model Context Protocol) use for communication?"
+  - id: 12-010
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: What protocol does MCP (Model Context Protocol) use for communication?
     options:
-      a: "REST API over HTTPS"
-      b: "GraphQL"
-      c: "JSON-RPC 2.0 over stdio or HTTP"
-      d: "gRPC with Protocol Buffers"
-    correct: "c"
-    explanation: |
-      MCP uses JSON-RPC 2.0 over stdio or HTTP transport. MCP tools follow the naming convention `mcp__<server>__<tool>`. Servers start on first use and stay alive during the session. They have the same permission system as native tools.
+      a: REST API over HTTPS
+      b: GraphQL
+      c: JSON-RPC 2.0 over stdio or HTTP
+      d: gRPC with Protocol Buffers
+    correct: c
+    explanation: MCP uses JSON-RPC 2.0 over stdio or HTTP transport. MCP tools follow the naming convention `mcp__<server>__<tool>`. Servers start on first use and stay alive during the session. They have the same permission system as native tools.
     doc_reference:
-      file: "guide/architecture.md"
-      section: "MCP Integration"
+      file: guide/architecture.md
+      section: MCP Integration
       anchor: "#6-mcp-integration"
-
-  - id: "12-011"
-    difficulty: "senior"
-    profiles: ["power"]
-    question: "What is Claude Code's design philosophy, as stated by Anthropic?"
+  - id: 12-011
+    difficulty: senior
+    profiles:
+      - power
+    question: What is Claude Code's design philosophy, as stated by Anthropic?
     options:
-      a: "More scaffolding, less model - build complex orchestration"
-      b: "Less scaffolding, more model - trust Claude's reasoning"
-      c: "Maximum control - explicit rules for every case"
-      d: "Hybrid approach - RAG + classifier + model"
-    correct: "b"
-    explanation: |
-      Claude Code's philosophy is "Less scaffolding, more model" - trust Claude's reasoning instead of building complex orchestration systems. This means: single model decides (no classifier/router), Grep+Glob (no RAG), simple while loop (no DAG), conversation as state (no state machines).
+      a: More scaffolding, less model - build complex orchestration
+      b: Less scaffolding, more model - trust Claude's reasoning
+      c: Maximum control - explicit rules for every case
+      d: Hybrid approach - RAG + classifier + model
+    correct: b
+    explanation: "Claude Code's philosophy is \"Less scaffolding, more model\" - trust Claude's reasoning instead of building complex orchestration systems. This means: single model decides (no classifier/router), Grep+Glob (no RAG), simple while loop (no DAG), conversation as state (no state machines)."
     doc_reference:
-      file: "guide/architecture.md"
-      section: "Philosophy: Less Scaffolding, More Model"
-      anchor: "#9-philosophy-less-scaffolding-more-model"
-
-  - id: "12-012"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What are the 4 specialized sub-agent types available in Claude Code?"
+      file: guide/core/architecture.md
+      section: "10. Philosophy: Less Scaffolding, More Model"
+      anchor: "#10-philosophy-less-scaffolding-more-model"
+  - id: 12-012
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What are the specialized sub-agent types available in Claude Code?
     options:
-      a: "Reader, Writer, Searcher, Executor"
-      b: "Explore, Plan, Bash, general-purpose"
-      c: "Junior, Senior, Expert, Architect"
-      d: "Fast, Balanced, Thorough, Complete"
-    correct: "b"
-    explanation: |
-      Claude Code offers 4 sub-agent types: Explore (codebase exploration, read-only tools), Plan (architecture planning, no Edit/Write), Bash (command execution, Bash only), and general-purpose (complex multi-step tasks, all tools). Each has different tool access.
+      a: Reader, Writer, Searcher, Executor
+      b: Explore, Plan, general-purpose (3 types)
+      c: Junior, Senior, Expert, Architect
+      d: Fast, Balanced, Thorough, Complete
+    correct: b
+    explanation: |-
+      Claude Code offers 3 built-in sub-agent types via the Task tool's subagent_type parameter:
+
+      1. **Explore** (Haiku): Codebase exploration with read-only tools. Optimized for file discovery and code search with thoroughness levels (quick/medium/very thorough).
+
+      2. **Plan** (Inherit): Architecture planning and research during plan mode. Read-only tools prevent infinite nesting.
+
+      3. **general-purpose** (Inherit): Complex multi-step tasks with all tools available (Read, Edit, Write, Bash, Grep, Glob).
+
+      **Important**: Bash is a TOOL (command execution utility), not a sub-agent type. Sub-agents can USE the Bash tool, but there is no "Bash" sub-agent type.
+
+      Source: Official documentation code.claude.com/docs/en/sub-agents (verified 2026-02-03)
     doc_reference:
-      file: "guide/architecture.md"
-      section: "Sub-Agent Types"
+      file: guide/core/architecture.md
+      section: Sub-Agent Types
       anchor: "#sub-agent-types"
-
-  - id: "12-013"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What tool replaced TodoWrite for task management in Claude Code v2.1.16+?"
+  - id: 12-013
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What tool replaced TodoWrite for task management in Claude Code v2.1.16+?
     options:
-      a: "ProjectManager API"
-      b: "Kanban tool"
-      c: "Tasks API (TaskCreate, TaskGet, TaskList, TaskUpdate)"
-      d: "AgendaWrite tool"
-    correct: "c"
-    explanation: |
-      The Tasks API (v2.1.16+) replaced TodoWrite with 4 tools: TaskCreate (create tasks with descriptions), TaskGet (fetch full task details), TaskList (list all tasks with status), TaskUpdate (update status, dependencies, metadata). Key improvement: task dependencies via blockedBy/blocks fields.
+      a: ProjectManager API
+      b: Kanban tool
+      c: Tasks API (TaskCreate, TaskGet, TaskList, TaskUpdate)
+      d: AgendaWrite tool
+    correct: c
+    explanation: "The Tasks API (v2.1.16+) replaced TodoWrite with 4 tools: TaskCreate (create tasks with descriptions), TaskGet (fetch full task details), TaskList (list all tasks with status), TaskUpdate (update status, dependencies, metadata). Key improvement: task dependencies via blockedBy/blocks fields."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "Tasks API"
-      anchor: "#tasks-api"
-
-  - id: "12-014"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is the API cost overhead of fetching full details for 50 tasks via Tasks API?"
+      file: guide/ultimate-guide.md
+      section: Tasks API (v2.1.16+)
+      anchor: "#tasks-api-v2116"
+  - id: 12-014
+    difficulty: power
+    profiles:
+      - power
+    question: What is the API cost overhead of fetching full details for 50 tasks via Tasks API?
     options:
-      a: "10x overhead (10 API calls)"
-      b: "25x overhead (25 API calls)"
-      c: "51x overhead (1 TaskList + 50 TaskGet calls required)"
-      d: "100x overhead (100 API calls)"
-    correct: "c"
-    explanation: |
-      Tasks API limitation: TaskList returns only summary fields (id, subject, status, owner, blockedBy). To get full details (description, metadata), you need individual TaskGet calls. For 50 tasks: 1 TaskList + 50 TaskGet = 51 API calls. This N+1 pattern is a known limitation compared to TodoWrite which returned everything in one call.
+      a: 10x overhead (10 API calls)
+      b: 25x overhead (25 API calls)
+      c: 51x overhead (1 TaskList + 50 TaskGet calls required)
+      d: 100x overhead (100 API calls)
+    correct: c
+    explanation: "Tasks API limitation: TaskList returns only summary fields (id, subject, status, owner, blockedBy). To get full details (description, metadata), you need individual TaskGet calls. For 50 tasks: 1 TaskList + 50 TaskGet = 51 API calls. This N+1 pattern is a known limitation compared to TodoWrite which returned everything in one call."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "Tasks API Limitations"
-      anchor: "#tasks-api-limitations"
-
-  - id: "12-015"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is TeammateTool and what is its status?"
+      file: guide/ultimate-guide.md
+      section: Tasks API (v2.1.16+)
+      anchor: "#tasks-api-v2116"
+  - id: 12-015
+    difficulty: power
+    profiles:
+      - power
+    question: What is TeammateTool and what is its status?
     options:
-      a: "Production-ready multi-agent framework"
-      b: "Experimental multi-agent coordination (spawnTeam, discoverTeams, requestJoin, approveJoin) - unstable, no official support"
-      c: "Official Anthropic tool for team collaboration"
-      d: "Deprecated feature replaced by Tasks API"
-    correct: "b"
-    explanation: |
-      TeammateTool is an experimental multi-agent coordination tool with 4 operations: spawnTeam, discoverTeams, requestJoin, approveJoin. Status: unstable, not officially supported by Anthropic. It allows Claude instances to form teams and coordinate, but the API is subject to change without notice. Not recommended for production use.
+      a: Production-ready multi-agent framework
+      b: Experimental multi-agent coordination (spawnTeam, discoverTeams, requestJoin, approveJoin) - unstable, no official support
+      c: Official Anthropic tool for team collaboration
+      d: Deprecated feature replaced by Tasks API
+    correct: b
+    explanation: "TeammateTool is an experimental multi-agent coordination tool with 4 operations: spawnTeam, discoverTeams, requestJoin, approveJoin. Status: unstable, not officially supported by Anthropic. It allows Claude instances to form teams and coordinate, but the API is subject to change without notice. Not recommended for production use."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "TeammateTool"
-      anchor: "#teammatetool"
-
-  - id: "12-016"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What is 'Context Rot' and what makes it structural rather than incidental?"
+      file: guide/ultimate-guide.md
+      section: TeammateTool (Experimental)
+      anchor: "#teammatetool-experimental"
+  - id: 12-016
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: An empirical study across dozens of open-source agent frameworks and hundreds of agentic applications, cited in the agent harness guide, found a mismatch in where testing effort goes. What is that mismatch?
     options:
-      a: "Gradual quality degradation caused by too many code comments in the context window"
+      a: Testing effort is split evenly between deterministic components and the LLM reasoning core, but adoption of dedicated LLM eval tools exceeds 50%
+      b: More than 70% of testing effort targets the LLM reasoning core, while less than 5% targets deterministic components like tool calls
+      c: Adoption of dedicated LLM evaluation tools like DeepEval exceeds 60%, but testing of deterministic components is neglected entirely
+      d: More than 70% of testing effort targets deterministic components like tools and workflow logic, while less than 5% targets the LLM reasoning core (the Plan Body)
+    correct: d
+    explanation: The study found more than 70% of testing effort targets deterministic components such as tools, APIs, and workflow logic, while less than 5% targets the Plan Body, the LLM reasoning core where non-obvious failures like plausible-but-wrong outputs actually live. Adoption of dedicated LLM evaluation tools sat below 1%, not above 50 or 60% as in options a and c. Option b inverts the real finding. The guide recommends rebalancing to at minimum 20-30% of testing effort on the Plan Body.
+    doc_reference:
+      file: guide/core/agent-harness.md
+      section: 7. Test Distribution Anti-pattern
+      anchor: "#7-test-distribution-anti-pattern"
+  - id: 12-017
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: Claude Code v2.1.191 reduced CPU usage during streaming by roughly 37%. What internal change achieved this?
+    options:
+      a: Text updates were coalesced to 100ms intervals instead of being rendered per-token
+      b: Streaming was moved from the terminal renderer to a WebSocket-based diffing engine
+      c: Tool call schemas were cached across turns to avoid re-parsing on every token
+      d: The context window was pruned continuously during streaming rather than only at compaction time
+    correct: a
+    explanation: The release note states CPU usage during streaming dropped about 37% by coalescing text updates to 100ms intervals instead of updating the display per token. This is a separate figure from the token-reduction percentage attributed to dynamic tool dispatch elsewhere in the guide, the two numbers measure different things, CPU cycles during rendering versus token usage from tool schema loading, and happen to land in a similar range by coincidence. Options b, c, and d describe plausible-sounding but unstated mechanisms not mentioned in the release note.
+    doc_reference:
+      file: guide/core/claude-code-releases.md
+      section: v2.1.191
+  - id: 12-018
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is 'Context Rot' and what makes it structural rather than incidental?
+    options:
+      a: Gradual quality degradation caused by too many code comments in the context window
       b: "The n² attention cost: as context grows, each new token attends to all previous tokens, causing exponential slowdown and quality degradation regardless of content quality"
-      c: "Rot caused by leaving unused variables and dead code in the context"
-      d: "API rate limiting that causes degraded responses when context is large"
-    correct: "b"
-    explanation: |
-      Context Rot is structural, not incidental: transformer attention is O(n²) — each new token attends to all previous tokens. As context grows, the effective attention per token dilutes, early context gets underweighted, and recent tokens dominate disproportionately. This happens even with high-quality context content. Solutions: /compact (prune), context chaining (fresh session with curated summary), or JIT retrieval (never load; fetch on demand). You cannot fix structural rot by cleaning up your prompts.
+      c: Rot caused by leaving unused variables and dead code in the context
+      d: API rate limiting that causes degraded responses when context is large
+    correct: b
+    explanation: "Context Rot is structural, not incidental: transformer attention is O(n²) — each new token attends to all previous tokens. As context grows, the effective attention per token dilutes, early context gets underweighted, and recent tokens dominate disproportionately. This happens even with high-quality context content. Solutions: /compact (prune), context chaining (fresh session with curated summary), or JIT retrieval (never load; fetch on demand). You cannot fix structural rot by cleaning up your prompts."
     doc_reference:
-      file: "guide/core/architecture.md"
-      section: "Context Rot"
-      anchor: "#context-rot"
-
-  - id: "12-017"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is the key difference between JIT (Just-In-Time) retrieval and RAG in the context of Claude Code sub-agents?"
+      file: guide/core/architecture.md
+      section: Context Rot
+  - id: 12-019
+    difficulty: power
+    profiles:
+      - power
+    question: What is the key difference between JIT (Just-In-Time) retrieval and RAG in the context of Claude Code sub-agents?
     options:
-      a: "JIT retrieval uses vector databases while RAG uses keyword search"
-      b: "JIT retrieval never pre-loads context — sub-agents fetch only what they need at the moment of need; RAG pre-indexes and embeds documents upfront for semantic lookup"
-      c: "JIT is faster but less accurate; RAG is slower but more precise"
-      d: "JIT is for code retrieval only; RAG handles documentation retrieval"
-    correct: "b"
-    explanation: |
-      JIT retrieval in sub-agents means: never pre-load context — the agent identifies what it needs (WHY/WHAT pattern), fetches only that, processes it, then discards. This keeps context windows small per agent. RAG pre-indexes and embeds a corpus upfront, enabling semantic similarity lookup at query time. For Claude Code sub-agents: JIT is preferred for targeted retrieval tasks (no embedding setup, no stale index); RAG suits knowledge bases queried repeatedly across many sessions.
+      a: JIT retrieval uses vector databases while RAG uses keyword search
+      b: JIT retrieval never pre-loads context — sub-agents fetch only what they need at the moment of need; RAG pre-indexes and embeds documents upfront for semantic lookup
+      c: JIT is faster but less accurate; RAG is slower but more precise
+      d: JIT is for code retrieval only; RAG handles documentation retrieval
+    correct: b
+    explanation: "JIT retrieval in sub-agents means: never pre-load context — the agent identifies what it needs (WHY/WHAT pattern), fetches only that, processes it, then discards. This keeps context windows small per agent. RAG pre-indexes and embeds a corpus upfront, enabling semantic similarity lookup at query time. For Claude Code sub-agents: JIT is preferred for targeted retrieval tasks (no embedding setup, no stale index); RAG suits knowledge bases queried repeatedly across many sessions."
     doc_reference:
-      file: "guide/core/architecture.md"
-      section: "JIT vs RAG Retrieval"
-      anchor: "#jit-vs-rag-retrieval"
-
-  - id: "12-018"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is MMD (Maximum Mean Discrepancy) used for in context drift detection?"
+      file: guide/core/architecture.md
+      section: JIT vs RAG Retrieval
+  - id: 12-020
+    difficulty: power
+    profiles:
+      - power
+    question: What is MMD (Maximum Mean Discrepancy) used for in context drift detection?
     options:
-      a: "Measuring the maximum number of tokens that can drift before a session crashes"
-      b: "A statistical test comparing the distribution of recent token embeddings to a baseline distribution to detect semantic drift in ongoing conversations"
-      c: "Tracking the maximum memory distance between two related CLAUDE.md files"
-      d: "A compression algorithm that minimizes mean deviation in context summaries"
-    correct: "b"
-    explanation: |
-      MMD (Maximum Mean Discrepancy) is a kernel-based statistical test that compares two distributions without assuming a parametric form. In context drift detection: you embed tokens/messages from a baseline window and a recent window, then compute MMD between the two distributions. A high MMD score indicates the conversation has drifted semantically from its original topic — a signal to /compact or start a fresh session. Threshold: MMD > 0.3 typically warrants intervention. More robust than cosine distance for multi-modal drift.
+      a: Measuring the maximum number of tokens that can drift before a session crashes
+      b: A statistical test comparing the distribution of recent token embeddings to a baseline distribution to detect semantic drift in ongoing conversations
+      c: Tracking the maximum memory distance between two related CLAUDE.md files
+      d: A compression algorithm that minimizes mean deviation in context summaries
+    correct: b
+    explanation: "MMD (Maximum Mean Discrepancy) is a kernel-based statistical test that compares two distributions without assuming a parametric form. In context drift detection: you embed tokens/messages from a baseline window and a recent window, then compute MMD between the two distributions. A high MMD score indicates the conversation has drifted semantically from its original topic — a signal to /compact or start a fresh session. Threshold: MMD > 0.3 typically warrants intervention. More robust than cosine distance for multi-modal drift."
     doc_reference:
-      file: "guide/core/architecture.md"
-      section: "Context Drift Detection"
-      anchor: "#context-drift-detection"
-
-  - id: "12-019"
-    difficulty: "intermediate"
-    profiles: ["senior", "power"]
-    question: "What is the 'Goldilocks altitude problem' for CLAUDE.md project rules?"
+      file: guide/core/architecture.md
+      section: Context Drift Detection
+  - id: 12-021
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: What is the 'Goldilocks altitude problem' for CLAUDE.md project rules?
     options:
-      a: "Finding the right file size for CLAUDE.md — not too large (context waste) nor too small (insufficient guidance)"
+      a: Finding the right file size for CLAUDE.md — not too large (context waste) nor too small (insufficient guidance)
       b: "The challenge of writing rules at the right abstraction level: too high-level (ignored/mis-applied) vs too low-level (brittle, over-specified)"
-      c: "Choosing the right directory depth for nested CLAUDE.md files in a monorepo"
-      d: "Balancing rule strictness — too strict causes Claude to refuse valid tasks, too loose provides no guidance"
-    correct: "b"
-    explanation: |
-      The Goldilocks altitude problem: rules written too high ("write good code") are too abstract to apply consistently. Rules written too low ("always add a blank line after function declarations") are brittle — they conflict with context or become stale. The sweet spot is mid-altitude: specific enough to be actionable, abstract enough to generalize across similar situations. Example of right altitude: "prefer functional style for data transformations; use classes only when you need stateful lifecycle management."
+      c: Choosing the right directory depth for nested CLAUDE.md files in a monorepo
+      d: Balancing rule strictness — too strict causes Claude to refuse valid tasks, too loose provides no guidance
+    correct: b
+    explanation: 'The Goldilocks altitude problem: rules written too high ("write good code") are too abstract to apply consistently. Rules written too low ("always add a blank line after function declarations") are brittle — they conflict with context or become stale. The sweet spot is mid-altitude: specific enough to be actionable, abstract enough to generalize across similar situations. Example of right altitude: "prefer functional style for data transformations; use classes only when you need stateful lifecycle management."'
     doc_reference:
-      file: "guide/core/architecture.md"
-      section: "Goldilocks Altitude"
-      anchor: "#goldilocks-altitude"
-
-  - id: "12-020"
-    difficulty: "intermediate"
-    profiles: ["senior", "power"]
-    question: "What are the recommended MCP server and tool count limits to avoid context overhead?"
-    options:
-      a: "Max 50 servers, max 500 tools"
-      b: "Max 10 servers, max 80 total tools across all servers"
-      c: "No limit — Claude handles any number of MCP tools efficiently"
-      d: "Max 3 servers, max 20 tools"
-    correct: "b"
-    explanation: |
-      Recommended limits: fewer than 10 MCP servers and fewer than 80 total tools across all servers. Each MCP server's tools are announced at session start and consume context window space permanently for that session. Beyond ~80 tools, the tool announcement overhead meaningfully degrades available context for actual work. Beyond 10 servers, initialization latency and inter-server coordination complexity compound. Audit your MCP stack: disable unused servers in settings.json, use scoped configs per project type.
-    doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "MCP Tool Count Limits"
-      anchor: "#mcp-tool-count-limits"
+      file: guide/core/architecture.md
+      section: Goldilocks Altitude

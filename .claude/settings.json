@@ -89,7 +89,7 @@
     ]
   },
   "env": {
-    "ALLOWED_PATHS": "/Users/florianbruniaux/Sites/perso/claude-code-plugins:/Users/florianbruniaux/Sites/perso/ctxharness:/Users/florianbruniaux/Sites/perso/google-search-console-mcp:/Users/florianbruniaux/Sites/perso/florian-portfolio:/Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide-landing:/Users/florianbruniaux/Sites/perso/boldguy"
+    "ALLOWED_PATHS": "/Users/florianbruniaux/Sites/perso/claude-code-plugins:/Users/florianbruniaux/Sites/perso/ctxharness:/Users/florianbruniaux/Sites/perso/google-search-console-mcp:/Users/florianbruniaux/Sites/perso/florian-portfolio:/Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide-landing:/Users/florianbruniaux/Sites/perso/boldguy:/Users/florianbruniaux/Sites/perso/flow-lean"
   },
   "$schema": "https://json.schemastore.org/claude-code-settings.json"
 }

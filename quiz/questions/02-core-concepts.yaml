@@ -1,344 +1,396 @@
-category: "Core Concepts"
+category: Core Concepts
 category_id: 2
-source_file: "guide/ultimate-guide.md"
-
+source_file: guide/ultimate-guide.md
 questions:
-  - id: "02-001"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power", "pm"]
-    question: "At what context percentage should you use /compact?"
+  - id: 02-001
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+      - pm
+    question: At what context percentage should you use /compact?
     options:
-      a: "0-50%"
-      b: "50-70%"
-      c: "70-90%"
-      d: "Only at 100%"
-    correct: "c"
-    explanation: |
-      Use /compact when context reaches 70-90% (the red zone). The context zones are: Green (0-50%) - work freely; Yellow (50-75%) - start being selective; Red (75-90%) - use /compact; Critical (90%+) - must /clear or risk errors. Using /compact at 70% reduces usage by approximately 50% while preserving key context. Note: Claude Code also has an automatic compaction mechanism (6-7% buffer + micro-compaction) that triggers around 75-92% — manual /compact lets you control timing before the auto-trigger kicks in.
+      a: 0-50%
+      b: 50-70%
+      c: 70-90%
+      d: Only at 100%
+    correct: c
+    explanation: "Use /compact when context reaches 70-90% (the red zone). The context zones are: Green (0-50%) - work freely; Yellow (50-75%) - start being selective; Red (75-90%) - use /compact; Critical (90%+) - must /clear or risk errors. Using /compact at 70% reduces usage by approximately 50% while preserving key context."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "2.2 Context Management"
+      file: guide/ultimate-guide.md
+      section: 2.2 Context Management
       anchor: "#context-zones"
-
-  - id: "02-002"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What is Claude's context window size?"
+  - id: 02-002
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What is Claude's context window size?
     options:
-      a: "50,000 tokens"
-      b: "100,000 tokens"
-      c: "200,000 tokens"
-      d: "500,000 tokens"
-    correct: "c"
-    explanation: |
-      Claude has a 200,000 token context window. Think of it like RAM - when it fills up, things slow down or fail. This context includes all messages, files read, command outputs, and tool results. Effective context management is described as "the most important concept in Claude Code."
+      a: 50,000 tokens
+      b: 100,000 tokens
+      c: 200,000 tokens
+      d: 500,000 tokens
+    correct: c
+    explanation: Claude has a 200,000 token context window. Think of it like RAM - when it fills up, things slow down or fail. This context includes all messages, files read, command outputs, and tool results. Effective context management is described as "the most important concept in Claude Code."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "2.2 Context Management"
+      file: guide/ultimate-guide.md
+      section: 2.2 Context Management
       anchor: "#the-context-budget"
-
-  - id: "02-003"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
+  - id: 02-003
+    difficulty: senior
+    profiles:
+      - senior
+      - power
     question: "What does the statusline 'Ctx(u): 45%' indicate?"
     options:
-      a: "45% of your budget is remaining"
-      b: "You've used 45% of your context"
-      c: "45% of files are loaded"
-      d: "Claude is 45% confident"
-    correct: "b"
-    explanation: |
-      The statusline metric 'Ctx(u): 45%' shows you've used 45% of your context window. The full statusline format is: `Claude Code | Ctx(u): 45% | Cost: $0.23 | Session: 1h 23m`. Monitoring this helps you know when to use /compact or /clear before context-related issues occur.
+      a: 45% of your budget is remaining
+      b: You've used 45% of your context
+      c: 45% of files are loaded
+      d: Claude is 45% confident
+    correct: b
+    explanation: "The statusline metric 'Ctx(u): 45%' shows you've used 45% of your context window. The full statusline format is: `Claude Code | Ctx(u): 45% | Cost: $0.23 | Session: 1h 23m`. Monitoring this helps you know when to use /compact or /clear before context-related issues occur."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "2.2 Context Management"
+      file: guide/ultimate-guide.md
+      section: 2.2 Context Management
       anchor: "#reading-the-statusline"
-
-  - id: "02-004"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What is the difference between /compact and /clear?"
+  - id: 02-004
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What is the difference between /compact and /clear?
     options:
-      a: "/compact is faster, /clear is more thorough"
-      b: "/compact summarizes context (preserves key info), /clear starts completely fresh (loses all context)"
-      c: "/compact clears files, /clear clears conversations"
-      d: "They do the same thing"
-    correct: "b"
-    explanation: |
-      /compact summarizes the conversation, preserving key context while reducing usage by approximately 50%. Use it when running low on context. /clear starts completely fresh, losing all context - use it when changing topics or context is severely bloated. Choose based on whether you need to maintain continuity.
+      a: /compact is faster, /clear is more thorough
+      b: /compact summarizes context (preserves key info), /clear starts completely fresh (loses all context)
+      c: /compact clears files, /clear clears conversations
+      d: They do the same thing
+    correct: b
+    explanation: /compact summarizes the conversation, preserving key context while reducing usage by approximately 50%. Use it when running low on context. /clear starts completely fresh, losing all context - use it when changing topics or context is severely bloated. Choose based on whether you need to maintain continuity.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "2.2 Context Management"
+      file: guide/ultimate-guide.md
+      section: 2.2 Context Management
       anchor: "#context-recovery-strategies"
-
-  - id: "02-005"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "Which action consumes the MOST context tokens?"
+  - id: 02-005
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: Which action consumes the MOST context tokens?
     options:
-      a: "Reading a small file (~500 tokens)"
-      b: "Running a simple command (~1K tokens)"
-      c: "Reading a large file or multi-file search (~5K+ tokens)"
-      d: "Sending a short message"
-    correct: "c"
-    explanation: |
-      Reading large files (5K+ tokens) and multi-file searches (3K+ tokens) consume the most context. A small file costs ~500 tokens, running commands ~1K tokens. Long conversations accumulate over time. To optimize, be specific in queries, use symbol references like "read the calculateTotal function" instead of entire files.
+      a: Reading a small file (~500 tokens)
+      b: Running a simple command (~1K tokens)
+      c: Reading a large file or multi-file search (~5K+ tokens)
+      d: Sending a short message
+    correct: c
+    explanation: Reading large files (5K+ tokens) and multi-file searches (3K+ tokens) consume the most context. A small file costs ~500 tokens, running commands ~1K tokens. Long conversations accumulate over time. To optimize, be specific in queries, use symbol references like "read the calculateTotal function" instead of entire files.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "2.2 Context Management"
+      file: guide/ultimate-guide.md
+      section: 2.2 Context Management
       anchor: "#what-consumes-context"
-
-  - id: "02-006"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is the 'Last 20% Rule' in context management?"
+  - id: 02-006
+    difficulty: power
+    profiles:
+      - power
+    question: What is the 'Last 20% Rule' in context management?
     options:
-      a: "Always keep the last 20% of your conversation"
-      b: "Reserve ~20% of context for multi-file operations, corrections, and summary generation at session end"
-      c: "Delete 20% of context regularly"
-      d: "Use only 20% of available context"
-    correct: "b"
-    explanation: |
-      The Last 20% Rule recommends reserving approximately 20% of your context for: multi-file operations at end of session, last-minute corrections, and generating summary/checkpoint documents. This buffer ensures you can complete your work properly even as context fills up.
+      a: Always keep the last 20% of your conversation
+      b: Reserve ~20% of context for multi-file operations, corrections, and summary generation at session end
+      c: Delete 20% of context regularly
+      d: Use only 20% of available context
+    correct: b
+    explanation: "The Last 20% Rule recommends reserving approximately 20% of your context for: multi-file operations at end of session, last-minute corrections, and generating summary/checkpoint documents. This buffer ensures you can complete your work properly even as context fills up."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "2.2 Context Management"
+      file: guide/ultimate-guide.md
+      section: 2.2 Context Management
       anchor: "#context-inspection"
-
-  - id: "02-007"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What is 'context poisoning' (also called context bleeding)?"
+  - id: 02-007
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is 'context poisoning' (also called context bleeding)?
     options:
-      a: "When context usage reaches 100%"
-      b: "When information from one task contaminates another"
-      c: "When Claude forgets your instructions"
-      d: "When files get corrupted"
-    correct: "b"
-    explanation: |
-      Context poisoning occurs when information from one task contaminates another. Examples include: style bleeding (blue button style applies to unrelated forms), instruction contamination (conflicting rules cause confusion), and temporal confusion (Claude uses outdated file names). Use explicit task boundaries and clarify priorities to prevent it.
+      a: When context usage reaches 100%
+      b: When information from one task contaminates another
+      c: When Claude forgets your instructions
+      d: When files get corrupted
+    correct: b
+    explanation: "Context poisoning occurs when information from one task contaminates another. Examples include: style bleeding (blue button style applies to unrelated forms), instruction contamination (conflicting rules cause confusion), and temporal confusion (Claude uses outdated file names). Use explicit task boundaries and clarify priorities to prevent it."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "2.2 Context Management"
-      anchor: "#context-poisoning-bleeding"
-
-  - id: "02-008"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What is the 7-step interaction loop in Claude Code?"
+      file: guide/ultimate-guide.md
+      section: 2.2 Context Poisoning (Bleeding)
+      line: 2015-2044
+  - id: 02-008
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What is the 7-step interaction loop in Claude Code?
     options:
-      a: "Plan, Code, Test, Deploy, Monitor, Fix, Repeat"
-      b: "Describe, Analyze, Propose, Review, Decide, Verify, Commit"
-      c: "Read, Write, Edit, Run, Debug, Test, Push"
-      d: "Ask, Wait, Accept, Run, Check, Fix, Done"
-    correct: "b"
-    explanation: |
-      The interaction loop is: 1) DESCRIBE - explain what you need, 2) ANALYZE - Claude explores the codebase, 3) PROPOSE - Claude suggests changes (diff), 4) REVIEW - you read and evaluate, 5) DECIDE - Accept/Reject/Modify, 6) VERIFY - run tests, check behavior, 7) COMMIT - save changes (optional). The key insight: you remain in control throughout.
+      a: Plan, Code, Test, Deploy, Monitor, Fix, Repeat
+      b: Describe, Analyze, Propose, Review, Decide, Verify, Commit
+      c: Read, Write, Edit, Run, Debug, Test, Push
+      d: Ask, Wait, Accept, Run, Check, Fix, Done
+    correct: b
+    explanation: "The interaction loop is: 1) DESCRIBE - explain what you need, 2) ANALYZE - Claude explores the codebase, 3) PROPOSE - Claude suggests changes (diff), 4) REVIEW - you read and evaluate, 5) DECIDE - Accept/Reject/Modify, 6) VERIFY - run tests, check behavior, 7) COMMIT - save changes (optional). The key insight: you remain in control throughout."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "2.1 The Interaction Loop"
+      file: guide/ultimate-guide.md
+      section: 2.1 The Interaction Loop
       anchor: "#21-the-interaction-loop"
-
-  - id: "02-009"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "How do you exit Plan Mode to start making changes?"
+  - id: 02-009
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: How do you exit Plan Mode to start making changes?
     options:
-      a: "/edit"
-      b: "/execute"
-      c: "/start"
-      d: "/exit-plan"
-    correct: "b"
-    explanation: |
-      Use /execute to exit Plan Mode and begin implementing changes. While in Plan Mode, Claude can only read and analyze - no modifications are allowed. You can also respond to Claude's prompt "Ready to implement this plan?" to transition. This staged approach ensures you understand the plan before execution.
+      a: /edit
+      b: Press Shift+Tab (or respond to the "Ready to implement this plan?" prompt)
+      c: /start
+      d: /exit-plan
+    correct: b
+    explanation: Press Shift+Tab to cycle out of Plan Mode into an editing mode, or respond to Claude's prompt "Ready to implement this plan?" to transition. While in Plan Mode, Claude can only read and analyze - no modifications are allowed. There is no /execute slash command in Claude Code; exit is done through the Shift+Tab permission-mode cycle or by approving the plan. This staged approach ensures you understand the plan before execution.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "2.3 Plan Mode"
+      file: guide/ultimate-guide.md
+      section: 2.3 Plan Mode
       anchor: "#exiting-plan-mode"
-
-  - id: "02-010"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is OpusPlan mode?"
+  - id: 02-010
+    difficulty: power
+    profiles:
+      - power
+    question: What is OpusPlan mode?
     options:
-      a: "A premium subscription tier"
-      b: "Using Opus for planning (superior reasoning) and Sonnet for implementation (cost-efficient)"
-      c: "A debugging mode"
-      d: "A way to plan without Claude"
-    correct: "b"
-    explanation: |
-      OpusPlan uses Opus for planning (with superior reasoning capabilities) and automatically switches to Sonnet for implementation (more cost-efficient). Enable with `/model opusplan`. This provides Opus-quality planning while preserving tokens through Sonnet-speed execution. Particularly valuable for Pro subscribers with limited Opus tokens.
+      a: A premium subscription tier
+      b: Using Opus for planning (superior reasoning) and Sonnet for implementation (cost-efficient)
+      c: A debugging mode
+      d: A way to plan without Claude
+    correct: b
+    explanation: OpusPlan uses Opus for planning (with superior reasoning capabilities) and automatically switches to Sonnet for implementation (more cost-efficient). Enable with `/model opusplan`. This provides Opus-quality planning while preserving tokens through Sonnet-speed execution. Particularly valuable for Pro subscribers with limited Opus tokens.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "2.3 Plan Mode"
+      file: guide/ultimate-guide.md
+      section: 2.3 Plan Mode
       anchor: "#opusplan-mode"
-
-  - id: "02-011"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What are symptoms of context depletion?"
+  - id: 02-011
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What are symptoms of context depletion?
     options:
-      a: "Claude types slower"
-      b: "Shorter responses, forgetting CLAUDE.md instructions, inconsistencies with earlier conversation"
-      c: "Error messages appear"
-      d: "Cost increases dramatically"
-    correct: "b"
-    explanation: |
-      Context depletion symptoms include: shorter responses than usual (warning), forgetting CLAUDE.md instructions (serious), inconsistencies with earlier conversation (critical), errors on code already discussed (critical), and "I can't access that file" for files already read (critical). When critical symptoms appear, start a new session immediately.
+      a: Claude types slower
+      b: Shorter responses, forgetting CLAUDE.md instructions, inconsistencies with earlier conversation
+      c: Error messages appear
+      d: Cost increases dramatically
+    correct: b
+    explanation: "Context depletion symptoms include: shorter responses than usual (warning), forgetting CLAUDE.md instructions (serious), inconsistencies with earlier conversation (critical), errors on code already discussed (critical), and \"I can't access that file\" for files already read (critical). When critical symptoms appear, start a new session immediately."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "2.2 Context Management"
+      file: guide/ultimate-guide.md
+      section: 2.2 Context Management
       anchor: "#context-depletion-symptoms"
-
-  - id: "02-012"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What can /rewind do?"
+  - id: 02-012
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What can /rewind do?
     options:
-      a: "Undo git commits"
-      b: "Revert Claude's file changes within the current session"
-      c: "Go back in conversation history"
-      d: "Restore deleted files from disk"
-    correct: "b"
-    explanation: |
-      /rewind reverts file changes made by Claude. It works across multiple files but only on Claude's changes (not manual edits), only within the current session, and does NOT automatically revert git commits. For risky operations, create a git checkpoint first: "Let's commit what we have before trying this experimental approach."
+      a: Undo git commits
+      b: Revert Claude's file changes within the current session
+      c: Go back in conversation history
+      d: Restore deleted files from disk
+    correct: b
+    explanation: "/rewind reverts file changes made by Claude. It works across multiple files but only on Claude's changes (not manual edits), only within the current session, and does NOT automatically revert git commits. For risky operations, create a git checkpoint first: \"Let's commit what we have before trying this experimental approach.\""
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "2.4 Rewind"
+      file: guide/ultimate-guide.md
+      section: 2.4 Rewind
       anchor: "#24-rewind"
-
-  - id: "02-013"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What does Claude NOT have access to regarding your project?"
+  - id: 02-013
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What does Claude NOT have access to regarding your project?
     options:
-      a: "File structure and code content"
-      b: "Git state and branches"
-      c: "Runtime state, external services, and hidden files"
-      d: "Project rules in CLAUDE.md"
-    correct: "c"
-    explanation: |
-      Claude knows: file structure, code content, git state, and project rules (CLAUDE.md). Claude does NOT know: runtime state (can't see running processes), external services (can't access databases directly), your intent (needs clear instructions), and hidden files (respects .gitignore by default). Understanding this mental model helps you communicate effectively.
+      a: File structure and code content
+      b: Git state and branches
+      c: Runtime state, external services, and hidden files
+      d: Project rules in CLAUDE.md
+    correct: c
+    explanation: "Claude knows: file structure, code content, git state, and project rules (CLAUDE.md). Claude does NOT know: runtime state (can't see running processes), external services (can't access databases directly), your intent (needs clear instructions), and hidden files (respects .gitignore by default). Understanding this mental model helps you communicate effectively."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "2.5 Mental Model"
+      file: guide/ultimate-guide.md
+      section: 2.5 Mental Model
       anchor: "#what-claude-doesnt-know"
-
-  - id: "02-014"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is the purpose of the 'Sanity Check Technique'?"
+  - id: 02-014
+    difficulty: power
+    profiles:
+      - power
+    question: What is the purpose of the 'Sanity Check Technique'?
     options:
-      a: "To verify code compiles correctly"
-      b: "To verify Claude has loaded your CLAUDE.md configuration correctly"
-      c: "To check for memory leaks"
-      d: "To validate test coverage"
-    correct: "b"
-    explanation: |
-      The Sanity Check Technique verifies Claude loaded your configuration. Add identifiable info to CLAUDE.md (like your name, project name, tech stack), then ask Claude "What is my name? What project am I working on?" Correct answers confirm configuration is loaded. For advanced checking, add multiple checkpoints throughout long CLAUDE.md files.
+      a: To verify code compiles correctly
+      b: To verify Claude has loaded your CLAUDE.md configuration correctly
+      c: To check for memory leaks
+      d: To validate test coverage
+    correct: b
+    explanation: The Sanity Check Technique verifies Claude loaded your configuration. Add identifiable info to CLAUDE.md (like your name, project name, tech stack), then ask Claude "What is my name? What project am I working on?" Correct answers confirm configuration is loaded. For advanced checking, add multiple checkpoints throughout long CLAUDE.md files.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "2.2 Context Management"
+      file: guide/ultimate-guide.md
+      section: 2.2 Context Management
       anchor: "#sanity-check-technique"
-
-  - id: "02-015"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "When should you use XML-structured prompts?"
+  - id: 02-015
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: When should you use XML-structured prompts?
     options:
-      a: "For all prompts regardless of complexity"
-      b: "For multi-step features, bug investigations with context, and code reviews with specific criteria"
-      c: "Only for simple one-liner requests"
-      d: "Only when working with APIs"
-    correct: "b"
-    explanation: |
-      Use XML-structured prompts when requests have 3+ distinct aspects (instruction + context + constraints), when ambiguity causes misunderstanding, when creating reusable templates, or for complex hierarchy. Don't use them for simple one-liner requests or quick typo fixes - the overhead outweighs the benefit. Tags like <instruction>, <context>, <constraints> help Claude understand different aspects.
+      a: For all prompts regardless of complexity
+      b: For multi-step features, bug investigations with context, and code reviews with specific criteria
+      c: Only for simple one-liner requests
+      d: Only when working with APIs
+    correct: b
+    explanation: Use XML-structured prompts when requests have 3+ distinct aspects (instruction + context + constraints), when ambiguity causes misunderstanding, when creating reusable templates, or for complex hierarchy. Don't use them for simple one-liner requests or quick typo fixes - the overhead outweighs the benefit. Tags like <instruction>, <context>, <constraints> help Claude understand different aspects.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "2.6 Structured Prompting with XML Tags"
-      anchor: "#when-to-use-xml-structured-prompts"
-
-  - id: "02-016"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is a 'Session Handoff Pattern' used for?"
+      file: guide/ultimate-guide.md
+      section: 2.6 When to Use XML-Structured Prompts
+      line: 2927-2951
+  - id: 02-016
+    difficulty: power
+    profiles:
+      - power
+    question: What is a 'Session Handoff Pattern' used for?
     options:
-      a: "Transferring sessions between team members"
-      b: "Documenting state, decisions, and next steps to maintain continuity between sessions"
-      c: "Backing up your code"
-      d: "Exporting conversation history"
-    correct: "b"
-    explanation: |
-      The Session Handoff Pattern creates a document to bridge gaps between sessions. It includes: what was accomplished, current state, decisions made, next steps, and context for the next session. Create handoffs at end of work day, before context limit, when switching focus areas, or during interruptions. Store in `claudedocs/handoffs/handoff-YYYY-MM-DD.md`.
+      a: Transferring sessions between team members
+      b: Documenting state, decisions, and next steps to maintain continuity between sessions
+      c: Backing up your code
+      d: Exporting conversation history
+    correct: b
+    explanation: "The Session Handoff Pattern creates a document to bridge gaps between sessions. It includes: what was accomplished, current state, decisions made, next steps, and context for the next session. Create handoffs at end of work day, before context limit, when switching focus areas, or during interruptions. Store in `claudedocs/handoffs/handoff-YYYY-MM-DD.md`."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "2.2 Context Management"
+      file: guide/ultimate-guide.md
+      section: 2.2 Context Management
       anchor: "#session-handoff-pattern"
-
-  - id: "02-017"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What is the typical cost of a 1-hour Claude Code session?"
+  - id: 02-017
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is the typical cost of a 1-hour Claude Code session?
     options:
-      a: "$0.01 - $0.05"
-      b: "$0.10 - $0.50"
-      c: "$1.00 - $5.00"
-      d: "$10.00 - $20.00"
-    correct: "b"
-    explanation: |
-      A typical 1-hour session costs $0.10 - $0.50 depending on usage patterns. The guide provides cost budgets: quick task (5-10 min) $0.05-$0.10, feature work (1-2 hours) $0.20-$0.50, deep refactor (half day) $1.00-$2.00. Spending $0.50 to save 30 minutes provides 60x ROI if your time is worth $30/hour - don't over-optimize!
+      a: $0.01 - $0.05
+      b: $0.10 - $0.50
+      c: $1.00 - $5.00
+      d: $10.00 - $20.00
+    correct: b
+    explanation: "A typical 1-hour session costs $0.10 - $0.50 depending on usage patterns. The guide provides cost budgets: quick task (5-10 min) $0.05-$0.10, feature work (1-2 hours) $0.20-$0.50, deep refactor (half day) $1.00-$2.00. Spending $0.50 to save 30 minutes provides 60x ROI if your time is worth $30/hour - don't over-optimize!"
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "2.2 Context Management"
-      anchor: "#cost-awareness--optimization"
-
-  - id: "02-018"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is Auto Plan Mode and how do you enable it?"
+      file: guide/ultimate-guide.md
+      section: 2.2 Context Management
+      anchor: "#cost-awareness-optimization"
+  - id: 02-018
+    difficulty: power
+    profiles:
+      - power
+    question: What is Auto Plan Mode and how do you enable it?
     options:
-      a: "Automatic planning that's always on by default"
-      b: "A configuration that forces Claude to present a plan and wait for approval before any tool execution"
-      c: "A mode that automatically generates project plans"
-      d: "A premium feature for enterprise users"
-    correct: "b"
-    explanation: |
-      Auto Plan Mode makes Claude present a plan and wait for explicit user approval before executing ANY tool. Configure via `~/.claude/auto-plan-mode.txt` and launch with `claude --append-system-prompt "$(cat ~/.claude/auto-plan-mode.txt)"`. Results in 76% fewer tokens with better results because plans are validated before execution.
+      a: Automatic planning that's always on by default
+      b: A configuration that forces Claude to present a plan and wait for approval before any tool execution
+      c: A mode that automatically generates project plans
+      d: A premium feature for enterprise users
+    correct: b
+    explanation: Auto Plan Mode makes Claude present a plan and wait for explicit user approval before executing ANY tool. Configure via `~/.claude/auto-plan-mode.txt` and launch with `claude --append-system-prompt "$(cat ~/.claude/auto-plan-mode.txt)"`. Results in 76% fewer tokens with better results because plans are validated before execution.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "2.3 Plan Mode"
+      file: guide/ultimate-guide.md
+      section: 2.3 Plan Mode
       anchor: "#auto-plan-mode"
-
-  - id: "02-019"
-    difficulty: "intermediate"
-    profiles: ["senior", "power"]
-    question: "What is the BMAD (Big Model Agentic Development) methodology best suited for?"
+  - id: 02-019
+    difficulty: intermediate
+    profiles:
+      - junior
+      - senior
+      - pm
+    question: What changed with Claude Code's default model in v2.1.197?
     options:
-      a: "Small teams of 2-3 people needing fast iteration"
-      b: "High-complexity projects with stable requirements where deep planning pays off"
-      c: "Any project with more than 10 developers"
-      d: "Greenfield projects only, never legacy codebases"
-    correct: "b"
-    explanation: |
-      BMAD is optimized for high-complexity projects with stable requirements — where the upfront investment in structured planning (requirements, architecture, stories) pays dividends. The key criterion is complexity + stability, not team headcount. BMAD uses specialized agents (Analyst, Architect, SM, Dev) to break down and execute work systematically. It struggles with rapidly changing requirements because replanning cost is high.
+      a: Claude Haiku became the default model to cut costs across the board
+      b: Claude Opus became the default model, capped at a 500K-token context window
+      c: Claude Sonnet 5 became the default model, with a native 1M-token context window
+      d: The default model stayed the same, only the pricing tier changed
+    correct: c
+    explanation: v2.1.197 introduced Claude Sonnet 5 as the new default model in Claude Code, with a native 1M-token context window, not a capped or reduced one. Opus and Haiku are still selectable through /model, but neither became the default in this release.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "BMAD Methodology"
-      anchor: "#bmad-methodology"
-
-  - id: "02-020"
-    difficulty: "intermediate"
-    profiles: ["senior", "power"]
-    question: "What is the primary criterion for choosing FDD (Feature-Driven Development) with Claude Code?"
+      file: guide/core/claude-code-releases.md
+      section: v2.1.197
+  - id: 02-020
+    difficulty: intermediate
+    profiles:
+      - senior
+      - pm
+      - power
+    question: What promotional pricing accompanied the Claude Sonnet 5 launch in Claude Code (v2.1.197)?
     options:
-      a: "Teams smaller than 5 developers who need a simple process"
-      b: "Feature teams with parallel delivery needs — multiple features developed simultaneously"
-      c: "Projects requiring detailed UML documentation and design models"
-      d: "Enterprise teams with more than 50 developers"
-    correct: "b"
-    explanation: |
-      FDD's primary criterion is feature teams with parallel delivery needs — multiple features being developed simultaneously across the team. FDD's per-feature iteration (Design → Build) maps well onto Claude Code's session-based workflow, where each feature gets a dedicated planning and implementation session. The key signal is "parallel delivery", not team size. FDD is less suited to projects where features have deep interdependencies requiring sequential development.
+      a: $2 per million input tokens and $10 per million output tokens, through August 31
+      b: $3 per million input tokens and $15 per million output tokens, through August 31
+      c: No cost at all for any user during the launch window
+      d: $1 per million input tokens and $5 per million output tokens, through August 31
+    correct: a
+    explanation: The v2.1.197 release notes state Sonnet 5 launched with promotional pricing of $2 per million input tokens and $10 per million output tokens, valid through August 31. It was not free, and the other price pairs don't match the release notes. Treat this as a time-limited launch promotion, not permanent pricing.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "FDD Methodology"
-      anchor: "#fdd-methodology"
+      file: guide/core/claude-code-releases.md
+      section: v2.1.197
+  - id: 02-021
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: Why does the guide treat "just use the 1M-token context window" as an anti-pattern rather than a capability win?
+    options:
+      a: Because 1M-token windows aren't actually available to most Claude Code users yet
+      b: Because a 1M-token window costs the same per request regardless of how full it is
+      c: Because a window full of noise, stale turns, and redundant instructions performs worse than a smaller, curated one, and costs more
+      d: Because the API throws a hard error once a session crosses roughly 900K tokens
+    correct: c
+    explanation: The guide frames this as a signal-to-noise question, not a capacity question. A 128K-token window with well-maintained, curated content outperforms a 1M-token window loaded with stale turns and redundant tool output. The large window doesn't eliminate context rot, it delays it while making each request slower and more expensive. There's no hard token error at 900K, and cost scales with what's actually sent, so filling the window for its own sake is pure downside.
+    doc_reference:
+      file: guide/core/context-engineering.md
+      section: "MECW: Maximum Effective Context Window"
+  - id: 02-022
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: What is the BMAD (Big Model Agentic Development) methodology best suited for?
+    options:
+      a: Small teams of 2-3 people needing fast iteration
+      b: High-complexity projects with stable requirements where deep planning pays off
+      c: Any project with more than 10 developers
+      d: Greenfield projects only, never legacy codebases
+    correct: b
+    explanation: BMAD is optimized for high-complexity projects with stable requirements — where the upfront investment in structured planning (requirements, architecture, stories) pays dividends. The key criterion is complexity + stability, not team headcount. BMAD uses specialized agents (Analyst, Architect, SM, Dev) to break down and execute work systematically. It struggles with rapidly changing requirements because replanning cost is high.
+    doc_reference:
+      file: guide/core/methodologies.md
+      section: "Tier 1: Strategic Orchestration"
+      anchor: "#tier-1-strategic-orchestration"
+  - id: 02-023
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: What is the primary criterion for choosing FDD (Feature-Driven Development) with Claude Code?
+    options:
+      a: Teams smaller than 5 developers who need a simple process
+      b: Feature teams with parallel delivery needs — multiple features developed simultaneously
+      c: Projects requiring detailed UML documentation and design models
+      d: Enterprise teams with more than 50 developers
+    correct: b
+    explanation: FDD's primary criterion is feature teams with parallel delivery needs — multiple features being developed simultaneously across the team. FDD's per-feature iteration (Design → Build) maps well onto Claude Code's session-based workflow, where each feature gets a dedicated planning and implementation session. The key signal is "parallel delivery", not team size. FDD is less suited to projects where features have deep interdependencies requiring sequential development.
+    doc_reference:
+      file: guide/core/methodologies.md
+      section: "Tier 4: Feature Delivery"
+      anchor: "#tier-4-feature-delivery"

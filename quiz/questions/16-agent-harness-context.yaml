@@ -1,684 +1,700 @@
-category: "Agent Harness & Context"
+category: Agent Harness & Context
 category_id: 16
-source_file: "guide/core/agent-harness.md"
-
+source_file: guide/core/context-engineering.md
 questions:
-  - id: "16-001"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What term does Martin Fowler use to describe an agent harness?"
+  - id: 16-001
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What term does Martin Fowler use to describe an agent harness?
     options:
-      a: "Deterministic wrapper"
-      b: "Inference shell"
-      c: "Cybernetic governor"
-      d: "Execution sandbox"
-    correct: "c"
-    explanation: |
-      Fowler defines a harness as a "cybernetic governor" that combines feed-forward and feedback to regulate agent behavior toward a desired state. The term comes from control theory: a cybernetic governor adjusts inputs based on outputs to maintain stable behavior. The other options describe related concepts (sandboxing, inference wrappers) but are not Fowler's definition.
+      a: Deterministic wrapper
+      b: Inference shell
+      c: Cybernetic governor
+      d: Execution sandbox
+    correct: c
+    explanation: "Fowler defines a harness as a \"cybernetic governor\" that combines feed-forward and feedback to regulate agent behavior toward a desired state. The term comes from control theory: a cybernetic governor adjusts inputs based on outputs to maintain stable behavior. The other options describe related concepts (sandboxing, inference wrappers) but are not Fowler's definition."
     doc_reference:
-      file: "guide/core/agent-harness.md"
-      section: "The core claim"
+      file: guide/core/agent-harness.md
+      section: The core claim
       anchor: "#the-core-claim"
-
-  - id: "16-002"
-    difficulty: "intermediate"
-    profiles: ["junior", "senior", "power"]
-    question: "Which three properties does arXiv 2605.18747 (\"Code as Agent Harness\") say distinguish a harness from a simple LLM wrapper?"
+  - id: 16-002
+    difficulty: intermediate
+    profiles:
+      - junior
+      - senior
+      - power
+    question: Which three properties does arXiv 2605.18747 ("Code as Agent Harness") say distinguish a harness from a simple LLM wrapper?
     options:
-      a: "Reliability, scalability, security"
-      b: "Executability, inspectability, statefulness"
-      c: "Observability, traceability, recoverability"
-      d: "Determinism, repeatability, auditability"
-    correct: "b"
-    explanation: |
-      The paper formalizes three properties: executability (the harness can verify what the agent actually did, not just what it claimed), inspectability (failures produce actionable diagnostic output rather than requiring session reconstruction), and statefulness (session state is externalized so the agent can resume after a context reset). The other options describe desirable system qualities but are not the paper's three-property definition.
+      a: Reliability, scalability, security
+      b: Executability, inspectability, statefulness
+      c: Observability, traceability, recoverability
+      d: Determinism, repeatability, auditability
+    correct: b
+    explanation: "The paper formalizes three properties: executability (the harness can verify what the agent actually did, not just what it claimed), inspectability (failures produce actionable diagnostic output rather than requiring session reconstruction), and statefulness (session state is externalized so the agent can resume after a context reset). The other options describe desirable system qualities but are not the paper's three-property definition."
     doc_reference:
-      file: "guide/core/agent-harness.md"
-      section: "1. Three Foundational Properties"
+      file: guide/core/agent-harness.md
+      section: 1. Three Foundational Properties
       anchor: "#1-three-foundational-properties"
-
-  - id: "16-003"
-    difficulty: "intermediate"
-    profiles: ["junior", "senior", "power"]
-    question: "According to Anthropic's internal data cited in the guide, what token reduction does dynamic tool dispatch achieve versus static loading of all tool schemas?"
+  - id: 16-003
+    difficulty: intermediate
+    profiles:
+      - junior
+      - senior
+      - power
+    question: According to Anthropic's internal data cited in the guide, what token reduction does dynamic tool dispatch achieve versus static loading of all tool schemas?
     options:
-      a: "37%"
-      b: "60%"
-      c: "22%"
-      d: "50%"
-    correct: "a"
-    explanation: |
-      Anthropic's internal data cites a 37% reduction in token usage from dynamic tool dispatch versus loading all schemas on every call. The logic is intuitive: giving the model 40 tool schemas when only 4 are relevant for the current task adds noise and cost. The guide notes this number is not independently replicated, but the directional claim is credible.
+      a: 37%
+      b: 60%
+      c: 22%
+      d: 50%
+    correct: a
+    explanation: "Anthropic's internal data cites a 37% reduction in token usage from dynamic tool dispatch versus loading all schemas on every call. The logic is intuitive: giving the model 40 tool schemas when only 4 are relevant for the current task adds noise and cost. The guide notes this number is not independently replicated, but the directional claim is credible."
     doc_reference:
-      file: "guide/core/agent-harness.md"
-      section: "2.3 Tool Registry"
+      file: guide/core/agent-harness.md
+      section: 2.3 Tool Registry
       anchor: "#23-tool-registry"
-
-  - id: "16-004"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What principle governs permissions at the sub-agent delegation boundary according to the guide?"
+  - id: 16-004
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What principle governs permissions at the sub-agent delegation boundary according to the guide?
     options:
-      a: "Role inheritance"
-      b: "Context isolation"
-      c: "Trust delegation"
-      d: "Principle of least privilege"
-    correct: "d"
-    explanation: |
-      The principle of least privilege applies at the delegation boundary: sub-agents receive only the minimum permissions required for their specific task, not the full permission set of the orchestrating agent. This prevents privilege escalation chains where a low-sensitivity sub-task gains access to capabilities that should be restricted to the orchestrator. Role inheritance and trust delegation describe patterns the guide explicitly says should not be used here.
+      a: Role inheritance
+      b: Context isolation
+      c: Trust delegation
+      d: Principle of least privilege
+    correct: d
+    explanation: "The principle of least privilege applies at the delegation boundary: sub-agents receive only the minimum permissions required for their specific task, not the full permission set of the orchestrating agent. This prevents privilege escalation chains where a low-sensitivity sub-task gains access to capabilities that should be restricted to the orchestrator. Role inheritance and trust delegation describe patterns the guide explicitly says should not be used here."
     doc_reference:
-      file: "guide/core/agent-harness.md"
-      section: "2.4 Sub-Agent Management"
+      file: guide/core/agent-harness.md
+      section: 2.4 Sub-Agent Management
       anchor: "#24-sub-agent-management"
-
-  - id: "16-005"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power", "pm"]
-    question: "What three conditions constitute the \"Lethal Trifecta\" security threat in agent systems?"
+  - id: 16-005
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+      - pm
+    question: What three conditions constitute the "Lethal Trifecta" security threat in agent systems?
     options:
-      a: "Weak prompts, missing tools, no sandboxing"
-      b: "Private data + untrusted content + external communication capability"
-      c: "No authentication, no rate limiting, no audit logging"
-      d: "Large context window, public deployment, no human review"
-    correct: "b"
-    explanation: |
-      Simon Willison coined the term to describe: access to private data + exposure to untrusted content + capability for external communication. Any two of the three are manageable. All three together, without structural isolation, create an exfiltration path: an attacker plants instructions in data the agent will read, the agent processes those instructions using its access to private data, then uses its communication capabilities to exfiltrate. GitHub Security has documented real attacks via malicious repository content.
+      a: Weak prompts, missing tools, no sandboxing
+      b: Private data + untrusted content + external communication capability
+      c: No authentication, no rate limiting, no audit logging
+      d: Large context window, public deployment, no human review
+    correct: b
+    explanation: "Simon Willison coined the term to describe: access to private data + exposure to untrusted content + capability for external communication. Any two of the three are manageable. All three together, without structural isolation, create an exfiltration path: an attacker plants instructions in data the agent will read, the agent processes those instructions using its access to private data, then uses its communication capabilities to exfiltrate. GitHub Security has documented real attacks via malicious repository content."
     doc_reference:
-      file: "guide/core/agent-harness.md"
-      section: "3. The Lethal Trifecta - Security Model"
+      file: guide/core/agent-harness.md
+      section: 3. The Lethal Trifecta - Security Model
       anchor: "#3-the-lethal-trifecta-security-model"
-
-  - id: "16-006"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "Who coined the term \"Lethal Trifecta\" in 2025?"
+  - id: 16-006
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: Who coined the term "Lethal Trifecta" in 2025?
     options:
-      a: "Martin Fowler"
-      b: "Addy Osmani"
-      c: "Simon Willison"
-      d: "Geoffrey Litt"
-    correct: "c"
-    explanation: |
-      Simon Willison coined the term "Lethal Trifecta" in 2025 to describe the three-condition exfiltration scenario. Martin Fowler defined the "cybernetic governor" concept for harnesses. Addy Osmani contributed to the agentic software engineering literature. Both Fowler and Willison are cited in the guide's agent harness section, but on different concepts.
+      a: Martin Fowler
+      b: Addy Osmani
+      c: Simon Willison
+      d: Geoffrey Litt
+    correct: c
+    explanation: Simon Willison coined the term "Lethal Trifecta" in 2025 to describe the three-condition exfiltration scenario. Martin Fowler defined the "cybernetic governor" concept for harnesses. Addy Osmani contributed to the agentic software engineering literature. Both Fowler and Willison are cited in the guide's agent harness section, but on different concepts.
     doc_reference:
-      file: "guide/core/agent-harness.md"
-      section: "3. The Lethal Trifecta - Security Model"
+      file: guide/core/agent-harness.md
+      section: 3. The Lethal Trifecta - Security Model
       anchor: "#3-the-lethal-trifecta-security-model"
-
-  - id: "16-007"
-    difficulty: "intermediate"
-    profiles: ["senior", "power", "pm"]
-    question: "According to Anthropic's internal data (April 2026), what percentage of agent permission requests in production are approved without adequate review?"
+  - id: 16-007
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+      - pm
+    question: According to Anthropic's internal data (April 2026), what percentage of agent permission requests in production are approved without adequate review?
     options:
-      a: "42%"
-      b: "67%"
-      c: "78%"
-      d: "93%"
-    correct: "d"
-    explanation: |
-      Anthropic's shared responsibility model documentation (April 2026) reports 93% of agent permission requests are approved without adequate review. This is not a criticism of the humans involved: it is a structural consequence of volume and cognitive load. When a human approves 50 permission dialogs per hour, individual approval becomes a formality. The defense that scales is structural isolation and second-agent validation, not human review.
+      a: 42%
+      b: 67%
+      c: 78%
+      d: 93%
+    correct: d
+    explanation: "Anthropic's shared responsibility model documentation (April 2026) reports 93% of agent permission requests are approved without adequate review. This is not a criticism of the humans involved: it is a structural consequence of volume and cognitive load. When a human approves 50 permission dialogs per hour, individual approval becomes a formality. The defense that scales is structural isolation and second-agent validation, not human review."
     doc_reference:
-      file: "guide/core/agent-harness.md"
-      section: "3. The Lethal Trifecta - Security Model"
+      file: guide/core/agent-harness.md
+      section: 3. The Lethal Trifecta - Security Model
       anchor: "#why-human-review-alone-fails"
-
-  - id: "16-008"
-    difficulty: "intermediate"
-    profiles: ["junior", "senior", "power"]
-    question: "What file does `gh aw compile` produce in GitHub Agentic Workflows?"
+  - id: 16-008
+    difficulty: intermediate
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What file does `gh aw compile` produce in GitHub Agentic Workflows?
     options:
-      a: ".agent.yml"
-      b: ".lock.yml"
-      c: "workflow-compiled.yaml"
-      d: "agents-hardened.json"
-    correct: "b"
-    explanation: |
-      `gh aw compile` takes an agent workflow definition in Markdown and produces a `.lock.yml`, which is a hardened GitHub Actions file with security properties baked in at compile time. This is the key architectural decision: security is enforced during compilation, not added later as a policy layer. The compiled `.lock.yml` enforces the agent's read-only context and routes writes through the Safe Outputs validation job.
+      a: .agent.yml
+      b: .lock.yml
+      c: workflow-compiled.yaml
+      d: agents-hardened.json
+    correct: b
+    explanation: "`gh aw compile` takes an agent workflow definition in Markdown and produces a `.lock.yml`, which is a hardened GitHub Actions file with security properties baked in at compile time. This is the key architectural decision: security is enforced during compilation, not added later as a policy layer. The compiled `.lock.yml` enforces the agent's read-only context and routes writes through the Safe Outputs validation job."
     doc_reference:
-      file: "guide/core/agent-harness.md"
-      section: "4. CI/CD Agentic Patterns"
+      file: guide/core/agent-harness.md
+      section: 4. CI/CD Agentic Patterns
       anchor: "#github-agentic-workflows"
-
-  - id: "16-009"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What is the log size limit for GitLab Duo's Fix CI/CD Pipeline feature?"
+  - id: 16-009
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is the log size limit for GitLab Duo's Fix CI/CD Pipeline feature?
     options:
-      a: "50 KiB"
-      b: "500 KiB"
-      c: "150 KiB"
-      d: "1 MiB"
-    correct: "c"
-    explanation: |
-      GitLab Duo reads up to 150 KiB of pipeline logs when diagnosing failures. Pipelines with verbose output beyond this threshold get truncated context, which degrades diagnosis quality. This is a key constraint to understand before routing all CI failures through GitLab Duo: verbose test runners, Docker builds, and integration suites regularly exceed this limit. The guide recommends knowing this limit when evaluating the tool for your pipeline.
+      a: 50 KiB
+      b: 500 KiB
+      c: 150 KiB
+      d: 1 MiB
+    correct: c
+    explanation: "GitLab Duo reads up to 150 KiB of pipeline logs when diagnosing failures. Pipelines with verbose output beyond this threshold get truncated context, which degrades diagnosis quality. This is a key constraint to understand before routing all CI failures through GitLab Duo: verbose test runners, Docker builds, and integration suites regularly exceed this limit. The guide recommends knowing this limit when evaluating the tool for your pipeline."
     doc_reference:
-      file: "guide/core/agent-harness.md"
-      section: "4. CI/CD Agentic Patterns"
+      file: guide/core/agent-harness.md
+      section: 4. CI/CD Agentic Patterns
       anchor: "#gitlab-duo"
-
-  - id: "16-010"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "GitHub Agentic Workflows' Safe Outputs job validates agent-generated diffs with three tools before they touch production surfaces. What are those three tools?"
+  - id: 16-010
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: GitHub Agentic Workflows' Safe Outputs job validates agent-generated diffs with three tools before they touch production surfaces. What are those three tools?
     options:
-      a: "Semgrep + TruffleHog + LlamaGuard"
-      b: "SonarQube + GitLeaks + ContentSafety"
-      c: "CodeQL + detect-secrets + Guardrails"
-      d: "Bandit + trufflesecurity + OpenAI Moderation"
-    correct: "a"
-    explanation: |
-      Safe Outputs runs Semgrep (SAST, static analysis for security vulnerabilities), TruffleHog (secrets detection), and LlamaGuard (harmful content detection) on agent-generated diffs. This is the validation step that separates agent generation from production surface: the agent produces a diff, Safe Outputs validates it, and only passing diffs are applied. It runs as a separate job from the agent's main execution context.
+      a: Semgrep + TruffleHog + LlamaGuard
+      b: SonarQube + GitLeaks + ContentSafety
+      c: CodeQL + detect-secrets + Guardrails
+      d: Bandit + trufflesecurity + OpenAI Moderation
+    correct: a
+    explanation: "Safe Outputs runs Semgrep (SAST, static analysis for security vulnerabilities), TruffleHog (secrets detection), and LlamaGuard (harmful content detection) on agent-generated diffs. This is the validation step that separates agent generation from production surface: the agent produces a diff, Safe Outputs validates it, and only passing diffs are applied. It runs as a separate job from the agent's main execution context."
     doc_reference:
-      file: "guide/core/agent-harness.md"
-      section: "4. CI/CD Agentic Patterns"
+      file: guide/core/agent-harness.md
+      section: 4. CI/CD Agentic Patterns
       anchor: "#github-agentic-workflows"
-
-  - id: "16-011"
-    difficulty: "intermediate"
-    profiles: ["junior", "senior", "power"]
-    question: "What correctness improvement range does the creator-verifier pattern achieve versus self-verification across documented implementations?"
+  - id: 16-011
+    difficulty: intermediate
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What correctness improvement range does the creator-verifier pattern achieve versus self-verification across documented implementations?
     options:
-      a: "+3 to +8%"
-      b: "+30 to +50%"
-      c: "+5 to +10%"
-      d: "+12 to +26%"
-    correct: "d"
-    explanation: |
-      Independent verification improves correctness by +12 to +26% versus self-verification across documented implementations including Microsoft Agent Framework, AutoGen Studio, Google ADK, and Playwright Test Agents. The range varies by task type and implementation, but the directional effect is consistent. The structural reason: a model verifying its own output carries the same biases and context as the generating model, so it systematically misses the same class of errors.
+      a: +3 to +8%
+      b: +30 to +50%
+      c: +5 to +10%
+      d: +12 to +26%
+    correct: d
+    explanation: "Independent verification improves correctness by +12 to +26% versus self-verification across documented implementations including Microsoft Agent Framework, AutoGen Studio, Google ADK, and Playwright Test Agents. The range varies by task type and implementation, but the directional effect is consistent. The structural reason: a model verifying its own output carries the same biases and context as the generating model, so it systematically misses the same class of errors."
     doc_reference:
-      file: "guide/core/agent-harness.md"
-      section: "8. Creator-Verifier Pattern"
+      file: guide/core/agent-harness.md
+      section: 8. Creator-Verifier Pattern
       anchor: "#8-creator-verifier-pattern"
-
-  - id: "16-012"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "Why does self-verification fail structurally in the creator-verifier framework?"
+  - id: 16-012
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: Why does self-verification fail structurally in the creator-verifier framework?
     options:
-      a: "The verifier model is slower than the generator"
-      b: "The generator and verifier share the same biases and context, missing the same error class"
-      c: "Self-verification increases latency beyond acceptable thresholds"
-      d: "The verifier lacks access to the original requirements"
-    correct: "b"
-    explanation: |
-      The model that generated the output carries the same biases and context as the model that reviews it. A fresh model instance, given only the artifact and the success criteria, is structurally different from self-review because it hasn't already committed to the reasoning path that produced the output. This is why the pattern requires no shared context between creator and verifier: shared context is the mechanism that reintroduces the same blind spots.
+      a: The verifier model is slower than the generator
+      b: The generator and verifier share the same biases and context, missing the same error class
+      c: Self-verification increases latency beyond acceptable thresholds
+      d: The verifier lacks access to the original requirements
+    correct: b
+    explanation: "The model that generated the output carries the same biases and context as the model that reviews it. A fresh model instance, given only the artifact and the success criteria, is structurally different from self-review because it hasn't already committed to the reasoning path that produced the output. This is why the pattern requires no shared context between creator and verifier: shared context is the mechanism that reintroduces the same blind spots."
     doc_reference:
-      file: "guide/core/agent-harness.md"
-      section: "8. Creator-Verifier Pattern"
+      file: guide/core/agent-harness.md
+      section: 8. Creator-Verifier Pattern
       anchor: "#8-creator-verifier-pattern"
-
-  - id: "16-013"
-    difficulty: "intermediate"
-    profiles: ["junior", "senior", "power"]
-    question: "What is the OTel GenAI convention status of `gen_ai.client` spans as of May 2026?"
+  - id: 16-013
+    difficulty: intermediate
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What is the OTel GenAI convention status of `gen_ai.client` spans as of May 2026?
     options:
-      a: "Experimental"
-      b: "Deprecated"
-      c: "Stable"
-      d: "Draft"
-    correct: "c"
-    explanation: |
-      `gen_ai.client` spans are marked Stable in the OTel GenAI conventions as of May 2026. This means production harnesses can safely depend on `gen_ai.request.model`, `gen_ai.usage.input_tokens`, and `gen_ai.usage.output_tokens` attributes without expecting breaking changes. This is in contrast to `gen_ai.agent` spans, which are still Experimental and may have attributes renamed or restructured before stabilization.
+      a: Experimental
+      b: Deprecated
+      c: Stable
+      d: Draft
+    correct: c
+    explanation: "`gen_ai.client` spans are marked Stable in the OTel GenAI conventions as of May 2026. This means production harnesses can safely depend on `gen_ai.request.model`, `gen_ai.usage.input_tokens`, and `gen_ai.usage.output_tokens` attributes without expecting breaking changes. This is in contrast to `gen_ai.agent` spans, which are still Experimental and may have attributes renamed or restructured before stabilization."
     doc_reference:
-      file: "guide/core/agent-harness.md"
-      section: "6. Observability Stack"
+      file: guide/core/agent-harness.md
+      section: 6. Observability Stack
       anchor: "#otel-genai-conventions-may-2026-status"
-
-  - id: "16-014"
-    difficulty: "power"
-    profiles: ["senior", "power"]
-    question: "What is the practical implication of `gen_ai.agent` spans being marked Experimental in the OTel GenAI conventions as of May 2026?"
+  - id: 16-014
+    difficulty: power
+    profiles:
+      - senior
+      - power
+    question: What is the practical implication of `gen_ai.agent` spans being marked Experimental in the OTel GenAI conventions as of May 2026?
     options:
-      a: "Experimental (attributes may be renamed before stabilization)"
-      b: "Stable since 2024"
-      c: "Deprecated in favor of gen_ai.client"
-      d: "Draft (no production implementations yet)"
-    correct: "a"
-    explanation: |
-      `gen_ai.agent` spans are Experimental, meaning attributes like `gen_ai.agent.name` and `gen_ai.agent.id` may be renamed or restructured before the spec stabilizes. Production harnesses using agent spans today should plan for a remapping cost when stabilization happens. OpenInference (Arize) and OpenLLMetry (Traceloop) provide a stable schema layer on top of the evolving OTel spec to absorb this cost, which is why the guide recommends them for production agent observability.
+      a: Experimental (attributes may be renamed before stabilization)
+      b: Stable since 2024
+      c: Deprecated in favor of gen_ai.client
+      d: Draft (no production implementations yet)
+    correct: a
+    explanation: "`gen_ai.agent` spans are Experimental, meaning attributes like `gen_ai.agent.name` and `gen_ai.agent.id` may be renamed or restructured before the spec stabilizes. Production harnesses using agent spans today should plan for a remapping cost when stabilization happens. OpenInference (Arize) and OpenLLMetry (Traceloop) provide a stable schema layer on top of the evolving OTel spec to absorb this cost, which is why the guide recommends them for production agent observability."
     doc_reference:
-      file: "guide/core/agent-harness.md"
-      section: "6. Observability Stack"
+      file: guide/core/agent-harness.md
+      section: 6. Observability Stack
       anchor: "#otel-genai-conventions-may-2026-status"
-
-  - id: "16-015"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power", "pm"]
-    question: "On the L0-L5 context engineering maturity scale, at which level does a flat CLAUDE.md start degrading after approximately 100 lines?"
+  - id: 16-015
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+      - pm
+    question: On the L0-L5 context engineering maturity scale, at which level does a flat CLAUDE.md start degrading after approximately 100 lines?
     options:
-      a: "Level 0"
-      b: "Level 1"
-      c: "Level 2"
-      d: "Level 3"
-    correct: "b"
-    explanation: |
-      Level 1 is "Flat config": a single CLAUDE.md with no structure. The failure mode is that rules pile up and adherence degrades after around 100 lines. Level 0 has no configuration at all. Level 2 adds structured sections but still lives in a single file per scope. The ~100-line degradation threshold is one of the few empirically observed limits in context engineering, matching the diminishing returns of long rule lists before chunking or path-scoping.
+      a: Level 0
+      b: Level 1
+      c: Level 2
+      d: Level 3
+    correct: b
+    explanation: 'Level 1 is "Flat config": a single CLAUDE.md with no structure. The failure mode is that rules pile up and adherence degrades after around 100 lines. Level 0 has no configuration at all. Level 2 adds structured sections but still lives in a single file per scope. The ~100-line degradation threshold is one of the few empirically observed limits in context engineering, matching the diminishing returns of long rule lists before chunking or path-scoping.'
     doc_reference:
-      file: "guide/core/context-engineering.md"
-      section: "9. Maturity Assessment"
+      file: guide/core/context-engineering.md
+      section: 9. Maturity Assessment
       anchor: "#9-maturity-assessment"
-
-  - id: "16-016"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What is the key structural difference between Level 2 and Level 3 on the context engineering maturity scale?"
+  - id: 16-016
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What is the key structural difference between Level 2 and Level 3 on the context engineering maturity scale?
     options:
-      a: "Level 3 has canary tests; Level 2 does not"
-      b: "Level 3 uses profiles; Level 2 uses a single config"
-      c: "Level 3 has CI drift detection; Level 2 does not"
-      d: "Level 3 uses path-scoped modules; Level 2 uses structured sections in one file"
-    correct: "d"
-    explanation: |
-      Level 2 "Structured config" organizes rules into clear sections with global/project separation, but everything lives in root CLAUDE.md files. Level 3 "Modular config" moves subsystem-specific rules into path-scoped modules (.claude/rules/) with deliberate layering. The root CLAUDE.md at L3 stays under 150 lines. Canary tests and profiles are L4 and L5 features respectively.
+      a: Level 3 has canary tests; Level 2 does not
+      b: Level 3 uses profiles; Level 2 uses a single config
+      c: Level 3 has CI drift detection; Level 2 does not
+      d: Level 3 uses path-scoped modules; Level 2 uses structured sections in one file
+    correct: d
+    explanation: Level 2 "Structured config" organizes rules into clear sections with global/project separation, but everything lives in root CLAUDE.md files. Level 3 "Modular config" moves subsystem-specific rules into path-scoped modules (.claude/rules/) with deliberate layering. The root CLAUDE.md at L3 stays under 150 lines. Canary tests and profiles are L4 and L5 features respectively.
     doc_reference:
-      file: "guide/core/context-engineering.md"
-      section: "9. Maturity Assessment"
+      file: guide/core/context-engineering.md
+      section: 9. Maturity Assessment
       anchor: "#9-maturity-assessment"
-
-  - id: "16-017"
-    difficulty: "intermediate"
-    profiles: ["junior", "senior", "power"]
-    question: "What does Level 4 (\"Measured config\") require that Level 3 (\"Modular config\") does not?"
+  - id: 16-017
+    difficulty: intermediate
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What does Level 4 ("Measured config") require that Level 3 ("Modular config") does not?
     options:
-      a: "Canary tests and adherence tracking (measurement habit)"
-      b: "Path-scoped modules"
-      c: "Team profile assembly"
-      d: "CI drift detection"
-    correct: "a"
-    explanation: |
-      Level 4 adds canary tests that verify key conventions, violation rate tracking for important rules, and context audits after major milestones. The guide notes that moving from L3 to L4 requires a measurement habit, not more configuration. CI drift detection and profile assembly are Level 5 features. Path-scoped modules are the Level 3 graduation criterion.
+      a: Canary tests and adherence tracking (measurement habit)
+      b: Path-scoped modules
+      c: Team profile assembly
+      d: CI drift detection
+    correct: a
+    explanation: Level 4 adds canary tests that verify key conventions, violation rate tracking for important rules, and context audits after major milestones. The guide notes that moving from L3 to L4 requires a measurement habit, not more configuration. CI drift detection and profile assembly are Level 5 features. Path-scoped modules are the Level 3 graduation criterion.
     doc_reference:
-      file: "guide/core/context-engineering.md"
-      section: "9. Maturity Assessment"
+      file: guide/core/context-engineering.md
+      section: 9. Maturity Assessment
       anchor: "#9-maturity-assessment"
-
-  - id: "16-018"
-    difficulty: "intermediate"
-    profiles: ["junior", "senior", "power", "pm"]
-    question: "What is the documented failure mode of Level 2 (\"Structured config\") on the maturity scale?"
+  - id: 16-018
+    difficulty: intermediate
+    profiles:
+      - junior
+      - senior
+      - power
+      - pm
+    question: What is the documented failure mode of Level 2 ("Structured config") on the maturity scale?
     options:
-      a: "Rules exceed 100 lines and adherence degrades"
-      b: "No verification mechanism exists for rule compliance"
-      c: "Works for solo developers but breaks at team scale"
-      d: "Context window is exhausted too quickly"
-    correct: "c"
-    explanation: |
-      Level 2 works well in a solo context because one developer controls the whole config and intuitively knows what each section means. It breaks at team scale because multiple developers editing the same root CLAUDE.md creates coordination friction, conflicting conventions, and loss of the shared mental model. The ~100-line degradation is the L1 failure mode. No verification is the L3 failure mode. Context exhaustion is handled at the token optimization layer, not the maturity model.
+      a: Rules exceed 100 lines and adherence degrades
+      b: No verification mechanism exists for rule compliance
+      c: Works for solo developers but breaks at team scale
+      d: Context window is exhausted too quickly
+    correct: c
+    explanation: Level 2 works well in a solo context because one developer controls the whole config and intuitively knows what each section means. It breaks at team scale because multiple developers editing the same root CLAUDE.md creates coordination friction, conflicting conventions, and loss of the shared mental model. The ~100-line degradation is the L1 failure mode. No verification is the L3 failure mode. Context exhaustion is handled at the token optimization layer, not the maturity model.
     doc_reference:
-      file: "guide/core/context-engineering.md"
-      section: "9. Maturity Assessment"
+      file: guide/core/context-engineering.md
+      section: 9. Maturity Assessment
       anchor: "#9-maturity-assessment"
-
-  - id: "16-019"
-    difficulty: "intermediate"
-    profiles: ["senior", "power"]
-    question: "What are the five signal categories in the ACE-v2 signal taxonomy?"
+  - id: 16-019
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: What are the five signal categories in the ACE-v2 signal taxonomy?
     options:
-      a: "Errors, warnings, retries, timeouts, cancellations"
-      b: "LLM, tools, memory, context, output"
-      c: "Input, processing, output, feedback, escalation"
-      d: "Syntactic, semantic, procedural, alignment, performance"
-    correct: "d"
-    explanation: |
-      ACE-v2 replaces the flat friction score with five typed categories: syntactic (tool error, parse failure, malformed call), semantic (output rejected by user, retry with clarification), procedural (rule conflict, missing step, wrong execution phase), alignment (tone violation, out-of-scope change, hallucinated claim), and performance (token overrun, context overflow, /compact forced mid-task). Each event gets one category, which determines where the Curator looks for the root cause.
+      a: Errors, warnings, retries, timeouts, cancellations
+      b: LLM, tools, memory, context, output
+      c: Input, processing, output, feedback, escalation
+      d: Syntactic, semantic, procedural, alignment, performance
+    correct: d
+    explanation: "ACE-v2 replaces the flat friction score with five typed categories: syntactic (tool error, parse failure, malformed call), semantic (output rejected by user, retry with clarification), procedural (rule conflict, missing step, wrong execution phase), alignment (tone violation, out-of-scope change, hallucinated claim), and performance (token overrun, context overflow, /compact forced mid-task). Each event gets one category, which determines where the Curator looks for the root cause."
     doc_reference:
-      file: "guide/core/context-engineering.md"
-      section: "10. Signal Taxonomy and Causal Attribution"
+      file: guide/core/context-engineering.md
+      section: 10. Signal Taxonomy and Causal Attribution
       anchor: "#10-signal-taxonomy-and-causal-attribution"
-
-  - id: "16-020"
-    difficulty: "intermediate"
-    profiles: ["senior", "power"]
-    question: "In the ACE-v2 signal taxonomy, a \"Write-before-Read violation\" belongs to which category?"
+  - id: 16-020
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: In the ACE-v2 signal taxonomy, a "Write-before-Read violation" belongs to which category?
     options:
-      a: "Syntactic"
-      b: "Procedural"
-      c: "Semantic"
-      d: "Alignment"
-    correct: "b"
-    explanation: |
-      A Write-before-Read violation is a procedural signal: it represents a rule conflict or missing step in the execution phase sequence. Procedural events are caused by the agent skipping or misordering steps that the configuration defines as required. Syntactic would be a malformed tool call. Semantic would be a user rejecting the output. Alignment would be a tone violation or out-of-scope change.
+      a: Syntactic
+      b: Procedural
+      c: Semantic
+      d: Alignment
+    correct: b
+    explanation: "A Write-before-Read violation is a procedural signal: it represents a rule conflict or missing step in the execution phase sequence. Procedural events are caused by the agent skipping or misordering steps that the configuration defines as required. Syntactic would be a malformed tool call. Semantic would be a user rejecting the output. Alignment would be a tone violation or out-of-scope change."
     doc_reference:
-      file: "guide/core/context-engineering.md"
-      section: "10. Signal Taxonomy and Causal Attribution"
+      file: guide/core/context-engineering.md
+      section: 10. Signal Taxonomy and Causal Attribution
       anchor: "#signal-categories"
-
-  - id: "16-021"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "Why does a flat friction score (errors x 3 + retries x 2) mislead the Curator in ACE-v2?"
+  - id: 16-021
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: Why does a flat friction score (errors x 3 + retries x 2) mislead the Curator in ACE-v2?
     options:
-      a: "Raw volume points at the noisiest tool, not the most actionable cause"
-      b: "The formula errors x 3 + retries x 2 overweights errors"
-      c: "Flat scores cannot track trends over time"
-      d: "The formula does not capture LLM-as-judge results"
-    correct: "a"
-    explanation: |
-      On a ten-week ACE-v1 run on the Aristote project, the Bash tool generated 3,377 retries versus 597 for Read and 254 for Edit. Raw volume pointed at Bash as the primary problem, but the actual pattern was missing batching instructions in the configuration. The flat score caused the Curator to prioritize the wrong layer. Typed signals fix this by capturing which rule files and skills were active at the moment of friction, not just which tool fired.
+      a: Raw volume points at the noisiest tool, not the most actionable cause
+      b: The formula errors x 3 + retries x 2 overweights errors
+      c: Flat scores cannot track trends over time
+      d: The formula does not capture LLM-as-judge results
+    correct: a
+    explanation: On a ten-week ACE-v1 run on the Aristote project, the Bash tool generated 3,377 retries versus 597 for Read and 254 for Edit. Raw volume pointed at Bash as the primary problem, but the actual pattern was missing batching instructions in the configuration. The flat score caused the Curator to prioritize the wrong layer. Typed signals fix this by capturing which rule files and skills were active at the moment of friction, not just which tool fired.
     doc_reference:
-      file: "guide/core/context-engineering.md"
-      section: "10. Signal Taxonomy and Causal Attribution"
+      file: guide/core/context-engineering.md
+      section: 10. Signal Taxonomy and Causal Attribution
       anchor: "#10-signal-taxonomy-and-causal-attribution"
-
-  - id: "16-022"
-    difficulty: "intermediate"
-    profiles: ["junior", "senior", "power"]
-    question: "What does the ACE-v2 Curator generate to close the feedback loop instead of a plain report?"
+  - id: 16-022
+    difficulty: intermediate
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What does the ACE-v2 Curator generate to close the feedback loop instead of a plain report?
     options:
-      a: "A plain text report summarizing friction patterns"
-      b: "A Jira ticket for engineering to review"
-      c: "A Git PR with config diff, friction evidence, canary results, and escalation note"
-      d: "An automated commit directly to the config files"
-    correct: "c"
-    explanation: |
-      The Curator generates a Git PR containing four elements: the exact config diff (a git-diff-ready patch, not prose), 3-5 friction events that drove the suggestion, before/after canary probe results, and an escalation note if this suggestion already appeared in prior reports without action. A human reviews and merges or closes. The Curator never modifies rules directly. The open loop failure on Aristote (same two suggestions proposed ten weeks apart, never merged) motivated this design: a PR is easier to act on than a report.
+      a: A plain text report summarizing friction patterns
+      b: A Jira ticket for engineering to review
+      c: A Git PR with config diff, friction evidence, canary results, and escalation note
+      d: An automated commit directly to the config files
+    correct: c
+    explanation: "The Curator generates a Git PR containing four elements: the exact config diff (a git-diff-ready patch, not prose), 3-5 friction events that drove the suggestion, before/after canary probe results, and an escalation note if this suggestion already appeared in prior reports without action. A human reviews and merges or closes. The Curator never modifies rules directly. The open loop failure on Aristote (same two suggestions proposed ten weeks apart, never merged) motivated this design: a PR is easier to act on than a report."
     doc_reference:
-      file: "guide/core/context-engineering.md"
-      section: "11. Loop Closure - PR-Based Curation"
+      file: guide/core/context-engineering.md
+      section: 11. Loop Closure - PR-Based Curation
       anchor: "#11-loop-closure-pr-based-curation"
-
-  - id: "16-023"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "In the ACE-v2 A/B canary probe process, when does LLM-as-judge run?"
+  - id: 16-023
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: In the ACE-v2 A/B canary probe process, when does LLM-as-judge run?
     options:
-      a: "On every probe to ensure thoroughness"
-      b: "Only on probes where cosine similarity drops below 0.85"
-      c: "On probes where the diff exceeds 100 tokens"
-      d: "Never (cosine similarity alone is sufficient)"
-    correct: "b"
-    explanation: |
-      The canary process runs cosine similarity as a first pass on all probe outputs. LLM-as-judge runs only on probes where similarity drops below 0.85, because those are the cases with divergence large enough to warrant qualitative evaluation. This keeps canary costs near zero for most PRs while reserving expensive LLM judgment for edge cases that actually warrant it. Running LLM-as-judge on every probe would make the canary process prohibitively expensive.
+      a: On every probe to ensure thoroughness
+      b: Only on probes where cosine similarity drops below 0.85
+      c: On probes where the diff exceeds 100 tokens
+      d: Never (cosine similarity alone is sufficient)
+    correct: b
+    explanation: The canary process runs cosine similarity as a first pass on all probe outputs. LLM-as-judge runs only on probes where similarity drops below 0.85, because those are the cases with divergence large enough to warrant qualitative evaluation. This keeps canary costs near zero for most PRs while reserving expensive LLM judgment for edge cases that actually warrant it. Running LLM-as-judge on every probe would make the canary process prohibitively expensive.
     doc_reference:
-      file: "guide/core/context-engineering.md"
-      section: "11. Loop Closure - PR-Based Curation"
+      file: guide/core/context-engineering.md
+      section: 11. Loop Closure - PR-Based Curation
       anchor: "#ab-canary-probes"
-
-  - id: "16-024"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What should happen to a Curator suggestion that appears in three consecutive reports without any action?"
+  - id: 16-024
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What should happen to a Curator suggestion that appears in three consecutive reports without any action?
     options:
-      a: "It is automatically applied to avoid accumulation"
-      b: "It is deleted from the signal store"
-      c: "It resets its counter and starts fresh"
-      d: "It escalates to \"pending human decision\" with a blocking flag, or closes as \"won't fix\" with documented reason"
-    correct: "d"
-    explanation: |
-      A suggestion that appears three times without action should either escalate to "pending human decision" with a blocking flag in the next PR, or close as "won't fix" with a documented reason. Allowing suggestions to repeat silently is the same failure mode as the open loop, just more subtle. The escalation counter is the mechanism that prevents the system from ignoring its own recommendations indefinitely without forcing a human decision.
+      a: It is automatically applied to avoid accumulation
+      b: It is deleted from the signal store
+      c: It resets its counter and starts fresh
+      d: It escalates to "pending human decision" with a blocking flag, or closes as "won't fix" with documented reason
+    correct: d
+    explanation: A suggestion that appears three times without action should either escalate to "pending human decision" with a blocking flag in the next PR, or close as "won't fix" with a documented reason. Allowing suggestions to repeat silently is the same failure mode as the open loop, just more subtle. The escalation counter is the mechanism that prevents the system from ignoring its own recommendations indefinitely without forcing a human decision.
     doc_reference:
-      file: "guide/core/context-engineering.md"
-      section: "11. Loop Closure - PR-Based Curation"
+      file: guide/core/context-engineering.md
+      section: 11. Loop Closure - PR-Based Curation
       anchor: "#suggestion-suppression"
-
-  - id: "16-025"
-    difficulty: "intermediate"
-    profiles: ["senior", "power"]
-    question: "What are the default dormancy thresholds for ejection candidates in ACE-v2?"
+  - id: 16-025
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: What are the default dormancy thresholds for ejection candidates in ACE-v2?
     options:
-      a: "1 month for skills, 3 months for rules"
-      b: "6 months for both skills and rules"
-      c: "3 months for skills, 6 months for rules"
-      d: "1 month for rules, 6 months for skills"
-    correct: "c"
-    explanation: |
-      The guide defines 3 months for skills and 6 months for rules as the default dormancy thresholds. Skills change more frequently as tooling evolves, so a shorter window is appropriate. Rules represent more stable conventions, so the threshold is longer. These are defaults, not absolutes: teams in fast-moving domains may use shorter windows, while teams with stable long-lived rules may extend them. The signal for dormancy is absence from the friction log, not just calendar time.
+      a: 1 month for skills, 3 months for rules
+      b: 6 months for both skills and rules
+      c: 3 months for skills, 6 months for rules
+      d: 1 month for rules, 6 months for skills
+    correct: c
+    explanation: "The guide defines 3 months for skills and 6 months for rules as the default dormancy thresholds. Skills change more frequently as tooling evolves, so a shorter window is appropriate. Rules represent more stable conventions, so the threshold is longer. These are defaults, not absolutes: teams in fast-moving domains may use shorter windows, while teams with stable long-lived rules may extend them. The signal for dormancy is absence from the friction log, not just calendar time."
     doc_reference:
-      file: "guide/core/context-engineering.md"
-      section: "12. Ejection - Disciplined De-engineering"
+      file: guide/core/context-engineering.md
+      section: 12. Ejection - Disciplined De-engineering
       anchor: "#ejection-heuristics"
-
-  - id: "16-026"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "Which commercial observability tools implement the ejection mechanism for dormant rules and skills?"
+  - id: 16-026
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: Which commercial observability tools implement the ejection mechanism for dormant rules and skills?
     options:
-      a: "Langfuse and LangSmith"
-      b: "Braintrust"
-      c: "Helicone"
-      d: "None, no commercial LLMOps tool implements ejection"
-    correct: "d"
-    explanation: |
-      None. Braintrust, Langfuse, Helicone, and LangSmith all track what happened in prompts and completions; none of them track what your configuration contains nor suggest removing parts of it that are causing harm. Ejection requires knowing your config schema, not just your prompt history. This is the unique gap the discipline fills versus commercial tooling, and why the guide describes it as one of the defensible novelties of the approach.
+      a: Langfuse and LangSmith
+      b: Braintrust
+      c: Helicone
+      d: None, no commercial LLMOps tool implements ejection
+    correct: d
+    explanation: None. Braintrust, Langfuse, Helicone, and LangSmith all track what happened in prompts and completions; none of them track what your configuration contains nor suggest removing parts of it that are causing harm. Ejection requires knowing your config schema, not just your prompt history. This is the unique gap the discipline fills versus commercial tooling, and why the guide describes it as one of the defensible novelties of the approach.
     doc_reference:
-      file: "guide/core/context-engineering.md"
-      section: "12. Ejection - Disciplined De-engineering"
+      file: guide/core/context-engineering.md
+      section: 12. Ejection - Disciplined De-engineering
       anchor: "#ejection-vs-archive"
-
-  - id: "16-027"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What research lineage does the guide cite for the constitutional audit pattern?"
+  - id: 16-027
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What research lineage does the guide cite for the constitutional audit pattern?
     options:
-      a: "RLHF and supervised fine-tuning"
-      b: "Constitutional AI (Anthropic 2022) and RLAIF"
-      c: "Chain-of-thought prompting and self-consistency"
-      d: "Retrieval-augmented generation and fact-checking"
-    correct: "b"
-    explanation: |
-      The guide traces the constitutional audit to Constitutional AI (Anthropic, 2022) and RLAIF: using a high-level value document to constrain a lower-level generation process. The transposition to context engineering operates at the config level rather than the output level: the "constitution.md" constrains the rule system's internal consistency rather than the model's response content. The mechanism is simpler than output-level constitutional AI because the inputs are shorter and fully deterministic.
+      a: RLHF and supervised fine-tuning
+      b: Constitutional AI (Anthropic 2022) and RLAIF
+      c: Chain-of-thought prompting and self-consistency
+      d: Retrieval-augmented generation and fact-checking
+    correct: b
+    explanation: "The guide traces the constitutional audit to Constitutional AI (Anthropic, 2022) and RLAIF: using a high-level value document to constrain a lower-level generation process. The transposition to context engineering operates at the config level rather than the output level: the \"constitution.md\" constrains the rule system's internal consistency rather than the model's response content. The mechanism is simpler than output-level constitutional AI because the inputs are shorter and fully deterministic."
     doc_reference:
-      file: "guide/core/context-engineering.md"
-      section: "13. Constitutional and Self-consistency Audits"
+      file: guide/core/context-engineering.md
+      section: 13. Constitutional and Self-consistency Audits
       anchor: "#constitutional-audit"
-
-  - id: "16-028"
-    difficulty: "power"
-    profiles: ["senior", "power"]
-    question: "What real incident motivated the self-consistency check pattern in ACE-v2?"
+  - id: 16-028
+    difficulty: power
+    profiles:
+      - senior
+      - power
+    question: What real incident motivated the self-consistency check pattern in ACE-v2?
     options:
-      a: "CI build failures caused by outdated rule references"
-      b: "A model update that silently changed tool call behavior"
-      c: "Documentation claiming 100% skills versioning when the actual state was 17%"
-      d: "A security audit revealing stale credentials in config files"
-    correct: "c"
-    explanation: |
-      On a production ACE installation, the file `ace-improvement-loop.md` claimed "skills versioning 100% complete as of 2026-03-04". The measured state six weeks later was 20 out of 114 skills versioned, which is 17%. The gap persisted because nobody audited the claims the system made about itself. The self-consistency check runs weekly and verifies documentation claims against measured state, flagging divergences above 10% in the next Curator report.
+      a: CI build failures caused by outdated rule references
+      b: A model update that silently changed tool call behavior
+      c: Documentation claiming 100% skills versioning when the actual state was 17%
+      d: A security audit revealing stale credentials in config files
+    correct: c
+    explanation: On a production ACE installation, the file `ace-improvement-loop.md` claimed "skills versioning 100% complete as of 2026-03-04". The measured state six weeks later was 20 out of 114 skills versioned, which is 17%. The gap persisted because nobody audited the claims the system made about itself. The self-consistency check runs weekly and verifies documentation claims against measured state, flagging divergences above 10% in the next Curator report.
     doc_reference:
-      file: "guide/core/context-engineering.md"
-      section: "13. Constitutional and Self-consistency Audits"
+      file: guide/core/context-engineering.md
+      section: 13. Constitutional and Self-consistency Audits
       anchor: "#self-consistency-check"
-
-  - id: "16-029"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "In multi-dev profile reconciliation, at what threshold does a rule become a \"hoist candidate\" for the shared project config?"
+  - id: 16-029
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: In multi-dev profile reconciliation, at what threshold does a rule become a "hoist candidate" for the shared project config?
     options:
-      a: "Rule present in more than 50% of developer profiles"
-      b: "Rule present in more than 80% of developer profiles"
-      c: "Rule present in all developer profiles"
-      d: "Rule present in at least 3 developer profiles"
-    correct: "a"
-    explanation: |
-      A rule appearing in more than 50% of individual developer profiles is a hoist candidate: it belongs in the shared project-level CLAUDE.md rather than duplicated across profiles. The 80% figure applies to ejection's profile overlap heuristic (consolidation proposals), not to the reconciliation threshold. The reconciliation check distinguishes behavioral rules (hoist candidates above threshold) from preference rules (tone, verbosity) which are never hoisted regardless of frequency.
+      a: Rule present in more than 50% of developer profiles
+      b: Rule present in more than 80% of developer profiles
+      c: Rule present in all developer profiles
+      d: Rule present in at least 3 developer profiles
+    correct: a
+    explanation: "A rule appearing in more than 50% of individual developer profiles is a hoist candidate: it belongs in the shared project-level CLAUDE.md rather than duplicated across profiles. The 80% figure applies to ejection's profile overlap heuristic (consolidation proposals), not to the reconciliation threshold. The reconciliation check distinguishes behavioral rules (hoist candidates above threshold) from preference rules (tone, verbosity) which are never hoisted regardless of frequency."
     doc_reference:
-      file: "guide/core/context-engineering.md"
-      section: "14. Multi-dev Profile Reconciliation"
+      file: guide/core/context-engineering.md
+      section: 14. Multi-dev Profile Reconciliation
       anchor: "#detection"
-
-  - id: "16-030"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "According to the guide, what is the pass@1 failure rate for multi-file agent tasks without a specification?"
+  - id: 16-030
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: According to the guide, what is the pass@1 failure rate for multi-file agent tasks without a specification?
     options:
-      a: "5.2%"
-      b: "19.4%"
-      c: "32.1%"
-      d: "41.5%"
-    correct: "b"
-    explanation: |
-      Multi-file tasks fail at 19.4% pass@1 without a spec. This is the quantitative case for the Spec Engineer role: as organizations move agents into multi-file implementation work, the absence of a structured specification becomes the primary driver of output quality failures. The 32.1% figure is Claude Code's pass rate on the c-CRAB benchmark (pull requests with test suites), a different metric.
+      a: 5.2%
+      b: 19.4%
+      c: 32.1%
+      d: 41.5%
+    correct: b
+    explanation: "Multi-file tasks fail at 19.4% pass@1 without a spec. This is the quantitative case for the Spec Engineer role: as organizations move agents into multi-file implementation work, the absence of a structured specification becomes the primary driver of output quality failures. The 32.1% figure is Claude Code's pass rate on the c-CRAB benchmark (pull requests with test suites), a different metric."
     doc_reference:
-      file: "guide/roles/ai-roles.md"
-      section: "17. Spec Engineer"
+      file: guide/roles/ai-roles.md
+      section: 17. Spec Engineer
       anchor: "#17-spec-engineer"
-
-  - id: "16-031"
-    difficulty: "intermediate"
-    profiles: ["junior", "senior", "power"]
-    question: "What are the four phases of GitHub Spec Kit's pipeline?"
+  - id: 16-031
+    difficulty: intermediate
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What are the four phases of GitHub Spec Kit's pipeline?
     options:
-      a: "Define, Design, Implement, Validate"
-      b: "Research, Spec, Code, Review"
-      c: "Constitution, Specify, Plan, Tasks"
-      d: "Requirements, Architecture, Implementation, Testing"
-    correct: "c"
-    explanation: |
-      GitHub Spec Kit formalizes spec-driven development as a four-phase pipeline: Constitution (the invariants and constraints that bound the spec), Specify (writing the structured spec itself), Plan (the agent's implementation plan derived from the spec), and Tasks (the atomic implementation tasks). The spec file in `.specify/` is the governing artifact throughout. Factory.ai Missions extends this with behavioral validation contracts written before implementation begins.
+      a: Define, Design, Implement, Validate
+      b: Research, Spec, Code, Review
+      c: Constitution, Specify, Plan, Tasks
+      d: Requirements, Architecture, Implementation, Testing
+    correct: c
+    explanation: "GitHub Spec Kit formalizes spec-driven development as a four-phase pipeline: Constitution (the invariants and constraints that bound the spec), Specify (writing the structured spec itself), Plan (the agent's implementation plan derived from the spec), and Tasks (the atomic implementation tasks). The spec file in `.specify/` is the governing artifact throughout. Factory.ai Missions extends this with behavioral validation contracts written before implementation begins."
     doc_reference:
-      file: "guide/roles/ai-roles.md"
-      section: "17. Spec Engineer"
+      file: guide/roles/ai-roles.md
+      section: 17. Spec Engineer
       anchor: "#17-spec-engineer"
-
-  - id: "16-032"
-    difficulty: "intermediate"
-    profiles: ["junior", "senior", "power", "pm"]
-    question: "What percentage of organizations have no formal agent identity strategy as of 2026, according to Strata Identity Research?"
+  - id: 16-032
+    difficulty: intermediate
+    profiles:
+      - junior
+      - senior
+      - power
+      - pm
+    question: What percentage of organizations have no formal agent identity strategy as of 2026, according to Strata Identity Research?
     options:
-      a: "33%"
-      b: "55%"
-      c: "61%"
-      d: "77%"
-    correct: "d"
-    explanation: |
-      Strata Identity Research 2026 reports 77% of organizations have no formal agent identity strategy. Only 23% have a formal strategy, 44% are still using static API keys for agent authentication, and 18% rely on IAM trust inheritance with no per-agent scoping. This is the structural gap that motivates the Agent Identity Architect role. The Lethal Trifecta threat (private data + untrusted content + external communication) is well understood, but the defense has not been built at most organizations.
+      a: 33%
+      b: 55%
+      c: 61%
+      d: 77%
+    correct: d
+    explanation: Strata Identity Research 2026 reports 77% of organizations have no formal agent identity strategy. Only 23% have a formal strategy, 44% are still using static API keys for agent authentication, and 18% rely on IAM trust inheritance with no per-agent scoping. This is the structural gap that motivates the Agent Identity Architect role. The Lethal Trifecta threat (private data + untrusted content + external communication) is well understood, but the defense has not been built at most organizations.
     doc_reference:
-      file: "guide/roles/ai-roles.md"
-      section: "18. Agent Identity Architect"
+      file: guide/roles/ai-roles.md
+      section: 18. Agent Identity Architect
       anchor: "#18-agent-identity-architect"
-
-  - id: "16-033"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What authentication mechanism does Microsoft Entra Agent ID use to scope permissions for individual agent sessions?"
+  - id: 16-033
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What authentication mechanism does Microsoft Entra Agent ID use to scope permissions for individual agent sessions?
     options:
-      a: "Static API keys scoped to agent type"
-      b: "OAuth On-Behalf-Of (OBO) flows scoped to specific session contexts"
-      c: "JWT tokens with role-based claims"
-      d: "SAML assertions with time-bounded access"
-    correct: "b"
-    explanation: |
-      Microsoft Entra Agent ID provides dedicated service principal types with OAuth On-Behalf-Of (OBO) flows scoped to specific session contexts. The OBO flow means the agent acts on behalf of a specific task context, not with the broad permissions of a shared team credential or static API key. Sub-agents spawned by orchestrators cannot inherit parent permissions by default; they receive the minimum scope for their task. This is the per-agent identity model that 77% of organizations have not implemented.
+      a: Static API keys scoped to agent type
+      b: OAuth On-Behalf-Of (OBO) flows scoped to specific session contexts
+      c: JWT tokens with role-based claims
+      d: SAML assertions with time-bounded access
+    correct: b
+    explanation: Microsoft Entra Agent ID provides dedicated service principal types with OAuth On-Behalf-Of (OBO) flows scoped to specific session contexts. The OBO flow means the agent acts on behalf of a specific task context, not with the broad permissions of a shared team credential or static API key. Sub-agents spawned by orchestrators cannot inherit parent permissions by default; they receive the minimum scope for their task. This is the per-agent identity model that 77% of organizations have not implemented.
     doc_reference:
-      file: "guide/roles/ai-roles.md"
-      section: "18. Agent Identity Architect"
+      file: guide/roles/ai-roles.md
+      section: 18. Agent Identity Architect
       anchor: "#18-agent-identity-architect"
-
-  - id: "16-034"
-    difficulty: "intermediate"
-    profiles: ["junior", "senior", "power"]
-    question: "On what percentage of production traffic do AI Eval Engineers typically run canary A/B comparisons before promoting model changes?"
+  - id: 16-034
+    difficulty: intermediate
+    profiles:
+      - junior
+      - senior
+      - power
+    question: On what percentage of production traffic do AI Eval Engineers typically run canary A/B comparisons before promoting model changes?
     options:
-      a: "5-10%"
-      b: "10-25%"
-      c: "1-2%"
-      d: "0.1-0.5%"
-    correct: "c"
-    explanation: |
-      Canary pipelines run on 1-2% of production traffic. This is the standard figure cited in the guide for both the AI Eval Engineer role and for AWS Bedrock AgentCore's continuous evaluation feature. Running on more traffic increases the blast radius of a regression; running on less reduces statistical power. The 1-2% range balances statistical significance against exposure, and matches how Bedrock AgentCore implements eval-on-traffic for catching silent quality degradation.
+      a: 5-10%
+      b: 10-25%
+      c: 1-2%
+      d: 0.1-0.5%
+    correct: c
+    explanation: Canary pipelines run on 1-2% of production traffic. This is the standard figure cited in the guide for both the AI Eval Engineer role and for AWS Bedrock AgentCore's continuous evaluation feature. Running on more traffic increases the blast radius of a regression; running on less reduces statistical power. The 1-2% range balances statistical significance against exposure, and matches how Bedrock AgentCore implements eval-on-traffic for catching silent quality degradation.
     doc_reference:
-      file: "guide/roles/ai-roles.md"
-      section: "19. AI Eval Engineer"
+      file: guide/roles/ai-roles.md
+      section: 19. AI Eval Engineer
       anchor: "#19-ai-eval-engineer"
-
-  - id: "16-035"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What style bias score range does \"Judging the Judges\" (arXiv 2604.23178) report for frontier LLM-as-judge systems?"
+  - id: 16-035
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What style bias score range does "Judging the Judges" (arXiv 2604.23178) report for frontier LLM-as-judge systems?
     options:
-      a: "0.76-0.92"
-      b: "0.10-0.25"
-      c: "0.45-0.65"
-      d: "0.30-0.50"
-    correct: "a"
-    explanation: |
-      "Judging the Judges" (arXiv 2604.23178) reports style bias scores of 0.76-0.92 for frontier models, versus position bias below 0.04. (This figure comes from that paper, not from the separate "JudgeBiasBench" paper, arXiv 2603.08091.) Style bias is the dominant pattern: LLM judges approve stylistically polished but incorrect outputs significantly more often than they should. The practical consequence is that true negative rates for identifying invalid outputs typically sit below 25%. AI Eval Engineers use this data to design evaluation pipelines that combine LLM-as-judge for qualitative dimensions with code-based checks for anything that can be evaluated mechanically.
+      a: 0.76-0.92
+      b: 0.10-0.25
+      c: 0.45-0.65
+      d: 0.30-0.50
+    correct: a
+    explanation: '"Judging the Judges" (arXiv 2604.23178) reports style bias scores of 0.76-0.92 for frontier models, versus position bias below 0.04. (This figure comes from that paper, not from the separate "JudgeBiasBench" paper, arXiv 2603.08091.) Style bias is the dominant pattern: LLM judges approve stylistically polished but incorrect outputs significantly more often than they should. The practical consequence is that true negative rates for identifying invalid outputs typically sit below 25%. AI Eval Engineers use this data to design evaluation pipelines that combine LLM-as-judge for qualitative dimensions with code-based checks for anything that can be evaluated mechanically.'
     doc_reference:
-      file: "guide/roles/ai-roles.md"
-      section: "19. AI Eval Engineer"
+      file: guide/roles/ai-roles.md
+      section: 19. AI Eval Engineer
       anchor: "#19-ai-eval-engineer"
-
-  - id: "16-036"
-    difficulty: "senior"
-    profiles: ["power", "senior"]
-    question: "Starting in v2.1.200, how does an AskUserQuestion dialog behave by default when the user doesn't respond?"
+  - id: 16-036
+    difficulty: senior
+    profiles:
+      - power
+      - senior
+    question: Starting in v2.1.200, how does an AskUserQuestion dialog behave by default when the user doesn't respond?
     options:
-      a: "It waits indefinitely; auto-continuing after an idle timeout is now opt-in via /config"
-      b: "It auto-continues with the first listed option after 30 seconds, the same behavior as before"
-      c: "It cancels the current turn entirely and returns control to the user prompt"
-      d: "It escalates to a background agent, which answers on the user's behalf using session history"
-    correct: "a"
-    explanation: |
-      The release note is explicit: AskUserQuestion dialogs no longer auto-continue by default, and you opt back into an idle timeout through /config if you want the old behavior. Option b describes the pre-v2.1.200 default, which this release removed. Options c and d describe behaviors that don't exist in the release notes.
+      a: It waits indefinitely; auto-continuing after an idle timeout is now opt-in via /config
+      b: It auto-continues with the first listed option after 30 seconds, the same behavior as before
+      c: It cancels the current turn entirely and returns control to the user prompt
+      d: It escalates to a background agent, which answers on the user's behalf using session history
+    correct: a
+    explanation: "The release note is explicit: AskUserQuestion dialogs no longer auto-continue by default, and you opt back into an idle timeout through /config if you want the old behavior. Option b describes the pre-v2.1.200 default, which this release removed. Options c and d describe behaviors that don't exist in the release notes."
     doc_reference:
-      file: "guide/core/claude-code-releases.md"
-      section: "v2.1.200"
-      anchor: "#v21200"
-
-  - id: "16-037"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What does setting CLAUDE_CODE_RETRY_WATCHDOG change for a long-running, unattended session?"
+      file: guide/core/claude-code-releases.md
+      section: v2.1.200
+  - id: 16-037
+    difficulty: power
+    profiles:
+      - power
+    question: What does setting CLAUDE_CODE_RETRY_WATCHDOG change for a long-running, unattended session?
     options:
-      a: "It disables all automatic retries, requiring the user to manually resume every failed request"
-      b: "It only affects retries for MCP tool calls, not the underlying API connection"
-      c: "It caps CLAUDE_CODE_MAX_RETRIES at 15 to prevent a runaway retry loop on a flaky network"
-      d: "It raises the default retry count for non-capacity transient errors to 300 and lifts the 15-retry cap otherwise imposed by CLAUDE_CODE_MAX_RETRIES"
-    correct: "d"
-    explanation: |
-      CLAUDE_CODE_RETRY_WATCHDOG raises the default retry count for transient, non-capacity errors to 300 and removes the cap of 15 that CLAUDE_CODE_MAX_RETRIES otherwise imposes. Option c describes the opposite, the pre-existing cap the watchdog variable lifts. The same v2.1.199 release also made transient 429 errors, unrelated to hitting a usage limit, retry automatically with backoff for subscribers, a related but separate change from the watchdog variable itself.
+      a: It disables all automatic retries, requiring the user to manually resume every failed request
+      b: It only affects retries for MCP tool calls, not the underlying API connection
+      c: It caps CLAUDE_CODE_MAX_RETRIES at 15 to prevent a runaway retry loop on a flaky network
+      d: It raises the default retry count for non-capacity transient errors to 300 and lifts the 15-retry cap otherwise imposed by CLAUDE_CODE_MAX_RETRIES
+    correct: d
+    explanation: CLAUDE_CODE_RETRY_WATCHDOG raises the default retry count for transient, non-capacity errors to 300 and removes the cap of 15 that CLAUDE_CODE_MAX_RETRIES otherwise imposes. Option c describes the opposite, the pre-existing cap the watchdog variable lifts. The same v2.1.199 release also made transient 429 errors, unrelated to hitting a usage limit, retry automatically with backoff for subscribers, a related but separate change from the watchdog variable itself.
     doc_reference:
-      file: "guide/core/claude-code-releases.md"
-      section: "v2.1.199"
-      anchor: "#v21199"
-
-  - id: "16-038"
-    difficulty: "intermediate"
-    profiles: ["power", "senior"]
-    question: "The streaming idle watchdog, on by default since v2.1.196, does what when a response stream produces no events for roughly 5 minutes?"
+      file: guide/core/claude-code-releases.md
+      section: v2.1.199
+  - id: 16-038
+    difficulty: intermediate
+    profiles:
+      - power
+      - senior
+    question: The streaming idle watchdog, on by default since v2.1.196, does what when a response stream produces no events for roughly 5 minutes?
     options:
-      a: "It aborts the stalled stream and retries the request automatically"
-      b: "It silently keeps waiting, since Claude Code has no built-in stream timeout"
-      c: "It terminates the entire Claude Code process, requiring a manual restart"
-      d: "It switches the session to a fallback model for the rest of the conversation"
-    correct: "a"
-    explanation: |
-      The watchdog aborts a stream that has produced no events for about 5 minutes and retries the request, applying across providers. It can be turned off with CLAUDE_ENABLE_STREAM_WATCHDOG=0. It doesn't kill the whole process or silently swap models. Before this release, a stalled stream with no built-in timeout was closer to the behavior described in option b.
+      a: It aborts the stalled stream and retries the request automatically
+      b: It silently keeps waiting, since Claude Code has no built-in stream timeout
+      c: It terminates the entire Claude Code process, requiring a manual restart
+      d: It switches the session to a fallback model for the rest of the conversation
+    correct: a
+    explanation: The watchdog aborts a stream that has produced no events for about 5 minutes and retries the request, applying across providers. It can be turned off with CLAUDE_ENABLE_STREAM_WATCHDOG=0. It doesn't kill the whole process or silently swap models. Before this release, a stalled stream with no built-in timeout was closer to the behavior described in option b.
     doc_reference:
-      file: "guide/core/claude-code-releases.md"
-      section: "v2.1.196"
-      anchor: "#v21196"
-
-  - id: "16-039"
-    difficulty: "senior"
-    profiles: ["power", "senior"]
-    question: "Before v2.1.198, how did subagents and context-compaction operations handle extended thinking, and what changed?"
+      file: guide/core/claude-code-releases.md
+      section: v2.1.196
+  - id: 16-039
+    difficulty: senior
+    profiles:
+      - power
+      - senior
+    question: Before v2.1.198, how did subagents and context-compaction operations handle extended thinking, and what changed?
     options:
-      a: "They always ran with extended thinking fully disabled; now they can enable it manually per subagent via frontmatter"
-      b: "They already inherited the session's configuration; v2.1.198 only changed the default thinking budget in tokens"
-      c: "They used a fixed default regardless of the session's settings; now they inherit the session's own extended-thinking configuration"
-      d: "They used to inherit the session's configuration, but v2.1.198 switched them to a fixed default to save cost"
-    correct: "c"
-    explanation: |
-      The v2.1.198 release note says subagents and context compaction now inherit the session's extended-thinking configuration, improving output quality on delegated tasks, implying they previously used a fixed default rather than following whatever the parent session had configured. Option d reverses the direction of the change, and option b claims nothing changed, which contradicts the improvement noted in the release.
+      a: They always ran with extended thinking fully disabled; now they can enable it manually per subagent via frontmatter
+      b: They already inherited the session's configuration; v2.1.198 only changed the default thinking budget in tokens
+      c: They used a fixed default regardless of the session's settings; now they inherit the session's own extended-thinking configuration
+      d: They used to inherit the session's configuration, but v2.1.198 switched them to a fixed default to save cost
+    correct: c
+    explanation: The v2.1.198 release note says subagents and context compaction now inherit the session's extended-thinking configuration, improving output quality on delegated tasks, implying they previously used a fixed default rather than following whatever the parent session had configured. Option d reverses the direction of the change, and option b claims nothing changed, which contradicts the improvement noted in the release.
     doc_reference:
-      file: "guide/core/claude-code-releases.md"
-      section: "v2.1.198"
-      anchor: "#v21198"
-
-  - id: "16-040"
-    difficulty: "senior"
-    profiles: ["power", "senior"]
-    question: "In the context engineering guide, what does the term \"ghost tokens\" describe?"
+      file: guide/core/claude-code-releases.md
+      section: v2.1.198
+  - id: 16-040
+    difficulty: senior
+    profiles:
+      - power
+      - senior
+    question: In the context engineering guide, what does the term "ghost tokens" describe?
     options:
-      a: "Tokens counted twice by the API when prompt caching and streaming are both enabled"
-      b: "Content that survives a /compact or summarization pass but no longer does useful work, consuming budget without being load-bearing"
-      c: "The extra tokens a model spends on chain-of-thought reasoning before producing its final answer"
-      d: "Tokens billed for a request that failed and was silently retried by the streaming watchdog"
-    correct: "b"
-    explanation: |
-      Ghost tokens are content that survived a lossy summarization or /compact pass but stopped doing useful work, dead weight that costs budget without being load-bearing. The guide frames this as a narrower, later-stage question than Minimum Viable Context, which targets noise before compaction ever runs. The other options describe unrelated phenomena, double-billing, chain-of-thought overhead, and retry billing, not covered by this term in the guide.
+      a: Tokens counted twice by the API when prompt caching and streaming are both enabled
+      b: Content that survives a /compact or summarization pass but no longer does useful work, consuming budget without being load-bearing
+      c: The extra tokens a model spends on chain-of-thought reasoning before producing its final answer
+      d: Tokens billed for a request that failed and was silently retried by the streaming watchdog
+    correct: b
+    explanation: Ghost tokens are content that survived a lossy summarization or /compact pass but stopped doing useful work, dead weight that costs budget without being load-bearing. The guide frames this as a narrower, later-stage question than Minimum Viable Context, which targets noise before compaction ever runs. The other options describe unrelated phenomena, double-billing, chain-of-thought overhead, and retry billing, not covered by this term in the guide.
     doc_reference:
-      file: "guide/ecosystem/context-engineering-tools.md"
-      section: "Context Quality After Compaction (\"Ghost Tokens\")"
-      anchor: "#context-quality-after-compaction-ghost-tokens"
+      file: guide/ecosystem/context-engineering-tools.md
+      section: Context Quality After Compaction ("Ghost Tokens")

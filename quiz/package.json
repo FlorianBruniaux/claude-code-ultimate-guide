@@ -10,7 +10,9 @@
   "scripts": {
     "start": "node src/index.js",
     "quiz": "node src/index.js",
-    "test": "node --test"
+    "test": "node --test",
+    "sync-from-web": "node scripts/generate-from-web.mjs",
+    "sync-from-web:check": "node scripts/generate-from-web.mjs --check"
   },
   "keywords": [
     "claude",

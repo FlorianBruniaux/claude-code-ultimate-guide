@@ -1,19 +1,21 @@
-category: "AI Ecosystem"
+category: AI Ecosystem
 category_id: 15
-source_file: "guide/ai-ecosystem.md"
-
+source_file: guide/ecosystem/ai-ecosystem.md
 questions:
-  - id: "15-001"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What is the main philosophy behind using complementary AI tools with Claude Code?"
+  - id: 15-001
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What is the main philosophy behind using complementary AI tools with Claude Code?
     options:
-      a: "Replace Claude Code with better tools"
-      b: "Augmentation, not replacement - chain the right tool for each step"
-      c: "Use as many tools as possible simultaneously"
-      d: "Avoid using Claude Code for coding tasks"
-    correct: "b"
-    explanation: |
+      a: Replace Claude Code with better tools
+      b: Augmentation, not replacement - chain the right tool for each step
+      c: Use as many tools as possible simultaneously
+      d: Avoid using Claude Code for coding tasks
+    correct: b
+    explanation: |-
       The philosophy is "augmentation, not replacement."
 
       Claude Code excels at contextual reasoning and implementation, but has gaps:
@@ -24,21 +26,23 @@ questions:
 
       The goal is to chain the right tool for each step of your workflow.
     doc_reference:
-      file: "guide/ai-ecosystem.md"
-      section: "Introduction"
+      file: guide/ecosystem/ai-ecosystem.md
+      section: Introduction
       anchor: "#introduction"
-
-  - id: "15-002"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "When should you use Perplexity instead of Claude Code?"
+  - id: 15-002
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: When should you use Perplexity instead of Claude Code?
     options:
-      a: "When implementing features in your codebase"
-      b: "When you need deep research with 100+ verified sources"
-      c: "When editing multiple files"
-      d: "When running tests"
-    correct: "b"
-    explanation: |
+      a: When implementing features in your codebase
+      b: When you need deep research with 100+ verified sources
+      c: When editing multiple files
+      d: When running tests
+    correct: b
+    explanation: |-
       Perplexity excels at research with verified sources.
 
       Use Perplexity for:
@@ -51,21 +55,22 @@ questions:
       - Contextual code explanation
       - Multi-file editing
     doc_reference:
-      file: "guide/ai-ecosystem.md"
-      section: "1. Perplexity AI"
-      anchor: "#1-perplexity-ai-research--sourcing"
-
-  - id: "15-003"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What is the recommended Research-to-Code pipeline?"
+      file: guide/ecosystem/ai-ecosystem.md
+      section: 1. Perplexity AI
+      anchor: "#1-perplexity-ai-research-sourcing"
+  - id: 15-003
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is the recommended Research-to-Code pipeline?
     options:
-      a: "Claude Code -> Perplexity -> Implementation"
-      b: "Perplexity Deep Research -> Export spec.md -> Claude Code implements"
-      c: "Google Search -> Copy code -> Paste in project"
-      d: "Ask Claude Code to search the web first"
-    correct: "b"
-    explanation: |
+      a: Claude Code -> Perplexity -> Implementation
+      b: Perplexity Deep Research -> Export spec.md -> Claude Code implements
+      c: Google Search -> Copy code -> Paste in project
+      d: Ask Claude Code to search the web first
+    correct: b
+    explanation: |-
       The Research-to-Code pipeline:
 
       1. PERPLEXITY (Deep Research)
@@ -80,21 +85,22 @@ questions:
 
       This ensures implementation is based on verified, current information.
     doc_reference:
-      file: "guide/ai-ecosystem.md"
-      section: "Integration Workflow"
+      file: guide/ecosystem/ai-ecosystem.md
+      section: Integration Workflow
       anchor: "#integration-workflow"
-
-  - id: "15-004"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "Which tool is best for converting a UI screenshot to React code?"
+  - id: 15-004
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: Which tool is best for converting a UI screenshot to React code?
     options:
-      a: "Perplexity"
-      b: "Claude Code directly"
-      c: "Gemini 2.5 Pro -> then Claude Code for refinement"
-      d: "NotebookLM"
-    correct: "c"
-    explanation: |
+      a: Perplexity
+      b: Claude Code directly
+      c: Gemini 2.5 Pro -> then Claude Code for refinement
+      d: NotebookLM
+    correct: c
+    explanation: |-
       Gemini 2.5 Pro excels at visual understanding:
 
       Visual-to-Code Pipeline:
@@ -106,21 +112,23 @@ questions:
 
       Claude Code alone has limited image understanding compared to Gemini.
     doc_reference:
-      file: "guide/ai-ecosystem.md"
-      section: "2. Google Gemini"
+      file: guide/ecosystem/ai-ecosystem.md
+      section: 2. Google Gemini
       anchor: "#2-google-gemini-visual-understanding"
-
-  - id: "15-005"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "Which tool should you use to create PowerPoint presentations from code documentation?"
+  - id: 15-005
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: Which tool should you use to create PowerPoint presentations from code documentation?
     options:
-      a: "Claude Code"
-      b: "Perplexity"
-      c: "Kimi (Moonshot AI)"
-      d: "Gemini"
-    correct: "c"
-    explanation: |
+      a: Claude Code
+      b: Perplexity
+      c: Kimi (Moonshot AI)
+      d: Gemini
+    correct: c
+    explanation: |-
       Kimi (kimi.ai) from Moonshot AI specializes in PPTX generation:
 
       Features:
@@ -131,21 +139,22 @@ questions:
 
       Workflow: Claude Code generates summary -> Kimi creates presentation
     doc_reference:
-      file: "guide/ai-ecosystem.md"
-      section: "3. Kimi"
-      anchor: "#3-kimi-pptx--long-document-generation"
-
-  - id: "15-006"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What is NotebookLM's unique feature for developer onboarding?"
+      file: guide/ecosystem/ai-ecosystem.md
+      section: 3. Kimi
+      anchor: "#3-kimi-pptx-long-document-generation"
+  - id: 15-006
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is NotebookLM's unique feature for developer onboarding?
     options:
-      a: "Code execution"
-      b: "Audio Overview - generates podcast-style explanations from docs"
-      c: "Real-time collaboration"
-      d: "Git integration"
-    correct: "b"
-    explanation: |
+      a: Code execution
+      b: Audio Overview - generates podcast-style explanations from docs
+      c: Real-time collaboration
+      d: Git integration
+    correct: b
+    explanation: |-
       NotebookLM's Audio Overview feature:
 
       - Upload 50+ documentation files
@@ -160,21 +169,21 @@ questions:
       4. Listen during commute
       5. Return to Claude Code with deeper understanding
     doc_reference:
-      file: "guide/ai-ecosystem.md"
-      section: "4. NotebookLM"
-      anchor: "#4-notebooklm-synthesis--audio"
-
-  - id: "15-007"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "In the complete workflow pipeline, what is the correct order of phases?"
+      file: guide/ecosystem/ai-ecosystem.md
+      section: 4. NotebookLM
+      anchor: "#4-notebooklm-synthesis-audio"
+  - id: 15-007
+    difficulty: power
+    profiles:
+      - power
+    question: In the complete workflow pipeline, what is the correct order of phases?
     options:
-      a: "Implementation -> Planning -> Delivery"
-      b: "Planning (Perplexity/Gemini/NotebookLM) -> Implementation (Claude Code) -> Delivery (Kimi)"
-      c: "Delivery -> Planning -> Implementation"
-      d: "All tools simultaneously"
-    correct: "b"
-    explanation: |
+      a: Implementation -> Planning -> Delivery
+      b: Planning (Perplexity/Gemini/NotebookLM) -> Implementation (Claude Code) -> Delivery (Kimi)
+      c: Delivery -> Planning -> Implementation
+      d: All tools simultaneously
+    correct: b
+    explanation: |-
       The complete pipeline has 3 phases:
 
       PLANNING PHASE:
@@ -190,21 +199,23 @@ questions:
       - Claude Code: PR description, release notes
       - Kimi: Stakeholder deck (presentation.pptx)
     doc_reference:
-      file: "guide/ai-ecosystem.md"
-      section: "7. Workflow Orchestration"
-      anchor: "#7-workflow-orchestration"
-
-  - id: "15-008"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What is v0.dev best used for in the AI ecosystem?"
+      file: guide/ecosystem/ai-ecosystem.md
+      section: 8. Workflow Orchestration
+      anchor: "#8-workflow-orchestration"
+  - id: 15-008
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What is v0.dev best used for in the AI ecosystem?
     options:
-      a: "Backend API development"
-      b: "Database queries"
-      c: "Rapid UI prototyping with Shadcn/Tailwind"
-      d: "Security auditing"
-    correct: "c"
-    explanation: |
+      a: Backend API development
+      b: Database queries
+      c: Rapid UI prototyping with Shadcn/Tailwind
+      d: Security auditing
+    correct: c
+    explanation: |-
       v0.dev excels at rapid UI prototyping:
 
       - Generates React + Shadcn + Tailwind components
@@ -219,21 +230,22 @@ questions:
          - Connect to your APIs
          - Integrate with your design system
     doc_reference:
-      file: "guide/ai-ecosystem.md"
-      section: "6. UI Prototypers"
-      anchor: "#6-ui-prototypers-v0-bolt-lovable"
-
-  - id: "15-009"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "How does Claude WebSearch compare to Perplexity Pro for research?"
+      file: guide/ecosystem/ai-ecosystem.md
+      section: 7. UI Prototypers (v0, Bolt, Lovable)
+      anchor: "#7-ui-prototypers-v0-bolt-lovable"
+  - id: 15-009
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: How does Claude WebSearch compare to Perplexity Pro for research?
     options:
-      a: "Claude WebSearch has more sources (100+)"
-      b: "They are identical in functionality"
+      a: Claude WebSearch has more sources (100+)
+      b: They are identical in functionality
       c: "Claude WebSearch: 5-10 sources, quick lookups. Perplexity Pro: 100+ sources, comprehensive research"
-      d: "Perplexity cannot access real-time data"
-    correct: "c"
-    explanation: |
+      d: Perplexity cannot access real-time data
+    correct: c
+    explanation: |-
       Comparison:
 
       | Feature | Claude WebSearch | Perplexity Pro |
@@ -246,21 +258,21 @@ questions:
       Recommendation: Use Claude WebSearch for quick factual checks.
       Use Perplexity Deep Research before significant implementations.
     doc_reference:
-      file: "guide/ai-ecosystem.md"
-      section: "Comparison"
+      file: guide/ecosystem/ai-ecosystem.md
+      section: Comparison
       anchor: "#comparison-claude-websearch-vs-perplexity"
-
-  - id: "15-010"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is the 'Minimal Stack' monthly cost recommendation for AI tools?"
+  - id: 15-010
+    difficulty: power
+    profiles:
+      - power
+    question: What is the 'Minimal Stack' monthly cost recommendation for AI tools?
     options:
-      a: "$200+/month - all Pro subscriptions"
-      b: "$40-70/month - Claude Code + Perplexity Pro, free tiers for rest"
-      c: "$0 - only free tiers"
-      d: "$500+/month - enterprise plans"
-    correct: "b"
-    explanation: |
+      a: $200+/month - all Pro subscriptions
+      b: $40-70/month - Claude Code + Perplexity Pro, free tiers for rest
+      c: $0 - only free tiers
+      d: $500+/month - enterprise plans
+    correct: b
+    explanation: |-
       Recommended subscription stacks:
 
       Minimal Stack ($40-70/month):
@@ -276,38 +288,38 @@ questions:
       - Batch research sessions in Perplexity
       - Check context usage regularly (/status)
     doc_reference:
-      file: "guide/ai-ecosystem.md"
-      section: "8. Cost & Subscription Strategy"
-      anchor: "#8-cost--subscription-strategy"
-
-  - id: "15-011"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What cost savings does the Claude Code to LM Studio bridge provide?"
+      file: guide/ecosystem/ai-ecosystem.md
+      section: 9. Cost & Subscription Strategy
+      anchor: "#9-cost-subscription-strategy"
+  - id: 15-011
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What cost savings does the Claude Code to LM Studio bridge provide?
     options:
-      a: "20-30% savings on API costs"
-      b: "50% savings but slower execution"
-      c: "80-90% savings by planning with Opus then executing free with local LLM"
-      d: "No savings but better privacy"
-    correct: "c"
-    explanation: |
-      The Claude Code to LM Studio bridge provides 80-90% cost savings. Strategy: use Opus for planning phase (~$0.50-2 per session) then execute implementation with a free local LLM via LM Studio. The bridge script translates Claude's plan into local LLM instructions. Trade-off: local LLMs are less capable but free.
+      a: 20-30% savings on API costs
+      b: 50% savings but slower execution
+      c: 80-90% savings by planning with Opus then executing free with local LLM
+      d: No savings but better privacy
+    correct: c
+    explanation: "The Claude Code to LM Studio bridge provides 80-90% cost savings. Strategy: use Opus for planning phase (~$0.50-2 per session) then execute implementation with a free local LLM via LM Studio. The bridge script translates Claude's plan into local LLM instructions. Trade-off: local LLMs are less capable but free."
     doc_reference:
-      file: "examples/scripts/bridge.py"
-      section: "LM Studio Bridge"
+      file: examples/scripts/bridge.py
+      section: LM Studio Bridge
       anchor: "#lm-studio-bridge"
-
-  - id: "15-012"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What are the 3 documented external orchestration systems for multi-agent Claude Code?"
+  - id: 15-012
+    difficulty: power
+    profiles:
+      - power
+    question: What are the 3 documented external orchestration systems for multi-agent Claude Code?
     options:
-      a: "LangChain, AutoGPT, CrewAI"
-      b: "Vercel AI SDK, Fly.io Machines, Railway"
-      c: "Gas Town (Steve Yegge), multiclaude (dlorenc), agent-chat (Justin Abrahms)"
-      d: "Kubernetes, Docker Compose, Terraform"
-    correct: "c"
-    explanation: |
+      a: LangChain, AutoGPT, CrewAI
+      b: Vercel AI SDK, Fly.io Machines, Railway
+      c: Gas Town (Steve Yegge), multiclaude (dlorenc), agent-chat (Justin Abrahms)
+      d: Kubernetes, Docker Compose, Terraform
+    correct: c
+    explanation: |-
       Three documented external orchestration systems:
 
       1. **Gas Town** (Steve Yegge) - Multi-agent coordination with shared context
@@ -316,21 +328,22 @@ questions:
 
       These are community-built tools, not official Anthropic products. Each solves multi-agent coordination differently.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "External Orchestration"
-      anchor: "#external-orchestration"
-
-  - id: "15-013"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What 3 areas should sub-agents audit when evaluating a skeleton project before forking?"
+      file: guide/ecosystem/ai-ecosystem.md
+      section: 8.1 Multi-Agent Orchestration Systems
+      anchor: "#81-multi-agent-orchestration-systems"
+  - id: 15-013
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What 3 areas should sub-agents audit when evaluating a skeleton project before forking?
     options:
-      a: "Performance, Cost, Scalability"
-      b: "UI, API, Database"
-      c: "Security, Architecture, Developer Experience (DX)"
-      d: "Tests, Documentation, CI/CD"
-    correct: "c"
-    explanation: |
+      a: Performance, Cost, Scalability
+      b: UI, API, Database
+      c: Security, Architecture, Developer Experience (DX)
+      d: Tests, Documentation, CI/CD
+    correct: c
+    explanation: |-
       Skeleton project evaluation uses 3 specialized sub-agents:
 
       1. **Security** - Audit dependencies, secrets management, auth patterns, known vulnerabilities
@@ -339,40 +352,143 @@ questions:
 
       Each agent produces a score and recommendations before the fork decision.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "Skeleton Projects Workflow"
-      anchor: "#skeleton-projects-workflow"
-
-  - id: "15-014"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What is Google Antigravity and how does it differ from traditional IDEs?"
+      file: guide/workflows/skeleton-projects.md
+      section: "Phase 1: Find and Evaluate a Skeleton"
+      anchor: "#phase-1-find-and-evaluate-a-skeleton"
+  - id: 15-014
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is RTK (Rust Token Killer) and how does it work?
     options:
-      a: "A Google internal testing framework that simulates zero-gravity code reviews"
-      b: "An agent-first IDE where the AI drives execution and the human reviews rather than the reverse"
-      c: "A VSCode extension that integrates Google's Gemini model into the editor"
-      d: "Google's replacement for GitHub Copilot using a different suggestion UI"
-    correct: "b"
-    explanation: |
-      Google Antigravity is an agent-first IDE that inverts the traditional IDE model. In classic IDEs, the human drives and the AI assists. In Antigravity, the agent drives execution while the human reviews, approves, and steers. The human becomes the reviewer rather than the typist. This represents a paradigm shift from AI-assisted coding to AI-led coding with human oversight — the model that Claude Code's agentic mode already approximates.
+      a: A Rust-based linter that removes unused code tokens before compilation
+      b: A tool that compresses API responses to reduce billing costs
+      c: A CLI proxy that filters command outputs before they reach Claude's context, reducing token consumption by 60-90%
+      d: A plugin that replaces verbose error messages with concise summaries in the IDE
+    correct: c
+    explanation: |-
+      RTK is a **CLI proxy** (Rust binary, 446 stars) that filters command outputs **before** they reach Claude's context. Example: `rtk git status` reduces a typical `git status` output by ~76%; `rtk git log` by ~92%. Supports git, cargo, pnpm, vitest, prisma, docker, mypy, aws, psql, and more. Uses a hook-first install (`rtk init --global`) so commands are auto-rewritten transparently. `rtk gain` shows token savings analytics. The TOML Filter DSL allows adding custom filters for any command without writing Rust. Key distinction: RTK **reduces** token consumption (preprocessing); tools like ccusage **monitor** it (postprocessing).
+      ---
     doc_reference:
-      file: "guide/ecosystem/ai-ecosystem.md"
-      section: "Google Antigravity"
-      anchor: "#google-antigravity"
-
-  - id: "15-015"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What does research show about AGENTS.md Compound Learning — specifically human-curated vs LLM-generated updates?"
+      file: guide/ecosystem/third-party-tools.md
+      section: RTK (Rust Token Killer)
+      anchor: "#rtk-rust-token-killer"
+  - id: 15-015
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: How does the guide contrast Claude Code and Google Antigravity's core philosophies?
     options:
-      a: "LLM-generated updates are always superior because they are more consistent and complete"
-      b: "Human-curated AGENTS.md updates yield +4% performance improvement; LLM-generated updates yield -3% performance with +20% cost increase"
-      c: "Both methods produce identical results, so LLM generation is preferred for automation"
-      d: "Human-curated updates are only better for junior developers; LLM-generated outperforms for senior codebases"
-    correct: "b"
-    explanation: |
-      AGENTS.md Compound Learning research shows a stark divergence: human-curated updates to AGENTS.md (based on real session feedback and corrections) produce a +4% improvement in agent performance across benchmark tasks. LLM-auto-generated AGENTS.md updates produce -3% performance regression and +20% cost increase because auto-generated rules tend to over-specify, conflict, or add noise. Implication: invest human review time in AGENTS.md/CLAUDE.md maintenance — it compounds.
+      a: Claude Code is terminal-first (predictable, pipeline-native); Antigravity is agent-first IDE (higher autonomy, experimental)
+      b: Claude Code is cloud-only; Antigravity works fully offline
+      c: Claude Code supports only Claude models; Antigravity is model-agnostic
+      d: Claude Code is for enterprise teams; Antigravity is for solo developers
+    correct: a
+    explanation: |-
+      Claude Code is **terminal-first, CLI-native** — optimized for predictability, explicit approval per edit, and deep integration with existing developer workflows (CI/CD, headless pipelines). Google Antigravity is an **agent-first IDE** (VS Code fork) — makes autonomous agents the primary interface, with higher autonomy and a mission control-style UI. The guide's bottom line: Claude Code optimizes for **predictability and workflow integration**; Antigravity optimizes for **maximum agent autonomy with experimental trade-offs**. Antigravity is recommended for rapid prototyping or non-CLI developers; Claude Code for production code, CI/CD, and team standardization.
+      ---
     doc_reference:
-      file: "guide/ecosystem/ai-ecosystem.md"
-      section: "AGENTS.md Compound Learning"
-      anchor: "#agentsmd-compound-learning"
+      file: guide/ecosystem/ai-ecosystem.md
+      section: Google Antigravity
+      anchor: "#61-google-antigravity-agent-first-ide"
+  - id: 15-016
+    difficulty: junior
+    profiles:
+      - junior
+      - pm
+    question: As of which Claude Code release did Claude in Chrome move from a rolling beta to general availability?
+    options:
+      a: v2.0.72, the release that first introduced Claude in Chrome
+      b: v2.1.170, an unrelated release covering the Fable model line
+      c: v2.1.198, the same release that made subagents run in the background by default
+      d: v2.1.197, the release that made Claude Sonnet 5 the default model
+    correct: c
+    explanation: "v2.1.198 shipped both changes in the same release: Claude in Chrome went GA and subagents started running in the background by default. Claude in Chrome originally launched in beta at v2.0.72. Option d names a real release (Sonnet 5 as the default model) that is unrelated to the browser tool's status."
+    doc_reference:
+      file: guide/core/claude-code-releases.md
+      section: v2.1.198
+  - id: 15-017
+    difficulty: intermediate
+    profiles:
+      - power
+      - pm
+    question: Both MCP Apps and the Vercel AI SDK's generative UI pattern let a model produce an interactive interface, but at different layers of the stack. What is the key architectural difference between them?
+    options:
+      a: The Vercel AI SDK requires a schema and a client-side renderer, while MCP Apps has no validation step at all
+      b: MCP Apps carries a rendered HTML/iframe payload back through a tool response, while the Vercel AI SDK streams React components directly from the server so the client never parses an intermediate format
+      c: MCP Apps is React-only like the Vercel AI SDK; the only difference is which company authored the spec
+      d: MCP Apps only works inside Claude Desktop, while the Vercel AI SDK approach works across every MCP client
+    correct: b
+    explanation: "MCP Apps is a protocol-level extension: a tool response carries an HTML/iframe payload that the client renders. The Vercel AI SDK pattern skips that intermediate format entirely, the server picks and streams React components directly, so there is nothing for the client to parse. Option c is false, the Vercel SDK is React-only while MCP Apps already ships across multiple clients including Claude Desktop, VS Code, ChatGPT, and Goose. Option d reverses which one is multi-client."
+    doc_reference:
+      file: guide/ecosystem/ai-ecosystem.md
+      section: "7.1 Generative UI: Agent-Driven Interactive Output Formats"
+      anchor: "#71-generative-ui-agent-driven-interactive-output-formats"
+  - id: 15-018
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+      - pm
+    question: In the team knowledge base guide's three-tier model, at roughly what corpus size does adding a Tier 3 RAG layer, exposed to the agent as an MCP server, start to outweigh reading files directly or connecting to a live source?
+    options:
+      a: 10 to 50 documents
+      b: There is no size threshold; RAG should be the default from day one for any team knowledge base
+      c: Roughly 100 to 1,000 documents
+      d: 5,000 to 10,000 documents
+    correct: c
+    explanation: The guide places the crossover at roughly 100 to 1,000 documents, depending on document size and how much each query needs to span. Below that range, direct file reads or a live connector keep the accuracy of reading the actual document. The guide explicitly warns against adding RAG by default, since it is infrastructure with a maintenance cost, which rules out option b.
+    doc_reference:
+      file: guide/ecosystem/team-knowledge-base.md
+      section: "Tier 3: RAG at Scale"
+      anchor: "#tier-3-rag-at-scale"
+  - id: 15-019
+    difficulty: power
+    profiles:
+      - power
+    question: Claude Code's gateway layer added Claude Platform on AWS as an additional upstream provider option in v2.1.198. What else changed alongside it in the same release note?
+    options:
+      a: The ANTHROPIC_BASE_URL environment variable was deprecated in favor of a JSON config block
+      b: Bedrock and Vertex AI support were removed in favor of anthropicAws
+      c: A new /gateway slash command replaced /model for provider switching
+      d: Model-not-found responses now advance the failover chain instead of stopping it
+    correct: d
+    explanation: The same release note states that model-not-found responses now advance the failover chain, meaning a missing model on one provider no longer dead-ends the gateway lookup. Nothing in that release deprecates ANTHROPIC_BASE_URL, removes Bedrock or Vertex support, or introduces a /gateway command.
+    doc_reference:
+      file: guide/core/claude-code-releases.md
+      section: v2.1.198
+  - id: 15-020
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is Google Antigravity and how does it differ from traditional IDEs?
+    options:
+      a: A Google internal testing framework that simulates zero-gravity code reviews
+      b: An agent-first IDE where the AI drives execution and the human reviews rather than the reverse
+      c: A VSCode extension that integrates Google's Gemini model into the editor
+      d: Google's replacement for GitHub Copilot using a different suggestion UI
+    correct: b
+    explanation: Google Antigravity is an agent-first IDE that inverts the traditional IDE model. In classic IDEs, the human drives and the AI assists. In Antigravity, the agent drives execution while the human reviews, approves, and steers. The human becomes the reviewer rather than the typist. This represents a paradigm shift from AI-assisted coding to AI-led coding with human oversight — the model that Claude Code's agentic mode already approximates.
+    doc_reference:
+      file: guide/ecosystem/ai-ecosystem.md
+      section: 6.1 Google Antigravity (Agent-First IDE)
+      anchor: "#61-google-antigravity-agent-first-ide"
+  - id: 15-021
+    difficulty: power
+    profiles:
+      - power
+    question: What does research show about AGENTS.md Compound Learning — specifically human-curated vs LLM-generated updates?
+    options:
+      a: LLM-generated updates are always superior because they are more consistent and complete
+      b: Human-curated AGENTS.md updates yield +4% performance improvement; LLM-generated updates yield -3% performance with +20% cost increase
+      c: Both methods produce identical results, so LLM generation is preferred for automation
+      d: Human-curated updates are only better for junior developers; LLM-generated outperforms for senior codebases
+    correct: b
+    explanation: "AGENTS.md Compound Learning research shows a stark divergence: human-curated updates to AGENTS.md (based on real session feedback and corrections) produce a +4% improvement in agent performance across benchmark tasks. LLM-auto-generated AGENTS.md updates produce -3% performance regression and +20% cost increase because auto-generated rules tend to over-specify, conflict, or add noise. Implication: invest human review time in AGENTS.md/CLAUDE.md maintenance — it compounds."
+    doc_reference:
+      file: guide/workflows/agent-teams.md
+      section: AGENTS.md for Compound Learning
+      anchor: "#agentsmd-for-compound-learning"

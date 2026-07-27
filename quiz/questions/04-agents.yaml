@@ -1,310 +1,378 @@
-category: "Agents"
+category: Agents
 category_id: 4
-source_file: "guide/ultimate-guide.md"
-
+source_file: guide/ultimate-guide.md
 questions:
-  - id: "04-001"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power", "pm"]
-    question: "What are agents in Claude Code?"
+  - id: 04-001
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+      - pm
+    question: What are agents in Claude Code?
     options:
-      a: "External software programs"
-      b: "Specialized AI personas for specific tasks that Claude can delegate to"
-      c: "Human assistants"
-      d: "Automated scripts"
-    correct: "b"
-    explanation: |
-      Agents are specialized sub-processes (AI personas) that Claude can delegate tasks to. They encapsulate domain expertise, like a security reviewer knowing OWASP Top 10 or a backend architect understanding API design. Think of them as "expert consultants" - instead of explaining everything in your prompt, you invoke an agent that already has that expertise.
+      a: External software programs
+      b: Specialized AI personas for specific tasks that Claude can delegate to
+      c: Human assistants
+      d: Automated scripts
+    correct: b
+    explanation: Agents are specialized sub-processes (AI personas) that Claude can delegate tasks to. They encapsulate domain expertise, like a security reviewer knowing OWASP Top 10 or a backend architect understanding API design. Think of them as "expert consultants" - instead of explaining everything in your prompt, you invoke an agent that already has that expertise.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "4.1 What Are Agents"
+      file: guide/ultimate-guide.md
+      section: 4.1 What Are Agents
       anchor: "#41-what-are-agents"
-
-  - id: "04-002"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "Where should custom agent files be stored?"
+  - id: 04-002
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: Where should custom agent files be stored?
     options:
-      a: "~/.claude/agents/"
-      b: ".claude/agents/"
-      c: "/agents/"
-      d: ".claude/commands/"
-    correct: "b"
-    explanation: |
-      Custom agent files should be stored in `.claude/agents/` within your project directory. They are markdown files with YAML frontmatter. For example: `.claude/agents/backend-architect.md`, `.claude/agents/code-reviewer.md`. These can be committed to version control to share with your team.
+      a: ~/.claude/agents/
+      b: .claude/agents/
+      c: /agents/
+      d: .claude/commands/
+    correct: b
+    explanation: "Custom agent files should be stored in `.claude/agents/` within your project directory. They are markdown files with YAML frontmatter. For example: `.claude/agents/backend-architect.md`, `.claude/agents/code-reviewer.md`. These can be committed to version control to share with your team."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "4.2 Creating Custom Agents"
+      file: guide/ultimate-guide.md
+      section: 4.2 Creating Custom Agents
       anchor: "#42-creating-custom-agents"
-
-  - id: "04-003"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What fields are REQUIRED in an agent's YAML frontmatter?"
+  - id: 04-003
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What fields are REQUIRED in an agent's YAML frontmatter?
     options:
-      a: "name, model, tools"
-      b: "name, description"
-      c: "name, description, model, tools"
-      d: "name, role, skills"
-    correct: "b"
-    explanation: |
-      Only `name` and `description` are required in agent frontmatter. Optional fields include: model (sonnet default, opus, or haiku), tools (comma-separated list), skills (to inherit), and disallowedTools. The description is crucial - it determines when Claude auto-activates the agent, so make it clear and specific.
+      a: name, model, tools
+      b: name, description
+      c: name, description, model, tools
+      d: name, role, skills
+    correct: b
+    explanation: "Only `name` and `description` are required in agent frontmatter. Optional fields include: model (sonnet default, opus, or haiku), tools (comma-separated list), skills (to inherit), and disallowedTools. The description is crucial - it determines when Claude auto-activates the agent, so make it clear and specific."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "4.2 Creating Custom Agents"
+      file: guide/ultimate-guide.md
+      section: 4.2 Creating Custom Agents
       anchor: "#frontmatter-fields"
-
-  - id: "04-004"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What is the advantage of using agents over direct prompts?"
+  - id: 04-004
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What is the advantage of using agents over direct prompts?
     options:
-      a: "Agents are faster"
-      b: "Agents encapsulate expertise so you don't need to explain everything each time"
-      c: "Agents cost less"
-      d: "Agents can access more files"
-    correct: "b"
-    explanation: |
-      Agents encapsulate expertise. Without agents, you'd write: "Review this code for security issues, focusing on OWASP Top 10, checking for SQL injection, XSS, CSRF..." With agents: "Use the security-reviewer agent to audit this code." The agent already has that expertise, making your prompts shorter and more consistent.
+      a: Agents are faster
+      b: Agents encapsulate expertise so you don't need to explain everything each time
+      c: Agents cost less
+      d: Agents can access more files
+    correct: b
+    explanation: "Agents encapsulate expertise. Without agents, you'd write: \"Review this code for security issues, focusing on OWASP Top 10, checking for SQL injection, XSS, CSRF...\" With agents: \"Use the security-reviewer agent to audit this code.\" The agent already has that expertise, making your prompts shorter and more consistent."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "4.1 What Are Agents"
+      file: guide/ultimate-guide.md
+      section: 4.1 What Are Agents
       anchor: "#agent-vs-direct-prompt"
-
-  - id: "04-005"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "Which model should you use for agents performing complex architectural analysis?"
+  - id: 04-005
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: Which model should you use for agents performing complex architectural analysis?
     options:
-      a: "haiku - for speed"
-      b: "sonnet - for balance"
-      c: "opus - for maximum reasoning"
-      d: "Any model works equally well"
-    correct: "c"
-    explanation: |
-      Use opus for complex reasoning and architecture tasks. Model selection guidelines: haiku (fast, low cost) for quick tasks and simple changes; sonnet (balanced, default) for most tasks; opus (slow, high cost) for complex reasoning, architecture decisions, and critical security reviews. Match the model to the task's complexity.
+      a: haiku - for speed
+      b: sonnet - for balance
+      c: opus - for maximum reasoning
+      d: Any model works equally well
+    correct: c
+    explanation: "Use opus for complex reasoning and architecture tasks. Model selection guidelines: haiku (fast, low cost) for quick tasks and simple changes; sonnet (balanced, default) for most tasks; opus (slow, high cost) for complex reasoning, architecture decisions, and critical security reviews. Match the model to the task's complexity."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "4.2 Creating Custom Agents"
+      file: guide/ultimate-guide.md
+      section: 4.2 Creating Custom Agents
       anchor: "#model-selection"
-
-  - id: "04-006"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is 'Tool SEO' in agent design?"
+  - id: 04-006
+    difficulty: power
+    profiles:
+      - power
+    question: What is 'Tool SEO' in agent design?
     options:
-      a: "Making tools searchable online"
-      b: "Optimizing the description field to improve when Claude auto-activates the agent"
-      c: "SEO for documentation"
-      d: "A marketing technique"
-    correct: "b"
-    explanation: |
-      Tool SEO optimizes the agent's description field to improve auto-activation. Techniques include: using "use PROACTIVELY" to encourage automatic activation, listing explicit trigger keywords, describing specific contexts, and adding short nicknames. A good description: "Security code reviewer - use PROACTIVELY when: reviewing auth code, analyzing API endpoints... Triggers: security, auth, vulnerability, OWASP"
+      a: Making tools searchable online
+      b: Optimizing the description field to improve when Claude auto-activates the agent
+      c: SEO for documentation
+      d: A marketing technique
+    correct: b
+    explanation: "Tool SEO optimizes the agent's description field to improve auto-activation. Techniques include: using \"use PROACTIVELY\" to encourage automatic activation, listing explicit trigger keywords, describing specific contexts, and adding short nicknames. A good description: \"Security code reviewer - use PROACTIVELY when: reviewing auth code, analyzing API endpoints... Triggers: security, auth, vulnerability, OWASP\""
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "4.6 Advanced Agent Patterns"
-      anchor: "#tool-seo---optimizing-agent-descriptions"
-
-  - id: "04-007"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
+      file: guide/ultimate-guide.md
+      section: 4.6 Advanced Agent Patterns
+      anchor: "#tool-seo-optimizing-agent-descriptions"
+  - id: 04-007
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
     question: "What is the best practice for agent design: specialization or generalization?"
     options:
-      a: "Create one generalist agent that does everything"
-      b: "Create specialized agents for each domain (security, testing, backend, etc.)"
-      c: "Mix specialized and generalist agents"
-      d: "Avoid agents entirely"
-    correct: "b"
-    explanation: |
-      Always prefer specialization over generalization. Good: separate agents for backend-architect (API, database, performance), security-reviewer (OWASP, auth, encryption), test-engineer (test strategy, coverage, TDD). Bad: one full-stack-expert that "does everything (poorly)". Specialized agents have focused context and domain-specific expertise.
+      a: Create one generalist agent that does everything
+      b: Create specialized agents for each domain (security, testing, backend, etc.)
+      c: Mix specialized and generalist agents
+      d: Avoid agents entirely
+    correct: b
+    explanation: 'Always prefer specialization over generalization. Good: separate agents for backend-architect (API, database, performance), security-reviewer (OWASP, auth, encryption), test-engineer (test strategy, coverage, TDD). Bad: one full-stack-expert that "does everything (poorly)". Specialized agents have focused context and domain-specific expertise.'
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "4.4 Best Practices"
+      file: guide/ultimate-guide.md
+      section: 4.4 Best Practices
       anchor: "#specialization-over-generalization"
-
-  - id: "04-008"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "How can agents inherit knowledge from skills?"
+  - id: 04-008
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: How can agents inherit knowledge from skills?
     options:
-      a: "By copying skill content into the agent"
-      b: "Using the 'skills' field in the frontmatter"
-      c: "Skills and agents cannot be combined"
-      d: "By importing skill files"
-    correct: "b"
-    explanation: |
-      Agents inherit skills using the `skills` field in frontmatter. For example: `skills: [security-guardian]`. This composes expertise without duplication - instead of copying OWASP knowledge into every security-related agent, they all inherit from the security-guardian skill. This follows DRY principles for knowledge organization.
+      a: By copying skill content into the agent
+      b: Using the 'skills' field in the frontmatter
+      c: Skills and agents cannot be combined
+      d: By importing skill files
+    correct: b
+    explanation: "Agents inherit skills using the `skills` field in frontmatter. For example: `skills: [security-guardian]`. This composes expertise without duplication - instead of copying OWASP knowledge into every security-related agent, they all inherit from the security-guardian skill. This follows DRY principles for knowledge organization."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "4.4 Best Practices"
+      file: guide/ultimate-guide.md
+      section: 4.4 Best Practices
       anchor: "#skill-composition"
-
-  - id: "04-009"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is the '7-Parallel-Task Method'?"
+  - id: 04-009
+    difficulty: power
+    profiles:
+      - power
+    question: What is the '7-Parallel-Task Method'?
     options:
-      a: "Running 7 Claude instances simultaneously"
-      b: "Launching 7 specialized sub-agents in parallel to implement complete features"
-      c: "A debugging technique"
-      d: "A code review checklist"
-    correct: "b"
-    explanation: |
-      The 7-Parallel-Task Method launches 7 specialized sub-agents in parallel: 1) Components, 2) Styles, 3) Tests, 4) Types, 5) Hooks, 6) Integration, 7) Config. All run in parallel, then results are consolidated. This dramatically speeds up feature implementation by parallelizing independent work streams.
+      a: Running 7 Claude instances simultaneously
+      b: Launching 7 specialized sub-agents in parallel to implement complete features
+      c: A debugging technique
+      d: A code review checklist
+    correct: b
+    explanation: "The 7-Parallel-Task Method launches 7 specialized sub-agents in parallel: 1) Components, 2) Styles, 3) Tests, 4) Types, 5) Hooks, 6) Integration, 7) Config. All run in parallel, then results are consolidated. This dramatically speeds up feature implementation by parallelizing independent work streams."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "4.6 Advanced Agent Patterns"
+      file: guide/ultimate-guide.md
+      section: 4.6 Advanced Agent Patterns
       anchor: "#the-7-parallel-task-method"
-
-  - id: "04-010"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What is the recommended agent weight for frequently-used tasks?"
+  - id: 04-010
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is the recommended agent weight for frequently-used tasks?
     options:
-      a: "Heavy (25K+ tokens) for thoroughness"
-      b: "Medium (10-15K tokens) for balance"
-      c: "Lightweight (<3K tokens) for speed"
-      d: "Weight doesn't matter"
-    correct: "c"
-    explanation: |
-      Use lightweight agents (<3K tokens, <1s init time) for frequent tasks and workers. Golden Rule: "A lightweight agent used 100x > A heavy agent used 10x." Agent weight categories: Lightweight (<3K tokens) for frequent tasks, Medium (10-15K) for analysis/reviews, Heavy (25K+) for architecture/full audits. Match weight to task frequency.
+      a: Heavy (25K+ tokens) for thoroughness
+      b: Medium (10-15K tokens) for balance
+      c: Lightweight (<3K tokens) for speed
+      d: Weight doesn't matter
+    correct: c
+    explanation: 'Use lightweight agents (<3K tokens, <1s init time) for frequent tasks and workers. Golden Rule: "A lightweight agent used 100x > A heavy agent used 10x." Agent weight categories: Lightweight (<3K tokens) for frequent tasks, Medium (10-15K) for analysis/reviews, Heavy (25K+) for architecture/full audits. Match weight to task frequency.'
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "4.6 Advanced Agent Patterns"
+      file: guide/ultimate-guide.md
+      section: 4.6 Advanced Agent Patterns
       anchor: "#agent-weight-classification"
-
-  - id: "04-011"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "In multi-agent orchestration, what model combination is recommended?"
+  - id: 04-011
+    difficulty: power
+    profiles:
+      - power
+    question: In multi-agent orchestration, what model combination is recommended?
     options:
-      a: "Opus everywhere for quality"
-      b: "Haiku everywhere for cost savings"
-      c: "Sonnet orchestrator + Haiku workers + Sonnet validator"
-      d: "Use the same model for all agents"
-    correct: "c"
-    explanation: |
-      The recommended pattern is: Sonnet as orchestrator (coordinates), Haiku workers (parallel execution), Sonnet validator (final check). This is 2-2.5x cheaper than using Opus everywhere with equivalent quality for 90% of tasks. For example, refactoring 100 files: Sonnet analyzes and plans, Haiku does parallel edits, Sonnet validates - saving 80-90% cost.
+      a: Opus everywhere for quality
+      b: Haiku everywhere for cost savings
+      c: Sonnet orchestrator + Haiku workers + Sonnet validator
+      d: Use the same model for all agents
+    correct: c
+    explanation: "The recommended pattern is: Sonnet as orchestrator (coordinates), Haiku workers (parallel execution), Sonnet validator (final check). This is 2-2.5x cheaper than using Opus everywhere with equivalent quality for 90% of tasks. For example, refactoring 100 files: Sonnet analyzes and plans, Haiku does parallel edits, Sonnet validates - saving 80-90% cost."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "4.6 Advanced Agent Patterns"
-      anchor: "#multi-agent-orchestration-pattern"
-
-  - id: "04-012"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What should an agent's output format section include?"
+      file: guide/ultimate-guide.md
+      section: 4.6 Multi-Agent Orchestration Pattern
+      line: 5280-5310
+  - id: 04-012
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What should an agent's output format section include?
     options:
-      a: "Only code examples"
-      b: "Structured deliverables like reports with sections, severity levels, and recommendations"
-      c: "Raw text output"
-      d: "JSON only"
-    correct: "b"
-    explanation: |
-      An agent's output format should specify structured deliverables. For example, a code reviewer agent outputs: Summary, Critical Issues (Must Fix) with file:line references, Warnings (Should Fix), Suggestions (Nice to Have), and Positive Notes. Clear output format ensures consistent, actionable results across all invocations.
+      a: Only code examples
+      b: Structured deliverables like reports with sections, severity levels, and recommendations
+      c: Raw text output
+      d: JSON only
+    correct: b
+    explanation: "An agent's output format should specify structured deliverables. For example, a code reviewer agent outputs: Summary, Critical Issues (Must Fix) with file:line references, Warnings (Should Fix), Suggestions (Nice to Have), and Positive Notes. Clear output format ensures consistent, actionable results across all invocations."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "4.5 Agent Examples"
+      file: guide/ultimate-guide.md
+      section: 4.5 Agent Examples
       anchor: "#example-1-code-reviewer-agent"
-
-  - id: "04-013"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What is the purpose of the 'disallowedTools' field in agent frontmatter?"
+  - id: 04-013
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What is the purpose of the 'disallowedTools' field in agent frontmatter?
     options:
-      a: "To list tools the agent must use"
-      b: "To block specific tools from being used by the agent"
-      c: "To disable the agent"
-      d: "To list deprecated tools"
-    correct: "b"
-    explanation: |
-      The disallowedTools field blocks specific tools from being used by the agent. For example, a code reviewer agent might have `disallowedTools: [WebSearch]` to ensure it focuses on the actual code rather than searching the web. This provides security boundaries and focuses the agent on its core purpose.
+      a: To list tools the agent must use
+      b: To block specific tools from being used by the agent
+      c: To disable the agent
+      d: To list deprecated tools
+    correct: b
+    explanation: "The disallowedTools field blocks specific tools from being used by the agent. For example, a code reviewer agent might have `disallowedTools: [WebSearch]` to ensure it focuses on the actual code rather than searching the web. This provides security boundaries and focuses the agent on its core purpose."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "4.2 Creating Custom Agents"
+      file: guide/ultimate-guide.md
+      section: 4.2 Creating Custom Agents
       anchor: "#agent-file-structure"
-
-  - id: "04-014"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is the 'Split Role Sub-Agents' pattern?"
+  - id: 04-014
+    difficulty: power
+    profiles:
+      - power
+    question: What is the 'Split Role Sub-Agents' pattern?
     options:
-      a: "Dividing one agent into multiple files"
-      b: "Multi-perspective analysis using parallel agents with different expert roles"
-      c: "Splitting code review into phases"
-      d: "Assigning agents to different team members"
-    correct: "b"
-    explanation: |
-      Split Role Sub-Agents provide multi-perspective analysis in parallel. Process: 1) Activate Plan Mode (thinking enabled by default in Opus 4.5), 2) Ask "What expert roles would analyze this?", 3) Select roles (e.g., Security Expert, Senior Dev, Code Reviewer), 4) Run parallel analysis from each perspective, 5) Consolidate reports into recommendations. Great for comprehensive code and UX reviews.
+      a: Dividing one agent into multiple files
+      b: Multi-perspective analysis using parallel agents with different expert roles
+      c: Splitting code review into phases
+      d: Assigning agents to different team members
+    correct: b
+    explanation: 'Split Role Sub-Agents provide multi-perspective analysis in parallel. Process: 1) Activate Plan Mode (thinking enabled by default in Opus 4.5), 2) Ask "What expert roles would analyze this?", 3) Select roles (e.g., Security Expert, Senior Dev, Code Reviewer), 4) Run parallel analysis from each perspective, 5) Consolidate reports into recommendations. Great for comprehensive code and UX reviews.'
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "4.6 Advanced Agent Patterns"
+      file: guide/ultimate-guide.md
+      section: 4.6 Advanced Agent Patterns
       anchor: "#split-role-sub-agents"
-
-  - id: "04-015"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "When should parallel execution of agents be avoided?"
+  - id: 04-015
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: When should parallel execution of agents be avoided?
     options:
-      a: "When tasks are read-only"
-      b: "When tasks are destructive (write operations) and dependent on each other"
-      c: "When using haiku model"
-      d: "When more than 3 agents are involved"
-    correct: "b"
-    explanation: |
-      Avoid parallel execution for destructive (write) operations that are dependent on each other. The decision matrix: Independent + Non-destructive = Parallel (max efficiency); Independent + Destructive = Sequential with Plan Mode first; Dependent operations = Sequential (order matters). Parallel writes risk conflicts if files share imports/exports.
+      a: When tasks are read-only
+      b: When tasks are destructive (write operations) and dependent on each other
+      c: When using haiku model
+      d: When more than 3 agents are involved
+    correct: b
+    explanation: "Avoid parallel execution for destructive (write) operations that are dependent on each other. The decision matrix: Independent + Non-destructive = Parallel (max efficiency); Independent + Destructive = Sequential with Plan Mode first; Dependent operations = Sequential (order matters). Parallel writes risk conflicts if files share imports/exports."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "4.6 Advanced Agent Patterns"
+      file: guide/ultimate-guide.md
+      section: 4.6 Advanced Agent Patterns
       anchor: "#parallelization-decision-matrix"
-
-  - id: "04-016"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What does a Debugger agent's methodology typically include?"
+  - id: 04-016
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What does a Debugger agent's methodology typically include?
     options:
-      a: "Only fixing code"
-      b: "Reproduce, Isolate, Analyze, Hypothesize, Test, Fix, Verify"
-      c: "Just running tests"
-      d: "Deleting problematic code"
-    correct: "b"
-    explanation: |
-      A systematic Debugger agent follows: 1) Reproduce - confirm the issue exists, 2) Isolate - narrow down to smallest reproducible case, 3) Analyze - read code, check logs, trace execution, 4) Hypothesize - form theories about cause, 5) Test - verify hypothesis with minimal changes, 6) Fix - implement solution, 7) Verify - confirm fix works without breaking other things. Never guess - always verify.
+      a: Only fixing code
+      b: Reproduce, Isolate, Analyze, Hypothesize, Test, Fix, Verify
+      c: Just running tests
+      d: Deleting problematic code
+    correct: b
+    explanation: "A systematic Debugger agent follows: 1) Reproduce - confirm the issue exists, 2) Isolate - narrow down to smallest reproducible case, 3) Analyze - read code, check logs, trace execution, 4) Hypothesize - form theories about cause, 5) Test - verify hypothesis with minimal changes, 6) Fix - implement solution, 7) Verify - confirm fix works without breaking other things. Never guess - always verify."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "4.5 Agent Examples"
+      file: guide/ultimate-guide.md
+      section: 4.5 Agent Examples
       anchor: "#example-2-debugger-agent"
-
-  - id: "04-017"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What is an example of a BAD agent description?"
+  - id: 04-017
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is an example of a BAD agent description?
     options:
       a: "'Use when designing APIs, reviewing database schemas, or optimizing backend performance'"
       b: "'Backend stuff'"
       c: "'Security code reviewer - use PROACTIVELY when reviewing auth code'"
       d: "'Use when encountering errors, test failures, or unexpected behavior'"
-    correct: "b"
-    explanation: |
-      "Backend stuff" is a bad description - it's too vague to help Claude know when to activate the agent. Good descriptions are specific: "Use when designing APIs, reviewing database schemas, or optimizing backend performance" or "Security code reviewer - use PROACTIVELY when reviewing auth code." Clear activation triggers improve agent utilization.
+    correct: b
+    explanation: "\"Backend stuff\" is a bad description - it's too vague to help Claude know when to activate the agent. Good descriptions are specific: \"Use when designing APIs, reviewing database schemas, or optimizing backend performance\" or \"Security code reviewer - use PROACTIVELY when reviewing auth code.\" Clear activation triggers improve agent utilization."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "4.4 Best Practices"
+      file: guide/ultimate-guide.md
+      section: 4.4 Best Practices
       anchor: "#explicit-activation-triggers"
-
-  - id: "04-018"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is the invocation reliability difference between AGENTS.md (eager context) and Skills (lazy invocation)?"
+  - id: 04-018
+    difficulty: power
+    profiles:
+      - power
+    question: What is the invocation reliability difference between CLAUDE.md (eager context) and Skills (lazy invocation)?
     options:
-      a: "Skills are more reliable than AGENTS.md"
-      b: "Both have 100% reliability"
-      c: "AGENTS.md: 100% reliable (always loaded) vs Skills: 53-79% auto-invoked"
-      d: "AGENTS.md is deprecated in favor of Skills"
-    correct: "c"
-    explanation: |
-      AGENTS.md uses eager context loading - always present in Claude's context, so 100% reliable activation. Skills use lazy invocation - auto-detected and invoked only when Claude recognizes the need, achieving 53-79% auto-invocation rate. Trade-off: AGENTS.md costs context tokens on every session, Skills save tokens but may miss activations. Use AGENTS.md for critical behaviors, Skills for optional capabilities.
+      a: Skills are more reliable than CLAUDE.md
+      b: Both have 100% reliability
+      c: "CLAUDE.md: 100% reliable (always loaded) vs Skills: ~56% auto-invoked"
+      d: CLAUDE.md is deprecated in favor of Skills
+    correct: c
+    explanation: "CLAUDE.md uses eager context loading - always present in Claude's context, so 100% reliable activation. Skills use lazy invocation - auto-detected and invoked only when Claude recognizes the need, achieving ~56% auto-invocation rate according to Gao (2026). Trade-off: CLAUDE.md costs context tokens on every session, Skills save tokens but may miss activations. Use CLAUDE.md for critical behaviors, Skills for optional capabilities."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "AGENTS.md vs Skills Evaluation"
-      anchor: "#agentsmd-vs-skills-evaluation"
+      file: guide/ultimate-guide.md
+      section: Memory Loading Comparison
+      anchor: "#memory-loading-comparison"
+  - id: 04-019
+    difficulty: intermediate
+    profiles:
+      - junior
+      - senior
+      - power
+    question: As of v2.1.198, how do subagents spawned via the Task/Agent tool behave by default?
+    options:
+      a: They only run in the background if you pass a --background flag explicitly
+      b: They run in the background only when spawned from the claude agents panel
+      c: They still block the main session until they finish, unchanged since earlier versions
+      d: They run in the background by default, so Claude keeps working and gets notified when they finish
+    correct: d
+    explanation: Since v2.1.198, subagents run in the background by default, so Claude continues other work while they execute and is notified when they finish, instead of blocking synchronously. Option c describes the pre-v2.1.198 behavior. Options a and b invent gating mechanisms that don't exist; the change applies broadly to Task-tool subagents, not just ones launched from a specific panel.
+    doc_reference:
+      file: guide/core/claude-code-releases.md
+      section: v2.1.198
+  - id: 04-020
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: When a background agent launched from claude agents finishes code work in an isolated git worktree, what does it now do as of v2.1.198?
+    options:
+      a: It stops and asks the user what to do with the changes
+      b: It discards the changes since worktrees are meant to be ephemeral
+      c: It commits, pushes, and opens a draft pull request automatically
+      d: It merges the changes directly into the main branch without a PR
+    correct: c
+    explanation: As of v2.1.198, background agents that finish code work in a worktree commit, push, and open a draft pull request automatically, instead of stopping to ask the user what to do next. This removes a manual handoff step, so reviewers should expect draft PRs to appear without a prior confirmation prompt. It does not touch main directly and does not discard the work.
+    doc_reference:
+      file: guide/core/claude-code-releases.md
+      section: v2.1.198
+  - id: 04-021
+    difficulty: power
+    profiles:
+      - senior
+      - power
+    question: The "Dynamic workflow size" setting in /config lets you pick small, medium, or large agent-count guidelines. What is the nature of this setting?
+    options:
+      a: It enforces a strict maximum number of agents Claude cannot exceed
+      b: It only applies to agents spawned from custom slash commands
+      c: It is a billing setting that limits how many agents can run per month
+      d: It is an advisory guideline for Claude, not an enforced hard cap on agent count
+    correct: d
+    explanation: The setting is explicitly an advisory guideline for how large Claude generally makes dynamic workflows, not an enforced cap. Claude can still deviate from it depending on the task. Option a overstates it as a hard limit, and options b and c invent scopes the release notes don't support.
+    doc_reference:
+      file: guide/core/claude-code-releases.md
+      section: v2.1.202
+  - id: 04-022
+    difficulty: intermediate
+    profiles:
+      - junior
+      - senior
+      - power
+    question: As of v2.1.198, which model does the built-in Explore agent, used for read-only codebase search, run on?
+    options:
+      a: It always runs on Haiku regardless of the session's model, for speed
+      b: It always runs on the most expensive model available, for maximum thoroughness
+      c: It runs on Sonnet by default and can be upgraded to Opus with a flag
+      d: It inherits the main session's model, capped at Opus, instead of always defaulting to Haiku
+    correct: d
+    explanation: Explore now inherits the main session's model, capped at Opus, instead of always running on Haiku as it did before. A session running on Sonnet or Opus gets a more capable Explore agent, while a Haiku session still gets Haiku. Option a describes the pre-2.1.198 default; options b and c invent behaviors not in the release notes.
+    doc_reference:
+      file: guide/core/claude-code-releases.md
+      section: v2.1.198

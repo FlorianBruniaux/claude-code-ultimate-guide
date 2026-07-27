@@ -1,259 +1,685 @@
-category: "Security Hardening"
+category: Security Hardening
 category_id: 13
-source_file: "guide/security-hardening.md"
-
+source_file: guide/security/security-hardening.md
 questions:
-  - id: "13-001"
-    difficulty: "intermediate"
-    profiles: ["senior", "power"]
-    question: "What is an 'MCP Rug Pull' attack?"
+  - id: 13-001
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: What is an 'MCP Rug Pull' attack?
     options:
-      a: "An MCP server that crashes unexpectedly"
-      b: "A benign MCP that turns malicious after gaining trust (no re-approval needed)"
-      c: "An MCP that uses too many tokens"
-      d: "An attack on the MCP protocol itself"
-    correct: "b"
-    explanation: |
-      An MCP Rug Pull exploits the one-time approval model: attacker publishes benign MCP → user approves once → MCP works normally (builds trust) → attacker pushes malicious update → MCP exfiltrates credentials WITHOUT re-approval. Mitigation: version pinning + hash verification.
+      a: An MCP server that crashes unexpectedly
+      b: A benign MCP that turns malicious after gaining trust (no re-approval needed)
+      c: An MCP that uses too many tokens
+      d: An attack on the MCP protocol itself
+    correct: b
+    explanation: "An MCP Rug Pull exploits the one-time approval model: attacker publishes benign MCP → user approves once → MCP works normally (builds trust) → attacker pushes malicious update → MCP exfiltrates credentials WITHOUT re-approval. Mitigation: version pinning + hash verification."
     doc_reference:
-      file: "guide/security-hardening.md"
+      file: guide/security/security-hardening.md
       section: "Attack: MCP Rug Pull"
       anchor: "#attack-mcp-rug-pull"
-
-  - id: "13-002"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What does CVE-2025-53109/53110 (EscapeRoute) exploit?"
+  - id: 13-002
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What does CVE-2025-53109/53110 (EscapeRoute) exploit?
     options:
-      a: "Prompt injection in Claude's system prompt"
-      b: "Filesystem MCP sandbox escape via prefix bypass + symlinks"
-      c: "Memory corruption in the Bash tool"
-      d: "API key leakage in network requests"
-    correct: "b"
-    explanation: |
-      CVE-2025-53109/53110 (EscapeRoute) allows sandbox escape in Filesystem MCP via prefix bypass combined with symlinks. Severity: High. Mitigation: avoid Filesystem MCP with unrestricted access or apply the official patch. Source: Cymulate security research.
+      a: Prompt injection in Claude's system prompt
+      b: Filesystem MCP sandbox escape via prefix bypass + symlinks
+      c: Memory corruption in the Bash tool
+      d: API key leakage in network requests
+    correct: b
+    explanation: "CVE-2025-53109/53110 (EscapeRoute) allows sandbox escape in Filesystem MCP via prefix bypass combined with symlinks. Severity: High. Mitigation: avoid Filesystem MCP with unrestricted access or apply the official patch. Source: Cymulate security research."
     doc_reference:
-      file: "guide/security-hardening.md"
-      section: "CVE Summary (2025)"
-      anchor: "#cve-summary-2025"
-
-  - id: "13-003"
-    difficulty: "intermediate"
-    profiles: ["senior", "power"]
-    question: "What is a known limitation of permissions.deny in .claude/settings.json?"
+      file: guide/security/security-hardening.md
+      section: CVE Summary (2025-2026)
+      anchor: "#cve-summary-2025-2026"
+  - id: 13-003
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: What is a known limitation of permissions.deny in .claude/settings.json?
     options:
-      a: "It only works on macOS"
-      b: "System reminders may expose file contents before tool permission checks"
-      c: "It cannot block Bash commands"
-      d: "It requires admin privileges"
-    correct: "b"
-    explanation: |
-      permissions.deny has architectural limitations: background indexing may expose file contents via internal "system reminder" mechanism BEFORE tool permission checks are applied. This is documented in GitHub #4160. Defense-in-depth: store secrets outside project directories.
+      a: It only works on macOS
+      b: System reminders may expose file contents before tool permission checks
+      c: It cannot block Bash commands
+      d: It requires admin privileges
+    correct: b
+    explanation: 'permissions.deny has architectural limitations: background indexing may expose file contents via internal "system reminder" mechanism BEFORE tool permission checks are applied. This is documented in GitHub #4160. Defense-in-depth: store secrets outside project directories.'
     doc_reference:
-      file: "guide/security-hardening.md"
-      section: "Known Security Gaps"
+      file: guide/security/security-hardening.md
+      section: Known Security Gaps
       anchor: "#known-security-gaps"
-
-  - id: "13-004"
-    difficulty: "intermediate"
-    profiles: ["senior", "power"]
-    question: "What is the recommended defense-in-depth strategy for secrets protection?"
+  - id: 13-004
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: What is the recommended defense-in-depth strategy for secrets protection?
     options:
-      a: "Only use permissions.deny"
-      b: "Store secrets outside project + external vault + PreToolUse hooks + never commit"
-      c: "Encrypt all files in the project"
-      d: "Use a VPN when running Claude Code"
-    correct: "b"
-    explanation: |
-      Defense-in-depth: (1) Store secrets outside project directories (~/.secrets/ or vault), (2) Use external secrets management (AWS Secrets Manager, 1Password), (3) Add PreToolUse hooks as secondary blocking, (4) Never commit secrets, (5) Manually review bash commands.
+      a: Only use permissions.deny
+      b: Store secrets outside project + external vault + PreToolUse hooks + never commit
+      c: Encrypt all files in the project
+      d: Use a VPN when running Claude Code
+    correct: b
+    explanation: "Defense-in-depth: (1) Store secrets outside project directories (~/.secrets/ or vault), (2) Use external secrets management (AWS Secrets Manager, 1Password), (3) Add PreToolUse hooks as secondary blocking, (4) Never commit secrets, (5) Manually review bash commands."
     doc_reference:
-      file: "guide/security-hardening.md"
-      section: "Defense-in-Depth Strategy"
+      file: guide/security/security-hardening.md
+      section: Defense-in-Depth Strategy
       anchor: "#defense-in-depth-strategy"
-
-  - id: "13-005"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "Which prompt injection evasion technique uses U+200B, U+200C, U+200D?"
+  - id: 13-005
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: Which prompt injection evasion technique uses U+200B, U+200C, U+200D?
     options:
-      a: "Base64 encoding"
-      b: "RTL override"
-      c: "Zero-width characters (invisible to humans)"
-      d: "Homoglyphs"
-    correct: "c"
-    explanation: |
-      Zero-width characters (U+200B, U+200C, U+200D) make instructions invisible to humans while still being interpreted. Detection: Unicode regex pattern [\x{200B}-\x{200D}\x{FEFF}\x{202A}-\x{202E}]. Added to prompt-injection-detector.sh in v3.6.0.
+      a: Base64 encoding
+      b: RTL override
+      c: Zero-width characters (invisible to humans)
+      d: Homoglyphs
+    correct: c
+    explanation: "Zero-width characters (U+200B, U+200C, U+200D) make instructions invisible to humans while still being interpreted. Detection: Unicode regex pattern [\\x{200B}-\\x{200D}\\x{FEFF}\\x{202A}-\\x{202E}]. Added to prompt-injection-detector.sh in v3.6.0."
     doc_reference:
-      file: "guide/security-hardening.md"
-      section: "Evasion Techniques"
+      file: guide/security/security-hardening.md
+      section: Evasion Techniques
       anchor: "#evasion-techniques"
-
-  - id: "13-006"
-    difficulty: "intermediate"
-    profiles: ["senior", "power"]
-    question: "Which secret detection tool has the highest recall (88%) but lower precision (46%)?"
+  - id: 13-006
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: Which secret detection tool has the highest recall (88%) but lower precision (46%)?
     options:
-      a: "TruffleHog"
-      b: "GitGuardian"
-      c: "Gitleaks"
-      d: "detect-secrets"
-    correct: "c"
-    explanation: |
-      Gitleaks: 88% recall, 46% precision, fast (~2 min/100K commits) - best for pre-commit hooks. TruffleHog: 52% recall, 85% precision, slow - best for CI verification. GitGuardian: 80% recall, 95% precision - enterprise monitoring. detect-secrets: 60% recall, 98% precision - baseline approach.
+      a: TruffleHog
+      b: GitGuardian
+      c: Gitleaks
+      d: detect-secrets
+    correct: c
+    explanation: "Gitleaks: 88% recall, 46% precision, fast (~2 min/100K commits) - best for pre-commit hooks. TruffleHog: 52% recall, 85% precision, slow - best for CI verification. GitGuardian: 80% recall, 95% precision - enterprise monitoring. detect-secrets: 60% recall, 98% precision - baseline approach."
     doc_reference:
-      file: "guide/security-hardening.md"
-      section: "Tool Comparison"
+      file: guide/security/security-hardening.md
+      section: Tool Comparison
       anchor: "#tool-comparison"
-
-  - id: "13-007"
-    difficulty: "intermediate"
-    profiles: ["senior", "power"]
-    question: "What is the recommended hook stack for security in settings.json?"
+  - id: 13-007
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: What is the recommended hook stack for security in settings.json?
     options:
-      a: "Only PostToolUse hooks for logging"
-      b: "PreToolUse (dangerous blocker, injection detector) + PostToolUse (output scanner) + SessionStart (MCP integrity)"
-      c: "No hooks - rely only on permissions.deny"
-      d: "Only UserPromptSubmit hooks"
-    correct: "b"
-    explanation: |
-      Recommended security hook stack: PreToolUse → dangerous-actions-blocker.sh (Bash), prompt-injection-detector.sh + unicode-injection-scanner.sh (Edit/Write). PostToolUse → output-secrets-scanner.sh (Bash). SessionStart → mcp-config-integrity.sh. Multiple layers for defense-in-depth.
+      a: Only PostToolUse hooks for logging
+      b: PreToolUse (dangerous blocker, injection detector) + PostToolUse (output scanner) + SessionStart (MCP integrity)
+      c: No hooks - rely only on permissions.deny
+      d: Only UserPromptSubmit hooks
+    correct: b
+    explanation: "Recommended security hook stack: PreToolUse → dangerous-actions-blocker.sh (Bash), prompt-injection-detector.sh + unicode-injection-scanner.sh (Edit/Write). PostToolUse → output-secrets-scanner.sh (Bash). SessionStart → mcp-config-integrity.sh. Multiple layers for defense-in-depth."
     doc_reference:
-      file: "guide/security-hardening.md"
-      section: "Hook Stack Setup"
+      file: guide/security/security-hardening.md
+      section: Hook Stack Setup
       anchor: "#23-hook-stack-setup"
-
-  - id: "13-008"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "Which MCP servers are marked as 'Safe' in the community-vetted safe list?"
+  - id: 13-008
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: Which MCP servers are marked as 'Safe' in the community-vetted safe list?
     options:
-      a: "filesystem (unrestricted), database (prod credentials)"
+      a: filesystem (unrestricted), database (prod credentials)
       b: "@anthropic/mcp-server-*, context7, sequential-thinking, memory"
-      c: "browser (full access), custom MCPs"
-      d: "All MCPs are safe by default"
-    correct: "b"
-    explanation: |
-      MCP Safe List: @anthropic/mcp-server-* (official), context7 (read-only docs), sequential-thinking (no external access, local), memory (local file-based). Risk: filesystem unrestricted (CVE-2025-53109), database prod (exfiltration). Unsafe: browser full access.
+      c: browser (full access), custom MCPs
+      d: All MCPs are safe by default
+    correct: b
+    explanation: "MCP Safe List: @anthropic/mcp-server-* (official), context7 (read-only docs), sequential-thinking (no external access, local), memory (local file-based). Risk: filesystem unrestricted (CVE-2025-53109), database prod (exfiltration). Unsafe: browser full access."
     doc_reference:
-      file: "guide/security-hardening.md"
-      section: "MCP Safe List (Community Vetted)"
+      file: guide/security/security-hardening.md
+      section: MCP Safe List (Community Vetted)
       anchor: "#mcp-safe-list-community-vetted"
-
-  - id: "13-009"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What is the first action when a secret is exposed?"
+  - id: 13-009
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What is the first action when a secret is exposed?
     options:
-      a: "Document the incident for post-mortem"
-      b: "Revoke the credential immediately"
-      c: "Scan the entire repo"
-      d: "Notify the team"
-    correct: "b"
-    explanation: |
-      First 15 minutes (stop the bleeding): (1) Revoke immediately - AWS delete-access-key, GitHub revoke token, Stripe roll key. (2) Confirm exposure scope. Then: audit git history, scan dependencies, check CI/CD logs. First 24 hours: rotate ALL related credentials, notify compliance, document timeline.
+      a: Document the incident for post-mortem
+      b: Revoke the credential immediately
+      c: Scan the entire repo
+      d: Notify the team
+    correct: b
+    explanation: "First 15 minutes (stop the bleeding): (1) Revoke immediately - AWS delete-access-key, GitHub revoke token, Stripe roll key. (2) Confirm exposure scope. Then: audit git history, scan dependencies, check CI/CD logs. First 24 hours: rotate ALL related credentials, notify compliance, document timeline."
     doc_reference:
-      file: "guide/security-hardening.md"
-      section: "Secret Exposed"
+      file: guide/security/security-hardening.md
+      section: Secret Exposed
       anchor: "#31-secret-exposed"
-
-  - id: "13-010"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power", "pm"]
-    question: "What are the three security posture levels in the guide?"
+  - id: 13-010
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+      - pm
+    question: What are the three security posture levels in the guide?
     options:
-      a: "Low, Medium, High"
-      b: "Basic (5 min), Standard (30 min), Hardened (2 hours)"
-      c: "Development, Staging, Production"
-      d: "Free, Pro, Enterprise"
-    correct: "b"
-    explanation: |
-      Security posture levels: Basic (5 min) = output scanner + dangerous blocker - for solo dev/experiments. Standard (30 min) = + injection hooks + MCP vetting - for teams/sensitive code. Hardened (2 hours) = + integrity verification + ZDR - for enterprise/production.
+      a: Low, Medium, High
+      b: Basic (5 min), Standard (30 min), Hardened (2 hours)
+      c: Development, Staging, Production
+      d: Free, Pro, Enterprise
+    correct: b
+    explanation: "Security posture levels: Basic (5 min) = output scanner + dangerous blocker - for solo dev/experiments. Standard (30 min) = + injection hooks + MCP vetting - for teams/sensitive code. Hardened (2 hours) = + integrity verification + ZDR - for enterprise/production."
     doc_reference:
-      file: "guide/security-hardening.md"
-      section: "Security Posture Levels"
+      file: guide/security/security-hardening.md
+      section: Security Posture Levels
       anchor: "#security-posture-levels"
-
-  - id: "13-011"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "Which sandbox isolation approach combines microVM isolation with network policies for agent autonomy?"
+  - id: 13-011
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: Which sandbox isolation approach combines microVM isolation with network policies for agent autonomy?
     options:
-      a: "E2B (hosted cloud sandboxes)"
-      b: "Fly.io Sprites (edge compute)"
-      c: "Docker Sandboxes (with custom templates and network policies)"
-      d: "Cloudflare Sandbox SDK"
-    correct: "c"
-    explanation: |
-      Docker Sandboxes provide microVM-level isolation with customizable network policies. Key features: custom Dockerfile templates for reproducible environments, network policies to control egress/ingress, volume mounts for persistent storage, and CPU/memory limits. This approach suits teams wanting full control over sandbox configuration while maintaining strong isolation.
+      a: E2B (hosted cloud sandboxes)
+      b: Fly.io Sprites (edge compute)
+      c: Docker Sandboxes (with custom templates and network policies)
+      d: Cloudflare Sandbox SDK
+    correct: c
+    explanation: "Docker Sandboxes provide microVM-level isolation with customizable network policies. Key features: custom Dockerfile templates for reproducible environments, network policies to control egress/ingress, volume mounts for persistent storage, and CPU/memory limits. This approach suits teams wanting full control over sandbox configuration while maintaining strong isolation."
     doc_reference:
-      file: "guide/sandbox-isolation.md"
-      section: "Docker Sandboxes"
-      anchor: "#docker-sandboxes"
-
-  - id: "13-012"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power", "pm"]
-    question: "What is the GitHub Issue Auto-Creation Bug (#13797) and why is it dangerous?"
+      file: guide/security/sandbox-isolation.md
+      section: 3. Docker Sandboxes
+      anchor: "#3-docker-sandboxes"
+  - id: 13-012
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+      - pm
+    question: What is the GitHub Issue Auto-Creation Bug (#13797) and why is it dangerous?
     options:
-      a: "Issues get automatically deleted"
-      b: "Claude Code accidentally creates public GitHub issues containing private project details"
-      c: "Issues are created but remain private"
-      d: "Only affects paid enterprise accounts"
-    correct: "b"
-    explanation: |
-      The GitHub Issue Auto-Creation Bug (#13797) causes Claude Code to accidentally create public GitHub issues containing private project details. Over 17 accidental disclosures documented, affecting v2.0.65+. The danger: internal code, architecture decisions, and private context leak publicly. Mitigation: disable the gh CLI tool or restrict GitHub permissions.
+      a: Issues get automatically deleted
+      b: Claude Code accidentally creates public GitHub issues containing private project details
+      c: Issues are created but remain private
+      d: Only affects paid enterprise accounts
+    correct: b
+    explanation: "The GitHub Issue Auto-Creation Bug (#13797) causes Claude Code to accidentally create public GitHub issues containing private project details. Over 17 accidental disclosures documented, affecting v2.0.65+. The danger: internal code, architecture decisions, and private context leak publicly. Mitigation: disable the gh CLI tool or restrict GitHub permissions."
     doc_reference:
-      file: "guide/known-issues.md"
-      section: "GitHub Issue Auto-Creation Bug"
-      anchor: "#github-issue-auto-creation-bug"
-
-  - id: "13-013"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "Which paths are protected by the bypassPermissions safety invariant, meaning Claude ALWAYS prompts before modifying them?"
+      file: guide/core/known-issues.md
+      section: 1. GitHub Issue Auto-Creation in Wrong Repository (Dec 2025 - Present)
+      anchor: "#1-github-issue-auto-creation-in-wrong-repository-dec-2025-present"
+  - id: 13-013
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What is "Tool Poisoning via SKILL.md" (attack technique T001)?
     options:
-      a: "Only .git/ and .env files"
-      b: ".git/, .claude/, shell configs (.bashrc, .zshrc), .gitconfig, .mcp.json, and .claude.json"
-      c: "All dotfiles in the home directory"
-      d: "Any file larger than 100KB"
-    correct: "b"
-    explanation: |
-      The bypassPermissions safety invariant protects a specific set of high-impact paths: .git/ (repository integrity), .claude/ (agent configuration, excluding .claude/worktrees/), shell config files (.bashrc, .zshrc — modifying these can persist malicious behavior across sessions), .gitconfig, .mcp.json, and .claude.json. Even when bypassPermissions is enabled, Claude always surfaces a confirmation prompt before touching these paths. The rationale: mistakes in these files have outsized, hard-to-reverse consequences.
+      a: A SKILL.md file that is too large and slows down the agent
+      b: A vulnerability in the SKILL.md parser that crashes the agent
+      c: Hidden instructions in SKILL.md that make the agent execute malicious commands (curl|bash, base64 eval, password ZIPs)
+      d: A SKILL.md that references deprecated API endpoints
+    correct: c
+    explanation: "Tool Poisoning via SKILL.md (T001) embeds hidden instructions that trick the agent into executing malicious commands. Common patterns include `curl | bash` from paste sites like glot.io, base64-decoded eval commands, and password-protected ZIPs (password: 'openclaw'). Used by ClawHavoc and ToxicSkills campaigns. Mitigation: scan SKILL.md for shell commands; never auto-execute prerequisites."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "1.4 Permission Modes"
-      anchor: "#bypasspermissions-safety-invariant"
-
-  - id: "13-014"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is the root cause of Cache Bug 2, and what is its cost impact on --resume sessions?"
+      file: guide/security/security-hardening.md
+      section: Attack Patterns
+      anchor: "#attack-patterns"
+  - id: 13-014
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: What is "Memory Poisoning" in the context of AI agent security (technique T002)?
     options:
-      a: "The API rate limiter resets token counters, causing full context re-reads on each resume"
-      b: "The JSONL writer strips deferred_tools_delta records before writing; on --resume, full re-announcement shifts all message positions, producing 0% cache hit rate and 87-118K tokens rebuilt per resume"
-      c: "Cache TTL expires after 5 minutes of inactivity, forcing a full context reload"
-      d: "Tool call results are not serialized, so they are regenerated from scratch on each resume"
-    correct: "b"
-    explanation: |
-      Cache Bug 2 root cause: the JSONL writer strips DTD (deferred_tools_delta) records before writing the conversation to disk. When a session is resumed with --resume, Claude performs a full re-announcement of all tools, which shifts the position of every subsequent message. Because Anthropic's prompt cache is position-sensitive, these shifted positions produce a 0% cache hit rate. Cost impact: 87,000 to 118,000 tokens are rebuilt from scratch on every --resume. Workaround: avoid using --resume for long sessions until the bug is fixed.
+      a: An attack that corrupts the agent's RAM causing crashes
+      b: Injection of persistent malicious instructions into agent memory files (CLAUDE.md, SOUL.md, MEMORY.md)
+      c: A denial-of-service attack that fills the agent's context window
+      d: An attack that erases the agent's conversation history
+    correct: b
+    explanation: "Memory Poisoning (T002) injects persistent backdoor instructions into configuration files like SOUL.md, MEMORY.md, CLAUDE.md, or AGENTS.md. These instructions survive across sessions, creating cognitive worms that replicate across agent memory files. Identified in the ToxicSkills campaign. Mitigation: treat memory files as config; require code review for changes; monitor diffs."
     doc_reference:
-      file: "guide/core/known-issues.md"
-      section: "Prompt Cache Bugs"
-      anchor: "#prompt-cache-bugs"
-
-  - id: "13-015"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What does CLAUDE_CODE_ATTRIBUTION_HEADER=false address, and why is its impact considered marginal compared to Cache Bug 2?"
+      file: guide/core/memory-systems.md
+      section: 7.1 Memory Poisoning via Prompt Injection
+      anchor: "#71-memory-poisoning-via-prompt-injection"
+  - id: 13-015
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: How does a "Confused Deputy" attack work via MCP (technique T004)?
     options:
-      a: "It disables all request headers, eliminating the session tracking overhead that causes Bug 2"
-      b: "It removes the attribution header from API requests (workaround for Cache Bug 3), but Bug 3 has minor cost impact compared to Bug 2's 87-118K token rebuild per resume"
-      c: "It disables code attribution in generated files, reducing token usage by 30%"
-      d: "It prevents Claude from adding co-author comments to commits, speeding up git operations"
-    correct: "b"
-    explanation: |
-      CLAUDE_CODE_ATTRIBUTION_HEADER=false is the workaround for Cache Bug 3, which involves the attribution header affecting cache behavior. However, Cache Bug 3's cost impact is marginal in practice. Cache Bug 2 — the JSONL writer stripping deferred_tools_delta records and causing 0% cache hit rate on --resume — is the dominant issue, rebuilding 87,000 to 118,000 tokens per resume. Fixing Bug 3 without addressing Bug 2 produces negligible savings for teams that regularly use --resume.
+      a: The MCP server pretends to be a different server entirely
+      b: The user accidentally connects to a wrong MCP server
+      c: The MCP protocol itself has a buffer overflow vulnerability
+      d: An attacker manipulates MCP session data or outputs, and the client trusts the poisoned response
+    correct: d
+    explanation: "A Confused Deputy attack via MCP (T004) occurs when an attacker manipulates MCP session IDs or outputs, causing the client to trust poisoned responses. Examples include session ID reuse in oatpp-mcp (CVE-2025-6515) and chaining Git MCP + Filesystem MCP via a poisoned README. Mitigation: cryptographic session IDs, input validation, least-privilege for MCP tools."
     doc_reference:
-      file: "guide/core/known-issues.md"
-      section: "Prompt Cache Bugs"
-      anchor: "#prompt-cache-bugs"
+      file: guide/security/security-hardening.md
+      section: Attack Patterns
+      anchor: "#attack-patterns"
+  - id: 13-016
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: What is a DNS rebinding attack on local MCP servers (technique T005)?
+    options:
+      a: A malicious website rebinds its domain to 127.0.0.1 to access MCP servers running locally
+      b: An attack that changes the DNS records of the MCP server's domain
+      c: A technique to intercept MCP traffic between client and remote server
+      d: An attack that poisons the DNS cache of the MCP server host
+    correct: a
+    explanation: "DNS rebinding on local MCP (T005) allows a malicious website to rebind its domain to 127.0.0.1, gaining access to MCP servers running locally without authentication. Affected: MCP Python SDK HTTP/SSE (CVE-2025-66416), MCP Gateway (CVE-2025-64443), Playwright MCP (CVE-2025-9611). Mitigation: use stdio transport; enable DNS rebinding protection; authenticate local servers."
+    doc_reference:
+      file: guide/security/security-hardening.md
+      section: Attack Techniques
+      anchor: "#attack-techniques"
+  - id: 13-017
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+      - pm
+    question: What makes hook-based exfiltration (technique T007) particularly dangerous?
+    options:
+      a: Hooks can modify the agent's system prompt
+      b: Hooks run in a sandboxed environment with limited access
+      c: Hooks in .claude/hooks/ run on agent events with full user privileges, enabling silent data exfiltration
+      d: Hooks can only be installed by administrators
+    correct: c
+    explanation: "Hook-based exfiltration (T007) is dangerous because scripts in .claude/hooks/ execute on agent events (SessionStart, PostToolUse, etc.) with the full privileges of the user running Claude Code. A malicious hook can silently POST environment variables, file paths, or code content to external servers. Mitigation: review all hooks; forbid auto-running hooks from untrusted repos; maintain a hook allowlist."
+    doc_reference:
+      file: guide/security/security-hardening.md
+      section: "Example: Exfiltration via Hook"
+      anchor: "#example-exfiltration-via-hook"
+  - id: 13-018
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+      - pm
+    question: What is the ClawHavoc campaign?
+    options:
+      a: A legitimate security testing framework for MCP servers
+      b: A malware campaign of 341 malicious skills deploying Atomic Stealer (AMOS) to steal crypto wallets and browser data
+      c: A vulnerability disclosure program run by Anthropic
+      d: A collection of open-source security tools for agent hardening
+    correct: b
+    explanation: ClawHavoc (discovered by Koi Security, Feb 2026) is a campaign of 341 malicious skills on ClawHub/OpenClaw. 335 deploy Atomic Stealer (AMOS) malware targeting crypto wallets (60+ including Exodus, Binance, Electrum), browser data (Chrome, Safari, Firefox), SSH keys, and Telegram sessions. Categories include crypto tools (111), YouTube utilities (57), finance/social (76), Polymarket bots (34), and more.
+    doc_reference:
+      file: guide/security/security-hardening.md
+      section: Campaigns
+      anchor: "#campaigns"
+  - id: 13-019
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+      - pm
+    question: According to Snyk's ToxicSkills report, what percentage of scanned AI agent skills had security flaws?
+    options:
+      a: 5.2% — a small fraction contained minor issues
+      b: 12.7% — about one in eight had moderate flaws
+      c: 36.82% — over a third of 3,984 skills had flaws, with 534 critical and 76 malicious payloads
+      d: 78.5% — the vast majority were compromised
+    correct: c
+    explanation: "Snyk's ToxicSkills report (Feb 2026) scanned 3,984 skills across ClawHub and skills.sh. Results: 1,467 flawed (36.82%), 534 critical risk (13.4%), 76 confirmed malicious payloads, 10.9% with hardcoded secrets, 17.7% fetching remote content, 2.9% with remote prompt execution. 8 malicious skills were still live at time of scan."
+    doc_reference:
+      file: guide/security/security-hardening.md
+      section: 1.2 Agent Skills Supply Chain Risks
+      anchor: "#12-agent-skills-supply-chain-risks"
+  - id: 13-020
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: Which malicious author published 40+ skills in a programmatic malware campaign with clawhub typosquats?
+    options:
+      a: zaycv — programmatic malware campaign with clawhub/clawdhub1 typosquats
+      b: moonshine-100rze — DAN-style jailbreaking skills
+      c: pepe276 — Unicode-obfuscated instructions
+      d: Aslaep123 — typosquatted exchange tools
+    correct: a
+    explanation: zaycv is the most prolific malicious author identified by Snyk ToxicSkills, publishing 40+ malicious skills in a programmatic campaign. The skills use clawhub and clawdhub1 typosquats to impersonate the legitimate ClawHub CLI. Other confirmed malicious authors include Aslaep123 (crypto/trading skills), pepe276 (Unicode-obfuscated DAN jailbreaking), and moonshine-100rze (mixed prompt-injection + exfiltration).
+    doc_reference:
+      file: guide/security/security-hardening.md
+      section: Malicious Authors
+      anchor: "#malicious-authors"
+  - id: 13-021
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: How does the ClawHavoc campaign deliver its AMOS malware payload?
+    options:
+      a: Through compromised npm packages with postinstall scripts
+      b: By exploiting CVEs in the MCP protocol directly
+      c: Via phishing emails with malicious attachments
+      d: "Fake prerequisites in SKILL.md, base64-encoded shell snippets from glot.io, and password-protected ZIPs (password: 'openclaw')"
+    correct: d
+    explanation: "ClawHavoc uses a multi-stage delivery: (1) SKILL.md contains fake prerequisites that trick the agent into running commands, (2) base64-encoded shell snippets fetched from glot.io paste service, (3) password-protected ZIP files with the password 'openclaw', and (4) second-stage droppers from raw IPs (91.92.242.30, etc.). This chain exploits the agent's trust in SKILL.md instructions."
+    doc_reference:
+      file: guide/security/security-hardening.md
+      section: Campaigns
+      anchor: "#campaigns"
+  - id: 13-022
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is CVE-2025-49596 (MCP Inspector vulnerability)?
+    options:
+      a: A low-severity information disclosure in the MCP Inspector UI
+      b: A critical RCE (CVSS 9.4) via unauthenticated proxy on 0.0.0.0, with ~560 exposed instances found
+      c: A medium-severity denial-of-service in the MCP Inspector CLI
+      d: A cross-site scripting flaw in the MCP Inspector web interface
+    correct: b
+    explanation: "CVE-2025-49596 is a critical vulnerability (CVSS 9.4) in the MCP Inspector. It exposes an unauthenticated proxy on 0.0.0.0, enabling drive-by RCE from any malicious web page. Approximately 560 exposed instances were found on Shodan. Fixed in MCP Inspector >= 0.14.1. Mitigation: update immediately and restrict to localhost binding."
+    doc_reference:
+      file: guide/security/security-hardening.md
+      section: CVE Summary (2025-2026)
+      anchor: "#cve-summary-2025-2026"
+  - id: 13-023
+    difficulty: power
+    profiles:
+      - power
+    question: What does CVE-2025-66032 expose in Claude Code?
+    options:
+      a: A memory leak in Claude Code's language model integration
+      b: An authentication bypass in Claude Code's API key handling
+      c: 8 command execution bypasses via blocklist flaws (man --html, sed e modifier, git arg ambiguity, bash variable expansion)
+      d: A denial-of-service via excessive file watching
+    correct: c
+    explanation: "CVE-2025-66032 (discovered by Flatt Security) reveals 8 different ways to bypass Claude Code's command blocklist and execute arbitrary commands. Techniques include: man --html (opens browser with arbitrary URL), sed e modifier (executes commands), git argument ambiguity, and bash variable expansion. Fixed in Claude Code >= 1.0.93. This demonstrates why defense-in-depth matters beyond simple blocklists."
+    doc_reference:
+      file: guide/security/security-hardening.md
+      section: CVE Summary (2025-2026)
+      anchor: "#cve-summary-2025-2026"
+  - id: 13-024
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+      - pm
+    question: What is the minimum safe version of Claude Code that fixes the sandbox bypass vulnerability?
+    options:
+      a: ">= 2.1.34 (fixes ADVISORY-CC-2026-001 sandbox bypass)"
+      b: ">= 1.0.93 (fixes command blocklist bypasses only)"
+      c: ">= 1.0.111 (fixes WebFetch SSRF only)"
+      d: ">= 0.14.1 (fixes MCP Inspector RCE only)"
+    correct: a
+    explanation: Claude Code >= 2.1.34 is the minimum safe version, fixing ADVISORY-CC-2026-001 — a sandbox bypass where commands excluded from sandboxing could bypass Bash permission enforcement. Earlier versions also have CVE-2025-66032 (8 blocklist bypasses, fixed 1.0.93) and CVE-2026-24052 (WebFetch SSRF, fixed 1.0.111). Always run the latest version for cumulative security fixes.
+    doc_reference:
+      file: guide/security/security-hardening.md
+      section: CVE Summary (2025-2026)
+      anchor: "#cve-summary-2025-2026"
+  - id: 13-025
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+      - pm
+    question: Which CLI tool scans MCP server configurations for known vulnerabilities?
+    options:
+      a: mcp-fortress — a runtime protection dashboard
+      b: mcp-scan (npx mcp-scan) — backed by Snyk with 90-100% recall on known malicious skills
+      c: skills-ref validate — a skill spec compliance checker
+      d: Garak — an LLM vulnerability scanner by NVIDIA
+    correct: b
+    explanation: "mcp-scan (run via `npx mcp-scan`) is the primary CLI tool for scanning MCP configurations. Backed by Invariant/Snyk, it detects known vulnerable MCP servers, scans SKILL.md for prompt injection and malicious code, and supports Claude Desktop, Cursor, and Windsurf configs. It achieves 90-100% recall with 0% false positives on skills.sh top-100. Limitation: cannot detect runtime-only payloads."
+    doc_reference:
+      file: guide/security/security-hardening.md
+      section: 1.2 Agent Skills Supply Chain Risks
+      anchor: "#12-agent-skills-supply-chain-risks"
+  - id: 13-026
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: What does SafeDep vet MCP provide for agent security?
+    options:
+      a: Runtime monitoring of MCP server memory usage
+      b: Automated patching of vulnerable MCP servers
+      c: DNS rebinding protection for local MCP servers
+      d: Software composition analysis that screens packages before install and detects slopsquatting
+    correct: d
+    explanation: SafeDep vet MCP is a software composition analysis tool integrated as an MCP server. It screens package suggestions before pip/npm install, detects slopsquatting (AI-hallucinated package names that attackers register), and identifies vulnerable and malicious packages. It's package-focused and complements mcp-scan (which focuses on MCP configs and SKILL.md scanning).
+    doc_reference:
+      file: guide/security/security-hardening.md
+      section: Scanning Tools
+      anchor: "#scanning-tools"
+  - id: 13-027
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+      - pm
+    question: Which directory in the .claude/ folder is considered most security-sensitive?
+    options:
+      a: .claude/hooks/ — scripts run with full user privileges on every agent event
+      b: .claude/agents/ — agent definitions can override system prompts
+      c: .claude/commands/ — custom commands can execute arbitrary code
+      d: .claude/settings.json — contains all API keys and tokens
+    correct: a
+    explanation: "The .claude/hooks/ directory is the most security-sensitive because hook scripts execute automatically on agent events (SessionStart, PostToolUse, etc.) with the full privileges of the user running Claude Code. Unlike agents or commands which require explicit invocation, hooks fire automatically. Red flag patterns in hooks include: curl/wget (network calls), base64 (payload obfuscation), /dev/tcp (reverse shells), and eval/exec (dynamic code execution)."
+    doc_reference:
+      file: guide/security/security-hardening.md
+      section: 5-Minute .claude/ Audit Checklist
+      anchor: "#5-minute-claude-audit-checklist"
+  - id: 13-028
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: Which combination of patterns in a .claude/hooks/ script indicates a likely malicious hook?
+    options:
+      a: echo, printf, and tee commands for logging
+      b: git, npm, and docker commands for CI/CD integration
+      c: curl/wget + base64 + /dev/tcp + eval — network calls, encoding, reverse shell, and dynamic execution
+      d: date, hostname, and whoami for audit logging
+    correct: c
+    explanation: "Malicious hooks typically combine: curl/wget (data exfiltration), base64 (payload obfuscation used by ClawHavoc via glot.io), /dev/tcp or /dev/udp (bash reverse shells — no legitimate hook use case), and eval/exec (dynamic code execution). Additional red flags: access to .env/credentials/ssh keys, references to paste sites (glot.io, pastebin.com), and nc/ncat/netcat (netcat reverse shells — remove immediately)."
+    doc_reference:
+      file: guide/security/security-hardening.md
+      section: 5-Minute .claude/ Audit Checklist
+      anchor: "#5-minute-claude-audit-checklist"
+  - id: 13-029
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+      - pm
+    question: How many unauthenticated MCP servers were discovered exposed on the internet by Bitsight TRACE?
+    options:
+      a: About 50 servers, mostly development instances
+      b: Approximately 1,000 servers with no authentication, exposing Kubernetes clusters, CRM access, and arbitrary shell
+      c: Over 10,000 servers, all running outdated MCP versions
+      d: Fewer than 10, all quickly patched after disclosure
+    correct: b
+    explanation: Bitsight TRACE's continuous scanning found approximately 1,000 unauthenticated MCP servers exposed on the internet. These exposed servers provided access to Kubernetes clusters, CRM systems, WhatsApp messaging, and arbitrary shell execution — all without any authentication. This highlights the critical importance of never exposing MCP servers to the internet without proper authentication.
+    doc_reference:
+      file: guide/security/security-hardening.md
+      section: Defensive Resources
+      anchor: "#defensive-resources"
+  - id: 13-030
+    difficulty: power
+    profiles:
+      - power
+    question: What is the SAFE-MCP framework?
+    options:
+      a: An Anthropic-maintained list of approved MCP servers
+      b: A runtime sandbox for isolating MCP server processes
+      c: A certification program for MCP server developers
+      d: A security framework with 80+ techniques mapped to ATT&CK for MCP environments, providing policy-based blocklists
+    correct: d
+    explanation: SAFE-MCP (safemcp.org) is a comprehensive security framework that maps 80+ attack techniques to the MITRE ATT&CK framework, specifically adapted for MCP environments. It provides policy-based blocklists and defensive recommendations. Combined with tools like mcp-scan, Docker MCP Gateway, and Snyk AI-BOM, it forms part of a defense-in-depth strategy for securing AI agent infrastructure.
+    doc_reference:
+      file: guide/security/security-hardening.md
+      section: Defensive Resources
+      anchor: "#defensive-resources"
+  - id: 13-031
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What are the 4 pre-configured guardrail tiers in the enterprise governance guide?
+    options:
+      a: Bronze, Silver, Gold, Platinum — scaling by team size only
+      b: Starter, Standard, Strict, Regulated — scaling by compliance requirements and production exposure
+      c: Basic, Advanced, Enterprise, Government — scaling by plan tier
+      d: Dev, Staging, Production, Compliance — mirroring deployment environments
+    correct: b
+    explanation: |-
+      The 4 tiers are: **Starter** (small team <5, internal projects, 10-minute setup), **Standard** (team 5-20, production-adjacent code, adds MCP controls and workflow gates), **Strict** (production systems with real customer data, full approval workflow + audit log), and **Regulated** (HIPAA/SOC2/PCI/finance environments, all previous tiers + compliance audit trail). Each tier provides a ready-to-copy `settings.json` and CLAUDE.md additions. The tiers scale by compliance requirements and production exposure, not by headcount alone.
+      ---
+    doc_reference:
+      file: guide/security/enterprise-governance.md
+      section: Guardrail Tiers
+      anchor: "#4-guardrail-tiers"
+  - id: 13-032
+    difficulty: power
+    profiles:
+      - power
+    question: What does the MCP governance workflow in the enterprise governance guide provide?
+    options:
+      a: A CI/CD pipeline that auto-approves MCP servers with green security scans
+      b: The process for MCP server developers to submit their tools to the Anthropic marketplace
+      c: A Docker-based isolation system for running untrusted MCP servers
+      d: An approval pipeline (request → review → approve → deploy) with a YAML registry tracking approved/pending/denied servers
+    correct: d
+    explanation: |-
+      The MCP governance workflow provides an **approval pipeline** for org-level MCP server control: request → review → approve → deploy. It includes a YAML registry format for tracking approved, pending, and denied servers with risk classification (LOW/MEDIUM/HIGH), data scope classification (PUBLIC/INTERNAL/CONFIDENTIAL/RESTRICTED), and expiry dates. A governance enforcement hook (`governance-enforcement-hook.sh`) validates active MCP configuration against the approved registry at session start — warning without blocking (governance-first, not friction-first). This is for teams that need auditability for SOC2/ISO27001 compliance.
+      ---
+    doc_reference:
+      file: guide/security/enterprise-governance.md
+      section: MCP Governance Workflow
+      anchor: "#3-mcp-governance-workflow"
+  - id: 13-033
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: How does native sandboxing differ between macOS and Linux in Claude Code?
+    options:
+      a: macOS uses Docker containers; Linux uses native process sandboxing
+      b: macOS uses bubblewrap; Linux uses Seatbelt (sandbox-exec)
+      c: macOS uses Seatbelt (sandbox-exec, built-in); Linux uses bubblewrap + socat (must install separately)
+      d: Both platforms use the same Docker-based sandbox, with optional native mode
+    correct: c
+    explanation: |-
+      On **macOS**, native sandboxing uses **Seatbelt** (the built-in `sandbox-exec` system) — no installation required, works out of the box from v2.1.0+. On **Linux/WSL2**, it uses **bubblewrap** + **socat**, which must be installed manually (`sudo apt-get install bubblewrap socat` on Ubuntu/Debian). Native sandboxing is not yet available on WSL1 or Windows (planned). The `dangerouslyDisableSandbox` parameter allows incompatible tools (like `docker` or `watchman`) to escape the sandbox on a per-command basis with user approval.
+      ---
+    doc_reference:
+      file: guide/security/sandbox-native.md
+      section: TL;DR
+      anchor: "#tldr"
+  - id: 13-034
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is the `dangerouslyDisableSandbox` parameter and when does it apply?
+    options:
+      a: A settings.json flag that permanently disables all sandboxing for the project
+      b: A per-command escape hatch that lets Claude retry a failed command outside the sandbox, with user approval
+      c: A CLI flag equivalent to --dangerously-skip-permissions
+      d: A managed policy setting that only admins can configure
+    correct: b
+    explanation: |-
+      `dangerouslyDisableSandbox` is a **per-command escape hatch** for tools incompatible with sandboxing (e.g., `docker`, `watchman`). When a command fails due to sandbox restrictions, Claude analyzes the failure and retries with this parameter set. The user receives a normal permission prompt, and if approved, the command runs outside the sandbox. To disable this escape hatch entirely for maximum security, set `"sandbox.allowUnsandboxedCommands": false` in `settings.json` — this forces all commands to run sandboxed or be explicitly listed in `excludedCommands`.
+      ---
+    doc_reference:
+      file: guide/security/sandbox-native.md
+      section: Escape Hatch
+      anchor: "#6-escape-hatch"
+  - id: 13-035
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What does the sandbox.credentials setting do when enabled in Claude Code, introduced in v2.1.187?
+    options:
+      a: It encrypts all environment variables before they reach the sandbox
+      b: It requires a password prompt before any sandboxed command runs
+      c: It restricts sandboxed commands to a single allowed AWS region
+      d: It blocks sandboxed commands from reading credential files like .aws/credentials and .ssh/, plus secret environment variables
+    correct: d
+    explanation: "sandbox.credentials, added in v2.1.187, blocks sandboxed commands from reading credential files such as .aws/credentials and .ssh/, along with secret environment variables. This closes a gap where a sandboxed process could otherwise still read and exfiltrate stored secrets even while filesystem and network access were restricted. The other options describe capabilities the setting doesn't have: it doesn't encrypt variables, add an interactive password gate, or restrict AWS regions."
+    doc_reference:
+      file: guide/core/claude-code-releases.md
+      section: v2.1.187
+  - id: 13-036
+    difficulty: power
+    profiles:
+      - power
+    question: Since autoMode.classifyAllShell was introduced in v2.1.193, where can a user now see why Auto mode denied a shell command?
+    options:
+      a: In a separate log file written only when CLAUDE_CODE_DEBUG is set
+      b: Nowhere; denial reasons are intentionally hidden from the user for security
+      c: Only in a dedicated security dashboard reachable from claude.ai
+      d: In the transcript, the denial toast notification, and the /permissions recent denials view
+    correct: d
+    explanation: "v2.1.193 added autoMode.classifyAllShell, which routes every Bash and PowerShell command through the auto-mode risk classifier instead of only commands matching arbitrary-code-execution patterns. The same release surfaced denial reasons in three places: the transcript, the denial toast, and the /permissions recent-denials list, making a blocked command easier to diagnose without digging through logs. There is no separate dashboard or hidden debug-only log for this, and hiding the reason entirely would defeat the point of the change."
+    doc_reference:
+      file: guide/core/claude-code-releases.md
+      section: v2.1.193
+  - id: 13-037
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What security gap did v2.1.196 close regarding claude mcp list and claude mcp get?
+    options:
+      a: These commands stopped requiring authentication, exposing MCP server names publicly
+      b: They no longer spawn .mcp.json servers self-approved by a committed .claude/settings.json; unapproved servers now show as Pending approval
+      c: They started deleting unused MCP server configurations automatically
+      d: They began caching MCP server responses without invalidation, causing stale data
+    correct: b
+    explanation: Before v2.1.196, a repository could ship a committed .claude/settings.json that self-approved an .mcp.json server. Running claude mcp list or claude mcp get would then silently spawn that server even if it had never actually been reviewed by the developer, and even if it was malicious. The fix makes those commands show unapproved servers as "Pending approval" instead of running them, closing a path where a malicious committed settings file could grant a server auto-approval before anyone looked at it.
+    doc_reference:
+      file: guide/core/claude-code-releases.md
+      section: v2.1.196
+  - id: 13-038
+    difficulty: power
+    profiles:
+      - power
+    question: Why does the guide describe WebAssembly-based sandboxing, via tools like Wassette, as a meaningful alternative to process-level isolation for MCP tools?
+    options:
+      a: It compiles MCP servers into .wasm components with runtime-enforced capability grants, so a tool only gets the filesystem paths, network hosts, and env vars explicitly declared, rather than relying on the tool's own code to self-restrict
+      b: It makes MCP tool calls run faster than native binaries by skipping the permission system entirely
+      c: It automatically patches known CVEs in MCP servers at runtime without requiring updates
+      d: It replaces the need for reviewing MCP server source code before installation
+    correct: a
+    explanation: "WASM-based sandboxing addresses a specific threat: a compromised or careless MCP server with unpredictable filesystem or network access. Wassette compiles an MCP server to a Wasm component and enforces a YAML-declared capability grant at the runtime level, so the deny-by-default boundary doesn't depend on the tool's own code behaving correctly. The guide calls this browser-grade isolation, a meaningful guarantee but not a certified enterprise security boundary, and notes Wassette itself isn't yet production-ready. It doesn't speed up calls by skipping permissions, patch CVEs automatically, or remove the need for a code review."
+    doc_reference:
+      file: guide/security/sandbox-isolation.md
+      section: 7b. WebAssembly-based MCP Tool Sandboxing (Experimental)
+      anchor: "#7b-webassembly-based-mcp-tool-sandboxing-experimental"
+  - id: 13-039
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: CVE-2026-50548 and CVE-2026-50549, both rated critical in the guide's CVE table, are kept there for cross-tool awareness. What do they describe?
+    options:
+      a: A Claude Code sandbox escape triggered by piped sed and echo commands
+      b: A Cursor agent terminal sandbox escape combining a working-directory restriction bypass with a file-write escape when path canonicalization fails, letting an agent run commands and write files outside the workspace boundary
+      c: A GitHub Actions supply chain attack against Claude Code plugin marketplaces
+      d: A prompt injection vulnerability in the WebFetch tool allowing SSRF
+    correct: b
+    explanation: CVE-2026-50548 and CVE-2026-50549 affect Cursor, not Claude Code. They combine a working-directory restriction bypass with a file-write escape that triggers when path canonicalization fails, letting an agent execute commands and write files outside the intended workspace. The guide keeps them in its table because the same class of sandbox-escape bug can affect any coding agent that enforces workspace boundaries through path checks, not just Claude Code. Option a describes a different, Claude Code-specific issue tracked elsewhere in the table, and options c and d describe attack types not documented under these CVE numbers.
+    doc_reference:
+      file: guide/security/security-hardening.md
+      section: CVE Summary (2025-2026)
+      anchor: "#cve-summary-2025-2026"

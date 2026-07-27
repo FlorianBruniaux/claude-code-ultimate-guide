@@ -1,310 +1,364 @@
-category: "Quick Start"
+category: Quick Start
 category_id: 1
-source_file: "guide/ultimate-guide.md"
-
+source_file: guide/ultimate-guide.md
 questions:
-  - id: "01-001"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power", "pm"]
-    question: "What is the recommended universal method to install Claude Code?"
+  - id: 01-001
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+      - pm
+    question: What is the recommended universal method to install Claude Code?
     options:
-      a: "brew install claude-code"
-      b: "npm install -g @anthropic-ai/claude-code"
-      c: "pip install claude-code"
-      d: "curl -fsSL https://claude.ai/install.sh | sh"
-    correct: "b"
-    explanation: |
-      The universal installation method that works across all platforms (Windows, macOS, Linux) is `npm install -g @anthropic-ai/claude-code`. While shell scripts and Homebrew are available for specific platforms, npm is the recommended cross-platform approach. This ensures consistent installation regardless of your operating system.
+      a: brew install claude-code
+      b: npm install -g @anthropic-ai/claude-code
+      c: pip install claude-code
+      d: curl -fsSL https://claude.ai/install.sh | sh
+    correct: b
+    explanation: The universal method is `npm install -g @anthropic-ai/claude-code` which works across all platforms (Windows, macOS, Linux). While shell scripts (curl/PowerShell) and Homebrew are available alternatives, npm is explicitly labeled as the "Universal Method" in the official guide.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "1.1 Installation"
+      file: guide/ultimate-guide.md
+      section: 1.1 Installation
       anchor: "#11-installation"
-
-  - id: "01-002"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "After Claude proposes a code change, what options do you have when reviewing the diff?"
+  - id: 01-002
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: After Claude proposes a code change, what options do you have when reviewing the diff?
     options:
-      a: "Only accept (y) or reject (n)"
-      b: "Accept (y), reject (n), or edit (e)"
-      c: "Accept (y), skip (s), or delay (d)"
-      d: "Commit (c), reject (r), or review (v)"
-    correct: "b"
-    explanation: |
-      When Claude proposes a change, you have three options: press 'y' to accept the change, 'n' to reject and ask for alternatives, or 'e' to edit the change manually. This gives you full control over what gets applied to your codebase. Always review diffs before accepting - this is your safety net.
+      a: Only accept (y) or reject (n)
+      b: Accept (y), reject (n), or edit (e)
+      c: Accept (y), skip (s), or delay (d)
+      d: Commit (c), reject (r), or review (v)
+    correct: b
+    explanation: "When Claude proposes a change, you have three options: press 'y' to accept the change, 'n' to reject and ask for alternatives, or 'e' to edit the change manually. This gives you full control over what gets applied to your codebase. Always review diffs before accepting - this is your safety net."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "1.2 First Workflow"
+      file: guide/ultimate-guide.md
+      section: 1.2 First Workflow
       anchor: "#12-first-workflow"
-
-  - id: "01-003"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power", "pm"]
-    question: "Which command shows all available Claude Code commands?"
+  - id: 01-003
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+      - pm
+    question: Which command shows all available Claude Code commands?
     options:
-      a: "/commands"
-      b: "/list"
-      c: "/help"
-      d: "/menu"
-    correct: "c"
-    explanation: |
-      The `/help` command displays all available Claude Code commands. This is the go-to command when you're lost or want to discover available functionality. It's one of the 7 essential commands that cover 90% of daily usage.
+      a: /commands
+      b: /list
+      c: /help
+      d: /menu
+    correct: c
+    explanation: The `/help` command displays all available Claude Code commands. This is the go-to command when you're lost or want to discover available functionality. It's one of the 7 essential commands that cover 90% of daily usage.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "1.3 Essential Commands"
+      file: guide/ultimate-guide.md
+      section: 1.3 Essential Commands
       anchor: "#13-essential-commands"
-
-  - id: "01-004"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What does the `!` prefix do in Claude Code?"
+  - id: 01-004
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What does the `!` prefix do in Claude Code?
     options:
-      a: "Marks a command as urgent"
-      b: "Runs a shell command directly without asking Claude"
-      c: "Escapes special characters"
-      d: "Deletes the previous command"
-    correct: "b"
-    explanation: |
-      The `!` prefix executes shell commands immediately without asking Claude to do it. For example, `!git status` runs the command directly. Use this for quick status checks, view commands, and already-known commands. It's faster than asking Claude when you know exactly what command you need.
+      a: Marks a command as urgent
+      b: Runs a shell command directly without asking Claude
+      c: Escapes special characters
+      d: Deletes the previous command
+    correct: b
+    explanation: The `!` prefix executes shell commands immediately without asking Claude to do it. For example, `!git status` runs the command directly. Use this for quick status checks, view commands, and already-known commands. It's faster than asking Claude when you know exactly what command you need.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "1.3 Essential Commands"
-      anchor: "#shell-commands-with-"
-
-  - id: "01-005"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What does the `@` symbol do when used in a prompt?"
+      file: guide/ultimate-guide.md
+      section: 1.3 Essential Commands
+      anchor: "#shell-commands-with"
+  - id: 01-005
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What does the `@` symbol do when used in a prompt?
     options:
-      a: "Mentions another user"
-      b: "References a specific file for targeted operations"
-      c: "Tags a message as important"
-      d: "Activates an agent"
-    correct: "b"
-    explanation: |
-      The `@` symbol references specific files in your prompts for targeted operations. For example, `Review @src/auth/login.tsx for security issues` signals Claude to read that file. This provides precision (target exact files), speed (skip file discovery), and clarity (makes your intent explicit). Claude reads the file on-demand via tools.
+      a: Mentions another user
+      b: References a specific file for targeted operations
+      c: Tags a message as important
+      d: Activates an agent
+    correct: b
+    explanation: The `@` symbol references specific files in your prompts for targeted operations. For example, `Review @src/auth/login.tsx for security issues` signals Claude to read that file. This provides precision (target exact files), speed (skip file discovery), and clarity (makes your intent explicit). Claude reads the file on-demand via tools.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "1.3 Essential Commands"
-      anchor: "#file-references-with-"
-
-  - id: "01-006"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What is the recommended approach when migrating from GitHub Copilot to Claude Code?"
+      file: guide/ultimate-guide.md
+      section: 1.3 Essential Commands
+      anchor: "#file-references-with"
+  - id: 01-006
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is the recommended approach when migrating from GitHub Copilot to Claude Code?
     options:
-      a: "Completely stop using Copilot immediately"
+      a: Completely stop using Copilot immediately
       b: "Use a hybrid approach: Copilot for autocomplete, Claude Code for complex tasks"
-      c: "Only use Claude Code for simple tasks"
-      d: "Export all Copilot settings to Claude Code"
-    correct: "b"
-    explanation: |
-      The guide recommends a hybrid approach: use Copilot for quick autocomplete and boilerplate while using Claude Code for feature implementation, debugging, code reviews, and understanding unfamiliar codebases. This leverages the strengths of both tools - Copilot excels at inline suggestions while Claude Code handles multi-file operations and complex reasoning.
+      c: Only use Claude Code for simple tasks
+      d: Export all Copilot settings to Claude Code
+    correct: b
+    explanation: "The guide recommends a hybrid approach: use Copilot for quick autocomplete and boilerplate while using Claude Code for feature implementation, debugging, code reviews, and understanding unfamiliar codebases. This leverages the strengths of both tools - Copilot excels at inline suggestions while Claude Code handles multi-file operations and complex reasoning."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "1.6 Migrating from Other AI Coding Tools"
-      anchor: "#migration-guide-github-copilot--claude-code"
-
-  - id: "01-007"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "In Plan Mode, what is Claude allowed to do?"
+      file: guide/ultimate-guide.md
+      section: 1.6 Migrating from Other AI Coding Tools
+      anchor: "#migration-guide-github-copilot-claude-code"
+  - id: 01-007
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: In Plan Mode, what is Claude allowed to do?
     options:
-      a: "Edit files, run commands, and make commits"
-      b: "Only read and analyze - no modifications allowed"
-      c: "Run commands but not edit files"
-      d: "Create new files but not edit existing ones"
-    correct: "b"
-    explanation: |
-      Plan Mode is Claude Code's "look but don't touch" mode. It allows reading files, searching the codebase, analyzing architecture, and proposing approaches. It prevents editing files, running state-modifying commands, creating new files, and making commits. Perfect for safe exploration before making changes.
+      a: Edit files, run commands, and make commits
+      b: Only read and analyze - no modifications allowed
+      c: Run commands but not edit files
+      d: Create new files but not edit existing ones
+    correct: b
+    explanation: Plan Mode is Claude Code's "look but don't touch" mode. It allows reading files, searching the codebase, analyzing architecture, and proposing approaches. It prevents editing files, running state-modifying commands, creating new files, and making commits. Perfect for safe exploration before making changes.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "1.4 Permission Modes"
+      file: guide/ultimate-guide.md
+      section: 1.4 Permission Modes
       anchor: "#plan-mode"
-
-  - id: "01-008"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What flag allows you to continue your most recent Claude Code conversation?"
+  - id: 01-008
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What flag allows you to continue your most recent Claude Code conversation?
     options:
-      a: "--last"
-      b: "--continue or -c"
-      c: "--resume-last"
-      d: "--restore"
-    correct: "b"
-    explanation: |
-      Use `claude --continue` or `claude -c` to automatically resume your most recent conversation. This maintains full context and conversation history across terminal sessions. For resuming a specific session by ID, use `claude --resume <id>` or `claude -r <id>`. This is particularly useful for multi-day features or when interrupted.
+      a: --last
+      b: --continue or -c
+      c: --resume-last
+      d: --restore
+    correct: b
+    explanation: Use `claude --continue` or `claude -c` to automatically resume your most recent conversation. This maintains full context and conversation history across terminal sessions. For resuming a specific session by ID, use `claude --resume <id>` or `claude -r <id>`. This is particularly useful for multi-day features or when interrupted.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "1.3 Essential Commands"
+      file: guide/ultimate-guide.md
+      section: 1.3 Essential Commands
       anchor: "#session-continuation-and-resume"
-
-  - id: "01-009"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What should you ALWAYS do before accepting a code change from Claude?"
+  - id: 01-009
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What should you ALWAYS do before accepting a code change from Claude?
     options:
-      a: "Run the test suite"
-      b: "Create a backup of the file"
-      c: "Read the diff carefully"
-      d: "Ask for Claude's confidence level"
-    correct: "c"
-    explanation: |
-      Always read the diff before accepting changes - this is your safety net. The guide emphasizes this as critical: "Always review diffs before accepting changes." While running tests is good practice, reviewing the diff is the immediate required step before any acceptance. You need to understand what changes are being proposed.
+      a: Run the test suite
+      b: Create a backup of the file
+      c: Read the diff carefully
+      d: Ask for Claude's confidence level
+    correct: c
+    explanation: 'Always read the diff before accepting changes - this is your safety net. The guide emphasizes this as critical: "Always review diffs before accepting changes." While running tests is good practice, reviewing the diff is the immediate required step before any acceptance. You need to understand what changes are being proposed.'
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "1.2 First Workflow"
+      file: guide/ultimate-guide.md
+      section: 1.2 First Workflow
       anchor: "#step-3-review-the-diff"
-
-  - id: "01-010"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "Which keyboard shortcut cancels the current operation in Claude Code?"
+  - id: 01-010
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: Which keyboard shortcut cancels the current operation in Claude Code?
     options:
-      a: "Ctrl+Z"
-      b: "Ctrl+C"
-      c: "Esc"
-      d: "Ctrl+Q"
-    correct: "c"
-    explanation: |
-      Esc cancels (stops) the current operation in Claude Code. Press Esc once to stop Claude mid-action, and double-tap Esc (Esc+Esc) to open the rewind menu. Ctrl+C is the standard terminal interrupt but Esc is the primary in-app shortcut for stopping operations. Knowing these shortcuts helps maintain control during your workflow.
+      a: Ctrl+Z
+      b: Ctrl+C
+      c: Esc
+      d: Ctrl+Q
+    correct: b
+    explanation: Ctrl+C cancels the current operation in Claude Code. This is useful for stopping long-running analysis or when Claude is taking an approach you don't want. Esc dismisses the current suggestion, while Ctrl+R retries the last operation. Knowing these shortcuts helps maintain control during your workflow.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "1.3 Essential Commands"
-      anchor: "#quick-actions--shortcuts"
-
-  - id: "01-011"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "When should you use auto-accept mode in Claude Code?"
+      file: guide/ultimate-guide.md
+      section: 1.3 Essential Commands
+      anchor: "#quick-actions-shortcuts"
+  - id: 01-011
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: When should you use auto-accept mode in Claude Code?
     options:
-      a: "For all operations to save time"
-      b: "Only for well-defined, reversible operations you trust"
-      c: "When working on production code"
-      d: "For complex refactoring tasks"
-    correct: "b"
-    explanation: |
-      Auto-accept mode should only be used for well-defined, reversible operations. The guide warns: "Only use auto-accept for well-defined, reversible operations." It's dangerous for complex or risky changes. Default mode (asking permission) is safest, especially for learning and production work.
+      a: For all operations to save time
+      b: Only for well-defined, reversible operations you trust
+      c: When working on production code
+      d: For complex refactoring tasks
+    correct: b
+    explanation: "Auto-accept mode should only be used for well-defined, reversible operations. The guide warns: \"Only use auto-accept for well-defined, reversible operations.\" It's dangerous for complex or risky changes. Default mode (asking permission) is safest, especially for learning and production work."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "1.4 Permission Modes"
-      anchor: "#auto-accept-mode"
-
-  - id: "01-012"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is the recommended rule of thumb for choosing between Claude Code and autocomplete tools based on code size?"
+      file: guide/ultimate-guide.md
+      section: 1.4 Permission Modes
+      anchor: "#auto-accept-mode-acceptedits"
+  - id: 01-012
+    difficulty: power
+    profiles:
+      - power
+    question: What is the recommended rule of thumb for choosing between Claude Code and autocomplete tools based on code size?
     options:
       a: "<10 lines: autocomplete, >10 lines: Claude Code"
       b: "<5 lines: autocomplete, 5-50 lines single file: either, >50 lines or multi-file: Claude Code"
-      c: "Always use Claude Code regardless of size"
+      c: Always use Claude Code regardless of size
       d: "<20 lines: autocomplete, >20 lines: Claude Code"
-    correct: "b"
-    explanation: |
-      The guide provides clear guidance: less than 5 lines of code - use Copilot/autocomplete; 5-50 lines in a single file - either tool works; more than 50 lines or multi-file changes - use Claude Code. This helps you choose the right tool for the task's complexity level.
+    correct: b
+    explanation: "The guide provides clear guidance: less than 5 lines of code - use Copilot/autocomplete; 5-50 lines in a single file - either tool works; more than 50 lines or multi-file changes - use Claude Code. This helps you choose the right tool for the task's complexity level."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "1.6 Migrating from Other AI Coding Tools"
+      file: guide/ultimate-guide.md
+      section: 1.6 Migrating from Other AI Coding Tools
       anchor: "#common-migration-issues"
-
-  - id: "01-013"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What image formats does Claude Code support for visual analysis?"
+  - id: 01-013
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What image formats does Claude Code support for visual analysis?
     options:
-      a: "Only PNG"
-      b: "PNG, JPG, JPEG, WebP, GIF (static)"
-      c: "All image formats including RAW"
-      d: "SVG and PNG only"
-    correct: "b"
-    explanation: |
-      Claude Code supports PNG, JPG, JPEG, WebP, and static GIF formats. You can paste images directly in the terminal (Cmd+V/Ctrl+V), drag and drop, or reference by path. This is useful for implementing UI from mockups, debugging visual issues, analyzing diagrams, and accessibility audits. Note that images consume significant context tokens (1000-2000 words equivalent).
+      a: Only PNG
+      b: PNG, JPG, JPEG, WebP, GIF (static)
+      c: All image formats including RAW
+      d: SVG and PNG only
+    correct: b
+    explanation: Claude Code supports PNG, JPG, JPEG, WebP, and static GIF formats. You can paste images directly in the terminal (Cmd+V/Ctrl+V), drag and drop, or reference by path. This is useful for implementing UI from mockups, debugging visual issues, analyzing diagrams, and accessibility audits. Note that images consume significant context tokens (1000-2000 words equivalent).
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "1.3 Essential Commands"
+      file: guide/ultimate-guide.md
+      section: 1.3 Essential Commands
       anchor: "#working-with-images-and-screenshots"
-
-  - id: "01-014"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "When resuming a Claude Code session, what context is preserved?"
+  - id: 01-014
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: When resuming a Claude Code session, what context is preserved?
     options:
-      a: "Only the conversation history"
-      b: "Full conversation history, files read/edited, CLAUDE.md settings, and MCP server state"
-      c: "Just the last 10 messages"
-      d: "Only files that were modified"
-    correct: "b"
-    explanation: |
-      When you resume a session, Claude retains: full conversation history, files previously read/edited, CLAUDE.md and project settings, MCP server state (if Serena is used), and uncommitted code changes awareness. This comprehensive context preservation allows seamless continuation of complex, multi-day tasks.
-    doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "1.3 Essential Commands"
-      anchor: "#context-preservation"
+      a: Only the conversation history
+      b: Full conversation history, files read/edited, CLAUDE.md settings
+      c: Just the last 10 messages
+      d: Only files that were modified
+    correct: b
+    explanation: |-
+      When you resume a session (via `claude -c` or `claude -r <id>`), Claude retains:
+      - ✅ Full conversation history
+      - ✅ Files previously read/edited
+      - ✅ CLAUDE.md and project settings
+      - ✅ Uncommitted code changes awareness
+      - ✅ MCP server state (if Serena is used)
 
-  - id: "01-015"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power", "pm"]
-    question: "What command should you use to verify Claude Code installation?"
-    options:
-      a: "claude check"
-      b: "claude --verify"
-      c: "claude --version"
-      d: "claude test"
-    correct: "c"
-    explanation: |
-      Use `claude --version` to verify your installation and display the current version. This is also useful before reporting bugs. After installation, you can also use `claude doctor` to verify auto-updater health and `claude update` to check for available updates.
+      **Not preserved**:
+      - ❌ Session-scoped permissions (must re-approve)
+      - ❌ Standard MCP server state (Serena exception)
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "1.1 Installation"
+      file: guide/ultimate-guide.md
+      section: 1.2 Session Continuation and Resume
+      line: 753-761
+  - id: 01-015
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+      - pm
+    question: What command should you use to verify Claude Code installation?
+    options:
+      a: claude check
+      b: claude --verify
+      c: claude --version
+      d: claude test
+    correct: c
+    explanation: Use `claude --version` to verify your installation and display the current version. This is also useful before reporting bugs. After installation, you can also use `claude doctor` to verify auto-updater health and `claude update` to check for available updates.
+    doc_reference:
+      file: guide/ultimate-guide.md
+      section: 1.1 Installation
       anchor: "#verify-installation"
-
-  - id: "01-016"
-    difficulty: "intermediate"
-    profiles: ["senior", "power"]
-    question: "What is the optimal image resolution range for Claude Code visual analysis?"
+  - id: 01-016
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: What is the optimal image resolution range for Claude Code visual analysis?
     options:
-      a: "50-200px (smallest possible)"
-      b: "200-1568px (sweet spot for quality/token balance)"
-      c: "2000-4000px (maximum detail)"
-      d: "8000px+ (highest resolution)"
-    correct: "b"
-    explanation: |
-      The optimal range is 200-1568px. Below 200px lacks detail, 200-1000px is the sweet spot for wireframes, 1000-1568px provides optimal quality/token balance, images above 1568px are auto-downscaled (wasting upload time), and images over 8000px are rejected by the API.
+      a: 50-200px (smallest possible)
+      b: 200-1568px (sweet spot for quality/token balance)
+      c: 2000-4000px (maximum detail)
+      d: 8000px+ (highest resolution)
+    correct: b
+    explanation: The optimal range is 200-1568px. Below 200px lacks detail, 200-1000px is the sweet spot for wireframes, 1000-1568px provides optimal quality/token balance, images above 1568px are auto-downscaled (wasting upload time), and images over 8000px are rejected by the API.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "1.3 Essential Commands"
-      anchor: "#image-resolution-guidelines"
-
-  - id: "01-017"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "How are image tokens calculated in Claude Code?"
+      file: guide/ultimate-guide.md
+      section: Image Optimization for Claude Vision
+      anchor: "#image-optimization-for-claude-vision"
+  - id: 01-017
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: How are image tokens calculated in Claude Code?
     options:
-      a: "file_size_bytes / 1000"
-      b: "(width × height) / 750"
-      c: "pixels / 1000"
-      d: "Fixed 500 tokens per image"
-    correct: "b"
-    explanation: |
-      Token calculation formula: (width × height) / 750 ≈ tokens consumed. Examples: 200×200 = ~54 tokens, 500×500 = ~334 tokens, 1000×1000 = ~1334 tokens. This helps estimate context impact before pasting images. Use /status after pasting to monitor actual context usage.
+      a: file_size_bytes / 1000
+      b: (width × height) / 750
+      c: pixels / 1000
+      d: Fixed 500 tokens per image
+    correct: b
+    explanation: "Token calculation formula: (width × height) / 750 ≈ tokens consumed. Examples: 200×200 = ~54 tokens, 500×500 = ~334 tokens, 1000×1000 = ~1334 tokens. This helps estimate context impact before pasting images. Use /status after pasting to monitor actual context usage."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "1.3 Essential Commands"
-      anchor: "#image-resolution-guidelines"
-
-  - id: "01-018"
-    difficulty: "intermediate"
-    profiles: ["senior", "power"]
-    question: "Which image format is recommended for wireframes and diagrams in Claude Code?"
+      file: guide/ultimate-guide.md
+      section: Image Optimization for Claude Vision
+      anchor: "#image-optimization-for-claude-vision"
+  - id: 01-018
+    difficulty: intermediate
+    profiles:
+      - senior
+      - power
+    question: Which image format is recommended for wireframes and diagrams in Claude Code?
     options:
-      a: "JPEG (best compression)"
-      b: "PNG (sharp lines and text)"
-      c: "GIF (universal support)"
-      d: "BMP (lossless)"
-    correct: "b"
-    explanation: |
-      PNG is recommended for wireframes, diagrams, and text because it preserves sharp lines. WebP is good for general screenshots with compression. JPEG is for photos only—compression artifacts harm line detection. GIF should be avoided (static only, poor quality). Always crop to relevant area and resize to 1000-1200px if larger.
+      a: JPEG (best compression)
+      b: PNG (sharp lines and text)
+      c: GIF (universal support)
+      d: BMP (lossless)
+    correct: b
+    explanation: PNG is recommended for wireframes, diagrams, and text because it preserves sharp lines. WebP is good for general screenshots with compression. JPEG is for photos only—compression artifacts harm line detection. GIF should be avoided (static only, poor quality). Always crop to relevant area and resize to 1000-1200px if larger.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "1.3 Essential Commands"
-      anchor: "#format-recommendations"
+      file: guide/ultimate-guide.md
+      section: Image Optimization for Claude Vision
+      anchor: "#image-optimization-for-claude-vision"
+  - id: 01-019
+    difficulty: junior
+    profiles:
+      - junior
+      - pm
+    question: What is Claude Code's default permission mode called as of v2.1.200, and what does it mean for someone using it for the first time?
+    options:
+      a: Plan mode, meaning Claude can only describe a plan and never touch files
+      b: Bypass mode, meaning all permission checks are turned off from the start
+      c: Manual mode, meaning Claude asks for approval before taking each action until you grant broader permissions
+      d: Auto mode, meaning Claude executes every action without asking
+    correct: c
+    explanation: 'As of v2.1.200, the mode previously labeled "default" is now called "Manual" across the CLI, --help, VS Code, and JetBrains (--permission-mode manual and "defaultMode": "manual" are accepted alongside the old value). For a first-time user this means Claude stops and asks before each file edit or command, the safest starting point. Auto mode and bypass permissions skip those prompts, and plan mode is a separate read-only planning state, not the default.'
+    doc_reference:
+      file: guide/core/claude-code-releases.md
+      section: v2.1.200
+  - id: 01-020
+    difficulty: junior
+    profiles:
+      - junior
+      - pm
+    question: As of Claude Code v2.1.198, what happens by default when Claude delegates a task to a subagent?
+    options:
+      a: The main session freezes until the subagent finishes its work
+      b: The subagent runs silently and no one is ever told when it completes
+      c: Claude keeps working on other things while the subagent runs, and you're notified when it finishes
+      d: You must manually check progress every few minutes since there is no notification
+    correct: c
+    explanation: Since v2.1.198, subagents run in the background by default, so Claude keeps working on other parts of your task while the subagent runs and you get notified when it finishes, rather than waiting idle. This replaced the earlier behavior where a subagent call blocked the parent session until it returned. No manual polling is required, the notification is automatic.
+    doc_reference:
+      file: guide/core/claude-code-releases.md
+      section: v2.1.198

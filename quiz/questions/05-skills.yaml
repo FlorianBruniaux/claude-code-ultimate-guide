@@ -1,361 +1,468 @@
-category: "Skills"
+category: Skills
 category_id: 5
-source_file: "guide/ultimate-guide.md"
-
+source_file: guide/ultimate-guide.md
 questions:
-  - id: "05-001"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power", "pm"]
-    question: "What is the relationship between Skills and Agents?"
+  - id: 05-001
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+      - pm
+    question: What is the relationship between Skills and Agents?
     options:
-      a: "Skills replace agents"
-      b: "Skills are knowledge packages that agents can inherit"
-      c: "Agents are a type of skill"
-      d: "They are completely independent"
-    correct: "b"
-    explanation: |
-      Skills are knowledge packages that agents can inherit. While agents are specialized roles (task-focused), skills are reusable knowledge modules (domain-focused). Multiple agents can inherit the same skill, avoiding duplication. For example, both a code-reviewer and security-auditor agent can inherit the security-guardian skill.
+      a: Skills replace agents
+      b: Skills are knowledge packages that agents can inherit
+      c: Agents are a type of skill
+      d: They are completely independent
+    correct: b
+    explanation: Skills are knowledge packages that agents can inherit. While agents are specialized roles (task-focused), skills are reusable knowledge modules (domain-focused). Multiple agents can inherit the same skill, avoiding duplication. For example, both a code-reviewer and security-auditor agent can inherit the security-guardian skill.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "5.1 Understanding Skills"
+      file: guide/ultimate-guide.md
+      section: 5.1 Understanding Skills
       anchor: "#51-understanding-skills"
-
-  - id: "05-002"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "Where should skill files be stored?"
+  - id: 05-002
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: Where should skill files be stored?
     options:
-      a: ".claude/commands/"
-      b: ".claude/skills/{skill-name}/"
-      c: ".claude/agents/"
-      d: "~/.claude/skills/"
-    correct: "b"
-    explanation: |
-      Skills live in `.claude/skills/{skill-name}/` directories within your project. Each skill has its own folder containing at minimum a SKILL.md file, with optional reference.md, checklists/, examples/, and scripts/ subdirectories. This organization keeps knowledge modular and reusable.
+      a: .claude/commands/
+      b: .claude/skills/{skill-name}/
+      c: .claude/agents/
+      d: ~/.claude/skills/
+    correct: b
+    explanation: Skills live in `.claude/skills/{skill-name}/` directories within your project. Each skill has its own folder containing at minimum a SKILL.md file, with optional reference.md, checklists/, examples/, and scripts/ subdirectories. This organization keeps knowledge modular and reusable.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "5.2 Creating Skills"
+      file: guide/ultimate-guide.md
+      section: 5.2 Creating Skills
       anchor: "#52-creating-skills"
-
-  - id: "05-003"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What is the REQUIRED file in a skill folder?"
+  - id: 05-003
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is the REQUIRED file in a skill folder?
     options:
-      a: "README.md"
-      b: "skill.yaml"
-      c: "SKILL.md"
-      d: "index.md"
-    correct: "c"
-    explanation: |
-      SKILL.md is the required main file in every skill folder. Optional files include: reference.md (detailed documentation), checklists/ (verification lists), examples/ (code patterns with good/bad examples), and scripts/ (helper scripts). SKILL.md contains the frontmatter and core instructions for the skill.
+      a: README.md
+      b: skill.yaml
+      c: SKILL.md
+      d: index.md
+    correct: c
+    explanation: "SKILL.md is the required main file in every skill folder. Optional files include: reference.md (detailed documentation), checklists/ (verification lists), examples/ (code patterns with good/bad examples), and scripts/ (helper scripts). SKILL.md contains the frontmatter and core instructions for the skill."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "5.2 Creating Skills"
+      file: guide/ultimate-guide.md
+      section: 5.2 Creating Skills
       anchor: "#skill-folder-structure"
-
-  - id: "05-004"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What is the key difference between Skills, Agents, and Commands?"
+  - id: 05-004
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What is the key difference between Skills, Agents, and Commands (CC 2.1.3+)?
     options:
-      a: "They all do the same thing"
-      b: "Skills = knowledge modules (inherited), Agents = specialized roles (delegated), Commands = process workflows (slash invoked)"
-      c: "Commands are the only reusable component"
-      d: "Agents cannot use skills or commands"
-    correct: "b"
-    explanation: |
-      The three concepts have distinct purposes: Skills are knowledge modules inherited by agents (like OWASP security knowledge), Agents are specialized roles that Claude delegates tasks to (like a security reviewer), and Commands are process workflows invoked with slash commands (like /tech:commit). They can be combined: agents inherit skills and execute commands.
-    doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "5.1 Understanding Skills"
-      anchor: "#skills-vs-agents-vs-commands"
+      a: They all do the same thing
+      b: Skills = knowledge modules (user-invocable or auto), Agents = specialized roles (delegated), Commands = user-invocable skills with disable-model-invocation true
+      c: Commands are the only reusable component
+      d: Agents cannot use skills or commands
+    correct: b
+    explanation: |-
+      Since CC 2.1.3, the distinction is: Skills are knowledge modules that can be either user-invocable (formerly "commands") or auto-invoked by the model. Agents are specialized roles that Claude delegates tasks to (like a security reviewer). "Commands" are now simply user-invocable skills — skills with `disable-model-invocation: true` in their frontmatter — stored in `.claude/skills/` like all other skills.
 
-  - id: "05-005"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What does the 'context' field in SKILL.md frontmatter control?"
-    options:
-      a: "The context window size"
-      b: "Whether the skill runs in isolated (fork) or shared (inherit) context"
-      c: "The file context to load"
-      d: "Database connection context"
-    correct: "b"
-    explanation: |
-      The `context` field controls execution context: 'fork' means isolated context (the skill runs independently), 'inherit' means shared context (the skill shares context with the calling agent). Use fork for skills that need clean state, inherit for skills that need access to conversation history and loaded files.
+      In practice: Skills with `disable-model-invocation: true` behave like the old commands (triggered by `/name`). Skills without that flag auto-load when context matches. Agents inherit skills and have their own persistent memory. They can be combined: agents inherit model-invocable skills, and users invoke user-invocable skills via `/name`.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "5.2 Creating Skills"
+      file: guide/ultimate-guide.md
+      section: Skills vs Agents
+      anchor: "#skills-vs-agents"
+  - id: 05-005
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What does the 'context' field in SKILL.md frontmatter control?
+    options:
+      a: The context window size
+      b: Whether the skill runs in isolated (fork) or shared (inherit) context
+      c: The file context to load
+      d: Database connection context
+    correct: b
+    explanation: "The `context` field controls execution context: 'fork' means isolated context (the skill runs independently), 'inherit' means shared context (the skill shares context with the calling agent). Use fork for skills that need clean state, inherit for skills that need access to conversation history and loaded files."
+    doc_reference:
+      file: guide/ultimate-guide.md
+      section: 5.2 Creating Skills
       anchor: "#skillmd-frontmatter"
-
-  - id: "05-006"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "Why use skills instead of duplicating knowledge in multiple agents?"
+  - id: 05-006
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: Why use skills instead of duplicating knowledge in multiple agents?
     options:
-      a: "Skills are faster"
-      b: "Skills provide single source of truth - update once, all agents benefit"
-      c: "Skills are required by Claude Code"
-      d: "Skills cost less"
-    correct: "b"
-    explanation: |
-      Skills follow DRY (Don't Repeat Yourself) principles. Without skills, you'd duplicate security knowledge in Agent A, B, and C. With skills, the security-guardian skill is the single source - all agents inherit it, and updates propagate everywhere. This ensures consistency and simplifies maintenance.
+      a: Skills are faster
+      b: Skills provide single source of truth - update once, all agents benefit
+      c: Skills are required by Claude Code
+      d: Skills cost less
+    correct: b
+    explanation: Skills follow DRY (Don't Repeat Yourself) principles. Without skills, you'd duplicate security knowledge in Agent A, B, and C. With skills, the security-guardian skill is the single source - all agents inherit it, and updates propagate everywhere. This ensures consistency and simplifies maintenance.
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "5.1 Understanding Skills"
+      file: guide/ultimate-guide.md
+      section: 5.1 Understanding Skills
       anchor: "#why-skills"
-
-  - id: "05-007"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What makes a GOOD skill versus a BAD skill?"
+  - id: 05-007
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What makes a GOOD skill versus a BAD skill?
     options:
-      a: "Good skills are longer, bad skills are shorter"
-      b: "Good skills are reusable, domain-focused, and include reference material; bad skills are single-agent specific and too broad"
-      c: "Good skills use opus, bad skills use haiku"
-      d: "Good skills have more files"
-    correct: "b"
-    explanation: |
-      Good skills are: reusable across multiple agents, domain-focused (not too broad), contain reference material and checklists, and include verification steps. Bad skills are: specific to only one agent, too broad in scope, just instructions without reference material, and missing verification checklists.
+      a: Good skills are longer, bad skills are shorter
+      b: Good skills are reusable, domain-focused, and include reference material; bad skills are single-agent specific and too broad
+      c: Good skills use opus, bad skills use haiku
+      d: Good skills have more files
+    correct: b
+    explanation: "Good skills are: reusable across multiple agents, domain-focused (not too broad), contain reference material and checklists, and include verification steps. Bad skills are: specific to only one agent, too broad in scope, just instructions without reference material, and missing verification checklists."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "5.1 Understanding Skills"
+      file: guide/ultimate-guide.md
+      section: 5.1 Understanding Skills
       anchor: "#what-makes-a-good-skill"
-
-  - id: "05-008"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What is the TDD (Test-Driven Development) skill's core methodology?"
+  - id: 05-008
+    difficulty: power
+    profiles:
+      - power
+    question: What is the TDD (Test-Driven Development) skill's core methodology?
     options:
-      a: "Write tests after code"
-      b: "RED (failing test) -> GREEN (minimal code to pass) -> REFACTOR (improve while green)"
-      c: "Write all tests first, then all code"
-      d: "Skip tests for speed"
-    correct: "b"
-    explanation: |
-      The TDD skill follows: 1) RED - write a failing test for desired behavior BEFORE code, 2) GREEN - write MINIMUM code to make the test pass, 3) REFACTOR - improve implementation while keeping tests green, then repeat. This cycle ensures tests actually verify behavior by requiring failure first, then incremental improvement.
+      a: Write tests after code
+      b: RED (failing test) -> GREEN (minimal code to pass) -> REFACTOR (improve while green)
+      c: Write all tests first, then all code
+      d: Skip tests for speed
+    correct: b
+    explanation: "The TDD skill follows: 1) RED - write a failing test for desired behavior BEFORE code, 2) GREEN - write MINIMUM code to make the test pass, 3) REFACTOR - improve implementation while keeping tests green, then repeat. This cycle ensures tests actually verify behavior by requiring failure first, then incremental improvement."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "5.4 Skill Examples"
+      file: guide/ultimate-guide.md
+      section: 5.4 Skill Examples
       anchor: "#example-2-tdd-skill"
-
-  - id: "05-009"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What should a Security Guardian skill include for OWASP coverage?"
+  - id: 05-009
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What should a Security Guardian skill include for OWASP coverage?
     options:
-      a: "Just a list of vulnerabilities"
-      b: "Checklists for each OWASP Top 10 category with specific verification items"
-      c: "Links to external security tools"
-      d: "Password examples"
-    correct: "b"
-    explanation: |
-      A Security Guardian skill should include detailed checklists for each OWASP Top 10 category: A01 Broken Access Control (check authorization, IDOR, privilege escalation), A02 Cryptographic Failures (hardcoded secrets, TLS, password hashing), A03 Injection (SQL, NoSQL, XSS), etc. Each category should have specific verification items with checkboxes.
+      a: Just a list of vulnerabilities
+      b: Checklists for each OWASP Top 10 category with specific verification items
+      c: Links to external security tools
+      d: Password examples
+    correct: b
+    explanation: "A Security Guardian skill should include detailed checklists for each OWASP Top 10 category: A01 Broken Access Control (check authorization, IDOR, privilege escalation), A02 Cryptographic Failures (hardcoded secrets, TLS, password hashing), A03 Injection (SQL, NoSQL, XSS), etc. Each category should have specific verification items with checkboxes."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "5.4 Skill Examples"
+      file: guide/ultimate-guide.md
+      section: 5.4 Skill Examples
       anchor: "#example-1-security-guardian-skill"
-
-  - id: "05-010"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What is the 'agent' field in SKILL.md frontmatter?"
+  - id: 05-010
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What is the 'agent' field in SKILL.md frontmatter?
     options:
-      a: "Which agent created the skill"
-      b: "Whether the skill is 'specialist' (domain-focused) or 'general' (broad)"
-      c: "The agent that must use this skill"
-      d: "The agent's name"
-    correct: "b"
-    explanation: |
-      The `agent` field indicates whether the skill is 'specialist' (domain-focused, deep expertise in one area) or 'general' (broad, applicable across domains). Specialist skills like security-guardian provide deep domain knowledge, while general skills might provide widely-applicable patterns or utilities.
+      a: Which agent created the skill
+      b: "Which subagent type (Explore, Plan, general-purpose, or a custom .claude/agents/ subagent) to use when context: fork is set"
+      c: The agent that must use this skill
+      d: The agent's name
+    correct: b
+    explanation: "The `agent` field selects which subagent type runs the skill when `context: fork` is set. Accepted values are the built-in agents (Explore, Plan, general-purpose) or any custom subagent from `.claude/agents/`; if omitted, it defaults to general-purpose. It has no effect unless paired with `context: fork`, and has nothing to do with a 'specialist' versus 'general' classification."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "5.2 Creating Skills"
+      file: guide/ultimate-guide.md
+      section: 5.2 Creating Skills
       anchor: "#skillmd-frontmatter"
-
-  - id: "05-011"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What does the 'allowed-tools' field in skill frontmatter control?"
+  - id: 05-011
+    difficulty: power
+    profiles:
+      - power
+    question: What does the 'allowed-tools' field in skill frontmatter control?
     options:
-      a: "Tools the skill documents"
-      b: "Tools the skill can use when activated"
-      c: "Tools that can activate the skill"
-      d: "Tools to install"
-    correct: "b"
-    explanation: |
-      The `allowed-tools` field specifies which tools the skill can use when activated. For example, a security-guardian skill might have `allowed-tools: Read, Grep, Bash` - allowing it to read files, search for patterns, and run security scanning commands, but not modify files. This provides security boundaries for each skill.
+      a: Tools the skill documents
+      b: Tools the skill can use when activated
+      c: Tools that can activate the skill
+      d: Tools to install
+    correct: b
+    explanation: "The `allowed-tools` field specifies which tools the skill can use when activated. For example, a security-guardian skill might have `allowed-tools: Read, Grep, Bash` - allowing it to read files, search for patterns, and run security scanning commands, but not modify files. This provides security boundaries for each skill."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "5.2 Creating Skills"
+      file: guide/ultimate-guide.md
+      section: 5.2 Creating Skills
       anchor: "#skillmd-frontmatter"
-
-  - id: "05-012"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What optional folders can a skill directory contain?"
+  - id: 05-012
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What optional folders can a skill directory contain?
     options:
-      a: "Only SKILL.md is allowed"
-      b: "reference.md, checklists/, examples/, and scripts/"
-      c: "src/, dist/, and node_modules/"
-      d: "tests/, docs/, and config/"
-    correct: "b"
-    explanation: |
-      A skill directory can contain: SKILL.md (required), reference.md (detailed documentation), checklists/ (verification lists like security.md, performance.md), examples/ (code patterns like good-example.ts, bad-example.ts), and scripts/ (helper scripts like audit.sh). This rich structure supports comprehensive domain knowledge.
+      a: Only SKILL.md is allowed
+      b: reference.md, checklists/, examples/, and scripts/
+      c: src/, dist/, and node_modules/
+      d: tests/, docs/, and config/
+    correct: b
+    explanation: "A skill directory can contain: SKILL.md (required), reference.md (detailed documentation), checklists/ (verification lists like security.md, performance.md), examples/ (code patterns like good-example.ts, bad-example.ts), and scripts/ (helper scripts like audit.sh). This rich structure supports comprehensive domain knowledge."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "5.2 Creating Skills"
+      file: guide/ultimate-guide.md
+      section: 5.2 Creating Skills
       anchor: "#skill-folder-structure"
-
-  - id: "05-013"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "In the Security Guardian skill, what is an example of GOOD password hashing?"
+  - id: 05-013
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: In the Security Guardian skill, what is an example of GOOD password hashing?
     options:
-      a: "md5(password)"
-      b: "sha1(password)"
-      c: "argon2 or bcrypt"
-      d: "Base64 encoding"
-    correct: "c"
-    explanation: |
-      The Security Guardian skill shows argon2 or bcrypt as secure password hashing. BAD examples explicitly listed: md5(password) and sha1(password) - these are cryptographically broken for password storage. Good pattern: `const hashedPassword = await hash(password)` using argon2 library. Always verify password with `await verify(hashedPassword, inputPassword)`.
+      a: md5(password)
+      b: sha1(password)
+      c: argon2 or bcrypt
+      d: Base64 encoding
+    correct: c
+    explanation: "The Security Guardian skill shows argon2 or bcrypt as secure password hashing. BAD examples explicitly listed: md5(password) and sha1(password) - these are cryptographically broken for password storage. Good pattern: `const hashedPassword = await hash(password)` using argon2 library. Always verify password with `await verify(hashedPassword, inputPassword)`."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "5.4 Skill Examples"
-      anchor: "#authentication-patterns"
-
-  - id: "05-014"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What is the AAA pattern in TDD testing?"
+      file: guide/ultimate-guide.md
+      section: 5.4 Skill Examples
+      anchor: "#54-skill-examples"
+  - id: 05-014
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is the AAA pattern in TDD testing?
     options:
-      a: "Ask, Answer, Assert"
-      b: "Arrange, Act, Assert"
-      c: "Analyze, Apply, Approve"
-      d: "Accept, Adjust, Acknowledge"
-    correct: "b"
-    explanation: |
-      AAA stands for Arrange, Act, Assert: 1) Arrange - set up test data and preconditions, 2) Act - execute the code being tested, 3) Assert - verify the result matches expectations. Example: Arrange items array, Act by calling calculateTotal(items), Assert that total equals expected value. This structure makes tests readable and maintainable.
+      a: Ask, Answer, Assert
+      b: Arrange, Act, Assert
+      c: Analyze, Apply, Approve
+      d: Accept, Adjust, Acknowledge
+    correct: b
+    explanation: "AAA stands for Arrange, Act, Assert: 1) Arrange - set up test data and preconditions, 2) Act - execute the code being tested, 3) Assert - verify the result matches expectations. Example: Arrange items array, Act by calling calculateTotal(items), Assert that total equals expected value. This structure makes tests readable and maintainable."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "5.4 Skill Examples"
+      file: guide/ultimate-guide.md
+      section: 5.4 Skill Examples
       anchor: "#test-structure-aaa-pattern"
-
-  - id: "05-015"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What community skill repository focuses on cybersecurity and penetration testing?"
+  - id: 05-015
+    difficulty: power
+    profiles:
+      - power
+    question: What community skill repository focuses on cybersecurity and penetration testing?
     options:
-      a: "awesome-claude-skills"
-      b: "claude-security-pack"
-      c: "zebbern/claude-code-guide with 29 cybersecurity skills"
-      d: "owasp-claude-skills"
-    correct: "c"
-    explanation: |
-      The zebbern/claude-code-guide repository contains 29 cybersecurity-focused skills covering: penetration testing (SQL injection, XSS, IDOR), security tools (Metasploit, Burp Suite, SQLMap), infrastructure security (AWS, Cloud, Network), and methodologies (ethical hacking, pentest checklists). Important: these should be tested thoroughly and used only with proper authorization.
+      a: awesome-claude-skills
+      b: claude-security-pack
+      c: zebbern/claude-code-guide with 29 cybersecurity skills
+      d: owasp-claude-skills
+    correct: c
+    explanation: "The zebbern/claude-code-guide repository contains 29 cybersecurity-focused skills covering: penetration testing (SQL injection, XSS, IDOR), security tools (Metasploit, Burp Suite, SQLMap), infrastructure security (AWS, Cloud, Network), and methodologies (ethical hacking, pentest checklists). Important: these should be tested thoroughly and used only with proper authorization."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "5.5 Community Skill Repositories"
+      file: guide/ultimate-guide.md
+      section: 5.5 Community Skill Repositories
       anchor: "#cybersecurity-skills-repository"
-
-  - id: "05-016"
-    difficulty: "junior"
-    profiles: ["junior", "senior", "power"]
-    question: "What should skills include to be most useful?"
+  - id: 05-016
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+    question: What should skills include to be most useful?
     options:
-      a: "Only theory and concepts"
-      b: "Checklists, good/bad code examples, and methodology steps"
-      c: "Links to external websites"
-      d: "Marketing descriptions"
-    correct: "b"
-    explanation: |
-      Useful skills include: methodology steps (clear process to follow), checklists (verification items with checkboxes), good/bad code examples (showing correct patterns and anti-patterns), and reference material. This combination provides both theoretical knowledge and practical guidance that agents can apply directly to tasks.
+      a: Only theory and concepts
+      b: Checklists, good/bad code examples, and methodology steps
+      c: Links to external websites
+      d: Marketing descriptions
+    correct: b
+    explanation: "Useful skills include: methodology steps (clear process to follow), checklists (verification items with checkboxes), good/bad code examples (showing correct patterns and anti-patterns), and reference material. This combination provides both theoretical knowledge and practical guidance that agents can apply directly to tasks."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "5.3 Skill Template"
+      file: guide/ultimate-guide.md
+      section: 5.3 Skill Template
       anchor: "#53-skill-template"
-
-  - id: "05-017"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "How do you reference a skill in an agent's frontmatter?"
+  - id: 05-017
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: How do you reference a skill in an agent's frontmatter?
     options:
       a: "import: skill-name"
       b: "skills: [skill-name]"
       c: "use: skill-name"
       d: "require: skill-name"
-    correct: "b"
-    explanation: |
-      Reference skills in an agent's frontmatter using the `skills` array: `skills: [security-guardian, tdd]`. This makes the agent inherit all knowledge from those skills. You can reference multiple skills, and the agent combines their expertise. The skill name matches the folder name in `.claude/skills/`.
+    correct: b
+    explanation: "Reference skills in an agent's frontmatter using the `skills` array: `skills: [security-guardian, tdd]`. This makes the agent inherit all knowledge from those skills. You can reference multiple skills, and the agent combines their expertise. The skill name matches the folder name in `.claude/skills/`."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "4.4 Best Practices"
+      file: guide/ultimate-guide.md
+      section: 4.4 Best Practices
       anchor: "#skill-composition"
-
-  - id: "05-018"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What disclaimer applies to community cybersecurity skills?"
+  - id: 05-018
+    difficulty: power
+    profiles:
+      - power
+    question: What disclaimer applies to community cybersecurity skills?
     options:
-      a: "They are officially certified"
-      b: "Test thoroughly, ensure authorization, verify against policies, use only legally"
-      c: "They work on all systems"
-      d: "No disclaimer needed"
-    correct: "b"
-    explanation: |
-      Community cybersecurity skills come with important disclaimers: test thoroughly before using in production assessments, ensure you have proper authorization before penetration testing, review and validate against your organization's security policies, use only in legal contexts with written permission from system owners, and contribute back if you find issues. Verification is essential for any security tooling.
+      a: They are officially certified
+      b: Test thoroughly, ensure authorization, verify against policies, use only legally
+      c: They work on all systems
+      d: No disclaimer needed
+    correct: b
+    explanation: "Community cybersecurity skills come with important disclaimers: test thoroughly before using in production assessments, ensure you have proper authorization before penetration testing, review and validate against your organization's security policies, use only in legal contexts with written permission from system owners, and contribute back if you find issues. Verification is essential for any security tooling."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "5.5 Community Skill Repositories"
+      file: guide/ultimate-guide.md
+      section: 5.5 Community Skill Repositories
       anchor: "#important-disclaimer"
-
-  - id: "05-019"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "In the Skills 2.0 taxonomy, what distinguishes a Capability Uplift skill from an Encoded Preference skill, and which type stays durable as models improve?"
+  - id: 05-019
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What are the two types of skills introduced in Skills 2.0 (March 2026)?
     options:
-      a: "Capability Uplift skills are for junior developers; Encoded Preference skills are for senior developers"
-      b: "Capability Uplift fills gaps in the model's current abilities and becomes less necessary as models improve; Encoded Preference encodes team workflow decisions and stays durable over time"
-      c: "Capability Uplift runs faster; Encoded Preference produces higher quality output"
-      d: "Capability Uplift is triggered automatically; Encoded Preference requires manual invocation"
-    correct: "b"
-    explanation: |
-      The Skills 2.0 taxonomy separates skills by their relationship to model improvement. Capability Uplift skills compensate for current model limitations — things the model cannot do well yet. As models get stronger, these skills become redundant and should be retired. Encoded Preference skills encode team-specific workflow decisions (naming conventions, review checklists, deployment conventions). These preferences are not things a better model will automatically know, so they stay durable regardless of model version.
+      a: Active skills and Passive skills
+      b: Manual skills and Automatic skills
+      c: Capability Uplift skills and Encoded Preference skills
+      d: Model skills and Workflow skills
+    correct: c
+    explanation: "Skills 2.0 formalizes two distinct types: **Capability Uplift** skills fill a gap the base model can't handle consistently (e.g., precise PDF text placement). They fade over time as the model improves and should be monitored with evals. **Encoded Preference** skills sequence existing capabilities your team's specific way (e.g., NDA review against your legal criteria). They stay durable as long as the underlying workflow remains relevant."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "5.0 Skills Taxonomy"
-      anchor: "#skills-20-taxonomy"
-
-  - id: "05-020"
-    difficulty: "senior"
-    profiles: ["senior", "power"]
-    question: "What are the three phases of the Skill Lifecycle, and what does the retirement checklist address?"
+      file: guide/ultimate-guide.md
+      section: 5.0 Two Kinds of Skills
+      anchor: "#50-two-kinds-of-skills"
+  - id: 05-020
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What is the "Spot Outgrowth" pattern in skill lifecycle management?
     options:
-      a: "Create, Deploy, Monitor — the checklist covers security scanning"
-      b: "Draft, Review, Publish — the checklist covers documentation completeness"
-      c: "Catch Regressions, Spot Outgrowth, and Retirement — the checklist ensures safe removal without breaking team workflows"
-      d: "Install, Configure, Uninstall — the checklist covers dependency cleanup"
-    correct: "c"
-    explanation: |
-      The Skill Lifecycle has three phases. Catch Regressions: run skill-specific tests after every Claude model update, because model changes can alter how skills trigger or perform. Spot Outgrowth: periodically check whether the model now handles the skill's job natively — Capability Uplift skills are the most likely candidates. Retirement: the checklist covers verifying no active workflows depend on the skill, communicating the removal to the team, and confirming the model handles the use case adequately before deleting. Skipping the retirement checklist is how teams accidentally break automated pipelines.
+      a: When a skill grows too large and needs to be split
+      b: When the model improves to the point where it passes the skill's eval without the skill, signaling the skill can be retired
+      c: When a skill triggers too often and needs to be throttled
+      d: When a skill is adopted by the wider community
+    correct: b
+    explanation: "Spot Outgrowth occurs when a model improves to the point where it can pass a skill's eval on its own, without the skill being loaded. This is the retirement signal for Capability Uplift skills: run the eval without the skill — if it passes, the skill is no longer needed. Removing it reduces context load and maintenance overhead. This contrasts with \"Catch Regressions,\" which detects when a skill drifts after a model update."
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "5.X Skill Lifecycle"
-      anchor: "#skill-lifecycle"
-
-  - id: "05-021"
-    difficulty: "power"
-    profiles: ["power"]
-    question: "What are the three Skill Eval approaches, and what specific problem does Trigger Tuning address?"
+      file: guide/ultimate-guide.md
+      section: 5.X Skill Lifecycle & Retirement
+      anchor: "#5x-skill-lifecycle-retirement"
+  - id: 05-021
+    difficulty: power
+    profiles:
+      - power
+    question: What does Trigger Tuning (Description Optimizer) do in Skill Evals?
     options:
-      a: "Unit testing, integration testing, end-to-end testing — Trigger Tuning reduces false positives in unit tests"
-      b: "Benchmark Mode (skill vs no-skill comparison), A/B Testing (parallel execution paths), and Trigger Tuning — Trigger Tuning adjusts the skill description to improve auto-invocation rate when Claude should use the skill but doesn't"
-      c: "Code review, peer review, automated review — Trigger Tuning aligns skill output with team style guides"
-      d: "Alpha, beta, production — Trigger Tuning controls which user segments receive the skill"
-    correct: "b"
-    explanation: |
-      Skill Evals use three approaches. Benchmark Mode compares outputs with the skill active versus without it, giving a measurable quality delta. A/B Testing runs both paths in parallel on real tasks to measure impact under actual conditions. Trigger Tuning addresses a specific failure mode: the skill exists and works correctly, but Claude does not invoke it when it should. Adjusting the skill description to more precisely match the language and context of the target task improves auto-invocation rate without changing the skill's logic.
+      a: It adjusts the timing of when skills are loaded into context
+      b: It compresses skill descriptions to reduce token usage
+      c: It automatically runs all skill tests on a schedule
+      d: It analyzes and improves the skill's description field to reduce false positives and false negatives in skill activation
+    correct: d
+    explanation: "Trigger Tuning analyzes your skill's `description` field and suggests improvements to reduce two types of triggering errors: false positives (skill fires when it shouldn't) and false negatives (skill doesn't fire when it should). As skill libraries grow, descriptions can conflict and cause unreliable activation. According to Anthropic's internal testing, 5 of 6 document-creation skills showed improved triggering accuracy after optimization. [Source: claudecode.jp — directional]"
     doc_reference:
-      file: "guide/ultimate-guide.md"
-      section: "5.Y Skill Evals"
-      anchor: "#skill-evals"
+      file: guide/ultimate-guide.md
+      section: 5.Y Skill Evals
+      anchor: "#5y-skill-evals"
+  - id: 05-022
+    difficulty: intermediate
+    profiles:
+      - junior
+      - senior
+      - power
+    question: If you type /skill-a /skill-b do XYZ in a single prompt, what happens as of v2.1.199?
+    options:
+      a: Only the first skill mentioned is loaded, the rest are treated as plain text
+      b: All leading skills are loaded, up to a maximum of 5
+      c: All leading skills are loaded with no limit on how many
+      d: Stacking skill invocations in one prompt is not supported and raises an error
+    correct: b
+    explanation: As of v2.1.199, stacked slash-skill invocations load all leading skills mentioned at the start of the prompt, up to a maximum of 5, instead of loading only the first one. Before this change, only the first skill would have been recognized. Option c is wrong since there is a cap, and option d is wrong since stacking is explicitly supported.
+    doc_reference:
+      file: guide/core/claude-code-releases.md
+      section: v2.1.199
+  - id: 05-023
+    difficulty: junior
+    profiles:
+      - junior
+      - senior
+      - power
+      - pm
+    question: What does the /dataviz skill, added as a bundled skill in v2.1.198, help with?
+    options:
+      a: A skill for writing SQL migration scripts
+      b: A skill for generating unit test scaffolding
+      c: A skill for chart and dashboard design guidance, with a runnable color-palette validator
+      d: A skill for auditing accessibility compliance on web pages
+    correct: c
+    explanation: The /dataviz skill provides chart and dashboard design guidance, including a runnable color-palette validator. It's unrelated to SQL, testing, or accessibility, which are plausible bundled-skill topics but not what /dataviz covers.
+    doc_reference:
+      file: guide/core/claude-code-releases.md
+      section: v2.1.198
+  - id: 05-024
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What does NVIDIA's open-source SkillSpector tool check before you install a Claude Code skill?
+    options:
+      a: Static analysis of a skill file or repository, checked against 64 patterns across 16 categories, before it's installed
+      b: Runtime monitoring of a skill's network calls while it executes
+      c: A live vulnerability scan of your entire Claude Code configuration and installed MCP servers
+      d: An automated fixer that patches vulnerable skills in place
+    correct: a
+    explanation: SkillSpector performs static analysis, regex and AST inspection, on a skill file or repository, checking it against 64 known malicious or risky patterns across 16 categories such as prompt injection, data exfiltration, and MCP tool poisoning, before the skill touches your machine. It does not monitor runtime network calls, does not scan your live configuration, and does not auto-patch anything, it only scores and reports.
+    doc_reference:
+      file: guide/ecosystem/third-party-tools.md
+      section: SkillSpector
+  - id: 05-025
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: In the Skills 2.0 taxonomy, what distinguishes a Capability Uplift skill from an Encoded Preference skill, and which type stays durable as models improve?
+    options:
+      a: Capability Uplift skills are for junior developers; Encoded Preference skills are for senior developers
+      b: Capability Uplift fills gaps in the model's current abilities and becomes less necessary as models improve; Encoded Preference encodes team workflow decisions and stays durable over time
+      c: Capability Uplift runs faster; Encoded Preference produces higher quality output
+      d: Capability Uplift is triggered automatically; Encoded Preference requires manual invocation
+    correct: b
+    explanation: The Skills 2.0 taxonomy separates skills by their relationship to model improvement. Capability Uplift skills compensate for current model limitations — things the model cannot do well yet. As models get stronger, these skills become redundant and should be retired. Encoded Preference skills encode team-specific workflow decisions (naming conventions, review checklists, deployment conventions). These preferences are not things a better model will automatically know, so they stay durable regardless of model version.
+    doc_reference:
+      file: guide/ultimate-guide.md
+      section: 5.0 Two Kinds of Skills
+      anchor: "#50-two-kinds-of-skills"
+  - id: 05-026
+    difficulty: senior
+    profiles:
+      - senior
+      - power
+    question: What are the three phases of the Skill Lifecycle, and what does the retirement checklist address?
+    options:
+      a: Create, Deploy, Monitor — the checklist covers security scanning
+      b: Draft, Review, Publish — the checklist covers documentation completeness
+      c: Catch Regressions, Spot Outgrowth, and Retirement — the checklist ensures safe removal without breaking team workflows
+      d: Install, Configure, Uninstall — the checklist covers dependency cleanup
+    correct: c
+    explanation: "The Skill Lifecycle has three phases. Catch Regressions: run skill-specific tests after every Claude model update, because model changes can alter how skills trigger or perform. Spot Outgrowth: periodically check whether the model now handles the skill's job natively — Capability Uplift skills are the most likely candidates. Retirement: the checklist covers verifying no active workflows depend on the skill, communicating the removal to the team, and confirming the model handles the use case adequately before deleting. Skipping the retirement checklist is how teams accidentally break automated pipelines."
+    doc_reference:
+      file: guide/ultimate-guide.md
+      section: 5.X Skill Lifecycle & Retirement
+      anchor: "#5x-skill-lifecycle-retirement"
+  - id: 05-027
+    difficulty: power
+    profiles:
+      - power
+    question: What are the three Skill Eval approaches, and what specific problem does Trigger Tuning address?
+    options:
+      a: Unit testing, integration testing, end-to-end testing — Trigger Tuning reduces false positives in unit tests
+      b: Benchmark Mode (skill vs no-skill comparison), A/B Testing (parallel execution paths), and Trigger Tuning — Trigger Tuning adjusts the skill description to improve auto-invocation rate when Claude should use the skill but doesn't
+      c: Code review, peer review, automated review — Trigger Tuning aligns skill output with team style guides
+      d: Alpha, beta, production — Trigger Tuning controls which user segments receive the skill
+    correct: b
+    explanation: "Skill Evals use three approaches. Benchmark Mode compares outputs with the skill active versus without it, giving a measurable quality delta. A/B Testing runs both paths in parallel on real tasks to measure impact under actual conditions. Trigger Tuning addresses a specific failure mode: the skill exists and works correctly, but Claude does not invoke it when it should. Adjusting the skill description to more precisely match the language and context of the target task improves auto-invocation rate without changing the skill's logic."
+    doc_reference:
+      file: guide/ultimate-guide.md
+      section: 5.Y Skill Evals
+      anchor: "#5y-skill-evals"
