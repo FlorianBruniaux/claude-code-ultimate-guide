@@ -2,6 +2,14 @@
 title: "MCP vs CLI — Decision Guide"
 description: "When to use MCP servers vs CLI tools in Claude Code workflows. Tradeoffs, decision dimensions, and guidance by situation."
 tags: [mcp, cli, tokens, architecture, decision]
+keywords:
+  - "context7 mcp vs cli"
+  - "mcp vs cli"
+  - "cli vs mcp"
+  - "context7 cli vs mcp"
+  - "claude code mcp vs cli"
+  - "figma mcp vs cli"
+  - "linear mcp vs cli"
 ---
 
 # MCP vs CLI — Decision Guide

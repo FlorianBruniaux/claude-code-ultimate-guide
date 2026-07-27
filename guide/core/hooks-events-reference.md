@@ -1,6 +1,6 @@
 ---
 title: "Claude Code Hooks Events Reference: All 30 Events, Matchers & Schemas"
-description: "Complete reference for all 30 Claude Code hook events: matcher fields, input schemas, decision control, and timeout defaults. Source: official Anthropic docs."
+description: "Complete reference for all 30 Claude Code hook events: matcher fields, input schemas, decision control, and timeout defaults, with copy-paste JSON examples for each event."
 tags: [reference, hooks]
 ---
 

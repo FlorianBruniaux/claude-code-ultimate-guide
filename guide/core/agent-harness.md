@@ -2,6 +2,12 @@
 title: "Code as Agent Harness (arXiv 2605.18747): Agent Harness Engineering"
 description: "A practical companion to the Code as Agent Harness paper (arXiv 2605.18747): the nine components that turn a raw LLM into a reliable production agent, from while-loop engine to permission enforcement."
 tags: [guide, agents, architecture, security, observability]
+keywords:
+  - "code as agent harness arxiv 2605.18747"
+  - "agent harness"
+  - "agent harness engineering"
+  - "what is an agent harness"
+  - "2605.18747"
 ---
 
 # Agent Harness Engineering

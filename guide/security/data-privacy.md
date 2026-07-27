@@ -2,6 +2,12 @@
 title: "Claude Code Privacy: What Gets Sent to Anthropic & How to Control It"
 description: "What Claude Code sends to Anthropic servers: code context, shell commands, MCP logs. Data usage and retention by plan (Consumer 5 yr, ZDR 0 days), whether your code trains models, and how to control it."
 tags: [privacy, security, guide]
+keywords:
+  - "anthropic api data retention official docs"
+  - "anthropic api zero data retention official docs"
+  - "anthropic claude api data privacy policy"
+  - "anthropic api data retention policy 30 days"
+  - "anthropic api data usage privacy"
 ---
 
 # Claude Code Data Privacy: What the Official Docs Don't Cover

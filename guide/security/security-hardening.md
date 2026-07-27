@@ -2,6 +2,10 @@
 title: "Security Hardening Guide"
 description: "Active threats, injection defense, and CVE-based security hardening for Claude Code"
 tags: [security, guide, hooks]
+keywords:
+  - "hardening claude code"
+  - "cve-2026-25725"
+  - "circumventing security in claude code"
 ---
 
 # Security Hardening Guide

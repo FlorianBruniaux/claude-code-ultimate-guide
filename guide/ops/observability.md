@@ -2,6 +2,11 @@
 title: "Session Observability & Monitoring"
 description: "Track Claude Code usage, estimate costs, and identify patterns across development sessions"
 tags: [observability, guide, performance]
+keywords:
+  - "monitor claude traffic"
+  - "monitor claude mentions"
+  - "track claude traffic"
+  - "claude code observability"
 ---
 
 # Session Observability & Monitoring

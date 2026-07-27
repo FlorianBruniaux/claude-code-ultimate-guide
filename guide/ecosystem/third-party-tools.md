@@ -1,6 +1,6 @@
 ---
 title: "Claude Code Community Tools: 40+ Extensions for Token Tracking, Context & Orchestration (2026)"
-description: "Curated catalog of 40+ community-built tools that extend Claude Code: token tracking, context compression, session management, alternative UIs, multi-agent orchestration, and security scanning. Verified against public repos, with install commands and when-to-use comparisons."
+description: "40+ Claude Code extensions verified against public repos, with install commands and when-to-use comparisons: token tracking, context compression, orchestration, security scanning."
 tags: [reference, integration, plugin, security]
 ---
 

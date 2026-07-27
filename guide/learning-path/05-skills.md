@@ -1,3 +1,8 @@
+---
+title: "Module 05: Skills & Automation"
+description: "Learning Path Module 05: build reusable Claude Code skills with SKILL.md, from frontmatter and metadata to auto-invocation, and package them into a shared knowledge base. 1.5 hours, intermediate."
+---
+
 # Module 05: Skills & Automation
 
 **Time**: 1.5 hours | **Complexity**: ⭐⭐ Intermediate

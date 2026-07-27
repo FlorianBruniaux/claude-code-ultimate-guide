@@ -3,6 +3,11 @@ title: "Claude Code Release History"
 description: "Condensed changelog of official Claude Code releases with highlights and breaking changes"
 tags: [reference, release]
 canonicalURL: "https://cc.bruniaux.com/releases/"
+keywords:
+  - "claude code release history"
+  - "when was claude code released"
+  - "what is the most recent version of claude code"
+  - "anthropic claude changelog june 2026 release notes"
 ---
 
 # Claude Code Release History

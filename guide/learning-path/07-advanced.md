@@ -1,3 +1,8 @@
+---
+title: "Module 07: Advanced Patterns"
+description: "Learning Path Module 07: orchestrate multi-agent Claude Code workflows, handle error recovery, and apply production-grade automation patterns for team workflows. 2-3 hours, advanced."
+---
+
 # Module 07: Advanced Patterns
 
 **Time**: 2-3 hours | **Complexity**: ⭐⭐⭐ Advanced

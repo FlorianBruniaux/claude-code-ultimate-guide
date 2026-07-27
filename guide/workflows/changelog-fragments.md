@@ -1,3 +1,8 @@
+---
+title: "Changelog Fragments: Enforced Per-PR Documentation"
+description: "A 3-layer enforcement pattern for Claude Code that ensures every PR is documented at write time, never at release time: hook-based nudges, PR template checks, and CI enforcement."
+---
+
 # Changelog Fragments: Enforced Per-PR Documentation
 
 A 3-layer enforcement pattern that ensures every PR is documented at write time, never at release time.

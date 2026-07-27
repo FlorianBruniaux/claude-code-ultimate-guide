@@ -1,3 +1,8 @@
+---
+title: "Module 04: Agents & Specialization"
+description: "Learning Path Module 04: create specialized Claude Code agents with AGENT.md, restrict their capabilities, and decide when to use an agent versus asking Claude directly. 1.5 hours, intermediate."
+---
+
 # Module 04: Agents & Specialization
 
 **Time**: 1.5 hours | **Complexity**: ⭐⭐ Intermediate
