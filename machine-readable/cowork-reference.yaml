@@ -1,55 +1,91 @@
 # cowork-reference.yaml
-# Quick lookup for Claude Cowork - ~1.5K tokens target
-# Source: cowork/ documentation
+# Quick lookup for Claude Cowork - ~2.5K tokens target
+# Source: github.com/FlorianBruniaux/claude-cowork-guide (dedicated repo)
 # Purpose: Condensed index for LLMs to quickly answer user questions about Cowork
+#          from inside the Claude Code guide, without cloning the Cowork repo.
+#
+# NOTE: the `cowork/` directory was removed from this repo in v3.9.7 (commit 9a29ba4).
+#       All documentation paths below are relative to repo.base_url, not to this repo.
+#       Canonical source of truth: claude-cowork-guide/machine-readable/reference.yaml
 
-version: "1.0.0"
-updated: "2026-01-20"
+version: "1.12.0"          # Cowork guide version (independent of this guide's VERSION)
+updated: "2026-07-28"
 status: "research-preview"
 
+repo:
+  github: "https://github.com/FlorianBruniaux/claude-cowork-guide"
+  landing: "https://cowork.bruniaux.com"
+  base_url: "https://github.com/FlorianBruniaux/claude-cowork-guide/blob/main/"
+  canonical_index: "https://github.com/FlorianBruniaux/claude-cowork-guide/blob/main/machine-readable/reference.yaml"
+  releases_index: "https://github.com/FlorianBruniaux/claude-cowork-guide/blob/main/machine-readable/claude-cowork-releases.yaml"
+  audience: "Knowledge workers using Claude Desktop (non-devs). For developers, this guide (Claude Code) is the right entry point."
+
 # ════════════════════════════════════════════════════════════════
-# CORE DOCUMENTATION - File paths for detailed info
+# CORE DOCUMENTATION - paths relative to repo.base_url
 # ════════════════════════════════════════════════════════════════
 docs:
-  hub: "cowork/README.md"
-  overview: "cowork/guide/00-overview.md"
-  getting_started: "cowork/guide/01-getting-started.md"
-  capabilities: "cowork/guide/02-capabilities.md"
-  security: "cowork/guide/03-security.md"
-  troubleshooting: "cowork/guide/04-troubleshooting.md"
-  cheatsheet: "cowork/reference/cheatsheet.md"
-  faq: "cowork/reference/faq.md"
-  comparison: "cowork/reference/comparison.md"
-  glossary: "cowork/reference/glossary.md"
+  hub: "README.md"
+  overview: "guide/00-overview.md"
+  getting_started: "guide/01-getting-started.md"
+  capabilities: "guide/02-capabilities.md"
+  security: "guide/03-security.md"
+  troubleshooting: "guide/04-troubleshooting.md"
+  cheatsheet: "reference/cheatsheet.md"
+  faq: "reference/faq.md"
+  comparison: "reference/comparison.md"
+  glossary: "reference/glossary.md"
 
 # ════════════════════════════════════════════════════════════════
-# PROMPTS LIBRARY (60+ ready-to-use)
+# PROMPTS LIBRARY (~70 across the 4 core files, plus 4 sector packs)
+# Naming: EN is `<name>.md`, FR is `<name>.fr.md`
 # ════════════════════════════════════════════════════════════════
 prompts:
-  file_ops: "cowork/prompts/file-ops.md"  # 20 prompts
-  document_creation: "cowork/prompts/document-creation.md"  # 15 prompts
-  data_extraction: "cowork/prompts/data-extraction.md"  # 15 prompts
-  research: "cowork/prompts/research.md"  # 17 prompts
+  core:
+    file_ops: "prompts/file-ops.md"
+    document_creation: "prompts/document-creation.md"
+    data_extraction: "prompts/data-extraction.md"
+    research: "prompts/research.md"
+  sector_packs:
+    conciergerie: "prompts/conciergerie.md"        # EN + FR
+    ecommerce: "prompts/ecommerce.fr.md"           # FR only
+    immobilier: "prompts/immobilier.fr.md"         # FR only
+    restauration: "prompts/restauration.fr.md"     # FR only
 
 # ════════════════════════════════════════════════════════════════
-# WORKFLOWS (step-by-step guides)
+# WORKFLOWS (29 step-by-step guides)
+# Naming: FR is `workflows/<name>.md`, EN is `workflows/<name>.en.md`
+# (inverted vs prompts/ — do not assume a single convention)
 # ════════════════════════════════════════════════════════════════
 workflows:
-  file_organization: "cowork/workflows/file-organization.md"
-  expense_tracking: "cowork/workflows/expense-tracking.md"
-  report_synthesis: "cowork/workflows/report-synthesis.md"
-  meeting_prep: "cowork/workflows/meeting-prep.md"
-  team_handoff: "cowork/workflows/team-handoff.md"
+  administrative: ["client-followup-tracker", "compliance-checklist", "invoice-generation", "payment-reminders", "price-comparison", "quote-to-invoice"]
+  sales_marketing: ["competitor-analysis", "newsletter-creation", "presentation-slides", "prospect-research", "quote-creation", "conciergerie-lcd-prospection"]
+  operations: ["financial-model-validation", "inventory-tracking", "project-planning", "quality-checklist", "supplier-order"]
+  communication: ["email-templates", "knowledge-transfer", "review-response", "social-media-posts", "website-audit", "workforce-planning"]
+  organization: ["expense-tracking", "file-organization", "meeting-prep", "memory-setup", "scheduled-automation", "work-log"]
+
+# ════════════════════════════════════════════════════════════════
+# LEARNING & DIAGRAMS
+# ════════════════════════════════════════════════════════════════
+learning:
+  index: "guide/learning/README.md"
+  files: ["guide/learning/learning-with-ai.md", "guide/learning/building-prompting-skills.md", "guide/learning/measuring-progress.md"]
+  note: "each file has a .fr.md counterpart"
+diagrams:
+  index: "guide/diagrams/README.md"
+  count: "25 available, 32 planned"
+  files: ["01-getting-started", "02-capabilities", "03-security", "04-troubleshooting", "05-workflows-admin", "06-workflows-commercial", "07-workflows-production", "08-workflows-commu-orga"]
 
 # ════════════════════════════════════════════════════════════════
 # QUICK REFERENCE - Essential facts
 # ════════════════════════════════════════════════════════════════
 essentials:
   what: "Agentic desktop feature for knowledge workers - file manipulation without code"
-  platform: "macOS only (Windows planned, Linux not announced)"
-  subscription: "Pro ($20/mo) or Max ($100-200/mo) - both have access"
-  usage_limits: "Resets every 5 hours; Pro ~1-1.5h intensive use, Max 5x-20x more"
-  context: "~200K tokens theoretical, ~165K effective (system overhead)"
+  platform: "macOS and Windows (Windows since 2026-02-10; Linux not announced)"
+  subscription: "Pro ($17/mo annual, ~$20/mo monthly) or Max ($100-200/mo) - both have access"
+  usage_limits: "Resets every 5 hours; Free ~9, Pro ~45, Max5x ~225, Max20x ~900 messages per window"
+  context: "1M tokens beta (Opus 4.6), previously ~200K; context compaction extends sessions"
+  output_tokens: "128K (Opus 4.6)"
+  model: "Opus 4.6 with adaptive thinking (4 effort levels)"
   vpn_compatible: "NO - #1 issue, VM routing conflict"
 
 # ════════════════════════════════════════════════════════════════
@@ -58,19 +94,39 @@ essentials:
 capabilities:
   can_do:
     - "Read/write local files in sandbox"
-    - "Create Office docs (Word, Excel, PowerPoint)"
+    - "Create Office docs (Word, Excel, PowerPoint) via direct integrations"
     - "Extract data from images (OCR)"
     - "Organize folders/files"
     - "Web research via Chrome"
     - "Generate PDFs"
+    - "11 official plugins (Asana, Canva, Cloudflare, Figma, GitHub, Google Drive, Jira, Linear, Notion, Sentry, Slack)"
+    - "Scheduled tasks (recurring automation)"
+    - "Agent Teams (research preview, multi-agent coordination)"
+    - "Context compaction (beta, longer sessions)"
+    - "Desktop Commander (cross-session memory + advanced file ops)"
   cannot_do:
     - "Execute code or scripts"
-    - "Make API calls"
-    - "Access cloud storage directly"
+    - "Make API calls (except via plugins)"
+    - "Access cloud storage directly (except Google Drive plugin)"
     - "Process audio/video"
     - "Work with VPN active"
-    - "Run on Windows/Linux"
+    - "Run on Linux"
     - "Operate in background"
+
+# ════════════════════════════════════════════════════════════════
+# EXTENSIONS & PLUGINS
+# ════════════════════════════════════════════════════════════════
+extensions:
+  claude_legal:
+    announced: "2026-02-03"
+    status: "First official Cowork extension"
+    purpose: "Automated legal document review and risk detection"
+    disclaimer: "Does NOT provide legal advice - review by a qualified legal professional required"
+    model_support: "Opus 4.6 scored 90.2% on BigLaw Bench (Feb 2026)"
+plugins:
+  announced: "2026-01-30"
+  count: 11
+  list: ["Asana", "Canva", "Cloudflare", "Figma", "GitHub", "Google Drive", "Jira", "Linear", "Notion", "Sentry", "Slack"]
 
 # ════════════════════════════════════════════════════════════════
 # PROMPTING FORMULA (CTOC)
@@ -82,7 +138,7 @@ prompting:
   output: "Exact format and location"
   constraints: "Rules, limits, preferences"
   example: |
-    CONTEXT: I have 50 receipts from Paris business trip in ~/Cowork-Workspace/input/receipts/
+    CONTEXT: I have 50 receipts from a Paris business trip in ~/Cowork-Workspace/input/receipts/
     TASK: Extract all expenses into a spreadsheet
     OUTPUT: Save as ~/Cowork-Workspace/output/paris-expenses.xlsx
     CONSTRAINTS: Use EUR currency, semicolon formulas, categorize by type
@@ -92,7 +148,7 @@ prompting:
 # ════════════════════════════════════════════════════════════════
 errors:
   vm_timeout:
-    message: "Failed to start Claude's workspace — VM connection timeout after 60 seconds"
+    message: "Failed to start Claude's workspace : VM connection timeout after 60 seconds"
     cause: "VPN active"
     solution: "Disconnect VPN completely before using Cowork"
   chrome_host:
@@ -101,11 +157,11 @@ errors:
     solution: "Manual installation via bash (see troubleshooting doc)"
   context_limit:
     message: "Context limit reached"
-    cause: "System overhead (~25-35K tokens)"
-    actual_limit: "~165K usable (not 200K)"
+    cause: "System overhead or very large tasks"
+    actual_limit: "1M beta with Opus 4.6 (context compaction helps); previously ~165K usable of 200K"
     solution: "Break into batches of 10-20 files"
   access_denied:
-    message: "Access denied — path outside allowed directories"
+    message: "Access denied : path outside allowed directories"
     cause: "Folder not granted"
     solution: "Re-grant folder access in System Preferences"
   session_terminated:
@@ -126,7 +182,7 @@ tokens:
   agentic_overhead: "15-30% (Plan→Execute→Check cycles)"
 
 # ════════════════════════════════════════════════════════════════
-# OCR ACCURACY (from Perplexity research)
+# OCR ACCURACY
 # ════════════════════════════════════════════════════════════════
 ocr:
   field_extraction: "~97% (vendor, date, totals)"
@@ -138,24 +194,25 @@ ocr:
 # COMPETITIVE POSITIONING
 # ════════════════════════════════════════════════════════════════
 competition:
-  unique_strength: "Only assistant with true multi-step autonomy + local files + browser automation"
-  vs_copilot: "Better autonomy, worse OCR accuracy"
-  vs_gemini: "Better autonomy, smaller context (165K vs 1M+)"
-  vs_chatgpt: "Better autonomy, macOS only vs cross-platform"
-  vs_apple_intelligence: "Better capabilities, cloud vs on-device"
+  unique_strength: "Only assistant combining multi-step autonomy, local files, browser automation and 11 plugins"
+  vs_copilot: "Better autonomy + plugins, worse OCR accuracy"
+  vs_gemini: "Better autonomy, comparable context (1M beta vs 1M+ native)"
+  vs_chatgpt: "Better autonomy + plugins, macOS/Windows vs cross-platform"
+  vs_apple_intelligence: "Better capabilities + plugins, cloud vs on-device"
   best_ocr: "Microsoft Copilot"
-  best_context: "Gemini Advanced (1M+ tokens)"
+  best_context: "Gemini Advanced (1M+ native) or Cowork (1M beta with Opus 4.6)"
   best_privacy: "Apple Intelligence (on-device)"
   best_autonomy: "Cowork"
 
 # ════════════════════════════════════════════════════════════════
-# ENTERPRISE VALIDATION (Claude general, not Cowork-specific)
+# OPEN-SOURCE ALTERNATIVES
 # ════════════════════════════════════════════════════════════════
-enterprise:
-  telus: "$90M value, 500K hours saved"
-  rakuten: "87.5% reduction in processing time"
-  zapier: "89% employee adoption"
-  note: "Stats for Claude in general - validates underlying AI capabilities"
+open_source:
+  warning: "Most have FULL filesystem access (can read/modify/delete any file). Only kuse_cowork is sandboxed."
+  different_ai_openwork: "https://github.com/different-ai/openwork - desktop GUI, asks permission per action, best for non-technical users"
+  langchain_openwork: "https://github.com/langchain-ai/openwork - CLI (npx openwork), full file access, fastest setup for devs"
+  kuse_cowork: "https://github.com/kuse-ai/kuse_cowork - Docker-sandboxed, offline/privacy focus, most secure"
+  maturity: "All alpha/beta quality (2026-01) - expect bugs and possible abandonment"
 
 # ════════════════════════════════════════════════════════════════
 # LIMITATIONS & CONSTRAINTS
@@ -163,20 +220,22 @@ enterprise:
 limitations:
   environment:
     - "VPN incompatible (VM routing conflict)"
-    - "macOS only (Windows planned, Linux not announced)"
+    - "macOS and Windows only (Linux not announced)"
     - "Requires app foreground (no background operation)"
-    - "No session persistence across restarts"
+    - "Session persistence improved via context compaction (beta)"
   technical:
     - "No code execution"
-    - "No API calls"
-    - "No cloud storage direct access"
+    - "No API calls (except via plugins)"
+    - "No cloud storage direct access (except Google Drive plugin)"
     - "No audio/video processing"
-    - "Context limit hits at 165K (not 200K)"
+    - "1M context beta; effective limit depends on task complexity"
   workflow:
     - "Pro tier exhausts in ~1-1.5h intensive use"
     - "Usage resets every 5 hours (not daily)"
-    - "No cross-session memory"
+    - "No native cross-session memory (Desktop Commander + memory-setup workflow solves this)"
     - "Connector reliability inconsistent"
+  governance:
+    - "Audit log and DLP gaps as of mid-2026 - see guide/ecosystem/team-knowledge-base.md"
 
 # ════════════════════════════════════════════════════════════════
 # DECISION FLOWCHART
@@ -184,18 +243,20 @@ limitations:
 decide:
   use_cowork_when:
     - "Need to organize/rename files"
-    - "Create Office documents"
+    - "Create Office documents (Word, Excel, PowerPoint)"
     - "Extract data from images/receipts"
-    - "Compile research → documents"
+    - "Compile research into documents"
     - "Batch file operations"
     - "Browser automation tasks"
+    - "Recurring scheduled tasks"
   use_alternative_when:
     - "Need code execution → Claude Code"
     - "Need best OCR → Microsoft Copilot"
-    - "Need 1M+ context → Gemini Advanced"
+    - "Need 1M+ context native → Gemini Advanced"
     - "Privacy critical → Apple Intelligence"
-    - "On Windows/Linux → Copilot or ChatGPT"
+    - "On Linux → Copilot or ChatGPT"
     - "VPN required → Claude Code"
+    - "Budget critical but can handle setup → different-ai/openwork (open-source)"
 
 # ════════════════════════════════════════════════════════════════
 # QUICK START (5 steps)
@@ -204,14 +265,14 @@ quick_start:
   1: "Enable Cowork in Claude Desktop → Settings → Features"
   2: "Create ~/Cowork-Workspace/{input,output}"
   3: "Grant folder access when prompted"
-  4: "Use CTOC framework for prompts"
-  5: "Review plan before approval"
+  4: "Use the CTOC framework for prompts"
+  5: "Review the plan before approval"
 
 # ════════════════════════════════════════════════════════════════
 # GOLDEN RULES
 # ════════════════════════════════════════════════════════════════
 rules:
-  1: "Always review plan before approval"
+  1: "Always review the plan before approval"
   2: "Dedicated workspace only (never Documents/Desktop)"
   3: "No credentials in workspace"
   4: "Verify file sources (prompt injection risk)"
@@ -220,13 +281,34 @@ rules:
   7: "Backup before destructive operations"
 
 # ════════════════════════════════════════════════════════════════
-# SHARED TEAM KNOWLEDGE (Code + Cowork)
+# PUBLICATIONS (12 whitepapers, 5 recap cards - FR)
+# ════════════════════════════════════════════════════════════════
+publications:
+  whitepapers_url: "https://cowork.bruniaux.com/whitepapers/"
+  whitepapers_count: 17          # FR and EN, sources at whitepapers/{fr,en}/NN-*.qmd
+  whitepapers_generalist: "00-de-zero-a-productif, 01-prompts-efficaces-non-devs, 02-automatisation-administrative, 07-communication-visibilite, 08-organisation-productivite, 09-securite-confidentialite-tpe, 10-apprendre-ia-non-dev, 11-roi-deploiement-dirigeants"
+  whitepapers_by_trade: "03-artisans-btp, 04-commercants-retail, 05-consultants-professions-liberales, 06-prospection-relation-client, 12-professions-sante-liberales, 13-conciergerie-lcd, 14-restauration-hotellerie, 15-agents-immobiliers, 16-ecommerce-vendeurs-en-ligne"
+  recap_cards_url: "https://cowork.bruniaux.com/whitepapers/recap-cards/"
+  recap_cards_count: 5
+  recap_cards: ["P01-premiers-pas", "C01-framework-ctoc", "C04-securite-confidentialite", "M04-dirigeant-tpe", "C05-mesurer-roi"]
+
+# ════════════════════════════════════════════════════════════════
+# ENTERPRISE VALIDATION (Claude in general, not Cowork-specific)
+# ════════════════════════════════════════════════════════════════
+enterprise:
+  telus: "$90M value, 500K hours saved"
+  rakuten: "87.5% reduction in processing time"
+  zapier: "89% employee adoption"
+  note: "Stats for Claude in general - validates the underlying AI capabilities, not Cowork itself"
+
+# ════════════════════════════════════════════════════════════════
+# SHARED TEAM KNOWLEDGE (Code + Cowork) - local to this guide
 # ════════════════════════════════════════════════════════════════
 shared_knowledge:
   pattern: "Versioned Markdown repo synced to ~/Shared/ — Cowork reads local files, no API or connector needed"
   shared_context: "~/Shared/CLAUDE.md readable by both Code (filesystem) and Cowork (granted folder access)"
   constraint: "Cowork cannot call MCP connectors or make API calls — it reads the synced local copy of the vault"
   code_cowork_bridge: "Clone the knowledge repo to a stable path on each machine; grant Cowork access to that folder"
-  rag_note: "For <100 docs: direct file reads. >1000 docs: add RAG layer (Onyx/LlamaCloud/Ragie) as MCP server for Code; Cowork still reads the local copy"
+  rag_note: "For <100 docs: direct file reads. >1000 docs: add a RAG layer (Onyx/LlamaCloud/Ragie) as an MCP server for Code; Cowork still reads the local copy"
   live_systems: "For Jira/Confluence/Notion: native plugins in Cowork; Atlassian Remote MCP or Notion MCP for Claude Code"
   full_guide: "guide/ecosystem/team-knowledge-base.md"

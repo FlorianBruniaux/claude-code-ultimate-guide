@@ -4,7 +4,7 @@
 # Purpose: Condensed index for LLMs to quickly answer user questions about Claude Code
 
 version: "3.41.1"
-updated: "2026-07-08"
+updated: "2026-07-28"
 
 # ════════════════════════════════════════════════════════════════
 # DEEP DIVE - Line numbers in guide/ultimate-guide.md
@@ -15,9 +15,9 @@ deep_dive:
   # Visual Diagrams Series (41 Mermaid diagrams)
   mermaid_diagrams:
     path: "guide/diagrams/"
-    description: "41 interactive Mermaid diagrams: model selection, agent lifecycle, memory hierarchy, security threats, multi-agent patterns, AI fluency paths"
-    files: 10
-    total_diagrams: 41
+    description: "48 interactive Mermaid diagrams: model selection, agent lifecycle, memory hierarchy, security threats, multi-agent patterns, AI fluency paths, context engineering, enterprise governance"
+    files: 12
+    total_diagrams: 48
   # AI-Assisted Development Workflows (from MetalBear/arXiv research)
   exploration_workflow: "guide/workflows/exploration-workflow.md"
   script_generation: "guide/workflows/iterative-refinement.md:200"
@@ -148,11 +148,11 @@ deep_dive:
   # Memory Systems (canonical consolidated reference — guide/core/memory-systems.md)
   memory_systems_guide: "guide/core/memory-systems.md"
   memory_systems_guide_description: "Canonical reference for all memory patterns: native stack, cross-session tools, team sharing, multi-agent, architecture patterns, risks, decision frameworks, benchmarks."
-  memory_systems_tldr: "guide/core/memory-systems.md#1-tldr-the-three-track-model"
+  memory_systems_tldr: "guide/core/memory-systems.md#1-tldr-three-track-model"
   memory_systems_native_stack: "guide/core/memory-systems.md#2-native-claude-code-memory-stack"
-  memory_systems_claudemd: "guide/core/memory-systems.md#21-claudemd-three-levels"
-  memory_systems_auto_memory: "guide/core/memory-systems.md#22-auto-memory-v21594"
-  memory_systems_auto_dream: "guide/core/memory-systems.md#23-auto-dream-background-consolidation"
+  memory_systems_claudemd: "guide/core/memory-systems.md#21-claudemd-three-levels-of-memory"
+  memory_systems_auto_memory: "guide/core/memory-systems.md#22-auto-memory-v2159"
+  memory_systems_auto_dream: "guide/core/memory-systems.md#23-auto-dream-memory-consolidation"
   memory_systems_agent_memory: "guide/core/memory-systems.md#24-agent-memory-frontmatter"
   memory_systems_cross_session: "guide/core/memory-systems.md#3-cross-session-tools-single-user"
   memory_systems_claude_mem: "guide/core/memory-systems.md#31-claude-mem"
@@ -160,18 +160,18 @@ deep_dive:
   memory_systems_icm: "guide/core/memory-systems.md#33-icm-infinite-context-memory"
   memory_systems_kairn: "guide/core/memory-systems.md#34-kairn"
   memory_systems_doobidoo: "guide/core/memory-systems.md#35-doobidoo-mcp-memory-service"
-  memory_systems_openMemory: "guide/core/memory-systems.md#36-openmemory-mcp-mem0ai"
+  memory_systems_openMemory: "guide/core/memory-systems.md#36-openmemory-mcp"
   memory_systems_file_based_playbooks: "guide/core/memory-systems.md#37-file-based-experience-playbooks-orf-diffmem"
   memory_systems_tool_comparison: "guide/core/memory-systems.md#39-master-comparison-table"
   memory_systems_team_sharing: "guide/core/memory-systems.md#4-team-sharing"
   memory_systems_trinity: "guide/core/memory-systems.md#41-the-trinity-claudemd--mcpjson--skills"
   memory_systems_mem0_cloud: "guide/core/memory-systems.md#43-mem0-cloud-mcp"
   memory_systems_zep: "guide/core/memory-systems.md#44-zep--graphiti"
-  memory_systems_team_gap: "guide/core/memory-systems.md#47-the-structural-team-memory-gap"
+  memory_systems_team_gap: "guide/core/memory-systems.md#47-why-the-team-gap-is-structural"
   memory_systems_multi_agent: "guide/core/memory-systems.md#5-multi-agent-shared-memory"
   memory_systems_architecture_patterns: "guide/core/memory-systems.md#6-architecture-patterns"
   memory_systems_risks: "guide/core/memory-systems.md#7-risks-and-security"
-  memory_systems_memory_poisoning: "guide/core/memory-systems.md#71-memory-poisoning-prompt-injection"
+  memory_systems_memory_poisoning: "guide/core/memory-systems.md#71-memory-poisoning-via-prompt-injection"
   memory_systems_decision: "guide/core/memory-systems.md#8-decision-frameworks"
   memory_systems_decision_flowchart: "guide/core/memory-systems.md#81-decision-flowchart"
   memory_systems_benchmarks: "guide/core/memory-systems.md#9-benchmarks-and-evaluation"
@@ -410,8 +410,8 @@ deep_dive:
   adoption_guide: "guide/roles/adoption-approaches.md"
   adoption_l0_l5_shapiro: "guide/roles/adoption-approaches.md#the-l0-l5-scale-where-is-your-team"
   adoption_jcurve: "guide/roles/adoption-approaches.md#the-j-curve-you-will-hit-at-l2l3"
-  adoption_metr_rct: "guide/roles/adoption-approaches.md#the-metr-calibration"
-  adoption_deputydev: "guide/roles/adoption-approaches.md#deputydev-enterprise-cohort"
+  adoption_metr_rct: "guide/roles/adoption-approaches.md#the-j-curve-you-will-hit-at-l2l3"      # METR calibration paragraph lives in this section
+  adoption_deputydev: "guide/roles/adoption-approaches.md#the-j-curve-you-will-hit-at-l2l3"     # DeputyDev enterprise cohort paragraph, same section
   # Productivity Research RCTs
   productivity_rct_metr: "guide/roles/learning-with-ai.md:925"  # METR 2025: experienced devs 19% slower on large codebases despite perceiving 20% faster
   productivity_rct_echoes: "guide/roles/learning-with-ai.md:926"  # Borg 2025: 30.7% faster (median), ~55.9% habitual users, no maintainability impact downstream
@@ -1099,7 +1099,7 @@ deep_dive:
   integration_reviewer_agent: "examples/agents/integration-reviewer.md"
   integration_reviewer_role: "Opus runtime validator: connection params, async/sync, env vars, library API correctness, OTEL pipeline"
   # Boris Tane Pattern (Annotation Cycle, Feb 2026)
-  annotation_cycle_pattern: "guide/workflows/plan-driven.md#the-annotation-cycle"
+  annotation_cycle_pattern: "guide/workflows/plan-driven.md#phase-2-the-annotation-cycle"
   custom_markdown_plans: "guide/workflows/plan-driven.md#why-custom-plans-over-plan"
   boris_tane_source: "https://boristane.com/blog/how-i-use-claude-code/"
   boris_tane_author: "Boris Tane (Engineering Lead, Cloudflare)"
@@ -1551,6 +1551,80 @@ deep_dive:
   mcp_tool_naming_rule: "avoid generic verbs (run, process, execute) that appear in system prompt; use domain-prefixed compound names"
   mcp_task_scoped_profiles: "guide/ecosystem/mcp-servers-ecosystem.md:1566"
   mcp_scoped_profiles_pattern: "exploration (read-only) | analysis | execution (write-capable); restrict tools to current phase"
+
+  # ── Learning Path (guide/learning-path/) — 7-module structured onboarding, 8-11h
+  learning_path_index: "guide/learning-path/README.md"
+  learning_path_installation: "guide/learning-path/01-installation.md"      # 15 min, get Claude Code running
+  learning_path_core_loop: "guide/learning-path/02-core-loop.md"            # 45 min, how the agent loop actually works
+  learning_path_memory: "guide/learning-path/03-memory.md"                  # CLAUDE.md levels, auto memory, cross-session tools
+  learning_path_agents: "guide/learning-path/04-agents.md"                  # subagents, frontmatter, delegation
+  learning_path_skills: "guide/learning-path/05-skills.md"                  # skill authoring, triggers, progressive disclosure
+  learning_path_hooks: "guide/learning-path/06-hooks.md"                    # hook events, blocking vs non-blocking
+  learning_path_advanced: "guide/learning-path/07-advanced.md"              # MCP, orchestration, production patterns
+  # ── Hooks Events Reference (guide/core/hooks-events-reference.md) — all 30 events
+  hooks_events_reference: "guide/core/hooks-events-reference.md"
+  hooks_events_quick_reference: "guide/core/hooks-events-reference.md#quick-reference"
+  hooks_events_matchers: "guide/core/hooks-events-reference.md#matcher-values-by-event"
+  hooks_events_exit_code_2: "guide/core/hooks-events-reference.md#exit-code-2-behavior-per-event"
+  hooks_events_decision_control: "guide/core/hooks-events-reference.md#decision-control-format-per-event"
+  hooks_events_gotchas: "guide/core/hooks-events-reference.md#common-gotchas"
+  hooks_events_audit_skill: "examples/skills/eval-hooks/SKILL.md"
+  # ── Community Patterns & Vocabulary (guide/core/community-patterns.md)
+  community_patterns: "guide/core/community-patterns.md"
+  community_patterns_format: "Term | Definition | Category | Subcategory — community-coined patterns and AI engineering vocabulary; standard CS/DevOps terms deliberately excluded"
+  # ── Dynamic Workflows (guide/workflows/dynamic-workflows.md) — v2.1.154, trigger keyword `ultracode`
+  dynamic_workflows_guide: "guide/workflows/dynamic-workflows.md"
+  dynamic_workflows_when: "guide/workflows/dynamic-workflows.md#1-when-to-use-workflows-vs-agent-tool-vs-skills"
+  dynamic_workflows_primitives: "guide/workflows/dynamic-workflows.md#2-primitive-reference"   # agent, parallel, pipeline, phase
+  dynamic_workflows_pipeline_vs_parallel: "guide/workflows/dynamic-workflows.md#4-pipeline-vs-parallel-when-and-why"
+  dynamic_workflows_patterns: "guide/workflows/dynamic-workflows.md#6-common-patterns"
+  dynamic_workflows_antipatterns: "guide/workflows/dynamic-workflows.md#8-when-not-to-use-workflows"
+  dynamic_workflows_cost: "guide/workflows/dynamic-workflows.md#9-cost-and-performance-notes"
+  dynamic_workflows_orchestrator_cost: "the JS script itself consumes zero tokens; all cost comes from the agent() calls it makes"
+  dynamic_workflows_keyword_break: "trigger keyword renamed `workflow` to `ultracode` in v2.1.160 (breaking)"
+  # ── Code Review feature (guide/workflows/code-review.md) — Teams/Enterprise research preview, launched 2026-03-09
+  code_review_feature: "guide/workflows/code-review.md"
+  code_review_how_it_works: "guide/workflows/code-review.md#how-it-works"
+  code_review_setup: "guide/workflows/code-review.md#setup"
+  code_review_configuration: "guide/workflows/code-review.md#configure-reviews"   # REVIEW.md
+  code_review_pricing: "guide/workflows/code-review.md#pricing"
+  code_review_limitations: "guide/workflows/code-review.md#known-limitations-research-preview"
+  code_review_availability: "Teams and Enterprise only; not on Free/Pro, not for ZDR organizations"
+  # ── GitHub Actions workflows (guide/workflows/github-actions.md) — anthropics/claude-code-action
+  github_actions_guide: "guide/workflows/github-actions.md"
+  github_actions_two_models: "guide/workflows/github-actions.md#two-models"       # @claude mention vs event-driven automation
+  github_actions_pattern_mention_review: "guide/workflows/github-actions.md#pattern-1-pr-code-review-on-claude-mention"
+  github_actions_pattern_push_review: "guide/workflows/github-actions.md#pattern-2-automatic-pr-review-on-push"
+  github_actions_pattern_issue_triage: "guide/workflows/github-actions.md#pattern-3-issue-triage-and-labeling"
+  github_actions_pattern_security_review: "guide/workflows/github-actions.md#pattern-4-security-focused-review"
+  github_actions_pattern_scheduled_maintenance: "guide/workflows/github-actions.md#pattern-5-scheduled-repo-maintenance"
+  github_actions_cost_control: "guide/workflows/github-actions.md#cost-control"
+  github_actions_security_checklist: "guide/workflows/github-actions.md#security-checklist"
+  # ── Agent Evaluation (guide/roles/agent-evaluation.md)
+  agent_evaluation_guide: "guide/roles/agent-evaluation.md"
+  agent_evaluation_metrics: "guide/roles/agent-evaluation.md#metrics-to-track"
+  agent_evaluation_patterns: "guide/roles/agent-evaluation.md#implementation-patterns"
+  agent_evaluation_probabilistic: "guide/roles/agent-evaluation.md#evaluating-probabilistic-systems"
+  agent_evaluation_tools: "guide/roles/agent-evaluation.md#tools--references"
+  # ── Team Metrics (guide/ops/team-metrics.md) — DORA, SPACE, agentic metrics
+  team_metrics_guide: "guide/ops/team-metrics.md"
+  team_metrics_dora: "guide/ops/team-metrics.md#the-dora-foundation"
+  team_metrics_dora_ai_context: "guide/ops/team-metrics.md#dora-in-an-ai-augmented-context"
+  team_metrics_space: "guide/ops/team-metrics.md#beyond-dora-the-space-framework"
+  team_metrics_ai_specific: "guide/ops/team-metrics.md#ai-specific-metrics"
+  team_metrics_agentic: "guide/ops/team-metrics.md#agentic-metrics-what-dora-doesnt-measure"
+  team_metrics_vanity: "guide/ops/team-metrics.md#vanity-metrics-to-drop"
+  team_metrics_four_question_test: "guide/ops/team-metrics.md#the-4-question-test"
+  # ── API Gateway for enterprise cost control (guide/ops/api-gateway.md)
+  api_gateway_guide: "guide/ops/api-gateway.md"
+  api_gateway_litellm: "guide/ops/api-gateway.md#2-litellm-gateway"
+  api_gateway_virtual_keys: "guide/ops/api-gateway.md#3-virtual-keys-and-team-budgets"
+  api_gateway_model_allowlists: "guide/ops/api-gateway.md#4-model-allowlists"
+  api_gateway_portkey: "guide/ops/api-gateway.md#8-portkey-as-a-managed-alternative"
+  api_gateway_limits: "guide/ops/api-gateway.md#9-what-the-gateway-does-not-cover"
+  api_gateway_scope: "proxy layer between Claude Code clients and the Anthropic API; per-session cost estimation stays in guide/ops/observability.md"
+  # ── Printable cheatsheet (standalone file, distinct from the in-guide section at line 19597)
+  cheatsheet_file: "guide/cheatsheet.md"
 
 # ════════════════════════════════════════════════════════════════
 # DECISION TREE (most important - en premier)
