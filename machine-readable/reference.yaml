@@ -976,7 +976,7 @@ deep_dive:
   resource_evaluations_count_note: "Tracks docs/resource-evaluations/README.md's own running count, not a live file count. As of 2026-07-08 the folder holds 160 .md files but the README index table lists only 43 rows — most older evaluation files were never added to the index. Unresolved pre-existing gap, flagged not fixed."
   resource_evaluations_methodology: "docs/resource-evaluations/README.md"
   resource_evaluations_watchlist: "docs/resource-evaluations/watch-list.md"
-  resource_evaluations_appendix: "guide/ultimate-guide.md:26294"
+  resource_evaluations_appendix: "guide/ultimate-guide.md:26352"
   resource_evaluations_readme_section: "README.md:354"
   resource_evaluations_git_mcp: "docs/resource-evaluations/git-mcp-server-evaluation.md"
   resource_evaluations_anaconda_croce: "docs/resource-evaluations/anaconda-croce-evaluation.md"
@@ -1179,6 +1179,9 @@ deep_dive:
   codebase_design_llms_txt_example: "machine-readable/llms.txt"
   # Section 9.19 - Permutation Frameworks
   permutation_frameworks: 18314
+  # Section 9.21 - Legacy Codebase Modernization
+  legacy_codebase_modernization: 23012  # 4-step workflow (Discovery -> Risk -> Planning -> Incremental), COBOL/Fortran/VB6/PL1
+  feature_to_code_anchoring: 23138  # Subsection: layer 0-3 model for auditing without rewriting, Reversa/code-graph-mcp/graphify field-tested verdicts
   # Section 9.20 - Agent Teams (v2.1.32+ experimental)
   agent_teams: "guide/workflows/agent-teams.md"
   agent_teams_quick_start: "guide/workflows/agent-teams-quick-start.md"  # Practical 8-10 min guide with copy-paste patterns

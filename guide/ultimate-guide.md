@@ -23135,11 +23135,69 @@ The average gains are real and significant. The headline numbers require favorab
 - **❌ Skipping discovery** — Starting to translate before mapping. You will break things you didn't know existed.
 - **❌ Trusting AI on business logic** — AI translates faithfully what it reads. If the original was wrong or context-dependent, the translation will be too.
 
+### Feature-to-Code Anchoring: When You're Not Rewriting
+
+The 4-step workflow above assumes the goal is to replace the system. Often it isn't. A team costing a change, auditing a claimed "still active" status, or deciding what's safe to archive on a legacy fleet needs a narrower output: a verified pointer from every documented feature to the file and symbol that actually implements it, so the next person doesn't re-explore dozens of repositories by hand each time the question comes up.
+
+This is a four-layer problem, and only the first layer needs building for a pure audit.
+
+| Layer | Goal | Status |
+|-------|------|--------|
+| 0 (Deterministic anchor) | Ground each feature on a real file and symbol, verifiable by direct read (`ls`, `git grep`, LSP). No interpretation, just location. | Buildable today, see below |
+| 1 (Semantic extraction) | Understand what the anchored code does (business rules, state machines, permissions). | Candidate tool: Anthropic's official `business-rules-extractor` skill (Apache-2.0, `file:line-line` anchoring, Given/When/Then format, High/Medium/Low confidence rating) |
+| 2 (Deterministic gate) | Mechanically reject any layer-1 rule whose anchor doesn't resolve against layer 0, instead of just labeling it "low confidence." | Not offered by any tool surveyed here, has to be built |
+| 3 (Standardized output) | Serve the result as versionable, queryable files. | [OKF](#9185-open-knowledge-format-okf) fits directly: one concept per markdown file, a `resource` field for the code anchor |
+
+#### Building the Layer-0 Anchor
+
+For each feature's documented entry point, resolve in this order and never guess silently:
+
+1. **LSP** (`workspaceSymbol`, `documentSymbol`) on the route or file name.
+2. **`git grep`** fallback in the local clone.
+3. If neither resolves: mark it unresolved, with the reason. Never a silent guess.
+
+```yaml
+files:
+  - repo: <name>
+    path: <path relative to repo root>
+    symbol: <function/handler name, if identified>
+    method: grep | LSP
+    confidence: EXTRACTED | INFERRED
+    commit_ref: <short hash>
+resolution_status: COMPLETE | PARTIAL | NOT_FOUND
+```
+
+`EXTRACTED` means a unique, exact match. `INFERRED` means multiple plausible candidates, left for a human to settle. The commit hash isn't a permanent anchor, and a line number is worse: both are freshness markers for a point in time. Derive the line on demand via `git grep` when you need it; never store it as a fixed identifier, because it drifts with every unrelated edit above it.
+
+On a fleet where the resolution can't be inferred from clean route names, expect two rounds: a first pass that grabs the obvious cases via grep, then a targeted second pass on the unresolved subset, grouped **by repository rather than by feature** so each agent opens a given repo once instead of re-opening it for every feature that touches it.
+
+#### Tools Tested Against a Real Fleet
+
+Three tools were evaluated hands-on against a legacy fleet that includes a non-standard, in-house framework, the exact condition that breaks framework-signature detection.
+
+**Reversa** (`github.com/sandeco/reversa`), a multi-agent framework (scout, archaeologist, detective, architect, writer, reviewer, curator) that turns a legacy repo into specs for coding agents. Rejected for this use case: one CRITICAL path-traversal vulnerability in its uninstall path, zero automated tests across 56 releases in three months, a bus factor of one, and a confidence seal (🟢🟡🔴) that nothing mechanically verifies, its own validator is 22 lines long. File:line traceability exists for non-functional requirements and tasks, then disappears exactly at the business-rule layer, the one place it matters most, where rules are bullet points followed by an emoji. When its framework detector doesn't recognize a custom in-house framework, it invents a module split blindly and freezes that decision as immutable after the first pass. Every downstream step inherits a guess it can no longer revise.
+
+**code-graph-mcp** (`github.com/sdsrss/code-graph-mcp`), a Rust MCP server building an AST knowledge graph (tree-sitter, 19 languages) with call graph, hybrid semantic search, and HTTP route tracing. Clean on security. Rejected on evidence, not on youth: measured 12/12 false "inferred" edges with maximum confidence on a modern, well-supported stack (Fastify), and zero routes extracted against the custom in-house framework. A tool that answers confidently and wrong is worse than one that answers nothing.
+
+**Graphify** (`github.com/safishamsi/graphify`, full coverage in [ecosystem/third-party-tools.md, Knowledge Graph](ecosystem/third-party-tools.md#knowledge-graph)) is the strongest deterministic building block found. Its `EXTRACTED` tag is architecturally enforced: source code never leaves the machine for the AST pass, a claim verified both in the tool's own source and by cross-checking the artifacts it produced, edge by edge, against the real code. When it fails to recognize a framework, it produces no edge rather than inventing a plausible-looking one, so the failure shows up as a measurable disconnected-component count instead of a silent wrong answer. It still breaks on dynamic dispatch (`readdirSync`-based routing, a generic exported `create()` factory hiding the real handler name), so full coverage on a fleet with heavy custom-framework use needs a small dedicated pass layered on top for that gap alone.
+
+#### Principles That Held
+
+- **Zero invention.** No path gets written without direct proof, including in instructions handed to an agent. Unresolved means unresolved, never guessed.
+- **Independent verification before acceptance.** Every claim from an agent, a path, a symbol, a commit hash, a repo's existence, gets checked by an independent command before it lands in a deliverable. This is what catches a hallucinated claim and, just as often, what stops a false accusation of one.
+- **Strict scope discipline.** A task scoped to one field never touches another, even after it surfaces an unrelated inaccuracy elsewhere. Flag those separately; never fix them quietly.
+- **A confidence score that isn't mechanically verified is cosmetic, and the reverse holds too.** A decorative seal and an unverified inference tag both fail the same test. A tag that's architecturally enforced and checkable edge-by-edge against source, like Graphify's `EXTRACTED`, passes it. The only valid authority is reproducible mechanical verification, never a self-declared confidence level, honest or not.
+
+#### What Layer 0 Doesn't Give You
+
+It tells you where the code is, not what it does; no business rule gets extracted this way. Coverage is bounded by whatever feature inventory seeded it, an endpoint nobody documented upstream has no reason to appear in the anchor set either. And the stored commit hash is a snapshot at a point in time, not a live guarantee: without a periodic re-verification job, this layer ages at the same rate as the code underneath it.
+
 ### Resources
 
 - [Anthropic COBOL Modernization Playbook](https://claude.com/blog/how-ai-helps-break-cost-barrier-cobol-modernization) (Feb 2026)
 - [AI-Driven Legacy Systems Modernization: COBOL to Java](https://arxiv.org/abs/2504.11335) (arXiv, April 2025)
 - [AWS EKS COBOL Modernization Case Study](https://aws.amazon.com/blogs/apn/modernize-cobol-workloads-with-amazon-eks-powered-by-generative-ai/) (July 2025)
+- [Anthropic business-rules-extractor skill](https://github.com/anthropics/claude-plugins-official/blob/main/plugins/code-modernization/agents/business-rules-extractor.md) (layer-1 candidate, Apache-2.0)
 
 ---
 
