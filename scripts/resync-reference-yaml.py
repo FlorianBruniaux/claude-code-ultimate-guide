@@ -170,6 +170,17 @@ def get_slugs(rel_path: str) -> set[str]:
     return _slugs_cache[rel_path]
 
 
+def anchor_line(rel_path: str, slug: str) -> int | None:
+    """Line of the unique heading whose slug is `slug`, or None if absent/ambiguous.
+
+    Ambiguity has to be None, not the first hit: GitHub suffixes a repeated slug
+    `-1`, `-2`, so a duplicated slug does not identify a section and an anchor
+    built from it would silently resolve to the wrong one.
+    """
+    hits = [n for n, _, t in get_headings(rel_path) if slugify(t) == slug]
+    return hits[0] if len(hits) == 1 else None
+
+
 def file_length(rel_path: str) -> int:
     if rel_path not in _len_cache:
         p = REPO_ROOT / rel_path
@@ -288,6 +299,19 @@ RE_LINE = re.compile(
     rf'^(\s*)([a-z0-9_]+):\s*"((?:{PATH_ROOT_RE})/[^"#\s]+):(\d+)"(.*)$')
 RE_BARE = re.compile(r'^(\s*)([a-z0-9_]+):\s*(\d{3,5})\s*(#.*)?$')
 
+# A bare integer may declare which heading it means, as `# anchor: some-slug`
+# anywhere in its trailing comment. That turns a guess into a fact: the stored
+# line is correct if and only if it equals the line of the heading with that slug.
+#
+# This exists because the token-overlap heuristic below cannot confirm a correct
+# reference whose key name shares no words with its heading. `cicd` pointing at
+# "9.3 CI/CD Integration" is right, and the heuristic scores it zero because the
+# heading spells it "CI/CD". Weakening the heuristic to accommodate that would be
+# guessing at scale in the other direction. Declaring the anchor is not a guess,
+# it is the author saying which section they meant, and it is then machine-checked
+# on every run and auto-repairable when lines shift above it.
+RE_ANCHOR_HINT = re.compile(r'#\s*anchor:\s*([A-Za-z0-9._\-]+)')
+
 
 def parse_refs(yaml_content: str) -> list[dict]:
     refs = []
@@ -309,9 +333,12 @@ def parse_refs(yaml_content: str) -> list[dict]:
             n = int(m.group(3))
             if n <= 100:
                 continue
-            refs.append({"key": m.group(2), "file": MAIN_GUIDE, "anchor": None,
+            tail = m.group(4) or ""
+            hint = RE_ANCHOR_HINT.search(tail)
+            refs.append({"key": m.group(2), "file": MAIN_GUIDE,
+                         "anchor": hint.group(1) if hint else None,
                          "old_line": n, "yaml_line": i, "type": "bare_int",
-                         "indent": m.group(1), "tail": m.group(4) or ""})
+                         "indent": m.group(1), "tail": tail})
     return refs
 
 
@@ -363,6 +390,22 @@ def classify(ref: dict) -> dict:
             return {**ref, "status": "PROTECTED", "confidence": 0.0,
                     "current_content": f"(quantity: {why})", "new_line": None,
                     "suggested_header": ""}
+        if ref["anchor"]:
+            # Declared anchor: a hard check, no heuristics involved.
+            target = anchor_line(MAIN_GUIDE, ref["anchor"])
+            if target is None:
+                return {**ref, "status": "ANCHOR_DEAD", "confidence": 0.0,
+                        "current_content": f"(declared anchor #{ref['anchor']} "
+                                           f"matches no heading)",
+                        "new_line": None, "suggested_header": ""}
+            if target == ref["old_line"]:
+                return {**ref, "status": "OK", "confidence": 1.0,
+                        "current_content": line_content(MAIN_GUIDE, ref["old_line"]),
+                        "new_line": None, "suggested_header": ""}
+            return {**ref, "status": "LINE_DRIFTED", "confidence": 1.0,
+                    "current_content": line_content(MAIN_GUIDE, ref["old_line"]),
+                    "new_line": target,
+                    "suggested_header": f"#{ref['anchor']}"}
 
     if not abs_path.exists():
         return {**ref, "status": "FILE_MISSING", "confidence": 0.0,
@@ -387,7 +430,8 @@ def classify(ref: dict) -> dict:
             "new_line": new_line, "suggested_header": header_text}
 
 
-BROKEN_STATUSES = {"HIGH", "MEDIUM", "LOW", "UNKNOWN", "FILE_MISSING", "ANCHOR_DEAD"}
+BROKEN_STATUSES = {"HIGH", "MEDIUM", "LOW", "UNKNOWN", "FILE_MISSING",
+                   "ANCHOR_DEAD", "LINE_DRIFTED"}
 
 
 # ---------------------------------------------------------------------------
@@ -406,6 +450,13 @@ def plan_fixes(entries: list[dict]) -> list[dict]:
     plan = []
     for e in entries:
         if e["status"] not in BROKEN_STATUSES or e["type"] == "anchor_ref":
+            continue
+        if e["status"] == "LINE_DRIFTED":
+            # Declared anchor, line moved. Deterministic repair, no confidence gate.
+            plan.append({**e, "action": "repair",
+                         "old_raw": str(e["old_line"]), "new_raw": str(e["new_line"]),
+                         "apply_conf": 1.0, "heading": e["suggested_header"],
+                         "heading_line": e["new_line"]})
             continue
         bm = best_overlap_match(e["file"], e["key"], e["old_line"])
         if not bm:
@@ -479,6 +530,7 @@ def main():
         print(f"LOW:           {g('LOW')}")
         print(f"UNKNOWN:       {g('UNKNOWN')}")
         print(f"ANCHOR DEAD:   {g('ANCHOR_DEAD')}")
+        print(f"LINE DRIFTED:  {g('LINE_DRIFTED')}  (declared anchor, --apply repairs)")
         print(f"FILE MISSING:  {g('FILE_MISSING')}")
         print(f"Broken total:  {broken} (max allowed: {args.max_broken})")
         if broken > args.max_broken:
@@ -491,7 +543,7 @@ def main():
 
     print(f"Total references: {len(refs)}")
     for k in ("OK", "PROTECTED", "HIGH", "MEDIUM", "LOW", "UNKNOWN",
-              "ANCHOR_DEAD", "FILE_MISSING"):
+              "ANCHOR_DEAD", "LINE_DRIFTED", "FILE_MISSING"):
         print(f"  {k:<13} {g(k)}")
     print(f"Broken total:     {broken}")
     print(f"Applicable fixes: {len(plan)} "
@@ -516,7 +568,7 @@ def main():
         "|--------|-------|",
     ]
     for k in ("OK", "PROTECTED", "HIGH", "MEDIUM", "LOW", "UNKNOWN",
-              "ANCHOR_DEAD", "FILE_MISSING"):
+              "ANCHOR_DEAD", "LINE_DRIFTED", "FILE_MISSING"):
         rows.append(f"| {k} | {g(k)} |")
     rows += [f"| **Broken total** | **{broken}** |", "",
              f"Applicable without guessing: **{len(plan)}**", ""]

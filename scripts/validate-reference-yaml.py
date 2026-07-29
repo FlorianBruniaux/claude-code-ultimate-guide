@@ -113,6 +113,37 @@ print(f"line refs: {n_l - len(oob)}/{n_l} in bounds")
 for o in oob:
     print(f"   OOB  L{o[0]} {o[1]}:{o[2]} > {o[3]}")
 
+print("\n=== declared anchors on bare integers ===")
+# A bare integer may name the heading it means as `# anchor: some-slug`. That
+# turns an unverifiable position into a hard check, so the anchor itself has to
+# be real: it must match exactly one heading. A slug that matches two is not a
+# reference, because GitHub suffixes the repeat `-1` and the anchor would resolve
+# to whichever one came first.
+ug = 'guide/ultimate-guide.md'
+_ug_heads = headings(ug)
+n_decl, bad_decl = 0, []
+for i, line in enumerate(open(REF, encoding='utf-8'), 1):
+    m = re.match(r'^\s*([a-z0-9_]+):\s*(\d{3,5})\s*#.*?anchor:\s*([A-Za-z0-9._\-]+)', line)
+    if not m:
+        continue
+    key, stored, slug = m.group(1), int(m.group(2)), m.group(3)
+    n_decl += 1
+    hits = [n for n, _, t in _ug_heads
+            if re.sub(r'[^\w\s\-]', '',
+                      re.sub(r'\[([^\]]*)\]\([^)]*\)', r'\1',
+                             re.sub(r'`', '', t)).lower(),
+                      flags=re.UNICODE).strip().replace(' ', '-') == slug]
+    if len(hits) == 0:
+        bad_decl.append((i, key, slug, 'matches no heading'))
+    elif len(hits) > 1:
+        bad_decl.append((i, key, slug, f'ambiguous, matches {len(hits)} headings'))
+    elif hits[0] != stored:
+        bad_decl.append((i, key, slug, f'stored {stored}, heading is at {hits[0]}'))
+print(f"declared: {n_decl - len(bad_decl)}/{n_decl} resolve and match their line")
+for b in bad_decl:
+    print(f"   BAD  L{b[0]} {b[1]} -> #{b[2]}: {b[3]}")
+failures += len(bad_decl)
+
 print("\n=== bare-int refs vs nearest heading (post-repair spot check) ===")
 ug = 'guide/ultimate-guide.md'
 hs = headings(ug)

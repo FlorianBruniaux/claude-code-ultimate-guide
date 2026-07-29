@@ -273,6 +273,67 @@ else:
 
 
 # ---------------------------------------------------------------------------
+# Declared anchors on bare integers
+#
+# The token-overlap heuristic cannot confirm a correct reference whose key name
+# shares no words with its heading: `cicd` pointing at "9.3 CI/CD Integration" is
+# right and scores zero, because the heading spells it "CI/CD". Declaring the
+# anchor in the trailing comment replaces the heuristic with a hard check.
+# ---------------------------------------------------------------------------
+print("\nDeclared anchors — a bare integer may name the heading it means")
+
+SAMPLE = '''deep_dive:
+  plain_int: 4826
+  declared: 15027  # anchor: 93-cicd-integration
+  declared_with_note: 6442  # anchor: memory-loading-comparison | some note
+'''
+by_key = {p["key"]: p for p in resync.parse_refs(SAMPLE)}
+check("a bare integer without a comment declares no anchor",
+      by_key["plain_int"]["anchor"] is None)
+check("`# anchor: slug` is parsed off a bare integer",
+      by_key["declared"]["anchor"] == "93-cicd-integration",
+      f"(got {by_key['declared']['anchor']!r})")
+check("the anchor is parsed even when other notes follow it",
+      by_key["declared_with_note"]["anchor"] == "memory-loading-comparison",
+      f"(got {by_key['declared_with_note']['anchor']!r})")
+
+# anchor_line must refuse an ambiguous slug rather than return the first hit.
+# GitHub suffixes a repeated slug `-1`, so a duplicated slug identifies nothing.
+with tempfile.TemporaryDirectory() as td:
+    root_backup = resync.REPO_ROOT
+    d = Path(td)
+    (d / "dup.md").write_text("# A\n\n## Best Practices\n\ntext\n\n## Best Practices\n",
+                              encoding="utf-8")
+    (d / "uniq.md").write_text("# A\n\n## Only Once\n", encoding="utf-8")
+    resync.REPO_ROOT = d
+    resync._headings_cache.clear()
+    check("anchor_line resolves a unique slug",
+          resync.anchor_line("uniq.md", "only-once") == 3,
+          f"(got {resync.anchor_line('uniq.md', 'only-once')})")
+    check("anchor_line refuses a duplicated slug instead of picking the first",
+          resync.anchor_line("dup.md", "best-practices") is None,
+          f"(got {resync.anchor_line('dup.md', 'best-practices')})")
+    check("anchor_line returns None for a slug that matches nothing",
+          resync.anchor_line("uniq.md", "does-not-exist") is None)
+    resync.REPO_ROOT = root_backup
+    resync._headings_cache.clear()
+
+# Every declared anchor in the live file must resolve AND match its stored line.
+live = resync.YAML_FILE.read_text(encoding="utf-8")
+declared = [r for r in resync.parse_refs(live)
+            if r["type"] == "bare_int" and r["anchor"]]
+check("the live reference.yaml declares at least one anchor", len(declared) > 0,
+      f"(found {len(declared)})")
+mismatched = []
+for ref in declared:
+    target = resync.anchor_line(resync.MAIN_GUIDE, ref["anchor"])
+    if target != ref["old_line"]:
+        mismatched.append((ref["key"], ref["anchor"], ref["old_line"], target))
+check("every declared anchor resolves to exactly its stored line",
+      not mismatched, f"(mismatched {mismatched})")
+
+
+# ---------------------------------------------------------------------------
 # Guard behaviour: --check must be able to fail
 # ---------------------------------------------------------------------------
 print("\nGate — --check must exit non-zero when the backlog exceeds the ceiling")

@@ -6,12 +6,20 @@ on:
       - "guide/**"
       - "examples/**"
       - "machine-readable/**"
+      # The gates themselves live here. Without this the workflow could not fire
+      # on a change that breaks a gate, only later on an unrelated content edit.
+      - "scripts/**"
+      - ".github/workflows/index-integrity.yml"
   push:
     branches: ["main"]
     paths:
       - "guide/**"
       - "examples/**"
       - "machine-readable/**"
+      # The gates themselves live here. Without this the workflow could not fire
+      # on a change that breaks a gate, only later on an unrelated content edit.
+      - "scripts/**"
+      - ".github/workflows/index-integrity.yml"
 
 jobs:
   check:
@@ -30,18 +38,29 @@ jobs:
           # cheap to keep green. If it fails, something is actually broken.
           python3 scripts/validate-reference-yaml.py --ci
 
-      - name: Check reference.yaml line-number backlog
+      - name: Check the reference-repair tooling still works
         run: |
-          # Ratchet: 145 references remain imprecise as of 2026-07-29, down from
-          # 383. All HIGH and MEDIUM confidence fixes are cleared; what is left is
-          # 108 LOW and 37 UNKNOWN, where the key name does not identify a single
-          # heading well enough to correct automatically without guessing.
-          # This number must only ever go DOWN. At 0, drop --max-broken entirely.
+          # The tool is what everything below trusts. Its own traps are covered by
+          # tests that fail on bad input: counter-valued integers, a counter guard
+          # too broad to spare real references, CommonMark fence tracking, the
+          # URL-as-path false positive, and the declared-anchor hard check.
+          python3 scripts/test-resync-reference-yaml.py
+
+      - name: Check reference.yaml positional-reference backlog
+        run: |
+          # The backlog is at zero as of 2026-07-29, down from 383 then 145. No
+          # ceiling left: --max-broken defaults to 0, so any new imprecise
+          # reference fails the build on the commit that introduces it.
           #
-          # Prefer converting `path:N` to `path#anchor` over repairing N: the guide
-          # gained lines twice during the 2026-07-29 pass and the drift figures moved
-          # between two runs of the same script. Anchors do not have that failure mode.
-          python3 scripts/resync-reference-yaml.py --check --max-broken 145
+          # Prefer `path#anchor` over `path:N`: the guide gained lines three times
+          # during this work, twice from a concurrent session, and the drift figures
+          # moved between runs of the same script. Anchors do not have that failure
+          # mode. Where a bare integer must stay (the landing turns every deep_dive
+          # string starting with `guide/` into a Cmd+K entry, so converting ~90 of
+          # them would add ~90 entries pointing into a 26K-line file), declare the
+          # heading in the trailing comment as `# anchor: some-slug`. That is
+          # machine-checked here and auto-repaired by --apply when lines shift.
+          python3 scripts/resync-reference-yaml.py --check
 
       - name: Check every guide file is reachable from the index
         run: |
