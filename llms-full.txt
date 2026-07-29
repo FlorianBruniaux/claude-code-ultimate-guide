@@ -1,4 +1,4 @@
-# Claude Code Ultimate Guide — Full Content for AI Indexing
+# Claude Code Ultimate Guide: Full Content for AI Indexing
 
 > This file is optimized for AI/LLM consumption. It contains the condensed guide overview,
 > full cheatsheet, complete template list, and FAQ for Claude Code.
@@ -39,23 +39,31 @@ This guide is the most comprehensive community resource for Claude Code. It cove
 ## Guide Structure (10 Sections + Architecture)
 
 **Architecture Deep Dive** (`guide/architecture.md`):
-- Master Loop: `while(tool_call)` — no DAGs, no classifiers, no RAG
+- Master Loop: `while(tool_call)`, no DAGs, no classifiers, no RAG
 - 8 Core Tools: Bash, Read, Edit, Write, Grep, Glob, Task, TodoWrite
 - Context: ~200K tokens, auto-compact at 75-92%
 - Sub-agents: isolated context, max depth=1
 - Philosophy: "less scaffolding, more model"
 
 **Main Guide Sections** (`guide/ultimate-guide.md`, 26,494 lines):
-1. Quick Start — Installation, first workflow, essential commands
-2. Core Concepts — Context management, Plan Mode, Rewind, Mental Model
-3. Memory & Settings — CLAUDE.md files, .claude/ folder, precedence rules
-4. Agents — Custom AI personas, Tool SEO, orchestration patterns
-5. Skills — Reusable knowledge modules (Skills 2.0: Capability Uplift + Encoded Preference, Evals)
-6. Commands — Custom slash commands, variable interpolation
-7. Hooks — Event-driven automation (PreToolUse, PostToolUse, UserPromptSubmit)
-8. MCP Servers — Serena, Context7, Sequential, Playwright, Postgres, grepai
-9. Advanced Patterns — Trinity, CI/CD, Tasks API, multi-agent teams, feedback loops
-10. Reference — Commands, shortcuts, troubleshooting, checklists
+1. Quick Start: Installation, first workflow, essential commands
+2. Core Concepts: Context management, Plan Mode, Rewind, Mental Model
+3. Memory & Settings: CLAUDE.md files, .claude/ folder, precedence rules
+4. Agents: Custom AI personas, Tool SEO, orchestration patterns
+5. Skills: Reusable knowledge modules (Skills 2.0: Capability Uplift + Encoded Preference, Evals)
+6. Commands: Custom slash commands, variable interpolation
+7. Hooks: Event-driven automation (PreToolUse, PostToolUse, UserPromptSubmit)
+8. MCP Servers: Serena, Context7, Sequential, Playwright, Postgres, grepai
+9. Advanced Patterns: Trinity, CI/CD, Tasks API, multi-agent teams, feedback loops
+10. Reference: Commands, shortcuts, troubleshooting, checklists
+
+**Security & Sandboxing** (`guide/security/sandbox-native.md`, `guide/core/settings-reference.md`):
+- Two independent layers: filesystem (write CWD + session temp, read the whole machine) and network (no domain pre-allowed, proxy does not terminate TLS)
+- The default read policy covers `~/.ssh` and `~/.aws` and there is no built-in denylist; `sandbox.credentials.files` and `credentials.envVars` are what actually protect them
+- `excludedCommands` bare-name form never matches, use the glob form; a matching glob unsandboxes the entire Bash invocation including earlier commands (anthropics/claude-code#10524, #81157)
+- Git over SSH needs an exception: the proxy handles HTTP/HTTPS but not port 22 and blocks the ssh-agent socket
+- No curl/wget blocklist exists; a missing domain hangs to timeout rather than erroring
+- Writes to Claude Code's own settings.json are denied at every scope, so a sandboxed script cannot widen its own policy
 
 ---
 
@@ -248,7 +256,7 @@ disable-model-invocation: true  # user-only skill (replaces .claude/commands/)
 ```markdown
 # Skill Name
 Instructions for what to do...
-$ARGUMENTS[0] $ARGUMENTS[1] — user args
+$ARGUMENTS[0] $ARGUMENTS[1], user args
 ```
 
 **Hook** (`.claude/hooks/` bash or PowerShell):
@@ -307,7 +315,7 @@ VERIFY: Empty email shows error, invalid format shows error
 4. **Plan Mode first** for complex/risky tasks
 5. **Create CLAUDE.md** for every project
 6. **Commit frequently** after each completed task
-7. **Know what's sent** — prompts, files, MCP results → Anthropic (opt-out available)
+7. **Know what's sent**: prompts, files, MCP results → Anthropic (opt-out available)
 
 ---
 
@@ -339,108 +347,108 @@ Deep analysis     → Use Opus (thinking on by default)
 ## Template Library (262 templates)
 
 ### Agents (23 files)
-- `adr-writer.md` — Architecture Decision Records
-- `architecture-reviewer.md` — System architecture review
-- `code-reviewer.md` — Code quality review
-- `devops-sre.md` — DevOps/SRE operations
-- `implementer.md` — Feature implementation
-- `integration-reviewer.md` — API integration review
-- `output-evaluator.md` — AI output evaluation
-- `plan-challenger.md` — Challenge implementation plans
-- `planner.md` — Task planning
-- `planning-coordinator.md` — Multi-agent coordination
-- `refactoring-specialist.md` — Code refactoring
-- `security-auditor.md` — Security auditing
-- `security-patcher.md` — Security patch application
-- `test-writer.md` — Test generation
-- `analytics-with-eval/` — Full analytics agent with eval framework
-- `cyber-defense/` — Multi-agent cyber defense team
+- `adr-writer.md`: Architecture Decision Records
+- `architecture-reviewer.md`: System architecture review
+- `code-reviewer.md`: Code quality review
+- `devops-sre.md`: DevOps/SRE operations
+- `implementer.md`: Feature implementation
+- `integration-reviewer.md`: API integration review
+- `output-evaluator.md`: AI output evaluation
+- `plan-challenger.md`: Challenge implementation plans
+- `planner.md`: Task planning
+- `planning-coordinator.md`: Multi-agent coordination
+- `refactoring-specialist.md`: Code refactoring
+- `security-auditor.md`: Security auditing
+- `security-patcher.md`: Security patch application
+- `test-writer.md`: Test generation
+- `analytics-with-eval/`: Full analytics agent with eval framework
+- `cyber-defense/`: Multi-agent cyber defense team
 
 ### Commands (52 files)
-- `audit-agents-skills.md` — Quality audit for .claude/ configs
-- `audit-codebase.md` — Full codebase audit
-- `catchup.md` — Daily catchup briefing
-- `commit.md` — Smart git commit
-- `diagnose.md` — Problem diagnosis
-- `explain.md` — Code explanation
-- `generate-tests.md` — Test suite generation
-- `git-worktree.md` — Isolated git worktree workflow
-- `git-worktree-status.md` — Worktree status
-- `git-worktree-clean.md` — Worktree cleanup
-- `git-worktree-remove.md` — Worktree removal
-- `optimize.md` — Performance optimization
-- `plan-execute.md` — Plan then execute workflow
-- `plan-start.md` — Plan mode startup
-- `plan-validate.md` — Plan validation
-- `pr.md` — Pull request creation
-- `refactor.md` — Code refactoring
-- `release-notes.md` — Release notes generation
-- `learn/` — Interactive learning command
+- `audit-agents-skills.md`: Quality audit for .claude/ configs
+- `audit-codebase.md`: Full codebase audit
+- `catchup.md`: Daily catchup briefing
+- `commit.md`: Smart git commit
+- `diagnose.md`: Problem diagnosis
+- `explain.md`: Code explanation
+- `generate-tests.md`: Test suite generation
+- `git-worktree.md`: Isolated git worktree workflow
+- `git-worktree-status.md`: Worktree status
+- `git-worktree-clean.md`: Worktree cleanup
+- `git-worktree-remove.md`: Worktree removal
+- `optimize.md`: Performance optimization
+- `plan-execute.md`: Plan then execute workflow
+- `plan-start.md`: Plan mode startup
+- `plan-validate.md`: Plan validation
+- `pr.md`: Pull request creation
+- `refactor.md`: Code refactoring
+- `release-notes.md`: Release notes generation
+- `learn/`: Interactive learning command
 
 ### Hooks (bash + PowerShell)
 **Bash hooks:**
-- `auto-commit.sh` — Auto commit on file changes
-- `dangerous-actions-blocker.sh` — Block rm -rf and destructive commands
-- `format-on-save.sh` — Auto-format code files
-- `lint-on-edit.sh` — Run linter after edits
-- `prompt-injection-detector.sh` — Detect prompt injection attempts
-- `run-tests-on-edit.sh` — Run tests after code changes
-- `secrets-scanner.sh` — Scan for hardcoded secrets
-- `send-notification.sh` — Desktop notifications on task completion
-- `session-logger.sh` — Log all session activity
-- `smart-context-compressor.sh` — Adaptive context management
-- `token-usage-tracker.sh` — Track API token consumption
-- `update-changelog.sh` — Auto-update CHANGELOG on commits
+- `auto-commit.sh`: Auto commit on file changes
+- `dangerous-actions-blocker.sh`: Block rm -rf and destructive commands
+- `format-on-save.sh`: Auto-format code files
+- `lint-on-edit.sh`: Run linter after edits
+- `prompt-injection-detector.sh`: Detect prompt injection attempts
+- `run-tests-on-edit.sh`: Run tests after code changes
+- `secrets-scanner.sh`: Scan for hardcoded secrets
+- `send-notification.sh`: Desktop notifications on task completion
+- `session-logger.sh`: Log all session activity
+- `smart-context-compressor.sh`: Adaptive context management
+- `token-usage-tracker.sh`: Track API token consumption
+- `update-changelog.sh`: Auto-update CHANGELOG on commits
 
 **PowerShell hooks** (Windows equivalents for all above)
 
 ### Skills (64 modules)
-- `ast-grep-patterns.md` — AST-based code search patterns
-- `audit-agents-skills/` — Agents/skills quality audit system
-- `ccboard/` — Claude Code monitoring dashboard
-- `cyber-defense-team/` — Security team coordination
-- `design-patterns/` — Software design pattern guidance
-- `guide-recap/` — CHANGELOG → social content generator
-- `issue-triage/` — GitHub issue prioritization
-- `landing-page-generator/` — Landing page from repo
-- `pdf-generator.md` — Professional PDF generation (Quarto/Typst)
-- `pr-triage/` — PR review prioritization
-- `release-notes-generator/` — Multi-format release notes
-- `rtk-optimizer/` — Token reduction optimization
-- `security-checklist.md` — Security audit checklist
-- `skill-creator/` — Create new skills with proper structure
-- `talk-pipeline/` — Conference talk preparation pipeline
-- `tdd-workflow.md` — Test-Driven Development workflow
-- `voice-refine/` — Voice input refinement
+- `ast-grep-patterns.md`: AST-based code search patterns
+- `audit-agents-skills/`: Agents/skills quality audit system
+- `ccboard/`: Claude Code monitoring dashboard
+- `cyber-defense-team/`: Security team coordination
+- `design-patterns/`: Software design pattern guidance
+- `guide-recap/`: CHANGELOG → social content generator
+- `issue-triage/`: GitHub issue prioritization
+- `landing-page-generator/`: Landing page from repo
+- `pdf-generator.md`: Professional PDF generation (Quarto/Typst)
+- `pr-triage/`: PR review prioritization
+- `release-notes-generator/`: Multi-format release notes
+- `rtk-optimizer/`: Token reduction optimization
+- `security-checklist.md`: Security audit checklist
+- `skill-creator/`: Create new skills with proper structure
+- `talk-pipeline/`: Conference talk preparation pipeline
+- `tdd-workflow.md`: Test-Driven Development workflow
+- `voice-refine/`: Voice input refinement
 
 ### Scripts (15 utility scripts)
-- `audit-scan.sh` — Config security audit
-- `bridge.py` — Tool bridging utility
-- `check-claude.sh` / `.ps1` — Installation health check
-- `clean-reinstall-claude.sh` / `.ps1` — Clean reinstall
-- `fresh-context-loop.sh` — Automated fresh-context iteration
-- `migrate-arguments-syntax.sh` / `.ps1` — Update argument syntax
-- `rtk-benchmark.sh` — RTK token savings benchmark
-- `session-search.sh` — Search across sessions
-- `session-stats.sh` — Session statistics
-- `sonnetplan.sh` — OpusPlan workflow automation
-- `sync-claude-config.sh` — Sync .claude/ across machines
+- `audit-scan.sh`: Config security audit
+- `bridge.py`: Tool bridging utility
+- `check-claude.sh` / `.ps1`: Installation health check
+- `clean-reinstall-claude.sh` / `.ps1`: Clean reinstall
+- `fresh-context-loop.sh`: Automated fresh-context iteration
+- `migrate-arguments-syntax.sh` / `.ps1`: Update argument syntax
+- `rtk-benchmark.sh`: RTK token savings benchmark
+- `session-search.sh`: Search across sessions
+- `session-stats.sh`: Session statistics
+- `sonnetplan.sh`: OpusPlan workflow automation
+- `sync-claude-config.sh`: Sync .claude/ across machines
 
 ### Additional Categories
-- `claude-md/` — CLAUDE.md templates (7 variants)
-- `config/` — Configuration templates (settings.json, etc.)
-- `github-actions/` — CI/CD workflow templates
-- `integrations/` — Third-party integrations
-- `mcp-configs/` — MCP server configuration templates
-- `memory/` — Memory file templates
-- `modes/` — Custom mode configurations
-- `multi-provider/` — Multi-LLM provider setups
-- `plugins/` — Plugin templates
-- `rules/` — Auto-loaded rules templates
-- `semantic-anchors/` — Semantic navigation patterns
-- `team-config/` — Team configuration examples
-- `templates/` — Generic project templates
-- `workflows/` — Step-by-step workflow guides
+- `claude-md/`: CLAUDE.md templates (7 variants)
+- `config/`: Configuration templates (settings.json, etc.)
+- `github-actions/`: CI/CD workflow templates
+- `integrations/`: Third-party integrations
+- `mcp-configs/`: MCP server configuration templates
+- `memory/`: Memory file templates
+- `modes/`: Custom mode configurations
+- `multi-provider/`: Multi-LLM provider setups
+- `plugins/`: Plugin templates
+- `rules/`: Auto-loaded rules templates
+- `semantic-anchors/`: Semantic navigation patterns
+- `team-config/`: Team configuration examples
+- `templates/`: Generic project templates
+- `workflows/`: Step-by-step workflow guides
 
 ---
 
@@ -488,7 +496,7 @@ A: With proper hardening, yes. Key steps: never use `bypassPermissions` in produ
 
 Claude Code sends to Anthropic servers: your prompts, file contents you reference, MCP tool results.
 - Default retention: 5 years (training enabled)
-- Opt-out: 30 days retention — https://claude.ai/settings/data-privacy-controls
+- Opt-out: 30 days retention, https://claude.ai/settings/data-privacy-controls
 - Enterprise: 0 retention, no training
 - The guide covers this in detail: `guide/data-privacy.md`
 

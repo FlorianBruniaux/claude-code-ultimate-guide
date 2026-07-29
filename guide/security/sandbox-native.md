@@ -484,7 +484,7 @@ For tools that **never** work in sandbox, exclude them permanently:
 
 Excluded commands always run outside sandbox (with normal permission prompts).
 
-#### Two traps, both verified on 2.1.220
+#### Three traps, all verified on 2.1.220
 
 **The bare name silently does nothing.** `"docker"` matches only the zero-argument string `docker`, so it never fires on `docker ps` and the command stays sandboxed. The published JSON schema suggests the bare form, so the usual path is to configure something inert, notice the tool is still confined, and only then discover the glob ([#10524](https://github.com/anthropics/claude-code/issues/10524)). Always write `"docker *"`.
 
@@ -511,6 +511,20 @@ git status && cat ~/.ssh/id_ed25519
 ```
 
 `git status`, `git diff`, `git log`, `git add`, and `git commit` stay inside the sandbox. Until #81157 is fixed, this is the narrowest configuration that keeps an SSH-based git workflow working.
+
+**Anything that moves the command inside the string breaks the match.** An entry matches the command as written, so a wrapper, a prefix, or a loop silently sends the command back into the sandbox. Three shapes hit this in practice:
+
+| What runs | Matches `gh *`? | Result |
+|-----------|-----------------|--------|
+| `gh api rate_limit` | yes | runs unsandboxed, works |
+| `rtk gh api rate_limit` | no | sandboxed, fails |
+| `for d in a b; do (cd $d && git push); done` | no, the string starts with `for` | sandboxed, SSH fails |
+
+The first two differ only by a four-character prefix. A [PreToolUse hook](../ultimate-guide.md) that rewrites commands, which token-optimizing proxies do by design, therefore disables every exclusion naming a wrapped binary, and nothing reports it. The symptom is whatever the sandbox would have caused anyway: `Operation not permitted` on a path, or a Go CLI failing certificate verification with `x509: OSStatus -26276` because it cannot reach the macOS keychain from inside Seatbelt.
+
+Two consequences worth planning for. If a wrapper rewrites your commands, add the wrapped forms explicitly (`rtk gh *` alongside `gh *`). And run network git as plain commands rather than inside a loop or a subshell, or the exclusion never applies.
+
+Taken together with the two traps above, `excludedCommands` has three independent ways to not do what it says, and none of them produce a message naming the real cause. When a sandboxed command fails unexpectedly, check whether the exclusion actually matched the string that ran before looking anywhere else.
 
 ---
 

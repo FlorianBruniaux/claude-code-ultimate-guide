@@ -43,6 +43,18 @@ jobs:
           # between two runs of the same script. Anchors do not have that failure mode.
           python3 scripts/resync-reference-yaml.py --check --max-broken 145
 
+      - name: Check every guide file is reachable from the index
+        run: |
+          # Coverage, the mirror of the integrity gate above. That one asks "do
+          # the references still resolve?"; this one asks "did anything land in
+          # guide/ that reference.yaml never learned about?". A page nobody
+          # indexed is invisible to the MCP server and to the landing's Cmd+K
+          # palette, and the only signal today is an anchor audit months later.
+          #
+          # Hard gate at zero: coverage was 92/92 when this was added on
+          # 2026-07-29, so there is no backlog to ratchet down.
+          python3 scripts/check-index-coverage.py --check --max-missing 0
+
       - name: Check examples-data.ts is in sync with examples/
         run: python3 scripts/generate-examples-data.py --check
 

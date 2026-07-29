@@ -37,7 +37,7 @@ deep_dive:
   anti_anchoring_prompts: "examples/semantic-anchors/anchor-catalog.md#anti-anchoring-techniques"
   session_limits: "guide/core/architecture.md#session-degradation-limits"
   claudemd_sizing: 3054
-  scope_success_rates: "guide/roles/adoption-approaches.md:26"
+  scope_success_rates: "guide/roles/adoption-approaches.md#what-we-do-know-empirical-data"
   # Claude Code Releases
   claude_code_releases: "guide/core/claude-code-releases.md"
   claude_code_releases_yaml: "machine-readable/claude-code-releases.yaml"
@@ -120,7 +120,7 @@ deep_dive:
   context_engineering_research: "guide/core/context-engineering.md#16-research-patterns-what-the-literature-shows"
   context_engineering_attention_mechanics: "guide/core/context-engineering.md#17-attention-mechanics--reliability"
   context_engineering_attention_description: "Lost-in-the-middle mechanics (Liu et al. 2023, arXiv:2307.03172, U-shaped curve, 71-point gap), primacy/recency placement, per-section pass, persistent facts block (prompt-cache compatible), scratchpad, rolling summaries at 65% threshold."
-  context_lost_in_middle: "guide/core/context-engineering.md:2154"
+  context_lost_in_middle: "guide/core/context-engineering.md#the-lost-in-the-middle-problem"
   context_primacy_recency_placement: "guide/core/context-engineering.md#primacy-and-recency-placement"
   context_persistent_facts_block: "guide/core/context-engineering.md#persistent-facts-block"
   context_scratchpad_pattern: "guide/core/context-engineering.md#scratchpad-pattern"
@@ -209,20 +209,20 @@ deep_dive:
   # Known Issues & Critical Bugs (verified community reports)
   known_issues: "guide/core/known-issues.md"
   known_issues_github_bug: "guide/core/known-issues.md:7"  # GitHub auto-creation bug
-  known_issues_token_consumption: "guide/core/known-issues.md:105"  # Excessive token usage
-  known_issues_model_quality_aug2025: "guide/core/known-issues.md:197"  # Resolved: Aug 2025 degradation
-  known_issues_llm_variance: "guide/core/known-issues.md:237"  # LLM day-to-day performance variance (expected behavior, not a bug)
+  known_issues_token_consumption: "guide/core/known-issues.md#2-excessive-token-consumption-jan-2026---present"  # Excessive token usage
+  known_issues_model_quality_aug2025: "guide/core/known-issues.md#model-quality-degradation-aug-sep-2025"  # Resolved: Aug 2025 degradation
+  known_issues_llm_variance: "guide/core/known-issues.md#llm-day-to-day-performance-variance"  # LLM day-to-day performance variance (expected behavior, not a bug)
   # RPI Workflow (Research -> Plan -> Implement)
   rpi_workflow: "guide/workflows/rpi.md"
-  rpi_when_to_use: "guide/workflows/rpi.md:55"  # Decision heuristic + scenarios
-  rpi_phase1_research: "guide/workflows/rpi.md:86"  # Research template + NO-GO criteria
-  rpi_phase2_plan: "guide/workflows/rpi.md:173"  # Plan template + review checklist
-  rpi_phase3_implement: "guide/workflows/rpi.md:237"  # Step-gate pattern + failure protocol
+  rpi_when_to_use: "guide/workflows/rpi.md#when-to-use-rpi"  # Decision heuristic + scenarios
+  rpi_phase1_research: "guide/workflows/rpi.md#phase-1-research"  # Research template + NO-GO criteria
+  rpi_phase2_plan: "guide/workflows/rpi.md#phase-2-plan"  # Plan template + review checklist
+  rpi_phase3_implement: "guide/workflows/rpi.md#phase-3-implement"  # Step-gate pattern + failure protocol
   rpi_slash_commands: "guide/workflows/rpi.md#slash-command-templates"  # /rpi:research /rpi:plan /rpi:implement templates
   rpi_vs_other_workflows: "guide/workflows/rpi.md#comparison-to-other-workflows"  # Comparison table: RPI vs dual-instance vs spec-first
   # Changelog Fragments Workflow
   changelog_fragments_workflow: "guide/workflows/changelog-fragments.md"  # Per-PR YAML fragments, 3-layer enforcement
-  changelog_fragments_claude_rule: "guide/workflows/changelog-fragments.md:26"  # CLAUDE.md rule for autonomous fragment creation
+  changelog_fragments_claude_rule: "guide/workflows/changelog-fragments.md#layer-1-claudemd-workflow-rule"  # CLAUDE.md rule for autonomous fragment creation
   changelog_fragments_hook: "guide/workflows/changelog-fragments.md#changelog-fragments-enforced-per-pr-documentation"  # UserPromptSubmit 3-tier hook (enforcement/discovery/contextual)
   changelog_fragments_ci: "guide/workflows/changelog-fragments.md#changelog-fragments-enforced-per-pr-documentation"  # Independent CI migration check job
   # Smart-Suggest Hook
@@ -248,9 +248,9 @@ deep_dive:
   cc_sessions_discover: "guide/ultimate-guide.md#session-pattern-discovery"  # n-gram + --llm pattern analysis
   session_resume_limitations: "guide/ops/observability.md#session-resume-limitations--cross-folder-migration"
   session_cross_folder_migration: "guide/ops/observability.md#session-resume-limitations--cross-folder-migration"
-  session_migration_manual: "guide/ops/observability.md:126"
-  session_migration_risks: "guide/ops/observability.md:126"
-  session_migration_community_tool: "guide/ops/observability.md:52"
+  session_migration_manual: "guide/ops/observability.md#manual-migration-recommended"
+  session_migration_risks: "guide/ops/observability.md#migration-risks--caveats"
+  session_migration_community_tool: "guide/ops/observability.md#community-automation-tool"
   session_migration_issue: "https://github.com/anthropics/claude-code/issues/1516"
   session_migration_weller_skill: "https://github.com/jimweller/dotfiles/tree/main/dotfiles/claude-code/skills/claude-migrate-session"
   # Activity monitoring
@@ -412,13 +412,13 @@ deep_dive:
   ai_unit_economics_description: "Original synthesis on the unit economics of agentic AI usage: per-task cost decomposition, real cost levers (complexity routing, sub-agent isolation, exit criteria), the break-even point of an autonomous agent, and team budget governance. Flagged explicitly as original analysis, not a practitioner-sourced compilation."
   ai_unit_economics_token_estimation: "guide/ops/ai-unit-economics.md#do-not-estimate-tokens-by-string-length"  # why chars/4 breaks: measured -35% on code, -23% on accented French, erring in the unsafe direction; wrong tokenizer for Claude; plus the count-the-wrong-string second-order bug
   # Learning with AI (guide/roles/learning-with-ai.md)
-  learning_quick_check: "guide/roles/learning-with-ai.md:38"
-  learning_uval_protocol: "guide/roles/learning-with-ai.md:218"
+  learning_quick_check: "guide/roles/learning-with-ai.md#quick-self-check-start-here"
+  learning_uval_protocol: "guide/roles/learning-with-ai.md#the-uval-protocol"
   learning_claude_config: "guide/roles/learning-with-ai.md#claudemd-configuration-for-learning-mode"
-  learning_breaking_dependency: "guide/roles/learning-with-ai.md:575"
-  learning_embracing_ai: "guide/roles/learning-with-ai.md:623"
+  learning_breaking_dependency: "guide/roles/learning-with-ai.md#breaking-dependency"
+  learning_embracing_ai: "guide/roles/learning-with-ai.md#embracing-ai-tools"
   learning_30day_plan: "guide/roles/learning-with-ai.md#30-day-progression-plan"
-  learning_red_flags: "guide/roles/learning-with-ai.md:612"
+  learning_red_flags: "guide/roles/learning-with-ai.md#red-flags-youre-slipping"
   # AI Roles (guide/roles/ai-roles.md)
   ai_roles_guide: "guide/roles/ai-roles.md"
   ai_roles_spec_engineer: "guide/roles/ai-roles.md#17-spec-engineer"
@@ -433,9 +433,9 @@ deep_dive:
   adoption_metr_rct: "guide/roles/adoption-approaches.md#the-j-curve-you-will-hit-at-l2l3"      # METR calibration paragraph lives in this section
   adoption_deputydev: "guide/roles/adoption-approaches.md#the-j-curve-you-will-hit-at-l2l3"     # DeputyDev enterprise cohort paragraph, same section
   # Productivity Research RCTs
-  productivity_rct_metr: "guide/roles/learning-with-ai.md:925"  # METR 2025: experienced devs 19% slower on large codebases despite perceiving 20% faster
-  productivity_rct_echoes: "guide/roles/learning-with-ai.md:926"  # Borg 2025: 30.7% faster (median), ~55.9% habitual users, no maintainability impact downstream
-  productivity_maintainability_empirical: "guide/roles/learning-with-ai.md:926"  # Empirical data on "AI code is unmaintainable" claim — blind RCT shows no significant difference
+  productivity_rct_metr: "guide/roles/learning-with-ai.md#productivity-research"  # METR 2025: experienced devs 19% slower on large codebases despite perceiving 20% faster
+  productivity_rct_echoes: "guide/roles/learning-with-ai.md#productivity-research"  # Borg 2025: 30.7% faster (median), ~55.9% habitual users, no maintainability impact downstream
+  productivity_maintainability_empirical: "guide/roles/learning-with-ai.md#productivity-research"  # Empirical data on "AI code is unmaintainable" claim — blind RCT shows no significant difference
   trust_calibration_maintainability_nuance: "guide/ultimate-guide.md:1460"  # Nuance: defect rates ≠ maintenance burden (Borg et al. 2025)
   session_naming_template: "examples/claude-md/session-naming.md"
   session_naming_guide: "guide/ultimate-guide.md:971"
@@ -460,9 +460,9 @@ deep_dive:
   ai_traceability_llvm_policy: "guide/ops/ai-traceability.md:201"
   ai_traceability_ghostty_policy: "guide/ops/ai-traceability.md:236"
   ai_traceability_fedora_policy: "guide/ops/ai-traceability.md:261"
-  ai_traceability_promptpwnd: "guide/ops/ai-traceability.md:501"
-  ai_traceability_implementation: "guide/ops/ai-traceability.md:566"
-  ai_traceability_templates: "guide/ops/ai-traceability.md:648"
+  ai_traceability_promptpwnd: "guide/ops/ai-traceability.md#61-promptpwnd-vulnerability"
+  ai_traceability_implementation: "guide/ops/ai-traceability.md#implementation-guide"
+  ai_traceability_templates: "guide/ops/ai-traceability.md#templates"
   # AI Disclosure Templates
   ai_disclosure_contributing: "examples/config/CONTRIBUTING-ai-disclosure.md"
   ai_disclosure_pr_template: "examples/config/PULL_REQUEST_TEMPLATE-ai.md"
@@ -472,7 +472,7 @@ deep_dive:
   tts_voice_catalog: "examples/integrations/agent-vibes/voice-catalog.md"
   tts_troubleshooting: "examples/integrations/agent-vibes/troubleshooting.md"
   tts_workflow: "guide/workflows/tts-setup.md"
-  tts_ai_ecosystem: "guide/ecosystem/ai-ecosystem.md:1124"
+  tts_ai_ecosystem: "guide/ecosystem/ai-ecosystem.md#51-text-to-speech-tools-agent-vibes"
   tts_hook_example: "examples/hooks/bash/tts-selective.sh"
   tts_claude_md_template: "examples/claude-md/tts-enabled.md"
   # Sandbox Isolation for Coding Agents (guide/security/sandbox-isolation.md) - Added 2026-01-31
@@ -505,6 +505,27 @@ deep_dive:
   sandbox_native_config_examples: "guide/security/sandbox-native.md:564"  # Configuration examples
   sandbox_native_best_practices: "guide/security/sandbox-native.md#12-best-practices"  # Best practices
   sandbox_native_troubleshooting: "guide/security/sandbox-native.md#13-troubleshooting"  # Troubleshooting
+  # Credentials, settings surface, and field-verified traps (Added 2026-07-29, verified on 2.1.220)
+  sandbox_credentials_files: "guide/core/settings-reference.md#sandboxcredentialsfiles"  # deny reads of ~/.ssh, ~/.aws; sandbox default read covers the whole machine and has no built-in denylist
+  sandbox_credentials_envvars: "guide/core/settings-reference.md#sandboxcredentialsenvvars"  # deny or mask; sandboxed commands inherit the parent environment unchanged
+  sandbox_credentials_mask_requires_tls: "mask needs network.tlsTerminate or it fails closed; mask honored only from user/managed/--settings"
+  sandbox_filesystem_disabled: "guide/core/settings-reference.md#sandboxfilesystemdisabled"  # v2.1.216; also disables credentials.files and the settings-file write protection
+  sandbox_strict_allowlist: "guide/core/settings-reference.md#sandboxnetworkstrictallowlist"  # v2.1.219; enable last, turns a one-time prompt into a hard failure
+  sandbox_allow_apple_events: "guide/core/settings-reference.md#sandboxallowappleevents"  # removes code-execution isolation; prefer excludedCommands
+  sandbox_auto_allow_exceptions: "guide/security/sandbox-native.md#what-still-applies-in-auto-allow-mode"  # deny rules, rm on / or ~, content-scoped ask; bare Bash ask skipped when sandboxed
+  sandbox_subagents_inherit: "guide/security/sandbox-native.md#subagents"  # same process, same config, cannot widen
+  sandbox_excluded_commands_traps: "guide/security/sandbox-native.md#three-traps-all-verified-on-21220"
+  sandbox_excluded_bare_name_noop: "a bare entry matches only the zero-argument string and never fires; use the glob form (github.com/anthropics/claude-code/issues/10524)"
+  sandbox_excluded_whole_invocation: "a matching glob unsandboxes the ENTIRE Bash invocation including earlier commands; git status && cat ~/.ssh/id_ed25519 reads the key with 'git *' present (issues/81157, open 2026-07-25)"
+  sandbox_excluded_prefix_breaks_match: "a wrapper, prefix or loop moves the command inside the string and the entry stops matching: 'gh api' works, 'rtk gh api' is sandboxed and fails, 'for d in ..; do git push; done' is sandboxed because the string starts with for. A PreToolUse hook that rewrites commands disables every exclusion naming a wrapped binary, silently"
+  sandbox_excluded_three_traps: "guide/security/sandbox-native.md#three-traps-all-verified-on-21220"  # bare name never matches, glob unsandboxes the whole invocation, prefix breaks the match
+  sandbox_go_cli_tls_symptom: "x509: OSStatus -26276 from gh/glab/gcloud/terraform means the CLI ran INSIDE the sandbox and could not reach the macOS keychain; it is an exclusion that did not match, not an auth or certificate problem"
+  sandbox_config_example: "examples/config/sandbox-native.json"  # rewritten 2026-07-29, the previous version used six keys that do not exist
+  sandbox_ssh_needs_exception: "the proxy handles HTTP/HTTPS but not port 22 and blocks the ssh-agent socket, so git over SSH fails at DNS resolution; scope to git push */git fetch */git pull */ssh * rather than the whole binary"
+  sandbox_no_curl_blocklist: "there is no built-in curl/wget blocklist; a missing domain hangs to timeout (HTTP 000, curl exit 28) rather than erroring cleanly"
+  sandbox_settings_files_protected: "guide/security/sandbox-native.md#default-behavior"  # writes to settings.json denied at every scope, symlinks resolved since v2.1.210; use the Edit tool, which is not sandboxed
+  sandbox_session_tmpdir: "guide/security/sandbox-native.md#default-behavior"  # $TMPDIR points at a per-session dir for sandboxed commands, /tmp itself is not writable
+  sandbox_ubuntu_apparmor: "guide/security/sandbox-native.md#linuxwsl2-bubblewrap"  # Ubuntu 24.04+ blocks bubblewrap user namespaces; check sysctl kernel.apparmor_restrict_unprivileged_userns
   sandbox_runtime_oss: "https://github.com/anthropic-experimental/sandbox-runtime"
   sandbox_runtime_npm: "https://www.npmjs.com/package/@anthropic-ai/sandbox-runtime"
   sandbox_official_docs: "https://code.claude.com/docs/en/sandboxing"
@@ -948,16 +969,16 @@ deep_dive:
     - "Linear MCP: ~9.5k installs (issue tracking)"
   plugins_awesome_list: "https://github.com/hesreallyhim/awesome-claude-code"
   plugins_awesome_list_stars: "20k+"
-  chain_of_verification: "guide/core/methodologies.md:230"
+  chain_of_verification: "guide/ultimate-guide.md#se-cove--chain-of-verification"
   chain_of_verification_paper: "https://arxiv.org/abs/2309.11495"
   chain_of_verification_acl: "https://aclanthology.org/2024.findings-acl.212/"
   # Verification Loops & Eval Harness (added 2026-01-23)
-  verification_loops: "guide/core/methodologies.md:245"
+  verification_loops: "guide/core/methodologies.md#tier-5-implementation"
   verification_loops_source: "https://www.anthropic.com/engineering/claude-code-best-practices"
-  eval_harness: "guide/core/methodologies.md:289"
+  eval_harness: "guide/core/methodologies.md#tier-5-implementation"
   eval_harness_source: "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents"
   # GSD (Get Shit Done) methodology (added 2026-01-25)
-  gsd_methodology: "guide/core/methodologies.md:53"
+  gsd_methodology: "guide/core/methodologies.md#tier-1-strategic-orchestration"
   gsd_evaluation: "docs/resource-evaluations/gsd-evaluation.md"
   gsd_source: "https://github.com/glittercowboy/get-shit-done"
   gsd_note: "Overlap with existing patterns (Ralph Loop, Gas Town, BMAD)"
@@ -1026,24 +1047,24 @@ deep_dive:
   outcome_engineering_author: "Cory Ondrejka (CTO Onebrief, co-creator Second Life, ex-VP Google/Meta)"
   outcome_engineering_status: "Emerging - on watch list for community adoption"
   practitioner_collina_source: "https://adventures.nodeland.dev/archive/the-human-in-the-loop/"
-  practitioner_steinberger: "guide/ecosystem/ai-ecosystem.md:2242"
+  practitioner_steinberger: "guide/ecosystem/ai-ecosystem.md#peter-steinberger-pspdfkit-founder-moltbot-creator"
   practitioner_steinberger_source: "https://steipete.me/posts/2025/shipping-at-inference-speed"
   practitioner_addy_osmani: "guide/ecosystem/ai-ecosystem.md#addy-osmani-google-chrome-team"
   practitioner_osmani_source: "https://addyo.substack.com/p/the-80-problem-in-agentic-coding"
-  practitioner_alan: "guide/ecosystem/ai-ecosystem.md:2299"
+  practitioner_alan: "guide/ecosystem/ai-ecosystem.md#alan-engineering-charles-gorintin-maxime-le-bras"
   practitioner_alan_source: "https://www.linkedin.com/pulse/le-principe-de-la-tour-eiffel-et-ralph-wiggum-maxime-le-bras-psmxe/"
   verification_paradox: "guide/security/production-safety.md#rule-7-the-verification-paradox"
   verification_paradox_source: "https://www.linkedin.com/pulse/le-principe-de-la-tour-eiffel-et-ralph-wiggum-maxime-le-bras-psmxe/"
-  eighty_percent_problem: "guide/ecosystem/ai-ecosystem.md:2269"
-  comprehension_debt_secondary: "guide/ecosystem/ai-ecosystem.md:2269"  # See also: vibe_coding_trap (primary)
+  eighty_percent_problem: "guide/ecosystem/ai-ecosystem.md#addy-osmani-google-chrome-team"
+  comprehension_debt_secondary: "guide/ecosystem/ai-ecosystem.md#addy-osmani-google-chrome-team"  # See also: vibe_coding_trap (primary)
   # DevOps/SRE Guide (guide/ops/devops-sre.md)
   devops_sre_guide: "guide/ops/devops-sre.md"
   devops_fire_framework: "guide/ops/devops-sre.md:46"
   devops_k8s_troubleshooting: "guide/ops/devops-sre.md:129"
   devops_k8s_prompts: "guide/ops/devops-sre.md:151"
   devops_incident_response: "guide/ops/devops-sre.md#pattern-incident-response"
-  devops_iac_patterns: "guide/ops/devops-sre.md:504"
-  devops_guardrails: "guide/ops/devops-sre.md:687"
+  devops_iac_patterns: "guide/ops/devops-sre.md#pattern-infrastructure-as-code"
+  devops_guardrails: "guide/ops/devops-sre.md#guardrails--adoption"
   devops_limitations: "guide/ops/devops-sre.md:297"
   devops_quick_reference: "guide/ops/devops-sre.md#quick-reference"
   devops_agent: "examples/agents/devops-sre.md"
@@ -1292,7 +1313,7 @@ deep_dive:
   # Spec-First Development (Addy Osmani, Jan 2026)
   spec_first_workflow: "guide/workflows/spec-first.md"
   spec_modular_design: "guide/workflows/spec-first.md#modular-spec-design"
-  spec_operational_boundaries: "guide/workflows/spec-first.md:461"
+  spec_operational_boundaries: "guide/workflows/spec-first.md#operational-boundaries"
   spec_command_template: "guide/workflows/spec-first.md#command-spec-template"
   spec_anti_monolithic: "guide/workflows/spec-first.md#anti-pattern-monolithic-claudemd"
   spec_osmani_source: "https://addyosmani.com/blog/good-spec/"
@@ -1305,7 +1326,7 @@ deep_dive:
   task_session_lifecycle: "guide/workflows/task-management.md"  # 10-step session lifecycle protocol: START/INIT/READ/SELECT/EXECUTE/VERIFY/WRAP UP/CLEANUP/COMMIT/HANDOFF + progress.md template
   session_lifecycle_feature_list_template: "examples/workflows/feature-list.json"  # Machine-readable scope tracker template
   session_lifecycle_verification_hook: "examples/hooks/bash/verification-gate.sh"  # PostToolUse independent evaluator hook
-  atdd_with_agents: "guide/core/methodologies.md:161"  # ATDD + Gherkin for agentic workflows
+  atdd_with_agents: "guide/core/methodologies.md#tier-3-behavior--acceptance"  # ATDD + Gherkin for agentic workflows
   harness_agents_md_as_toc: "guide/ultimate-guide.md#9251-agentsmd-as-toc-not-encyclopedia"  # AGENTS.md as ~100-line TOC pointing to docs/ hierarchy, not encyclopedia
   harness_knowledge_boundary: "guide/ultimate-guide.md:23487"  # "What agent can't see doesn't exist": encode Slack/docs as repo markdown
   harness_knowledge_base: "guide/ultimate-guide.md:23505"  # Structured docs/ with design-docs/, exec-plans/, product-specs/, references/
@@ -1327,8 +1348,8 @@ deep_dive:
   ai_ecosystem_workflows: 20166
   ai_ecosystem_integration: 20294
   ai_ecosystem_detailed: "guide/ecosystem/ai-ecosystem.md"
-  ai_ecosystem_goose: "guide/ecosystem/ai-ecosystem.md:2074"
-  ai_ecosystem_goose_comparison: "guide/ecosystem/ai-ecosystem.md:2090"
+  ai_ecosystem_goose: "guide/ecosystem/ai-ecosystem.md#111-goose-open-source-alternative-block"
+  ai_ecosystem_goose_comparison: "guide/ecosystem/ai-ecosystem.md#claude-code-vs-goose-key-differences"
   ai_ecosystem_context_packing: "guide/ecosystem/ai-ecosystem.md#12-context-packing-tools"
   ai_ecosystem_multi_ide_sync: "guide/ecosystem/ai-ecosystem.md#multi-ide-configuration-sync"
   agents_md_support_status: "guide/ecosystem/ai-ecosystem.md#agentsmd-support-status"
@@ -1434,10 +1455,10 @@ deep_dive:
   security_hardening: "guide/security/security-hardening.md"  # Security best practices
   security_cve_summary: "guide/security/security-hardening.md#cve-summary-2025-2026"  # Decision Matrix + CVEs
   security_supply_chain_stats: "guide/security/security-hardening.md:137"  # Agent Skills Supply Chain Risks
-  security_mcp_scan_tool: "guide/security/security-hardening.md:32"  # MCP Vetting Workflow
+  security_mcp_scan_tool: "guide/security/security-hardening.md#11-mcp-vetting-workflow"  # MCP Vetting Workflow
   security_malicious_extensions: "guide/security/security-hardening.md#15-malicious-extensions-claude-attack-surface"  # .claude/ attack surface (§1.5)
   security_kill_switch: "guide/security/security-hardening.md#35-ai-kill-switch--containment-architecture"  # AI Kill Switch & Containment Architecture (§3.5)
-  security_claude_folder_audit: "guide/security/security-hardening.md:228"  # Repository Pre-Scan (§1.4)
+  security_claude_folder_audit: "guide/security/security-hardening.md#5-minute-claude-audit-checklist"  # .claude/ audit checklist (§1.5). Comment previously said "Repository Pre-Scan (§1.4)", which contradicted the key name; §1.4 is covered by security_repo_prescan territory and §1.5 is the only section that audits .claude/ itself.
   security_toxicskills_evaluation: "docs/resource-evaluations/snyk-toxicskills-evaluation.md"
   security_check_command: "examples/skills/security-check/SKILL.md"  # Quick config check vs known threats
   security_audit_command: "examples/skills/security-audit/SKILL.md"  # Full 6-phase security audit (score /100)
@@ -1558,9 +1579,9 @@ deep_dive:
   spec_test: "Specific + Programmatically Evaluable + Explicit scope + Constrained (four criteria for decomposable subtasks)"
   # Advanced MCP Tool Design (mcp-servers-ecosystem.md)
   advanced_mcp_tool_design: "guide/ecosystem/mcp-servers-ecosystem.md#advanced-mcp-tool-design"
-  mcp_isretryable: "guide/ecosystem/mcp-servers-ecosystem.md:1373"
+  mcp_isretryable: "guide/ecosystem/mcp-servers-ecosystem.md#isretryable-application-level-convention"
   mcp_isretryable_note: "application-level convention via structuredContent, not native MCP spec field"
-  mcp_iserror_semantics: "guide/ecosystem/mcp-servers-ecosystem.md:1414"
+  mcp_iserror_semantics: "guide/ecosystem/mcp-servers-ecosystem.md#iserror-false--empty-content-vs-iserror-true"
   mcp_iserror_false_empty: "isError:false + empty content = success with zero results (not an error)"
   mcp_iserror_true: "isError:true = operation failed to execute"
   mcp_resources_vs_tools: "guide/ecosystem/mcp-servers-ecosystem.md#mcp-resources-vs-tools"
@@ -1952,7 +1973,7 @@ mcp:
   playwright: "browser automation / E2E"
   figma: "design file access, tokens, structure (official)"
   git_mcp: "version control automation (official Anthropic) - 12 tools for commits, branches, diffs, logs"
-  git_mcp_guide: "guide/ecosystem/mcp-servers-ecosystem.md:102"
+  git_mcp_guide: "guide/ecosystem/mcp-servers-ecosystem.md#git-mcp-anthropic"
   git_mcp_tools: "git_status, git_log, git_diff, git_commit, git_add, git_reset, git_branch, git_create_branch, git_checkout, git_show, git_diff_unstaged, git_diff_staged"
   git_mcp_install: "uvx mcp-server-git --repository /path/to/repo"
   git_mcp_decision_matrix: "guide/ecosystem/mcp-servers-ecosystem.md#decision-matrix-git-mcp-vs-github-mcp-vs-bash-tool"  # Git MCP vs GitHub MCP vs Bash tool
@@ -2297,7 +2318,7 @@ ecosystem:
       focus: "Production-grade agentic coding guardrails (TDD, worktrees, manual commits)"
       academic: "Co-author 'Agentic Systems in Radiology' (ArXiv 2025)"
       alignment: "Validates patterns already documented in this guide"
-      guide_section: "guide/ecosystem/ai-ecosystem.md:1209"
+      guide_section: "guide/ecosystem/ai-ecosystem.md#dave-van-veen-stanford-phd-hoppr"
   install_templates: "scripts/install-templates.sh"
   cowork:
     description: "Claude Code for non-developers (desktop app)"

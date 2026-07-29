@@ -12,6 +12,11 @@
 !.claude/commands/
 !.claude/agents/
 !.claude/hooks/
+# Rules stay personal by default. index-sync.md is the exception: it documents a
+# repo convention enforced by a tracked hook and a tracked CI step, so it ships.
+!.claude/rules/
+.claude/rules/*
+!.claude/rules/index-sync.md
 
 # OS
 .DS_Store

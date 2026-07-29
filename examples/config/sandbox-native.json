@@ -1,55 +1,97 @@
 {
-  "$schema": "https://code.claude.com/schemas/settings.json",
-  "description": "Native Claude Code sandbox configuration example",
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "description": "Native sandbox configuration, field-verified on Claude Code 2.1.220. Place in ~/.claude/settings.json: filesystem.disabled, network.strictAllowlist, network.tlsTerminate, credentials mask entries and allowAppleEvents are all ignored from project settings. Path prefixes are ~/ for home and / for absolute; there is no ${HOME} or ${CWD} interpolation.",
+
   "sandbox": {
-    "autoAllowMode": true,
+    "enabled": true,
+    "autoAllowBashIfSandboxed": true,
     "allowUnsandboxedCommands": false,
 
+    "excludedCommands": [
+      "gh *",
+      "docker *",
+      "kubectl *",
+      "git push *",
+      "git pull *",
+      "git fetch *",
+      "git clone *",
+      "git ls-remote *",
+      "ssh *",
+      "scp *"
+    ],
+
     "filesystem": {
-      "allowedWritePaths": [
-        "${CWD}",
-        "/tmp"
-      ],
-      "deniedReadPaths": [
-        "${HOME}/.ssh",
-        "${HOME}/.aws",
-        "${HOME}/.kube",
-        "${HOME}/.gnupg",
-        "${HOME}/.config/gcloud"
+      "allowWrite": [
+        "~/Sites",
+        "~/Desktop",
+        "~/Downloads",
+        "~/.cargo",
+        "~/.rustup",
+        "~/.npm",
+        "~/.cache",
+        "~/Library/Caches"
       ]
     },
 
     "network": {
-      "policy": "deny",
       "allowedDomains": [
         "api.anthropic.com",
-        "registry.npmjs.com",
-        "registry.yarnpkg.com",
-        "files.pythonhosted.org",
-        "pypi.org",
+        "code.claude.com",
         "github.com",
         "api.github.com",
-        "raw.githubusercontent.com",
-        "objects.githubusercontent.com",
-        "codeload.github.com"
+        "*.githubusercontent.com",
+        "gitlab.com",
+        "*.gitlab.com",
+        "registry.npmjs.org",
+        "*.npmjs.org",
+        "crates.io",
+        "static.crates.io",
+        "index.crates.io",
+        "pypi.org",
+        "files.pythonhosted.org"
       ]
     },
 
-    "excludedCommands": [
-      "docker",
-      "kubectl",
-      "podman",
-      "vagrant"
+    "credentials": {
+      "files": [
+        { "path": "~/.ssh", "mode": "deny" },
+        { "path": "~/.aws", "mode": "deny" },
+        { "path": "~/.gnupg", "mode": "deny" },
+        { "path": "~/.kube", "mode": "deny" },
+        { "path": "~/.config/gcloud", "mode": "deny" },
+        { "path": "~/.npmrc", "mode": "deny" }
+      ],
+      "envVars": [
+        { "name": "ANTHROPIC_API_KEY", "mode": "deny" },
+        { "name": "GITHUB_TOKEN", "mode": "deny" },
+        { "name": "GH_TOKEN", "mode": "deny" },
+        { "name": "NPM_TOKEN", "mode": "deny" },
+        { "name": "AWS_SECRET_ACCESS_KEY", "mode": "deny" }
+      ]
+    }
+  },
+
+  "permissions": {
+    "ask": [
+      "Bash(git push *)",
+      "Bash(gh pr merge *)"
+    ],
+    "deny": [
+      "Bash(git push --force *)",
+      "Bash(git push -f *)",
+      "Bash(gh repo delete *)",
+      "Read(**/.env*)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)"
     ]
   },
 
   "comments": {
-    "autoAllowMode": "Bash commands auto-approved if sandboxed (recommended for daily dev)",
-    "allowUnsandboxedCommands": "Disable escape hatch for maximum security",
-    "allowedWritePaths": "${CWD} = current working directory. /tmp for temporary files.",
-    "deniedReadPaths": "Block access to credentials and sensitive configs",
-    "network.policy": "deny = block all, allow only specified domains (denylist mode)",
-    "allowedDomains": "Whitelist only trusted package registries and VCS hosts",
-    "excludedCommands": "Tools incompatible with sandbox - run outside (with permission prompts)"
+    "excludedCommands": "Use the glob form. A bare entry like \"docker\" matches only the zero-argument string and never fires (anthropics/claude-code#10524). Scope to subcommands, not binaries: a matching glob unsandboxes the ENTIRE Bash invocation, including commands that run before the excluded one (#81157). Git over SSH needs these entries because the proxy handles HTTP and HTTPS but not port 22, and it blocks the ssh-agent socket.",
+    "filesystem.allowWrite": "Writes default to the working directory plus the session temp directory. List the roots you actually work in, plus the tool caches that live outside them, or the first dependency fetch fails. Claude Code's own settings.json stays denied at every scope no matter what you allow here.",
+    "network.allowedDomains": "No domain is pre-allowed. A missing host hangs to timeout (HTTP 000, curl exit 28) rather than erroring cleanly, so recognize the hang. The proxy decides on the client-supplied hostname and does not terminate TLS, so a broad entry is an egress path rather than a restriction. Add network.strictAllowlist once this list has survived a week of real work.",
+    "credentials.files": "The default read policy covers the entire machine and there is no built-in denylist, so ~/.ssh and ~/.aws are readable by every sandboxed command until listed here.",
+    "credentials.envVars": "Sandboxed commands inherit the parent environment unchanged, so a credentials.files entry alone still leaves your tokens exposed. deny affects sandboxed Bash only, so MCP servers keep their credentials. Switch a variable to mode \"mask\" with injectHosts only when a CLI actually breaks without it, and note that mask requires network.tlsTerminate or it fails closed.",
+    "permissions.ask": "The sandbox bounds what a command touches; it does not decide whether the command runs. A content-scoped ask rule is the only human checkpoint that survives every permission mode, auto mode included, and it fires even for sandboxed commands."
   }
 }

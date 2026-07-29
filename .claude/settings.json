@@ -86,6 +86,17 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/index-sync-reminder.sh",
+            "timeout": 5000
+          }
+        ]
+      }
     ]
   },
   "env": {
