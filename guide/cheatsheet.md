@@ -18,6 +18,8 @@ tags: [cheatsheet, reference]
 
 ## Essential Commands
 
+The ~35 below are the daily drivers. Claude Code ships about 100 built-in commands: the complete list is in [§10.1 of the guide](./ultimate-guide.md#101-commands-table), and the always-current official reference is [code.claude.com/docs/en/commands](https://code.claude.com/docs/en/commands).
+
 | Command | Action |
 |---------|--------|
 | `/help` | Contextual help |
@@ -26,35 +28,36 @@ tags: [cheatsheet, reference]
 | `/compact` | Free up context |
 | `/status` | Session state + context usage |
 | `/context` | Detailed token breakdown |
-| `/plan` | Enter Plan Mode (no changes) |
-| `/ultraplan` | Cloud Plan Mode — draft in cloud, review in browser (v2.1.91+) |
-| `/execute` | Exit Plan Mode (apply changes) |
+| `/plan` | Enter Plan Mode (no changes). Exit by approving the plan or `Shift+Tab` |
+| `/ultraplan` | Cloud Plan Mode: draft in cloud, review in browser (v2.1.91+) |
 | `/model` | Switch model (sonnet/opus/opusplan) |
 | `/insights` | Usage analytics + optimization report |
+| `/code-review [level]` | Review the diff for correctness bugs, `--fix` applies them, `ultra` runs it in the cloud |
 | `/simplify` | Detect over-engineering in changed code + auto-fix |
+| `/security-review` | Scan the branch diff for injection, auth, and data-exposure risks |
 | `/batch` | Large-scale refactors via 5–30 parallel worktree agents |
+| `/subtask <task>` | Hand a side task to a forked subagent that reports back here (v2.1.212+) |
 | `/teleport` | Teleport session from web |
 | `/tasks` | Monitor background tasks |
 | `/remote-env` | Configure cloud environment |
-| `/remote-control` | Start remote control session (Research Preview, Pro/Max) |
-| `/rc` | Alias for /remote-control |
+| `/remote-control` (`/rc`) | Start remote control session (Research Preview, Pro/Max) |
 | `/mobile` | Get Claude mobile app download links |
 | `/fast` | Toggle fast mode (2.5x speed, 6x cost) |
 | `/voice` | Toggle voice input (hold Space to speak, release to send) |
 | `/recap` | Session context summary on return to a break (v2.1.108) |
-| `/effort [level]` | Thinking depth: low/medium/high/xhigh/max; no arg = interactive slider (v2.1.111) |
+| `/effort [level]` | Thinking depth: low/medium/high/xhigh/max/ultracode; no arg = interactive slider (v2.1.111) |
 | `/tui [fullscreen]` | Full-screen flicker-free TUI rendering (v2.1.110) |
 | `/focus` | Toggle minimal focus view, separate from Ctrl+O (v2.1.110) |
-| `/less-permission-prompts` | Scan transcripts and propose a read-only tool allowlist (v2.1.111) |
-| `/btw [question]` | Side question overlay — read-only ephemeral agent, no history pollution, no tools |
+| `/fewer-permission-prompts` | Scan transcripts and propose a read-only tool allowlist (shipped as `/less-permission-prompts` in v2.1.111) |
+| `/btw [question]` | Side question overlay: read-only ephemeral agent, no history pollution, no tools |
 | `/loop [interval] [prompt]` | Run a prompt on repeat (ex: `/loop 5m check the deploy`, default 10m) |
-| `/stats` | Usage graph, favorite model, streak *(alias for `/usage` since v2.1.118)* |
-| `/usage` | Token + cost usage per model (v2.1.118) |
-| `/ultrareview` | Multi-agent cloud code review (v2.1.114) |
+| `/usage` (`/cost`, `/stats`) | Token + cost usage per model, plan limits, activity graph (merged in v2.1.118) |
+| `/ultrareview` | Multi-agent cloud code review, now an alias of `/code-review ultra` (v2.1.114) |
 | `/goal [condition]` | Autonomous multi-turn mode: Claude works until condition is met, live overlay shows elapsed/turns/tokens (v2.1.139) |
 | `/scroll-speed` | Tune mouse wheel scroll speed with interactive live-preview slider (v2.1.139) |
 | `/rename [name]` | Name or rename the current session |
 | `/copy` | Interactive picker to copy a code block or full response |
+| `/doctor` | Full setup checkup: install, settings, hooks, `CLAUDE.md` bloat, unused skills (v2.1.205+) |
 | `/debug` | Systematic troubleshooting |
 | `/exit` | Quit (or Ctrl+D) |
 
@@ -249,7 +252,7 @@ Model: Sonnet | Ctx: 89.5k | Cost: $2.11 | Ctx(u): 56.0%
 | **OpusPlan** | `/model opusplan` | Opus for planning, Sonnet for execution |
 | **Ultraplan** | `/ultraplan <prompt>` | Cloud planning, browser review, terminal stays free (v2.1.91+, GitHub required) |
 
-> **Opus 4.7** (v2.1.114+): Default effort in Claude Code = **xhigh** (all plans). New `xhigh` level sits between `high` and `max` — finer reasoning/latency control. Use `ultrathink` to force max effort for the next turn.
+> **Opus 4.8** (v2.1.154+): Default effort in Claude Code = **high**, with a new `xhigh` level sitting between `high` and `max` for finer reasoning/latency control. **Opus 5** (default Opus since v2.1.219) carries this forward. Use `ultrathink` to force max effort for the next turn.
 
 | Control | Action | Persistence |
 |---------|--------|-------------|
@@ -307,8 +310,8 @@ claude
 **Cost Impact**:
 | Model | Input | Output | Use Case |
 |-------|--------|--------|----------|
-| Opus 4.7 | $5/MTok | $25/MTok | Complex reasoning (10-20% of tasks) |
-| Sonnet 4.6 | $3/MTok | $15/MTok | Most development (70-80% of tasks) |
+| Opus 5 (fast mode) | $10/MTok | $50/MTok | Complex reasoning (10-20% of tasks) |
+| Sonnet 5 (promo through 2026-08-31) | $2/MTok | $10/MTok | Most development (70-80% of tasks) |
 | Haiku 4.5 | $0.80/MTok | $4/MTok | Simple validation (5-10% of tasks) |
 
 **Dynamic switching** optimizes cost while maintaining quality on complex tasks.

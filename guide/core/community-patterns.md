@@ -45,11 +45,11 @@ Quick-reference for Claude Code community patterns, workflow terms, and AI engin
 | Chain of Verification (CoVe) | Independent verifier pattern: a second agent re-checks the first agent's output to prevent confirmation bias. arXiv:2309.11495. | Workflow | Verification |
 | Checkpoint | A saved session state that can be restored via Esc x2 then /rewind. Created automatically before risky operations. | Claude Code | Session |
 | Claude Haiku 4.5 | Anthropic's fastest and cheapest model. Best for high-volume tasks, simple lookups, and cost-sensitive CI workflows. | Models | Tier |
-| Claude Opus 4.8 | Anthropic's current flagship Opus model. Best for deep reasoning, architecture decisions, and complex multi-step analysis. | Models | Tier |
+| Claude Opus 5 | Anthropic's current flagship Opus model, default since Claude Code v2.1.219. Supersedes Opus 4.8, still current on Bedrock/Vertex/Claude Platform on AWS. Best for deep reasoning, architecture decisions, and complex multi-step analysis. | Models | Tier |
 | Claude Fable 5 | Mythos-class model, exceeding any previously GA Anthropic model. See anthropic.com/pricing for specs. | Models | Tier |
-| Claude Sonnet 4.6 | Anthropic's balanced default model. Best mix of speed and capability for daily development work. | Models | Tier |
+| Claude Sonnet 5 | Anthropic's balanced default model since v2.1.197, with a native 1M-token context window. Best mix of speed and capability for daily development work. | Models | Tier |
 | CLAUDE.md | Persistent memory file loaded automatically at session start. Contains project rules, conventions, and context. The foundation of Claude Code configuration. | Claude Code | Memory |
-| Co-Authored-By | Git trailer convention (`Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>`) for attributing AI-assisted commits. | Operations | Attribution |
+| Co-Authored-By | Git trailer convention (`Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>`) for attributing AI-assisted commits. | Operations | Attribution |
 | Comprehension debt | The growing gap between code an AI produces and the developer's actual understanding of what it does and why. | AI Engineering | Risk |
 | Config hierarchy | Three-tier precedence for CLAUDE.md: Local (`.claude/`, gitignored) > Project (committed) > Global (`~/.claude/CLAUDE.md`). More specific always wins over more general. | Claude Code | Configuration |
 | Constitutional AI | Anthropic's value framework (per published system prompt) defining Claude's priority order: safety > ethics > Anthropic principles > user utility. | AI Engineering | Framework |
@@ -59,7 +59,7 @@ Quick-reference for Claude Code community patterns, workflow terms, and AI engin
 | Context packing | Technique of densely encoding information (structured markdown, symbols, tables) to maximize useful signal per token. | AI Engineering | Context |
 | Context rot | The gradual degradation of Claude's situational awareness in long-running sessions as relevant context gets pushed out or buried. | AI Engineering | Context |
 | Context triage | The deliberate decision about what information is worth putting in context upfront vs. loading on demand via tools. | AI Engineering | Context |
-| Context window | Total amount of text (in tokens) Claude can process in a single session. Claude Sonnet 4.6: 200K; extended API: 1M. | Models | Capacity |
+| Context window | Total amount of text (in tokens) Claude can process in a single session. Claude Sonnet 5 has a native 1M-token window; Sonnet 4.6 topped out at 200K (1M only via the extended API). | Models | Capacity |
 | Ctrl+B | Keyboard shortcut to background a running task, keeping it alive while you continue other work in the session. | Claude Code | Shortcuts |
 | dangerouslyDisableSandbox | Flag that bypasses Claude Code's native OS-level sandboxing. Should only be used in already-isolated environments. | Security | Configuration |
 | Default Mode | Base permission mode requiring explicit user approval for all file edits, shell commands, and commits. | Claude Code | Permissions |
@@ -96,7 +96,7 @@ Quick-reference for Claude Code community patterns, workflow terms, and AI engin
 | Modular context architecture | Pattern of splitting CLAUDE.md into focused modules loaded dynamically via path-scoped rules, reducing per-session token overhead. | AI Engineering | Context |
 | multiclaude | Community self-hosted multi-agent spawner using tmux + git worktrees. Runs N Claude Code instances in parallel. | Ecosystem | Orchestration |
 | Native sandbox | Claude Code's built-in OS-level sandboxing: Seatbelt on macOS, bubblewrap on Linux. Limits filesystem and network access. | Security | Sandbox |
-| OpusPlan | Hybrid mode: Opus 4.8 handles planning (with thinking), Sonnet executes. Activates with `/model opusplan`. | Models | Configuration |
+| OpusPlan | Hybrid mode: Opus 5 handles planning (with thinking), Sonnet executes. Activates with `/model opusplan`. | Models | Configuration |
 | Packmind | Tool that distributes coding standards as `CLAUDE.md` files, slash commands, and skills across repositories and AI tools (Claude Code, Cursor, Copilot). | Ecosystem | Tools |
 | Permission modes | Five autonomy levels: Default, Auto-accept, Plan, Don't Ask, Bypass Permissions. Set per session or in `settings.json`. | Claude Code | Permissions |
 | Plan Mode | Read-only mode where Claude can analyze, search, and propose but cannot modify files. Activated with Shift+Tab or `/plan`. | Claude Code | Modes |

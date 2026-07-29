@@ -55,7 +55,7 @@ jobs:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
 
           # Use Sonnet for cost-effectiveness (can upgrade to Opus for complex PRs)
-          model: claude-sonnet-4-20250514
+          model: claude-sonnet-5
 
           # Comprehensive review prompt
           direct_prompt: |

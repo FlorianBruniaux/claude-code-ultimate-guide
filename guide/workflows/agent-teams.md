@@ -7,13 +7,13 @@ tags: [workflow, agents, architecture]
 # Agent Teams Workflow
 
 > **Multi-agent parallel coordination for complex tasks**
-> **Status**: Experimental (v2.1.32+) | **Model**: Opus 4.6+ required | **Flag**: `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
+> **Status**: Experimental (v2.1.32+) | **Model**: Opus 5 required (Opus 4.6+ compatible) | **Flag**: `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
 
 **What**: Multiple Claude instances work in parallel on a shared codebase, coordinating autonomously without active human intervention. One session acts as team lead to break down tasks and synthesize findings from teammates.
 
 **When introduced**: v2.1.32 (2026-02-05) as research preview
 **Reading time**: ~30 min
-**Prerequisites**: Opus 4.6 model, understanding of [Sub-Agents](#split-role-sub-agents), familiarity with Task Tool
+**Prerequisites**: Opus 5 model (Opus 4.6+ compatible), understanding of [Sub-Agents](#split-role-sub-agents), familiarity with Task Tool
 
 **🚀 Want to get started fast?** See **[Agent Teams Quick Start Guide](./agent-teams-quick-start.md)** (8-10 min, copy-paste patterns for your projects)
 
@@ -52,7 +52,7 @@ Agent teams enable **multiple Claude instances to work in parallel** on differen
 ### When Introduced
 
 **Version**: v2.1.32 (2026-02-05)
-**Model**: Opus 4.6 minimum
+**Model**: Opus 5 required (Opus 4.6+ compatible)
 **Status**: Research preview (experimental feature flag required)
 
 **Official announcement**:
@@ -137,7 +137,7 @@ The ">5 agents" rule above is a sensible default, but it breaks down in specific
 
 **When more agents hurt**: If agents constantly need to read each other's output or modify shared files, adding agents adds merge conflicts and coordination messages that eat into the very context you were trying to save.
 
-> **Note on model selection per role**: As of March 2026, all agents in a team run the same model (Opus 4.6, required for Agent Teams). The community has requested role-based model selection where the team lead runs Opus for planning, implementation agents run Sonnet for speed, and test agents run Haiku for cost efficiency. This is not yet supported. The current workaround is spawning separate Claude Code processes with explicit `--model` flags, but you lose the built-in coordination and shared task list. Track this as a community feature request.
+> **Note on model selection per role**: As of March 2026, all agents in a team run the same model (Opus 5, required for Agent Teams). The community has requested role-based model selection where the team lead runs Opus for planning, implementation agents run Sonnet for speed, and test agents run Haiku for cost efficiency. This is not yet supported. The current workaround is spawning separate Claude Code processes with explicit `--model` flags, but you lose the built-in coordination and shared task list. Track this as a community feature request.
 
 For broader industry context: Gartner predicts 40% of enterprise applications will incorporate task-specific agents by end of 2026. The team coordination patterns being established now in Claude Code and similar tools will likely become standard practice.
 
@@ -255,7 +255,7 @@ claude
 ### Context Management
 
 **Per-agent context**:
-- Each agent has **1M token context window** (Opus 4.6)
+- Each agent has **1M token context window** (Opus 5)
 - ~30,000 lines of code per session
 - **Context isolation**: Agents don't share their full context window
 - **Communication**: Via mailbox system (peer-to-peer + team lead synthesis)
@@ -278,7 +278,7 @@ claude
 
 **Required**:
 - ✅ Claude Code v2.1.32 or later
-- ✅ Opus 4.6 model (`/model opus`)
+- ✅ Opus 5 model (`/model opus`)
 - ✅ Git repository (for coordination)
 
 **Recommended**:
@@ -728,17 +728,17 @@ function processUser(user: User) {
 - Context loading for each agent (1M tokens × 3 = 3M token capacity)
 - Coordination overhead (team lead synthesis)
 
-**Budget impact example** (Opus 4.6 pricing):
+**Budget impact example** (Opus 5 pricing):
 ```
 Single agent session:
-- Input: 50K tokens @ $15/M = $0.75
-- Output: 5K tokens @ $75/M = $0.38
-- Total: $1.13
+- Input: 50K tokens @ $5/M = $0.25
+- Output: 5K tokens @ $25/M = $0.13
+- Total: $0.38
 
 Agent teams (3 agents):
-- Input: 150K tokens @ $15/M = $2.25
-- Output: 15K tokens @ $75/M = $1.13
-- Total: $3.38
+- Input: 150K tokens @ $5/M = $0.75
+- Output: 15K tokens @ $25/M = $0.38
+- Total: $1.13
 
 Cost multiplier: 3x
 ```
@@ -1174,7 +1174,7 @@ For production agent teams, adding a read-only reviewer agent improves output qu
 **Setup**:
 ```
 Reviewer brief:
-- Model: Claude Opus 4.6 (for thoroughness)
+- Model: Claude Opus 5 (for thoroughness)
 - Tools available: lint, run tests, security-scan only — no file writes
 - Trigger: automatically review on every TaskCompleted event
 - Scope: the specific files changed in that task, not the full codebase
@@ -1199,7 +1199,7 @@ Reviewer brief:
 
 **Causes**:
 1. Feature flag not set correctly
-2. Model not Opus 4.6 (teams require Opus)
+2. Model not Opus 5 (teams require Opus)
 3. Task not complex enough (Claude decided single agent sufficient)
 
 **Solutions**:

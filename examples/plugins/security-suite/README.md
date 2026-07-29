@@ -269,7 +269,7 @@ This removes all Security Suite components but preserves your backups (`.bak` fi
 
 - **Plugin Version:** 1.0.0
 - **Requires:** Claude Code 2.1.0+
-- **Compatible Models:** Opus 4.7, Sonnet 4.6, Haiku 4.5
+- **Compatible Models:** Opus 5, Sonnet 5, Haiku 4.5
 
 ## License
 

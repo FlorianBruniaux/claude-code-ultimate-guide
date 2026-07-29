@@ -181,8 +181,17 @@ get_pricing() {
         claude-opus-4-6)
             [[ "$type" == "input" ]] && echo "15.00" || echo "75.00"
             ;;
+        claude-opus-5|claude-opus-4-8)
+            # Standard rate, confirmed at platform.claude.com/docs/en/about-claude/pricing.
+            # Fast mode is $10/$50 per Mtok instead.
+            [[ "$type" == "input" ]] && echo "5.00" || echo "25.00"
+            ;;
         claude-sonnet-4-5)
             [[ "$type" == "input" ]] && echo "3.00" || echo "15.00"
+            ;;
+        claude-sonnet-5)
+            # Introductory rate through 2026-08-31; $3/$15 standard rate applies after that.
+            [[ "$type" == "input" ]] && echo "2.00" || echo "10.00"
             ;;
         claude-haiku-4-5)
             [[ "$type" == "input" ]] && echo "0.80" || echo "4.00"

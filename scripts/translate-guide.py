@@ -4,7 +4,7 @@ Translate guide/ultimate-guide.md from English to French.
 
 Output : guide/ultimate-guide.fr.md
 Resume : .translation-cache/ (chunk files, auto-cleaned on success)
-Model  : claude-sonnet-4-6
+Model  : claude-sonnet-5
 """
 
 import sys
@@ -21,7 +21,7 @@ RETRY_BACKOFF = [5, 15, 30]  # seconds between retries
 SOURCE = Path("guide/ultimate-guide.md")
 OUTPUT = Path("guide/ultimate-guide.fr.md")
 CACHE  = Path(".translation-cache")
-MODEL  = "claude-sonnet-4-6"
+MODEL  = "claude-sonnet-5"
 
 # Max lines before forcing a split at the next heading
 MAX_LINES_H2  = 200

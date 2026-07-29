@@ -713,7 +713,7 @@ Per-plugin MCP server configurations, keyed by `plugin@marketplace`.
 **Default:** `"medium"`
 **Values:** `"low"` | `"medium"` | `"high"`
 
-Persist the effort level across sessions. Controls reasoning depth. Written automatically when you run `/effort low|medium|high`. Supported on Opus 4.6+ and Sonnet 4.6. The `CLAUDE_CODE_EFFORT_LEVEL` env var takes precedence.
+Persist the effort level across sessions. Controls reasoning depth. Written automatically when you run `/effort low|medium|high`. Supported on Opus 4.6+ and Sonnet 4.6+. The `CLAUDE_CODE_EFFORT_LEVEL` env var takes precedence.
 
 #### `modelOverrides`
 **Type:** object
@@ -735,8 +735,8 @@ Map Anthropic model IDs to provider-specific model IDs (e.g., Bedrock inference 
 | Alias | Description |
 |-------|-------------|
 | `"default"` | Recommended model for your account type |
-| `"sonnet"` | Latest Sonnet (Claude Sonnet 4.6) |
-| `"opus"` | Latest Opus (Claude Opus 4.8) |
+| `"sonnet"` | Latest Sonnet (Claude Sonnet 5) |
+| `"opus"` | Latest Opus (Claude Opus 5) |
 | `"haiku"` | Fast Haiku model |
 | `"sonnet[1m]"` | Sonnet with 1M token context |
 | `"opusplan"` | Opus for planning, Sonnet for execution |
@@ -1093,6 +1093,7 @@ Set in your shell before launching `claude`, or configure under the `env` key in
 | `VERTEX_REGION_CLAUDE_4_6_OPUS` | Region override for Claude Opus 4.6 on Vertex AI |
 | `VERTEX_REGION_CLAUDE_4_6_SONNET` | Region override for Claude Sonnet 4.6 on Vertex AI |
 | `VERTEX_REGION_CLAUDE_4_7_OPUS` | Region override for Claude Opus 4.7 on Vertex AI. Added in v2.1.111 |
+| `VERTEX_REGION_CLAUDE_4_8_OPUS` | Region override for Claude Opus 4.8 on Vertex AI |
 | `VERTEX_REGION_CLAUDE_HAIKU_4_5` | Region override for Claude Haiku 4.5 on Vertex AI |
 
 #### Microsoft Foundry
@@ -1131,7 +1132,7 @@ Set in your shell before launching `claude`, or configure under the `env` key in
 | `BASH_MAX_TIMEOUT_MS` | Maximum bash command timeout in milliseconds (default: 600000) |
 | `BASH_MAX_OUTPUT_LENGTH` | Maximum characters in bash output before saving to a file and sending the path |
 | `MAX_THINKING_TOKENS` | Extended thinking token budget. Set to `0` to disable. Ignored on models with adaptive reasoning unless `CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING` is set |
-| `CLAUDE_CODE_MAX_OUTPUT_TOKENS` | Max output tokens per response (default: 32,000; up to 128,000 on Opus 4.8 and Sonnet 4.6) |
+| `CLAUDE_CODE_MAX_OUTPUT_TOKENS` | Max output tokens per response (default: 32,000; up to 128,000 on Opus 5, Sonnet 5, Opus 4.8, and Sonnet 4.6) |
 | `CLAUDE_CODE_FILE_READ_MAX_OUTPUT_TOKENS` | Override default file read token limit |
 | `CLAUDE_CODE_MAX_CONTEXT_TOKENS` | Override context window size Claude Code assumes for the active model. Only takes effect when `DISABLE_COMPACT` is also set |
 | `CLAUDE_CODE_MAX_TURNS` | Cap the number of agentic turns per session. Equivalent to `--max-turns` (the flag takes precedence when both are set) |

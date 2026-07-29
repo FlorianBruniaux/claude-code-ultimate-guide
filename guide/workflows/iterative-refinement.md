@@ -603,7 +603,7 @@ if [ "$ATTEMPT_COUNT" -ge 3 ]; then
     cat errors.log attempts.log > escalation-context.md
 
     # Try with Opus
-    claude --model claude-opus-4-6 \
+    claude --model claude-opus-5 \
         "Fix this failing test. Context: $(cat escalation-context.md)"
 
     # If still failing, create issue

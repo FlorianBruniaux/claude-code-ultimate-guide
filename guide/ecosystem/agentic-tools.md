@@ -73,7 +73,7 @@ ChatGPT Pro and Team subscribers get Codex CLI usage included in their plan, mak
 
 | Aspect | Claude Code | Codex CLI |
 |--------|-------------|-----------|
-| **Models** | Claude 3.5/4 family only | GPT-4o, o3, o3-mini, o4-mini, plus future OpenAI models |
+| **Models** | Claude family (Opus 5, Sonnet 5, Haiku 4.5, Fable 5) only | GPT-4o, o3, o3-mini, o4-mini, plus future OpenAI models |
 | **Language** | TypeScript | Rust |
 | **License** | Open source | Apache 2.0 |
 | **Subscription** | Anthropic Claude Max ($20-$200/mo) | OpenAI ChatGPT Pro/Team ($20-$30/mo) |
@@ -247,7 +247,7 @@ The original terminal AI pair programmer. Launched in 2023 by Paul Gauthier befo
 
 #### What Is Aider?
 
-A Python-based coding assistant that edits files in your local git repo and auto-commits with descriptive messages. Key characteristic: near-universal model support via LiteLLM, covering GPT-4o, Claude 3.5/4, Gemini, Ollama, and dozens of other providers. Aider popularized the "whole file" and "diff" editing formats that informed how later agents handle file modifications.
+A Python-based coding assistant that edits files in your local git repo and auto-commits with descriptive messages. Key characteristic: near-universal model support via LiteLLM, covering GPT-4o, the Claude 5 family, Gemini, Ollama, and dozens of other providers. Aider popularized the "whole file" and "diff" editing formats that informed how later agents handle file modifications.
 
 The SWE-Bench benchmark trajectory tells the story well: Aider held the top score on SWE-Bench Verified for several months in 2024-2025 before larger-context models and more capable agents surpassed it. That benchmark record established its reputation as a serious tool, not just a convenience wrapper.
 
@@ -278,7 +278,7 @@ pip install aider-install && aider-install
 
 # With Claude
 export ANTHROPIC_API_KEY=sk-ant-...
-aider --model claude-sonnet-4-6
+aider --model claude-sonnet-5
 
 # With GPT-4o
 export OPENAI_API_KEY=sk-...
@@ -381,7 +381,7 @@ pip install swe-agent
 
 # Run on a GitHub issue
 sweagent run \
-  --agent.model.name=claude-sonnet-4-6 \
+  --agent.model.name=claude-sonnet-5 \
   --env.repo.github_url=https://github.com/org/repo \
   --problem_statement.github_url=https://github.com/org/repo/issues/123
 ```
@@ -480,14 +480,14 @@ researcher = Agent(
     role="Technical Researcher",
     goal="Find accurate technical information",
     backstory="Expert at synthesizing documentation and research papers",
-    llm="claude-sonnet-4-6"
+    llm="claude-sonnet-5"
 )
 
 writer = Agent(
     role="Technical Writer",
     goal="Write clear, accurate documentation",
     backstory="Experienced at translating technical concepts",
-    llm="claude-sonnet-4-6"
+    llm="claude-sonnet-5"
 )
 
 task = Task(

@@ -628,7 +628,7 @@ If you encounter these scenarios during implementation:
 **Assumptions**:
 - 20 working days/month
 - 2 features per day (mix of simple + complex)
-- Opus 4.5 pricing (~$15/1M input, $75/1M output)
+- Opus 5 pricing (~$5/1M input, $25/1M output)
 
 | Profile | Features/Month | Single Instance | Dual Instance | Savings |
 |---------|----------------|----------------|---------------|---------|

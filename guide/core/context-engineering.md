@@ -191,7 +191,7 @@ A concrete baseline for a mid-size project:
 | Imported skills / commands | 500 – 3,000 tokens |
 | **Total always-on context** | **~5,000 – 20,000 tokens** |
 
-Claude Sonnet 4.6 has a 200K token context window. That means even a large always-on configuration budget (20K tokens) occupies about 10% of the window — leaving 180K tokens for actual work: code files, conversation history, tool outputs.
+Claude Sonnet 5 has a native 1M token context window. That means even a large always-on configuration budget (20K tokens) occupies about 2% of the window, leaving roughly 980K tokens for actual work: code files, conversation history, tool outputs. (Earlier models like Sonnet 4.6 topped out at 200K, where the same 20K budget cost about 10% of the window.)
 
 The practical rule: **always-on context should stay below 5% of the context window.** Beyond that, you are displacing actual task content, which matters more per token than standing instructions.
 
@@ -246,6 +246,7 @@ The question "should I just use the 1M context window?" is really a question abo
 |--------|-----------|------------------------|--------------------------|
 | Claude Sonnet 4.6 | 200K | ~184K | ~150K+ |
 | Claude Opus 4 | 200K | ~185K | ~150K+ |
+| Claude Sonnet 5 | 1M | not yet benchmarked | not yet benchmarked |
 
 These are engineering estimates, not guaranteed values. Treat them as planning figures: if your session regularly approaches 150K tokens, it is time to implement compaction, graduated offloading, or path-scoping before accuracy becomes a problem, not after.
 

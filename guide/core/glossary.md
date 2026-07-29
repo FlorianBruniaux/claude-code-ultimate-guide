@@ -77,7 +77,7 @@ A phone-initiated task router that spawns a Claude Code session in the Desktop a
 
 ### Effort level
 
-A setting that controls how much of the adaptive-reasoning thinking budget Claude uses per turn. Higher effort means more thinking tokens and deeper reasoning; lower effort is faster and cheaper. Supported on Opus 4.6+ and Sonnet 4.6. Skills can override the session effort level in their frontmatter. See [§2.5 Model Selection](../ultimate-guide.md#25-model-selection--thinking-guide).
+A setting that controls how much of the adaptive-reasoning thinking budget Claude uses per turn. Higher effort means more thinking tokens and deeper reasoning; lower effort is faster and cheaper. Supported on Opus 4.6+ and Sonnet 4.6+. Skills can override the session effort level in their frontmatter. See [§2.5 Model Selection](../ultimate-guide.md#25-model-selection--thinking-guide).
 
 ### Extended thinking
 

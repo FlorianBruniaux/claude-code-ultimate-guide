@@ -326,7 +326,7 @@ For fine-grained control, create `.claude/settings.json`:
 
 ```json
 {
-  "model": "claude-opus-4-7",
+  "model": "claude-opus-5",
   "temperature": 0.7,
   "context_threshold": 0.75,
   "auto_compact": true,

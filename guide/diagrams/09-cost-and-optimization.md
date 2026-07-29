@@ -24,11 +24,11 @@ flowchart TD
     C --> D([Haiku 4.5<br/>💰 Cheapest, fastest<br/>~5x cheaper than Sonnet])
 
     B -->|Standard| E["Standard tasks:<br/>feature implementation,<br/>bug fixes, refactoring"]
-    E --> F([Sonnet 4.5/4.6<br/>💰💰 Balanced<br/>Best price/quality ratio])
+    E --> F([Sonnet 5<br/>💰💰 Balanced<br/>Best price/quality ratio])
 
     B -->|Complex| G{Needs deep<br/>reasoning?}
     G -->|Yes| H["Complex tasks:<br/>architecture decisions,<br/>security review,<br/>multi-file analysis"]
-    H --> I([Opus 4.8: Maximum capability xhigh<br/>Opus 4.7: Deep analysis (prev. gen)<br/>💰💰💰 Most capable<br/>~5x more than Sonnet])
+    H --> I([Opus 5: Maximum capability<br/>Opus 4.8: Deep analysis (prev. gen)<br/>💰💰💰 Most capable<br/>~5x more than Sonnet])
 
     G -->|No: just large| J["Large but clear tasks:<br/>big refactors,<br/>doc generation"]
     J --> F
@@ -49,10 +49,10 @@ flowchart TD
     click C href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#25-model-selection--thinking-guide" "Simple tasks"
     click D href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#25-model-selection--thinking-guide" "Haiku 4.5"
     click E href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#25-model-selection--thinking-guide" "Standard tasks"
-    click F href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#25-model-selection--thinking-guide" "Sonnet 4.5/4.6"
+    click F href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#25-model-selection--thinking-guide" "Sonnet 5"
     click G href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#25-model-selection--thinking-guide" "Needs deep reasoning?"
     click H href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#25-model-selection--thinking-guide" "Complex tasks"
-    click I href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#25-model-selection--thinking-guide" "Opus 4.8 / Sonnet + --think-hard"
+    click I href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#25-model-selection--thinking-guide" "Opus 5 / Sonnet + --think-hard"
     click J href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#25-model-selection--thinking-guide" "Large but clear tasks"
 ```
 
@@ -62,8 +62,8 @@ flowchart TD
 
 | Plan | Planning phase | Implementation phase |
 |------|---------------|---------------------|
-| **Max / API unconstrained (xhigh)** | Opus 4.8 | Sonnet |
-| **Max / API unconstrained** | Opus 4.8 | Sonnet |
+| **Max / API unconstrained (xhigh)** | Opus 5 | Sonnet |
+| **Max / API unconstrained** | Opus 5 | Sonnet |
 | **Pro / Teams Standard** | Sonnet | Haiku (mechanical tasks) |
 | **API tight budget** | Sonnet | Haiku |
 
@@ -74,15 +74,15 @@ flowchart TD
 
 ```
 Task complexity?
-├─ Simple (typos, format, rename) → Haiku 4.5       ($  ~5x cheaper than Sonnet)
-├─ Standard (features, bugs)      → Sonnet 4.5/4.6  ($$ best price/quality ratio)
+├─ Simple (typos, format, rename) → Haiku 4.5     ($  ~5x cheaper than Sonnet)
+├─ Standard (features, bugs)      → Sonnet 5      ($$ best price/quality ratio)
 └─ Complex (architecture, sec.)
-   ├─ Needs deep reasoning?        → Opus 4.8 (xhigh)  ($$$ ~5x more than Sonnet)
-   └─ Just large/clear?            → Sonnet 4.6         ($$ handles it)
+   ├─ Needs deep reasoning?        → Opus 5 (xhigh)  ($$$ ~5x more than Sonnet)
+   └─ Just large/clear?            → Sonnet 5         ($$ handles it)
 
 Budget modifier (downgrade one tier on constrained plans):
-  Max/API (xhigh)  → Opus 4.8 plan, Sonnet impl
-  Max/API          → Opus 4.8 plan, Sonnet impl
+  Max/API (xhigh)  → Opus 5 plan, Sonnet impl
+  Max/API          → Opus 5 plan, Sonnet impl
   Pro/Teams        → Sonnet plan, Haiku impl (mechanical tasks)
 ```
 

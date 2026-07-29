@@ -53,7 +53,7 @@ This page compares two integration patterns for giving Claude Code access to ext
 | **Zero context overhead** | No schema injected at startup. Since v2.1.7 lazy loading closes most of the gap, but CLI is still the absolute minimum. |
 | **Deterministic actions** | Explicit commands with predictable output are easier to audit and test |
 | **Human + AI use** | The same CLI wrapper works for a developer running it manually and for Claude |
-| **Frontier models** | Claude Opus/Sonnet 4.6 can drive complex CLIs (aws-cli, glab, gh) without a structured schema |
+| **Frontier models** | Claude Opus/Sonnet (current generation) can drive complex CLIs (aws-cli, glab, gh) without a structured schema |
 | **Speed** | No connection setup, no MCP handshake — direct subprocess execution |
 | **Simplicity** | Easier to debug, log, and reason about than a remote server call chain |
 | **Skills encapsulation** | A CLI wrapped in a skill is transparent to the user and keeps the tool logic version-controlled |
@@ -117,7 +117,7 @@ This is the dominant variable. Everything else is secondary.
 
 ### 2. Which model is driving the tool?
 
-- **Frontier model** (Claude Opus/Sonnet 4.6) → strong enough to drive complex CLIs directly. A structured MCP schema adds overhead without proportional benefit.
+- **Frontier model** (Claude Opus/Sonnet, current generation) → strong enough to drive complex CLIs directly. A structured MCP schema adds overhead without proportional benefit.
 - **Smaller or local model** (Qwen, Mistral, lighter deployments) → structured MCP schemas compensate for weaker CLI parsing ability. MCP is more reliable here.
 
 ### 3. Does your organization need observability?
@@ -139,7 +139,7 @@ Quick reference — not rules, but directional defaults.
 | Situation | Lean toward | Rationale |
 |-----------|-------------|-----------|
 | Non-technical user, chat interface | **MCP / Skill** | CLI is inaccessible; connectors must be invisible |
-| Frontier model (Claude 4.x), developer workflow | **CLI** | Model handles it natively; schemas are overhead |
+| Frontier model (Claude, current generation), developer workflow | **CLI** | Model handles it natively; schemas are overhead |
 | Smaller/local model | **MCP** | Schema guides the model reliably |
 | Enterprise, observability required | **MCP Remote** | Only way to log, attribute, and report on usage |
 | Team distribution (10+ devs) | **MCP** | Central update vs per-machine CLI maintenance |

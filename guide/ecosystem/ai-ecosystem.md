@@ -3202,7 +3202,7 @@ The agent evaluates its own output against criteria you define, then iterates un
 ```typescript
 const agent = await client.beta.agents.create({
   name: "Report Writer",
-  model: "claude-sonnet-4-6",
+  model: "claude-sonnet-5",
   system: "You write concise executive summaries.",
   tools: [{ type: "agent_toolset_20260401" }],
   outcomes: [
@@ -3238,10 +3238,11 @@ Documented above. One coordinator, N specialists in parallel threads, one level 
 | Model | Input | Output | When to use |
 |-------|-------|--------|-------------|
 | Haiku 4.5 | ~$0.80/MTok | ~$4/MTok | Classification, routing, simple extraction |
-| Sonnet 4.6 | ~$3/MTok | ~$15/MTok | Most tasks — the right default |
-| Opus 4.6 | ~$30/MTok | ~$150/MTok | Complex reasoning, multi-step ambiguous tasks only |
+| Sonnet 5 | $2/MTok (promo through 2026-08-31) | $10/MTok (promo through 2026-08-31) | Most tasks, the current default |
+| Opus 4.8 | previous-gen top tier | previous-gen top tier | Complex reasoning, superseded by Opus 5 |
+| Opus 5 | fast mode $10/MTok | fast mode $50/MTok | Complex reasoning, multi-step ambiguous tasks only |
 
-**Typical session cost** (Sonnet 4.6, with built-in caching):
+**Typical session cost** (Sonnet 5, with built-in caching):
 
 | Task complexity | Tokens consumed | Estimated cost |
 |----------------|----------------|----------------|
@@ -3285,7 +3286,7 @@ curl -fsSL "https://github.com/anthropics/anthropic-cli/releases/download/v${VER
 # Create an agent (interactive YAML)
 ant beta:agents create \
   --name "My Agent" \
-  --model claude-sonnet-4-6 \
+  --model claude-sonnet-5 \
   --system "You are a helpful assistant." \
   --tool '{type: agent_toolset_20260401}'
 

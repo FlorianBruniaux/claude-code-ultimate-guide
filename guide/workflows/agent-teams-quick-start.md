@@ -50,12 +50,12 @@ claude --version
 # Check model availability
 claude
 > /model opus
-# Should show: "Model changed to opus (claude-opus-4-6-20250624)"
+# Should show: "Model changed to opus (claude-opus-5)"
 ```
 
 **Minimum requirements**:
 - Claude Code v2.1.32+
-- Opus 4.6 model
+- Opus 5 model (Opus 4.6+ compatible)
 - Git repository (agent teams use git for coordination)
 
 ### Step 2: Enable Feature

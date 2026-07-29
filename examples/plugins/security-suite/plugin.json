@@ -9,7 +9,7 @@
   "homepage": "https://github.com/FlorianBruniaux/claude-code-ultimate-guide",
 
   "minimum_claude_code_version": "2.1.0",
-  "compatible_models": ["claude-opus-4-7", "claude-sonnet-4-6", "claude-haiku-4-5"],
+  "compatible_models": ["claude-opus-5", "claude-sonnet-5", "claude-haiku-4-5"],
 
   "install_time_estimate": "5 minutes",
   "learning_curve": "Intermediate",

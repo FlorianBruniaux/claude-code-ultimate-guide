@@ -71,7 +71,7 @@ This guide includes only **Learning Mode**. For a complete behavioral framework 
 | **Learning** | Just-in-time skill development (included here) |
 
 SuperClaude also includes:
-- `FLAGS.md` — Behavioral flags (`--delegate`, `--learn`, etc.) *Note: `--think`/`--ultrathink` are cosmetic only since v2.0.67 — thinking is now on by default with Opus 4.5*
+- `FLAGS.md` (behavioral flags like `--delegate`, `--learn`) *Note: `--think`/`--ultrathink` are cosmetic only since v2.0.67, since thinking is now on by default across the Opus lineup (4.5 through Opus 5)*
 - `PRINCIPLES.md` — Engineering principles (SOLID, DRY, evidence-based)
 - `RULES.md` — Actionable rules with priority system
 - MCP server documentation (Context7, Sequential, Serena)

@@ -504,7 +504,7 @@ LLM-as-judge uses a larger or more capable model to evaluate the output of the a
 3. Run the judge model asynchronously on the logged data.
 4. Use judge verdicts to update the dataset, adjust prompt thresholds, and flag regressions.
 
-The judge model is typically larger than the production model (for example, using Opus 4.8 to judge outputs from Sonnet 4.6). It evaluates on dimensions like factual accuracy, instruction adherence, and hallucination presence. Over time the judge dataset becomes the primary signal for prompt iteration.
+The judge model is typically larger than the production model (for example, using Opus 5 to judge outputs from Sonnet 5). It evaluates on dimensions like factual accuracy, instruction adherence, and hallucination presence. Over time the judge dataset becomes the primary signal for prompt iteration.
 
 *Sources: Samy Lastmann (CTO, Smart Tribune), [IFTTD ep 311 "IA Agentique"](https://www.ifttd.io/episodes/ia-agentique); Louis Pinsard (CTO, Dialogue), [IFTTD ep 338 "Evaluation de GenAI"](https://www.ifttd.io/episodes/evaluation-de-genai)*
 

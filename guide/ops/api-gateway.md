@@ -62,9 +62,9 @@ model_list:
       model: anthropic/claude-haiku-4-5-20251001
       api_key: os.environ/ANTHROPIC_API_KEY
 
-  - model_name: claude-sonnet-4-6
+  - model_name: claude-sonnet-5
     litellm_params:
-      model: anthropic/claude-sonnet-4-6
+      model: anthropic/claude-sonnet-5
       api_key: os.environ/ANTHROPIC_API_KEY
 
   - model_name: claude-opus-4-8
@@ -117,7 +117,7 @@ curl -X POST http://localhost:4000/key/generate \
     "team_id": "team-backend",
     "max_budget": 50,
     "budget_duration": "monthly",
-    "models": ["claude-haiku-4-5", "claude-sonnet-4-6"],
+    "models": ["claude-haiku-4-5", "claude-sonnet-5"],
     "metadata": {"team": "backend", "project": "api-v2"}
   }'
 
@@ -130,7 +130,7 @@ curl -X POST http://localhost:4000/key/generate \
     "team_id": "leads",
     "max_budget": 300,
     "budget_duration": "monthly",
-    "models": ["claude-haiku-4-5", "claude-sonnet-4-6", "claude-opus-4-8"]
+    "models": ["claude-haiku-4-5", "claude-sonnet-5", "claude-opus-5"]
   }'
 ```
 

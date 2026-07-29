@@ -113,7 +113,7 @@ cd whitepapers && quarto render guide-export-fr.qmd --to epub
 ```
 
 **Key files**:
-- `scripts/translate-guide.py` — chunked translation, claude-sonnet-4-6, retry x3, ~$3/run
+- `scripts/translate-guide.py` (chunked translation, claude-sonnet-5, retry x3; cost per run not reverified since the model bump, was ~$3/run on claude-sonnet-4-6)
 - `whitepapers/guide-export-fr.qmd` — QMD wrapper (lang: fr)
 - `whitepapers/guide-content-fr.md` — preprocessed content (gitignored, generated)
 

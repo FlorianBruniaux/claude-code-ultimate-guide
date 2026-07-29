@@ -88,7 +88,7 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          model: claude-sonnet-4-6
+          model: claude-sonnet-5
           prompt_file: .github/prompts/code-review.md
           # Scope this batch to its domain — appended on top of the shared prompt file
           append_system_prompt: |
@@ -134,7 +134,7 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          model: claude-sonnet-4-6
+          model: claude-sonnet-5
           allowed_tools: >-
             mcp__github__create_issue_comment
           direct_prompt: |
