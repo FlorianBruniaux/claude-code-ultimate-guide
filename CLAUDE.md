@@ -10,7 +10,7 @@ This repository is the **comprehensive documentation for Claude Code** (Anthropi
 
 ```
 guide/                    # Core documentation
-├── ultimate-guide.md     # Main guide (~20K lines, the reference)
+├── ultimate-guide.md     # Main guide (~26K lines, the reference)
 ├── cheatsheet.md         # 1-page printable summary
 ├── cowork.md             # Cowork redirect page
 ├── core/                 # Architecture, methodologies, releases, known-issues, visual-reference
@@ -29,7 +29,7 @@ examples/                 # Production-ready templates
 └── scripts/              # Utility scripts (audit, health check)
 
 machine-readable/         # For LLM consumption
-├── reference.yaml        # Condensed index (~2K tokens)
+├── reference.yaml        # Condensed index (~43K tokens)
 └── llms.txt              # AI indexation file
 
 whitepapers/              # Focused whitepapers (FR + EN)
@@ -42,7 +42,7 @@ tools/                    # Interactive utilities
 └── onboarding-prompt.md  # Personalized learning prompt
 
 docs/                     # Public documentation (tracked)
-└── resource-evaluations/ # External resource evaluations (151 files)
+└── resource-evaluations/ # External resource evaluations (167 files)
 
 claudedocs/               # Claude working documents (gitignored)
 ├── resource-evaluations/ # Research working docs (prompts, private audits)
@@ -53,7 +53,7 @@ claudedocs/               # Claude working documents (gitignored)
 
 | File | Purpose |
 |------|---------|
-| `VERSION` | Single source of truth for version (currently 3.40.0) |
+| `VERSION` | Single source of truth for version (currently 3.41.1) |
 | `guide/ultimate-guide.md` | The main reference (search here first) |
 | `guide/cheatsheet.md` | Quick reference for daily use |
 | `machine-readable/reference.yaml` | LLM-optimized index with line numbers |
@@ -248,7 +248,7 @@ External resources (articles, videos, discussions) are evaluated before integrat
 
 | Location | Content | Tracking |
 |----------|---------|----------|
-| `docs/resource-evaluations/` | Final evaluations (151 files) | ✅ Git tracked (public) |
+| `docs/resource-evaluations/` | Final evaluations (167 files) | ✅ Git tracked (public) |
 | `claudedocs/resource-evaluations/` | Working docs, prompts, private audits | ❌ Gitignored (private) |
 
 ### Scoring Grid

@@ -6,7 +6,9 @@
 *~
 
 # Claude Code (ignore personal config, but keep shared commands, agents, and hooks)
-.claude/
+# Must be `.claude/*` and not `.claude/`: git never descends into an excluded
+# directory, so the negations below are dead if the directory itself is excluded.
+.claude/*
 !.claude/commands/
 !.claude/agents/
 !.claude/hooks/

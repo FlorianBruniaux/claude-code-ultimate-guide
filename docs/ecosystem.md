@@ -34,7 +34,7 @@ This guide is part of a 4-repo ecosystem separating audiences (devs vs knowledge
 |--------|---------|
 | **GitHub** | https://github.com/FlorianBruniaux/claude-code-ultimate-guide |
 | **Local** | `/Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide/` |
-| **Content** | Guide ~25K lines, 235 templates, workflows, architecture |
+| **Content** | Guide ~25K lines, 268 templates, workflows, architecture |
 | **Audience** | Developers, DevOps, tech leads |
 
 ## 2. Claude Cowork Guide (dedicated repo)
@@ -57,7 +57,7 @@ This guide is part of a 4-repo ecosystem separating audiences (devs vs knowledge
 | Aspect | Details |
 |--------|---------|
 | **Local** | `/Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide-landing/` |
-| **Content** | Marketing page, badges, FAQ, quiz (334 questions) |
+| **Content** | Marketing page, badges, FAQ, quiz (473 questions) |
 | **Syncs with** | Main guide (version, templates, guide lines) |
 
 ## 3b. Claude Code Plugins (Marketplace)
