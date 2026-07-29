@@ -92,4 +92,4 @@ Ressources surveillées mais pas encore intégrées : [watch-list.md](./watch-li
 
 ---
 
-**Dernier update**: 2026-07-25 (167 fichiers d'évaluation sur disque, 48 indexés ci-dessus ; l'écart est un reliquat connu qui attend une passe d'audit dédiée)
+**Last updated**: 2026-07-29 (167 evaluation files on disk, 48 indexed above; the gap is a known backlog awaiting a dedicated audit pass)

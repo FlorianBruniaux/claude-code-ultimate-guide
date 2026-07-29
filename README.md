@@ -8,7 +8,7 @@
 <!-- Stats -->
 <p align="center">
   <a href="https://github.com/FlorianBruniaux/claude-code-ultimate-guide/stargazers"><img src="https://img.shields.io/github/stars/FlorianBruniaux/claude-code-ultimate-guide?style=for-the-badge" alt="Stars"/></a>
-  <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Updated-juil._9,_2026_·_v3.41.1-brightgreen?style=for-the-badge" alt="Last Update"/></a>
+  <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Updated-Jul_29,_2026_·_v3.41.1-brightgreen?style=for-the-badge" alt="Last Update"/></a>
   <a href="./quiz/"><img src="https://img.shields.io/badge/Quiz-473_questions-orange?style=for-the-badge" alt="Quiz"/></a>
   <a href="./examples/"><img src="https://img.shields.io/badge/Templates-275-green?style=for-the-badge" alt="Templates"/></a>
 </p>
@@ -96,7 +96,7 @@ Both guides serve different needs. Choose based on your priority.
 | **Security hardening** | Only threat database (28 CVEs) | Basic patterns only |
 | **Test understanding** | 473-question quiz | Not available |
 | **Methodologies** (TDD/SDD/BDD) | Full workflow guides | Not covered |
-| **Copy-paste ready** templates | 275 templates | 200+ templates |
+| **Copy-paste ready** templates | 268 templates | 200+ templates |
 
 ### Ecosystem Positioning
 
@@ -185,11 +185,11 @@ graph LR
 
     root --> guide[📖 guide/<br/>24K+ lines]
     root --> learning[🎓 learning-path/<br/>7 modules]
-    root --> examples[📋 examples/<br/>275 templates]
+    root --> examples[📋 examples/<br/>268 templates]
     root --> quiz[🧠 quiz/<br/>473 questions]
     root --> tools[🔧 tools/<br/>utils]
     root --> machine[🤖 machine-readable/<br/>AI index]
-    root --> docs[📚 docs/<br/>151 evaluations]
+    root --> docs[📚 docs/<br/>167 evaluations]
 
     style root fill:#d35400,stroke:#e67e22,stroke-width:3px,color:#fff
     style guide fill:#2980b9,stroke:#3498db,stroke-width:2px,color:#fff
@@ -223,7 +223,7 @@ graph LR
 │  ├─ agents/             23 custom AI personas
 │  ├─ commands/           redirect stubs (migrated to skills/ in CC 2.1.3)
 │  ├─ hooks/              37 hooks (bash + PowerShell)
-│  ├─ skills/             64 skills (9 on SkillHub)
+│  ├─ skills/             66 skills (9 on SkillHub)
 │  └─ scripts/            Utility scripts (audit, search)
 │
 ├─ 🧠 quiz/               473 Questions
@@ -236,11 +236,11 @@ graph LR
 │  └─ audit-prompt        Setup audit & recommendations
 │
 ├─ 🤖 machine-readable/   AI-Optimized Index
-│  ├─ reference.yaml      Structured index (~2K tokens) — powers landing site CMD+K search
+│  ├─ reference.yaml      Structured index (~43K tokens), powers landing site CMD+K search
 │  ├─ claude-code-releases.yaml  Structured releases changelog
 │  └─ llms.txt            Standard LLM context file
 │
-└─ 📚 docs/               151 Resource Evaluations
+└─ 📚 docs/               167 Resource Evaluations
    └─ resource-evaluations/  5-point scoring, source attribution
 ```
 
@@ -356,7 +356,7 @@ Educational templates with explanations:
 
 ---
 
-### 🔍 151 Resource Evaluations
+### 🔍 167 Resource Evaluations
 
 **Outcome**: Trust our recommendations are evidence-based.
 
@@ -407,7 +407,7 @@ Systematic assessment of external resources (5-point scoring):
 4. [MCP Servers](./guide/ultimate-guide.md#8-mcp-servers) — Extended capabilities
 5. [Trinity Pattern](./guide/ultimate-guide.md#91-the-trinity) — Advanced workflows
 6. [Observability](./guide/ops/observability.md) — Monitor costs & sessions
-7. [Agent Teams](./guide/workflows/agent-teams.md) — Multi-agent coordination (Opus 4.7+ experimental)
+7. [Agent Teams](./guide/workflows/agent-teams.md): multi-agent coordination (Opus 4.6+ compatible)
 8. [Examples](./examples/) — Production templates
 
 </details>
@@ -625,7 +625,7 @@ Same agentic capabilities as Claude Code, but through a visual interface with no
 
 ### Claude Code Plugins (Marketplace)
 
-All 275 templates from this guide packaged as installable Claude Code plugins — hooks auto-wired, no manual config:
+All 268 templates from this guide packaged as installable Claude Code plugins, hooks auto-wired, no manual config:
 
 ```bash
 # Add the marketplace
@@ -642,7 +642,7 @@ claude plugin install ai-methodology       # Scaffolding, 6-stage talk pipeline,
 claude plugin install session-summary      # Session analytics dashboard (15 sections)
 ```
 
-> **[FlorianBruniaux/claude-code-plugins](https://github.com/FlorianBruniaux/claude-code-plugins)** — 8 plugins, 275 templates, one marketplace
+> **[FlorianBruniaux/claude-code-plugins](https://github.com/FlorianBruniaux/claude-code-plugins)**: 8 plugins, 268 templates, one marketplace
 
 ### Complementary Resources
 
@@ -800,7 +800,7 @@ Use this guide critically. Experiment. Share what works for you.
 | **[Credits](./guide/core/credits.md)** | Open-source inspirations and pattern attributions | 2 min |
 
 <details>
-<summary><strong>Examples Library</strong> (275 templates)</summary>
+<summary><strong>Examples Library</strong> (268 templates)</summary>
 
 **Agents** (23): [code-reviewer](./examples/agents/code-reviewer.md), [test-writer](./examples/agents/test-writer.md), [security-auditor](./examples/agents/security-auditor.md), [refactoring-specialist](./examples/agents/refactoring-specialist.md), [output-evaluator](./examples/agents/output-evaluator.md), [devops-sre](./examples/agents/devops-sre.md) ⭐
 
@@ -838,7 +838,7 @@ cd quiz && npm install && npm start
 </details>
 
 <details>
-<summary><strong>Resource Evaluations</strong> (151 assessments)</summary>
+<summary><strong>Resource Evaluations</strong> (167 assessments)</summary>
 
 Systematic evaluation of external resources (tools, methodologies, articles) before integration into the guide.
 
@@ -944,7 +944,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 ---
 
-*Version 3.41.1 | Updated daily · juil. 9, 2026 | Crafted with Claude*
+*Version 3.41.1 | Updated daily · Jul 29, 2026 | Crafted with Claude*
 
 <!-- SEO Keywords -->
 <!-- claude code, claude code tutorial, anthropic cli, ai coding assistant, claude code mcp,

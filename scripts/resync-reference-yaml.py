@@ -10,14 +10,20 @@ Strategy:
 
 Usage:
   python3 scripts/resync-reference-yaml.py [--apply]
+  python3 scripts/resync-reference-yaml.py --check [--max-broken N]
 
-  Without --apply: prints report to stdout + saves claudedocs/resync-report.md
-  With --apply:    applies HIGH CONFIDENCE fixes directly to reference.yaml
+  Without any flag: prints full report to stdout + saves claudedocs/resync-report.md
+  With --apply:     applies HIGH CONFIDENCE fixes directly to reference.yaml
+  With --check:     writes no files, prints a compact summary, and exits non-zero
+                     unless the number of broken references is <= --max-broken
+                     (default 0). Intended for use as a CI gate.
 """
 
+import argparse
 import re
 import sys
 import os
+from datetime import date
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).parent.parent
@@ -26,18 +32,22 @@ REPORT_FILE = REPO_ROOT / "claudedocs" / "resync-report.md"
 
 # Files that reference.yaml points to (with bare integers → ultimate-guide.md)
 GUIDE_FILES = {
+    # These paths must match where the files actually live. They were left at the
+    # pre-migration bare `guide/<name>.md` form after the move into subdirectories,
+    # so the script built empty header indexes and reported a false "NOT FOUND" for
+    # ten files, which also made every reference into them unverifiable (UNKNOWN).
     "guide/ultimate-guide.md": None,
-    "guide/architecture.md": None,
+    "guide/core/architecture.md": None,
     "guide/workflows/iterative-refinement.md": None,
-    "guide/observability.md": None,
-    "guide/learning-with-ai.md": None,
-    "guide/ai-ecosystem.md": None,
-    "guide/ai-traceability.md": None,
-    "guide/sandbox-isolation.md": None,
-    "guide/sandbox-native.md": None,
-    "guide/known-issues.md": None,
-    "guide/third-party-tools.md": None,
-    "guide/adoption-approaches.md": None,
+    "guide/ops/observability.md": None,
+    "guide/roles/learning-with-ai.md": None,
+    "guide/ecosystem/ai-ecosystem.md": None,
+    "guide/ops/ai-traceability.md": None,
+    "guide/security/sandbox-isolation.md": None,
+    "guide/security/sandbox-native.md": None,
+    "guide/core/known-issues.md": None,
+    "guide/ecosystem/third-party-tools.md": None,
+    "guide/roles/adoption-approaches.md": None,
     "examples/skills/review-pr/SKILL.md": None,
     "examples/agents/code-reviewer.md": None,
 }
@@ -158,6 +168,14 @@ def parse_yaml_line_refs(yaml_content: str) -> list[dict]:
             key = m.group(2).rstrip(":")
             filepath = m.group(3)
             line_num = int(m.group(4))
+            # `[^"]+` also swallows URLs and prose. "http://localhost:37777" parsed
+            # as file "http://localhost" at line 37777, and a sentence ending in
+            # "... see guide/core/foo.md:2215" parsed as a file named after the whole
+            # sentence. Both surfaced as FILE MISSING and inflated the broken count.
+            # Only repo-relative paths under a known top-level directory are refs.
+            if not re.match(r'^(guide|examples|docs|machine-readable|whitepapers|'
+                            r'scripts|mcp-server|quiz|tools)/', filepath):
+                continue
             results.append({
                 "key": key,
                 "file": filepath,
@@ -214,31 +232,52 @@ def is_sensible_content(key: str, content: str) -> bool:
     return matches >= max(1, len(keywords) // 2)
 
 
-def main():
-    apply_fixes = "--apply" in sys.argv
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Re-sync line numbers in machine-readable/reference.yaml")
+    parser.add_argument("--apply", action="store_true",
+                         help="Apply HIGH+MEDIUM confidence fixes directly to reference.yaml")
+    parser.add_argument("--check", action="store_true",
+                         help="CI gate mode: no files written, compact summary, "
+                              "exit non-zero unless broken count <= --max-broken")
+    parser.add_argument("--max-broken", type=int, default=0,
+                         help="Max allowed broken references in --check mode (default 0)")
+    return parser.parse_args()
 
-    print("Reading reference.yaml...")
+
+def main():
+    args = parse_args()
+    apply_fixes = args.apply
+    check_mode = args.check
+    quiet = check_mode  # suppress the verbose progress/report output in --check mode
+
+    if not quiet:
+        print("Reading reference.yaml...")
     with open(YAML_FILE, encoding="utf-8") as f:
         yaml_content = f.read()
 
-    print("Building header indexes...")
+    if not quiet:
+        print("Building header indexes...")
     header_indexes = {}
     for rel_path in GUIDE_FILES:
         abs_path = REPO_ROOT / rel_path
         idx = build_header_index(abs_path)
         header_indexes[rel_path] = idx
-        if idx:
-            print(f"  {rel_path}: {len(idx)} headers")
-        else:
-            print(f"  {rel_path}: NOT FOUND or no headers")
+        if not quiet:
+            if idx:
+                print(f"  {rel_path}: {len(idx)} headers")
+            else:
+                print(f"  {rel_path}: NOT FOUND or no headers")
 
-    print("\nParsing YAML references...")
+    if not quiet:
+        print("\nParsing YAML references...")
     refs = parse_yaml_line_refs(yaml_content)
-    print(f"Found {len(refs)} line number references")
+    if not quiet:
+        print(f"Found {len(refs)} line number references")
 
     report_lines = [
         "# Re-sync Report: machine-readable/reference.yaml",
-        f"Generated: 2026-02-25",
+        f"Generated: {date.today().isoformat()}",
         f"Total references scanned: {len(refs)}",
         "",
     ]
@@ -303,6 +342,24 @@ def main():
                     old_val = str(old_line)
                     new_val = str(new_line)
                 corrections.append((ref["yaml_line"], old_val, new_val, key))
+
+    broken = stats["high"] + stats["medium"] + stats["low"] + stats["unknown"] + stats["file_missing"]
+
+    if check_mode:
+        # --check: no files written, compact summary only, exit code is the gate.
+        print(f"Total references: {len(refs)}")
+        print(f"OK:            {stats['ok']}")
+        print(f"HIGH:          {stats['high']}")
+        print(f"MEDIUM:        {stats['medium']}")
+        print(f"LOW:           {stats['low']}")
+        print(f"UNKNOWN:       {stats['unknown']}")
+        print(f"FILE MISSING:  {stats['file_missing']}")
+        print(f"Broken total:  {broken} (max allowed: {args.max_broken})")
+        if broken > args.max_broken:
+            print(f"FAIL: {broken} broken references exceeds --max-broken {args.max_broken}")
+            sys.exit(1)
+        print("PASS")
+        sys.exit(0)
 
     # Build report
     report_lines += [

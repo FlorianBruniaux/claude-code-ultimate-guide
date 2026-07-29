@@ -1,15 +1,30 @@
 #!/usr/bin/env python3
-"""Full validation of machine-readable/ after the ref migration."""
-import os, re, glob, yaml
+"""
+Structural validation of machine-readable/reference.yaml.
 
-os.chdir('/Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide')
+Checks YAML parseability, anchor resolution against real headings, path
+existence, line-reference bounds, how far each bare integer sits from its
+nearest heading, and section_maps validity.
+
+  python3 scripts/validate-reference-yaml.py         # full report
+  python3 scripts/validate-reference-yaml.py --ci    # exit 1 on any hard failure
+
+Hard failures are: unparseable YAML, an anchor with no matching heading, a path
+that does not exist, a line reference past the end of its file, or a section_maps
+entry that does not resolve. Bare integers landing far from a heading are
+reported but do not fail the build; that backlog is gated by
+scripts/resync-reference-yaml.py instead.
+"""
+import os, re, sys, glob, yaml
+
+os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 REF = 'machine-readable/reference.yaml'
+CI = '--ci' in sys.argv
+failures = 0
 
 print("=== integrity ===")
-bak = 'claudedocs/reference.yaml.bak'
 n_new = sum(1 for _ in open(REF, encoding='utf-8'))
-n_old = sum(1 for _ in open(bak, encoding='utf-8')) if os.path.exists(bak) else -1
-print(f"lines: backup={n_old} current={n_new} (delta {n_new-n_old:+d}, should be 0)")
+print(f"{REF}: {n_new} lines")
 
 for f in ['machine-readable/reference.yaml', 'machine-readable/cowork-reference.yaml',
           'machine-readable/claude-code-releases.yaml']:
@@ -18,6 +33,7 @@ for f in ['machine-readable/reference.yaml', 'machine-readable/cowork-reference.
         print(f"YAML OK   {f}  ({len(d)} top-level keys)")
     except Exception as e:
         print(f"YAML FAIL {f}: {e}")
+        failures += 1
 
 
 def headings(path):
@@ -86,6 +102,7 @@ for i, line in enumerate(open(REF, encoding='utf-8'), 1):
             if int(n) > t:
                 oob.append((i, p, n, t))
 
+failures += len(bad_a) + len(dead) + len(oob)
 print(f"anchors  : {n_a - len(bad_a)}/{n_a} resolve")
 for b in bad_a:
     print(f"   BAD  L{b[0]} {b[1]}#{b[2]}")
@@ -148,3 +165,8 @@ else:
                 print(f"   BAD {p}#{a}")
                 bad += 1
     print(f"{len(sm)} files, {tot_a} anchors, {bad} invalid")
+    failures += bad
+
+if CI:
+    print(f"\n=== CI verdict: {failures} hard failure(s) ===")
+    sys.exit(1 if failures else 0)

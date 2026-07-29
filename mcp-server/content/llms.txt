@@ -1,25 +1,44 @@
 # Claude Code Ultimate Guide
 
-> The most comprehensive documentation for Claude Code CLI by Anthropic. Covers beginner to advanced: hooks, skills, agents, MCP servers, context engineering, and production patterns.
+> The most comprehensive documentation for Claude Code CLI by Anthropic. Covers beginner to advanced: hooks, skills, agents, MCP servers, context engineering, memory systems, multi-agent orchestration, and production patterns.
+
+Guide version 3.41.1, tracking Claude Code up to v2.1.220 (July 2026).
 
 ## What is covered
 
-- Getting started: installation, CLAUDE.md setup, vocabulary, first session
-- Context window management: 200K token budget, context rot, /compact workflow
-- Hook system: 9 hook events (PreToolUse, PostToolUse, Stop, etc.), blocking vs non-blocking
-- Skills and slash commands: creating reusable AI behaviors, trigger patterns
-- Multi-agent orchestration: parallel agents, subagents, delegation patterns
-- MCP server integration: setup, custom servers, 50+ available servers
-- Context engineering: managing what the model sees, when, and in what shape
-- Security and permission model: .claude/settings.json, allowed commands, audit
-- Production templates: ready-to-use CLAUDE.md, rules, hooks, agents, quizzes
+- Getting started: installation, CLAUDE.md setup, vocabulary, first session, 7-module learning path (8-11h)
+- Context window management: 1M-token context on Sonnet 5 and Opus 5, context rot, /compact and /clear thresholds, auto-compact
+- Context engineering: managing what the model sees, when and in what shape; token audit workflow, compression tools, ejection discipline, maturity model
+- Memory systems: native stack (CLAUDE.md levels, auto memory, auto dream, agent frontmatter), cross-session tools (claude-mem, agentmemory, ICM, Kairn, OpenMemory), team sharing, file-based experience playbooks, memory poisoning risks
+- Hook system: all 30 hook events with matchers, input schemas, exit-code-2 behavior and decision-control formats; blocking vs non-blocking
+- Slash commands: full categorized table of the ~100 built-in commands with aliases, mirroring the official reference at https://code.claude.com/docs/en/commands (the source of truth), plus removed and renamed commands
+- Skills and slash commands: authoring, trigger patterns, progressive disclosure, skill design patterns
+- Agents: subagent frontmatter, delegation, agent teams, agent evaluation metrics, harness engineering
+- Multi-agent orchestration: parallel agents, hub-and-spoke coordinators, dynamic workflows (JavaScript-orchestrated pipelines, `ultracode`), agentic software factories
+- MCP server integration: setup, custom servers, validated community server catalog, MCP vs CLI vs Skills trade-offs, advanced tool design
+- Security and permission model: .claude/settings.json, permission rules, sandbox isolation, threat database, data privacy and retention, enterprise governance (guardrail tiers, MCP approval workflow, audit trails)
+- CI/CD and code review: GitHub Actions patterns, the Code Review feature (Teams/Enterprise), multi-provider review pipelines
+- Ops and cost: observability and session forensics, API gateway for enterprise cost control (LiteLLM, Portkey), AI unit economics, team metrics (DORA, SPACE, agentic metrics)
 - Team knowledge infrastructure: 3-tier framework (Markdown vault, MCP connectors, RAG at scale), Code+Cowork bridge, Atlassian/Notion/GitBook MCP, Onyx/LlamaCloud/Ragie
+- Adoption: L0-L5 maturity scale, the J-curve, empirical data (METR RCT, DeputyDev cohort), roles in AI-assisted teams
+- Practitioner insights: condensed findings from IFTTD podcast episodes, Devoxx, ByteByteGo, Stanford Online, plus 150+ scored external resource evaluations
+- Production templates: ready-to-use CLAUDE.md, rules, hooks, agents, skills, commands, quizzes, GitHub Actions workflows
+
+## Machine-readable entry points
+
+- machine-readable/reference.yaml: full index with file paths, anchors and line numbers into the guide
+- machine-readable/claude-code-releases.yaml: condensed Claude Code release history, breaking changes, milestones
+- machine-readable/cowork-reference.yaml: index for Claude Cowork (dedicated repo, non-dev audience)
 
 ## Key URLs
 
 - Guide site: https://cc.bruniaux.com
+- Guide reader: https://cc.bruniaux.com/guide/
+- Releases tracking: https://cc.bruniaux.com/releases/
+- Whitepapers (PDF + EPUB, FR and EN): https://cc.bruniaux.com/whitepapers/
 - GitHub: https://github.com/FlorianBruniaux/claude-code-ultimate-guide
-- Plugins: https://github.com/FlorianBruniaux/claude-code-plugins
+- Plugins marketplace: https://github.com/FlorianBruniaux/claude-code-plugins
+- Cowork guide (non-devs, Claude Desktop): https://github.com/FlorianBruniaux/claude-cowork-guide
 
 ## Author
 
