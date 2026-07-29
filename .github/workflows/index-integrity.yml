@@ -74,6 +74,23 @@ jobs:
           # 2026-07-29, so there is no backlog to ratchet down.
           python3 scripts/check-index-coverage.py --check --max-missing 0
 
+      - name: Check the MCP server's bundled content mirrors machine-readable/
+        run: |
+          # mcp-server/content/ is a hand-copied bundle published to npm as
+          # claude-code-ultimate-guide-mcp. Nothing regenerates it and nothing
+          # checked it, so it drifted silently before, and it drifted again during
+          # this pass the moment reference.yaml was repaired. Same failure class as
+          # the reference rot itself: a copy nobody verifies.
+          fail=0
+          for f in reference.yaml claude-code-releases.yaml llms.txt; do
+            if ! diff -q "mcp-server/content/$f" "machine-readable/$f" >/dev/null; then
+              echo "DRIFTED: mcp-server/content/$f differs from machine-readable/$f"
+              echo "  fix with: cp machine-readable/$f mcp-server/content/$f"
+              fail=1
+            fi
+          done
+          exit $fail
+
       - name: Check examples-data.ts is in sync with examples/
         run: python3 scripts/generate-examples-data.py --check
 
