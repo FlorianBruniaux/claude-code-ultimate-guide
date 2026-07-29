@@ -24,7 +24,7 @@ format:
 | **Plan** | `plan` | `Shift+Tab x2` ou `/plan` | Analyse sans modification |
 | **Auto (classifier IA)** | `auto` | `permissions.defaultMode: "auto"` | Tâches longues, moins d'interruptions |
 | **Bypass total** | `bypassPermissions` | `--dangerously-skip-permissions` | CI/CD headless, sandboxé |
-| **Moins de prompts** | — | `/less-permission-prompts` | Génère un allowlist à partir des transcripts (v2.1.111) |
+| **Moins de prompts** | — | `/fewer-permission-prompts` | Génère un allowlist à partir des transcripts (livrée sous le nom `/less-permission-prompts` en v2.1.111) |
 
 **Activation en CLI :** `claude --permission-mode <mode>` accepte `default`, `plan`, `acceptEdits`, `bypassPermissions`. **Activation persistante :** clé `permissions.defaultMode` dans `settings.json`.
 

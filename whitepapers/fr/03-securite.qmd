@@ -5,7 +5,7 @@ author: "Florian BRUNIAUX"
 date: 2026-07-02
 date-format: "MMMM YYYY"
 version: "3.41.1"
-wp-version: "1.4.1"
+wp-version: "1.4.2"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -355,10 +355,10 @@ Malgre son utilite, `permissions.deny` presente des gaps documentes qui le rende
 
 **Amélioration (v2.1.111)** : Les glob patterns bash en lecture seule ne déclenchent plus de prompts de permission, ce qui réduit la friction sur les opérations de lecture courantes sans compromettre les protections d'écriture.
 
-**Réduire la friction des permissions** : Le skill `/less-permission-prompts` analyse l'historique des transcripts de session pour générer automatiquement une allowlist adaptée à votre usage réel. Il identifie les appels bash et MCP en lecture seule fréquents et les ajoute à `.claude/settings.json`, sans ouvrir de permissions d'écriture supplémentaires.
+**Réduire la friction des permissions** : Le skill `/fewer-permission-prompts` (livré sous le nom `/less-permission-prompts` en v2.1.111) analyse l'historique des transcripts de session pour générer automatiquement une allowlist adaptée à votre usage réel. Il identifie les appels bash et MCP en lecture seule fréquents et les ajoute à `.claude/settings.json`, sans ouvrir de permissions d'écriture supplémentaires.
 
 ```bash
-/less-permission-prompts
+/fewer-permission-prompts
 ```
 
 **Bottom line** : `permissions.deny` est nécessaire mais pas suffisant. → Compléter avec [Layer 1.5 Native Sandbox](#layer-1.5-native-sandbox-v2.1.0) et [Layer 2 Hooks](#layer-2-hooks-pretooluse).

@@ -32,7 +32,8 @@ from typing import Optional
 # ---------------------------------------------------------------------------
 REPO_ROOT = Path(__file__).parent.parent
 EXAMPLES_DIR = REPO_ROOT / "examples"
-OUTPUT_FILE = REPO_ROOT.parent / "claude-code-ultimate-guide-landing" / "src" / "data" / "examples-data.ts"
+LANDING_ROOT = REPO_ROOT.parent / "claude-code-ultimate-guide-landing"
+OUTPUT_FILE = LANDING_ROOT / "src" / "data" / "examples-data.ts"
 
 # ---------------------------------------------------------------------------
 # Category configuration — order and display metadata
@@ -486,7 +487,10 @@ def build_ts(categories_data: list[dict]) -> str:
         entries = cat["entries"]
         is_last_cat = i == len(categories_data) - 1
 
-        lines.append(f'    {key}: {{')
+        # Keys with a hyphen ("hooks-bash", "claude-md"...) are not valid bare
+        # JS identifiers, so they must be quoted or esbuild fails the landing build.
+        key_ts = key if key.isidentifier() else f'"{key}"'
+        lines.append(f'    {key_ts}: {{')
         lines.append(f'        icon: "{icon_ts}",')
         if cat.get("label"):
             lines.append(f'        label: "{ts_string(cat["label"])}",')
@@ -590,6 +594,13 @@ def main():
                 diff = list(difflib.unified_diff(lines_a, lines_b, fromfile="current", tofile="generated", lineterm=""))
                 print(f"DRIFT: {len([l for l in diff if l.startswith(('+', '-')) and not l.startswith(('+++', '---'))])} line(s) differ", file=sys.stderr)
                 sys.exit(1)
+        elif not LANDING_ROOT.exists():
+            # The landing repo is a sibling checkout, absent in CI where only this
+            # repo is cloned. Sync cannot be judged against a repo we do not have,
+            # so skip rather than fail: a permanently red gate teaches people to
+            # ignore it. Drift is still caught locally and by the landing's own CI.
+            print(f"SKIP: landing repo not present at {LANDING_ROOT}", file=sys.stderr)
+            sys.exit(0)
         else:
             print("MISSING: examples-data.ts does not exist", file=sys.stderr)
             sys.exit(1)

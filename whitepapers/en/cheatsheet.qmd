@@ -5,7 +5,7 @@ author: "Florian BRUNIAUX"
 date: 2026-07-01
 date-format: "MMMM YYYY"
 version: "3.41.1"
-wp-version: "1.1.0"
+wp-version: "1.1.1"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -42,7 +42,7 @@ which claude && claude --version
 | `/context` | Detailed token breakdown |
 | `/plan` | Enter Plan Mode (no changes) |
 | `/ultraplan` | Cloud Plan Mode: draft in cloud, review in browser |
-| `/execute` | Exit Plan Mode (apply changes) |
+| Approve the plan | Exit Plan Mode (`Shift+Tab` to leave without approving) |
 | `/model` | Switch model (sonnet/opus/opusplan) |
 | `/insights` | Usage analytics + optimization report |
 | `/simplify` | Detect over-engineering in changed code + auto-fix |

@@ -164,7 +164,8 @@ questions:
       - Architectural analysis before changes
       - Safe exploration of risky operations
 
-      Use `/execute` to exit Plan Mode when ready to make changes.
+      Exit Plan Mode by approving the plan Claude presents, or with `Shift+Tab`.
+      There is no `/execute` command in Claude Code.
     doc_reference:
       file: guide/ultimate-guide.md
       section: 6.1 Slash Commands

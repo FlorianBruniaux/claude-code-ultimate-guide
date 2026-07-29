@@ -531,7 +531,9 @@ questions:
       d: Two levels — fast, thorough — toggled with Alt+T
     correct: c
     explanation: |-
-      v2.1.72 simplified effort to **three levels**: low (○), medium (◐), and high (●). The `max` level was removed. Use `/model` with left/right arrow keys to adjust the effort slider, the `effortLevel` setting in `settings.json`, or the `CLAUDE_CODE_EFFORT_LEVEL` environment variable. The new symbols provide quick visual reference in the UI. Use `/effort auto` to reset to the default adaptive behavior.
+      v2.1.72 simplified effort to **three levels**: low (○), medium (◐), and high (●). The `max` level was removed at that point. Use `/model` with left/right arrow keys to adjust the effort slider, the `effortLevel` setting in `settings.json`, or the `CLAUDE_CODE_EFFORT_LEVEL` environment variable. The symbols provide quick visual reference in the UI. Use `/effort auto` to reset to the default adaptive behavior.
+
+      **Current state (v2.1.220):** the scale grew back. `/effort` now accepts `low`, `medium`, `high`, `xhigh` (added v2.1.111), `max`, and `ultracode`; `max` and `ultracode` apply to the current session only. Available levels depend on the model.
       ---
     doc_reference:
       file: guide/core/claude-code-releases.md
@@ -632,7 +634,7 @@ questions:
       - junior
       - senior
       - power
-    question: What keyboard shortcut enters Plan Mode (toggles plan/execute)?
+    question: What keyboard shortcut cycles into Plan Mode?
     options:
       a: Ctrl+P
       b: Shift+Tab
@@ -640,11 +642,14 @@ questions:
       d: Ctrl+Shift+P
     correct: b
     explanation: |-
-      `Shift+Tab` toggles between Plan Mode and Execute Mode.
+      `Shift+Tab` cycles the permission mode: Manual, then acceptEdits, then Plan.
 
       Plan Mode navigation:
-      - `Shift+Tab` once: Toggle plan/execute
-      - `Shift+Tab` twice: Enter deep Plan Mode (with Opus in OpusPlan)
+      - `Shift+Tab` from Manual: switch to acceptEdits
+      - `Shift+Tab` twice from Manual: reach Plan Mode
+      - `Shift+Tab` again: leave Plan Mode without approving the plan
+
+      There is no "Execute Mode": approving the plan drops you into the mode the approval option names.
 
       Plan Mode allows safe, read-only exploration before making changes.
     doc_reference:

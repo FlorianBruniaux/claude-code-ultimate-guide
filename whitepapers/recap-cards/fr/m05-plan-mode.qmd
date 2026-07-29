@@ -4,9 +4,9 @@ subtitle: "Faire planifier Claude avant d'agir"
 card-number: "M05"
 category: "Méthodologie"
 difficulty: "intermediate"
-guide-version: "3.41.0"
+guide-version: "3.41.1"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
+version: "3.41.1"
 date: "Mai 2026"
 layout: "two-col"
 lang: fr
@@ -21,7 +21,7 @@ Plan Mode est le mode "regarder sans toucher" de Claude Code. En Plan Mode, Clau
 ```
 /plan              # Entrer en Plan Mode
 Shift+Tab          # Basculer Plan ↔ Normal
-/execute           # Quitter et passer à l'exécution
+Approuver le plan   # Quitter et passer à l'exécution
 ```
 
 ## Pourquoi Ça Change Tout
@@ -62,7 +62,7 @@ Le raisonnement : Claude explore le codebase sans pression d'agir. Il identifie 
 2. Review du plan
    Modifier, affiner, valider les étapes
 
-3. /execute (ou Shift+Tab → Normal Mode)
+3. Approuver le plan (ou Shift+Tab pour sortir sans valider)
    Exécution supervisée du plan approuvé
 ```
 

@@ -67,6 +67,8 @@ This guide is the most comprehensive community resource for Claude Code. It cove
 
 ### Essential Commands
 
+Source of truth for the complete set: https://code.claude.com/docs/en/commands (~100 built-in commands). The subset below is the high-frequency one.
+
 | Command | Action |
 |---------|--------|
 | `/help` | Contextual help |
@@ -74,12 +76,14 @@ This guide is the most comprehensive community resource for Claude Code. It cove
 | `/compact` | Free up context |
 | `/status` | Session state + context usage |
 | `/context` | Detailed token breakdown |
-| `/plan` | Enter Plan Mode (no changes) |
-| `/execute` | Exit Plan Mode (apply changes) |
+| `/plan` | Enter Plan Mode (no changes). Exit by approving the plan or `Shift+Tab` |
 | `/model` | Switch model (sonnet/opus/opusplan) |
 | `/insights` | Usage analytics + optimization report |
+| `/code-review [level]` | Review the diff for correctness bugs; `--fix` applies them, `ultra` runs it in the cloud |
 | `/simplify` | Detect over-engineering in changed code + auto-fix |
+| `/security-review` | Scan the branch diff for injection, auth, and data-exposure risks |
 | `/batch` | Large-scale refactors via 5–30 parallel worktree agents |
+| `/subtask <task>` | Hand a side task to a forked subagent that reports back here (v2.1.212+) |
 | `/teleport` | Teleport session from web |
 | `/tasks` | Monitor background tasks |
 | `/remote-env` | Configure cloud environment |
@@ -87,21 +91,22 @@ This guide is the most comprehensive community resource for Claude Code. It cove
 | `/rc` | Alias for /remote-control |
 | `/mobile` | Get Claude mobile app download links |
 | `/fast` | Toggle fast mode (2.5x speed, 6x cost) |
-| `/voice` | Toggle voice input (hold Space to speak, release to send) |
+| `/voice` | Toggle voice dictation (hold Space to speak, release to send) |
 | `/loop [interval] [prompt]` | Run a prompt on repeat (ex: `/loop 5m check the deploy`, default 10m) |
-| `/usage` | Token + cost usage per model (v2.1.118, replaces /cost and /stats) |
+| `/usage` | Token + cost usage per model, plan limits (v2.1.118, replaces /cost and /stats) |
 | `/cost` | Alias for /usage (v2.1.118+) |
-| `/stats` | Alias for /usage (v2.1.118+) — Usage graph, favorite model, streak |
+| `/stats` | Alias for /usage, opens on the Stats tab (v2.1.118+) |
 | `/recap` | Summarize the current session (v2.1.108) |
-| `/effort` | Set thinking effort level: xlow/low/default/high/xhigh (v2.1.111) |
-| `/tui` | Show tool calls in TUI mode (v2.1.110) |
-| `/focus` | Focus agent on specific files or tasks (v2.1.110) |
-| `/less-permission-prompts` | Reduce permission prompt frequency (v2.1.111) |
-| `/ultrareview` | Multi-agent cloud code review (v2.1.114) |
-| `/proactive` | Enable proactive suggestions alias (v2.1.105) |
-| `/undo` | Revert last action (v2.1.108) |
+| `/effort` | Set effort level: low/medium/high/xhigh/max/ultracode (v2.1.111) |
+| `/tui [fullscreen]` | Set the terminal renderer and relaunch into it (v2.1.110) |
+| `/focus` | Toggle minimal focus view (v2.1.110) |
+| `/fewer-permission-prompts` | Scan transcripts, propose a read-only tool allowlist (shipped as `/less-permission-prompts` in v2.1.111) |
+| `/ultrareview` | Multi-agent cloud code review, now an alias of `/code-review ultra` (v2.1.114) |
+| `/proactive` | Alias for /loop |
+| `/undo` | Alias for /rewind |
 | `/rename [name]` | Name or rename the current session |
 | `/copy` | Interactive picker to copy a code block or full response |
+| `/doctor` | Full setup checkup: install, settings, hooks, CLAUDE.md bloat (v2.1.205+) |
 | `/debug` | Systematic troubleshooting |
 | `/exit` | Quit (or Ctrl+D) |
 

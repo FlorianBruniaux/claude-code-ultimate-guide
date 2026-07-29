@@ -982,7 +982,7 @@ Claude peut uniquement lire et analyser, aucune modification n'est autorisée. P
 - Explorer des options architecturales
 - Investiguer en toute sécurité avant d'apporter des changements
 
-Quittez ce mode avec `/execute` quand vous êtes prêt à effectuer des modifications.
+Pour quitter ce mode, approuvez le plan que Claude présente, ou appuyez sur `Shift+Tab` pour sortir sans valider. La commande `/execute` n'existe pas.
 
 ### Mode Ne pas demander (`dontAsk`)
 
@@ -2570,7 +2570,7 @@ User: Based on both rounds, write the definitive migration plan.
 Claude: [Plan affiné intégrant les deux tours]
 
 ## Exécution
-User: /execute
+[approuver le plan, ou Shift+Tab pour sortir du Plan Mode]
 User: Implement the plan from round 3.
 ```
 
@@ -8356,7 +8356,7 @@ Les slash commands sont des skills invocables par l'utilisateur. Depuis CC 2.1.3
 | `/btw [question]` | Question rapide via une superposition éphémère : lecture seule, sans outils, réponse unique, ne pollue pas l'historique principal |
 | `/doctor` | Vérification diagnostique : environnement, paramètres, connectivité |
 | `/release-notes` | Parcourir le changelog de Claude Code de façon interactive |
-| `/less-permission-prompts` | Analyser les transcriptions et proposer une liste d'outils en lecture seule autorisés |
+| `/fewer-permission-prompts` | Analyser les transcriptions et proposer une liste d'outils en lecture seule autorisés (livrée sous le nom `/less-permission-prompts` en v2.1.111) |
 | `/team-onboarding` | Générer un guide d'intégration pour les coéquipiers à partir du CLAUDE.md et des sessions récentes |
 | `/terminal-setup` | Configurer la sensibilité du défilement du terminal (VS Code, Cursor, Windsurf) |
 | `/reload-plugins` | Recharger les plugins MCP et installer automatiquement les dépendances manquantes |
@@ -14005,7 +14005,7 @@ Claude: I've analyzed the auth system. Here's what I found:
 
 Ready to implement?
 
-You: /execute
+You: [approuver le plan]
 Let's start with phase 1
 ```
 
@@ -22022,7 +22022,7 @@ I'll decide based on our team context.
 ```
 1. /plan → Définir les dimensions et les contraintes
 2. Générer les variantes CLAUDE.md
-3. /execute → Implémenter chaque variante
+3. Approuver le plan → Implémenter chaque variante
 4. /plan → Comparer et décider
 ```
 
@@ -23514,7 +23514,7 @@ _Accès rapide :_ [Tableau des Commandes](#101-commands-table) · [Raccourcis Cl
 | `/copy` | Copier la dernière réponse dans le presse-papiers — sélecteur interactif pour choisir des blocs de code spécifiques, ou option « Always copy full response » (v2.1.59+) | Session |
 | `/debug` | Dépannage systématique et investigation des erreurs | Débogage |
 | `/doctor` | Lancer des diagnostics et vérifications de dépannage | Débogage |
-| `/execute` | Quitter le Mode Plan | Mode |
+| `/execute` | **N'est pas une commande Claude Code.** Absente de la référence officielle et du CHANGELOG. Pour quitter le Plan Mode : approuver le plan, ou `Shift+Tab` | Mode |
 | `/exit` | Quitter Claude Code | Session |
 | `/fast` | Activer/désactiver le mode rapide (Opus 4.8, 2,5× plus rapide, 2× le prix) | Mode |
 | `/hooks` | Configuration interactive des hooks | Config |

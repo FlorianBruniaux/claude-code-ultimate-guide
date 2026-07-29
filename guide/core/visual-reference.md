@@ -109,7 +109,7 @@ Cycle through modes with `Shift+Tab`:
 - `Shift+Tab` — Cycle to next mode
 - `Shift+Tab × 2` — Jump to plan mode from default
 - `/plan` — Enter plan mode directly
-- `/execute` — Exit plan mode
+- Exit plan mode: approve the plan Claude presents, or press `Shift+Tab` (there is no `/execute` command)
 
 → Source: [ultimate-guide.md:760](../ultimate-guide.md)
 

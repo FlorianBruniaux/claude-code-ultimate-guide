@@ -304,7 +304,7 @@ deep_dive:
   rtk_website: "https://www.rtk-ai.app/"
   rtk_evaluation: "docs/resource-evaluations/rtk-evaluation.md"
   rtk_guide: "guide/ultimate-guide.md#command-output-optimization-with-rtk"
-  rtk_third_party: "guide/ecosystem/third-party-tools.md:7"
+  rtk_third_party: "guide/ecosystem/third-party-tools.md#rtk-rust-token-killer"
   rtk_claude_md: "examples/claude-md/rtk-optimized.md"
   rtk_skill: "examples/skills/rtk-optimizer/SKILL.md"
   rtk_hook: "examples/hooks/bash/rtk-auto-wrapper.sh"
@@ -352,7 +352,7 @@ deep_dive:
   gstack_when_to_use: "guide/workflows/gstack-workflow.md#when-to-use-this-vs-other-workflows"  # Comparison vs Plan Pipeline and other workflows
   gstack_upstream: "https://github.com/garrytan/gstack"
   gstack_purpose: "6-skill workflow suite: strategic gate + architecture + paranoid review + release + browser QA + retro"
-  third_party_tools_skill_packs: "guide/ecosystem/third-party-tools.md:558"  # Notable skill packs (gstack)
+  third_party_tools_skill_packs: "guide/ecosystem/third-party-tools.md#plugin-ecosystem"  # Notable skill packs (gstack)
   # Talk Preparation Pipeline (6-stage: extract → research → concepts → position → script → revision)
   talk_pipeline_workflow: "guide/workflows/talk-pipeline.md"
   talk_pipeline_skills: "examples/skills/talk-pipeline/"
@@ -494,17 +494,17 @@ deep_dive:
   sandbox_native_guide: "guide/security/sandbox-native.md"
   sandbox_native_why: "guide/security/sandbox-native.md#1-why-native-sandboxing"  # Why Native Sandboxing
   sandbox_native_os_primitives: "guide/security/sandbox-native.md:68"  # Seatbelt vs bubblewrap
-  sandbox_native_filesystem: "guide/security/sandbox-native.md:178"  # Filesystem isolation
-  sandbox_native_network: "guide/security/sandbox-native.md:221"  # Network proxy architecture
+  sandbox_native_filesystem: "guide/security/sandbox-native.md#3-filesystem-isolation"  # Filesystem isolation
+  sandbox_native_network: "guide/security/sandbox-native.md#4-network-isolation"  # Network proxy architecture
   sandbox_native_modes: "guide/security/sandbox-native.md:7"  # Auto-allow vs Regular
-  sandbox_native_escape_hatch: "guide/security/sandbox-native.md:341"  # dangerouslyDisableSandbox
-  sandbox_native_security_limits: "guide/security/sandbox-native.md:396"  # Domain fronting, Unix sockets
-  sandbox_native_opensource: "guide/security/sandbox-native.md:481"  # Open-source runtime
+  sandbox_native_escape_hatch: "guide/security/sandbox-native.md#6-escape-hatch"  # dangerouslyDisableSandbox
+  sandbox_native_security_limits: "guide/security/sandbox-native.md#7-security-limitations"  # Domain fronting, Unix sockets
+  sandbox_native_opensource: "guide/security/sandbox-native.md#8-open-source-runtime"  # Open-source runtime
   sandbox_native_platforms: "guide/security/sandbox-native.md:505"  # Platform support
   sandbox_native_decision_tree: "guide/security/sandbox-native.md#10-decision-tree-native-vs-docker-sandboxes"  # Native vs Docker
   sandbox_native_config_examples: "guide/security/sandbox-native.md:564"  # Configuration examples
-  sandbox_native_best_practices: "guide/security/sandbox-native.md:637"  # Best practices
-  sandbox_native_troubleshooting: "guide/security/sandbox-native.md:650"  # Troubleshooting
+  sandbox_native_best_practices: "guide/security/sandbox-native.md#12-best-practices"  # Best practices
+  sandbox_native_troubleshooting: "guide/security/sandbox-native.md#13-troubleshooting"  # Troubleshooting
   sandbox_runtime_oss: "https://github.com/anthropic-experimental/sandbox-runtime"
   sandbox_runtime_npm: "https://www.npmjs.com/package/@anthropic-ai/sandbox-runtime"
   sandbox_official_docs: "https://code.claude.com/docs/en/sandboxing"
@@ -563,22 +563,22 @@ deep_dive:
   # Third-Party Tools (guide/ecosystem/third-party-tools.md) - Added 2026-02-01
   third_party_tools_guide: "guide/ecosystem/third-party-tools.md"
   third_party_tools_cost_tracking: "guide/ecosystem/third-party-tools.md:48"
-  third_party_tools_rtk: "guide/ecosystem/third-party-tools.md:7"
-  third_party_tools_session_mgmt: "guide/ecosystem/third-party-tools.md:126"
-  third_party_tools_config_mgmt: "guide/ecosystem/third-party-tools.md:214"
+  third_party_tools_rtk: "guide/ecosystem/third-party-tools.md#rtk-rust-token-killer"
+  third_party_tools_session_mgmt: "guide/ecosystem/third-party-tools.md#session-management"
+  third_party_tools_config_mgmt: "guide/ecosystem/third-party-tools.md#configuration-management"
   third_party_tools_hook_utilities: "guide/ecosystem/third-party-tools.md:1197"
   third_party_gitdiff_watcher: "guide/ecosystem/third-party-tools.md:1201"
   third_party_gitdiff_watcher_upstream: "https://github.com/fcamblor/gitdiff-watcher"
   third_party_gitdiff_watcher_purpose: "Stop hook utility — enforces build/test quality gates before handoff, fires only when matching files changed"
   third_party_tools_alternative_uis: "guide/ecosystem/third-party-tools.md:1276"
   third_party_tools_known_gaps: "guide/ecosystem/third-party-tools.md:1822"
-  third_party_tools_recommendations: "guide/ecosystem/third-party-tools.md:391"
+  third_party_tools_recommendations: "guide/ecosystem/third-party-tools.md#recommendations-by-persona"
   third_party_ccusage: "https://www.npmjs.com/package/ccusage"
   third_party_ccusage_site: "https://ccusage.com"
   third_party_ccburn: "https://github.com/JuanjoFuchs/ccburn"
   third_party_straude: "https://straude.com"
   third_party_straude_npm: "https://www.npmjs.com/package/straude"
-  third_party_straude_guide: "guide/ecosystem/third-party-tools.md:92"
+  third_party_straude_guide: "guide/ecosystem/third-party-tools.md#straude"
   third_party_straude_eval: "docs/resource-evaluations/straude-evaluation.md"
   third_party_claude_code_viewer: "https://www.npmjs.com/package/@kimuson/claude-code-viewer"
   third_party_claude_code_config: "https://github.com/joeyism/claude-code-config"
@@ -593,7 +593,7 @@ deep_dive:
   # Project Context Bootstrapping (Added 2026-04-08)
   third_party_tools_context_bootstrap: "guide/ecosystem/third-party-tools.md:1039"
   third_party_codesight: "https://github.com/Houseofmvps/codesight"
-  third_party_codesight_guide: "guide/ecosystem/third-party-tools.md:433"
+  third_party_codesight_guide: "guide/ecosystem/third-party-tools.md#codesight"
   third_party_codesight_purpose: "Zero-dep CLI: AST-based codebase context map (routes, schema, hot files) + wiki articles + 11 MCP tools. 7-12x token savings on base scan."
   third_party_codesight_when_useful: "TypeScript projects with recognized framework (Express/Hono/tRPC/Fastify/NestJS) and ORM. Useless on Rust. Use --wiki + MCP on large monorepos (>1500 files)."
   third_party_codesight_limitations: "AST precision TS-only; Next.js App Router = 0 routes; CF Workers raw HTTP = 0 routes; Rust = near-empty output; --init overwrites CLAUDE.md"
@@ -662,13 +662,13 @@ deep_dive:
   architecture_visual_overview: "guide/core/architecture.md:51"
   architecture_visual_source: "https://www.linkedin.com/posts/mohamed-ali-ben-salem-2b777b9a_en-ce-moment-je-vois-passer-des-posts-du-activity-7420592149110362112-eY5a"
   architecture_master_loop: "guide/core/architecture.md#1-the-master-loop"
-  architecture_tools: "guide/core/architecture.md:219"
-  architecture_context: "guide/core/architecture.md:312"
+  architecture_tools: "guide/core/architecture.md#2-the-tool-arsenal"
+  architecture_context: "guide/core/architecture.md#3-context-management-internals"
   architecture_subagents: "guide/core/architecture.md#4-sub-agent-architecture"
-  architecture_permissions: "guide/core/architecture.md:541"
+  architecture_permissions: "guide/core/architecture.md#5-permission--security-model"
   architecture_mcp: "guide/core/architecture.md#mcp-architecture-overview"
   architecture_mcp_visual: "guide/images/mcp-architecture-diagram.svg"
-  architecture_philosophy: "guide/core/architecture.md:1205"
+  architecture_philosophy: "guide/core/architecture.md#10-philosophy-less-scaffolding-more-model"
   # Official LLM-Optimized Documentation - Added 2026-02-25
   official_llms_index: "https://code.claude.com/docs/llms.txt"       # Index ~65 pages, ~15-20K tokens — use first for discovery
   official_llms_full: "https://code.claude.com/docs/llms-full.txt"   # Full doc ~98KB, ~25-30K tokens — source de vérité officielle
@@ -678,7 +678,7 @@ deep_dive:
   system_prompts_prompthub: "https://www.prompthub.us/blog/an-analysis-of-the-claude-4-system-prompt"
   system_prompts_architecture: "guide/core/architecture.md#system-prompt-contents"
   # MCP Apps Extension (SEP-1865) - Added 2026-01-27
-  mcp_apps_architecture: "guide/core/architecture.md:753"
+  mcp_apps_architecture: "guide/core/architecture.md#mcp-extensions-apps-sep-1865"
   mcp_apps_evolution: "guide/ultimate-guide.md#mcp-evolution-apps-extension-sep-1865"
   mcp_apps_spec: "https://github.com/modelcontextprotocol/ext-apps"
   mcp_apps_blog_mcp: "https://blog.modelcontextprotocol.io/posts/2026-01-26-mcp-apps/"
@@ -1207,18 +1207,18 @@ deep_dive:
   agent_teams: "guide/workflows/agent-teams.md"
   agent_teams_quick_start: "guide/workflows/agent-teams-quick-start.md"  # Practical 8-10 min guide with copy-paste patterns
   agent_teams_overview: 22765  # Section 9.20 in ultimate-guide.md
-  agent_teams_architecture: "guide/workflows/agent-teams.md:137"
-  agent_teams_setup: "guide/workflows/agent-teams.md:250"
-  agent_teams_use_cases: "guide/workflows/agent-teams.md:346"
-  agent_teams_fountain_case_study: "guide/workflows/agent-teams.md:358"
-  agent_teams_cred_case_study: "guide/workflows/agent-teams.md:391"
-  agent_teams_c_compiler_case_study: "guide/workflows/agent-teams.md:308"
-  agent_teams_paul_rayner_workflows: "guide/workflows/agent-teams.md:450"
+  agent_teams_architecture: "guide/workflows/agent-teams.md#2-architecture-deep-dive"
+  agent_teams_setup: "guide/workflows/agent-teams.md#3-setup--configuration"
+  agent_teams_use_cases: "guide/workflows/agent-teams.md#4-production-use-cases"
+  agent_teams_fountain_case_study: "guide/workflows/agent-teams.md#41-multi-layer-code-review-fountain"
+  agent_teams_cred_case_study: "guide/workflows/agent-teams.md#42-full-development-lifecycle-cred"
+  agent_teams_c_compiler_case_study: "guide/workflows/agent-teams.md#43-autonomous-c-compiler-anthropic-research"
+  agent_teams_paul_rayner_workflows: "guide/workflows/agent-teams.md#44-job-search-app-development-paul-rayner"
   agent_teams_workflow_impact: "guide/workflows/agent-teams.md#agent-teams-workflow"
-  agent_teams_limitations: "guide/workflows/agent-teams.md:644"
+  agent_teams_limitations: "guide/workflows/agent-teams.md#6-limitations--gotchas"
   agent_teams_decision_tree: "guide/workflows/agent-teams.md#decision-tree-when-to-use-agent-teams"
-  agent_teams_best_practices: "guide/workflows/agent-teams.md:928"
-  agent_teams_troubleshooting: "guide/workflows/agent-teams.md:1092"
+  agent_teams_best_practices: "guide/workflows/agent-teams.md#8-best-practices"
+  agent_teams_troubleshooting: "guide/workflows/agent-teams.md#9-troubleshooting"
   agent_teams_experimental_flag: "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=true"
   agent_teams_model_requirement: "Opus 5 recommended (Opus 4.6+ compatible)"
   agent_teams_sources:
@@ -1542,7 +1542,7 @@ deep_dive:
   source_conflict_temporal_vs_factual: "temporal (one source is newer) vs factual (same period, different facts) require different resolution strategies"
   source_publication_date: "mandatory field; without it temporal disambiguation is impossible"
   # Advanced Orchestration Patterns (agent-teams.md)
-  agent_teams_advanced_orchestration: "guide/workflows/agent-teams.md:1506"
+  agent_teams_advanced_orchestration: "guide/workflows/agent-teams.md#advanced-orchestration-patterns"
   hub_and_spoke_coordinator: "guide/workflows/agent-teams.md#hub-and-spoke-coordinator"
   hub_and_spoke_rule: "coordinator decomposes/dispatches/aggregates; never does domain work itself"
   programmatic_prerequisites: "guide/workflows/agent-teams.md#programmatic-prerequisites"
@@ -1972,7 +1972,7 @@ mcp:
   search_decision_tree: "grep (text) | ast-grep (structure) | Serena (symbols) | grepai (semantic)"
   search_tools_comparison: "guide/ultimate-guide.md#search-tools-comparison-rg-vs-grepai-vs-serena-vs-ast-grep-vs-claude-mem"
   search_tools_mastery_workflow: "guide/workflows/search-tools-mastery.md"
-  grep_vs_rag_history: "guide/core/architecture.md:232"
+  grep_vs_rag_history: "guide/core/architecture.md#tldr---5-bullet-summary"
   ripgrep_native: "Grep tool (Claude Code built-in, ~20ms)"
   grepai_semantic: "Semantic search + call graph (Ollama-based, ~500ms)"
   grepai_benchmark:
@@ -1997,7 +1997,7 @@ mcp:
   config: "~/.claude.json (mcpServers field) or .mcp.json (project root)"
   tool_search: "lazy loading MCP tools (v2.1.7+) - 85% token reduction - auto:N threshold config"
   tool_search_config: "ENABLE_TOOL_SEARCH=auto|auto:N|true|false"
-  tool_search_deep_dive: "guide/core/architecture.md:284"
+  tool_search_deep_dive: "guide/core/architecture.md#mcp-tool-search-lazy-loading"
 
 # ════════════════════════════════════════════════════════════════
 # ARCHITECTURE INTERNALS - see guide/core/architecture.md

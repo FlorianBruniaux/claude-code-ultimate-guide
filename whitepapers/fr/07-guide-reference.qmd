@@ -5,7 +5,7 @@ author: "Florian BRUNIAUX"
 date: 2026-07-02
 date-format: "MMMM YYYY"
 version: "3.41.1"
-wp-version: "1.4.0"
+wp-version: "1.4.1"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -1901,7 +1901,7 @@ Cette liste regroupe les commandes et raccourcis qui couvrent plus de 90% des in
 | 1 | `/compact` | Comprimer le contexte quand > 70% |
 | 2 | `/clear` | Reset complet pour nouvelle tâche |
 | 3 | `/plan` | Entrer en mode planification (sans modifier les fichiers) |
-| 4 | `/execute` | Appliquer le plan après review |
+| 4 | Approuver le plan | Quitter Plan Mode et l'appliquer (`Shift+Tab` sort sans valider) |
 | 5 | `/rewind` | Annuler la dernière action de Claude |
 | 6 | `Shift+Tab` | Cycler entre les modes de permission |
 | 7 | `Ctrl+C` | Interrompre Claude en cours d'exécution |
@@ -1921,7 +1921,7 @@ Cette liste regroupe les commandes et raccourcis qui couvrent plus de 90% des in
 
 ## Commandes Essentielles
 
-Ces huit commandes forment le vocabulaire de base de toute session Claude Code. Elles couvrent la gestion du contexte (`/compact`, `/clear`), la planification (`/plan`, `/execute`), la récupération d'erreurs (`/rewind`), et le monitoring (`/help`, `/status`, `/context`).
+Ces huit commandes forment le vocabulaire de base de toute session Claude Code. Elles couvrent la gestion du contexte (`/compact`, `/clear`), la planification (`/plan`, puis l'approbation du plan pour sortir du mode), la récupération d'erreurs (`/rewind`), et le monitoring (`/help`, `/status`, `/context`).
 
 | Commande | Action | Usage |
 |----------|--------|-------|
@@ -1931,7 +1931,7 @@ Ces huit commandes forment le vocabulaire de base de toute session Claude Code. 
 | `/compact` | Compresse le contexte | Planifier à 50%, exécuter dès 70% |
 | `/clear` | Reset la session | Changement de tâche |
 | `/plan` | Mode planification (no changes) | Avant implémentation |
-| `/execute` | Quitter Plan Mode (apply changes) | Après review plan |
+| `/code-review` | Relire le diff à la recherche de bugs de correction | Avant de livrer |
 | `/rewind` | Undo dernière action | Erreur de Claude |
 
 ## Commandes Avancées
@@ -1963,7 +1963,7 @@ Ces commandes ont été ajoutées progressivement entre v2.1.71 et v2.1.77. Elle
 | `/stats` | Graphique d'usage, modèle favori, streak (alias `/usage`) | v2.1.71+ |
 | `/rename [nom]` | Nommer ou renommer la session courante | v2.1.71+ |
 | `/copy [N]` | Copie interactive d'un bloc de code ou de la Nème dernière réponse | v2.1.71+ |
-| `/effort` | Contrôler le niveau d'effort (xlow/low/default/high/xhigh/max) pour la session | v2.1.71+ |
+| `/effort` | Contrôler le niveau d'effort (low/medium/high/xhigh/max/ultracode) pour la session | v2.1.71+ |
 | `/branch` | Crée une branche/timeline parallèle (remplace `/fork` depuis v2.1.77) | v2.1.77 |
 | `/btw [question]` | Question latérale éphémère, agent read-only sans historique | v2.1.71+ |
 | `/voice` | Active la saisie vocale | v2.1.71+ |
@@ -1977,7 +1977,7 @@ Ces commandes ont été ajoutées progressivement entre v2.1.71 et v2.1.77. Elle
 | `/autoresearch` | Boucle autonome de qualité de code | v3.37.x |
 | `/loop [interval] [cmd]` | Automatisation récurrente à intervalle fixe (ex: `/loop 5m /qa`) | v3.37.x |
 | `/ultrareview` | Review de code multi-agents en parallèle, cloud-based (branche locale ou PR GitHub) | v3.39.1 |
-| `/less-permission-prompts` | Génère automatiquement une allowlist depuis l'historique des transcripts | v3.39.1 |
+| `/fewer-permission-prompts` | Génère automatiquement une allowlist depuis l'historique des transcripts (livrée sous le nom `/less-permission-prompts` en v2.1.111) | v3.39.1 |
 | `/usage` | Commande unifiée : coûts, stats et graphiques de la session (remplace `/cost` et `/stats`) | v2.1.118 |
 | `/cd <path>` | Changer de répertoire de travail en cours de session | v2.1.169 |
 | `/config key=value` | Syntaxe inline pour modifier un setting sans passer par le menu | v2.1.181 |
@@ -1985,13 +1985,13 @@ Ces commandes ont été ajoutées progressivement entre v2.1.71 et v2.1.77. Elle
 ::: {.callout-note title="Autres ajouts notables v2.1.153 → v2.1.197"}
 `--safe-mode` (ou `CLAUDE_CODE_SAFE_MODE`) force une validation maximale avant chaque action (v2.1.169). `fallbackModel` dans `settings.json` permet de définir jusqu'à 3 modèles de secours en cas d'indisponibilité (v2.1.166). `sandbox.credentials` bloque la lecture des credentials depuis le sandbox (v2.1.187, ⭐ sécurité). `enforceAvailableModels` restreint les modèles utilisables au niveau organisation (v2.1.175, renforcé en v2.1.187). `claude mcp login` / `claude mcp logout <name>` gèrent l'authentification MCP en ligne de commande (v2.1.186). La syntaxe de permission `Tool(param:value)` (ex: `Agent(model:opus)`) permet un contrôle fin par paramètre (v2.1.178). Depuis v2.1.183, le mode Auto bloque nativement les opérations git/terraform destructives (`reset --hard`, `checkout -- .`, `clean -fd`, `commit --amend` sur commits externes).
 :::
-| `/proactive` | Mode proactif : Claude anticipe et suggère des actions sans attendre | v2.1.105 |
+| `/proactive` | Alias de `/loop` : relance un prompt en boucle tant que la session est ouverte | v2.1.105 |
 | `/team-onboarding` | Génère un guide d'onboarding personnalisé pour l'équipe | v2.1.106 |
-| `/undo` | Alias de `/rewind` : annule la dernière action de Claude | v2.1.108 |
+| `/undo` | Alias de `/rewind` : revient à un checkpoint (conversation et/ou code) | v2.1.108 |
 | `/recap` | Résumé contextuel de la session au retour (reprendre une session interrompue) | v2.1.108 |
 | `/reload-plugins` | Recharger les plugins installés sans redémarrer | v2.1.69 |
-| `/tui` | Basculer en mode interface terminal (TUI) | v2.1.110 |
-| `/focus` | Mode focus : réduit les distractions et centre Claude sur la tâche | v2.1.110 |
+| `/tui [default\|fullscreen]` | Choisir le moteur de rendu du terminal et relancer dessus | v2.1.110 |
+| `/focus` | Vue focus : dernier prompt, résumé d'appels d'outils, réponse finale (fullscreen uniquement) | v2.1.110 |
 | `/keybindings` | Afficher et configurer les raccourcis clavier | v2.1.100+ |
 | `/terminal-setup` | Assistant de configuration terminal | v2.1.100+ |
 | `/goal [condition]` | Mode autonome multi-tours : Claude travaille jusqu'à ce que la condition soit remplie, overlay live (temps écoulé, tours, tokens) | v2.1.139 |

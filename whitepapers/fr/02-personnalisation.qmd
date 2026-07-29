@@ -5,7 +5,7 @@ author: "Florian BRUNIAUX"
 date: 2026-07-02
 date-format: "MMMM YYYY"
 version: "3.41.1"
-wp-version: "1.5.0"
+wp-version: "1.5.1"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -932,7 +932,7 @@ Claude Code embarque un ensemble de commandes intégrées qui couvrent la gestio
 | `/compact` | Compresser le contexte (utile >70% usage) |
 | `/status` | Afficher infos session (model, cost, context %) |
 | `/plan` | Entrer en Plan Mode (read-only, safe exploration) |
-| `/execute` | Sortir de Plan Mode (enable modifications) |
+| Approuver le plan | Sortir de Plan Mode (`Shift+Tab` pour sortir sans valider) |
 | `/rewind` | Annuler les changements récents |
 | `/resume` | Reprendre une session précédente |
 | `/model` | Changer le modèle en cours de session |

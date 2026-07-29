@@ -235,7 +235,7 @@ flowchart TD
         PL1(File reads) --> PL2([Auto-approved])
         PL3(File writes) --> PL4([Blocked])
         PL5(Shell commands) --> PL6([Blocked])
-        PL7["Exit with /execute<br/>or Shift+Tab"] --> PL2
+        PL7["Exit by approving the plan<br/>or Shift+Tab"] --> PL2
     end
 
     subgraph DONTASK["🚫 dontAsk Mode"]
@@ -306,7 +306,7 @@ Plan Mode (Read-Only)        dontAsk Mode
 File reads    → AUTO ✓       ALL ops → AUTO DENIED ✗
 File writes   → BLOCKED ✗    Unless pre-approved via
 Shell cmds    → BLOCKED ✗    /permissions add
-Exit: /execute or Shift+Tab
+Exit: approve the plan or Shift+Tab
 ```
 
 </details>

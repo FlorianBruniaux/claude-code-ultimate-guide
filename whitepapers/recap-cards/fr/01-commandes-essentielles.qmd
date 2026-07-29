@@ -43,9 +43,9 @@ format:
 /usage          Consommation tokens par modèle (v2.1.118)
 /cost           alias de /usage (v2.1.118)
 /plan           Entrer en Plan Mode (aucune modification)
-/effort xlow/low/default/high/xhigh  Niveau de réflexion (v2.1.111)
+/effort low/medium/high/xhigh/max   Niveau de réflexion (v2.1.111)
 /recap          Résumé de session (v2.1.108)
-/undo           Annuler la dernière action (v2.1.108)
+/undo           Alias de /rewind : revenir à un checkpoint (v2.1.108)
 /ultrareview    Revue de code multi-agent (v2.1.114)
 /branch         Créer une timeline parallèle (v2.1.77)
 /rename [nom]   Nommer la session courante
@@ -84,9 +84,9 @@ claude --continue
 ## Commandes de Session
 
 ```
-/new            Nouvelle session
-/resume         Reprendre session précédente
-/sessions       Lister les sessions
+/new            Nouvelle session (alias de /clear)
+/resume         Reprendre une session (ouvre le sélecteur)
+/branch         Bifurquer la conversation ici (v2.1.77)
 ```
 
 ## Navigation Contexte
@@ -95,7 +95,7 @@ claude --continue
 |----------|-------|
 | `/compact` | Résume et libère de l'espace |
 | `/clear` | Réinitialise complètement |
-| `#fichier` | Ajouter fichier au contexte |
+| `@fichier` | Référencer un fichier dans le prompt |
 
 ## Slash Commands Personnalisées
 
@@ -113,4 +113,4 @@ claude --continue
 
 **Multiline** — `Shift+Enter` dans le terminal pour sauter une ligne sans valider.
 
-**Vim mode** — Ajouter `{"vim": true}` dans `~/.claude/settings.json` pour les raccourcis Vim.
+**Vim mode** — `/config` → Editor mode, ou `{"editorMode": "vim"}` dans `~/.claude/settings.json`. La commande `/vim` a été supprimée en v2.1.92.

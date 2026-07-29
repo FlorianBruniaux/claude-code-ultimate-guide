@@ -11,6 +11,7 @@ Guide version 3.41.1, tracking Claude Code up to v2.1.220 (July 2026).
 - Context engineering: managing what the model sees, when and in what shape; token audit workflow, compression tools, ejection discipline, maturity model
 - Memory systems: native stack (CLAUDE.md levels, auto memory, auto dream, agent frontmatter), cross-session tools (claude-mem, agentmemory, ICM, Kairn, OpenMemory), team sharing, file-based experience playbooks, memory poisoning risks
 - Hook system: all 30 hook events with matchers, input schemas, exit-code-2 behavior and decision-control formats; blocking vs non-blocking
+- Slash commands: full categorized table of the ~100 built-in commands with aliases, mirroring the official reference at https://code.claude.com/docs/en/commands (the source of truth), plus removed and renamed commands
 - Skills and slash commands: authoring, trigger patterns, progressive disclosure, skill design patterns
 - Agents: subagent frontmatter, delegation, agent teams, agent evaluation metrics, harness engineering
 - Multi-agent orchestration: parallel agents, hub-and-spoke coordinators, dynamic workflows (JavaScript-orchestrated pipelines, `ultracode`), agentic software factories

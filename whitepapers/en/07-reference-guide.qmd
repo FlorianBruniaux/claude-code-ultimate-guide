@@ -5,7 +5,7 @@ author: "Florian BRUNIAUX"
 date: 2026-07-02
 date-format: "MMMM YYYY"
 version: "3.41.1"
-wp-version: "1.4.0"
+wp-version: "1.4.1"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -1973,7 +1973,7 @@ This list groups the commands and shortcuts that cover over 90% of daily interac
 | 1 | `/compact` | Compress context when > 70% |
 | 2 | `/clear` | Full reset for a new task |
 | 3 | `/plan` | Enter planning mode (no file changes) |
-| 4 | `/execute` | Apply the plan after review |
+| 4 | Approve the plan | Leave Plan Mode and apply it (`Shift+Tab` leaves without approving) |
 | 5 | `/rewind` | Undo Claude's last action |
 | 6 | `Shift+Tab` | Cycle through permission modes |
 | 7 | `Ctrl+C` | Interrupt Claude mid-execution |
@@ -1993,7 +1993,7 @@ This list groups the commands and shortcuts that cover over 90% of daily interac
 
 ## Essential Commands
 
-These eight commands form the core vocabulary of any Claude Code session. They cover context management (`/compact`, `/clear`), planning (`/plan`, `/execute`), error recovery (`/rewind`), and monitoring (`/help`, `/status`, `/context`).
+These eight commands form the core vocabulary of any Claude Code session. They cover context management (`/compact`, `/clear`), planning (`/plan`, then approving the plan to leave the mode), error recovery (`/rewind`), and monitoring (`/help`, `/status`, `/context`).
 
 | Command | Action | Usage |
 |---------|--------|-------|
@@ -2003,7 +2003,7 @@ These eight commands form the core vocabulary of any Claude Code session. They c
 | `/compact` | Compress context | Plan at 50%, run at 70% |
 | `/clear` | Reset session | Task switch |
 | `/plan` | Planning mode (no changes) | Before implementation |
-| `/execute` | Exit Plan Mode (apply changes) | After reviewing plan |
+| `/code-review` | Review the diff for correctness bugs | Before shipping |
 | `/rewind` | Undo last action | Claude made an error |
 
 ## Advanced Commands
@@ -2035,7 +2035,7 @@ These commands were added incrementally between v2.1.71 and v2.1.77. They cover 
 | `/stats` | Usage chart, favorite model, streak (alias `/usage`) | v2.1.71+ |
 | `/rename [name]` | Name or rename the current session | v2.1.71+ |
 | `/copy [N]` | Interactive copy of a code block or the Nth last response | v2.1.71+ |
-| `/effort` | Control effort level (xlow/low/default/high/xhigh/max) for the session | v2.1.71+ |
+| `/effort` | Control effort level (low/medium/high/xhigh/max/ultracode) for the session | v2.1.71+ |
 | `/branch` | Creates a parallel branch/timeline (replaces `/fork` since v2.1.77) | v2.1.77 |
 | `/btw [question]` | Ephemeral side question, read-only agent with no history | v2.1.71+ |
 | `/voice` | Enable voice input | v2.1.71+ |
@@ -2049,15 +2049,15 @@ These commands were added incrementally between v2.1.71 and v2.1.77. They cover 
 | `/autoresearch` | Autonomous code quality loop | v3.37.x |
 | `/loop [interval] [cmd]` | Recurring interval automation (e.g. `/loop 5m /qa`) | v3.37.x |
 | `/ultrareview` | Cloud-based parallel multi-agent code review (local branch or GitHub PR) | v3.39.1 |
-| `/less-permission-prompts` | Auto-generates an allowlist from transcript history to reduce permission prompts | v3.39.1 |
+| `/fewer-permission-prompts` | Auto-generates an allowlist from transcript history to reduce permission prompts (shipped as `/less-permission-prompts` in v2.1.111) | v3.39.1 |
 | `/usage` | Unified command: session costs, stats and usage charts (replaces `/cost` and `/stats`) | v2.1.118 |
-| `/proactive` | Proactive mode: Claude anticipates and suggests actions without waiting | v2.1.105 |
+| `/proactive` | Alias for `/loop`: reruns a prompt on repeat while the session stays open | v2.1.105 |
 | `/team-onboarding` | Generates a personalized onboarding guide for the team | v2.1.106 |
-| `/undo` | Alias for `/rewind`: undoes Claude's last action | v2.1.108 |
+| `/undo` | Alias for `/rewind`: returns to a checkpoint (conversation and/or code) | v2.1.108 |
 | `/recap` | Contextual session recap on return (resuming an interrupted session) | v2.1.108 |
 | `/reload-plugins` | Reload installed plugins without restarting | v2.1.69 |
-| `/tui` | Toggle terminal UI mode | v2.1.110 |
-| `/focus` | Focus mode: reduces distractions and centers Claude on the task | v2.1.110 |
+| `/tui [default\|fullscreen]` | Pick the terminal renderer and relaunch into it | v2.1.110 |
+| `/focus` | Focus view: last prompt, tool-call summary, final response (fullscreen only) | v2.1.110 |
 | `/keybindings` | Display and configure keyboard shortcuts | v2.1.100+ |
 | `/terminal-setup` | Terminal setup assistant | v2.1.100+ |
 | `/goal [condition]` | Autonomous multi-turn mode: Claude works until the condition is met, live overlay shows elapsed time, turns, and tokens | v2.1.139 |
@@ -2293,7 +2293,7 @@ For a broader survey of third-party tools in the ecosystem (session managers, ob
 
 *This Reference Guide synthesizes the 7 whitepapers of the Claude Code Ultimate Guide series and adds original content on migration, IDE integration, Git, advanced patterns, and development methodologies.*
 
-*Version 3.41.1 --- July 2026 (updated: Sonnet 5 default model, Dynamic Workflows, sub-agent nesting up to 5 levels, `/ultrareview`, `/less-permission-prompts`, read-only glob patterns skip permission prompts)*
+*Version 3.41.1 --- July 2026 (updated: Sonnet 5 default model, Dynamic Workflows, sub-agent nesting up to 5 levels, `/ultrareview`, `/fewer-permission-prompts`, read-only glob patterns skip permission prompts)*
 
 ---
 

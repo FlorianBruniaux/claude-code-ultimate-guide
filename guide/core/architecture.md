@@ -1573,7 +1573,9 @@ This convergence suggests that the "less scaffolding, more model" approach scale
 | Source | URL | Topics |
 |--------|-----|--------|
 | Engineering Blog | anthropic.com/engineering/claude-code-best-practices | Master loop, philosophy |
-| Setup Docs | code.claude.com/docs/en/setup | Tools, commands |
+| Setup Docs | code.claude.com/docs/en/setup | Install, auth, release channels |
+| Commands Reference | code.claude.com/docs/en/commands | **Source of truth for every built-in slash command**, aliases, bundled skills and workflows |
+| CLI Reference | code.claude.com/docs/en/cli-reference | Launch-time flags and subcommands |
 | Context Windows | platform.claude.com/docs/en/build-with-claude/context-windows | Token limits |
 | Hooks Reference | code.claude.com/docs/en/hooks | Hook system |
 | Hooks Guide | code.claude.com/docs/en/hooks-guide | Hook examples |
