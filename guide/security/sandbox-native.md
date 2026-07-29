@@ -224,6 +224,16 @@ The profile applies to `bwrap` itself, not to the commands it runs inside the sa
 
 > **"Entire computer" includes your credentials.** There is no built-in denylist, so `~/.ssh` and `~/.aws/credentials` are readable by every sandboxed command until you list them in [`sandbox.credentials.files`](../core/settings-reference.md#sandboxcredentialsfiles) or `filesystem.denyRead`. Enabling the sandbox does not protect them; declaring them does.
 
+**A `permissions.deny` read rule does not reach a Bash subprocess.** This is the single most expensive misunderstanding in the whole model, because the rule looks like it protects the file and it reads like a denylist. It governs the Read tool only.
+
+A double dissociation measured on 2.1.220 settles it. `~/.npmrc` carried a `sandbox.credentials.files` entry and no deny rule, and `cat ~/.npmrc` returned `Operation not permitted` five times out of five. A project `.env` carried `Read(**/.env*)` in `permissions.deny` and no credentials entry, and `cat .env` returned exit 0 five times out of five on a file holding real secrets. Same session, same machine, opposite outcomes, and the only variable is which mechanism declared the path.
+
+Two consequences follow. Only `sandbox.credentials.files` reaches sandboxed commands, and it resolves absolute paths rather than `**/` patterns, so a rule shaped like `**/.env*` has nothing to compile into the Seatbelt profile. Since `.env` files live wherever projects put them, no absolute path covers them, and a `PreToolUse` hook on Bash is the only closing move. Scope it to the readers that print or copy (`cat`, `head`, `grep`, `base64`, `cp`) and leave `source .env` alone, otherwise you break the normal way developers load their own variables.
+
+**Two editor directories are write-denied even inside `allowWrite`.** Writing to `.idea/` and `.vscode/` fails under a path already listed in `sandbox.filesystem.allowWrite`, because the deny resolves inside the allow. Adding a narrower `allowWrite` entry does not take the ground back. Tested alongside `.serena`, `.cursor`, `.zed`, `.fleet` and `.settings`, which all accept writes, so the denial is specific to those two names rather than a general rule about dotted config directories.
+
+This surfaces as a supply-chain paper cut: an npm package that ships a `.idea/` folder in its tarball kills `pnpm install` during extraction, and `node_modules/` is left truncated. Running the install in a real terminal is the cheap fix. Putting `pnpm install*` in `excludedCommands` also works and is a much larger concession, since it unsandboxes every postinstall script in the dependency tree.
+
 **The session temp directory is not your shell's.** Claude Code points `$TMPDIR` at a per-session directory for sandboxed commands, so tools that write temp files work without extra configuration. Unsandboxed commands, including anything in `excludedCommands`, inherit your shell's `$TMPDIR` unchanged. The two therefore resolve to different paths, and `/tmp` itself is not writable from inside the sandbox. To pass a file between a sandboxed and an unsandboxed command, write it under the working directory instead. Setting [`filesystem.disabled`](../core/settings-reference.md#sandboxfilesystemdisabled) stops the override and both resolve to the shell value again.
 
 **Git worktrees**: when the working directory is a linked worktree, the sandbox also allows writes to the main repository's shared `.git` directory so `git commit` can update refs and the index. Writes to `hooks/` and `config` inside it stay denied.
@@ -322,10 +332,10 @@ All network connections from sandboxed commands are routed through a SOCKS5 prox
 
 ### Domain Filtering
 
-**Two modes**:
+**Two modes**, selected by [`strictAllowlist`](../core/settings-reference.md#sandboxnetworkstrictallowlist):
 
-1. **Allowlist (default)**: Permit most traffic, block specific destinations
-2. **Denylist**: Block all traffic, allow only specified destinations
+1. **Permissive (default)**: a host outside `allowedDomains` raises a permission prompt
+2. **Strict** (`strictAllowlist: true`): a host outside the list fails outright, no prompt
 
 **Configuration**:
 
@@ -333,7 +343,7 @@ All network connections from sandboxed commands are routed through a SOCKS5 prox
 {
   "sandbox": {
     "network": {
-      "policy": "deny",
+      "strictAllowlist": true,
       "allowedDomains": [
         "api.anthropic.com",
         "*.npmjs.org",
@@ -345,6 +355,10 @@ All network connections from sandboxed commands are routed through a SOCKS5 prox
   }
 }
 ```
+
+> **Auto-allow mode makes the default list inert.** The permissive mode relies on a prompt, and [`autoAllowBashIfSandboxed`](#auto-allow-mode) answers that prompt for you. Run both together and every host is reachable: `example.com` and `api.openai.com` returned HTTP 200 from a sandboxed command whose `allowedDomains` held 23 unrelated entries. The list is documentation until `strictAllowlist` is on, so audit for the pair rather than for the presence of a domain list.
+
+Enable strict mode only once the list has survived a week of real work, since it converts every missing domain from a prompt into a hard failure. Note also that `github.com` does not cover `codeload.github.com`, which is where npm and pnpm fetch git dependencies and tarballs.
 
 **Pattern matching**:
 
@@ -783,6 +797,40 @@ flowchart TD
 ---
 
 ## 13. Troubleshooting
+
+### Check whether the command actually ran sandboxed
+
+Most sandbox bug reports are measurement errors, and one variable explains nearly all of them. Because `excludedCommands` unsandboxes the whole Bash invocation rather than the matching command alone, a probe sharing a line with `git`, `gh`, `ssh` or `docker` reports on the unsandboxed world. Sessions then trade contradictory findings about the same machine.
+
+`$TMPDIR` settles it for free. Sandboxed commands get a per-session directory; unsandboxed ones inherit the shell's value:
+
+```bash
+echo $TMPDIR
+# /tmp/claude-501            -> sandboxed
+# /var/folders/…/T/          -> this invocation escaped the sandbox
+```
+
+An A/B on the same machine, binding a Unix socket in each case:
+
+| Invocation | `$TMPDIR` | `bind()` |
+|---|---|---|
+| socket probe alone | `/tmp/claude-501` | denied |
+| plus `git -C <path> fetch origin` | `/tmp/claude-501` | denied |
+| plus `git fetch origin` | `/var/folders/…/T/` | **succeeded** |
+
+The middle row is the same command with `-C <path>` inserted, which no longer matches the `git fetch *` exclusion. One flag decides whether the entire line runs sandboxed. Probe one command at a time, and rerun `echo $TMPDIR` in the same invocation whenever a result surprises you.
+
+A session that has been open since before a settings change will also disagree with a fresh one, since the profile is compiled at startup. Restart before diagnosing.
+
+### Commands that cannot work sandboxed at all
+
+Three failures have no configuration fix, so recognise them rather than tuning against them.
+
+**setuid binaries fail to exec.** `ps`, `top`, `su` and `login` all carry mode `04000` and report `operation not permitted`; `lsof` and `whoami` do not carry it and run fine. For the usual "is my dev server up" question, `lsof -nP -iTCP -sTCP:LISTEN` returns the command and PID and is a direct substitute for `ps aux | grep`.
+
+**Unix domain sockets cannot be bound.** `bind()` then `listen()` on an `AF_UNIX` path is denied in every writable directory, including `$TMPDIR`, and `network.allowLocalBinding` covers TCP only. Tools that open an IPC server at startup, `tsx` among them, will not start. Bundling first sidesteps it: `esbuild file.ts --bundle --platform=node --format=esm --outfile=tmp/x.mjs && node tmp/x.mjs`.
+
+**Writes to `.idea/` and `.vscode/`** are denied inside `allowWrite`, as covered under [Default Behavior](#default-behavior).
 
 ### Plan for a break-in week
 
