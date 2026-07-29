@@ -1,359 +1,485 @@
 #!/usr/bin/env python3
 """
-Re-sync line numbers in machine-readable/reference.yaml
+Audit, repair and migrate the positional references in machine-readable/reference.yaml.
 
-Strategy:
-  1. Build header index for each guide file (all lines starting with #)
-  2. For each reference.yaml entry with a line number, read what's at that line
-  3. If content doesn't look right, search by key-name keywords in headers
-  4. Output a patch file with proposed fixes + confidence scores
+This is the single tool for the job. It replaces the earlier pair
+(`resync-reference-yaml.py` + `fix-reference-refs.py`), which overlapped on
+key-name-to-heading matching while neither was a superset of the other: resync
+validated the content actually present at the stored line and understood both
+`"path:N"` strings and bare integers but had no notion of anchors; fix-reference-refs
+migrated to anchors, guarded counter-valued integers and applied CommonMark fence
+rules but never looked at what sat at the stored line. Both behaviours are kept here.
+
+Three reference shapes exist in reference.yaml:
+
+  A) anchor   key: "guide/foo/bar.md#some-heading"   drift-proof, preferred
+  B) line     key: "guide/foo/bar.md:123"            consumed by the landing (line stripped)
+  C) bare int key: 19597                             ultimate-guide.md line, LLM-only
 
 Usage:
-  python3 scripts/resync-reference-yaml.py [--apply]
-  python3 scripts/resync-reference-yaml.py --check [--max-broken N]
+  python3 scripts/resync-reference-yaml.py              # full report -> claudedocs/resync-report.md
+  python3 scripts/resync-reference-yaml.py --apply      # apply confident fixes to reference.yaml
+  python3 scripts/resync-reference-yaml.py --check [--max-broken N]   # CI gate
 
-  Without any flag: prints full report to stdout + saves claudedocs/resync-report.md
-  With --apply:     applies HIGH CONFIDENCE fixes directly to reference.yaml
-  With --check:     writes no files, prints a compact summary, and exits non-zero
-                     unless the number of broken references is <= --max-broken
-                     (default 0). Intended for use as a CI gate.
+Regression tests for the three traps this tool has already fallen into once
+(counter corruption, over-broad counter guard, fence desynchronisation) live in
+scripts/test-resync-reference-yaml.py and run in CI.
 """
 
 import argparse
+import difflib
 import re
 import sys
-import os
 from datetime import date
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).parent.parent
+REPO_ROOT = Path(__file__).resolve().parent.parent
 YAML_FILE = REPO_ROOT / "machine-readable" / "reference.yaml"
 REPORT_FILE = REPO_ROOT / "claudedocs" / "resync-report.md"
 
-# Files that reference.yaml points to (with bare integers → ultimate-guide.md)
-GUIDE_FILES = {
-    # These paths must match where the files actually live. They were left at the
-    # pre-migration bare `guide/<name>.md` form after the move into subdirectories,
-    # so the script built empty header indexes and reported a false "NOT FOUND" for
-    # ten files, which also made every reference into them unverifiable (UNKNOWN).
-    "guide/ultimate-guide.md": None,
-    "guide/core/architecture.md": None,
-    "guide/workflows/iterative-refinement.md": None,
-    "guide/ops/observability.md": None,
-    "guide/roles/learning-with-ai.md": None,
-    "guide/ecosystem/ai-ecosystem.md": None,
-    "guide/ops/ai-traceability.md": None,
-    "guide/security/sandbox-isolation.md": None,
-    "guide/security/sandbox-native.md": None,
-    "guide/core/known-issues.md": None,
-    "guide/ecosystem/third-party-tools.md": None,
-    "guide/roles/adoption-approaches.md": None,
-    "examples/skills/review-pr/SKILL.md": None,
-    "examples/agents/code-reviewer.md": None,
-}
+# Bare integers are resolved against the main guide.
+MAIN_GUIDE = "guide/ultimate-guide.md"
+
+# Only repo-relative paths under one of these roots are references. Without this
+# restriction the `"([^"]+):(\d+)"` pattern also matches URLs and prose:
+# "http://localhost:37777" parsed as a file named `http://localhost` at line 37777,
+# and a sentence ending in "... see guide/core/foo.md:2215" parsed as a file named
+# after the whole sentence. Both surfaced as FILE MISSING and inflated the count.
+PATH_ROOTS = ("guide", "examples", "docs", "machine-readable", "whitepapers",
+              "scripts", "mcp-server", "quiz", "tools")
+PATH_ROOT_RE = "|".join(PATH_ROOTS)
+
+# ---------------------------------------------------------------------------
+# Trap 1 + 2: counter-valued integers
+#
+# Bare integers in reference.yaml are NOT all line numbers. Some are quantities:
+# resource_evaluations_count: 167, ui_ux_pro_max_stars: 33700. Rewriting one of
+# those with a line number is silent data corruption.
+#
+# The guard matches on SUFFIX only and the list stays short. An earlier version
+# matched substrings anywhere in the key and swallowed memory_files,
+# cost_optimization, ui_ux_pro_max_guide and three others, which are genuine line
+# refs that then silently stopped being repaired. Protecting a real reference
+# leaves it visibly unrepaired; corrupting a counter is silent and propagates.
+# So the guard is narrow, and an independent bounds check catches the rest: a
+# value past the end of the target file cannot be a line number whatever the key
+# is called.
+# ---------------------------------------------------------------------------
+COUNT_SUFFIX = re.compile(
+    r'_(count|counts|total|totals|num|nb|stars|pct|percent|questions|'
+    r'categories|version|year)$')
 
 
-def build_header_index(filepath: Path) -> list[tuple[int, str]]:
-    """Return list of (line_num, header_text) for all # headers."""
-    headers = []
+def is_count_value(key: str, value: int, max_lines: int) -> tuple[bool, str]:
+    """Return (protected, reason). Either guard alone is enough to protect."""
+    if COUNT_SUFFIX.search(key):
+        return True, "count suffix"
+    if value > max_lines:
+        return True, f"> {max_lines} lines in target file"
+    return False, ""
+
+
+# ---------------------------------------------------------------------------
+# Trap 3: fence tracking
+# ---------------------------------------------------------------------------
+def headings(path: Path) -> list[tuple[int, int, str]]:
+    """
+    Return [(line_no, level, text)] for every ATX heading outside a code fence.
+
+    CommonMark fence semantics, not a naive toggle. `startswith("```") -> flip`
+    desynchronises on any file with an odd fence count (a 4-backtick block
+    containing 3-backtick examples closes nothing). enterprise-governance.md has
+    51 fence lines: the toggle got stuck inside a block, dropped every heading
+    after it, and reported 9 perfectly valid anchors as broken. A closing fence
+    must use the same character, be at least as long as the opener, and carry
+    nothing but whitespace after it.
+    """
+    out = []
+    fence_char, fence_len = None, 0
     try:
-        with open(filepath, encoding="utf-8") as f:
-            for i, line in enumerate(f, 1):
-                stripped = line.rstrip()
-                if stripped.startswith("#"):
-                    headers.append((i, stripped))
-    except FileNotFoundError:
-        pass
-    return headers
+        fh = open(path, encoding="utf-8", errors="ignore")
+    except (FileNotFoundError, IsADirectoryError):
+        return out
+    with fh:
+        for n, raw in enumerate(fh, 1):
+            s = raw.lstrip()
+            m = re.match(r'^([`~]{3,})(.*)$', s)
+            if m:
+                marker, rest = m.group(1), m.group(2).strip()
+                if fence_char is None:
+                    fence_char, fence_len = marker[0], len(marker)
+                    continue
+                if marker[0] == fence_char and len(marker) >= fence_len and not rest:
+                    fence_char, fence_len = None, 0
+                    continue
+            if fence_char is not None:
+                continue
+            m = re.match(r'^(#{1,6})\s+(.*)$', raw)
+            if m:
+                out.append((n, len(m.group(1)), m.group(2).strip()))
+    return out
 
 
-def get_line_content(filepath: Path, line_num: int, context: int = 2) -> str:
-    """Return content around a given line number."""
-    try:
-        with open(filepath, encoding="utf-8") as f:
-            lines = f.readlines()
-        start = max(0, line_num - 1 - context)
-        end = min(len(lines), line_num + context)
-        result = []
-        for i in range(start, end):
-            marker = ">>>" if i == line_num - 1 else "   "
-            result.append(f"{marker} {i+1}: {lines[i].rstrip()}")
-        return "\n".join(result)
-    except FileNotFoundError:
-        return "(file not found)"
+def slugify(heading_text: str) -> str:
+    """GitHub-style slug, honouring an explicit {#custom-id}."""
+    ex = re.search(r'\{#([^}]+)\}', heading_text)
+    if ex:
+        return ex.group(1)
+    h = re.sub(r'`', '', heading_text)
+    h = re.sub(r'\[([^\]]*)\]\([^)]*\)', r'\1', h)
+    return re.sub(r'[^\w\s\-]', '', h.lower(), flags=re.UNICODE).strip().replace(' ', '-')
+
+
+def slugs(path: Path) -> set[str]:
+    out = set()
+    for _, _, h in headings(path):
+        ex = re.search(r'\{#([^}]+)\}', h)
+        if ex:
+            out.add(ex.group(1))
+            h = re.sub(r'\{#[^}]+\}', '', h).strip()
+        out.add(slugify(h))
+    return out
+
+
+# ---------------------------------------------------------------------------
+# Caches
+# ---------------------------------------------------------------------------
+_headings_cache: dict[str, list[tuple[int, int, str]]] = {}
+_slugs_cache: dict[str, set[str]] = {}
+_len_cache: dict[str, int] = {}
+
+
+def get_headings(rel_path: str) -> list[tuple[int, int, str]]:
+    """
+    Header index for any referenced file, built on demand.
+
+    The previous version indexed a hardcoded whitelist of 14 files. Every
+    reference into a file outside that list was scored against an empty index and
+    reported UNKNOWN, which made 29 tractable references look like undecidable
+    ones. There is no reason for the list: the set of files to index is exactly
+    the set of files referenced.
+    """
+    if rel_path not in _headings_cache:
+        _headings_cache[rel_path] = headings(REPO_ROOT / rel_path)
+    return _headings_cache[rel_path]
+
+
+def get_slugs(rel_path: str) -> set[str]:
+    if rel_path not in _slugs_cache:
+        _slugs_cache[rel_path] = slugs(REPO_ROOT / rel_path)
+    return _slugs_cache[rel_path]
+
+
+def file_length(rel_path: str) -> int:
+    if rel_path not in _len_cache:
+        p = REPO_ROOT / rel_path
+        try:
+            with open(p, encoding="utf-8", errors="ignore") as f:
+                _len_cache[rel_path] = sum(1 for _ in f)
+        except (FileNotFoundError, IsADirectoryError):
+            _len_cache[rel_path] = 0
+    return _len_cache[rel_path]
+
+
+# ---------------------------------------------------------------------------
+# Scoring
+# ---------------------------------------------------------------------------
+NOISE = {"the", "a", "an", "and", "or", "of", "in", "to", "for",
+         "is", "at", "by", "on", "it", "its", "from", "with",
+         "guide", "section", "line", "ref", "reference", "api",
+         "mode", "modes", "type", "types", "table", "example",
+         "examples", "list", "advanced", "basic", "overview", "vs"}
+
+STOP = {"guide", "section", "ref", "line", "the", "and", "for", "with", "md",
+        "file", "doc", "docs", "link", "url", "path"}
 
 
 def key_to_keywords(key: str) -> list[str]:
-    """Convert snake_case key to search keywords, filtering noise words."""
-    noise = {"the", "a", "an", "and", "or", "of", "in", "to", "for",
-             "is", "at", "by", "on", "it", "its", "from", "with",
-             "guide", "section", "line", "ref", "reference", "api",
-             "mode", "modes", "type", "types", "table", "example",
-             "examples", "list", "advanced", "basic", "overview", "vs"}
     words = re.split(r"[_\-]", key.lower())
-    return [w for w in words if w not in noise and len(w) > 2]
+    return [w for w in words if w not in NOISE and len(w) > 2]
 
 
-def score_header(keywords: list[str], header_text: str) -> int:
-    """Score a header based on keyword matches (higher = better)."""
-    header_lower = header_text.lower()
-    score = 0
+def score_header(keywords: list[str], header_text: str) -> float:
+    """Classification scorer (inherited from resync). Drives status only."""
+    hl = header_text.lower()
+    s = 0.0
     for kw in keywords:
-        if kw in header_lower:
-            score += 1
-        # Partial match bonus
-        elif len(kw) > 4 and any(kw in w for w in header_lower.split()):
-            score += 0.5
-    return score
+        if kw in hl:
+            s += 1
+        elif len(kw) > 4 and any(kw in w for w in hl.split()):
+            s += 0.5
+    return s
 
 
-def find_best_header(key: str, headers: list[tuple[int, str]],
-                     old_line: int) -> tuple[int | None, float, str]:
-    """Find best matching header. Returns (new_line, confidence, header_text)."""
+def find_best_header(key: str, hs: list[tuple[int, int, str]]) -> tuple[int | None, float, str]:
+    """Classification match. Returns (line, confidence, heading_text)."""
     keywords = key_to_keywords(key)
     if not keywords:
         return None, 0.0, ""
-
-    best_score = 0
-    best_line = None
-    best_text = ""
-    second_best = 0
-
-    for line_num, header_text in headers:
-        score = score_header(keywords, header_text)
-        if score > best_score:
-            second_best = best_score
-            best_score = score
-            best_line = line_num
-            best_text = header_text
-        elif score > second_best:
-            second_best = score
-
+    best_score, best_line, best_text, second = 0.0, None, "", 0.0
+    for line_num, _, text in hs:
+        s = score_header(keywords, text)
+        if s > best_score:
+            second = best_score
+            best_score, best_line, best_text = s, line_num, text
+        elif s > second:
+            second = s
     if best_score == 0:
         return None, 0.0, ""
-
-    # Confidence: high if best is clearly better than second best
-    if best_score >= 2 and (second_best == 0 or best_score / max(second_best, 0.1) >= 2):
-        confidence = min(1.0, best_score / max(len(keywords), 1))
+    if best_score >= 2 and (second == 0 or best_score / max(second, 0.1) >= 2):
+        conf = min(1.0, best_score / max(len(keywords), 1))
     else:
-        confidence = 0.4 * (best_score / max(len(keywords), 1))
+        conf = 0.4 * (best_score / max(len(keywords), 1))
+    return best_line, conf, best_text
 
-    return best_line, confidence, best_text
+
+def toks(s: str) -> list[str]:
+    s = re.sub(r'[^\w\s]', ' ', s.lower())
+    return [t for t in re.split(r'[\s_]+', s) if len(t) > 2 and t not in STOP]
 
 
-def parse_yaml_line_refs(yaml_content: str) -> list[dict]:
-    """
-    Parse reference.yaml and extract all line number references.
-    Returns list of {key, file, old_line, yaml_line, raw_value}
-    """
-    results = []
-    in_main_guide_section = False
-    lines = yaml_content.split("\n")
+def overlap_score(key: str, heading_text: str) -> float:
+    """Apply-gate scorer: normalised token overlap with fuzzy matching."""
+    kt, ht = toks(key), toks(heading_text)
+    if not kt or not ht:
+        return 0.0
+    hits = 0.0
+    for t in kt:
+        best = 0.0
+        for h in ht:
+            if t == h:
+                best = 1.0
+            elif len(t) > 3 and (t in h or h in t):
+                best = max(best, 0.8)
+            else:
+                r = difflib.SequenceMatcher(None, t, h).ratio()
+                if r > 0.86:
+                    best = max(best, r * 0.7)
+        hits += best
+    return hits / len(kt)
 
-    for i, line in enumerate(lines, 1):
-        stripped = line.strip()
-        if not stripped or stripped.startswith("#"):
-            # Track if we're in the main guide section (bare integers = ultimate-guide.md)
-            if "# Main guide (guide/ultimate-guide.md)" in stripped:
-                in_main_guide_section = True
-            elif stripped.startswith("#") and in_main_guide_section:
-                # New major section — stop treating bare ints as ultimate-guide.md
-                # But keep it true since the pattern continues after comments
-                pass
-            continue
 
-        # Pattern 1: key: "filepath:NNNN"  or  key: "filepath:NNNN"  # comment
-        m = re.match(r'^(\s*)(\S+):\s*"([^"]+):(\d+)"', line)
+MIN_CONF = 0.60
+MIN_MARGIN = 0.15
+
+
+def best_overlap_match(rel_path: str, key: str, cur_line: int):
+    """Return (line, slug, conf, margin, text) for the apply gate, or None."""
+    hs = get_headings(rel_path)
+    if not hs:
+        return None
+    scored = sorted(((overlap_score(key, h[2]), h) for h in hs), key=lambda x: -x[0])
+    top_s, top_h = scored[0]
+    runner = scored[1][0] if len(scored) > 1 else 0.0
+    ties = [h for s, h in scored if abs(s - top_s) < 1e-9]
+    if len(ties) > 1:
+        ties.sort(key=lambda h: abs(h[0] - cur_line))
+        top_h = ties[0]
+        runner = top_s  # ambiguous by definition, margin collapses to 0
+    return (top_h[0], slugify(top_h[2]), top_s, top_s - runner, top_h[2])
+
+
+# ---------------------------------------------------------------------------
+# Parsing
+# ---------------------------------------------------------------------------
+RE_ANCHOR = re.compile(
+    rf'^(\s*)([a-z0-9_]+):\s*"((?:{PATH_ROOT_RE})/[^"#\s]+)#([^"\s]+)"(.*)$')
+RE_LINE = re.compile(
+    rf'^(\s*)([a-z0-9_]+):\s*"((?:{PATH_ROOT_RE})/[^"#\s]+):(\d+)"(.*)$')
+RE_BARE = re.compile(r'^(\s*)([a-z0-9_]+):\s*(\d{3,5})\s*(#.*)?$')
+
+
+def parse_refs(yaml_content: str) -> list[dict]:
+    refs = []
+    for i, line in enumerate(yaml_content.split("\n"), 1):
+        m = RE_ANCHOR.match(line)
         if m:
-            key = m.group(2).rstrip(":")
-            filepath = m.group(3)
-            line_num = int(m.group(4))
-            # `[^"]+` also swallows URLs and prose. "http://localhost:37777" parsed
-            # as file "http://localhost" at line 37777, and a sentence ending in
-            # "... see guide/core/foo.md:2215" parsed as a file named after the whole
-            # sentence. Both surfaced as FILE MISSING and inflated the broken count.
-            # Only repo-relative paths under a known top-level directory are refs.
-            if not re.match(r'^(guide|examples|docs|machine-readable|whitepapers|'
-                            r'scripts|mcp-server|quiz|tools)/', filepath):
+            refs.append({"key": m.group(2), "file": m.group(3), "anchor": m.group(4),
+                         "old_line": None, "yaml_line": i, "type": "anchor_ref",
+                         "indent": m.group(1), "tail": m.group(5)})
+            continue
+        m = RE_LINE.match(line)
+        if m:
+            refs.append({"key": m.group(2), "file": m.group(3), "anchor": None,
+                         "old_line": int(m.group(4)), "yaml_line": i, "type": "string_ref",
+                         "indent": m.group(1), "tail": m.group(5)})
+            continue
+        m = RE_BARE.match(line)
+        if m:
+            n = int(m.group(3))
+            if n <= 100:
                 continue
-            results.append({
-                "key": key,
-                "file": filepath,
-                "old_line": line_num,
-                "yaml_line": i,
-                "raw_value": f'"{filepath}:{line_num}"',
-                "type": "string_ref",
-            })
-            continue
-
-        # Pattern 2: key: NNNN  (bare integer, implies ultimate-guide.md if in that section)
-        m = re.match(r'^(\s*)(\S+):\s*(\d{3,5})\s*(?:#.*)?$', line)
-        if m:
-            key = m.group(2).rstrip(":")
-            line_num = int(m.group(3))
-            # Heuristic: if line_num > 100 and key looks like a content reference
-            # (not a count, score, year etc.)
-            if line_num > 100 and not any(x in key for x in
-                    ["count", "score", "stars", "year", "limit", "budget",
-                     "savings", "total", "ratio", "budget", "sizing"]):
-                results.append({
-                    "key": key,
-                    "file": "guide/ultimate-guide.md",
-                    "old_line": line_num,
-                    "yaml_line": i,
-                    "raw_value": str(line_num),
-                    "type": "bare_int",
-                })
-
-    return results
+            refs.append({"key": m.group(2), "file": MAIN_GUIDE, "anchor": None,
+                         "old_line": n, "yaml_line": i, "type": "bare_int",
+                         "indent": m.group(1), "tail": m.group(4) or ""})
+    return refs
 
 
-def validate_line(filepath: Path, line_num: int) -> str:
-    """Return the content at a given line (or error)."""
+def line_content(rel_path: str, line_num: int) -> str:
+    p = REPO_ROOT / rel_path
     try:
-        with open(filepath, encoding="utf-8") as f:
+        with open(p, encoding="utf-8", errors="ignore") as f:
             lines = f.readlines()
-        if 1 <= line_num <= len(lines):
-            return lines[line_num - 1].rstrip()
-        return f"(line {line_num} out of range, file has {len(lines)} lines)"
-    except FileNotFoundError:
+    except (FileNotFoundError, IsADirectoryError):
         return "(file not found)"
+    if 1 <= line_num <= len(lines):
+        return lines[line_num - 1].rstrip()
+    return f"(line {line_num} out of range, file has {len(lines)} lines)"
 
 
 def is_sensible_content(key: str, content: str) -> bool:
-    """Quick check if content at old line is plausibly related to the key."""
+    """Does the text at the stored position plausibly belong to this key?"""
     if not content or content.startswith("("):
         return False
     keywords = key_to_keywords(key)
     if not keywords:
         return True
-    content_lower = content.lower()
-    matches = sum(1 for kw in keywords if kw in content_lower)
+    cl = content.lower()
+    matches = sum(1 for kw in keywords if kw in cl)
     return matches >= max(1, len(keywords) // 2)
 
 
+# ---------------------------------------------------------------------------
+# Classification
+# ---------------------------------------------------------------------------
+def classify(ref: dict) -> dict:
+    """Attach status, suggested target and confidence to a reference."""
+    key, rel_path = ref["key"], ref["file"]
+    abs_path = REPO_ROOT / rel_path
+
+    if ref["type"] == "anchor_ref":
+        if not abs_path.exists():
+            return {**ref, "status": "FILE_MISSING", "confidence": 0.0,
+                    "current_content": "(file not found)", "new_line": None,
+                    "suggested_header": ""}
+        ok = ref["anchor"] in get_slugs(rel_path)
+        return {**ref, "status": "OK" if ok else "ANCHOR_DEAD", "confidence": 1.0 if ok else 0.0,
+                "current_content": f"#{ref['anchor']}", "new_line": None,
+                "suggested_header": ""}
+
+    if ref["type"] == "bare_int":
+        protected, why = is_count_value(key, ref["old_line"], file_length(MAIN_GUIDE))
+        if protected:
+            return {**ref, "status": "PROTECTED", "confidence": 0.0,
+                    "current_content": f"(quantity: {why})", "new_line": None,
+                    "suggested_header": ""}
+
+    if not abs_path.exists():
+        return {**ref, "status": "FILE_MISSING", "confidence": 0.0,
+                "current_content": "(file not found)", "new_line": None,
+                "suggested_header": ""}
+
+    content = line_content(rel_path, ref["old_line"])
+    if is_sensible_content(key, content):
+        return {**ref, "status": "OK", "confidence": 1.0, "current_content": content,
+                "new_line": None, "suggested_header": ""}
+
+    new_line, conf, header_text = find_best_header(key, get_headings(rel_path))
+    if conf >= 0.7:
+        status = "HIGH"
+    elif conf >= 0.4:
+        status = "MEDIUM"
+    elif new_line:
+        status = "LOW"
+    else:
+        status = "UNKNOWN"
+    return {**ref, "status": status, "confidence": conf, "current_content": content,
+            "new_line": new_line, "suggested_header": header_text}
+
+
+BROKEN_STATUSES = {"HIGH", "MEDIUM", "LOW", "UNKNOWN", "FILE_MISSING", "ANCHOR_DEAD"}
+
+
+# ---------------------------------------------------------------------------
+# Apply
+# ---------------------------------------------------------------------------
+def plan_fixes(entries: list[dict]) -> list[dict]:
+    """
+    Decide what to rewrite, using the stricter overlap scorer with a margin.
+
+    string_ref -> anchor migration is preferred over line repair: anchors survive
+    insertions above them, line numbers do not. bare ints are repaired in place
+    and never converted, because the landing turns every deep_dive string starting
+    with `guide/` into a Cmd+K entry and ~90 new entries pointing into a 26K-line
+    file is a UX change to another repo, not an index fix.
+    """
+    plan = []
+    for e in entries:
+        if e["status"] not in BROKEN_STATUSES or e["type"] == "anchor_ref":
+            continue
+        bm = best_overlap_match(e["file"], e["key"], e["old_line"])
+        if not bm:
+            continue
+        hl, slug, conf, margin, text = bm
+        if conf < MIN_CONF or margin < MIN_MARGIN:
+            continue
+        if e["type"] == "string_ref":
+            plan.append({**e, "action": "migrate",
+                         "old_raw": f'"{e["file"]}:{e["old_line"]}"',
+                         "new_raw": f'"{e["file"]}#{slug}"',
+                         "apply_conf": conf, "heading": text, "heading_line": hl})
+        elif hl != e["old_line"]:
+            plan.append({**e, "action": "repair",
+                         "old_raw": str(e["old_line"]), "new_raw": str(hl),
+                         "apply_conf": conf, "heading": text, "heading_line": hl})
+    return plan
+
+
+def apply_plan(yaml_content: str, plan: list[dict]) -> tuple[str, int]:
+    lines = yaml_content.split("\n")
+    applied = 0
+    for p in plan:
+        idx = p["yaml_line"] - 1
+        if 0 <= idx < len(lines) and p["old_raw"] in lines[idx]:
+            lines[idx] = lines[idx].replace(p["old_raw"], p["new_raw"], 1)
+            applied += 1
+    return "\n".join(lines), applied
+
+
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
 def parse_args():
-    parser = argparse.ArgumentParser(
-        description="Re-sync line numbers in machine-readable/reference.yaml")
-    parser.add_argument("--apply", action="store_true",
-                         help="Apply HIGH+MEDIUM confidence fixes directly to reference.yaml")
-    parser.add_argument("--check", action="store_true",
-                         help="CI gate mode: no files written, compact summary, "
-                              "exit non-zero unless broken count <= --max-broken")
-    parser.add_argument("--max-broken", type=int, default=0,
-                         help="Max allowed broken references in --check mode (default 0)")
-    return parser.parse_args()
+    ap = argparse.ArgumentParser(
+        description="Audit, repair and migrate positional refs in reference.yaml")
+    ap.add_argument("--apply", action="store_true",
+                    help="rewrite reference.yaml with the confident fixes")
+    ap.add_argument("--check", action="store_true",
+                    help="CI gate: compact summary, no files written, exit code is the gate")
+    ap.add_argument("--max-broken", type=int, default=0,
+                    help="max allowed broken references in --check mode (default 0)")
+    return ap.parse_args()
 
 
 def main():
     args = parse_args()
-    apply_fixes = args.apply
-    check_mode = args.check
-    quiet = check_mode  # suppress the verbose progress/report output in --check mode
+    quiet = args.check
 
-    if not quiet:
-        print("Reading reference.yaml...")
-    with open(YAML_FILE, encoding="utf-8") as f:
-        yaml_content = f.read()
+    yaml_content = YAML_FILE.read_text(encoding="utf-8")
+    refs = parse_refs(yaml_content)
+    entries = [classify(r) for r in refs]
 
-    if not quiet:
-        print("Building header indexes...")
-    header_indexes = {}
-    for rel_path in GUIDE_FILES:
-        abs_path = REPO_ROOT / rel_path
-        idx = build_header_index(abs_path)
-        header_indexes[rel_path] = idx
-        if not quiet:
-            if idx:
-                print(f"  {rel_path}: {len(idx)} headers")
-            else:
-                print(f"  {rel_path}: NOT FOUND or no headers")
+    stats = {}
+    for e in entries:
+        stats[e["status"]] = stats.get(e["status"], 0) + 1
+    broken = sum(v for k, v in stats.items() if k in BROKEN_STATUSES)
 
-    if not quiet:
-        print("\nParsing YAML references...")
-    refs = parse_yaml_line_refs(yaml_content)
-    if not quiet:
-        print(f"Found {len(refs)} line number references")
+    def g(k):
+        return stats.get(k, 0)
 
-    report_lines = [
-        "# Re-sync Report: machine-readable/reference.yaml",
-        f"Generated: {date.today().isoformat()}",
-        f"Total references scanned: {len(refs)}",
-        "",
-    ]
-
-    corrections = []  # (yaml_line, old_value, new_value, key)
-    stats = {"ok": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0, "file_missing": 0}
-
-    ok_entries = []
-    needs_fix = []
-
-    for ref in refs:
-        key = ref["key"]
-        rel_path = ref["file"]
-        old_line = ref["old_line"]
-        abs_path = REPO_ROOT / rel_path
-
-        current_content = validate_line(abs_path, old_line)
-        headers = header_indexes.get(rel_path, [])
-
-        if not headers and not abs_path.exists():
-            stats["file_missing"] += 1
-            needs_fix.append({**ref, "status": "FILE_MISSING", "new_line": None,
-                              "confidence": 0, "current_content": current_content,
-                              "suggested_header": ""})
-            continue
-
-        sensible = is_sensible_content(key, current_content)
-
-        if sensible:
-            stats["ok"] += 1
-            ok_entries.append({**ref, "current_content": current_content})
-        else:
-            new_line, confidence, header_text = find_best_header(key, headers, old_line)
-
-            if confidence >= 0.7:
-                level = "HIGH"
-                stats["high"] += 1
-            elif confidence >= 0.4:
-                level = "MEDIUM"
-                stats["medium"] += 1
-            elif new_line:
-                level = "LOW"
-                stats["low"] += 1
-            else:
-                level = "UNKNOWN"
-                stats["unknown"] += 1
-
-            needs_fix.append({
-                **ref,
-                "status": level,
-                "new_line": new_line,
-                "confidence": confidence,
-                "current_content": current_content,
-                "suggested_header": header_text,
-            })
-
-            if new_line and level in ("HIGH", "MEDIUM"):
-                if ref["type"] == "string_ref":
-                    old_val = f'"{rel_path}:{old_line}"'
-                    new_val = f'"{rel_path}:{new_line}"'
-                else:
-                    old_val = str(old_line)
-                    new_val = str(new_line)
-                corrections.append((ref["yaml_line"], old_val, new_val, key))
-
-    broken = stats["high"] + stats["medium"] + stats["low"] + stats["unknown"] + stats["file_missing"]
-
-    if check_mode:
-        # --check: no files written, compact summary only, exit code is the gate.
+    if args.check:
         print(f"Total references: {len(refs)}")
-        print(f"OK:            {stats['ok']}")
-        print(f"HIGH:          {stats['high']}")
-        print(f"MEDIUM:        {stats['medium']}")
-        print(f"LOW:           {stats['low']}")
-        print(f"UNKNOWN:       {stats['unknown']}")
-        print(f"FILE MISSING:  {stats['file_missing']}")
+        print(f"  anchors        {sum(1 for e in entries if e['type'] == 'anchor_ref')}")
+        print(f"  path:line      {sum(1 for e in entries if e['type'] == 'string_ref')}")
+        print(f"  bare ints      {sum(1 for e in entries if e['type'] == 'bare_int')}")
+        print(f"OK:            {g('OK')}")
+        print(f"PROTECTED:     {g('PROTECTED')}  (quantities, never rewritten)")
+        print(f"HIGH:          {g('HIGH')}")
+        print(f"MEDIUM:        {g('MEDIUM')}")
+        print(f"LOW:           {g('LOW')}")
+        print(f"UNKNOWN:       {g('UNKNOWN')}")
+        print(f"ANCHOR DEAD:   {g('ANCHOR_DEAD')}")
+        print(f"FILE MISSING:  {g('FILE_MISSING')}")
         print(f"Broken total:  {broken} (max allowed: {args.max_broken})")
         if broken > args.max_broken:
             print(f"FAIL: {broken} broken references exceeds --max-broken {args.max_broken}")
@@ -361,102 +487,67 @@ def main():
         print("PASS")
         sys.exit(0)
 
-    # Build report
-    report_lines += [
+    plan = plan_fixes(entries)
+
+    print(f"Total references: {len(refs)}")
+    for k in ("OK", "PROTECTED", "HIGH", "MEDIUM", "LOW", "UNKNOWN",
+              "ANCHOR_DEAD", "FILE_MISSING"):
+        print(f"  {k:<13} {g(k)}")
+    print(f"Broken total:     {broken}")
+    print(f"Applicable fixes: {len(plan)} "
+          f"({sum(1 for p in plan if p['action'] == 'migrate')} migrate, "
+          f"{sum(1 for p in plan if p['action'] == 'repair')} repair)")
+
+    for p in plan[:40]:
+        print(f"  L{p['yaml_line']:<5} {p['action']:<8} {p['key'][:38]:<38} "
+              f"{p['old_raw']} -> {p['new_raw']}  conf={p['apply_conf']:.2f}")
+    if len(plan) > 40:
+        print(f"  ... and {len(plan) - 40} more")
+
+    # Report
+    rows = [
+        "# Re-sync Report: machine-readable/reference.yaml",
+        f"Generated: {date.today().isoformat()}",
+        f"Total references scanned: {len(refs)}",
+        "",
         "## Summary",
         "",
-        f"| Status | Count |",
-        f"|--------|-------|",
-        f"| OK (content matches) | {stats['ok']} |",
-        f"| HIGH confidence fix | {stats['high']} |",
-        f"| MEDIUM confidence fix | {stats['medium']} |",
-        f"| LOW confidence (manual review) | {stats['low']} |",
-        f"| UNKNOWN (no match found) | {stats['unknown']} |",
-        f"| FILE MISSING | {stats['file_missing']} |",
-        f"| **Total** | **{len(refs)}** |",
-        "",
-        f"Auto-fixable (HIGH + MEDIUM): **{stats['high'] + stats['medium']}**",
-        "",
+        "| Status | Count |",
+        "|--------|-------|",
     ]
+    for k in ("OK", "PROTECTED", "HIGH", "MEDIUM", "LOW", "UNKNOWN",
+              "ANCHOR_DEAD", "FILE_MISSING"):
+        rows.append(f"| {k} | {g(k)} |")
+    rows += [f"| **Broken total** | **{broken}** |", "",
+             f"Applicable without guessing: **{len(plan)}**", ""]
 
-    if needs_fix:
-        report_lines += ["## Entries Needing Correction", ""]
-        for entry in sorted(needs_fix, key=lambda x: (-x["confidence"], x["key"])):
-            status = entry["status"]
-            emoji = {"HIGH": "✅", "MEDIUM": "⚠️", "LOW": "🔶", "UNKNOWN": "❓", "FILE_MISSING": "🚫"}.get(status, "")
-            report_lines.append(f"### {emoji} {entry['key']} ({status}, conf={entry['confidence']:.2f})")
-            report_lines.append(f"- **File**: `{entry['file']}`")
-            report_lines.append(f"- **Old line**: {entry['old_line']}")
-            report_lines.append(f"- **Content at old line**: `{entry['current_content'][:100]}`")
-            if entry["new_line"]:
-                report_lines.append(f"- **Suggested line**: {entry['new_line']}")
-                report_lines.append(f"- **Header found**: `{entry['suggested_header']}`")
+    needs = [e for e in entries if e["status"] in BROKEN_STATUSES]
+    if needs:
+        rows += ["## Entries Needing Correction", ""]
+        for e in sorted(needs, key=lambda x: (x["file"], x["key"])):
+            rows.append(f"### {e['key']} ({e['status']}, conf={e['confidence']:.2f})")
+            rows.append(f"- **File**: `{e['file']}`")
+            rows.append(f"- **Stored**: {e['old_line'] if e['old_line'] else '#' + (e['anchor'] or '')}")
+            rows.append(f"- **Content there**: `{e['current_content'][:110]}`")
+            if e["new_line"]:
+                rows.append(f"- **Nearest heading match**: line {e['new_line']} "
+                            f"`{e['suggested_header'][:90]}`")
             else:
-                report_lines.append(f"- **Suggested line**: (not found — manual search needed)")
-            report_lines.append("")
+                rows.append("- **Nearest heading match**: none (manual search needed)")
+            rows.append("")
 
-    report_lines += ["## OK Entries (sample)", ""]
-    for entry in ok_entries[:20]:
-        report_lines.append(f"- `{entry['key']}`: line {entry['old_line']} → `{entry['current_content'][:80]}`")
-
-    report_content = "\n".join(report_lines)
-
-    # Write report
     REPORT_FILE.parent.mkdir(exist_ok=True)
-    with open(REPORT_FILE, "w", encoding="utf-8") as f:
-        f.write(report_content)
+    REPORT_FILE.write_text("\n".join(rows), encoding="utf-8")
     print(f"\nReport saved to {REPORT_FILE}")
 
-    # Print summary
-    print(f"\n{'='*60}")
-    print(f"OK:            {stats['ok']}")
-    print(f"HIGH fix:      {stats['high']}")
-    print(f"MEDIUM fix:    {stats['medium']}")
-    print(f"LOW fix:       {stats['low']}")
-    print(f"UNKNOWN:       {stats['unknown']}")
-    print(f"FILE MISSING:  {stats['file_missing']}")
-    print(f"Auto-fixable:  {stats['high'] + stats['medium']}")
-    print(f"{'='*60}")
-
-    if corrections:
-        print(f"\n{'='*60}")
-        print("PROPOSED CORRECTIONS (HIGH + MEDIUM confidence):")
-        print(f"{'='*60}")
-        for yaml_line, old_val, new_val, key in corrections[:30]:
-            print(f"  Line {yaml_line:4d} | {key}")
-            print(f"           {old_val} → {new_val}")
-        if len(corrections) > 30:
-            print(f"  ... and {len(corrections) - 30} more (see report)")
-
-    if apply_fixes and corrections:
-        print(f"\nApplying {len(corrections)} fixes to reference.yaml...")
-        content = yaml_content
-        applied = 0
-        for yaml_line_num, old_val, new_val, key in corrections:
-            # Find the exact occurrence of old_val near the yaml_line_num
-            # Use line-by-line replacement to be precise
-            lines = content.split("\n")
-            target_idx = yaml_line_num - 1
-            if target_idx < len(lines) and old_val in lines[target_idx]:
-                lines[target_idx] = lines[target_idx].replace(old_val, new_val, 1)
-                applied += 1
-            else:
-                # Try ±2 lines
-                for delta in [-1, 1, -2, 2]:
-                    idx = target_idx + delta
-                    if 0 <= idx < len(lines) and old_val in lines[idx]:
-                        lines[idx] = lines[idx].replace(old_val, new_val, 1)
-                        applied += 1
-                        break
-            content = "\n".join(lines)
-
-        with open(YAML_FILE, "w", encoding="utf-8") as f:
-            f.write(content)
-        print(f"Applied {applied}/{len(corrections)} fixes.")
-        print(f"Run without --apply to verify remaining issues.")
-    elif not apply_fixes and corrections:
-        print(f"\nRun with --apply to apply HIGH+MEDIUM confidence fixes automatically.")
-        print(f"LOW and UNKNOWN confidence fixes require manual review (see report).")
+    if args.apply and plan:
+        new_content, applied = apply_plan(yaml_content, plan)
+        YAML_FILE.write_text(new_content, encoding="utf-8")
+        print(f"Applied {applied}/{len(plan)} fixes to {YAML_FILE}")
+    elif args.apply:
+        print("Nothing to apply.")
+    else:
+        print("DRY RUN (pass --apply to write)")
 
 
 if __name__ == "__main__":
