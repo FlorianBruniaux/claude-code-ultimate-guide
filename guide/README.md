@@ -33,6 +33,7 @@ Core documentation for mastering Claude Code, organized by topic.
 | [cheatsheet.md](./cheatsheet.md) | 1-page printable quick reference | 5 min |
 | [core/architecture.md](./core/architecture.md) | How Claude Code works internally (master loop, tools, context) | 25 min |
 | [core/tools-reference.md](./core/tools-reference.md) | **Complete tools reference**: all 40 built-in tools, permission rule formats, per-tool behaviors (Bash timeouts, Edit read-before-edit, Glob cap, WebFetch lossy), and how-to for Monitor, Workflow, agent teams, Cron, Tasks API | 20 min |
+| [core/hooks-events-reference.md](./core/hooks-events-reference.md) | **Complete hooks reference**: all 30 hook events, matcher fields, input schemas, decision control formats, and timeout defaults, with copy-paste JSON examples | 15 min |
 | [core/methodologies.md](./core/methodologies.md) | 15 development methodologies reference (TDD, SDD, BDD, etc.) | 20 min |
 | [core/visual-reference.md](./core/visual-reference.md) | Visual cheatsheet — ASCII diagrams for key concepts | 5 min |
 | [core/claude-code-releases.md](./core/claude-code-releases.md) | Official release history (condensed) | 10 min |
@@ -42,6 +43,27 @@ Core documentation for mastering Claude Code, organized by topic.
 | [core/glossary.md](./core/glossary.md) | **Glossary**: official Claude Code terminology (31 terms, paragraph format, with links to guide sections) | 5 min |
 | [core/community-patterns.md](./core/community-patterns.md) | **Community Patterns**: ~130 community-coined patterns, workflow terms, AI engineering concepts, and quick-reference definitions | 10 min |
 | [diagrams/](./diagrams/) | **Visual Diagrams Series**: 41 Mermaid interactive diagrams for model selection, agent lifecycle, security, multi-agent patterns | 15 min |
+
+---
+
+## Visual Diagrams
+
+**48 interactive Mermaid diagrams** across 12 thematic files, with GitHub-native Mermaid rendering and an ASCII fallback for every diagram. See [diagrams/](./diagrams/) for the full navigation index and use-case guides.
+
+| File | Diagrams | Topics |
+|------|----------|--------|
+| [diagrams/01-foundations.md](./diagrams/01-foundations.md) | 4 | 4-layer model, workflow pipeline, decision tree, permission modes |
+| [diagrams/02-context-and-sessions.md](./diagrams/02-context-and-sessions.md) | 4 | Context zones, memory hierarchy, session teleportation, fresh context |
+| [diagrams/03-configuration-system.md](./diagrams/03-configuration-system.md) | 4 | Config precedence, skills vs commands vs agents, agent lifecycle, hooks |
+| [diagrams/04-architecture-internals.md](./diagrams/04-architecture-internals.md) | 4 | Master loop, tool categories, system prompt assembly, sub-agent isolation |
+| [diagrams/05-mcp-ecosystem.md](./diagrams/05-mcp-ecosystem.md) | 4 | MCP ecosystem map, MCP architecture, rug pull attack, config hierarchy |
+| [diagrams/06-development-workflows.md](./diagrams/06-development-workflows.md) | 5 | TDD cycle, spec-first pipeline, plan-driven, iterative refinement, AI fluency paths |
+| [diagrams/07-multi-agent-patterns.md](./diagrams/07-multi-agent-patterns.md) | 5 | Agent topologies, worktrees, dual-instance, horizontal scaling, decision matrix |
+| [diagrams/08-security-and-production.md](./diagrams/08-security-and-production.md) | 4 | 3-layer defense, sandbox decision, verification paradox, CI/CD pipeline |
+| [diagrams/09-cost-and-optimization.md](./diagrams/09-cost-and-optimization.md) | 4 | Model selection, cost optimization, subscription tiers, token reduction |
+| [diagrams/10-adoption-and-learning.md](./diagrams/10-adoption-and-learning.md) | 3 | Onboarding paths, UVAL protocol, trust calibration |
+| [diagrams/11-context-engineering.md](./diagrams/11-context-engineering.md) | 4 | 3-layer context system, adherence degradation, modular architecture, rule placement |
+| [diagrams/12-enterprise-governance.md](./diagrams/12-enterprise-governance.md) | 3 | Governance risk tiers, MCP approval workflow, data classification |
 
 ---
 
@@ -90,6 +112,7 @@ Core documentation for mastering Claude Code, organized by topic.
 |------|-------------|------|
 | [ops/devops-sre.md](./ops/devops-sre.md) | FIRE framework for infrastructure diagnosis and incident response | 30 min |
 | [ops/observability.md](./ops/observability.md) | Session monitoring and cost tracking | 15 min |
+| [ops/api-gateway.md](./ops/api-gateway.md) | **API Gateway**: centralize cost control, budget enforcement, model allowlists, and usage tracking with LiteLLM Gateway or Portkey | 15 min |
 | [ops/ai-traceability.md](./ops/ai-traceability.md) | AI attribution, disclosure policies, git-ai, compliance | 20 min |
 | [ops/team-metrics.md](./ops/team-metrics.md) | **Team metrics for AI-augmented engineering**: DORA, SPACE, DX Core 4, AI-specific signals, by team size (5–25 people) | 20 min |
 | [ops/ai-unit-economics.md](./ops/ai-unit-economics.md) | **AI unit economics**: per-task cost decomposition, real cost levers (routing, sub-agent isolation, exit criteria), autonomous agent break-even point, team budget governance | 15 min |
@@ -111,8 +134,10 @@ Hands-on guides for effective development patterns:
 | [workflows/agent-teams.md](./workflows/agent-teams.md) | Orchestrating multi-agent teams for complex tasks |
 | [workflows/agent-teams-quick-start.md](./workflows/agent-teams-quick-start.md) | Quick start guide for agent team patterns |
 | [workflows/agentic-software-factories.md](./workflows/agentic-software-factories.md) | Orientation map: from a single session to a software factory, and when a closed platform actually wins |
+| [workflows/dynamic-workflows.md](./workflows/dynamic-workflows.md) | JavaScript-orchestrated multi-agent pipelines: deterministic control flow, parallel fan-out, automatic resume |
 | [workflows/dual-instance-planning.md](./workflows/dual-instance-planning.md) | Dual-instance planning: Opus plans, Sonnet executes |
 | [workflows/event-driven-agents.md](./workflows/event-driven-agents.md) | Event-driven agent coordination patterns |
+| [workflows/github-actions.md](./workflows/github-actions.md) | Step-by-step claude-code-action setup: PR review on mention, automatic review on push, issue triage |
 | [workflows/support-csm-agent.md](./workflows/support-csm-agent.md) | Internal support/CSM agent: ticket triage, DB diagnosis, CRM via MCP |
 | [workflows/plan-pipeline.md](./workflows/plan-pipeline.md) | End-to-end plan pipeline: start, validate, execute |
 | [workflows/design-to-code.md](./workflows/design-to-code.md) | Convert Figma/wireframes to working code |

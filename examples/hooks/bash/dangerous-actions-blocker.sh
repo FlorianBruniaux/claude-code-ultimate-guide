@@ -13,15 +13,63 @@ INPUT=$(cat)
 TOOL_NAME=$(echo "$INPUT" | jq -r '.tool_name // empty')
 TOOL_INPUT=$(echo "$INPUT" | jq -r '.tool_input // empty')
 
+# Canonicalize a path: resolve symlinks, "..", and duplicate slashes.
+# Works when the leaf does not exist yet (Write creates new files): the
+# deepest existing ancestor is resolved and the remainder re-attached.
+canonicalize_path() {
+    local target="$1"
+    [[ -z "$target" ]] && return 0
+    [[ "$target" != /* ]] && target="$(pwd)/$target"
+
+    if command -v python3 >/dev/null 2>&1; then
+        if python3 -c 'import os, sys; print(os.path.realpath(sys.argv[1]))' "$target" 2>/dev/null; then
+            return 0
+        fi
+    fi
+
+    # Fallback without python3: walk up to the deepest existing directory.
+    local suffix="" probe="$target" resolved=""
+    while [[ ! -d "$probe" && "$probe" != "/" && "$probe" != "." ]]; do
+        suffix="/$(basename "$probe")$suffix"
+        probe="$(dirname "$probe")"
+    done
+    resolved=$(cd -P "$probe" 2>/dev/null && pwd -P) || resolved="$probe"
+    [[ "$resolved" == "/" ]] && resolved=""
+    printf '%s\n' "${resolved}${suffix}"
+}
+
+# True when $1 is the same path as $2, or sits under it.
+# Compares whole path segments, so /tmpfoo is not "inside" /tmp.
+path_is_within() {
+    local child="$1" parent="$2"
+    [[ -z "$parent" || -z "$child" ]] && return 1
+    parent="${parent%/}"
+    if [[ -z "$parent" ]]; then
+        [[ "$child" == /* ]]
+        return
+    fi
+    [[ "$child" == "$parent" || "$child" == "$parent"/* ]]
+}
+
 # === BASH: Dangerous commands ===
 if [[ "$TOOL_NAME" == "Bash" ]]; then
     COMMAND=$(echo "$TOOL_INPUT" | jq -r '.command // empty')
 
-    # Dangerous patterns
+    # Recursive delete aimed at a root target: /, /*, ~, $HOME.
+    # An anchored regex is used instead of a substring test, otherwise
+    # "rm -rf /" matches every absolute path and blocks legitimate
+    # deletions such as /tmp/build or /Users/me/project/dist.
+    # Tolerates flag order (-rf, -fr, -r -f, --recursive --force),
+    # optional quotes around the target, and trailing whitespace.
+    RM_ROOT_PATTERN='(^|[;&|(]|[[:space:]])[[:space:]]*rm([[:space:]]+(-[a-zA-Z]+|--[a-zA-Z-]+))*[[:space:]]+(-[a-zA-Z]*[rR][a-zA-Z]*|--recursive)([[:space:]]+(-[a-zA-Z]+|--[a-zA-Z-]+))*[[:space:]]+['\''"]?(/|~|\$\{?HOME\}?)[*/]*['\''"]?[[:space:]]*($|[;&|])'
+
+    if echo "$COMMAND" | grep -qE "$RM_ROOT_PATTERN"; then
+        echo "BLOCKED: Recursive delete of a root target (/, /*, ~, \$HOME) detected" >&2
+        exit 2
+    fi
+
+    # Dangerous patterns (literal substrings)
     DANGEROUS_PATTERNS=(
-        "rm -rf /"
-        "rm -rf ~"
-        "rm -rf \$HOME"
         "dd if="
         "mkfs"
         ":(){:|:&};:"          # Fork bomb
@@ -110,28 +158,32 @@ if [[ "$TOOL_NAME" == "Edit" || "$TOOL_NAME" == "Write" ]]; then
     # Format: colon-separated paths - e.g., ALLOWED_PATHS="/custom/path:/other/path"
     EXTRA_ALLOWED="${ALLOWED_PATHS:-}"
 
-    # Check if path is allowed
-    is_allowed=false
+    ALLOWED_ROOTS=("$PROJECT_DIR" "$CLAUDE_HOME" "/tmp")
 
-    # Current project
-    [[ "$FILE_PATH" == "$PROJECT_DIR"* ]] && is_allowed=true
-
-    # Claude Code directory (~/.claude/) - plans, logs, settings
-    [[ "$FILE_PATH" == "$CLAUDE_HOME"* ]] && is_allowed=true
-
-    # Temporary files
-    [[ "$FILE_PATH" == "/tmp"* ]] && is_allowed=true
-
-    # Additional configured paths
     if [[ -n "$EXTRA_ALLOWED" ]]; then
         IFS=':' read -ra EXTRA_PATHS <<< "$EXTRA_ALLOWED"
-        for allowed_path in "${EXTRA_PATHS[@]}"; do
-            [[ "$FILE_PATH" == "$allowed_path"* ]] && is_allowed=true
+        for extra in "${EXTRA_PATHS[@]}"; do
+            [[ -n "$extra" ]] && ALLOWED_ROOTS+=("$extra")
         done
     fi
 
+    # A raw prefix test is bypassed by a symlink pointing outside the
+    # allowed roots, and it wrongly rejects the reverse case (/tmp is a
+    # symlink to /private/tmp on macOS). Both sides are canonicalized.
+    REAL_FILE_PATH=$(canonicalize_path "$FILE_PATH")
+
+    is_allowed=false
+    for allowed_path in "${ALLOWED_ROOTS[@]}"; do
+        real_allowed=$(canonicalize_path "$allowed_path")
+        if path_is_within "$REAL_FILE_PATH" "$real_allowed"; then
+            is_allowed=true
+            break
+        fi
+    done
+
     if [[ "$is_allowed" == "false" ]]; then
         echo "BLOCKED: Editing outside project is forbidden: $FILE_PATH" >&2
+        echo "Resolved to: $REAL_FILE_PATH" >&2
         echo "Allowed paths: $PROJECT_DIR, $CLAUDE_HOME, /tmp" >&2
         [[ -n "$EXTRA_ALLOWED" ]] && echo "Additional allowed: $EXTRA_ALLOWED" >&2
         exit 2

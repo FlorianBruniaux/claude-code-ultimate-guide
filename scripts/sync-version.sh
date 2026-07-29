@@ -75,20 +75,21 @@ update_readme_date() {
     return
   fi
 
-  # Get current date in format: Feb 10, 2026
-  local current_date=$(date +"%b %-d, %Y")
+  # Get current date in format: Feb 10, 2026 (locale-pinned so the month
+  # abbreviation is always English, regardless of the machine's locale)
+  local current_date=$(LC_ALL=C date +"%b %-d, %Y")
   # Format for badge: Feb_10,_2026
   local badge_date=$(echo "$current_date" | sed 's/ /_/g')
 
   if $CHECK_ONLY; then
-    # In check mode, verify if dates need updating
+    # In check mode, date drift is informational only: it changes every
+    # day that isn't release day and must not fail the pre-commit gate.
+    # Only VERSION mismatches (see check_file) drive the exit code.
     if ! grep -q "Updated-${badge_date}_·_v${VERSION}-brightgreen" "$file" 2>/dev/null; then
       echo "📍 $file: date badge needs update (→ $current_date)"
-      ERRORS=$((ERRORS + 1))
     fi
     if ! grep -q "Updated daily · ${current_date}" "$file" 2>/dev/null; then
       echo "📍 $file: footer date needs update (→ $current_date)"
-      ERRORS=$((ERRORS + 1))
     fi
   else
     # Update badge date pattern: Updated-XXX-brightgreen
