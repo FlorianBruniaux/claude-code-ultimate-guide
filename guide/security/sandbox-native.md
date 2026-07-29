@@ -784,6 +784,68 @@ flowchart TD
 
 ## 13. Troubleshooting
 
+### Plan for a break-in week
+
+The sandbox does not fail on the paths you thought about. It fails on the ones your toolchain uses without telling you: a package manager's global install directory, a supply-chain scanner's cache, a language toolchain's registry. Those live outside your work roots by design, and none of them appear in a configuration you write from first principles.
+
+Expect roughly a week of real work before the configuration stabilizes, and treat each addition as evidence rather than anticipation. Widening a path because something actually broke keeps the boundary meaningful. Widening it because something might break produces an allowlist that permits everything and protects nothing.
+
+One configuration hardened over a week on a 200-repository setup ended at 13 write paths. Every one of them came from a specific failure. The order they appeared in is the useful part, because it is roughly the order anyone will hit them:
+
+| Broke | Path added | Why it was not obvious |
+|-------|-----------|------------------------|
+| First dependency fetch on a Rust project | `~/.cargo`, `~/.rustup` | `cargo build` writes to `target/` in-repo, so builds look fine until a new crate is fetched |
+| Versioned dotfiles repo | `~/.claude` | `.git/index.lock` fails with `Operation not permitted`, which reads like a filesystem or EDR problem |
+| `pnpm install` on any repo | `~/.nvm` | A supply-chain firewall installed as a global npm package caches inside its own install directory |
+| Any local dev server | `network.allowLocalBinding` | Off by default, and nothing in the error names the sandbox |
+| Document builds | `~/Library/Caches` | Quarto, Typst, and Playwright cache there |
+
+The last two are the ones worth pre-empting, because their symptoms point away from the sandbox rather than at it.
+
+### Local servers and proxies fail to bind
+
+**Symptom**: `listen EPERM: operation not permitted 127.0.0.1`, or a dev server that starts and is unreachable
+
+**Cause**: [`sandbox.network.allowLocalBinding`](../core/settings-reference.md#sandboxnetworkallowlocalbinding) defaults to `false`, so sandboxed commands cannot open a listening socket even on localhost.
+
+This reaches further than dev servers. Any tool that proxies its own traffic to inspect it hits the same wall, which includes supply-chain firewalls that wrap `npm` and `pnpm` installs. In that case the install fails with a message about the firewall rather than about binding, so the cause is two steps removed from the symptom.
+
+**Fix**:
+
+```json
+{
+  "sandbox": {
+    "network": { "allowLocalBinding": true }
+  }
+}
+```
+
+macOS only. Enable it if you run dev servers, test runners with a UI, or any tool that starts a local proxy.
+
+### Global npm tooling fails with EPERM
+
+**Symptom**: `EPERM: operation not permitted` on a path under `~/.nvm`, `~/.npm`, or a global `node_modules`
+
+**Cause**: globally installed CLIs write inside their own install directory, which sits outside any project root. A node version manager puts that directory under `~/.nvm/versions/node/<version>/lib/node_modules`, so the path also changes on every node upgrade.
+
+**Fix**: add `~/.nvm` (or your manager's root) to `filesystem.allowWrite`.
+
+> This one is a real trade-off, not a free fix. That directory holds executables on your `$PATH`, and write access to a `$PATH` directory is a documented escalation route: a sandboxed command can leave a binary there that a later command runs outside the sandbox. The alternative is a broken global toolchain. Make it a decision rather than discovering it later.
+
+### Read the last error, not the first
+
+A denied credential file produces a warning on every subsequent command, and that warning survives the actual fix. `credentials.files` blocking `~/.npmrc` makes every `pnpm` invocation open with an `EPERM` line, including the ones that succeed: package managers fall back to the default registry rather than aborting. The line is loud, appears first, and names a real permission denial, so it collects the blame for whatever failed further down.
+
+The failure was three steps away in one measured case: a supply-chain firewall installed as a global npm package could not write its cache under `~/.nvm`, then could not bind its local proxy, and the install stopped after the first workspace. Three sessions independently blamed `~/.npmrc`, which was still printing its warning after both real causes were fixed and the install completed.
+
+When a sandboxed command fails, capture stderr on its own and read the **last** error rather than the first:
+
+```bash
+pnpm install > /tmp/out 2> /tmp/err; echo "exit=$?"; tail -5 /tmp/err
+```
+
+A denied read is usually survivable, since the tool falls back. A denied write or a denied bind is not, since there is nothing to fall back to. The fatal one is almost always the later line.
+
 ### Sandbox not active
 
 **Symptom**: `/sandbox` shows "Sandboxing not available"

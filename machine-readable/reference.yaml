@@ -521,6 +521,11 @@ deep_dive:
   sandbox_excluded_three_traps: "guide/security/sandbox-native.md#three-traps-all-verified-on-21220"  # bare name never matches, glob unsandboxes the whole invocation, prefix breaks the match
   sandbox_go_cli_tls_symptom: "x509: OSStatus -26276 from gh/glab/gcloud/terraform means the CLI ran INSIDE the sandbox and could not reach the macOS keychain; it is an exclusion that did not match, not an auth or certificate problem"
   sandbox_config_example: "examples/config/sandbox-native.json"  # rewritten 2026-07-29, the previous version used six keys that do not exist
+  sandbox_break_in_week: "guide/security/sandbox-native.md#plan-for-a-break-in-week"  # ~1 week before the config stabilizes; widen on evidence, never on anticipation
+  sandbox_allow_local_binding: "guide/security/sandbox-native.md#local-servers-and-proxies-fail-to-bind"  # defaults to false, breaks every dev server and any tool proxying its own traffic; macOS only
+  sandbox_global_npm_tooling: "guide/security/sandbox-native.md#global-npm-tooling-fails-with-eperm"  # globally installed CLIs cache inside their own install dir under ~/.nvm; allowing it grants write to a $PATH directory
+  sandbox_read_the_last_error: "guide/security/sandbox-native.md#read-the-last-error-not-the-first"  # a denied credential read warns on every later command and survives the fix, collecting blame; denied write or bind is the fatal one
+  sandbox_13_write_paths_real_config: "a config hardened over a week on a 200-repo setup ended at 13 write paths, each added from a specific failure: ~/.cargo ~/.rustup (crate fetch), ~/.claude (versioned dotfiles .git/index.lock), ~/.nvm (supply-chain firewall cache), allowLocalBinding (dev servers), ~/Library/Caches (Quarto/Typst/Playwright)"
   sandbox_ssh_needs_exception: "the proxy handles HTTP/HTTPS but not port 22 and blocks the ssh-agent socket, so git over SSH fails at DNS resolution; scope to git push */git fetch */git pull */ssh * rather than the whole binary"
   sandbox_no_curl_blocklist: "there is no built-in curl/wget blocklist; a missing domain hangs to timeout (HTTP 000, curl exit 28) rather than erroring cleanly"
   sandbox_settings_files_protected: "guide/security/sandbox-native.md#default-behavior"  # writes to settings.json denied at every scope, symlinks resolved since v2.1.210; use the Edit tool, which is not sandboxed
