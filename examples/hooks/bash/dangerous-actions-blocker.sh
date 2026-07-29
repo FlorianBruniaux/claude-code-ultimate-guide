@@ -161,7 +161,19 @@ if [[ "$TOOL_NAME" == "Edit" || "$TOOL_NAME" == "Write" ]]; then
     ALLOWED_ROOTS=("$PROJECT_DIR" "$CLAUDE_HOME" "/tmp")
 
     if [[ -n "$EXTRA_ALLOWED" ]]; then
-        IFS=':' read -ra EXTRA_PATHS <<< "$EXTRA_ALLOWED"
+        # Split without a here-string. `read -ra <<<` makes bash write a temp
+        # file, so on a read-only or restricted TMPDIR the hook died with
+        # "cannot create temp file for here document" and exited 1. Only exit 2
+        # blocks a PreToolUse hook, so that failure mode let the write through
+        # unchecked: a security control that fails open. Word splitting on IFS
+        # needs no temp file. `set -f` stops a path containing * from globbing.
+        _old_ifs=$IFS
+        IFS=':'
+        set -f
+        # shellcheck disable=SC2206
+        EXTRA_PATHS=($EXTRA_ALLOWED)
+        set +f
+        IFS=$_old_ifs
         for extra in "${EXTRA_PATHS[@]}"; do
             [[ -n "$extra" ]] && ALLOWED_ROOTS+=("$extra")
         done
