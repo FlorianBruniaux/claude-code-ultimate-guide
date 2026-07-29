@@ -1,16 +1,16 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
-import { readSection } from '../lib/section-reader.js';
+import { readSection, splitAnchor, AnchorNotFoundError } from '../lib/section-reader.js';
 import { resolveContentPath } from '../lib/content.js';
 import { formatLinks } from '../lib/urls.js';
 
 export function registerReadSection(server: McpServer): void {
   server.tool(
     'read_section',
-    'Read a section from a guide file (markdown, YAML, examples). Supports pagination via offset. Use after search_guide() to fetch the full content at a specific location.',
+    'Read a section from a guide file (markdown, YAML, examples). Supports pagination via offset, or a "#heading-slug" anchor to jump straight to a section (as returned by search_guide()). Use after search_guide() to fetch the full content at a specific location.',
     {
-      path: z.string().describe('Relative path from repo root (e.g. "guide/ultimate-guide.md", "examples/agents/code-reviewer.md")'),
-      offset: z.number().min(1).optional().default(1).describe('Line number to start reading from (1-based, default 1)'),
+      path: z.string().describe('Relative path from repo root, optionally with a "#heading-slug" anchor (e.g. "guide/ultimate-guide.md", "guide/core/memory-systems.md#1-tldr-three-track-model")'),
+      offset: z.number().min(1).optional().default(1).describe('Line number to start reading from (1-based, default 1). Ignored when path has a "#" anchor.'),
       limit: z.number().min(1).max(500).optional().default(500).describe('Max lines to return (default 500, max 500)'),
     },
     {
@@ -18,8 +18,11 @@ export function registerReadSection(server: McpServer): void {
       destructiveHint: false,
       openWorldHint: false,
     },
-    async ({ path: filePath, offset, limit }) => {
-      // Security: validate path before attempting read
+    async ({ path: rawPath, offset, limit }) => {
+      // Security: validate the FILE part before attempting read. Anchors
+      // ("#slug") are stripped first so the extension check doesn't see
+      // trailing anchor text and traversal checks still run on the file path.
+      const { file: filePath } = splitAnchor(rawPath);
       const resolved = resolveContentPath(filePath);
       if (resolved === null) {
         return {
@@ -33,7 +36,29 @@ export function registerReadSection(server: McpServer): void {
         };
       }
 
-      const result = await readSection(filePath, offset ?? 1, limit ?? 500);
+      let result;
+      try {
+        result = await readSection(rawPath, offset ?? 1, limit ?? 500);
+      } catch (err) {
+        if (err instanceof AnchorNotFoundError) {
+          return {
+            content: [
+              {
+                type: 'text',
+                text: [
+                  `Error: ${err.message}`,
+                  '',
+                  err.nearMisses.length > 0
+                    ? ['Closest headings in this file:', ...err.nearMisses.map((m) => `  • ${m}`)].join('\n')
+                    : 'No headings found in this file to suggest.',
+                ].join('\n'),
+              },
+            ],
+            isError: true,
+          };
+        }
+        throw err;
+      }
 
       if (result === null) {
         return {

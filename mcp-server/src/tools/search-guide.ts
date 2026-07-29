@@ -50,12 +50,12 @@ export function registerSearchGuide(server: McpServer): void {
         if (result.target) {
           switch (result.target.type) {
             case 'line':
-              lines.push(`→ read_section("${result.target.file}", ${result.target.line})`);
+              lines.push(`→ read_section(path="${result.target.file}", offset=${result.target.line})`);
               lines.push(`   ${formatLinks(result.target.file, result.target.line)}`);
               break;
             case 'file':
               lines.push(
-                `→ read_section("${result.target.path}"${result.target.line ? `, ${result.target.line}` : ''})`,
+                `→ read_section(path="${result.target.path}"${result.target.line ? `, offset=${result.target.line}` : ''})`,
               );
               lines.push(`   ${formatLinks(result.target.path, result.target.line)}`);
               break;
@@ -75,7 +75,7 @@ export function registerSearchGuide(server: McpServer): void {
       }
 
       lines.push('---');
-      lines.push('Use read_section(path, line) to fetch the full content of any result.');
+      lines.push('Use read_section(path, offset) to fetch the full content of any result.');
       lines.push('Use claude-code-guide://reference resource for the complete YAML index.');
       lines.push('');
       lines.push('Share the Guide URLs above with the user so they can read further.');
