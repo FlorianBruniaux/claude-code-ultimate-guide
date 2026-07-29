@@ -148,6 +148,31 @@ sudo dnf install bubblewrap socat
 sudo pacman -S bubblewrap socat
 ```
 
+**Ubuntu 24.04 and later: allow bubblewrap to create user namespaces.** The default AppArmor policy blocks the unprivileged user namespaces bubblewrap needs, so the sandbox fails to start with no obvious cause. Check first:
+
+```bash
+sysctl kernel.apparmor_restrict_unprivileged_userns
+```
+
+`0` or a "No such file or directory" error means nothing to do. If it returns `1`, add a profile for `bwrap`:
+
+```bash
+sudo tee /etc/apparmor.d/bwrap > /dev/null <<'EOF'
+abi <abi/4.0>,
+include <tunables/global>
+
+profile bwrap /usr/bin/bwrap flags=(unconfined) {
+  userns,
+  include if exists <local/bwrap>
+}
+EOF
+sudo systemctl reload apparmor
+```
+
+The profile applies to `bwrap` itself, not to the commands it runs inside the sandbox. The same check applies inside WSL2.
+
+**Optional seccomp filter**: `ripgrep` ships with the native binary, but the seccomp filter that blocks Unix domain sockets is separate. Install it with `npm install -g @anthropic-ai/sandbox-runtime` and restart Claude Code, since the dependency check runs at startup. The `/sandbox` Dependencies tab lists whatever is missing.
+
 **How it works**:
 
 ```
@@ -194,8 +219,18 @@ sudo pacman -S bubblewrap socat
 ### Default Behavior
 
 - **Read access**: Entire computer (except explicitly denied directories)
-- **Write access**: Current working directory (CWD) and subdirectories only
-- **Blocked**: Modifications outside CWD without explicit permission
+- **Write access**: Current working directory (CWD) and subdirectories, **plus the session temp directory**
+- **Blocked**: Modifications outside those paths without explicit permission
+
+> **"Entire computer" includes your credentials.** There is no built-in denylist, so `~/.ssh` and `~/.aws/credentials` are readable by every sandboxed command until you list them in [`sandbox.credentials.files`](../core/settings-reference.md#sandboxcredentialsfiles) or `filesystem.denyRead`. Enabling the sandbox does not protect them; declaring them does.
+
+**The session temp directory is not your shell's.** Claude Code points `$TMPDIR` at a per-session directory for sandboxed commands, so tools that write temp files work without extra configuration. Unsandboxed commands, including anything in `excludedCommands`, inherit your shell's `$TMPDIR` unchanged. The two therefore resolve to different paths, and `/tmp` itself is not writable from inside the sandbox. To pass a file between a sandboxed and an unsandboxed command, write it under the working directory instead. Setting [`filesystem.disabled`](../core/settings-reference.md#sandboxfilesystemdisabled) stops the override and both resolve to the shell value again.
+
+**Git worktrees**: when the working directory is a linked worktree, the sandbox also allows writes to the main repository's shared `.git` directory so `git commit` can update refs and the index. Writes to `hooks/` and `config` inside it stay denied.
+
+**Claude Code's own settings files are protected at every scope.** The sandbox denies writes to every `settings.json` and to the managed settings directory, so a sandboxed command cannot modify its own policy. Since v2.1.210 the deny rules resolve symlinks: a symlink appearing at a protected settings path after startup has its target added to the deny list for the next command, so a linked settings file cannot be edited through the link. Reading is not blocked.
+
+This is easy to hit in practice. A script that edits `~/.claude/settings.json` from a Bash command fails with `PermissionError: [Errno 1] Operation not permitted`, even though the same edit succeeds through the Edit tool, which is not sandboxed. Turning off [`filesystem.disabled`](../core/settings-reference.md#sandboxfilesystemdisabled) is what removes this protection, which is one reason that setting is restricted to user and managed scopes.
 
 ### Why "Read All, Write CWD"?
 
@@ -348,9 +383,27 @@ For advanced use cases (HTTPS inspection, enterprise proxies):
 
 **⚠️ Important**: Auto-allow mode is **independent** of permission mode (default/auto-accept/plan). Even in "default" mode, sandboxed bash commands run without prompts.
 
-**Built-in blocklist**: Even in auto-allow mode, commands like `curl` and `wget` are blocked by default to prevent arbitrary web content fetching.
-
 **When to use**: Daily development, autonomous refactors, CI/CD pipelines
+
+#### What still applies in auto-allow mode
+
+Auto-allow removes the prompt, not the rest of the permission system. Five things survive it:
+
+| Survives auto-allow | Detail |
+|---------------------|--------|
+| Explicit `deny` rules | Always respected |
+| `rm` / `rmdir` on `/`, `~`, or critical system paths | Still prompts, or goes to the classifier in auto mode (v2.1.218+) |
+| Content-scoped `ask` rules | `Bash(git push *)` prompts even for a sandboxed command |
+| A bare `Bash` or `Bash(*)` ask rule | **Skipped** for sandboxed commands; still applies to commands that fall back to the regular flow |
+| Plan mode | Since v2.1.212, commands outside the [built-in read-only set](../core/settings-reference.md) prompt even with auto-allow on. Since v2.1.218 they route to the classifier instead when auto mode is available and `useAutoModeDuringPlan` is on |
+
+A content-scoped `ask` rule is therefore the only human checkpoint that survives every combination of sandbox, permission mode, and allow rules. If you want a hard stop before a push or a publish, that is where it goes.
+
+There is **no built-in command blocklist**. `curl` and `wget` are not blocked in auto-allow mode; they are constrained by the network allowlist like anything else, and a request to an allowed domain succeeds without a prompt. Verified on 2.1.220: `curl https://api.github.com` returned HTTP 200 in 84 ms under auto-allow, while a non-allowed host hung until timeout (`HTTP 000`, curl exit 28). Expect a hang rather than a clean error when a domain is missing from the allowlist.
+
+#### Subagents
+
+[Subagents](../ultimate-guide.md) run in the same process as the parent session and inherit its sandbox configuration. Bash commands inside a subagent are sandboxed whenever the parent session is. There is no per-subagent sandbox setting, and a subagent cannot widen the boundary.
 
 ### Regular Permissions Mode
 
@@ -371,7 +424,7 @@ For advanced use cases (HTTPS inspection, enterprise proxies):
 # Or edit settings.json
 {
   "sandbox": {
-    "autoAllowMode": true  # or false for Regular Permissions
+    "autoAllowBashIfSandboxed": true  // false for Regular Permissions
   }
 }
 ```
@@ -424,12 +477,40 @@ For tools that **never** work in sandbox, exclude them permanently:
 ```json
 {
   "sandbox": {
-    "excludedCommands": ["docker", "kubectl", "vagrant"]
+    "excludedCommands": ["docker *", "kubectl *", "vagrant *"]
   }
 }
 ```
 
 Excluded commands always run outside sandbox (with normal permission prompts).
+
+#### Two traps, both verified on 2.1.220
+
+**The bare name silently does nothing.** `"docker"` matches only the zero-argument string `docker`, so it never fires on `docker ps` and the command stays sandboxed. The published JSON schema suggests the bare form, so the usual path is to configure something inert, notice the tool is still confined, and only then discover the glob ([#10524](https://github.com/anthropics/claude-code/issues/10524)). Always write `"docker *"`.
+
+**A match unsandboxes the whole Bash invocation.** Once an entry matches anywhere in a compound command, every other command in that call runs unsandboxed too, including commands that execute before the excluded one ([#81157](https://github.com/anthropics/claude-code/issues/81157), open as of 2026-07-25). With `"git *"` in the list, this reads the key:
+
+```bash
+git status && cat ~/.ssh/id_ed25519
+```
+
+`filesystem.denyRead`, `credentials`, and the network allowlist are all suspended for the duration of that call. Claude routinely chains commands, so the window is not theoretical.
+
+**Scope entries to subcommands, not binaries.** Git over SSH is the case most people hit: the sandbox proxy handles HTTP and HTTPS but not port 22, and it blocks the `ssh-agent` Unix socket, so `git push` over an SSH remote fails at DNS resolution. Excluding the whole binary fixes the push and opens the window on every git call. Excluding only the network subcommands fixes the push and keeps local git confined:
+
+```json
+{
+  "sandbox": {
+    "excludedCommands": [
+      "git push *", "git pull *", "git fetch *",
+      "git clone *", "git ls-remote *", "git remote *", "git submodule *",
+      "ssh *", "scp *"
+    ]
+  }
+}
+```
+
+`git status`, `git diff`, `git log`, `git add`, and `git commit` stay inside the sandbox. Until #81157 is fixed, this is the narrowest configuration that keeps an SSH-based git workflow working.
 
 ---
 
@@ -609,7 +690,7 @@ flowchart TD
 // settings.json — sandbox settings
 {
   "sandbox": {
-    "autoAllowMode": true,
+    "autoAllowBashIfSandboxed": true,
     "allowUnsandboxedCommands": false,
     "network": {
       "policy": "deny",
@@ -638,7 +719,7 @@ flowchart TD
 ```json
 {
   "sandbox": {
-    "autoAllowMode": true,
+    "autoAllowBashIfSandboxed": true,
     "allowUnsandboxedCommands": true,
     "network": {
       "policy": "allow",
@@ -646,7 +727,7 @@ flowchart TD
         "*.malicious-domain.com"
       ]
     },
-    "excludedCommands": ["docker", "kubectl"]
+    "excludedCommands": ["docker *", "kubectl *"]
   },
   "permissions": {
     "deny": [
@@ -662,12 +743,12 @@ flowchart TD
 ```json
 {
   "sandbox": {
-    "autoAllowMode": true,
+    "autoAllowBashIfSandboxed": true,
     "allowUnsandboxedCommands": true,
     "network": {
       "policy": "allow"
     },
-    "excludedCommands": ["docker", "podman", "kubectl", "vagrant"]
+    "excludedCommands": ["docker *", "podman *", "kubectl *", "vagrant *"]
   }
 }
 ```
@@ -739,12 +820,12 @@ which bubblewrap socat
 
 **Cause**: Docker incompatible with sandbox, falls back to regular flow
 
-**Solution**: Add to `excludedCommands`:
+**Solution**: Add to `excludedCommands`, using the glob form (`"docker"` alone never matches):
 
 ```json
 {
   "sandbox": {
-    "excludedCommands": ["docker"]
+    "excludedCommands": ["docker *"]
   }
 }
 ```

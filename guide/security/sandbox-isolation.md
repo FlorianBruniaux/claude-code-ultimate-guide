@@ -314,7 +314,7 @@ sudo dnf install bubblewrap socat      # Fedora
 ```json
 {
   "sandbox": {
-    "autoAllowMode": true,
+    "autoAllowBashIfSandboxed": true,
     "network": {
       "policy": "deny",
       "allowedDomains": [

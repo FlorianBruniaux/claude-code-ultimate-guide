@@ -500,6 +500,21 @@ Auto-approve bash commands when sandboxed. When the sandbox is active, bash comm
 
 Commands that bypass the sandbox and run directly in your environment.
 
+> **Use the glob form, not the bare name.** A bare entry such as `"git"` matches only the zero-argument string `git`, so it never fires on a real invocation and the command stays sandboxed. Write `"git *"` instead. The bare form is what the published JSON schema suggests, which is why this is easy to get wrong: you configure something that does nothing, notice the command is still sandboxed, and only then find the glob form ([anthropics/claude-code#10524](https://github.com/anthropics/claude-code/issues/10524)). Verified on 2.1.220: `"git"` had no effect, `"git *"` worked immediately.
+
+> **A match unsandboxes the entire Bash invocation.** When an entry matches anywhere in a compound command, every other command in that same call runs unsandboxed too, including commands that execute *before* the excluded one. With `"git *"` present, `git status && cat ~/.ssh/id_ed25519` reads the key, because `filesystem.denyRead`, `credentials`, and the network allowlist are all suspended for that call ([anthropics/claude-code#81157](https://github.com/anthropics/claude-code/issues/81157), open as of 2026-07-25 on 2.1.220).
+>
+> Scope entries to the subcommands that genuinely need to leave the sandbox rather than the whole binary. Git over SSH is the common case: only the network operations need an exception, so list those and leave local git confined.
+>
+> ```json
+> "excludedCommands": [
+>   "git push *", "git pull *", "git fetch *",
+>   "git clone *", "git ls-remote *", "git remote *", "git submodule *"
+> ]
+> ```
+>
+> This keeps `git status`, `git diff`, `git log`, `git add`, and `git commit` inside the sandbox, so the bypass window only opens on the calls that actually talk to a remote.
+
 #### `sandbox.allowUnsandboxedCommands`
 **Type:** boolean
 **Scope:** all
@@ -607,6 +622,105 @@ Paths where sandboxed commands cannot read. Merged with `Read(...)` deny rules.
 
 Paths to re-allow read access within `denyRead` regions. Takes precedence over `denyRead`. Arrays merge across all settings scopes.
 
+When read rules overlap, the more specific path wins in both directions: `denyRead: ["~/"]` with `allowRead: ["~/projects"]` opens only that subtree, and `allowRead: ["~/"]` with `denyRead: ["~/.env"]` keeps that one file blocked. A broad allow cannot silently re-expose a secret an exact deny covers.
+
+#### `sandbox.filesystem.disabled`
+**Type:** boolean
+**Scope:** user, managed, `--settings` (project settings ignored)
+**Default:** `false`
+**Since:** v2.1.216
+
+Skip filesystem isolation while keeping network isolation. Sandboxed commands get unrestricted read and write access to the host, and their egress stays confined to `allowedDomains`. Use when the point of sandboxing is controlling where commands connect rather than what they write.
+
+Turning the layer off also disables `filesystem.denyRead`, `credentials.files`, and the protection on Claude Code's own settings files, and stops the `$TMPDIR` override. `credentials.envVars` still applies, since environment scrubbing is independent of the filesystem layer.
+
+Project settings cannot set it, so a checked-out repository cannot switch filesystem isolation off. When managed settings configure `sandbox.filesystem` at all, or list any `credentials.files` entry, only managed settings can set it. `CLAUDE_CODE_SUBPROCESS_ENV_SCRUB` makes Claude Code ignore it from every source.
+
+> With the filesystem layer off and commands auto-allowed, a sandboxed command can write shell startup files, executables on `$PATH`, or `~/.claude/settings.json`, and use them to widen its own access on the next run. Set it only for workloads you trust not to escalate.
+
+#### `sandbox.credentials.files`
+**Type:** array of `{ path, mode }`
+**Scope:** all (`deny` narrows only, so any scope may add one)
+**Default:** `[]`
+**Since:** v2.1.187
+
+Credential files to hide from sandboxed commands. `mode` accepts only `"deny"`, which blocks reads the same way `filesystem.denyRead` does.
+
+This matters more than its placement suggests. The sandbox's default read policy covers the **entire machine**, and there is no built-in credential denylist, so `~/.ssh` and `~/.aws/credentials` are readable by every sandboxed command until you list them. Paths follow the same prefix rules as `sandbox.filesystem.*`, and `deny` entries merge across every scope: any scope can add one, no scope can remove one another scope added.
+
+```json
+{
+  "sandbox": {
+    "credentials": {
+      "files": [
+        { "path": "~/.ssh", "mode": "deny" },
+        { "path": "~/.aws", "mode": "deny" },
+        { "path": "~/.gnupg", "mode": "deny" },
+        { "path": "~/.config/gh", "mode": "deny" }
+      ]
+    }
+  }
+}
+```
+
+Verified on 2.1.220: with the entry in place, `ls ~/.ssh` from a sandboxed command returns `Operation not permitted` while the directory still appears in a listing of the home directory.
+
+#### `sandbox.credentials.envVars`
+**Type:** array of `{ name, mode, injectHosts? }`
+**Scope:** `deny` from all scopes; `mask` from user, managed, `--settings` only
+**Default:** `[]`
+**Since:** v2.1.187 (`deny`), v2.1.199 (`mask`)
+
+Environment variables to withhold from sandboxed commands. Sandboxed commands otherwise inherit the parent environment as-is, credentials included, which is the gap a `credentials.files` entry alone leaves open.
+
+`deny` unsets the variable before each sandboxed command runs. It affects sandboxed Bash only, so MCP servers keep their credentials: they run as separate processes, not as sandboxed commands.
+
+`mask` protects the credential while keeping the tool that authenticates with it working. The command sees a per-session sentinel; when a request leaves the sandbox for one of the credential's `injectHosts`, the proxy substitutes the real value. The command and anything it logs never hold the real credential. Each `injectHosts` entry must itself be covered by `allowedDomains`, and `network.tlsTerminate` is required because the proxy has to see request contents to substitute. Without it, masking fails closed: the sentinel reaches the server unchanged and authentication fails, and Claude Code reports the misconfiguration at startup.
+
+```json
+{
+  "sandbox": {
+    "network": { "tlsTerminate": {}, "allowedDomains": ["*.github.com"] },
+    "credentials": {
+      "envVars": [
+        { "name": "ANTHROPIC_API_KEY", "mode": "deny" },
+        { "name": "GH_TOKEN", "mode": "mask", "injectHosts": ["api.github.com"] }
+      ]
+    }
+  }
+}
+```
+
+`deny` wins when the same variable appears with both modes in any scope. Start with `deny` and move a variable to `mask` only when a CLI actually breaks without it, since `mask` requires TLS termination and authorizes the proxy to send the real credential to the listed hosts.
+
+To strip Anthropic and cloud provider credentials from **all** subprocesses regardless of sandboxing, set `CLAUDE_CODE_SUBPROCESS_ENV_SCRUB` instead.
+
+#### `sandbox.network.tlsTerminate` `⚠️ Experimental`
+**Type:** object
+**Scope:** user, managed, `--settings` (project settings ignored)
+**Since:** v2.1.199
+
+Make the built-in proxy terminate TLS itself. Required by `credentials.envVars` `mask` entries. It enables credential substitution; it does not add content filtering.
+
+#### `sandbox.network.strictAllowlist`
+**Type:** boolean
+**Scope:** user, managed, `--settings` (project settings ignored)
+**Default:** `false`
+**Since:** v2.1.219
+
+Deny sandboxed commands any host outside the allowlist instead of prompting. The allowlist is `allowedDomains` plus domains from `WebFetch(domain:...)` allow rules, or only the managed entries when `allowManagedDomainsOnly` is set. Applies to sandboxed commands only: in-process tools such as `WebFetch` still follow their permission rules.
+
+Enable it last, once the domain list has survived a week of real work. Before that it converts every missing domain from a one-time prompt into a hard failure.
+
+#### `sandbox.allowAppleEvents`
+**Type:** boolean
+**Scope:** user, managed, `--settings` (project settings ignored)
+**Default:** `false`
+
+Allow Apple Events on macOS, which the sandbox blocks by default. Fixes `open`, `osascript`, and browser-based auth flows failing with error `-600`.
+
+> Enabling it removes code-execution isolation: sandboxed commands can launch other applications unsandboxed with no prompt, and send AppleScript to running applications, subject to the macOS automation-consent prompt. Prefer adding the specific command to `excludedCommands`.
+
 #### `sandbox.filesystem.allowManagedReadPathsOnly`
 **Type:** boolean
 **Scope:** managed only
@@ -620,7 +734,7 @@ When `true`, only `allowRead` paths from managed settings are respected. `allowR
   "sandbox": {
     "enabled": true,
     "autoAllowBashIfSandboxed": true,
-    "excludedCommands": ["git", "docker"],
+    "excludedCommands": ["git push *", "git fetch *", "docker *"],
     "filesystem": {
       "allowWrite": ["/tmp/build", "~/.kube"],
       "denyRead": ["~/.aws/credentials"]
@@ -1430,7 +1544,7 @@ These appear in community sources or older documentation but are not confirmed i
 
   "sandbox": {
     "enabled": true,
-    "excludedCommands": ["git", "docker"],
+    "excludedCommands": ["git push *", "git fetch *", "docker *"],
     "filesystem": {
       "allowWrite": ["/tmp/build"],
       "denyRead": ["~/.aws/credentials"]

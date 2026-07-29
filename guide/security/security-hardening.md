@@ -266,7 +266,7 @@ Beyond explicit deny rules, Claude Code has several built-in protections:
 
 | Safeguard | Behavior |
 |-----------|----------|
-| **Command blocklist** | `curl` and `wget` are blocked by default in the sandbox to prevent arbitrary web content fetching |
+| **Network allowlist** | No domain is pre-allowed. `curl` and `wget` are not blocklisted; they reach only the hosts in `sandbox.network.allowedDomains`, and a missing host hangs until timeout rather than failing cleanly |
 | **Fail-closed matching** | Any permission rule that doesn't match defaults to requiring manual approval (deny by default) |
 | **Command injection detection** | Suspicious bash commands require manual approval even if previously allowlisted |
 
