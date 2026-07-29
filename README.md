@@ -233,7 +233,10 @@ graph LR
 │
 ├─ 🔧 tools/              Interactive Utilities
 │  ├─ onboarding-prompt   Personalized guided tour
-│  └─ audit-prompt        Setup audit & recommendations
+│  ├─ audit-prompt        Setup audit & recommendations
+│  ├─ permissions-audit   Do your permission rules still form a boundary?
+│  ├─ context-audit       Context architecture measurement
+│  └─ spec-completeness   Is this project safe to delegate to an agent?
 │
 ├─ 🤖 machine-readable/   AI-Optimized Index
 │  ├─ reference.yaml      Structured index (~43K tokens), powers landing site CMD+K search

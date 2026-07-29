@@ -136,6 +136,13 @@ deep_dive:
   setup_audit_delegated_skills: ["token-audit", "eval-rules", "eval-skills", "audit-agents-skills", "security-check"]
   setup_audit_scope_flag: "--include-global (extends to ~/.claude/ and ~/.claude.json)"
   setup_audit_time: "5-8 min (all skills installed) | 3-4 min (fallback mode)"
+  # Permission & Sandbox Posture Audit (narrower and deeper than setup_audit_tool)
+  permissions_audit_tool: "tools/permissions-audit-prompt.md"
+  permissions_audit_tool_version: "1.0"
+  permissions_audit_tool_description: "Determines whether a project's permission rules still constitute a boundary. 6 phases (100 pts): Blanket Execution Grants (30), Deny Coverage (20), Sandbox Posture (20), Ask Coverage (10), Scope Hygiene (10), Rule Population Health (10). Catches the failure mode where one allow entry resolving to an interpreter makes every deny rule in every scope bypassable. Embeds documented matcher semantics so it stays accurate outside this repo. Includes a fleet sweep that ranks repos by exposure."
+  permissions_audit_phases: ["blanket_execution_grants", "rule_population_health", "deny_ask_coverage", "sandbox_posture", "scope_hygiene", "mode_interaction"]
+  permissions_audit_killer_finding: "Bash(bash *) / Bash(node:*) / Bash(python3 *) in allow — matcher treats `bash -c '<anything>'` as a bash command, never as the inner one, so Read(**/.env*) deny is defeated by `bash -c 'cat .env'`"
+  permissions_audit_time: "3-5 min per repo | 30s for the fleet sweep"
   # Agent Harness Engineering (new May 2026)
   agent_harness_guide: "guide/core/agent-harness.md"
   agent_harness_nine_components: "guide/core/agent-harness.md#2-the-nine-components"
@@ -722,20 +729,20 @@ deep_dive:
   ultraplan: "guide/ultimate-guide.md#ultraplan" # was line 3192
   rewind: "guide/ultimate-guide.md#24-rewind" # was line 3355
   mental_model: "guide/ultimate-guide.md#26-mental-model" # was line 3654
-  xml_prompting: 3784
-  prompting_provocation: 4237
+  xml_prompting: "guide/ultimate-guide.md#28-structured-prompting-with-xml-tags" # was line 3784
+  prompting_provocation: "guide/ultimate-guide.md#281-prompting-as-provocation" # was line 4237
   prompting_provocation_source: "https://paddo.dev/blog/claude-code-team-tips/"
   semantic_anchors: "guide/ultimate-guide.md#29-semantic-anchors" # was line 4271
   semantic_anchors_catalog: "examples/semantic-anchors/anchor-catalog.md"
   memory_files: "guide/ultimate-guide.md#31-memory-files-claudemd" # was line 5300
   # Auto-Memories (v2.1.32+) - Added 2026-02-09
   auto_memories: "guide/ultimate-guide.md#auto-memories-v2159" # was line 5594
-  auto_memories_vs_claudemd: 5594
-  auto_memories_file_limits: 5020  # 200-line cap, 25KB max, 200 files/dir — see also memory_limits_detail
+  auto_memories_vs_claudemd: "guide/ultimate-guide.md#auto-memories-v2159" # was line 5594
+  auto_memories_file_limits: "guide/ultimate-guide.md#auto-memories-v2159" # 200-line cap, 25KB max, 200 files/dir — see also memory_limits_detail
   memory_limits_detail: "MEMORY.md: 200 lines max, 25KB max. Memory dir: 200 files max. Truncation: lines first, then bytes, warning appended."
   # Auto Dream (Community-Discovered) - Added 2026-03-25
   auto_dream: "guide/ultimate-guide.md#auto-dream-memory-consolidation-community-discovered" # was line 5607
-  auto_dream_phases: 5607
+  auto_dream_phases: "guide/ultimate-guide.md#auto-dream-memory-consolidation-community-discovered" # was line 5607
   auto_dream_trigger: "24h + 5 sessions since last consolidation"
   auto_dream_access: "/memory command (or /dream if available)"
   auto_dream_source: "https://github.com/Piebald-AI/claude-code-system-prompts/blob/main/system-prompts/agent-prompt-dream-memory-consolidation.md"
@@ -769,7 +776,7 @@ deep_dive:
   opus_4_6_adaptive_thinking: 14810
   opus_4_6_effort_parameter: 11636
   opus_4_6_pricing: 1788
-  opus_4_6_api_breaking_changes: 14920
+  opus_4_6_api_breaking_changes: "guide/ultimate-guide.md#api-breaking-changes-opus-46" # was line 14920
   opus_4_6_assistant_prefill_removed: 11737
   # Summarize from Here (v2.1.32+) - Added 2026-02-09
   summarize_from_here: 1506  # Context Recovery Strategies section
@@ -783,7 +790,7 @@ deep_dive:
   claude_agent_sdk: 12558
   # Task Management System (v2.1.16+) - Added 2026-01-26
   task_management_system: "guide/ultimate-guide.md#task-management-system" # was line 4808
-  task_management_comparison: 4808
+  task_management_comparison: "guide/ultimate-guide.md#task-management-system" # was line 4808
   tasks_api_overview: 1336
   tasks_api_tools: 3746
   tasks_api_capabilities: 3752
@@ -799,10 +806,10 @@ deep_dive:
   todowrite_migration_flag: 3855
   task_best_practices: 3862
   task_hierarchy_design: 3726
-  task_dependency_management: 4808
+  task_dependency_management: "guide/ultimate-guide.md#task-management-system" # was line 4808
   task_status_transitions: 3756
   task_metadata_conventions: 3757
-  task_complete_workflow: 5030
+  task_complete_workflow: "guide/ultimate-guide.md#complete-workflow" # was line 5030
   task_sources: 3835
   # Task Management Workflow (guide/workflows/task-management.md)
   workflows_task_management: "guide/workflows/task-management.md"
@@ -827,12 +834,12 @@ deep_dive:
   skills_evals: 8034
   skill_template: "guide/ultimate-guide.md#53-skill-template" # was line 8095
   skill_examples: "guide/ultimate-guide.md#54-skill-examples" # was line 3555
-  design_patterns_skill: 8335
+  design_patterns_skill: "guide/ultimate-guide.md#example-3-design-patterns-analyzer-skill" # was line 8335
   design_patterns_skill_location: "examples/skills/design-patterns/"
   design_patterns_skill_modes: "Detection, Suggestion, Evaluation"
   design_patterns_skill_patterns: "23 GoF patterns (Creational 5, Structural 7, Behavioral 11)"
   design_patterns_skill_stacks: "React, Angular, NestJS, Vue, Express, RxJS, Redux, ORMs"
-  community_skills_cybersec: 8623
+  community_skills_cybersec: "guide/ultimate-guide.md#cybersecurity-skills-repository" # was line 8623
   community_skills_iac: 8558
   # Automatic skill generation (meta-skill)
   claudeception: "https://github.com/blader/Claudeception"
@@ -844,17 +851,17 @@ deep_dive:
   claude_reflect_system_agent_skills: "https://agent-skills.md/skills/haddock-development/claude-reflect-system/reflect"
   skill_improvement_pattern: 6630
   skill_improvement_how_it_works: 6630
-  skill_improvement_safety: 8863
+  skill_improvement_safety: "guide/ultimate-guide.md#automatic-skill-improvement-claude-reflect-system" # was line 8863
   skill_improvement_security_warnings: 6373
-  skill_improvement_comparison: 8863
-  skill_improvement_workflow: 8863
+  skill_improvement_comparison: "guide/ultimate-guide.md#automatic-skill-improvement-claude-reflect-system" # was line 8863
+  skill_improvement_workflow: "guide/ultimate-guide.md#automatic-skill-improvement-claude-reflect-system" # was line 8863
   # Design Intelligence Skill (added 2026-02-23)
   ui_ux_pro_max: "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill"
   ui_ux_pro_max_site: "https://ui-ux-pro-max-skill.nextlevelbuilder.io"
-  ui_ux_pro_max_guide: 8997
-  ui_ux_pro_max_stars: 33700
-  ui_ux_pro_max_styles: 67
-  ui_ux_pro_max_palettes: 96
+  ui_ux_pro_max_guide: "guide/ultimate-guide.md#design-intelligence-ui-ux-pro-max" # was line 8997
+  ui_ux_pro_max_stars: "guide/ultimate-guide.md#design-intelligence-ui-ux-pro-max" # was line 33700
+  ui_ux_pro_max_styles: "guide/ultimate-guide.md#design-intelligence-ui-ux-pro-max" # was line 67
+  ui_ux_pro_max_palettes: "guide/ultimate-guide.md#design-intelligence-ui-ux-pro-max" # was line 96
   # Agent Skills Open Standard (added 2026-02-01)
   agentskills_spec: "https://agentskills.io"
   agentskills_spec_repo: "https://github.com/agentskills/agentskills"
@@ -902,7 +909,7 @@ deep_dive:
   plugins_commands: 14017
   plugins_marketplace: 12042
   plugins_community_marketplaces: 12344
-  plugins_featured_community: 14411  # Vitals + SE-CoVe comparison section
+  plugins_featured_community: "guide/ultimate-guide.md#featured-community-plugins" # Vitals + SE-CoVe comparison section
   plugins_recommended: "examples/plugins/"
   plugins_se_cove: "examples/plugins/se-cove.md"
   plugins_vitals:
@@ -1060,7 +1067,7 @@ deep_dive:
   serena_indexation: 9373
   serena_mcp: 794
   doobidoo_memory_mcp: 10142
-  mcp_memory_stack_patterns: 13011
+  mcp_memory_stack_patterns: "guide/ultimate-guide.md#mcp-memory-stack-complementarity-patterns" # was line 13011
   mcp_config: 794
   mcp_security: "guide/ultimate-guide.md#86-mcp-security" # was line 14568
   cicd: 11827
@@ -1073,8 +1080,8 @@ deep_dive:
   session_teleportation: "guide/ultimate-guide.md#916-session-teleportation" # was line 19161
   remote_control: 23220
   multi_instance_workflows: "guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" # was line 19268
-  boris_cherny_case_study: 19421
-  boris_cherny_team_patterns: 6779
+  boris_cherny_case_study: "guide/ultimate-guide.md#real-world-case-boris-cherny-interval" # was line 19421
+  boris_cherny_team_patterns: "guide/ultimate-guide.md#boris-chernys-3-principles-for-ai-teams" # was line 6779
   # Dual-Instance Planning Pattern (Jon Williams, Feb 2026)
   dual_instance_planning: "guide/ultimate-guide.md#alternative-pattern-dual-instance-planning-vertical-separation" # was line 19474
   dual_instance_workflow: "guide/workflows/dual-instance-planning.md"
@@ -1135,7 +1142,7 @@ deep_dive:
   git_worktree_remove_command: "examples/skills/git-worktree-remove/SKILL.md"
   git_worktree_clean_command: "examples/skills/git-worktree-clean/SKILL.md"
   git_worktrees_multi_instance: 14013
-  advanced_worktree_tooling: 19838
+  advanced_worktree_tooling: "guide/ultimate-guide.md#advanced-tooling-for-worktree-management-optional" # was line 19838
   worktree_tooling_self_assessment: 15763
   anthropic_internal_study: 14731
   multi_instance_costs: 15283
@@ -1273,9 +1280,9 @@ deep_dive:
   scope_focused_agents: "guide/ultimate-guide.md#scope-focused-agents" # Formerly "Split-Role Sub-Agents", refactored for context isolation
   teammatetool_experimental: "guide/ultimate-guide.md#teammatetool-experimental" # Multi-agent orchestration parent section
   # Task Management Diagnostic
-  task_lists_diagnostic: 4979
+  task_lists_diagnostic: "guide/ultimate-guide.md#task-lists-as-diagnostic-tool" # was line 4979
   # Mental Model
-  main_thread_orchestrator: 3698
+  main_thread_orchestrator: "guide/ultimate-guide.md#you-are-the-main-thread" # was line 3698
   # CLAUDE.md Patterns
   continuous_context_update: "guide/ultimate-guide.md#continuous-context-update" # was line 5450
   # Hook Patterns
@@ -1398,12 +1405,12 @@ deep_dive:
   appendix_a_file_locations: "guide/ultimate-guide.md#appendix-a-file-locations-reference" # was line 26179
   appendix_b_faq: "guide/ultimate-guide.md#appendix-b-faq" # was line 26357
   faq_clawdbot_vs_claudecode: 26359
-  faq_product_managers: 26428
+  faq_product_managers: "guide/ultimate-guide.md#can-product-managers-use-claude-code" # was line 26428
   appendix_c_resource_evaluation: "guide/ultimate-guide.md#appendix-c-resource-evaluation-process" # was line 26493
   appendix_d_myths_vs_reality: "guide/ultimate-guide.md#appendix-d-myths-vs-reality" # was line 26536
-  myths_hidden_features: 26540
-  myths_tasks_api_autonomous: 26572
-  myths_100x_faster: 26604
+  myths_hidden_features: "guide/ultimate-guide.md#myth-claude-code-has-hidden-features-you-can-unlock-with-secret-flags" # was line 26540
+  myths_tasks_api_autonomous: "guide/ultimate-guide.md#myth-tasks-api-allows-fully-autonomous-parallel-agents" # was line 26572
+  myths_100x_faster: "guide/ultimate-guide.md#myth-claude-code-is-100x-faster-than-other-ai-coding-tools" # was line 26604
   myths_reliable_sources: 20983
   # Quiz System (473 questions, 17 categories) — verified 2026-07-28
   quiz_overview: "quiz/README.md"
