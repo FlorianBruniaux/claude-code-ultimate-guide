@@ -30,6 +30,7 @@ import argparse
 import difflib
 import re
 import sys
+import unicodedata
 from datetime import date
 from pathlib import Path
 
@@ -120,14 +121,44 @@ def headings(path: Path) -> list[tuple[int, int, str]]:
     return out
 
 
+def _strip_non_slug_chars(text: str) -> str:
+    """Keep what github-slugger's generated regex keeps: letters, digits,
+    underscore, hyphen, whitespace, and Unicode combining marks (category M*).
+
+    Python's `\\w` does not include category Mn (nonspacing mark), so a plain
+    `[^\\w\\s\\-]` strip drops a variation selector (U+FE0F) that rides on a
+    preceding emoji, e.g. the U+FE0F in "⚠️". github-slugger's regex keeps it.
+    Measured against 4,835 real headings via the actual `github-slugger` npm
+    package (the same one @astrojs/markdown-remark uses to stamp heading ids):
+    without this, 7 headings using variation-selector emoji, a pattern this
+    guide reuses often ("⚠️ ..."), produced a slug matching nothing rendered.
+    """
+    return ''.join(
+        c for c in text
+        if c.isalnum() or c in (' ', '-', '_') or unicodedata.category(c).startswith('M')
+    )
+
+
 def slugify(heading_text: str) -> str:
-    """GitHub-style slug, honouring an explicit {#custom-id}."""
+    """GitHub-style slug, honouring an explicit {#custom-id}.
+
+    Must match github-slugger exactly, since that is what actually stamps `id`
+    on rendered headings (both GitHub's own render and the landing's Starlight
+    pipeline, via @astrojs/markdown-remark -> github-slugger). No `.strip()`:
+    github-slugger does not trim leading/trailing hyphens left behind by a
+    stripped leading emoji or symbol. A heading starting with an emoji (common
+    in this guide: "🔄 LLM Day-to-Day...", "⚠️ Migration Risks...") produces a
+    leading hyphen in the real id. Stripping it here produced a slug that
+    matched nothing rendered anywhere: 16 anchors were dead in production
+    while validate-reference-yaml.py reported them all valid, because the
+    validator recomputed the same wrong slug to check against.
+    """
     ex = re.search(r'\{#([^}]+)\}', heading_text)
     if ex:
         return ex.group(1)
     h = re.sub(r'`', '', heading_text)
     h = re.sub(r'\[([^\]]*)\]\([^)]*\)', r'\1', h)
-    return re.sub(r'[^\w\s\-]', '', h.lower(), flags=re.UNICODE).strip().replace(' ', '-')
+    return _strip_non_slug_chars(h.lower()).replace(' ', '-')
 
 
 def slugs(path: Path) -> set[str]:

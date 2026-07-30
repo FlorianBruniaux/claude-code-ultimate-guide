@@ -211,7 +211,7 @@ deep_dive:
   known_issues_github_bug: "guide/core/known-issues.md:7"  # GitHub auto-creation bug
   known_issues_token_consumption: "guide/core/known-issues.md#2-excessive-token-consumption-jan-2026---present"  # Excessive token usage
   known_issues_model_quality_aug2025: "guide/core/known-issues.md#model-quality-degradation-aug-sep-2025"  # Resolved: Aug 2025 degradation
-  known_issues_llm_variance: "guide/core/known-issues.md#llm-day-to-day-performance-variance"  # LLM day-to-day performance variance (expected behavior, not a bug)
+  known_issues_llm_variance: "guide/core/known-issues.md#-llm-day-to-day-performance-variance"  # LLM day-to-day performance variance (expected behavior, not a bug)
   # RPI Workflow (Research -> Plan -> Implement)
   rpi_workflow: "guide/workflows/rpi.md"
   rpi_when_to_use: "guide/workflows/rpi.md#when-to-use-rpi"  # Decision heuristic + scenarios
@@ -249,7 +249,7 @@ deep_dive:
   session_resume_limitations: "guide/ops/observability.md#session-resume-limitations--cross-folder-migration"
   session_cross_folder_migration: "guide/ops/observability.md#session-resume-limitations--cross-folder-migration"
   session_migration_manual: "guide/ops/observability.md#manual-migration-recommended"
-  session_migration_risks: "guide/ops/observability.md#migration-risks--caveats"
+  session_migration_risks: "guide/ops/observability.md#️-migration-risks--caveats"
   session_migration_community_tool: "guide/ops/observability.md#community-automation-tool"
   session_migration_issue: "https://github.com/anthropics/claude-code/issues/1516"
   session_migration_weller_skill: "https://github.com/jimweller/dotfiles/tree/main/dotfiles/claude-code/skills/claude-migrate-session"
@@ -1367,7 +1367,7 @@ deep_dive:
   ai_ecosystem_goose_comparison: "guide/ecosystem/ai-ecosystem.md#claude-code-vs-goose-key-differences"
   ai_ecosystem_context_packing: "guide/ecosystem/ai-ecosystem.md#12-context-packing-tools"
   ai_ecosystem_multi_ide_sync: "guide/ecosystem/ai-ecosystem.md#multi-ide-configuration-sync"
-  agents_md_support_status: "guide/ecosystem/ai-ecosystem.md#agentsmd-support-status"
+  agents_md_support_status: "guide/ecosystem/ai-ecosystem.md#️-agentsmd-support-status"
   ai_ecosystem_build_vs_use: "guide/ecosystem/ai-ecosystem.md#113-when-to-build-vs-use"  # Section 11.3 - When to Build vs Use (ADK, LangChain, Vercel AI SDK)
   # Architecture Diagrams as Context (advanced pattern) - Added 2026-01-25
   architecture_diagrams_input: "guide/ecosystem/ai-ecosystem.md#architecture-diagrams-as-context-advanced-pattern"
@@ -1444,9 +1444,9 @@ deep_dive:
   faq_product_managers: "guide/ultimate-guide.md#can-product-managers-use-claude-code" # was line 26428
   appendix_c_resource_evaluation: "guide/ultimate-guide.md#appendix-c-resource-evaluation-process" # was line 26493
   appendix_d_myths_vs_reality: "guide/ultimate-guide.md#appendix-d-myths-vs-reality" # was line 26536
-  myths_hidden_features: "guide/ultimate-guide.md#myth-claude-code-has-hidden-features-you-can-unlock-with-secret-flags" # was line 26540
-  myths_tasks_api_autonomous: "guide/ultimate-guide.md#myth-tasks-api-allows-fully-autonomous-parallel-agents" # was line 26572
-  myths_100x_faster: "guide/ultimate-guide.md#myth-claude-code-is-100x-faster-than-other-ai-coding-tools" # was line 26604
+  myths_hidden_features: "guide/ultimate-guide.md#-myth-claude-code-has-hidden-features-you-can-unlock-with-secret-flags" # was line 26540
+  myths_tasks_api_autonomous: "guide/ultimate-guide.md#-myth-tasks-api-allows-fully-autonomous-parallel-agents" # was line 26572
+  myths_100x_faster: "guide/ultimate-guide.md#-myth-claude-code-is-100x-faster-than-other-ai-coding-tools" # was line 26604
   myths_reliable_sources: 26536
   # Quiz System (473 questions, 17 categories) — verified 2026-07-28
   quiz_overview: "quiz/README.md"
@@ -2006,7 +2006,7 @@ mcp:
   ast_grep_when: "structural patterns (>50k lines, migrations, AST rules)"
   ast_grep_not_for: "simple string search, small projects (<10k lines)"
   search_decision_tree: "grep (text) | ast-grep (structure) | Serena (symbols) | grepai (semantic)"
-  search_tools_comparison: "guide/ultimate-guide.md#search-tools-comparison-rg-vs-grepai-vs-serena-vs-ast-grep-vs-claude-mem"
+  search_tools_comparison: "guide/ultimate-guide.md#-search-tools-comparison-rg-vs-grepai-vs-serena-vs-ast-grep-vs-claude-mem"
   search_tools_mastery_workflow: "guide/workflows/search-tools-mastery.md"
   grep_vs_rag_history: "guide/core/architecture.md#tldr---5-bullet-summary"
   ripgrep_native: "Grep tool (Claude Code built-in, ~20ms)"
@@ -2234,7 +2234,7 @@ ecosystem:
   mcp_server:
     npm: "claude-code-ultimate-guide-mcp"
     install: "npx -y claude-code-ultimate-guide-mcp"
-    guide_section: "guide/ultimate-guide.md#this-guide-as-an-mcp-server"
+    guide_section: "guide/ultimate-guide.md#-this-guide-as-an-mcp-server"
     readme: "mcp-server/README.md"
     tools:
       - "search_guide(query, limit?) — search 882 indexed entries"
@@ -2754,12 +2754,12 @@ section_maps:
     - "claude_env_file"
     - "common-gotchas"
   "guide/core/known-issues.md":
-    - "active-critical-issues"
-    - "resolved-historical-issues"
-    - "llm-day-to-day-performance-variance"
-    - "issue-statistics-as-of-jan-28-2026"
-    - "how-to-track-issues"
-    - "contributing-to-this-document"
+    - "-active-critical-issues"
+    - "-resolved-historical-issues"
+    - "-llm-day-to-day-performance-variance"
+    - "-issue-statistics-as-of-jan-28-2026"
+    - "-how-to-track-issues"
+    - "-contributing-to-this-document"
   "guide/core/memory-systems.md":
     - "1-tldr-three-track-model"
     - "2-native-claude-code-memory-stack"
@@ -3269,7 +3269,7 @@ section_maps:
     - "next-steps"
   "guide/workflows/agent-teams.md":
     - "1-overview"
-    - "industry-adoption-data-anthropic-2026"
+    - "-industry-adoption-data-anthropic-2026"
     - "2-architecture-deep-dive"
     - "3-setup--configuration"
     - "4-production-use-cases"
@@ -3575,7 +3575,7 @@ section_maps:
     - "phase-3-piper-tts--french-voices-5-minutes"
     - "phase-4-configuration--testing-3-minutes"
     - "phase-5-verification-in-claude-code-1-minute"
-    - "total-time-18-minutes"
+    - "total-time-18-minutes-"
     - "post-setup-recommendations"
     - "troubleshooting-quick-reference"
     - "next-steps"

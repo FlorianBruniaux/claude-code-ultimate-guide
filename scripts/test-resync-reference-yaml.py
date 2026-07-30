@@ -120,6 +120,62 @@ check("old substring guard swallows real refs (test discriminates)",
 
 
 # ---------------------------------------------------------------------------
+# Trap 2b — slugify must match the real renderer, not itself
+#
+# validate-reference-yaml.py used to carry its own copy of slugify() and check
+# anchors against it. That copy had the same bug as this one: a trailing
+# `.strip()` before the space->hyphen replace, which github-slugger does not
+# do. The validator was checking the data against its own mistake, so 16
+# anchors were dead in production (both on GitHub and on the landing, which
+# stamps heading ids via @astrojs/markdown-remark -> the same github-slugger
+# package) while validate-reference-yaml.py reported every one of them fine.
+#
+# These pairs are pinned from the ACTUAL `github-slugger@2.0.0` npm package
+# (resolved from ../claude-code-ultimate-guide-landing/node_modules), not
+# reasoned out. Do not "fix" a failing pair here by editing the expected
+# value: verify against the real package first, the whole reason this bug
+# existed is that a self-referential check produced a value nobody checked
+# against reality.
+# ---------------------------------------------------------------------------
+print("\nTrap 2b — slugify must match github-slugger, verified against the real package")
+
+GITHUB_SLUGGER_GROUND_TRUTH = [
+    ("2. Architecture Deep-Dive", "2-architecture-deep-dive"),
+    ("3. Setup & Configuration", "3-setup--configuration"),
+    ("6. Limitations & Gotchas", "6-limitations--gotchas"),
+    ("9.11 Common Pitfalls & Best Practices", "911-common-pitfalls--best-practices"),
+    ("isError: false + Empty Content vs isError: true",
+     "iserror-false--empty-content-vs-iserror-true"),
+    ("2. Excessive Token Consumption (Jan 2026 - Present)",
+     "2-excessive-token-consumption-jan-2026---present"),
+    ("🔄 LLM Day-to-Day Performance Variance", "-llm-day-to-day-performance-variance"),
+    ("❌ Myth: \"Claude Code is 100x faster than other AI coding tools\"",
+     "-myth-claude-code-is-100x-faster-than-other-ai-coding-tools"),
+    ("⚠️ Migration Risks & Caveats", "️-migration-risks--caveats"),
+    ("⚠️ AGENTS.md Support Status", "️-agentsmd-support-status"),
+]
+for text, want in GITHUB_SLUGGER_GROUND_TRUTH:
+    got = resync.slugify(text)
+    check(f"slugify matches github-slugger: {text[:44]!r}", got == want,
+          f"(got {got!r}, want {want!r})")
+
+# Discrimination: the old double-strip implementation fails the emoji-prefixed cases.
+
+
+def old_slugify_with_strip(h):
+    h = re.sub(r'`', '', h)
+    h = re.sub(r'\[([^\]]*)\]\([^)]*\)', r'\1', h)
+    return re.sub(r'[^\w\s\-]', '', h.lower(), flags=re.UNICODE).strip().replace(' ', '-')
+
+
+emoji_cases = [(t, w) for t, w in GITHUB_SLUGGER_GROUND_TRUTH if t[0] in "🔄❌⚠️"]
+old_wrong = [t for t, w in emoji_cases if old_slugify_with_strip(t) != w]
+check("the old .strip()'d implementation gets emoji-prefixed headings wrong "
+      "(test discriminates)", len(old_wrong) == len(emoji_cases),
+      f"(old impl got {len(old_wrong)}/{len(emoji_cases)} wrong)")
+
+
+# ---------------------------------------------------------------------------
 # Trap 3 — fence tracking
 #
 # A naive `startswith("```") -> flip` desynchronises on any file with an odd

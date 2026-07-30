@@ -10,46 +10,28 @@ Why a separate top-level block and not more deep_dive keys:
   (not paths) is invisible to that script, so LLMs get full section coverage
   with zero landing impact.
 """
-import os, re, glob, sys
+import glob, importlib.util, os, sys
 
 os.chdir('/Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide')
 REF = 'machine-readable/reference.yaml'
 APPLY = '--apply' in sys.argv
 
+# headings()/slugify() used to be copy-pasted into this file, validate-reference-yaml.py,
+# and resync-reference-yaml.py: three independent implementations that had to agree by
+# accident. They didn't. All three had `.strip()` before the space->hyphen replace, which
+# github-slugger does not do, so a heading starting with a stripped emoji ("🔄 LLM Day-to-Day...")
+# produced a slug with no leading hyphen while the real rendered id has one. 16 anchors were
+# dead on both GitHub and the landing while every one of the three copies agreed the slug was
+# fine, because they were all checking against each other's mistake, not against reality.
+# Importing the single implementation makes that class of bug structurally impossible.
+_spec = importlib.util.spec_from_file_location("resync", "scripts/resync-reference-yaml.py")
+_resync = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_resync)
+headings = _resync.headings  # accepts str or Path, both work with open()
+slugify = _resync.slugify
+
 SKIP_HEADINGS = {'table of contents', 'see also', 'resources', 'related resources',
                  'related sections', 'references', 'sources', 'quick jump', 'quick nav'}
-
-
-def headings(path):
-    """CommonMark fence rules (see scripts/validate-reference-yaml.py for why a naive toggle breaks)."""
-    out = []
-    fence_char, fence_len = None, 0
-    for n, l in enumerate(open(path, encoding='utf-8', errors='ignore'), 1):
-        s = l.lstrip()
-        m = re.match(r'^([`~]{3,})(.*)$', s)
-        if m:
-            marker, rest = m.group(1), m.group(2).strip()
-            if fence_char is None:
-                fence_char, fence_len = marker[0], len(marker)
-                continue
-            if marker[0] == fence_char and len(marker) >= fence_len and not rest:
-                fence_char, fence_len = None, 0
-                continue
-        if fence_char is not None:
-            continue
-        m = re.match(r'^(#{1,6})\s+(.*)$', l)
-        if m:
-            out.append((n, len(m.group(1)), m.group(2).strip()))
-    return out
-
-
-def slugify(h):
-    ex = re.search(r'\{#([^}]+)\}', h)
-    if ex:
-        return ex.group(1)
-    h = re.sub(r'`', '', h)
-    h = re.sub(r'\[([^\]]*)\]\([^)]*\)', r'\1', h)
-    return re.sub(r'[^\w\s\-]', '', h.lower(), flags=re.UNICODE).strip().replace(' ', '-')
 
 
 files = sorted(p for p in glob.glob('guide/**/*.md', recursive=True)

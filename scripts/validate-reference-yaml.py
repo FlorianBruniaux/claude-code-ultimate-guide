@@ -15,12 +15,26 @@ entry that does not resolve. Bare integers landing far from a heading are
 reported but do not fail the build; that backlog is gated by
 scripts/resync-reference-yaml.py instead.
 """
-import os, re, sys, glob, yaml
+import importlib.util, os, re, sys, glob, yaml
 
 os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 REF = 'machine-readable/reference.yaml'
 CI = '--ci' in sys.argv
 failures = 0
+
+# headings()/slugify() used to be copy-pasted here, in resync-reference-yaml.py, and in
+# gen-section-maps.py: three independent implementations that had to agree by accident.
+# They didn't. All three stripped leading/trailing hyphens that github-slugger keeps, so a
+# heading starting with a stripped emoji produced a slug this file would then validate
+# against its own wrong recomputation of the same slug. 16 anchors were dead on both GitHub
+# and the landing while this validator reported every one of them fine, because it was
+# checking the data against its own copy of the bug, not against reality. Importing the
+# single implementation makes that class of bug structurally impossible: any future fix to
+# slugify only has one place to land.
+_spec = importlib.util.spec_from_file_location("resync", "scripts/resync-reference-yaml.py")
+_resync = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_resync)
+slugify = _resync.slugify
 
 print("=== integrity ===")
 n_new = sum(1 for _ in open(REF, encoding='utf-8'))
@@ -36,48 +50,18 @@ for f in ['machine-readable/reference.yaml', 'machine-readable/cowork-reference.
         failures += 1
 
 
-def headings(path):
-    """
-    CommonMark fence rules, not a naive toggle.
-
-    A naive `startswith('```') -> flip` desynchronises on any file with an odd
-    fence count (nested markdown examples, 4-backtick blocks containing 3-backtick
-    ones). enterprise-governance.md has 51 such lines: the toggle got stuck inside
-    a fence and silently dropped every heading after it, reporting 9 perfectly
-    valid anchors as broken. Closing fences must match the opening char and be at
-    least as long, with nothing but whitespace after them.
-    """
-    out = []
-    fence_char, fence_len = None, 0
-    for n, l in enumerate(open(path, encoding='utf-8', errors='ignore'), 1):
-        s = l.lstrip()
-        m = re.match(r'^([`~]{3,})(.*)$', s)
-        if m:
-            marker, rest = m.group(1), m.group(2).strip()
-            if fence_char is None:
-                fence_char, fence_len = marker[0], len(marker)
-                continue
-            if marker[0] == fence_char and len(marker) >= fence_len and not rest:
-                fence_char, fence_len = None, 0
-                continue
-        if fence_char is not None:
-            continue
-        m = re.match(r'^(#{1,6})\s+(.*)$', l)
-        if m:
-            out.append((n, len(m.group(1)), m.group(2).strip()))
-    return out
+headings = _resync.headings  # CommonMark fence rules; see resync-reference-yaml.py for why a naive toggle breaks
 
 
 def slugs(path):
+    """Every slug a heading in `path` could be addressed by, including {#custom-id} forms."""
     s = set()
     for _, _, h in headings(path):
         ex = re.search(r'\{#([^}]+)\}', h)
         if ex:
             s.add(ex.group(1))
             h = re.sub(r'\{#[^}]+\}', '', h).strip()
-        h = re.sub(r'`', '', h)
-        h = re.sub(r'\[([^\]]*)\]\([^)]*\)', r'\1', h)
-        s.add(re.sub(r'[^\w\s\-]', '', h.lower(), flags=re.UNICODE).strip().replace(' ', '-'))
+        s.add(slugify(h))
     return s
 
 
@@ -128,11 +112,7 @@ for i, line in enumerate(open(REF, encoding='utf-8'), 1):
         continue
     key, stored, slug = m.group(1), int(m.group(2)), m.group(3)
     n_decl += 1
-    hits = [n for n, _, t in _ug_heads
-            if re.sub(r'[^\w\s\-]', '',
-                      re.sub(r'\[([^\]]*)\]\([^)]*\)', r'\1',
-                             re.sub(r'`', '', t)).lower(),
-                      flags=re.UNICODE).strip().replace(' ', '-') == slug]
+    hits = [n for n, _, t in _ug_heads if slugify(t) == slug]
     if len(hits) == 0:
         bad_decl.append((i, key, slug, 'matches no heading'))
     elif len(hits) > 1:
