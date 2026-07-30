@@ -262,7 +262,7 @@ graph LR
 - [Architecture](./guide/core/architecture.md) — Internal mechanics (context flow, tool orchestration, memory management)
 - [Trade-offs](./guide/ultimate-guide.md#when-to-use-what) — Decision frameworks for agents vs skills vs commands
 - [Configuration Decision Guide](./guide/ultimate-guide.md#27-configuration-decision-guide) — Unified "which mechanism for what?" map across all 7 config layers
-- [Pitfalls](./guide/ultimate-guide.md#common-mistakes) — Common failure modes + prevention strategies
+- [Pitfalls](./guide/ultimate-guide.md#18-eight-beginner-mistakes-and-how-to-avoid-them) — Common failure modes + prevention strategies
 
 **What this means for you**: Troubleshoot issues independently, optimize for your specific use case, know when to deviate from patterns.
 
@@ -335,10 +335,10 @@ graph LR
 **Outcome**: Maintain code quality while working with AI.
 
 Complete guides with rationale and examples:
-- [TDD](./guide/core/methodologies.md#1-tdd-test-driven-development-with-claude) — Test-Driven Development (Red-Green-Refactor with AI)
-- [SDD](./guide/core/methodologies.md#2-sdd-specification-driven-development) — Specification-Driven Development (Design before code)
-- [BDD](./guide/core/methodologies.md#3-bdd-behavior-driven-development) — Behavior-Driven Development (User stories → tests)
-- [GSD](./guide/core/methodologies.md#gsd-get-shit-done) — Get Shit Done (Pragmatic delivery)
+- [TDD](./guide/core/methodologies.md#tier-5-implementation) — Test-Driven Development (Red-Green-Refactor with AI)
+- [SDD](./guide/core/methodologies.md#tier-2-specification--architecture) — Specification-Driven Development (Design before code)
+- [BDD](./guide/core/methodologies.md#tier-3-behavior--acceptance) — Behavior-Driven Development (User stories → tests)
+- [GSD](./guide/core/methodologies.md#tier-1-strategic-orchestration) — Get Shit Done (Pragmatic delivery)
 
 **What this means for you**: Choose the right workflow for your team culture, integrate AI into existing processes, avoid technical debt from AI over-reliance.
 
@@ -429,15 +429,15 @@ Systematic assessment of external resources (5-point scoring):
 
 **DevOps / SRE** (5 steps):
 1. [DevOps & SRE Guide](./guide/ops/devops-sre.md) — FIRE framework
-2. [K8s Troubleshooting](./guide/ops/devops-sre.md#kubernetes-troubleshooting) — Symptom-based prompts
+2. [K8s Troubleshooting](./guide/ops/devops-sre.md#kubernetes) — Symptom-based prompts
 3. [Incident Response](./guide/ops/devops-sre.md#pattern-incident-response) — Workflows
 4. [IaC Patterns](./guide/ops/devops-sre.md#pattern-infrastructure-as-code) — Terraform, Ansible
 5. [Guardrails](./guide/ops/devops-sre.md#guardrails--adoption) — Security boundaries
 
 **Product Designer** (5 steps):
-1. [Working with Images](./guide/ultimate-guide.md#24-working-with-images) — Image analysis
-2. [Wireframing Tools](./guide/ultimate-guide.md#wireframing-tools) — ASCII/Excalidraw
-3. [Figma MCP](./guide/ultimate-guide.md#figma-mcp) — Design file access
+1. [Working with Images](./guide/ultimate-guide.md#working-with-images-and-screenshots) — Image analysis
+2. [Wireframing Tools](./guide/ultimate-guide.md#wireframing-tools-for-ai-development) — ASCII/Excalidraw
+3. [Figma MCP](./guide/ultimate-guide.md#figma-mcp-integration) — Design file access
 4. [Design-to-Code Workflow](./guide/workflows/design-to-code.md) — Figma → Claude
 5. [Cheat Sheet](./guide/cheatsheet.md) — Print this
 
@@ -738,7 +738,7 @@ claude plugin install session-summary      # Session analytics dashboard (15 sec
 4. **Testing**: Isolated Docker sandbox first, monitor tool calls
 5. **Monitoring**: Session logs, error tracking, regular re-audits
 
-**[Full MCP Security Workflow →](./guide/security/security-hardening.md#vetting-mcp-servers)**
+**[Full MCP Security Workflow →](./guide/security/security-hardening.md#11-mcp-vetting-workflow)**
 
 ---
 
@@ -807,7 +807,7 @@ Use this guide critically. Experiment. Share what works for you.
 
 **Agents** (23): [code-reviewer](./examples/agents/code-reviewer.md), [test-writer](./examples/agents/test-writer.md), [security-auditor](./examples/agents/security-auditor.md), [refactoring-specialist](./examples/agents/refactoring-specialist.md), [output-evaluator](./examples/agents/output-evaluator.md), [devops-sre](./examples/agents/devops-sre.md) ⭐
 
-**Skills** (74): [/pr](./examples/skills/pr/SKILL.md), [/commit](./examples/skills/commit/SKILL.md), [/release-notes](./examples/skills/release-notes/SKILL.md), [/diagnose](./examples/skills/diagnose/SKILL.md), [/security](./examples/skills/security/SKILL.md), [/security-check](./examples/skills/security-check/SKILL.md) **, [/security-audit](./examples/skills/security-audit/SKILL.md) **, [/update-threat-db](./examples/skills/update-threat-db/SKILL.md) **, [/refactor](./examples/skills/refactor/SKILL.md), [/explain](./examples/skills/explain/SKILL.md), [/optimize](./examples/skills/optimize/SKILL.md), [/ship](./examples/skills/ship/SKILL.md)...
+**Skills** (77): [/pr](./examples/skills/pr/SKILL.md), [/commit](./examples/skills/commit/SKILL.md), [/release-notes](./examples/skills/release-notes/SKILL.md), [/diagnose](./examples/skills/diagnose/SKILL.md), [/sandbox-unblock](./examples/skills/sandbox-unblock/SKILL.md), [/security](./examples/skills/security/SKILL.md), [/security-check](./examples/skills/security-check/SKILL.md) **, [/security-audit](./examples/skills/security-audit/SKILL.md) **, [/update-threat-db](./examples/skills/update-threat-db/SKILL.md) **, [/refactor](./examples/skills/refactor/SKILL.md), [/explain](./examples/skills/explain/SKILL.md), [/optimize](./examples/skills/optimize/SKILL.md), [/ship](./examples/skills/ship/SKILL.md)...
 
 **Security Hooks** (38): [dangerous-actions-blocker](./examples/hooks/bash/dangerous-actions-blocker.sh), [prompt-injection-detector](./examples/hooks/bash/prompt-injection-detector.sh), [unicode-injection-scanner](./examples/hooks/bash/unicode-injection-scanner.sh), [output-secrets-scanner](./examples/hooks/bash/output-secrets-scanner.sh)...
 

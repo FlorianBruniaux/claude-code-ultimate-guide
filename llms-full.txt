@@ -11,13 +11,13 @@
 - Title: Claude Code Ultimate Guide
 - Author: Florian Bruniaux (Founding Engineer @ Méthode Aristote)
 - Version: 3.41.1
-- Last Updated: June 21, 2026
+- Last Updated: July 30, 2026
 - License: CC BY-SA 4.0
 - Repository: https://github.com/FlorianBruniaux/claude-code-ultimate-guide
 - Landing: https://cc.bruniaux.com
-- Lines of Documentation: 26,494
-- Production Templates: 262
-- Quiz Questions: 334
+- Lines of Documentation: 26,695
+- Production Templates: 268
+- Quiz Questions: 473
 - Whitepapers: 13 titles (FR + EN)
 
 ---
@@ -26,7 +26,7 @@
 
 Claude Code is Anthropic's official CLI for AI-assisted development. It lets developers interact with Claude directly from the terminal to write, edit, debug, and review code. Unlike IDE plugins, it has full filesystem access, can run shell commands, and works autonomously on multi-step tasks.
 
-This guide is the most comprehensive community resource for Claude Code. It covers everything from installation to production security, with 262 ready-to-use templates for agents, hooks, commands, and skills.
+This guide is the most comprehensive community resource for Claude Code. It covers everything from installation to production security, with 268 ready-to-use templates for agents, hooks, commands, and skills.
 
 ## Who This Guide Is For
 
@@ -36,16 +36,16 @@ This guide is the most comprehensive community resource for Claude Code. It cove
 - **Tech leads**: Team adoption, security hardening, governance patterns
 - **CTOs/CIOs**: ROI, risk, security posture
 
-## Guide Structure (10 Sections + Architecture)
+## Guide Structure (11 Sections + Architecture)
 
-**Architecture Deep Dive** (`guide/architecture.md`):
+**Architecture Deep Dive** (`guide/core/architecture.md`):
 - Master Loop: `while(tool_call)`, no DAGs, no classifiers, no RAG
 - 8 Core Tools: Bash, Read, Edit, Write, Grep, Glob, Task, TodoWrite
 - Context: ~200K tokens, auto-compact at 75-92%
 - Sub-agents: isolated context, max depth=1
 - Philosophy: "less scaffolding, more model"
 
-**Main Guide Sections** (`guide/ultimate-guide.md`, 26,494 lines):
+**Main Guide Sections** (`guide/ultimate-guide.md`, 26,695 lines):
 1. Quick Start: Installation, first workflow, essential commands
 2. Core Concepts: Context management, Plan Mode, Rewind, Mental Model
 3. Memory & Settings: CLAUDE.md files, .claude/ folder, precedence rules
@@ -56,6 +56,7 @@ This guide is the most comprehensive community resource for Claude Code. It cove
 8. MCP Servers: Serena, Context7, Sequential, Playwright, Postgres, grepai
 9. Advanced Patterns: Trinity, CI/CD, Tasks API, multi-agent teams, feedback loops
 10. Reference: Commands, shortcuts, troubleshooting, checklists
+11. AI Ecosystem: Complementary tools matrix, practical multi-tool workflows, integration patterns
 
 **Security & Sandboxing** (`guide/security/sandbox-native.md`, `guide/core/settings-reference.md`):
 - Two independent layers: filesystem (write CWD + session temp, read the whole machine) and network (no domain pre-allowed, proxy does not terminate TLS)
@@ -69,7 +70,7 @@ This guide is the most comprehensive community resource for Claude Code. It cove
 
 ## Full Cheatsheet
 
-**Version**: 3.41.1 | **Last Updated**: June 2026
+**Version**: 3.41.1 | **Last Updated**: July 2026
 
 ---
 
@@ -344,15 +345,16 @@ Deep analysis     → Use Opus (thinking on by default)
 
 ---
 
-## Template Library (262 templates)
+## Template Library (268 templates)
 
-### Agents (23 files)
+### Agents (21 files)
 - `adr-writer.md`: Architecture Decision Records
 - `architecture-reviewer.md`: System architecture review
 - `code-reviewer.md`: Code quality review
 - `devops-sre.md`: DevOps/SRE operations
 - `implementer.md`: Feature implementation
 - `integration-reviewer.md`: API integration review
+- `loop-monitor.md`: Autonomous loop progress monitoring
 - `output-evaluator.md`: AI output evaluation
 - `plan-challenger.md`: Challenge implementation plans
 - `planner.md`: Task planning
@@ -361,10 +363,11 @@ Deep analysis     → Use Opus (thinking on by default)
 - `security-auditor.md`: Security auditing
 - `security-patcher.md`: Security patch application
 - `test-writer.md`: Test generation
-- `analytics-with-eval/`: Full analytics agent with eval framework
-- `cyber-defense/`: Multi-agent cyber defense team
+- `analytics-with-eval/`: Full analytics agent with eval framework (analytics-agent.md + eval/report-template.md)
+- `cyber-defense/`: Multi-agent cyber defense team (anomaly-detector.md, log-ingestor.md, risk-classifier.md, threat-reporter.md)
 
-### Commands (52 files)
+### Commands (legacy, pre-CC 2.1.3)
+Since Claude Code 2.1.3, `.claude/commands/` merged into `.claude/skills/`; every file below is now a redirect stub pointing to its `examples/skills/<name>/SKILL.md` equivalent, kept for backward compatibility.
 - `audit-agents-skills.md`: Quality audit for .claude/ configs
 - `audit-codebase.md`: Full codebase audit
 - `catchup.md`: Daily catchup briefing
@@ -386,21 +389,22 @@ Deep analysis     → Use Opus (thinking on by default)
 - `learn/`: Interactive learning command
 
 ### Hooks (bash + PowerShell)
-**Bash hooks:**
-- `auto-commit.sh`: Auto commit on file changes
-- `dangerous-actions-blocker.sh`: Block rm -rf and destructive commands
-- `format-on-save.sh`: Auto-format code files
-- `lint-on-edit.sh`: Run linter after edits
-- `prompt-injection-detector.sh`: Detect prompt injection attempts
-- `run-tests-on-edit.sh`: Run tests after code changes
-- `secrets-scanner.sh`: Scan for hardcoded secrets
-- `send-notification.sh`: Desktop notifications on task completion
-- `session-logger.sh`: Log all session activity
-- `smart-context-compressor.sh`: Adaptive context management
-- `token-usage-tracker.sh`: Track API token consumption
-- `update-changelog.sh`: Auto-update CHANGELOG on commits
+**Bash hooks** (36 files in `examples/hooks/bash/`, a representative sample):
+- `dangerous-actions-blocker.sh`: Block destructive commands (PreToolUse)
+- `prompt-injection-detector.sh`: Detect prompt injection attempts (PreToolUse)
+- `security-check.sh`: Block commands containing secrets (PreToolUse)
+- `pre-commit-secrets.sh`: Detect secrets in staged files before commit
+- `auto-format.sh`: Auto-format edited files (PostToolUse)
+- `test-on-change.sh`: Run tests after code changes
+- `typecheck-on-save.sh`: Type-check edited files
+- `notification.sh`: macOS desktop alerts with contextual sounds
+- `session-logger.sh`: Log all Claude Code operations for monitoring (PostToolUse)
+- `auto-checkpoint.sh`: Automatic git checkpoints during a session
+- `learning-capture.sh`: Capture one learning insight at session end (Stop)
+- `output-validator.sh`: Validate Claude's outputs for quality issues (PostToolUse)
 
-**PowerShell hooks** (Windows equivalents for all above)
+**PowerShell hooks** (2 files in `examples/hooks/powershell/`, Windows equivalents for a subset, not a 1:1 mirror of the bash list):
+- `auto-format.ps1`, `security-check.ps1`
 
 ### Skills (64 modules)
 - `ast-grep-patterns.md`: AST-based code search patterns
@@ -455,7 +459,7 @@ Deep analysis     → Use Opus (thinking on by default)
 ## FAQ
 
 **Q: What is the Claude Code Ultimate Guide?**
-A: The most comprehensive community guide for Claude Code (Anthropic's CLI). 26,494 lines of documentation, 262 production-ready templates, 334-question quiz, and security threat database. Free and open-source (CC BY-SA 4.0).
+A: The most comprehensive community guide for Claude Code (Anthropic's CLI). 26,695 lines of documentation, 268 production-ready templates, 473-question quiz, and security threat database. Free and open-source (CC BY-SA 4.0).
 
 **Q: Is this guide free?**
 A: Yes, completely free. The guide is CC BY-SA 4.0 (share and adapt with attribution). Templates are CC0 (copy-paste freely, no attribution needed). No paywall, no login required.
@@ -488,7 +492,7 @@ A: Skills are reusable knowledge modules stored in `.claude/skills/`. Two types:
 A: Monitor context usage via `/status`. At 70%: run `/compact` to summarize and free context. At 90%: use `/clear` for a fresh start. Use Plan Mode early to explore without consuming context. For long projects, use Tasks API (`CLAUDE_CODE_TASK_LIST_ID`) for cross-session persistence.
 
 **Q: Is Claude Code safe for production use?**
-A: With proper hardening, yes. Key steps: never use `bypassPermissions` in production, vet all MCP servers against the threat database (28+ CVEs tracked), use hooks to block dangerous commands, enable audit logging, run `claude doctor` regularly. See `guide/security-hardening.md` for the complete checklist.
+A: With proper hardening, yes. Key steps: never use `bypassPermissions` in production, vet all MCP servers against the threat database (28+ CVEs tracked), use hooks to block dangerous commands, enable audit logging, run `claude doctor` regularly. See `guide/security/security-hardening.md` for the complete checklist.
 
 ---
 
@@ -498,7 +502,7 @@ Claude Code sends to Anthropic servers: your prompts, file contents you referenc
 - Default retention: 5 years (training enabled)
 - Opt-out: 30 days retention, https://claude.ai/settings/data-privacy-controls
 - Enterprise: 0 retention, no training
-- The guide covers this in detail: `guide/data-privacy.md`
+- The guide covers this in detail: `guide/security/data-privacy.md`
 
 ---
 
@@ -509,13 +513,13 @@ claude-code-ultimate-guide/
 ├── llms.txt                        # This file (short version, for AI indexing)
 ├── llms-full.txt                   # Full content (you are here)
 ├── guide/                          # Core documentation
-│   ├── ultimate-guide.md           # Complete guide (26,494 lines)
+│   ├── ultimate-guide.md           # Complete guide (26,695 lines)
 │   ├── cheatsheet.md               # 1-page reference
-│   ├── architecture.md             # How Claude Code works internally
-│   ├── security-hardening.md       # Security best practices
-│   ├── data-privacy.md             # What data is sent to Anthropic
-│   └── claude-code-releases.md     # Official release tracking
-├── examples/                       # 262 production-ready templates
+│   ├── core/architecture.md        # How Claude Code works internally
+│   ├── security/security-hardening.md  # Security best practices
+│   ├── security/data-privacy.md    # What data is sent to Anthropic
+│   └── core/claude-code-releases.md    # Official release tracking
+├── examples/                       # 268 production-ready templates
 │   ├── agents/                     # Custom AI personas
 │   ├── commands/                   # Legacy slash commands (pre-CC 2.1.3)
 │   ├── hooks/                      # Event automation (bash + PowerShell)
@@ -525,7 +529,7 @@ claude-code-ultimate-guide/
 │   ├── reference.yaml              # Machine-optimized index (~2K tokens)
 │   └── llms.txt                    # Short version
 ├── whitepapers/                    # 13 focused PDFs (FR + EN)
-└── quiz/                           # 334-question interactive quiz
+└── quiz/                           # 473-question interactive quiz
 ```
 
 ---

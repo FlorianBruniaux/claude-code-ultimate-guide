@@ -229,6 +229,9 @@ Auto-generated template index with complexity, time, and domain filters.
 - **[sandbox-status](commands/sandbox-status.md)** *intermediate* • 30 min
   Display native sandbox status, configuration, and recent violations
 
+- **[sandbox-unblock](skills/sandbox-unblock/SKILL.md)** *intermediate* • 30 min
+  Eight-check diagnostic protocol to run before reporting a sandbox blocker, plus a report template and escalation path. Cuts the false-positive rate that makes blocker reports expensive to act on.
+
 - **[scaffold](commands/scaffold.md)** *intermediate* • 30 min
   Interactive coach that asks 4-5 questions to determine whether you need an agent, command, skill, hook, or rule — then generates a ready-to-use template. Usage: /scaffold (no arguments — starts the coaching session)
 
@@ -725,6 +728,7 @@ Auto-generated template index with complexity, time, and domain filters.
 - **rtk-baseline** (intermediate, 30 min)
 - **rtk-optimizer** (intermediate, 30 min)
 - **sandbox-status** (intermediate, 30 min)
+- **sandbox-unblock** (intermediate, 30 min)
 - **sandbox-validation** (intermediate, 30 min)
 - **scaffold** (intermediate, 30 min)
 - **security** (intermediate, 30 min)

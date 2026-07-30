@@ -82,20 +82,24 @@ if [ -n "$CONFIG" ]; then
   echo "  Source: $CONFIG"
 
   # Auto-allow mode
-  AUTO_ALLOW=$(jq -r '.sandbox.autoAllowMode // "not set"' "$CONFIG" 2>/dev/null)
+  AUTO_ALLOW=$(jq -r '.sandbox.autoAllowBashIfSandboxed // "not set"' "$CONFIG" 2>/dev/null)
   echo "  Auto-allow: $AUTO_ALLOW"
 
+  # Escape hatch
+  ESCAPE=$(jq -r '.sandbox.allowUnsandboxedCommands // "not set"' "$CONFIG" 2>/dev/null)
+  echo "  dangerouslyDisableSandbox allowed: $ESCAPE"
+
   # Allowed write paths
-  WRITE_PATHS=$(jq -r '.sandbox.filesystem.allowedWritePaths[]? // empty' "$CONFIG" 2>/dev/null | tr '\n' ', ')
+  WRITE_PATHS=$(jq -r '.sandbox.filesystem.allowWrite[]? // empty' "$CONFIG" 2>/dev/null | tr '\n' ', ')
   echo "  Allowed writes: ${WRITE_PATHS:-not set}"
 
-  # Denied read paths
-  DENIED_READS=$(jq -r '.sandbox.filesystem.deniedReadPaths[]? // empty' "$CONFIG" 2>/dev/null | tr '\n' ', ')
-  echo "  Denied reads: ${DENIED_READS:-not set}"
+  # Credential files denied to every subprocess
+  CRED_FILES=$(jq -r '.sandbox.credentials.files[]?.path // empty' "$CONFIG" 2>/dev/null | tr '\n' ', ')
+  echo "  Denied credential files: ${CRED_FILES:-not set}"
 
-  # Network policy
-  NET_POLICY=$(jq -r '.sandbox.network.policy // "not set"' "$CONFIG" 2>/dev/null)
-  echo "  Network policy: $NET_POLICY"
+  # Strict allowlist switch
+  STRICT=$(jq -r '.sandbox.network.strictAllowlist // "not set (default false)"' "$CONFIG" 2>/dev/null)
+  echo "  Strict allowlist: $STRICT"
 
   # Allowed domains
   DOMAINS=$(jq -r '.sandbox.network.allowedDomains[]? // empty' "$CONFIG" 2>/dev/null | head -3 | tr '\n' ', ')
@@ -130,7 +134,7 @@ echo
 
 # 5. Documentation
 echo "Documentation:"
-echo "  Guide: guide/sandbox-native.md"
+echo "  Guide: guide/security/sandbox-native.md"
 echo "  Official: https://code.claude.com/docs/en/sandboxing"
 echo "  Runtime: https://github.com/anthropic-experimental/sandbox-runtime"
 ```
@@ -146,9 +150,10 @@ Platform:
 Configuration (from settings.json):
   Source: .claude/settings.json
   Auto-allow: true
+  dangerouslyDisableSandbox allowed: false
   Allowed writes: ${CWD}, /tmp
-  Denied reads: ${HOME}/.ssh, ${HOME}/.aws, ${HOME}/.kube
-  Network policy: deny
+  Denied credential files: ~/.ssh, ~/.aws, ~/.gnupg
+  Strict allowlist: not set (default false)
   Allowed domains: api.anthropic.com, registry.npmjs.com, github.com... (9 total)
   Excluded commands: docker, kubectl, podman
 
@@ -161,7 +166,7 @@ Open-Source Runtime:
   Usage: npx @anthropic-ai/sandbox-runtime <command>
 
 Documentation:
-  Guide: guide/sandbox-native.md
+  Guide: guide/security/sandbox-native.md
   Official: https://code.claude.com/docs/en/sandboxing
   Runtime: https://github.com/anthropic-experimental/sandbox-runtime
 ```
@@ -176,5 +181,6 @@ Documentation:
 ## See Also
 
 - [Native Sandboxing Guide](../../../guide/security/sandbox-native.md) - Complete technical reference
+- [/sandbox-unblock](../sandbox-unblock/SKILL.md) - Diagnostic protocol when something looks blocked
 - [Sandbox Validation Hook](../../hooks/bash/sandbox-validation.sh) - Pre-command validation
 - [Sandbox Config Example](../../config/sandbox-native.json) - Production-ready settings

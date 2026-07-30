@@ -412,6 +412,7 @@ deep_dive:
   ai_unit_economics_guide: "guide/ops/ai-unit-economics.md"
   ai_unit_economics_description: "Original synthesis on the unit economics of agentic AI usage: per-task cost decomposition, real cost levers (complexity routing, sub-agent isolation, exit criteria), the break-even point of an autonomous agent, and team budget governance. Flagged explicitly as original analysis, not a practitioner-sourced compilation."
   ai_unit_economics_token_estimation: "guide/ops/ai-unit-economics.md#do-not-estimate-tokens-by-string-length"  # why chars/4 breaks: measured -35% on code, -23% on accented French, erring in the unsafe direction; wrong tokenizer for Claude; plus the count-the-wrong-string second-order bug
+  ai_unit_economics_skill_injection_cost: "guide/ops/ai-unit-economics.md#audit-what-a-skill-or-tool-injects-not-just-what-it-costs-to-load"  # skill definition is cheap, injected result is the recurring cache-read cost; $5.33/208.9K-token skill call example; no measured break-even, governance call per skill via /usage per-category breakdown
   # Learning with AI (guide/roles/learning-with-ai.md)
   learning_quick_check: "guide/roles/learning-with-ai.md#quick-self-check-start-here"
   learning_uval_protocol: "guide/roles/learning-with-ai.md#the-uval-protocol"
@@ -448,9 +449,9 @@ deep_dive:
   learning_capture_hook: "examples/hooks/bash/learning-capture.sh"
   # Anti-patterns
   vibe_coding_trap: "guide/roles/learning-with-ai.md#the-vibe-coding-trap"
-  vibe_coding_context_overload: 16490
+  vibe_coding_context_overload: "guide/ultimate-guide.md#anti-pattern-context-overload"  # was 16490, drifted
   vibe_coding_context_overload_source: "Jens Rusitschka, 'Vibe Coding, Level 2' (Jan 2026)"
-  vibe_coding_phased_strategy: 16490
+  vibe_coding_phased_strategy: "guide/ultimate-guide.md#anti-pattern-context-overload"  # was 16490, drifted
   # AI Traceability & Attribution (guide/ops/ai-traceability.md) - Added 2026-01-24
   ai_traceability_guide: "guide/ops/ai-traceability.md"
   ai_traceability_why: "guide/ops/ai-traceability.md#why-traceability-matters-now"
@@ -538,7 +539,8 @@ deep_dive:
   sandbox_excluded_flag_flips_whole_line: "guide/security/sandbox-native.md#check-whether-the-command-actually-ran-sandboxed"  # A/B verified: `git fetch origin` unsandboxes the entire invocation, `git -C <path> fetch origin` does not match and stays sandboxed; one flag decides
   sandbox_setuid_exec_denied: "guide/security/sandbox-native.md#commands-that-cannot-work-sandboxed-at-all"  # ps top su login carry mode 04000 and cannot exec; lsof and whoami do not and run fine; use lsof -nP -iTCP -sTCP:LISTEN instead of ps aux | grep
   sandbox_unix_socket_bind_denied: "guide/security/sandbox-native.md#commands-that-cannot-work-sandboxed-at-all"  # AF_UNIX bind+listen denied in every writable dir including $TMPDIR; allowLocalBinding covers TCP only, so tsx will not start; bundle with esbuild then run node
-  sandbox_allowlist_inert_with_autoallow: "guide/security/sandbox-native.md#domain-filtering"  # without strictAllowlist the permissive mode relies on a prompt that autoAllowBashIfSandboxed answers; example.com and api.openai.com returned 200 against a 23-domain list
+  sandbox_allowlist_filters_without_strict: "guide/security/sandbox-native.md#domain-filtering"  # allowedDomains filters even in permissive mode; adding a wildcard flipped cursor.com and www.jetbrains.com from unreachable to 200, hot, no restart
+  sandbox_blocked_host_vs_missing_host: "guide/security/sandbox-native.md#domain-filtering"  # allowlist refusal hangs 5-7s; a nonexistent hostname fails in under 30ms even when a wildcard covers it
   sandbox_codeload_not_covered: "guide/security/sandbox-native.md#domain-filtering"  # github.com does not cover codeload.github.com, where npm and pnpm fetch git dependencies and tarballs
   sandbox_session_tmpdir: "guide/security/sandbox-native.md#default-behavior"  # $TMPDIR points at a per-session dir for sandboxed commands, /tmp itself is not writable
   sandbox_ubuntu_apparmor: "guide/security/sandbox-native.md#linuxwsl2-bubblewrap"  # Ubuntu 24.04+ blocks bubblewrap user namespaces; check sysctl kernel.apparmor_restrict_unprivileged_userns
@@ -551,6 +553,7 @@ deep_dive:
   # Templates (Added 2026-02-02)
   sandbox_native_config_template: "examples/config/sandbox-native.json"
   sandbox_status_command: "examples/skills/sandbox-status/SKILL.md"
+  sandbox_unblock_skill: "examples/skills/sandbox-unblock/SKILL.md"  # eight-check diagnostic protocol before reporting a blocker; report template + escalation
   sandbox_validation_hook: "examples/hooks/bash/sandbox-validation.sh"
   # Docker Sandboxes (existing)
   sandbox_evaluation: "docs/resource-evaluations/docker-sandboxes-isolation.md"
@@ -752,7 +755,7 @@ deep_dive:
   interaction_loop: "guide/ultimate-guide.md#21-the-interaction-loop" # was line 1742
   context_management: 64
   context_triage: "guide/ultimate-guide.md#context-triage-what-to-keep-vs-evacuate" # was line 1932
-  session_vs_memory: 1553
+  session_vs_memory: "guide/ultimate-guide.md#session-vs-persistent-memory"  # was 1553, drifted
   fresh_context_pattern: "guide/ultimate-guide.md#fresh-context-pattern-ralph-loop" # was line 2044
   subscription_limits: 2633
   subscription_token_budgets: 2633
@@ -778,7 +781,7 @@ deep_dive:
   programmatic_billing_claim_deadline: "2026-06-15 — credits require activation via Anthropic email sent ~2 weeks prior"
   programmatic_billing_strategic_context: "Split = Anthropic UX (unlimited interactive) vs your harness (capped programmatic). Related: §9.25 Harness Engineering, §11 AI Ecosystem."
   programmatic_billing_timeline: "2026-05-06 interactive limits doubled (SpaceX) → 2026-05-13 change announced → 2026-06-15 effective → 2026-07-13 +50% interactive bonus ends"
-  plan_mode: 653
+  plan_mode: "guide/ultimate-guide.md#plan-mode"  # was bare int 653, inside a code fence (comment/example text happened to share the key's words)
   ultraplan: "guide/ultimate-guide.md#ultraplan" # was line 3192
   rewind: "guide/ultimate-guide.md#24-rewind" # was line 3355
   mental_model: "guide/ultimate-guide.md#26-mental-model" # was line 3654
@@ -801,12 +804,12 @@ deep_dive:
   auto_dream_source: "https://github.com/Piebald-AI/claude-code-system-prompts/blob/main/system-prompts/agent-prompt-dream-memory-consolidation.md"
   auto_dream_status: "community-discovered, not in official Anthropic release notes"
   # Fast Mode (v2.1.36+) - Added 2026-02-09
-  fast_mode_command: 797  # /fast in commands table
-  fast_mode_api: 797  # API breaking changes section
+  fast_mode_command: "guide/ultimate-guide.md#model-effort-and-permission-modes"  # was bare int 797, inside a code fence (comment/example text happened to share the key's words)
+  fast_mode_api: "guide/ultimate-guide.md#api-breaking-changes-opus-46"  # was bare int 797, inside a code fence (comment/example text happened to share the key's words)
   fast_mode_pricing: 2227  # Pricing table
   fast_mode_behavior: "2.5x faster, 2x price; Opus 5 model since v2.1.219 (dropped Opus 4.7), /fast covers Opus 5 and Opus 4.8"
   # Sonnet 4.6 + 1M Context (Feb 2026) - Added 2026-02-18
-  sonnet_5_default: 2352  # Pricing table, Sonnet 5 now default
+  sonnet_5_default: "guide/ultimate-guide.md#pricing-model-as-of-july-2026"  # was bare int 2352, inside a code fence (comment/example text happened to share the key's words)
   context_200k_vs_1m: 2255  # Decision guide: 200K vs 1M context window
   context_200k_vs_1m_perf: "Opus 4.6: 93% @ 256K, 76% @ 1M (MRCR v2). Sonnet 4.6 scores not yet published."
   context_200k_vs_1m_cost: "Sonnet 4.6: ~$0.23 bug fix, ~$0.75 module refactor, ~$2.25 full 1M session"
@@ -835,7 +838,7 @@ deep_dive:
   summarize_from_here: 1902  # anchor: context-recovery-strategies | Context Recovery Strategies section
   # Agent Teams Hook Events (v2.1.32+) - Added 2026-02-09
   hook_teammate_idle: 10212  # anchor: event-types
-  hook_task_completed: 23701
+  hook_task_completed: "guide/ultimate-guide.md#event-types"  # was bare int 23701, inside a code fence (comment/example text happened to share the key's words)
   # Agent Memory Field (v2.1.32+) - Added 2026-02-09
   agent_memory_frontmatter: 6893  # Agent Template section (memory field in frontmatter)
   # Xcode Integration (Feb 2026) - Added 2026-02-09
@@ -844,7 +847,7 @@ deep_dive:
   # Task Management System (v2.1.16+) - Added 2026-01-26
   task_management_system: "guide/ultimate-guide.md#task-management-system" # was line 4808
   task_management_comparison: "guide/ultimate-guide.md#task-management-system" # was line 4808
-  tasks_api_overview: 1336
+  tasks_api_overview: "guide/ultimate-guide.md#tasks-api-v2116"  # was bare int 1336, inside a code fence (comment/example text happened to share the key's words)
   tasks_api_tools: 4826
   tasks_api_capabilities: 4826
   tasks_api_configuration: 4826
@@ -858,10 +861,10 @@ deep_dive:
   todowrite_when_to_use: 4920
   todowrite_migration_flag: 4920
   task_best_practices: 4945
-  task_hierarchy_design: 4808
+  task_hierarchy_design: 4945  # anchor: best-practices | ambiguous slug (4x in guide), stored line manually verified against the right one
   task_dependency_management: "guide/ultimate-guide.md#task-management-system" # was line 4808
-  task_status_transitions: 4826
-  task_metadata_conventions: 4826
+  task_status_transitions: 4945  # anchor: best-practices | ambiguous slug (4x in guide), stored line manually verified against the right one
+  task_metadata_conventions: 4945  # anchor: best-practices | ambiguous slug (4x in guide), stored line manually verified against the right one
   task_complete_workflow: "guide/ultimate-guide.md#complete-workflow" # was line 5030
   task_sources: 4808
   # Task Management Workflow (guide/workflows/task-management.md)
@@ -879,10 +882,10 @@ deep_dive:
   claude_folder: "guide/ultimate-guide.md#32-the-claude-folder-structure" # was line 5804
   settings: 5268
   precedence_rules: "guide/ultimate-guide.md#34-precedence-rules" # was line 6379
-  agents: 3056
+  agents: "guide/ultimate-guide.md#4-agents"  # was bare int 3056, inside a code fence (comment/example text happened to share the key's words)
   agent_template: "guide/ultimate-guide.md#43-agent-template" # was line 6932
   agent_examples: "guide/ultimate-guide.md#46-agent-examples" # was line 3056
-  skills: 6026
+  skills: "guide/ultimate-guide.md#5-skills"  # was bare int 6026, inside a code fence (comment/example text happened to share the key's words)
   skills_taxonomy: 7705
   skills_evals: 8034
   skill_template: "guide/ultimate-guide.md#53-skill-template" # was line 8095
@@ -893,7 +896,7 @@ deep_dive:
   design_patterns_skill_patterns: "23 GoF patterns (Creational 5, Structural 7, Behavioral 11)"
   design_patterns_skill_stacks: "React, Angular, NestJS, Vue, Express, RxJS, Redux, ORMs"
   community_skills_cybersec: "guide/ultimate-guide.md#cybersecurity-skills-repository" # was line 8623
-  community_skills_iac: 8558
+  community_skills_iac: "guide/ultimate-guide.md#infrastructure-as-code-skills"  # was 8558, drifted
   # Automatic skill generation (meta-skill)
   claudeception: "https://github.com/blader/Claudeception"
   claudeception_guide: 8820
@@ -1111,17 +1114,17 @@ deep_dive:
   pencil_vs_figma: "guide/workflows/design-to-code.md#pencil-vs-figma-mcp"
   commands: 47
   command_template: "guide/ultimate-guide.md#63-command-template" # was line 25362
-  hooks: 3469
+  hooks: "guide/ultimate-guide.md#7-hooks"  # was bare int 3469, inside a code fence (comment/example text happened to share the key's words)
   hook_templates: "guide/ultimate-guide.md#73-hook-templates" # was line 25386
   security_hooks: "guide/ultimate-guide.md#74-security-hooks" # was line 10794
   security_gate_hook_line: 11137
   security_gate_hook_source: "https://paddo.dev/blog/claude-code-team-tips/"
   mcp_servers: 12056
   serena_indexation: 12213
-  serena_mcp: 794
+  serena_mcp: "guide/ultimate-guide.md#serena-semantic-code-analysis"  # was bare int 794, inside a code fence (comment/example text happened to share the key's words)
   doobidoo_memory_mcp: 12946
   mcp_memory_stack_patterns: "guide/ultimate-guide.md#mcp-memory-stack-complementarity-patterns" # was line 13011
-  mcp_config: 794
+  mcp_config: "guide/ultimate-guide.md#mcp-configuration-location"  # was bare int 794, inside a code fence (comment/example text happened to share the key's words)
   mcp_security: "guide/ultimate-guide.md#86-mcp-security" # was line 14568
   cicd: 15027  # anchor: 93-cicd-integration
   ide_integration: "guide/ultimate-guide.md#94-ide-integration" # was line 15881
@@ -1143,7 +1146,7 @@ deep_dive:
   dual_instance_complete_workflow: "guide/workflows/dual-instance-planning.md#dual-instance-planning-workflow"
   dual_instance_plan_template: "guide/workflows/dual-instance-planning.md#dual-instance-planning-workflow"
   dual_instance_cost_analysis: "guide/workflows/dual-instance-planning.md:614"
-  dual_instance_comparison: 19474  # Boris vs Jon comparison table
+  dual_instance_comparison: "guide/ultimate-guide.md#comparison-boris-horizontal-vs-jon-vertical"  # was 19474, drifted
   dual_instance_source: "https://www.linkedin.com/posts/thatjonwilliams_ive-been-using-cursor-for-six-months-now-activity-7424481861802033153-k8bu"
   dual_instance_author: "Jon Williams (Product Designer, UK)"
   dual_instance_date: "2026-02-03"
@@ -1198,12 +1201,12 @@ deep_dive:
   advanced_worktree_tooling: "guide/ultimate-guide.md#advanced-tooling-for-worktree-management-optional" # was line 19838
   worktree_tooling_self_assessment: 19852
   anthropic_internal_study: 14731
-  multi_instance_costs: 19268
+  multi_instance_costs: "guide/ultimate-guide.md#cost-benefit-analysis"  # was 19268, drifted
   orchestration_frameworks: "guide/ultimate-guide.md#orchestration-frameworks" # was line 20104
   headless_pm_framework: 20108
-  multi_instance_implementation: 19268
-  multi_instance_monitoring: 19268
-  multi_instance_decision_matrix: 19268
+  multi_instance_implementation: "guide/ultimate-guide.md#implementation-guide-progressive-scaling"  # was 19268, drifted
+  multi_instance_monitoring: "guide/ultimate-guide.md#monitoring--observability"  # was 19268, drifted
+  multi_instance_decision_matrix: 20333  # anchor: decision-matrix | ambiguous slug (2x in guide), stored line manually verified against the right one
   # External orchestration systems
   external_orchestrators:
     gas_town:
@@ -1479,10 +1482,10 @@ deep_dive:
   quiz_estimated_time_intermediate: "25-30 min"
   quiz_estimated_time_advanced: "30-40 min"
   # Onboarding matrix required keys (added for v2.0.0 adaptive architecture)
-  rules: 89  # Golden Rules section
-  workflow: 58  # Workflow (9 steps)
-  fix: 15154  # Troubleshooting section
-  architecture: 1280  # Architecture internals
+  rules: "guide/ultimate-guide.md#the-golden-rules"  # was bare int 89, a blank line; drifted 1 line from the real heading
+  workflow: "guide/ultimate-guide.md#the-workflow"  # was bare int 58, a blank line; drifted 1 line from the real heading
+  fix: 15154  # UNVERIFIED: stored line sits inside a JSON example under "Unix Piping Workflows", not any Troubleshooting section. Four "Troubleshooting" headings exist in the guide (L14315, L19242, L23364, "## 10.4 Troubleshooting" L24774), same duplicate-slug name, and nothing here says which one this key meant. Needs a human decision, not a guess.
+  architecture: "guide/core/architecture.md"  # was bare int 1280 into ultimate-guide.md, inside a code fence; the comment ("Architecture internals") and its siblings on this line (production_safety, security_hardening) are all plain paths to the dedicated file
   production_safety: "guide/security/production-safety.md"  # Production safety rules
   security_hardening: "guide/security/security-hardening.md"  # Security best practices
   security_cve_summary: "guide/security/security-hardening.md#cve-summary-2025-2026"  # Decision Matrix + CVEs

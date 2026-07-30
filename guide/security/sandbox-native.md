@@ -356,7 +356,9 @@ All network connections from sandboxed commands are routed through a SOCKS5 prox
 }
 ```
 
-> **Auto-allow mode makes the default list inert.** The permissive mode relies on a prompt, and [`autoAllowBashIfSandboxed`](#auto-allow-mode) answers that prompt for you. Run both together and every host is reachable: `example.com` and `api.openai.com` returned HTTP 200 from a sandboxed command whose `allowedDomains` held 23 unrelated entries. The list is documentation until `strictAllowlist` is on, so audit for the pair rather than for the presence of a domain list.
+> **The list filters even in permissive mode.** An earlier version of this page claimed the opposite, on the strength of two hosts that returned HTTP 200 against a short `allowedDomains`. Both turned out to sit in the built-in default list, so the test proved nothing. Re-measured on 2026-07-30 against a 32-entry list: `neverssl.com` stayed unreachable, while `cursor.com` and `www.jetbrains.com` went from unreachable to HTTP 200 on the addition of their wildcard alone. Edits take effect immediately, with no session restart. Pick your test hosts from outside the defaults before concluding that a list does nothing.
+
+> **Telling a blocked host from a host that does not exist.** A refusal by the allowlist hangs for 5 to 7 seconds before failing. A hostname that does not resolve fails in under 30 milliseconds, including when a wildcard already covers it. On the same run, `api.cursor.sh` and `cloud.ollama.com` failed in roughly 25 ms while covered by `*.cursor.sh` and `*.ollama.com`: neither host exists. Check that the apex answers before asking for a domain to be added.
 
 Enable strict mode only once the list has survived a week of real work, since it converts every missing domain from a prompt into a hard failure. Note also that `github.com` does not cover `codeload.github.com`, which is where npm and pnpm fetch git dependencies and tarballs.
 
@@ -677,7 +679,7 @@ flowchart TD
     C --> C2[✅ Kernel exploits protected]
     C --> C3[✅ Full Docker daemon inside]
     C --> C4[❌ Heavier resource usage]
-    C --> C5[Docs: guide/sandbox-isolation.md]
+    C --> C5[Docs: guide/security/sandbox-isolation.md]
 
     D --> D1[Process-level isolation<br/>Seatbelt / bubblewrap]
     D --> D2[⚠️ Shares kernel with host]
@@ -688,7 +690,7 @@ flowchart TD
     E --> E1[Fly.io Sprites]
     E --> E2[E2B]
     E --> E3[Vercel Sandboxes]
-    E --> E4[Docs: guide/sandbox-isolation.md]
+    E --> E4[Docs: guide/security/sandbox-isolation.md]
 ```
 
 ### Comparison Matrix
@@ -797,6 +799,8 @@ flowchart TD
 ---
 
 ## 13. Troubleshooting
+
+> Running this checklist by hand every time gets old. [`/sandbox-unblock`](../../examples/skills/sandbox-unblock/SKILL.md) packages it as a skill: eight checks that eliminate the known false positives, a report template that forbids paraphrasing the error, and an escalation section naming which keys actually do something. Install it in any project where sessions report blockers you then have to re-verify.
 
 ### Check whether the command actually ran sandboxed
 
