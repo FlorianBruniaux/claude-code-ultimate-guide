@@ -85,6 +85,8 @@ Les documents de travail bruts (prompts Perplexity, audits clients) restent dans
 | **Fusion** (Runfusion/Fusion, MIT) | 4/5 | **4/5** | ✅ Case study only, not a recommended tool (double-checkout anti-cheat pattern + agentic velocity without architecture ; bus factor 1, 94% of commits by one person) | [fusion-multi-agent-orchestrator.md](./fusion-multi-agent-orchestrator.md) |
 | **ORF** (Open Reasoning Format, Guillaume Laforge) | 3/5 | **3/5** | ✅ Intégré (memory-systems.md §3.7, file-based playbook track + citation ReasoningBank) | [orf-open-reasoning-format.md](./orf-open-reasoning-format.md) |
 | **DiffMem** (Growth Kinetics, git-native memory) | 3/5 | **3/5** | ✅ Case study only (memory-systems.md §3.7, LLM-agentic git-shell retrieval + teaching point "match retrieval to query shape" ; bus factor 1, no LICENSE, retrieval untested) | [diffmem-git-native-memory.md](./diffmem-git-native-memory.md) |
+| **Executor** (UsefulSoftwareCo/executor, integration governance layer) | 3/5 | **3/5** | ✅ Cross-reference only: enterprise-governance.md §3.5 (productized form of the manual MCP registry pattern); watch-list, bus factor 1, cadence down 76% since April | [executor-integration-governance-layer.md](./executor-integration-governance-layer.md) |
+| **agentOS** (Rivet, in-process agent VM) | 4/5 | **4/5** | ✅ Integrated: sandbox-isolation.md §5 (in-process counter-example to the four cloud sandbox vendors); watch-list, bus factor 1, vendor-only benchmarks | [agentos-in-process-agent-vm.md](./agentos-in-process-agent-vm.md) |
 
 ## Watch List
 
@@ -92,4 +94,4 @@ Ressources surveillées mais pas encore intégrées : [watch-list.md](./watch-li
 
 ---
 
-**Last updated**: 2026-07-29 (167 evaluation files on disk, 48 indexed above; the gap is a known backlog awaiting a dedicated audit pass)
+**Last updated**: 2026-07-29 (169 evaluation files on disk, 50 indexed above; the gap is a known backlog awaiting a dedicated audit pass)

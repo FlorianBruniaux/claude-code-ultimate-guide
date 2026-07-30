@@ -409,6 +409,14 @@ exit 0
 
 Beyond approval workflows, an emerging approach sandboxes each MCP tool's OS access at runtime via WebAssembly. Tools like [Wassette](https://github.com/microsoft/wassette) run MCP servers as Wasm components with deny-by-default filesystem and network access, declared in YAML. None of these tools are production-ready as of mid-2026, but they are worth tracking if your risk model includes third-party MCP servers with unpredictable privilege scope. Full coverage: [sandbox-isolation.md §7b](./sandbox-isolation.md#7b-webassembly-based-mcp-tool-sandboxing-experimental).
 
+### 3.5 Watch: Executor, the Registry Pattern as a Product
+
+The §3.1 to §3.3 workflow above (submit, review, register, enforce with a hook) is a manual answer to a question a growing category of tools tries to automate: a single catalog of approved integrations, shared across every agent that connects to it, instead of one registry per team or per tool.
+
+[Executor](https://github.com/UsefulSoftwareCo/executor) (MIT, `1.4.0-beta.0`) is the clearest current example. It declares an integration once (an OpenAPI spec, a GraphQL endpoint, an existing MCP server), wraps it in a connection identified by `(scope, integration, name)` so one integration can hold several authenticated accounts, and gates every tool with the same three states this section already uses by name: allow, require approval, block. The mapping onto §3.2's registry format is close to one-to-one: an integration corresponds to a registry entry's `source` and `config`, a connection to a named authenticated instance of that entry, and the policy states to the registry's `risk` field generalized per tool rather than per server. Where it goes further than the hand-built version here is the credential itself: a connection never stores the raw secret, only a reference (`op://`, `keychain://`, `env://`, `vault://`) resolved by a provider at call time behind a proxy, so the secret cannot appear in a tool schema or an MCP response even by accident. §3.2's registry format has no equivalent field for this; the credential handling in that pattern still depends on whatever secrets manager sits underneath `.claude/settings.json`.
+
+The trade-off is real and should be weighed against the registry's own maturity, not against Executor's marketing. A one-person project (93% of commits by a single contributor, measured 2026-07-29) at a pre-1.0 version is a different risk profile than a YAML file your own team owns and can read end to end in ten minutes. Treat Executor as what a hand-rolled registry eventually converges toward once it needs multi-agent sharing and credential indirection, not as a drop-in replacement for the workflow above. Full evaluation, including the vision-versus-shipped-code gap and the bus-factor detail: [`docs/resource-evaluations/executor-integration-governance-layer.md`](../../docs/resource-evaluations/executor-integration-governance-layer.md).
+
 ---
 
 ## 4. Guardrail Tiers

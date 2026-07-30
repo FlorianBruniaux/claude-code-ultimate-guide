@@ -338,6 +338,29 @@ estimateTokens(all files)
 
 ---
 
+## Multi-Directory Skill Discovery for Cross-CLI Compatibility
+
+**Problem**: A repository is worked on with more than one AI coding CLI (Claude Code, plus Codex, Amp, or another harness). Each CLI expects skills or environment config in its own conventional directory. Consolidating everything into one directory means most CLIs never discover it; three near-duplicate directories look, at first glance, like disorganization.
+
+**Pattern**: Keep one skill directory per CLI convention side by side at the repo root, each holding CLI-specific skills rather than copies of the same content: `.claude/skills/` for Claude Code, `.agents/skills/` for a shared or generic agent convention, `.skills/` for a project-level shared set any CLI can be pointed at, and `.codex/environments/` for Codex-specific environment config. Read as convergence on a multi-CLI repository, not clutter: each directory is a distinct, real discovery path, not a redundant copy.
+
+```
+.claude/skills/      # 3 skills, Claude Code's own convention
+.agents/skills/       # shared/generic agent convention
+.skills/              # 6 skills: cli-release, effect-atom-optimistic-updates,
+                      #   effect-http-testing, effect-use-pattern, graphite,
+                      #   warden-security-review
+.codex/environments/  # Codex-specific environment config
+```
+
+**A related convention worth borrowing separately**: a curated "References" section in the project README, naming the codebases the team deliberately points its coding agent at as patterns to imitate (a plugin system, a storage adapter, a general code style). This is distinct from the skill directories above, a reading list for the agent rather than a discovery path, but it serves the same goal: making implicit "the agent already knows what good looks like here" knowledge explicit and versioned instead of tribal.
+
+**When to use it**: Any repository worked on by more than one AI CLI where the CLIs do not share a skill-discovery convention. For a single-CLI repository, one directory is simpler and this pattern adds nothing.
+
+> Observed in [UsefulSoftwareCo/executor](https://github.com/UsefulSoftwareCo/executor) (MIT). Full evaluation, including the repo's other agentic-engineering conventions: [`docs/resource-evaluations/executor-integration-governance-layer.md`](../../docs/resource-evaluations/executor-integration-governance-layer.md).
+
+---
+
 ## See Also
 
 - [Development Methodologies](./methodologies.md): TDD, SDD, BDD, multi-agent orchestration

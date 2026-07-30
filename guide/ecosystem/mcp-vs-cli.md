@@ -1,5 +1,5 @@
 ---
-title: "MCP vs CLI — Decision Guide"
+title: "MCP vs CLI: Decision Guide"
 description: "When to use MCP servers vs CLI tools in Claude Code workflows. Tradeoffs, decision dimensions, and guidance by situation."
 tags: [mcp, cli, tokens, architecture, decision]
 keywords:
@@ -12,7 +12,7 @@ keywords:
   - "linear mcp vs cli"
 ---
 
-# MCP vs CLI — Decision Guide
+# MCP vs CLI: Decision Guide
 
 **Last updated**: May 2026
 
@@ -20,7 +20,7 @@ keywords:
 
 The debate emerged from a rapid succession of interface paradigms: browser-based AI (2022-23), then AI in the IDE with MCP connecting agents to external services (2024-25), then full CLI agents that execute commands and write files without an intermediary layer (2025-26). That progression explains why the question exists at all.
 
-This page compares two integration patterns for giving Claude Code access to external tools and services: MCP servers and CLI tools. Neither is universally better. The right choice depends on your context — and most real workflows end up using both.
+This page compares two integration patterns for giving Claude Code access to external tools and services: MCP servers and CLI tools. Neither is universally better. The right choice depends on your context, and most real workflows end up using both.
 
 ---
 
@@ -38,10 +38,10 @@ This page compares two integration patterns for giving Claude Code access to ext
 
 | Advantage | Detail |
 |-----------|--------|
-| **Structured interface** | Tool schemas guide Claude precisely — fewer hallucinated flags or arguments |
+| **Structured interface** | Tool schemas guide Claude precisely, fewer hallucinated flags or arguments |
 | **Complex auth** | OAuth, token refresh, secrets rotation handled by the server, not the prompt |
 | **Structured output** | JSON responses are directly parseable by Claude and downstream agents |
-| **Observability** | Remote MCP servers can log every call — essential for enterprise usage tracking and ROI attribution |
+| **Observability** | Remote MCP servers can log every call, essential for enterprise usage tracking and ROI attribution |
 | **Distribution at scale** | Update the server once, all connected clients get the change. No per-machine package management. |
 | **Non-technical users** | Users who never touch a terminal can access tools transparently via MCP connectors |
 | **Weaker models** | A structured schema compensates when the model is less capable of parsing CLI help text |
@@ -54,7 +54,7 @@ This page compares two integration patterns for giving Claude Code access to ext
 | **Deterministic actions** | Explicit commands with predictable output are easier to audit and test |
 | **Human + AI use** | The same CLI wrapper works for a developer running it manually and for Claude |
 | **Frontier models** | Claude Opus/Sonnet (current generation) can drive complex CLIs (aws-cli, glab, gh) without a structured schema |
-| **Speed** | No connection setup, no MCP handshake — direct subprocess execution |
+| **Speed** | No connection setup, no MCP handshake, direct subprocess execution |
 | **Simplicity** | Easier to debug, log, and reason about than a remote server call chain |
 | **Skills encapsulation** | A CLI wrapped in a skill is transparent to the user and keeps the tool logic version-controlled |
 
@@ -62,7 +62,7 @@ This page compares two integration patterns for giving Claude Code access to ext
 
 | Weakness | Detail |
 |----------|--------|
-| **Schema token cost** | Since v2.1.7, lazy loading (MCP Tool Search) means unused tools inject only their name, not their full schema. Cost is still non-zero: tool names load at startup, full schemas load on first use. The pre-v2.1.7 worst case (~55K tokens for a 5-server setup) now averages ~8.7K — an 85% reduction, but not zero. |
+| **Schema token cost** | Since v2.1.7, lazy loading (MCP Tool Search) means unused tools inject only their name, not their full schema. Cost is still non-zero: tool names load at startup, full schemas load on first use. The pre-v2.1.7 worst case (~55K tokens for a 5-server setup) now averages ~8.7K (an 85% reduction), but not zero. |
 | **Connection overhead** | Session startup takes longer with many MCP servers connected |
 | **Debugging difficulty** | Failures inside an MCP server are harder to trace than a failed shell command |
 | **Maintenance complexity** | Running, updating, and securing remote MCP servers adds infrastructure |
@@ -74,7 +74,7 @@ This page compares two integration patterns for giving Claude Code access to ext
 |----------|--------|
 | **No observability** | Shell commands on a local machine are invisible to ops/management tooling |
 | **Distribution problem** | Keeping CLIs updated across a team requires package management discipline (brew, scoop, etc.) |
-| **Weaker models struggle** | A less capable model may hallucinate flags or misread help text — schemas help |
+| **Weaker models struggle** | A less capable model may hallucinate flags or misread help text; schemas help |
 | **No multi-agent structure** | CLI output requires parsing; structured MCP responses are more reliable across agent-to-agent handoffs |
 | **Non-tech user barrier** | A non-technical user cannot be expected to have a configured CLI environment |
 
@@ -134,7 +134,7 @@ This is the dominant variable. Everything else is secondary.
 
 ## Guidance by situation
 
-Quick reference — not rules, but directional defaults.
+Quick reference, not rules, but directional defaults.
 
 | Situation | Lean toward | Rationale |
 |-----------|-------------|-----------|
@@ -201,7 +201,7 @@ The mistake is applying one answer to both layers. A solo developer building a C
 
 ---
 
-## Token cost of MCP schemas — what the numbers look like
+## Token cost of MCP schemas: what the numbers look like
 
 Since v2.1.7 (January 2026), Claude Code uses **MCP Tool Search** (lazy loading) by default. This changes the token math significantly, but does not eliminate schema cost entirely.
 
@@ -220,7 +220,7 @@ The old worst-case claim of "500-2,000 tokens per server" described eager loadin
 **What still adds overhead even with lazy loading:**
 
 - Tool names are still injected at startup (one line per tool per server)
-- Schemas load at first invocation — long sessions using many tools accumulate cost
+- Schemas load at first invocation; long sessions using many tools accumulate cost
 - Connection setup per server is unchanged (latency, not tokens)
 - Many connected MCP servers still means more names in context, even if schemas stay deferred
 
@@ -239,25 +239,27 @@ The old worst-case claim of "500-2,000 tokens per server" described eager loadin
 
 | Tool | What it does | Status |
 |------|-------------|--------|
-| **RTK** (Rust Token Killer) | Filters CLI output before it reaches Claude's context — reduces response verbosity, not schema overhead | Production-ready, actively maintained |
+| **RTK** (Rust Token Killer) | Filters CLI output before it reaches Claude's context (reduces response verbosity, not schema overhead) | Production-ready, actively maintained |
 | **mcporter** (steipete, now under openclaw) | TypeScript runtime for calling MCP servers from scripts, generating CLI wrappers, and emitting typed TS clients. Useful for testing MCP servers and writing hooks that need MCP access. | 4.8K stars (2026-07-27, was 3K), MIT, ready to use. Repo transferred to `openclaw/mcporter`. |
 | **mcp2cli** (knowsuchagency) | Converts MCP/OpenAPI/GraphQL to runtime CLI, eliminating schema injection. Benchmarked at 32× token reduction on the 43-tool GitHub MCP server (44K → 1.4K tokens). | 2.3K stars (2026-07-27, was ~1.9K), Show HN Best of March 2026, production-viable for remote MCP servers with 10+ tools. See [full breakdown](./third-party-tools.md#mcp2cli). |
 | **Klavis AI / Strata** (Klavis-AI/klavis, YC X25) | Hosted catalog of 50+ MCP servers with enterprise OAuth; Strata attacks catalog-size cost directly via "progressive discovery" instead of exposing every tool upfront. | 5.8K stars (2026-07-27, was ~5.5K). On the vendor's own MCPMark benchmark: +15.2% pass@1 vs. the official GitHub MCP server, +13.4% vs. the official Notion server, alongside 85-100x token reduction. Vendor-reported, not independently reproduced, but notable for including a task-success metric rather than only a token count. Paid tiers from $79/mo. |
 | **Arcade.dev** (ArcadeAI/arcade-mcp) | Open-source Python framework fronting 7,500+ ready-made tools across 81 MCP servers (Slack, Google Workspace, Salesforce). | Framework is open source; the hosted runtime is paid. Vendor benchmark against Composio on 8 CRM queries: 7,426 tokens vs. 747,083 (100x+). Still a vendor comparison, and still no task-resolution metric, only token count. |
 
-Note on mcp2cli: the token savings are real for direct API use, remote MCP servers, and CI/CD pipelines — benchmarked independently by Firecrawl, Scalekit, and CircleCI. For standard Claude Code sessions where lazy loading (v2.1.7+) already defers most schemas, the gain is smaller. mcp2cli applies most clearly when you drive MCP tools from scripts or agents that don't have deferred loading built in.
+Note on mcp2cli: the token savings are real for direct API use, remote MCP servers, and CI/CD pipelines, benchmarked independently by Firecrawl, Scalekit, and CircleCI. For standard Claude Code sessions where lazy loading (v2.1.7+) already defers most schemas, the gain is smaller. mcp2cli applies most clearly when you drive MCP tools from scripts or agents that don't have deferred loading built in.
+
+**A separate axis, easy to conflate with the table above**: every tool listed here reduces token cost. Klavis's OAuth and hosted-catalog side sits on a different axis entirely, access governance, who is allowed to call what, with which credential, under which approval, and that is where it overlaps with tools like Executor rather than with mcp2cli or Arcade. Confusing the two axes makes a governance tool look weak on a table whose column headers were never measuring what it does. That category is covered separately: [enterprise-governance.md §3.5](../security/enterprise-governance.md#35-watch-executor-the-registry-pattern-as-a-product).
 
 ---
 
 ## MCP vs Skills
 
-Skills (`.claude/skills/*.md`) are a third integration paradigm — distinct from both MCP servers and CLI tools. Conflating them with CLIs is the most common framing error in this space.
+Skills (`.claude/skills/*.md`) are a third integration paradigm, distinct from both MCP servers and CLI tools. Conflating them with CLIs is the most common framing error in this space.
 
 **What each layer does:**
 
-- **Skills** encode *how the agent should behave* — step-by-step workflows, decision trees, and SOPs written in markdown. They are loaded on demand into the agent's context and guide its reasoning without injecting external tool schemas.
-- **MCP servers** provide *structured access to external systems* — APIs, databases, file systems — with typed tool interfaces the agent calls directly.
-- **CLI tools** provide *command-line access to external systems* — the agent constructs shell commands and parses text output.
+- **Skills** encode *how the agent should behave*: step-by-step workflows, decision trees, and SOPs written in markdown. They are loaded on demand into the agent's context and guide its reasoning without injecting external tool schemas.
+- **MCP servers** provide *structured access to external systems* (APIs, databases, file systems) with typed tool interfaces the agent calls directly.
+- **CLI tools** provide *command-line access to external systems*: the agent constructs shell commands and parses text output.
 
 Skills and MCP address different layers, not the same problem. A skill can describe when and how to invoke an MCP tool (check this field, then call that tool) while the MCP server handles the actual connection. Asking "should I write a skill or an MCP server?" usually means the layers are being conflated.
 
@@ -267,7 +269,7 @@ This is MCP's clearest structural advantage over skills, and it's not a matter o
 
 A skill can instruct an agent to "authenticate with Google Drive before proceeding." What it cannot do is hold a refresh token, complete a browser redirect, or manage a PKCE exchange. Those operations require server-side state, which a markdown file does not have.
 
-Enterprise SaaS APIs — Google Workspace, Salesforce, Slack, GitHub — require OAuth 2.1 with refresh token rotation. When that is the authentication mechanism, MCP is not just more convenient: it is the only option that works without asking the user to paste credentials manually at the start of every session.
+Enterprise SaaS APIs (Google Workspace, Salesforce, Slack, GitHub) require OAuth 2.1 with refresh token rotation. When that is the authentication mechanism, MCP is not just more convenient: it is the only option that works without asking the user to paste credentials manually at the start of every session.
 
 Practical test: if the service authenticates via an API key in a header, a skill or CLI can handle it. If it requires a browser redirect or server-held refresh token, that belongs in MCP.
 
@@ -275,9 +277,9 @@ Practical test: if the service authenticates via an API key in a header, a skill
 
 The debate has largely settled on a three-layer model rather than a binary choice:
 
-- **Skills** handle *what to do and when* — workflow orchestration, decision guidance, reproducible agent behavior
-- **MCP** handles *connectivity and auth* — external systems that require structured interfaces, OAuth, or enterprise observability
-- **CLI** handles *deterministic local operations* — git, file ops, test runners, anything the model can drive directly from training knowledge
+- **Skills** handle *what to do and when*: workflow orchestration, decision guidance, reproducible agent behavior
+- **MCP** handles *connectivity and auth*: external systems that require structured interfaces, OAuth, or enterprise observability
+- **CLI** handles *deterministic local operations*: git, file ops, test runners, anything the model can drive directly from training knowledge
 
 The convergence is now part of the spec: SEP-2640 ("Skills Over MCP") proposes distributing skills as MCP resources, so users install workflows the same way they install tool servers. The two paradigms are being unified rather than forced to compete.
 
@@ -287,15 +289,15 @@ The convergence is now part of the spec: SEP-2640 ("Skills Over MCP") proposes d
 
 A few representative perspectives from experienced Claude Code users:
 
-> "I prefer CLI for deterministic actions. For GitLab interactions I use glab (the GitLab MCP is too limited) wrapped in a custom CLI — usable by both humans and AI." — practitioner
+> "I prefer CLI for deterministic actions. For GitLab interactions I use glab (the GitLab MCP is too limited) wrapped in a custom CLI, usable by both humans and AI." (practitioner)
 
-> "On Claude Code with frontier models, fewer MCPs is better. I replaced playwright-mcp with playwright-cli + skill — faster and more effective. I still use context7-mcp only because I haven't found a CLI equivalent." — practitioner
+> "On Claude Code with frontier models, fewer MCPs is better. I replaced playwright-mcp with playwright-cli plus skill, faster and more effective. I still use context7-mcp only because I haven't found a CLI equivalent." (practitioner)
 
-> "The CLI vs MCP debate is only happening among devs doing dev things. But there's one fundamental constraint: you cannot propose a CLI solution to a non-technical user who just wants to use their tool simply." — practitioner
+> "The CLI vs MCP debate is only happening among devs doing dev things. But there's one fundamental constraint: you cannot propose a CLI solution to a non-technical user who just wants to use their tool simply." (practitioner)
 
-> "For enterprise industrialization, observability is non-negotiable. CLI on a local machine is a black box. MCP Remote gives you the logging that C-levels need to attribute investment." — practitioner
+> "For enterprise industrialization, observability is non-negotiable. CLI on a local machine is a black box. MCP Remote gives you the logging that C-levels need to attribute investment." (practitioner)
 
-> "Frontier models are strong enough to drive a CLI directly. A weaker local model will struggle — that's where MCP schemas earn their overhead." — practitioner
+> "Frontier models are strong enough to drive a CLI directly. A weaker local model will struggle, that's where MCP schemas earn their overhead." (practitioner)
 
 ---
 

@@ -22,6 +22,7 @@ tags: [security, sandbox, devops, guide]
 | **E2B** | Firecracker microVM | Cloud | Multi-framework AI apps |
 | **Vercel Sandboxes** | Firecracker microVM | Cloud | Next.js / Vercel ecosystem |
 | **Cloudflare Sandbox SDK** | Container | Cloud | Workers-based serverless |
+| **agentOS** (Rivet) | V8 isolate + WASM sandbox, no hypervisor | In-process, no cloud account | Node-embedded agents, no provider dependency |
 
 Quick start:
 
@@ -471,6 +472,16 @@ Claude Code's built-in process-level sandboxing (Layer 4 in the [architecture](.
 - **Limitations**: Not full VM isolation — shares host kernel and filesystem
 
 Use this when: Docker is unavailable, lightweight isolation is sufficient, or you want defense-in-depth alongside a sandbox.
+
+### agentOS (Rivet): the in-process counter-example
+
+Every vendor above bills through a cloud account. [agentOS](https://agentos-sdk.dev) (`@rivet-dev/agentos`, Apache 2.0, `0.0.1` preview) does not: `npm install` gets a Linux-like VM running inside your own Node process, no microVM to boot, no container to pull, no provider sign-up.
+
+A trusted Rust sidecar owns the kernel (a layered virtual filesystem with overlay and mounts for S3, Google Drive, or a host directory; a virtual process table with real `fork`/`exec`/signals; sockets, pipes, PTY, DNS). No guest syscall reaches the host directly. The untrusted side runs guest JavaScript on native V8 with full JIT, and 42 compiled software packages, including real upstream `git`, `ripgrep`, `sqlite3`, and `duckdb`, run as WASM built against a sysroot the team owns end to end. This is a materially deeper approach than §7b's WebAssembly MCP tool sandboxing below, which scopes a single tool call rather than a near-complete Linux userland.
+
+The differentiator over a plain sandbox is bindings: a host-defined function with a schema appears inside the VM as an ordinary shell command, so an agent calls a company API the same way it calls `ls`, and the credential never enters the VM at all.
+
+Two things to hold onto before treating this as production-ready. First, the vendor's own benchmarks (4.8 ms VM creation, roughly 22 to 131 MB depending on workload, measured on a single i7-12700KF, dated 2026-03-30) are not independently reproduced, and the "92x faster than a cloud microVM" framing compares a V8 isolate start against a full Linux microVM boot, two different things. Second, "VM" is a marketing choice: there is no KVM, no Firecracker, no hardware virtualization anywhere in the stack. The project's own threat model states plainly that the security boundary is the sidecar and executor process, not a hypervisor, solid for ordinary untrusted agent code, weaker than hardware isolation against an attacker hunting a V8 escape. Full evaluation: [`docs/resource-evaluations/agentos-in-process-agent-vm.md`](../../docs/resource-evaluations/agentos-in-process-agent-vm.md).
 
 ---
 

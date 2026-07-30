@@ -182,6 +182,7 @@ deep_dive:
   memory_systems_doobidoo: "guide/core/memory-systems.md#35-doobidoo-mcp-memory-service"
   memory_systems_openMemory: "guide/core/memory-systems.md#36-openmemory-mcp"
   memory_systems_file_based_playbooks: "guide/core/memory-systems.md#37-file-based-experience-playbooks-orf-diffmem"
+  memory_systems_executor_gitignored_memory: "guide/core/memory-systems.md#37-file-based-experience-playbooks-orf-diffmem"  # Added 2026-07-29: MISTAKES/DESIRES/LEARNINGS, private vs shared memory contrast
   memory_systems_tool_comparison: "guide/core/memory-systems.md#39-master-comparison-table"
   memory_systems_team_sharing: "guide/core/memory-systems.md#4-team-sharing"
   memory_systems_trinity: "guide/core/memory-systems.md#41-the-trinity-claudemd--mcpjson--skills"
@@ -580,6 +581,7 @@ deep_dive:
   enterprise_governance_hook: "examples/hooks/bash/governance-enforcement-hook.sh"
   enterprise_governance_audience: "Tech leads, engineering managers, security officers"
   enterprise_governance_scope: "Org-level policy (vs security-hardening.md = individual dev security)"
+  enterprise_governance_executor_watch: "guide/security/enterprise-governance.md#35-watch-executor-the-registry-pattern-as-a-product"  # Added 2026-07-29
   # Data Privacy & Retention (guide/security/data-privacy.md) - Added 2026-06-10
   data_privacy_guide: "guide/security/data-privacy.md"
   data_privacy_retention_summary: "guide/security/data-privacy.md#tldr---retention-summary"
@@ -647,12 +649,27 @@ deep_dive:
   third_party_mcp2cli_note: "96-99% schema-token reduction benchmarked independently (Firecrawl, Scalekit, CircleCI). Born from 2026 MCP backlash. Caution: 4+ forks with same name — knowsuchagency is the reference. Not for enterprise multi-tenant OAuth/audit."
   third_party_mcp2cli_evaluation: "docs/resource-evaluations/2026-03-17-mcp2cli-token-optimization.md"
   third_party_mcp2cli_score: "3/5"
+  # Executor and agentOS (Added 2026-07-29)
+  third_party_executor_upstream: "https://github.com/UsefulSoftwareCo/executor"
+  third_party_executor_purpose: "Integration governance layer for AI agents: one catalog of OpenAPI/GraphQL/MCP integrations, per-tool allow/require_approval/block policy, credential indirection via SecretRef so secrets never reach the agent"
+  third_party_executor_status: "third_party | beta_1_4_0 | bus_factor_1 | cadence_declining_since_april_2026"
+  third_party_executor_note: "Productized version of the manual MCP registry pattern in enterprise-governance.md §3. Not a token-cost tool, do not compare against mcp2cli/Arcade/Klavis on that axis."
+  third_party_executor_evaluation: "docs/resource-evaluations/executor-integration-governance-layer.md"
+  third_party_executor_score: "3/5"
+  third_party_executor_guide_ref: "guide/security/enterprise-governance.md#35-watch-executor-the-registry-pattern-as-a-product"
+  third_party_agentos_upstream: "https://agentos-sdk.dev"
+  third_party_agentos_purpose: "In-process agent VM (Rivet): Rust kernel + WASM sandbox running inside the host Node process, no hypervisor, host-side bindings expose credentialed functions as shell commands to the guest"
+  third_party_agentos_status: "third_party | preview_0_0_1 | bus_factor_1 | cadence_rising_jun_jul_2026"
+  third_party_agentos_note: "No KVM/Firecracker; isolation is V8 isolate + WASM sandbox, sidecar/executor is the stated security boundary, not a hypervisor. Vendor benchmarks single-machine, not independently reproduced."
+  third_party_agentos_evaluation: "docs/resource-evaluations/agentos-in-process-agent-vm.md"
+  third_party_agentos_score: "4/5"
+  third_party_agentos_guide_ref: "guide/security/sandbox-isolation.md#agentos-rivet-the-in-process-counter-example"
   # MCP vs CLI vs Skills Decision Guide (Added 2026-05-22)
   mcp_vs_cli_guide: "guide/ecosystem/mcp-vs-cli.md"
   mcp_vs_cli_tradeoffs: "guide/ecosystem/mcp-vs-cli.md#tradeoffs"
   mcp_vs_cli_decision_dimensions: "guide/ecosystem/mcp-vs-cli.md#the-four-decision-dimensions"
   mcp_vs_cli_situation_table: "guide/ecosystem/mcp-vs-cli.md#guidance-by-situation"
-  mcp_vs_cli_token_cost: "guide/ecosystem/mcp-vs-cli.md#token-cost-of-mcp-schemas--what-the-numbers-look-like"
+  mcp_vs_cli_token_cost: "guide/ecosystem/mcp-vs-cli.md#token-cost-of-mcp-schemas-what-the-numbers-look-like"  # slug changed 2026-07-29: heading em dash replaced with a colon for anti-AI-marker compliance
   mcp_vs_skills: "guide/ecosystem/mcp-vs-cli.md#mcp-vs-skills"
   mcp_vs_skills_oauth_boundary: "guide/ecosystem/mcp-vs-cli.md#the-oauth-boundary"
   mcp_vs_skills_note: "Skills (markdown workflows) and MCP (execution/auth) address different layers — not alternatives. OAuth 2.1 is MCP's structural advantage: skills cannot hold refresh tokens or complete PKCE flows."
@@ -1028,9 +1045,9 @@ deep_dive:
   agentic_software_factories_fusion_case_study: "docs/resource-evaluations/fusion-multi-agent-orchestrator.md"  # 727K lines/4 months, bus factor 1, verification module built but never wired into production
   # Resource Evaluations (added 2026-01-26, updated 2026-02-07, synced 2026-07-08)
   resource_evaluations_directory: "docs/resource-evaluations/"
-  resource_evaluations_count: 167
-  resource_evaluations_indexed: 48
-  resource_evaluations_count_note: "Two different numbers, both real. 167 is the count of .md files in docs/resource-evaluations/; 48 is how many the README index table actually lists. Most older evaluations were never added to the index. Figures verified 2026-07-29 against the folder and against the README's own 'Dernier update' line; the previous value of 120 matched neither."
+  resource_evaluations_count: 169
+  resource_evaluations_indexed: 50
+  resource_evaluations_count_note: "Two different numbers, both real. 169 is the count of .md files in docs/resource-evaluations/; 50 is how many the README index table actually lists. Most older evaluations were never added to the index. Figures verified 2026-07-29 against the folder and against the README's own 'Last updated' line, after adding the Executor and agentOS evaluations the same day."
   resource_evaluations_methodology: "docs/resource-evaluations/README.md"
   resource_evaluations_watchlist: "docs/resource-evaluations/watch-list.md"
   resource_evaluations_appendix: "guide/ultimate-guide.md#appendix-c-resource-evaluation-process"
@@ -1494,6 +1511,7 @@ deep_dive:
   skill_design_patterns_versioned_subdirs: "guide/core/skill-design-patterns.md#versioned-sub-directories-for-tool-version-coupling"
   skill_design_patterns_two_tier: "guide/core/skill-design-patterns.md#two-tier-standards"
   skill_design_patterns_committed_plans: "guide/core/skill-design-patterns.md#plans-and-specs-as-committed-artifacts"
+  skill_design_patterns_multi_dir_skills: "guide/core/skill-design-patterns.md#multi-directory-skill-discovery-for-cross-cli-compatibility"  # Added 2026-07-29
   # MCP Reference File Pattern (Packmind-inspired)
   mcp_reference_file_pattern: "guide/ecosystem/mcp-servers-ecosystem.md#documenting-an-mcp-for-claude-the-reference-file-pattern"
   mcp_reference_file_template: "examples/skills/mcp-integration-reference/"
