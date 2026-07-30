@@ -39,7 +39,7 @@
 - MCP Gateway not yet supported inside sandboxes
 - Cloud alternatives are supplementary context, not Claude Code-specific features
 
-**Action**: Create dedicated guide file (`guide/sandbox-isolation.md`) covering Docker Sandboxes as the primary solution with alternatives for cloud/CI scenarios.
+**Action**: Create dedicated guide file (`guide/security/sandbox-isolation.md`) covering Docker Sandboxes as the primary solution with alternatives for cloud/CI scenarios.
 
 ## Fact-Check
 
@@ -57,7 +57,7 @@
 
 ## Integration Applied
 
-- `guide/sandbox-isolation.md` — New guide file (~10 min read)
+- `guide/security/sandbox-isolation.md` — New guide file (~10 min read)
 - `machine-readable/reference.yaml` — 13 new sandbox_* index entries
 - `guide/ultimate-guide.md:3943` — Cross-reference added after --dsp warning
 - `guide/README.md` — Navigation entry added

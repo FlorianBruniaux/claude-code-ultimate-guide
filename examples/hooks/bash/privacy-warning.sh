@@ -16,7 +16,7 @@
 # Configuration:
 #   Set PRIVACY_WARNING_SHOWN=1 in your environment to suppress after first run.
 #
-# Reference: https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/data-privacy.md
+# Reference: https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/security/data-privacy.md
 
 # Only show once per terminal session
 if [[ -n "$PRIVACY_WARNING_SHOWN" ]]; then

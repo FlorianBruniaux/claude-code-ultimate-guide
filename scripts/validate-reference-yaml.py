@@ -113,12 +113,23 @@ for i, line in enumerate(open(REF, encoding='utf-8'), 1):
     key, stored, slug = m.group(1), int(m.group(2)), m.group(3)
     n_decl += 1
     hits = [n for n, _, t in _ug_heads if slugify(t) == slug]
+    # A duplicated slug ("Best Practices" x4 in this guide) is still resolvable for
+    # ONE specific reference if its stored line is exactly one of the candidates:
+    # a human already disambiguated it by hand. See anchor_line()'s hint_line for
+    # the same logic (kept in sync deliberately, not re-imported, since this file
+    # already imports slugify from resync-reference-yaml.py and this check is a
+    # thin one-liner, not worth another cross-file call for).
     if len(hits) == 0:
         bad_decl.append((i, key, slug, 'matches no heading'))
-    elif len(hits) > 1:
-        bad_decl.append((i, key, slug, f'ambiguous, matches {len(hits)} headings'))
-    elif hits[0] != stored:
-        bad_decl.append((i, key, slug, f'stored {stored}, heading is at {hits[0]}'))
+    elif len(hits) == 1:
+        if hits[0] != stored:
+            bad_decl.append((i, key, slug, f'stored {stored}, heading is at {hits[0]}'))
+    elif stored in hits:
+        pass  # ambiguous slug, but this reference's stored line is one of the real candidates
+    else:
+        bad_decl.append((i, key, slug,
+                         f'ambiguous ({len(hits)} headings share this slug) and stored '
+                         f'{stored} matches none of them: {hits}'))
 print(f"declared: {n_decl - len(bad_decl)}/{n_decl} resolve and match their line")
 for b in bad_decl:
     print(f"   BAD  L{b[0]} {b[1]} -> #{b[2]}: {b[3]}")

@@ -31,7 +31,7 @@ cat .claude/mcp.json 2>/dev/null
 - [ ] Any MCP server matching a CVE entry? → CRITICAL
 - [ ] Version pinning: are all MCP servers pinned to exact versions (not `@latest`)? → HIGH if unpinned
 - [ ] Any `--dangerous-*` flags in MCP args? → CRITICAL
-- [ ] Any MCP servers not on the Safe List (see `guide/security-hardening.md` §1.1)? → MEDIUM (flag for manual review)
+- [ ] Any MCP servers not on the Safe List (see `guide/security/security-hardening.md` §1.1)? → MEDIUM (flag for manual review)
 
 ### Phase 3: Skills & Agents Audit
 
@@ -187,7 +187,7 @@ grep -rn "BEGIN.*PRIVATE KEY" .claude/ ~/.claude/ 2>/dev/null
 3. [...]
 
 ### 📚 References
-- Full security guide: guide/security-hardening.md
+- Full security guide: guide/security/security-hardening.md
 - Threat database: examples/commands/resources/threat-db.yaml
 - MCP scan: `npx mcp-scan` (Snyk)
 ```

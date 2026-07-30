@@ -368,7 +368,7 @@ Maximum security?
 
 ### Security Limitations
 
-**⚠️ Native Sandbox limitations** (see [guide/sandbox-native.md](./sandbox-native.md) for details):
+**⚠️ Native Sandbox limitations** (see [guide/security/sandbox-native.md](./sandbox-native.md) for details):
 
 1. **Shared kernel**: Vulnerable to kernel exploits (Docker microVM protects against this)
 2. **Domain fronting**: CDN-based bypass possible (Cloudflare, Akamai)

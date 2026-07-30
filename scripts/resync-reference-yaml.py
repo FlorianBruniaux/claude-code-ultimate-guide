@@ -201,15 +201,28 @@ def get_slugs(rel_path: str) -> set[str]:
     return _slugs_cache[rel_path]
 
 
-def anchor_line(rel_path: str, slug: str) -> int | None:
-    """Line of the unique heading whose slug is `slug`, or None if absent/ambiguous.
+def anchor_line(rel_path: str, slug: str, hint_line: int | None = None) -> int | None:
+    """Line of the heading whose slug is `slug`, or None if absent/ambiguous.
 
     Ambiguity has to be None, not the first hit: GitHub suffixes a repeated slug
     `-1`, `-2`, so a duplicated slug does not identify a section and an anchor
-    built from it would silently resolve to the wrong one.
+    built from it would silently resolve to the wrong one. `hint_line` is the
+    escape hatch for a reference that was manually verified against a heading
+    with a duplicated slug (e.g. "Best Practices", used 4 times in this guide):
+    if the slug is ambiguous but `hint_line` is exactly one of the candidates,
+    that specific reference is still resolvable, because the human already did
+    the disambiguation the slug alone cannot do. It still cannot be auto-repaired
+    if it drifts to a line outside the candidate set later (which of several
+    "Best Practices" a stale reference now means cannot be re-derived), so a
+    drift past the candidate set correctly reports as unresolved rather than
+    silently landing on the wrong one of the duplicates.
     """
     hits = [n for n, _, t in get_headings(rel_path) if slugify(t) == slug]
-    return hits[0] if len(hits) == 1 else None
+    if len(hits) == 1:
+        return hits[0]
+    if len(hits) > 1 and hint_line in hits:
+        return hint_line
+    return None
 
 
 def file_length(rel_path: str) -> int:
@@ -423,7 +436,7 @@ def classify(ref: dict) -> dict:
                     "suggested_header": ""}
         if ref["anchor"]:
             # Declared anchor: a hard check, no heuristics involved.
-            target = anchor_line(MAIN_GUIDE, ref["anchor"])
+            target = anchor_line(MAIN_GUIDE, ref["anchor"], hint_line=ref["old_line"])
             if target is None:
                 return {**ref, "status": "ANCHOR_DEAD", "confidence": 0.0,
                         "current_content": f"(declared anchor #{ref['anchor']} "

@@ -40,9 +40,9 @@ This plan has three natural sub-projects that are sequentially dependent:
 | `whitepapers/recap-cards/en/m10-skills.qmd` | Update | T8 |
 | `whitepapers/recap-cards/fr/01-commandes-essentielles.qmd` | Minor update | T8 |
 | `whitepapers/recap-cards/{fr,en}/t01-commandes-essentielles.qmd` | Minor update | T8 |
-| Landing `src/content/docs/guide/ultimate-guide/05-skills.md` | Edit | T9 |
+| Landing `src/content/docs/guide/ultimate-guide/learning-path/05-skills.md` | Edit | T9 |
 | Landing `src/content/docs/guide/ultimate-guide/06-commands.md` | Reframe | T9 |
-| Landing `src/content/docs/guide/ultimate-guide/04-agents.md` | Minor edit | T9 |
+| Landing `src/content/docs/guide/ultimate-guide/learning-path/04-agents.md` | Minor edit | T9 |
 | Landing `src/content/docs/learning-path/05-skills.md` | Edit | T9 |
 | Landing `src/content/docs/learning-path/04-agents.md` | Minor edit | T9 |
 | Landing `src/content/docs/skill-design-patterns.md` | Edit | T9 |
@@ -984,9 +984,9 @@ git commit -m "docs(recap-cards): update m09/m10/t01 for skills unification (CC 
 ## Task 9 — Landing Docs Mirrors
 
 **Files (all in `/Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide-landing/`):**
-- `src/content/docs/guide/ultimate-guide/05-skills.md`
+- `src/content/docs/guide/ultimate-guide/learning-path/05-skills.md`
 - `src/content/docs/guide/ultimate-guide/06-commands.md`
-- `src/content/docs/guide/ultimate-guide/04-agents.md`
+- `src/content/docs/guide/ultimate-guide/learning-path/04-agents.md`
 - `src/content/docs/learning-path/05-skills.md`
 - `src/content/docs/learning-path/04-agents.md`
 - `src/content/docs/skill-design-patterns.md`

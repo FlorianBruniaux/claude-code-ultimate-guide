@@ -7,7 +7,7 @@
 | **Author** | Patrick Debois ("father of DevOps", creator of DevOpsDays 2009, co-author DevOps Handbook) |
 | **Published** | 2026-02-01 |
 | **Score** | **2/5** (Marginal) |
-| **Action** | Footnote in `guide/sandbox-isolation.md` (Limitations subsection) |
+| **Action** | Footnote in `guide/security/sandbox-isolation.md` (Limitations subsection) |
 
 ---
 
@@ -68,6 +68,6 @@ The technical-writer agent confirmed the 2/5 score with additional analysis:
 
 ## Integration Applied
 
-- `guide/sandbox-isolation.md` line 225 — Footnote mention in Limitations subsection with security tradeoff note
+- `guide/security/sandbox-isolation.md` line 225 — Footnote mention in Limitations subsection with security tradeoff note
 - `docs/resource-evaluations/dclaude-docker-wrapper.md` — This file
 - `docs/resource-evaluations/README.md` — Index entry added

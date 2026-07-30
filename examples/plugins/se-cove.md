@@ -102,5 +102,5 @@ From the research paper (Section 6):
 ## Related
 
 - Main guide section: [Plugin System](../../guide/ultimate-guide.md#85-plugin-system)
-- Methodology: [Multi-Agent Orchestration](../../guide/core/methodologies.md#multi-agent-orchestration)
-- Verification Loops: [Autonomous Iteration](../../guide/core/methodologies.md#verification-loops)
+- Methodology: [Multi-Agent Orchestration](../../guide/ultimate-guide.md#multi-agent-orchestration-pattern)
+- Verification Loops: [Autonomous Iteration](../../guide/core/methodologies.md#tier-5-implementation)

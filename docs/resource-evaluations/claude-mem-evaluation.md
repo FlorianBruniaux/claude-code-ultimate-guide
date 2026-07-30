@@ -312,8 +312,8 @@ rg "validateJWT" --type ts -A 5
 ### Overlaps with Existing Tools
 
 Guide already documents:
-- Session search (`guide/observability.md:29`)
-- Session migration (`guide/observability.md:175`)
+- Session search (`guide/ops/observability.md:29`)
+- Session migration (`guide/ops/observability.md:175`)
 - Context management (`/compact`, `/clear`)
 
 **Question**: Does claude-mem provide enough **incremental value** to justify 300-400 lines?

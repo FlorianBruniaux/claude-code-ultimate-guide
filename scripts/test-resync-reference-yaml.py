@@ -371,6 +371,22 @@ with tempfile.TemporaryDirectory() as td:
           f"(got {resync.anchor_line('dup.md', 'best-practices')})")
     check("anchor_line returns None for a slug that matches nothing",
           resync.anchor_line("uniq.md", "does-not-exist") is None)
+
+    # hint_line is the escape hatch: a reference manually verified against one
+    # specific occurrence of a duplicated heading stays resolvable, because a
+    # human already did the disambiguation the slug alone cannot do. 3 real
+    # references hit exactly this ("Best Practices" is duplicated 4x in the
+    # guide) and were stuck reporting LOW forever under the plain heuristic
+    # even though their content was hand-verified correct.
+    check("hint_line resolves an ambiguous slug when it matches one candidate",
+          resync.anchor_line("dup.md", "best-practices", hint_line=3) == 3,
+          f"(got {resync.anchor_line('dup.md', 'best-practices', hint_line=3)})")
+    check("hint_line resolves the OTHER candidate too, not just the first",
+          resync.anchor_line("dup.md", "best-practices", hint_line=7) == 7,
+          f"(got {resync.anchor_line('dup.md', 'best-practices', hint_line=7)})")
+    check("hint_line outside the candidate set still refuses (drift is still caught)",
+          resync.anchor_line("dup.md", "best-practices", hint_line=99) is None,
+          f"(got {resync.anchor_line('dup.md', 'best-practices', hint_line=99)})")
     resync.REPO_ROOT = root_backup
     resync._headings_cache.clear()
 
@@ -382,7 +398,7 @@ check("the live reference.yaml declares at least one anchor", len(declared) > 0,
       f"(found {len(declared)})")
 mismatched = []
 for ref in declared:
-    target = resync.anchor_line(resync.MAIN_GUIDE, ref["anchor"])
+    target = resync.anchor_line(resync.MAIN_GUIDE, ref["anchor"], hint_line=ref["old_line"])
     if target != ref["old_line"]:
         mismatched.append((ref["key"], ref["anchor"], ref["old_line"], target))
 check("every declared anchor resolves to exactly its stored line",

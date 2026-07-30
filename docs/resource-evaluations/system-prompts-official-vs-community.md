@@ -222,7 +222,7 @@ From Perplexity search:
 
 ### Action Plan for Guide
 
-#### 1. Add Section to `guide/architecture.md` (line ~270)
+#### 1. Add Section to `guide/core/architecture.md` (line ~270)
 
 ```markdown
 ### System Prompt Contents
@@ -262,7 +262,7 @@ Add entries:
 system_prompts_official: "https://platform.claude.com/docs/en/release-notes/system-prompts"
 system_prompts_willison_analysis: "https://simonwillison.net/2025/May/25/claude-4-system-prompt/"
 system_prompts_prompthub: "https://www.prompthub.us/blog/an-analysis-of-the-claude-4-system-prompt"
-system_prompts_architecture: "guide/architecture.md:270"
+system_prompts_architecture: "guide/core/architecture.md:270"
 ```
 
 #### 3. Create Watchlist Entry
@@ -364,7 +364,7 @@ If Claude Code CLI system prompts are **not published** by Anthropic (distinct f
 
 ### Guide Context
 
-- **Current coverage**: `guide/architecture.md:269-272` (~5-15K token estimate)
+- **Current coverage**: `guide/core/architecture.md:269-272` (~5-15K token estimate)
 - **Confidence level**: 30% in "What We Don't Know" section (architecture.md:910)
 - **Existing alternatives**: Appendix C comparative analysis
 
@@ -378,7 +378,7 @@ If Claude Code CLI system prompts are **not published** by Anthropic (distinct f
 
 **Next actions**:
 1. ✅ Create this evaluation file (completed)
-2. ⏳ Update `guide/architecture.md` with official sources section
+2. ⏳ Update `guide/core/architecture.md` with official sources section
 3. ⏳ Update `machine-readable/reference.yaml` with new entries
 4. ⏳ Create watchlist entry in `claudedocs/resource-evaluations/watch-list.md`
 5. ⏳ Index in `docs/resource-evaluations/README.md`

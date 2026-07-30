@@ -266,7 +266,7 @@ claude --continue  # Resumes with full context
 For monitoring multiple concurrent Claude Code instances via external orchestrators (Gas Town, multiclaude), see:
 
 - **agent-chat** (https://github.com/justinabrahms/agent-chat): Real-time Slack-like UI for agent communications
-- **Architecture guide**: `guide/ai-ecosystem.md` Section 8.1 - Multi-Agent Orchestration Systems
+- **Architecture guide**: `guide/ecosystem/ai-ecosystem.md` Section 8.1 - Multi-Agent Orchestration Systems
 
 **Architecture pattern** (for custom implementations):
 1. Hook logs Task agent spawns: `.claude/hooks/multi-agent-logger.sh`

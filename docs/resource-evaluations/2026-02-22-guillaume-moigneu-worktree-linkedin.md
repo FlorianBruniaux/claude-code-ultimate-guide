@@ -97,9 +97,9 @@ no merge conflicts because each works in its own copy.
 
 | Affirmation | Vérifiée | Source |
 |-------------|----------|--------|
-| `WorktreeCreate`/`WorktreeRemove` hooks en v2.1.50 | ✅ | `guide/claude-code-releases.md` ligne 30-31 |
-| `isolation: worktree` déclaratif en v2.1.50 | ✅ | `guide/claude-code-releases.md` ligne 32 |
-| `--worktree` en v2.1.49 (pas v2.1.50) | ✅ | `guide/claude-code-releases.md` ligne 53 |
+| `WorktreeCreate`/`WorktreeRemove` hooks en v2.1.50 | ✅ | `guide/core/claude-code-releases.md` ligne 30-31 |
+| `isolation: worktree` déclaratif en v2.1.50 | ✅ | `guide/core/claude-code-releases.md` ligne 32 |
+| `--worktree` en v2.1.49 (pas v2.1.50) | ✅ | `guide/core/claude-code-releases.md` ligne 53 |
 | Support Desktop + IDE | ✅ (implicite) | v2.1.50 notes |
 | Non-git SCM via hooks | ✅ | `WorktreeCreate`/`WorktreeRemove` hook events |
 | Article Guillaume: lnkd.in/gCicQRHP | ⚠️ | URL LinkedIn raccourcie — non vérifié directement |

@@ -377,6 +377,6 @@ On session select:
 
 ## Related
 
-- `guide/observability.md` — Section "Activity Monitoring" and "External Monitoring Tools"
-- `guide/data-privacy.md` — What leaves your machine and why
+- `guide/ops/observability.md` — Section "Activity Monitoring" and "External Monitoring Tools"
+- `guide/security/data-privacy.md` — What leaves your machine and why
 - ccboard README — Architecture and contribution guide

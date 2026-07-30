@@ -62,7 +62,7 @@
 
 ### ✅ Priority 1: Dedicated Section (Recommended)
 
-**Create**: `guide/agent-evaluation.md` (~800 tokens)
+**Create**: `guide/roles/agent-evaluation.md` (~800 tokens)
 
 **Content**:
 - **Why Evaluate?**: Measure quality, track usage, identify bottlenecks
@@ -100,7 +100,7 @@ analytics-with-eval/
 
 ### ✅ Priority 3: Ecosystem Mention (Minimal)
 
-**Add**: Section "Domain-Specific Agent Frameworks" in `guide/ai-ecosystem.md`
+**Add**: Section "Domain-Specific Agent Frameworks" in `guide/ecosystem/ai-ecosystem.md`
 
 **Content**: 1 paragraph + link to nao
 
@@ -181,8 +181,8 @@ All technical claims verified by re-fetching GitHub repository:
 
 ### Concrete Action Plan
 
-1. **Immediate** (today): Add mention in `guide/ai-ecosystem.md` section "Domain-Specific Agent Frameworks"
-2. **Week 1**: Create `guide/agent-evaluation.md` with patterns inspired by nao
+1. **Immediate** (today): Add mention in `guide/ecosystem/ai-ecosystem.md` section "Domain-Specific Agent Frameworks"
+2. **Week 1**: Create `guide/roles/agent-evaluation.md` with patterns inspired by nao
 3. **Week 2-3**: Create template `examples/agents/analytics-with-eval/` with metrics
 
 ### Added Value for Guide

@@ -90,7 +90,7 @@ Agent challenged evaluation methodology, recommending distinction between conten
 
 **Action**: **Tracking mention only** (1-2 lines)
 
-**Location**: `guide/learning-with-ai.md:890` (after Shen & Tamkin citation)
+**Location**: `guide/roles/learning-with-ai.md:890` (after Shen & Tamkin citation)
 
 **Format**:
 ```markdown

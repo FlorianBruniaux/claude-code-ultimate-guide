@@ -113,7 +113,7 @@ Structured session handoff template capturing:
 
 ### 1. Architecture.md (Confidence Upgrade)
 
-**File**: `guide/architecture.md` Section 3.2 (Auto-Compaction)
+**File**: `guide/core/architecture.md` Section 3.2 (Auto-Compaction)
 
 **Changes**:
 - Upgraded confidence: 50% (Tier 3) → **75% (Tier 2)**

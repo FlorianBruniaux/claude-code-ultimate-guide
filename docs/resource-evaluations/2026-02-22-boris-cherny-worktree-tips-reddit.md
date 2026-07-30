@@ -130,7 +130,7 @@ Only merge into it from parallel worktrees — never develop directly there.
 
 | Affirmation | Vérifiée | Source |
 |-------------|----------|--------|
-| `claude --worktree` / `-w` existe en v2.1.49 | ✅ | `guide/claude-code-releases.md` ligne 53 |
+| `claude --worktree` / `-w` existe en v2.1.49 | ✅ | `guide/core/claude-code-releases.md` ligne 53 |
 | Boris Cherny = créateur de Claude Code | ✅ | Perplexity (ITPro, Lenny's Newsletter, YouTube) |
 | Tweet date: 21 Feb 2026 | ✅ | Screenshot utilisateur |
 | 40.2K views sur le tweet | ✅ | Screenshot utilisateur |

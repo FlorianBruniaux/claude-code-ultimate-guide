@@ -11264,7 +11264,7 @@ MCP Apps est construit sur le **Model Context Protocol** (standard ouvert par An
 - **SDK** : `@modelcontextprotocol/ext-apps` (npm)
 - **"Construire une fois, déployer partout"** : Fonctionne dans Claude, VS Code, ChatGPT, Goose
 
-→ **Approfondissement** : Voir [guide/architecture.md:656](./core/architecture.md#mcp-extensions-apps-sep-1865) pour l'architecture technique, le modèle de sécurité et les détails du SDK.
+→ **Approfondissement** : Voir [guide/core/architecture.md:656](./core/architecture.md#mcp-extensions-apps-sep-1865) pour l'architecture technique, le modèle de sécurité et les détails du SDK.
 
 #### Ressources
 
@@ -13779,7 +13779,7 @@ Les patterns de cette section reflètent l'évolution de l'industrie documentée
 |---------|----------------------|----------------------|---------------|
 | **Agent Teams** (9.20) | 3-6 mois | 50-67% | Délais : semaines → jours |
 | **Multi-Instance** (9.17) | 1-2 mois | 2x output | Coût : 500-1K$/mois |
-| **Sandbox Isolation** (guide/sandbox-native.md) | Immédiat | Référence de sécurité | Exigence de conformité |
+| **Sandbox Isolation** (guide/security/sandbox-native.md) | Immédiat | Référence de sécurité | Exigence de conformité |
 
 ### 🎯 Enseignements de la recherche (étude interne Anthropic)
 
@@ -17693,7 +17693,7 @@ rtk init --global          # Remplacer le hook par le délégateur léger
 - Modèles : `examples/{claude-md,skills,hooks}/rtk-*`
 - GitHub : https://github.com/rtk-ai/rtk
 - Site web : https://www.rtk-ai.app/
-- Comparaison d'outils tiers : `guide/third-party-tools.md#rtk-rust-token-killer`
+- Comparaison d'outils tiers : `guide/ecosystem/third-party-tools.md#rtk-rust-token-killer`
 
 ### Exploration Progressive du Code (Smart Explore)
 

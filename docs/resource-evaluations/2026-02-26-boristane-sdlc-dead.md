@@ -33,7 +33,7 @@
 |--------|-------------|-------------|
 | Context engineering | ✅ Évoqué (conceptuel) | ✅ Présent, mieux sourcé (ArXiv, Anthropic Engineering, lignes 1732, 13375, 18333) |
 | Agentic workflows | ✅ Couvert | ✅ Documenté avec patterns concrets |
-| Observabilité comme feedback | ➕ Angle intéressant | ✅ `guide/observability.md` existe |
+| Observabilité comme feedback | ➕ Angle intéressant | ✅ `guide/ops/observability.md` existe |
 | PR review avec agents | ✅ Challenge le status quo | ✅ Guide recommande PR auto-review via GitHub Actions |
 | Data/métriques | ❌ Aucune | ✅ Guide cite métriques validées (Fountain, CRED) |
 | Pattern actionnable | ❌ Conceptuel uniquement | ✅ Templates concrets disponibles |

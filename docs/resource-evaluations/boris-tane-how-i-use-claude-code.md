@@ -78,7 +78,7 @@ Once plan is approved, implementation is mechanical. Short feedback ("that looks
 - Decision table: `/plan` vs custom `.md`
 
 **Cross-references added**:
-- `guide/methodologies.md` — callout after Plan-First section
+- `guide/core/methodologies.md` — callout after Plan-First section
 - `machine-readable/reference.yaml` — 4 entries (pattern, source, author)
 
 ---

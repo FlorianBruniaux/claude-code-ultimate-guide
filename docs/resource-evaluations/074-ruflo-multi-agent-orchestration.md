@@ -66,7 +66,7 @@ Ruflo etait precedemment connu sous le nom **claude-flow** (github.com/ruvnet/cl
 
 **Score final: 3/5**
 
-**Justification:** 18.9k stars (now 66,272 as of 2026-07-28) est un signal d'adoption reel pour un outil de niche. Le guide couvre l'orchestration multi-agent native (Task tool, TeammateTool) mais pas les frameworks externes qui remplacent/augmentent cette couche. Gap reel, categorie absente de `guide/third-party-tools.md`. Score abaisse de 4 a 3 suite au challenge: curl|bash install depuis CDN non audite, claims de performance non verifiables, rebrand recent = instabilite potentielle.
+**Justification:** 18.9k stars (now 66,272 as of 2026-07-28) est un signal d'adoption reel pour un outil de niche. Le guide couvre l'orchestration multi-agent native (Task tool, TeammateTool) mais pas les frameworks externes qui remplacent/augmentent cette couche. Gap reel, categorie absente de `guide/ecosystem/third-party-tools.md`. Score abaisse de 4 a 3 suite au challenge: curl|bash install depuis CDN non audite, claims de performance non verifiables, rebrand recent = instabilite potentielle.
 
 ---
 
@@ -88,7 +88,7 @@ Ruflo etait precedemment connu sous le nom **claude-flow** (github.com/ruvnet/cl
 
 **Action: Integrer a moyen terme — apres source audit et clarification claims**
 
-**Ou integrer**: `guide/third-party-tools.md` section "Multi-Agent Orchestration" — pas en entree outil seule, mais comme exemple primaire d'une nouvelle sous-categorie **"External Orchestration Frameworks"** distincte des outils multi-instance actuels (Gas Town, multiclaude).
+**Ou integrer**: `guide/ecosystem/third-party-tools.md` section "Multi-Agent Orchestration" — pas en entree outil seule, mais comme exemple primaire d'une nouvelle sous-categorie **"External Orchestration Frameworks"** distincte des outils multi-instance actuels (Gas Town, multiclaude).
 
 La distinction est importante: Gas Town / multiclaude = lancer plusieurs Claude Code en parallele. Ruflo = remplacer/augmenter l'orchestration interne de Claude Code avec un framework complet. Ce sont deux niveaux architecturaux differents.
 

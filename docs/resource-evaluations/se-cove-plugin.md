@@ -108,8 +108,8 @@ Software Engineering adaptation of Meta's Chain-of-Verification for Claude Code.
 | Concept | Existing Section | SE-CoVe Contribution |
 |---------|------------------|---------------------|
 | Code Review | `examples/agents/code-reviewer.md` | Adds independent verification pattern |
-| Multi-Agent | `guide/methodologies.md:165` | Concrete CoVe implementation |
-| Verification Loops | `guide/methodologies.md:145` | Automated verification pipeline |
+| Multi-Agent | `guide/core/methodologies.md:165` | Concrete CoVe implementation |
+| Verification Loops | `guide/core/methodologies.md:145` | Automated verification pipeline |
 | Plugin System | `guide/ultimate-guide.md:6863` | First practical example |
 
 ---

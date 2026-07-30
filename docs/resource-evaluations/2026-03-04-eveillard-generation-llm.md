@@ -32,9 +32,9 @@ What it *does* reveal: the guide had no section for tech leads or engineering ma
 
 ## Gap Identified → Action Taken
 
-**Gap**: `guide/learning-with-ai.md` was entirely written for individual developers. No content for the person responsible for onboarding policy, mentoring structure, or team-level AI governance.
+**Gap**: `guide/roles/learning-with-ai.md` was entirely written for individual developers. No content for the person responsible for onboarding policy, mentoring structure, or team-level AI governance.
 
-**Action**: Added new section "For Tech Leads & Engineering Managers" (§12) to `guide/learning-with-ai.md`, covering:
+**Action**: Added new section "For Tech Leads & Engineering Managers" (§12) to `guide/roles/learning-with-ai.md`, covering:
 - Structured onboarding (4-week model, not "here's your license")
 - Metrics for real growth vs. velocity
 - Three scalable mentoring models (pair rotations, architecture hot seat, collective CLAUDE.md ownership)

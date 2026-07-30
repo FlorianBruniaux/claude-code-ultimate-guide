@@ -44,9 +44,9 @@ Points clés:
 | Self-evolving agent (agent met à jour ses skills) | HIGH — pattern inédit | Absent |
 | Command → Agent → Skills (nommé + exemplifié) | MEDIUM — pattern implicite seulement | Absent comme pattern nommé |
 | `allowed-tools: Bash(tool:*)` wildcard dans skills | HIGH — seul format space-delimited documenté | `guide/ultimate-guide.md:6343` |
-| `spinnerVerbs` + `spinnerTipsOverride` + `excludeDefault` | MEDIUM — dans releases.md seulement | `guide/claude-code-releases.md:323` |
+| `spinnerVerbs` + `spinnerTipsOverride` + `excludeDefault` | MEDIUM — dans releases.md seulement | `guide/core/claude-code-releases.md:323` |
 | Hooks: 1 script Python central + config layering | MEDIUM — hooks de base couverts, pas ce pattern | Absent |
-| `plansDirectory` | LOW — dans releases.md seulement | `guide/claude-code-releases.md:110` |
+| `plansDirectory` | LOW — dans releases.md seulement | `guide/core/claude-code-releases.md:110` |
 | `enableAllProjectMcpServers` | LOW | Absent |
 
 ### Déjà couverts dans le guide
@@ -88,8 +88,8 @@ Points clés:
 
 | Affirmation | Vérifiée | Source |
 |-------------|----------|--------|
-| `spinnerVerbs` avec `mode: replace` est un setting officiel | ✅ | `guide/claude-code-releases.md:323` |
-| `plansDirectory` est un setting officiel | ✅ | `guide/claude-code-releases.md:110` |
+| `spinnerVerbs` avec `mode: replace` est un setting officiel | ✅ | `guide/core/claude-code-releases.md:323` |
+| `plansDirectory` est un setting officiel | ✅ | `guide/core/claude-code-releases.md:110` |
 | 16 hook events officiels | ✅ | `examples/hooks/README.md`, HOOKS-README |
 | `allowed-tools` supporte la syntaxe wildcard `Bash(tool:*)` | ✅ | `code.claude.com/docs/en/skills` (official) |
 | Self-evolving agent pattern (agent met à jour ses skills) | ✅ | Code présent dans `presentation-curator.md` Step 5 |

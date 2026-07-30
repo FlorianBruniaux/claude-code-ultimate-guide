@@ -75,7 +75,7 @@ LinkedIn post proposing "embedded OS" metaphor for Claude Code architecture, lis
 
 ## Integration Actions Taken
 
-### 1. ADR-Driven Development → `guide/methodologies.md` ⭐ **HIGH PRIORITY**
+### 1. ADR-Driven Development → `guide/core/methodologies.md` ⭐ **HIGH PRIORITY**
 
 **Location**: After "Multi-Agent Orchestration" (Tier 5)
 **Content Added**:
@@ -87,7 +87,7 @@ LinkedIn post proposing "embedded OS" metaphor for Claude Code architecture, lis
 **Lines Added**: ~60 lines
 **Impact**: Fills methodological gap, provides actionable workflow
 
-### 2. Native Capabilities Audit → `guide/architecture.md` ⭐ **HIGH PRIORITY**
+### 2. Native Capabilities Audit → `guide/core/architecture.md` ⭐ **HIGH PRIORITY**
 
 **Location**: After "Why This Design?" (Section 1)
 **Content Added**:
@@ -110,7 +110,7 @@ LinkedIn post proposing "embedded OS" metaphor for Claude Code architecture, lis
 **Lines Added**: ~40 lines
 **Impact**: Cost optimization pattern, workflow clarity
 
-### 4. Community Validation → `guide/architecture.md` 🟢 **LOW PRIORITY**
+### 4. Community Validation → `guide/core/architecture.md` 🟢 **LOW PRIORITY**
 
 **Location**: After "The Trade-offs" (Section 9 Philosophy)
 **Content Added**:
@@ -195,9 +195,9 @@ LinkedIn post proposing "embedded OS" metaphor for Claude Code architecture, lis
 - [Gist](https://gist.github.com/gsannikov/92cf8ca50407458b605756508a20fe18)
 
 **Internal Verification**:
-- `guide/architecture.md` (lines 40-800)
+- `guide/core/architecture.md` (lines 40-800)
 - `guide/workflows/agent-teams.md` (line 15992+)
-- `guide/claude-code-releases.md` (line 375)
+- `guide/core/claude-code-releases.md` (line 375)
 - `machine-readable/reference.yaml` (complete index)
 
 **Challenge Agent**: technical-writer (aee871f)
@@ -206,8 +206,8 @@ LinkedIn post proposing "embedded OS" metaphor for Claude Code architecture, lis
 
 ## Files Modified
 
-1. `guide/architecture.md` — 2 additions (Native Capabilities Audit + Community Validation)
-2. `guide/methodologies.md` — 1 addition (ADR-Driven Development)
+1. `guide/core/architecture.md` — 2 additions (Native Capabilities Audit + Community Validation)
+2. `guide/core/methodologies.md` — 1 addition (ADR-Driven Development)
 3. `guide/cheatsheet.md` — 1 addition (Dynamic Model Switching)
 
 **Total**: 4 sections, ~165 lines, 3 files

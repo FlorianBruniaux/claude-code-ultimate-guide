@@ -174,7 +174,7 @@ Le pattern: 2/5 = mention anecdotique sans profondeur technique. Cohérent.
    - Ou section: Observability/Session Analytics (nouvelle section?)
 3. **Identifier version Claude Code** d'introduction de `/insights`
    - Check CHANGELOG officiel GitHub
-   - Update `guide/claude-code-releases.md` si nécessaire
+   - Update `guide/core/claude-code-releases.md` si nécessaire
 
 ### Implementation Steps
 

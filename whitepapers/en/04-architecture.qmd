@@ -185,7 +185,7 @@ There is no hardcoded business logic routing requests; everything comes from the
 Marc asks "add Zod validation to the shipping form". Claude enters the master loop: (1) Glob to find `ShippingForm.tsx`, (2) Read to understand the structure, (3) Grep to identify existing Zod imports, (4) Edit to add the validation schema, (5) Bash to run tests. Five loop iterations, no router or orchestrator; the model decided the sequence on its own.
 :::
 
-> 📖 **Read more:** [Architecture Internals](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/architecture.md): master loop, tool arsenal, sub-agent architecture, edit tool internals
+> 📖 **Read more:** [Architecture Internals](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md): master loop, tool arsenal, sub-agent architecture, edit tool internals
 
 ## Request Lifecycle
 
@@ -810,7 +810,7 @@ Since v2.1.118, hooks can invoke MCP tools directly via `type: "mcp_tool"` in ho
 Impact: hooks become an integration bus between Claude Code and the MCP ecosystem, enabling real-time observability, automated auditing, and cross-tool validation.
 :::
 
-> 📖 **Read more:** [§8 MCP Servers](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#8-mcp-servers): configuration, selection, security | [MCP Ecosystem](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/mcp-servers-ecosystem.md)
+> 📖 **Read more:** [§8 MCP Servers](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#8-mcp-servers): configuration, selection, security | [MCP Ecosystem](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ecosystem/mcp-servers-ecosystem.md)
 
 {{< pagebreak >}}
 

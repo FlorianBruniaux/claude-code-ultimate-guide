@@ -151,7 +151,6 @@ If you only have time for 5 sections:
   - [2.4 Rewind](#24-rewind)
   - [2.5 Model Selection & Thinking Guide](#25-model-selection--thinking-guide)
   - [2.6 Mental Model](#26-mental-model)
-  - [2.7 Configuration Decision Guide](#27-configuration-decision-guide)
   - [2.8 Structured Prompting with XML Tags](#28-structured-prompting-with-xml-tags)
   - [2.9 Semantic Anchors](#29-semantic-anchors)
   - [2.10 Prompt Engineering Patterns](#210-prompt-engineering-patterns)
@@ -1708,7 +1707,7 @@ Before your next session, verify:
 
 # 2. Core Concepts
 
-_Quick jump:_ [The Interaction Loop](#21-the-interaction-loop) · [Context Management](#22-context-management) · [Plan Mode](#23-plan-mode) · [Rewind](#24-rewind) · [Model Selection](#25-model-selection--thinking-guide) · [Mental Model](#26-mental-model) · [Config Decision Guide](#27-configuration-decision-guide) · [Prompt Engineering Patterns](#210-prompt-engineering-patterns) · [Data Flow & Privacy](#212-data-flow--privacy)
+_Quick jump:_ [The Interaction Loop](#21-the-interaction-loop) · [Context Management](#22-context-management) · [Plan Mode](#23-plan-mode) · [Rewind](#24-rewind) · [Model Selection](#25-model-selection--thinking-guide) · [Mental Model](#26-mental-model) · [Prompt Engineering Patterns](#210-prompt-engineering-patterns) · [Data Flow & Privacy](#212-data-flow--privacy)
 
 ---
 
@@ -3762,7 +3761,7 @@ These are not independent features. They are layers of the same system:
 
 The shift is not about prompting better. It is about building a system where Claude starts every session already knowing what you need.
 
-> **See also**: [§9.10 Continuous Improvement Mindset](#910-continuous-improvement-mindset) for evolving this system over time. Ready to choose the right mechanism? [§2.7 Configuration Decision Guide](#27-configuration-decision-guide) maps all seven mechanisms with a decision tree.
+> **See also**: [§9.10 Continuous Improvement Mindset](#910-continuous-improvement-mindset) for evolving this system over time. Ready to choose the right mechanism? [Memory Loading Comparison](#memory-loading-comparison) maps all seven mechanisms with a decision tree.
 
 ### Communicating Effectively
 
@@ -6452,7 +6451,7 @@ Understanding when each memory method loads is critical for token optimization:
 
 **Key insight**: `.claude/rules/` is NOT on-demand. Every `.md` file in that directory loads at session start, consuming tokens. Reserve it for always-relevant conventions, not rarely-used guidelines. Skills are invocation-only and may not be triggered reliably—one eval found agents invoked skills in only 56% of cases ([Gao, 2026](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals)). Never rely on skills for critical instructions; use CLAUDE.md or rules instead.
 
-> **See also**: [Token Cost Estimation](#token-saving-techniques) for approximate token costs per file size. For a unified "which mechanism for what?" reference, see [§2.7 Configuration Decision Guide](#27-configuration-decision-guide).
+> **See also**: [Token Cost Estimation](#token-saving-techniques) for approximate token costs per file size. For a unified "which mechanism for what?" reference, see [Memory Loading Comparison](#memory-loading-comparison).
 
 ### Path-Specific Rules (December 2025)
 
@@ -7769,7 +7768,7 @@ Is this a repeatable workflow with steps?
 
 > **The 20% rule**: if an instruction applies to more than 20% of your conversations, put it in `CLAUDE.md` (always loaded). If it applies to fewer than 20%, make it a skill (loaded on demand). The difference matters for token efficiency: a skill's system prompt is injected only when Claude invokes it, while CLAUDE.md content counts against every request's context window.
 
-> **See also**: [§2.7 Configuration Decision Guide](#27-configuration-decision-guide) for a broader decision tree covering all seven mechanisms (including Hooks, MCP, and CLAUDE.md vs rules). To automate detection of what belongs in each category, use [`cc-sessions discover`](#session-pattern-discovery) — it applies this 20% threshold to your actual session history.
+> **See also**: [Memory Loading Comparison](#memory-loading-comparison) for a broader decision tree covering all seven mechanisms (including Hooks, MCP, and CLAUDE.md vs rules). To automate detection of what belongs in each category, use [`cc-sessions discover`](#session-pattern-discovery), which applies this 20% threshold to your actual session history.
 
 #### Common Patterns
 
@@ -12195,7 +12194,7 @@ MCP Apps is built on the **Model Context Protocol** (open standard by Anthropic)
 - **SDK**: `@modelcontextprotocol/ext-apps` (npm)
 - **"Build once, deploy everywhere"**: Works in Claude, VS Code, ChatGPT, Goose
 
-→ **Deep dive**: See [guide/architecture.md:656](./core/architecture.md#mcp-extensions-apps-sep-1865) for technical architecture, security model, and SDK details.
+→ **Deep dive**: See [guide/core/architecture.md:656](./core/architecture.md#mcp-extensions-apps-sep-1865) for technical architecture, security model, and SDK details.
 
 #### Resources
 
@@ -14726,7 +14725,7 @@ Les patterns de cette section reflètent l'évolution de l'industrie documentée
 |---------|------------------|-------------------|-----------------|
 | **Agent Teams** (9.20) | 3-6 mois | 50-67% | Timeline: semaines → jours |
 | **Multi-Instance** (9.17) | 1-2 mois | 2x output | Cost: $500-1K/month |
-| **Sandbox Isolation** (guide/sandbox-native.md) | Immediate | Security baseline | Compliance requirement |
+| **Sandbox Isolation** (guide/security/sandbox-native.md) | Immediate | Security baseline | Compliance requirement |
 
 ### 🎯 Research Insights (Anthropic Internal Study)
 
@@ -18411,7 +18410,7 @@ rtk init --global          # Replace hook with thin delegator
 - Templates: `examples/{claude-md,skills,hooks}/rtk-*`
 - GitHub: https://github.com/rtk-ai/rtk
 - Website: https://www.rtk-ai.app/
-- Third-party tools comparison: `guide/third-party-tools.md#rtk-rust-token-killer`
+- Third-party tools comparison: `guide/ecosystem/third-party-tools.md#rtk-rust-token-killer`
 
 ### Progressive Code Exploration (Smart Explore)
 

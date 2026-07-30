@@ -35,8 +35,8 @@
 |-------------|-------------------------|-------------|
 | "Context rot" | Fresh Context Pattern | `guide/ultimate-guide.md:1547-1593` |
 | "Fresh executor contexts" | Ralph Loop | `guide/ultimate-guide.md:1561` |
-| Multi-agent orchestration | Gas Town, multiclaude | `guide/ai-ecosystem.md:816-890` |
-| Workflow multi-phases | BMAD methodology | `guide/methodologies.md:44-55` |
+| Multi-agent orchestration | Gas Town, multiclaude | `guide/ecosystem/ai-ecosystem.md:816-890` |
+| Workflow multi-phases | BMAD methodology | `guide/core/methodologies.md:44-55` |
 | Documents structurés | CLAUDE.md + TodoWrite | Sections 3.4, 4.5 |
 
 ---
@@ -69,7 +69,7 @@
 5. **Claims non vérifiées** ("Trusted by Amazon, Google..." sans preuve)
 
 **Si vraiment nécessaire** (mention minimale):
-- **Où**: `guide/methodologies.md` Tier 1 (à côté de BMAD)
+- **Où**: `guide/core/methodologies.md` Tier 1 (à côté de BMAD)
 - **Format**: 1-2 lignes dans le tableau existant
 - **Contenu suggéré**:
   ```markdown
@@ -140,8 +140,8 @@ Les utilisateurs cherchant les concepts GSD trouveront déjà:
 | Concept recherché | Section du guide |
 |-------------------|------------------|
 | Context management | `guide/ultimate-guide.md:1547-1593` (Fresh Context Pattern) |
-| Multi-agent workflows | `guide/ai-ecosystem.md:816-890` (Gas Town, multiclaude) |
-| Structured planning | `guide/methodologies.md:44-55` (BMAD) |
+| Multi-agent workflows | `guide/ecosystem/ai-ecosystem.md:816-890` (Gas Town, multiclaude) |
+| Structured planning | `guide/core/methodologies.md:44-55` (BMAD) |
 | State persistence | `guide/ultimate-guide.md` Section 3.4 (CLAUDE.md) |
 | Task tracking | `guide/ultimate-guide.md` Section 4.5 (TodoWrite) |
 

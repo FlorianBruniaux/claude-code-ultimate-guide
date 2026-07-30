@@ -261,7 +261,7 @@ graph LR
 - [Tools Reference](./guide/core/tools-reference.md): all 40 built-in tools, permission rule formats, per-tool behaviors (timeouts, file-read limits, lossy WebFetch), and how-to for Monitor, Workflow, agent teams, Cron, Tasks API
 - [Architecture](./guide/core/architecture.md) — Internal mechanics (context flow, tool orchestration, memory management)
 - [Trade-offs](./guide/ultimate-guide.md#when-to-use-what) — Decision frameworks for agents vs skills vs commands
-- [Configuration Decision Guide](./guide/ultimate-guide.md#27-configuration-decision-guide) — Unified "which mechanism for what?" map across all 7 config layers
+- [Memory Loading Comparison](./guide/ultimate-guide.md#memory-loading-comparison): unified "which mechanism for what?" map across all 7 config layers
 - [Pitfalls](./guide/ultimate-guide.md#18-eight-beginner-mistakes-and-how-to-avoid-them) — Common failure modes + prevention strategies
 
 **What this means for you**: Troubleshoot issues independently, optimize for your specific use case, know when to deviate from patterns.

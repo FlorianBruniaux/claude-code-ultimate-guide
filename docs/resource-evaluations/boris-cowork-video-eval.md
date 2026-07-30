@@ -96,7 +96,7 @@ Interview covering:
 
 **Rationale**: Transforms CLAUDE.md from "config file" to "organizational learning system"
 
-### 2. Plan-First Discipline (guide/methodologies.md ~61)
+### 2. Plan-First Discipline (guide/core/methodologies.md ~61)
 
 **Added**:
 - New "Foundational Discipline" section (between Tier 1 and Tier 2)
@@ -108,7 +108,7 @@ Interview covering:
 
 **Rationale**: Elevates plan-first from feature to systematic discipline
 
-### 3. Verification Loops Expansion (guide/methodologies.md ~214)
+### 3. Verification Loops Expansion (guide/core/methodologies.md ~214)
 
 **Enhanced existing section**:
 - Generalized beyond TDD to architectural pattern

@@ -113,11 +113,11 @@ Pipeline multi-agents open-source entièrement construit sur Claude Code, qui tr
 ## Decision
 
 - **Score final** : **3/5** (Pertinent — Mention ciblée)
-- **Action** : Mention dans `guide/methodologies.md` (tableau SDD Tools) + `guide/workflows/spec-first.md` (See Also)
+- **Action** : Mention dans `guide/core/methodologies.md` (tableau SDD Tools) + `guide/workflows/spec-first.md` (See Also)
 - **Confiance** : Haute
 
 **Intégration réalisée** :
-1. `guide/methodologies.md` ligne ~365 : Ligne ajoutée dans le tableau SDD Tools
+1. `guide/core/methodologies.md` ligne ~365 : Ligne ajoutée dans le tableau SDD Tools
 2. `guide/workflows/spec-first.md` section "See Also" : Lien + description ajoutés
 
 **Révision recommandée** : Mai 2026 — vérifier adoption (stars, forks, issues), éventuellement upgrader à 4/5 si projet mature.
@@ -132,7 +132,7 @@ Pipeline multi-agents open-source entièrement construit sur Claude Code, qui tr
 
 **Internal verification**:
 - `guide/workflows/spec-first.md` (830 lignes — spec-first existant)
-- `guide/methodologies.md` (SDD Tools section, ligne ~356)
+- `guide/core/methodologies.md` (SDD Tools section, ligne ~356)
 - `guide/workflows/agent-teams.md`
 
 **Challenge Agent** : technical-writer via Task tool (Explore subagent)

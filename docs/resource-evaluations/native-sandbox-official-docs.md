@@ -62,9 +62,9 @@ Official documentation for Claude Code's native sandboxing feature (v2.1.0+), co
 
 ### What We Had
 
-- `guide/sandbox-isolation.md` - Detailed Docker Sandboxes (microVM), cloud sandboxes (E2B, Fly.io, Vercel, Cloudflare)
-- `guide/architecture.md:390` - Brief mention of native sandbox (<50 words)
-- `machine-readable/reference.yaml` - Single entry: `sandbox_native_cc: "guide/architecture.md:390"`
+- `guide/security/sandbox-isolation.md` - Detailed Docker Sandboxes (microVM), cloud sandboxes (E2B, Fly.io, Vercel, Cloudflare)
+- `guide/core/architecture.md:390` - Brief mention of native sandbox (<50 words)
+- `machine-readable/reference.yaml` - Single entry: `sandbox_native_cc: "guide/core/architecture.md:390"`
 
 ### What Was Missing
 
@@ -127,7 +127,7 @@ Official documentation for Claude Code's native sandboxing feature (v2.1.0+), co
    - Integration workflows absents (Native + Docker + MCP combination)
 
 3. **Recommandations incomplètes**:
-   - Manque: Section dédiée `guide/sandbox-native.md` (pas juste enrichir architecture.md)
+   - Manque: Section dédiée `guide/security/sandbox-native.md` (pas juste enrichir architecture.md)
    - Manque: Decision tree (Docker vs Native vs Cloud)
    - Manque: Templates (config, commands, hooks)
    - Manque: Testing workflow (vérifier sandbox fonctionne)
@@ -148,7 +148,7 @@ Official documentation for Claude Code's native sandboxing feature (v2.1.0+), co
 
 ### ✅ Completed (2026-02-02)
 
-1. **Created `guide/sandbox-native.md`** (~3000 words)
+1. **Created `guide/security/sandbox-native.md`** (~3000 words)
    - OS primitives deep dive (Seatbelt vs bubblewrap)
    - Network proxy architecture (SOCKS5, domain filtering)
    - Security limitations with examples (domain fronting, Unix sockets, filesystem)
@@ -166,10 +166,10 @@ Official documentation for Claude Code's native sandboxing feature (v2.1.0+), co
 
 ### 🔄 In Progress
 
-3. **Update `guide/sandbox-isolation.md`** (add Native vs Docker comparison)
+3. **Update `guide/security/sandbox-isolation.md`** (add Native vs Docker comparison)
 4. **Create templates** (sandbox-native.json, sandbox-status.md, sandbox-validation.sh)
 5. **Update `machine-readable/reference.yaml`** (add sandbox entries)
-6. **Update `guide/architecture.md:390`** (enrich Native Sandbox section)
+6. **Update `guide/core/architecture.md:390`** (enrich Native Sandbox section)
 
 ---
 
@@ -221,7 +221,7 @@ Official documentation for Claude Code's native sandboxing feature (v2.1.0+), co
 - **Open-Source Runtime**: https://github.com/anthropic-experimental/sandbox-runtime
 - **NPM Package**: https://www.npmjs.com/package/@anthropic-ai/sandbox-runtime
 - **Docker Sandboxes**: https://docs.docker.com/ai/sandboxes/
-- **Guide Integration**: `guide/sandbox-native.md` (created 2026-02-02)
+- **Guide Integration**: `guide/security/sandbox-native.md` (created 2026-02-02)
 
 ---
 

@@ -79,7 +79,7 @@ Two-phase controlled experiment investigating whether AI-assisted code creation 
 
 ## Recommendations
 
-**Where to integrate**: `guide/learning-with-ai.md` — section "Productivity Research" (~line 925)
+**Where to integrate**: `guide/roles/learning-with-ai.md` — section "Productivity Research" (~line 925)
 
 **What to add** (1-2 lines):
 ```markdown
@@ -154,9 +154,9 @@ Two-phase controlled experiment investigating whether AI-assisted code creation 
 
 | File | Change | Line |
 |------|--------|------|
-| `guide/learning-with-ai.md` | Citation réécriture — retrait claims éditoriaux, "July 2025" → "v2 Dec 2025", restructuration factuelle | ~926 |
+| `guide/roles/learning-with-ai.md` | Citation réécriture — retrait claims éditoriaux, "July 2025" → "v2 Dec 2025", restructuration factuelle | ~926 |
 | `guide/ultimate-guide.md` | Ajout blockquote nuance downstream maintainability dans section 1.7 Trust Calibration | ~1092 |
-| `guide/learning-with-ai.md` | Ajout note "On maintainability fear" dans "Why Teams Get Results" | ~151 |
+| `guide/roles/learning-with-ai.md` | Ajout note "On maintainability fear" dans "Why Teams Get Results" | ~151 |
 | `machine-readable/reference.yaml` | Ajout 4 entrées: productivity_rct_metr, productivity_rct_echoes, productivity_maintainability_empirical, trust_calibration_maintainability_nuance | ~94 |
 
 **Corrections post-audit:**

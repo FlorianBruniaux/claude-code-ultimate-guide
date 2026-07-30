@@ -148,7 +148,7 @@ Types eliminate redundancy of maintaining separate documentation and code. Compi
 
 ### Recommended: Micro-Integration (128 words)
 
-**Location**: `guide/methodologies.md` after line 172 (CDD section)
+**Location**: `guide/core/methodologies.md` after line 172 (CDD section)
 
 **Content**: See `claudedocs/micro-integration-type-driven-dev.md`
 

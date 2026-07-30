@@ -64,8 +64,8 @@ Benchmark structuré comparant 5 outils d'agentic coding avec des tableaux déta
 
 ### Apport #1 — Quotas précis par plan (PRIORITÉ HAUTE)
 
-- **Gap réel** : Les chiffres existent dans le guide mais sont éparpillés entre `ultimate-guide.md` et `guide/known-issues.md`. Pas de tableau synthétique "Pro / Max 5x / Max 20x" avec les intervalles réels par fenêtre 5h.
-- **Où** : `guide/ultimate-guide.md` section pricing/limits (~ligne 1951-2013) + potentiellement `guide/architecture.md`
+- **Gap réel** : Les chiffres existent dans le guide mais sont éparpillés entre `ultimate-guide.md` et `guide/core/known-issues.md`. Pas de tableau synthétique "Pro / Max 5x / Max 20x" avec les intervalles réels par fenêtre 5h.
+- **Où** : `guide/ultimate-guide.md` section pricing/limits (~ligne 1951-2013) + potentiellement `guide/core/architecture.md`
 - **Comment** : Tableau unique "Plan → prompts Claude Code/5h → Sonnet heures/semaine → cap mensuel" avec note sur sub-agents et 1M context comme multiplicateurs de consommation
 - **Caveat** : Les chiffres du benchmark (10-40 / 50-200 / 200-800) sont des fourchettes communautaires, pas des SLAs officiels Anthropic. Sourcer depuis GitHub issues anthropics/claude-code ou docs officielles avant d'intégrer.
 

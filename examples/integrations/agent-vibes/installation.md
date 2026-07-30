@@ -295,7 +295,7 @@ cat .claude/tts-voice.txt
 
 **Expected**: Audio plays with French male voice.
 
-**Troubleshooting**: If no audio, see [Troubleshooting Guide](./troubleshooting.md#no-audio).
+**Troubleshooting**: If no audio, see [Troubleshooting Guide](./troubleshooting.md#issue-1-no-audio-output).
 
 ### Checkpoint 4: Configuration Complete ✅
 
@@ -533,7 +533,7 @@ After installation:
 1. **[Voice Catalog](./voice-catalog.md)** - Explore 15 voices and choose your favorite
 2. **[README](./README.md)** - Learn essential commands and use cases
 3. **[Troubleshooting](./troubleshooting.md)** - Solve common issues
-4. **[AI Ecosystem](../../../guide/ecosystem/ai-ecosystem.md#47-voice-interfaces)** - TTS in broader AI context
+4. **[AI Ecosystem](../../../guide/ecosystem/ai-ecosystem.md#5-voice-to-text-tools-wispr-flow-superwhisper)** - TTS in broader AI context
 
 ---
 

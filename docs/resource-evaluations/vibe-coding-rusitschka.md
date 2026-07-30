@@ -127,7 +127,7 @@ All claims verified against source article:
    - `vibe_coding_context_overload_source: "Jens Rusitschka, 'Vibe Coding, Level 2' (Jan 2026)"`
    - `vibe_coding_phased_strategy: 8760`
 
-3. **Cross-reference** in `guide/learning-with-ai.md:96`
+3. **Cross-reference** in `guide/roles/learning-with-ai.md:96`
    - Link from "Vibe Coding Trap" to new technical strategies
 
 4. **CHANGELOG** entry documenting additions

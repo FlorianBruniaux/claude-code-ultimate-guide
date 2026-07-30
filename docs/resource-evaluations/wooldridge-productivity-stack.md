@@ -83,7 +83,7 @@
 
 ### 1. Ajouter section "Practitioner Insights" (Priorité: Moyenne)
 
-**Fichier**: `guide/ai-ecosystem.md`
+**Fichier**: `guide/ecosystem/ai-ecosystem.md`
 **Ligne**: ~1270 (après Matteo Collina section, avant section 9)
 
 **Texte à ajouter**:
@@ -125,7 +125,7 @@
 ```yaml
 practitioner_insights:
   # ... existing entries ...
-  practitioner_peter_wooldridge: "guide/ai-ecosystem.md:1270"
+  practitioner_peter_wooldridge: "guide/ecosystem/ai-ecosystem.md:1270"
   practitioner_wooldridge_source: "https://quantably.co/blog/claude-code-productivity-stack/"
 ```
 
@@ -140,7 +140,7 @@ ecosystem:
       author: "Peter Wooldridge (15yr tech: IBM, Elsevier, Experian; AI consultant)"
       focus: "Remote-first mobile workflows with 4-quadrant automation model"
       alignment: "Validates worktrees, multi-instance, Ralph Loop from remote-first perspective"
-      guide_section: "guide/ai-ecosystem.md:1270"
+      guide_section: "guide/ecosystem/ai-ecosystem.md:1270"
 ```
 
 ---
@@ -162,7 +162,7 @@ plugins_popular:
 
 ### 4. Cross-ref `--max-iterations` (Priorité: Basse)
 
-**Fichier**: `guide/methodologies.md`
+**Fichier**: `guide/core/methodologies.md`
 **Ligne**: ~57 (après mention Ralph Inferno)
 
 **Ajout**:
@@ -216,7 +216,7 @@ plugins_popular:
 | **Credentials** | Stanford PhD, HOPPR AI Scientist | 15 ans tech (IBM/Elsevier/Experian), AI consultant | Node.js TSC Chair, 17B npm dl/yr |
 | **Metrics d'adoption** | Aucune publique | Aucune publique | OSS (mais pas CC-specific) |
 | **Valeur pour guide** | Validation worktrees/TDD | Validation remote-first/mobile | Cultural perspective |
-| **Inclus?** | ✅ guide/ai-ecosystem.md:1213 | ✅ (après révision) | ✅ guide/ai-ecosystem.md:1243 |
+| **Inclus?** | ✅ guide/ecosystem/ai-ecosystem.md:1213 | ✅ (après révision) | ✅ guide/ecosystem/ai-ecosystem.md:1243 |
 
 **Conclusion**: Standard cohérent appliqué—praticiens respectés validant patterns avec perspectives complémentaires.
 
@@ -303,7 +303,7 @@ plugins_popular:
 | **Outils utilisés** | WebFetch (2x), Perplexity Search (1x), Grep (5x), Task agent (2x) |
 | **Révisions** | 1 (score 2/5 → 3/5 après challenge) |
 | **Lignes à ajouter** | ~35 lignes (guide) + 10 lignes (YAML) |
-| **Fichiers impactés** | 2 (guide/ai-ecosystem.md, machine-readable/reference.yaml) |
+| **Fichiers impactés** | 2 (guide/ecosystem/ai-ecosystem.md, machine-readable/reference.yaml) |
 | **Priorité recommandée** | Moyenne (release mineure v3.13.1 ou v3.14.0) |
 
 ---
@@ -316,7 +316,7 @@ plugins_popular:
 - **Termius**: https://termius.com/
 - **Tailscale**: https://tailscale.com/
 - **Ralph Wiggum plugin**: Référencé dans guide:7246 (plugins populaires)
-- **Wispr Flow**: Déjà documenté dans guide/ai-ecosystem.md:449-464
+- **Wispr Flow**: Déjà documenté dans guide/ecosystem/ai-ecosystem.md:449-464
 
 ---
 
@@ -335,7 +335,7 @@ plugins_popular:
 ```
 docs: add Peter Wooldridge practitioner insight (remote-first workflows)
 
-- Add Wooldridge section in guide/ai-ecosystem.md:1270
+- Add Wooldridge section in guide/ecosystem/ai-ecosystem.md:1270
 - Add references in machine-readable/reference.yaml
 - Document mobile workflows + 4-quadrant automation model
 - Cross-ref scheduler plugin and Ralph Wiggum --max-iterations

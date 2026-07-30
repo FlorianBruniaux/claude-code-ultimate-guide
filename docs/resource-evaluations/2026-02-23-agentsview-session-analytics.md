@@ -17,7 +17,7 @@
 **Challenged Score**: 3/5
 **Final Score**: **3/5 (Pertinent — Complement utile)**
 
-**Decision**: **Integrate in `guide/observability.md` (External Monitoring Tools section). Cross-reference in `guide/third-party-tools.md` (Session Management).** Wait 2-4 weeks for adoption to consolidate before publishing (target: ~200+ stars).
+**Decision**: **Integrate in `guide/ops/observability.md` (External Monitoring Tools section). Cross-reference in `guide/ecosystem/third-party-tools.md` (Session Management).** Wait 2-4 weeks for adoption to consolidate before publishing (target: ~200+ stars).
 
 ---
 
@@ -73,7 +73,7 @@ AgentsView fills this gap. However, the repo was created on February 19, 2026 (4
 
 ## 📍 Integration Recommendations
 
-### Primary: `guide/observability.md` — External Monitoring Tools
+### Primary: `guide/ops/observability.md` — External Monitoring Tools
 
 Add row to the comparison table (after ccboard):
 
@@ -86,7 +86,7 @@ Add to Decision Guide:
 Want search + visual analytics in one local UI?  → AgentsView
 ```
 
-### Secondary: `guide/third-party-tools.md` — Session Management
+### Secondary: `guide/ecosystem/third-party-tools.md` — Session Management
 
 Add short entry after `claude-code-viewer` with explicit differentiation:
 

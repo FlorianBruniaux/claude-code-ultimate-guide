@@ -74,10 +74,10 @@ Steve Croce (Anaconda Field CTO) documents a 12-day experiment racing Claude Cod
 
 | Aspect | Guide Location | Depth |
 |--------|----------------|-------|
-| When to use AI | `guide/learning-with-ai.md` (UVAL Protocol, 70/30 rule) | ✅✅✅ Detailed, actionable |
-| Dependency risks | `guide/learning-with-ai.md` (Three Patterns, Red Flags) | ✅✅✅ Systematic framework |
-| Collaboration impact | `guide/learning-with-ai.md` (implicitly via isolation/dependency) | ✅ Conceptual, not explicit |
-| AI limitations | `guide/ultimate-guide.md`, `guide/methodologies.md` | ✅✅✅ Extensive coverage |
+| When to use AI | `guide/roles/learning-with-ai.md` (UVAL Protocol, 70/30 rule) | ✅✅✅ Detailed, actionable |
+| Dependency risks | `guide/roles/learning-with-ai.md` (Three Patterns, Red Flags) | ✅✅✅ Systematic framework |
+| Collaboration impact | `guide/roles/learning-with-ai.md` (implicitly via isolation/dependency) | ✅ Conceptual, not explicit |
+| AI limitations | `guide/ultimate-guide.md`, `guide/core/methodologies.md` | ✅✅✅ Extensive coverage |
 | Empirical metrics | — | ❌ Missing (theoretical only) |
 
 ### Gap Analysis
@@ -170,7 +170,7 @@ Guide already addresses isolation/dependency risks without claiming empirical va
 
 ### Integration Location
 
-**File**: `guide/learning-with-ai.md`
+**File**: `guide/roles/learning-with-ai.md`
 **Section**: New subsection "Community Experiences" added after §13 "Sources & Research"
 **Format**: 2-paragraph summary + detailed footnote
 
@@ -235,7 +235,7 @@ Practitioner reports from real-world usage provide empirical validation of theor
 
 **Final Score**: 2/5 (Marginal - Info secondaire)
 
-**Action Taken**: Minimal mention in `guide/learning-with-ai.md` with strong caveats
+**Action Taken**: Minimal mention in `guide/roles/learning-with-ai.md` with strong caveats
 
 **Justification**: While this resource provides light empirical validation and an interesting "collaboration cost" angle, its methodological limitations (N=1, non-representative context, commercial bias) prevent extensive integration. The guide maintains rigor by acknowledging practitioner perspectives while explicitly noting limitations.
 

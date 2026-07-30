@@ -194,7 +194,7 @@ Il n'y a pas de logique métier codée en dur qui route les requêtes : tout vie
 Marc demande "ajoute la validation Zod au formulaire d'expédition". Claude entre dans le master loop : (1) Glob pour trouver `ShippingForm.tsx`, (2) Read pour comprendre la structure, (3) Grep pour identifier les imports Zod existants, (4) Edit pour ajouter le schéma de validation, (5) Bash pour lancer les tests. Cinq itérations de boucle, sans routeur ni orchestrateur ; le modèle a décidé seul de l'enchaînement.
 :::
 
-> 📖 **Pour aller plus loin :** [Architecture Internals](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/architecture.md) (master loop, tool arsenal, sub-agent architecture, edit tool internals)
+> 📖 **Pour aller plus loin :** [Architecture Internals](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md) (master loop, tool arsenal, sub-agent architecture, edit tool internals)
 
 ## Cycle de Vie d'une Requête
 
@@ -816,7 +816,7 @@ Depuis v2.1.118, les hooks peuvent invoquer directement des outils MCP via `type
 Impact : les hooks deviennent un bus d'intégration entre Claude Code et l'écosystème MCP, ouvrant la voie à l'observabilité en temps réel, l'audit automatique et la validation cross-outils.
 :::
 
-> 📖 **Pour aller plus loin :** [§8 MCP Servers](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#8-mcp-servers) (configuration, sélection, sécurité) | [MCP Ecosystem](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/mcp-servers-ecosystem.md)
+> 📖 **Pour aller plus loin :** [§8 MCP Servers](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#8-mcp-servers) (configuration, sélection, sécurité) | [MCP Ecosystem](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ecosystem/mcp-servers-ecosystem.md)
 
 {{< pagebreak >}}
 
@@ -990,8 +990,8 @@ La documentation officielle d'Anthropic est la source primaire pour les détails
 | **Hooks Reference** | Documentation complète du système de hooks | [docs.anthropic.com/en/docs/claude-code/hooks](https://docs.anthropic.com/en/docs/claude-code/hooks) |
 | **MCP Docs** | Intégration MCP dans Claude Code | [docs.anthropic.com/en/docs/claude-code/mcp](https://docs.anthropic.com/en/docs/claude-code/mcp) |
 | **Model Context Protocol** | Spécification officielle du protocole MCP | [modelcontextprotocol.io](https://modelcontextprotocol.io) |
-| **Architecture Internals** | Master loop, tool arsenal, sub-agents (ce repo) | [guide/architecture.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/architecture.md) |
-| **MCP Ecosystem Guide** | Répertoire et évaluation des serveurs MCP | [guide/mcp-servers-ecosystem.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/mcp-servers-ecosystem.md) |
+| **Architecture Internals** | Master loop, tool arsenal, sub-agents (ce repo) | [guide/core/architecture.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md) |
+| **MCP Ecosystem Guide** | Répertoire et évaluation des serveurs MCP | [guide/ecosystem/mcp-servers-ecosystem.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ecosystem/mcp-servers-ecosystem.md) |
 
 ## Parcours Recommandé
 

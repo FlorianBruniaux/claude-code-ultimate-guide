@@ -592,7 +592,7 @@ if [[ "$OUTPUT_MODE" == "json" ]]; then
     "env_excluded": $([ -f "./.claude/settings.json" ] && grep -q '\.env' "./.claude/settings.json" 2>/dev/null && echo "true" || echo "false"),
     "has_db_mcp": $(echo "$MCP_ALL_SERVERS" | grep -qiE "postgres|neon|supabase|mysql|database" 2>/dev/null && echo "true" || echo "false"),
     "opt_out_link": "https://claude.ai/settings/data-privacy-controls",
-    "guide_link": "guide/data-privacy.md"
+    "guide_link": "guide/security/data-privacy.md"
   },
   "mcp": {
     "configured": $([ -n "$MCP_SERVERS" ] && echo "true" || echo "false"),
@@ -671,7 +671,7 @@ else
 
   # Privacy reminders
   echo -e "  ${CYAN}💡${NC} Opt-out training: https://claude.ai/settings/data-privacy-controls"
-  echo -e "  ${CYAN}💡${NC} Full guide: guide/data-privacy.md"
+  echo -e "  ${CYAN}💡${NC} Full guide: guide/security/data-privacy.md"
 
   echo -e "\n${BLUE}🔌 MCP SERVERS${NC}"
   if [[ -n "$MCP_ALL_SERVERS" ]]; then

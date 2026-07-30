@@ -130,7 +130,7 @@ Comprehensive analytical report titled "Analyse Mensuelle des Discussions Commun
 
 ## ✅ What Was Integrated
 
-### Created: `guide/known-issues.md` (285 lines)
+### Created: `guide/core/known-issues.md` (285 lines)
 
 **Section 1: Active Critical Issues**
 
@@ -178,7 +178,7 @@ Comprehensive analytical report titled "Analyse Mensuelle des Discussions Commun
 
 ### Files Modified
 
-1. **guide/known-issues.md** (NEW, 285 lines)
+1. **guide/core/known-issues.md** (NEW, 285 lines)
    - Comprehensive critical bugs tracker
    - Verified sources only
    - Actionable workarounds

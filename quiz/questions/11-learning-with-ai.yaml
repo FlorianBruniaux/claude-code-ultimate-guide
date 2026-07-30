@@ -216,7 +216,7 @@ questions:
     correct: c
     explanation: "The learning-capture.sh hook uses the Stop event (session end) to prompt: \"What's ONE thing you learned today?\" This logs to ~/claude-learnings.md automatically. It's lightweight (asks one question) so you'll actually use it, unlike verbose learning journals."
     doc_reference:
-      file: guide/learning-with-ai.md
+      file: guide/roles/learning-with-ai.md
       section: Hooks That Build Habits
       anchor: "#hooks-that-build-habits"
   - id: 11-013
@@ -235,7 +235,7 @@ questions:
     correct: b
     explanation: "The Dependent pattern's risk is becoming unemployable. Signs: copy-paste without understanding, can't debug AI code, anxiety without AI. In interviews: can't whiteboard basics, struggles with \"why this approach?\", asks to look up fundamentals. You ship code you can't explain - when it breaks, you're stuck."
     doc_reference:
-      file: guide/learning-with-ai.md
+      file: guide/roles/learning-with-ai.md
       section: "Pattern 1: Dependent"
       anchor: "#pattern-1-dependent"
   - id: 11-014
@@ -253,7 +253,7 @@ questions:
     correct: b
     explanation: "The key question is: \"Am I faster than last month? Am I smarter?\" If you're faster but NOT smarter, you're building dependency. Other weekly questions: What did I learn that I didn't know before? Could I have done this without AI? Did I understand everything I shipped?"
     doc_reference:
-      file: guide/learning-with-ai.md
+      file: guide/roles/learning-with-ai.md
       section: Weekly Self-Audit
       anchor: "#weekly-self-audit"
   - id: 11-015

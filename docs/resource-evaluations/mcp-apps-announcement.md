@@ -84,7 +84,7 @@
 
 | File | Section | Lines |
 |------|---------|-------|
-| `guide/architecture.md` | 6. MCP Integration → MCP Extensions: Apps (SEP-1865) | 656-806 (~150 lines) |
+| `guide/core/architecture.md` | 6. MCP Integration → MCP Extensions: Apps (SEP-1865) | 656-806 (~150 lines) |
 | `guide/ultimate-guide.md` | 8.1 What is MCP → MCP Evolution: Apps Extension | 6509-6599 (~90 lines) |
 | `guide/ultimate-guide.md` | 8.5 Plugin System → Table update | 7522-7525 (1 line + note) |
 | `machine-readable/reference.yaml` | deep_dive section | 8 new entries |
@@ -132,7 +132,7 @@
 - **Action**: Integrated ✅
 - **Date integrated**: 2026-01-27
 - **Files modified**:
-  - `guide/architecture.md` (new section)
+  - `guide/core/architecture.md` (new section)
   - `guide/ultimate-guide.md` (new section + table update)
   - `machine-readable/reference.yaml` (8 new entries)
 - **Confidence**: High

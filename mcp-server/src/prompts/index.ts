@@ -42,7 +42,7 @@ Use get_example(name) for production-ready code:
 ## Guide structure
 - guide/ultimate-guide.md — Main reference (20K+ lines)
 - guide/cheatsheet.md — Quick reference
-- guide/architecture.md — How Claude Code works internally
+- guide/core/architecture.md — How Claude Code works internally
 - examples/agents/ — Custom agent templates
 - examples/commands/ — Slash command templates
 - examples/hooks/ — Event hook examples

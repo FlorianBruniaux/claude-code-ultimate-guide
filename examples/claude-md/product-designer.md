@@ -403,5 +403,5 @@ Update Storybook stories if needed.
 ## See Also
 
 - [Design-to-Code Workflow](../../guide/workflows/design-to-code.md) — Complete Figma MCP workflow guide
-- [Figma MCP Section](../../guide/ultimate-guide.md#figma-mcp) — Technical details
-- [Working with Images](../../guide/ultimate-guide.md#24-working-with-images) — Visual analysis basics
+- [Figma MCP Section](../../guide/ultimate-guide.md#figma-mcp-integration) — Technical details
+- [Working with Images](../../guide/ultimate-guide.md#working-with-images-and-screenshots) — Visual analysis basics

@@ -138,14 +138,14 @@
 
 ### Contenu
 
-- 1 entrée dans `guide/ai-ecosystem.md` après Matteo Collina
+- 1 entrée dans `guide/ecosystem/ai-ecosystem.md` après Matteo Collina
 - Format: H3 + credentials + summary + alignment table + value + note
 - Scope: Patterns model-agnostic seulement
 - Exclusions: Comparatifs modèles, claims GPT-5.2 spécifiques, knowledge gaps
 
 ### Fichiers modifiés
 
-1. `guide/ai-ecosystem.md`: Nouvelle entrée Steinberger (~25 lignes)
+1. `guide/ecosystem/ai-ecosystem.md`: Nouvelle entrée Steinberger (~25 lignes)
 2. `docs/resource-evaluations/steinberger-inference-speed.md`: Ce fichier
 3. `docs/resource-evaluations/README.md`: Ajout index
 4. `machine-readable/reference.yaml`: Référence practitioner_steinberger

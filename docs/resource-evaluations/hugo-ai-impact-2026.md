@@ -55,9 +55,9 @@ Opinion piece on AI's impact on software engineering practices in 2026, based on
 | Aspect | Hugo's Resource | Our Guide |
 |--------|----------------|-----------|
 | Spec/Plan/Act workflow | ✓ Described | ✅ `guide/workflows/spec-first.md`, `/plan` mode |
-| QA via CI/CD | ✓ Mentioned | ✅ `guide/production-safety.md`, hooks |
-| HR/Junior disruption | ✓ Opinion | ✅ `guide/learning-with-ai.md` (comprehensive) |
-| Cost estimates | ✓ Ranges ($20-1000) | ✅ `guide/ai-ecosystem.md` (precise: $20-50) |
+| QA via CI/CD | ✓ Mentioned | ✅ `guide/security/production-safety.md`, hooks |
+| HR/Junior disruption | ✓ Opinion | ✅ `guide/roles/learning-with-ai.md` (comprehensive) |
+| Cost estimates | ✓ Ranges ($20-1000) | ✅ `guide/ecosystem/ai-ecosystem.md` (precise: $20-50) |
 
 ---
 
@@ -101,7 +101,7 @@ Opinion piece on AI's impact on software engineering practices in 2026, based on
 
 ### 1. Context Engineering (Thoughtworks) — Priority HIGH
 
-**File**: `guide/methodologies.md` (after line 66, "Foundational Discipline" section)
+**File**: `guide/core/methodologies.md` (after line 66, "Foundational Discipline" section)
 
 **Added**:
 ```markdown
@@ -116,7 +116,7 @@ Opinion piece on AI's impact on software engineering practices in 2026, based on
 
 ### 2. Corporate AI Marketplaces — Priority LOW
 
-**File**: `guide/adoption-approaches.md` (after line 277, "Larger Team" section)
+**File**: `guide/roles/adoption-approaches.md` (after line 277, "Larger Team" section)
 
 **Added**:
 ```markdown
@@ -135,9 +135,9 @@ Opinion piece on AI's impact on software engineering practices in 2026, based on
 ### Rejected: Full "Team Governance" section
 
 **Reason**: Redundant with existing content:
-- `guide/adoption-approaches.md` lines 236-278 already cover team coordination
-- `guide/production-safety.md` covers hooks and permission rules
-- `guide/security-hardening.md` covers team conventions
+- `guide/roles/adoption-approaches.md` lines 236-278 already cover team coordination
+- `guide/security/production-safety.md` covers hooks and permission rules
+- `guide/security/security-hardening.md` covers team conventions
 
 ### Rejected: Stats integration
 
@@ -195,4 +195,4 @@ Opinion piece on AI's impact on software engineering practices in 2026, based on
 - **Time spent**: ~45 minutes (research, fact-check, agent challenge, integration)
 - **Agent tools used**: WebFetch, Grep, Read, Perplexity, Task (technical-writer)
 - **Integration time**: 10 minutes (2 footnotes)
-- **Files modified**: 2 (`guide/methodologies.md`, `guide/adoption-approaches.md`)
+- **Files modified**: 2 (`guide/core/methodologies.md`, `guide/roles/adoption-approaches.md`)

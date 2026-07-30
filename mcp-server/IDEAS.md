@@ -21,13 +21,13 @@ Interactive quiz from `machine-readable/questions.json` (274 questions, already 
 
 ### `get_methodology(name)`
 
-Step-by-step workflows for TDD, SDD, BDD from `guide/methodologies.md`.
+Step-by-step workflows for TDD, SDD, BDD from `guide/core/methodologies.md`.
 
 - `name` (string): `tdd | sdd | bdd | all`
 - Returns the workflow steps, when to use it, and example commands
 - Useful for agents doing test-driven development or spec-driven design
 
-**Data**: `guide/methodologies.md` — fetched on demand (already in section-reader infrastructure).
+**Data**: `guide/core/methodologies.md` — fetched on demand (already in section-reader infrastructure).
 
 ---
 

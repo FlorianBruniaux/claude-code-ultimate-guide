@@ -115,7 +115,7 @@ Khare argues that AI tools create a productivity paradox: faster task completion
 
 **Action:** Full integration (all 3 priorities, ~200 words total)
 
-**Locations:** `guide/learning-with-ai.md` (3 locations)
+**Locations:** `guide/roles/learning-with-ai.md` (3 locations)
 
 ### Priority 1: Red Flags Checklist (line 869)
 

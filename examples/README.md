@@ -262,8 +262,8 @@ Security-first: 12 security hooks, 8 productivity hooks, 5 automation hooks, 5 m
 | [session-naming.md](./claude-md/session-naming.md) | Auto-rename sessions with descriptive titles for parallel work |
 | [design-reference-file.md](./claude-md/design-reference-file.md) | Brand-book and UI kit context for consistent UI generation |
 
-> **See [guide/learning-with-ai.md](../guide/roles/learning-with-ai.md) for learning mode documentation**
-> **See [guide/devops-sre.md](../guide/ops/devops-sre.md) for DevOps/SRE guide**
+> **See [guide/roles/learning-with-ai.md](../guide/roles/learning-with-ai.md) for learning mode documentation**
+> **See [guide/ops/devops-sre.md](../guide/ops/devops-sre.md) for DevOps/SRE guide**
 
 ### Scripts (17)
 
@@ -366,7 +366,7 @@ Security-first: 12 security hooks, 8 productivity hooks, 5 automation hooks, 5 m
 |------|---------|
 | [anchor-catalog.md](./semantic-anchors/anchor-catalog.md) | Comprehensive catalog of precise technical terms for prompting |
 
-> **See [Section 2.7](../guide/ultimate-guide.md#27-semantic-anchors) in the guide for how to use semantic anchors**
+> **See [Section 2.7](../guide/ultimate-guide.md#29-semantic-anchors) in the guide for how to use semantic anchors**
 
 ### Multi-Provider Bridge
 

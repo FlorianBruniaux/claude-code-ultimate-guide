@@ -158,6 +158,16 @@ The most avoidable cost is a loop that does not converge. An agent that keeps tr
 
 Because cache reads are priced far below fresh input, a stable context that the model reads repeatedly is much cheaper than one rebuilt from scratch each turn. Keeping the large, stable parts of the context (project instructions, reference files, schemas) in a form the cache can serve turns repeated reads from a full-price input into a fraction of it. This compounds over a long session.
 
+### Audit what a skill or tool injects, not just what it costs to load
+
+The skill or tool definition is rarely the expensive part. A skill instruction file that runs 10 to 20K tokens loads once per session and stays cheap. The expensive part is what the skill returns: a graph query result, a tool's raw output, a file dump pulled into context. That result does not disappear after the turn it was generated in. It sits in context and gets re-billed, at the cache-read rate, on every turn that follows for the rest of the session.
+
+One practitioner's measured example shows the shape of the problem. A skill that itself loads at roughly 12K tokens was paired with a query whose injected result cost more than $1 on the call that generated it, then about $0.11 in cache-read on each subsequent turn (Marek Kalnik, CTO at Theodo, LinkedIn post, July 2026). A screenshot from the same post, taken from a session-log analysis tool the author uses to train his teams, showed one skill invocation costing $5.33 on 208.9K tokens mid-session, next to several `TASKCREATE` calls at roughly $0.001 each. The skill call alone ran more than five thousand times the cost of each call around it.
+
+Some tasks genuinely need a large injected result, and a skill that supplies one on those tasks earns its cost back many times over. The problem sits elsewhere: a skill configured to trigger on a broad, unconditioned pattern, any question about a codebase, for instance, pays its full injection cost on every match, whether or not that particular task needed the result. Asked whether the injection cost is offset by tokens saved elsewhere, the same practitioner gave the honest answer: it depends on the task, and no break-even point has been measured. On a run that was already burning $75 with no ceiling in sight, the injected context would have helped. On a routine question, it was five dollars spent for nothing (Marek Kalnik, in reply to a reader's question, same thread).
+
+That is a governance decision, not a fixed rule, and it has to be made per skill, per project, against measured cost rather than assumption. Claude Code exposes the number needed to make it: the `/usage` per-category breakdown reports cost by skill, subagent, plugin, and MCP server over the last 24 hours or 7 days ([v2.1.149](../core/claude-code-releases.md#v21149-2026-05-23)). Before leaving a skill on a wide auto-trigger, pull that breakdown, find what the skill actually costs per invocation, and check that against how often the matched tasks genuinely need the context it pulls in. A skill that earns its cost on the tasks it fires on is a lever. One that does not is a tax added to every turn after it runs.
+
 ---
 
 ## 4. The break-even point of an autonomous agent

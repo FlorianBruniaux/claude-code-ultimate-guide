@@ -98,7 +98,7 @@ Zéro hallucination. Toutes les claims vérifiées.
 
 Actions effectuées :
 1. ✅ Ajout dans `docs/resource-evaluations/watch-list.md`
-2. ✅ Ajout du gap "Agent-native issue tracking (markdown-based, git-committable)" dans `guide/third-party-tools.md` Known Gaps
+2. ✅ Ajout du gap "Agent-native issue tracking (markdown-based, git-committable)" dans `guide/ecosystem/third-party-tools.md` Known Gaps
 
 **Trigger de re-évaluation** : GitHub stars visibles + release cadence documentée + au moins un write-up praticien en production.
 

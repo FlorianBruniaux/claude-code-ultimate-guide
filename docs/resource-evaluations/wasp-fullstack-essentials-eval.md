@@ -99,7 +99,7 @@ Includes quotes from Chris McCord (Phoenix creator), Andrej Karpathy, and refere
 |---------|------|----------|----------|-------------|
 | llms.txt standard concept | `guide/ultimate-guide.md` | Section 9.18 new subsection | High | llmstxt.org (NOT this article) |
 | Background tasks workflow | `guide/ultimate-guide.md` | Section 9.18 or existing background tasks | Medium | Official Claude Code docs |
-| Chrome DevTools MCP | `guide/mcp-servers-ecosystem.md` | Browser & Debug section | Low | npm package readme |
+| Chrome DevTools MCP | `guide/ecosystem/mcp-servers-ecosystem.md` | Browser & Debug section | Low | npm package readme |
 | Convention-over-config reinforcement | `guide/ultimate-guide.md` | Section 9.18.1 (existing AX) | Low | Marmelab/AX (existing) |
 
 ### Excluded Content
@@ -176,7 +176,7 @@ Includes quotes from Chris McCord (Phoenix creator), Andrej Karpathy, and refere
 
 ### 3. Chrome DevTools MCP Mention (Low Priority)
 
-**File**: `guide/mcp-servers-ecosystem.md`
+**File**: `guide/ecosystem/mcp-servers-ecosystem.md`
 **Location**: "Browser & Debug" section (next to Playwright/Browserbase)
 **Lines**: ~8 lines
 

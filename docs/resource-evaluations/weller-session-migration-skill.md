@@ -116,7 +116,7 @@ A bash skill that automates cross-folder session migration for Claude Code. Addr
 
 ## Integration Decision
 
-**Integrated as**: Section addition in `guide/observability.md`
+**Integrated as**: Section addition in `guide/ops/observability.md`
 
 **Rationale**:
 1. **Gap confirmed**: GitHub issue #1516 validates the problem
@@ -124,7 +124,7 @@ A bash skill that automates cross-folder session migration for Claude Code. Addr
 3. **Community tool mentioned**: Attribution with honest caveats (0 adoption)
 4. **Risks documented**: Secrets, paths, MCP mismatches explicitly warned
 
-**Placement**: `guide/observability.md` § "Session Resume Limitations & Cross-Folder Migration" (40 lines)
+**Placement**: `guide/ops/observability.md` § "Session Resume Limitations & Cross-Folder Migration" (40 lines)
 
 **Priority**: P2 (Important, not urgent) - integrate after critical guide updates
 
@@ -204,6 +204,6 @@ A bash skill that automates cross-folder session migration for Claude Code. Addr
 
 **Score: 3/5** - Addresses a real but niche gap with minimal adoption. Manual approach is safer and simpler for most users. Integration as lightweight documentation (40 lines) is appropriate given the use case frequency and lack of community validation.
 
-**Action**: Integrated in `guide/observability.md` with manual approach prioritized and community tool mentioned with caveats.
+**Action**: Integrated in `guide/ops/observability.md` with manual approach prioritized and community tool mentioned with caveats.
 
 **Confidence**: High (based on GitHub issue confirmation, Perplexity search validation, and repository inspection)

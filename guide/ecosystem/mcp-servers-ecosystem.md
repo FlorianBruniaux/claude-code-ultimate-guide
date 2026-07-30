@@ -111,7 +111,7 @@ Claude now supports interactive tools via MCP Apps spec:
 
 - **Examples**: Slack drafting, Figma diagrams, Asana timelines
 - **Announcement**: [Smol.ai Newsletter](https://news.smol.ai/issues/26-01-26-mcp-apps)
-- **Deep dive**: See [guide/architecture.md:656](../core/architecture.md#mcp-extensions-apps-sep-1865)
+- **Deep dive**: See [guide/core/architecture.md:656](../core/architecture.md#mcp-extensions-apps-sep-1865)
 
 ### IDE Integration
 

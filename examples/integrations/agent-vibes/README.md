@@ -404,7 +404,7 @@ curl -L -o fr_FR-siwis-high.onnx \
 - **[Voice Catalog](./voice-catalog.md)** - All 15 voices with audio samples
 - **[Troubleshooting](./troubleshooting.md)** - Common issues and solutions
 - **[TTS Setup Workflow](../../../guide/workflows/tts-setup.md)** - Step-by-step installation
-- **[AI Ecosystem](../../../guide/ecosystem/ai-ecosystem.md#47-voice-interfaces)** - TTS in AI context
+- **[AI Ecosystem](../../../guide/ecosystem/ai-ecosystem.md#5-voice-to-text-tools-wispr-flow-superwhisper)** - TTS in AI context
 
 ---
 

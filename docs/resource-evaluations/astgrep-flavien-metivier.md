@@ -101,7 +101,7 @@ Score Final: (4+2+3+2)/4 = 2.75 → arrondi à 3/5
 
 ### Level 2: Design Context (IMPORTANT) ✅
 
-**File**: `guide/architecture.md`
+**File**: `guide/core/architecture.md`
 **Location**: Line 172 (Grep tool table)
 **Change**: Expanded Grep description:
 
@@ -114,7 +114,7 @@ Score Final: (4+2+3+2)/4 = 2.75 → arrondi à 3/5
 
 ### Level 3: Philosophy (NICE-TO-HAVE) ✅
 
-**File**: `guide/architecture.md`
+**File**: `guide/core/architecture.md`
 **Location**: Line 33 (after TL;DR bullet 2)
 **Content**: New paragraph (~80 words):
 
@@ -146,7 +146,7 @@ ast_grep_install: "npx skills add ast-grep/agent-skill"
 ast_grep_when: "structural patterns (>50k lines, migrations, AST rules)"
 ast_grep_not_for: "simple string search, small projects (<10k lines)"
 search_decision_tree: "grep (text) | ast-grep (structure) | Serena (symbols) | grepai (semantic)"
-grep_vs_rag_history: "guide/architecture.md:33"
+grep_vs_rag_history: "guide/core/architecture.md:33"
 ```
 
 ---
@@ -215,7 +215,7 @@ grep_vs_rag_history: "guide/architecture.md:33"
 ## Metadata
 
 **Files modified**: 3
-- `guide/architecture.md` (2 edits: table + philosophy)
+- `guide/core/architecture.md` (2 edits: table + philosophy)
 - `guide/ultimate-guide.md` (1 section: ~95 lines)
 - `machine-readable/reference.yaml` (8 new entries)
 

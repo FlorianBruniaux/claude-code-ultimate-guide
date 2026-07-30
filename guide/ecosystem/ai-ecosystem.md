@@ -1671,7 +1671,7 @@ When scaling beyond single Claude Code sessions, external orchestration systems 
 4. Dashboard UI consumes stream
 ```
 
-See: `guide/observability.md` for native Claude Code session monitoring
+See: `guide/ops/observability.md` for native Claude Code session monitoring
 
 #### Entire CLI: Governance-First Orchestration
 
@@ -2284,7 +2284,7 @@ External resources from experienced practitioners that validate and extend the p
 
 | Van Veen Pattern | This Guide Reference |
 |------------------|---------------------|
-| TDD guardrail | `guide/methodologies.md` (TDD, Verification Loops) |
+| TDD guardrail | `guide/core/methodologies.md` (TDD, Verification Loops) |
 | Git worktrees | `examples/commands/git-worktree.md` (+ DB branching) |
 | Planning phase | Plan Mode (Section 3.3) |
 | Manual commits | Git best practices (Section 9.9) |

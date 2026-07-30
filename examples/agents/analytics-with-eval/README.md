@@ -237,7 +237,7 @@ export CLAUDE_RESPONSE='{"content":"SELECT * FROM users;"}'
 ## Related Resources
 
 - **[Agent Evaluation Guide](../../../guide/roles/agent-evaluation.md)**: Complete evaluation methodology
-- **[Hooks Documentation](../../../guide/ultimate-guide.md#5-hooks)**: Hook system reference
+- **[Hooks Documentation](../../../guide/ultimate-guide.md#7-hooks)**: Hook system reference
 - **[nao Framework](https://github.com/getnao/nao/)**: Production analytics agent framework (inspiration)
 
 ---

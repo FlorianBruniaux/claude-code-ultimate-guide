@@ -42,6 +42,6 @@ MCP server Python offrant une mémoire organisée en knowledge graph avec 18 out
 
 **Score: 2/5** — Réévaluer si un repo/article technique accompagne le post.
 
-Raison du rejet : post LinkedIn sans code source, stats non vérifiables (93% réduction tokens), Perplexity n'a trouvé aucune trace indépendante. La philosophie "infrastructure outlives prompts" est déjà couverte dans `guide/methodologies.md`.
+Raison du rejet : post LinkedIn sans code source, stats non vérifiables (93% réduction tokens), Perplexity n'a trouvé aucune trace indépendante. La philosophie "infrastructure outlives prompts" est déjà couverte dans `guide/core/methodologies.md`.
 
 **Réévaluation trigger** : publication d'un repo GitHub accompagnant le post.

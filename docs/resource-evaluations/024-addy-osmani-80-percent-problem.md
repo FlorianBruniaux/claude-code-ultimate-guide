@@ -92,7 +92,7 @@ Agent challenged initial score of 4/5, recommending downgrade to 3/5:
 
 **Action**: Minimal integration (30 lines)
 
-**Location**: `guide/ai-ecosystem.md` - Practitioner Insights section (line ~2024)
+**Location**: `guide/ecosystem/ai-ecosystem.md` - Practitioner Insights section (line ~2024)
 
 **Rationale**:
 - Recognizes value (respected author, useful synthesis)
@@ -101,7 +101,7 @@ Agent challenged initial score of 4/5, recommending downgrade to 3/5:
 - Transparency (notes "secondary synthesis" for readers)
 
 **Files Modified**:
-1. `guide/ai-ecosystem.md`: Added Addy Osmani entry (~32 lines)
+1. `guide/ecosystem/ai-ecosystem.md`: Added Addy Osmani entry (~32 lines)
 2. `machine-readable/reference.yaml`: Added 4 new references
 3. This evaluation file
 

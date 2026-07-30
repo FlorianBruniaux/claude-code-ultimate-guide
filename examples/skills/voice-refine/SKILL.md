@@ -92,5 +92,5 @@ dans le projet donc faut que ça matche avec ça...
 
 ## See Also
 
-- `guide/ai-ecosystem.md` - Voice-to-Text Tools section
+- `guide/ecosystem/ai-ecosystem.md` - Voice-to-Text Tools section
 - `examples/before-after.md` - Full transformation examples

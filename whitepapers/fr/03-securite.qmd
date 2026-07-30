@@ -782,7 +782,7 @@ Le `kill -TERM -$PID` (négatif) tue tout le groupe de processus, évitant les s
 **Prevention** : `velocity-governor.sh` en PreToolUse pour toute operation autonome. Combiner avec `permissions.deny` pour limiter le scope d'ecriture.
 :::
 
-> Voir `guide/security-hardening.md §3.5` pour l'architecture complète.
+> Voir `guide/security/security-hardening.md §3.5` pour l'architecture complète.
 
 ## Layer 4 : Revue Humaine
 
@@ -1231,7 +1231,7 @@ Trois outils dominent la detection de secrets dans les repositories git, chacun 
 | **TruffleHog** | Scanner de secrets multi-source | [github.com/trufflesecurity/trufflehog](https://github.com/trufflesecurity/trufflehog) |
 | **mcp-scan (Snyk)** | Scanner supply chain pour skills et MCPs | [github.com/snyk/mcp-scan](https://github.com/snyk/mcp-scan) |
 | **mcpwn** | Scanner de sécurité pour serveurs MCP | [github.com/AgniveshChaubey/mcpwn](https://github.com/AgniveshChaubey/mcpwn) |
-| **Security Hardening Guide** | Guide dédié sécurité Claude Code (ce repo) | [guide/security-hardening.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/security-hardening.md) |
+| **Security Hardening Guide** | Guide dédié sécurité Claude Code (ce repo) | [guide/security/security-hardening.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/security/security-hardening.md) |
 | **33 templates hooks** | Hooks de sécurité prêts à déployer | [examples/hooks/](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/hooks/) |
 
 ## Parcours Recommandé
@@ -1244,7 +1244,7 @@ Selon votre niveau et votre besoin, les whitepapers complementaires de cette ser
 | Intégration CI/CD | → Voir **#5 Déployer en Équipe** (`05-equipe.qmd`) |
 | Compliance & RGPD | → Voir **#6 Privacy & Compliance** (`06-privacy.qmd`) |
 
-> 📖 **Pour aller plus loin :** [Security Hardening Guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/security-hardening.md) (guide dédié couvrant prévention, détection, réponse aux incidents)
+> 📖 **Pour aller plus loin :** [Security Hardening Guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/security/security-hardening.md) (guide dédié couvrant prévention, détection, réponse aux incidents)
 
 ---
 

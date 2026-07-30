@@ -62,7 +62,7 @@ Ce qui debloquerait une integration a 3/5:
 3. **94% claim**: soit retire de la doc, soit documente avec une methodologie reproductible
 4. **Ruflo comparaison**: evaluer Ruflo (github.com/ruvnet/ruflo) en parallele — plus mature, meme categorie. L'entree du guide devrait couvrir la *categorie* (hook-based runtime), pas juste un outil
 
-Si integration future: creer une section **"Hook-Based Workflow Runtimes"** dans `guide/third-party-tools.md` — categorie inexistante aujourd'hui qui accueillerait Athena Flow + Ruflo + futurs outils du meme type.
+Si integration future: creer une section **"Hook-Based Workflow Runtimes"** dans `guide/ecosystem/third-party-tools.md` — categorie inexistante aujourd'hui qui accueillerait Athena Flow + Ruflo + futurs outils du meme type.
 
 **Ne pas faire:**
 - Citer le "94% success rate" sans source verifiable

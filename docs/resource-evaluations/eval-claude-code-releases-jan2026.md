@@ -82,7 +82,7 @@ curl -s https://api.github.com/repos/anthropics/claude-code/releases
 **Justification:**
 
 **✅ Intégration immédiate nécessaire:**
-1. **`guide/claude-code-releases.md`**
+1. **`guide/core/claude-code-releases.md`**
    - Ajouter releases 2.1.0 à 2.1.19
    - Condenser chaque release (2-4 highlights max)
    - Format: date, version, highlights, breaking changes
@@ -165,7 +165,7 @@ Priority 3 (Si espace):
 
 ```bash
 # Fichiers à modifier:
-1. guide/claude-code-releases.md
+1. guide/core/claude-code-releases.md
    - Ajouter releases 2.1.0 à 2.1.19 (format condensé)
 
 2. machine-readable/claude-code-releases.yaml

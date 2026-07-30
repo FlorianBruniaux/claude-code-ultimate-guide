@@ -22,55 +22,55 @@ profiles:
 topics:
   - id: 01
     name: "Quick Start"
-    guide_section: "guide/ultimate-guide.md#part-1-quick-start"
+    guide_section: "guide/ultimate-guide.md#1-quick-start-day-1"
     importance: "critical"
     depends_on: []
     
   - id: 02
     name: "Core Concepts"
-    guide_section: "guide/ultimate-guide.md#part-2-core-concepts"
+    guide_section: "guide/ultimate-guide.md#2-core-concepts"
     importance: "critical"
     depends_on: [01]
     
   - id: 03
     name: "Memory & Settings"
-    guide_section: "guide/ultimate-guide.md#part-3-memory--settings"
+    guide_section: "guide/ultimate-guide.md#3-memory--settings"
     importance: "high"
     depends_on: [02]
     
   - id: 04
     name: "Agents"
-    guide_section: "guide/ultimate-guide.md#part-4-agents"
+    guide_section: "guide/ultimate-guide.md#4-agents"
     importance: "high"
     depends_on: [02, 03]
     
   - id: 05
     name: "Skills"
-    guide_section: "guide/ultimate-guide.md#part-5-skills"
+    guide_section: "guide/ultimate-guide.md#5-skills"
     importance: "high"
     depends_on: [02, 03]
     
   - id: 06
     name: "Commands"
-    guide_section: "guide/ultimate-guide.md#part-6-commands"
+    guide_section: "guide/ultimate-guide.md#6-commands-user-invocable-skills"
     importance: "medium"
     depends_on: [02]
     
   - id: 07
     name: "Hooks"
-    guide_section: "guide/ultimate-guide.md#part-7-hooks"
+    guide_section: "guide/ultimate-guide.md#7-hooks"
     importance: "medium"
     depends_on: [02, 03]
     
   - id: 08
     name: "MCP Servers"
-    guide_section: "guide/ultimate-guide.md#part-8-mcp-servers"
+    guide_section: "guide/ultimate-guide.md#8-mcp-servers"
     importance: "medium"
     depends_on: [02]
     
   - id: 09
     name: "Advanced Patterns"
-    guide_section: "guide/ultimate-guide.md#part-9-advanced-patterns"
+    guide_section: "guide/ultimate-guide.md#9-advanced-patterns"
     importance: "low"
     depends_on: [04, 05, 06, 07, 08]
     
@@ -184,17 +184,17 @@ Based on your scores, you get:
 **Example path for Intermediate developer:**
 ```
 Phase 1: Hooks Fundamentals (2 hours)
-  → Read: guide/ultimate-guide.md#part-7-hooks
+  → Read: guide/ultimate-guide.md#7-hooks
   → Try: examples/hooks/event-driven-formatting.sh
   → Quiz: /lesson-quiz 07-hooks
 
 Phase 2: MCP Integration (3 hours)
-  → Read: guide/ultimate-guide.md#part-8-mcp-servers
+  → Read: guide/ultimate-guide.md#8-mcp-servers
   → Try: examples/mcp-configs/github-integration.json
   → Quiz: /lesson-quiz 08-mcp-servers
 
 Phase 3: Advanced Patterns (4 hours)
-  → Read: guide/ultimate-guide.md#part-9-advanced-patterns
+  → Read: guide/ultimate-guide.md#9-advanced-patterns
   → Practice: 3 real-world projects (see below)
   → Quiz: /lesson-quiz 09-advanced-patterns
 ```
@@ -307,7 +307,7 @@ After assessment, the `/lesson-quiz` skill provides per-module verification:
 ## Need Help?
 
 - **Questions about the assessment?** → Check `/help self-assessment`
-- **Want to discuss results?** → See `guide/learning-with-ai.md`
+- **Want to discuss results?** → See `guide/roles/learning-with-ai.md`
 - **Found an error?** → Report it on GitHub Issues
 
 ---

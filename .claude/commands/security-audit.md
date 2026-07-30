@@ -127,7 +127,7 @@ If no package manager detected, note it and skip (no penalty).
 
 ### Phase 5: Hook Security Assessment
 
-Verify security hooks from `guide/security-hardening.md` are properly installed:
+Verify security hooks from `guide/security/security-hardening.md` are properly installed:
 
 ```bash
 # Check for recommended security hooks
@@ -234,7 +234,7 @@ Your score vs security-hardening.md recommendations:
 - Top 3 missing items to implement next: [...]
 
 ### 📚 References
-- Security hardening guide: guide/security-hardening.md
+- Security hardening guide: guide/security/security-hardening.md
 - Threat database: examples/commands/resources/threat-db.yaml
 - Quick check: `/security-check`
 - MCP scan tool: `npx mcp-scan` (Snyk)

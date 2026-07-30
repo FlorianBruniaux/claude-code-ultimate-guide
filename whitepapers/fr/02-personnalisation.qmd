@@ -729,7 +729,7 @@ Pour les agents en production, allez au-delà de la checklist one-shot :
 - [ ] Comparer 2 configurations via A/B testing
 - [ ] Revue mensuelle des métriques collectées
 
-> Voir `guide/agent-evaluation.md` pour patterns complets + template `examples/agents/analytics-with-eval/`.
+> Voir `guide/roles/agent-evaluation.md` pour patterns complets + template `examples/agents/analytics-with-eval/`.
 
 > 📖 **Pour aller plus loin :** [§4 Agents](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#4-agents) : création, patterns avancés, évaluation | [11 templates agents](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/agents/)
 

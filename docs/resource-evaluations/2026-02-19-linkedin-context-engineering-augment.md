@@ -46,7 +46,7 @@ LinkedIn post using the "Context Engineering" framing to promote Augment Code's 
 
 | Topic | Guide Coverage | LinkedIn Post |
 |-------|---------------|---------------|
-| **"Context Engineering" concept** | ✅ Well-covered — `guide/methodologies.md` (dedicated section + 4 references), `guide/ultimate-guide.md` (multiple mentions including Anthropic blog link) | Same concept, less precise |
+| **"Context Engineering" concept** | ✅ Well-covered — `guide/core/methodologies.md` (dedicated section + 4 references), `guide/ultimate-guide.md` (multiple mentions including Anthropic blog link) | Same concept, less precise |
 | **Karpathy "LLM = CPU, context = RAM" metaphor** | ✅ Referenced in `guide/ultimate-guide.md:12356` ("Software engineering might be more workflow + context engineering") | Implicit, not attributed |
 | **Augment Context Engine MCP** | ⚠️ Not yet documented — see separate eval 2026-02-19-augment-context-engine-mcp.md | Primary topic of post |
 | **CLAUDE.md tip: instruct to use MCP for indexing** | ❌ Not documented as a pattern | Single sentence practical tip |

@@ -108,10 +108,10 @@
 - Les 60.1K stars de anthropics/skills sont gonfles par le buzz initial - beaucoup de stargazers passifs.
 
 ### Verdict du challenge:
-Score 4/5 maintenu. L'argument "spec pour implementeurs" est valide mais le guide documente deja l'architecture interne (guide/architecture.md), les hooks, le MCP protocol - il ne se limite pas au "how-to utilisateur". L'absence de la spec officielle est un gap reel, pas critique pour l'usage quotidien mais significatif pour la completude. L'interoperabilite et anthropics/skills meritent clairement une mention.
+Score 4/5 maintenu. L'argument "spec pour implementeurs" est valide mais le guide documente deja l'architecture interne (guide/core/architecture.md), les hooks, le MCP protocol - il ne se limite pas au "how-to utilisateur". L'absence de la spec officielle est un gap reel, pas critique pour l'usage quotidien mais significatif pour la completude. L'interoperabilite et anthropics/skills meritent clairement une mention.
 
 ### Points manques:
-- Le **threat model SafeDep** (safedep.io/agent-skills-threat-model) documente des vulnerabilites dans la spec (8-14% des skills). Angle securite pertinent pour `guide/security-hardening.md`.
+- Le **threat model SafeDep** (safedep.io/agent-skills-threat-model) documente des vulnerabilites dans la spec (8-14% des skills). Angle securite pertinent pour `guide/security/security-hardening.md`.
 - Le blog Anthropic ["Equipping Agents for the Real World"](https://anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills) est la source primaire a referencer.
 - Claude.ai supporte aussi les skills directement (pas juste Claude Code) - angle cowork potentiel.
 

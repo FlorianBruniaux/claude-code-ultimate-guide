@@ -125,7 +125,7 @@ dist/
 
 ### Ce qui a été intégré
 
-- Entrée complète dans `guide/third-party-tools.md` (section Token & Cost Tracking)
+- Entrée complète dans `guide/ecosystem/third-party-tools.md` (section Token & Cost Tracking)
 - Description fonctionnelle, tableau des données transmises, notes de sécurité
 - Recommandation `--dry-run` mise en avant
 
@@ -186,7 +186,7 @@ dist/
 
 ## 📚 Références
 
-- Fiche dans le guide: `guide/third-party-tools.md` (section Token & Cost Tracking, après ccburn)
+- Fiche dans le guide: `guide/ecosystem/third-party-tools.md` (section Token & Cost Tracking, après ccburn)
 - Package npm: https://www.npmjs.com/package/straude
 - Site: https://straude.com
 - Code inspecté: `npm pack straude@0.1.9` → 20 fichiers, 35KB

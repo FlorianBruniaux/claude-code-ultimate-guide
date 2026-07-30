@@ -40,7 +40,7 @@
 
 **Action**: Intégrer comme mention légère (pas de section dédiée)
 
-1. **`guide/ai-ecosystem.md` ligne ~2064** (section Packmind Related Resources): Ajouter context-evaluator à côté de coding-agents-matrix. 3-5 lignes max.
+1. **`guide/ecosystem/ai-ecosystem.md` ligne ~2064** (section Packmind Related Resources): Ajouter context-evaluator à côté de coding-agents-matrix. 3-5 lignes max.
 2. **`machine-readable/reference.yaml`**: Ajouter entrée `context_evaluator` pointant vers ai-ecosystem.md
 3. **Ne PAS créer de section dédiée** à 8 stars et v0.3.0
 4. **Optionnel**: Lien depuis section maintenance CLAUDE.md vers ai-ecosystem pour les curieux

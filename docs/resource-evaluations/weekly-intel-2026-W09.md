@@ -53,7 +53,7 @@
 ### Items à intégrer (score ≥ 4/5 individuel)
 
 **1. Claude Code v2.1.63 → Release tracking**
-- Fichiers: `machine-readable/claude-code-releases.yaml` + `guide/claude-code-releases.md`
+- Fichiers: `machine-readable/claude-code-releases.yaml` + `guide/core/claude-code-releases.md`
 - Action: Ajouter versions 2.1.60 → 2.1.63 (le script `./scripts/update-cc-releases.sh` a déjà les données)
 - Priorité: **Haute** (release récente, notre tracking a 4 versions de retard)
 

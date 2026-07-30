@@ -31,7 +31,7 @@ If new versions detected, continue. Otherwise, stop.
 
 **Files to update:**
 - `machine-readable/claude-code-releases.yaml`
-- `guide/claude-code-releases.md`
+- `guide/core/claude-code-releases.md`
 - `claude-code-ultimate-guide-landing/index.html` (badge + section)
 
 **Process:**
@@ -165,7 +165,7 @@ git add \
   README.md \
   guide/cheatsheet.md \
   guide/ultimate-guide.md \
-  guide/claude-code-releases.md \
+  guide/core/claude-code-releases.md \
   machine-readable/reference.yaml \
   machine-readable/claude-code-releases.yaml
 

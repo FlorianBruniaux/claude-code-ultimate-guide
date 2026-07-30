@@ -1,6 +1,6 @@
 category: Architecture Internals
 category_id: 12
-source_file: guide/architecture.md
+source_file: guide/core/architecture.md
 questions:
   - id: 12-001
     difficulty: intermediate
@@ -16,7 +16,7 @@ questions:
     correct: b
     explanation: Claude Code runs a remarkably simple `while(tool_call)` loop. There is NO intent classifier, task router, RAG/embedding pipeline, DAG orchestrator, or planner/executor split. The model itself decides when to call tools, which tools to call, and when it's done. This is the "agentic loop" pattern.
     doc_reference:
-      file: guide/architecture.md
+      file: guide/core/architecture.md
       section: The Master Loop
       anchor: "#1-the-master-loop"
   - id: 12-002
@@ -34,7 +34,7 @@ questions:
     correct: b
     explanation: "Claude Code has exactly 8 core tools: Bash (universal adapter), Read (file contents), Edit (modify files), Write (create/overwrite), Grep (search contents), Glob (find files), Task (sub-agents), and TodoWrite (progress tracking). That's the entire arsenal. Note: TodoWrite was replaced by the Tasks API (TaskCreate/TaskGet/TaskList/TaskUpdate) in v2.1.16+ for persistent task management with dependencies."
     doc_reference:
-      file: guide/architecture.md
+      file: guide/core/architecture.md
       section: The Tool Arsenal
       anchor: "#2-the-tool-arsenal"
   - id: 12-003
@@ -51,7 +51,7 @@ questions:
     correct: c
     explanation: Bash is Claude's swiss-army knife. It can run any CLI tool (git, npm, docker, curl...), execute scripts, chain commands with pipes, and access system state. The model has been trained on massive amounts of shell data, making it highly effective as a universal adapter.
     doc_reference:
-      file: guide/architecture.md
+      file: guide/core/architecture.md
       section: The Bash Universal Adapter
       anchor: "#the-bash-universal-adapter"
   - id: 12-004
@@ -68,7 +68,7 @@ questions:
     correct: c
     explanation: "Claude Code operates within a ~200K token context window. This is shared between: system prompt (~5-15K), CLAUDE.md files (~1-10K), conversation history (variable), tool results (variable), and reserved response buffer (~40-45K). Usable space is approximately 140-150K tokens."
     doc_reference:
-      file: guide/architecture.md
+      file: guide/core/architecture.md
       section: Context Budget Breakdown
       anchor: "#context-budget-breakdown"
   - id: 12-005
@@ -85,7 +85,7 @@ questions:
     correct: b
     explanation: "Auto-compaction thresholds vary by source: PromptLayer analysis reports 92%, community observations report 75-80%. When triggered, older conversation turns are summarized, tool results condensed, and recent context preserved. Use /compact to manually trigger summarization."
     doc_reference:
-      file: guide/architecture.md
+      file: guide/core/architecture.md
       section: Auto-Compaction
       anchor: "#auto-compaction"
   - id: 12-006
@@ -120,7 +120,7 @@ questions:
     correct: b
     explanation: Sub-agents have ISOLATED context. They receive only the task description, have their own fresh context window, access the same tools (except Task), and return only a summary text. This isolation keeps the main context clean and prevents context pollution.
     doc_reference:
-      file: guide/architecture.md
+      file: guide/core/architecture.md
       section: Isolation Model
       anchor: "#isolation-model"
   - id: 12-008
@@ -154,7 +154,7 @@ questions:
     correct: b
     explanation: "When exact match fails, Edit attempts fuzzy matching: (1) Whitespace normalization (trailing spaces, indentation), (2) Line ending normalization (CRLF vs LF), (3) Context expansion (surrounding lines). Only if fuzzy match also fails does it return an error."
     doc_reference:
-      file: guide/architecture.md
+      file: guide/core/architecture.md
       section: Fuzzy Matching Details
       anchor: "#fuzzy-matching-details"
   - id: 12-010
@@ -171,7 +171,7 @@ questions:
     correct: c
     explanation: MCP uses JSON-RPC 2.0 over stdio or HTTP transport. MCP tools follow the naming convention `mcp__<server>__<tool>`. Servers start on first use and stay alive during the session. They have the same permission system as native tools.
     doc_reference:
-      file: guide/architecture.md
+      file: guide/core/architecture.md
       section: MCP Integration
       anchor: "#6-mcp-integration"
   - id: 12-011

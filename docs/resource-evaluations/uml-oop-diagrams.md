@@ -79,7 +79,7 @@ Pattern suggéré : utiliser des diagrammes d'architecture (UML/Mermaid) comme c
 ## Conclusion
 
 **Décision**: Intégration avec nuances
-- Section ajoutée dans `guide/ai-ecosystem.md` (Context Packing Tools)
+- Section ajoutée dans `guide/ecosystem/ai-ecosystem.md` (Context Packing Tools)
 - Warning clair sur validation limitée
 - Recommandation de workflow: Serena → Archy → Manual
 - Référencement des MCP tools vérifiés publiquement

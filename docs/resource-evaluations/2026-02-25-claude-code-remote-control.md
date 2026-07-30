@@ -84,7 +84,7 @@ Remote Control allows continuing a local Claude Code session from a phone, table
 | `guide/ultimate-guide.md` | New section 9.22 "Remote Control" | High |
 | `guide/cheatsheet.md` | Add `/remote-control`, `/rc`, `/mobile` to command table | High |
 | `machine-readable/reference.yaml` | Add `remote-control` entry with target line | High |
-| `guide/security-hardening.md` | Note on security implications of remote access | Medium |
+| `guide/security/security-hardening.md` | Note on security implications of remote access | Medium |
 
 ### Content to document
 

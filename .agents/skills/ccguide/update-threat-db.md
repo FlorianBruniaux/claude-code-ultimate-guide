@@ -115,11 +115,11 @@ Check if new CVEs should also be added to the security hardening guide:
 ```bash
 # Count current CVEs in threat-db vs security-hardening
 grep -c "id:" /Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide/examples/commands/resources/threat-db.yaml
-grep -c "CVE-" /Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide/guide/security-hardening.md
+grep -c "CVE-" /Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide/guide/security/security-hardening.md
 ```
 
 If major new CVEs found (severity critical/high):
-- Consider adding to `guide/security-hardening.md` CVE table
+- Consider adding to `guide/security/security-hardening.md` CVE table
 - Update `minimum_safe_versions` if new patches released
 
 ---
@@ -162,7 +162,7 @@ If major new CVEs found (severity critical/high):
 ### Next Steps
 
 - [ ] Run `/security-check` to test against updated database
-- [ ] Update `guide/security-hardening.md` if new critical CVEs
+- [ ] Update `guide/security/security-hardening.md` if new critical CVEs
 - [ ] Commit: `docs(security): update threat-db vX.Y.Z — [summary]`
 ```
 

@@ -137,7 +137,7 @@ The Git MCP Server is an official Anthropic MCP server providing programmatic Gi
 
 ### Where Documented
 
-**Primary**: `guide/mcp-servers-ecosystem.md`
+**Primary**: `guide/ecosystem/mcp-servers-ecosystem.md`
 - **Section**: "Version Control (Official Servers)" (lines 102-255)
 - **Placement**: After "Ecosystem Evolution", BEFORE "Validated Community Servers"
 - **Rationale**: Official servers deserve top-level visibility, Git foundational for all workflows

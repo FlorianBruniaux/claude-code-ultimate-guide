@@ -83,13 +83,13 @@ Before assigning work to an agent, verify the task definition covers:
 **Location**: After the "The Pattern" section in `spec-first.md` (~line 60)
 **Effort**: Low (20-30 lines)
 
-### Integration 2: `guide/methodologies.md` — Add ATDD section
+### Integration 2: `guide/core/methodologies.md` — Add ATDD section
 
 ATDD is genuinely absent. Add a section explaining how ATDD extends TDD for agent workflows:
 - Gherkin scenarios as the contract between PM intent and implementation
 - Write Gherkin first → agent writes failing tests → implementation
 
-**Location**: After TDD section in `guide/methodologies.md`
+**Location**: After TDD section in `guide/core/methodologies.md`
 **Effort**: Medium (50-80 lines)
 
 ### What NOT to do
@@ -144,4 +144,4 @@ ATDD is genuinely absent. Add a section explaining how ATDD extends TDD for agen
 **Related evaluations:**
 - `addy-osmani-good-spec.md` (4/5) — overlapping territory (spec quality, PRD structure)
 - `spec-first.md` in guide — primary integration target
-- `guide/methodologies.md` — secondary integration target (ATDD)
+- `guide/core/methodologies.md` — secondary integration target (ATDD)

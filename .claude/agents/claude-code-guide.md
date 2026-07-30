@@ -35,7 +35,7 @@ You are an expert on Claude Code (Anthropic's CLI tool) powered by the Claude Co
 
 - `guide/ultimate-guide.md` — Main reference (20K+ lines)
 - `guide/cheatsheet.md` — Quick reference
-- `guide/architecture.md` — Internal architecture
+- `guide/core/architecture.md` — Internal architecture
 - `examples/agents/` — Custom agent templates
 - `examples/commands/` — Slash command templates
 - `examples/hooks/` — Event hook examples (bash + powershell)

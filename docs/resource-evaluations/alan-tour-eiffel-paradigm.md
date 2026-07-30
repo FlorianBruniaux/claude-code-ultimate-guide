@@ -108,13 +108,13 @@ The article articulates the **Verification Paradox**: when AI succeeds 99% of th
 
 ### ✅ APPROVED Integrations (3)
 
-1. **Production Safety** (`guide/production-safety.md`)
+1. **Production Safety** (`guide/security/production-safety.md`)
    - **Location**: After existing rules (new Rule 7 or dedicated section)
    - **Content**: 15-20 lines explaining Verification Paradox
    - **Rationale**: Core safety concept missing from current guide
    - **Format**: Table with Anti-Pattern vs Better Approach
 
-2. **AI Ecosystem** (`guide/ai-ecosystem.md`)
+2. **AI Ecosystem** (`guide/ecosystem/ai-ecosystem.md`)
    - **Location**: Line ~2131 (after Addy Osmani)
    - **Content**: ~40 lines following existing practitioner insight format
    - **Rationale**: Production-scale validation from major French company
@@ -236,8 +236,8 @@ The article articulates the **Verification Paradox**: when AI succeeds 99% of th
 ### Immediate (P1)
 
 - [x] Create evaluation file (this document)
-- [ ] Add Verification Paradox section to `guide/production-safety.md`
-- [ ] Add Alan practitioner insight to `guide/ai-ecosystem.md`
+- [ ] Add Verification Paradox section to `guide/security/production-safety.md`
+- [ ] Add Alan practitioner insight to `guide/ecosystem/ai-ecosystem.md`
 - [ ] Update `machine-readable/reference.yaml`
 
 ### Follow-Up (P2)

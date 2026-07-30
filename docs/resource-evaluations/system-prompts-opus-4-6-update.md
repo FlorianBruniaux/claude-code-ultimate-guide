@@ -40,7 +40,7 @@
 
 Cette evaluation avait:
 - Decouvert que Anthropic publie deja les prompts officiellement
-- Genere l'integration dans `guide/architecture.md:354-380` ("System Prompt Contents")
+- Genere l'integration dans `guide/core/architecture.md:354-380` ("System Prompt Contents")
 - Ajoute les entrees dans `machine-readable/reference.yaml:217-220`
 - Conclu au watch-only pour cette URL
 
