@@ -13364,7 +13364,7 @@ npm install @microsoft/playwright-mcp
 .mcp.json               # Project-scope (project root, shareable via VCS)
 ```
 
-> **Note**: Three scopes exist: `local` (default, private to you + current project, in `~/.claude.json`), `project` (shared via `.mcp.json` at project root), and `user` (cross-project, also in `~/.claude.json`). Use `claude mcp add --scope <scope>` to target a specific scope.
+> **Note**: Three scopes exist: `local` (default, private to you + current project, in `~/.claude.json`), `project` (shared via `.mcp.json` at project root), and `user` (cross-project, stored in a flat top-level `mcpServers` key in `~/.claude.json`, available to every project on the machine). Two tickets, [anthropics/claude-code#16728](https://github.com/anthropics/claude-code/issues/16728) and [#32939](https://github.com/anthropics/claude-code/issues/32939), reported this scope collapsing to a single project's path on Claude Code 2.1.1 and 2.1.72. Both were closed `not_planned`, and the behavior verified on 2.1.221 matches the cross-project description above, so whatever broke it appears fixed in a later release. Use `claude mcp add --scope <scope>` to target a specific scope.
 
 ### Example Configuration
 

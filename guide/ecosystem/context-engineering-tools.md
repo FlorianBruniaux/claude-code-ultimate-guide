@@ -648,6 +648,19 @@ The risk: cached responses become stale. Semantic caching requires TTL policies 
 
 You cannot optimize what you do not measure. The LLMOps tooling category provides the instrumentation layer: tracing, cost tracking, quality evaluation, and drift detection for LLM-powered systems.
 
+### Local Session Inspectors: claude-devtools and tokview
+
+Before reaching for a hosted platform, two zero-cloud tools read Claude Code's own local session logs (`~/.claude/projects/**/*.jsonl`) directly and turn them into per-turn attribution, no proxy or code change required for historical data.
+
+| Tool | Mechanism | Distinguishing feature |
+|------|-----------|------------------------|
+| **claude-devtools** ([github.com/matt1398/claude-devtools](https://github.com/matt1398/claude-devtools), MIT, `brew install --cask claude-devtools`) | Electron desktop app that parses local session transcripts | Per-turn token attribution across 7 categories: CLAUDE.md (global/project/directory), skill activations, @-mentioned files, tool call I/O, extended thinking, team/subagent overhead, user text. Finer-grained than the native `/context` command's three-segment bar. |
+| **tokview** ([github.com/headroomlabs-ai/tokview](https://github.com/headroomlabs-ai/tokview), MIT, `uv tool install token-viewer`) | Local proxy plus terminal/browser dashboard; `tokview import claude` backfills from existing JSONL history with no proxy needed for past sessions | Attribution down to the individual tool call, live as the agent runs, plus estimated-cost tracking for subscription (non-API) usage |
+
+Both run entirely on local files: no telemetry, no login, no account. tokview ships from headroomlabs-ai, the same team behind Headroom (§3): treat its hotspot suggestions as a lead-in to Headroom's own compression tooling rather than a vendor-neutral recommendation, the same caveat this guide already applies to Headroom's self-reported figures.
+
+For a codebase small enough to inspect by hand, the same 7-category breakdown can be approximated with a 20-line script that sums `usage.input_tokens` per `tool_use` block across a session's JSONL file. No install, no dependency, and it teaches what the categories actually mean before reaching for a packaged dashboard.
+
 ### Langfuse
 
 The leading open-source option. Langfuse traces LLM calls across complex multi-step agent workflows, capturing input/output at each step, latency, cost per call, and the full execution tree.

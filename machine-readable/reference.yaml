@@ -667,6 +667,14 @@ deep_dive:
   third_party_agentos_evaluation: "docs/resource-evaluations/agentos-in-process-agent-vm.md"
   third_party_agentos_score: "4/5"
   third_party_agentos_guide_ref: "guide/security/sandbox-isolation.md#agentos-rivet-the-in-process-counter-example"
+  # just-bash (Added 2026-08-04)
+  third_party_just_bash_upstream: "https://github.com/vercel-labs/just-bash"
+  third_party_just_bash_purpose: "Simulated bash for AI agents: full lexer/parser/interpreter in TypeScript over an in-memory virtual filesystem, no VM, no process spawn, opt-in Python/JS/SQLite runtimes"
+  third_party_just_bash_status: "third_party | npm_v3_2_0 | bus_factor_1_84_7pct | no_license_file_at_root"
+  third_party_just_bash_note: "The other end of the in-process spectrum from agentOS: no VM at all, containment is pure JS (DefenseInDepthBox, null-prototype objects, configurable resource limits). Sandbox class mirrors @vercel/sandbox for a later upgrade path. README claims Apache-2.0 but no LICENSE file exists at repo root."
+  third_party_just_bash_evaluation: "docs/resource-evaluations/just-bash-simulated-shell.md"
+  third_party_just_bash_score: "4/5"
+  third_party_just_bash_guide_ref: "guide/security/sandbox-isolation.md#just-bash-vercel-simulate-dont-isolate"
   # MCP vs CLI vs Skills Decision Guide (Added 2026-05-22)
   mcp_vs_cli_guide: "guide/ecosystem/mcp-vs-cli.md"
   mcp_vs_cli_tradeoffs: "guide/ecosystem/mcp-vs-cli.md#tradeoffs"
@@ -1048,9 +1056,9 @@ deep_dive:
   agentic_software_factories_fusion_case_study: "docs/resource-evaluations/fusion-multi-agent-orchestrator.md"  # 727K lines/4 months, bus factor 1, verification module built but never wired into production
   # Resource Evaluations (added 2026-01-26, updated 2026-02-07, synced 2026-07-08)
   resource_evaluations_directory: "docs/resource-evaluations/"
-  resource_evaluations_count: 169
-  resource_evaluations_indexed: 50
-  resource_evaluations_count_note: "Two different numbers, both real. 169 is the count of .md files in docs/resource-evaluations/; 50 is how many the README index table actually lists. Most older evaluations were never added to the index. Figures verified 2026-07-29 against the folder and against the README's own 'Last updated' line, after adding the Executor and agentOS evaluations the same day."
+  resource_evaluations_count: 171
+  resource_evaluations_indexed: 52
+  resource_evaluations_count_note: "Two different numbers, both real. 171 is the count of .md files in docs/resource-evaluations/; 52 is how many the README index table actually lists. Most older evaluations were never added to the index. Figures verified 2026-08-04 against the folder and against the README's own 'Last updated' line, after adding the just-bash evaluation."
   resource_evaluations_methodology: "docs/resource-evaluations/README.md"
   resource_evaluations_watchlist: "docs/resource-evaluations/watch-list.md"
   resource_evaluations_appendix: "guide/ultimate-guide.md#appendix-c-resource-evaluation-process"

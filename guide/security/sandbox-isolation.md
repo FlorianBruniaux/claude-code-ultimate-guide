@@ -23,6 +23,7 @@ tags: [security, sandbox, devops, guide]
 | **Vercel Sandboxes** | Firecracker microVM | Cloud | Next.js / Vercel ecosystem |
 | **Cloudflare Sandbox SDK** | Container | Cloud | Workers-based serverless |
 | **agentOS** (Rivet) | V8 isolate + WASM sandbox, no hypervisor | In-process, no cloud account | Node-embedded agents, no provider dependency |
+| **just-bash** (Vercel) | None (simulated shell, no VM at all) | In-process, no cloud account | Embedded bash tool, dev/test, demo terminals |
 
 Quick start:
 
@@ -482,6 +483,14 @@ A trusted Rust sidecar owns the kernel (a layered virtual filesystem with overla
 The differentiator over a plain sandbox is bindings: a host-defined function with a schema appears inside the VM as an ordinary shell command, so an agent calls a company API the same way it calls `ls`, and the credential never enters the VM at all.
 
 Two things to hold onto before treating this as production-ready. First, the vendor's own benchmarks (4.8 ms VM creation, roughly 22 to 131 MB depending on workload, measured on a single i7-12700KF, dated 2026-03-30) are not independently reproduced, and the "92x faster than a cloud microVM" framing compares a V8 isolate start against a full Linux microVM boot, two different things. Second, "VM" is a marketing choice: there is no KVM, no Firecracker, no hardware virtualization anywhere in the stack. The project's own threat model states plainly that the security boundary is the sidecar and executor process, not a hypervisor, solid for ordinary untrusted agent code, weaker than hardware isolation against an attacker hunting a V8 escape. Full evaluation: [`docs/resource-evaluations/agentos-in-process-agent-vm.md`](../../docs/resource-evaluations/agentos-in-process-agent-vm.md).
+
+### just-bash (Vercel): simulate, don't isolate
+
+[just-bash](https://github.com/vercel-labs/just-bash) (`npm install just-bash`, past `3.x`) sits at the other end of the in-process spectrum from agentOS. There is no VM here at all, not even a hypervisor-less one. It is a bash lexer, parser, and interpreter written directly in TypeScript, executing against an in-memory virtual filesystem. Nothing spawns, nothing crosses a process boundary, and the entire security model is ordinary JavaScript containment: a `DefenseInDepthBox` that scopes patches to `Function`, `eval`, `setTimeout`, and `process.*` inside an `AsyncLocalStorage` context, null-prototype objects everywhere a script controls a key (env vars, associative arrays), and configurable resource limits (`maxCallDepth`, `maxSubstitutionDepth`, `maxExecutionTimeMs`, and a dozen more) each mapped to a named attack vector in the project's own `THREAT_MODEL.md`.
+
+Over 90 coreutils-equivalent commands ship built in (`grep`, `sed`, `awk`, `find`, `tar`, `jq`), with Python (CPython via Emscripten), JavaScript (QuickJS), and SQLite (sql.js) available as explicit opt-ins, each documented as added security surface rather than a free feature. Four filesystem backends cover the practical range: in-memory only, copy-on-write over a real directory, direct real-directory read-write, or a mount table combining several. A `Sandbox` class deliberately mirrors the `@vercel/sandbox` API, so a project can start here and swap to a real Vercel Sandbox microVM later without rewriting call sites.
+
+The README says it without hedging: "All execution happens without VM isolation." That is a real trade, not a caveat to skim past. Compared to agentOS's V8-isolate-plus-Rust-sidecar boundary, just-bash offers less containment in exchange for zero moving parts, an auditable-in-an-afternoon codebase, and a shell that runs identically in a browser tab. It fits an embedded bash tool for an agent you already trust to some degree, a test/dev harness, or a live terminal demo, not a boundary against a genuinely adversarial script. One gap worth checking before any commercial use: the repository has no `LICENSE` file at its root despite the README's Apache-2.0 claim. Full evaluation: [`docs/resource-evaluations/just-bash-simulated-shell.md`](../../docs/resource-evaluations/just-bash-simulated-shell.md).
 
 ---
 
