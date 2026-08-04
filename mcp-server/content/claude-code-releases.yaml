@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.220"
-updated: "2026-07-25"
+latest: "2.1.221"
+updated: "2026-08-03"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -12,8 +12,18 @@ updated: "2026-07-25"
 releases:
 
   # ─────────────────────────────────────────────────────────────
-  # 2.1.x Series (January-July 2026)
+  # 2.1.x Series (January-August 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.221"
+    date: "2026-08-03"
+    highlights:
+      - "⭐ Security: fixed a Bash permission-check bypass letting zsh execute hidden commands in `[[ ]]` regex conditionals, plus a PowerShell path-quoting bypass on Windows; both now prompt for permission"
+      - "[VSCode] Added Focus view (`Ctrl+Alt+F`): a chat-menu toggle that hides tool activity behind an expandable per-turn summary with a live running-tool indicator"
+      - "Added `mode: \"mask\"` for sandbox credential files on Linux/WSL: sandboxed commands read a sentinel value while the sandbox proxy substitutes the real value on egress (macOS falls back to `deny`)"
+      - "Added a `prompt-audit` subcommand to the `claude-api` skill for auditing prompts and tool descriptions written for older models"
+    breaking:
+      - "Background sessions now commit and push automatically to preserve work, open a draft PR only when the task calls for one, and follow your CLAUDE.md git instructions"
 
   - version: "2.1.220"
     date: "2026-07-24"
