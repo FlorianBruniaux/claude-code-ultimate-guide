@@ -21,8 +21,10 @@ tags: [guide, metrics, dora, space, team, observability, ai-augmented]
 9. [Vanity Metrics to Drop](#vanity-metrics-to-drop)
 10. [The 4-Question Test](#the-4-question-test)
 11. [Tooling](#tooling)
-12. [Implementation Roadmap](#implementation-roadmap)
-13. [See Also](#see-also)
+12. [Probabilistic Delivery Forecasting](#probabilistic-delivery-forecasting)
+13. [Implementation Roadmap](#implementation-roadmap)
+14. [Reporting Delivery Capacity to a Skeptical Board](#reporting-delivery-capacity-to-a-skeptical-board)
+15. [See Also](#see-also)
 
 ---
 
@@ -292,6 +294,12 @@ Sourced from Strata Identity Research 2026 and CSA/Zenity 2026. These reflect th
 
 Digital Applied Q1 2026 (n=2,847 developers) found that heavy AI tool users spend 14-16 hours per week reviewing AI-generated code, compared to 11.4 hours per week for average users. This directly contradicts the narrative that AI reduces review burden. The most likely explanation: per-review unit efficiency may improve, but the volume of generated code grows faster than review capacity. Before committing to time-savings projections, measure your team's actual review time distribution across AI-generated and manually written PRs.
 
+### The Uplevel Copilot study
+
+Uplevel's study of Copilot adoption (uplevelteam.com, "genai-developers") found no significant change to coding speed, PR cycle time, or throughput after teams adopted Copilot, alongside a 41% increase in bug rate within PRs. Their "Sustained Always On" proxy for burnout risk, built from after-hours and weekend activity patterns, also declined more for developers without Copilot than for those with it over the same period.
+
+Read this alongside the heavy-user review time contradiction above: two independent measurements now point the same direction. Neither speed nor throughput moves the way the adoption narrative predicts, and the metrics that do move (bug rate, review time, burnout proxy) move in the wrong direction. Treat any AI-tooling ROI claim resting on developer speed alone as unverified until you've checked it against your own bug rate and review-time data.
+
 ### pass^k for non-deterministic tests
 
 Standard pass@1 is insufficient for agent-generated code. A test that passes once may fail on the next run because the output is non-deterministic. Promptfoo and LangChain both document the pass^k pattern: run critical tests k times consecutively, typically 3 to 5. A test passes only if it passes all k runs. This is not flaky-test detection — it is a deliberate quality gate for probabilistic systems. Apply it specifically to agent-generated suites, not to the full regression suite where the overhead would be prohibitive.
@@ -426,6 +434,52 @@ No tool automatically surfaces the AI-specific metrics described earlier (CFR by
 
 Avoid tool sprawl. A team with LinearB, Jira, GitHub Insights, and two separate analytics tools will spend more time reconciling numbers than acting on them. Pick one DORA tool, one product analytics tool, and use GitHub Analytics for AI-specific data.
 
+### Broader Delivery Intelligence Platforms
+
+The table above covers the tools most teams reach for first. The 2026 market is wider than that, and worth a second look if the starter table doesn't fit your org's size or constraints.
+
+| Tool | What It's For | Notes |
+|------|---------------|-------|
+| DX (getdx.com) | Developer intelligence platform built by researchers associated with the DX Core 4 / SPACE framework lineage | Positioned for larger organizations wanting a research-grounded metrics platform rather than a plug-and-play dashboard |
+| Multitudes (multitudes.com) | Analytics and recommendations built directly on DORA, SPACE, and DevEx signals | Sends "nudges" when a metric indicates a team is blocked or overloaded, rather than just reporting the number |
+| Swarmia (swarmia.com) | Cycle time breakdown (shipped 2022, still active): decomposes PR time into in-progress, waiting-for-review, and waiting-for-merge | Also publishes its own research on the productivity impact of AI coding tools (2025 blog) |
+| Cortex.io | Positions itself as an "Engineering Operations Platform" and publishes its own "Engineering Intelligence Platforms: Top 8 Tools" category guide | Already cited elsewhere in this guide as a data source for PR size and change failure rate figures; not previously documented here as a delivery-intelligence tool in its own right |
+| Jellyfish | Positions itself in 2026 as a "software engineering intelligence platform" explicitly built for AI-integrated organizations | Same note as Cortex.io: already cited as a data source elsewhere in this guide, now documented as a tool |
+| Oobeya (oobeya.io) | Aggregates 20+ existing DevOps tools into a single layer, rather than being a standalone data source itself | Fits teams already running several disconnected DevOps tools who want one pane of glass instead of another data collector |
+| Hatica (hatica.io) | Markets "gen AI-driven engineering analytics" | Thinner on documented specifics than the other entries in this table: the underlying LLM mechanism behind its analytics claims isn't publicly detailed. Worth a direct vendor conversation before committing, don't take the marketing framing at face value |
+
+### AI-Generated Board Narratives
+
+A genuinely new 2026 capability: some of these platforms now generate a written narrative from the metrics they already compute, rather than leaving that translation to a human. Two concrete examples.
+
+**LinearB** generates an AI iteration summary from Jira, Git, PR, and deployment data, structured around three axes: what went well, what didn't, and what could improve. It's delivered automatically to Slack or Microsoft Teams at sprint end, replacing the manual retro write-up a tech lead would otherwise produce.
+
+**Jellyfish's "AI Executive Report"** translates AI-tool adoption data (Copilot, Windsurf, and similar) into three dimensions built for a non-technical executive audience: adoption, output, and impact, the last framed as time saved, money saved, and risk reduced.
+
+In both cases, the generative AI's role is explanation and prioritization of what the underlying analytics already computed, not the computation itself. The pass rate, the cycle time, the CFR split: those numbers come from the same instrumentation this page has covered throughout. The LLM's job is turning a table into three paragraphs a stakeholder will actually read. Treat it as a formatting and triage layer, not a new source of statistical insight.
+
+---
+
+## Probabilistic Delivery Forecasting
+
+Every benchmark table on this page so far answers "how are we doing." This section answers a different question: "when will this ship," and it answers it with a probability distribution instead of a single date.
+
+### Why a point estimate misleads
+
+Traditional forecasting takes your velocity (story points or throughput per sprint) and divides it into remaining scope to produce a single date. That date carries false precision: it implies a certainty the underlying data never had. Two teams with identical average velocity can have wildly different variance, and variance is exactly what a point estimate throws away.
+
+Monte Carlo forecasting instead runs your team's actual historical cycle times (or throughput) through thousands of simulated iterations and produces a distribution: "80% confidence between March 3 and March 20" instead of "March 12." That's a more honest answer, because it's the one your data can actually support.
+
+### Tools
+
+**ActionableAgile** (actionableagile.com) is a flow and predictability-focused analytics product, licensed via 55 Degrees AB, built around Monte Carlo forecasting. Its "Portfolio Forecaster" extends the same technique across multiple initiatives at once, useful when a board is asking about predictability across a roadmap rather than a single deliverable.
+
+**Nave** (getnave.com) runs Monte Carlo simulation alongside a "Cycle Time Histogram" view. Nave's own documentation states the core constraint plainly: *"The sole requirement for Monte Carlo to work and give reliable answers is to use data produced by a predictable delivery system."* Even 20-30 completed items are enough if the workflow is stable, but a recent change to team composition or process should reset the data window so the forecast reflects current conditions, not a mix of old and new reality.
+
+### What this does not fix
+
+Monte Carlo forecasting is not a fix for an unstable or unpredictable delivery system. If your cycle times swing wildly because scope keeps changing mid-sprint, or because the team composition just shifted, the simulation will faithfully replicate that unpredictability as a wider distribution. It won't narrow the range for you. A wide, honest 80% confidence interval is still more useful than a false point estimate, but it's a symptom report, not a cure. Fix the underlying instability first; the forecast will narrow on its own once the process does.
+
 ---
 
 ## Implementation Roadmap
@@ -449,6 +503,46 @@ Run your first developer satisfaction pulse (5 questions, anonymous, takes 10 mi
 Once DORA is stable and automated, add the product metrics (time-to-value, feature CSAT) and AI-specific signals (% AI-assisted code, CFR by code origin). These require more setup — product analytics instrumentation, PR tagging conventions — but they're worth the investment once your DORA foundation is solid.
 
 Review the full metric stack quarterly and prune ruthlessly. Any metric that hasn't driven a decision in the last 3 months is a reporting metric masquerading as a steering metric. Cut it.
+
+---
+
+## Reporting Delivery Capacity to a Skeptical Board
+
+Everything above this section assumes the audience is your own team or your engineering leadership chain. A board that has watched past estimates slip needs a different approach, because the problem it's raising usually isn't the one a dashboard answers.
+
+### The diagnostic: doubt is a trust problem, not a data problem
+
+When a board starts doubting a team's delivery capacity after past estimates have slipped, adding more delivery dashboards rarely fixes it on its own. The board's doubt is almost always about trust and visibility: what caused the slip, and will it happen again. It is much less often about the data itself: board members generally don't disbelieve the velocity number on the screen, they disbelieve the story that number is supposed to support.
+
+Be honest about the limits of what's provable here: no published study or vendor report actually measures whether delivery-intelligence tooling repairs executive trust. That's an evidence gap in the field, not a gap in this guide. Nothing in this section, and none of the tools covered earlier on this page, comes with proof that it fixes a board's confidence. What follows is a set of practices that reframe the conversation into one a board can act on, not a guaranteed remedy.
+
+### Bring scenarios, not a velocity chart
+
+A single velocity number invites a single question: can the team go faster. That's rarely the question worth answering, and it's an easy one to lose regardless of the real numbers behind it.
+
+Bring 2 to 3 named delivery scenarios instead, each with a concrete timeline, a rework or cost estimate if sequencing gets compressed, and the business impact of picking that option. "Ship the full scope in Q3 at current pace" versus "compress two workstreams into Q2 at an estimated X% higher defect rate and Y additional engineer-weeks of rework" versus "cut scope Z and ship on the original date" is a decision a board can actually make. "Can the team go faster" is not.
+
+### Cap strategic objectives, don't roadmap every feature
+
+A fully detailed, multi-quarter feature roadmap looks like rigor and produces the opposite. Every feature-level commitment beyond roughly one quarter out is a precision claim your delivery system almost certainly can't back, and it erodes trust the moment reality diverges from the plan, which it will.
+
+Cap the number of board-level strategic objectives instead, a small, named set, reviewed quarterly. Objectives survive a schedule slip better than feature line items do, because an objective describes an outcome the team is still steering toward even when the specific path changes.
+
+### Separate committed scope from best-effort scope, and track the hit rate
+
+Draw an explicit line between what the team commits to and what it will attempt on a best-effort basis. Then track, over time, how often committed scope actually ships as committed.
+
+That hit-rate track record becomes the trust-rebuilding metric in its own right. A board that sees "when this team commits, it delivers" repeated release after release cares about that pattern more than it cares about any single throughput or velocity number. Trust rebuilds through a track record, not through a chart.
+
+### Align stakeholders before the room, not in it
+
+A plenary board meeting is a poor venue for first-time alignment on a contentious delivery question. Before walking in with scenarios and numbers, talk to board members individually and understand what's actually driving each one's doubt: comparison to other teams in the portfolio, external business pressure unrelated to engineering, or a specific past miss they haven't let go of. Those three causes call for different framing, and a plenary meeting doesn't give you the space to diagnose which one you're dealing with in the room.
+
+### Where forecasting and AI narratives fit, and where they don't
+
+The [probabilistic forecasting](#probabilistic-delivery-forecasting) tools covered earlier on this page give you the honest range behind each scenario in point two: "80% confidence between these two dates" is a more defensible number to bring into the room than a single point estimate, provided your delivery system is stable enough for the forecast to mean something. The [AI-generated board narratives](#tooling) from tools like LinearB and Jellyfish reduce the manual effort of translating sprint data into a written summary a non-technical board member can read.
+
+Neither substitutes for the harder work above. A better forecast and a better-written summary still won't cap your roadmap, separate committed from best-effort scope, or have the individual conversations that surface what a specific board member actually doubts. Those three remain a management job, not a tooling job.
 
 ---
 

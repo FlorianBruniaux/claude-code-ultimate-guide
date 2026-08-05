@@ -1700,6 +1700,9 @@ deep_dive:
   team_metrics_agentic: "guide/ops/team-metrics.md#agentic-metrics-what-dora-doesnt-measure"
   team_metrics_vanity: "guide/ops/team-metrics.md#vanity-metrics-to-drop"
   team_metrics_four_question_test: "guide/ops/team-metrics.md#the-4-question-test"
+  team_metrics_tooling: "guide/ops/team-metrics.md#tooling"
+  team_metrics_forecasting: "guide/ops/team-metrics.md#probabilistic-delivery-forecasting"
+  team_metrics_board_reporting: "guide/ops/team-metrics.md#reporting-delivery-capacity-to-a-skeptical-board"
   # ── API Gateway for enterprise cost control (guide/ops/api-gateway.md)
   api_gateway_guide: "guide/ops/api-gateway.md"
   api_gateway_litellm: "guide/ops/api-gateway.md#2-litellm-gateway"
@@ -3155,7 +3158,9 @@ section_maps:
     - "vanity-metrics-to-drop"
     - "the-4-question-test"
     - "tooling"
+    - "probabilistic-delivery-forecasting"
     - "implementation-roadmap"
+    - "reporting-delivery-capacity-to-a-skeptical-board"
   "guide/roles/adoption-approaches.md":
     - "what-we-dont-know-yet"
     - "what-we-do-know-empirical-data"

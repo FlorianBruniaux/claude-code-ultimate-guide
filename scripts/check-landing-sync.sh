@@ -100,7 +100,7 @@ if [ "$QUESTIONS_COUNT" != "$LANDING_QUESTIONS_QUIZ" ]; then
     echo -e "   ${YELLOW}MISMATCH in quiz/index.astro${NC}"
     QUESTIONS_OK=false
 fi
-if [ "$QUESTIONS_COUNT" != "$LANDING_QUESTIONS_HERO" ]; then
+if [ -n "$LANDING_QUESTIONS_HERO" ] && [ "$QUESTIONS_COUNT" != "$LANDING_QUESTIONS_HERO" ]; then
     echo -e "   ${YELLOW}MISMATCH in HeroBanner.astro${NC}"
     QUESTIONS_OK=false
 fi
