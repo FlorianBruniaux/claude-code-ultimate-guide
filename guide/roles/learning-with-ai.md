@@ -1220,6 +1220,7 @@ Practitioner reports from real-world usage provide empirical validation of theor
 - [The Pragmatic Programmer](https://pragprog.com/titles/tpp20/the-pragmatic-programmer-20th-anniversary-edition/) — Timeless principles for deliberate practice
 - [AI for Engineers](https://leerob.com/ai) — AI fundamentals (ML, transformers, tokenization)
 - [Step by Token](https://www.stepbytoken.com/en) — 21-chapter interactive guide explaining how LLMs work mechanically, from tokenization through agents and KV cache. Free, in 8 languages. Pairs well with the prompt engineering and agents sections of this guide.
+- [How to Build an Agent](https://ampcode.com/blog/how-to-build-an-agent) (Thorsten Ball, Amp), builds a minimal coding agent from scratch in ~300 lines: chat loop, tool definitions, agentic loop. The most-cited walkthrough of the same mechanism documented in [Architecture: The Master Loop](../core/architecture.md#1-the-master-loop), useful for readers who learn a mechanism better by building a toy version of it first.
 
 ---
 
