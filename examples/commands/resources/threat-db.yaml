@@ -2,9 +2,39 @@
 # For use with /security-check and /security-audit commands
 # Manually maintained — update after new security advisories
 
-version: "2.24.0"
-updated: "2026-07-12"
+version: "2.25.0"
+updated: "2026-08-06"
 sources:
+  - name: "SentinelOne / Tenable - CVE-2026-59950 MCP Python SDK WebSocket auth bypass"
+    url: "https://www.tenable.com/cve/CVE-2026-59950"
+    date: "2026-07-15"
+  - name: "NVD / OpenCVE - CVE-2026-52869, CVE-2026-52870 MCP Python SDK session/task exposure"
+    url: "https://nvd.nist.gov/vuln/detail/CVE-2026-52870"
+    date: "2026-07"
+  - name: "Pillar Security - Week of Sandbox Escapes (Cursor, Codex CLI, Gemini CLI, Antigravity)"
+    url: "https://www.bleepingcomputer.com/news/security/cursor-codex-gemini-cli-antigravity-hit-by-sandbox-escapes/"
+    date: "2026-07"
+  - name: "cvefeed.io / secnews.gr - CVE-2026-15501 AstrBot MCP Test Endpoint SSRF"
+    url: "https://cvefeed.io/vuln/detail/CVE-2026-15501"
+    date: "2026-07-12"
+  - name: "doronkatz.com - HalluSquatting: hallucinated-package supply chain attack"
+    url: "https://doronkatz.com/hallusquatting-is-the-supply-chain-attack-that-turns-your-ai-coding-agent-into-a/"
+    date: "2026-07-13"
+  - name: "Model Context Protocol blog - mcp-spec-check and 2026-07-28 spec readiness scan"
+    url: "https://blog.modelcontextprotocol.io/posts/2026-07-28-release-candidate/"
+    date: "2026-07-12"
+  - name: "arXiv 2607.11086 - Rethinking MCP Security: MCPZoo large-scale scanner reliability study"
+    url: "https://arxiv.org/abs/2607.11086v1"
+    date: "2026-07-13"
+  - name: "rohitraj.tech - AI agent command guardrails comparison (dcg, agent-guardrails, Shellfirm, SigmaShake)"
+    url: "https://rohitraj.tech/en/notes/ai-agent-command-guardrails-2026"
+    date: "2026-07"
+  - name: "Ant Group AI Security Lab - SingGuard-NSFA open-sourced after AI-agent ransomware incident"
+    url: "https://finance.yahoo.com/technology/ai/articles/ant-group-open-sources-singguard-090100678.html"
+    date: "2026-07-13"
+  - name: "JetStream - Verified MCP governance launch"
+    url: "https://finance.yahoo.com/technology/ai/articles/jetstream-launches-verified-mcp-governance-130000263.html"
+    date: "2026-07-13"
   - name: "Snyk ToxicSkills"
     url: "https://snyk.io/blog/toxicskills-malicious-ai-agent-skills-clawhub/"
     date: "2026-02-05"
@@ -1170,6 +1200,32 @@ cve_database:
     fixed_in: "1.23.0"
     mitigation: "Update to >= 1.23.0; enable TransportSecuritySettings explicitly"
 
+  # --- MCP Python SDK (July 2026 wave, 3 CVEs) ---
+  - id: "CVE-2026-59950"
+    component: "MCP Python SDK (mcp on PyPI)"
+    severity: "high"
+    description: "Missing Host/Origin validation on the deprecated WebSocket server transport (mcp.server.websocket.websocket_server); a hostile web page can drive a user's local MCP server via a cross-site WebSocket connection (DNS rebinding / cross-site WS hijack), bypassing authentication"
+    source: "SentinelOne; Tenable; NVD (published 2026-07-15)"
+    fixed_in: "1.28.1"
+    mitigation: "Update to >= 1.28.1; stop using the deprecated websocket_server transport"
+
+  - id: "CVE-2026-52869"
+    component: "MCP Python SDK (mcp on PyPI)"
+    severity: "high"
+    description: "SseServerTransport / StreamableHTTPSessionManager route messages by session_id query param or Mcp-Session-Id header alone, without verifying the authenticated principal owns that session; a second bearer-token-authenticated client that knows a session ID can inject JSON-RPC messages into it (session hijacking)"
+    source: "NVD / OpenCVE"
+    fixed_in: "1.27.2"
+    mitigation: "Update to >= 1.27.2"
+
+  - id: "CVE-2026-52870"
+    component: "MCP Python SDK (mcp on PyPI)"
+    severity: "high"
+    description: "Experimental task API (server.experimental.enable_tasks()) tracks tasks.list/get/result/cancel by task ID only, not by the session that created them; any connected client can enumerate or consume another client's tasks (cross-session data exposure)"
+    source: "NVD"
+    fixed_in: "1.27.2"
+    mitigation: "Update to >= 1.27.2; disable experimental task handlers unless required"
+    notes: "Affects 1.23.0 up to (not including) 1.27.2"
+
   # --- MCP Gateway ---
   - id: "CVE-2025-64443"
     component: "MCP Gateway"
@@ -2096,6 +2152,15 @@ cve_database:
     cwe: "CWE-22 CWE-59"
     notes: "Chained with CVE-2026-50548 (DuneSlide); every Cursor version before 3.0 is affected"
 
+  - id: "CVE-2026-48124"
+    component: "Cursor (workspace .claude/.cursor hook config)"
+    severity: "high"
+    description: "Workspace-controlled hook configuration file turns into unsandboxed command execution: a repo ships a hook config that the editor trusts and runs outside the agent sandbox on next launch, part of a broader 'configuration-based sandbox escape' pattern (files the agent writes inside its sandbox get executed by host tooling later, without re-checking trust)"
+    source: "Pillar Security - Week of Sandbox Escapes (2026-07); BleepingComputer (2026-07)"
+    fixed_in: "Cursor 3.0.0"
+    mitigation: "Update Cursor to >= 3.0.0; treat repo-provided hook/config files as untrusted until reviewed; do not let host tooling (Python extension, git hooks) auto-run files an agent wrote inside its own sandbox"
+    notes: "Same disclosure series ('Week of Sandbox Escapes') also documented related configuration-based escapes in Codex CLI, Gemini CLI, and Antigravity — files written inside the agent's sandbox executed by host tooling on next discovery (interpreters, task files, hook configs), not a single patchable root cause"
+
   # --- Amazon Q Developer (GhostApproval symlink approval-box + poisoned-workspace) ---
   - id: "CVE-2026-12958"
     component: "Amazon Q Developer (VS Code extension / language server)"
@@ -2148,6 +2213,16 @@ cve_database:
     mitigation: "Update @modelcontextprotocol/sdk to the patched release; validate/limit resource template array sizes"
     cwe: "CWE-1333"
 
+  # --- AstrBot MCP Test Endpoint ---
+  - id: "CVE-2026-15501"
+    component: "AstrBot (MCP Test Endpoint)"
+    severity: "medium"
+    description: "SSRF via ToolsRoute.test_mcp_connection: the mcp_server_config.url parameter is not validated, letting a remote attacker make AstrBot issue HTTP requests to internal or arbitrary external targets"
+    source: "cvefeed.io; secnews.gr (disclosed 2026-07-12)"
+    fixed_in: "unconfirmed — check upstream release notes for the first release after 4.25.2; no patched version explicitly stated in public advisories as of this update"
+    mitigation: "Do not expose the MCP Test Endpoint to untrusted networks; restrict mcp_server_config.url to an allowlist of internal hosts pending a confirmed patched version"
+    cwe: "CWE-918"
+
 # ═══════════════════════════════════════════════════════════════
 # MINIMUM SAFE VERSIONS (quick reference for scanning)
 # ═══════════════════════════════════════════════════════════════
@@ -2156,12 +2231,12 @@ minimum_safe_versions:
   "filesystem-mcp": "0.6.3"
   "mcp-inspector": "0.14.1"
   "mcp-server-git": "2026.1.14"
-  "mcp-python-sdk": "1.23.0"
+  "mcp-python-sdk": "1.28.1"
   "mcp-gateway": "0.28.0"
   "figma-developer-mcp": "0.6.3"
   "@playwright/mcp": "0.0.40"
   "mcp-package-docs": "0.1.28"
-  "cursor": "1.3.9"
+  "cursor": "3.0.0"
   "claude-code": "2.1.92"
   "claude-code-action": "1.0.94"
   "rmcp": "1.4.0"
@@ -3140,6 +3215,19 @@ attack_techniques:
     mitigation: "Never grant review/audit agents unrestricted execution; run dependency reviews read-only in a sandbox with no network egress and no exec; keep a hard boundary between 'analyze this text' and 'run this command'"
     notes: "Medium confidence — reported via the AI Now Institute July 2026 disclosure and aggregated by Adversa; underscores that even defensive security-review workflows are an injection surface"
 
+  - id: "T038"
+    name: "HalluSquatting (Slopsquatting via Hallucinated Package Names)"
+    description: "AI coding agents hallucinate plausible-looking but nonexistent package names during code completion or dependency-suggestion. Attackers monitor which names models repeatedly invent, pre-register those exact names on public package registries with malicious payloads, then wait: when the same agent later suggests 'install X' to a different developer, the suggestion looks legitimate and the developer approves the install, running the malware with normal trust."
+    examples:
+      - "Six platforms tested vulnerable to suggesting an attacker-preregistered hallucinated package name: GitHub Copilot, Google Gemini CLI, OpenClaw, NanoClaw, Windsurf, Cursor"
+      - "Media coverage groups this with the broader 'slopsquatting' pattern (AI-era analog of typosquatting, but targeting names the AI itself invents rather than names a human might mistype)"
+    affected_platforms: ["GitHub Copilot", "Google Gemini CLI", "OpenClaw", "NanoClaw", "Windsurf", "Cursor", "any AI coding agent that suggests package installs"]
+    campaigns: []
+    source: "Tel Aviv University / Technion / Intuit disclosure (2026-07-13)"
+    detection: "Flag agent-suggested dependency installs where the package has very low download count, was registered recently, or was registered shortly after the same name started appearing in AI-generated code completions"
+    mitigation: "Require human review before installing any agent-suggested dependency not already in the project's lockfile; check package registration date and maintainer reputation before approving 'install X' suggestions; prefer agents/IDE integrations that verify a package exists and has install history before suggesting it"
+    notes: "Distinct from ordinary typosquatting: the attacker does not guess a likely misspelling, they harvest the exact hallucination pattern of a specific model and register ahead of it"
+
 # ═══════════════════════════════════════════════════════════════
 # SCANNING TOOLS
 # ═══════════════════════════════════════════════════════════════
@@ -3724,6 +3812,31 @@ scanning_tools:
       - "LLM-driven auditing layers require model access/compute"
     notes: "Released 2026-06-30 by Tencent's Zhuque Lab; first framework to stratify AI-agent red teaming by layer rather than flat scanning. Technical report: arXiv 2606.31227."
 
+  - name: "mcp-spec-check"
+    vendor: "open-source (community)"
+    type: "cli"
+    url: "https://blog.modelcontextprotocol.io/posts/2026-07-28-release-candidate/"
+    date_added: "2026-07-12"
+    capabilities:
+      - "Tests a live MCP server address (no code access needed) for readiness against the 2026-07-28 MCP spec release, plus baseline security hygiene"
+      - "Completes in ~30 seconds; exit codes 0/1/2 (ready/failed/unable-to-test) suitable for CI/CD gates"
+    limitations:
+      - "Spec-readiness scanner, not a deep vulnerability scanner — pair with a semantic/behavioral scanner for actual threat detection"
+      - "In the July 12, 2026 scan of 7,850 MCP servers, only 1 of 4,356 reachable servers passed all three readiness checks — treat a fail as expected, not alarming, but track remediation"
+    notes: "Add as a pre-deployment CI gate: npx mcp-spec-check <server-url>"
+
+  - name: "SkillDetonate"
+    vendor: "research / community"
+    type: "sandbox"
+    url: "https://www.cybersecurityinstitute.com/blog/?p=5483"
+    date_added: "2026-07-12"
+    capabilities:
+      - "Behavioral scanner: executes a suspicious skill in a sandbox and monitors actual syscall behavior instead of static bytes or text"
+      - "Reported ~97% detection of synthetic attacks and ~87% of real malicious skills in evaluation"
+    limitations:
+      - "~2.5 minutes per check vs. seconds for static scanners — a latency trade-off, not a drop-in replacement for pre-install static scanning"
+    notes: "Positioned as the baseline defense against SkillCloak-style static-scanner evasion (SkillCloak reported bypassing 8 production scanners in 80-96% of scenarios). OpenClaw announced ClawHub will require passing an HKUST Layer-1 scanner supplement for all new skill submissions from 2026-08-01, with SkillDetonate-style sandbox testing planned for Tier-1 skills in Q4 2026."
+
 # ═══════════════════════════════════════════════════════════════
 # DEFENSIVE FRAMEWORKS & BLOCKLISTS
 # ═══════════════════════════════════════════════════════════════
@@ -3895,3 +4008,18 @@ defensive_resources:
     url: "https://tech.hub.ms/security/roundups/weekly-security-roundup-2026-06-29"
     type: "platform"
     description: "Microsoft shipped enterprise-managed authorization for MCP tooling in VS Code (2026-06-29), plus APIM-fronted authorization patterns for MCP traffic and hardened App Service hosting guidance for MCP servers. Also flagged: persistent AI memory itself as an injection surface that needs the same governance treatment as MCP tool access."
+
+  - name: "Destructive Command Guard (dcg)"
+    url: "https://rohitraj.tech/en/notes/ai-agent-command-guardrails-2026"
+    type: "tool"
+    description: "PreToolUse hook that hard-blocks destructive shell and SQL commands (rm -rf, git reset --hard, force push, DROP TABLE and similar) before an AI coding agent can run them. Rust, MIT license, sub-millisecond, purely deterministic rule matching with no LLM in the loop. Trended on GitHub in July 2026 (~2.3k stars, 1,761 commits). Framed by a July 2026 command-guardrail comparison as the most complete free option in a new tool category (alongside agent-guardrails, Shellfirm, and the commercial SigmaShake) built specifically to sit between the agent and the shell and stop GuardFall-class denylist bypasses (see T035) at the OS layer instead of the text-matching layer."
+
+  - name: "SingGuard-NSFA"
+    url: "https://finance.yahoo.com/technology/ai/articles/ant-group-open-sources-singguard-090100678.html"
+    type: "framework"
+    description: "Agent guardrail framework open-sourced 2026-07-13 by Ant Group's AI Security Lab, days after what is reported as the first documented end-to-end AI-agent ransomware operation. Runs inline in an autonomous agent pipeline to intercept prompt-injection attempts, credential-theft patterns, malicious code execution, and permission misuse along the full agent workflow before actions become irreversible. Positioned for agents that go beyond pure coding (infrastructure changes, data access, external APIs), where the coding-agent-specific tools above (dcg, GuardFall mitigations) don't reach."
+
+  - name: "JetStream Verified MCP"
+    url: "https://finance.yahoo.com/technology/ai/articles/jetstream-launches-verified-mcp-governance-130000263.html"
+    type: "platform"
+    description: "MCP governance and registry layer announced 2026-07-13, combining a Verified MCP catalog with the JetStream AI Hub. Each verified MCP server image goes through proprietary semantic scanning of data flows and code paths, checking for credential leakage, Unicode smuggling, and obfuscated malware patterns before it is marked verified. Use as a pre-approval screen when onboarding third-party MCP servers, not as a replacement for runtime monitoring."
