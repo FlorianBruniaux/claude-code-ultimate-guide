@@ -11,7 +11,7 @@ jobs:
   triage:
     runs-on: ubuntu-latest
     env:
-      CLAUDE_MODEL: claude-3-5-sonnet-20240620
+      CLAUDE_MODEL: claude-sonnet-4-6
     steps:
       - name: Collect context & similar issues
         id: gather
