@@ -272,6 +272,30 @@ Cross-agent statistics dashboard that aggregates cost and token data across mult
 
 ---
 
+### Agent Island
+
+Desktop status companion that reads the session transcripts Claude Code already writes to disk and shows each session's state without opening the terminal.
+
+| Attribute | Details |
+|-----------|---------|
+| **Source** | [GitHub: tristan666666/agent-island](https://github.com/tristan666666/agent-island) |
+| **Install** | `brew install tristan666666/tap/agentisland` (macOS), `winget install TristanTang.AgentIsland` (Windows) |
+| **Language** | Swift (macOS), C# / WPF (Windows) |
+| **Version** | v2.1.2 (2026-08-09), both platforms from one tag |
+| **License** | MIT |
+| **Stars** | 120 (GitHub API, 2026-08-10) |
+
+**Key features**:
+
+- Per-session state in the macOS notch or Windows tray: running, stalled, or waiting on you
+- Your-turn alert when a run hands control back, so long sessions do not need watching
+- Covers Claude Code, Codex, Antigravity, Grok, and Cursor in one surface
+- Quota and cost computed on-device; no account and no product telemetry
+- Published state contract with 14 reproducible fixtures rather than a timeout heuristic
+
+**When to use**: If you run several sessions in parallel and lose time to checking whether a run finished or stalled. Where `ccusage` answers "what did I spend", this answers "which session needs me now". The two are complementary rather than alternatives.
+
+---
 ### claude-context-optimizer
 
 Claude Code plugin focused on surfacing where context budget is actually going, rather than just reporting total spend.
@@ -295,7 +319,7 @@ Claude Code plugin focused on surfacing where context budget is actually going, 
 
 API-level gateways (Helicone, Portkey, Langfuse, Bifrost, Compresr) intercept HTTP calls and measure token usage at the API layer. This works well for applications calling the Anthropic API directly. It does not work for Claude Code Max or Pro subscriptions, because Claude Code connects directly to Anthropic servers using subscription credentials rather than an API key. There is no HTTP layer for a gateway to intercept.
 
-All four tools above (Claude Code Usage Monitor, claude-spend, cc-statistics, claude-context-optimizer) work by parsing local session files that Claude Code writes to disk. This approach is billing-mode-agnostic: it works equally on API key billing and on Max/Pro subscriptions. If you are on a Max subscription and your gateway shows zero Claude Code traffic, that is expected behavior, not a misconfiguration.
+All five tools above (Claude Code Usage Monitor, claude-spend, cc-statistics, Agent Island, claude-context-optimizer) work by parsing local session files that Claude Code writes to disk. This approach is billing-mode-agnostic: it works equally on API key billing and on Max/Pro subscriptions. If you are on a Max subscription and your gateway shows zero Claude Code traffic, that is expected behavior, not a misconfiguration.
 
 ---
 
