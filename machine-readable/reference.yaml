@@ -603,6 +603,7 @@ deep_dive:
   data_privacy_description: "Data flow, retention TL;DR (5y/30d/ZDR), 6 CLI-specific risks (/bug command, .env exposure, MCP DB, native messaging hosts), protective measures, 7-point quick audit checklist"
   # Third-Party Tools (guide/ecosystem/third-party-tools.md) - Added 2026-02-01
   third_party_tools_guide: "guide/ecosystem/third-party-tools.md"
+  third_party_agent_island: "guide/ecosystem/third-party-tools.md#agent-island"
   third_party_tools_cost_tracking: "guide/ecosystem/third-party-tools.md:48"
   third_party_tools_rtk: "guide/ecosystem/third-party-tools.md#rtk-rust-token-killer"
   third_party_tools_session_mgmt: "guide/ecosystem/third-party-tools.md#session-management"
