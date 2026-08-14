@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.223"
-updated: "2026-08-05"
+latest: "2.1.232"
+updated: "2026-08-13"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,69 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-August 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.232"
+    date: "2026-08-13"
+    highlights:
+      - "⭐ Subagent forking is on by default: a `subagent_type: \"fork\"` subagent inherits the full conversation and prompt cache, and non-teammate agent spawns in interactive sessions now run in the background"
+      - "Type `@` in the prompt to mention another Claude session by name; `SendMessage` now delivers to a bare name that matches one live session, and same-machine sessions get unique `name-word-word` variants"
+      - "Added GitLab support to plugin marketplaces (bare `gitlab.com` repo URLs clone like `github.com`), plus secret redaction for the GitLab token families and `glab` CLI credential protection"
+      - "Security: fixed a PowerShell bypass overwriting `$PSDefaultParameterValues`, a Windows Git Bash Cygwin-symlink bypass, and nested git repositories inheriting trust from a parent directory"
+    breaking:
+      - "`sandbox.ripgrep` is now honored only from user, managed, and `--settings` settings; project settings can no longer override the sandbox ripgrep binary"
+
+  - version: "2.1.231"
+    date: "2026-08-13"
+    highlights:
+      - "Fixed MCP OAuth sign-in failing with a redirect URI mismatch for servers using a pre-registered OAuth client, such as Slack"
+
+  - version: "2.1.229"
+    date: "2026-08-12"
+    highlights:
+      - "Added plugin marketplace `command` sources: a local command prints the plugin directory, re-resolved each session and applied without a restart (`mode: \"link\"` uses it in place)"
+      - "Fixed long responses partly disappearing while streaming and being printed twice, plus crashes on non-string tool-call values, very narrow terminals, and Windows extended-length/UNC paths"
+      - "Changed `/commit-push-pr` so git/gh commands with dangerous flags (`--force`, `--amend`, `--no-verify`) are no longer auto-approved"
+      - "[VSCode] Added session groups in the sidebar (right-click to create, rename, delete) and made the `/btw` side-question panel resizable"
+    breaking:
+      - "Self-hosted runner on Windows now requires an explicit `--base-dir`; there is no default checkout directory"
+
+  - version: "2.1.228"
+    date: "2026-08-11"
+    highlights:
+      - "Hardened skills synced from claude.ai: they no longer shadow local commands or MCP prompts, descriptions are sanitized and labeled, and their bodies do not run `!` commands or expand `@` files locally"
+      - "Changed the Write tool so newer models can overwrite an existing file they have not read this session, matching the Edit tool's rules"
+      - "Fixed session cleanup deleting contents inside a project's memory folder, and Remote Control `/resume` leaking the resumed conversation's title or history into the connected session"
+      - "Fixed interactive sessions that could stop redrawing entirely while the process kept running, after a rare internal layout error"
+
+  - version: "2.1.227"
+    date: "2026-08-10"
+    highlights:
+      - "Fixed feature flags being evaluated without the subscription tier on an expired login token, which wrongly prompted Max plan users to enable usage credits for Fable"
+      - "Fixed every Bash command failing under `claude-code-action` with `allowed_non_write_users` on GitHub-hosted runners"
+      - "Improved the slash-command menu (selected-row highlight, bolded matches, preserved emoji and accented names) and reduced event-loop stalls"
+
+  - version: "2.1.226"
+    date: "2026-08-08"
+    highlights:
+      - "Bug fixes and reliability improvements"
+
+  - version: "2.1.225"
+    date: "2026-08-07"
+    highlights:
+      - "Added gateway spend-limit support to the usage warning: the limit-reached message names the cap, its reset time, and the operator's message (requires the gateway on 2.1.225)"
+      - "`SendMessage` can now start a conversation with your Remote Control sessions on other machines by name, instead of only replying after they message you first"
+      - "Fixed a transient 401 replacing a long-lived `CLAUDE_CODE_OAUTH_TOKEN` with a stored login's short-lived token, which broke headless sessions until restart"
+      - "Fixed MCP OAuth servers on macOS intermittently failing with a burst of 401 errors after a keychain read timed out"
+
+  - version: "2.1.224"
+    date: "2026-08-07"
+    highlights:
+      - "⭐ Added self-hosted environments: `claude self-hosted-runner` turns your own machines or containers into a place Claude Code web, mobile, and desktop sessions can run (Team and Enterprise plans)"
+      - "⭐ Added cross-session `SendMessage`: Claude Code sessions can message each other across any of your machines, with `ListAgents` to discover them (macOS and Linux)"
+      - "Added an `archive` plugin source (zip over HTTPS with optional SHA-256 pinning), the `crossSessionInbound`/`dialogExpiry` settings, and sandbox credential-masking options (`extract`, `decode: \"jwt\"` with `maskClaims`, `awsPairs`/`sigv4`)"
+      - "Security: fixed long project paths resolving to another project's session directory, and sandbox filesystem deny entries written with a trailing slash being silently bypassable"
+    breaking:
+      - "The `/feedback` survey transcript share now also uploads the last request's model settings with your consent, including the system prompt (which carries your `CLAUDE.md` instructions), tool definitions, and model parameters; secrets stay redacted"
 
   - version: "2.1.223"
     date: "2026-08-05"
@@ -1708,6 +1771,7 @@ breaking_summary:
     - "Heredoc delimiter command smuggling prevention (v2.1.38)"
   installation:
     - "npm installations deprecated - use native installer (v2.1.15)"
+    - "Self-hosted runner on Windows requires an explicit `--base-dir`; no default checkout directory (v2.1.229)"
   models:
     - "Opus 4 and Opus 4.1 removed from Claude Code first-party API — auto-migrated to Opus 4.6 (v2.1.68)"
     - "Opus 4.7 removed from fast mode; `/fast` applies to Opus 5 and Opus 4.8 only (v2.1.219)"
@@ -1721,6 +1785,11 @@ breaking_summary:
     - "Skills with `context: fork` run in the background by default; opt out with `background: false` (v2.1.218)"
     - "`/deep-research` starts only when invoked manually; Claude no longer launches it on its own (v2.1.218)"
     - "Dynamic workflows default to a medium size guideline (fewer than 15 agents); change with Dynamic workflow size in `/config` (v2.1.219)"
+    - "Removed the 200-subagent-per-session spawn cap; concurrency and depth limits still apply (v2.1.224)"
+    - "`/feedback` transcript share also uploads the last request's system prompt (including `CLAUDE.md`), tool definitions, and model parameters, with consent; secrets stay redacted (v2.1.224)"
+    - "Write tool lets newer models overwrite a file they have not read this session, matching Edit; older models still require the read (v2.1.228)"
+    - "`/commit-push-pr` no longer auto-approves git/gh commands carrying `--force`, `--amend`, `--no-verify` (v2.1.229)"
+    - "Subagent forking on by default: `subagent_type: \"fork\"` inherits the full conversation and prompt cache, and non-teammate agent spawns run in the background (v2.1.232)"
   syntax:
     - "Indexed argument syntax changed: $ARGUMENTS.0 → $ARGUMENTS[0] (v2.1.19)"
     - "`Write(path)`, `NotebookEdit(path)`, and `Glob(path)` permission rules now warn at startup — use `Edit(path)` or `Read(path)` (v2.1.210)"
@@ -1731,11 +1800,14 @@ breaking_summary:
   plugins:
     - "`${user_config.*}` in shell-form plugin commands rejected; use exec form or `$CLAUDE_PLUGIN_OPTION_<KEY>` (v2.1.207)"
     - "Plugin option values (`pluginConfigs`) no longer read from project-level `.claude/settings.json` (v2.1.207)"
+    - "`sandbox.ripgrep` honored only from user, managed, and `--settings` settings; project settings can no longer override it (v2.1.232)"
 
 # ════════════════════════════════════════════════════════════════
 # MILESTONE FEATURES (quick reference)
 # ════════════════════════════════════════════════════════════════
 milestones:
+  "2.1.232": "Subagent forking on by default (fork inherits conversation + prompt cache), @-mention another session by name, GitLab plugin marketplaces and token redaction"
+  "2.1.224": "Self-hosted environments (claude self-hosted-runner) for Team/Enterprise, cross-session SendMessage across your machines, archive plugin source over HTTPS"
   "2.1.219": "Claude Opus 5 becomes the default Opus model (1M context, fast mode $10/$50 per Mtok), DirectoryAdded hook, sandbox.network.strictAllowlist, subagent nesting restored to depth 3"
   "2.1.218": "/code-review runs as a background subagent, agent frontmatter hooks require workspace trust, context: fork skills background by default"
   "2.1.217": "Concurrent subagent cap (default 20), --max-budget-usd halts background subagents, MCP truncated-output memory leak fixed"
