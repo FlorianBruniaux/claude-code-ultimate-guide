@@ -87,6 +87,7 @@ The ~35 below are the daily drivers. Claude Code ships about 100 built-in comman
 ```
 @path/to/file.ts    → Reference a file
 @agent-name         → Call an agent
+@session-name       → Message another live Claude session (v2.1.232+)
 !shell-command      → Run shell command
 ```
 
@@ -102,8 +103,10 @@ The ~35 below are the daily drivers. Claude Code ships about 100 built-in comman
 | Feature | Since | What It Does |
 |---------|-------|--------------|
 | **Tasks API** | v2.1.16 | Persistent task lists with dependencies |
-| **Background Agents** | v2.0.60 | Sub-agents work while you code |
+| **Background Agents** | v2.0.60 | Sub-agents work while you code. Since v2.1.232 forking is the default: a `subagent_type: "fork"` agent inherits the full conversation and prompt cache, and non-teammate spawns go background on their own |
 | **Agent Teams** | v2.1.32 | Multi-agent coordination (TeamCreate/SendMessage) |
+| **Cross-Session Messaging** | v2.1.224 | Sessions message each other across all your machines. `ListAgents` to discover, `SendMessage` to talk, `@name` to mention (v2.1.232). macOS and Linux |
+| **Self-Hosted Environments** | v2.1.224 | `claude self-hosted-runner` makes your own machine or container the place web, mobile, and desktop sessions execute. Team and Enterprise |
 | **Auto-Memories** | v2.1.32 | Automatic cross-session context capture |
 | **Session Forking** | v2.1.19 | Rewind + create parallel timeline |
 | **LSP Tool** | v2.0.74 | IDE-like navigation: symbols, types, refs. ~50ms vs 45s with grep. 11 languages |
@@ -490,6 +493,7 @@ VERIFY: Empty email shows error, invalid format shows error
 | `claude plugin prune` | Remove orphaned auto-installed plugin deps. (v2.1.121) |
 | `claude plugin details <name>` | Show plugin inventory and token cost estimate. (v2.1.139) |
 | `claude --plugin-url <url>` | Load plugin `.zip` from URL for this session. (v2.1.129) |
+| `claude self-hosted-runner` | Run web/mobile/desktop sessions on your own machine or container. Windows needs an explicit `--base-dir`. Team and Enterprise. (v2.1.224) |
 
 ---
 
