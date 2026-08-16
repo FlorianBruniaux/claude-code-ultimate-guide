@@ -43,6 +43,8 @@ Research from ETH Zurich and UC Berkeley (Mündler et al., PLDI 2025, [arXiv 250
 
 Two practices experienced practitioners recommend maintaining deliberately: alternating AI-assisted and manual coding sessions to preserve deep system understanding (Sébastien Deleuze, Spring Framework committer, [IFTTD ep 349](https://www.ifttd.io/episodes/tech-et-soft-skills)), and capping daily AI development cycles even when tooling makes more cycles technically possible, as cognitive load limits are real and practitioners who ignored them reported significant fatigue within weeks (Julien Lepine, [IFTTD ep 351](https://www.ifttd.io/episodes/aws-summit)).
 
+Both practices have measured backing, and the numbers behind them are worth reading before an adoption plan assumes review is free: see [The Attention Cost of the Review Shift](./learning-with-ai.md#the-attention-cost-of-the-review-shift) for the review-size and review-duration ceilings, the automation bias effect specific to machine-generated output, and what the evidence does not yet support.
+
 **AI amplifies a team's existing practices, for better or worse.** A team with weak engineering habits before AI adoption tends to see its anti-patterns get worse, not corrected, once agents enter the workflow. This contradicts the common assumption that AI mechanically raises the floor and spreads good practices on its own. The tool accelerates whatever is already there.
 
 *Geoffrey Graveaud, Dev With AI Meetup, 2026*

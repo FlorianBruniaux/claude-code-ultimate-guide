@@ -300,6 +300,8 @@ Uplevel's study of Copilot adoption (uplevelteam.com, "genai-developers") found 
 
 Read this alongside the heavy-user review time contradiction above: two independent measurements now point the same direction. Neither speed nor throughput moves the way the adoption narrative predicts, and the metrics that do move (bug rate, review time, burnout proxy) move in the wrong direction. Treat any AI-tooling ROI claim resting on developer speed alone as unverified until you've checked it against your own bug rate and review-time data.
 
+**Why the review hours cannot simply be absorbed**: defect detection in review has ceilings that were measured before AI existed and did not move when the tooling did. Past roughly 200-400 lines per review, or 60-90 minutes of sustained reviewing, detection degrades sharply. A 14-hour weekly review load is therefore not 14 hours of equivalent-quality review. See [The Attention Cost of the Review Shift](../roles/learning-with-ai.md#the-attention-cost-of-the-review-shift) for the underlying studies and the practices that keep review inside the effective band.
+
 ### pass^k for non-deterministic tests
 
 Standard pass@1 is insufficient for agent-generated code. A test that passes once may fail on the next run because the output is non-deterministic. Promptfoo and LangChain both document the pass^k pattern: run critical tests k times consecutively, typically 3 to 5. A test passes only if it passes all k runs. This is not flaky-test detection — it is a deliberate quality gate for probabilistic systems. Apply it specifically to agent-generated suites, not to the full regression suite where the overhead would be prohibitive.

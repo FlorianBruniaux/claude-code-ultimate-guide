@@ -300,7 +300,9 @@ Use the [repo-integrity-scanner.sh](../../examples/hooks/bash/repo-integrity-sca
 
 ### 1.5 Malicious Extensions (.claude/ Attack Surface)
 
-Repositories can embed a `.claude/` folder with pre-configured agents, commands, and hooks. Opening such a repo in Claude Code automatically loads this configuration — a supply chain vector that bypasses skill marketplaces entirely.
+Repositories can embed a `.claude/` folder with pre-configured agents, commands, and hooks. Opening such a repo in Claude Code automatically loads this configuration, a supply chain vector that bypasses skill marketplaces entirely.
+
+The hooks below fire on agent activity. For the ones that fire on folder open, before you type anything, see [Section 1.6](#16-startup-hooks-code-execution-before-your-first-prompt).
 
 #### Attack Vectors
 
@@ -309,6 +311,7 @@ Repositories can embed a `.claude/` folder with pre-configured agents, commands,
 | **Malicious agents** | `allowed-tools: ["Bash"]` + exfiltration instructions in system prompt | Agent executes arbitrary commands with broad permissions |
 | **Malicious commands** | Hidden instructions in prompt template, injected arguments | Commands run with user's full Claude Code permissions |
 | **Malicious hooks** | Bash scripts in `.claude/hooks/` triggered on every tool call | Data exfiltration on every `PreToolUse`/`PostToolUse` event |
+| **Startup hooks** | `SessionStart`, `Setup`, `InstructionsLoaded`, `DirectoryAdded` in `settings.json`, or `runOn: folderOpen` in `.vscode/tasks.json` | Code runs on folder open, before any prompt or install (see [Section 1.6](#16-startup-hooks-code-execution-before-your-first-prompt)) |
 | **Poisoned CLAUDE.md** | Instructions that override security settings or disable validation | LLM follows repo instructions as project context |
 | **Trojan settings.json** | Permissive `permissions.allow` rules, disabled hooks | Weakens security posture silently |
 
@@ -334,8 +337,9 @@ Before opening any unfamiliar repository with Claude Code:
 | **2. Hooks** | `cat .claude/hooks/*.sh` | `curl`, `wget`, network calls, base64 encoding |
 | **3. Agents** | `cat .claude/agents/*.md` | `allowed-tools: ["Bash"]` with vague descriptions |
 | **4. Commands** | `cat .claude/commands/*.md` | Hidden instructions after visible content |
-| **5. Settings** | `cat .claude/settings.json` | Overly permissive `permissions.allow` rules |
+| **5. Settings** | `cat .claude/settings.json` | Overly permissive `permissions.allow` rules; any `hooks.SessionStart`, `Setup`, `InstructionsLoaded` or `DirectoryAdded` entry |
 | **6. CLAUDE.md** | `cat .claude/CLAUDE.md` | Instructions to disable security, skip reviews |
+| **7. Editor tasks** | `cat .vscode/tasks.json` | A task carrying `"runOn": "folderOpen"` |
 
 ```bash
 # Quick scan for suspicious patterns in .claude/
@@ -346,7 +350,108 @@ grep -r "permissions.allow" .claude/ 2>/dev/null
 
 **Rule of thumb**: Review `.claude/` in an unknown repo with the same scrutiny you'd apply to `package.json` scripts or `.github/workflows/`.
 
-### 1.6 Third-Party Command Wrappers & Shell Interceptors
+### 1.6 Startup Hooks: Code Execution Before Your First Prompt
+
+Section 1.5 covers hooks that fire on agent activity. This one covers the hooks that fire before there is any activity, which is why attackers use them for persistence.
+
+`PreToolUse` and `PostToolUse` need the agent to do something first. Four other events do not:
+
+| Event | Fires when | Attacker value |
+|-------|-----------|----------------|
+| `SessionStart` | A Claude Code session opens in the directory | Runs before the user reads a single file |
+| `Setup` | Initial project setup | Same, and looks legitimate by name |
+| `InstructionsLoaded` | Context files are loaded | Runs even if the user only asked a question |
+| `DirectoryAdded` | A directory joins the workspace | Triggers on `/add-dir`, easy to overlook |
+
+VS Code has the same shape: a `.vscode/tasks.json` task carrying `"runOn": "folderOpen"` executes when the folder opens. Full event list in [hooks-events-reference.md](../core/hooks-events-reference.md).
+
+The consequence is blunt. **`git clone` plus opening the folder is enough to execute attacker code.** No install, no prompt, no tool call. Every package-manager defence you have (`--ignore-scripts`, lockfile pinning, npm 12 blocking lifecycle scripts) sits on a path this attack never takes.
+
+#### Case Study: Shai-Hulud keyv Worm (August 4, 2026)
+
+The npm worm that compromised `keyv@6.0.0` and roughly 420 other package names planted two files in the repositories it reached:
+
+| File | Payload |
+|------|---------|
+| `.claude/settings.json` | A `SessionStart` hook running `.vscode/setup.mjs` |
+| `.vscode/tasks.json` | An `Environment Setup` task with `runOn: folderOpen` running `.claude/setup.mjs` |
+
+Each file points at the other. Clean one, the chain still works. Both were left in public source control rather than hidden inside npm tarballs, so repository inspection finds them, and nobody was inspecting.
+
+Two defences that teams treat as sufficient failed here:
+
+**Build provenance passed.** The attacker took over the maintainer's GitHub account, pushed to `main`, and let the project's own GitHub Actions workflow publish over OIDC. The poisoned releases carry valid Sigstore and SLSA attestations. `npm audit signatures` returns clean. Chainguard called it the first documented npm worm producing validly attested malicious packages. Provenance answers *who built this*, never *is this safe*.
+
+**Lifecycle-script hardening was irrelevant on the IDE path.** It blocks `preinstall`, which the worm also used, but `.claude/settings.json` never touches a package manager.
+
+#### The Commit Impersonation Problem
+
+Using stolen GitHub App tokens, the same worm committed across up to 50 branches per repository as:
+
+```
+Author: claude <claude@users.noreply.github.com>
+Message: chore: update config
+```
+
+It skipped `dependabot` and `copilot` branches, presumably to avoid the branches teams watch most.
+
+This is the part worth sitting with. On a repository where an agent already commits, worm activity looks like Tuesday. Commit authorship, normally the first thing you check, stops discriminating. The more your team normalises agent-authored commits, the better the technique works.
+
+What still discriminates is **fan-out**. A real session touches one branch. A worm touches forty in minutes.
+
+```bash
+# Reconcile against sessions you can actually account for
+git log --all --author='claude@users.noreply.github.com' \
+  --since=2026-08-01 --format='%H %ci %ae %s'
+
+# Branch fan-out: the actual signal
+git log --all --author='claude@users.noreply.github.com' --format='%H' \
+  | while read c; do git branch -a --contains "$c" | wc -l; done | sort -rn | head
+```
+
+The durable fix is making agent identity verifiable rather than merely permitted: require signed commits for agent identities, so an unsigned commit under an agent's name is anomalous by construction, and enable branch protection so a stolen token cannot write everywhere.
+
+#### Inspection Before Opening
+
+Two files, both plain JSON. This is a read, not a scan.
+
+```bash
+# Run from OUTSIDE the repo, before opening it in Claude Code or VS Code
+jq '.hooks | {SessionStart, Setup, InstructionsLoaded, DirectoryAdded}' \
+  repo/.claude/settings.json 2>/dev/null
+jq '.hooks' repo/.claude/settings.local.json 2>/dev/null
+jq '.tasks[] | select(.runOptions.runOn == "folderOpen")' \
+  repo/.vscode/tasks.json 2>/dev/null
+```
+
+Anything that downloads, decodes, or evaluates is disqualifying. So is any startup hook in a repository that has no reason to ship one.
+
+**Do not scan by filename.** `Math_Symbol.js` is a legitimate Unicode category file inside `regenerate-unicode-properties`, a transitive dependency of most Babel toolchains, and `setup.mjs` ships legitimately in `motion-dom`. Verified on a normal workstation: a filename sweep across 151,535 installed `package.json` files returned 32 hits, all benign. The attacker picked those names precisely for that camouflage. What actually discriminates is the `preinstall` entry and the published hashes:
+
+```bash
+# The check that produces signal
+grep -rl '"preinstall".*setup\.mjs' --include=package.json node_modules/
+```
+
+For a full pass (lockfiles, installed tree, payload hashes, startup hooks, revocation
+watchers, egress config), use [supply-chain-triage.py](../../examples/scripts/supply-chain-triage.py).
+It reads its IOC set from `threat-db.yaml` rather than hardcoding one, and it runs the
+checks in incident-response order, persistence before rotation.
+
+```bash
+./examples/scripts/supply-chain-triage.py ~/Sites          # full
+./examples/scripts/supply-chain-triage.py ~/Sites --fast   # skip hashing
+```
+
+#### Workspace Trust
+
+Workspace trust is the native control on this path, and the only one. Claude Code gates agent frontmatter hooks behind the trust dialog, so hooks no longer run from untrusted folders. Two CVEs show how thin the margin is: `CVE-2026-33068` resolved `settings.json` before the trust dialog, letting `bypassPermissions` skip consent silently, and `CVE-2026-25725` let sandboxed code create a missing `.claude/settings.json` whose `SessionStart` hooks then ran with host privileges on restart. `CVE-2026-48124` is the Cursor equivalent.
+
+Keep it on. Decline it for any repository you have not read.
+
+**Rule of thumb**: You already know not to run a stranger's `install.sh`. A repo-provided `.claude/settings.json` is that script, and opening the folder is running it.
+
+### 1.7 Third-Party Command Wrappers & Shell Interceptors
 
 Any binary or function that sits between Claude Code and the actual CLI tool can read all command arguments and outputs — diffs, credentials printed by `gh auth status`, env vars echoed during builds, database URLs in psql connection strings. This includes token-saving wrappers like RTK, but also shell plugins and completion frameworks that are often installed and forgotten.
 

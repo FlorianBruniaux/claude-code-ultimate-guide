@@ -29,6 +29,7 @@ Utility scripts for Claude Code power users.
 | `sonnetplan.sh` | Run Claude with Sonnet replacing Opus (cost optimization alias) |
 | `test-prompt-caching.ts` | Verify Anthropic prompt caching is active (no deps, fetch only) |
 | `smart-suggest-roi.py` | Analyze acceptance rate of smart-suggest hook suggestions vs session activity |
+| `supply-chain-triage.py` | Triage a workstation after an npm supply chain incident (lockfiles, preinstall droppers, payload hashes, startup hooks, revocation watchers, egress) |
 
 ---
 

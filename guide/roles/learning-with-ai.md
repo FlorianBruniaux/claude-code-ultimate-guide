@@ -12,7 +12,7 @@ tags: [guide, workflows]
 >
 > **Reading time**: ~15 minutes
 >
-> **Last updated**: March 2026
+> **Last updated**: August 2026
 
 ---
 
@@ -31,9 +31,10 @@ tags: [guide, workflows]
 11. [Where Are You on the Agent Adoption Curve?](#where-are-you-on-the-agent-adoption-curve)
 12. [30-Day Progression Plan](#30-day-progression-plan)
 13. [For Tech Leads & Engineering Managers](#for-tech-leads--engineering-managers)
-14. [Red Flags Checklist](#red-flags-checklist)
-15. [Sources & Research](#sources--research)
-16. [See Also](#see-also)
+14. [The Attention Cost of the Review Shift](#the-attention-cost-of-the-review-shift)
+15. [Red Flags Checklist](#red-flags-checklist)
+16. [Sources & Research](#sources--research)
+17. [See Also](#see-also)
 
 ---
 
@@ -1102,6 +1103,107 @@ The **FDA's January 2025 draft guidance** for AI-enabled device software functio
 
 ---
 
+## The Attention Cost of the Review Shift
+
+> **Audience**: Developers at any experience level, plus tech leads doing capacity planning.
+>
+> **Problem**: [§3 The Reality of AI Productivity](#the-reality-of-ai-productivity) establishes that the review bottleneck has inverted. This section covers what that inversion costs the person doing the reviewing, and why that cost almost never appears in an adoption plan.
+
+The standard adoption story treats review as the cheap half of the job. Code gets generated, a human glances at it, the team ships. That framing survives only until someone measures how review actually behaves under load, and the measurements have existed since 2006.
+
+### What Moved
+
+Two independent 2026 surveys put numbers on the same shift.
+
+| Measure | Finding | Source |
+|---------|---------|--------|
+| Weekly hours reviewing AI-generated code | 11.4h median, versus 9.8h writing new code (+31% YoY) | Digital Applied Q1 2026, n=2,847 developers |
+| Heavy agentic-tool users | 14-16h/week reviewing, writing hours flat or down | Same survey |
+| Share of the work week spent checking, fixing, validating AI output | 24% | Sonar 2026 State of Code |
+| Developers who do not fully trust AI output | 96%, of whom only 48% always verify before committing | Sonar 2026 State of Code |
+
+Both are vendor surveys built on self-reported hours, so treat the direction as reliable and the magnitude as indicative. The gap between "I do not trust this" and "I verified it anyway" is where the load actually lands.
+
+### Review Has a Measured Ceiling
+
+The reference dataset is still the Cisco case study run by Jason Cohen at SmartBear over ten months, published as *Best Kept Secrets of Peer Code Review* (2006). About 50 developers on the Cisco MeetingPlace product, roughly 2,500 reviews covering 3.2 million lines of C/C++, instrumented automatically through the Code Collaborator tool.
+
+| Finding | Threshold |
+|---------|-----------|
+| Defect density falls sharply past a certain review size | Under 200 LOC ideal, 400 LOC is the ceiling. No review larger than 250 lines produced more than 37 defects per kLOC |
+| Inspection pace governs detection | Best results under 300 LOC/hour, meaningful drop past 500 LOC/hour |
+| Sustained review decays | Detection falls off after ~60 minutes, collapses past 90 |
+| Expected yield inside the band | 70-90% of existing defects on a 200-400 LOC review spread over 60-90 minutes |
+
+Caveats worth stating: this is observational rather than randomized, one company, one language family, and it predates AI entirely. Its value is that the limits it found are cognitive rather than procedural, which is why they did not move when the tooling did.
+
+Neuroimaging work supports that reading. Siegmund et al. ([ICSE 2014](https://www.cs.cmu.edu/~ckaestne/pdf/icse14_fmri.pdf)) showed that comprehending even short snippets recruits working memory, attention, and language regions. Floyd et al. ([ICSE 2017](https://web.eecs.umich.edu/~weimerw/p/weimer-icse2017-preprint.pdf)) found that reviewing code has a neural signature distinct from reviewing prose, and that the signature shifts with expertise. Peitek et al. ([2021](https://web.eecs.umich.edu/~weimerw/2024-481F/readings/peitek2021-metrics.pdf)) found that plain structural properties, textual size and vocabulary size above all, predict measured cognitive load during comprehension.
+
+**Operational consequence**: an agent will happily produce a 900-line diff. That single artifact sits four times past the size where human defect detection is known to degrade. Constrain the agent's output size rather than asking reviewers to absorb it.
+
+### Reviewing Machine Output Is a Third Mode
+
+Reviewing agent output is neither writing nor reviewing a colleague. It carries a failure mode the human factors literature named decades ago.
+
+- **Parasuraman & Riley** ([Human Factors, 1997](https://journals.sagepub.com/doi/10.1518/001872097778543886)) mapped use, misuse, disuse and abuse of automation, and described complacency: reliable automation lowers the vigilance applied to it.
+- **Goddard et al.** ([2011 systematic review](https://pmc.ncbi.nlm.nih.gov/articles/PMC3240751/), clinical decision support) quantified it. Following erroneous automated advice raised the risk of an incorrect decision by roughly 26% compared with unaided decision making.
+- **Lee, Sarkar et al.** ([CHI 2025](https://www.microsoft.com/en-us/research/publication/the-impact-of-generative-ai-on-critical-thinking-self-reported-reductions-in-cognitive-effort-and-confidence-effects-from-a-survey-of-knowledge-workers/), Microsoft Research and Carnegie Mellon, 319 knowledge workers, 936 first-hand task examples) found that higher confidence in GenAI predicts *less* critical thinking, while higher confidence in one's own ability predicts *more*. They also found the work of critical thinking migrating into three activities: verifying information, integrating responses, and stewarding the task.
+- **DORA** ([trust in AI](https://dora.dev/insights/trust-in-ai/)) reports roughly 39% of developers outside Google trust generative AI output "a little" or "not at all".
+
+The uncomfortable implication: a tool that is usually right is harder to review well than one that is usually wrong. Obvious garbage triggers scrutiny. Plausible output does not.
+
+### The Day Lost Its Low-Load Stretches
+
+Writing routine code was cognitively cheap, and it ended. Both properties mattered, and both are gone from a review-dominated day. This is the part of the picture with the strongest practitioner signal and the weakest measurement, so the evidence is presented with its limits attached.
+
+| Finding | Detail | Confidence |
+|---------|--------|-----------|
+| "AI brain fry" | BCG and UC Riverside, n=1,488 US employees: 14% report mental fatigue from AI oversight beyond cognitive capacity, 18% among developers. Managing 3+ agents: +14% mental effort, +12% fatigue | Survey, named institutions, self-report |
+| Routine offload helps | Same study: using AI for genuinely repetitive tasks correlated with ~15% *lower* burnout | Correlational |
+| Adoption raises job demands | [arXiv 2510.07435](https://arxiv.org/html/2510.07435v2), "Modeling Developer Burnout with GenAI Adoption": adoption heightens burnout by raising job demands, mitigated by job resources and positive perception of the tool (JD-R model) | Survey-based SEM, preprint |
+| The field admits the gap | [arXiv 2605.22349](https://arxiv.org/pdf/2605.22349.pdf), "At What Cost?": only a small number of studies explicitly theorize or measure burnout, stress or work-life balance in AI-assisted development | Literature review |
+
+The recovery literature is older and firmer. Wendsche & Lohmann-Haislah's meta-analysis ([Frontiers in Psychology, 2017](https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2016.02072/full), 86 publications, k=91 samples, N=38,124) found psychological detachment from work associated with lower exhaustion, better sleep and higher life satisfaction, with correlations in the 0.30 to 0.36 range. It also found heavy work investment negatively related to detachment, at a medium effect size.
+
+One finding cuts against the simple reading, and it matters for anyone who recognises themselves in "I cannot put it down and I have never enjoyed it more". A study of Norwegian knowledge workers ([Frontiers in Psychology, 2020](https://pmc.ncbi.nlm.nih.gov/articles/PMC7205444/)) identified a high-involvement profile combining low detachment with high autonomous motivation. That profile scored *lower* on emotional exhaustion than the higher-detachment group. Low detachment is not by itself a burnout trajectory. It becomes one when the involvement is driven by demand rather than by autonomous motivation, which is the distinction to check before diagnosing anyone, including yourself.
+
+### The Apprenticeship Ladder Ran Through the Writing Phase
+
+The labour market data is unusually good for a question this recent.
+
+| Study | Method | Finding |
+|-------|--------|---------|
+| Brynjolfsson, Chandar & Chen, ["Canaries in the Coal Mine"](https://digitaleconomy.stanford.edu/publication/canaries-in-the-coal-mine-six-facts-about-the-recent-employment-effects-of-artificial-intelligence/) (Stanford Digital Economy Lab, Nov 2025) | ADP payroll records, ~1 in 6 US workers, 285,000 firms | ~16% relative employment decline for ages 22-25 in the most AI-exposed occupations. Adjustment runs through reduced hiring rather than termination, and through headcount rather than wages. With firm-time fixed effects the signal starts in 2024 |
+| Westby, Sasser Modestino et al. ([June 2025](https://aliciasassermodestino.com/wp-content/uploads/2025/06/Impact_of_GenAI_on_SWEs_061625.pdf)) | 1.5M+ software developer vacancies, 2021-2023, difference-in-differences with month and location fixed effects | 16.3% drop in the junior share of software developer postings after the November 2022 ChatGPT release, larger than for other computer and mathematical occupations |
+| Lichtinger & Hosseini Massoum (Harvard) | LinkedIn and Revelio Labs, ~62M workers, 285,000 firms, 2015-2025 | Junior hiring falls in AI-adopting firms from Q1 2023 while senior headcount rises |
+
+Those three describe the market. The training mechanism is the part nobody has measured. The ladder ran write, get reviewed, absorb the reviewer's reasoning, eventually review others. Cutting the first rung does not automatically produce the third one, and the assumption that it does is currently an assumption.
+
+**No study has yet tracked whether a developer trained primarily on review reaches senior-level judgment at the same rate as one trained on writing.** Anyone claiming otherwise in either direction is extrapolating. The practices in [§13 For Tech Leads & Engineering Managers](#for-tech-leads--engineering-managers) are built to hedge against the pessimistic case at low cost.
+
+### Practices That Address This
+
+| Practice | Who | Why |
+|----------|-----|-----|
+| Cap agent diff size at 200-400 lines per reviewable unit | Individual, enforced in team policy | Keeps review inside the band where detection holds |
+| Time-box review at 60 minutes, hard stop at 90 | Individual | Past that, added time yields close to nothing |
+| Split "explore with the agent" from "review for merge" into separate sessions | Individual | Verification and generation are different modes, and interleaving them costs the vigilance |
+| Track review hours as work, not as overhead | Tech lead | A 14h/week review load is most of a role, and capacity plans that ignore it are wrong by design |
+| Keep one weekly block of manual writing | Individual | Preserves the cheap-cognition stretch and keeps the skill calibrated. Deleuze recommends alternating sessions deliberately (see [adoption-approaches.md](./adoption-approaches.md#what-we-do-know-empirical-data)) |
+| Cap daily AI development cycles even when tooling allows more | Individual, tech lead | Reported fatigue within weeks when practitioners ignored the cap (Lepine, IFTTD ep 351) |
+| Distinguish demand-driven from motivation-driven overwork before intervening | Tech lead | The Norwegian profile data shows the two look identical from outside and need opposite responses |
+
+### What Is Not Established
+
+Stated plainly so nobody over-reads this section:
+
+- Whether review-heavy work causes burnout at a higher rate than write-heavy work. Nobody has run that comparison.
+- Whether reduced friction in an intrinsically motivating activity drives overwork. It is a plausible mechanism, consistent with the detachment findings on heavy work investment, and it has not been tested on developers.
+- Whether the Cisco thresholds transfer to reviewing machine-generated diffs. The automation bias literature suggests the effective ceiling is *lower*, never higher, but that has not been measured directly.
+- Whether the junior hiring decline reflects AI capability or ordinary post-2022 cost discipline. The Stanford design controls for firm shocks and finds AI exposure predictive, which is strong evidence, not proof.
+
+---
+
 ## Red Flags Checklist
 
 Warning signs you're becoming dependent, and what to do:
@@ -1158,10 +1260,38 @@ Sources for [§3 The Reality of AI Productivity](#the-reality-of-ai-productivity
 - **Borg et al. "Echoes of AI" RCT (2025)** — [arXiv:2507.00788](https://arxiv.org/abs/2507.00788) — 2-phase blind RCT (151 participants, 95% professional developers): AI users 30.7% faster (median), habitual users ~55.9% faster. Phase 2: downstream developers evolving AI-generated code showed no significant difference in evolution time or code quality vs. human-generated code. First RCT to explicitly target maintainability of AI-assisted code. Co-authored by Dave Farley ("Continuous Delivery"). Note: arXiv preprint (v2 Dec 2025), not yet published in peer-reviewed proceedings.
 - **DORA/Google DevOps Research (2024)** — AI tool adoption impact on team performance
 
+### Review Load, Cognition & Recovery
+
+Sources for [§14 The Attention Cost of the Review Shift](#the-attention-cost-of-the-review-shift):
+
+- **Cohen, "Best Kept Secrets of Peer Code Review" / Cisco case study (2006)** ([smartbear.co, PDF](https://static0.smartbear.co/support/media/resources/cc/book/code-review-cisco-case-study.pdf)): 10 months, ~50 developers on Cisco MeetingPlace, ~2,500 reviews over 3.2M LOC, instrumented via Code Collaborator. Defect density drops sharply past 200 LOC (no review over 250 lines exceeded 37 defects/kLOC), best detection under 300 LOC/hour, detection collapses past 60-90 minutes of sustained review. Observational, single company, pre-AI.
+- **Siegmund et al., "Understanding Understanding Source Code with fMRI" (ICSE 2014)** ([cs.cmu.edu, PDF](https://www.cs.cmu.edu/~ckaestne/pdf/icse14_fmri.pdf)): program comprehension recruits working memory, attention and language regions.
+- **Floyd, Santander & Weimer (ICSE 2017)** ([umich.edu, PDF](https://web.eecs.umich.edu/~weimerw/p/weimer-icse2017-preprint.pdf)): code review carries a neural signature distinct from prose review, modulated by expertise.
+- **Peitek et al., code complexity metrics vs measured cognitive load (2021)** ([umich.edu, PDF](https://web.eecs.umich.edu/~weimerw/2024-481F/readings/peitek2021-metrics.pdf)): textual size and vocabulary size predict neural and subjective cognitive load during comprehension.
+- **Parasuraman & Riley, "Humans and Automation: Use, Misuse, Disuse, Abuse" (Human Factors, 1997)** ([sagepub.com](https://journals.sagepub.com/doi/10.1518/001872097778543886)): foundational taxonomy of automation bias and complacency.
+- **Goddard, Roudsari & Wyatt, automation bias systematic review (2011)** ([PMC3240751](https://pmc.ncbi.nlm.nih.gov/articles/PMC3240751/)): erroneous decision-support advice raised incorrect-decision risk ~26% versus unaided decisions. Clinical domain, mechanism transfers to reviewing generated code.
+- **Lee, Sarkar et al., "The Impact of Generative AI on Critical Thinking" (CHI 2025)** ([microsoft.com](https://www.microsoft.com/en-us/research/publication/the-impact-of-generative-ai-on-critical-thinking-self-reported-reductions-in-cognitive-effort-and-confidence-effects-from-a-survey-of-knowledge-workers/)): Microsoft Research and Carnegie Mellon, 319 knowledge workers, 936 first-hand examples. Confidence in GenAI predicts less critical thinking, self-confidence predicts more. Critical thinking migrates to verification, integration, task stewardship.
+- **DORA, Trust in AI** ([dora.dev](https://dora.dev/insights/trust-in-ai/)): ~39% of developers outside Google trust generative AI output "a little" or "not at all".
+- **BCG & UC Riverside, "AI brain fry" (2026, n=1,488 US employees)**: 14% report mental fatigue from AI oversight beyond cognitive capacity, 18% among developers. Managing 3+ concurrent agents raises mental effort ~14% and fatigue ~12%. Same study found AI applied to genuinely repetitive tasks correlated with ~15% lower burnout. Self-reported survey.
+- **"Modeling Developer Burnout with GenAI Adoption"** ([arXiv:2510.07435](https://arxiv.org/html/2510.07435v2)): survey-based SEM on the JD-R model. Adoption raises burnout through increased job demands, mitigated by job resources and positive perception of the tool. Preprint.
+- **"At What Cost? Software Developers' Well-Being in the Age of AI"** ([arXiv:2605.22349](https://arxiv.org/pdf/2605.22349.pdf)): literature review noting that few studies explicitly measure burnout, stress or work-life balance in AI-assisted development. Useful as an honest statement of the evidence gap.
+- **Wendsche & Lohmann-Haislah, detachment meta-analysis (Frontiers in Psychology, 2017)** ([frontiersin.org](https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2016.02072/full)): 86 publications, k=91 samples, N=38,124. Psychological detachment associated with lower exhaustion, better sleep, higher life satisfaction (r ≈ 0.30-0.36). Heavy work investment negatively related to detachment.
+- **Involvement profiles in knowledge workers (Frontiers in Psychology, 2020)** ([PMC7205444](https://pmc.ncbi.nlm.nih.gov/articles/PMC7205444/)): two Norwegian samples. The high-involvement profile (low detachment plus high autonomous motivation) scored lower on emotional exhaustion than the higher-detachment group. Counterweight to reading low detachment as burnout on its own.
+- **Digital Applied Q1 2026 (n=2,847 developers)**: 11.4h/week reviewing AI-generated code versus 9.8h writing, +31% YoY, heavy agentic users at 14-16h. Vendor survey, self-reported hours. Also cited in [ops/team-metrics.md](../ops/team-metrics.md).
+- **Sonar 2026 State of Code**: 42% of committed code AI-generated, 24% of the work week spent checking and validating AI output, 96% do not fully trust it while 48% always verify. Vendor survey.
+
+### Junior Pipeline & Labour Market
+
+Sources for [§14 The Apprenticeship Ladder Ran Through the Writing Phase](#the-apprenticeship-ladder-ran-through-the-writing-phase):
+
+- **Brynjolfsson, Chandar & Chen, "Canaries in the Coal Mine" (Stanford Digital Economy Lab, Nov 2025)** ([digitaleconomy.stanford.edu](https://digitaleconomy.stanford.edu/publication/canaries-in-the-coal-mine-six-facts-about-the-recent-employment-effects-of-artificial-intelligence/)): ADP payroll records covering roughly 1 in 6 US workers across 285,000 firms. ~16% relative employment decline for ages 22-25 in the most AI-exposed occupations, driven by reduced hiring rather than termination, adjusting on headcount rather than wages. With firm-time fixed effects the signal begins in 2024.
+- **Westby, Sasser Modestino et al. (June 2025)** ([PDF](https://aliciasassermodestino.com/wp-content/uploads/2025/06/Impact_of_GenAI_on_SWEs_061625.pdf)): 1.5M+ software developer vacancies 2021-2023, difference-in-differences with month and location fixed effects. 16.3% drop in the junior share of postings after November 2022, larger than for other computer and mathematical occupations.
+- **Lichtinger & Hosseini Massoum (Harvard)**: LinkedIn and Revelio Labs data, ~62M workers across 285,000 firms, 2015-2025. Junior hiring falls in AI-adopting firms from Q1 2023 while senior headcount rises.
+
 ### Team & Organizational Research
 
 - **Create Future: AI Training Impact on Junior Developers (2025)** — Structured AI training raises junior time savings from 14-42% (untrained) to 35-65% (trained) on key tasks. Source for [§12 Onboarding Imperative](#the-onboarding-imperative).
-- **Stanford Digital Economy Study (2025)** — Software developer employment for ages 22-25 declined ~20% by July 2025. Context for the urgency of structured junior development. [understandingai.org analysis](https://www.understandingai.org/p/new-evidence-strongly-suggest-ai)
+- **Stanford Digital Economy Study (2025)** — Software developer employment for ages 22-25 declined ~20% by July 2025. Context for the urgency of structured junior development. [understandingai.org analysis](https://www.understandingai.org/p/new-evidence-strongly-suggest-ai). Note: this figure is software-developer-specific and comes from a secondary analysis of an earlier draft. The November 2025 published paper reports ~16% for ages 22-25 across all most-exposed occupations, cited in full under [Junior Pipeline & Labour Market](#junior-pipeline--labour-market).
 - **LeadDev: Tech CEOs reckon with AI impact on junior developers (2025)** — [leaddev.com](https://leaddev.com/leadership/tech-ceos-reckon-with-impact-junior-developers) — Organizational perspectives from engineering leaders on structuring junior growth in AI-heavy teams.
 - **Stack Overflow: AI vs Gen Z (2025)** — [stackoverflow.blog](https://stackoverflow.blog/2025/12/26/ai-vs-gen-z/) — Career pathway shifts for junior developers with AI adoption data by experience level.
 
