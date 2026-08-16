@@ -489,7 +489,7 @@ deep_dive:
   sandbox_isolation_guide: "guide/security/sandbox-isolation.md"
   sandbox_isolation_decision_tree: "guide/security/sandbox-isolation.md:7"
   sandbox_docker_sandboxes: "guide/security/sandbox-isolation.md#3-docker-sandboxes"
-  sandbox_docker_network: "guide/security/sandbox-isolation.md:121"
+  sandbox_docker_network: "guide/security/sandbox-isolation.md:127"  # anchor: network-policies
   sandbox_docker_templates: "guide/security/sandbox-isolation.md#custom-templates"
   sandbox_docker_docs: "https://docs.docker.com/ai/sandboxes/"
   sandbox_docker_claude_config: "https://docs.docker.com/ai/sandboxes/claude-code/"
@@ -1505,7 +1505,7 @@ deep_dive:
   production_safety: "guide/security/production-safety.md"  # Production safety rules
   security_hardening: "guide/security/security-hardening.md"  # Security best practices
   security_cve_summary: "guide/security/security-hardening.md#cve-summary-2025-2026"  # Decision Matrix + CVEs
-  security_supply_chain_stats: "guide/security/security-hardening.md:137"  # Agent Skills Supply Chain Risks
+  security_supply_chain_stats: "guide/security/security-hardening.md:170"  # anchor: 12-agent-skills-supply-chain-risks
   security_mcp_scan_tool: "guide/security/security-hardening.md#11-mcp-vetting-workflow"  # MCP Vetting Workflow
   security_malicious_extensions: "guide/security/security-hardening.md#15-malicious-extensions-claude-attack-surface"  # .claude/ attack surface (§1.5)
   security_kill_switch: "guide/security/security-hardening.md#35-ai-kill-switch--containment-architecture"  # AI Kill Switch & Containment Architecture (§3.5)
