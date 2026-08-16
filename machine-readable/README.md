@@ -9,6 +9,7 @@ Files optimized for LLM/AI consumption. Sizes below are measured, not targets.
 | [reference.yaml](./reference.yaml) | Master index: file paths, section anchors and line numbers into `guide/ultimate-guide.md` and the thematic guides. Also holds decision trees, CLI and env reference, permission and MCP config, agent and skill templates, onboarding question flow. | ~174 KB | ~44K |
 | [claude-code-releases.yaml](./claude-code-releases.yaml) | Condensed history of official Claude Code releases: per-version highlights, `breaking_summary` grouped by category, `milestones` quick reference. Source of truth for `guide/core/claude-code-releases.md`. | ~104 KB | ~27K |
 | [cowork-reference.yaml](./cowork-reference.yaml) | Index for Claude Cowork (Claude Desktop, non-dev audience). Paths resolve against the dedicated [claude-cowork-guide](https://github.com/FlorianBruniaux/claude-cowork-guide) repo, not this one. | ~21 KB | ~5K |
+| [agentsec-security-feed.v1.json](./agentsec-security-feed.v1.json) | AgentSec database metadata, detector coverage, security counters, and reviewed incident fiches consumed by the landing. | ~8 KB | ~2K |
 | [llms.txt](./llms.txt) | Standard LLM context file for repository indexation: topic coverage, entry points, key URLs. | ~4 KB | ~1K |
 
 `reference.yaml` is a full index, not a summary. Loading it whole costs roughly 44K tokens, so prefer grepping it for the topic you need and following the resulting path or line number, rather than pasting the entire file into context.
