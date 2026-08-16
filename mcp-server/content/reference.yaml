@@ -421,6 +421,14 @@ deep_dive:
   learning_embracing_ai: "guide/roles/learning-with-ai.md#embracing-ai-tools"
   learning_30day_plan: "guide/roles/learning-with-ai.md#30-day-progression-plan"
   learning_red_flags: "guide/roles/learning-with-ai.md#red-flags-youre-slipping"
+  # Attention cost of the review shift (guide/roles/learning-with-ai.md) - Added 2026-08-07
+  learning_review_attention_cost: "guide/roles/learning-with-ai.md#the-attention-cost-of-the-review-shift"  # what the write-to-review inversion costs the reviewer; Digital Applied 11.4h vs 9.8h/wk, Sonar 24% of the week
+  learning_review_cognitive_ceiling: "guide/roles/learning-with-ai.md#review-has-a-measured-ceiling"  # Cisco/SmartBear 2006 (50 devs, 2500 reviews, 3.2M LOC): <200 LOC, <300 LOC/h, detection collapses past 60-90min; fMRI backing (Siegmund ICSE14, Floyd ICSE17, Peitek 21)
+  learning_review_automation_bias: "guide/roles/learning-with-ai.md#reviewing-machine-output-is-a-third-mode"  # Goddard 2011 ~+26% error risk following erroneous automated advice; CHI 2025 confidence-in-GenAI inversely predicts critical thinking
+  learning_review_recovery_cost: "guide/roles/learning-with-ai.md#the-day-lost-its-low-load-stretches"  # BCG/UC Riverside "AI brain fry" 14% (18% devs); detachment meta-analysis N=38,124; Norwegian high-involvement profile as counterweight
+  learning_junior_apprenticeship_ladder: "guide/roles/learning-with-ai.md#the-apprenticeship-ladder-ran-through-the-writing-phase"  # Stanford Canaries ~16% (ages 22-25), Westby 16.3% junior posting share, Harvard AI-adopter cohort; training mechanism unmeasured
+  learning_review_shift_practices: "guide/roles/learning-with-ai.md#practices-that-address-this"  # cap diff size 200-400 LOC, time-box 60min, split explore from review-for-merge, count review hours as work
+  learning_review_shift_unknowns: "guide/roles/learning-with-ai.md#what-is-not-established"  # explicit list of what the evidence does NOT support, to prevent over-reading the section
   # AI Roles (guide/roles/ai-roles.md)
   ai_roles_guide: "guide/roles/ai-roles.md"
   ai_roles_spec_engineer: "guide/roles/ai-roles.md#17-spec-engineer"
@@ -1505,7 +1513,10 @@ deep_dive:
   security_toxicskills_evaluation: "docs/resource-evaluations/snyk-toxicskills-evaluation.md"
   security_check_command: "examples/skills/security-check/SKILL.md"  # Quick config check vs known threats
   security_audit_command: "examples/skills/security-audit/SKILL.md"  # Full 6-phase security audit (score /100)
-  security_threat_db: "examples/skills/update-threat-db/threat-db.yaml"  # Threat intelligence database (authors, skills, CVEs, patterns)
+  security_threat_db: "examples/commands/resources/threat-db.yaml"  # Threat intelligence database (authors, skills, CVEs, patterns) — CANONICAL, actively maintained
+  security_threat_db_stale_copy: "examples/skills/update-threat-db/threat-db.yaml"  # Stale fork, last updated v2.18.0 / 2026-05-16. Do not read for current intel; see IDEAS.md for the de-dup task
+  security_startup_hooks: "guide/security/security-hardening.md#16-startup-hooks-code-execution-before-your-first-prompt"  # §1.6 SessionStart/folderOpen hooks as a persistence vector, Shai-Hulud keyv case study, agent commit impersonation
+  security_supply_chain_triage: "examples/scripts/supply-chain-triage.py"  # npm supply chain triage: lockfiles, preinstall droppers, payload hashes, startup hooks, revocation watchers, egress
   security_update_threat_db: "examples/skills/update-threat-db/SKILL.md"  # /update-threat-db — research & update threat database
   security_cc_scanner: "guide/security/security-hardening.md#claude-code-as-security-scanner-research-preview"  # Claude Code Security (research preview) — Anthropic native vuln scanner, adversarial validation, patch suggestions
   security_patcher_agent: "examples/agents/security-patcher.md"  # Agent: applies patches from security-auditor findings, human approval gate, Write/Edit tools
@@ -1621,6 +1632,13 @@ deep_dive:
   iterative_refinement_criteria: "numeric target_quality threshold + max_iterations hard budget; coordinator drives, subagent stays stateless"
   narrow_task_decomposition: "guide/workflows/agent-teams.md#narrow-task-decomposition"
   spec_test: "Specific + Programmatically Evaluable + Explicit scope + Constrained (four criteria for decomposable subtasks)"
+  steering_a_running_agent: "guide/workflows/agent-teams.md#steering-a-running-agent"
+  steering_rule: "steer an agent that is drifting, never one that is progressing; a steer on a healthy runner cost ~10 min of message-answering instead of work"
+  steering_drift_signals: "non-executing script >12min | self-killing loop | redundant directory discovery | literal $now from broken shell substitution"
+  steering_supervision_channel: "per-agent status file (output preview, step count, exit code) for non-blocking judgment; message only after observation warrants it"
+  single_writer_shared_files: "guide/workflows/agent-teams.md#single-writer-for-shared-plan-files"
+  single_writer_rule: "exactly one agent holds write access to a shared file; others request the write over the message bus (one round trip, removes concurrent-write failures by construction)"
+  single_writer_security_overlap: "an agent reading untrusted input (prod logs, third-party issue text) requests writes through an owner, satisfying concurrency and injection-safety with one mechanism"
   # Advanced MCP Tool Design (mcp-servers-ecosystem.md)
   advanced_mcp_tool_design: "guide/ecosystem/mcp-servers-ecosystem.md#advanced-mcp-tool-design"
   mcp_isretryable: "guide/ecosystem/mcp-servers-ecosystem.md#isretryable-application-level-convention"
@@ -3220,6 +3238,7 @@ section_maps:
     - "where-are-you-on-the-agent-adoption-curve"
     - "30-day-progression-plan"
     - "for-tech-leads--engineering-managers"
+    - "the-attention-cost-of-the-review-shift"
     - "red-flags-checklist"
     - "sources--research"
     - "quick-reference-card"

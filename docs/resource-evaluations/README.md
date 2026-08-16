@@ -90,6 +90,7 @@ Les documents de travail bruts (prompts Perplexity, audits clients) restent dans
 | **agentOS** (Rivet, in-process agent VM) | 4/5 | **4/5** | ✅ Integrated: sandbox-isolation.md §5 (in-process counter-example to the four cloud sandbox vendors); watch-list, bus factor 1, vendor-only benchmarks | [agentos-in-process-agent-vm.md](./agentos-in-process-agent-vm.md) |
 | **Rippletide** ("The Harness is the Agent") | 2/5 | **2/5** | ❌ Reject, no new content vs. agent-harness.md, third Rippletide submission | [084-rippletide-harness-is-the-agent.md](./084-rippletide-harness-is-the-agent.md) |
 | **just-bash** (vercel-labs, simulated bash for agents) | 4/5 | **4/5** | ✅ Integrated: sandbox-isolation.md §5 ("simulate, don't isolate" counterpart to agentOS); bus factor 1 (84.7%), no LICENSE file despite Apache-2.0 claim | [just-bash-simulated-shell.md](./just-bash-simulated-shell.md) |
+| **Multi-Project Agent Network** (M. Grenier, CTO Easystrat) | 3/5 | **3/5** | ✅ Partial: 2 patterns into agent-teams.md §Advanced (steering rule, single-writer); novelty claim rejected (contradicted by agent-teams mailbox, Gas Town, Hermes GEPA). ⚠️ Author is NOT the same person as `grenier-agent-skill-quality.md` | [grenier-multi-project-agent-network.md](./grenier-multi-project-agent-network.md) |
 
 ## Watch List
 
@@ -97,4 +98,4 @@ Ressources surveillées mais pas encore intégrées : [watch-list.md](./watch-li
 
 ---
 
-**Last updated**: 2026-08-04 (171 evaluation files on disk, 52 indexed above; the gap is a known backlog awaiting a dedicated audit pass)
+**Last updated**: 2026-08-16 (171 evaluation files on disk, 54 indexed above; counts re-measured this pass, the previous "171 / 52" line was already off by one in each direction. The gap is a known backlog awaiting a dedicated audit pass)

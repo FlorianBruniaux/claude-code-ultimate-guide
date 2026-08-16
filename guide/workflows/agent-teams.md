@@ -1945,4 +1945,63 @@ When a subtask cannot be expressed in a way that passes the SPEC test, that is u
 
 ---
 
-*Version 1.0.0 | Created: 2026-02-07 | Agent Teams (v2.1.32+, Experimental)*
+### Steering a Running Agent
+
+Once a coordinator can message a working agent mid-execution, the tempting move is to correct anything that looks suboptimal. That instinct is wrong and it costs real time.
+
+**The rule: steer an agent that is drifting, never an agent that is progressing.**
+
+A message delivered to a healthy agent does not accelerate it. It preempts the work, forces a context switch, and buys a reply instead of a result. One documented case had a well-intentioned steer send a runner into roughly ten minutes of answering messages rather than advancing on its task. The agent was doing fine until it was told otherwise.
+
+Drift, by contrast, is worth interrupting immediately, and it is recognizable without reading the agent's reasoning. The signal is always behavioral, visible from the outside:
+
+| Observed behavior | Verdict | Intervention |
+|---|---|---|
+| Writing a script for 12 minutes without ever executing it | Drift | Declare failed, relaunch cleanly. No debate, no wait loop |
+| Loop that kills its own process (e.g. a `grep` matching its own PID) | Drift | Redirect in one or two lines: "fixed PIDs, no loop" |
+| 22 seconds spent discovering a directory it was already given | Drift | Re-dispatch with an absolute working directory |
+| Emitting a literal `$now` into JSON from a broken shell substitution | Drift | Rewrite the step in a language with real argument passing |
+| Hitting an obstacle and adapting on its own (for example switching to `find -o` after shell-mangled `for` loops) | Progress | Do not intervene |
+| Status file advancing, output growing, no error | Progress | Do not intervene |
+
+The practical consequence is that a coordinator needs a **non-blocking supervision channel**, not a conversational one. A per-agent status file holding the last output preview, the step count, and the exit code lets the coordinator judge drift without sending anything. Messaging is then reserved for the cases where the observation says intervention is warranted, which keeps the peer-to-peer mailbox from becoming the bottleneck it was meant to remove.
+
+A useful threshold: watch the status file, and only consider a steer when it has not advanced for longer than the task's expected step duration. Roughly 30 seconds works for shell-level work; a build or test step needs a proportionally longer window.
+
+> Field-reported by Mathieu Grenier (CTO, Easystrat) across a five-project agent network, 2026-08-15. Full evaluation: [`docs/resource-evaluations/grenier-multi-project-agent-network.md`](../../docs/resource-evaluations/grenier-multi-project-agent-network.md)
+
+---
+
+### Single-Writer for Shared Plan Files
+
+Multiple agents editing one plan, task list, or checklist file is the most common source of silent corruption in a team setup. Two agents strike the same item and produce a duplicate. One writes while another holds a stale read and overwrites the change. A batch write gets killed halfway and leaves the file structurally broken.
+
+Isolated context windows do not help here, because the conflict is on disk, not in context.
+
+**The rule: exactly one agent holds write access to a shared file. Every other agent requests the write over the message bus.**
+
+The requesting agent produces the content and sends it. The owning agent performs the write. The mechanism costs one message round trip and removes the entire class of concurrent-write failures, because there is never more than one writer by construction.
+
+```
+memory-curator  --(coms: "strike items 4-9, batch complete")-->  orchestrator
+                <--(ack)--                                        writes plan file
+```
+
+A documented application: a `memory-curator` agent with no write permission produced three entries, then asked its orchestrator over the bus to strike the corresponding batch in the orchestration plan. The orchestrator performed the single write. No duplicates, no conflict.
+
+This composes with the read/write separation already used for investigation agents. An agent that reads untrusted input (production logs, third-party issue text, scraped pages) should not hold write access to anything for injection-safety reasons; making it request writes through an owner satisfies both the concurrency requirement and the security one with the same mechanism.
+
+| Shared artifact | Suggested owner |
+|---|---|
+| Orchestration plan / task list | Team lead or coordinator |
+| Per-agent status file | The agent it describes (single writer by definition) |
+| Shared findings document | Coordinator, appending on message |
+| Source files | Whoever holds the worktree, one agent per worktree |
+
+The last row is why worktree isolation and single-writer are complementary rather than redundant: worktrees give each agent its own source tree, single-writer covers the coordination artifacts that necessarily stay shared. See also [Multi-Agent Shared Memory](../core/memory-systems.md#5-multi-agent-shared-memory) for the persistence side of the same problem.
+
+> Field-reported by Mathieu Grenier (CTO, Easystrat), 2026-08-15. Full evaluation: [`docs/resource-evaluations/grenier-multi-project-agent-network.md`](../../docs/resource-evaluations/grenier-multi-project-agent-network.md)
+
+---
+
+*Version 1.1.0 | Created: 2026-02-07 | Updated: 2026-08-16 | Agent Teams (v2.1.32+, Experimental)*
