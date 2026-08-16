@@ -1,0 +1,23 @@
+CHANGELOG.md
+  s_a6272ac9eeea28::t_a1c59954ddd750 57
+machine-readable/reference.yaml
+  s_a6272ac9eeea28::t_7a6de220f78777 492,1508
+mcp-server/content/reference.yaml
+  s_a6272ac9eeea28::t_380fb2b01365ff 492,1508
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "0bc25f0a0627ee9ae0dcb2ef63857cb70e5a5c09",
+  "prompts": {},
+  "sessions": {
+    "s_a6272ac9eeea28": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c67912ad-4ff6-4340-b106-34a9a2e26546",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
