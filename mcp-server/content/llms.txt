@@ -29,6 +29,7 @@ Guide version 3.41.1, tracking Claude Code up to v2.1.220 (July 2026).
 - machine-readable/reference.yaml: full index with file paths, anchors and line numbers into the guide
 - machine-readable/claude-code-releases.yaml: condensed Claude Code release history, breaking changes, milestones
 - machine-readable/cowork-reference.yaml: index for Claude Cowork (dedicated repo, non-dev audience)
+- machine-readable/agentsec-security-feed.v1.json: AgentSec versions, detector coverage, security counters, and reviewed incident fiches consumed by the landing
 
 ## Key URLs
 

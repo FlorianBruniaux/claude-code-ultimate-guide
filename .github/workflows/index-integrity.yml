@@ -94,5 +94,10 @@ jobs:
       - name: Check examples-data.ts is in sync with examples/
         run: python3 scripts/generate-examples-data.py --check
 
+      - name: Check AgentSec feed compatibility
+        run: |
+          python3 scripts/test-check-agentsec-security-feed.py
+          python3 scripts/check-agentsec-security-feed.py
+
       - name: Check VERSION is in sync across docs
         run: ./scripts/sync-version.sh --check
