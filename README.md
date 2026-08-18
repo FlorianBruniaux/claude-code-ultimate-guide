@@ -857,7 +857,7 @@ Systematic evaluation of external resources (tools, methodologies, articles) bef
 
 ## ⭐ Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=FlorianBruniaux/claude-code-ultimate-guide&type=Date)](https://www.star-history.com/#FlorianBruniaux/claude-code-ultimate-guide&Date)
+[![Star History Chart](https://star-history.dera.page/svg?repos=FlorianBruniaux/claude-code-ultimate-guide&type=Date)](https://star-history.dera.page/#FlorianBruniaux/claude-code-ultimate-guide&Date)
 
 <p align="center">
   <a href="https://starmapper.bruniaux.com/FlorianBruniaux/claude-code-ultimate-guide">
