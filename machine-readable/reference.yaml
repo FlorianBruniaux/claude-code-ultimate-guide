@@ -1506,6 +1506,7 @@ deep_dive:
   security_hardening: "guide/security/security-hardening.md"  # Security best practices
   security_cve_summary: "guide/security/security-hardening.md#cve-summary-2025-2026"  # Decision Matrix + CVEs
   security_supply_chain_stats: "guide/security/security-hardening.md:170"  # anchor: 12-agent-skills-supply-chain-risks
+  security_skill_delayed_payload: "guide/security/security-hardening.md#the-delayed-payload-why-review-skillmd-is-not-enough"  # §1.2: secondary-file payload hiding, immutable pins, update review, and dynamic detonation for the Paperclip / Browser Use campaign
   security_mcp_scan_tool: "guide/security/security-hardening.md#11-mcp-vetting-workflow"  # MCP Vetting Workflow
   security_malicious_extensions: "guide/security/security-hardening.md#15-malicious-extensions-claude-attack-surface"  # .claude/ attack surface (§1.5)
   security_kill_switch: "guide/security/security-hardening.md#35-ai-kill-switch--containment-architecture"  # AI Kill Switch & Containment Architecture (§3.5)
@@ -1514,7 +1515,6 @@ deep_dive:
   security_check_command: "examples/skills/security-check/SKILL.md"  # Quick config check vs known threats
   security_audit_command: "examples/skills/security-audit/SKILL.md"  # Full 6-phase security audit (score /100)
   security_threat_db: "examples/commands/resources/threat-db.yaml"  # Threat intelligence database (authors, skills, CVEs, patterns) — CANONICAL, actively maintained
-  security_threat_db_stale_copy: "examples/skills/update-threat-db/threat-db.yaml"  # Stale fork, last updated v2.18.0 / 2026-05-16. Do not read for current intel; see IDEAS.md for the de-dup task
   security_startup_hooks: "guide/security/security-hardening.md#16-startup-hooks-code-execution-before-your-first-prompt"  # §1.6 SessionStart/folderOpen hooks as a persistence vector, Shai-Hulud keyv case study, agent commit impersonation
   security_supply_chain_triage: "examples/scripts/supply-chain-triage.py"  # npm supply chain triage: lockfiles, preinstall droppers, payload hashes, startup hooks, revocation watchers, egress
   security_update_threat_db: "examples/skills/update-threat-db/SKILL.md"  # /update-threat-db — research & update threat database

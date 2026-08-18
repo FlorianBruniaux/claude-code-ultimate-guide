@@ -276,7 +276,7 @@ Your score vs security-hardening.md recommendations:
 
 ### 📚 References
 - Security hardening guide: guide/security/security-hardening.md
-- Threat database: examples/skills/update-threat-db/threat-db.yaml
+- Threat database: examples/commands/resources/threat-db.yaml
 - Quick check: `/security-check`
 - MCP scan tool: `npx mcp-scan` (Snyk)
 ```

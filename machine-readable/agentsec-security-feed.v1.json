@@ -13,11 +13,11 @@
     "record_counts": {
       "attack_techniques": 40,
       "campaigns": 17,
-      "cves": 107,
-      "malicious_skill_records": 89
+      "cves": 114,
+      "malicious_skill_records": 93
     },
-    "updated": "2026-08-06",
-    "version": "2.26.0"
+    "updated": "2026-08-17",
+    "version": "2.27.0"
   },
   "detectors": [
     {
@@ -64,11 +64,106 @@
     }
   ],
   "input_digests": {
-    "intelligence_sha256": "6bca5e419c96ea9aee36c0137a1ad33b7828b5e09932840d0d46fddfac759ad5",
-    "threat_database_sha256": "727043f80fddcff83ab83adc7e5f2dca8ad084ab1a518dc0c146df9a659b180b"
+    "intelligence_sha256": "21087e1d9411aab283c36d57b3f5ea18d306b7a547c4786f07665497391149c7",
+    "threat_database_sha256": "0bf835946fed9a2a0ddb014e72159831367eb898a890ddc33ac6db2b50a76acb"
   },
   "intelligence": {
     "events": [
+      {
+        "confidence": "review",
+        "date": "2026-08-09",
+        "date_kind": "disclosed",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "AgentSec does not read remote telemetry or observe live tool calls. Repository scans cannot establish exposure to this attack path."
+        },
+        "ecosystems": [
+          "agent-tools",
+          "observability"
+        ],
+        "event_type": "disclosure",
+        "id": "evt-2026-08-ghostjacking-research",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [],
+          "technique_ids": [
+            "indirect-prompt-injection",
+            "observability-poisoning"
+          ]
+        },
+        "source_ids": [
+          "tenet-ghostjacking-2026"
+        ],
+        "status": "monitoring",
+        "summary": "Tenet reports demonstrations where attacker-controlled log and telemetry content influenced agents that held privileged tools. Reported success rates, detection outcomes, and organization counts are Tenet's claims and are not independent measurements by AgentSec.",
+        "title": "Tenet described observability data as an indirect injection channel"
+      },
+      {
+        "confidence": "review",
+        "date": "2026-08-09",
+        "date_kind": "disclosed",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_applicable",
+          "summary": "These are external controls. AgentSec records their stated scope but does not execute or endorse them."
+        },
+        "ecosystems": [
+          "agent-skills",
+          "developer-tools"
+        ],
+        "event_type": "remediation",
+        "id": "evt-2026-08-agent-skill-dynamic-analysis-tools",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [],
+          "technique_ids": [
+            "dynamic-analysis",
+            "runtime-guardrail"
+          ]
+        },
+        "source_ids": [
+          "zenity-ai-total-2026",
+          "tenet-agent-jackstop-2026"
+        ],
+        "status": "monitoring",
+        "summary": "Zenity documents AI Total for dynamic skill evaluation. Tenet publishes agent-jackstop as a public reference repository, but AgentSec found no visible software license and does not classify it as open source.",
+        "title": "Zenity and Tenet published agent-security reference tools"
+      },
+      {
+        "confidence": "high",
+        "date": "2026-08-06",
+        "date_kind": "disclosed",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "AgentSec does not inspect skills.sh installations, Python packages, or payloads fetched after repository content is read."
+        },
+        "ecosystems": [
+          "agent-skills",
+          "pypi",
+          "skills-sh"
+        ],
+        "event_type": "campaign",
+        "id": "evt-2026-08-paperclip-skill-supply-chain",
+        "related": {
+          "campaign_ids": [
+            "paperclip-browser-use-2026"
+          ],
+          "cve_ids": [],
+          "technique_ids": [
+            "agent-as-dropper",
+            "delayed-payload",
+            "typosquatting"
+          ]
+        },
+        "source_ids": [
+          "zenity-agent-skill-supply-chain-2026"
+        ],
+        "status": "monitoring",
+        "summary": "Zenity reported Paperclip and Browser Use typosquats that accumulated reputation while clean and later directed agents to fetch external payloads. The reported install count is aggregate and is not a victim count.",
+        "title": "Zenity reported delayed payloads in agent-skill typosquats"
+      },
       {
         "confidence": "contested",
         "date": "2026-08-06",
@@ -139,6 +234,139 @@
         "status": "confirmed",
         "summary": "Security researchers reported malicious npm package versions associated with the August 2026 Shai-Hulud campaign. AgentSec treats exact confirmed package/version and payload-hash matches as incident-response evidence.",
         "title": "Keyv and cacheable npm supply-chain campaign disclosed"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-07-30",
+        "date_kind": "disclosed",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "AgentSec does not inspect Ruby dependency manifests or live MCP transports. The recorded remediation floor is mcp gem 0.23.0."
+        },
+        "ecosystems": [
+          "mcp",
+          "ruby"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-07-mcp-ruby-sdk-five-advisories",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2026-67431",
+            "CVE-2026-67432",
+            "CVE-2026-63118",
+            "CVE-2026-63119",
+            "CVE-2026-67430"
+          ],
+          "technique_ids": [
+            "dns-rebinding",
+            "resource-exhaustion",
+            "session-hijacking"
+          ]
+        },
+        "source_ids": [
+          "github-advisory-cve-2026-67431",
+          "github-advisory-cve-2026-67432",
+          "github-advisory-cve-2026-63118",
+          "github-advisory-cve-2026-63119",
+          "github-advisory-cve-2026-67430"
+        ],
+        "status": "confirmed",
+        "summary": "GitHub Advisory Database records five MCP Ruby SDK vulnerabilities fixed in mcp gem 0.23.0. The set covers session ownership, request and line limits, DNS-rebinding protection, and session retention.",
+        "title": "MCP Ruby SDK fixed five transport and resource-exhaustion flaws"
+      },
+      {
+        "confidence": "high",
+        "date": "2026-07-29",
+        "date_kind": "disclosed",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_applicable",
+          "summary": "Numbat is a separate runtime control. AgentSec records the source but does not install, invoke, or validate that tool."
+        },
+        "ecosystems": [
+          "agent-runtime",
+          "developer-tools"
+        ],
+        "event_type": "remediation",
+        "id": "evt-2026-07-numbat-release",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [],
+          "technique_ids": [
+            "runtime-monitoring"
+          ]
+        },
+        "source_ids": [
+          "perplexity-numbat-2026"
+        ],
+        "status": "confirmed",
+        "summary": "Perplexity describes Numbat as a local monitor for supported agent event streams, with 52 CEL rules in the reviewed release and enforcement that must be enabled explicitly.",
+        "title": "Perplexity published the Numbat local agent monitor"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-06-24",
+        "date_kind": "disclosed",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "AgentSec does not parse Gemini configuration or GitHub Actions for this execution path. Upgrade both affected components and review CI trust."
+        },
+        "ecosystems": [
+          "ci",
+          "gemini-cli",
+          "github-actions"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-06-gemini-cli-headless-ci-rce",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2026-12537"
+          ],
+          "technique_ids": [
+            "pre-sandbox-configuration-execution"
+          ]
+        },
+        "source_ids": [
+          "nvd-cve-2026-12537"
+        ],
+        "status": "confirmed",
+        "summary": "NVD records that a crafted .gemini/.env file could execute commands on a headless CI host before sandbox initialization. The affected version floors cover both Gemini CLI and the run-gemini-cli GitHub Action.",
+        "title": "Gemini CLI and its GitHub Action patched pre-sandbox CI execution"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-06-13",
+        "date_kind": "disclosed",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "AgentSec does not inspect Claude Code versions, WebFetch allowlists, or network activity. Repository scans cannot rule out this exposure."
+        },
+        "ecosystems": [
+          "claude-code",
+          "developer-tools"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-06-claude-code-webfetch-exfiltration",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2026-54316"
+          ],
+          "technique_ids": [
+            "trusted-domain-exfiltration"
+          ]
+        },
+        "source_ids": [
+          "anthropic-ghsa-fg94-h982-f3mm"
+        ],
+        "status": "confirmed",
+        "summary": "Anthropic reported that a pre-approved Hugging Face hostname allowed attacker-controlled paths to act as an out-of-band data channel when untrusted content reached Claude Code context. The maintainer identifies 2.1.163 as the first patched release.",
+        "title": "Claude Code patched pre-approved WebFetch domain exfiltration"
       }
     ],
     "schema_version": "1",
@@ -152,6 +380,66 @@
         "status": "active",
         "title": "Keyv and Friends Compromised in npm Supply Chain Attack",
         "url": "https://www.aikido.dev/blog/keyv-and-friends-compromised-in-npm-supply-chain-attack"
+      },
+      {
+        "id": "anthropic-ghsa-fg94-h982-f3mm",
+        "published_date": "2026-06-13",
+        "publisher": "Anthropic",
+        "reviewed_date": "2026-08-18",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "Out-of-Band Data Exfiltration via Pre-Approved HuggingFace Domain in WebFetch",
+        "url": "https://github.com/anthropics/claude-code/security/advisories/GHSA-fg94-h982-f3mm"
+      },
+      {
+        "id": "github-advisory-cve-2026-63118",
+        "published_date": "2026-07-30",
+        "publisher": "GitHub Advisory Database",
+        "reviewed_date": "2026-08-18",
+        "source_type": "database",
+        "status": "active",
+        "title": "MCP Ruby SDK Streamable HTTP DNS-Rebinding Protection",
+        "url": "https://github.com/advisories/CVE-2026-63118"
+      },
+      {
+        "id": "github-advisory-cve-2026-63119",
+        "published_date": "2026-07-30",
+        "publisher": "GitHub Advisory Database",
+        "reviewed_date": "2026-08-18",
+        "source_type": "database",
+        "status": "active",
+        "title": "MCP Ruby SDK Unbounded Stdio Line Buffer",
+        "url": "https://github.com/advisories/CVE-2026-63119"
+      },
+      {
+        "id": "github-advisory-cve-2026-67430",
+        "published_date": "2026-07-30",
+        "publisher": "GitHub Advisory Database",
+        "reviewed_date": "2026-08-18",
+        "source_type": "database",
+        "status": "active",
+        "title": "MCP Ruby SDK Unbounded Session Retention",
+        "url": "https://github.com/advisories/CVE-2026-67430"
+      },
+      {
+        "id": "github-advisory-cve-2026-67431",
+        "published_date": "2026-07-30",
+        "publisher": "GitHub Advisory Database",
+        "reviewed_date": "2026-08-18",
+        "source_type": "database",
+        "status": "active",
+        "title": "MCP Ruby SDK Ruby SSE Session Poisoning",
+        "url": "https://github.com/advisories/CVE-2026-67431"
+      },
+      {
+        "id": "github-advisory-cve-2026-67432",
+        "published_date": "2026-07-30",
+        "publisher": "GitHub Advisory Database",
+        "reviewed_date": "2026-08-18",
+        "source_type": "database",
+        "status": "active",
+        "title": "MCP Ruby SDK Unbounded JSON-RPC Request Body",
+        "url": "https://github.com/advisories/CVE-2026-67432"
       },
       {
         "id": "hackernews-keyv-2026",
@@ -174,6 +462,26 @@
         "url": "https://research.jfrog.com/post/shai-hulud-is-back-august/"
       },
       {
+        "id": "nvd-cve-2026-12537",
+        "published_date": "2026-06-24",
+        "publisher": "NIST National Vulnerability Database",
+        "reviewed_date": "2026-08-18",
+        "source_type": "database",
+        "status": "active",
+        "title": "CVE-2026-12537 Detail",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-12537"
+      },
+      {
+        "id": "perplexity-numbat-2026",
+        "published_date": "2026-07-29",
+        "publisher": "Perplexity Research",
+        "reviewed_date": "2026-08-18",
+        "source_type": "maintainer",
+        "status": "active",
+        "title": "Securing Agents Across Perplexity's Client Endpoints with Numbat",
+        "url": "https://research.perplexity.ai/articles/securing-agents-across-perplexity%E2%80%99s-client-endpoints-with-numbat"
+      },
+      {
         "id": "safedep-keyv-2026",
         "published_date": "2026-08-04",
         "publisher": "SafeDep",
@@ -194,6 +502,25 @@
         "url": "https://socket.dev/blog/popular-npm-packages-keyv-and-cacheable-compromised"
       },
       {
+        "id": "tenet-agent-jackstop-2026",
+        "publisher": "Tenet Security",
+        "reviewed_date": "2026-08-18",
+        "source_type": "maintainer",
+        "status": "active",
+        "title": "Harden Cursor and Claude Code against prompt injection via untrusted tool output",
+        "url": "https://github.com/tenet-security/agent-jackstop"
+      },
+      {
+        "id": "tenet-ghostjacking-2026",
+        "published_date": "2026-08-09",
+        "publisher": "Tenet Security",
+        "reviewed_date": "2026-08-18",
+        "source_type": "research",
+        "status": "active",
+        "title": "Ghostjacking Attacks and the Agentic Kill Chain",
+        "url": "https://tenetsecurity.ai/blog/ghostjacking-attacks-agentic-kill-chain/"
+      },
+      {
         "id": "turnbull-shai-hulud-2026",
         "publisher": "Alex Turnbull on LinkedIn",
         "reviewed_date": "2026-08-07",
@@ -201,9 +528,29 @@
         "status": "active",
         "title": "Shai-Hulud npm exploit warning",
         "url": "https://www.linkedin.com/posts/alex-turnbull-1ab9992_warning-the-shai-hulud-npm-exploit-has-nfected-share-7490508767600627714-LkNb"
+      },
+      {
+        "id": "zenity-agent-skill-supply-chain-2026",
+        "published_date": "2026-08-06",
+        "publisher": "Zenity Labs",
+        "reviewed_date": "2026-08-18",
+        "source_type": "research",
+        "status": "active",
+        "title": "Attackers Target Agents via The Skill Supply Chain",
+        "url": "https://labs.zenity.io/post/attackers-target-agents-via-the-skill-supply-chain"
+      },
+      {
+        "id": "zenity-ai-total-2026",
+        "published_date": "2026-08-06",
+        "publisher": "Zenity Labs",
+        "reviewed_date": "2026-08-18",
+        "source_type": "research",
+        "status": "active",
+        "title": "AI Total",
+        "url": "https://zenity.io/research/ai-total"
       }
     ],
-    "updated": "2026-08-07"
+    "updated": "2026-08-18"
   },
   "landing_metrics": {
     "critical_risk_skills": 534,

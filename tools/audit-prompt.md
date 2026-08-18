@@ -609,7 +609,7 @@ Top 3 Critical Gaps:
 | **PreToolUse** | Hook that fires BEFORE Claude executes a tool — used for security checks and approval gates |
 | **effort: field** | Skill frontmatter for low/medium/high complexity signal — used by Claude to allocate thinking budget |
 | **argument-hint** | Frontmatter field showing placeholder text in slash command menu for commands using `$ARGUMENTS` |
-| **Threat Database** | `examples/skills/update-threat-db/threat-db.yaml` — 55 CVEs, 24 attack techniques, minimum safe versions |
+| **Threat Database** | `examples/commands/resources/threat-db.yaml` — versioned CVEs, attack techniques, IOC records, and minimum safe versions |
 | **Cache Bug #40524** | Bug 2 (HIGH): `--resume` causes full context re-announcement (87-118K tokens rebuilt per resume) |
 | **Scope Drift** | When a PR changes files outside the stated plan intent. Detected by comparing `~/.claude/plans/` vs `git diff --stat` |
 | **Fix-First Heuristic** | Review pattern: auto-fix mechanical issues, ask for judgment calls on security/design decisions |

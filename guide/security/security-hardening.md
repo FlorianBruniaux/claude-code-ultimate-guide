@@ -88,6 +88,9 @@ This attack exploits the one-time approval model: once you approve an MCP, updat
 | **CVE-2026-12958/12957** | High (7.8) | "GhostApproval": a booby-trapped repo ships a file that is really a symlink to a sensitive path (`~/.ssh/authorized_keys`, agent config), so the agent writes attacker content there while the approval dialog shows a benign in-project path. Class flaw across Amazon Q, Cursor, Claude Code, Antigravity, Augment, Windsurf | Amazon Q language server >= 1.69.0; Cursor >= 3.0; never approve writes to symlinked paths. Anthropic disputes it applies to Claude Code (folder-trust equals consent) |
 | **CVE-2026-59950** | High | MCP Python SDK's deprecated WebSocket server transport skips Host/Origin validation on the handshake, so a hostile web page can drive a user's local MCP server via a cross-site WebSocket connection (auth bypass) | Update `mcp` (PyPI) to >= 1.28.1; stop using the deprecated `websocket_server` transport |
 | **CVE-2026-48124** | High | Cursor: a workspace-controlled `.claude`/`.cursor` hook config is trusted and run outside the agent sandbox on next launch, one instance of a broader "configuration-based sandbox escape" pattern also seen in Codex CLI, Gemini CLI, and Antigravity | Update Cursor to >= 3.0.0; treat repo-provided hook/config files as untrusted until reviewed |
+| **CVE-2026-54316** | **Critical (9.1 NVD)** | Claude Code: `huggingface.co` was allowlisted as a *bare hostname* for WebFetch, so any path on it was fetched with no prompt. Researchers created 64 model repos, one per possible character, and read an API key back one character at a time off Hugging Face's public download counter. Exfiltration over a domain the operator trusted on purpose. Affects 0.2.54 through 2.1.162 | **Update to >= 2.1.163.** Then audit your own allowlists: never allowlist a bare hostname on a domain where third parties can create content and read a public metric. Anthropic self-scored this 6.0 (v4) against NVD's 9.1 |
+| **CVE-2026-12537** | **Critical (10.0 CVSS v4)** | Gemini CLI + `run-gemini-cli` GitHub Action: headless CI trusts the workspace automatically, so a `.gemini/.env` shipped in an untrusted PR loads as config and runs OS commands on the CI host **before the sandbox initialises**. A chained flaw read a sibling process's environment via `/proc/[PID]/environ` and pushed a backdoored commit | Update Gemini CLI to >= 0.39.1 **and** the Action to >= 0.1.22 (patching one leaves the path open); disable automatic workspace trust for untrusted PRs |
+| **CVE-2026-67431** | **Critical (9.1 NVD / 8.3 v4)** | MCP Ruby SDK: session IDs are not bound to a session owner, so a stolen ID lets an attacker run `tools/call` inside the victim's session with responses delivered to the victim's own SSE stream. Silent by design | Update the `mcp` gem to >= 0.23.0. Four sibling advisories ship in the same release: CVE-2026-67432 (unbounded request body read *before* auth), CVE-2026-63118 (no Host/Origin check, DNS rebinding), CVE-2026-63119 (unbounded stdio line reads), CVE-2026-67430 (sessions never expire) |
 
 **v2.1.90 Security Fix (May 2026)**: Claude Code v2.1.90 patched the 50-subcommand deny-rule bypass (ADVISORY-CC-2026-002) where all configured deny rules were silently dropped when a command chain exceeded 50 subcommands. **Upgrade immediately** if running v2.1.89 or earlier.
 
@@ -203,6 +206,25 @@ npx mcp-scan ./skill-directory
 # Validate spec compliance with skills-ref
 skills-ref validate ./skill-directory
 ```
+
+#### The Delayed Payload: Why "Review SKILL.md" Is Not Enough
+
+Two of the mitigations above failed in the largest agent-skill campaign measured so far, and the way they failed is worth understanding before you rely on them.
+
+[Zenity Labs](https://labs.zenity.io/post/attackers-target-agents-via-the-skill-supply-chain) disclosed the campaign at Black Hat USA on 2026-08-06. Attackers cloned the legitimate Paperclip and Browser Use skills verbatim, published the copies under typosquatted names on skills.sh, and left them clean. The clones passed the marketplace checks precisely because they were byte-identical to skills that deserved to pass. They accumulated real installs and real trending position for weeks. On 2026-07-11 the operators pushed an update. By 2026-08-02 the family had crossed 1.7 million aggregate installs, a figure Zenity is careful to note is not user-unique.
+
+Reviewing `SKILL.md` would not have caught it. The malicious instructions lived in a secondary `setup-installation.md`, loaded only when the agent progressed to installing or starting the tool. That is progressive disclosure working exactly as designed, used as a hiding place. A mutable tag, slug, or marketplace reference would not have protected an earlier clean install from a later poisoned update. An immutable commit or digest pin would have held the reviewed content in place, but it still requires a fresh review before any update.
+
+The payload itself was never in the skill. The instructions told the agent to skip `npm` and `npx` and fetch a binary straight from an attacker-controlled GitHub release, which loaded a credential stealer that swept 138 distinct paths for SSH keys, cloud credentials, Kubernetes and Docker config, package-manager tokens, Terraform state, `.env` files and service-account files for Vercel, Netlify, Cloudflare, Firebase and Supabase. Zenity's wider registry sweep found that over 30% of dangerous skills use the agent this way, as the dropper rather than the payload.
+
+Three practices follow, and they are additive to the list above rather than replacing it:
+
+- **Scan the whole skill directory, not the entry file.** Follow every reference the way the agent would, including files it only reads at a later step.
+- **Pin immutable content, not a mutable name.** Use a commit hash or digest after review, then repeat the review before changing that pin.
+- **Re-review on every version bump with the same scrutiny as a first install.** Reputation is earned before the payload arrives. A clean history is what the attack is built on.
+- **Prefer dynamic analysis for anything that fetches at runtime.** Static review cannot evaluate a payload that does not exist yet at scan time. [AI Total](https://zenity.io/research/ai-total) (Zenity, free) detonates a skill in a live agent sandbox seeded with bait credentials and reports what it actually did. SkillDetonate takes the same approach at roughly 2.5 minutes per check.
+
+The IOCs, affected package versions and full remediation order are in `examples/commands/resources/threat-db.yaml` under the campaign `skills.sh Skill Supply Chain (Paperclip / Browser Use Typosquats)`.
 
 ### 1.3 Known Limitations of permissions.deny
 

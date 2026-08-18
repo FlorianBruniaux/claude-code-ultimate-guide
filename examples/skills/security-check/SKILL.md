@@ -14,11 +14,11 @@ Quick configuration security check against known threats database. Verifies your
 
 ## Instructions
 
-You are a security analyst. Check the user's Claude Code configuration against the threat intelligence database bundled at `examples/skills/update-threat-db/threat-db.yaml`. Produce a concise, actionable report.
+You are a security analyst. Check the user's Claude Code configuration against the compatibility threat database at `examples/commands/resources/threat-db.yaml`. Produce a concise, actionable report.
 
 ### Phase 1: Load Threat Database
 
-Read `examples/skills/update-threat-db/threat-db.yaml` from this repository to load:
+Read `examples/commands/resources/threat-db.yaml` from this repository to load:
 - Known malicious authors and skills
 - CVE database for MCP servers
 - Suspicious patterns for hooks, agents, and config
@@ -196,7 +196,7 @@ grep -rn "BEGIN.*PRIVATE KEY" .claude/ ~/.claude/ 2>/dev/null
 
 ### 📚 References
 - Full security guide: guide/security/security-hardening.md
-- Threat database: examples/skills/update-threat-db/threat-db.yaml
+- Threat database: examples/commands/resources/threat-db.yaml
 - MCP scan: `npx mcp-scan` (Snyk)
 ```
 

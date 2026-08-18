@@ -8,7 +8,7 @@
 <!-- Stats -->
 <p align="center">
   <a href="https://github.com/FlorianBruniaux/claude-code-ultimate-guide/stargazers"><img src="https://img.shields.io/github/stars/FlorianBruniaux/claude-code-ultimate-guide?style=for-the-badge" alt="Stars"/></a>
-  <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Updated-Aug_15,_2026_·_v3.41.1-brightgreen?style=for-the-badge" alt="Last Update"/></a>
+  <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Updated-Aug_18,_2026_·_v3.41.1-brightgreen?style=for-the-badge" alt="Last Update"/></a>
   <a href="./quiz/"><img src="https://img.shields.io/badge/Quiz-473_questions-orange?style=for-the-badge" alt="Quiz"/></a>
   <a href="./examples/"><img src="https://img.shields.io/badge/Templates-275-green?style=for-the-badge" alt="Templates"/></a>
 </p>
@@ -290,11 +290,11 @@ graph LR
 **Outcome**: Protect production systems from AI-specific attacks.
 
 **Only guide with systematic threat tracking**:
-- **28 CVE-mapped vulnerabilities** — Prompt injection, data exfiltration, code injection
-- **655 malicious skills catalogued** — Unicode injection, hidden instructions, auto-execute patterns
+- **123 CVE-mapped vulnerabilities** — Prompt injection, data exfiltration, code injection
+- **93 malicious skill and package records** — Exact names and versions when sources support them
 - **Production hardening workflows** — MCP vetting, injection defense, audit automation
 
-[Threat Database →](./examples/skills/update-threat-db/threat-db.yaml) | [Security Guide →](./guide/security/security-hardening.md)
+[Threat Database →](./examples/commands/resources/threat-db.yaml) | [Security Guide →](./guide/security/security-hardening.md)
 
 **What this means for you**: Vet MCP servers before trusting them, detect attack patterns in configs, comply with security audits.
 
@@ -678,13 +678,13 @@ claude plugin install session-summary      # Session analytics dashboard (15 sec
 | Tool | Purpose | Maintained By |
 |------|---------|---------------|
 | [claude-code-security-review](https://github.com/anthropics/claude-code-security-review) | GitHub Action for automated security scanning | Anthropic (official) |
-| This Guide's Threat DB | Intelligence layer (28 CVEs, 655 malicious skills) | Community |
+| This Guide's Threat DB | Compatibility intelligence layer (123 CVEs, 93 malicious skill and package records) | Community |
 
 **Workflow**: Use GitHub Action for automation → Consult Threat DB for threat intelligence.
 
 ### Threat Database
 
-**28 CVE-mapped vulnerabilities** and **655 malicious skills** tracked in [`examples/skills/update-threat-db/threat-db.yaml`](./examples/skills/update-threat-db/threat-db.yaml):
+**123 CVE-mapped vulnerabilities** and **93 malicious skill and package records** tracked in [`examples/commands/resources/threat-db.yaml`](./examples/commands/resources/threat-db.yaml):
 
 | Threat Category | Count | Examples |
 |----------------|-------|----------|
@@ -693,7 +693,7 @@ claude plugin install session-summary      # Session analytics dashboard (15 sec
 | **RCE & Prompt Hijacking** | 4 CVEs | MCP Inspector RCE (CVE-2025-49596), session hijack |
 | **SSRF & DNS Rebinding** | 4 CVEs | WebFetch SSRF (CVE-2026-24052), DNS rebinding |
 | **Data Leakage** | 1 CVE | Cross-client response leak (CVE-2026-25536) |
-| **Malicious Skills** | 655 patterns | Unicode injection, hidden instructions, auto-execute |
+| **Malicious Skills** | 93 records | Exact names and versions plus reviewed campaign context |
 
 **Taxonomies**: 10 attack surfaces × 11 threat types × 8 impact levels
 
@@ -947,7 +947,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 ---
 
-*Version 3.41.1 | Updated daily · Aug 15, 2026 | Crafted with Claude*
+*Version 3.41.1 | Updated daily · Aug 18, 2026 | Crafted with Claude*
 
 <!-- SEO Keywords -->
 <!-- claude code, claude code tutorial, anthropic cli, ai coding assistant, claude code mcp,
