@@ -10,7 +10,7 @@ This repository is the **comprehensive documentation for Codex** (Anthropic's CL
 
 ```
 guide/                    # Core documentation
-├── ultimate-guide.md     # Main guide (~20K lines, the reference)
+├── ultimate-guide.md     # Main guide (~26K lines, the reference)
 ├── cheatsheet.md         # 1-page printable summary
 ├── cowork.md             # Cowork redirect page
 ├── core/                 # Architecture, methodologies, releases, known-issues, visual-reference
@@ -53,7 +53,7 @@ claudedocs/               # Codex working documents (gitignored)
 
 | File | Purpose |
 |------|---------|
-| `VERSION` | Single source of truth for version (currently 3.40.0) |
+| `VERSION` | Single source of truth for version (currently 3.41.1) |
 | `guide/ultimate-guide.md` | The main reference (search here first) |
 | `guide/cheatsheet.md` | Quick reference for daily use |
 | `machine-readable/reference.yaml` | LLM-optimized index with line numbers |
@@ -178,6 +178,7 @@ Do not spend extended time in exploration or planning loops. Produce files and c
 - `VERSION` file is the single source of truth
 - Run `./scripts/sync-version.sh` after changing version
 - Files that contain version: README.md, cheatsheet.md, ultimate-guide.md, reference.yaml
+- `CLAUDE.md`/`AGENTS.md` are excluded from `sync-version.sh` on purpose: their command examples cite version bumps illustratively (`3.9.11 → 3.9.12`), and the script's blind `3.x.x` regex would corrupt those examples into nonsense. Fix the standalone "currently X.Y.Z" line by hand when it drifts.
 
 ## Current Focus
 

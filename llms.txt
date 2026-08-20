@@ -2,7 +2,7 @@
 
 > The most comprehensive documentation for Claude Code CLI by Anthropic. Covers beginner to advanced: hooks, skills, agents, MCP servers, context engineering, memory systems, multi-agent orchestration, and production patterns.
 
-Guide version 3.41.1, tracking Claude Code up to v2.1.220 (July 2026).
+Guide version 3.41.1, tracking Claude Code up to v2.1.237 (August 2026).
 
 ## What is covered
 

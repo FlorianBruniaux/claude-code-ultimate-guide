@@ -178,6 +178,7 @@ Do not spend extended time in exploration or planning loops. Produce files and c
 - `VERSION` file is the single source of truth
 - Run `./scripts/sync-version.sh` after changing version
 - Files that contain version: README.md, cheatsheet.md, ultimate-guide.md, reference.yaml
+- `CLAUDE.md`/`AGENTS.md` are excluded from `sync-version.sh` on purpose: their command examples cite version bumps illustratively (`3.9.11 → 3.9.12`), and the script's blind `3.x.x` regex would corrupt those examples into nonsense. Fix the standalone "currently X.Y.Z" line by hand when it drifts.
 
 ## Current Focus
 

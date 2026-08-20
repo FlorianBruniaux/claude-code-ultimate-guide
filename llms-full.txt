@@ -11,11 +11,11 @@
 - Title: Claude Code Ultimate Guide
 - Author: Florian Bruniaux (Founding Engineer @ Méthode Aristote)
 - Version: 3.41.1
-- Last Updated: July 30, 2026
+- Last Updated: August 20, 2026
 - License: CC BY-SA 4.0
 - Repository: https://github.com/FlorianBruniaux/claude-code-ultimate-guide
 - Landing: https://cc.bruniaux.com
-- Lines of Documentation: 26,695
+- Lines of Documentation: 26,581
 - Production Templates: 268
 - Quiz Questions: 473
 - Whitepapers: 13 titles (FR + EN)
@@ -89,7 +89,7 @@ Source of truth for the complete set: https://code.claude.com/docs/en/commands (
 | `/model` | Switch model (sonnet/opus/opusplan) |
 | `/insights` | Usage analytics + optimization report |
 | `/code-review [level]` | Review the diff for correctness bugs; `--fix` applies them, `ultra` runs it in the cloud |
-| `/simplify` | Detect over-engineering in changed code + auto-fix |
+| `/simplify` | Cleanup-only review of changed code: reuse, simplification, efficiency (no bug hunting; runs `/code-review --fix` under the hood) |
 | `/security-review` | Scan the branch diff for injection, auth, and data-exposure risks |
 | `/batch` | Large-scale refactors via 5–30 parallel worktree agents |
 | `/subtask <task>` | Hand a side task to a forked subagent that reports back here (v2.1.212+) |
