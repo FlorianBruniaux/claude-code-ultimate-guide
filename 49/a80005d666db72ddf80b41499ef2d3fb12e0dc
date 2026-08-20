@@ -1,0 +1,63 @@
+AGENTS.md
+  s_eb4f792fe0586b::t_988163071f9840 13,56,181
+CHANGELOG.md
+  s_de692bb179c40a::t_0e46cc10b580bf 9
+CLAUDE.md
+  s_6dd57fb35c1620::t_505751630fe4ab 181
+llms-full.txt
+  s_700a7ed3853bdc::t_3a177d9959273f 14,18,92
+llms.txt
+  s_a6272ac9eeea28::t_7ea419419f14d2 5
+machine-readable/llms.txt
+  s_de692bb179c40a::t_c54846820fb392 5
+mcp-server/content/llms.txt
+  s_de692bb179c40a::t_2d112038076dd1 5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "49a80005d666db72ddf80b41499ef2d3fb12e0dc",
+  "prompts": {},
+  "sessions": {
+    "s_6dd57fb35c1620": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "390ece92-fad9-4d32-be26-19b81c945438",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_700a7ed3853bdc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f33a211b-ce1a-4e4c-a8c2-bffdd9087102",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_a6272ac9eeea28": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c67912ad-4ff6-4340-b106-34a9a2e26546",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_de692bb179c40a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4f4ae5d4-c465-46f2-9e32-fbaf8b9f2b3a",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_eb4f792fe0586b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b9a878aa-5863-4d5e-aeb8-076244cd1d62",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
