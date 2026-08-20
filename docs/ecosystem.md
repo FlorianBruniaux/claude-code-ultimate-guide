@@ -1,6 +1,6 @@
-# Ecosystem: 4 Interconnected Repositories
+# Ecosystem: 6 Interconnected Repositories
 
-This guide is part of a 4-repo ecosystem separating audiences (devs vs knowledge workers) and use cases (documentation vs showcase).
+This guide is part of a 6-repo ecosystem separating audiences (devs vs knowledge workers) and use cases (documentation vs showcase vs long-form writing).
 
 ## Architecture
 
@@ -81,6 +81,30 @@ claude plugin install security-suite   # or any of the 8 plugins
 
 **Plugins**: security-suite, devops-pipeline, release-automation, code-quality, pr-workflow, session-tools, ai-methodology, session-summary
 
+## 3c. Florian Portfolio & Blog
+
+**For**: Readers arriving through long-form writing rather than through the guide
+
+| Aspect | Details |
+|--------|---------|
+| **Public** | https://florian.bruniaux.com/blog |
+| **Local** | `/Users/florianbruniaux/Sites/perso/florian-portfolio/` |
+| **Content** | 17 published articles, 6 long-form guides, ~20 drafts, all Astro content collections |
+| **Audience** | Practitioners and decision-makers, deeper and more opinionated than the guide |
+
+**Content collections** (`src/content/`):
+
+| Collection | Role | Publish gate |
+|------------|------|--------------|
+| `articles/` | 12 to 48 min essays, often in a `series` | `draft: false` in frontmatter |
+| `guides/` | 45 min tutorials with `outcomes` and `prerequisites` | `draft: false` |
+| `draft/` | Work in progress, never built | not published regardless of frontmatter |
+| `notes/`, `projects/` | Short notes, project cards | schema in `src/content/config.ts` |
+
+**Relationship to this repo**: the blog argues, the guide documents. Several articles cover the same ground as guide sections at a different altitude (security attack surface, context engineering, token cost). When a guide section changes materially, check whether a published article now contradicts it. A published article stating something the guide has since corrected is live misinformation, not just stale content.
+
+**Also hosts the PDF distribution**: `public/guides/` holds the whitepaper PDFs and `api/guides.mjs` maps stable IDs to versioned filenames for email links. See `docs/workflows/whitepaper-build.md`, "PDF Deployment Checklist".
+
 ## 4. Cowork Landing Site
 
 **For**: Visitors discovering the Cowork guide
@@ -101,6 +125,8 @@ claude plugin install security-suite   # or any of the 8 plugins
 | Version bump (Cowork) | 1. Cowork Guide, 2. Cowork Landing |
 | Prompts added/removed | 1. Cowork Guide, 2. Cowork Landing |
 | Cross-links modified | All repos |
+| Security section corrected in `guide/` | 1. Code Guide, 2. **Portfolio**: grep `src/content/guides/` and `src/content/articles/` for the same claim before assuming nothing is affected |
+| Whitepaper PDF rebuilt | 1. Code Guide, 2. Portfolio `public/guides/`, 3. Portfolio `api/guides.mjs`, 4. Code Landing `whitepapers-data.ts` |
 
 **Verification scripts**:
 
