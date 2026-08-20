@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.232"
-updated: "2026-08-13"
+latest: "2.1.237"
+updated: "2026-08-20"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,49 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-August 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.237"
+    date: "2026-08-19"
+    highlights:
+      - "Added a built-in \"Concise\" output style: Claude leads with results and skips preamble and narration, selectable under Output style in `/config`"
+      - "Fixed prompt caching for sessions running through an LLM gateway or a custom base URL"
+
+  - version: "2.1.236"
+    date: "2026-08-19"
+    highlights:
+      - "Added `ANTHROPIC_DEFAULT_MODEL`: sets the model new sessions start on, while a `/model` pick still overrides it and persists across restarts (unlike `ANTHROPIC_MODEL`)"
+      - "Added `notify_when_idle` to cross-session `SendMessage`: another session on the machine sends one notice when it next goes idle, opt-in and one-shot, no polling (macOS and Linux)"
+      - "Sandbox on macOS: wildcard read-deny rules such as `**/.env` now take precedence inside allowed read regions, cover matched directories, and survive a rename of the denied file"
+      - "Auto mode: `Monitor` allow rules are set aside while auto mode runs, Bedrock/Vertex/Foundry get the same severity-scored classifier defaults as the Claude API, and the git status check no longer trusts `status.showUntrackedFiles=no`"
+
+  - version: "2.1.235"
+    date: "2026-08-18"
+    highlights:
+      - "Added an optional `spellcheck` setting that underlines misspelled words in the prompt input using an installed `aspell`, `hunspell`, or `ispell`"
+      - "Improved permission dialogs: display text and \"don't ask again\" options now match what a grant actually covers, and \"don't ask again\" is withheld when contents cannot be fully displayed"
+      - "Fixed Shift+Tab inside the permission prompt comment field approving the edit and granting session-wide edit permission instead of closing the field"
+      - "Improved memory and CPU usage while cloud sessions such as `/ultrareview` or `/autofix-pr` run in the background"
+
+  - version: "2.1.234"
+    date: "2026-08-17"
+    highlights:
+      - "⭐ Security: remote file reads, session restore, CLAUDE.md includes, workflow scripts, and file uploads now reject Windows NT-namespace (`\\??\\`) paths, closing the remaining pre-approval NTLM credential-leak surface"
+      - "Added a GitLab merge request badge to the footer and statusline (`MR !N` with draft/pending/green states) for repos with a GitLab remote and an authenticated `glab` CLI"
+      - "Claude Code now continues a session automatically when a claude.ai usage limit resets; disable it in `/config` (\"Continue automatically at usage limit\")"
+      - "Reduced the context cost of the built-in `claude-api` skill from ~200K tokens to ~25K by loading reference docs on demand; `/permissions` and `/add-dir` can now be opened mid-turn"
+    breaking:
+      - "Removed the \"Default teammate model\" setting from `/config`; agent-team teammates now use the leader's model unless the spawn names one"
+
+  - version: "2.1.233"
+    date: "2026-08-14"
+    highlights:
+      - "Added GitLab merge request URL support to `--worktree` and the `claude agents` view, plus an opt-in `forward_user_identity` apps gateway setting for per-user spend attribution"
+      - "Added opt-in memory cgroups for Bash commands on Linux (`CLAUDE_CODE_TOOL_MEMORY_LIMIT`) so a runaway build cannot stall the session, and `CLAUDE_CODE_WEBFETCH_CACHE_TTL_MS` to tune the WebFetch URL cache"
+      - "Security: fixed Windows paths spelled with the NT `\\??\\` device prefix bypassing UNC path validation, an NTLM credential-leak vector"
+      - "Fixed idle sessions on Linux pinning a CPU core at 100% with sandboxing enabled, and Notification hooks not firing for permission prompts under Claude Desktop or VS Code"
+    breaking:
+      - "Todo/task tools (TaskCreate/Get/Update/List, TodoWrite) are no longer available on Opus 4.8, Sonnet 5, Fable 5, Mythos 5, and newer models; set `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` to restore them"
+      - "Reverted the 2.1.232 Bash permission changes for Cygwin-style symlinks on Windows and for input redirections (`< file`); a narrower version returns in a later release"
 
   - version: "2.1.232"
     date: "2026-08-13"
@@ -1763,6 +1806,7 @@ breaking_summary:
     - "Removed # shortcut for quick memory (v2.0.70)"
     - "`modelPicker:setAsDefault` keybinding renamed to `modelPicker:thisSessionOnly` (v2.1.153)"
   security:
+    - "Windows NT-namespace (`\\??\\`) paths bypassing UNC path validation, an NTLM credential-leak vector, rejected in Bash paths (v2.1.233) then across remote reads, session restore, CLAUDE.md includes, workflow scripts, and uploads (v2.1.234)"
     - "Plugin shell-form command injection via `${user_config.*}` fixed, now rejected (v2.1.207)"
     - "Command injection fix in bash processing (v2.1.2)"
     - "Wildcard permission rules compound commands fix (v2.1.7)"
@@ -1790,6 +1834,10 @@ breaking_summary:
     - "Write tool lets newer models overwrite a file they have not read this session, matching Edit; older models still require the read (v2.1.228)"
     - "`/commit-push-pr` no longer auto-approves git/gh commands carrying `--force`, `--amend`, `--no-verify` (v2.1.229)"
     - "Subagent forking on by default: `subagent_type: \"fork\"` inherits the full conversation and prompt cache, and non-teammate agent spawns run in the background (v2.1.232)"
+    - "Todo/task tools (TaskCreate/Get/Update/List, TodoWrite) no longer available on Opus 4.8, Sonnet 5, Fable 5, Mythos 5, and newer models; set `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` to restore (v2.1.233)"
+    - "Reverted the v2.1.232 Bash permission changes for Cygwin-style symlinks on Windows and for input redirections (`< file`); a narrower version returns later (v2.1.233)"
+    - "Removed the \"Default teammate model\" setting from `/config`; agent-team teammates use the leader's model unless the spawn names one (v2.1.234)"
+    - "Claude Code continues a session automatically when a claude.ai usage limit resets; turn it off in `/config` (v2.1.234)"
   syntax:
     - "Indexed argument syntax changed: $ARGUMENTS.0 → $ARGUMENTS[0] (v2.1.19)"
     - "`Write(path)`, `NotebookEdit(path)`, and `Glob(path)` permission rules now warn at startup — use `Edit(path)` or `Read(path)` (v2.1.210)"
@@ -1806,6 +1854,7 @@ breaking_summary:
 # MILESTONE FEATURES (quick reference)
 # ════════════════════════════════════════════════════════════════
 milestones:
+  "2.1.234": "NT-namespace path rejection closes the remaining NTLM credential-leak surface, GitLab MR badge in footer/statusline, sessions auto-continue when a claude.ai usage limit resets, claude-api skill context cost cut from ~200K to ~25K tokens"
   "2.1.232": "Subagent forking on by default (fork inherits conversation + prompt cache), @-mention another session by name, GitLab plugin marketplaces and token redaction"
   "2.1.224": "Self-hosted environments (claude self-hosted-runner) for Team/Enterprise, cross-session SendMessage across your machines, archive plugin source over HTTPS"
   "2.1.219": "Claude Opus 5 becomes the default Opus model (1M context, fast mode $10/$50 per Mtok), DirectoryAdded hook, sandbox.network.strictAllowlist, subagent nesting restored to depth 3"

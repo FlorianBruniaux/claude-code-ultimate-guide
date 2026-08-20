@@ -16,8 +16,10 @@ REPO_DIR="$(dirname "$SCRIPT_DIR")"
 RELEASES_FILE="$REPO_DIR/machine-readable/claude-code-releases.yaml"
 CHANGELOG_URL="https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md"
 WEEKLY_DOCS_BASE="https://code.claude.com/docs/en/whats-new"
-TMP_FILE="/tmp/claude-code-changelog.md"
-TMP_WEEKLY="/tmp/claude-code-weekly.md"
+TMP_DIR="${TMPDIR:-/tmp}"
+TMP_FILE="${TMP_DIR%/}/claude-code-changelog.md"
+TMP_WEEKLY="${TMP_DIR%/}/claude-code-weekly.md"
+TMP_WEEKLY_PAGE="${TMP_DIR%/}/claude-code-weekly-page.md"
 
 # Colors
 GREEN='\033[0;32m'
@@ -104,12 +106,12 @@ for OFFSET in 0 1 2; do
     WEEK_STR=$(printf "%02d" "$WEEK")
     WEEKLY_URL="${WEEKLY_DOCS_BASE}/${YEAR}-w${WEEK_STR}.md"
 
-    HTTP_CODE=$(curl -sL -o /tmp/weekly_tmp.md -w "%{http_code}" "$WEEKLY_URL")
-    if [ "$HTTP_CODE" = "200" ] && [ -s /tmp/weekly_tmp.md ]; then
+    HTTP_CODE=$(curl -sL -o "$TMP_WEEKLY_PAGE" -w "%{http_code}" "$WEEKLY_URL")
+    if [ "$HTTP_CODE" = "200" ] && [ -s "$TMP_WEEKLY_PAGE" ]; then
         echo -e "${GREEN}  ✓ Week ${WEEK} (${YEAR}) found${NC}"
         echo "" >> "$TMP_WEEKLY"
         echo "## Week ${WEEK} — ${YEAR}" >> "$TMP_WEEKLY"
-        cat /tmp/weekly_tmp.md >> "$TMP_WEEKLY"
+        cat "$TMP_WEEKLY_PAGE" >> "$TMP_WEEKLY"
         FOUND_WEEKLY=$((FOUND_WEEKLY + 1))
     else
         echo -e "  · Week ${WEEK} (${YEAR}): not published yet"
