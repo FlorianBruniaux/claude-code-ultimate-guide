@@ -11,6 +11,16 @@ Suivi des versions des ebooks, indépendamment de la version du guide.
 
 ---
 
+## [2026-08-20] Cheatsheet v1.1.2: /ultraplan removed, /simplify description corrected
+
+`/ultraplan` was removed from Claude Code in v2.1.222 (2026-08-04). The FR and EN cheatsheets still listed it as a research-preview command five months of releases later, discovered while syncing the release tracker to v2.1.237. `/simplify`'s description was also stale: it described general over-engineering detection with auto-fix, the behavior before v2.1.154 reworked it into a cleanup-only review (reuse, simplification, efficiency) that no longer hunts bugs.
+
+### Fixed
+- **`/ultraplan` row removed** (cheatsheet FR and EN, Essential Commands table): the command no longer exists.
+- **`/simplify` description corrected** (cheatsheet FR and EN): now states the post-v2.1.154 cleanup-only behavior instead of the pre-rename general-purpose description.
+
+---
+
 ## [2026-08-05] WP11 v1.2.0: 2026 tooling market gap closed, board-reporting section added
 
 Fresh research against the current delivery-intelligence market surfaced content missing from WP11 since its last substantive pass: half the active 2026 tooling market, probabilistic Monte Carlo forecasting, and LLM-generated board narratives, none previously documented anywhere in the whitepaper series. A fourth gap, guidance for reporting delivery capacity to a board that doubts a team after past slips, had no existing coverage at all. Both FR and EN updated in full (not a stub translation), `wp-version` bumped 1.1.0 to 1.2.0 on both.
