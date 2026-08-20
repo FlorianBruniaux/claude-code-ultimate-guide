@@ -26,6 +26,8 @@ Martin Fowler, Addy Osmani, O'Reilly's 2026 AI Radar, and arXiv 2605.18747 (May 
 
 As of May 2026, 57% of organizations have agents running in production, and 32% cite quality as their primary obstacle (LangChain State of Agent Engineering). The teams that have closed this gap have one thing in common: they engineered the harness, not just the prompt.
 
+This page covers what's inside a harness. For a comparison of specific harness products across CLI, IDE, and cloud, see [Agent Harness Comparison](../ecosystem/agent-harness-landscape.md).
+
 ---
 
 ## Table of Contents

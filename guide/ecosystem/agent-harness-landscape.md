@@ -12,6 +12,8 @@ The framing is not invented for this page. Simon Willison has argued on his blog
 
 That framing cuts across how this guide is already organized. [Agent Tools: Beyond Claude Code](./agentic-tools.md) profiles the CLI harnesses in depth, one section per tool. [AI Ecosystem §6](./ai-ecosystem.md#section-6) covers IDE-embedded agents from a hybrid-workflow angle: when to reach for Cursor or Windsurf alongside Claude Code, not just what they are. Neither page tries to put every harness, across every interface, in one table. This page does that instead.
 
+This page answers *which* harness. [Agent Harness Engineering](../core/agent-harness.md) answers *what's inside one*: the nine components a harness needs (while-loop engine, context management, tool registry, permission enforcement, and more), the lethal-trifecta security model, and the CI/CD and observability patterns that come with running one in production. Read that page for the internals, this one for the field.
+
 ---
 
 ## Core Coding Harnesses
