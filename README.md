@@ -660,6 +660,7 @@ claude plugin install session-summary      # Session analytics dashboard (15 sec
 | [youtube-skills](https://github.com/ZeroPointRepo/youtube-skills) | 12 YouTube skills (search, transcripts, chapters) | Claude Code, Cursor, Windsurf, Cline |
 | [awesome-claude-skills](https://github.com/BehiSecc/awesome-claude-skills) | Skills taxonomy | 62 skills across 12 categories |
 | [awesome-claude-md](https://github.com/josix/awesome-claude-md) | CLAUDE.md examples | Annotated configs with scoring |
+| [awesome-claude-code-hooks](https://github.com/loqimean/awesome-claude-code-hooks) | Hooks curation | Curated list of Claude Code hooks |
 | [ctop](https://github.com/aakashadesara/ctop) | Session monitoring (htop for AI agents) | Real-time CPU, memory, tokens, costs |
 | [AI Coding Agents Matrix](https://coding-agents-matrix.dev) | Technical comparison | Comparing 23+ alternatives |
 
