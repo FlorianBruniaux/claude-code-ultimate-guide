@@ -789,6 +789,13 @@ deep_dive:
   metagpt_tool: "guide/ecosystem/agentic-tools.md#35-metagpt"  # Code = SOP(Team), 5 fixed roles; 69K stars but last release v0.8.1 (Apr 2024), reference only, dormant
   symphony_tool: "guide/ecosystem/agentic-tools.md#44-symphony-openai"  # OpenAI, Elixir, Apache-2.0; Linear board -> per-issue workspace -> Codex agent; engineering preview, spec-as-product
   paperclip_tool: "guide/ecosystem/agentic-tools.md#45-paperclip"  # org chart/budgets/approvals for agent fleets; runtime-agnostic; 74K stars; governs who+how much, not how work is done
+  opencode_tool: "guide/ecosystem/agentic-tools.md#15-opencode-anomaly-formerly-sst"  # Anomaly (fka SST), MIT, 199K+ stars (highest in category); 75+ providers, client/server split
+  gemini_cli_tool: "guide/ecosystem/agentic-tools.md#16-gemini-cli-google"  # Google, Apache-2.0, 106K+ stars; Gemini-first, free tier is the reason to pick it (60 req/min, 1000/day)
+  crush_tool: "guide/ecosystem/agentic-tools.md#17-crush-charm"  # Charm, FSL-1.1-MIT (converts to MIT 2yr after each release), 27.5K+ stars; multi-provider, polished TUI
+  agent_harness_comparison_page: "guide/ecosystem/agent-harness-landscape.md"  # 25-harness comparison table spanning CLI/IDE/cloud, open source through proprietary; complements agentic-tools.md (CLI deep profiles) and ai-ecosystem.md §6 (IDE workflow)
+  agent_harness_definition: "guide/ecosystem/agent-harness-landscape.md#agent-harness-comparison"  # what "agent harness" means: tools, context, permissions, action loop, memory, crash recovery; cites Simon Willison + SWE-agent's agent-computer interface
+  agent_harness_boundary_table: "guide/ecosystem/agent-harness-landscape.md#whats-not-a-full-harness"  # frameworks/SDKs/sandboxes/memory layers/observability/protocols/models that are not themselves a harness
+  deepseek_harness_tool: "guide/ecosystem/agent-harness-landscape.md#core-coding-harnesses"  # deepseek-ai/deepseek-harness, MIT, developer preview; Cordis "everything is a plugin" architecture; Tencent arXiv 2608.16393 prompt-injection study (~5.3-5.6% success rate)
   programmatic_billing_unaffected: "Claude Code terminal (interactive), IDE integrations, web/desktop/mobile chat, human-in-the-loop workflows"
   programmatic_billing_credits: "Pro $20/mo | Max 5x $100/mo | Max 20x $200/mo — no rollover, not automatic (requires email activation)"
   programmatic_billing_overage_sonnet: "$3/MTok input, $15/MTok output (standard API rates)"

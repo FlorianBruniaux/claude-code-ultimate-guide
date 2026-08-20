@@ -1,7 +1,7 @@
 ---
 title: "Agent Tools: Beyond Claude Code"
 description: "Comparative guide to terminal coding agents, autonomous coders, multi-agent frameworks, and agent orchestrators. Covers Hermes Agent, Codex CLI, Aider, Devin, SWE-agent, CrewAI, LangGraph, AutoGen, MetaGPT, Symphony, and Paperclip with a decision framework."
-tags: [agents, hermes, codex-cli, aider, devin, swe-agent, crewai, langgraph, autogen, metagpt, symphony, paperclip, comparison]
+tags: [agents, hermes, codex-cli, aider, devin, swe-agent, crewai, langgraph, autogen, metagpt, symphony, paperclip, opencode, gemini-cli, crush, comparison]
 ---
 
 # Agent Tools: Beyond Claude Code
@@ -12,6 +12,8 @@ Claude Code is one tool in a field that has expanded dramatically since 2024. Do
 
 **What it does not cover**: GUI-based AI coding IDEs (Cursor, Windsurf, Cline), which are covered in [AI Ecosystem §6](./ai-ecosystem.md#section-6). Multi-Claude orchestration tools (Gas Town, multiclaude, Conductor desktop app) are in [Third-Party Tools: Multi-Agent Orchestration](./third-party-tools.md#multi-agent-orchestration).
 
+For the full field across CLI, IDE, and cloud agents in one table, see [Agent Harness Comparison](./agent-harness-landscape.md).
+
 ---
 
 ## The Spectrum
@@ -20,7 +22,7 @@ Agent tools fall on a spectrum from interactive to autonomous:
 
 ```
 Interactive pair programmer
-  Claude Code, Codex CLI, Aider, Goose
+  Claude Code, Codex CLI, Aider, Goose, opencode, Gemini CLI, crush
         |
   Hermes Agent (interactive + scheduled + messaging gateways)
         |
@@ -296,6 +298,151 @@ A general-purpose agent, not just a coding tool. Originally built by Block (form
 **Full coverage in [AI Ecosystem §11.1: Goose](./ai-ecosystem.md#111-goose-open-source-alternative-block).**
 
 Quick stats: 51,819 stars as of 2026-07-27 (45,900+ in May 2026), Rust (63%) + TypeScript (30%), Apache 2.0, daily active development, 368+ contributors. The headline difference from Claude Code: provider-agnostic (Claude, GPT, Gemini, Ollama, 15+ providers), with recipe-based reusable workflows and heterogeneous subagent teams where each subagent can run a different model.
+
+---
+
+### 1.5 opencode (Anomaly, formerly SST)
+
+The single most-starred tool in this category, betting on provider neutrality and a client/server split instead of a fixed terminal UI.
+
+| Attribute | Details |
+|-----------|---------|
+| **GitHub** | [anomalyco/opencode](https://github.com/anomalyco/opencode) |
+| **Stars** | 199,400+ (Aug 2026) |
+| **Install** | `curl -fsSL https://opencode.ai/install \| bash` or `npm i -g opencode-ai@latest` |
+| **Language** | TypeScript |
+| **License** | MIT |
+| **Version** | v1.18.19 (Aug 2026) |
+| **Contributors** | 1,000+ (GitHub API, Aug 2026) |
+
+#### What Is opencode?
+
+A terminal coding agent built around a client/server split: the agent itself runs as a server process, and a terminal, an IDE plugin, or a separate machine connects to it as a client. That architecture makes headless operation and resumable sessions first-class rather than bolted on, since disconnecting a client does not stop the server-side session. opencode was originally an SST project; it moved to a company called Anomaly, and the project keeps the name.
+
+Model support is the other headline: 75+ providers through a single configuration surface, including local models, so nothing in the harness assumes Claude, GPT, or Gemini specifically. That breadth is also why the project has become the default reference point for "a coding agent that runs anywhere, on anything."
+
+#### Claude Code vs opencode
+
+| Aspect | Claude Code | opencode |
+|--------|-------------|----------|
+| **Models** | Claude family only | 75+ providers, including local models |
+| **Architecture** | Single terminal process | Client/server; agent runs as a server, terminal is one possible client |
+| **Language** | TypeScript | TypeScript |
+| **License** | Proprietary | MIT |
+| **Skills/Hooks** | Full first-party system | Plugin and MCP-based extension |
+| **Memory** | CLAUDE.md + Auto Memory | AGENTS.md convention |
+| **Governance** | Anthropic, single vendor | Anomaly (company), formerly SST |
+
+#### When to Choose opencode
+
+The strongest case is provider flexibility: a team that wants to route between Claude, GPT, Gemini, and a local model inside one harness, without switching tools per provider, gets that natively here. The client/server design also pays off for anyone running an agent on a remote box or inside CI and watching it from a laptop.
+
+The honest weak point is depth of integration per provider. Being multi-provider by design means no single model gets the first-party polish Claude Code gives Claude models specifically (prompt caching behavior, skills, hooks tuned to one vendor's tool-use format). Star count also is not a proxy for stability here: the project moved stewards once already (SST to Anomaly), and a team betting on long-term API surface stability should read the migration history before standardizing on it.
+
+#### Quick Start
+
+```bash
+curl -fsSL https://opencode.ai/install | bash
+opencode
+```
+
+Full provider list and configuration at [opencode.ai/docs/providers](https://opencode.ai/docs/providers/); server architecture at [opencode.ai/docs/server](https://opencode.ai/docs/server/).
+
+---
+
+### 1.6 Gemini CLI (Google)
+
+Google's first-party terminal agent, built for Gemini models with a free tier generous enough to be the primary reason to pick it.
+
+| Attribute | Details |
+|-----------|---------|
+| **GitHub** | [google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli) |
+| **Stars** | 106,600+ (Aug 2026) |
+| **Install** | `npm install -g @google/gemini-cli` or `npx @google/gemini-cli` or `brew install gemini-cli` |
+| **Language** | TypeScript |
+| **License** | Apache-2.0 |
+| **Version** | v0.56.0 (Aug 2026) |
+| **Contributors** | 690+ (GitHub API, Aug 2026) |
+
+#### What Is Gemini CLI?
+
+A terminal coding agent built and maintained by Google, wired to Gemini models rather than offering broad multi-provider support. The case for it does not rest on harness novelty: the agent loop, tool set, and approval model look similar to what Codex CLI and Claude Code already do. The case rests on the free tier, personal Google accounts get 60 requests per minute and 1,000 requests per day at no cost, the most generous first-party allowance among the major terminal agents.
+
+The agent runs in bounded-autonomy mode by default (step-gated, not headless) and supports resumable sessions. It reads `GEMINI.md` for project instructions by default; a single setting switches it to the shared `AGENTS.md` convention other tools use, so migrating instructions in either direction is cheap.
+
+#### Claude Code vs Gemini CLI
+
+| Aspect | Claude Code | Gemini CLI |
+|--------|-------------|-------------|
+| **Models** | Claude family only | Gemini family (first-party) |
+| **Free tier** | None on the CLI itself | 60 req/min, 1,000/day on personal Google accounts |
+| **License** | Proprietary | Apache-2.0 |
+| **Memory** | CLAUDE.md + Auto Memory | GEMINI.md by default, AGENTS.md via one setting |
+| **MCP Support** | Native, growing ecosystem | Native |
+| **Steward** | Anthropic, single vendor | Google, single vendor |
+
+#### When to Choose Gemini CLI
+
+The clear-cut case is cost: a developer or small team already on Gemini, or wanting to try an agentic terminal workflow before paying for one, gets a working setup with a real daily quota and no subscription. It is also the sensible default if the rest of a team's stack already runs on Google Cloud and Gemini.
+
+The honest limitation is that this is not a multi-provider tool: switching models means switching to a different harness entirely, unlike opencode or Aider. Anyone who expects to compare Claude, GPT, and Gemini output on the same task inside one terminal agent will not get that here.
+
+#### Quick Start
+
+```bash
+npm install -g @google/gemini-cli
+gemini
+```
+
+Or try it without installing: `npx @google/gemini-cli`. Full setup and free-tier details at the [Gemini CLI README](https://github.com/google-gemini/gemini-cli#readme).
+
+---
+
+### 1.7 crush (Charm)
+
+Charm's terminal coding agent, built by the team behind Bubble Tea and Lip Gloss, the TUI libraries much of this category's terminal interfaces are built on.
+
+| Attribute | Details |
+|-----------|---------|
+| **GitHub** | [charmbracelet/crush](https://github.com/charmbracelet/crush) |
+| **Stars** | 27,500+ (Aug 2026) |
+| **Install** | `brew install charmbracelet/tap/crush` or `npm install -g @charmland/crush` or `go install github.com/charmbracelet/crush@latest` |
+| **Language** | Go |
+| **License** | FSL-1.1-MIT (Functional Source License; see caveat below) |
+| **Version** | v0.90.0 (Aug 2026) |
+| **Contributors** | 144+ (GitHub API, Aug 2026) |
+
+#### What Is crush?
+
+A terminal coding agent with no model lock-in (multi-provider, same posture as opencode and Aider on that axis) and two distinctive bets: per-project session persistence, and a terminal interface built with Charm's own TUI tooling, which shows in day-to-day polish. Bounded autonomy, resumable sessions.
+
+The license needs a direct flag. crush ships under FSL-1.1-MIT (Functional Source License), not a standard OSI-approved open source license at release. Each release converts to full MIT automatically two years after it ships, so older versions become plain MIT over time, but the current release is source-available rather than open source in the OSI sense. This is fine for individual use or internal team use. It is a real constraint if the plan involves redistributing crush, hosting it as a competing service, or bundling it into another commercial product before that release's two-year window closes; read the license text before doing any of those.
+
+#### Claude Code vs crush
+
+| Aspect | Claude Code | crush |
+|--------|-------------|-------|
+| **Models** | Claude family only | Multi-provider, no lock-in |
+| **Language** | TypeScript | Go |
+| **License** | Proprietary | FSL-1.1-MIT (converts to MIT 2 years after each release) |
+| **Session persistence** | Native, per-project | Native, per-project |
+| **Terminal UI** | Anthropic-built | Charm's Bubble Tea/Lip Gloss stack |
+| **Steward** | Anthropic, single vendor | Charm |
+
+#### When to Choose crush
+
+The strongest reason to pick crush over opencode or Aider is the terminal experience itself: Charm has been building TUI tooling for years, and it is the most polished interface among the multi-provider terminal agents covered here. Per-project session persistence also makes it a reasonable fit for developers who juggle several codebases and want the agent to remember state per repo without extra configuration.
+
+The weak points are real. It has the smallest community of the three tools added in this section (27,500+ stars against opencode's 199,400+ and Gemini CLI's 106,600+), it is younger, and the FSL license is a genuine blocker for anyone building a product on top of it for resale rather than using it as a personal or internal tool. If license clarity matters more than terminal polish, opencode or Aider avoid the question entirely.
+
+#### Quick Start
+
+```bash
+brew install charmbracelet/tap/crush
+crush
+```
+
+License text and the two-year MIT conversion terms at [charmbracelet/crush LICENSE.md](https://github.com/charmbracelet/crush/blob/main/LICENSE.md).
 
 ---
 
