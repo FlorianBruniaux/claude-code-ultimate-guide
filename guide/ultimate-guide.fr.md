@@ -147,7 +147,7 @@ Si vous n'avez le temps que pour 5 sections :
 - [2. Concepts Fondamentaux](#2-core-concepts) `🟡 Intermédiaire` `⏱ 60 min`
   - [2.1 La Boucle d'Interaction](#21-the-interaction-loop)
   - [2.2 Gestion du Contexte](#22-context-management)
-  - [2.3 Plan Mode](#23-plan-mode) (dont [Ultraplan](#ultraplan), [OpusPlan](#opusplan-mode))
+  - [2.3 Plan Mode](#23-plan-mode) (dont [OpusPlan](#opusplan-mode))
   - [2.4 Rewind](#24-rewind)
   - [2.5 Sélection du Modèle & Guide de Réflexion](#25-model-selection--thinking-guide)
   - [2.6 Modèle Mental](#26-mental-model)
@@ -2584,110 +2584,9 @@ User: Implement the plan from round 3.
 >
 > *Source : Swanson et al., "The AI Fluency Index", Anthropic (2026-02-23) — [anthropic.com/research/AI-fluency-index](https://www.anthropic.com/research/AI-fluency-index)*
 
-### Ultraplan
-
-**Statut** : Aperçu de recherche — nécessite Claude Code v2.1.91+ et un compte Claude Code sur le web.
-
-**Concept** : Déléguer la planification au cloud d'Anthropic pendant que votre terminal reste libre. Claude rédige le plan à distance en utilisant plusieurs agents Opus 4.7+ en parallèle ; vous le révisez dans votre navigateur avec des commentaires intégrés, puis choisissez d'exécuter dans le cloud ou de rapatrier le plan vers votre terminal.
-
-Cela résout la friction centrale du Plan Mode local : sur des tâches complexes, le terminal se bloque pendant des minutes le temps que la planification s'exécute. Ultraplan fonctionne de manière asynchrone — vous continuez à travailler et revenez vérifier quand vous êtes prêt.
-
-**Fonctionnement**
-
-1. La CLI lance une session cloud → le terminal affiche un indicateur de statut en direct
-2. Plusieurs agents Opus 4.7+ explorent la base de code en parallèle (fenêtres de planification jusqu'à 30 minutes)
-3. Le navigateur s'ouvre avec le plan, une barre latérale de plan, des commentaires intégrés et des réactions emoji
-4. Vous itérez sur le plan — commentez des sections spécifiques, demandez des révisions
-5. Choisissez où exécuter : cloud (ouvre une PR) ou terminal (rapatrie le plan)
-
-**Activation (3 méthodes)**
-
-```bash
-# 1. Commande dédiée
-/ultraplan migrate the auth service from sessions to JWTs
-
-# 2. Mot-clé n'importe où dans une invite
-Plan with ultraplan a full refactor of the payments module
-
-# 3. Depuis une boîte de dialogue d'approbation de plan local
-# → choisir "No, refine with Ultraplan on Claude Code on the web"
-```
-
-La commande et les chemins par mot-clé affichent d'abord une boîte de dialogue de confirmation. Le chemin par plan local la passe.
-
-**Indicateurs de statut du terminal**
-
-| Statut | Signification |
-|--------|---------------|
-| `◇ ultraplan` | Claude recherche et rédige |
-| `◇ ultraplan needs your input` | Clarification nécessaire — ouvrez le lien navigateur |
-| `◆ ultraplan ready` | Le plan est prêt à réviser |
-
-Exécutez `/tasks` pour voir le lien de session, l'activité des agents et une action **Stop ultraplan**.
-
-**Interface de révision dans le navigateur**
-
-- **Barre latérale de plan** : naviguez entre les sections sans faire défiler
-- **Commentaires intégrés** : surlignez n'importe quel passage, laissez un retour ciblé
-- **Réactions emoji** : signalez approbation ou préoccupation sur une section sans écrire de commentaire
-- **Cycles de révision** : demandez à Claude de traiter vos commentaires ; il présente un brouillon mis à jour — itérez autant que nécessaire
-
-**Exécution : deux choix**
-
-Une fois le plan satisfaisant, choisissez dans le navigateur :
-
-| Option | Ce qui se passe |
-|--------|-----------------|
-| **Approve and start coding** | La session cloud implémente le plan, crée une PR ; le terminal se libère |
-| **Approve and teleport back** | Le plan est envoyé à votre terminal avec 3 sous-options |
-
-Sous-options de rapatriement :
-- **Implement here** — injecte le plan dans la conversation en cours, procède immédiatement
-- **Start new session** — nouvelle session avec le plan comme contexte (affiche `claude --resume` pour revenir à la session en cours)
-- **Cancel** — enregistre le plan dans un fichier, affiche le chemin
-
-**Prérequis et contraintes**
-
-| Prérequis | Détail |
-|-----------|--------|
-| Version Claude Code | v2.1.91+ |
-| Compte | Pro, Max, Team ou Enterprise (pas le niveau gratuit) |
-| Dépôt | GitHub uniquement (pas GitLab, Bitbucket) |
-| Fournisseurs | API Anthropic uniquement — non disponible sur Bedrock, Vertex, Foundry |
-| Conflit | Incompatible avec Remote Control (les deux utilisent claude.ai/code) |
-
-**Ultraplan vs. OpusPlan vs. Plan Mode**
-
-| Fonctionnalité | Plan Mode | OpusPlan | Ultraplan |
-|----------------|-----------|----------|-----------|
-| Exécution | Locale | Locale | Cloud |
-| Terminal bloqué ? | Oui | Oui | Non |
-| Modèles | Modèle actif | Opus (plan) + Sonnet (action) | Opus 4.7 (multi-agents) |
-| Surface de révision | Défilement terminal | Défilement terminal | Navigateur avec commentaires intégrés |
-| Nécessite GitHub | Non | Non | Oui |
-| Comptabilisation des tokens | Compte localement | Compte localement | Planification cloud sans impact sur le quota local |
-
-**Quand utiliser Ultraplan**
-
-Cas d'usage idéaux :
-- Changements architecturaux complexes touchant de nombreux fichiers (migrations de services, refactorisations importantes)
-- Tâches où vous souhaitez continuer à travailler pendant que la planification s'exécute
-- Situations où des parties prenantes doivent réviser le plan avant l'implémentation
-
-À éviter pour :
-- Les changements simples et ciblés où le Plan Mode local prend moins d'une minute
-- Les environnements sans Internet ou n'utilisant pas GitHub
-- Les sessions utilisant Remote Control
-
-**Note sur les tokens** : Les premiers tests montrent que la planification cloud consomme environ 37 % moins de tokens que les plans locaux équivalents (82 K contre 131 K pour une tâche de migration d'environ 55 minutes). Les tokens de planification cloud ne comptent pas dans votre quota local ; seuls les tokens d'implémentation le font.
-
-> **Voir aussi** : [§9.16 Session Teleportation](#916-session-teleportation) pour le flux de travail web ↔ terminal plus large. Ultraplan utilise la même infrastructure cloud avec des capacités de révision spécifiques à la planification.
-
----
-
 ### Ultrareview (v2.1.114+)
 
-Révision de code multi-agents parallèle dans le cloud. Là où Ultraplan gère la planification, Ultrareview gère la révision : plusieurs agents Opus 4.7 lisent vos modifications simultanément et remontent les bugs et problèmes de conception qu'un réviseur attentif détecterait.
+Révision de code multi-agents parallèle dans le cloud. Plusieurs agents Opus 5 lisent vos modifications simultanément et remontent les bugs et problèmes de conception qu'un réviseur attentif détecterait.
 
 **Activation** :
 
@@ -2696,7 +2595,7 @@ Révision de code multi-agents parallèle dans le cloud. Là où Ultraplan gère
 /ultrareview <PR#>        # Réviser une PR GitHub spécifique
 ```
 
-Ultrareview opère sur les **diffs, pas sur la base de code complète** — il révise ce qui a changé sur la branche courante, ou les modifications d'une PR donnée. La session cloud dispatche des agents parallèles pour analyser le diff ; les résultats arrivent dans le navigateur et peuvent optionnellement être rapatriés vers le terminal.
+Ultrareview opère sur les **diffs, pas sur la base de code complète** : il révise ce qui a changé sur la branche courante, ou les modifications d'une PR donnée. La session cloud dispatche des agents parallèles pour analyser le diff ; les résultats arrivent dans le navigateur et peuvent optionnellement être rapatriés vers le terminal.
 
 **Offre de lancement** : Les abonnés Pro et Max reçoivent trois ultrareviews gratuits pour essayer la fonctionnalité.
 
@@ -2707,15 +2606,6 @@ Ultrareview opère sur les **diffs, pas sur la base de code complète** — il r
 | Version Claude Code | v2.1.114+ |
 | Compte | Pro ou Max |
 | Fournisseurs | API Anthropic uniquement |
-
-**Ultraplan vs. Ultrareview**
-
-| | Ultraplan | Ultrareview |
-|---|---|---|
-| Objectif | Planifier avant de coder | Réviser après avoir codé |
-| Entrée | Invite décrivant la tâche | Diff de la branche courante ou diff de PR |
-| Périmètre | Non borné | Diffs uniquement (pas la base de code complète) |
-| Sortie | Plan architectural | Rapport de bugs et problèmes de conception |
 
 ---
 
@@ -18447,8 +18337,6 @@ Add the logout button only. Don't add session management or remember-me features
 **Statut** : Aperçu de recherche (depuis janvier 2026)
 
 La téléportation de session permet de migrer des sessions de codage entre les environnements cloud (claude.ai/code) et local (CLI). Cela permet des flux de travail où vous commencez à travailler sur mobile/web et continuez localement avec un accès complet au système de fichiers.
-
-> **Connexe** : [Ultraplan](#ultraplan) utilise le même transfert web ↔ terminal spécifiquement pour la phase de planification — planifiez dans le cloud avec une révision dans le navigateur, puis téléportez le plan approuvé dans votre terminal pour l'exécution. Si votre objectif principal est la révision collaborative du plan avant l'implémentation, consultez Ultraplan en premier.
 
 ### Chronologie d'évolution
 

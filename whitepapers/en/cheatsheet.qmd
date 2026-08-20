@@ -41,11 +41,10 @@ which claude && claude --version
 | `/status` | Session state + context usage |
 | `/context` | Detailed token breakdown |
 | `/plan` | Enter Plan Mode (no changes) |
-| `/ultraplan` | Cloud Plan Mode: draft in cloud, review in browser |
 | Approve the plan | Exit Plan Mode (`Shift+Tab` to leave without approving) |
 | `/model` | Switch model (sonnet/opus/opusplan) |
 | `/insights` | Usage analytics + optimization report |
-| `/simplify` | Detect over-engineering in changed code + auto-fix |
+| `/simplify` | Cleanup-only review of changed code: reuse, simplification, efficiency |
 | `/batch` | Large-scale refactors via 5-30 parallel worktree agents |
 | `/teleport` | Teleport session from web |
 | `/tasks` | Monitor background tasks |
@@ -181,7 +180,6 @@ which claude && claude --version
 |---------|------------|-------|
 | **Plan Mode** | `Shift+Tab × 2` or `/plan` | Explore without modifying |
 | **OpusPlan** | `/model opusplan` | Opus for planning, Sonnet for execution |
-| **Ultraplan** | `/ultraplan <prompt>` | Cloud planning, browser review, terminal stays free |
 
 **Opus 4.8**: Default effort is **xhigh**. Use `ultrathink` to force max effort for the next turn.
 

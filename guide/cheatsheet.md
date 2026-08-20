@@ -29,11 +29,10 @@ The ~35 below are the daily drivers. Claude Code ships about 100 built-in comman
 | `/status` | Session state + context usage |
 | `/context` | Detailed token breakdown |
 | `/plan` | Enter Plan Mode (no changes). Exit by approving the plan or `Shift+Tab` |
-| `/ultraplan` | Cloud Plan Mode: draft in cloud, review in browser (v2.1.91+) |
 | `/model` | Switch model (sonnet/opus/opusplan) |
 | `/insights` | Usage analytics + optimization report |
 | `/code-review [level]` | Review the diff for correctness bugs, `--fix` applies them, `ultra` runs it in the cloud |
-| `/simplify` | Detect over-engineering in changed code + auto-fix |
+| `/simplify` | Cleanup-only review of changed code: reuse, simplification, efficiency (no bug hunting; runs `/code-review --fix` under the hood, v2.1.154+) |
 | `/security-review` | Scan the branch diff for injection, auth, and data-exposure risks |
 | `/batch` | Large-scale refactors via 5–30 parallel worktree agents |
 | `/subtask <task>` | Hand a side task to a forked subagent that reports back here (v2.1.212+) |
@@ -253,7 +252,6 @@ Model: Sonnet | Ctx: 89.5k | Cost: $2.11 | Ctx(u): 56.0%
 |---------|------------|-------|
 | **Plan Mode** | `Shift+Tab × 2` or `/plan` | Explore without modifying |
 | **OpusPlan** | `/model opusplan` | Opus for planning, Sonnet for execution |
-| **Ultraplan** | `/ultraplan <prompt>` | Cloud planning, browser review, terminal stays free (v2.1.91+, GitHub required) |
 
 > **Opus 4.8** (v2.1.154+): Default effort in Claude Code = **high**, with a new `xhigh` level sitting between `high` and `max` for finer reasoning/latency control. **Opus 5** (default Opus since v2.1.219) carries this forward. Use `ultrathink` to force max effort for the next turn.
 
@@ -271,8 +269,6 @@ Model: Sonnet | Ctx: 89.5k | Cost: $2.11 | Ctx(u): 56.0%
 **Per-skill effort** — add `effort: low` to mechanical skills (commit, sync, scaffold) and `effort: high` to analytical ones (security-audit, architecture-review). Overrides session setting automatically.
 
 **OpusPlan workflow**: `/model opusplan` → `Shift+Tab × 2` (plan with Opus) → `Shift+Tab` (execute with Sonnet)
-
-**Ultraplan workflow**: `/ultraplan <task>` → terminal free while cloud drafts → review inline in browser → approve → execute on web (PR) or teleport back to terminal
 
 **Required for**: features >3 files, architecture, complex debugging
 
