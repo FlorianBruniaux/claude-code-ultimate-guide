@@ -10,7 +10,7 @@
   <a href="https://github.com/FlorianBruniaux/claude-code-ultimate-guide/stargazers"><img src="https://img.shields.io/github/stars/FlorianBruniaux/claude-code-ultimate-guide?style=for-the-badge" alt="Stars"/></a>
   <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Updated-Aug_20,_2026_·_v3.41.3-brightgreen?style=for-the-badge" alt="Last Update"/></a>
   <a href="./quiz/"><img src="https://img.shields.io/badge/Quiz-473_questions-orange?style=for-the-badge" alt="Quiz"/></a>
-  <a href="./examples/"><img src="https://img.shields.io/badge/Templates-275-green?style=for-the-badge" alt="Templates"/></a>
+  <a href="./examples/"><img src="https://img.shields.io/badge/Templates-271-green?style=for-the-badge" alt="Templates"/></a>
 </p>
 
 <!-- Features -->
@@ -77,7 +77,7 @@
 - ✅ **Build mental models** — How Claude Code works internally (architecture, context flow, tool orchestration)
 - ✅ **Visualize concepts** — 48 Mermaid diagrams covering model selection, master loop, memory hierarchy, multi-agent patterns, security threats, AI fluency paths
 - ✅ **Master methodologies** — TDD, SDD, BDD with AI collaboration (not just templates)
-- ✅ **Security mindset** — Threat modeling for AI systems (only guide with 28 CVEs + 655 malicious skills database)
+- ✅ **Security mindset** — Threat modeling for AI systems (only guide with 123 CVEs + 93 malicious skills database)
 - ✅ **Test your knowledge** — 473-question quiz to validate understanding (no other resource offers this)
 
 **Outcome**: Go from copy-pasting configs to designing your own agentic workflows with confidence.
@@ -93,10 +93,10 @@ Both guides serve different needs. Choose based on your priority.
 | **Understand why** patterns work | Deep explanations + architecture | Config-focused |
 | **Quick setup** for projects | Available but not the priority | Battle-tested production configs |
 | **Learn trade-offs** (agents vs skills) | Decision frameworks + comparisons | Lists patterns, no trade-off analysis |
-| **Security hardening** | Only threat database (28 CVEs) | Basic patterns only |
+| **Security hardening** | Only threat database (123 CVEs) | Basic patterns only |
 | **Test understanding** | 473-question quiz | Not available |
 | **Methodologies** (TDD/SDD/BDD) | Full workflow guides | Not covered |
-| **Copy-paste ready** templates | 268 templates | 200+ templates |
+| **Copy-paste ready** templates | 271 templates | 200+ templates |
 
 ### Ecosystem Positioning
 
@@ -105,7 +105,7 @@ Both guides serve different needs. Choose based on your priority.
                            ▲
                            │
                            │  ★ This Guide
-                           │  Security + Methodologies + 24K+ lines
+                           │  Security + Methodologies + 26K+ lines
                            │
                            │  [Everything-You-Need-to-Know]
                            │  SDLC/BMAD beginner
@@ -120,9 +120,9 @@ Both guides serve different needs. Choose based on your priority.
 ```
 
 **5 unique gaps no competitor covers:**
-1. **Security-First** — 28 CVEs + 655 malicious skills tracked (no competitor has this depth)
+1. **Security-First** — 123 CVEs + 93 malicious skills tracked (no competitor has this depth)
 2. **Methodology Workflows** — TDD/SDD/BDD comparison + step-by-step guides
-3. **Comprehensive Reference** — 24K+ lines across 16 specialized guides (24× more reference material than everything-cc)
+3. **Comprehensive Reference** — 26K+ lines across 16 specialized guides (24× more reference material than everything-cc)
 4. **Educational Progression** — 473-question quiz + 7-module structured learning path (beginner → advanced)
 5. **Interactive Assessment** — `/self-assessment` skill with personalized learning path recommendations
 
@@ -183,9 +183,9 @@ claude "Use the claude-code-guide MCP server. Activate the claude-code-expert pr
 graph LR
     root[📦 Repository<br/>Root]
 
-    root --> guide[📖 guide/<br/>24K+ lines]
+    root --> guide[📖 guide/<br/>26K+ lines]
     root --> learning[🎓 learning-path/<br/>7 modules]
-    root --> examples[📋 examples/<br/>268 templates]
+    root --> examples[📋 examples/<br/>271 templates]
     root --> quiz[🧠 quiz/<br/>473 questions]
     root --> tools[🔧 tools/<br/>utils]
     root --> machine[🤖 machine-readable/<br/>AI index]
@@ -207,7 +207,7 @@ graph LR
 ```
 📦 claude-code-ultimate-guide/
 │
-├─ 📖 guide/              Core Documentation (24K+ lines)
+├─ 📖 guide/              Core Documentation (26K+ lines)
 │  ├─ learning-path/      7-Module Learning Path (beginners → advanced)
 │  ├─ ultimate-guide.md   Complete reference, 10 sections
 │  ├─ cheatsheet.md       1-page printable
@@ -218,7 +218,7 @@ graph LR
 │  ├─ mcp-servers-ecosystem.md  Official & community MCP servers
 │  └─ workflows/          Step-by-step guides
 │
-├─ 📋 examples/           275 Production Templates
+├─ 📋 examples/           271 Production Templates
 │  ├─ CATALOG.md          Auto-generated index by complexity, time, domain
 │  ├─ agents/             23 custom AI personas
 │  ├─ commands/           redirect stubs (migrated to skills/ in CC 2.1.3)
@@ -281,7 +281,7 @@ graph LR
 
 [Browse all 48 diagrams →](./guide/diagrams/)
 
-**What this means for you**: Understand the master loop before reading 24K+ lines, see multi-agent topologies at a glance, share visual security threat models with your team.
+**What this means for you**: Understand the master loop before reading 26K+ lines, see multi-agent topologies at a glance, share visual security threat models with your team.
 
 ---
 
@@ -344,7 +344,7 @@ Complete guides with rationale and examples:
 
 ---
 
-### 📚 275 Annotated Templates
+### 📚 271 Annotated Templates
 
 **Outcome**: Learn patterns, not just configs.
 
@@ -484,7 +484,7 @@ Claude Code can generate 1.75x more logic errors than human-written code ([ACM 2
 
 ### 2. Never Approve MCPs from Unknown Sources
 
-28 CVEs identified in Claude Code ecosystem. 655 malicious skills in supply chain. MCP servers can read/write your codebase.
+123 CVEs identified in Claude Code ecosystem. 93 malicious skills in supply chain. MCP servers can read/write your codebase.
 
 **Strategy:** Systematic audit (5-min checklist). Community-vetted MCP Safe List. Vetting workflow documented in guide.
 
@@ -519,7 +519,7 @@ TDD/SDD/BDD are not optional with Claude Code. AI accelerates bad code as much a
 | # | Rule | Key Metric | Action |
 |---|------|------------|--------|
 | 1 | Verify Trust | 1.75x more logic errors | Test everything, peer review |
-| 2 | Vet MCPs | 28 CVEs, 655 malicious skills | 5-min audit checklist |
+| 2 | Vet MCPs | 123 CVEs, 93 malicious skills | 5-min audit checklist |
 | 3 | Manage Context | 70% = precision loss | `/compact` at 70%, `/clear` at 90% |
 | 4 | Start Simple | 2-week test period | Phase 1→4 progressive adoption |
 | 5 | Use Methodologies | AI amplifies good AND bad | TDD/SDD/BDD by context |
@@ -628,7 +628,7 @@ Same agentic capabilities as Claude Code, but through a visual interface with no
 
 ### Claude Code Plugins (Marketplace)
 
-All 268 templates from this guide packaged as installable Claude Code plugins, hooks auto-wired, no manual config:
+All 271 templates from this guide packaged as installable Claude Code plugins, hooks auto-wired, no manual config:
 
 ```bash
 # Add the marketplace
@@ -645,7 +645,7 @@ claude plugin install ai-methodology       # Scaffolding, 6-stage talk pipeline,
 claude plugin install session-summary      # Session analytics dashboard (15 sections)
 ```
 
-> **[FlorianBruniaux/claude-code-plugins](https://github.com/FlorianBruniaux/claude-code-plugins)**: 8 plugins, 268 templates, one marketplace
+> **[FlorianBruniaux/claude-code-plugins](https://github.com/FlorianBruniaux/claude-code-plugins)**: 8 plugins, 271 templates, one marketplace
 
 ### Complementary Resources
 
@@ -749,7 +749,7 @@ This guide is the result of **6 months of daily practice** with Claude Code. The
 **What you'll find:**
 - Patterns verified in production (not theory)
 - Trade-off explanations (not just "here's how to do it")
-- Security first (28 CVEs tracked)
+- Security first (123 CVEs tracked)
 - Transparency on limitations (Claude Code isn't magic)
 
 **What you won't find:**
@@ -784,7 +784,7 @@ Use this guide critically. Experiment. Share what works for you.
 
 | File | Purpose | Time |
 |------|---------|------|
-| **[Ultimate Guide](./guide/ultimate-guide.md)** | Complete reference (24K+ lines), 10 sections | 30-40h (full) • Most consult sections |
+| **[Ultimate Guide](./guide/ultimate-guide.md)** | Complete reference (26K+ lines), 10 sections | 30-40h (full) • Most consult sections |
 | **[Cheat Sheet](./guide/cheatsheet.md)** | 1-page printable reference | 5 min |
 | **[Visual Reference](./guide/core/visual-reference.md)** | 20 ASCII diagrams for key concepts | 5 min |
 | **[Architecture](./guide/core/architecture.md)** | How Claude Code works internally | 25 min |
@@ -803,7 +803,7 @@ Use this guide critically. Experiment. Share what works for you.
 | **[Credits](./guide/core/credits.md)** | Open-source inspirations and pattern attributions | 2 min |
 
 <details>
-<summary><strong>Examples Library</strong> (268 templates)</summary>
+<summary><strong>Examples Library</strong> (271 templates)</summary>
 
 **Agents** (23): [code-reviewer](./examples/agents/code-reviewer.md), [test-writer](./examples/agents/test-writer.md), [security-auditor](./examples/agents/security-auditor.md), [refactoring-specialist](./examples/agents/refactoring-specialist.md), [output-evaluator](./examples/agents/output-evaluator.md), [devops-sre](./examples/agents/devops-sre.md) ⭐
 
