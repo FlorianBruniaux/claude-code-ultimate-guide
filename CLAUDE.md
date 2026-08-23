@@ -53,7 +53,7 @@ claudedocs/               # Claude working documents (gitignored)
 
 | File | Purpose |
 |------|---------|
-| `VERSION` | Single source of truth for version (currently 3.41.1) |
+| `VERSION` | Single source of truth for version (currently 3.41.3) |
 | `guide/ultimate-guide.md` | The main reference (search here first) |
 | `guide/cheatsheet.md` | Quick reference for daily use |
 | `machine-readable/reference.yaml` | LLM-optimized index with line numbers |

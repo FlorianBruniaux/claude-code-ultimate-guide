@@ -16,7 +16,7 @@ tags: [guide, reference, workflows, agents, hooks, mcp, security]
 
 **Last updated**: January 2026
 
-**Version**: 3.41.1
+**Version**: 3.41.3
 
 ---
 
@@ -5741,7 +5741,7 @@ The `.claude/` folder is your project's Claude Code directory for memory, settin
 | Personal preferences | `CLAUDE.md` | ❌ Gitignore |
 | Personal permissions | `settings.local.json` | ❌ Gitignore |
 
-### 3.41.1 Version Control & Backup
+### 3.41.3 Version Control & Backup
 
 **Problem**: Without version control, losing your Claude Code configuration means hours of manual reconfiguration across agents, skills, hooks, and MCP servers.
 
@@ -26578,4 +26578,4 @@ We'll evaluate and add it to this section if it meets quality criteria.
 
 **Contributions**: Issues and PRs welcome.
 
-**Last updated**: January 2026 | **Version**: 3.41.1
+**Last updated**: January 2026 | **Version**: 3.41.3

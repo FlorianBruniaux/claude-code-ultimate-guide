@@ -10,7 +10,7 @@
 
 - Title: Claude Code Ultimate Guide
 - Author: Florian Bruniaux (Founding Engineer @ Méthode Aristote)
-- Version: 3.41.1
+- Version: 3.41.3
 - Last Updated: August 20, 2026
 - License: CC BY-SA 4.0
 - Repository: https://github.com/FlorianBruniaux/claude-code-ultimate-guide
@@ -70,7 +70,7 @@ This guide is the most comprehensive community resource for Claude Code. It cove
 
 ## Full Cheatsheet
 
-**Version**: 3.41.1 | **Last Updated**: July 2026
+**Version**: 3.41.3 | **Last Updated**: August 2026
 
 ---
 

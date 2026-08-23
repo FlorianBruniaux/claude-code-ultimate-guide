@@ -4,7 +4,7 @@ subtitle: "Daily essentials for maximum productivity"
 author: "Florian BRUNIAUX"
 date: 2026-07-01
 date-format: "MMMM YYYY"
-version: "3.41.1"
+version: "3.41.3"
 wp-version: "1.1.2"
 series: "Claude Code Ultimate Guide"
 format:
@@ -344,4 +344,4 @@ Deep analysis     → Use Opus (thinking on by default)
 
 **Author**: Florian BRUNIAUX | [Methode Aristote](https://methode-aristote.fr) | Written with Claude
 
-*Version 3.41.1 | July 2026*
+*Version 3.41.3 | August 2026*
