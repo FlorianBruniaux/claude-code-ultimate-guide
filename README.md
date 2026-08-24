@@ -40,7 +40,7 @@
 
 > **Over a year of daily practice** distilled into a guide that teaches you the WHY, not just the what. From core concepts to production security, you learn to design your own agentic workflows instead of copy-pasting configs.
 
-> **If this guide helps you, [give it a star ⭐](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/stargazers)** — it helps others discover it too.
+> **If this guide helps you, [give it a star ⭐](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/stargazers)**: it helps others discover it too.
 
 ---
 
@@ -50,7 +50,7 @@
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://starmapper.bruniaux.com/api/map-image/FlorianBruniaux/claude-code-ultimate-guide?theme=dark" />
     <source media="(prefers-color-scheme: light)" srcset="https://starmapper.bruniaux.com/api/map-image/FlorianBruniaux/claude-code-ultimate-guide?theme=light" />
-    <img alt="StarMapper — see who stars this repo on a world map" src="https://starmapper.bruniaux.com/api/map-image/FlorianBruniaux/claude-code-ultimate-guide" />
+    <img alt="StarMapper: see who stars this repo on a world map" src="https://starmapper.bruniaux.com/api/map-image/FlorianBruniaux/claude-code-ultimate-guide" />
   </picture>
 </a>
 
@@ -65,7 +65,7 @@
 | 💼 **CIO / CEO** | [Budget, risk, what to ask your tech team (3 min) →](docs/for-cio-ceo.md) |
 | 🎨 **Product Manager / Designer** | [Vibe coding, working with AI-assisted dev teams →](docs/for-product-managers.md) |
 | ✍️ **Writer / Ops / Manager** | [Claude Cowork Guide (separate repo) →](https://github.com/FlorianBruniaux/claude-cowork-guide) |
-| 👨‍💻 **Developer (all levels)** | You're in the right place — read on ↓ |
+| 👨‍💻 **Developer (all levels)** | You're in the right place: read on ↓ |
 | 🧭 **Career pivot / new AI role** | [AI Roles & Career Paths →](guide/roles/ai-roles.md) |
 
 ---
@@ -73,12 +73,12 @@
 ## 🎯 What You'll Learn
 
 **This guide teaches you to think differently about AI-assisted development:**
-- ✅ **Understand trade-offs** — When to use agents vs skills vs commands (not just how to configure them)
-- ✅ **Build mental models** — How Claude Code works internally (architecture, context flow, tool orchestration)
-- ✅ **Visualize concepts** — 48 Mermaid diagrams covering model selection, master loop, memory hierarchy, multi-agent patterns, security threats, AI fluency paths
-- ✅ **Master methodologies** — TDD, SDD, BDD with AI collaboration (not just templates)
-- ✅ **Security mindset** — Threat modeling for AI systems (only guide with 123 CVEs + 93 malicious skills database)
-- ✅ **Test your knowledge** — 473-question quiz to validate understanding (no other resource offers this)
+- ✅ **Understand trade-offs**: When to use agents vs skills vs commands (not just how to configure them)
+- ✅ **Build mental models**: How Claude Code works internally (architecture, context flow, tool orchestration)
+- ✅ **Visualize concepts**: 48 Mermaid diagrams covering model selection, master loop, memory hierarchy, multi-agent patterns, security threats, AI fluency paths
+- ✅ **Master methodologies**: TDD, SDD, BDD with AI collaboration (not just templates)
+- ✅ **Security mindset**: Threat modeling for AI systems (only guide with 123 CVEs + 93 malicious skills database)
+- ✅ **Test your knowledge**: 473-question quiz to validate understanding (no other resource offers this)
 
 **Outcome**: Go from copy-pasting configs to designing your own agentic workflows with confidence.
 
@@ -120,11 +120,11 @@ Both guides serve different needs. Choose based on your priority.
 ```
 
 **5 unique gaps no competitor covers:**
-1. **Security-First** — 123 CVEs + 93 malicious skills tracked (no competitor has this depth)
-2. **Methodology Workflows** — TDD/SDD/BDD comparison + step-by-step guides
-3. **Comprehensive Reference** — 26K+ lines across 16 specialized guides (24× more reference material than everything-cc)
-4. **Educational Progression** — 473-question quiz + 7-module structured learning path (beginner → advanced)
-5. **Interactive Assessment** — `/self-assessment` skill with personalized learning path recommendations
+1. **Security-First**: 123 CVEs + 93 malicious skills tracked (no competitor has this depth)
+2. **Methodology Workflows**: TDD/SDD/BDD comparison + step-by-step guides
+3. **Comprehensive Reference**: 26K+ lines across 16 specialized guides (24× more reference material than everything-cc)
+4. **Educational Progression**: 473-question quiz + 7-module structured learning path (beginner → advanced)
+5. **Interactive Assessment**: `/self-assessment` skill with personalized learning path recommendations
 
 **Recommended workflow:**
 1. Learn concepts here (mental models, trade-offs, security)
@@ -137,9 +137,9 @@ Both guides serve different needs. Choose based on your priority.
 
 ## ⚡ Quick Start
 
-**New to Claude Code?** → [**7-Module Learning Path**](./guide/learning-path/README.md) — 8-11 hours, beginner to advanced
+**New to Claude Code?** → [**7-Module Learning Path**](./guide/learning-path/README.md): 8-11 hours, beginner to advanced
 
-**Quickest path**: [Cheat Sheet](./guide/cheatsheet.md) — 1 printable page with daily essentials
+**Quickest path**: [Cheat Sheet](./guide/cheatsheet.md), 1 printable page with daily essentials
 
 **Interactive onboarding** (no setup needed):
 ```bash
@@ -150,7 +150,7 @@ claude "Fetch and follow the onboarding instructions from: https://raw.githubuse
 
 ---
 
-## 🔌 MCP Server — Use the guide from any Claude Code session
+## 🔌 MCP Server: Use the guide from any Claude Code session
 
 No cloning needed. Add to `~/.claude.json` and ask questions directly from any session:
 
@@ -166,11 +166,11 @@ No cloning needed. Add to `~/.claude.json` and ask questions directly from any s
 }
 ```
 
-17 tools: `search_guide`, `read_section`, `get_cheatsheet`, `get_digest`, `get_example`, `list_examples`, `search_examples`, `get_release`, `get_changelog`, `compare_versions`, `list_topics`, `get_threat`, `list_threats`, plus `init_official_docs`, `refresh_official_docs`, `diff_official_docs`, `search_official_docs` (v1.1.0 — official Anthropic docs tracker) — plus 13 slash commands `/ccguide:*` and a Haiku agent.
+17 tools: `search_guide`, `read_section`, `get_cheatsheet`, `get_digest`, `get_example`, `list_examples`, `search_examples`, `get_release`, `get_changelog`, `compare_versions`, `list_topics`, `get_threat`, `list_threats`, plus `init_official_docs`, `refresh_official_docs`, `diff_official_docs`, `search_official_docs` (v1.1.0: official Anthropic docs tracker), plus 13 slash commands `/ccguide:*` and a Haiku agent.
 
 **Onboarding one-liner** (once MCP is configured):
 ```bash
-claude "Use the claude-code-guide MCP server. Activate the claude-code-expert prompt, then run a personalized onboarding: ask me 3 questions about my goal, experience level, and preferred tone — then build a custom learning path using search_guide and read_section to navigate the guide with live source links."
+claude "Use the claude-code-guide MCP server. Activate the claude-code-expert prompt, then run a personalized onboarding: ask me 3 questions about my goal, experience level, and preferred tone, then build a custom learning path using search_guide and read_section to navigate the guide with live source links."
 ```
 
 → [MCP Server README](./mcp-server/README.md)
@@ -259,10 +259,10 @@ graph LR
 
 **We teach how Claude Code works and why patterns matter**:
 - [Tools Reference](./guide/core/tools-reference.md): all 40 built-in tools, permission rule formats, per-tool behaviors (timeouts, file-read limits, lossy WebFetch), and how-to for Monitor, Workflow, agent teams, Cron, Tasks API
-- [Architecture](./guide/core/architecture.md) — Internal mechanics (context flow, tool orchestration, memory management)
-- [Trade-offs](./guide/ultimate-guide.md#when-to-use-what) — Decision frameworks for agents vs skills vs commands
+- [Architecture](./guide/core/architecture.md): Internal mechanics (context flow, tool orchestration, memory management)
+- [Trade-offs](./guide/ultimate-guide.md#when-to-use-what): Decision frameworks for agents vs skills vs commands
 - [Memory Loading Comparison](./guide/ultimate-guide.md#memory-loading-comparison): unified "which mechanism for what?" map across all 7 config layers
-- [Pitfalls](./guide/ultimate-guide.md#18-eight-beginner-mistakes-and-how-to-avoid-them) — Common failure modes + prevention strategies
+- [Pitfalls](./guide/ultimate-guide.md#18-eight-beginner-mistakes-and-how-to-avoid-them): Common failure modes + prevention strategies
 
 **What this means for you**: Troubleshoot issues independently, optimize for your specific use case, know when to deviate from patterns.
 
@@ -272,12 +272,12 @@ graph LR
 
 **Outcome**: Grasp complex concepts instantly through visual mental models.
 
-**48 interactive diagrams** across 10 thematic files — GitHub-native Mermaid rendering + ASCII fallback for every diagram:
-- [Foundations](./guide/diagrams/01-foundations.md) — 4-layer context model, 9-step pipeline, permission modes
-- [Architecture](./guide/diagrams/04-architecture-internals.md) — Master loop, tool categories, system prompt assembly
-- [Multi-Agent](./guide/diagrams/07-multi-agent-patterns.md) — 3 topologies, worktrees, dual-instance, horizontal scaling
-- [Security](./guide/diagrams/08-security-and-production.md) — 3-layer defense, MCP rug pull attack chain, verification paradox
-- [Cost & Models](./guide/diagrams/09-cost-and-optimization.md) — Model selection tree, token reduction pipeline
+**48 interactive diagrams** across 10 thematic files: GitHub-native Mermaid rendering + ASCII fallback for every diagram:
+- [Foundations](./guide/diagrams/01-foundations.md): 4-layer context model, 9-step pipeline, permission modes
+- [Architecture](./guide/diagrams/04-architecture-internals.md): Master loop, tool categories, system prompt assembly
+- [Multi-Agent](./guide/diagrams/07-multi-agent-patterns.md): 3 topologies, worktrees, dual-instance, horizontal scaling
+- [Security](./guide/diagrams/08-security-and-production.md): 3-layer defense, MCP rug pull attack chain, verification paradox
+- [Cost & Models](./guide/diagrams/09-cost-and-optimization.md): Model selection tree, token reduction pipeline
 
 [Browse all 48 diagrams →](./guide/diagrams/)
 
@@ -290,9 +290,9 @@ graph LR
 **Outcome**: Protect production systems from AI-specific attacks.
 
 **Only guide with systematic threat tracking**:
-- **123 CVE-mapped vulnerabilities** — Prompt injection, data exfiltration, code injection
-- **93 malicious skill and package records** — Exact names and versions when sources support them
-- **Production hardening workflows** — MCP vetting, injection defense, audit automation
+- **123 CVE-mapped vulnerabilities**: Prompt injection, data exfiltration, code injection
+- **93 malicious skill and package records**: Exact names and versions when sources support them
+- **Production hardening workflows**: MCP vetting, injection defense, audit automation
 
 [Threat Database →](./examples/commands/resources/threat-db.yaml) | [Security Guide →](./guide/security/security-hardening.md)
 
@@ -304,7 +304,7 @@ graph LR
 
 **Outcome**: Verify your understanding + identify knowledge gaps.
 
-**Only comprehensive assessment available** — test across 9 categories:
+**Only comprehensive assessment available**: test across 9 categories:
 - Setup & Configuration, Agents & Sub-Agents, MCP Servers, Trust & Verification, Advanced Patterns
 
 **Features**: 4 skill profiles (Junior/Senior/Power User/PM), instant feedback with doc links, weak area identification
@@ -335,10 +335,10 @@ graph LR
 **Outcome**: Maintain code quality while working with AI.
 
 Complete guides with rationale and examples:
-- [TDD](./guide/core/methodologies.md#tier-5-implementation) — Test-Driven Development (Red-Green-Refactor with AI)
-- [SDD](./guide/core/methodologies.md#tier-2-specification--architecture) — Specification-Driven Development (Design before code)
-- [BDD](./guide/core/methodologies.md#tier-3-behavior--acceptance) — Behavior-Driven Development (User stories → tests)
-- [GSD](./guide/core/methodologies.md#tier-1-strategic-orchestration) — Get Shit Done (Pragmatic delivery)
+- [TDD](./guide/core/methodologies.md#tier-5-implementation): Test-Driven Development (Red-Green-Refactor with AI)
+- [SDD](./guide/core/methodologies.md#tier-2-specification--architecture): Specification-Driven Development (Design before code)
+- [BDD](./guide/core/methodologies.md#tier-3-behavior--acceptance): Behavior-Driven Development (User stories → tests)
+- [GSD](./guide/core/methodologies.md#tier-1-strategic-orchestration): Get Shit Done (Pragmatic delivery)
 
 **What this means for you**: Choose the right workflow for your team culture, integrate AI into existing processes, avoid technical debt from AI over-reliance.
 
@@ -377,41 +377,41 @@ Systematic assessment of external resources (5-point scoring):
 ## 🎯 Learning Paths
 
 <details>
-<summary><strong>Junior Developer</strong> — Foundation path (7 steps)</summary>
+<summary><strong>Junior Developer</strong>: Foundation path (7 steps)</summary>
 
-1. [Quick Start](./guide/ultimate-guide.md#1-quick-start-day-1) — Install & first workflow
-2. [Essential Commands](./guide/ultimate-guide.md#13-essential-commands) — The 7 commands
-3. [Context Management](./guide/ultimate-guide.md#22-context-management) — Critical concept
-4. [Memory Files](./guide/ultimate-guide.md#31-memory-files-claudemd) — Your first CLAUDE.md
-5. [Learning with AI](./guide/roles/learning-with-ai.md) — Use AI without becoming dependent ⭐
-6. [TDD Workflow](./guide/workflows/tdd-with-claude.md) — Test-first development
-7. [Cheat Sheet](./guide/cheatsheet.md) — Print this
-
-</details>
-
-<details>
-<summary><strong>Senior Developer</strong> — Intermediate path (6 steps)</summary>
-
-1. [Core Concepts](./guide/ultimate-guide.md#2-core-concepts) — Mental model
-2. [Plan Mode](./guide/ultimate-guide.md#23-plan-mode) — Safe exploration
-3. [Methodologies](./guide/core/methodologies.md) — TDD, SDD, BDD reference
-4. [Agents](./guide/ultimate-guide.md#4-agents) — Custom AI personas
-5. [Hooks](./guide/ultimate-guide.md#7-hooks) — Event automation
-6. [CI/CD Integration](./guide/ultimate-guide.md#93-cicd-integration) — Pipelines
+1. [Quick Start](./guide/ultimate-guide.md#1-quick-start-day-1): Install & first workflow
+2. [Essential Commands](./guide/ultimate-guide.md#13-essential-commands): The 7 commands
+3. [Context Management](./guide/ultimate-guide.md#22-context-management): Critical concept
+4. [Memory Files](./guide/ultimate-guide.md#31-memory-files-claudemd): Your first CLAUDE.md
+5. [Learning with AI](./guide/roles/learning-with-ai.md): Use AI without becoming dependent ⭐
+6. [TDD Workflow](./guide/workflows/tdd-with-claude.md): Test-first development
+7. [Cheat Sheet](./guide/cheatsheet.md): Print this
 
 </details>
 
 <details>
-<summary><strong>Power User</strong> — Comprehensive path (8 steps)</summary>
+<summary><strong>Senior Developer</strong>: Intermediate path (6 steps)</summary>
 
-1. [Complete Guide](./guide/ultimate-guide.md) — End-to-end
-2. [Architecture](./guide/core/architecture.md) — How Claude Code works
-3. [Security Hardening](./guide/security/security-hardening.md) — MCP vetting, injection defense
-4. [MCP Servers](./guide/ultimate-guide.md#8-mcp-servers) — Extended capabilities
-5. [Trinity Pattern](./guide/ultimate-guide.md#91-the-trinity) — Advanced workflows
-6. [Observability](./guide/ops/observability.md) — Monitor costs & sessions
+1. [Core Concepts](./guide/ultimate-guide.md#2-core-concepts): Mental model
+2. [Plan Mode](./guide/ultimate-guide.md#23-plan-mode): Safe exploration
+3. [Methodologies](./guide/core/methodologies.md): TDD, SDD, BDD reference
+4. [Agents](./guide/ultimate-guide.md#4-agents): Custom AI personas
+5. [Hooks](./guide/ultimate-guide.md#7-hooks): Event automation
+6. [CI/CD Integration](./guide/ultimate-guide.md#93-cicd-integration): Pipelines
+
+</details>
+
+<details>
+<summary><strong>Power User</strong>: Comprehensive path (8 steps)</summary>
+
+1. [Complete Guide](./guide/ultimate-guide.md): End-to-end
+2. [Architecture](./guide/core/architecture.md): How Claude Code works
+3. [Security Hardening](./guide/security/security-hardening.md): MCP vetting, injection defense
+4. [MCP Servers](./guide/ultimate-guide.md#8-mcp-servers): Extended capabilities
+5. [Trinity Pattern](./guide/ultimate-guide.md#91-the-trinity): Advanced workflows
+6. [Observability](./guide/ops/observability.md): Monitor costs & sessions
 7. [Agent Teams](./guide/workflows/agent-teams.md): multi-agent coordination (Opus 4.6+ compatible)
-8. [Examples](./examples/) — Production templates
+8. [Examples](./examples/): Production templates
 
 </details>
 
@@ -419,27 +419,27 @@ Systematic assessment of external resources (5-point scoring):
 <summary><strong>Product Manager / DevOps / Designer</strong></summary>
 
 **Product Manager** (5 steps):
-1. [What's Inside](#-whats-inside) — Scope overview
-2. [Golden Rules](#-golden-rules) — Key principles
-3. [Data Privacy](./guide/security/data-privacy.md) — Retention & compliance
-4. [Adoption Approaches](./guide/roles/adoption-approaches.md) — Team strategies
-5. [PM FAQ](./guide/ultimate-guide.md#can-product-managers-use-claude-code) — Code-adjacent vs non-coding PMs
+1. [What's Inside](#-whats-inside): Scope overview
+2. [Golden Rules](#-golden-rules): Key principles
+3. [Data Privacy](./guide/security/data-privacy.md): Retention & compliance
+4. [Adoption Approaches](./guide/roles/adoption-approaches.md): Team strategies
+5. [PM FAQ](./guide/ultimate-guide.md#can-product-managers-use-claude-code): Code-adjacent vs non-coding PMs
 
 **Note**: Non-coding PMs should consider [Claude Cowork Guide](https://github.com/FlorianBruniaux/claude-cowork-guide) instead.
 
 **DevOps / SRE** (5 steps):
-1. [DevOps & SRE Guide](./guide/ops/devops-sre.md) — FIRE framework
-2. [K8s Troubleshooting](./guide/ops/devops-sre.md#kubernetes) — Symptom-based prompts
-3. [Incident Response](./guide/ops/devops-sre.md#pattern-incident-response) — Workflows
-4. [IaC Patterns](./guide/ops/devops-sre.md#pattern-infrastructure-as-code) — Terraform, Ansible
-5. [Guardrails](./guide/ops/devops-sre.md#guardrails--adoption) — Security boundaries
+1. [DevOps & SRE Guide](./guide/ops/devops-sre.md): FIRE framework
+2. [K8s Troubleshooting](./guide/ops/devops-sre.md#kubernetes): Symptom-based prompts
+3. [Incident Response](./guide/ops/devops-sre.md#pattern-incident-response): Workflows
+4. [IaC Patterns](./guide/ops/devops-sre.md#pattern-infrastructure-as-code): Terraform, Ansible
+5. [Guardrails](./guide/ops/devops-sre.md#guardrails--adoption): Security boundaries
 
 **Product Designer** (5 steps):
-1. [Working with Images](./guide/ultimate-guide.md#working-with-images-and-screenshots) — Image analysis
-2. [Wireframing Tools](./guide/ultimate-guide.md#wireframing-tools-for-ai-development) — ASCII/Excalidraw
-3. [Figma MCP](./guide/ultimate-guide.md#figma-mcp-integration) — Design file access
-4. [Design-to-Code Workflow](./guide/workflows/design-to-code.md) — Figma → Claude
-5. [Cheat Sheet](./guide/cheatsheet.md) — Print this
+1. [Working with Images](./guide/ultimate-guide.md#working-with-images-and-screenshots): Image analysis
+2. [Wireframing Tools](./guide/ultimate-guide.md#wireframing-tools-for-ai-development): ASCII/Excalidraw
+3. [Figma MCP](./guide/ultimate-guide.md#figma-mcp-integration): Design file access
+4. [Design-to-Code Workflow](./guide/workflows/design-to-code.md): Figma → Claude
+5. [Cheat Sheet](./guide/cheatsheet.md): Print this
 
 </details>
 
@@ -537,7 +537,7 @@ TDD/SDD/BDD are not optional with Claude Code. AI accelerates bad code as much a
 
 **Quick load**: `curl -sL https://raw.githubusercontent.com/FlorianBruniaux/claude-code-ultimate-guide/main/machine-readable/reference.yaml`
 
-### reference.yaml — Structure & Landing Site Search
+### reference.yaml: Structure & Landing Site Search
 
 `reference.yaml` is organized into several top-level sections:
 
@@ -552,7 +552,7 @@ TDD/SDD/BDD are not optional with Claude Code. AI accelerates bad code as much a
 
 #### How the search index works
 
-The CMD+K search on the landing site is an **explicit index** — not a full-text search. Only entries listed in `deep_dive` are indexed. Keywords are derived mechanically from the key name and file path, not from the file content.
+The CMD+K search on the landing site is an **explicit index**: not a full-text search. Only entries listed in `deep_dive` are indexed. Keywords are derived mechanically from the key name and file path, not from the file content.
 
 **Consequence**: adding a new guide section requires explicitly adding an entry to `deep_dive`, then running `pnpm build:search` in the landing repo.
 
@@ -574,7 +574,7 @@ deep_dive:
 [build-guide-index] Generating empty guide-search-entries.ts
 ```
 
-Use distinct names — e.g. if you need both a line-number reference and a file path for the same concept, suffix the line-number key with `_line`:
+Use distinct names: e.g. if you need both a line-number reference and a file path for the same concept, suffix the line-number key with `_line`:
 ```yaml
 security_gate_hook_line: 6907                              # line number ref
 security_gate_hook: "examples/hooks/bash/security-gate.sh" # file path ref
@@ -584,9 +584,9 @@ security_gate_hook: "examples/hooks/bash/security-gate.sh" # file path ref
 
 ## 📄 Whitepapers (FR + EN)
 
-11 focused whitepapers covering Claude Code in depth — PDF + EPUB, available in French and English. 472 pages total.
+11 focused whitepapers covering Claude Code in depth: PDF + EPUB, available in French and English. 472 pages total.
 
-> **Coming soon** — currently in private access. Public release planned.
+> **Coming soon**: currently in private access. Public release planned.
 
 | # | FR | EN | Pages |
 |---|----|----|-------|
@@ -599,18 +599,18 @@ security_gate_hook: "examples/hooks/bash/security-gate.sh" # file path ref
 | **06** | *Privacy & Compliance* | *Privacy & Compliance* | 29 |
 | **07** | *Guide de Référence* | *Reference Guide* | 87 |
 | **08** | *Agent Teams* | *Agent Teams* | 42 |
-| **09** | *Apprendre avec l'IA* | *Learning with AI* — UVAL protocol, comprehension debt | 49 |
-| **10** | *Convaincre son Employeur* | *Making the Case for AI* — ROI dossier for CEO/CTO/CFO | 27 |
+| **09** | *Apprendre avec l'IA* | *Learning with AI*: UVAL protocol, comprehension debt | 49 |
+| **10** | *Convaincre son Employeur* | *Making the Case for AI*: ROI dossier for CEO/CTO/CFO | 27 |
 
 ## 🗂️ Recap Cards (FR, EN coming)
 
-57 single-page A4 reference cards — printable, one concept per card. Available in French; English version in progress.
+57 single-page A4 reference cards: printable, one concept per card. Available in French; English version in progress.
 
 > **Browse online**: [cc.bruniaux.com/cheatsheets/](https://cc.bruniaux.com/cheatsheets/)
 
-- **Technique (22 cards)** — Commands, permissions, configuration, MCP, models, context window
-- **Méthodologie (22 cards)** — Daily workflow, agents, hooks, CI/CD, multi-agent, debug
-- **Conception (13 cards)** — Mental models, prompting, security by design, cost patterns
+- **Technique (22 cards)**: Commands, permissions, configuration, MCP, models, context window
+- **Méthodologie (22 cards)**: Daily workflow, agents, hooks, CI/CD, multi-agent, debug
+- **Conception (13 cards)**: Mental models, prompting, security by design, cost patterns
 
 ---
 
@@ -622,7 +622,7 @@ security_gate_hook: "examples/hooks/bash/security-gate.sh" # file path ref
 
 Same agentic capabilities as Claude Code, but through a visual interface with no coding required.
 
-→ **[Claude Cowork Guide](https://github.com/FlorianBruniaux/claude-cowork-guide)** — File organization, document generation, automated workflows
+→ **[Claude Cowork Guide](https://github.com/FlorianBruniaux/claude-cowork-guide)**: File organization, document generation, automated workflows
 
 **Status**: Research preview (Pro $20/mo or Max $100-200/mo, macOS only, **VPN incompatible**)
 
@@ -663,15 +663,15 @@ claude plugin install session-summary      # Session analytics dashboard (15 sec
 | [ctop](https://github.com/aakashadesara/ctop) | Session monitoring (htop for AI agents) | Real-time CPU, memory, tokens, costs |
 | [AI Coding Agents Matrix](https://coding-agents-matrix.dev) | Technical comparison | Comparing 23+ alternatives |
 
-**Community**: 🇫🇷 [Dev With AI](https://www.devw.ai/) — 1500+ devs on Slack, meetups in Paris, Bordeaux, Lyon
+**Community**: 🇫🇷 [Dev With AI](https://www.devw.ai/), 1500+ devs on Slack, meetups in Paris, Bordeaux, Lyon
 
-→ **[AI Ecosystem Guide](./guide/ecosystem/ai-ecosystem.md)** — Complete integration patterns with complementary AI tools
+→ **[AI Ecosystem Guide](./guide/ecosystem/ai-ecosystem.md)**: Complete integration patterns with complementary AI tools
 
 ---
 
 ## 🛡️ Security
 
-**Comprehensive MCP security coverage** — the only guide with a threat intelligence database and production hardening workflows.
+**Comprehensive MCP security coverage**: the only guide with a threat intelligence database and production hardening workflows.
 
 ### Official Security Tools
 
@@ -763,11 +763,11 @@ Use this guide critically. Experiment. Share what works for you.
 
 ### About the Author
 
-**Florian Bruniaux** — Founding Engineer @ [Méthode Aristote](https://methode-aristote.fr) (EdTech + AI). 12 years in tech (Dev → Lead → EM → VP Eng → CTO). Current focus: Rust CLI tools, MCP servers, AI developer tooling.
+**Florian Bruniaux**: Founding Engineer @ [Méthode Aristote](https://methode-aristote.fr) (EdTech + AI). 12 years in tech (Dev → Lead → EM → VP Eng → CTO). Current focus: Rust CLI tools, MCP servers, AI developer tooling.
 
 | Project | Description | Links |
 |---------|-------------|-------|
-| **RTK** | CLI proxy — 60-90% LLM token reduction | [GitHub](https://github.com/rtk-ai/rtk) · [Site](https://www.rtk-ai.app/) |
+| **RTK** | CLI proxy: 60-90% LLM token reduction | [GitHub](https://github.com/rtk-ai/rtk) · [Site](https://www.rtk-ai.app/) |
 | **ccboard** | Real-time TUI/Web dashboard for Claude Code | [GitHub](https://github.com/FlorianBruniaux/ccboard) · [Demo](https://ccboard.bruniaux.com/) |
 | **Claude Cowork Guide** | 26 business workflows for non-coders | [GitHub](https://github.com/FlorianBruniaux/claude-cowork-guide) · [Site](https://cowork.bruniaux.com/) |
 | **cc-copilot-bridge** | Bridge between Claude Code & GitHub Copilot | [GitHub](https://github.com/FlorianBruniaux/cc-copilot-bridge) · [Site](https://ccbridge.bruniaux.com/) |
@@ -811,9 +811,9 @@ Use this guide critically. Experiment. Share what works for you.
 
 **Security Hooks** (38): [dangerous-actions-blocker](./examples/hooks/bash/dangerous-actions-blocker.sh), [prompt-injection-detector](./examples/hooks/bash/prompt-injection-detector.sh), [unicode-injection-scanner](./examples/hooks/bash/unicode-injection-scanner.sh), [output-secrets-scanner](./examples/hooks/bash/output-secrets-scanner.sh)...
 
-**Skills** (64): [Claudeception](https://github.com/blader/Claudeception) — Meta-skill that auto-generates skills from session discoveries ⭐
+**Skills** (64): [Claudeception](https://github.com/blader/Claudeception): Meta-skill that auto-generates skills from session discoveries ⭐
 
-**Plugins** (1): [SE-CoVe](./examples/plugins/se-cove.md) — Chain-of-Verification for independent code review (Meta AI, ACL 2024)
+**Plugins** (1): [SE-CoVe](./examples/plugins/se-cove.md): Chain-of-Verification for independent code review (Meta AI, ACL 2024)
 
 **Utility Scripts**: [session-search.sh](./examples/scripts/session-search.sh), [audit-scan.sh](./examples/scripts/audit-scan.sh)
 
@@ -864,7 +864,7 @@ Systematic evaluation of external resources (tools, methodologies, articles) bef
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="https://starmapper.bruniaux.com/api/map-image/FlorianBruniaux/claude-code-ultimate-guide?theme=dark" />
       <source media="(prefers-color-scheme: light)" srcset="https://starmapper.bruniaux.com/api/map-image/FlorianBruniaux/claude-code-ultimate-guide?theme=light" />
-      <img alt="StarMapper — see who stars this repo on a world map" src="https://starmapper.bruniaux.com/api/map-image/FlorianBruniaux/claude-code-ultimate-guide" />
+      <img alt="StarMapper: see who stars this repo on a world map" src="https://starmapper.bruniaux.com/api/map-image/FlorianBruniaux/claude-code-ultimate-guide" />
     </picture>
   </a>
 </p>
@@ -888,9 +888,9 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 ## 📄 License & Support
 
-**Guide**: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) — Educational content is open for reuse with attribution.
+**Guide**: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), educational content is open for reuse with attribution.
 
-**Templates**: [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) — Copy-paste freely, no attribution needed.
+**Templates**: [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/), copy-paste freely, no attribution needed.
 
 **Author**: [Florian BRUNIAUX](https://github.com/FlorianBruniaux) | Founding Engineer [@Méthode Aristote](https://methode-aristote.fr)
 
@@ -901,14 +901,14 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 ## 📚 Further Reading
 
 ### This Guide
-- **[CHANGELOG](./CHANGELOG.md)** — Guide version history (what's new in each release)
-- [Claude Code Releases](./guide/core/claude-code-releases.md) — Official Claude Code release tracking
+- **[CHANGELOG](./CHANGELOG.md)**: Guide version history (what's new in each release)
+- [Claude Code Releases](./guide/core/claude-code-releases.md): Official Claude Code release tracking
 
 ### Official Resources
-- [Claude Code CLI](https://code.claude.com) — Official website
-- [Documentation](https://code.claude.com/docs) — Official docs
-- [Anthropic CHANGELOG](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md) — Official Claude Code changelog
-- [GitHub Issues](https://github.com/anthropics/claude-code/issues) — Bug reports & feature requests
+- [Claude Code CLI](https://code.claude.com): Official website
+- [Documentation](https://code.claude.com/docs): Official docs
+- [Anthropic CHANGELOG](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md): Official Claude Code changelog
+- [GitHub Issues](https://github.com/anthropics/claude-code/issues): Bug reports & feature requests
 
 ### Research & Industry Reports
 
@@ -921,29 +921,29 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 - **[AI Fluency Index](https://www.anthropic.com/research/AI-fluency-index)** (Anthropic, Feb 23, 2026)
   - Research on 9,830 Claude.ai conversations: iteration multiplies fluency behaviors 2× (2.67 vs 1.33)
-  - **Artifact Paradox**: polished outputs (code, files) reduce critical evaluation — −5.2pp missing context, −3.7pp fact-checking, −3.1pp reasoning challenge
-  - Only 30% of users set collaboration terms explicitly — CLAUDE.md addresses this structurally
+  - **Artifact Paradox**: polished outputs (code, files) reduce critical evaluation (−5.2pp missing context, −3.7pp fact-checking, −3.1pp reasoning challenge)
+  - Only 30% of users set collaboration terms explicitly: CLAUDE.md addresses this structurally
   - **Evaluation**: [`docs/resource-evaluations/2026-02-23-anthropic-ai-fluency-index.md`](docs/resource-evaluations/2026-02-23-anthropic-ai-fluency-index.md) (score 4/5)
   - **Integration**: 3 callouts in §2.3 (plan review), §3.1 (CLAUDE.md), §9.11 (Artifact Paradox) + [diagram](./guide/diagrams/06-development-workflows.md#ai-fluency--high-vs-low-fluency-paths)
 
-- **[Outcome Engineering — o16g Manifesto](https://o16g.com/)** (Cory Ondrejka, Feb 2026)
+- **[Outcome Engineering: o16g Manifesto](https://o16g.com/)** (Cory Ondrejka, Feb 2026)
   - 16 principles for shifting from "software engineering" to "outcome engineering"
   - Author: CTO Onebrief, co-creator Second Life, ex-VP Google/Meta
   - Cultural positioning: numeronym naming (o16g like i18n, k8s), Honeycomb endorsement
-  - **Status**: Emerging — on [watch list](./docs/resource-evaluations/watch-list.md) for community adoption tracking
+  - **Status**: Emerging, on [watch list](./docs/resource-evaluations/watch-list.md) for community adoption tracking
 
 ### Community Resources
-- [everything-claude-code](https://github.com/affaan-m/everything-claude-code) — Production configs (45k+⭐)
-- [awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) — Curated links
-- [SuperClaude Framework](https://github.com/SuperClaude-Org/SuperClaude_Framework) — Behavioral modes
+- [everything-claude-code](https://github.com/affaan-m/everything-claude-code): Production configs (45k+⭐)
+- [awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code): Curated links
+- [SuperClaude Framework](https://github.com/SuperClaude-Org/SuperClaude_Framework): Behavioral modes
 
 ### Tools
-- [Ask Zread](https://zread.ai/FlorianBruniaux/claude-code-ultimate-guide) — Ask questions about this guide
-- [Interactive Quiz](./quiz/) — 473 questions
-- [Landing Site](https://cc.bruniaux.com) — Visual navigation, cheat sheets, ebooks, quiz
+- [Ask Zread](https://zread.ai/FlorianBruniaux/claude-code-ultimate-guide): Ask questions about this guide
+- [Interactive Quiz](./quiz/): 473 questions
+- [Landing Site](https://cc.bruniaux.com): Visual navigation, cheat sheets, ebooks, quiz
 - [Claude Code Version History](https://cc.bruniaux.com/releases/): every release with env vars, config flags, and breaking changes
 - [AI Ecosystem Guide](https://cc.bruniaux.com/guide/ai-ecosystem/): model comparisons, complementary tools, multi-provider setups
-- [RSS Feed](https://cc.bruniaux.com/rss.xml) — Subscribe to guide updates, new content, and CC releases
+- [RSS Feed](https://cc.bruniaux.com/rss.xml): Subscribe to guide updates, new content, and CC releases
 
 ---
 
