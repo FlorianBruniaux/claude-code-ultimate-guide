@@ -147,7 +147,7 @@ These rules come from observed friction patterns in actual sessions on this repo
 After any file modification or feature implementation, update `CHANGELOG.md` under `[Unreleased]`. Never skip this step unless explicitly told to. This is the most common missed step.
 
 ### Be exhaustive on first pass
-When asked to analyze, audit, or review anything — read every relevant file. Do not do a superficial scan. If unsure of scope, ask rather than delivering shallow results. This applies to resource evaluations, doc audits, and codebase reviews.
+When asked to analyze, audit, or review anything, read every relevant file. Do not do a superficial scan. If unsure of scope, ask rather than delivering shallow results. This applies to resource evaluations, doc audits, and codebase reviews.
 
 ### Use absolute paths
 When referencing files in documentation, reports, or resource evaluations, always use full absolute paths. Never relative paths.
@@ -156,7 +156,7 @@ When referencing files in documentation, reports, or resource evaluations, alway
 After completing all requested tasks, always confirm unprompted:
 1. Files changed (list them)
 2. CHANGELOG.md updated
-3. Committed and pushed (if applicable) — include the commit hash
+3. Committed and pushed (if applicable): include the commit hash
 
 ### Bias toward action
 Do not spend extended time in exploration or planning loops. Produce files and concrete output early, then iterate. If stuck for more than 2 attempts on any step, explain the blocker instead of looping.

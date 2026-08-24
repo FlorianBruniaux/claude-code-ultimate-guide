@@ -1,10 +1,10 @@
-# Codex Ultimate Guide - Project Context
+# Claude Code Ultimate Guide - Project Context
 
 ## Purpose
 
-This repository is the **comprehensive documentation for Codex** (Anthropic's CLI tool). It teaches users how to use Codex effectively through guides, examples, and templates.
+This repository is the **comprehensive documentation for Claude Code** (Anthropic's CLI tool). It teaches users how to use Claude Code effectively through guides, examples, and templates.
 
-**Meta-note**: This repo documents Codex, so its own configuration should be exemplary.
+**Meta-note**: This repo documents Claude Code, so its own configuration should be exemplary.
 
 ## Repository Structure
 
@@ -29,7 +29,7 @@ examples/                 # Production-ready templates
 └── scripts/              # Utility scripts (audit, health check)
 
 machine-readable/         # For LLM consumption
-├── reference.yaml        # Condensed index (~2K tokens)
+├── reference.yaml        # Condensed index (~43K tokens)
 └── llms.txt              # AI indexation file
 
 whitepapers/              # Focused whitepapers (FR + EN)
@@ -42,9 +42,9 @@ tools/                    # Interactive utilities
 └── onboarding-prompt.md  # Personalized learning prompt
 
 docs/                     # Public documentation (tracked)
-└── resource-evaluations/ # External resource evaluations (151 files)
+└── resource-evaluations/ # External resource evaluations (167 files)
 
-claudedocs/               # Codex working documents (gitignored)
+claudedocs/               # Claude working documents (gitignored)
 ├── resource-evaluations/ # Research working docs (prompts, private audits)
 └── *.md                  # Analysis reports, plans, working docs
 ```
@@ -92,11 +92,11 @@ Custom slash commands available in this project:
 | Command | Description |
 |---------|-------------|
 | `/release <bump-type>` | Release guide version (CHANGELOG + VERSION + sync + commit + push) |
-| `/update-infos-release [bump-type]` | Update Codex releases tracking + optional guide version bump |
-| `/version` | Display current guide and Codex versions with stats |
+| `/update-infos-release [bump-type]` | Update Claude Code releases tracking + optional guide version bump |
+| `/version` | Display current guide and Claude Code versions with stats |
 | `/changelog [count]` | View recent CHANGELOG entries (default: 5) |
 | `/sync` | Check guide/landing synchronization status |
-| `/audit-agents-skills [path]` | Audit quality of agents, skills, and commands in .Codex/ config |
+| `/audit-agents-skills [path]` | Audit quality of agents, skills, and commands in .claude/ config |
 | `/security-check` | Quick config check against known threats database (~30s) |
 | `/security-audit` | Full 6-phase security audit with score /100 (2-5min) |
 | `/update-threat-db` | Research & update threat intelligence database |
@@ -119,8 +119,8 @@ Custom slash commands available in this project:
 /update-threat-db              # Research + update threat-db.yaml
 ```
 
-These commands are defined in `.Codex/commands/` and automate:
-- Codex releases tracking (YAML + Markdown + Landing badge)
+These commands are defined in `.claude/commands/` and automate:
+- Claude Code releases tracking (YAML + Markdown + Landing badge)
 - Guide version management (VERSION file + sync across all docs)
 - CHANGELOG updates
 - Landing site synchronization verification
@@ -128,7 +128,7 @@ These commands are defined in `.Codex/commands/` and automate:
 
 ### Command Naming Conventions
 
-Implicit prefixes used in `.Codex/commands/`:
+Implicit prefixes used in `.claude/commands/`:
 
 | Prefix | Pattern | Examples |
 |--------|---------|---------|
@@ -147,7 +147,7 @@ These rules come from observed friction patterns in actual sessions on this repo
 After any file modification or feature implementation, update `CHANGELOG.md` under `[Unreleased]`. Never skip this step unless explicitly told to. This is the most common missed step.
 
 ### Be exhaustive on first pass
-When asked to analyze, audit, or review anything — read every relevant file. Do not do a superficial scan. If unsure of scope, ask rather than delivering shallow results. This applies to resource evaluations, doc audits, and codebase reviews.
+When asked to analyze, audit, or review anything, read every relevant file. Do not do a superficial scan. If unsure of scope, ask rather than delivering shallow results. This applies to resource evaluations, doc audits, and codebase reviews.
 
 ### Use absolute paths
 When referencing files in documentation, reports, or resource evaluations, always use full absolute paths. Never relative paths.
@@ -156,7 +156,7 @@ When referencing files in documentation, reports, or resource evaluations, alway
 After completing all requested tasks, always confirm unprompted:
 1. Files changed (list them)
 2. CHANGELOG.md updated
-3. Committed and pushed (if applicable) — include the commit hash
+3. Committed and pushed (if applicable): include the commit hash
 
 ### Bias toward action
 Do not spend extended time in exploration or planning loops. Produce files and concrete output early, then iterate. If stuck for more than 2 attempts on any step, explain the blocker instead of looping.
@@ -222,12 +222,12 @@ Architecture, repo details, cross-repo sync triggers, relations between repos, a
 
 ## Research Resources
 
-**Perplexity Pro disponible**: Pour toute recherche nécessitant des sources fiables ou des informations récentes sur Codex, Anthropic, ou les pratiques de développement assisté par IA:
+**Perplexity Pro disponible**: Pour toute recherche nécessitant des sources fiables ou des informations récentes sur Claude Code, Anthropic, ou les pratiques de développement assisté par IA:
 - Demande-moi de faire une recherche Perplexity (plus efficace que WebSearch basique)
 - Je te fournirai les résultats avec les sources
-- Utile pour: nouvelles features Codex, best practices communauté, comparaisons d'outils, documentation officielle mise à jour
+- Utile pour: nouvelles features Claude Code, best practices communauté, comparaisons d'outils, documentation officielle mise à jour
 
-## Codex Releases Tracking
+## Claude Code Releases Tracking
 
 Files, update workflow, and YAML entry format:
 
@@ -240,7 +240,7 @@ External resources (articles, videos, discussions) are evaluated before integrat
 ### Process
 
 1. **Research**: Initial Perplexity search → Save prompt + results in `claudedocs/resource-evaluations/` (private)
-1b. **Cross-reference**: Si ressource liée à Codex, vérifier les claims contre `https://code.Codex.com/docs/llms-full.txt` (source officielle ~98KB)
+1b. **Cross-reference**: Si ressource liée à Claude Code, vérifier les claims contre `https://code.claude.com/docs/llms-full.txt` (source officielle ~98KB)
 2. **Evaluation**: Systematic scoring (1-5) → Create evaluation file in `docs/resource-evaluations/` (tracked)
 3. **Challenge**: Technical review by agent to ensure objectivity
 4. **Decision**: Integrate (score 3+), mention (score 2), or reject (score 1)
@@ -249,7 +249,7 @@ External resources (articles, videos, discussions) are evaluated before integrat
 
 | Location | Content | Tracking |
 |----------|---------|----------|
-| `docs/resource-evaluations/` | Final evaluations (151 files) | ✅ Git tracked (public) |
+| `docs/resource-evaluations/` | Final evaluations (167 files) | ✅ Git tracked (public) |
 | `claudedocs/resource-evaluations/` | Working docs, prompts, private audits | ❌ Gitignored (private) |
 
 ### Scoring Grid
@@ -266,26 +266,10 @@ See full methodology: [`docs/resource-evaluations/README.md`](docs/resource-eval
 
 ## Quick Lookups
 
-For answering questions about Codex:
-0. **Doc officielle Anthropic (LLM-optimized)**: `https://code.Codex.com/docs/llms.txt` (index ~65 pages) ou `https://code.Codex.com/docs/llms-full.txt` (doc complète ~98KB) pour les faits officiels
+For answering questions about Claude Code:
+0. **Doc officielle Anthropic (LLM-optimized)**: `https://code.claude.com/docs/llms.txt` (index ~65 pages) ou `https://code.claude.com/docs/llms-full.txt` (doc complète ~98KB) pour les faits officiels
 1. Search `machine-readable/reference.yaml` first (has line numbers to full guide)
 2. Use those line numbers to read relevant sections from `guide/ultimate-guide.md`
 3. Check `examples/` for ready-to-use templates
-4. Check `guide/core/Codex-releases.md` for recent features/changes
+4. Check `guide/core/claude-code-releases.md` for recent features/changes
 5. Si info manquante ou incertaine → demander une recherche Perplexity (communauté, comparaisons, retours)
-
-
-<claude-mem-context>
-# Memory Context
-
-# [claude-code-ultimate-guide] recent context, 2026-06-11 3:40pm GMT+2
-
-No previous sessions found.
-</claude-mem-context>
-
-<!-- lean-ctx -->
-## lean-ctx
-
-Prefer lean-ctx MCP tools over native equivalents for token savings.
-Full rules: @LEAN-CTX.md
-<!-- /lean-ctx -->

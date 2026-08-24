@@ -73,14 +73,14 @@
 ## 🎯 What You'll Learn
 
 **This guide teaches you to think differently about AI-assisted development:**
-- ✅ **Understand trade-offs**: When to use agents vs skills vs commands (not just how to configure them)
+- ✅ **Understand trade-offs**: When to use agents vs skills vs commands, and why
 - ✅ **Build mental models**: How Claude Code works internally (architecture, context flow, tool orchestration)
 - ✅ **Visualize concepts**: 48 Mermaid diagrams covering model selection, master loop, memory hierarchy, multi-agent patterns, security threats, AI fluency paths
-- ✅ **Master methodologies**: TDD, SDD, BDD with AI collaboration (not just templates)
+- ✅ **Master methodologies**: TDD, SDD, BDD with AI collaboration through worked examples
 - ✅ **Security mindset**: Threat modeling for AI systems (only guide with 123 CVEs + 93 malicious skills database)
 - ✅ **Test your knowledge**: 473-question quiz to validate understanding (no other resource offers this)
 
-**Outcome**: Go from copy-pasting configs to designing your own agentic workflows with confidence.
+**Outcome**: Pick the right tool for the job using the decision framework in [Trade-offs](./guide/ultimate-guide.md#when-to-use-what), instead of guessing between an agent, a skill, and a command.
 
 ---
 
@@ -255,7 +255,7 @@ graph LR
 
 ### 🎓 Deep Understanding Over Configuration
 
-**Outcome**: Design your own workflows instead of copy-pasting blindly.
+**Outcome**: Know WebFetch's output is lossy, or that a sub-agent nests to depth 3 by default, before that assumption costs you a debugging session.
 
 **We teach how Claude Code works and why patterns matter**:
 - [Tools Reference](./guide/core/tools-reference.md): all 40 built-in tools, permission rule formats, per-tool behaviors (timeouts, file-read limits, lossy WebFetch), and how-to for Monitor, Workflow, agent teams, Cron, Tasks API
@@ -264,7 +264,7 @@ graph LR
 - [Memory Loading Comparison](./guide/ultimate-guide.md#memory-loading-comparison): unified "which mechanism for what?" map across all 7 config layers
 - [Pitfalls](./guide/ultimate-guide.md#18-eight-beginner-mistakes-and-how-to-avoid-them): Common failure modes + prevention strategies
 
-**What this means for you**: Troubleshoot issues independently, optimize for your specific use case, know when to deviate from patterns.
+**What this means for you**: When a teammate asks "agent or skill?", point them at the [Trade-offs](./guide/ultimate-guide.md#when-to-use-what) decision framework instead of guessing.
 
 ---
 
@@ -281,7 +281,7 @@ graph LR
 
 [Browse all 48 diagrams →](./guide/diagrams/)
 
-**What this means for you**: Understand the master loop before reading 26K+ lines, see multi-agent topologies at a glance, share visual security threat models with your team.
+**What this means for you**: Skim the [Multi-Agent diagram](./guide/diagrams/07-multi-agent-patterns.md) to pick a topology in two minutes instead of reading the full section.
 
 ---
 
@@ -296,7 +296,7 @@ graph LR
 
 [Threat Database →](./examples/commands/resources/threat-db.yaml) | [Security Guide →](./guide/security/security-hardening.md)
 
-**What this means for you**: Vet MCP servers before trusting them, detect attack patterns in configs, comply with security audits.
+**What this means for you**: Cross-check a new MCP server's name against the [threat database](./examples/commands/resources/threat-db.yaml) before you `claude mcp add` it.
 
 ---
 
@@ -346,16 +346,16 @@ Complete guides with rationale and examples:
 
 ### 📚 271 Annotated Templates
 
-**Outcome**: Learn patterns, not just configs.
+**Outcome**: Learn the reasoning behind each pattern, so you can adapt it instead of copying it blindly.
 
 Educational templates with explanations:
 - Agents (23), Skills (74), Hooks (37)
-- Comments explaining **why** each pattern works (not just what it does)
+- Comments explaining **why** each pattern works
 - Gradual complexity progression (simple → advanced)
 
 [Browse Catalog →](./examples/)
 
-**What this means for you**: Understand the reasoning behind patterns, adapt templates to your context, create your own custom patterns.
+**What this means for you**: Start from the `security-guardian` agent template instead of writing a system prompt from scratch.
 
 ---
 
@@ -370,7 +370,7 @@ Systematic assessment of external resources (5-point scoring):
 
 [See Evaluations →](./docs/resource-evaluations/)
 
-**What this means for you**: Save time vetting resources, understand limitations before adopting tools, make informed decisions.
+**What this means for you**: Check whether a tool already scored low on a specific weakness before you adopt it.
 
 ---
 
@@ -744,20 +744,20 @@ claude plugin install session-summary      # Session analytics dashboard (15 sec
 
 ## 📖 About
 
-This guide is the result of **over a year of daily practice** with Claude Code. The goal isn't to be exhaustive (the tool evolves too fast), but to share what works in production.
+This guide is the result of **over a year of daily practice** with Claude Code. The goal isn't to be exhaustive (Claude Code evolves too fast), but to share what works in production.
 
 **What you'll find:**
-- Patterns verified in production (not theory)
-- Trade-off explanations (not just "here's how to do it")
+- Patterns verified in production
+- Trade-off explanations, with the reasoning behind each recommendation
 - Security first (123 CVEs tracked)
 - Transparency on limitations (Claude Code isn't magic)
 
 **What you won't find:**
-- Definitive answers (tool is too new)
+- Definitive answers (Claude Code is too new)
 - Universal configs (every project is different)
 - Marketing promises (zero bullshit)
 
-Use this guide critically. Experiment. Share what works for you.
+Open an issue if a claim in this guide turns out wrong in your setup.
 
 **Feedback welcome:** [GitHub Issues](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/issues)
 
