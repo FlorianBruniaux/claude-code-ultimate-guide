@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Documentation
+
+- **Claude Code releases tracking updated to v2.1.241** (`machine-readable/claude-code-releases.yaml`, `guide/core/claude-code-releases.md`, `mcp-server/content/claude-code-releases.yaml`, `mcp-server/content/reference.yaml`, `mcp-server/content/llms.txt`, `mcp-server/package.json`): four new versions condensed from `2.1.237`. v2.1.239 is the notable one, a fix for Bedrock streaming behind a proxy that stripped the response `Content-Type` header and silently re-ran every turn non-streaming, doubling billed API calls, alongside Windows cross-session `SendMessage`/`ListAgents`, a `/cost` line item for the 1.1x data-residency inference premium, and `/claude-api upgrade` for migrating the Python SDK off 0.x. v2.1.238 adds a `keybindingFlavor: "readline"` setting, plugin marketplace `headersHelper` for minting short-lived fetch headers, a fix for unbounded memory growth from retained subagent tool results in long sessions, and `self-hosted-runner` graceful-shutdown draining plus proxy authorization headers. v2.1.240 and v2.1.241 ship as bug-fix-only releases with no published highlight detail. Release dates for all four (2026-08-20 through 2026-08-22) came from the npm registry's publish timestamps, since the upstream CHANGELOG carries no dates. `mcp-server` bumped `1.2.10` → `1.2.11` and rebuilt; no `npm publish` run.
+
 ### Added
 
 - **AgentSec CoSnitch intelligence mirrored** (`machine-readable/agentsec-security-feed.v1.json`): synchronized the 2026-08-24 AgentSec feed with two reviewed sources and one `CVE-2026-24301` event covering Varonis's Microsoft Copilot Personal disclosure. The event is `not_applicable` to repository scanning, so AgentSec's runtime database remains at 114 CVEs while the public intelligence ledger moves to 20 sources and 10 events.

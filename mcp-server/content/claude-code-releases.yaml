@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.237"
-updated: "2026-08-20"
+latest: "2.1.241"
+updated: "2026-08-22"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,32 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-August 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.241"
+    date: "2026-08-22"
+    highlights:
+      - "Bug fixes and reliability improvements"
+
+  - version: "2.1.240"
+    date: "2026-08-22"
+    highlights:
+      - "Bug fixes and reliability improvements"
+
+  - version: "2.1.239"
+    date: "2026-08-21"
+    highlights:
+      - "⭐ Fixed Bedrock streaming behind proxies that strip the response Content-Type header, which silently doubled billed API calls by re-running every turn non-streaming"
+      - "Windows: cross-session messaging now available, so Claude Code sessions across your machines can message each other with `SendMessage` and find each other with `ListAgents`, as on macOS and Linux"
+      - "Cost estimates (`/cost`, status line, `--max-budget-usd`) now include the 1.1× US-only-inference premium for data-residency workspaces"
+      - "Added `/claude-api upgrade` to migrate Python projects from `anthropic` 0.x to 1.x"
+
+  - version: "2.1.238"
+    date: "2026-08-20"
+    highlights:
+      - "Added a `keybindingFlavor` setting: set it to `\"readline\"` to make Ctrl+W in the prompt delete back to the previous whitespace, as in Bash"
+      - "Plugin marketplaces: `headersHelper` on a url marketplace or catalog entry runs a command that mints short-lived HTTP headers for catalog and archive fetches"
+      - "Fixed unbounded memory growth in long interactive sessions: subagent tool results are now released once they leave the recent display window"
+      - "Added `claude self-hosted-runner --defer-shutdown-max-min` for graceful draining on SIGTERM, and `--proxy-authorization-command`/`--proxy-authorization-file` for egress proxies requiring a freshly issued header"
 
   - version: "2.1.237"
     date: "2026-08-19"
