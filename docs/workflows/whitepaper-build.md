@@ -85,7 +85,9 @@ Generates `guide/ultimate-guide.md` as EPUB and/or PDF. Output goes to `dist/`.
 
 **Stack**: pandoc → EPUB3 (488K) and pandoc + Typst → PDF (2.9 MB).
 
-**Dependency**: `brew install pandoc` (macOS). Typst is auto-detected from Quarto's bundled binary if not installed standalone.
+**Dependencies**: Python 3, Pandoc, plus either standalone Typst or Quarto. The
+script uses `quarto typst` when Typst is not installed separately, including on
+Linux environments.
 
 **PDF note**: Internal anchor links are stripped before PDF rendering (Typst label compatibility). The PDF is purely sequential — no clickable cross-refs, but fully readable with TOC.
 
