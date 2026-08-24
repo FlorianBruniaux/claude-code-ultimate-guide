@@ -6,7 +6,7 @@ tags: [workflow, agents, architecture, advanced]
 
 # Plan-Validate-Execute Pipeline
 
-> **Confidence**: Tier 2 — Battle-tested by production teams shipping AI-first products at scale. Extends native `/plan` mode with structured agent orchestration and institutional memory.
+> **Confidence**: Tier 2, battle-tested by production teams shipping AI-first products at scale. Extends native `/plan` mode with structured agent orchestration and institutional memory.
 
 A complete development workflow in 3 commands: plan with a dynamic research team, validate with independent specialist reviewers, execute with parallel agents. Each run improves the next through an ADR learning loop that progressively reduces human interruptions.
 
@@ -80,13 +80,13 @@ If any answer is yes: stop, fix at the correct level.
 
 ### Why Independent Validation?
 
-Validators that didn't write the plan are not anchored to its assumptions. Research shows multi-agent review with adversarial framing catches significantly more issues than self-review. The average plan produces ~18 issues when challenged by an independent team — ~95% auto-resolve from existing ADRs and first principles.
+Validators that didn't write the plan are not anchored to its assumptions. Research shows multi-agent review with adversarial framing catches significantly more issues than self-review. The average plan produces ~18 issues when challenged by an independent team. ~95% auto-resolve from existing ADRs and first principles.
 
 ---
 
 ## The Three Commands
 
-### `/plan-start` — 5-Phase Planning
+### `/plan-start`: 5-Phase Planning
 
 **Phase 1: PRD & Design Analysis** *(interactive, no agents)*
 
@@ -132,7 +132,7 @@ Output: `docs/plans/plan-{name}.md` + `docs/adr/ADR-XXXX.md` + `docs/plans/metri
 
 ---
 
-### `/plan-validate` — 2-Layer Validation
+### `/plan-validate`: 2-Layer Validation
 
 **Layer 1: Structural** *(inline, instant)*
 
@@ -160,7 +160,7 @@ No agents selected automatically for trivial plans. A payments feature might tri
 
 **Auto-Fix Phase**
 
-Every issue must be resolved — no skipping. Triage:
+Every issue must be resolved, no skipping. Triage:
 1. Issues matching existing ADR decisions → auto-resolve
 2. Issues matching confirmed PATTERNS.md entries → auto-resolve
 3. Issues resolvable from first principles → auto-resolve
@@ -170,19 +170,19 @@ Every issue must be resolved — no skipping. Triage:
 
 ---
 
-### `/plan-execute` — Execution to Merged PR
+### `/plan-execute`: Execution to Merged PR
 
 Single command handles everything:
 
-1. **Worktree creation** — isolated branch from current branch
-2. **TDD scaffolding** — write failing tests first for TDD-marked tasks
-3. **Level-based parallel execution** — detect independent tasks, spawn per-task agents, commit per task
-4. **Drift detection** — flag if implementation diverges from plan
-5. **Quality gate** — parallel tests + integration smoke test (GraphQL probe, container log scan, plan-defined smoke commands)
-6. **Pre-PR docs update** — PRD reconciliation + plan archival (in worktree)
-7. **PR creation and merge** — squash merge, clean commit message
-8. **Post-merge metrics** — execution data committed to metrics file
-9. **Worktree cleanup** — remove branch and worktree
+1. **Worktree creation**: isolated branch from current branch
+2. **TDD scaffolding**: write failing tests first for TDD-marked tasks
+3. **Level-based parallel execution**: detect independent tasks, spawn per-task agents, commit per task
+4. **Drift detection**: flag if implementation diverges from plan
+5. **Quality gate**: parallel tests + integration smoke test (GraphQL probe, container log scan, plan-defined smoke commands)
+6. **Pre-PR docs update**: PRD reconciliation + plan archival (in worktree)
+7. **PR creation and merge**: squash merge, clean commit message
+8. **Post-merge metrics**: execution data committed to metrics file
+9. **Worktree cleanup**: remove branch and worktree
 
 If quality gate fails: up to 3 auto-fix attempts by dedicated debug agents. Still failing → notify human.
 
@@ -190,7 +190,7 @@ If quality gate fails: up to 3 auto-fix attempts by dedicated debug agents. Stil
 
 ## Dynamic Agent Pool
 
-Agents are **not** hardcoded in CLAUDE.md. They are defined at invocation time — description, trigger criteria, and model selection embedded in the plan phase where they're spawned. This keeps CLAUDE.md lightweight while giving each agent full context for its role.
+Agents are **not** hardcoded in CLAUDE.md. They are defined at invocation time: description, trigger criteria, and model selection embedded in the plan phase where they're spawned. This keeps CLAUDE.md lightweight while giving each agent full context for its role.
 
 ### Research Pool (`/plan-start`)
 
@@ -212,11 +212,11 @@ Agents are **not** hardcoded in CLAUDE.md. They are defined at invocation time �
 **Key design choices**:
 - Opus only for high-stakes roles (security, integration, coordination)
 - Sonnet for standard research (good quality, lower cost)
-- `planning-coordinator` only spawned when 2+ agents are selected — it synthesizes, it doesn't research
+- `planning-coordinator` only spawned when 2+ agents are selected: it synthesizes, it doesn't research
 
 ### Validation Pool (`/plan-validate`)
 
-See Layer 2 table above. These are different agents from the research pool — validators are not biased by the creation process.
+See Layer 2 table above. These are different agents from the research pool, because validators are not biased by the creation process.
 
 ---
 
@@ -309,7 +309,7 @@ Review CLAUDE.md every 10-15 plans alongside `/adr-review`. Promote confirmed pa
 
 ### `/clear` Between Steps
 
-Run `/clear` between `/plan-start`, `/plan-validate`, and `/plan-execute`. Each command is self-contained — the plan file on disk is the handoff artifact, not in-memory context.
+Run `/clear` between `/plan-start`, `/plan-validate`, and `/plan-execute`. Each command is self-contained: the plan file on disk is the handoff artifact, not in-memory context.
 
 Without `/clear`: context accumulates across all phases, compacting triggers earlier, agents inherit irrelevant context from previous phases, and token costs increase significantly.
 
@@ -339,7 +339,7 @@ Each command reads its inputs from disk (plan files, ADRs, codebase). There's no
 
 ### ⚡ Tier 0 Shortcut
 
-For small but non-trivial changes, still run the pipeline but the system will detect Tier 0 scope and skip agent spawning — research happens inline, validation is Layer 1 only, execution is single-agent. Same commands, lower overhead.
+For small but non-trivial changes, still run the pipeline but the system will detect Tier 0 scope and skip agent spawning: research happens inline, validation is Layer 1 only, execution is single-agent. Same commands, lower overhead.
 
 ---
 
@@ -362,10 +362,10 @@ Use `/plan-metrics` periodically to review historical cost trends and calibrate 
 
 ## See Also
 
-- [Plan-Driven Development](./plan-driven.md) — native `/plan` mode, lighter alternative
-- [Dual-Instance Planning](./dual-instance-planning.md) — simpler 2-instance pattern
-- [Agent Teams](./agent-teams.md) — native parallel coordination (experimental)
-- [Task Management](./task-management.md) — Tasks API for cross-session coordination
-- [Spec-First Development](./spec-first.md) — CLAUDE.md as specification contract
-- [ADR Writer Agent](../../examples/agents/adr-writer.md) — standalone ADR generation
-- [Plan Challenger Agent](../../examples/agents/plan-challenger.md) — adversarial plan review
+- [Plan-Driven Development](./plan-driven.md): native `/plan` mode, lighter alternative
+- [Dual-Instance Planning](./dual-instance-planning.md): simpler 2-instance pattern
+- [Agent Teams](./agent-teams.md): native parallel coordination (experimental)
+- [Task Management](./task-management.md): Tasks API for cross-session coordination
+- [Spec-First Development](./spec-first.md): CLAUDE.md as specification contract
+- [ADR Writer Agent](../../examples/agents/adr-writer.md): standalone ADR generation
+- [Plan Challenger Agent](../../examples/agents/plan-challenger.md): adversarial plan review

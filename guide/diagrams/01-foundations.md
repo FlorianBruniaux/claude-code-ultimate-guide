@@ -1,5 +1,5 @@
 ---
-title: "Claude Code — Foundations Diagrams"
+title: "Claude Code: Foundations Diagrams"
 description: "Core concepts: 4-layer model, workflow pipeline, decision tree, 5 permission modes"
 tags: [foundations, architecture, getting-started]
 ---
@@ -10,9 +10,9 @@ Core concepts that explain what Claude Code is and how it fundamentally operates
 
 ---
 
-### "Chatbot to Context System" — 4-Layer Model
+### "Chatbot to Context System": 4-Layer Model
 
-Claude Code isn't a chatbot — it's a context system that transforms your message into a rich multi-layer prompt before calling the API. This diagram shows the 4-layer augmentation that happens invisibly with every request.
+Claude Code is a context system, not a chatbot. It transforms your message into a rich multi-layer prompt before calling the API. This diagram shows the 4-layer augmentation that happens invisibly with every request.
 
 ```mermaid
 flowchart TD
@@ -76,13 +76,13 @@ User Message
 
 </details>
 
-> **Source**: [How Claude Code Works](../ultimate-guide.md#how-claude-code-works) — Line ~2360
+> **Source**: [How Claude Code Works](../ultimate-guide.md#how-claude-code-works) (line ~2360)
 
 ---
 
 ### 9-Step Workflow Pipeline
 
-Every request to Claude Code goes through this pipeline — from parsing your intent to displaying the final response. Understanding this loop helps you write better instructions and diagnose issues faster.
+Every request to Claude Code goes through this pipeline, from parsing your intent to displaying the final response. Understanding this loop helps you write better instructions and diagnose issues faster.
 
 ```mermaid
 flowchart LR
@@ -138,13 +138,13 @@ User Message → Parse Intent → Load Context → Plan Actions
 
 </details>
 
-> **Source**: [Getting Started](../ultimate-guide.md#getting-started) — Line ~277
+> **Source**: [Getting Started](../ultimate-guide.md#getting-started) (line ~277)
 
 ---
 
-### Quick Decision Tree — "Should I use Claude Code?"
+### Quick Decision Tree: "Should I use Claude Code?"
 
-Not every task needs Claude Code. This decision tree helps you route the right tasks to the right tool — Claude Code CLI vs Claude.ai vs clipboard-based approaches.
+Not every task needs Claude Code. This decision tree helps you route the right tasks to the right tool (Claude Code CLI vs Claude.ai vs clipboard-based approaches).
 
 ```mermaid
 flowchart TD
@@ -202,7 +202,7 @@ Task involves codebase?
 
 </details>
 
-> **Source**: [Quick Start Decision](../ultimate-guide.md#quick-start) — See also `machine-readable/reference.yaml` (decide section)
+> **Source**: [Quick Start Decision](../ultimate-guide.md#quick-start); see also `machine-readable/reference.yaml` (decide section)
 
 ---
 
@@ -311,4 +311,4 @@ Exit: approve the plan or Shift+Tab
 
 </details>
 
-> **Source**: [Permission System](../ultimate-guide.md#permission-system) — Line ~760
+> **Source**: [Permission System](../ultimate-guide.md#permission-system) (line ~760)

@@ -1,5 +1,5 @@
 ---
-title: "Settings.json — Complete Structure"
+title: "Settings.json: Complete Structure"
 subtitle: "All configuration keys and their scope"
 card-number: "T06"
 category: "Technical"

@@ -16,7 +16,7 @@ format:
 
 ## Recommended pattern: externalized prompt
 
-The most robust pattern separates review logic from workflow mechanics. The YAML file orchestrates triggers and permissions; the `.github/prompts/code-review.md` file contains the review criteria. Modifying criteria does not require touching the workflow.
+This pattern separates review logic from workflow mechanics. The YAML file orchestrates triggers and permissions; the `.github/prompts/code-review.md` file contains the review criteria. Modifying criteria does not require touching the workflow.
 
 ```
 .github/

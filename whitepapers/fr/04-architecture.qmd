@@ -730,8 +730,8 @@ claude --worktree --base head  # Crée depuis HEAD local (commits non poussés i
 
 | Valeur | Comportement |
 |--------|-------------|
-| `fresh` (défaut) | Branch depuis `origin/<branche-par-défaut>` — base distante propre |
-| `head` | Branch depuis HEAD local — inclut les commits non poussés |
+| `fresh` (défaut) | Branch depuis `origin/<branche-par-défaut>`, base distante propre |
+| `head` | Branch depuis HEAD local, inclut les commits non poussés |
 
 {{< pagebreak >}}
 

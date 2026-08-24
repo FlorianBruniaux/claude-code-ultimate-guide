@@ -6,7 +6,7 @@ tags: [workflow, agents, automation, event-driven, kanban]
 
 # Event-Driven Agent Automation
 
-> **Confidence**: Tier 3 — Emerging pattern, early adopters report positive results but tooling is still maturing.
+> **Confidence**: Tier 3. Emerging pattern, early adopters report positive results but tooling is still maturing.
 
 Instead of manually invoking Claude Code for each task, let external events drive the work. A card moves to "In Progress" in Linear, and Claude picks it up automatically. A GitHub issue gets labeled `claude-fix`, and an agent starts working on it within seconds.
 
@@ -287,7 +287,7 @@ Even in fully automated flows, keep humans in the loop at critical points:
 
 ## See Also
 
-- [agent-teams.md](./agent-teams.md) — Multi-agent parallel coordination
-- [iterative-refinement.md](./iterative-refinement.md) — The core prompt-observe-reprompt loop
-- [plan-driven.md](./plan-driven.md) — Plan before executing
-- [../../examples/agents/](../../examples/agents/) — Ready-to-use agent templates
+- [agent-teams.md](./agent-teams.md): Multi-agent parallel coordination
+- [iterative-refinement.md](./iterative-refinement.md): The core prompt-observe-reprompt loop
+- [plan-driven.md](./plan-driven.md): Plan before executing
+- [../../examples/agents/](../../examples/agents/): Ready-to-use agent templates

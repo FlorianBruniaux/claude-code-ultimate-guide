@@ -1,5 +1,5 @@
 ---
-title: "Claude Code — Architecture Internals Diagrams"
+title: "Claude Code: Architecture Internals Diagrams"
 description: "Master loop, tool categories, system prompt assembly, sub-agent isolation"
 tags: [architecture, internals, master-loop, tools]
 ---
@@ -77,7 +77,7 @@ Build prompt (system + context + tools)
 
 </details>
 
-> **Source**: [Architecture: Master Loop](../core/architecture.md#master-loop) — Line ~72
+> **Source**: [Architecture: Master Loop](../core/architecture.md#master-loop) (Line ~72)
 >
 > *Source-confirmed (2026-03-31): Inner loop is `queryLoop()` async generator. Tools execute via `StreamingToolExecutor` (up to 10 concurrent). Loop exits via one of 10 terminal reasons (`completed`, `max_turns`, `aborted_tools`, etc.).*
 
@@ -182,9 +182,9 @@ CONTROL:  EnterPlanMode/ExitPlanMode, EnterWorktree/ExitWorktree, AskUserQuestio
 
 </details>
 
-> **Source**: [Architecture: Tools](../core/architecture.md#tools) — Line ~213
+> **Source**: [Architecture: Tools](../core/architecture.md#tools) (Line ~213)
 
-> *Simplified — additional tools available. See [Architecture: Tool Arsenal](../core/architecture.md#tools) for the full list.*
+> *Simplified: additional tools available. See [Architecture: Tool Arsenal](../core/architecture.md#tools) for the full list.*
 
 ---
 
@@ -237,15 +237,15 @@ DYNAMIC zone (per-session cache):
 
 </details>
 
-> **Source**: [Architecture: System Prompt](../core/architecture.md#system-prompt) — Line ~354
+> **Source**: [Architecture: System Prompt](../core/architecture.md#system-prompt) (Line ~354)
 >
-> *Source-confirmed (2026-03-31): Two-zone architecture via `SYSTEM_PROMPT_DYNAMIC_BOUNDARY` marker. Static zone has `cacheScope: 'global'` (shared across all users). MCP instructions explicitly uncached — comment in source: "servers connect/disconnect between turns".*
+> *Source-confirmed (2026-03-31): Two-zone architecture via `SYSTEM_PROMPT_DYNAMIC_BOUNDARY` marker. Static zone has `cacheScope: 'global'` (shared across all users). MCP instructions explicitly uncached (comment in source: "servers connect/disconnect between turns").*
 
 ---
 
 ### Sub-Agent Context Isolation
 
-Sub-agents are completely isolated from the parent — they can't read the parent's conversation or modify parent state. This isolation is a feature (safety) and a constraint (intentional design).
+Sub-agents are completely isolated from the parent: they can't read the parent's conversation or modify parent state. This isolation is a feature (safety) and a constraint (intentional design).
 
 ```mermaid
 sequenceDiagram
@@ -292,4 +292,4 @@ Parent receives: text string
 
 </details>
 
-> **Source**: [Architecture: Sub-Agents](../core/architecture.md#sub-agents) — Line ~444
+> **Source**: [Architecture: Sub-Agents](../core/architecture.md#sub-agents) (Line ~444)

@@ -16,7 +16,7 @@ format:
 
 ## Two local isolation approaches
 
-Claude Code offers two isolation mechanisms for autonomous execution. The native sandbox is built into the CLI and relies on OS primitives. Docker Sandboxes (Docker Desktop 4.58+) use microVM isolation via hypervisor — more robust but heavier.
+Claude Code offers two isolation mechanisms for autonomous execution. The native sandbox is built into the CLI and relies on OS primitives. Docker Sandboxes (Docker Desktop 4.58+) use microVM isolation via hypervisor, more robust but heavier.
 
 ## Comparison table
 

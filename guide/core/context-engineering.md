@@ -1,18 +1,18 @@
 ---
 title: "Context Engineering"
-description: "Comprehensive guide to filling Claude's context window with the right information at the right time — configuration hierarchy, budget management, modular architecture, team assembly, and quality measurement"
+description: "Comprehensive guide to filling Claude's context window with the right information at the right time: configuration hierarchy, budget management, modular architecture, team assembly, and quality measurement"
 tags: [context, configuration, architecture, team, advanced]
 ---
 
 # Context Engineering
 
-> **Confidence**: Tier 1 — Based on official documentation, measured production data, and community validation.
+> **Confidence**: Tier 1, based on official documentation, measured production data, and community validation.
 >
 > **Last updated**: March 2026
 
-"Context engineering is the art of filling the context window with the right information at the right time." — Andrej Karpathy
+"Context engineering is the art of filling the context window with the right information at the right time." (Andrej Karpathy)
 
-This guide covers everything from the token math behind context budgets to building modular, team-scale configuration systems. It is a companion to the broader configuration sections in the ultimate guide — where those sections show individual techniques, this document shows how to compose them into a coherent system.
+This guide covers everything from the token math behind context budgets to building modular, team-scale configuration systems. It is a companion to the broader configuration sections in the ultimate guide. Those sections show individual techniques; this document shows how to compose them into a coherent system.
 
 ---
 
@@ -62,7 +62,7 @@ These terms are often conflated. The distinction matters:
 | Scale | Individual | Team-wide or organization-wide |
 | Artifact | A prompt string | A configuration system |
 
-**Prompt engineering** is about crafting the right question for one task. **Context engineering** is the system that ensures Claude has the right background knowledge before any task begins. You can have excellent prompts on top of poor context engineering and still get mediocre results — because the model lacks the structural understanding of your project, conventions, and constraints.
+**Prompt engineering** is about crafting the right question for one task. **Context engineering** is the system that ensures Claude has the right background knowledge before any task begins. You can have excellent prompts on top of poor context engineering and still get mediocre results, because the model lacks the structural understanding of your project, conventions, and constraints.
 
 A practical analogy: prompt engineering is writing a good email to a contractor. Context engineering is the onboarding process, code style guide, architecture documentation, and team norms that ensure the contractor understands the project before reading a single email.
 
@@ -75,7 +75,7 @@ Both terms appear in the literature and are sometimes used interchangeably. They
 | Core question | What information should be in context? | What is the minimum set of high-signal tokens that maximizes the outcome? |
 | Goal | Completeness and correctness | Efficiency and signal density |
 | Method | Identify what the model needs to know | Remove everything it does not need to know |
-| Failure mode | Missing critical information | Overshooting — too much irrelevant content |
+| Failure mode | Missing critical information | Overshooting (too much irrelevant content) |
 | Output | A context system | A trimmed, high-fidelity prompt or config |
 
 A useful mental model: context engineering answers "what to include," context optimization answers "what to cut."
@@ -93,7 +93,7 @@ Treating reasoning artifacts (intermediate thoughts, debug traces, error outputs
 
 ### Why It Matters
 
-LLMs are context-window computers. The quality of output is bounded by the quality of input. This is not a soft claim — it has a hard technical basis:
+LLMs are context-window computers. The quality of output is bounded by the quality of input. This is not a soft claim. It has a hard technical basis:
 
 1. The model has no persistent memory between sessions (without explicit tooling). Every session starts from zero unless context is deliberately provided.
 2. The model cannot infer unstated conventions. If you want TypeScript interfaces instead of `type` aliases, that must be stated. If you want errors logged before being thrown, that must be stated.
@@ -101,7 +101,7 @@ LLMs are context-window computers. The quality of output is bounded by the quali
 
 Teams that invest in context engineering consistently report fewer revision cycles, better adherence to conventions, and more predictable outputs. The investment is front-loaded (building the system), but the returns compound across every interaction.
 
-A useful diagnostic reframe: **most AI output failures are context failures, not model failures.** When Claude generates a generic response, ignores a convention, or produces code that doesn't match your stack, the model is almost never broken — the context it received was incomplete, contradictory, or missing the right information at the right time. This reframe shifts troubleshooting from "the AI is bad at this" to "what is missing from the context?"
+A useful diagnostic reframe: **most AI output failures are context failures, not model failures.** When Claude generates a generic response, ignores a convention, or produces code that doesn't match your stack, the model is almost never broken. The context it received was incomplete, contradictory, or missing the right information at the right time. This reframe shifts troubleshooting from "the AI is bad at this" to "what is missing from the context?"
 
 ### The Three Layers
 
@@ -115,7 +115,7 @@ Context engineering in Claude Code operates across three distinct layers:
 
 Each layer has different tradeoffs. Global config is always-on but cannot reference project-specific details. Session instructions are flexible but ephemeral. Project config is the workhorse: structured, versioned, reviewable.
 
-Good context engineering means putting each piece of information in the right layer — not cramming everything into one file, and not leaving critical knowledge in the session layer where it evaporates after every conversation.
+Good context engineering means putting each piece of information in the right layer, not cramming everything into one file, and not leaving critical knowledge in the session layer where it evaporates after every conversation.
 
 **Markdown files as shared persistent memory work better than a dedicated database for this purpose.** A plain Markdown file that multiple agents or sessions can read and append to serves as durable, human-readable memory without the operational overhead of standing up a store. Pairing that memory with a rules file that documents project conventions (naming, code style, architectural boundaries) gives the model the same onboarding a new engineer would need; without it, output quality and adherence to project style both suffer. (*Alex Gavrilescu, Devoxx, 2025. Konstantin Pavlov, 2025, reaches the same conclusion independently.*)
 
@@ -123,7 +123,7 @@ Good context engineering means putting each piece of information in the right la
 
 ### Static vs. Dynamic Context
 
-The three-layer system above is *static context* — configuration files that are assembled before a session begins and remain stable throughout. Claude Code is primarily a static context system, which is why CLAUDE.md structure and path-scoping matter so much.
+The three-layer system above is *static context*: configuration files that are assembled before a session begins and remain stable throughout. Claude Code is primarily a static context system, which is why CLAUDE.md structure and path-scoping matter so much.
 
 As you move toward agent workflows, a second category appears: *dynamic context*, assembled at inference time as the agent operates.
 
@@ -197,11 +197,11 @@ The practical rule: **always-on context should stay below 5% of the context wind
 
 ### The 150-Instruction Ceiling
 
-Empirical observation from teams running large CLAUDE.md files: beyond approximately 150 distinct rules, models begin selectively ignoring some of them. This is not a hard cutoff — it depends on rule complexity, overlap, and placement — but it is a reliable signal that more rules does not equal better adherence.
+Empirical observation from teams running large CLAUDE.md files: beyond approximately 150 distinct rules, models begin selectively ignoring some of them. This is not a hard cutoff (it depends on rule complexity, overlap, and placement), but it is a reliable signal that more rules does not equal better adherence.
 
 The mechanism is attention diffusion: when a prompt contains hundreds of potentially relevant constraints, the model's attention is split across them. High-salience rules (recent, strongly worded, placed early) crowd out lower-salience ones.
 
-HumanLayer's production data shows teams with structured context — fewer, more specific rules, organized hierarchically — see 15-25% better adherence than teams with undifferentiated long rule lists.
+HumanLayer's production data shows teams with structured context (fewer, more specific rules, organized hierarchically) see 15-25% better adherence than teams with undifferentiated long rule lists.
 
 Implication: **rule quality beats rule quantity.** Twenty specific, actionable rules outperform 200 generic aspirational ones.
 
@@ -226,7 +226,7 @@ When always-on context becomes too large or too noisy, you see predictable failu
 - **Rule silencing**: Claude follows 80% of conventions consistently but ignores specific rules that should apply.
 - **Contradictory behavior**: Claude applies a rule in some files but not others, or applies contradictory rules depending on phrasing.
 - **Slow first responses**: The model spends more time processing a large context before generating output (observable in longer latency for simple tasks).
-- **Generic outputs**: Instead of applying project-specific patterns, Claude falls back to generic best practices — a sign that project context is not being retained.
+- **Generic outputs**: Instead of applying project-specific patterns, Claude falls back to generic best practices, a sign that project context is not being retained.
 
 When you see these patterns, the diagnostic is: run a context audit (see Section 7), not more instructions.
 
@@ -385,12 +385,12 @@ Two failure modes appear consistently in production CLAUDE.md files:
 
 | Altitude | Example | Verdict |
 |----------|---------|---------|
-| Too vague | "Write clean code" | Cut — model ignores, no behavior change |
-| Too vague | "Follow best practices for security" | Cut — replace with specific constraints |
-| Productive | "Never expose raw database IDs in API responses; use UUIDs" | Keep — specific, model would default otherwise |
-| Productive | "Use the Result<T, E> pattern for service functions, not try/catch" | Keep — specific, overrides a common default |
-| Too granular | "Use 2-space indentation" | Cut — delegate to Prettier |
-| Too granular | "Add JSDoc comments to every function" | Cut — delegate to a lint rule |
+| Too vague | "Write clean code" | Cut: model ignores, no behavior change |
+| Too vague | "Follow best practices for security" | Cut: replace with specific constraints |
+| Productive | "Never expose raw database IDs in API responses; use UUIDs" | Keep: specific, model would default otherwise |
+| Productive | "Use the Result<T, E> pattern for service functions, not try/catch" | Keep: specific, overrides a common default |
+| Too granular | "Use 2-space indentation" | Cut: delegate to Prettier |
+| Too granular | "Add JSDoc comments to every function" | Cut: delegate to a lint rule |
 
 The architecture choices, quality standards, and explicit "what not to do and why" rules are the productive altitude. The aspirational and the mechanical are noise.
 
@@ -447,7 +447,7 @@ Document your overrides explicitly. An undocumented override that contradicts a 
 
 A 600-line CLAUDE.md with no structure is the most common failure mode in production contexts. Symptoms:
 
-1. Rules from different domains mix together — a React component convention sits next to a database migration rule
+1. Rules from different domains mix together: a React component convention sits next to a database migration rule
 2. Claude reads all 600 lines but the attention budget means rules on page 5 get less weight than rules on page 1
 3. New team members can't find relevant rules quickly
 4. Updates require scanning the entire file to find related rules before editing
@@ -542,7 +542,7 @@ Pre-built skill collections reduce the upfront investment in modular context eng
 - `anthropics/claude-code-skills` (official): Anthropic-maintained skill templates covering common development workflows
 - `ibelick/ui-skills`: UI component and design system skills for frontend projects
 
-These can be cloned, inspected, and adapted to your project conventions rather than built from scratch. Treat them as starting points — fork and modify to match your stack and naming conventions rather than using them verbatim.
+These can be cloned, inspected, and adapted to your project conventions rather than built from scratch. Treat them as starting points: fork and modify to match your stack and naming conventions rather than using them verbatim.
 
 ### Progressive Disclosure
 
@@ -580,7 +580,7 @@ MCP servers inject tool definitions into the system prompt. Each server adds its
 - Fewer than 10 MCP servers active per project
 - Fewer than 80 total tools across all active servers
 
-Beyond these thresholds, tool definition overhead measurably reduces the tokens available for actual task content. At 80+ tools, you are burning 15-20K tokens on tool schemas alone — budget that would otherwise go to code context, conversation history, and file contents.
+Beyond these thresholds, tool definition overhead measurably reduces the tokens available for actual task content. At 80+ tools, you are burning 15-20K tokens on tool schemas alone, budget that would otherwise go to code context, conversation history, and file contents.
 
 The progressive disclosure principle applies to MCP servers as much as to rules. Load MCP servers contextually rather than activating all available servers for every project:
 
@@ -635,13 +635,13 @@ Rules and structure are two different types of context. Conflating them produces
 
 **Rules context** answers: *how should I work in this project?* It lives in CLAUDE.md and path-scoped modules. It is relatively stable and almost always relevant.
 
-**Structural context** answers: *what is the shape of this project?* How many API routes exist, which domains have components, where do the nested CLAUDE.md files live, how many Prisma models are there. This information is only needed for implementation tasks — creating a new file, adding a route, navigating an unfamiliar domain — and is irrelevant for debugging, documentation, or code review sessions.
+**Structural context** answers: *what is the shape of this project?* How many API routes exist, which domains have components, where do the nested CLAUDE.md files live, how many Prisma models are there. This information is only needed for implementation tasks (creating a new file, adding a route, navigating an unfamiliar domain) and is irrelevant for debugging, documentation, or code review sessions.
 
 Loading structural context always wastes tokens. Not having it at all means Claude browses the filesystem manually at the start of every implementation task, consuming turns and generating noise.
 
 The pattern: a small, auto-generated YAML file (~1K tokens) that captures the structural shape of the codebase, registered in CLAUDE.md as a pointer rather than auto-imported.
 
-**What to include** — five sections, nothing more:
+**What to include** (five sections, nothing more):
 
 | Section | Contents | Example |
 |---------|----------|---------|
@@ -702,7 +702,7 @@ stats:
   unit_tests: 268
 ```
 
-With this file registered as a pointer, Claude answers "how many tRPC routers exist?" in a single lookup rather than walking `src/server/api/routers/` manually. For the implementation task "add a payment router", it immediately knows the correct root, the count, and the architectural constraint — before reading a single source file.
+With this file registered as a pointer, Claude answers "how many tRPC routers exist?" in a single lookup rather than walking `src/server/api/routers/` manually. For the implementation task "add a payment router", it immediately knows the correct root, the count, and the architectural constraint, before reading a single source file.
 
 A ready-to-use template is available at [`examples/context-engineering/code-map-template.yaml`](../../examples/context-engineering/code-map-template.yaml).
 
@@ -722,7 +722,7 @@ Maintaining N × M individual CLAUDE.md files manually is not sustainable. When 
 
 The solution is **profile-based assembly**: a single shared base of modules, with individual profiles that specify which modules to include and what personal preferences to overlay.
 
-N × M × P becomes N profiles × 1 shared module base — manageable.
+N × M × P becomes N profiles × 1 shared module base, a manageable structure.
 
 ### Profile YAML Structure
 
@@ -927,7 +927,7 @@ echo "Assembled CLAUDE.md from profile: $PROFILE"
 
 ### CI Drift Detection
 
-Team members regenerate their CLAUDE.md from profiles, but base modules evolve over time. Without drift detection, a developer may be running an outdated configuration — one that predates a security rule addition or a convention update.
+Team members regenerate their CLAUDE.md from profiles, but base modules evolve over time. Without drift detection, a developer may be running an outdated configuration, one that predates a security rule addition or a convention update.
 
 A GitHub Actions job detects this:
 
@@ -1009,7 +1009,7 @@ Add `CLAUDE.md` to `.gitignore` at the project root. The profile YAML is the sou
 
 ### Instruction Debt
 
-Rules accumulate. They are rarely removed. This is instruction debt: the gradual accumulation of rules that are outdated, redundant, or contradictory — each still consuming context budget.
+Rules accumulate. They are rarely removed. This is instruction debt: the gradual accumulation of rules that are outdated, redundant, or contradictory, each still consuming context budget.
 
 Signs of instruction debt:
 
@@ -1092,7 +1092,7 @@ Assemble → Check → Execute
 
 **Assemble**: Build context from the team profile + project modules. Produces a CLAUDE.md specific to the developer and task context.
 
-**Check**: Run canary validation — a set of 3-5 test prompts that verify key behaviors before the actual task. If canary checks fail, fix the context issue before proceeding.
+**Check**: Run canary validation, a set of 3-5 test prompts that verify key behaviors before the actual task. If canary checks fail, fix the context issue before proceeding.
 
 **Execute**: Run Claude with the validated context on the actual task.
 
@@ -1336,7 +1336,7 @@ The simplest production-ready approach. Embed model outputs (responses to fixed 
 3. On each subsequent run, compute outputs for the same prompts and measure cosine distance from baseline.
 4. Alert when average distance exceeds a threshold (typically 0.15-0.20 for sentence-level embeddings).
 
-What this catches: gradual style drift, convention erosion, changes in output structure — all before violation rates increase.
+What this catches: gradual style drift, convention erosion, changes in output structure, all before violation rates increase.
 
 **Share of drifted features**
 
@@ -1401,7 +1401,7 @@ Target after refactor: root CLAUDE.md at under 150 lines (shared rules + import 
 
 ### Negative Constraints
 
-Empirically, negative constraints ("never do X") outperform positive instructions ("do X") by 15-25% for preventing bad patterns. This is counterintuitive — you might expect "do X" to be clearer. But in practice, the model needs to actively resist a temptation to do the wrong thing; explicitly naming the wrong thing and saying "never" is more salient.
+Empirically, negative constraints ("never do X") outperform positive instructions ("do X") by 15-25% for preventing bad patterns. This is counterintuitive: you might expect "do X" to be clearer. But in practice, the model needs to actively resist a temptation to do the wrong thing; explicitly naming the wrong thing and saying "never" is more salient.
 
 | Pattern | Formulation | Adherence |
 |---------|-------------|-----------|
@@ -1426,13 +1426,13 @@ Long explanatory rules consume tokens and dilute attention. Compress explanation
 - React props: TypeScript interface, declared before component, never inline.
 ```
 
-The compressed version has higher adherence — shorter rules are processed with more attention weight per rule. Save explanations for the rationale format when they're truly needed for understanding.
+The compressed version has higher adherence: shorter rules are processed with more attention weight per rule. Save explanations for the rationale format when they're truly needed for understanding.
 
 **Compression heuristic**: If a rule takes more than one line, ask whether the extra content is a constraint or an explanation. Move explanations to comments (prefixed with `#` or a `>` blockquote) or rationale annotations. Keep the enforced constraint to one line.
 
 ### Deduplication
 
-The same constraint stated multiple times (in different words) does not reinforce it — it dilutes the total attention budget. Find and remove semantic duplicates.
+The same constraint stated multiple times (in different words) does not reinforce it. It dilutes the total attention budget. Find and remove semantic duplicates.
 
 **Common sources of duplication**:
 - One rule in a general section, one more specific version in a path-scoped module
@@ -1451,7 +1451,7 @@ Run this as a Claude prompt against your CLAUDE.md. Review the suggestions and m
 
 ### The Archive Pattern
 
-When removing a rule, you lose the knowledge of why it existed. That institutional memory can be valuable — six months later, someone may try to reintroduce the same pattern the rule was preventing.
+When removing a rule, you lose the knowledge of why it existed. That institutional memory can be valuable: six months later, someone may try to reintroduce the same pattern the rule was preventing.
 
 Instead of deleting obsolete rules, archive them:
 
@@ -1471,7 +1471,7 @@ Replaced by: Use PostgreSQL with the sessions table for session storage.
 Reason: Standardized on single database; MongoDB was only used for sessions and added operational complexity.
 ```
 
-The archive is not loaded by Claude — it is reference documentation for humans. It prevents the same debates and mistakes from recurring.
+The archive is not loaded by Claude. It is reference documentation for humans. It prevents the same debates and mistakes from recurring.
 
 ### The 80/20 Rule for Rules
 
@@ -1486,9 +1486,9 @@ Identifying your top 20%:
 5. Rules that apply monthly: consider archiving or moving to a loaded-on-demand skill
 6. Rules that apply rarely: archive
 
-The goal is not to eliminate coverage — it's to ensure that the rules that matter most are not diluted by the rules that matter least.
+Coverage completeness matters less here than protecting the rules that matter most from being diluted by the rules that matter least.
 
-**Placement matters**: Place your top 20% rules in the first third of CLAUDE.md. Attention weight is not uniform across a long document — early content has higher salience.
+**Placement matters**: Place your top 20% rules in the first third of CLAUDE.md. Attention weight is not uniform across a long document. Early content has higher salience.
 
 ### Think in Code
 
@@ -1527,11 +1527,11 @@ From LangGraph's Deep Agents SDK research into long-running agents, this three-t
 
 **The three-tier cascade**:
 
-**Tier 1 — Large tool outputs (threshold: 20K tokens)**: Offload to filesystem. Write the full output to a temp file and inject only the file path and a 10-line preview into context. The agent can request the full content if needed.
+**Tier 1: Large tool outputs (threshold: 20K tokens)**: Offload to filesystem. Write the full output to a temp file and inject only the file path and a 10-line preview into context. The agent can request the full content if needed.
 
-**Tier 2 — Accumulated tool call arguments (threshold: context approaching mid-point)**: Offload old tool invocations. Keep only the most recent N tool calls in full; summarize or drop arguments for older calls. Tool results are more valuable than tool call arguments for continuing the task.
+**Tier 2: Accumulated tool call arguments (threshold: context approaching mid-point)**: Offload old tool invocations. Keep only the most recent N tool calls in full; summarize or drop arguments for older calls. Tool results are more valuable than tool call arguments for continuing the task.
 
-**Tier 3 — Message history (threshold: context near limit)**: Lossy summarization of message history. Last resort only — this introduces the risks described in Section 11 (Progressive Summarization Risks). Apply only when Tiers 1 and 2 are exhausted.
+**Tier 3: Message history (threshold: context near limit)**: Lossy summarization of message history. Last resort only: this introduces the risks described in Section 11 (Progressive Summarization Risks). Apply only when Tiers 1 and 2 are exhausted.
 
 **Claude Code equivalent using a PostToolUse hook**:
 
@@ -1615,7 +1615,7 @@ The highest-leverage sequence for a project with context debt:
 
 ## 9. Maturity Assessment
 
-Context engineering capability develops in stages. Most teams reach Level 2 and stop — not because higher levels are complex, but because the failures at Level 2 are invisible. Output quality is acceptable, so the pressure to go further never appears. This assessment makes the gap visible.
+Context engineering capability develops in stages. Most teams reach Level 2 and stop, not because higher levels are complex but because the failures at Level 2 are invisible. Output quality is acceptable, so the pressure to go further never appears. This assessment makes the gap visible.
 
 ### The Six Levels
 
@@ -1626,11 +1626,11 @@ Context engineering capability develops in stages. Most teams reach Level 2 and 
 | **2** | Structured config | Sections, clear organization, global/project separation | Works solo, breaks at team scale |
 | **3** | Modular config | Path-scoped modules, deliberate layering | Rules maintained but no verification |
 | **4** | Measured config | Canary tests, adherence tracking, lifecycle management | System works but drifts silently over time |
-| **5** | Engineered system | Profiles, CI drift detection, ACE pipeline, quarterly audit rhythm | — |
+| **5** | Engineered system | Profiles, CI drift detection, ACE pipeline, quarterly audit rhythm | None identified |
 
 ### Self-Assessment
 
-Answer each question. Stop at the first "No" — that is your current level.
+Answer each question and stop at the first "No": that is your current level.
 
 **Level 0 → 1**: Do you have a CLAUDE.md file in your project?
 
@@ -1651,9 +1651,9 @@ Answer each question. Stop at the first "No" — that is your current level.
 | 2 | Identify the 2-3 highest-traffic subsystems. Create path-scoped modules for them. |
 | 3 | Write 3-5 canary prompts for your most violated rules. Automate them. |
 | 4 | Introduce profiles for team members. Add CI drift detection. Start session retrospectives. |
-| 5 | Maintain quarterly audits. The system is built — the work is ongoing calibration. |
+| 5 | Maintain quarterly audits. The system is built. The work is ongoing calibration. |
 
-Most teams move from Level 0 to Level 2 in a single afternoon. Moving from Level 3 to Level 4 requires a measurement habit, not more configuration. The bottleneck at the higher levels is not knowledge — it is the discipline to treat configuration as a living system rather than a one-time setup.
+Most teams move from Level 0 to Level 2 in a single afternoon. Moving from Level 3 to Level 4 requires a measurement habit, not more configuration. Knowledge matters less at the higher levels than discipline: the willingness to treat configuration as a living system rather than a one-time setup.
 
 ---
 
@@ -1937,9 +1937,9 @@ Every session starts with a baseline of tokens that Claude loads before processi
 | `.claude/commands/*.md` | On invocation only | 0 by default |
 | `.claude/agents/*.md` | On invocation only | 0 by default |
 
-The critical distinction: `.claude/rules/` loads every `.md` file at session start regardless of relevance. Commands and agents are lazy-loaded — they cost nothing until invoked. Rules files are the most common source of unexpected overhead.
+The critical distinction: `.claude/rules/` loads every `.md` file at session start regardless of relevance. Commands and agents are lazy-loaded. They cost nothing until invoked. Rules files are the most common source of unexpected overhead.
 
-### Step 1 — Measure the Components
+### Step 1: Measure the Components
 
 Run these commands from your project root to get a breakdown by component:
 
@@ -1956,7 +1956,7 @@ echo "=== GLOBAL ~/.claude ===" && ls -la ~/.claude/*.md 2>/dev/null \
   | awk '{print $5, $9}' | sort -rn
 ```
 
-### Step 2 — Calculate Your Token Budget
+### Step 2: Calculate Your Token Budget
 
 Tokens ≈ characters ÷ 4 (rough but reliable for English/code mix).
 
@@ -1980,7 +1980,7 @@ echo "TOTAL              : ~$(( TOTAL / 4 )) tokens"
 
 For context: Claude's window is 200K tokens. A 60K fixed overhead means 30% consumed before any work begins. Against a typical coding task that uses 20-40K additional tokens, that leaves less than half the window for actual output.
 
-### Step 3 — Classify Rules by Usage Frequency
+### Step 3: Classify Rules by Usage Frequency
 
 The rules files are usually where the biggest savings live. For each file in `.claude/rules/`, ask one question: how often is this relevant in a typical session?
 
@@ -2005,7 +2005,7 @@ Calculate: total chars that could be removed from auto-load if RARELY files
 are excluded.
 ```
 
-### Step 4 — Audit Hook Overhead
+### Step 4: Audit Hook Overhead
 
 Hooks that fire on `PreToolUse` or `PostToolUse` run on every tool call. Each invocation injects its stdout into the context. A hook that outputs 500 characters per call, running 150 times per session, adds 75K characters (~19K tokens) to the session context.
 
@@ -2031,7 +2031,7 @@ For each `PreToolUse` or `PostToolUse` hook, estimate its output size by running
 - Hooks that run `git status` or `git log` unconditionally
 - `echo` statements used for debugging that were never removed
 
-### Step 5 — Build the Action Plan
+### Step 5: Build the Action Plan
 
 Typical savings without RAG or custom infrastructure:
 
@@ -2047,7 +2047,7 @@ A realistic first pass typically yields 30-50% reduction in fixed context withou
 
 ### The RAG Question
 
-You may encounter advice to move rules files into a vector database and retrieve them dynamically (RAG). This is a valid optimization at scale — it converts fixed overhead into per-query retrieval and enables precise lazy-loading.
+You may encounter advice to move rules files into a vector database and retrieve them dynamically (RAG). This is a valid optimization at scale. It converts fixed overhead into per-query retrieval and enables precise lazy-loading.
 
 Before investing in that infrastructure, verify the math honestly:
 
@@ -2113,7 +2113,7 @@ Applied context engineering draws from academic research on how language models 
 
 ### The Lost-in-the-Middle Effect
 
-**Source**: Liu et al. (2023), Stanford — "Lost in the Middle: How Language Models Use Long Contexts"
+**Source**: Liu et al. (2023), Stanford, "Lost in the Middle: How Language Models Use Long Contexts"
 
 Performance on retrieval and reasoning tasks degrades when relevant information is placed in the middle of a long context window. Models perform best when critical information appears at the beginning (primacy) or end (recency) of the context, and worst when it's buried in the middle.
 
@@ -2126,17 +2126,17 @@ The effect is consistent across model sizes and context lengths. A 20-document r
 - If you have a list of tool results, the first and last results will be recalled more reliably than those in the middle
 - For evaluation tasks where Claude reviews N items, split into smaller batches rather than sending everything at once
 
-The implication isn't that you should make contexts shorter — it's that position within the context window is a design variable, not an accident.
+The implication isn't that you should make contexts shorter. Position within the context window is a design variable, not an accident.
 
 ### Progressive Summarization Risks
 
-Summarization pipelines that compress summaries of summaries lose information in ways that are invisible to the model. Each compression pass removes details, but the model's confidence doesn't decrease proportionally. By the third or fourth compression pass, the model can answer questions about the original content fluently, but the answers may no longer be accurate — it's confabulating based on what typically follows the compressed patterns it retained.
+Summarization pipelines that compress summaries of summaries lose information in ways that are invisible to the model. Each compression pass removes details, but the model's confidence doesn't decrease proportionally. By the third or fourth compression pass, the model can answer questions about the original content fluently, but the answers may no longer be accurate. It is confabulating based on what typically follows the compressed patterns it retained.
 
 **The specific risks:**
 
 - **Transactional facts disappear first**: Specific numbers, dates, names, and conditions get abstracted away in early compression passes while narrative structure is preserved
 - **Confidence stays high**: The model doesn't know it's working from compressed information; it answers with the same certainty as if it had access to the original
-- **No retrieval signal**: Unlike RAG, where a failed retrieval is visible, summarization failures are silent — the model produces fluent text regardless
+- **No retrieval signal**: Unlike RAG, where a failed retrieval is visible, summarization failures are silent, the model produces fluent text regardless
 
 **Mitigations:**
 
@@ -2152,7 +2152,7 @@ For multi-step agents that compress context to stay within budget, limit the cha
 
 ### Stratified Sampling for Calibration
 
-When evaluating whether a context-engineering setup is working, random sampling misses systematic failures. A random sample from a 100-item test set might show 85% accuracy — but if the 15 failures cluster in a specific difficulty tier (long documents, ambiguous instructions, edge cases), you won't detect the pattern.
+When evaluating whether a context-engineering setup is working, random sampling misses systematic failures. A random sample from a 100-item test set might show 85% accuracy, but if the 15 failures cluster in a specific difficulty tier (long documents, ambiguous instructions, edge cases), you won't detect the pattern.
 
 Stratified sampling divides the evaluation set into strata by a relevant attribute (document length, instruction ambiguity, source quality) and tests each stratum independently.
 
@@ -2160,13 +2160,13 @@ Stratified sampling divides the evaluation set into strata by a relevant attribu
 
 | Stratum | Why it matters |
 |---------|----------------|
-| Short context (< 5K tokens) | Baseline — should be near 100% |
+| Short context (< 5K tokens) | Baseline, should be near 100% |
 | Medium context (5K–50K) | Where most real work happens |
 | Long context (50K+) | Where degradation first appears |
 | Position-critical (key info in middle) | Tests lost-in-the-middle directly |
 | High-instruction density | Tests the 150-instruction ceiling |
 
-If your accuracy on the long-context stratum is 20 points below the short-context stratum, that's a signal — add position-based structuring or implement chunked processing. Aggregate metrics would have hidden that gap.
+If your accuracy on the long-context stratum is 20 points below the short-context stratum, that's a signal: add position-based structuring or implement chunked processing. Aggregate metrics would have hidden that gap.
 
 ### Claim-Source Mapping (Provenance Tracking)
 
@@ -2463,13 +2463,13 @@ Trigger at 65% of the context limit rather than waiting for the 80% auto-compact
 
 ## 18. Token Compression Tools
 
-The previous sections focus on what to put in context. This section covers tooling that compresses what enters context at the pipeline level — reducing token volume before Claude ever processes it. These tools complement CLAUDE.md authorship: good context engineering reduces noise at design time, compression tools reduce volume at runtime.
+The previous sections focus on what to put in context. This section covers tooling that compresses what enters context at the pipeline level: reducing token volume before Claude ever processes it. These tools complement CLAUDE.md authorship: good context engineering reduces noise at design time, compression tools reduce volume at runtime.
 
 Two independent tools operate at different layers of the Claude Code tool pipeline.
 
 ---
 
-### Layer 1 — CLI Output: RTK
+### Layer 1: CLI Output: RTK
 
 RTK (Rust Token Killer) is a CLI proxy that intercepts shell command output and compresses it before Claude reads it. It operates via a `PreToolUse` hook that rewrites commands like `git log` to `rtk git log`.
 
@@ -2487,7 +2487,7 @@ rtk gain                       # dashboard: tokens saved per command
 
 ---
 
-### Layer 2 — File Reads and Session Memory: lean-ctx
+### Layer 2: File Reads and Session Memory: lean-ctx
 
 lean-ctx operates as a global MCP server that intercepts Read calls and Bash calls at the tool level, below RTK's shell hook. It uses tree-sitter AST parsing to extract only the relevant structure of a file rather than sending the full content.
 
@@ -2572,7 +2572,7 @@ Install both. RTK handles CLI output; lean-ctx handles file reads and session me
 - MCP server integration for extended context: `guide/ultimate-guide.md` §7 (MCP)
 - Security considerations for context content: `guide/security/`
 - Path-scoped module examples: `examples/` directory
-- PRP methodology (Product Requirements Prompt, 5-layer structure): community framework by Wirasm/Widing — `guide/core/methodologies.md` for the full summary, or search the guide for "PRP" to see practical examples
+- PRP methodology (Product Requirements Prompt, 5-layer structure): community framework by Wirasm/Widing. See `guide/core/methodologies.md` for the full summary, or search the guide for "PRP" to see practical examples
 
 ---
 

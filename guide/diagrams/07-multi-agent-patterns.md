@@ -1,5 +1,5 @@
 ---
-title: "Claude Code — Multi-Agent Patterns Diagrams"
+title: "Claude Code: Multi-Agent Patterns Diagrams"
 description: "Agent topologies, worktrees, dual-instance planning, horizontal scaling, decision matrix"
 tags: [multi-agent, patterns, worktrees, orchestration, scaling]
 ---
@@ -10,7 +10,7 @@ Patterns for coordinating multiple Claude instances for parallel and complex wor
 
 ---
 
-### Agent Teams — 3 Orchestration Topologies
+### Agent Teams: 3 Orchestration Topologies
 
 Three proven topologies for multi-agent coordination. Choose based on task independence, ordering requirements, and specialization needs.
 
@@ -84,7 +84,7 @@ W1    W2     W3              Agent B (implement)   Code Test Docs
 
 </details>
 
-> **Source**: [Agent Teams](../workflows/agent-teams.md) — Line ~59
+> **Source**: [Agent Teams](../workflows/agent-teams.md), line ~59
 
 ---
 
@@ -148,7 +148,7 @@ All merge back to main when done
 
 </details>
 
-> **Source**: [Git Worktrees](../ultimate-guide.md#git-worktrees) — Line ~10634
+> **Source**: [Git Worktrees](../ultimate-guide.md#git-worktrees), line ~10634
 
 ---
 
@@ -266,7 +266,7 @@ Aggregate → Integration review
 
 </details>
 
-> **Source**: [Horizontal Scaling](../ultimate-guide.md#horizontal-scaling) — Line ~9617
+> **Source**: [Horizontal Scaling](../ultimate-guide.md#horizontal-scaling), line ~9617
 
 ---
 
@@ -340,4 +340,4 @@ Need multiple instances?
 
 </details>
 
-> **Source**: [Multi-Instance Patterns](../ultimate-guide.md#multi-instance-patterns) — Line ~11176
+> **Source**: [Multi-Instance Patterns](../ultimate-guide.md#multi-instance-patterns), line ~11176

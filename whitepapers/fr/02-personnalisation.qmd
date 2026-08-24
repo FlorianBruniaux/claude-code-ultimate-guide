@@ -125,7 +125,7 @@ Nouvelle instruction Claude Code
 > **"You should never have to correct Claude twice for the same mistake."**
 > Boris Cherny, creator of Claude Code
 
-**Mental Model** : CLAUDE.md n'est pas juste un fichier de config, c'est un **système d'apprentissage organisationnel** où chaque erreur se transforme en connaissance permanente.
+**Mental Model** : CLAUDE.md fonctionne comme un **système d'apprentissage organisationnel**, bien au-delà d'un simple fichier de config, où chaque erreur se transforme en connaissance permanente.
 
 **Comment ça fonctionne** :
 
@@ -251,7 +251,7 @@ Ne pas essayer d'écrire un CLAUDE.md parfait du premier coup. Commencez avec 20
 
 ## Les 3 Niveaux de CLAUDE.md
 
-La distinction entre global, projet et local n'est pas qu'une question de portée -- c'est un choix de gouvernance. Le global capture vos habitudes personnelles, le projet encode les décisions de l'équipe, et le local permet des dérogations sans friction. Mélanger ces niveaux conduit à des conflits silencieux difficiles à diagnostiquer.
+La distinction entre global, projet et local est d'abord un choix de gouvernance, au-delà de la simple portée. Le global capture vos habitudes personnelles, le projet encode les décisions de l'équipe, et le local permet des dérogations sans friction. Mélanger ces niveaux conduit à des conflits silencieux difficiles à diagnostiquer.
 
 ### Niveau 1 : Global (~/.claude/CLAUDE.md)
 
@@ -919,7 +919,7 @@ mkdir -p "$CACHE_DIR"
 
 ## Qu'est-ce qu'un Skill User-Invocable ?
 
-Depuis CC 2.1.3, les "commands" custom vivent dans `.claude/skills/` et non plus `.claude/commands/`. Un skill user-invocable s'utilise exactement comme une ancienne command — l'utilisateur tape `/nom-skill` — mais il bénéficie de la même syntaxe frontmatter que tous les autres skills. Pour restreindre l'invocation à l'utilisateur uniquement, ajoutez `disable-model-invocation: true`.
+Depuis CC 2.1.3, les "commands" custom vivent dans `.claude/skills/` et non plus `.claude/commands/`. Un skill user-invocable s'utilise exactement comme une ancienne command (l'utilisateur tape `/nom-skill`), mais il bénéficie de la même syntaxe frontmatter que tous les autres skills. Pour restreindre l'invocation à l'utilisateur uniquement, ajoutez `disable-model-invocation: true`.
 
 ### Commands Built-in
 

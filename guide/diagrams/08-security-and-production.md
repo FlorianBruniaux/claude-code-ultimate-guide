@@ -1,5 +1,5 @@
 ---
-title: "Claude Code — Security & Production Diagrams"
+title: "Claude Code: Security & Production Diagrams"
 description: "3-layer defense, sandbox decision, verification paradox, CI/CD pipeline"
 tags: [security, production, sandbox, ci-cd, defense]
 ---
@@ -88,7 +88,7 @@ Contained
 
 </details>
 
-> **Source**: [Security Hardening](../security/security-hardening.md) — Full guide
+> **Source**: [Security Hardening](../security/security-hardening.md), full guide
 
 ---
 
@@ -163,7 +163,7 @@ Rule: When in doubt, sandbox it.
 
 </details>
 
-> **Source**: [Sandbox Native](../security/sandbox-native.md) — Line ~512
+> **Source**: [Sandbox Native](../security/sandbox-native.md), line ~512
 
 ---
 
@@ -229,7 +229,7 @@ GOOD: Claude writes → Human reviews (critical sections)
 
 </details>
 
-> **Source**: [Production Safety](../security/production-safety.md) — Line ~639
+> **Source**: [Production Safety](../security/production-safety.md), line ~639
 
 ---
 
@@ -300,4 +300,4 @@ PR created → GitHub Actions → setup ANTHROPIC_API_KEY
 
 </details>
 
-> **Source**: [CI/CD Integration](../ultimate-guide.md#cicd-integration) — Line ~6835
+> **Source**: [CI/CD Integration](../ultimate-guide.md#cicd-integration), line ~6835

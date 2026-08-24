@@ -1069,7 +1069,7 @@ Topics: TypeScript, types"
 
 ## 5. Voice-to-Text Tools (Wispr Flow, Superwhisper)
 
-**Philosophy**: "Vibe coding" — dictate intent, let AI implement
+**Philosophy**: "Vibe coding," dictate intent and let AI implement
 
 Voice input delivers ~4x typing speed (~150 WPM vs ~40 WPM) with richer context.
 You say more when you don't have to type it.
@@ -1250,7 +1250,7 @@ claude "Review my changes and suggest tests"
 
 ### Real-World Migration Path: Cursor → Windsurf → Claude Code
 
-> **Source**: [Zadig&Voltaire Engineering Blog](https://tech.zadig-et-voltaire.com/blog/migration-nuxt/) — Benjamin Calef, Feb 2026
+> **Source**: [Zadig&Voltaire Engineering Blog](https://tech.zadig-et-voltaire.com/blog/migration-nuxt/), Benjamin Calef, Feb 2026
 
 A 6-person team at Zadig&Voltaire documented their sequential tool adoption during a 6-month e-commerce rebuild (July 2025 – January 2026):
 
@@ -1258,7 +1258,7 @@ A 6-person team at Zadig&Voltaire documented their sequential tool adoption duri
 |-------|------|-------------|
 | July 2025 | Cursor | Co-building workflow, inline suggestions |
 | Aug 2025 | Windsurf | Similar paradigm, slightly different UX |
-| Aug 2025 | **Claude Code** | Contextual understanding of entire codebase — pivot moment |
+| Aug 2025 | **Claude Code** | Contextual understanding of entire codebase, pivot moment |
 | Nov 2025 | Claude Opus 4.5 | Model comprehension leap, reliable code generation |
 
 The team reported the pivot to Claude Code was driven by **codebase-level context** rather than file-level editing. They then integrated custom skills (`zv-commit`, `zv-code-review`, `zv-jira`, `zv-jira-qa`) and community skills from [skills.sh](https://skills.sh/) to standardize their workflows.
@@ -1371,7 +1371,7 @@ When you need Claude's deeper analysis:
 
 > **Source**: [Google Codelabs](https://codelabs.developers.google.com/getting-started-google-antigravity), [Google Cloud Blog](https://cloud.google.com/blog/topics/developers-practitioners/choosing-antigravity-or-gemini-cli), community reviews (Feb 2026)
 
-Google Antigravity is an **agent-first IDE** (VS Code fork) launched late 2025. Unlike traditional IDE tools that add AI to an editor, Antigravity makes autonomous agents the primary interface — developers supervise through a mission control-style UI rather than writing code directly.
+Google Antigravity is an **agent-first IDE** (VS Code fork) launched late 2025. Unlike traditional IDE tools that add AI to an editor, Antigravity makes autonomous agents the primary interface. Developers supervise through a mission control-style UI rather than writing code directly.
 
 ### Claude Code vs Antigravity: Two Philosophies
 
@@ -1406,7 +1406,7 @@ A community [npm package](https://www.npmjs.com/package/antigravity-claude-proxy
 
 **Antigravity weaknesses**: Higher cognitive overhead (monitoring multiple agents), less predictable behavior, CI/CD not mature, destructive operations risk when agents act autonomously.
 
-**Bottom line**: Claude Code optimizes for **predictability and integration with existing developer workflows**. Antigravity optimizes for **maximum agent autonomy with experimental trade-offs**. They serve different philosophies — choose based on your risk tolerance and workflow preferences.
+**Bottom line**: Claude Code optimizes for **predictability and integration with existing developer workflows**. Antigravity optimizes for **maximum agent autonomy with experimental trade-offs**. They serve different philosophies. Choose based on your risk tolerance and workflow preferences.
 
 ---
 
@@ -1891,7 +1891,7 @@ Beyond general-purpose coding assistants, specialized frameworks target specific
 
 ## 10. Claude Cowork (Research Preview)
 
-> **Research Preview** (January 2026) — Limited documentation, expect bugs, local-only access. No production use recommended yet.
+> **Research Preview** (January 2026): limited documentation, expect bugs, local-only access. No production use recommended yet.
 
 Cowork extends Claude's agentic capabilities to non-technical users via the Claude Desktop app. Instead of terminal commands, it accesses local folders to manipulate files.
 
@@ -1934,7 +1934,7 @@ Ideation/planning?          → Projects
 > **No official security documentation exists yet.**
 
 **Best practices**:
-1. Create dedicated `~/Cowork-Workspace/` folder — never grant access to Documents/Desktop
+1. Create dedicated `~/Cowork-Workspace/` folder, and never grant access to Documents/Desktop
 2. Review task plans before execution (especially file deletions/moves)
 3. Avoid files with instruction-like text from unknown sources
 4. No credentials, API keys, or sensitive data in workspace
@@ -2146,7 +2146,7 @@ An **interactive comparison matrix** of 23 AI coding agents across 11 technical 
 
 - [Packmind](https://packmind.com): Context engineering & governance for AI coding agents
 - [Packmind OSS](https://github.com/PackmindHub/packmind): Framework for versioning AI coding context
-- [Context-Evaluator](https://context-evaluator.ai) ([GitHub](https://github.com/PackmindHub/context-evaluator)): Open-source scanner for CLAUDE.md / AGENTS.md / copilot-instructions.md — 17 evaluators (13 error detectors + 4 suggestion generators), supports Claude Code, Cursor, Copilot, OpenCode, Codex. CLI + web UI. Apache-2.0, v0.3.0 (Feb 2026).
+- [Context-Evaluator](https://context-evaluator.ai) ([GitHub](https://github.com/PackmindHub/context-evaluator)): Open-source scanner for CLAUDE.md / AGENTS.md / copilot-instructions.md: 17 evaluators (13 error detectors + 4 suggestion generators), supports Claude Code, Cursor, Copilot, OpenCode, Codex. CLI + web UI. Apache-2.0, v0.3.0 (Feb 2026).
 - [Claude Code Templates](https://github.com/davila7/claude-code-templates): 200+ templates for Claude Code (17k⭐)
 - [Awesome Claude Code](https://github.com/hesreallyhim/awesome-claude-code): Curated tool library
 
@@ -2162,7 +2162,7 @@ For developers hitting Claude Code's subscription limits or needing model flexib
 
 ### What Is Goose?
 
-An **on-machine AI coding agent** developed by Block (formerly Square), released under Apache 2.0 license. Unlike Claude Code, Goose runs entirely locally and is **model-agnostic**—it can use Claude, GPT, Gemini, Groq, or any LLM provider.
+An **on-machine AI coding agent** developed by Block (formerly Square), released under Apache 2.0 license. Unlike Claude Code, Goose runs entirely locally and is **model-agnostic**: it can use Claude, GPT, Gemini, Groq, or any LLM provider.
 
 | Metric | Value (Mar 2026) |
 |--------|------------------|
@@ -2201,11 +2201,11 @@ An **on-machine AI coding agent** developed by Block (formerly Square), released
 
 ### Recipes: Goose's Equivalent of Skills + Commands
 
-Goose has a workflow primitive called **Recipes** — versionable, shareable, parameterized multi-step workflows. Unlike Claude Code's skills (which define agent capabilities) or slash commands (which trigger one-shot actions), Recipes define complete execution sequences: what to do, in what order, with which model at each step. They can be shared as deeplinks, imported by teammates, and checked into source control. Closest Claude Code analogy: a skill that chains multiple commands in a defined sequence, with state carried between steps.
+Goose has a workflow primitive called **Recipes**: versionable, shareable, parameterized multi-step workflows. Unlike Claude Code's skills (which define agent capabilities) or slash commands (which trigger one-shot actions), Recipes define complete execution sequences: what to do, in what order, with which model at each step. They can be shared as deeplinks, imported by teammates, and checked into source control. Closest Claude Code analogy: a skill that chains multiple commands in a defined sequence, with state carried between steps.
 
 ### Subagent Orchestration
 
-Since mid-2025, Goose supports spawning specialized subagents within a workflow. A parent agent can delegate subtasks to subagents with different roles (Planner, Architect, Frontend Dev, Backend Dev), each potentially running a different LLM optimized for its task. This differs from Claude Code's Agent tool (which spawns a subagent with the same model) — Goose enables heterogeneous agent teams where model choice is per-role, not per-session. See §9 for Claude Code's native multi-agent patterns.
+Since mid-2025, Goose supports spawning specialized subagents within a workflow. A parent agent can delegate subtasks to subagents with different roles (Planner, Architect, Frontend Dev, Backend Dev), each potentially running a different LLM optimized for its task. This differs from Claude Code's Agent tool (which spawns a subagent with the same model). Goose enables heterogeneous agent teams where model choice is per-role, not per-session. See §9 for Claude Code's native multi-agent patterns.
 
 ### Skill Portability
 
@@ -2247,7 +2247,7 @@ See [Goose Quickstart](https://block.github.io/goose/docs/quickstart/) for detai
 
 ### Positioning
 
-Goose is **not a replacement** for Claude Code—it's an alternative with different trade-offs. The right choice depends on your priorities:
+Goose is an alternative to Claude Code, not a replacement, and it comes with different trade-offs. The right choice depends on your priorities:
 
 | Priority | Choose |
 |----------|--------|
@@ -2305,8 +2305,8 @@ External resources from experienced practitioners that validate and extend the p
 
 **Context**: Response to Mike Arnaldi's "The Death of Software Development" (January 2026)
 
-**Content summary**: The bottleneck shift thesis — AI changes *what* we do, not *whether* we're needed:
-- AI implements, humans review — judgment becomes the limiting factor
+**Content summary**: The bottleneck shift thesis. AI changes *what* we do, not *whether* we're needed:
+- AI implements, humans review, and judgment becomes the limiting factor
 - "I review every single change. Every behavior modification. Every line that ships."
 - Cultural warning: "AI wrote it" must never become an excuse to skip understanding
 - Industrial Revolution analogy: new scale → new failure modes → new safety practices
@@ -2328,7 +2328,7 @@ External resources from experienced practitioners that validate and extend the p
 | Senior judgment critical | Verification Spectrum (line 1077) |
 | Cultural accountability | Vibe Coding Trap (`learning-with-ai.md:81`) |
 
-**Value**: First-hand perspective from a major open source maintainer. Validates that code review culture — already essential in open source — transfers directly to AI-assisted development. Powerful authority for convincing skeptical teams.
+**Value**: First-hand perspective from a major open source maintainer. Validates that code review culture (already essential in open source) transfers directly to AI-assisted development. Powerful authority for convincing skeptical teams.
 
 **Debate context**: Collina's article directly responds to Arnaldi (Effect/Effectful CEO) who argued "software development is dead." The Collina-Arnaldi exchange became a defining moment in the January 2026 discourse on AI and developer roles.
 
@@ -2368,7 +2368,7 @@ External resources from experienced practitioners that validate and extend the p
 - Bestselling author, 600K+ newsletter readers
 - Published January 28, 2026
 
-**Content summary**: Synthesis of the "80% problem" — when AI generates 80%+ of code, developers face three new failure modes (overengineering, assumption propagation, sycophantic agreement) and risk "comprehension debt" distinct from technical debt. Aggregates DORA, Stack Overflow, and industry research on the productivity paradox (+98% PRs, +91% review time, but no overall workload reduction).
+**Content summary**: Synthesis of the "80% problem": when AI generates 80%+ of code, developers face three new failure modes (overengineering, assumption propagation, sycophantic agreement) and risk "comprehension debt" distinct from technical debt. Aggregates DORA, Stack Overflow, and industry research on the productivity paradox (+98% PRs, +91% review time, but no overall workload reduction).
 
 **Key data points** (cited from external research):
 - 44% developers write <10% code manually (Ronacher poll)
@@ -2401,12 +2401,12 @@ External resources from experienced practitioners that validate and extend the p
 **Content summary**: Paradigm shift framework for AI-assisted engineering through two core concepts:
 1. **Eiffel Tower Principle**: AI tools fundamentally transform what's architecturally possible (like elevators enabled Eiffel Tower's shape), not just acceleration of old tasks
 2. **Ralph Wiggum Programming Model**: Agentic loops where engineers become architects/editors rather than sole creators (reference to Simpsons character "helping" assemble furniture)
-3. **Verification Paradox**: When AI succeeds 99% of the time, human vigilance becomes unreliable for catching the 1% errors — solution: automated guardrails over manual review
+3. **Verification Paradox**: When AI succeeds 99% of the time, human vigilance becomes unreliable for catching the 1% errors. Solution: automated guardrails over manual review
 4. **Precision as Currency**: Clear specification (WHAT/WHERE/HOW) becomes engineer's new superpower, replacing implementation speed
 5. **Ambition Scaling**: Pursue previously impossible ambitions enabled by new tools, not just faster execution of old tasks
 
 **Key quote**:
-> "L'intelligence est la faculté de fabriquer des objets artificiels, en particulier des outils à faire des outils." — Henri Bergson, L'évolution créatrice (1907)
+> "L'intelligence est la faculté de fabriquer des objets artificiels, en particulier des outils à faire des outils." (Henri Bergson, L'évolution créatrice, 1907)
 
 **Alignment with this guide**:
 
@@ -2452,11 +2452,11 @@ External resources from experienced practitioners that validate and extend the p
 | Custom skills in production | Skills (Section 5.5 in ultimate-guide.md) |
 | Team-wide adoption curve | Adoption Approaches (adoption-approaches.md) |
 
-**Value**: Complements Anthropic's internal metrics (+67% PRs/engineer/day) with **external team data** showing a progressive adoption trajectory. The temporal dimension (30% → 90% over 6 months) is unique — most case studies report before/after snapshots, not the journey.
+**Value**: Complements Anthropic's internal metrics (+67% PRs/engineer/day) with **external team data** showing a progressive adoption trajectory. The temporal dimension (30% → 90% over 6 months) is unique. Most case studies report before/after snapshots, not the journey.
 
 **Caveat**: Performance metrics reported (-63% LCP, -33% LOC) are attributable to the Nuxt 3 migration, not Claude Code. The productivity trajectory is the transferable insight. Article is self-published by the team (no third-party validation).
 
-### Outcome Engineering — o16g Manifesto (Cory Ondrejka)
+### Outcome Engineering: o16g Manifesto (Cory Ondrejka)
 
 **URL**: [o16g.com](https://o16g.com/)
 
@@ -2467,11 +2467,11 @@ External resources from experienced practitioners that validate and extend the p
 - Former VP Mobile Engineering at Meta
 - Published: February 13, 2026
 
-**Content summary**: Philosophical manifesto proposing 16 principles for shifting from "software engineering" to "outcome engineering" — prioritizing measurable results over code output. Organized in two parts:
+**Content summary**: Philosophical manifesto proposing 16 principles for shifting from "software engineering" to "outcome engineering": prioritizing measurable results over code output. Organized in two parts:
 1. **Goals** (1-8): Human intent guides agents, verified reality over metrics, budget-based management replacing backlogs, creation over tedium, map context before dispatch, build aggressively to test hypotheses, analyze failures as learning artifacts
 2. **Building** (9-16): Agent orchestration, constitutional encoding, knowledge graphs, priority systems, documentation, continuous improvement, risk gates, outcome auditing
 
-**Cultural positioning**: The naming "o16g" follows the numeronym pattern (i18n, k8s, a11y) — designed for community adoption. Honeycomb cited it in their 10-year manifesto. Talent500 picked up the term on publication day. Posted on Hacker News. Positions itself as a successor framework to software engineering for the agentic era, comparable in ambition to the Agile Manifesto (2001) for its era.
+**Cultural positioning**: The naming "o16g" follows the numeronym pattern (i18n, k8s, a11y), designed for community adoption. Honeycomb cited it in their 10-year manifesto. Talent500 picked up the term on publication day. Posted on Hacker News. Positions itself as a successor framework to software engineering for the agentic era, comparable in ambition to the Agile Manifesto (2001) for its era.
 
 **Alignment with this guide**:
 
@@ -2483,7 +2483,7 @@ External resources from experienced practitioners that validate and extend the p
 | Map context before dispatch | CLAUDE.md + Plan Mode (Sections 3.1, 2.3) |
 | Verified reality over metrics | Trust Calibration (ultimate-guide.md:1039) |
 
-**Value**: Not a Claude Code-specific resource — no commands, configurations, or actionable patterns. Value is cultural: a credible industry leader articulating the philosophical shift that underpins all patterns in this guide. If "outcome engineering" gains traction as a term (like "vibe coding" did), this manifesto is the primary source.
+**Value**: Not a Claude Code-specific resource: no commands, configurations, or actionable patterns. Value is cultural: a credible industry leader articulating the philosophical shift that underpins all patterns in this guide. If "outcome engineering" gains traction as a term (like "vibe coding" did), this manifesto is the primary source.
 
 **Status**: Emerging (day-1 publication). On watch list for community adoption tracking.
 
@@ -2647,7 +2647,7 @@ Claude Code automatically reads files as needed, but external tools exist for:
 
 | Scenario | Best Approach |
 |----------|---------------|
-| Working in Claude Code | Let Claude read files naturally — no pre-dumping needed |
+| Working in Claude Code | Let Claude read files naturally (no pre-dumping needed) |
 | Feeding context to ChatGPT/Gemini | gitingest/repo2txt useful |
 | Preparing spec for team review | Export relevant files to share |
 | Very large monorepo (>1M LOC) | May help with selective extraction |
@@ -2656,7 +2656,7 @@ Claude Code automatically reads files as needed, but external tools exist for:
 
 ### Source
 
-- Addy Osmani: [My AI Coding Workflow in 2026](https://addyosmani.com/blog/ai-coding-workflow/) — Discusses context packing as part of a broader AI development workflow
+- Addy Osmani: [My AI Coding Workflow in 2026](https://addyosmani.com/blog/ai-coding-workflow/), discussing context packing as part of a broader AI development workflow
 
 ### Architecture Diagrams as Context (Advanced Pattern)
 
@@ -2722,7 +2722,7 @@ classDiagram
 
 #### Key Insight
 
-> "Context structure matters more than context size" — Explicit relationships improve LLM reasoning on OOP architectures.
+> "Context structure matters more than context size." Explicit relationships improve LLM reasoning on OOP architectures.
 
 **Source**: [LinkedIn discussion (Jan 2026)](https://www.linkedin.com/posts/tigraff_uml-claude-wibecoding-activity-7420595633826258944-gGO5)
 
@@ -2744,10 +2744,10 @@ measure → propose change → apply → re-measure → keep if better / git res
 
 Four ingredients make it work:
 
-1. **One objective metric** — a number you want to move (lower or higher). No ambiguity, no judgment calls. Example: `grep -r "as any" src/ | wc -l`
-2. **A fixed budget** — one atomic change per iteration (or a time budget for ML). Keeps iterations comparable.
-3. **Git as rollback** — bad changes disappear with `git checkout -- .`. No damage accumulates.
-4. **`program.md`** — a Markdown file that defines what the agent can/cannot do. This is identical in structure to a CLAUDE.md or skill file.
+1. **One objective metric**: a number you want to move (lower or higher). No ambiguity, no judgment calls. Example: `grep -r "as any" src/ | wc -l`
+2. **A fixed budget**: one atomic change per iteration (or a time budget for ML). Keeps iterations comparable.
+3. **Git as rollback**: bad changes disappear with `git checkout -- .`. No damage accumulates.
+4. **`program.md`**: a Markdown file that defines what the agent can/cannot do. This is identical in structure to a CLAUDE.md or skill file.
 
 ### What karpathy/autoresearch Does
 
@@ -2756,14 +2756,14 @@ The original repo runs autonomous ML research on a single GPU:
 | Component | Role |
 |-----------|------|
 | `train.py` | The only file the agent edits (model, optimizer, architecture) |
-| `prepare.py` | Fixed harness — data, tokenizer, evaluation. Read-only. |
-| `program.md` | Agent behavior contract — budget, constraints, what to explore |
-| Metric | `val_bpb` (validation bits per byte) — lower = better |
+| `prepare.py` | Fixed harness: data, tokenizer, evaluation. Read-only. |
+| `program.md` | Agent behavior contract: budget, constraints, what to explore |
+| Metric | `val_bpb` (validation bits per byte), lower = better |
 | Budget | 5-minute wall-clock per experiment |
 | On improvement | `git commit` |
 | On regression | `git reset --hard HEAD` |
 
-Result: ~100 experiments per 8-hour sleep on an H100. Two merged commits in the repo itself are `Co-Authored-By: Claude Opus 4.6` — the agent ran autoresearch on autoresearch.
+Result: ~100 experiments per 8-hour sleep on an H100. Two merged commits in the repo itself are `Co-Authored-By: Claude Opus 4.6`. The agent ran autoresearch on autoresearch.
 
 ### Adapting to Code Quality
 
@@ -2789,7 +2789,7 @@ The same loop works for mechanical code improvements. Swap the ML metric for a g
 
 ### The `program.md` Pattern
 
-`program.md` is the most important file — it encodes what the agent is allowed to do. Never auto-generate it. Write it yourself per loop to capture your codebase's constraints.
+`program.md` is the most important file: it encodes what the agent is allowed to do. Never auto-generate it. Write it yourself per loop to capture your codebase's constraints.
 
 ```markdown
 # Program: loop-remove-as-any
@@ -2842,7 +2842,7 @@ Does not work for:
 
 ### Safety Properties
 
-The pattern is safe because of the git rollback guarantee. The agent never accumulates bad changes — every regression disappears immediately. The only risk is if your `program.md` constraints are too loose. Write tight constraints, then widen if needed.
+The pattern is safe because of the git rollback guarantee. The agent never accumulates bad changes. Every regression disappears immediately. The only risk is if your `program.md` constraints are too loose. Write tight constraints, then widen if needed.
 
 ---
 
@@ -2907,9 +2907,9 @@ For those who understand the risks and want to explore anyway:
 
 ## 14. Claude Managed Agents (Cloud-Hosted Platform)
 
-> **Launched**: April 8, 2026 — public beta, enabled by default for all Anthropic API accounts.
+> **Launched**: April 8, 2026 (public beta, enabled by default for all Anthropic API accounts).
 
-Claude Managed Agents is Anthropic's cloud-hosted agent platform. Where Claude Code is a tool *you* use to write software, Managed Agents is infrastructure *you ship* to your users — an autonomous agent running in the cloud on your behalf.
+Claude Managed Agents is Anthropic's cloud-hosted agent platform. Where Claude Code is a tool *you* use to write software, Managed Agents is infrastructure *you ship* to your users: an autonomous agent running in the cloud on your behalf.
 
 The key mental model: **Claude Code is a harness built on top of the same infrastructure**. Managed Agents is the underlying platform, now available directly to any developer.
 
@@ -3006,7 +3006,7 @@ Four objects, in order of creation:
 
 ### Multi-Agent Coordination (Research Preview)
 
-One agent (coordinator) delegates to specialized sub-agents running in parallel threads. Each thread has its own isolated context — tools and conversation history are not shared.
+One agent (coordinator) delegates to specialized sub-agents running in parallel threads. Each thread has its own isolated context. Tools and conversation history are not shared.
 
 ```mermaid
 flowchart TD
@@ -3029,7 +3029,7 @@ flowchart TD
     style SRCH fill:#6DB3F2,color:#fff
 ```
 
-**Current constraints** (research preview): one level of delegation only — sub-agents cannot spawn further agents. All agents share the same container filesystem but run in separate session threads.
+**Current constraints** (research preview): one level of delegation only, sub-agents cannot spawn further agents. All agents share the same container filesystem but run in separate session threads.
 
 ---
 
@@ -3041,7 +3041,7 @@ flowchart TD
 | **Background data pipeline** | Runs for hours, survives connection drops, no babysitting required |
 | **AI-powered onboarding assistant** | Persistent state across sessions, web search + file generation |
 | **Document generation workflow** | Multi-agent: researcher + writer + formatter in parallel |
-| **Automated QA agent** | Write tests, run them, fix failures — autonomous loop with self-evaluation (research preview) |
+| **Automated QA agent** | Write tests, run them, fix failures: autonomous loop with self-evaluation (research preview) |
 
 **Enterprise validation** (from the launch announcement): Notion deploys parallel task execution agents, Rakuten ships specialist agents in under a week each, Asana runs collaborative AI teammates, Sentry pairs a debugging agent with patch-writing.
 
@@ -3170,7 +3170,7 @@ AGENT_ID=agt_...         # from client.beta.agents.create()
 ENVIRONMENT_ID=env_...   # from client.beta.environments.create()
 ```
 
-> **Note on agent/environment creation**: create these once (in a setup script or on first deploy) and store the IDs. They are reusable across all sessions — no need to recreate on every request.
+> **Note on agent/environment creation**: create these once (in a setup script or on first deploy) and store the IDs. They are reusable across all sessions, no need to recreate on every request.
 
 ---
 
@@ -3187,13 +3187,13 @@ Use Managed Agents when **two or more** of these apply:
 
 Stay on the **Messages API** when you need full control over the agent loop, custom retry logic, or non-standard tool routing.
 
-Stay on **Claude Code** when you are the user — writing software, reviewing PRs, running analysis on your own machine.
+Stay on **Claude Code** when you are the user: writing software, reviewing PRs, running analysis on your own machine.
 
 ---
 
 ### Research Preview Features
 
-Three features behind a separate access request — functional but not yet stable API contracts.
+Three features behind a separate access request, functional but not yet stable API contracts.
 
 #### Outcomes (Self-Evaluation Loop)
 
@@ -3217,7 +3217,7 @@ Measured impact on internal tests: up to 10-point improvement in task success on
 
 #### Memory (Cross-Session Persistence)
 
-The agent remembers facts across sessions. Stored in a vector index managed by Anthropic — no external database required.
+The agent remembers facts across sessions. Stored in a vector index managed by Anthropic. No external database required.
 
 Useful for: user preference tracking, project context that builds over time, personal assistants that learn.
 
@@ -3231,7 +3231,7 @@ Documented above. One coordinator, N specialists in parallel threads, one level 
 
 ### Cost Model & Optimization
 
-**Billing**: standard Anthropic API token pricing. No session fee, no compute surcharge beyond tokens. Prompt caching and compaction are applied automatically — you pay for the reduced token count.
+**Billing**: standard Anthropic API token pricing. No session fee, no compute surcharge beyond tokens. Prompt caching and compaction are applied automatically. You pay for the reduced token count.
 
 **Model selection is the main cost lever**:
 
@@ -3261,7 +3261,7 @@ Documented above. One coordinator, N specialists in parallel threads, one level 
 
 ### The `ant` CLI
 
-Anthropic ships a dedicated CLI for managing agents, environments, and sessions from the terminal — useful for setup scripts and debugging.
+Anthropic ships a dedicated CLI for managing agents, environments, and sessions from the terminal, useful for setup scripts and debugging.
 
 **Install** (macOS):
 
@@ -3326,13 +3326,13 @@ The Managed Agents API is available in 8 SDKs out of beta. All set the `managed-
 
 ### Engineering Background: Why the Architecture Changed
 
-From the [Anthropic engineering blog](https://www.anthropic.com/engineering/managed-agents) — useful context for understanding the design decisions.
+From the [Anthropic engineering blog](https://www.anthropic.com/engineering/managed-agents), useful context for understanding the design decisions.
 
-**The "pets vs cattle" problem**: the original single-container architecture created what infrastructure teams call a "pet" — a hand-maintained individual you cannot afford to lose. One crash meant losing the entire session. The new decoupled model treats each component as "cattle": stateless, interchangeable, and replaceable.
+**The "pets vs cattle" problem**: the original single-container architecture created what infrastructure teams call a "pet" (a hand-maintained individual you cannot afford to lose). One crash meant losing the entire session. The new decoupled model treats each component as "cattle": stateless, interchangeable, and replaceable.
 
-**Assumption decay**: the original harness was built around model limitations — workarounds for "context anxiety" in Sonnet 4.5, explicit recovery logic for behaviors Claude Opus 4.5 no longer exhibits. Every model generation, these workarounds became dead weight. The interface-first redesign solves this: harness implementations swap underneath stable interfaces, so model improvements are captured without architectural surgery.
+**Assumption decay**: the original harness was built around model limitations: workarounds for "context anxiety" in Sonnet 4.5, explicit recovery logic for behaviors Claude Opus 4.5 no longer exhibits. Every model generation, these workarounds became dead weight. The interface-first redesign solves this: harness implementations swap underneath stable interfaces, so model improvements are captured without architectural surgery.
 
-**Interface stability**: each component communicates through minimal contracts — `execute(name, input) → string` for containers, `wake(sessionId)` / `getSession(id)` for harness recovery. This mirrors OS virtualization: `read()` stays stable across hardware generations. The implication for builders: your application code talks to stable session and event APIs, regardless of what Anthropic does internally.
+**Interface stability**: each component communicates through minimal contracts: `execute(name, input) → string` for containers, `wake(sessionId)` / `getSession(id)` for harness recovery. This mirrors OS virtualization: `read()` stays stable across hardware generations. The implication for builders: your application code talks to stable session and event APIs, regardless of what Anthropic does internally.
 
 ---
 
@@ -3393,20 +3393,20 @@ Announced April 7, 2026 in the Anthropic API release notes alongside Glasswing: 
 
 Practical notes for enterprise Claude Code users:
 
-- Same request format as the direct Anthropic API — migration is a one-line endpoint change for existing integrations
+- Same request format as the direct Anthropic API: migration is a one-line endpoint change for existing integrations
 - Access via your Anthropic account executive (not self-serve yet)
 - Pairs naturally with Claude Code v2.1.101's OS CA certificate store trust (`CLAUDE_CODE_CERT_STORE=bundled` to revert), which makes enterprise TLS proxy setups work without extra configuration
 
 ### Resources
 
-- [Anthropic newsroom](https://www.anthropic.com/news) — Project Glasswing announcement
+- [Anthropic newsroom](https://www.anthropic.com/news): Project Glasswing announcement
 - [TechCrunch: Claude Mythos AI model preview, security](https://techcrunch.com/2026/04/07/anthropic-mythos-ai-model-preview-security/)
 
 ---
 
 ## 16. Step by Token: How LLMs Work (Interactive Guide)
 
-[stepbytoken.com](https://www.stepbytoken.com/en) — Dimitri Mérault
+[stepbytoken.com](https://www.stepbytoken.com/en), by Dimitri Mérault
 
 21 chapters, 189 minutes of reading, free, in 8 languages. An interactive guide that explains how large language models actually work, from token prediction through multi-agent systems, without requiring equations or prior ML knowledge.
 

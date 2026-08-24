@@ -16,7 +16,7 @@ format:
 
 ## Fast Mode
 
-Fast Mode produit des réponses **2.5x plus rapides** en échange d'un coût 2x supérieur (vérifiée pour Opus 4.8). Le modèle sous-jacent est Opus 4.8, pas un modèle différent : c'est une allocation de ressources prioritaire, pas une simplification du raisonnement.
+Fast Mode produit des réponses **2.5x plus rapides** en échange d'un coût 2x supérieur (vérifiée pour Opus 4.8). Le modèle sous-jacent reste Opus 4.8, et non un modèle différent. Fast Mode priorise l'allocation de ressources, sans simplifier le raisonnement.
 
 | Paramètre | Standard | Fast Mode |
 |-----------|----------|-----------|
@@ -29,7 +29,7 @@ Fast Mode produit des réponses **2.5x plus rapides** en échange d'un coût 2x 
 
 ## Quand Utiliser Fast Mode
 
-Fast Mode est rentable quand le temps de réponse a une valeur métier directe : démo en direct, paire de programmation intensive, génération de code mécanique en boucle rapide. Ce n'est pas un remplacement de Sonnet pour les tâches simples, Sonnet reste 10x moins cher.
+Fast Mode est rentable quand le temps de réponse a une valeur métier directe : démo en direct, paire de programmation intensive, génération de code mécanique en boucle rapide. Fast Mode ne remplace pas Sonnet sur les tâches simples : Sonnet reste 10x moins cher.
 
 **Pertinent :**
 - Génération de boilerplate répétitif en session interactive

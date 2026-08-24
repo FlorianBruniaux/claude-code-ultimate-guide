@@ -6,7 +6,7 @@ tags: [security, sandbox, guide]
 
 # Native Sandboxing in Claude Code
 
-> **Confidence**: Tier 1 — Official Anthropic documentation
+> **Confidence**: Tier 1, official Anthropic documentation
 > **Reading time**: ~15 minutes
 > **Scope**: Understanding and configuring native process-level sandboxing in Claude Code
 > **Last updated**: 2026-02-02

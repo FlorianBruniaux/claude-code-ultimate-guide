@@ -1,12 +1,12 @@
 ---
 title: "Iterative Refinement"
-description: "Prompt, observe, and reprompt until satisfied — the core loop of AI-assisted development"
+description: "Prompt, observe, and reprompt until satisfied: the core loop of AI-assisted development"
 tags: [workflow, guide, design-patterns]
 ---
 
 # Iterative Refinement
 
-> **Confidence**: Tier 2 — Validated pattern observed across many Claude Code users.
+> **Confidence**: Tier 2 (validated pattern observed across many Claude Code users).
 
 Prompt, observe, reprompt until satisfied. The core loop of effective AI-assisted development.
 
@@ -191,7 +191,7 @@ Good progress. Let's checkpoint:
 
 ## Script Generation Workflow
 
-Script and automation generation delivers the highest ROI for iterative refinement—70-90% time savings in practitioner reports. Scripts are self-contained, testable in isolation, and yield immediate value.
+Script and automation generation delivers the highest ROI for iterative refinement, with 70-90% time savings in practitioner reports. Scripts are self-contained, testable in isolation, and yield immediate value.
 
 ### The 3-7 Iteration Pattern
 
@@ -206,30 +206,30 @@ Most production-ready scripts emerge after 3-7 iterations:
 
 ### Example: Kubernetes Pod Manager (PowerShell)
 
-**Iteration 1 — Basic**
+**Iteration 1: Basic**
 ```
 Create a PowerShell function to list pods in a Kubernetes namespace.
 ```
 
-**Iteration 2 — Add filtering**
+**Iteration 2: Add filtering**
 ```
 Add: filter by label selector and pod status.
 Show: pod name, status, age, restarts.
 ```
 
-**Iteration 3 — Add actions**
+**Iteration 3: Add actions**
 ```
 Add: ability to delete pods matching filter.
 Require: confirmation before deletion.
 ```
 
-**Iteration 4 — Error handling**
+**Iteration 4: Error handling**
 ```
 Handle: kubectl not found, invalid namespace, permission denied.
 Add: verbose logging with -Verbose flag.
 ```
 
-**Iteration 5 — Production ready**
+**Iteration 5: Production ready**
 ```
 Add: dry-run mode, output to JSON for piping, help documentation.
 Ensure: works on Windows, Linux, macOS.
@@ -632,7 +632,7 @@ Being honest about what doesn't work yet, so you don't waste time reinventing so
 
 ## See Also
 
-- [exploration-workflow.md](./exploration-workflow.md) — Explore alternatives before iterating
-- [tdd-with-claude.md](./tdd-with-claude.md) — TDD is iterative refinement with tests
-- [plan-driven.md](./plan-driven.md) — Plan before iterating
-- [../core/methodologies.md](../core/methodologies.md) — Iterative Loops methodology
+- [exploration-workflow.md](./exploration-workflow.md): explore alternatives before iterating
+- [tdd-with-claude.md](./tdd-with-claude.md): TDD is iterative refinement with tests
+- [plan-driven.md](./plan-driven.md): plan before iterating
+- [../core/methodologies.md](../core/methodologies.md): Iterative Loops methodology

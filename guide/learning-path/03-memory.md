@@ -232,7 +232,7 @@ Functional programming, clear variable names, typed functions
 **Project** (my-payment-app/CLAUDE.md):
 ```markdown
 ## Special Rules
-Security critical—use /plan for all changes.
+Security critical: use /plan for all changes.
 Must handle PCI compliance.
 ```
 
@@ -428,12 +428,12 @@ Claude Code can write its own MEMORY.md between sessions (Auto Memory) and conso
 
 - **claude-mem** (89K stars, verified 2026-07-27) automatic session compression via hooks, no manual calls needed. Install: `/plugin marketplace add thedotmack/claude-mem`
 - **agentmemory** (26K stars, verified 2026-07-27) BM25 + vector + graph hybrid retrieval, 12 auto-wired hooks, 95.2% R@5 on LongMemEval-S
-- **ICM** (Rust binary) — episodic decay + permanent knowledge graph, `brew install icm`, 14 IDE clients
+- **ICM** (Rust binary): episodic decay + permanent knowledge graph, `brew install icm`, 14 IDE clients
 
 **Team sharing**
 
-- The Trinity pattern: CLAUDE.md + `.mcp.json` + `/skills` all committed to the repo — zero infra, zero cost
-- **Mem0 Cloud MCP** — shared memory pool via `npx mcp-add --url https://mcp.mem0.ai/mcp`, free tier
-- **doobidoo** — semantic search across 13+ IDEs, local SQLite or Cloudflare D1 backend
+- The Trinity pattern: CLAUDE.md + `.mcp.json` + `/skills` all committed to the repo. Zero infra, zero cost.
+- **Mem0 Cloud MCP**: shared memory pool via `npx mcp-add --url https://mcp.mem0.ai/mcp`, free tier
+- **doobidoo**: semantic search across 13+ IDEs, local SQLite or Cloudflare D1 backend
 
 Full coverage of all tools, architecture patterns, risks, and a decision flowchart: [Memory Systems guide](../core/memory-systems.md).

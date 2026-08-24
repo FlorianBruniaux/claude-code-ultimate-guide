@@ -15,7 +15,7 @@ This document tracks verified, critical issues affecting Claude Code users based
 
 ## 🚨 Active Critical Issues
 
-### 0. Prompt Cache Bugs — Silent Cost Inflation (Mar 2026 - Present)
+### 0. Prompt Cache Bugs: Silent Cost Inflation (Mar 2026 - Present)
 
 **Severity**: 🔴 **HIGH - COST IMPACT**
 **Status**: ⚠️ PARTIALLY FIXED (Bug 3 and Bug 2 still active as of v2.1.88)
@@ -36,10 +36,10 @@ Three independent bugs break Anthropic's prefix-based prompt caching, causing `c
 > leaked npm sourcemap, and independent session JSONL analysis (ArkNill, April 2026). Anthropic shipped
 > a partial fix in v2.1.88 (tool schema bytes). Bugs 2 and 3 remain unpatched.
 
-#### Bug 2 — Full cache rebuild on --resume / --continue (v2.1.69+) — HIGH IMPACT
+#### Bug 2: Full cache rebuild on --resume / --continue (v2.1.69+), HIGH IMPACT
 
 **Root cause**: The session JSONL writer strips `deferred_tools_delta` attachment records before
-writing to disk. On `--resume`, those records are gone — so the deferred tools layer has no prior
+writing to disk. On `--resume`, those records are gone, so the deferred tools layer has no prior
 announcement history and re-announces all tools from scratch. This shifts every message position in
 the restored conversation, breaking the messages-level cache prefix entirely.
 
@@ -48,10 +48,10 @@ the restored conversation, breaking the messages-level cache prefix entirely.
 | Entry | cache_read | cache_creation | Event |
 |-------|-----------|----------------|-------|
 | 102 | 84,164 | 174 | Normal turn |
-| 103 | 0 | 87,176 | **Resume — full rebuild** |
+| 103 | 0 | 87,176 | **Resume: full rebuild** |
 | 105 | 87,176 | 561 | Recovered |
 | 166 | 115,989 | 221 | Normal turn |
-| 167 | 0 | 118,523 | **Resume — full rebuild** |
+| 167 | 0 | 118,523 | **Resume: full rebuild** |
 
 Each resume = 87-118K tokens rebuilt as `cache_creation` instead of `cache_read`. 3-4 resumes per
 session = 300-400K tokens of avoidable cost. Impact scales with number of skills/deferred tools:
@@ -64,7 +64,7 @@ Anthropic is tracking this internally (referenced in source telemetry as `inc-47
 **Engineering fix**: preserve `deferred_tools_delta` and `mcp_instructions_delta` records when
 writing session JSONL, so resume can compute the delta correctly instead of re-announcing everything.
 
-#### Bug 3 — Attribution Header (low-to-medium impact, v2.1.69+)
+#### Bug 3: Attribution Header (low-to-medium impact, v2.1.69+)
 
 **Root cause**: Claude Code injects a billing header as the **first block** of the system prompt on
 every API request. This header contains a 3-character hash derived from characters of your first
@@ -76,7 +76,7 @@ session start and subagent call.
 "marginal impact" in practice because the system prompt is small relative to total session context.
 The resume bug (Bug 2) has a larger measurable cost for heavy users.
 
-**Empirical measurement**: 48% → 99.98% cache hit ratio with workaround — but this reflects combined
+**Empirical measurement**: 48% → 99.98% cache hit ratio with workaround, but this reflects combined
 effect with other cache factors; the isolated Bug 3 impact may be smaller.
 
 **Workaround** (apply immediately, low risk):
@@ -90,7 +90,7 @@ effect with other cache factors; the isolated Bug 3 impact may be smaller.
 ```
 Accepted values: `"false"`, `"0"`, `"no"`, `"off"`. No restart needed.
 
-#### Bug 1 — Sentinel String Replacement (standalone binary v2.1.36+, edge case)
+#### Bug 1: Sentinel String Replacement (standalone binary v2.1.36+, edge case)
 
 **Root cause**: Bun's native HTTP stack replaces a `cch=00000` placeholder in the request body
 after serialization. If this exact string appears in your message content (e.g., from a CLAUDE.md
@@ -120,14 +120,14 @@ To verify whether your sessions are healthy, use the official `ANTHROPIC_BASE_UR
 
 Run a pass-through proxy on port 8080 that reads but does not modify requests/responses, parsing the `usage` object from each response. **Healthy sessions** show cache read ratio > 80%; **affected sessions** show < 40%.
 
-Alternatively, inspect session JSONL files directly in `~/.claude/projects/` — look for `cache_creation_input_tokens` and `cache_read_input_tokens` per turn.
+Alternatively, inspect session JSONL files directly in `~/.claude/projects/`, and look for `cache_creation_input_tokens` and `cache_read_input_tokens` per turn.
 
 Community tools for monitoring:
-- [`cc-diag`](https://github.com/nicobailey/cc-diag) — mitmproxy-based Claude Code traffic analysis
-- [`claude-code-router`](https://github.com/pathintegral-institute/claude-code-router) — transparent proxy with logging
+- [`cc-diag`](https://github.com/nicobailey/cc-diag): mitmproxy-based Claude Code traffic analysis
+- [`claude-code-router`](https://github.com/pathintegral-institute/claude-code-router): transparent proxy with logging
 
 Community patch (applies both Bug 1 and Bug 2 fixes):
-- [`cc-cache-fix`](https://github.com/Rangizingo/cc-cache-fix) — community-developed patch + test toolkit
+- [`cc-cache-fix`](https://github.com/Rangizingo/cc-cache-fix): community-developed patch + test toolkit
 
 #### Official Response
 

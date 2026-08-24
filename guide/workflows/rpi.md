@@ -6,7 +6,7 @@ tags: [workflow, architecture, design-patterns, validation]
 
 # RPI: Research → Plan → Implement
 
-> **Confidence**: Tier 2 — Synthesized from production team patterns. The gate-based structure aligns with Anthropic's guidance on agent task decomposition and agentic loop control.
+> **Confidence**: Tier 2, synthesized from production team patterns. The gate-based structure aligns with Anthropic's guidance on agent task decomposition and agentic loop control.
 
 Build features in three locked phases: Research feasibility first, plan the implementation second, write code third. Each phase produces a concrete artifact. Each gate requires an explicit GO before the next phase starts.
 
@@ -67,7 +67,7 @@ Phase 3 — Implement:
 |----------|----------------|
 | Fix is obvious (typo, wrong color) | Direct edit |
 | Feature is well-understood, requirements are clear | [Spec-First](./spec-first.md) or [dual-instance](./dual-instance-planning.md) |
-| Exploration mode — you don't know what you want yet | Exploration workflow |
+| Exploration mode (you don't know what you want yet) | Exploration workflow |
 | Tiny change, single file | Just do it |
 
 ### Decision Heuristic
@@ -106,7 +106,7 @@ RPI has two human gates and one automated gate per implementation step.
                                                                                 [Done]
 ```
 
-**Gate 1 (after Research)**: You read RESEARCH.md and make a GO/NO-GO decision. This is the most important gate — it prevents building the wrong thing entirely.
+**Gate 1 (after Research)**: You read RESEARCH.md and make a GO/NO-GO decision. This is the most important gate, because it prevents building the wrong thing entirely.
 
 **Gate 2 (after Plan)**: You review PLAN.md before any code is written. Minor revisions happen here at zero cost.
 
@@ -240,7 +240,7 @@ Not every research phase ends in GO. Common NO-GO reasons:
 - **Better alternative exists**: Research reveals an existing library or config change that solves the problem more simply
 - **Risk too high for now**: The feature is valid but the timing is wrong
 
-Archive NO-GO research docs — they're valuable records of decisions made and why.
+Archive NO-GO research docs. They're valuable records of decisions made and why.
 
 ---
 
@@ -356,7 +356,7 @@ Read PLAN.md carefully before approving. The goal is to catch design problems no
 - Out-of-scope is explicit (prevents Claude from over-building)
 - Rollback plan exists for anything touching data or shared state
 
-If the plan needs changes, ask Claude to revise before approving. This is free — revision after approval costs implementation time.
+If the plan needs changes, ask Claude to revise before approving. This is free. Revision after approval costs implementation time.
 
 ---
 
@@ -415,7 +415,7 @@ Options:
 Which should I do?
 ```
 
-You decide. Claude does not auto-fix and proceed — that's how implementations drift from plans.
+You decide. Claude does not auto-fix and proceed, because that's how implementations drift from plans.
 
 ---
 
@@ -759,8 +759,8 @@ The archive is a learning resource: completed RESEARCH.md and PLAN.md files show
 
 ## See Also
 
-- [dual-instance-planning.md](./dual-instance-planning.md) — Two-instance pattern for spec-heavy implementation
-- [spec-first.md](./spec-first.md) — Design-first workflow using CLAUDE.md as contract
-- [tdd-with-claude.md](./tdd-with-claude.md) — Combine with TDD for test-gate implementation
-- [task-management.md](./task-management.md) — Managing multi-phase tasks across sessions
-- **Main guide**: Advanced Patterns section — Multi-instance and planning pattern overview
+- [dual-instance-planning.md](./dual-instance-planning.md): Two-instance pattern for spec-heavy implementation
+- [spec-first.md](./spec-first.md): Design-first workflow using CLAUDE.md as contract
+- [tdd-with-claude.md](./tdd-with-claude.md): Combine with TDD for test-gate implementation
+- [task-management.md](./task-management.md): Managing multi-phase tasks across sessions
+- **Main guide**: Advanced Patterns section, multi-instance and planning pattern overview

@@ -16,7 +16,7 @@ format:
 
 ## Pattern recommandé : prompt externalisé
 
-Le pattern le plus robuste sépare la logique de review de la mécanique du workflow. Le fichier YAML orchestre les déclencheurs et permissions ; le fichier `.github/prompts/code-review.md` contient les critères de review. Modifier les critères ne nécessite pas de toucher au workflow.
+Ce pattern sépare la logique de review de la mécanique du workflow. Le fichier YAML orchestre les déclencheurs et permissions ; le fichier `.github/prompts/code-review.md` contient les critères de review. Modifier les critères ne nécessite pas de toucher au workflow.
 
 ```
 .github/

@@ -6,7 +6,7 @@ tags: [reference, tdd, design-patterns, workflows]
 
 # Development Methodologies Reference
 
-> **Confidence**: Tier 2 — Validated by multiple production reports and official documentation.
+> **Confidence**: Tier 2, validated by multiple production reports and official documentation.
 >
 > **Last updated**: February 2026
 
@@ -66,11 +66,11 @@ Where each methodology sits on two axes: **Spec-First vs Code-First** (Y) and **
 
 **How to read it:**
 
-- **Top-left** — Spec-first lean: `SDD`, `Doc-Driven`, `Plan-First`. Natural entry point for solo devs and small teams moving away from "code first".
-- **Top-right** — Spec-first governed: `BMAD`, `Req-Driven`, `ATDD`, `DDD`. Real governance, but costly to set up. ROI is driven by project complexity and requirement stability, not headcount alone.
-- **Bottom-left** — Code-first lean: the natural Claude Code terrain. `TDD` + `Ralph Loop` + `Iterative` = core solo workflow.
-- **Bottom-right** — Code-first at scale: `Multi-Agent`, `Eval-Driven`, `JiTTesting` (Meta, 100M+ LoC). Emerging patterns for high-volume teams.
-- **On the axis** — `Plan-First`, `CDD`, `ADR-Driven`, `GSD`: hybrid approaches that adapt to any context.
+- **Top-left** (Spec-first lean): `SDD`, `Doc-Driven`, `Plan-First`. Natural entry point for solo devs and small teams moving away from "code first".
+- **Top-right** (Spec-first governed): `BMAD`, `Req-Driven`, `ATDD`, `DDD`. Real governance, but costly to set up. ROI is driven by project complexity and requirement stability, not headcount alone.
+- **Bottom-left** (Code-first lean): the natural Claude Code terrain. `TDD` + `Ralph Loop` + `Iterative` = core solo workflow.
+- **Bottom-right** (Code-first at scale): `Multi-Agent`, `Eval-Driven`, `JiTTesting` (Meta, 100M+ LoC). Emerging patterns for high-volume teams.
+- **On the axis**: `Plan-First`, `CDD`, `ADR-Driven`, `GSD`, hybrid approaches that adapt to any context.
 
 ---
 
@@ -89,7 +89,7 @@ Organized in a 6-tier pyramid from strategic orchestration down to optimization 
 
 - **Key concept**: Constitution.md as strategic guardrail
 - **When to use**: Complex enterprise projects needing governance
-- **When to avoid**: MVPs, rapid prototyping, evolving requirements — BMAD is brittle when specs change mid-project
+- **When to avoid**: MVPs, rapid prototyping, evolving requirements. BMAD is brittle when specs change mid-project
 - **Install and run it**: see [spec-first.md § With BMAD-METHOD](../workflows/spec-first.md#with-bmad-method-multi-role-planning) for the `npx bmad-method install` command and the three planning tracks (Quick Flow, BMad Method, Enterprise)
 - **Canonical repository**: [bmad-code-org/BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) (51,176 stars, verified 2026-07-27, was 50,200+ earlier in July). The community port linked below (BMAD-AT-CLAUDE) is a Claude Code-specific fork, not the source project.
 
@@ -102,11 +102,11 @@ Organized in a 6-tier pyramid from strategic orchestration down to optimization 
 ### Foundational Discipline: Plan-First Workflow
 
 > **"Once the plan is good, the code is good."**
-> — Boris Cherny, creator of Claude Code
+> Boris Cherny, creator of Claude Code
 
-**Not just a feature (`/plan` command) — a systematic discipline.**
+**A systematic discipline, not just a feature (`/plan` command).**
 
-> **Context Engineering**: Thoughtworks designates this broader approach "Context Engineering" in their Technology Radar (Nov 2025)[^thoughtworks2025] — the systematic design of information provided to LLMs during inference. Three core techniques: context setup (minimal system prompts, few-shot examples), context management for long-horizon tasks (summarization, external memories, sub-agent architectures), and dynamic information retrieval (JIT context loading). Related patterns in Claude Code: AGENTS.md, MCP Context7, Plan Mode.
+> **Context Engineering**: Thoughtworks designates this broader approach "Context Engineering" in their Technology Radar (Nov 2025)[^thoughtworks2025], the systematic design of information provided to LLMs during inference. Three core techniques: context setup (minimal system prompts, few-shot examples), context management for long-horizon tasks (summarization, external memories, sub-agent architectures), and dynamic information retrieval (JIT context loading). Related patterns in Claude Code: AGENTS.md, MCP Context7, Plan Mode.
 
 [^thoughtworks2025]: Thoughtworks Technology Radar Vol 33, Nov 2025. [PDF](https://www.thoughtworks.com/content/dam/thoughtworks/documents/radar/2025/11/tr_technology_radar_vol_33_en.pdf). See also: [Macro trends blog post](https://www.thoughtworks.com/insights/blog/technology-strategy/macro-trends-tech-industry-november-2025).
 
@@ -180,13 +180,13 @@ Document your team's plan-first triggers:
 | **Req-Driven** | Rich artifact context (20+ artifacts) | Complex requirements | ⭐⭐ Heavy setup |
 | **DDD** | Domain language first | Business logic | ⭐⭐ Design-time |
 
-**SDD (Spec-Driven Development)** — Specifications BEFORE code. One well-structured iteration equals 8 unstructured ones. CLAUDE.md IS your spec file.
+**SDD (Spec-Driven Development)**: Specifications BEFORE code. One well-structured iteration equals 8 unstructured ones. CLAUDE.md IS your spec file.
 
-**Doc-Driven Development** — Living documentation versioned in git becomes the single source of truth. Changes to specs trigger implementation.
+**Doc-Driven Development**: Living documentation versioned in git becomes the single source of truth. Changes to specs trigger implementation.
 
-**Requirements-Driven Development** — Uses CLAUDE.md as comprehensive implementation guide with 20+ structured artifacts.
+**Requirements-Driven Development**: Uses CLAUDE.md as comprehensive implementation guide with 20+ structured artifacts.
 
-**DDD (Domain-Driven Design)** — Aligns software with business language through:
+**DDD (Domain-Driven Design)**: Aligns software with business language through:
 - Ubiquitous Language: Shared vocabulary in code
 - Bounded Contexts: Isolated domain boundaries
 - Domain Distillation: Core vs Support vs Generic domains
@@ -201,7 +201,7 @@ Document your team's plan-first triggers:
 | **ATDD** | Acceptance criteria first | Compliance, regulated | ⭐⭐ Process-heavy |
 | **CDD** | API contracts as interface | Microservices | ⭐⭐⭐ OpenAPI native |
 
-**BDD (Behavior-Driven Development)** — Beyond testing: a collaboration process.
+**BDD (Behavior-Driven Development)**: Beyond testing, a collaboration process.
 1. Discovery: Involve devs and business experts
 2. Formulation: Write Given-When-Then examples
 3. Automation: Convert to executable tests (Gherkin/Cucumber)
@@ -214,7 +214,7 @@ Feature: Order Management
     Then system refuses with error message
 ```
 
-**ATDD (Acceptance Test-Driven Development)** — Acceptance criteria defined BEFORE coding, collaboratively ("Three Amigos": Business, Dev, Test).
+**ATDD (Acceptance Test-Driven Development)**: Acceptance criteria defined BEFORE coding, collaboratively ("Three Amigos": Business, Dev, Test).
 
 In agentic development, ATDD is particularly effective because agents need unambiguous success conditions. The flow maps cleanly to agent tasks:
 
@@ -235,9 +235,9 @@ This Gherkin scenario is the contract between intent and implementation. The age
 
 > **Applied to agents**: Pass the Gherkin file to Claude Code before implementing. "Write failing tests for this feature file, then implement until they pass." The scenario writer role (human or agent) forces explicit scope before execution starts.
 
-**CDD (Contract-Driven Development)** — API contracts (OpenAPI specs) as executable interface between teams. Patterns: Contract as Test, Contract as Stub.
+**CDD (Contract-Driven Development)**: API contracts (OpenAPI specs) as executable interface between teams. Patterns: Contract as Test, Contract as Stub.
 
-**JiTTesting (Just-in-Time Testing)** — Tests generated on-the-fly at PR submission, designed to fail, then discarded after merge. No maintenance cost, no test suite growth.
+**JiTTesting (Just-in-Time Testing)**: Tests generated on-the-fly at PR submission, designed to fail, then discarded after merge. No maintenance cost, no test suite growth.
 
 TDD/BDD/ATDD all assume the developer controls the pace of code authoring. Agentic development breaks that assumption: an agent can generate 200 lines per hour, faster than any human test-writing workflow can keep up with. JiTTests are the industrial response to that mismatch.
 
@@ -245,9 +245,9 @@ The mechanism: at PR time, an LLM infers the intent of the diff, generates code 
 
 Meta deployed this at scale (100M+ LoC): 4x improvement in catching regressions over traditional hardening tests, 70% reduction in human review load, 4 serious production failures prevented from 41 candidates reviewed.
 
-No open-source implementation exists yet. You can approximate this today: before merging any agent-generated PR, prompt Claude with "generate tests that would catch regressions introduced by this diff specifically — I'll run them locally and discard them after the PR closes." The ephemeral framing focuses test generation on what actually changed rather than general coverage.
+No open-source implementation exists yet. You can approximate this today: before merging any agent-generated PR, prompt Claude with "generate tests that would catch regressions introduced by this diff specifically. I'll run them locally and discard them after the PR closes." The ephemeral framing focuses test generation on what actually changed rather than general coverage.
 
-> **Reference**: [Just-in-Time Catching Test Generation at Meta](https://arxiv.org/abs/2601.22832) — Harman, 2026.
+> **Reference**: [Just-in-Time Catching Test Generation at Meta](https://arxiv.org/abs/2601.22832) (Harman, 2026).
 
 ---
 
@@ -258,7 +258,7 @@ No open-source implementation exists yet. You can approximate this today: before
 | **FDD** | Feature-by-feature delivery | Feature teams with parallel delivery | ⭐⭐ Structure |
 | **Context Eng.** | Context as first-class design | Long sessions | ⭐⭐⭐ Fundamental |
 
-**FDD (Feature-Driven Development)** — Five processes:
+**FDD (Feature-Driven Development)**: Five processes:
 1. Develop Overall Model
 2. Build Features List
 3. Plan by Feature
@@ -267,7 +267,7 @@ No open-source implementation exists yet. You can approximate this today: before
 
 Strict iteration: 2 weeks max per feature.
 
-**Context Engineering** — Treat context as design element:
+**Context Engineering**: Treat context as design element:
 - Progressive Disclosure: Let agent discover incrementally
 - Memory Management: Conversation vs persistent memory
 - Dynamic Refresh: Rewrite TODO list before response
@@ -282,14 +282,14 @@ Strict iteration: 2 weeks max per feature.
 | **Eval-Driven** | Evals for LLM outputs | AI products | ⭐⭐⭐ Agents |
 | **Multi-Agent** | Orchestrate sub-agents | Complex tasks | ⭐⭐⭐ Task tool |
 
-**TDD (Test-Driven Development)** — The classic cycle:
+**TDD (Test-Driven Development)**: The classic cycle:
 1. **Red**: Write failing test
 2. **Green**: Minimal code to pass
 3. **Refactor**: Clean up, tests stay green
 
 With Claude: Be explicit. "Write FAILING tests that don't exist yet."
 
-> **Verification Loops** — A formalized pattern for autonomous iteration (broader than TDD):
+> **Verification Loops**: A formalized pattern for autonomous iteration (broader than TDD):
 >
 > **Core principle**: Give Claude a mechanism to verify its own output.
 >
@@ -317,7 +317,7 @@ With Claude: Be explicit. "Write FAILING tests that don't exist yet."
 > 2. Claude iterates code until tests pass
 > 3. Continue until explicit completion criteria met
 >
-> **Official guidance**: *"Tell Claude to keep going until all tests pass. It will usually take a few iterations."* — [Anthropic Best Practices](https://www.anthropic.com/engineering/claude-code-best-practices)
+> **Official guidance**: *"Tell Claude to keep going until all tests pass. It will usually take a few iterations."* ([Anthropic Best Practices](https://www.anthropic.com/engineering/claude-code-best-practices))
 >
 > **Implementation patterns**:
 > - **Hooks**: PostToolUse hook runs verification after each edit
@@ -326,20 +326,20 @@ With Claude: Be explicit. "Write FAILING tests that don't exist yet."
 > - **CI/CD gates**: GitHub Actions runs full validation suite
 > - **Multi-Claude verification**: One Claude codes, another reviews
 >
-> **Anti-pattern**: Blind iteration without feedback. Without verification mechanism, Claude can't converge toward correct solution—it guesses.
+> **Anti-pattern**: Blind iteration without feedback. Without verification mechanism, Claude can't converge toward correct solution: it guesses.
 
 For the implementation-side failure mode this prevents, see [The Verification Gap](../workflows/tdd-with-claude.md#the-verification-gap) in the TDD workflow.
 
-**Eval-Driven Development** — TDD for LLMs. Test agent behaviors via evals:
+**Eval-Driven Development**: TDD for LLMs. Test agent behaviors via evals:
 - Code-based: `output == golden_answer`
 - LLM-based: Another Claude evaluates
 - Human grading: Reference, slow
 
-> **Eval Harness** — The infrastructure that runs evaluations end-to-end: providing instructions and tools, running tasks concurrently, recording steps, grading outputs, and aggregating results.
+> **Eval Harness**: The infrastructure that runs evaluations end-to-end, providing instructions and tools, running tasks concurrently, recording steps, grading outputs, and aggregating results.
 >
 > See Anthropic's comprehensive guide: [Demystifying Evals for AI Agents](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents)
 
-**Multi-Agent Orchestration** — From single assistant to orchestrated team:
+**Multi-Agent Orchestration**: From single assistant to orchestrated team:
 ```
 Meta-Agent (Orchestrator)
 ├── Analyst (requirements)
@@ -408,18 +408,18 @@ vim docs/adr/001-database-migration.md
 | **Fresh Context** | Reset per task, state in files | Long autonomous sessions | ⭐⭐⭐ Power users |
 | **Prompt Engineering** | Technique foundation | Everything | ⭐⭐⭐ Prerequisite |
 
-**Iterative Refinement Loops** — Autonomous convergence:
+**Iterative Refinement Loops**: Autonomous convergence:
 1. Execute prompt
 2. Observe result
 3. If result ≠ "DONE" → refine and repeat
 
-**Prompt Engineering** — Foundations for ALL Claude usage:
+**Prompt Engineering**: Foundations for ALL Claude usage:
 - Zero-Shot Chain of Thought: "Think step by step"
 - Few-Shot Learning: 2-3 examples of expected pattern
 - Structured Prompts: XML tags for organization
 - Position Matters: For long docs, place question at end
 
-**Fresh Context Pattern (Ralph Loop)** — Solves context rot by spawning fresh agent instances per task. State persists in git + progress files, not chat history. Ideal for long autonomous sessions (migrations, overnight runs). See [Ultimate Guide - Fresh Context Pattern](#fresh-context-pattern-ralph-loop) for implementation.
+**Fresh Context Pattern (Ralph Loop)**: Solves context rot by spawning fresh agent instances per task. State persists in git + progress files, not chat history. Ideal for long autonomous sessions (migrations, overnight runs). See [Ultimate Guide - Fresh Context Pattern](#fresh-context-pattern-ralph-loop) for implementation.
 
 ---
 
@@ -553,7 +553,7 @@ Recommended stacks by situation:
 
 **SDD & Spec-First**
 - Addy Osmani: [How to Write Good Specs for AI Agents](https://addyosmani.com/blog/good-spec/)
-- Addy Osmani: [My AI Coding Workflow in 2026](https://addyosmani.com/blog/ai-coding-workflow/) — End-to-end workflow: spec-first, context packing, TDD, git checkpoints
+- Addy Osmani: [My AI Coding Workflow in 2026](https://addyosmani.com/blog/ai-coding-workflow/) (end-to-end workflow: spec-first, context packing, TDD, git checkpoints)
 - Martin Fowler: [SDD Tools Analysis](https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html)
 - InfoQ: [Spec-Driven Development](https://www.infoq.com/articles/spec-driven-development/)
 - Kinde: [Beyond TDD - Why SDD is the Next Step](https://kinde.com/learn/ai-for-software-engineering/best-practice/beyond-tdd-why-spec-driven-development-is-the-next-step/)
@@ -603,8 +603,8 @@ Recommended stacks by situation:
 
 ## See Also
 
-- [workflows/tdd-with-claude.md](../workflows/tdd-with-claude.md) — Practical TDD guide
-- [workflows/spec-first.md](../workflows/spec-first.md) — Spec-first development
-- [workflows/plan-driven.md](../workflows/plan-driven.md) — Using /plan mode
-- [workflows/iterative-refinement.md](../workflows/iterative-refinement.md) — Refinement loops
-- [ultimate-guide.md#912](../ultimate-guide.md) — Section 9.12 summary
+- [workflows/tdd-with-claude.md](../workflows/tdd-with-claude.md): practical TDD guide
+- [workflows/spec-first.md](../workflows/spec-first.md): spec-first development
+- [workflows/plan-driven.md](../workflows/plan-driven.md): using /plan mode
+- [workflows/iterative-refinement.md](../workflows/iterative-refinement.md): refinement loops
+- [ultimate-guide.md#912](../ultimate-guide.md): Section 9.12 summary

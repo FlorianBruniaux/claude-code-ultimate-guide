@@ -4,7 +4,7 @@
 
 ## Goal
 
-Understand how Claude Code actually works—the decision loop, context, and how to structure requests effectively.
+Understand how Claude Code actually works: the decision loop, context, and how to structure requests effectively.
 
 ---
 
@@ -301,11 +301,11 @@ VERIFY: Write tests in tests/validators.test.js
 
 ✓ Be specific (WHAT/WHERE/HOW/VERIFY) for faster results
 
-✓ Context is finite—watch your percentage and `/compact` at 70%+
+✓ Context is finite, watch your percentage and `/compact` at 70%+
 
 ✓ `/plan` for risky changes, normal mode for safe ones
 
-✓ Sessions are temporary—use `/checkpoint` to save important work
+✓ Sessions are temporary, use `/checkpoint` to save important work
 
 ---
 

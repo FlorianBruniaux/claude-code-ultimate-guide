@@ -1,5 +1,5 @@
 ---
-title: "Sandbox Natif — Architecture"
+title: "Sandbox Natif : Architecture"
 subtitle: "Comment Claude Code isole ses opérations au niveau OS"
 card-number: "T16"
 category: "Technique"

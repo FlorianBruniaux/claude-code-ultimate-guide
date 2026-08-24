@@ -25,7 +25,7 @@ La Tasks API (v2.1.16+) introduit une structure en quatre niveaux pour décompos
 | **Task** | Livrable concret |
 | **Subtask** | Action atomique |
 
-Les tâches survivent aux fins de session, aux compactions de contexte, et aux redémarrages — elles sont stockées dans `~/.claude/tasks/<id>/`.
+Les tâches survivent aux fins de session, aux compactions de contexte, et aux redémarrages : elles sont stockées dans `~/.claude/tasks/<id>/`.
 
 ## Outils principaux
 
@@ -80,7 +80,7 @@ Utiliser dès que le travail dépasse trois étapes séquentielles, implique plu
 
 ## Coût à anticiper
 
-`TaskList` coûte un appel API. Récupérer les détails de chaque tâche avec `TaskGet` ajoute un appel supplémentaire par tâche — pour vingt tâches, cela représente vingt fois plus d'overhead. Placer les informations critiques dans le champ `subject` (visible via `TaskList`) et garder les descriptions concises limite ce coût.
+`TaskList` coûte un appel API. Récupérer les détails de chaque tâche avec `TaskGet` ajoute un appel supplémentaire par tâche. Pour vingt tâches, cela représente vingt fois plus d'overhead. Placer les informations critiques dans le champ `subject` (visible via `TaskList`) et garder les descriptions concises limite ce coût.
 
 ## ID de liste : règles de nommage
 

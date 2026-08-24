@@ -16,7 +16,7 @@ format:
 
 ## Vue d'ensemble
 
-Plan-Validate-Execute est un pipeline en trois phases qui s'impose dès qu'une tâche touche plus de cinq fichiers ou deux répertoires. L'objectif : ne jamais exécuter sans avoir validé un plan explicite. Boris Cherny (Head of Claude Code chez Anthropic) démarre 80% de ses tâches en Plan Mode pour cette raison — l'exécution est presque toujours correcte du premier coup quand le plan est solide.
+Plan-Validate-Execute est un pipeline en trois phases qui s'impose dès qu'une tâche touche plus de cinq fichiers ou deux répertoires. L'objectif : ne jamais exécuter sans avoir validé un plan explicite. Boris Cherny (Head of Claude Code chez Anthropic) démarre 80% de ses tâches en Plan Mode pour cette raison. L'exécution est presque toujours correcte du premier coup quand le plan est solide.
 
 ## Phase 1 : Plan
 
@@ -47,7 +47,7 @@ Avant d'approuver le plan, le soumettre à une revue critique. Deux approches :
 
 **Agent adversarial** : déléguer la critique à un sous-agent dont la mission est de trouver des failles dans le plan proposé. Demander explicitement : "Quel est le risque principal de ce plan ? Qu'est-ce qui pourrait mal tourner ?"
 
-La validation n'est pas optionnelle sur les tâches complexes — c'est le filet de sécurité.
+La validation n'est pas optionnelle sur les tâches complexes : c'est le filet de sécurité.
 
 ## Phase 3 : Execute
 

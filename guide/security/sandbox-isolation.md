@@ -6,7 +6,7 @@ tags: [security, sandbox, devops, guide]
 
 # Sandbox Isolation for Coding Agents
 
-> **Confidence**: Tier 2 — Official Docker docs + verified vendor documentation
+> **Confidence**: Tier 2 (Official Docker docs + verified vendor documentation)
 > **Reading time**: ~10 minutes
 > **Scope**: Running Claude Code safely in isolated environments
 
@@ -37,8 +37,8 @@ docker sandbox run claude ~/my-project
 
 Claude Code's permission system protects you from unintended actions. But it creates a tension:
 
-- **`--dangerously-skip-permissions`** removes all guardrails — Claude can `rm -rf`, `git push --force`, or `DROP TABLE` without asking. On a bare host, this is dangerous.
-- **Permission fatigue** — approving every file edit and shell command slows down autonomous workflows. For large refactors or CI pipelines, interactive approval is impractical.
+- **`--dangerously-skip-permissions`** removes all guardrails: Claude can `rm -rf`, `git push --force`, or `DROP TABLE` without asking. On a bare host, this is dangerous.
+- **Permission fatigue**: approving every file edit and shell command slows down autonomous workflows. For large refactors or CI pipelines, interactive approval is impractical.
 - **The gap**: How do you run Claude Code autonomously AND safely?
 
 **Answer**: Isolate the execution environment. Let the agent run free inside a sandbox where the blast radius is contained. The sandbox is the security boundary, not the permission system.
@@ -71,7 +71,7 @@ flowchart TD
 > **Source**: [docs.docker.com/ai/sandboxes/](https://docs.docker.com/ai/sandboxes/)
 > **Requires**: Docker Desktop 4.58+ (macOS or Windows)
 
-Docker Sandboxes run AI coding agents in microVM-based isolation on your local machine. Each sandbox gets its own private Docker daemon and filesystem. Sandboxes do NOT appear in `docker ps` — they are VMs, not containers.
+Docker Sandboxes run AI coding agents in microVM-based isolation on your local machine. Each sandbox gets its own private Docker daemon and filesystem. Sandboxes do NOT appear in `docker ps` since they are VMs, not containers.
 
 ### Quick Start
 
@@ -122,7 +122,7 @@ Key properties:
 - **Workspace sync**: Host directory mounts at the same absolute path inside the sandbox
 - **Full isolation**: Agent cannot access host Docker daemon, host containers, or files outside workspace
 - **Private Docker**: Each sandbox has its own Docker daemon for building/running containers
-- **Claude runs with `--dangerously-skip-permissions`**: Intentional — the sandbox is the security boundary
+- **Claude runs with `--dangerously-skip-permissions`**: intentional, since the sandbox is the security boundary
 
 ### Network Policies
 
@@ -230,9 +230,9 @@ Triggered automatically if no credentials found. Use `/login` inside Claude Code
 ### Limitations
 
 - **macOS and Windows only** for microVM mode. Linux uses legacy container-based sandboxes (Docker Desktop 4.57+).
-- **Docker Desktop required** — not available with standalone Docker Engine. Community alternatives like [dclaude](https://github.com/jedi4ever/dclaude) (Patrick Debois) wrap Claude Code in standard Docker containers for Docker Engine-only environments, but use container isolation (not microVM) and mount the host Docker socket — weaker security boundary.
+- **Docker Desktop required**: not available with standalone Docker Engine. Community alternatives like [dclaude](https://github.com/jedi4ever/dclaude) (Patrick Debois) wrap Claude Code in standard Docker containers for Docker Engine-only environments, but use container isolation (not microVM) and mount the host Docker socket, a weaker security boundary.
 - **MCP Gateway not yet supported** inside sandboxes.
-- **No GPU passthrough** — not suitable for ML training workloads.
+- **No GPU passthrough**: not suitable for ML training workloads.
 - **Workspace sync is one-way**: changes inside the sandbox propagate to the host, but concurrent host edits may conflict.
 
 ---
@@ -470,7 +470,7 @@ Claude Code's built-in process-level sandboxing (Layer 4 in the [architecture](.
 - **No external dependencies**: Works out of the box
 - **Process isolation**: Restricts what commands Claude can execute
 - **Configurable**: Through `allowedTools` in settings
-- **Limitations**: Not full VM isolation — shares host kernel and filesystem
+- **Limitations**: not full VM isolation, shares host kernel and filesystem
 
 Use this when: Docker is unavailable, lightweight isolation is sufficient, or you want defense-in-depth alongside a sandbox.
 
@@ -624,7 +624,7 @@ If your threat model includes compromised or third-party MCP servers with unpred
 
 ## See Also
 
-- [architecture.md](../core/architecture.md) — Layer 4 (Sub-Agent Architecture) and permission model
-- [security-hardening.md](./security-hardening.md) — MCP vetting, injection defense, CVE tracking
-- [code.claude.com/docs/en/sandboxing](https://code.claude.com/docs/en/sandboxing) — Official Claude Code sandbox docs
-- [docs.docker.com/ai/sandboxes/](https://docs.docker.com/ai/sandboxes/) — Docker Sandboxes documentation
+- [architecture.md](../core/architecture.md): Layer 4 (Sub-Agent Architecture) and permission model
+- [security-hardening.md](./security-hardening.md): MCP vetting, injection defense, CVE tracking
+- [code.claude.com/docs/en/sandboxing](https://code.claude.com/docs/en/sandboxing): official Claude Code sandbox docs
+- [docs.docker.com/ai/sandboxes/](https://docs.docker.com/ai/sandboxes/): Docker Sandboxes documentation

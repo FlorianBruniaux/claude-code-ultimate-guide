@@ -6,7 +6,7 @@ tags: [workflow, guide, architecture]
 
 # Plan-Driven Development
 
-> **Confidence**: Tier 1 — Based on Claude Code's native /plan mode functionality.
+> **Confidence**: Tier 1 (based on Claude Code's native /plan mode functionality).
 
 Use `/plan` mode for anything non-trivial. Claude explores the codebase (read-only), then proposes an implementation plan for your approval.
 
@@ -250,8 +250,8 @@ Plans in `.claude/plans/` serve as decision documentation:
 
 ## Advanced: Custom Markdown Plans (Boris Tane Pattern)
 
-> **Source**: Boris Tane, Engineering Lead @ Cloudflare — ["How I use Claude Code"](https://boristane.com/blog/how-i-use-claude-code/) (Feb 2026). 9 months of production usage.
-> **Confidence**: Tier 2 — Practitioner-validated pattern, not official Anthropic documentation.
+> **Source**: Boris Tane, Engineering Lead @ Cloudflare, in ["How I use Claude Code"](https://boristane.com/blog/how-i-use-claude-code/) (Feb 2026). 9 months of production usage.
+> **Confidence**: Tier 2 (practitioner-validated pattern, not official Anthropic documentation).
 
 When Plan Mode isn't enough, iterative human/agent planning before any code is written.
 
@@ -299,7 +299,7 @@ Cover edge cases, existing patterns, and any non-obvious dependencies.
 Write your findings to research.md — do not implement anything.
 ```
 
-**Why it works**: "deeply", "in great detail", "intricacies" shift Claude from surface scan to thorough investigation. Output must be written to a file — verbal summaries disappear on context compaction.
+**Why it works**: "deeply", "in great detail", "intricacies" shift Claude from surface scan to thorough investigation. Output must be written to a file. Verbal summaries disappear on context compaction.
 
 **Research.md should include**:
 - Existing patterns and conventions
@@ -329,7 +329,7 @@ The core of the Boris Tane pattern. Iterate on `plan.md` until ready, **before a
 └──────────────────────────────────────────────────────────────┘
 ```
 
-**Guard prompt** — always include this to prevent premature implementation:
+**Guard prompt**. Always include this to prevent premature implementation:
 
 ```
 Based on research.md, write a plan for implementing [feature].
@@ -376,19 +376,19 @@ Use JWT tokens stored in httpOnly cookies.
 <!-- Human annotation: Yes, centralize this — don't leave it to each route -->
 ```
 
-**Exit criteria** — plan is ready when:
+**Exit criteria**. The plan is ready when:
 - No open questions remain
 - Trade-offs are documented and agreed
 - File paths are specific (not "some auth file")
 - Key snippets show the approach, not just describe it
 
-> "The markdown file acts as shared mutable state between you and the agent." — Boris Tane
+> "The markdown file acts as shared mutable state between you and the agent." (Boris Tane)
 
 ---
 
 ### Phase 3: Mechanical Implementation
 
-Once the plan is approved, implementation becomes execution — no creative decisions left.
+Once the plan is approved, implementation becomes execution; no creative decisions left.
 
 ```
 Implement everything in plan.md.
@@ -399,7 +399,7 @@ Do not stop between tasks to ask for confirmation — keep going until done.
 
 **Feedback during implementation**:
 - Keep it terse: short phrases or screenshots, not paragraphs
-- Decisions are already made — redirect scope changes back to plan.md
+- Decisions are already made; redirect scope changes back to plan.md
 - If something unexpected comes up: pause, update plan.md, continue
 
 **Mindset shift**: Phase 3 is mechanical. All thinking happened in Phase 2.
@@ -419,10 +419,10 @@ Do not stop between tasks to ask for confirmation — keep going until done.
 
 ## See Also
 
-- [exploration-workflow.md](./exploration-workflow.md) — Explore alternatives before planning
-- [../ultimate-guide.md](../ultimate-guide.md) — Section 2.3 Plan Mode
-- [tdd-with-claude.md](./tdd-with-claude.md) — Combine with TDD
-- [spec-first.md](./spec-first.md) — Combine with Spec-First
-- [iterative-refinement.md](./iterative-refinement.md) — Post-plan iteration
-- [task-management.md](./task-management.md) — Track plan execution across sessions with Tasks API
-- [dual-instance-planning.md](./dual-instance-planning.md) — Advanced: Use two Claude instances (planner + implementer) for quality-focused workflows
+- [exploration-workflow.md](./exploration-workflow.md): Explore alternatives before planning
+- [../ultimate-guide.md](../ultimate-guide.md): Section 2.3 Plan Mode
+- [tdd-with-claude.md](./tdd-with-claude.md): Combine with TDD
+- [spec-first.md](./spec-first.md): Combine with Spec-First
+- [iterative-refinement.md](./iterative-refinement.md): Post-plan iteration
+- [task-management.md](./task-management.md): Track plan execution across sessions with Tasks API
+- [dual-instance-planning.md](./dual-instance-planning.md): Advanced: Use two Claude instances (planner + implementer) for quality-focused workflows

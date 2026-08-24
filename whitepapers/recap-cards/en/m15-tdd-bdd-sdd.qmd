@@ -40,7 +40,7 @@ The classic cycle, made explicit in prompts to prevent Claude from jumping strai
    stay green."
 ```
 
-Being explicit about "FAILING" and "does not exist yet" is essential — otherwise Claude tends to write test and implementation together.
+Being explicit about "FAILING" and "does not exist yet" matters. Otherwise Claude tends to write test and implementation together.
 
 ## BDD with Claude: Given/When/Then
 

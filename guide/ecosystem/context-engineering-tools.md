@@ -1,6 +1,6 @@
 ---
 title: "Context Engineering: Tools & Ecosystem"
-description: "A practical map of the tools that compress, optimize, route, and observe LLM context — from CLI output filters to AI gateways to LLMOps platforms"
+description: "A practical map of the tools that compress, optimize, route, and observe LLM context, from CLI output filters to AI gateways to LLMOps platforms"
 tags: [context, tokens, optimization, ecosystem, tools, advanced]
 ---
 
@@ -38,7 +38,7 @@ RAM is fast, expensive, and finite. You don't load everything you own into RAM b
 
 This reframes the engineering challenge. It's not "how do I give the model more information?" but "what is the minimum viable set of information the model needs to succeed?" Every technique in this page is an answer to that second question.
 
-The parallel with system architecture holds further. A CPU without good memory management stalls. An LLM without good context management hallucinates, loses coherence, and drifts toward generic outputs. Optimizing context is not a cost-cutting exercise — it's a reliability investment.
+The parallel with system architecture holds further. A CPU without good memory management stalls. An LLM without good context management hallucinates, loses coherence, and drifts toward generic outputs. Optimizing context is a reliability investment, not merely a cost-cutting exercise.
 
 ---
 
@@ -51,7 +51,7 @@ MVC is the principle of providing exactly the information needed for the task, n
 - **Under-context**: the model lacks necessary information, hallucinates or produces generic output
 - **Over-context**: the model is overwhelmed with irrelevant information, attention diffuses, adherence degrades
 
-The research on adherence degradation (see [context engineering guide, section 2](../core/context-engineering.md#2-the-context-budget)) quantifies the over-context failure: a CLAUDE.md over 400 lines typically drops adherence to ~60%. The cause is attention diffusion — too many potentially relevant signals compete for the model's limited attention budget.
+The research on adherence degradation (see [context engineering guide, section 2](../core/context-engineering.md#2-the-context-budget)) quantifies the over-context failure: a CLAUDE.md over 400 lines typically drops adherence to ~60%. The cause is attention diffusion: too many potentially relevant signals compete for the model's limited attention budget.
 
 MVC is not about minimalism for its own sake. It's about precision. A 300-token system prompt that covers exactly what the model needs beats a 3,000-token prompt that buries the critical instruction on page five.
 
@@ -69,7 +69,7 @@ Mitigation: `/compact` at 70% context usage (not 90%), structured note-taking ho
 
 ### Semantic Priming Hypothesis
 
-An observation from compression research with practical implications: when you ultra-compress a context (removing most tokens), the model does not recall the removed information verbatim. Instead, the compressed context acts as a *semantic prime* — it activates relevant latent knowledge that was already present in the model's weights from training.
+An observation from compression research with practical implications: when you ultra-compress a context (removing most tokens), the model does not recall the removed information verbatim. Instead, the compressed context acts as a *semantic prime*: it activates relevant latent knowledge that was already present in the model's weights from training.
 
 This matters because it means heavily compressed context can perform better than its information density suggests. The model is not reconstructing facts from the context; it's being pointed toward relevant knowledge it already has. For well-trained domains, a 10-token hint may activate more relevant knowledge than a 100-token verbatim extract.
 
@@ -123,7 +123,7 @@ Measured savings across command categories:
 | `rtk cargo test` | 89% avg |
 | `rtk pnpm outdated` | 70–85% |
 
-The design philosophy: suppress successful output, surface failures. A test suite that passes 300 tests and fails 2 should show 2 lines, not 302. This matches how a developer reads output — context should match that cognitive model.
+The design philosophy: suppress successful output, surface failures. A test suite that passes 300 tests and fails 2 should show 2 lines, not 302. This matches how a developer reads output. Context should match that cognitive model.
 
 RTK supports custom filters via TOML DSL (`.rtk/filters.toml`) for project-specific output patterns without writing Rust. See [Third-Party Tools: RTK](./third-party-tools.md#rtk-rust-token-killer) for the complete feature reference.
 
@@ -398,7 +398,7 @@ RECOMP (Xu et al., arXiv 2310.04408) compresses retrieved documents before they 
 
 ### AttnComp (Research Direction)
 
-AttnComp (not yet a shipping product as of March 2026) proposes replacing perplexity scoring with cross-attention patterns as the compression metric. The argument: perplexity measures how "surprising" a token is given its predecessors — useful for language modeling, but only loosely correlated with task relevance. Cross-attention patterns directly show which tokens the model attends to for a given output, making it a more principled importance metric.
+AttnComp (not yet a shipping product as of March 2026) proposes replacing perplexity scoring with cross-attention patterns as the compression metric. The argument: perplexity measures how "surprising" a token is given its predecessors. That's useful for language modeling, but only loosely correlated with task relevance. Cross-attention patterns directly show which tokens the model attends to for a given output, making it a more principled importance metric.
 
 Published results show AttnComp outperforms LLMLingua at equivalent compression ratios. Monitor for OSS release.
 
@@ -430,7 +430,7 @@ Edgee is a Rust-based AI gateway. Its compression features shipped as **Compress
 
 **Relationship to RTK**: Edgee's own post names RTK as the direct inspiration for the tool-result-trimming layer. Structurally, RTK can only ever cover that one layer: it runs as a local shell hook and has no access to the MCP tool catalog or the model's own output. For a Claude Code user already running RTK, Edgee's brevity layer is the genuinely new capability; TSR overlaps with what Claude Code's native MCP Tool Search already does for free (§ [MCP Tool Search](../core/architecture.md#mcp-tool-search-lazy-loading)), and trimming overlaps with what RTK already does locally.
 
-**Reading the "50% combined" claim critically**: the three numbers above come from three separate experiments on two different workloads (coding vs. MCP), never measured together on the same sessions. The "50%" in the post's title tracks closest to brevity's raw aggregate (+51.1%, pulled up by one outlier task), relabeled as the combined figure. It is not an end-to-end measurement of all three layers running at once, and the effects are not mechanically additive (less narration also means less history left to trim). The statistical design is genuinely careful: paired per-task comparison, a sign test chosen over a paired t-test because cost differences are heavy-tailed, and a nonce injected into each replicate to defeat prompt-cache contamination between runs. But the sample sizes are small enough to matter — at n=6, the best achievable two-sided sign-test p-value is 0.031, meaning a perfect 6-of-6 result was the *only* outcome that could clear the conventional 0.05 threshold; one task flipping drops it to 5/6, p=0.22, not significant. The post also never reports SWE-bench Lite's actual metric, resolution rate (the share of issues whose patch still passes tests), only token cost. A cheaper agent that solves fewer tickets is not a net win, and Edgee's own benchmark repository (`edgee-ai/compression-lab`) confirms it tracks token consumption "rather than task completion rates."
+**Reading the "50% combined" claim critically**: the three numbers above come from three separate experiments on two different workloads (coding vs. MCP), never measured together on the same sessions. The "50%" in the post's title tracks closest to brevity's raw aggregate (+51.1%, pulled up by one outlier task), relabeled as the combined figure. It is not an end-to-end measurement of all three layers running at once, and the effects are not mechanically additive (less narration also means less history left to trim). The statistical design is genuinely careful: paired per-task comparison, a sign test chosen over a paired t-test because cost differences are heavy-tailed, and a nonce injected into each replicate to defeat prompt-cache contamination between runs. But the sample sizes are small enough to matter: at n=6, the best achievable two-sided sign-test p-value is 0.031, meaning a perfect 6-of-6 result was the *only* outcome that could clear the conventional 0.05 threshold; one task flipping drops it to 5/6, p=0.22, not significant. The post also never reports SWE-bench Lite's actual metric, resolution rate (the share of issues whose patch still passes tests), only token cost. A cheaper agent that solves fewer tickets is not a net win, and Edgee's own benchmark repository (`edgee-ai/compression-lab`) confirms it tracks token consumption "rather than task completion rates."
 
 **A second, separate set of numbers exists, and it tells a different story.** Edgee's documentation (distinct from the blog post) reports production averages across real customer traffic: brevity ~6.5%, tool result trimming ~19%, tool surface reduction ~25% (labeled "in development," i.e. not yet fully shipped), and an aggregate ~20% token-bill reduction across active customers over a rolling 30-day window. These production figures diverge sharply from the controlled benchmark above: brevity's real-world effect (6.5%) sits far below its benchmark median (~30%) or headline aggregate (+51.1%), while trimming's production effect (19%) nearly doubles its benchmark result (~10%). The same page answers the resolution-rate gap with one line, "zero measurable drift on SWE-Bench Verified samples," but gives no sample size, no definition of "measurable," and no confidence interval. It reads as a direct response to the resolution-rate critique, without the statistical rigor the benchmark post itself otherwise demonstrates. Source: [Edgee docs, Why Edgee?](https://www.edgee.ai/docs/introduction/why-edgee)
 
@@ -461,7 +461,7 @@ Portkey's semantic caching (above) and Anthropic's prompt caching (§8) both req
 
 ## 6. RAG Optimization
 
-Retrieval-Augmented Generation has a well-documented failure mode: the retrieval step returns chunks that are semantically relevant in isolation but lack the context to be useful. A fragment mentioning "Q3 revenue grew 3%" is meaningless without the company name and year — both of which may have been in the same document but in a different chunk.
+Retrieval-Augmented Generation has a well-documented failure mode: the retrieval step returns chunks that are semantically relevant in isolation but lack the context to be useful. A fragment mentioning "Q3 revenue grew 3%" is meaningless without the company name and year, both of which may have been in the same document but in a different chunk.
 
 ### Anthropic Contextual Retrieval
 
@@ -533,7 +533,7 @@ For Claude Code specifically, two mechanisms handle session-level memory:
 
 **`/compact`** summarizes the conversation history, replacing the raw exchange with a dense summary. The model retains continuity but the token count resets substantially. Use at 70% context usage, not 90%.
 
-**Structured note-taking via hooks** is the agentic version: a PostToolUse hook writes key decisions, discovered facts, and task state to a notes file. The agent loads this file at the start of the next session. This sidesteps context rot entirely for multi-session work — the notes file sits at the start of the context (maximum attention) and contains only curated information.
+**Structured note-taking via hooks** is the agentic version: a PostToolUse hook writes key decisions, discovered facts, and task state to a notes file. The agent loads this file at the start of the next session. This sidesteps context rot entirely for multi-session work: the notes file sits at the start of the context (maximum attention) and contains only curated information.
 
 **Auto Memory (v2.1.59+)** and **Auto Dream** provide native CC alternatives: Claude writes its own `MEMORY.md` between sessions, and a background sub-agent consolidates it after ≥5 sessions and ≥24 hours. See [Memory Systems: Auto Memory](../core/memory-systems.md#22-auto-memory-v21594).
 
@@ -547,7 +547,7 @@ For multi-session and multi-agent workflows, persistent memory systems store inf
 
 **The RAG-vs-Memory distinction**: RAG is the model's access to external world knowledge (docs, codebase, web). Memory is its access to user-specific and session-specific knowledge (preferences, past decisions, continuity). Both are retrieval systems serving different parts of the information architecture. A well-designed agent uses both.
 
-> **Canonical reference**: [Memory Systems guide](../core/memory-systems.md) — 20-tool comparison table, architecture patterns, risk matrix, decision flowchart, and benchmarks.
+> **Canonical reference**: [Memory Systems guide](../core/memory-systems.md): 20-tool comparison table, architecture patterns, risk matrix, decision flowchart, and benchmarks.
 
 ---
 
@@ -573,10 +573,10 @@ Claude Code structures every request to maximize cache hit rate. The request ord
 
 **Request structure (most stable to least stable)**:
 
-1. **System prompt** — Identical across all Claude Code users on the same version. Shared cache: all users on the same version benefit from the same cached KV entries when Anthropic serves the system prompt from shared GPU memory.
-2. **Tool definitions** — Static per session. Locked at session start. Adding or removing tools mid-session invalidates the entire conversation cache, which is why Claude Code locks the tool list when a session begins.
-3. **Project config / CLAUDE.md** — Injected as message content (via `<system-reminder>` blocks in messages), not in the system prompt.
-4. **Conversation history** — The sliding breakpoint: only new turns require fresh computation.
+1. **System prompt**: Identical across all Claude Code users on the same version. Shared cache: all users on the same version benefit from the same cached KV entries when Anthropic serves the system prompt from shared GPU memory.
+2. **Tool definitions**: Static per session. Locked at session start. Adding or removing tools mid-session invalidates the entire conversation cache, which is why Claude Code locks the tool list when a session begins.
+3. **Project config / CLAUDE.md**: Injected as message content (via `<system-reminder>` blocks in messages), not in the system prompt.
+4. **Conversation history**: The sliding breakpoint, only new turns require fresh computation.
 
 **Why CLAUDE.md is not in the system prompt**: If CLAUDE.md content were injected into the system prompt, each user's prefix would be unique (different projects, different configs), and the shared caching benefit of the ~30K-token system prompt would disappear. By keeping the system prompt identical for all users and injecting CLAUDE.md as message content, Anthropic can amortize the system prompt computation cost across every concurrent Claude Code session. CLAUDE.md still gets cached once it appears in the conversation history, but the system prompt itself stays universally shared.
 
@@ -779,14 +779,14 @@ For multimodal models (vision-language models), image tokens dominate context us
 
 ### The Token Reduction Effect on Hallucination
 
-A finding that cuts across multiple research directions: token reduction in generative models does not just reduce cost — it measurably reduces hallucination and "overthinking" on simple queries. The mechanism is not fully understood, but the correlation is consistent across studies. Shorter, more precise contexts yield more grounded, less verbose outputs. This strengthens the case for MVC as a reliability principle, not just a cost principle.
+A finding that cuts across multiple research directions: token reduction in generative models does more than reduce cost, it measurably reduces hallucination and "overthinking" on simple queries. The mechanism is not fully understood, but the correlation is consistent across studies. Shorter, more precise contexts yield more grounded, less verbose outputs. This strengthens the case for MVC as a reliability principle, not just a cost principle.
 
 ---
 
 > **Cross-references**
 >
-> - [Context Engineering (configuration guide)](../core/context-engineering.md) — CLAUDE.md hierarchy, path-scoping, budget management
-> - [Third-Party Tools](./third-party-tools.md) — RTK full reference, ccusage, ICM, and other CC-specific tools
-> - [MCP Servers Ecosystem](./mcp-servers-ecosystem.md) — MCP as dynamic context injection
-> - [Observability](../ops/observability.md) — Monitoring Claude Code in production
-> - [Ultimate Guide: Memory Systems](.#memory-hierarchy) — Complete memory architecture for Claude Code
+> - [Context Engineering (configuration guide)](../core/context-engineering.md): CLAUDE.md hierarchy, path-scoping, budget management
+> - [Third-Party Tools](./third-party-tools.md): RTK full reference, ccusage, ICM, and other CC-specific tools
+> - [MCP Servers Ecosystem](./mcp-servers-ecosystem.md): MCP as dynamic context injection
+> - [Observability](../ops/observability.md): Monitoring Claude Code in production
+> - [Ultimate Guide: Memory Systems](.#memory-hierarchy): Complete memory architecture for Claude Code

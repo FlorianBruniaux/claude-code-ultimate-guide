@@ -1,5 +1,5 @@
 ---
-title: "Claude Code — MCP Ecosystem Diagrams"
+title: "Claude Code: MCP Ecosystem Diagrams"
 description: "MCP server map, architecture, rug pull attack chain, config hierarchy"
 tags: [mcp, security, architecture, configuration]
 ---
@@ -12,7 +12,7 @@ The Model Context Protocol (MCP) extends Claude Code with external tool servers.
 
 ### MCP Server Ecosystem Map
 
-The MCP ecosystem has 4 categories of servers — official, community-dev, community-ops, and local. Knowing what's available prevents building what already exists.
+The MCP ecosystem has 4 categories of servers: official, community-dev, community-ops, and local. Knowing what's available prevents building what already exists.
 
 ```mermaid
 flowchart TD
@@ -93,11 +93,11 @@ Claude Code
 
 </details>
 
-> **Source**: [MCP Ecosystem](../ecosystem/mcp-servers-ecosystem.md) — Full guide
+> **Source**: [MCP Ecosystem](../ecosystem/mcp-servers-ecosystem.md) (full guide)
 
 ---
 
-### MCP Architecture — Client-Server Protocol
+### MCP Architecture: Client-Server Protocol
 
 MCP is a JSON-RPC protocol running over stdio or SSE. Claude Code acts as the client, MCP servers as tool providers. This shows the full request-response cycle.
 
@@ -162,7 +162,7 @@ Use result       ←  JSON-RPC Response  ←  Return result
 
 </details>
 
-> **Source**: [Architecture: MCP](../core/architecture.md#mcp-architecture) — Line ~795
+> **Source**: [Architecture: MCP](../core/architecture.md#mcp-architecture) (line ~795)
 
 ---
 
@@ -209,7 +209,7 @@ DEFENSE: Read MCP source before installing. Especially check tool descriptions.
 
 </details>
 
-> **Source**: [Security: MCP Threats](../security/security-hardening.md#mcp-threats) — Line ~33
+> **Source**: [Security: MCP Threats](../security/security-hardening.md#mcp-threats) (line ~33)
 
 ---
 
@@ -266,4 +266,4 @@ PRIORITY (highest → lowest):
 
 </details>
 
-> **Source**: [MCP Configuration](../ultimate-guide.md#mcp-configuration) — Line ~6149
+> **Source**: [MCP Configuration](../ultimate-guide.md#mcp-configuration) (line ~6149)

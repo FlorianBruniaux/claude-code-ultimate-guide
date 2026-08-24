@@ -35,7 +35,7 @@ Core documentation for mastering Claude Code, organized by topic.
 | [core/tools-reference.md](./core/tools-reference.md) | **Complete tools reference**: all 40 built-in tools, permission rule formats, per-tool behaviors (Bash timeouts, Edit read-before-edit, Glob cap, WebFetch lossy), and how-to for Monitor, Workflow, agent teams, Cron, Tasks API | 20 min |
 | [core/hooks-events-reference.md](./core/hooks-events-reference.md) | **Complete hooks reference**: all 30 hook events, matcher fields, input schemas, decision control formats, and timeout defaults, with copy-paste JSON examples | 15 min |
 | [core/methodologies.md](./core/methodologies.md) | 15 development methodologies reference (TDD, SDD, BDD, etc.) | 20 min |
-| [core/visual-reference.md](./core/visual-reference.md) | Visual cheatsheet — ASCII diagrams for key concepts | 5 min |
+| [core/visual-reference.md](./core/visual-reference.md) | Visual cheatsheet: ASCII diagrams for key concepts | 5 min |
 | [core/claude-code-releases.md](./core/claude-code-releases.md) | Official release history (condensed) | 10 min |
 | [core/known-issues.md](./core/known-issues.md) | **Critical bugs tracker**: security issues, token consumption, verified community reports | 15 min |
 | [core/context-engineering.md](./core/context-engineering.md) | **Context Engineering**: token budget, modular architecture, team assembly, ACE pipeline, quality measurement | 25 min |

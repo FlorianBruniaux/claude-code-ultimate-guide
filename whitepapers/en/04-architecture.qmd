@@ -65,7 +65,7 @@ Where most coding agents stack specialized components (intent classifiers, task 
 
 ## Why This Design
 
-This architectural choice is not a lack of engineering; it is a deliberate bet on model capability. Every removed component (classifier, router, orchestrator) is one less friction point between user intent and execution. The result is a system where model upgrades directly improve the product, without needing to recalibrate intermediary heuristics.
+This architectural choice is a deliberate bet on model capability, not a lack of engineering. Every removed component (classifier, router, orchestrator) is one less friction point between user intent and execution. The result is a system where model upgrades directly improve the product, without needing to recalibrate intermediary heuristics.
 
 | Benefit | Explanation |
 |---------|-------------|
@@ -142,7 +142,7 @@ Source: Anthropic official postmortem + Boris Cherny HN comments, April 2026.
 
 ## The Heart of Claude Code
 
-At its core, Claude Code is a simple `while` loop:
+Claude Code is a simple `while` loop:
 
 ```
 while (claude_response.has_tool_call):

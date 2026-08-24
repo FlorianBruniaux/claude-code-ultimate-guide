@@ -1,5 +1,5 @@
 ---
-title: "CLAUDE.md — Bonnes Pratiques"
+title: "CLAUDE.md : Bonnes Pratiques"
 subtitle: "Écrire des instructions efficaces que Claude lit à chaque session"
 card-number: "T07"
 category: "Technique"

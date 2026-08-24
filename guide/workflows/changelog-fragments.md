@@ -95,7 +95,7 @@ fi
 
 The hook is `UserPromptSubmit`: non-blocking, max one suggestion per prompt, silent on no match. It runs before Claude Code processes the prompt, so the developer sees the reminder inline before Claude starts doing anything.
 
-The conditional logic (`if X without Y`) is the key pattern here. It's not a blanket blocker — it adapts to context. If the developer already mentioned the fragment, they get the normal suggestion. If they didn't, they get the enforcement reminder.
+The conditional logic (`if X without Y`) is the key pattern here. The logic adapts to context rather than blocking every request outright. If the developer already mentioned the fragment, they get the normal suggestion. If they didn't, they get the enforcement reminder.
 
 **Full hook with 3-tier architecture**: [`examples/hooks/bash/smart-suggest.sh`](../../examples/hooks/bash/smart-suggest.sh)
 
@@ -128,7 +128,7 @@ The third layer is the hard gate. Two independent jobs run on every PR targeting
     pnpm tsx changelog/scripts/validate.ts "$FRAGMENT"
 ```
 
-**`check-migration-flag` job** (runs independently, no bypass): detects new SQL migration files with `git diff --name-only --diff-filter=A`. If migrations are present and `migration: false` in the fragment, it fails. This job cannot be bypassed by labels — a `skip-changelog` PR that adds a migration still triggers the check.
+**`check-migration-flag` job** (runs independently, no bypass): detects new SQL migration files with `git diff --name-only --diff-filter=A`. If migrations are present and `migration: false` in the fragment, it fails. This job cannot be bypassed by labels. A `skip-changelog` PR that adds a migration still triggers the check.
 
 The two jobs are independent by design. A PR can bypass fragment creation (via label) but still fail the migration check.
 
@@ -177,7 +177,7 @@ Each layer catches a different failure mode:
 | UserPromptSubmit hook | Developer types "make the PR" without thinking | Pre-prompt |
 | CI gate | Fragment was skipped or corrupt | Pre-merge |
 
-A single CI gate catches the issue too late — the developer has to context-switch back after their PR is already open. The hook catches it at intent time. The CLAUDE.md rule means Claude handles it autonomously when given the task.
+A single CI gate catches the issue too late. The developer has to context-switch back after their PR is already open. The hook catches it at intent time. The CLAUDE.md rule means Claude handles it autonomously when given the task.
 
 The layers don't conflict. They reinforce each other. A developer who sees the hook suggestion will run `pnpm changelog:add`. Claude will follow the CLAUDE.md rule and validate the output. CI confirms everything before merge.
 
@@ -185,7 +185,7 @@ The layers don't conflict. They reinforce each other. A developer who sees the h
 
 ## Adopting This Pattern
 
-The TypeScript scripts (add, validate, assemble, audit) are specific to the Méthode Aristote stack. The 3-layer enforcement pattern is not — it works with any fragment format, any CI system, any assembler.
+The TypeScript scripts (add, validate, assemble, audit) are specific to the Méthode Aristote stack. The 3-layer enforcement pattern stays generic: it works with any fragment format, any CI system, any assembler.
 
 **Minimum viable setup:**
 
@@ -194,7 +194,7 @@ The TypeScript scripts (add, validate, assemble, audit) are specific to the Mét
 3. **Add a `UserPromptSubmit` hook** with the `if PR-intent without fragment-mention → suggest` pattern
 4. **Add a CI job** that checks for fragment existence before merge
 
-The hook pattern generalizes to any mandatory workflow step. Substitute "changelog fragment" with "ADR", "migration flag", "test coverage check" — the conditional detection logic is the same.
+The hook pattern generalizes to any mandatory workflow step. Substitute "changelog fragment" with "ADR", "migration flag", "test coverage check". The conditional detection logic stays the same.
 
 ---
 

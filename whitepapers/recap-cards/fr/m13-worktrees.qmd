@@ -16,7 +16,7 @@ format:
 
 ## Principe
 
-Un worktree git crée un second (ou troisième) répertoire de travail à partir du même dépôt, chacun checké sur une branche distincte. Pas de `git stash`, pas de changement de branche — deux terminaux, deux contextes, zéro friction entre eux.
+Un worktree git crée un second (ou troisième) répertoire de travail à partir du même dépôt, chacun checké sur une branche distincte. Pas de `git stash`, pas de changement de branche : deux terminaux, deux contextes, zéro friction entre eux.
 
 Disponible depuis Git 2.5.0 (2015), nativement compatible avec Claude Code.
 
@@ -65,7 +65,7 @@ Un worktree peut avoir sa propre configuration `.claude/` pour des conventions s
 
 La principale limitation : `node_modules` ou `vendor/` ne sont pas partagés automatiquement. Chaque worktree a besoin de ses dépendances, ce qui peut prendre de l'espace disque et du temps.
 
-**Solution recommandée** — symlinker `node_modules` depuis le worktree principal :
+**Solution recommandée** : symlinker `node_modules` depuis le worktree principal :
 
 ```bash
 cd ../monprojet-feature
@@ -97,8 +97,8 @@ Contrôle le commit de base utilisé lors de la création d'un worktree via `--w
 
 | Valeur | Comportement |
 |--------|-------------|
-| `fresh` (défaut) | Branche depuis `origin/<branche-par-défaut>` — base distante propre |
-| `head` | Branche depuis le HEAD local — inclut les commits non poussés |
+| `fresh` (défaut) | Branche depuis `origin/<branche-par-défaut>` (base distante propre) |
+| `head` | Branche depuis le HEAD local (inclut les commits non poussés) |
 
 **Changement cassant v2.1.133** : `fresh` est maintenant la valeur par défaut. Si vous avez des commits non poussés à inclure dans le worktree, ajoutez ce bloc dans `settings.json` :
 

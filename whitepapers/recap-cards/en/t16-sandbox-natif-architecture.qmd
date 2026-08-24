@@ -1,5 +1,5 @@
 ---
-title: "Native Sandbox — Architecture"
+title: "Native Sandbox: Architecture"
 subtitle: "How Claude Code isolates its operations at the OS level"
 card-number: "T16"
 category: "Technical"

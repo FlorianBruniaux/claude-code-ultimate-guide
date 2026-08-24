@@ -14,7 +14,7 @@ tags: [security, enterprise, governance, compliance]
 
 ## TL;DR
 
-**The governance gap**: Claude Code security docs cover what individual devs should do. They don't cover what happens when your entire organization is using it — 50 developers, different risk profiles, no shared policy.
+**The governance gap**: Claude Code security docs cover what individual devs should do. They don't cover what happens when your entire organization is using it: 50 developers, different risk profiles, no shared policy.
 
 **What this covers**:
 
@@ -120,7 +120,7 @@ Copy this into your org's `docs/ai-usage-charter.md` and adapt:
 | **PUBLIC** | Open source, public docs | Yes, no restrictions |
 | **INTERNAL** | Internal tools, non-sensitive code | Yes, standard config |
 | **CONFIDENTIAL** | Internal business secrets, non-regulated IP | Yes, Enterprise plan only |
-| **RESTRICTED** | Customer PII, PCI card data, PHI, credentials | No — never in AI context without legal/compliance sign-off |
+| **RESTRICTED** | Customer PII, PCI card data, PHI, credentials | No, never in AI context without legal/compliance sign-off |
 
 **Hard rule**: RESTRICTED data never enters an AI context window. Not in prompts, not in files Claude reads, not as examples. Configure `permissions.deny` to block access to restricted files.
 
@@ -928,7 +928,7 @@ This is a [JUNIOR|SENIOR|LEAD] developer project context.
 
 **Approach: different settings.json per environment**
 
-In CI/CD, check the active `settings.json` path at pipeline start to enforce the correct tier. Claude Code reads `.claude/settings.json` from the project root — commit your strict-tier config there so CI always picks it up, regardless of what developers have locally.
+In CI/CD, check the active `settings.json` path at pipeline start to enforce the correct tier. Claude Code reads `.claude/settings.json` from the project root, so commit your strict-tier config there. CI always picks it up, regardless of what developers have locally.
 
 ```bash
 # In your CI pipeline setup step, verify the correct tier is committed
@@ -1049,7 +1049,7 @@ aws s3 sync ~/.claude/projects/ \
   --exclude "*.tmp"
 ```
 
-**For full compliance audit trails with approval gates**, consider Entire CLI — it captures complete session context (prompts, reasoning, tool calls, file diffs) with cryptographic linking to git commits. See [AI Traceability §5.1](../ops/ai-traceability.md#51-entire-cli) for setup and evaluation criteria. This is one tool among several options; evaluate against your specific compliance requirements.
+**For full compliance audit trails with approval gates**, consider Entire CLI. It captures complete session context (prompts, reasoning, tool calls, file diffs) with cryptographic linking to git commits. See [AI Traceability §5.1](../ops/ai-traceability.md#51-entire-cli) for setup and evaluation criteria. This is one tool among several options; evaluate against your specific compliance requirements.
 
 ### 6.3 AI Governance Committee (Compact Reference)
 
@@ -1065,10 +1065,10 @@ For organizations managing AI risk at scale, a lightweight AI Governance Committ
 | **Compliance Rep** | Legal/Compliance (regulated only) | Charter, regulatory mapping |
 
 **Meeting cadence**: Quarterly (30 min). Standing agenda:
-1. MCP registry review — anything to add, remove, or flag?
-2. Incident review — any AI-related security events since last meeting?
-3. Policy updates — any charter changes needed?
-4. Metrics — governance audit results, compliance check status
+1. MCP registry review: anything to add, remove, or flag?
+2. Incident review: any AI-related security events since last meeting?
+3. Policy updates: any charter changes needed?
+4. Metrics: governance audit results, compliance check status
 
 For detailed AI governance committee structures, RACI matrices, and compliance mapping, see Whitepaper #11: Enterprise AI Governance (FR/EN).
 
@@ -1131,7 +1131,7 @@ find ~/.claude/projects/ -name "*.jsonl" -newer "$SINCE_WEEK" | \
 | **Basic** | Shared CLAUDE.md + settings.json | MCP governance, audit trail |
 | **Managed** | + MCP registry + hooks | Compliance reporting |
 | **Compliant** | + Audit logs + charter + review cycle | Nothing critical |
-| **Audited** | + External validation + traceability | — |
+| **Audited** | + External validation + traceability | None |
 
 ### Common Mistakes
 
@@ -1147,27 +1147,27 @@ find ~/.claude/projects/ -name "*.jsonl" -newer "$SINCE_WEEK" | \
 
 ## See Also
 
-- [Security Hardening](./security-hardening.md) — Individual dev security: MCP CVEs, injection defense, 5-min audit
-- [Production Safety Rules](./production-safety.md) — 6 non-negotiable rules for prod teams (ports, DB safety, infra lock)
-- [Data Privacy Guide](./data-privacy.md) — What data Claude Code sends to Anthropic, retention policies
-- [AI Traceability](../ops/ai-traceability.md) — Attribution policies, Entire CLI, git-ai, compliance frameworks
-- [Observability](../ops/observability.md) — Session monitoring, cost tracking, activity audit queries
-- [Adoption Approaches](../roles/adoption-approaches.md) — Team rollout patterns, CLAUDE.md strategies
-- [MCP Registry Template](../../examples/scripts/mcp-registry-template.yaml) — Ready-to-use registry format
-- [Governance Hook](../../examples/hooks/bash/governance-enforcement-hook.sh) — Hook validating config against policy
-- [AI Usage Charter Template](../../examples/scripts/ai-usage-charter-template.md) — Charter template ready to adapt
+- [Security Hardening](./security-hardening.md): Individual dev security: MCP CVEs, injection defense, 5-min audit
+- [Production Safety Rules](./production-safety.md): 6 non-negotiable rules for prod teams (ports, DB safety, infra lock)
+- [Data Privacy Guide](./data-privacy.md): What data Claude Code sends to Anthropic, retention policies
+- [AI Traceability](../ops/ai-traceability.md): Attribution policies, Entire CLI, git-ai, compliance frameworks
+- [Observability](../ops/observability.md): Session monitoring, cost tracking, activity audit queries
+- [Adoption Approaches](../roles/adoption-approaches.md): Team rollout patterns, CLAUDE.md strategies
+- [MCP Registry Template](../../examples/scripts/mcp-registry-template.yaml): Ready-to-use registry format
+- [Governance Hook](../../examples/hooks/bash/governance-enforcement-hook.sh): Hook validating config against policy
+- [AI Usage Charter Template](../../examples/scripts/ai-usage-charter-template.md): Charter template ready to adapt
 
 ---
 
 ## References
 
-- [Liminal AI Enterprise Governance Guide](https://www.liminal.ai/blog/enterprise-ai-governance-guide) — Practical implementation
-- [Databricks AI Governance Framework](https://www.databricks.com/blog/practical-ai-governance-framework-enterprises) — Enterprise-scale framework
-- [Augmentcode AI Code Governance](https://www.augmentcode.com/guides/ai-code-governance-framework-for-enterprise-dev-teams) — Dev team specific
-- [Partnership on AI — Six Governance Priorities 2026](https://partnershiponai.org/resource/six-governance-priorities/) — Evaluation frameworks, accountability
-- [EU AI Act](https://www.europarl.europa.eu/doceo/document/TA-9-2024-0138_EN.html) — Kill switch requirements for high-risk AI systems
-- [NIST AI RMF](https://airc.nist.gov/RMF/Overview) — Risk management framework
-- [SOC2 Trust Services Criteria](https://www.aicpa.org/resources/article/soc-2-trust-services-criteria) — CC6.1, CC7.1, CC9.2
+- [Liminal AI Enterprise Governance Guide](https://www.liminal.ai/blog/enterprise-ai-governance-guide): Practical implementation
+- [Databricks AI Governance Framework](https://www.databricks.com/blog/practical-ai-governance-framework-enterprises): Enterprise-scale framework
+- [Augmentcode AI Code Governance](https://www.augmentcode.com/guides/ai-code-governance-framework-for-enterprise-dev-teams): Dev team specific
+- [Partnership on AI: Six Governance Priorities 2026](https://partnershiponai.org/resource/six-governance-priorities/): Evaluation frameworks, accountability
+- [EU AI Act](https://www.europarl.europa.eu/doceo/document/TA-9-2024-0138_EN.html): Kill switch requirements for high-risk AI systems
+- [NIST AI RMF](https://airc.nist.gov/RMF/Overview): Risk management framework
+- [SOC2 Trust Services Criteria](https://www.aicpa.org/resources/article/soc-2-trust-services-criteria): CC6.1, CC7.1, CC9.2
 
 ---
 

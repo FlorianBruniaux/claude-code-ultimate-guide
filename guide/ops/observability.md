@@ -405,7 +405,7 @@ Projects
 
 ### Reading for Quality, Not Just Quantity
 
-Token counts tell you how much you used Claude Code. JSONL logs can also tell you **how well your configuration is working** — if you know what to look for.
+Token counts tell you how much you used Claude Code. JSONL logs can also tell you **how well your configuration is working**, if you know what to look for.
 
 Beyond cost metrics, three patterns reliably signal that a skill, rule, or CLAUDE.md section needs updating:
 
@@ -431,7 +431,7 @@ jq -r 'select(.tool == "Bash" and (.exit_code // 0) != 0) | .command' \
 
 **High edit frequency on the same file**
 
-Files edited heavily across sessions often indicate missing context — the file's purpose isn't clear to the agent, or conventions around it aren't documented.
+Files edited heavily across sessions often indicate missing context: the file's purpose isn't clear to the agent, or conventions around it aren't documented.
 
 ```bash
 # Most-edited files (proxy for context gaps)
@@ -579,7 +579,7 @@ Beyond the hook-based approach above, the community has built purpose-specific t
 
 | Tool | Type | What It Does | Install |
 |------|------|-------------|---------|
-| **ccusage** | CLI / TUI | Cost tracking from JSONL — the de-facto reference for pricing data. ~10K GitHub stars. | `npm i -g ccusage` |
+| **ccusage** | CLI / TUI | Cost tracking from JSONL. The de-facto reference for pricing data. ~10K GitHub stars. | `npm i -g ccusage` |
 | **claude-code-otel** | OpenTelemetry exporter | Emits spans to any OTEL collector. Integrates with Prometheus + Grafana dashboards. Enterprise-focused. | `npm i -g claude-code-otel` |
 | **Akto** | SaaS / self-hosted | API security guardrails + audit trail. Intercepts at the API level, flags policy violations. | [akto.io](https://akto.io) |
 | **MLflow Tracing** | CLI + SDK | Exact token counts, tool spans, LLM-as-judge evaluation. CLI mode: zero Python required. Best for ML/MLOps teams. | `pip install mlflow` → [see section below](#mlflow-tracing) |
@@ -632,7 +632,7 @@ Source: [github.com/FlorianBruniaux/ccboard](https://github.com/FlorianBruniaux/
 
 **When to use**: Teams already in the MLflow/MLOps ecosystem, or anyone needing exact token counts + LLM-based quality evaluation. Not the right fit for solo devs wanting quick cost numbers (use ccusage instead).
 
-**What makes it different from the other tools**: MLflow intercepts at the API level, not post-hoc from JSONL. It captures **exact** token counts (vs the ~15-25% variance of hook-based estimation) and enables **LLM-as-judge** regression detection — not just "what happened" but "was it good?".
+**What makes it different from the other tools**: MLflow intercepts at the API level, not post-hoc from JSONL. It captures **exact** token counts (vs the ~15-25% variance of hook-based estimation) and enables **LLM-as-judge** regression detection, not just "what happened" but "was it good?".
 
 #### Setup: CLI mode (no Python required)
 
@@ -695,7 +695,7 @@ Claude Code can query its own traces directly. Add to `.claude/settings.json`:
 }
 ```
 
-Once configured, you can ask Claude Code: *"Find all sessions where the backend-architect agent used more than 20 tool calls"* — it queries MLflow directly without copy-pasting IDs.
+Once configured, you can ask Claude Code: *"Find all sessions where the backend-architect agent used more than 20 tool calls"*. It queries MLflow directly without copy-pasting IDs.
 
 #### LLM-as-judge: agent regression detection
 
@@ -740,7 +740,7 @@ results = mlflow.genai.evaluate(
 | Limitation | Detail |
 |------------|--------|
 | **CLI mode audience** | Best for interactive sessions; SDK mode required for programmatic agents |
-| **SDK restriction** | Only `ClaudeSDKClient` — direct API calls bypass tracing |
+| **SDK restriction** | `ClaudeSDKClient` only; direct API calls bypass tracing |
 | **PII risk** | Traces capture full conversation content. Redact before storing if working with sensitive data |
 | **Production backend** | SQLite = dev only. Use PostgreSQL/MySQL for production |
 | **OpenTelemetry** | MLflow 3.6+ exports to any OTEL-compatible backend (Datadog, Grafana, etc.) |
@@ -755,7 +755,7 @@ A common question: "Can I run Proxyman/Charles to see what Claude Code sends to 
 
 ### Why System Proxies Don't Work
 
-Claude Code is a Node.js process. By default, Node.js ignores system-level proxy settings (`HTTP_PROXY`, `HTTPS_PROXY`) — it uses its own TLS stack and doesn't read macOS/Windows proxy configurations.
+Claude Code is a Node.js process. By default, Node.js ignores system-level proxy settings (`HTTP_PROXY`, `HTTPS_PROXY`). It uses its own TLS stack and doesn't read macOS/Windows proxy configurations.
 
 Additionally, even if traffic flows through your proxy, the TLS certificate mismatch causes Claude Code to fail (`CERT_UNTRUSTED`).
 
@@ -775,7 +775,7 @@ claude
 Same approach works for Charles: `Help → SSL Proxying → Export Charles Root Certificate`.
 
 **Caveats**:
-- Some Claude Code versions use certificate pinning for `api.anthropic.com` — this may still fail
+- Some Claude Code versions use certificate pinning for `api.anthropic.com`; this may still fail
 - This approach requires a running Proxyman/Charles instance listening on the configured port
 
 ### Option 2: Redirect API Traffic with ANTHROPIC_API_URL
@@ -809,7 +809,7 @@ export HTTPS_PROXY="http://localhost:8080"
 claude
 ```
 
-The mitmproxy web UI (`mitmweb`) at `http://localhost:8081` shows full request/response bodies — including the JSON payloads Claude Code sends to Anthropic.
+The mitmproxy web UI (`mitmweb`) at `http://localhost:8081` shows full request/response bodies, including the JSON payloads Claude Code sends to Anthropic.
 
 **What you'll see**: System prompt, user messages, tool definitions, tool results, model parameters.
 
@@ -840,7 +840,7 @@ export ANTHROPIC_API_URL="http://localhost:8080"
 claude
 ```
 
-> **Privacy note**: Proxied traffic includes everything in the conversation context — file contents Claude has read, your code, any secrets it encountered. Handle proxy logs accordingly.
+> **Privacy note**: Proxied traffic includes everything in the conversation context: file contents Claude has read, your code, any secrets it encountered. Handle proxy logs accordingly.
 
 ---
 

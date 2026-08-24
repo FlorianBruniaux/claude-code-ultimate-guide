@@ -6,7 +6,7 @@ Generate social preview images automatically at build time instead of maintainin
 
 Static OG images go stale. The day you add your 200th template or hit 1k GitHub stars, your social preview still shows the old numbers. Dynamic generation solves this once and stays accurate forever.
 
-The pattern below uses Satori (Vercel) to render a React-like tree to SVG, then resvg to convert to PNG. It runs at build time in Astro — zero runtime cost, no external service.
+The pattern below uses Satori (Vercel) to render a React-like tree to SVG, then resvg to convert to PNG. It runs at build time in Astro, with zero runtime cost and no external service.
 
 ## Stack
 
@@ -117,7 +117,7 @@ Astro dev server serves static files in `public/` **before** API routes. If you 
 rm public/og-image.png
 ```
 
-Also check the project root and `dist/` — files there can shadow the route too. Diagnose with `curl -I http://localhost:4321/og-image.png`: if the response has a `Last-Modified` header, you are hitting a static file, not the API route.
+Also check the project root and `dist/`: files there can shadow the route too. Diagnose with `curl -I http://localhost:4321/og-image.png`: if the response has a `Last-Modified` header, you are hitting a static file, not the API route.
 
 ### Browser cache
 
@@ -133,17 +133,17 @@ const svg = await satori(tree, options)
 
 ## Testing
 
-**Local preview** — visit directly in the browser:
+**Local preview**: visit directly in the browser:
 ```
 http://localhost:4321/og-image.png
 ```
 
-**Social preview simulation** — paste your prod URL into:
-- [opengraph.xyz](https://www.opengraph.xyz) — generic OG debugger
-- LinkedIn Post Inspector (`linkedin.com/post-inspector/`) — forces cache refresh for LinkedIn
+**Social preview simulation**: paste your prod URL into:
+- [opengraph.xyz](https://www.opengraph.xyz): generic OG debugger
+- LinkedIn Post Inspector (`linkedin.com/post-inspector/`): forces cache refresh for LinkedIn
 - Twitter Card Validator (`cards-dev.twitter.com/validator`)
 
-**CI check** — if you want to catch regressions, you can add a build step that checks the generated PNG file size is above a threshold:
+**CI check**: if you want to catch regressions, you can add a build step that checks the generated PNG file size is above a threshold:
 
 ```bash
 # In CI after pnpm build

@@ -93,7 +93,7 @@ Par défaut, les outils MCP sont chargés en différé (via `ToolSearch`). Pour 
 }
 ```
 
-Éviter sur les serveurs avec de nombreux outils (20+) — le coût tokens s'accumule.
+Éviter sur les serveurs avec de nombreux outils (20+), car le coût tokens s'accumule.
 
 ## Limites importantes
 

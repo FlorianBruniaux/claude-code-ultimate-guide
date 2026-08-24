@@ -1,6 +1,6 @@
 ---
 title: "Permission Modes"
-subtitle: "Tool access control — from safest to most permissive"
+subtitle: "Tool access control, from safest to most permissive"
 card-number: "T03"
 category: "Technical"
 guide-version: "3.41.1"
@@ -65,10 +65,10 @@ claude --allowedTools "Read,Edit,Bash(git*)"
 
 Permissions accumulate and are inherited in this order:
 
-1. `~/.claude/settings.json` — global user
-2. `.claude/settings.json` — project (shared)
-3. `.claude/settings.local.json` — project (local, gitignored)
-4. CLI flags — session only
+1. `~/.claude/settings.json`: global user
+2. `.claude/settings.json`: project (shared)
+3. `.claude/settings.local.json`: project (local, gitignored)
+4. CLI flags: session only
 
 ## Glob Patterns for Bash
 
@@ -85,8 +85,8 @@ Permissions accumulate and are inherited in this order:
 
 ## Best Practices
 
-**CI/CD** — Always use `--dangerously-skip-permissions` with a sandboxed environment (Docker, ephemeral container). Never on a shared production machine.
+**CI/CD**: Always use `--dangerously-skip-permissions` with a sandboxed environment (Docker, ephemeral container). Never on a shared production machine.
 
-**Sensitive projects** — Restrict Bash tools with precise globs in `.claude/settings.json`. Commit this file so the whole team uses the same constraints.
+**Sensitive projects**: Restrict Bash tools with precise globs in `.claude/settings.json`. Commit this file so the whole team uses the same constraints.
 
-**Audit** — Claude's actions are logged in `~/.claude/logs/`. Verifiable at any time.
+**Audit**: Claude's actions are logged in `~/.claude/logs/`. Verifiable at any time.

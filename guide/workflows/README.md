@@ -137,7 +137,7 @@ Non-redundant architecture for three automated reviewers on the same PR: Claude 
 
 Switch between specialist roles across your ship cycle: strategic product gate, architecture review, paranoid code review, automated release, native browser QA, and retrospective.
 
-**When to use**: Ship cycles where you want explicit separation between product direction, engineering rigor, review, and release — rather than one generic assistant handling all phases
+**When to use**: Ship cycles where you want explicit separation between product direction, engineering rigor, review, and release, rather than one generic assistant handling all phases
 
 ---
 
@@ -165,7 +165,7 @@ Generate professional PDFs using Quarto/Typst with Claude Code.
 
 6-stage skill pipeline: raw material → structured talk → AI-generated slides via Kimi.
 
-**When to use**: Conference talks, meetup presentations, internal tech talks — from article, transcript, or notes
+**When to use**: Conference talks, meetup presentations, internal tech talks (from article, transcript, or notes)
 
 ### [TTS Setup](./tts-setup.md)
 

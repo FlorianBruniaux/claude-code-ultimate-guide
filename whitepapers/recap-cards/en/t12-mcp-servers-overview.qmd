@@ -93,10 +93,10 @@ By default, MCP tools are loaded on demand (via `ToolSearch`). For servers with 
 }
 ```
 
-Avoid on servers with many tools (20+) — the token cost adds up quickly.
+Avoid on servers with many tools (20+): the token cost adds up quickly.
 
 ## Important limitations
 
-An MCP server does not access the conversation history — it only sees the parameters passed at call time. Each call is independent unless the server itself implements a cache. It also cannot modify Claude's system prompt or bypass the permissions system.
+An MCP server sees only the parameters passed at call time, not the conversation history. Each call is independent unless the server itself implements a cache. It also cannot modify Claude's system prompt or bypass the permissions system.
 
 **Token cost**: each loaded server adds approximately 2K tokens of overhead per session (tool definitions). Load only what is necessary for the current project.

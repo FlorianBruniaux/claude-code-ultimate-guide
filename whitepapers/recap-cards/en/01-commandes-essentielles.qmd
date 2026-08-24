@@ -91,8 +91,8 @@ claude --continue
 
 ## Essential Tips
 
-**Verbosity control** — Use `--verbose` at launch, or `Ctrl+O` in session, to see the full turn-by-turn transcript.
+**Verbosity control**: use `--verbose` at launch, or `Ctrl+O` in session, to see the full turn-by-turn transcript.
 
-**Multiline** — `Shift+Enter` in the terminal to add a new line without submitting.
+**Multiline**: `Shift+Enter` in the terminal to add a new line without submitting.
 
-**Vim mode** — `/config` → Editor mode, or `{"editorMode": "vim"}` in `~/.claude/settings.json`. The `/vim` command was removed in v2.1.92.
+**Vim mode**: `/config` → Editor mode, or `{"editorMode": "vim"}` in `~/.claude/settings.json`. The `/vim` command was removed in v2.1.92.

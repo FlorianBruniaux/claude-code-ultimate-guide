@@ -62,9 +62,9 @@ This is your structured entry point. Follow the modules in order, then jump into
 ### Step 3: Learn & Validate
 
 Each module includes:
-- 📖 **Reading** (10-30 min) — Concepts and mental models
-- 🔨 **Hands-on practice** (20-45 min) — Real examples from `examples/`
-- 📝 **Validation** — `/lesson-quiz [topic]` to verify understanding
+- 📖 **Reading** (10-30 min): Concepts and mental models
+- 🔨 **Hands-on practice** (20-45 min): Real examples from `examples/`
+- 📝 **Validation**: `/lesson-quiz [topic]` to verify understanding
 
 ### Step 4: Go Deeper
 

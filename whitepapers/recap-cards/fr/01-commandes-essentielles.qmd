@@ -109,8 +109,8 @@ claude --continue
 
 ## Tips Essentiels
 
-**Contrôle de verbosité** — Utiliser `--no-stream` pour voir la réponse complète d'un coup.
+**Contrôle de verbosité** : utiliser `--no-stream` pour voir la réponse complète d'un coup.
 
-**Multiline** — `Shift+Enter` dans le terminal pour sauter une ligne sans valider.
+**Multiline** : `Shift+Enter` dans le terminal pour sauter une ligne sans valider.
 
-**Vim mode** — `/config` → Editor mode, ou `{"editorMode": "vim"}` dans `~/.claude/settings.json`. La commande `/vim` a été supprimée en v2.1.92.
+**Vim mode** : `/config` → Editor mode, ou `{"editorMode": "vim"}` dans `~/.claude/settings.json`. La commande `/vim` a été supprimée en v2.1.92.

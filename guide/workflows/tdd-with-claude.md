@@ -6,7 +6,7 @@ tags: [workflow, tdd, testing]
 
 # TDD with Claude Code
 
-> **Confidence**: Tier 1 — Based on official Anthropic best practices and extensive community validation.
+> **Confidence**: Tier 1, based on official Anthropic best practices and extensive community validation.
 
 Test-Driven Development with Claude requires explicit prompting. Claude naturally writes implementation first, then tests. TDD requires the inverse.
 
@@ -219,9 +219,9 @@ Three observable symptoms: the agent prints a success message before any test co
 
 The fix is a three-layer verification stack that must all pass before any feature is marked `passing` in the feature list:
 
-1. **Lint** — syntax and style checks (fastest, catches obvious errors before running tests)
-2. **Unit and integration tests** — functional correctness of individual components
-3. **End-to-end tests** — behavioral contract as seen by a user or external caller
+1. **Lint**: syntax and style checks (fastest, catches obvious errors before running tests)
+2. **Unit and integration tests**: functional correctness of individual components
+3. **End-to-end tests**: behavioral contract as seen by a user or external caller
 
 Each layer catches a different class of failure. Unit tests can pass while component boundaries break. End-to-end tests surface state propagation errors and lifecycle issues that unit tests cannot see. Skipping any layer leaves a gap.
 
@@ -286,7 +286,7 @@ After tests pass, run mutation testing to find weak spots.
 Identify tests that don't catch mutations.
 ```
 
-> **Going further**: JiTTesting applies mutation testing automatically at PR time — LLM-generated, ephemeral, zero maintenance. Meta deployed this at scale with 4x regression catch improvement over traditional tests. See [Just-in-Time Catching Test Generation at Meta](https://arxiv.org/abs/2601.22832) and the [methodologies guide](../core/methodologies.md#jittesting-just-in-time-testing) for the approximation pattern with Claude Code today.
+> **Going further**: JiTTesting applies mutation testing automatically at PR time: LLM-generated, ephemeral, zero maintenance. Meta deployed this at scale with 4x regression catch improvement over traditional tests. See [Just-in-Time Catching Test Generation at Meta](https://arxiv.org/abs/2601.22832) and the [methodologies guide](../core/methodologies.md#jittesting-just-in-time-testing) for the approximation pattern with Claude Code today.
 
 ### TDD with Legacy Code
 
@@ -336,9 +336,9 @@ Run tests after each change to ensure they stay green.
 
 ## See Also
 
-- [../core/methodologies.md](../core/methodologies.md) — Full methodology reference
-- [Tight Feedback Loops](../ultimate-guide.md) — Section 9.5
-- [examples/skills/tdd-workflow.md](../../examples/skills/tdd-workflow.md) — TDD skill template
+- [../core/methodologies.md](../core/methodologies.md): full methodology reference
+- [Tight Feedback Loops](../ultimate-guide.md): Section 9.5
+- [examples/skills/tdd-workflow.md](../../examples/skills/tdd-workflow.md): TDD skill template
 - [Anthropic Best Practices](https://www.anthropic.com/engineering/claude-code-best-practices)
-- [task-management.md](./task-management.md) — Track TDD cycles across sessions with Tasks API
-- [Superpowers](https://github.com/obra/superpowers) — Plugin suite that enforces TDD as a mandatory gate: code written before a failing test exists gets deleted and redone from scratch. Stricter enforcement than manual prompting.
+- [task-management.md](./task-management.md): track TDD cycles across sessions with Tasks API
+- [Superpowers](https://github.com/obra/superpowers): plugin suite that enforces TDD as a mandatory gate, code written before a failing test exists gets deleted and redone from scratch. Stricter enforcement than manual prompting.

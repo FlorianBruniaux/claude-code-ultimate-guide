@@ -46,7 +46,7 @@ Le corps du fichier contient les instructions en Markdown : rôle, méthodologie
 
 ## Le champ tools : isolation par défaut
 
-Limiter `tools` à ce dont l'agent a réellement besoin réduit la surface d'exposition et les erreurs accidentelles. Un agent de code review n'a besoin que de `Read, Grep, Glob` — aucune raison de lui donner `Bash` ou `Write`.
+Limiter `tools` à ce dont l'agent a réellement besoin réduit la surface d'exposition et les erreurs accidentelles. Un agent de code review n'a besoin que de `Read, Grep, Glob`. Aucune raison de lui donner `Bash` ou `Write`.
 
 ## Mémoire persistante (v2.1.32+)
 
@@ -56,7 +56,7 @@ memory: user      # ~/.claude/agent-memory/<name>/
 memory: local     # .claude/agent-memory-local/<name>/
 ```
 
-La mémoire `project` est committée avec le repo — utile pour que l'agent accumule des connaissances partagées par toute l'équipe. La mémoire `local` reste privée à la machine.
+La mémoire `project` est committée avec le repo, utile pour que l'agent accumule des connaissances partagées par toute l'équipe. La mémoire `local` reste privée à la machine.
 
 ## Agent vs Slash Command
 

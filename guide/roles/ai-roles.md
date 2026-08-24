@@ -1,6 +1,6 @@
 ---
 title: "AI Roles & Career Paths: The New Engineering Landscape"
-description: "Comprehensive map of emerging AI roles — from Prompt Engineer to Harness Engineer — with responsibilities, required skills, and career trajectories"
+description: "Comprehensive map of emerging AI roles, from Prompt Engineer to Harness Engineer, with responsibilities, required skills, and career trajectories"
 tags: [roles, careers, ai-engineer, prompt-engineer, harness-engineer, context-engineer, guide]
 ---
 
@@ -8,7 +8,7 @@ tags: [roles, careers, ai-engineer, prompt-engineer, harness-engineer, context-e
 
 > **Last updated**: March 2026
 >
-> **Confidence**: Tier 2 — Based on job market data, industry publications, and emerging field research
+> **Confidence**: Tier 2, based on job market data, industry publications, and emerging field research
 >
 > **Reading time**: ~20 minutes
 
@@ -102,15 +102,15 @@ Technical writer, QA engineer, domain expert (law, medicine, finance), content s
 
 ## 3. Context Engineer
 
-**Status**: Emerging — one of the fastest-growing specializations in 2025.
+**Status**: Emerging, one of the fastest-growing specializations in 2025.
 
 ### What they do
 
 Context engineering is the evolution of prompt engineering. Where prompt engineers craft instructions, context engineers design **systems** that give AI models the right information, at the right time, in the right format. Andrej Karpathy explicitly moved from "vibe coding" framing to "context engineering" as the more precise description of this work.
 
-See the [Context Engineering reference](../core/context-engineering.md) for the full discipline — including the ACE pipeline (Section 6), the L0→L5 maturity model (Section 9), and the operational mechanisms that separate a Level 4 from a Level 5 system: signal taxonomy and causal attribution (Section 10), PR-based loop closure (Section 11), ejection of dormant rules (Section 12), constitutional audits (Section 13), and multi-dev profile reconciliation (Section 14).
+See the [Context Engineering reference](../core/context-engineering.md) for the full discipline, including the ACE pipeline (Section 6), the L0→L5 maturity model (Section 9), and the operational mechanisms that separate a Level 4 from a Level 5 system: signal taxonomy and causal attribution (Section 10), PR-based loop closure (Section 11), ejection of dormant rules (Section 12), constitutional audits (Section 13), and multi-dev profile reconciliation (Section 14).
 
-> "Context Engineering is providing the right information and tools, in the right format, at the right time." — Philipp Schmid, Google
+> "Context Engineering is providing the right information and tools, in the right format, at the right time." (Philipp Schmid, Google)
 
 ### Responsibilities
 
@@ -143,7 +143,7 @@ Data engineer, backend engineer, ML engineer, information architect.
 
 ## 4. AI Engineer
 
-**Status**: Mainstream — the generalist role for building AI-powered products.
+**Status**: Mainstream, the generalist role for building AI-powered products.
 
 ### What they do
 
@@ -214,7 +214,7 @@ Strong demand at AI companies (Anthropic, OpenAI, scale-ups) and in large enterp
 
 ## 6. AI Agent Engineer
 
-**Status**: High growth — one of the most in-demand specialized roles in 2025-2026.
+**Status**: High growth, one of the most in-demand specialized roles in 2025-2026.
 
 ### What they do
 
@@ -285,7 +285,7 @@ Strong mid-level engineers at established companies who want more ownership. Com
 
 ## 8. AI Architect
 
-**Status**: Senior/Staff level — emerging role in larger organizations.
+**Status**: Senior/Staff level, emerging role in larger organizations.
 
 ### What they do
 
@@ -347,13 +347,13 @@ MLOps tooling, LLM gateway products (LiteLLM, Portkey), cloud AI services, cost 
 
 ## 10. Harness Engineer
 
-**Status**: Emerging — formalized by Martin Fowler in 2025, not yet institutionalized as a standalone title.
+**Status**: Emerging, formalized by Martin Fowler in 2025, not yet institutionalized as a standalone title.
 
 ### What they do
 
-Build the infrastructure that keeps AI agents "under harness" — under control. As agentic AI systems generate code, take actions, and operate with increasing autonomy, harness engineers build the systems that ensure they stay within architectural constraints, produce coherent output, and don't accumulate entropy over time.
+Build the infrastructure that keeps AI agents "under harness," under control. As agentic AI systems generate code, take actions, and operate with increasing autonomy, harness engineers build the systems that ensure they stay within architectural constraints, produce coherent output, and don't accumulate entropy over time.
 
-> Source: [Martin Fowler — Harness Engineering](https://martinfowler.com/articles/exploring-gen-ai/harness-engineering.html)
+> Source: [Martin Fowler, Harness Engineering](https://martinfowler.com/articles/exploring-gen-ai/harness-engineering.html)
 
 ### The three pillars
 
@@ -389,7 +389,7 @@ Martin Fowler summarizes the distinction precisely: "A raw model is not an agent
 
 This role pushes toward **intentional technological convergence**: organizations with 2-3 primary tech stacks benefit far more from standardized harnesses than organizations with 10 different stacks. It's a deliberate trade of technical freedom for reliability.
 
-> "Ce n'est pas quelque chose dans lequel vous pouvez vous lancer pour des résultats rapides." — Martin Fowler
+> "Ce n'est pas quelque chose dans lequel vous pouvez vous lancer pour des résultats rapides." (Martin Fowler)
 
 ### Where this role will emerge
 
@@ -437,7 +437,7 @@ FAANG-level: $160K-$200K+ entry-level AI PM. Senior: $200K-$300K+ total compensa
 
 ## 12. AI Safety & Eval Engineer
 
-**Status**: Specialized — primarily at AI labs and companies with regulated AI deployments.
+**Status**: Specialized, primarily at AI labs and companies with regulated AI deployments.
 
 ### What they do
 
@@ -465,17 +465,17 @@ Rigorous experimental design, statistics, Python, strong understanding of LLM fa
 
 ### Where to find these roles
 
-Primarily: Anthropic, OpenAI, Google DeepMind, Meta AI, Microsoft AI. Growing in: healthcare, finance, legal tech — regulated industries where AI errors have serious consequences.
+Primarily: Anthropic, OpenAI, Google DeepMind, Meta AI, Microsoft AI. Growing in: healthcare, finance, legal tech, regulated industries where AI errors have serious consequences.
 
 ---
 
 ## 13. ML Engineer
 
-**Status**: Established — the most traditional of the AI engineering roles.
+**Status**: Established, the most traditional of the AI engineering roles.
 
 ### What they do
 
-Develop, train, deploy, and maintain machine learning models. In the LLM era, many ML engineers have pivoted toward fine-tuning and applied AI work rather than building models from scratch — that work is increasingly concentrated at a small number of frontier labs.
+Develop, train, deploy, and maintain machine learning models. In the LLM era, many ML engineers have pivoted toward fine-tuning and applied AI work rather than building models from scratch. That work is increasingly concentrated at a small number of frontier labs.
 
 ### Responsibilities
 
@@ -498,7 +498,7 @@ Python (fluent), PyTorch or TensorFlow, distributed computing, data pipeline too
 
 ## 14. MLOps Engineer
 
-**Status**: Established — distinct from ML Engineer, growing in enterprises deploying models at scale.
+**Status**: Established, distinct from ML Engineer, growing in enterprises deploying models at scale.
 
 ### What they do
 
@@ -527,7 +527,7 @@ Bridge the gap between model development and production infrastructure. While ML
 
 ### The distinction that matters
 
-ML engineers ask: "Does the model work?" MLOps engineers ask: "Does the model keep working?" The operational lifecycle of a model — monitoring, retraining triggers, rollback procedures, cost per inference — is entirely separate from building it. Companies that skip this role discover it when a model silently degrades in production and nobody notices until user complaints spike.
+ML engineers ask: "Does the model work?" MLOps engineers ask: "Does the model keep working?" The operational lifecycle of a model (monitoring, retraining triggers, rollback procedures, cost per inference) is entirely separate from building it. Companies that skip this role discover it when a model silently degrades in production and nobody notices until user complaints spike.
 
 ### Entry paths
 
@@ -537,7 +537,7 @@ DevOps/platform engineer adding ML knowledge, ML engineer who gravitates toward 
 
 ## 15. AI Developer Advocate
 
-**Status**: High growth — actively hiring at all major AI companies in 2025-2026.
+**Status**: High growth, actively hiring at all major AI companies in 2025-2026.
 
 ### What they do
 
@@ -565,7 +565,7 @@ Build the bridge between an AI platform and the developers who use it. Part engi
 
 ### What makes this role different
 
-The audience is other developers, not end users. DevRel success measures developer activation (do developers try the product?), retention (do they keep using it?), and advocacy (do they tell others?). Credibility is the core asset — which means you have to actually build things, not just talk about them. A DevRel who hasn't shipped real production code with the platform has no credibility with the audience they're trying to reach.
+The audience is other developers, not end users. DevRel success measures developer activation (do developers try the product?), retention (do they keep using it?), and advocacy (do they tell others?). Credibility is the core asset, which means you have to actually build things, not just talk about them. A DevRel who hasn't shipped real production code with the platform has no credibility with the audience they're trying to reach.
 
 ### Salary context
 
@@ -583,7 +583,7 @@ Software engineer with a public presence (blog, open source, conference talks), 
 
 ## 16. AI Orchestration Engineer
 
-**Status**: Emerging — real job postings in 2025, distinct from AI Agent Engineer in scope.
+**Status**: Emerging, real job postings in 2025, distinct from AI Agent Engineer in scope.
 
 ### What they do
 
@@ -738,10 +738,10 @@ Which role fits your current background and goals?
 
 ### The fastest path to AI employment in 2025-2026
 
-1. Build something with AI APIs (Claude, OpenAI) — a real project, not a tutorial
+1. Build something with AI APIs (Claude, OpenAI): a real project, not a tutorial
 2. Write about what you built (blog post, GitHub README, LinkedIn)
 3. Add evaluation: measure your system's quality, show the numbers
-4. Apply for AI Engineer roles — the bar is demonstrated building, not credentials
+4. Apply for AI Engineer roles: the bar is demonstrated building, not credentials
 
 Note: 76% of candidates claiming AI expertise lack production-level deployment experience (LangChain State of Agent Engineering 2025). The bar is lower than it appears if you've actually shipped something.
 
@@ -749,7 +749,7 @@ Note: 76% of candidates claiming AI expertise lack production-level deployment e
 
 ## 21. Salary Benchmarks (2025-2026)
 
-> **Indicative only — large variance applies.** These figures are US market base salaries (2025-2026). Europe runs 30-50% lower, other markets 40-60% lower. Total compensation (equity, bonus, RSUs) can significantly exceed base, especially at startups and FAANG. Experience level, location within a country, company stage, and negotiation all create wide variance. Use these as orientation, not negotiation anchors.
+> **Indicative only, large variance applies.** These figures are US market base salaries (2025-2026). Europe runs 30-50% lower, other markets 40-60% lower. Total compensation (equity, bonus, RSUs) can significantly exceed base, especially at startups and FAANG. Experience level, location within a country, company stage, and negotiation all create wide variance. Use these as orientation, not negotiation anchors.
 
 | Role | Entry | Mid | Senior | Notes |
 |------|-------|-----|--------|-------|
@@ -758,21 +758,21 @@ Note: 76% of candidates claiming AI expertise lack production-level deployment e
 | AI Engineer | $120K-$160K | $160K-$220K | $220K-$300K | Highest volume of open roles |
 | LLM Engineer | $130K-$170K | $170K-$250K | $250K-$350K | Lab-level roles higher |
 | AI Agent Engineer | $130K-$170K | $170K-$240K | $240K-$320K | Strong demand 2025-2026 |
-| Founding AI Engineer | $100K-$150K + equity | — | — | Equity makes total comp wide-ranging |
-| AI Architect | — | $180K-$260K | $260K-$380K | Senior/Staff only |
+| Founding AI Engineer | $100K-$150K + equity | N/A | N/A | Equity makes total comp wide-ranging |
+| AI Architect | N/A | $180K-$260K | $260K-$380K | Senior/Staff only |
 | Platform Engineer (AI) | $110K-$150K | $150K-$210K | $210K-$280K | |
-| Harness Engineer | Not yet standardized | — | — | Absorbed into other roles |
+| Harness Engineer | Not yet standardized | N/A | N/A | Absorbed into other roles |
 | AI Product Manager | $130K-$170K | $170K-$230K | $230K-$350K | FAANG premium significant |
 | AI Safety/Eval Engineer | $140K-$180K | $180K-$250K | $250K-$400K | Lab compensation highest |
 | ML Engineer | $100K-$140K | $140K-$200K | $200K-$280K | Lower demand outside labs |
 | MLOps Engineer | $110K-$150K | $150K-$200K | $200K-$270K | High demand in enterprises deploying at scale |
 | AI Developer Advocate | $120K-$160K | $160K-$220K | $220K-$300K | Active hiring at AI platforms |
-| AI Orchestration Engineer | $100K-$140K | $140K-$190K | $190K-$260K | Emerging — title varies across companies |
+| AI Orchestration Engineer | $100K-$140K | $140K-$190K | $190K-$260K | Emerging, title varies across companies |
 | Spec Engineer | $90K-$130K | $130K-$180K | $180K-$250K | Often embedded in engineering teams, not standalone |
-| Agent Identity Architect | — | $170K-$240K | $240K-$340K | Senior only; deep IAM expertise required |
+| Agent Identity Architect | N/A | $170K-$240K | $240K-$340K | Senior only; deep IAM expertise required |
 | AI Eval Engineer | $110K-$150K | $150K-$210K | $210K-$290K | Growing rapidly as agentic systems reach production |
 
-> **Sources**: FinalRoundAI (2025), Alcor AI Salary Report (2025), RiseWorks AI Talent Report (2025), job postings analysis. New roles (Spec Engineer, Agent Identity Architect, AI Eval Engineer) are estimated from adjacent role benchmarks and emerging job postings — treat with wider margin.
+> **Sources**: FinalRoundAI (2025), Alcor AI Salary Report (2025), RiseWorks AI Talent Report (2025), job postings analysis. New roles (Spec Engineer, Agent Identity Architect, AI Eval Engineer) are estimated from adjacent role benchmarks and emerging job postings. Treat with wider margin.
 
 ---
 
@@ -780,17 +780,17 @@ Note: 76% of candidates claiming AI expertise lack production-level deployment e
 
 Some terms you'll hear that describe practices or methodologies, not job titles:
 
-**Vibe coder** — A methodology (use AI coding assistants to handle implementation while you focus on design), not a job. Andrej Karpathy coined the term then himself pivoted toward "context engineering" as more precise. No serious company has "Vibe Coder" on a job description.
+**Vibe coder**: a methodology (use AI coding assistants to handle implementation while you focus on design), not a job. Andrej Karpathy coined the term then himself pivoted toward "context engineering" as more precise. No serious company has "Vibe Coder" on a job description.
 
-**AI-native engineer** — Describes a quality expected of all engineers increasingly, not a specialized role. It means: you use AI tools fluently in your daily workflow. It's the bar, not the title.
+**AI-native engineer**: describes a quality expected of all engineers increasingly, not a specialized role. It means: you use AI tools fluently in your daily workflow. It's the bar, not the title.
 
-These terms are worth knowing (you'll encounter them in job descriptions and articles) but don't represent distinct career paths — yet.
+These terms are worth knowing (you'll encounter them in job descriptions and articles) but don't represent distinct career paths, at least not yet.
 
 ---
 
 ## 23. Job Listings
 
-> **Coming soon** — Curated listings for AI roles at companies building seriously with Claude Code and agentic AI.
+> **Coming soon**: curated listings for AI roles at companies building seriously with Claude Code and agentic AI.
 
 If you're hiring for any of the roles described in this guide, [reach out](https://florian.bruniaux.com) to discuss featuring your opportunity here.
 
@@ -798,8 +798,8 @@ If you're hiring for any of the roles described in this guide, [reach out](https
 
 ## See Also
 
-- [Learning to Code with AI](./learning-with-ai.md) — skill development for developers using AI
-- [AI Ecosystem: Tools & Integrations](../ecosystem/ai-ecosystem.md) — which tools each role uses
-- [Methodologies](../core/methodologies.md) — TDD, SDD, BDD workflows relevant to AI engineers
-- [Architecture](../core/architecture.md) — how Claude Code works, relevant for AI agent engineers
-- [Security Hardening](../security/security-hardening.md) — critical reading for AI Safety engineers and Platform engineers
+- [Learning to Code with AI](./learning-with-ai.md): skill development for developers using AI
+- [AI Ecosystem: Tools & Integrations](../ecosystem/ai-ecosystem.md): which tools each role uses
+- [Methodologies](../core/methodologies.md): TDD, SDD, BDD workflows relevant to AI engineers
+- [Architecture](../core/architecture.md): how Claude Code works, relevant for AI agent engineers
+- [Security Hardening](../security/security-hardening.md): critical reading for AI Safety engineers and Platform engineers

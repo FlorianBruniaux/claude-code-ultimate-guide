@@ -100,7 +100,7 @@ Description of the expected result.
 | **Skill** | Reusable knowledge + embedded resources |
 | **Agent** | Recurring specialist with own memory |
 
-A command cannot embed additional reference files — for that, use a skill. A command has no persistent memory — for that, use an agent.
+A command cannot embed additional reference files (use a skill for that). A command has no persistent memory (use an agent for that).
 
 ## Practical tips
 

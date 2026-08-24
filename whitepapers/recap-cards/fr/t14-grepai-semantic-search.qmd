@@ -1,5 +1,5 @@
 ---
-title: "Grepai — Recherche Sémantique"
+title: "Grepai : Recherche Sémantique"
 subtitle: "Trouver du code par intention, pas par regex"
 card-number: "T14"
 category: "Technique"

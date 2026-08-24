@@ -23,7 +23,7 @@ tags: [guide, agents, workflows]
 | **Status** | Research preview (January 2026) |
 | **Access** | Pro ($20/mo) or Max ($100-200/mo) subscription, macOS only |
 | **Focus** | File manipulation, document generation, organization |
-| **Difference from Code** | No code execution—files only |
+| **Difference from Code** | No code execution, files only |
 
 ---
 
@@ -56,10 +56,10 @@ Three tools, one subscription ($20/mo Pro). They're complementary, not competing
 
 ## Use Cases
 
-- **File Organization** — Messy folders → organized structure
-- **Expense Tracking** — Receipts → Excel reports
-- **Report Synthesis** — Multiple docs → unified report
-- **Meeting Prep** — Research → briefing documents
+- **File Organization**: Messy folders → organized structure
+- **Expense Tracking**: Receipts → Excel reports
+- **Report Synthesis**: Multiple docs → unified report
+- **Meeting Prep**: Research → briefing documents
 
 → [Detailed Workflows](https://github.com/FlorianBruniaux/claude-cowork-guide/tree/main/workflows)
 
@@ -69,10 +69,10 @@ Three tools, one subscription ($20/mo Pro). They're complementary, not competing
 
 No official security documentation exists yet. Essential practices:
 
-1. **Dedicated workspace** — Never grant access to Documents/Desktop
-2. **Review plans** — Check every action before approval
-3. **No credentials** — Keep sensitive data out of workspace
-4. **Backup first** — Before destructive operations
+1. **Dedicated workspace**: Never grant access to Documents/Desktop
+2. **Review plans**: Check every action before approval
+3. **No credentials**: Keep sensitive data out of workspace
+4. **Backup first**: Before destructive operations
 
 → [Complete Security Guide](https://github.com/FlorianBruniaux/claude-cowork-guide/blob/main/guide/03-security.md)
 

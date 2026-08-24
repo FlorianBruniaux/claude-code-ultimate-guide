@@ -12,7 +12,7 @@ keywords:
 
 # Agent Harness Engineering
 
-> **Confidence**: Tier 1 — Multiple independent sources (Martin Fowler, arXiv 2605.18747, Anthropic, O'Reilly, AWS, GitHub) converge on this framing.
+> **Confidence**: Tier 1. Multiple independent sources (Martin Fowler, arXiv 2605.18747, Anthropic, O'Reilly, AWS, GitHub) converge on this framing.
 >
 > **Reading time**: ~25 minutes
 
@@ -231,7 +231,7 @@ For enterprise with governance requirements, add Strata Maverics or Entra Agent 
 | Span type | Status | Key attributes |
 |-----------|--------|---------------|
 | `gen_ai.client` | Stable | `gen_ai.request.model`, `gen_ai.usage.input_tokens`, `gen_ai.usage.output_tokens` |
-| `gen_ai.agent` | Experimental | `gen_ai.agent.name`, `gen_ai.agent.id` — may change |
+| `gen_ai.agent` | Experimental | `gen_ai.agent.name`, `gen_ai.agent.id` (may change) |
 | Events | Stable | Prompt/completion content as structured events |
 | Metrics | Stable | Token counters, latency histograms |
 
@@ -328,11 +328,11 @@ User instruction
 
 ## See Also
 
-- [Context Engineering](./context-engineering.md) — ACE pipeline, signal taxonomy, drift management
-- [Security Hardening](../security/security-hardening.md) — production safety, injection defense
-- [DevOps & SRE](../ops/devops-sre.md) — CI/CD integration patterns
-- [AI Roles](../roles/ai-roles.md) — Harness Engineer, Agent Identity Architect, AI Eval Engineer
-- [Spec-First Development](../workflows/spec-first.md) — spec as the input to the harness
+- [Context Engineering](./context-engineering.md): ACE pipeline, signal taxonomy, drift management
+- [Security Hardening](../security/security-hardening.md): production safety, injection defense
+- [DevOps & SRE](../ops/devops-sre.md): CI/CD integration patterns
+- [AI Roles](../roles/ai-roles.md): Harness Engineer, Agent Identity Architect, AI Eval Engineer
+- [Spec-First Development](../workflows/spec-first.md): spec as the input to the harness
 
 ---
 

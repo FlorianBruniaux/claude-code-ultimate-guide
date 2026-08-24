@@ -1,5 +1,5 @@
 ---
-title: "Claude Code — Configuration System Diagrams"
+title: "Claude Code: Configuration System Diagrams"
 description: "Config precedence, skills vs commands vs agents, agent lifecycle, hooks pipeline"
 tags: [configuration, hooks, agents, skills, commands]
 ---
@@ -56,11 +56,11 @@ PRIORITY (highest to lowest)
 
 </details>
 
-> **Source**: [Configuration System](../ultimate-guide.md#configuration) — Line ~3760
+> **Source**: [Configuration System](../ultimate-guide.md#configuration), line ~3760
 
 ---
 
-### Skills vs. Commands vs. Agents — When to Use Each
+### Skills vs. Commands vs. Agents: When to Use Each
 
 Three extensibility mechanisms with different purposes and tradeoffs. Choosing the wrong abstraction leads to over-engineering or under-powered automation.
 
@@ -128,7 +128,7 @@ Use when:      Reusable caps       Quick shortcuts    Complex tasks
 
 </details>
 
-> **Source**: [Extensibility System](../ultimate-guide.md#extensibility) — Line ~4495, ~5025, ~3900
+> **Source**: [Extensibility System](../ultimate-guide.md#extensibility), line ~4495, ~5025, ~3900
 
 ---
 
@@ -178,7 +178,7 @@ Parent ◄───── text result ──────────┘
 
 </details>
 
-> **Source**: [Sub-Agents](../ultimate-guide.md#sub-agents) — Line ~3900
+> **Source**: [Sub-Agents](../ultimate-guide.md#sub-agents), line ~3900
 
 ---
 

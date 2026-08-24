@@ -6,7 +6,7 @@
 
 **Legend:**
 - No badge = confirmed in official documentation
-- `📋 Schema only` = present in JSON schema but not on official settings page — still valid
+- `📋 Schema only` = present in JSON schema but not on official settings page (still valid)
 - `⚠️ Unverified` = not confirmed in official sources
 
 ---
@@ -23,7 +23,7 @@ Claude Code uses four settings scopes, applied from highest to lowest priority:
 | 4 | **Project** | `.claude/settings.json` | Yes (committed) | Team-shared settings |
 | 5 | **User** | `~/.claude/settings.json` | No | Global personal defaults |
 
-**Array merging:** Settings like `permissions.allow`, `sandbox.filesystem.allowWrite`, and `allowedHttpHookUrls` are concatenated and deduplicated across scopes — not replaced.
+**Array merging:** Settings like `permissions.allow`, `sandbox.filesystem.allowWrite`, and `allowedHttpHookUrls` are concatenated and deduplicated across scopes, not replaced.
 
 **Deny precedence:** `permissions.deny` rules always take effect regardless of allow/ask rules at any scope.
 
@@ -34,7 +34,7 @@ Claude Code uses four settings scopes, applied from highest to lowest priority:
 - File: `managed-settings.json` at `/Library/Application Support/ClaudeCode/` (macOS), `/etc/claude-code/` (Linux/WSL), `C:\Program Files\ClaudeCode\` (Windows)
 - Drop-in directory: `managed-settings.d/*.json` alongside `managed-settings.json`, merged alphabetically
 
-**Other config:** `~/.claude.json` stores OAuth session, MCP server configs, per-project trust state, and preferences like `editorMode`. Do not put `~/.claude.json` keys into `settings.json` — it will trigger schema validation errors.
+**Other config:** `~/.claude.json` stores OAuth session, MCP server configs, per-project trust state, and preferences like `editorMode`. Do not put `~/.claude.json` keys into `settings.json`: it will trigger schema validation errors.
 
 ---
 
@@ -89,7 +89,7 @@ Claude's preferred response language. Also sets the voice dictation language. Ex
 **Scope:** all
 **Default:** `30`
 
-Sessions inactive longer than this number of days are deleted at startup. Setting to `0` deletes all existing transcripts at startup and disables session persistence entirely — no `.jsonl` files are written, `/resume` shows no conversations, and hooks receive an empty `transcript_path`.
+Sessions inactive longer than this number of days are deleted at startup. Setting to `0` deletes all existing transcripts at startup and disables session persistence entirely: no `.jsonl` files are written, `/resume` shows no conversations, and hooks receive an empty `transcript_path`.
 
 #### `autoUpdatesChannel`
 **Type:** string
@@ -279,7 +279,7 @@ Permission rules requiring user confirmation before tool use.
 **Scope:** all
 **Default:** `[]`
 
-Permission rules blocking tool use. Highest safety precedence — cannot be overridden by allow/ask rules at any scope.
+Permission rules blocking tool use. Highest safety precedence, cannot be overridden by allow/ask rules at any scope.
 
 #### `permissions.additionalDirectories`
 **Type:** array of strings
@@ -900,9 +900,9 @@ Configure a custom script for `@` file path autocomplete. The command receives J
 Controls how Claude communicates throughout the session. Equivalent to selecting a style via `/config` → "Preferred output style".
 
 **Built-in values:**
-- `"Default"` — concise, task-focused responses optimized for speed
-- `"Explanatory"` — adds reasoning blocks explaining design choices, trade-offs, and codebase patterns
-- `"Learning"` — pauses at key steps, inserts `TODO(human)` markers, asks you to write the meaningful pieces (pair-programming mode)
+- `"Default"`: concise, task-focused responses optimized for speed
+- `"Explanatory"`: adds reasoning blocks explaining design choices, trade-offs, and codebase patterns
+- `"Learning"`: pauses at key steps, inserts `TODO(human)` markers, asks you to write the meaningful pieces (pair-programming mode)
 
 **Custom styles:** reference any filename (without `.md`) from `.claude/styles/`.
 
@@ -1021,7 +1021,7 @@ Attribution text added to pull request descriptions. Set to empty string to disa
 **Type:** boolean
 **Scope:** all
 **Default:** `true`
-**Status:** DEPRECATED — use `attribution` instead
+**Status:** DEPRECATED, use `attribution` instead
 
 Whether to include the `Co-Authored-By` byline. Superseded by the `attribution` object.
 
@@ -1050,7 +1050,7 @@ Directories to symlink from the main repository into each worktree, avoiding lar
 **Scope:** all
 **Default:** `[]`
 
-Directories to check out in each worktree via git sparse-checkout (cone mode). Only listed paths are written to disk — useful for large monorepos.
+Directories to check out in each worktree via git sparse-checkout (cone mode). Only listed paths are written to disk, useful for large monorepos.
 
 ```json
 {

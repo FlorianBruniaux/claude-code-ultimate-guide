@@ -46,7 +46,7 @@ claude
 
 ## During the Session
 
-**Review the diff at each step** — do not let Claude chain multiple changes without intermediate validation. On significant modifications, ask explicitly:
+**Review the diff at each step**: do not let Claude chain multiple changes without intermediate validation. On significant modifications, ask explicitly:
 
 ```
 You: Show me what you changed before continuing

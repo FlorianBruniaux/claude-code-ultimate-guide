@@ -8,7 +8,7 @@ tags: [workflow, team, claude-md, configuration]
 
 Manage AI instructions (CLAUDE.md, .cursorrules) across a team without fragmentation.
 
-**Pattern**: Profile-Based Module Assembly — shared modules + per-dev profiles + automated assembler.
+**Pattern**: Profile-Based Module Assembly, shared modules plus per-dev profiles plus an automated assembler.
 
 **When to use**: Team 5+ developers, multiple AI tools (Claude Code + Cursor/Windsurf), mixed OS.
 **Skip if**: Solo developer, homogeneous team (same tool, same OS), short project (<3 months).
@@ -292,7 +292,7 @@ cp output/dave/CLAUDE.md .claude/CLAUDE.md
 | Generated file too long | Too many modules included | Review profile: remove rarely-used modules |
 | Module missing in output | Placeholder typo in skeleton | Check `{{MODULE:name}}` matches filename |
 | CI drift alert | Output not regenerated after module edit | Run `sync-ai-instructions.ts` and commit |
-| Dev A has rules Dev B doesn't | Expected — it's the point | Verify profile is correct for that dev |
+| Dev A has rules Dev B doesn't | Expected, it's the point | Verify profile is correct for that dev |
 | Stale output after merge | Merge didn't trigger regeneration | Run assembler post-merge (add git hook) |
 
 ---
@@ -315,7 +315,7 @@ From a production team (5 developers, 3 tools, 2 OS):
 | Metric | Before | After |
 |--------|--------|-------|
 | Lines per CLAUDE.md | ~380 (monolithic) | ~185 (assembled) |
-| Token reduction | — | 59% less context consumed |
+| Token reduction | N/A | 59% less context consumed |
 | Modules extracted | 0 | 12 |
 | Onboarding time | "copy someone's file" | 5 min (template + generate) |
 | Drift incidents | Weekly | 0 (CI catches) |
@@ -324,8 +324,8 @@ From a production team (5 developers, 3 tools, 2 OS):
 
 ## Related
 
-- [Section 3.5 Team Configuration at Scale](#35-team-configuration-at-scale) — Concept overview and measured results
-- [Section 3.4 Precedence Rules](#34-precedence-rules) — How Claude reads multiple CLAUDE.md files
-- [profile-template.yaml](../../examples/team-config/profile-template.yaml) — Profile template
-- [claude-skeleton.md](../../examples/team-config/claude-skeleton.md) — Skeleton template
-- [sync-script.ts](../../examples/team-config/sync-script.ts) — Full assembler script
+- [Section 3.5 Team Configuration at Scale](#35-team-configuration-at-scale): concept overview and measured results
+- [Section 3.4 Precedence Rules](#34-precedence-rules): how Claude reads multiple CLAUDE.md files
+- [profile-template.yaml](../../examples/team-config/profile-template.yaml): profile template
+- [claude-skeleton.md](../../examples/team-config/claude-skeleton.md): skeleton template
+- [sync-script.ts](../../examples/team-config/sync-script.ts): full assembler script

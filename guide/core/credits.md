@@ -80,7 +80,7 @@ Always-on blocking write of the full evaluator prompt to `prompts/debug/` before
 ### Pattern 8: Adaptive Unified/Parallel Mode
 
 **Guide section**: [Skill Design Patterns](./skill-design-patterns.md#adaptive-unifiedparallel-mode)
-**Source**: `src/shared/evaluation/runner.ts` — `canUseUnifiedMode()`
+**Source**: `src/shared/evaluation/runner.ts` (`canUseUnifiedMode()`)
 
 Token-threshold switching between single-agent unified evaluation (cross-file detection) and parallel independent agents per file. Threshold default: 100K tokens.
 

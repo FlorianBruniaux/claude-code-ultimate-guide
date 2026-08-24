@@ -1050,7 +1050,7 @@ fi
 
 ## Todo as Instruction Mirrors
 
-TodoWrite isn't just tracking --- it's an instruction mechanism. Well-written todos guide Claude's execution.
+TodoWrite goes beyond tracking: it is an instruction mechanism. Well-written todos guide Claude's execution.
 
 ### The Mirror Principle
 
@@ -1826,7 +1826,7 @@ Validate this checklist at initial setup, then after each new team member onboar
 
 *-> To go deeper: WP05 "Team"*
 
-With security and privacy covered, the final question is: how do you go from individual use to team adoption? The challenge isn't technical (previous chapters cover the configuration) but organizational: standards, onboarding, and measuring impact.
+With security and privacy covered, the final question is: how do you go from individual use to team adoption? The challenge is mostly organizational: standards, onboarding, and measuring impact. The configuration side stays covered by previous chapters.
 
 ## Decision Matrix
 

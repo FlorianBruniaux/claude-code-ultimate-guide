@@ -30,11 +30,11 @@ tags: [guide, metrics, dora, space, team, observability, ai-augmented]
 
 ## The Measurement Problem
 
-AI-assisted development changes delivery speed fast enough to break most existing benchmarks. A team shipping 2 features per sprint in 2022 might now ship 6, with AI generating 70-90% of the code. That looks like a win on every traditional scorecard, and it might genuinely be one — or the velocity is hiding shallow reviews, skill atrophy, and a growing pile of AI-generated technical debt that nobody fully understands.
+AI-assisted development changes delivery speed fast enough to break most existing benchmarks. A team shipping 2 features per sprint in 2022 might now ship 6, with AI generating 70-90% of the code. That looks like a win on every traditional scorecard, and it might genuinely be one, or the velocity is hiding shallow reviews, skill atrophy, and a growing pile of AI-generated technical debt that nobody fully understands.
 
 The core tension: activity metrics spike immediately when you adopt AI tools, but quality and long-term maintainability signals are slower and harder to track. Sprint velocity, commits per day, and lines written all go up. Bug escape rate, time-to-understand a PR, and developer confidence are harder to wire up but far more informative.
 
-This page gives engineering managers, tech leads, and CTOs a practical measurement stack — starting from the DORA foundation, layering in human factors via SPACE, then adding the AI-specific signals that the standard frameworks don't cover.
+This page gives engineering managers, tech leads, and CTOs a practical measurement stack, starting from the DORA foundation, layering in human factors via SPACE, then adding the AI-specific signals that the standard frameworks don't cover.
 
 ---
 
@@ -97,7 +97,7 @@ The four core metrics:
 | Medium | 10-15% |
 | Low | More than 15% |
 
-**Common pitfall**: If you're not tracking incidents formally, this metric defaults to zero — which looks great but means nothing. Invest in an on-call system (PagerDuty, OpsGenie, even a Slack channel with a naming convention) before tracking CFR.
+**Common pitfall**: If you're not tracking incidents formally, this metric defaults to zero, which looks great but means nothing. Invest in an on-call system (PagerDuty, OpsGenie, even a Slack channel with a naming convention) before tracking CFR.
 
 ---
 
@@ -122,7 +122,7 @@ The four core metrics:
 
 ### On the 2025 DORA Evolution
 
-The 2025 DORA report made a significant methodological shift: the four-tier model (Elite/High/Medium/Low) was retired. DORA now identifies **7 organizational archetypes** measured across **8 dimensions** — throughput, stability, team performance, product performance, individual effectiveness, time on valuable work, friction, and burnout.
+The 2025 DORA report made a significant methodological shift: the four-tier model (Elite/High/Medium/Low) was retired. DORA now identifies **7 organizational archetypes** measured across **8 dimensions**: throughput, stability, team performance, product performance, individual effectiveness, time on valuable work, friction, and burnout.
 
 The implication for teams: stop chasing "Elite" as an endpoint. "Elite" on deployment frequency can coexist with burnout and high friction. The new model pushes you to identify your archetype (e.g., "Thriving Achievers," "Struggling Strugglers," "Balanced Performers") and improve your weakest dimensions rather than optimizing the metrics you're already good at. The four classic metrics remain valid input signals; they're just no longer the whole story.
 
@@ -134,13 +134,13 @@ Each DORA metric reacts differently when AI enters the development workflow. Und
 
 ### Deployment Frequency
 
-AI accelerates feature development, so your deployment cadence should increase — provided your pipeline can keep up. If deployment frequency stays flat after widespread AI adoption, the bottleneck is downstream: staging environments, manual QA gates, or review throughput, not coding speed. AI gives you more PRs to merge; it doesn't automatically improve the rest of the pipeline.
+AI accelerates feature development, so your deployment cadence should increase, provided your pipeline can keep up. If deployment frequency stays flat after widespread AI adoption, the bottleneck is downstream: staging environments, manual QA gates, or review throughput, not coding speed. AI gives you more PRs to merge; it doesn't automatically improve the rest of the pipeline.
 
 Watch for: deployment frequency climbing while change failure rate also climbs. That's AI-accelerated code that isn't being reviewed carefully.
 
 ### Lead Time for Changes
 
-AI cuts coding time but has limited effect on the non-coding segments of lead time. PR review, staging validation, context-switching delays, and deployment windows are largely unchanged by AI assistance. If your lead time isn't improving alongside AI adoption, the constraint is in review velocity or pipeline automation, not coding. Map your lead time stages explicitly — code time, review wait, staging wait, deploy window — to know where the leverage is.
+AI cuts coding time but has limited effect on the non-coding segments of lead time. PR review, staging validation, context-switching delays, and deployment windows are largely unchanged by AI assistance. If your lead time isn't improving alongside AI adoption, the constraint is in review velocity or pipeline automation, not coding. Map your lead time stages explicitly (code time, review wait, staging wait, deploy window) to know where the leverage is.
 
 ### Change Failure Rate
 
@@ -150,11 +150,11 @@ Track CFR separately for AI-generated code versus manually written code (most AI
 
 ### MTTR
 
-AI genuinely helps here — if observability is already in place. AI-assisted diagnosis can cut time-to-root-cause significantly when the model has access to error logs, stack traces, and codebase context. But AI diagnosis is only as good as the signals it can read. A team without structured logging, without request tracing, and without alerting won't get a meaningful MTTR improvement from AI. The sequencing matters: instrument first, then expect AI to accelerate incident response.
+AI genuinely helps here, if observability is already in place. AI-assisted diagnosis can cut time-to-root-cause significantly when the model has access to error logs, stack traces, and codebase context. But AI diagnosis is only as good as the signals it can read. A team without structured logging, without request tracing, and without alerting won't get a meaningful MTTR improvement from AI. The sequencing matters: instrument first, then expect AI to accelerate incident response.
 
 ### Raising the Baseline
 
-The practical consequence of AI assistance at scale: "Medium" DORA is no longer a credible target. Anthropic's internal engineering data from January 2026 shows +67% PRs per engineer per day, with 70-90% of shipped code AI-assisted. If your team is operating at AI-assisted development and still sitting in Medium tier on deployment frequency or lead time, the constraint is in your processes and pipeline — not in your developers' output. Adjust your targets accordingly.
+The practical consequence of AI assistance at scale: "Medium" DORA is no longer a credible target. Anthropic's internal engineering data from January 2026 shows +67% PRs per engineer per day, with 70-90% of shipped code AI-assisted. If your team is operating at AI-assisted development and still sitting in Medium tier on deployment frequency or lead time, the constraint is in your processes and pipeline, not in your developers' output. Adjust your targets accordingly.
 
 ---
 
@@ -202,7 +202,7 @@ Teams can hit "High" on DORA deployment frequency while simultaneously scoring p
 
 ### SPACE + DORA Together
 
-Use DORA for your monthly leadership review: system health, delivery system performance. Use SPACE (specifically the satisfaction and efficiency dimensions) quarterly: human health, sustainable pace, skill development. Treat a divergence — strong DORA, weak SPACE — as a leading indicator of future DORA degradation. Burnt-out teams ship slower.
+Use DORA for your monthly leadership review: system health, delivery system performance. Use SPACE (specifically the satisfaction and efficiency dimensions) quarterly: human health, sustainable pace, skill development. Treat a divergence (strong DORA, weak SPACE) as a leading indicator of future DORA degradation. Burnt-out teams ship slower.
 
 ---
 
@@ -228,11 +228,11 @@ If AI-generated CFR is within 2-3 percentage points of manual CFR, your review p
 
 Compare average review time (open to merge) for AI-generated PRs versus manually written PRs. If AI PRs are getting merged significantly faster than manual ones, you may have a rubber-stamping problem.
 
-AI-generated code requires at least as much review scrutiny as manually written code — arguably more, because it can be confidently wrong in non-obvious ways. A 30% faster review cycle for AI PRs is a yellow flag worth investigating.
+AI-generated code requires at least as much review scrutiny as manually written code, arguably more, because it can be confidently wrong in non-obvious ways. A 30% faster review cycle for AI PRs is a yellow flag worth investigating.
 
 ### Developer Code Comprehension
 
-A qualitative, binary signal: during PR review, can the author explain their AI-generated code in their own words — not just what it does, but why it does it that way?
+A qualitative, binary signal: during PR review, can the author explain their AI-generated code in their own words, not just what it does, but why it does it that way?
 
 Track this informally through your code review culture. If reviewers start noticing that authors can't explain their AI-generated submissions, that's a skill atrophy signal that will show up in higher CFR and longer MTTR 6-12 months later.
 
@@ -250,7 +250,7 @@ DORA and SPACE were designed for deterministic software systems. Agents introduc
 
 ### Why standard DORA is insufficient for agent workflows
 
-DORA measures pipeline health, not output correctness. A study of 39 agent frameworks and 439 agentic applications (arXiv 2509.19185) found that 70% of test effort concentrates on deterministic components (tools, workflows) while less than 5% covers the LLM Plan Body — the central reasoning component most likely to produce incorrect results. Most DORA tooling has the same blind spot.
+DORA measures pipeline health, not output correctness. A study of 39 agent frameworks and 439 agentic applications (arXiv 2509.19185) found that 70% of test effort concentrates on deterministic components (tools, workflows) while less than 5% covers the LLM Plan Body (the central reasoning component most likely to produce incorrect results). Most DORA tooling has the same blind spot.
 
 A second structural gap: DORA doesn't capture the cost of the verification loop. Agent-generated PRs require at least as much review scrutiny as manually written code, and in practice more, because subtle behavioral errors can appear in syntactically correct code. The standard deployment frequency and lead time metrics look identical whether review is thorough or rubber-stamped.
 
@@ -304,7 +304,7 @@ Read this alongside the heavy-user review time contradiction above: two independ
 
 ### pass^k for non-deterministic tests
 
-Standard pass@1 is insufficient for agent-generated code. A test that passes once may fail on the next run because the output is non-deterministic. Promptfoo and LangChain both document the pass^k pattern: run critical tests k times consecutively, typically 3 to 5. A test passes only if it passes all k runs. This is not flaky-test detection — it is a deliberate quality gate for probabilistic systems. Apply it specifically to agent-generated suites, not to the full regression suite where the overhead would be prohibitive.
+Standard pass@1 is insufficient for agent-generated code. A test that passes once may fail on the next run because the output is non-deterministic. Promptfoo and LangChain both document the pass^k pattern: run critical tests k times consecutively, typically 3 to 5. A test passes only if it passes all k runs. This is not flaky-test detection. It is a deliberate quality gate for probabilistic systems. Apply it specifically to agent-generated suites, not to the full regression suite where the overhead would be prohibitive.
 
 ---
 
@@ -314,7 +314,7 @@ Engineering metrics measure how code gets built. Product metrics measure whether
 
 ### Time-to-Value
 
-How long does it take a new user to reach their first success with your product? Define "first success" concretely — first completed task, first saved item, first report generated, whatever makes sense in your context.
+How long does it take a new user to reach their first success with your product? Define "first success" concretely: first completed task, first saved item, first report generated, whatever makes sense in your context.
 
 Track this as a median across your user cohorts, and watch for regressions after major feature releases. AI can accelerate your feature shipping without improving, or even while degrading, the new user experience.
 
@@ -354,9 +354,9 @@ Different team sizes have different measurement overhead tolerances. A 5-person 
 | Bugs in prod per month | Count in your issue tracker | Monthly |
 | Developer satisfaction | 5-question anonymous form | Quarterly |
 
-**Tooling**: GitHub Insights plus a shared spreadsheet. No dedicated dashboard needed at this size — the overhead isn't worth it. What matters is having the discipline to review these numbers in a monthly retrospective, not the precision of the tooling.
+**Tooling**: GitHub Insights plus a shared spreadsheet. No dedicated dashboard needed at this size. The overhead isn't worth it. What matters is having the discipline to review these numbers in a monthly retrospective, not the precision of the tooling.
 
-The instinct at this size is often to skip metrics entirely ("we're too small, we know each other, we talk daily"). Resist it. The value of metrics at 5 people isn't visibility — it's discipline. Naming a north star metric and checking it monthly forces conversations that daily standups don't.
+The instinct at this size is often to skip metrics entirely ("we're too small, we know each other, we talk daily"). Resist it. The value of metrics at 5 people is discipline, not visibility. Naming a north star metric and checking it monthly forces conversations that daily standups don't.
 
 ### 25-Person Team
 
@@ -375,7 +375,7 @@ The instinct at this size is often to skip metrics entirely ("we're too small, w
 
 **Tooling**: LinearB or Faros.ai for DORA automation (connects to GitHub + your CI/CD pipeline, surfaces the four metrics without manual tracking), GitHub Analytics for AI contribution data, PostHog or Amplitude for product metrics.
 
-At 25 people, global averages hide squad-level problems. A team with 3 squads that has 80% of its incidents originating from one squad will show a "Medium" CFR overall and miss the signal entirely. Track DORA per squad, not just per organization. Cycle time per team is especially valuable — it surfaces bottlenecks in specific parts of your codebase or process.
+At 25 people, global averages hide squad-level problems. A team with 3 squads that has 80% of its incidents originating from one squad will show a "Medium" CFR overall and miss the signal entirely. Track DORA per squad, not just per organization. Cycle time per team is especially valuable. It surfaces bottlenecks in specific parts of your codebase or process.
 
 PR review time is a friction metric worth watching closely at this scale. When median PR review exceeds 24 hours, it creates context-switching overhead: developers move to other tasks while waiting, then need to re-load context when the review comes back. That re-loading cost doesn't appear in any standard metric, but it compounds across dozens of PRs per week.
 
@@ -392,7 +392,7 @@ PR review time is a friction metric worth watching closely at this scale. When m
 | Story points | Throughput (features shipped) | Points are defined relative to the team's own baseline and gameable by re-pointing. Throughput counts real deliverables. |
 | Code coverage % | Mutation testing score + Bug Escape Rate | Coverage tells you tests exist. Mutation testing tells you whether those tests would catch real bugs. |
 
-Story points deserve a specific note in an AI context: if AI is generating boilerplate and scaffolding automatically, the effort to implement a "3-point story" has dropped significantly. Teams that haven't recalibrated their pointing will show velocity increases that reflect tool efficiency, not team capacity. Lead Time and Deployment Frequency are tool-agnostic — they measure output regardless of who or what did the work.
+Story points deserve a specific note in an AI context: if AI is generating boilerplate and scaffolding automatically, the effort to implement a "3-point story" has dropped significantly. Teams that haven't recalibrated their pointing will show velocity increases that reflect tool efficiency, not team capacity. Lead Time and Deployment Frequency are tool-agnostic. They measure output regardless of who or what did the work.
 
 ---
 
@@ -414,7 +414,7 @@ This is the tightest filter. Deployment frequency is correlated to revenue in hi
 
 **4. Can it be measured automatically?**
 
-If collecting the metric requires manual work — someone pulling numbers from a spreadsheet, someone remembering to log an incident — it will be abandoned within 3 months when workload increases. Automate or drop.
+If collecting the metric requires manual work (someone pulling numbers from a spreadsheet, someone remembering to log an incident), it will be abandoned within 3 months when workload increases. Automate or drop.
 
 **The rule**: fewer than 3 "yes" answers, drop the metric. A measurement stack with 5 rigorous metrics is more useful than one with 20 loosely defined ones. Most teams that fail at metrics fail by tracking too many things with too little precision, not by tracking too few.
 
@@ -488,21 +488,21 @@ Monte Carlo forecasting is not a fix for an unstable or unpredictable delivery s
 
 The most common failure mode in metrics programs is trying to instrument everything at once. Three phases:
 
-### Phase 1: Weeks 1-2 — Instrument DORA
+### Phase 1 (Weeks 1-2): Instrument DORA
 
-Connect your CI/CD pipeline to a metrics tool. For most teams this means connecting GitHub Actions (or equivalent) to LinearB, Faros, or Sleuth. Get Deployment Frequency and Lead Time automated first — they require the least manual work to configure. Change Failure Rate and MTTR require incident tracking to be in place, which takes slightly longer to set up.
+Connect your CI/CD pipeline to a metrics tool. For most teams this means connecting GitHub Actions (or equivalent) to LinearB, Faros, or Sleuth. Get Deployment Frequency and Lead Time automated first. They require the least manual work to configure. Change Failure Rate and MTTR require incident tracking to be in place, which takes slightly longer to set up.
 
 Output: a live dashboard showing at minimum Deployment Frequency and Lead Time for Changes. Your first baseline numbers.
 
-### Phase 2: Weeks 3-4 — Baseline and Set Targets
+### Phase 2 (Weeks 3-4): Baseline and Set Targets
 
-Once you have 2-4 weeks of data, establish your actual baseline. The temptation here is to compare to industry benchmarks immediately. Resist it. Set internal improvement targets first: "reduce Lead Time by 20% over the next quarter" is more actionable than "get to High tier." Your context — tech stack, deployment environment, team size, product type — affects what's achievable more than any benchmark.
+Once you have 2-4 weeks of data, establish your actual baseline. The temptation here is to compare to industry benchmarks immediately. Resist it. Set internal improvement targets first: "reduce Lead Time by 20% over the next quarter" is more actionable than "get to High tier." Your context (tech stack, deployment environment, team size, product type) affects what's achievable more than any benchmark.
 
 Run your first developer satisfaction pulse (5 questions, anonymous, takes 10 minutes to build in Google Forms or Typeform). This is your SPACE baseline.
 
-### Phase 3: Month 2 and Beyond — Layer in Product and AI Metrics
+### Phase 3 (Month 2 and Beyond): Layer in Product and AI Metrics
 
-Once DORA is stable and automated, add the product metrics (time-to-value, feature CSAT) and AI-specific signals (% AI-assisted code, CFR by code origin). These require more setup — product analytics instrumentation, PR tagging conventions — but they're worth the investment once your DORA foundation is solid.
+Once DORA is stable and automated, add the product metrics (time-to-value, feature CSAT) and AI-specific signals (% AI-assisted code, CFR by code origin). These require more setup (product analytics instrumentation, PR tagging conventions), but they're worth the investment once your DORA foundation is solid.
 
 Review the full metric stack quarterly and prune ruthlessly. Any metric that hasn't driven a decision in the last 3 months is a reporting metric masquerading as a steering metric. Cut it.
 
@@ -550,7 +550,7 @@ Neither substitutes for the harder work above. A better forecast and a better-wr
 
 ## See Also
 
-- [Session Observability & Monitoring](./observability.md) — Claude Code session monitoring, cost tracking, usage patterns
-- [AI Traceability](./ai-traceability.md) — Auditing AI-generated code contributions, attribution, and compliance
-- [Learning With AI](../roles/learning-with-ai.md) — Individual developer growth in AI-augmented workflows, skill development signals
-- [Agent Evaluation](../roles/agent-evaluation.md) — Quality metrics for custom Claude Code agents and automated workflows
+- [Session Observability & Monitoring](./observability.md): Claude Code session monitoring, cost tracking, usage patterns
+- [AI Traceability](./ai-traceability.md): Auditing AI-generated code contributions, attribution, and compliance
+- [Learning With AI](../roles/learning-with-ai.md): Individual developer growth in AI-augmented workflows, skill development signals
+- [Agent Evaluation](../roles/agent-evaluation.md): Quality metrics for custom Claude Code agents and automated workflows

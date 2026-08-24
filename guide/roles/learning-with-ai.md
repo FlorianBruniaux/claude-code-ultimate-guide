@@ -6,7 +6,7 @@ tags: [guide, workflows]
 
 # Learning to Code with AI: The Conscious Developer's Guide
 
-> **Confidence**: Tier 2 — Based on academic research (2023-2025) and educator feedback
+> **Confidence**: Tier 2, based on academic research (2023-2025) and educator feedback
 >
 > **Audience**: Junior developers, CS students, bootcamp graduates, career changers
 >
@@ -54,9 +54,9 @@ Before diving in, answer honestly:
 
 | Score | Where You Are | Jump To |
 |-------|--------------|---------|
-| **0-2 yes** | Dependency risk — you're outsourcing thinking | [§6 Breaking Dependency](#breaking-dependency) |
-| **3-4 yes** | On track — room for optimization | [§8 Optimizing Your Flow](#optimizing-your-flow) |
-| **5 yes** | Augmented — you're using AI correctly | [§9 Case Study](#case-study-hybrid-learning-principles) |
+| **0-2 yes** | Dependency risk: you're outsourcing thinking | [§6 Breaking Dependency](#breaking-dependency) |
+| **3-4 yes** | On track, room for optimization | [§8 Optimizing Your Flow](#optimizing-your-flow) |
+| **5 yes** | Augmented: you're using AI correctly | [§9 Case Study](#case-study-hybrid-learning-principles) |
 
 Be honest. This guide only helps if you acknowledge where you actually are.
 
@@ -75,7 +75,7 @@ Forget the statistics for now. Here's a simple metaphor:
 - Dangerous if you lose the ability to navigate without it
 - Truly useful when you understand the map AND use the GPS
 
-A developer who only copy-pastes AI output is like a driver who can't read a map. Fine until the GPS fails — or until someone asks them to explain the route.
+A developer who only copy-pastes AI output is like a driver who can't read a map. Fine until the GPS fails, or until someone asks them to explain the route.
 
 ### The Skills Gap
 
@@ -98,19 +98,19 @@ Term coined by [Andrej Karpathy](https://x.com/karpathy/status/18861921848081493
 - Copy-paste errors without understanding root cause
 - Debug by asking AI for random changes until it works
 
-**Karpathy's caveat:** "Not too bad for throwaway weekend projects" — but dangerous for production code you'll need to maintain.
+**Karpathy's caveat:** "Not too bad for throwaway weekend projects", but dangerous for production code you'll need to maintain.
 
 **Antidote:** The UVAL Protocol (§5) forces understanding before acceptance.
 
 > **Related**: For context management strategies that prevent vibe coding chaos, see [Anti-Pattern: Context Overload](#anti-pattern-context-overload) in the main guide (§9.8).
 
-**At team scale**, vibe coding accumulates into what some practitioners call *comprehension debt* (an emerging term, 2025-2026): the growing gap between how much code exists in a system and how much any human genuinely understands. Unlike technical debt, which surfaces through slow builds and tangled dependencies, comprehension debt breeds false confidence — velocity looks fine, tests are green, and the reckoning arrives at the worst possible moment, usually during an incident or an audit.
+**At team scale**, vibe coding accumulates into what some practitioners call *comprehension debt* (an emerging term, 2025-2026): the growing gap between how much code exists in a system and how much any human genuinely understands. Unlike technical debt, which surfaces through slow builds and tangled dependencies, comprehension debt breeds false confidence: velocity looks fine, tests are green, and the reckoning arrives at the worst possible moment, usually during an incident or an audit.
 
 ---
 
 ## The Reality of AI Productivity
 
-Before optimizing your learning approach, understand what productivity research actually shows — it's more nuanced than the marketing suggests.
+Before optimizing your learning approach, understand what productivity research actually shows. It's more nuanced than the marketing suggests.
 
 ### The Productivity Curve (Not a Straight Line)
 
@@ -122,9 +122,9 @@ Most developers experience three distinct phases:
 | **Targeted Gains** | 2-8 weeks | +20-50% | AI accelerates specific tasks you've learned to delegate effectively |
 | **Sustainable Plateau** | 3-6 months | +20-30% | Stable gains, but only for developers who already have strong fundamentals |
 
-**Critical nuance**: These gains are conditional. Studies show experienced developers (5+ years) see larger, sustained gains. Junior developers often see initial spikes followed by regression — because speed without understanding creates technical debt. A 2026 RCT ([Shen & Tamkin, Anthropic Fellows](https://arxiv.org/abs/2601.20245)) measured a **17% reduction in skills acquisition** when developers learned a new library with AI assistance (n=52, p=0.01) — with no significant time savings. Only ~20% of AI users (pure delegation pattern) finished faster, at the cost of learning almost nothing.
+**Critical nuance**: These gains are conditional. Studies show experienced developers (5+ years) see larger, sustained gains. Junior developers often see initial spikes followed by regression, because speed without understanding creates technical debt. A 2026 RCT ([Shen & Tamkin, Anthropic Fellows](https://arxiv.org/abs/2601.20245)) measured a **17% reduction in skills acquisition** when developers learned a new library with AI assistance (n=52, p=0.01), with no significant time savings. Only ~20% of AI users (pure delegation pattern) finished faster, at the cost of learning almost nothing.
 
-**AI-specific stress factor**: Nondeterministic outputs (identical prompts → varying results) create cognitive anxiety distinct from traditional debugging. This variability can trigger "AI fatigue" — mental exhaustion from unpredictable tool behavior that compounds over extended sessions. Mitigation: Time-box sessions (30 min max), limit retry attempts (3 max before reverting to manual implementation), and recognize when tool unpredictability signals a need for context reset (`/clear`) or manual problem-solving.
+**AI-specific stress factor**: Nondeterministic outputs (identical prompts → varying results) create cognitive anxiety distinct from traditional debugging. This variability can trigger "AI fatigue": mental exhaustion from unpredictable tool behavior that compounds over extended sessions. Mitigation: Time-box sessions (30 min max), limit retry attempts (3 max before reverting to manual implementation), and recognize when tool unpredictability signals a need for context reset (`/clear`) or manual problem-solving.
 
 ### Where AI Helps (And Where It Hurts)
 
@@ -153,23 +153,23 @@ The pattern: **AI excels at well-defined, repeatable tasks**. It struggles with 
 - Measuring velocity without measuring understanding
 - Skipping code review because "AI wrote it"
 
-The difference isn't the tool — it's the organizational discipline around it.
+The tool matters less than the organizational discipline around it.
 
-**The review bottleneck has inverted.** When code was expensive to produce, senior engineers could review it faster than juniors could write it — review was a quality gate. AI flips this: a junior can now generate code faster than a senior can critically audit it. The rate-limiting factor that historically kept review meaningful has been removed. What used to be a quality gate is now a throughput problem. Teams that don't account for this end up rubber-stamping AI-generated code at scale.
+**The review bottleneck has inverted.** When code was expensive to produce, senior engineers could review it faster than juniors could write it. Review was a quality gate. AI flips this: a junior can now generate code faster than a senior can critically audit it. The rate-limiting factor that historically kept review meaningful has been removed. What used to be a quality gate is now a throughput problem. Teams that don't account for this end up rubber-stamping AI-generated code at scale.
 
 **Verifying AI-produced code is becoming the higher-value skill, ahead of writing it from scratch.** This reframes systematic, rigorous review of an agent's output as the central competency worth developing, rather than raw typing speed.
 
 *Mehran Sahami, Stanford, "It's Never Too Late", 2025*
 
-> **For team leads**: If you're responsible for structuring this — onboarding, policies, growth measurement — jump to [§12 For Tech Leads & Engineering Managers](#for-tech-leads--engineering-managers).
+> **For team leads**: If you're responsible for structuring this (onboarding, policies, growth measurement), jump to [§12 For Tech Leads & Engineering Managers](#for-tech-leads--engineering-managers).
 
-**On maintainability fear**: The concern that AI-generated code creates unmaintainable codebases is not empirically supported — downstream developers show no significant difference in evolution time or code quality (Borg et al., 2025, n=151). The real risks are skill atrophy and over-delegation, not inherent quality degradation for the next developer. ([arXiv:2507.00788](https://arxiv.org/abs/2507.00788))
+**On maintainability fear**: The concern that AI-generated code creates unmaintainable codebases is not empirically supported: downstream developers show no significant difference in evolution time or code quality (Borg et al., 2025, n=151). The real risks are skill atrophy and over-delegation, not inherent quality degradation for the next developer. ([arXiv:2507.00788](https://arxiv.org/abs/2507.00788))
 
 ### Implications for Learning
 
 This research shapes the rest of this guide:
 
-1. **The 70/30 rule** (§5) isn't arbitrary — it's calibrated to where AI helps vs. hurts learning
+1. **The 70/30 rule** (§5) is calibrated to where AI helps vs. hurts learning, not arbitrary
 2. **The Three Patterns** below map to these productivity outcomes
 3. **Breaking Dependency** (§6) addresses the junior developer trap specifically
 
@@ -208,7 +208,7 @@ Every developer using AI falls into one of three patterns:
 
 **How you got here**: Purist mindset, fear of "cheating", learned before AI tools existed, distrust of new technology.
 
-**The trap**: You're slower than peers. You spend hours on problems AI solves instantly. You're not learning faster by struggling more — you're just slower.
+**The trap**: You're slower than peers. You spend hours on problems AI solves instantly. Struggling more doesn't make you learn faster. It just makes you slower.
 
 **What teams see**:
 - Reinventing wheels unnecessarily
@@ -243,9 +243,9 @@ A systematic approach to using AI without losing your edge.
 
 ---
 
-### U — Understand First (The 15-Minute Rule)
+### U: Understand First (The 15-Minute Rule)
 
-**Not just "think for 15 minutes"** — a specific protocol:
+**Not just "think for 15 minutes"**, a specific protocol:
 
 #### Step 1: State the Problem (2 min)
 
@@ -274,7 +274,7 @@ Before moving forward, pause and assess your cognitive state:
 
 - **Session duration**: Been working >30 min? → Take a 5-min break, consider `/clear` to reset context
 - **Retry count**: Tried the same prompt 3+ times with inconsistent results? → Switch to manual implementation
-- **Frustration level**: Feeling anxious about unpredictable AI responses? → This is "AI fatigue" (nondeterminism stress), not your fault — it's the tool's inherent variability
+- **Frustration level**: Feeling anxious about unpredictable AI responses? → This is "AI fatigue" (nondeterminism stress), not your fault: it's the tool's inherent variability
 
 This checkpoint prevents compounding exhaustion from extended sessions with diminishing returns.
 
@@ -320,7 +320,7 @@ If I skip these, remind me to think first.
 
 ---
 
-### V — Verify (Explain It Back)
+### V: Verify (Explain It Back)
 
 **The rule**: If you can't explain the code to a colleague, you haven't learned it.
 
@@ -382,7 +382,7 @@ See [/learn:quiz command](../../examples/commands/learn/quiz.md) for a more comp
 
 ---
 
-### A — Apply (Transform, Don't Copy)
+### A: Apply (Transform, Don't Copy)
 
 **The rule**: Never copy-paste AI code directly. Always modify something.
 
@@ -401,10 +401,10 @@ Modification forces engagement. Even small changes require understanding:
 
 Always do at least ONE:
 
-1. **Rename** — Change variable names to match your project conventions
-2. **Restructure** — Extract a helper function, change iteration method
-3. **Extend** — Add an edge case, validation, or error handling
-4. **Simplify** — Remove features you don't need
+1. **Rename**: Change variable names to match your project conventions
+2. **Restructure**: Extract a helper function, change iteration method
+3. **Extend**: Add an edge case, validation, or error handling
+4. **Simplify**: Remove features you don't need
 
 #### Example
 
@@ -434,9 +434,9 @@ Now you've engaged with the code, added your own thinking, and learned something
 
 ---
 
-### L — Learn (Capture the Insight)
+### L: Learn (Capture the Insight)
 
-**Not a daily journal** — nobody maintains those. Instead: automated capture.
+**Not a daily journal**: nobody maintains those. Instead: automated capture.
 
 #### The One-Thing Rule
 
@@ -470,7 +470,7 @@ Claude Code has specific features that support learning. Here's how to configure
 
 ### Start Here: /powerup
 
-Before configuring anything, run `/powerup`. It's a built-in command that walks you through Claude Code's core features via interactive animated lessons — each one short, hands-on, and designed to show rather than tell. Start here if you've never done a structured onboarding of the tool.
+Before configuring anything, run `/powerup`. It's a built-in command that walks you through Claude Code's core features via interactive animated lessons, each one short, hands-on, and designed to show rather than tell. Start here if you've never done a structured onboarding of the tool.
 
 ### CLAUDE.md Configuration for Learning Mode
 
@@ -509,7 +509,7 @@ Full template: [examples/claude-md/learning-mode.md](../../examples/claude-md/le
 
 | Command | Purpose | When to Use |
 |---------|---------|-------------|
-| `/explain` | Explain existing code | Built-in — use on any confusing code |
+| `/explain` | Explain existing code | Built-in: use on any confusing code |
 | `/learn:quiz` | Test your understanding | After implementing a new concept |
 | `/learn:alternatives` | Show other approaches | When you want to understand trade-offs |
 | `/learn:teach <concept>` | Step-by-step explanation | When learning something new |
@@ -621,10 +621,10 @@ The key: Don't use AI heavily when learning NEW concepts. Use it heavily when ap
 
 Apply the UVAL protocol (§4) to every interaction:
 
-1. **Understand** — 15-minute rule before asking
-2. **Verify** — Explain every line back
-3. **Apply** — Transform, don't copy
-4. **Learn** — Capture one insight per session
+1. **Understand**: 15-minute rule before asking
+2. **Verify**: Explain every line back
+3. **Apply**: Transform, don't copy
+4. **Learn**: Capture one insight per session
 
 ### Red Flags You're Slipping
 
@@ -700,7 +700,7 @@ Before AI generates code, predict the approach:
 
 ```
 My prediction: This will probably use reduce() with an accumulator
-Then compare to AI output — learn from differences
+Then compare to AI output, learn from differences
 ```
 
 #### Teaching Mode
@@ -809,8 +809,8 @@ A French educational platform (middle/high school) applies these principles at s
 
 Applied to coding:
 - **Rigor**: Don't accept code you can't explain
-- **Kindness**: AI is a tool, not a judge — use it without guilt
-- **Equity**: Everyone can learn, pace varies — don't compare yourself to others
+- **Kindness**: AI is a tool, not a judge. Use it without guilt
+- **Equity**: Everyone can learn, pace varies. Don't compare yourself to others
 
 → [methode-aristote.fr](https://www.methode-aristote.fr/)
 
@@ -831,18 +831,18 @@ The combination of **human accountability + AI practice** beats either alone. Th
 
 ## Where Are You on the Agent Adoption Curve?
 
-> **Audience**: Developers already using Claude Code who want to gauge their current sophistication — not beginners starting from scratch (use the 30-Day Plan below for that).
+> **Audience**: Developers already using Claude Code who want to gauge their current sophistication, not beginners starting from scratch (use the 30-Day Plan below for that).
 
 Before picking a learning path, locate yourself. Nicolas Martignole (Principal Engineer at Back Market) proposed a 6-level maturity scale in March 2026 that maps well onto practical Claude Code usage. The levels below are adapted from his framework, with the upper half (3-5) being where most of this guide's content lives.
 
 | Level | Profile | Signal |
 |-------|---------|--------|
 | **0** | Never used AI dev tools | Using chatbots at most, nothing integrated in workflow |
-| **1** | Editor autocomplete | Cursor, Copilot, Windsurf — but no agent-level usage |
+| **1** | Editor autocomplete | Cursor, Copilot, Windsurf, but no agent-level usage |
 | **2** | External LLM, copy-paste | ChatGPT or Claude in browser, pasting code manually into editor |
 | **3** | Claude Code basic user | Running Plan mode, simple prompts, reviewing everything manually |
-| **4** | Stage delegator | Handing off full development stages (research, architecture, implementation, tests) — writing less than 10% of code manually |
-| **5** | Context engineer | Designing CLAUDE.md, sub-agents, custom skills, MCP servers — building the environment for agents to operate in |
+| **4** | Stage delegator | Handing off full development stages (research, architecture, implementation, tests), writing less than 10% of code manually |
+| **5** | Context engineer | Designing CLAUDE.md, sub-agents, custom skills, MCP servers, building the environment for agents to operate in |
 | **6** | Orchestrator | Coordinating agent graphs, reinforcement loops, distributed agent systems |
 
 **Quick self-placement questions:**
@@ -872,7 +872,7 @@ A concrete path from wherever you are to augmented developer.
 | 3 | Review: Explain your code out loud | 0% |
 | 4-5 | Refactor with AI review (not generation) | 20% |
 | 6 | Debug issue without AI | 0% |
-| 7 | Rest/reflection | — |
+| 7 | Rest/reflection | N/A |
 
 **Success criteria**: Can explain every line you wrote.
 
@@ -886,7 +886,7 @@ A concrete path from wherever you are to augmented developer.
 | 3 | Write code, AI reviews, you fix | 30% |
 | 4-5 | AI explains new concept, you implement | 40% |
 | 6 | Quiz yourself on week's concepts | 10% |
-| 7 | Rest/reflection | — |
+| 7 | Rest/reflection | N/A |
 
 **Success criteria**: Can modify AI-generated code confidently.
 
@@ -900,7 +900,7 @@ A concrete path from wherever you are to augmented developer.
 | 3 | Find bugs in AI-generated code | 50% |
 | 4-5 | Complex feature with AI assistance | 60% |
 | 6 | Explain entire feature to rubber duck | 10% |
-| 7 | Rest/reflection | — |
+| 7 | Rest/reflection | N/A |
 
 **Success criteria**: Can identify when AI is wrong.
 
@@ -912,7 +912,7 @@ A concrete path from wherever you are to augmented developer.
 |-----|----------|----------|
 | 1-5 | Real project work with UVAL protocol | 70% |
 | 6 | Review: What did you learn this week? | 10% |
-| 7 | Plan next learning goals | — |
+| 7 | Plan next learning goals | N/A |
 
 **Success criteria**: Fast AND you understand everything.
 
@@ -922,7 +922,7 @@ A concrete path from wherever you are to augmented developer.
 
 > **Audience**: Engineering managers, tech leads, senior developers responsible for junior mentoring.
 >
-> **Problem**: The rest of this guide addresses individual developers. This section addresses the people responsible for creating the conditions where good habits form — or don't.
+> **Problem**: The rest of this guide addresses individual developers. This section addresses the people responsible for creating the conditions where good habits form, or don't.
 
 The UVAL protocol solves the individual problem. The organizational problem is different: how do you create conditions where juniors *want to* think before they prompt, where quality isn't traded for velocity, and where AI-generated debt doesn't accumulate silently at team scale?
 
@@ -936,12 +936,12 @@ AI access without structured training produces poor results. A 2025 Create Futur
 
 | Week | Focus | Avoid |
 |------|-------|-------|
-| 1 | Codebase tour without AI — baseline assessment | Granting Copilot access on day one |
+| 1 | Codebase tour without AI: baseline assessment | Granting Copilot access on day one |
 | 2 | First features manually, AI as reviewer only | AI as generator before fundamentals are visible |
 | 3 | UVAL protocol introduction + supervised pair sessions | Solo AI usage without check-ins |
 | 4+ | Full AI usage with weekly understanding check-ins | Unmonitored velocity as success metric |
 
-Week 1 without AI isn't a punishment. It's calibration. You need to see what they actually know before AI masks the gaps. A junior who struggles week 1 needs different mentoring than one who ships confidently — and you can't distinguish them if they both use AI from day one.
+Week 1 without AI isn't a punishment. It's calibration. You need to see what they actually know before AI masks the gaps. A junior who struggles week 1 needs different mentoring than one who ships confidently, and you can't distinguish them if they both use AI from day one.
 
 ---
 
@@ -961,7 +961,7 @@ Velocity is a lagging indicator. It shows nothing about the skills gap forming u
 
 **Weekly growth question** (5 minutes, any format):
 
-> "What's one thing you understood deeply this week — not just shipped?"
+> "What's one thing you understood deeply this week, not just shipped?"
 
 If they struggle to answer two weeks in a row, that's your signal to slow down.
 
@@ -977,7 +977,7 @@ Two juniors work together with AI. The constraint: neither can accept AI code th
 
 **2. Architecture "hot seat" (15 min/week)**
 
-Any junior can request a 15-minute slot to explain an architectural decision they made. Senior gives one piece of feedback. No code review — just the *why* behind the choice. Scales to N juniors with O(N×15min) senior time, and forces juniors to develop architectural reasoning rather than just copy AI solutions.
+Any junior can request a 15-minute slot to explain an architectural decision they made. Senior gives one piece of feedback. No code review: just the *why* behind the choice. Scales to N juniors with O(N×15min) senior time, and forces juniors to develop architectural reasoning rather than just copy AI solutions.
 
 **3. Collective CLAUDE.md ownership**
 
@@ -991,7 +991,7 @@ Juniors propose additions to the team `CLAUDE.md`. Proposals must be based on so
 
 Two levels, each with a distinct purpose.
 
-**Level 1 — Delivery health (DORA-derived)**
+**Level 1: Delivery health (DORA-derived)**
 
 | Metric | What It Tells You |
 |--------|------------------|
@@ -1001,7 +1001,7 @@ Two levels, each with a distinct purpose.
 
 These are standard. Track them regardless of AI usage. The problem is they're not enough.
 
-**Level 2 — AI adoption quality**
+**Level 2: AI adoption quality**
 
 | Metric | How to Measure |
 |--------|---------------|
@@ -1040,7 +1040,7 @@ Individual `CLAUDE.md` configuration (§6) is for one developer. Team-level poli
 
 ### Required after AI generates code
 - All AI-generated code undergoes the same code review as human code
-- Reviewer asks: "Can you explain this section?" for junior PRs — not optional
+- Reviewer asks: "Can you explain this section?" for junior PRs, not optional
 
 ### Prohibited patterns
 - Accepting AI changes without reading the diff
@@ -1058,8 +1058,8 @@ Start minimal. Add rules only when a pattern becomes a problem. A six-page polic
 |---------|---------------|----------|
 | PRs merged faster each week, quality dropping | Probably skipping review | Add mandatory "explain this" checklist for junior PRs |
 | Juniors never ask architectural questions | Over-delegating thinking to AI | Architecture hot seat (see above) |
-| Bugs consistently blamed on "AI-generated code" | No code ownership | Review acceptance policy — who's responsible for what they ship? |
-| Senior devs increasingly vocal about code quality | Debt accumulating silently | Slow down — introduce "explain this" gates before merge |
+| Bugs consistently blamed on "AI-generated code" | No code ownership | Review acceptance policy: who's responsible for what they ship? |
+| Senior devs increasingly vocal about code quality | Debt accumulating silently | Slow down, introduce "explain this" gates before merge |
 | Same fundamental question asked every sprint | Not retaining, just re-prompting | Require learning log, review at 1:1s |
 | Junior velocity rises but interview performance falls | The Shen & Tamkin effect at team scale | Reset with week of no-AI exercises on known fundamentals |
 
@@ -1093,13 +1093,13 @@ Warning Signs
 
 ### Regulatory Exposure (Regulated Industries)
 
-For teams shipping AI-generated code into healthcare, finance, or government systems, comprehension debt is no longer just a quality risk — it is a compliance risk.
+For teams shipping AI-generated code into healthcare, finance, or government systems, comprehension debt is no longer just a quality risk: it is a compliance risk.
 
-The **EU AI Act** classifies healthcare AI systems as high-risk, with mandatory human oversight requirements active since August 2, 2025 for general-purpose AI models and fully applicable from August 2, 2026 (medical devices: August 2027). Non-compliance carries penalties up to 6% of global annual turnover. The requirement for "meaningful human oversight" of AI outputs creates an implicit obligation to actually understand what your team is shipping — "the model wrote it" does not satisfy the standard.
+The **EU AI Act** classifies healthcare AI systems as high-risk, with mandatory human oversight requirements active since August 2, 2025 for general-purpose AI models and fully applicable from August 2, 2026 (medical devices: August 2027). Non-compliance carries penalties up to 6% of global annual turnover. The requirement for "meaningful human oversight" of AI outputs creates an implicit obligation to actually understand what your team is shipping: "the model wrote it" does not satisfy the standard.
 
 The **FDA's January 2025 draft guidance** for AI-enabled device software functions mandates AI Bill of Materials (AIBOMs), data lineage documentation, and post-market monitoring plans. The June 2025 cybersecurity guidance adds third-party component transparency requirements. A team that cannot explain the behavior of AI-generated code in a medical device submission is not compliant with this guidance.
 
-**Practical consequence for tech leads**: If your team is building in a regulated space, the "explain this" gate in code review is not a learning exercise — it is a documentation requirement. Reviewers who rubber-stamp AI-generated code are creating liability, not just technical risk. This is worth stating explicitly in your team AI policy.
+**Practical consequence for tech leads**: If your team is building in a regulated space, the "explain this" gate in code review functions as a documentation requirement, not merely a learning exercise. Reviewers who rubber-stamp AI-generated code are creating liability, not just technical risk. This is worth stating explicitly in your team AI policy.
 
 ---
 
@@ -1213,12 +1213,12 @@ Warning signs you're becoming dependent, and what to do:
 | Can't start without AI | Outsourced problem decomposition | Code 30 min daily without AI |
 | Don't understand AI's code | Copying without learning | Use `/explain-back` on EVERYTHING |
 | Can't debug AI errors | Never learned debugging | Deliberately break code, fix manually |
-| Anxiety without AI | Emotional dependence | It's a tool, not a lifeline — practice without |
+| Anxiety without AI | Emotional dependence | It's a tool, not a lifeline, practice without |
 | Rejected in interviews | Fundamentals atrophied | Practice whiteboard problems without AI |
 | Always ask "how" never "why" | Surface-level usage | Force yourself to ask "why this approach?" |
 | Every solution looks the same | AI has patterns, you need variety | Study multiple implementations manually |
-| Task feels easy but you can't explain it | **Perception gap** — AI users rate tasks easier while scoring 17% lower ([Shen & Tamkin 2026](https://arxiv.org/abs/2601.20245)) | After each task, explain the solution without looking at code |
-| Prolonged sessions without breaks | **Session fatigue** — identical prompts yield varying outputs, causing anxiety | Time-box sessions: 30 min limit, max 3 attempts before manual implementation |
+| Task feels easy but you can't explain it | **Perception gap**: AI users rate tasks easier while scoring 17% lower ([Shen & Tamkin 2026](https://arxiv.org/abs/2601.20245)) | After each task, explain the solution without looking at code |
+| Prolonged sessions without breaks | **Session fatigue**: identical prompts yield varying outputs, causing anxiety | Time-box sessions: 30 min limit, max 3 attempts before manual implementation |
 
 ### Weekly Self-Audit
 
@@ -1237,28 +1237,28 @@ If you're faster but not smarter, you're building dependency.
 
 ### Academic Research
 
-- **GitHub Copilot Impact Study (2024)** — [dl.acm.org](https://dl.acm.org/doi/10.1145/3613904.3642394) — Found productivity gains but identified skill atrophy risks in junior developers
-- **Student Dependency Patterns in AI-Assisted Learning** — IACIS 2024 — Documented "learned helplessness" in students over-reliant on AI
-- **Junior Developer Career Trajectories with AI Tools** — Software Engineering Institute — 3-year longitudinal study on skill development
-- **AI Impacts on Skill Formation (Shen & Tamkin, 2026)** — [arXiv:2601.20245](https://arxiv.org/abs/2601.20245) — Anthropic Fellows RCT (52 devs learning Python Trio with/without GPT-4o): AI group scored 17% lower on skills quiz (Cohen's d=0.738, p=0.01) with no significant speed gain. Identified 6 interaction patterns — 3 preserving learning (conceptual inquiry, hybrid explanation, generation-then-comprehension) via active cognitive engagement.
+- **GitHub Copilot Impact Study (2024)** ([dl.acm.org](https://dl.acm.org/doi/10.1145/3613904.3642394)): Found productivity gains but identified skill atrophy risks in junior developers
+- **Student Dependency Patterns in AI-Assisted Learning** (IACIS 2024): Documented "learned helplessness" in students over-reliant on AI
+- **Junior Developer Career Trajectories with AI Tools** (Software Engineering Institute): 3-year longitudinal study on skill development
+- **AI Impacts on Skill Formation (Shen & Tamkin, 2026)** ([arXiv:2601.20245](https://arxiv.org/abs/2601.20245)): Anthropic Fellows RCT (52 devs learning Python Trio with/without GPT-4o): AI group scored 17% lower on skills quiz (Cohen's d=0.738, p=0.01) with no significant speed gain. Identified 6 interaction patterns, 3 preserving learning (conceptual inquiry, hybrid explanation, generation-then-comprehension) via active cognitive engagement.
 
 ### Industry Reports
 
-- **Stack Overflow Developer Survey 2025** — AI tool adoption and perceived impact on learning
-- **State of Developer Ecosystem 2025** — JetBrains — AI usage patterns by experience level
-- **GitHub Octoverse 2025** — Code generation adoption rates and practices
+- **Stack Overflow Developer Survey 2025**: AI tool adoption and perceived impact on learning
+- **State of Developer Ecosystem 2025** (JetBrains): AI usage patterns by experience level
+- **GitHub Octoverse 2025**: Code generation adoption rates and practices
 
 ### Productivity Research
 
 Sources for [§3 The Reality of AI Productivity](#the-reality-of-ai-productivity):
 
-- **GitHub Copilot Productivity Study (2024)** — [GitHub Blog](https://github.blog/news-insights/research/research-quantifying-github-copilots-impact-in-the-enterprise-with-accenture/) — Enterprise productivity measurements with Accenture
-- **McKinsey Developer Productivity Report (2024)** — [mckinsey.com](https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/unleashing-developer-productivity-with-generative-ai) — Comprehensive analysis of AI impact across dev workflows
-- **Stack Overflow 2024: AI Sentiment** — [stackoverflow.co](https://stackoverflow.co/labs/developer-sentiment-ai-ml/) — Developer attitudes toward AI tools, productivity perceptions
-- **Uplevel Engineering Intelligence (2024)** — Burnout and productivity metrics with AI coding tools
-- **METR Experienced Developer RCT (2025)** — [arXiv:2507.09089](https://arxiv.org/abs/2507.09089) — Randomized controlled trial (16 experienced devs, 246 issues, repos 1M+ lines): AI tools made developers 19% slower on familiar codebases, despite perceiving themselves 20% faster (39-point perception gap). Strongest evidence for skill atrophy risk in experienced developers.
-- **Borg et al. "Echoes of AI" RCT (2025)** — [arXiv:2507.00788](https://arxiv.org/abs/2507.00788) — 2-phase blind RCT (151 participants, 95% professional developers): AI users 30.7% faster (median), habitual users ~55.9% faster. Phase 2: downstream developers evolving AI-generated code showed no significant difference in evolution time or code quality vs. human-generated code. First RCT to explicitly target maintainability of AI-assisted code. Co-authored by Dave Farley ("Continuous Delivery"). Note: arXiv preprint (v2 Dec 2025), not yet published in peer-reviewed proceedings.
-- **DORA/Google DevOps Research (2024)** — AI tool adoption impact on team performance
+- **GitHub Copilot Productivity Study (2024)** ([GitHub Blog](https://github.blog/news-insights/research/research-quantifying-github-copilots-impact-in-the-enterprise-with-accenture/)): Enterprise productivity measurements with Accenture
+- **McKinsey Developer Productivity Report (2024)** ([mckinsey.com](https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/unleashing-developer-productivity-with-generative-ai)): Comprehensive analysis of AI impact across dev workflows
+- **Stack Overflow 2024: AI Sentiment** ([stackoverflow.co](https://stackoverflow.co/labs/developer-sentiment-ai-ml/)): Developer attitudes toward AI tools, productivity perceptions
+- **Uplevel Engineering Intelligence (2024)**: Burnout and productivity metrics with AI coding tools
+- **METR Experienced Developer RCT (2025)** ([arXiv:2507.09089](https://arxiv.org/abs/2507.09089)): Randomized controlled trial (16 experienced devs, 246 issues, repos 1M+ lines): AI tools made developers 19% slower on familiar codebases, despite perceiving themselves 20% faster (39-point perception gap). Strongest evidence for skill atrophy risk in experienced developers.
+- **Borg et al. "Echoes of AI" RCT (2025)** ([arXiv:2507.00788](https://arxiv.org/abs/2507.00788)): 2-phase blind RCT (151 participants, 95% professional developers): AI users 30.7% faster (median), habitual users ~55.9% faster. Phase 2: downstream developers evolving AI-generated code showed no significant difference in evolution time or code quality vs. human-generated code. First RCT to explicitly target maintainability of AI-assisted code. Co-authored by Dave Farley ("Continuous Delivery"). Note: arXiv preprint (v2 Dec 2025), not yet published in peer-reviewed proceedings.
+- **DORA/Google DevOps Research (2024)**: AI tool adoption impact on team performance
 
 ### Review Load, Cognition & Recovery
 
@@ -1290,24 +1290,24 @@ Sources for [§14 The Apprenticeship Ladder Ran Through the Writing Phase](#the-
 
 ### Team & Organizational Research
 
-- **Create Future: AI Training Impact on Junior Developers (2025)** — Structured AI training raises junior time savings from 14-42% (untrained) to 35-65% (trained) on key tasks. Source for [§12 Onboarding Imperative](#the-onboarding-imperative).
-- **Stanford Digital Economy Study (2025)** — Software developer employment for ages 22-25 declined ~20% by July 2025. Context for the urgency of structured junior development. [understandingai.org analysis](https://www.understandingai.org/p/new-evidence-strongly-suggest-ai). Note: this figure is software-developer-specific and comes from a secondary analysis of an earlier draft. The November 2025 published paper reports ~16% for ages 22-25 across all most-exposed occupations, cited in full under [Junior Pipeline & Labour Market](#junior-pipeline--labour-market).
-- **LeadDev: Tech CEOs reckon with AI impact on junior developers (2025)** — [leaddev.com](https://leaddev.com/leadership/tech-ceos-reckon-with-impact-junior-developers) — Organizational perspectives from engineering leaders on structuring junior growth in AI-heavy teams.
-- **Stack Overflow: AI vs Gen Z (2025)** — [stackoverflow.blog](https://stackoverflow.blog/2025/12/26/ai-vs-gen-z/) — Career pathway shifts for junior developers with AI adoption data by experience level.
+- **Create Future: AI Training Impact on Junior Developers (2025)**: Structured AI training raises junior time savings from 14-42% (untrained) to 35-65% (trained) on key tasks. Source for [§12 Onboarding Imperative](#the-onboarding-imperative).
+- **Stanford Digital Economy Study (2025)**: Software developer employment for ages 22-25 declined ~20% by July 2025. Context for the urgency of structured junior development. [understandingai.org analysis](https://www.understandingai.org/p/new-evidence-strongly-suggest-ai). Note: this figure is software-developer-specific and comes from a secondary analysis of an earlier draft. The November 2025 published paper reports ~16% for ages 22-25 across all most-exposed occupations, cited in full under [Junior Pipeline & Labour Market](#junior-pipeline--labour-market).
+- **LeadDev: Tech CEOs reckon with AI impact on junior developers (2025)** ([leaddev.com](https://leaddev.com/leadership/tech-ceos-reckon-with-impact-junior-developers)): Organizational perspectives from engineering leaders on structuring junior growth in AI-heavy teams.
+- **Stack Overflow: AI vs Gen Z (2025)** ([stackoverflow.blog](https://stackoverflow.blog/2025/12/26/ai-vs-gen-z/)): Career pathway shifts for junior developers with AI adoption data by experience level.
 
 ### Practitioner Perspectives
 
-- **Anthropic Claude Code Best Practices** — [anthropic.com](https://www.anthropic.com/engineering/claude-code-best-practices) — Official guidance on effective usage
-- **ThoughtWorks Technology Radar** — AI-assisted development maturity model
-- **Martin Fowler on AI Pair Programming** — Patterns for effective human-AI collaboration
-- **OCTO Technology: Le développement à l'ère des agents IA** — [blog.octo.com](https://blog.octo.com/le-developpement-logiciel-a-l-ere-des-agents-ia) — Organizational perspective on AI-augmented development: pairs as minimal team unit (bus factor), bottleneck shifts from technical to functional requirements, junior developer integration via pair programming and deliberate practice. Managerial focus — useful context for team leads.
-- **Matteo Collina: The Human in the Loop** — [adventures.nodeland.dev](https://adventures.nodeland.dev/archive/the-human-in-the-loop/) — Node.js TSC Chair on the bottleneck shift from coding to reviewing. Response to Arnaldi's "Death of Software Development." Key thesis: AI amplifies productivity, but judgment and accountability remain human responsibilities. Quote: "The human in the loop isn't a limitation. It's the point." See [detailed analysis](../ecosystem/ai-ecosystem.md#matteo-collina-nodejs-tsc-chair).
+- **Anthropic Claude Code Best Practices** ([anthropic.com](https://www.anthropic.com/engineering/claude-code-best-practices)): Official guidance on effective usage
+- **ThoughtWorks Technology Radar**: AI-assisted development maturity model
+- **Martin Fowler on AI Pair Programming**: Patterns for effective human-AI collaboration
+- **OCTO Technology: Le développement à l'ère des agents IA** ([blog.octo.com](https://blog.octo.com/le-developpement-logiciel-a-l-ere-des-agents-ia)): Organizational perspective on AI-augmented development: pairs as minimal team unit (bus factor), bottleneck shifts from technical to functional requirements, junior developer integration via pair programming and deliberate practice. Managerial focus, useful context for team leads.
+- **Matteo Collina: The Human in the Loop** ([adventures.nodeland.dev](https://adventures.nodeland.dev/archive/the-human-in-the-loop/)): Node.js TSC Chair on the bottleneck shift from coding to reviewing. Response to Arnaldi's "Death of Software Development." Key thesis: AI amplifies productivity, but judgment and accountability remain human responsibilities. Quote: "The human in the loop isn't a limitation. It's the point." See [detailed analysis](../ecosystem/ai-ecosystem.md#matteo-collina-nodejs-tsc-chair).
 
 ### Educational Frameworks
 
-- **Méthode Aristote** — [methode-aristote.fr](https://www.methode-aristote.fr/) — Hybrid human+AI tutoring model
-- **Bloom's Taxonomy Applied to AI Learning** — Cognitive levels in AI-assisted education
-- **Zone of Proximal Development with AI** — Vygotsky's theory applied to AI scaffolding
+- **Méthode Aristote** ([methode-aristote.fr](https://www.methode-aristote.fr/)): Hybrid human+AI tutoring model
+- **Bloom's Taxonomy Applied to AI Learning**: Cognitive levels in AI-assisted education
+- **Zone of Proximal Development with AI**: Vygotsky's theory applied to AI scaffolding
 
 ### Methodology References
 
@@ -1330,26 +1330,26 @@ Practitioner reports from real-world usage provide empirical validation of theor
 
 ### In This Guide
 
-- [AI Roles & Career Paths](./ai-roles.md) — Map of emerging AI roles (Prompt Engineer → Harness Engineer) with career matrix and salary benchmarks
-- [Methodologies: TDD with Claude](../core/methodologies.md#tier-5-implementation) — Write tests first, then implement
-- [Workflows: Spec-First](../workflows/spec-first.md) — Understand requirements before code
-- [Workflows: Plan-Driven](../workflows/plan-driven.md) — Use /plan mode for complex work
-- [Ultimate Guide: Mental Models](#26-mental-model) — How to think about Claude interactions
+- [AI Roles & Career Paths](./ai-roles.md): Map of emerging AI roles (Prompt Engineer → Harness Engineer) with career matrix and salary benchmarks
+- [Methodologies: TDD with Claude](../core/methodologies.md#tier-5-implementation): Write tests first, then implement
+- [Workflows: Spec-First](../workflows/spec-first.md): Understand requirements before code
+- [Workflows: Plan-Driven](../workflows/plan-driven.md): Use /plan mode for complex work
+- [Ultimate Guide: Mental Models](#26-mental-model): How to think about Claude interactions
 
 ### Templates & Examples
 
-- [Learning Mode CLAUDE.md](../../examples/claude-md/learning-mode.md) — Configuration template
-- [/learn:quiz Command](../../examples/commands/learn/quiz.md) — Self-testing slash command
-- [/learn:teach Command](../../examples/commands/learn/teach.md) — Step-by-step concept explanations
-- [/learn:alternatives Command](../../examples/commands/learn/alternatives.md) — Compare different approaches
-- [Learning Capture Hook](../../examples/hooks/bash/learning-capture.sh) — Automated insight logging
+- [Learning Mode CLAUDE.md](../../examples/claude-md/learning-mode.md): Configuration template
+- [/learn:quiz Command](../../examples/commands/learn/quiz.md): Self-testing slash command
+- [/learn:teach Command](../../examples/commands/learn/teach.md): Step-by-step concept explanations
+- [/learn:alternatives Command](../../examples/commands/learn/alternatives.md): Compare different approaches
+- [Learning Capture Hook](../../examples/hooks/bash/learning-capture.sh): Automated insight logging
 
 ### External Resources
 
-- [Anthropic Prompt Engineering Guide](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview) — Better prompts = better learning
-- [The Pragmatic Programmer](https://pragprog.com/titles/tpp20/the-pragmatic-programmer-20th-anniversary-edition/) — Timeless principles for deliberate practice
-- [AI for Engineers](https://leerob.com/ai) — AI fundamentals (ML, transformers, tokenization)
-- [Step by Token](https://www.stepbytoken.com/en) — 21-chapter interactive guide explaining how LLMs work mechanically, from tokenization through agents and KV cache. Free, in 8 languages. Pairs well with the prompt engineering and agents sections of this guide.
+- [Anthropic Prompt Engineering Guide](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview): Better prompts = better learning
+- [The Pragmatic Programmer](https://pragprog.com/titles/tpp20/the-pragmatic-programmer-20th-anniversary-edition/): Timeless principles for deliberate practice
+- [AI for Engineers](https://leerob.com/ai): AI fundamentals (ML, transformers, tokenization)
+- [Step by Token](https://www.stepbytoken.com/en): 21-chapter interactive guide explaining how LLMs work mechanically, from tokenization through agents and KV cache. Free, in 8 languages. Pairs well with the prompt engineering and agents sections of this guide.
 - [How to Build an Agent](https://ampcode.com/blog/how-to-build-an-agent) (Thorsten Ball, Amp), builds a minimal coding agent from scratch in ~300 lines: chat loop, tool definitions, agentic loop. The most-cited walkthrough of the same mechanism documented in [Architecture: The Master Loop](../core/architecture.md#1-the-master-loop), useful for readers who learn a mechanism better by building a toy version of it first.
 
 ---

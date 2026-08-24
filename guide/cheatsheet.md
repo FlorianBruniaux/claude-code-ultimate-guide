@@ -120,7 +120,7 @@ The ~35 below are the daily drivers. Claude Code ships about 100 built-in comman
 
 **Activate LSP**: Add to `~/.claude/settings.json` → `{ "env": { "ENABLE_LSP_TOOL": "1" } }` (requires LSP server installed for your language: `tsserver`, `pylsp`, `gopls`, `rust-analyzer`, `sourcekit-lsp`...)
 
-**Pro tip**: These aren't "secrets"—they're in the [CHANGELOG](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md). Read it!
+**Pro tip**: These are public, documented in the [CHANGELOG](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md). Read it!
 
 ---
 
@@ -236,11 +236,11 @@ Model: Sonnet | Ctx: 89.5k | Cost: $2.11 | Ctx(u): 56.0%
 
 | Concept | Key Point |
 |---------|-----------|
-| **Master Loop** | Simple `while(tool_call)` — no DAGs, no classifiers |
+| **Master Loop** | Simple `while(tool_call)`: no DAGs, no classifiers |
 | **Tools** | 8 core: Bash, Read, Edit, Write, Grep, Glob, Agent, TodoWrite ([full 40-tool reference](./core/tools-reference.md)) |
 | **Context** | ~200K tokens, auto-compacts at 75-92% |
 | **Sub-agents** | Isolated context, max depth=1 |
-| **Philosophy** | "Less scaffolding, more model" — trust Claude's reasoning |
+| **Philosophy** | "Less scaffolding, more model" (trust Claude's reasoning) |
 
 **Deep dive**: [Architecture & Internals](./core/architecture.md)
 
@@ -266,7 +266,7 @@ Model: Sonnet | Ctx: 89.5k | Cost: $2.11 | Ctx(u): 56.0%
 
 **Cost tip**: For simple tasks, Alt+T to disable thinking → faster & cheaper.
 
-**Per-skill effort** — add `effort: low` to mechanical skills (commit, sync, scaffold) and `effort: high` to analytical ones (security-audit, architecture-review). Overrides session setting automatically.
+**Per-skill effort**: add `effort: low` to mechanical skills (commit, sync, scaffold) and `effort: high` to analytical ones (security-audit, architecture-review). Overrides session setting automatically.
 
 **OpusPlan workflow**: `/model opusplan` → `Shift+Tab × 2` (plan with Opus) → `Shift+Tab` (execute with Sonnet)
 
@@ -362,7 +362,7 @@ tools: Read, Write, Edit, Bash
 # Instructions here
 ```
 
-### Skill — user-invocable (`.claude/skills/my-command/SKILL.md`)
+### Skill: user-invocable (`.claude/skills/my-command/SKILL.md`)
 ```markdown
 ---
 description: Brief description
@@ -524,9 +524,9 @@ claude -p "fix typos" --dangerously-skip-permissions
 
 ---
 
-## Remote Control — Mobile Access (v2.1.51+, Research Preview)
+## Remote Control: Mobile Access (v2.1.51+, Research Preview)
 
-> **Pro/Max only** — not available on Team, Enterprise, or API keys
+> **Pro/Max only**: not available on Team, Enterprise, or API keys
 
 ```bash
 # Start from terminal (new session)
@@ -615,7 +615,7 @@ CLAUDE_CODE_ENABLE_TASKS=false claude
 4. **Plan Mode first** for complex/risky tasks
 5. **Create CLAUDE.md** for every project
 6. **Commit frequently** after each completed task
-7. **Know what's sent** — prompts, files, MCP results → Anthropic ([opt-out training](https://claude.ai/settings/data-privacy-controls))
+7. **Know what's sent**: prompts, files, MCP results → Anthropic ([opt-out training](https://claude.ai/settings/data-privacy-controls))
 
 ---
 

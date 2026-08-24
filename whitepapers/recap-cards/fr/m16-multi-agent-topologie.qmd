@@ -91,11 +91,11 @@ Prérequis : Claude Code v2.1.32+, modèle Opus 4.8 recommandé, Opus 4.6+ compa
 
 Trois contrôles indispensables pour les équipes autonomes :
 
-**Boucles** — `MAX_ITERATIONS=8` et un prompt de réflexion obligatoire avant chaque cycle. Si l'agent atteint la limite, tuer ou réassigner plutôt que de laisser tourner.
+**Boucles** : `MAX_ITERATIONS=8` et un prompt de réflexion obligatoire avant chaque cycle. Si l'agent atteint la limite, tuer ou réassigner plutôt que de laisser tourner.
 
 **Reviewer dédié** : 1 agent Opus 4.8 read-only (outils `Read/Grep/Glob`) auto-déclenché sur `TaskCompleted`, pour 4 agents workers. Ratio 1:4. (Crédit : Addy Osmani)
 
-**Budget tokens par agent** — Fixer une limite stricte de tokens par agent ; pause automatique à 85% pour vérification humaine avant de continuer.
+**Budget tokens par agent** : fixer une limite stricte de tokens par agent ; pause automatique à 85% pour vérification humaine avant de continuer.
 
 ## Règle du >5 agents
 

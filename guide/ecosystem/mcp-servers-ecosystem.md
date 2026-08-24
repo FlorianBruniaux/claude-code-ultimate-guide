@@ -598,7 +598,7 @@ Result: Deployment scaled
 
 **Community server** for Vercel platform (deployments, projects, env vars, teams).
 
-**Use Case**: AI assistant generates Next.js code, creates Vercel project, configures env vars, triggers deployment — full CI/CD loop without leaving IDE.
+**Use Case**: AI assistant generates Next.js code, creates Vercel project, configures env vars, triggers deployment: full CI/CD loop without leaving IDE.
 
 **Key Features**:
 
@@ -652,14 +652,14 @@ npm install
 **License**: MIT
 **Maintainer**: Sentry (official)
 
-**Use Case**: A Sentry alert fires in prod. The engineer asks Claude: "What's causing SEN-4521?". Claude reads the full stack trace, traces the regression through the codebase, and drafts a fix — without leaving the IDE. The observability loop closes inside Claude Code.
+**Use Case**: A Sentry alert fires in prod. The engineer asks Claude: "What's causing SEN-4521?". Claude reads the full stack trace, traces the regression through the codebase, and drafts a fix, without leaving the IDE. The observability loop closes inside Claude Code.
 
 **Key Features**:
 
 | Tool | Description |
 |------|-------------|
 | `list_issues` | Fetch unresolved issues with Sentry query syntax (`is:unresolved level:error`) |
-| `get_issue` | Full issue details — stack trace, affected users, first/last seen timestamps |
+| `get_issue` | Full issue details: stack trace, affected users, first/last seen timestamps |
 | `get_event` | Specific event by ID, useful for time-scoped investigations |
 | `search_events` | Full-text search across raw events with field filters |
 | `list_projects` | List projects in your Sentry organization |
@@ -691,7 +691,7 @@ claude mcp add sentry -- npx -y @sentry/mcp-server
 }
 ```
 
-> Auth token: [sentry.io/settings/account/api/auth-tokens/](https://sentry.io/settings/account/api/auth-tokens/) — scopes needed: `project:read`, `event:read`, `org:read`
+> Auth token: [sentry.io/settings/account/api/auth-tokens/](https://sentry.io/settings/account/api/auth-tokens/), scopes needed: `project:read`, `event:read`, `org:read`
 
 **Example Usage**:
 
@@ -708,7 +708,7 @@ Result: NullPointerException in UserController.getProfile() at line 142.
   Opening a PR now.
 ```
 
-**Query Syntax** (critical for effective use — the most common source of call failures):
+**Query Syntax** (critical for effective use, the most common source of call failures):
 
 ```
 is:unresolved                         # unresolved issues only
@@ -720,7 +720,7 @@ assigned:me is:unresolved             # issues assigned to you
 !has:assignee is:unresolved           # unassigned issues
 ```
 
-> **Reference file**: `examples/skills/mcp-integration-reference/references/sentry-mcp.md` in this repo — complete parameter docs, gotchas, pagination patterns, and a curated noise-exclusion list. Copy it to your CLAUDE.md includes or project skills.
+> **Reference file**: `examples/skills/mcp-integration-reference/references/sentry-mcp.md` in this repo: complete parameter docs, gotchas, pagination patterns, and a curated noise-exclusion list. Copy it to your CLAUDE.md includes or project skills.
 
 **Quality Score**: **8.5/10** ⭐⭐⭐⭐⭐
 
@@ -747,7 +747,7 @@ assigned:me is:unresolved             # issues assigned to you
 | Tool | Best For | Not Worth It When |
 |------|----------|-------------------|
 | **Sentry MCP** | Error diagnosis loop: alert → stack trace → patch | Pure alerting (use webhooks or PagerDuty directly) |
-| **Datadog MCP** | APM, distributed traces, metrics dashboards | Error-only workflows — overengineered for that use case |
+| **Datadog MCP** | APM, distributed traces, metrics dashboards | Error-only workflows, overengineered for that use case |
 | **Bash + Sentry CLI** | Bulk operations, scripted data exports | Interactive debugging sessions |
 
 **Resources**:
@@ -973,7 +973,7 @@ Result: Call graph showing 4 callers across 3 files
 | Native Grep | Instant, exact patterns | No semantic understanding |
 | GitHub Code Search | Cloud-based, cross-repo | Requires GitHub, no call graphs |
 
-**Cross-reference**: See [ultimate-guide.md — MCP Servers: Grepai](../ultimate-guide.md) for detailed usage patterns, prompt strategies, and integration with other MCP servers.
+**Cross-reference**: See [ultimate-guide.md, MCP Servers: Grepai](../ultimate-guide.md) for detailed usage patterns, prompt strategies, and integration with other MCP servers.
 
 **Resources**:
 - **GitHub**: https://github.com/yoanbernabeu/grepai
@@ -1364,7 +1364,7 @@ proxy:
 - **GitHub**: https://github.com/PackmindHub/packmind
 - **Demo use cases**: https://github.com/PackmindHub/demo-use-case-skills
 
-> **Cross-ref**: Full tool evaluation in [third-party-tools.md — Engineering Standards Distribution](./third-party-tools.md#engineering-standards-distribution).
+> **Cross-ref**: Full tool evaluation in [third-party-tools.md, Engineering Standards Distribution](./third-party-tools.md#engineering-standards-distribution).
 
 ---
 
@@ -1407,7 +1407,7 @@ Different failure types warrant different recovery strategies. Structuring your 
 | Category | When | Claude's expected response | Example |
 |----------|------|---------------------------|---------|
 | **Transient** | Temporary unavailability, network flap, rate limit | Retry after a delay | `503 Service Unavailable`, timeout |
-| **Validation** | Bad input — wrong type, missing field, format error | Fix the input, retry immediately | `invalid date format: expected ISO8601` |
+| **Validation** | Bad input: wrong type, missing field, format error | Fix the input, retry immediately | `invalid date format: expected ISO8601` |
 | **Business** | Correct input but operation not permitted by domain rules | Escalate or skip | `cannot delete: record has active dependencies` |
 | **Permission** | Caller lacks authorization | Stop and explain to user | `403 Forbidden: insufficient scope` |
 
@@ -1446,7 +1446,7 @@ Transient errors are the only category where automatic retry makes sense. Valida
 
 ### Tool Description Design Patterns
 
-Tool descriptions are the most impactful part of an MCP server. Claude uses them to decide which tool to call — and a vague or overlapping description causes misrouting more reliably than any other design mistake.
+Tool descriptions are the most impactful part of an MCP server. Claude uses them to decide which tool to call. A vague or overlapping description causes misrouting more reliably than any other design mistake.
 
 **The core problem: overlapping descriptions cause misrouting**
 
@@ -1468,9 +1468,9 @@ The test: can you read the description alone and know exactly when NOT to use th
 
 A good tool description has three parts, in this order:
 
-1. **What it does** — one sentence, present tense, action verb
-2. **What it takes** — the key input type or constraint (file path vs string, single vs batch)
-3. **When to use it vs similar tools** — the decision boundary, explicitly stated
+1. **What it does**: one sentence, present tense, action verb
+2. **What it takes**: the key input type or constraint (file path vs string, single vs batch)
+3. **When to use it vs similar tools**: the decision boundary, explicitly stated
 
 ```json
 {
@@ -1488,12 +1488,12 @@ A good tool description has three parts, in this order:
 | Scope suffix | `list_tickets` vs `list_project_tickets` | Global vs scoped |
 | Action granularity | `create_record` vs `bulk_create_records` | One vs batch |
 
-Avoid synonyms as tool names — `fetch`, `get`, `retrieve` all mean the same thing to Claude. Pick one verb family per semantic operation.
+Avoid synonyms as tool names: `fetch`, `get`, `retrieve` all mean the same thing to Claude. Pick one verb family per semantic operation.
 
 **Anti-patterns to avoid**
 
 - **Generic verbs without scope**: `process`, `handle`, `manage` tell Claude nothing about when to call the tool
-- **Missing the boundary**: "Searches the database" — which database? All of it? A specific table?
+- **Missing the boundary**: "Searches the database." Which database? All of it? A specific table?
 - **Boolean flags that change semantics**: A tool that does completely different things based on a flag should be two tools
 - **Descriptions longer than 3 sentences**: If you need more, the tool does too much
 
@@ -1773,23 +1773,23 @@ Scoped access is particularly valuable for the `verify_fact` tool pattern: a sub
 
 **MVP (Essentials)**:
 
-1. **Playwright MCP** — E2E testing, web verification
-2. **Semgrep MCP** — Security-first coding
+1. **Playwright MCP**: E2E testing, web verification
+2. **Semgrep MCP**: Security-first coding
 
 **Important Additions**:
 
-3. **Context7 MCP** — API reference accuracy
-4. **Linear MCP** (optional) — Issue tracking integration
+3. **Context7 MCP**: API reference accuracy
+4. **Linear MCP** (optional): Issue tracking integration
 
 **DevOps/SRE Stack**:
 
-5. **Kubernetes MCP** — Cluster management
-6. **Vercel MCP** — Next.js deployment automation
+5. **Kubernetes MCP**: Cluster management
+6. **Vercel MCP**: Next.js deployment automation
 
 **Complex Setups**:
 
-7. **MCP-Compose** — Multi-server orchestration
-8. **Browserbase MCP** — Heavy web automation (premium)
+7. **MCP-Compose**: Multi-server orchestration
+8. **Browserbase MCP**: Heavy web automation (premium)
 
 ### Installation Examples
 

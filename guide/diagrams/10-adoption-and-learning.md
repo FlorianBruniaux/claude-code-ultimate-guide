@@ -1,5 +1,5 @@
 ---
-title: "Claude Code — Adoption & Learning Diagrams"
+title: "Claude Code: Adoption & Learning Diagrams"
 description: "Onboarding paths, UVAL learning protocol, trust calibration matrix"
 tags: [adoption, learning, onboarding, teams, trust]
 ---
@@ -89,7 +89,7 @@ Your background?
 
 ### UVAL Learning Protocol
 
-The UVAL protocol prevents the "copy-paste trap" — where you use Claude Code without understanding what it did. Each cycle builds real competency that survives tool unavailability.
+The UVAL protocol prevents the "copy-paste trap": using Claude Code without understanding what it did. Each cycle builds real competency that survives tool unavailability.
 
 ```mermaid
 flowchart LR
@@ -139,7 +139,7 @@ Anti-pattern (AVOID): Accept output → Deploy → Bug → "Claude broke it"
 
 </details>
 
-> **Source**: [Learning with AI](../roles/learning-with-ai.md) — Line ~127
+> **Source**: [Learning with AI](../roles/learning-with-ai.md), line ~127
 
 ---
 
@@ -219,7 +219,7 @@ Can I test it?
 
 </details>
 
-> **Source**: [Trust and Verification](../ultimate-guide.md#trust-verification) — Line ~1039
+> **Source**: [Trust and Verification](../ultimate-guide.md#trust-verification), line ~1039
 
 ---
 

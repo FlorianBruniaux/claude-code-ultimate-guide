@@ -31,7 +31,7 @@ esac
 exit 0
 ```
 
-Configurer en `async: true` — le formatage est cosmétique et ne doit pas bloquer Claude.
+Configurer en `async: true`, car le formatage est cosmétique et ne doit pas bloquer Claude.
 
 ## Notification macOS à la fin
 

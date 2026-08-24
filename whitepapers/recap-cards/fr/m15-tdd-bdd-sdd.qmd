@@ -40,7 +40,7 @@ Le cycle classique, rendu explicite dans les prompts pour éviter que Claude ne 
    rester verts."
 ```
 
-Être explicite sur "FAILING" et "n'existe pas encore" est essentiel — sinon Claude tend à écrire test et implémentation ensemble.
+Être explicite sur "FAILING" et "n'existe pas encore" compte, sinon Claude tend à écrire test et implémentation ensemble.
 
 ## BDD avec Claude : Given/When/Then
 

@@ -1,6 +1,6 @@
 ---
 title: "Modes de Permission"
-subtitle: "Contrôle des accès outils — du plus sûr au plus permissif"
+subtitle: "Contrôle des accès outils, du plus sûr au plus permissif"
 card-number: "T03"
 category: "Technique"
 guide-version: "3.41.1"
@@ -28,7 +28,7 @@ format:
 
 **Activation en CLI :** `claude --permission-mode <mode>` accepte `default`, `plan`, `acceptEdits`, `bypassPermissions`. **Activation persistante :** clé `permissions.defaultMode` dans `settings.json`.
 
-**Note :** `--dangerously-skip-permissions` skippe aussi le répertoire `.claude/` (v2.1.121). Le mode `auto` s'appuie sur un modèle classifieur qui évalue chaque appel d'outil avant exécution — friction en moins, pas une frontière de sécurité.
+**Note :** `--dangerously-skip-permissions` skippe aussi le répertoire `.claude/` (v2.1.121). Le mode `auto` s'appuie sur un modèle classifieur qui évalue chaque appel d'outil avant exécution : friction en moins, pas une frontière de sécurité.
 
 ## Whitelist d'Outils
 
@@ -66,10 +66,10 @@ claude --allowedTools "Read,Edit,Bash(git*)"
 
 Les permissions se cumulent et s'héritent dans cet ordre :
 
-1. `~/.claude/settings.json` — global user
-2. `.claude/settings.json` — projet (partagé)
-3. `.claude/settings.local.json` — projet (local, gitignored)
-4. Flags CLI — session uniquement
+1. `~/.claude/settings.json` : global user
+2. `.claude/settings.json` : projet (partagé)
+3. `.claude/settings.local.json` : projet (local, gitignored)
+4. Flags CLI : session uniquement
 
 ## Glob Patterns pour Bash
 
@@ -86,11 +86,11 @@ Les permissions se cumulent et s'héritent dans cet ordre :
 
 ## Bonnes Pratiques
 
-**CI/CD** — Toujours utiliser `--dangerously-skip-permissions` avec un environnement sandboxé (Docker, container éphémère). Ne jamais sur une machine de production partagée.
+**CI/CD** : toujours utiliser `--dangerously-skip-permissions` avec un environnement sandboxé (Docker, container éphémère). Ne jamais sur une machine de production partagée.
 
-**Projets sensibles** — Restreindre les outils Bash avec des globs précis dans `.claude/settings.json`. Committer ce fichier pour que toute l'équipe utilise les mêmes contraintes.
+**Projets sensibles** : restreindre les outils Bash avec des globs précis dans `.claude/settings.json`. Committer ce fichier pour que toute l'équipe utilise les mêmes contraintes.
 
-**Audit** — Les actions de Claude sont loggées dans `~/.claude/logs/`. Vérifiable à tout moment.
+**Audit** : les actions de Claude sont loggées dans `~/.claude/logs/`. Vérifiable à tout moment.
 
 ## Threat Intelligence
 

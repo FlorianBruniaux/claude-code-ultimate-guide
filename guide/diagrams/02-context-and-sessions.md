@@ -1,5 +1,5 @@
 ---
-title: "Claude Code — Context & Sessions Diagrams"
+title: "Claude Code: Context & Sessions Diagrams"
 description: "Context zones, memory hierarchy, session management, and fresh context patterns"
 tags: [context, sessions, memory, optimization]
 ---
@@ -83,11 +83,11 @@ flowchart LR
 
 </details>
 
-> **Source**: [Context Management](../ultimate-guide.md#context-management) — Line ~1335
+> **Source**: [Context Management](../ultimate-guide.md#context-management) (line ~1335)
 
 ---
 
-### Memory Hierarchy — 6 Types
+### Memory Hierarchy (6 Types)
 
 Claude Code has 6 distinct memory types with different scopes and persistence. Knowing which memory type to use for each piece of information is key to effective sessions.
 
@@ -154,11 +154,11 @@ Auto-Memory = persists cross-session, scoped per project
 
 </details>
 
-> **Source**: [Memory System](../ultimate-guide.md#memory-system) — Line ~3160 & ~3986 | Auto-Memory: v2.1.59+ (v3.30.0)
+> **Source**: [Memory System](../ultimate-guide.md#memory-system) (lines ~3160 & ~3986) | Auto-Memory: v2.1.59+ (v3.30.0)
 
 ---
 
-### Session Continuity — Saving and Resuming State
+### Session Continuity: Saving and Resuming State
 
 Sessions don't automatically persist context between terminals. This diagram shows how to save state and resume it in a new session or terminal, enabling async workflows.
 
@@ -200,7 +200,7 @@ Save progress ──────────────► Write             Lo
 
 </details>
 
-> **Source**: [Session Management](../ultimate-guide.md#session-management) — Line ~9477
+> **Source**: [Session Management](../ultimate-guide.md#session-management) (line ~9477)
 
 ---
 
@@ -277,4 +277,4 @@ Task A ──► Checkpoint? ──Yes──► Save CLAUDE.md ──► New ses
 
 </details>
 
-> **Source**: [Context Best Practices](../ultimate-guide.md#context-best-practices) — Line ~1525
+> **Source**: [Context Best Practices](../ultimate-guide.md#context-best-practices) (line ~1525)

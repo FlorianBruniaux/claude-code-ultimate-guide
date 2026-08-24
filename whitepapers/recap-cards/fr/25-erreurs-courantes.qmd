@@ -61,9 +61,9 @@ Exécuter en bypass total sur une machine partagée ou en production. Réserver 
 
 ## Routines (cloud automation, avril 2026)
 
-**Mal configurer les Routines sans tester les permissions** — Les Routines tournent sans supervision humaine dans le cloud. Tester d'abord la tâche en interactif, restreindre les outils autorisés via `allowedTools`, et vérifier les sorties avant de planifier une exécution récurrente.
+**Mal configurer les Routines sans tester les permissions** : les Routines tournent sans supervision humaine dans le cloud. Tester d'abord la tâche en interactif, restreindre les outils autorisés via `allowedTools`, et vérifier les sorties avant de planifier une exécution récurrente.
 
-**Routines sur des données sensibles sans audit** — Une Routine qui lit des fichiers de prod ou des secrets doit avoir une whitelist d'outils stricte et ses logs examinés régulièrement.
+**Routines sur des données sensibles sans audit** : une Routine qui lit des fichiers de prod ou des secrets doit avoir une whitelist d'outils stricte et ses logs examinés régulièrement.
 
 ## Règles d'Or
 

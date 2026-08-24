@@ -32,11 +32,11 @@ Each claim is marked with its confidence level. **Always prefer official documen
 
 ## TL;DR - 5 Bullet Summary
 
-1. **Simple Loop**: Claude Code runs a `while(tool_call)` loop — no DAGs, no classifiers, no RAG. The model decides everything.
+1. **Simple Loop**: Claude Code runs a `while(tool_call)` loop, with no DAGs, no classifiers, no RAG. The model decides everything.
 
 2. **Eight Core Tools**: Bash (universal adapter), Read, Edit, Write, Grep, Glob, Task (sub-agents), TodoWrite. That's the entire arsenal.
 
-   **Search Strategy Evolution**: Early Claude Code versions experimented with RAG using Voyage embeddings for semantic code search. Anthropic switched to grep-based (ripgrep) agentic search after internal benchmarks showed superior performance with lower operational complexity — no index sync required, no security liabilities from external embedding providers. This "Search, Don't Index" philosophy trades latency/tokens for simplicity/security. Community plugins (ast-grep for AST patterns) and MCP servers (Serena for symbols, grepai for RAG) available for specialized needs.
+   **Search Strategy Evolution**: Early Claude Code versions experimented with RAG using Voyage embeddings for semantic code search. Anthropic switched to grep-based (ripgrep) agentic search after internal benchmarks showed superior performance with lower operational complexity: no index sync required, no security liabilities from external embedding providers. This "Search, Don't Index" philosophy trades latency/tokens for simplicity/security. Community plugins (ast-grep for AST patterns) and MCP servers (Serena for symbols, grepai for RAG) available for specialized needs.
 
    *Source*: [Latent Space podcast](https://www.latent.space/p/claude-code) (May 2025), ast-grep documentation
 
@@ -44,13 +44,13 @@ Each claim is marked with its confidence level. **Always prefer official documen
 
 4. **Sub-agents = Isolation**: The `Task` tool spawns sub-agents with their own context. They cannot spawn more sub-agents (depth=1). Only their summary returns.
 
-5. **Philosophy**: "Less scaffolding, more model" — trust Claude's reasoning instead of building complex orchestration systems around it.
+5. **Philosophy**: "Less scaffolding, more model." Trust Claude's reasoning instead of building complex orchestration systems around it.
 
 ---
 
 ## Visual Overview
 
-Claude Code is not a new AI model. It's an orchestration layer that wraps Claude (Opus/Sonnet/Haiku) with the ability to read files, run shell commands, navigate repositories, and spawn sub-agents — all in a continuous loop until the task is done.
+Claude Code is not a new AI model. It's an orchestration layer that wraps Claude (Opus/Sonnet/Haiku) with the ability to read files, run shell commands, navigate repositories, and spawn sub-agents, all in a continuous loop until the task is done.
 
 ```mermaid
 flowchart TB
@@ -81,7 +81,7 @@ flowchart TB
     style MCP fill:#B8B8B8,color:#333
 ```
 
-*Inspired by [Mohamed Ali Ben Salem's architecture diagram](https://www.linkedin.com/posts/mohamed-ali-ben-salem-2b777b9a_en-ce-moment-je-vois-passer-des-posts-du-activity-7420592149110362112-eY5a) — See [Architecture Internals diagrams](../diagrams/04-architecture-internals.md) for a deeper breakdown.*
+*Inspired by [Mohamed Ali Ben Salem's architecture diagram](https://www.linkedin.com/posts/mohamed-ali-ben-salem-2b777b9a_en-ce-moment-je-vois-passer-des-posts-du-activity-7420592149110362112-eY5a). See [Architecture Internals diagrams](../diagrams/04-architecture-internals.md) for a deeper breakdown.*
 
 ---
 
@@ -111,7 +111,7 @@ flowchart TB
 **Confidence**: 100% (Tier 1 - Official)
 **Source**: [Anthropic Engineering Blog](https://www.anthropic.com/engineering/claude-code-best-practices)
 
-At its core, Claude Code is remarkably simple:
+Claude Code is remarkably simple:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -189,7 +189,7 @@ The model itself decides when to call tools, which tools to call, and when it's 
 
 ### Agentic Loop API Vocabulary
 
-The master loop diagram above shows the flow conceptually, but the Anthropic API exposes it through concrete `stop_reason` values. Every API response includes a `stop_reason` field — it's how Claude signals what should happen next. Understanding these three values is essential for building custom agents on top of the Anthropic SDK.
+The master loop diagram above shows the flow conceptually, but the Anthropic API exposes it through concrete `stop_reason` values. Every API response includes a `stop_reason` field: it's how Claude signals what should happen next. Understanding these three values is essential for building custom agents on top of the Anthropic SDK.
 
 | `stop_reason` | Meaning | Loop action |
 |---------------|---------|-------------|
@@ -226,7 +226,7 @@ while True:
 
 The `tool_use` block inside `response.content` has three fields you act on: `id` (to match results back), `name` (which function to call), and `input` (a dict of arguments). The result you send back must reference `tool_use_id` so the model can correlate call and response.
 
-**`fork_session`** is a higher-level concept built on this loop: it creates an independent branch of the current conversation, sharing the same message history up to the fork point. Both branches can explore different approaches or configurations simultaneously, like `git branch` but for agent sessions. Each fork runs its own agentic loop independently — useful for comparing responses under different tool configurations or prompt variants without re-running the full conversation from scratch.
+**`fork_session`** is a higher-level concept built on this loop: it creates an independent branch of the current conversation, sharing the same message history up to the fork point. Both branches can explore different approaches or configurations simultaneously, like `git branch` but for agent sessions. Each fork runs its own agentic loop independently, useful for comparing responses under different tool configurations or prompt variants without re-running the full conversation from scratch.
 
 #### Controlling loop depth with max_turns
 
@@ -257,47 +257,47 @@ Use this checklist to verify you understand Claude Code's full surface area. Eac
 
 **The 11 Native Capabilities**:
 
-- [ ] **Event Hooks** — Bash/PowerShell scripts triggered on tool execution
+- [ ] **Event Hooks**: Bash/PowerShell scripts triggered on tool execution
   - PreToolUse, PostToolUse, UserPromptSubmit, Notification
   - See: [Section 5 Hooks](#5-permission--security-model)
 
-- [ ] **Skill-Scoped Hooks** — Event hooks specific to skill execution context
+- [ ] **Skill-Scoped Hooks**: Event hooks specific to skill execution context
   - Lifecycle management per skill
   - See: [Ultimate Guide Section 5.11](#51-understanding-skills)
 
-- [ ] **Background Agents** — Async task execution (test suites, long operations)
+- [ ] **Background Agents**: Async task execution (test suites, long operations)
   - Non-blocking agent spawning
   - See: [Section 4.2 Sub-Agent Architecture](#4-sub-agent-architecture)
 
-- [ ] **Explore Subagent** — `/explore` for codebase analysis
+- [ ] **Explore Subagent**: `/explore` for codebase analysis
   - Read-only codebase exploration
   - See: [Section 4.2 Sub-Agents](#4-sub-agent-architecture)
 
-- [ ] **Plan Subagent** — `/plan` for read-only planning mode
+- [ ] **Plan Subagent**: `/plan` for read-only planning mode
   - Safe architectural exploration
   - See: [Ultimate Guide Section 2.3](#23-plan-mode)
 
-- [ ] **Task Tool** — Hierarchical task delegation to specialized agents
+- [ ] **Task Tool**: Hierarchical task delegation to specialized agents
   - Parallel task execution, depth=1 sub-agents
   - See: [Section 4.2 Sub-Agent Architecture](#4-sub-agent-architecture)
 
-- [ ] **Agent Teams** — Multi-agent parallel coordination (experimental v2.1.32+)
+- [ ] **Agent Teams**: Multi-agent parallel coordination (experimental v2.1.32+)
   - Git-based coordination, autonomous task claiming
   - See: [Ultimate Guide Section 9.20](#920-agent-teams-multi-agent-coordination)
 
-- [ ] **Per-Task Model Selection** — Dynamic model switching mid-session
+- [ ] **Per-Task Model Selection**: Dynamic model switching mid-session
   - `/model opus|sonnet|haiku` on task boundaries
   - See: [Section 10 Cost Optimization](#10-claude-code-vs-alternatives)
 
-- [ ] **MCP Protocol Integration** — Model Context Protocol for tool extensions
+- [ ] **MCP Protocol Integration**: Model Context Protocol for tool extensions
   - Context7, Sequential, Serena, Playwright, etc.
   - See: [Section 6 MCP Integration](#6-mcp-integration)
 
-- [ ] **Permission Modes** — Fine-grained control over tool execution
+- [ ] **Permission Modes**: Fine-grained control over tool execution
   - Default, auto-accept, plan mode, custom rules
   - See: [Section 5 Permission & Security Model](#5-permission--security-model)
 
-- [ ] **Session Memory** — Persistent context across sessions
+- [ ] **Session Memory**: Persistent context across sessions
   - CLAUDE.md, memory files, project state
   - See: [Section 8 Session Persistence](#8-session-persistence)
 
@@ -368,7 +368,7 @@ Beyond the 8 core tools, Claude Code can leverage:
 - **Context7**: Official library documentation lookup
 - **Sequential**: Structured multi-step reasoning
 - **Playwright**: Browser automation and E2E testing
-- **claude-code-ultimate-guide**: 12 tools — guide search, release tracking, `compare_versions`, security threat lookup (`get_threat`, `list_threats` with 28 CVEs + 655 malicious skills), template search (`search_examples`) — `npx -y claude-code-ultimate-guide-mcp`
+- **claude-code-ultimate-guide**: 12 tools: guide search, release tracking, `compare_versions`, security threat lookup (`get_threat`, `list_threats` with 28 CVEs + 655 malicious skills), template search (`search_examples`); install via `npx -y claude-code-ultimate-guide-mcp`
 
 **Community Plugins**:
 - **ast-grep**: AST-based structural code search (explicit invocation)
@@ -560,7 +560,7 @@ Claude Code's effectiveness degrades predictably under certain conditions:
 
 ### Failure-Triggered Context Drift
 
-A separate degradation mode that does not depend on context size: repeated tool failures. When a tool call fails and Claude retries, error output accumulates in the context window. Stack traces, retry noise, and error messages dilute the original intent — subsequent attempts follow the error narrative rather than the task goal. The context window is not full, but the signal-to-noise ratio has degraded.
+A separate degradation mode that does not depend on context size: repeated tool failures. When a tool call fails and Claude retries, error output accumulates in the context window. Stack traces, retry noise, and error messages dilute the original intent. Subsequent attempts follow the error narrative rather than the task goal. The context window is not full, but the signal-to-noise ratio has degraded.
 
 This is distinct from compaction drift. Compaction addresses context *size*; failure re-injection addresses context *quality* within a bounded window.
 
@@ -573,7 +573,7 @@ if [[ "$CLAUDE_TOOL_EXIT_CODE" != "0" ]]; then
 fi
 ```
 
-Source: [Nick Tune — Workflow DSL: Domain-Driven Claude Code Workflows](https://nick-tune.me/blog/2026-03-01-workflow-dsl-domain-driven-claude-code-workflows/) (2026-03-01)
+Source: [Nick Tune, Workflow DSL: Domain-Driven Claude Code Workflows](https://nick-tune.me/blog/2026-03-01-workflow-dsl-domain-driven-claude-code-workflows/) (2026-03-01)
 
 ---
 
@@ -673,7 +673,7 @@ The dominant multi-agent pattern in production is **hub-and-spoke**: one coordin
                      (results flow back to coordinator only)
 ```
 
-**The critical rule: context is never inherited automatically.** When the coordinator spawns Worker A to analyze file X, Worker B gets no knowledge of that analysis unless the coordinator explicitly passes it in the task description. Workers are isolated by design — they receive only the task string, nothing else.
+**The critical rule: context is never inherited automatically.** When the coordinator spawns Worker A to analyze file X, Worker B gets no knowledge of that analysis unless the coordinator explicitly passes it in the task description. Workers are isolated by design: they receive only the task string, nothing else.
 
 This is the most common mistake in multi-agent design: assuming sub-agents share context. They don't.
 
@@ -763,7 +763,7 @@ Claude Code appears to flag certain patterns for extra scrutiny:
 | `git push --force` | History destruction | Always prompts |
 | `DROP TABLE` | Data destruction | Always prompts |
 
-This is not a complete blocklist — patterns are likely detected through model training rather than explicit rules.
+This is not a complete blocklist. Patterns are likely detected through model training rather than explicit rules.
 
 ### Native Sandbox (v2.1.0+)
 
@@ -1254,7 +1254,7 @@ ENABLE_TOOL_SEARCH=false     # Disabled (eager loading)
 | `auto:10` | Balanced default (20-50 tools) |
 | `auto:5` | Power users (100+ tools) |
 
-→ As Simon Willison noted: "Context pollution is why I rarely used MCP. Now that it's solved, there's no reason not to hook up dozens or even hundreds of MCPs to Claude Code." — [X/Twitter, January 14, 2026](https://twitter.com/simonw)
+→ As Simon Willison noted: "Context pollution is why I rarely used MCP. Now that it's solved, there's no reason not to hook up dozens or even hundreds of MCPs to Claude Code." (via [X/Twitter, January 14, 2026](https://twitter.com/simonw))
 
 ---
 
@@ -1263,7 +1263,7 @@ ENABLE_TOOL_SEARCH=false     # Disabled (eager loading)
 **Confidence**: 90% (Tier 1 - Official Anthropic Engineering)
 **Source**: [Anthropic Engineering: Advanced Tool Use](https://www.anthropic.com/engineering/advanced-tool-use) | [Programmatic Tool Calling Docs](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling)
 
-Four API-level features released as generally available on February 18, 2026 (with Opus/Sonnet 4.6). These are relevant to developers building agents on the Anthropic API or Agent SDK — not available directly in the Claude Code CLI.
+Four API-level features released as generally available on February 18, 2026 (with Opus/Sonnet 4.6). These are relevant to developers building agents on the Anthropic API or Agent SDK. They are not available directly in the Claude Code CLI.
 
 | Feature | Problem Solved | Availability |
 |---------|---------------|--------------|
@@ -1272,7 +1272,7 @@ Four API-level features released as generally available on February 18, 2026 (wi
 | Tool Search Tool | Too many tool definitions bloat context | API + Foundry |
 | Tool Use Examples | Schema alone can't express usage patterns | API + Foundry |
 
-**Strategic layering** — address your biggest bottleneck first:
+**Strategic layering**: address your biggest bottleneck first:
 - Context bloated by tool definitions → Tool Search Tool
 - Large intermediate results → Programmatic Tool Calling
 - Web research returning noise → Dynamic Filtering
@@ -1290,7 +1290,7 @@ PTC:         prompt → Claude → writes Python → code calls tool 1, 2, 3 →
              (3 tools = 1 inference pass, only final output in context)
 ```
 
-**Configuration** — mark tools callable from the code execution sandbox with `allowed_callers`:
+**Configuration**: mark tools callable from the code execution sandbox with `allowed_callers`:
 
 ```json
 {
@@ -1314,7 +1314,7 @@ PTC:         prompt → Claude → writes Python → code calls tool 1, 2, 3 →
 |-------------------------|----------|
 | omitted / `["direct"]` | Traditional calling only |
 | `["code_execution_20250825"]` | Callable from Python sandbox only |
-| `["direct", "code_execution_20250825"]` | Both modes — not recommended (confuses Claude) |
+| `["direct", "code_execution_20250825"]` | Both modes, not recommended (confuses Claude) |
 
 **Patterns** (all run in 1 inference pass):
 - Batch processing: loop over N items, aggregate, print summary
@@ -1322,15 +1322,15 @@ PTC:         prompt → Claude → writes Python → code calls tool 1, 2, 3 →
 - Conditional tool selection: pick lightweight vs heavy tool based on intermediate result
 - Data filtering: reduce what Claude sees (`errors = [l for l in logs if "ERROR" in l]`)
 
-**Token efficiency**: tool results from programmatic calls never enter Claude's context — only final `stdout` does. 10 programmatic tool calls ≈ 1/10th the context tokens of 10 direct calls. The ~37% overall token reduction claim is community-reported (Shayan Tabe's analysis) and not officially confirmed by Anthropic.
+**Token efficiency**: tool results from programmatic calls never enter Claude's context; only final `stdout` does. 10 programmatic tool calls ≈ 1/10th the context tokens of 10 direct calls. The ~37% overall token reduction claim is community-reported (Shayan Tabe's analysis) and not officially confirmed by Anthropic.
 
 **Constraints**: API and Foundry only (not Bedrock/Vertex). No MCP tools, no web search/fetch, no `strict: true` tools. Container lifetime ~4.5 minutes. Not covered by Zero Data Retention.
 
 ### Dynamic Filtering for Web Search/Fetch
 
-Web search and fetch tools dump full HTML into context — navigation, ads, boilerplate included. Dynamic Filtering lets Claude write Python to pre-process and filter results before they enter its context window.
+Web search and fetch tools dump full HTML into context: navigation, ads, boilerplate included. Dynamic Filtering lets Claude write Python to pre-process and filter results before they enter its context window.
 
-**Configuration** — use updated tool type versions with a beta header:
+**Configuration**: use updated tool type versions with a beta header:
 
 ```json
 {
@@ -1374,8 +1374,8 @@ Accuracy on complex parameter handling: 72% → 90% in Anthropic's benchmarks. U
 
 | Feature | Claude Code CLI | Action for CLI users |
 |---------|----------------|---------------------|
-| Tool Search (MCP lazy loading) | Built-in since v2.1.7 as MCPSearch auto mode | Tune `ENABLE_TOOL_SEARCH=auto:N` — documented in §6 above |
-| Tool Use Examples | Not configurable from CLI | Relevant for custom MCP server authors — add `input_examples` to tool schemas |
+| Tool Search (MCP lazy loading) | Built-in since v2.1.7 as MCPSearch auto mode | Tune `ENABLE_TOOL_SEARCH=auto:N` (documented in §6 above) |
+| Tool Use Examples | Not configurable from CLI | Relevant for custom MCP server authors; add `input_examples` to tool schemas |
 | Programmatic Tool Calling | Not available in CLI | Relevant for Agent SDK developers building custom agents |
 | Dynamic Filtering | Not available in CLI | Relevant for Agent SDK users doing web research pipelines |
 
@@ -1531,7 +1531,7 @@ The core philosophy behind Claude Code:
 
 The "native capabilities first" approach is increasingly validated by external practitioners. Embedded engineering teams (including former Cursor power users) converge on Agent Skills standard over external orchestration frameworks, demonstrating the viability of trusting Claude's native reasoning over adding scaffolding layers.
 
-**Example**: [Gur Sannikov](https://www.linkedin.com/posts/gursannikov_claudecode-embeddedengineering-aiagents-activity-7423851983331328001-DrFb) (embedded engineering) adopted ADR-driven workflows using only native Claude Code capabilities (hooks, skills, Task Tool) without external frameworks — validating the architectural philosophy documented in this guide.
+**Example**: [Gur Sannikov](https://www.linkedin.com/posts/gursannikov_claudecode-embeddedengineering-aiagents-activity-7423851983331328001-DrFb) (embedded engineering) adopted ADR-driven workflows using only native Claude Code capabilities (hooks, skills, Task Tool) without external frameworks, validating the architectural philosophy documented in this guide.
 
 This convergence suggests that the "less scaffolding, more model" approach scales beyond initial expectations, even for complex engineering domains like embedded systems development.
 
@@ -1659,7 +1659,7 @@ Three API-level features that architects must understand for production systems:
 
 ### Message Batches API
 
-The Batches API submits up to 100 messages in a single HTTP request and processes them asynchronously within a 24-hour window. The cost is 50% of the synchronous rate — same quality, half the price, at the cost of latency.
+The Batches API submits up to 100 messages in a single HTTP request and processes them asynchronously within a 24-hour window. The cost is 50% of the synchronous rate: same quality, half the price, at the cost of latency.
 
 **When to use it:**
 
@@ -1723,7 +1723,7 @@ Per-request errors do not fail the entire batch. A batch with 100 requests where
 
 1. Process all `succeeded` results immediately.
 2. Collect `errored` custom_ids for retry with exponential backoff.
-3. Treat `expired` as a soft failure — the request never ran, so requeue it.
+3. Treat `expired` as a soft failure: the request never ran, so requeue it.
 
 **Retry economics:**
 
@@ -1746,7 +1746,7 @@ The `any` and specific-tool modes change `stop_reason` from `"end_turn"` to `"to
 
 **Forced structured output via tool:**
 
-Define the output schema as a tool's `input_schema`, then force its use. The model cannot respond with prose — it must populate your schema.
+Define the output schema as a tool's `input_schema`, then force its use. The model cannot respond with prose: it must populate your schema.
 
 ```python
 response = client.messages.create(

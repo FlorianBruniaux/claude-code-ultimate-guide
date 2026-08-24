@@ -41,13 +41,13 @@ tags: [workflow, agents, architecture]
 Agent teams enable **multiple Claude instances to work in parallel** on different subtasks while coordinating through a git-based system. Unlike manual multi-instance workflows where you orchestrate separate Claude sessions yourself, agent teams provide built-in coordination where agents claim tasks, merge changes continuously, and resolve conflicts automatically.
 
 **Key characteristics**:
-- ✅ **Autonomous coordination** — Team lead delegates, teammates communicate via mailbox
-- ✅ **Peer-to-peer messaging** — Direct communication between agents (not just hierarchical)
-- ✅ **Git-based locking** — Agents claim tasks by writing to shared directory
-- ✅ **Continuous merge** — Changes pulled/pushed without manual intervention
-- ✅ **Independent context** — Each agent has own 1M token context window (isolated)
-- ⚠️ **Experimental** — Research preview, stability not guaranteed
-- ⚠️ **Token-intensive** — Multiple simultaneous model calls = high cost
+- ✅ **Autonomous coordination**: team lead delegates, teammates communicate via mailbox
+- ✅ **Peer-to-peer messaging**: direct communication between agents (not just hierarchical)
+- ✅ **Git-based locking**: agents claim tasks by writing to shared directory
+- ✅ **Continuous merge**: changes pulled/pushed without manual intervention
+- ✅ **Independent context**: each agent has own 1M token context window (isolated)
+- ⚠️ **Experimental**: research preview, stability not guaranteed
+- ⚠️ **Token-intensive**: multiple simultaneous model calls means high cost
 
 ### When Introduced
 
@@ -57,7 +57,7 @@ Agent teams enable **multiple Claude instances to work in parallel** on differen
 
 **Official announcement**:
 > "We've introduced agent teams in Claude Code as a research preview. You can now spin up multiple agents that work in parallel as a team and coordinate autonomously on shared codebases."
-> — [Anthropic, Introducing Claude Opus 4.6](https://www.anthropic.com/news/claude-opus-4-6)
+> Source: [Anthropic, Introducing Claude Opus 4.6](https://www.anthropic.com/news/claude-opus-4-6)
 
 > **📝 Documentation Update (2026-02-09)**: Architecture section corrected based on [Addy Osmani's research](https://addyosmani.com/blog/claude-code-agent-teams/). Key clarification: Agents communicate via **peer-to-peer messaging** through a mailbox system, not only through team lead synthesis. Context windows remain isolated (1M tokens per agent), but explicit messaging enables direct coordination between teammates.
 
@@ -233,7 +233,7 @@ Team Lead: "Review this PR for security issues"
 - ✅ Coordinate independently (self-organization)
 - ✅ Share discoveries mid-workflow (via messages, not context)
 
-**Limitation**: Context isolation remains—agents don't share their full context window, only explicit messages.
+**Limitation**: Context isolation remains. Agents don't share their full context window, only explicit messages.
 
 ### Navigation Between Agents
 
@@ -288,7 +288,7 @@ claude
 
 ### Method 1: Environment Variable
 
-**Simplest approach** — Set env var before starting Claude Code:
+**Simplest approach**: set env var before starting Claude Code:
 
 ```bash
 # Enable agent teams for this session
@@ -307,7 +307,7 @@ source ~/.bashrc
 
 ### Method 2: Settings File
 
-**Persistent configuration** — Edit `~/.claude/settings.json`:
+**Persistent configuration**: edit `~/.claude/settings.json`:
 
 ```json
 {
@@ -365,7 +365,7 @@ claude
 - Parallel progress on independent workstreams
 - Reduced context switching cognitive load
 
-**Note**: This is different from automatic teammate spawning — here you're manually creating multiple team lead sessions. Each can spawn its own teammates.
+**Note**: This differs from automatic teammate spawning. Here you're manually creating multiple team lead sessions, and each can spawn its own teammates.
 
 ---
 
@@ -464,7 +464,7 @@ PR: https://github.com/company/repo/pull/123
 
 **Architecture insight**:
 > "Individual agents break the project into small pieces, track progress, and determine next steps until completion."
-> — [Building a C compiler with agent teams](https://www.anthropic.com/engineering/building-c-compiler), Anthropic Engineering, Feb 2026
+> Source: [Building a C compiler with agent teams](https://www.anthropic.com/engineering/building-c-compiler), Anthropic Engineering, Feb 2026
 
 **Key learnings**:
 - ⚠️ **Tests passing ≠ correctness**: Human oversight still important for quality assurance
@@ -512,7 +512,7 @@ PR: https://github.com/company/repo/pull/123
 
 **Open question raised**:
 > "I'm not sure about Claude's guidance on when to use beads versus agent team sessions. Any thoughts?"
-> — Paul Rayner, LinkedIn, Feb 2026
+> Source: Paul Rayner, LinkedIn, Feb 2026
 
 **Source**: [Paul Rayner LinkedIn](https://www.linkedin.com/posts/thepaulrayner_this-is-wild-i-just-upgraded-claude-code-activity-7425635159678414850-MNyv), Feb 2026
 
@@ -945,7 +945,7 @@ Start
 
 **Open question** (as of Feb 2026):
 > "I'm not sure about Claude's guidance on when to use beads versus agent team sessions."
-> — Paul Rayner, Feb 2026
+> Source: Paul Rayner, Feb 2026
 
 **Community feedback needed**: Anthropic has not published official guidance on this choice. Practitioners are invited to share experiences in [GitHub Discussions](https://github.com/anthropics/claude-code/discussions).
 
@@ -1039,7 +1039,7 @@ Team lead
 
 ### AGENTS.md for Compound Learning
 
-Agent teams benefit from a shared context file that accumulates cross-session learnings — patterns that worked, pitfalls to avoid, codebase-specific gotchas. This file is called `AGENTS.md` (analogous to `CLAUDE.md` but scoped to agentic workflows).
+Agent teams benefit from a shared context file that accumulates cross-session learnings: patterns that worked, pitfalls to avoid, codebase-specific gotchas. This file is called `AGENTS.md` (analogous to `CLAUDE.md` but scoped to agentic workflows).
 
 **What to put in AGENTS.md**:
 ```markdown
@@ -1056,11 +1056,11 @@ Agent teams benefit from a shared context file that accumulates cross-session le
 - Error codes live in src/constants/errors.ts — always reuse, never hardcode strings
 ```
 
-**Critical rule — never let agents write AGENTS.md directly**. ETH Zürich research (Gloaguen et al., 2026) confirms that LLM-generated context files reduce task success by ~3% and increase inference costs by 20%+, compared to a ~4% improvement from developer-written files. The mechanism: agents generate generic, bloated context that creates cognitive overhead for every subsequent agent reading it.
+**Critical rule: never let agents write AGENTS.md directly**. ETH Zürich research (Gloaguen et al., 2026) confirms that LLM-generated context files reduce task success by ~3% and increase inference costs by 20%+, compared to a ~4% improvement from developer-written files. The mechanism: agents generate generic, bloated context that creates cognitive overhead for every subsequent agent reading it.
 
-Every line in AGENTS.md should be approved by a human. If a teammate identifies a new pattern worth documenting, it sends a suggestion to the team lead — the lead decides whether to add it.
+Every line in AGENTS.md should be approved by a human. If a teammate identifies a new pattern worth documenting, it sends a suggestion to the team lead, and the lead decides whether to add it.
 
-**Maintenance**: Review AGENTS.md after each team session (Retro step of the Factory Model). Remove entries that are no longer relevant — stale instructions are actively harmful, not neutral.
+**Maintenance**: Review AGENTS.md after each team session (Retro step of the Factory Model). Remove entries that are no longer relevant. Stale instructions are actively harmful, not neutral.
 
 ### Git Worktree Management
 
@@ -1122,7 +1122,7 @@ git worktree add ../project-agent1 main
    Backend agent: stay under 280k tokens total.
    Auto-pause and report status at 85% of your budget."
    ```
-   Token costs scale linearly with team size — a 5-agent team can consume 5× the tokens of a single session. Caps prevent one agent's rabbit hole from blowing the entire session budget.
+   Token costs scale linearly with team size: a 5-agent team can consume 5× the tokens of a single session. Caps prevent one agent's rabbit hole from blowing the entire session budget.
 
 ### Quality Assurance
 
@@ -1160,7 +1160,7 @@ Before retrying, answer: What specifically failed? What one change would fix it?
 If still blocked after 8 attempts, stop and report to team lead."
 ```
 
-The mandatory reflection prompt ("What failed? What specific change would fix it?") reduces stuck agents substantially — it forces the agent to change approach rather than repeat the same failing action with minor variations.
+The mandatory reflection prompt ("What failed? What specific change would fix it?") reduces stuck agents substantially. It forces the agent to change approach rather than repeat the same failing action with minor variations.
 
 **Kill and reassign criteria**:
 - Stuck 3+ iterations on the same blocker → kill the task, reassign with more specific context
@@ -1386,7 +1386,7 @@ echo "dist/" >> .gitignore
 
 When a sub-agent lacks context to complete its task accurately, the default failure mode is: it makes assumptions and generates plausible-but-wrong output. The output looks reasonable enough to pass a quick review, but breaks downstream.
 
-**The pattern**: give sub-agents a retrieval budget — they can request more context up to N cycles before committing to a response. Three cycles covers most cases while bounding cost and latency.
+**The pattern**: give sub-agents a retrieval budget. They can request more context up to N cycles before committing to a response, and three cycles covers most cases while bounding cost and latency.
 
 ### Structure
 
@@ -1434,12 +1434,12 @@ State explicitly: "I need [X] because [Y]" — not "I might need more context"
 
 | Situation | Use iterative retrieval? |
 |-----------|------------------------|
-| Sub-agent modifies 1–2 known files | No — provide the files directly |
-| Sub-agent needs to understand system behavior | Yes — it may need to trace call graphs |
-| Sub-agent makes architectural decisions | Yes — always |
-| Sub-agent writes tests for existing code | Often — it needs to read what it's testing |
+| Sub-agent modifies 1–2 known files | No: provide the files directly |
+| Sub-agent needs to understand system behavior | Yes: it may need to trace call graphs |
+| Sub-agent makes architectural decisions | Yes, always |
+| Sub-agent writes tests for existing code | Often: it needs to read what it's testing |
 
-The overhead is real (each cycle costs tokens and latency). Apply it to tasks where wrong assumptions would cost more than the retrieval — typically anything touching interfaces, contracts, or public APIs.
+The overhead is real (each cycle costs tokens and latency). Apply it to tasks where wrong assumptions would cost more than the retrieval, typically anything touching interfaces, contracts, or public APIs.
 
 > **Credit**: Iterative retrieval pattern for sub-agents from [Everything Claude Code](https://github.com/affaan-m/everything-claude-code) (Affaan Mustafa). The max-3-cycles bound and the WHY/WHAT separation are documented in their longform guide.
 
@@ -1505,11 +1505,11 @@ The overhead is real (each cycle costs tokens and latency). Apply it to tasks wh
 
 ### Related Documentation
 
-- [Claude Code Releases](../core/claude-code-releases.md) — v2.1.32, v2.1.33 release notes
-- [Sub-Agents](#split-role-sub-agents) — Single-agent task delegation
-- [Multi-Instance Workflows](#917-scaling-patterns-multi-instance-workflows) — Manual parallel coordination
-- [Dual-Instance Pattern](#alternative-pattern-dual-instance-planning-vertical-separation) — Plan-execute split
-- [AI Ecosystem: Beads Framework](../ecosystem/ai-ecosystem.md#beads-framework) — Alternative orchestration (Gas Town)
+- [Claude Code Releases](../core/claude-code-releases.md): v2.1.32, v2.1.33 release notes
+- [Sub-Agents](#split-role-sub-agents): single-agent task delegation
+- [Multi-Instance Workflows](#917-scaling-patterns-multi-instance-workflows): manual parallel coordination
+- [Dual-Instance Pattern](#alternative-pattern-dual-instance-planning-vertical-separation): plan-execute split
+- [AI Ecosystem: Beads Framework](../ecosystem/ai-ecosystem.md#beads-framework): alternative orchestration (Gas Town)
 
 ---
 
@@ -1531,7 +1531,7 @@ These patterns address the failure modes that emerge at scale in multi-agent pip
 
 ### Hub-and-Spoke Coordinator
 
-The hub-and-spoke pattern separates coordination from execution. The coordinator agent decomposes the task, selects subagents, dispatches work, monitors results, and aggregates outputs. It does no domain work itself — no research, no analysis, no generation. This separation is what makes the coordinator reusable across different task types.
+The hub-and-spoke pattern separates coordination from execution. The coordinator agent decomposes the task, selects subagents, dispatches work, monitors results, and aggregates outputs. It does no domain work itself: no research, no analysis, no generation. This separation is what makes the coordinator reusable across different task types.
 
 ```python
 from dataclasses import dataclass
@@ -1606,7 +1606,7 @@ The coordinator never touches the content of results, only routes them, counts t
 
 ### Programmatic Prerequisites
 
-Prerequisite checks should be deterministic gates, not prompt instructions. Telling a model "make sure the data is ready before proceeding" is not a prerequisite, it is a suggestion. A programmatic prerequisite is a state check that either allows execution to continue or returns a structured error.
+Prerequisite checks should be deterministic gates, not prompt instructions. Telling a model "make sure the data is ready before proceeding" is a suggestion, not a prerequisite. A programmatic prerequisite is a state check that either allows execution to continue or returns a structured error.
 
 **Pattern 1: State-flag gate**
 

@@ -102,7 +102,7 @@ Description du résultat attendu.
 | **Skill** | Connaissance réutilisable + ressources embarquées |
 | **Agent** | Spécialiste récurrent avec mémoire propre |
 
-Une command ne peut pas embarquer des fichiers de référence supplémentaires — pour ça, utiliser un skill. Une command n'a pas de mémoire persistante — pour ça, utiliser un agent.
+Une command ne peut pas embarquer des fichiers de référence supplémentaires (pour ça, utiliser un skill). Une command n'a pas de mémoire persistante (pour ça, utiliser un agent).
 
 ## Conseils pratiques
 

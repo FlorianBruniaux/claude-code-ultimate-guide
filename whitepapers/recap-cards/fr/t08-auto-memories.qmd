@@ -1,5 +1,5 @@
 ---
-title: "Auto-Memories — Quand et Comment"
+title: "Auto-Memories : Quand et Comment"
 subtitle: "Le système de mémorisation automatique vs CLAUDE.md manuel"
 card-number: "T08"
 category: "Technique"

@@ -1,5 +1,5 @@
 ---
-title: "Claude Code — Development Workflows Diagrams"
+title: "Claude Code: Development Workflows Diagrams"
 description: "TDD cycle, spec-first pipeline, plan-driven workflow, iterative refinement loop"
 tags: [workflows, tdd, spec-first, plan-driven, iterative]
 ---
@@ -89,7 +89,7 @@ Write failing test (RED)
 
 ### Spec-First Development Pipeline
 
-Write the specification before the code. Claude uses the spec as the single source of truth — preventing drift between what was planned and what was built.
+Write the specification before the code. Claude uses the spec as the single source of truth, preventing drift between what was planned and what was built.
 
 ```mermaid
 flowchart LR
@@ -313,13 +313,13 @@ Prompt → Output → Evaluate → Good? ──Yes──► Done
 
 </details>
 
-> **Source**: [Iterative Refinement](../workflows/iterative-refinement.md) — Line ~347
+> **Source**: [Iterative Refinement](../workflows/iterative-refinement.md) (Line ~347)
 
 ---
 
-### AI Fluency — High vs Low Fluency Paths
+### AI Fluency: High vs Low Fluency Paths
 
-When Claude produces a polished-looking output, a cognitive bias kicks in: the more complete the output appears, the less critically most users evaluate it. This is the Artifact Paradox, documented by Anthropic across 9,830 conversations. The diagram shows what separates the 30% of high-fluency users from the 70% who accept first outputs — and the measurable difference in outcome quality.
+When Claude produces a polished-looking output, a cognitive bias kicks in: the more complete the output appears, the less critically most users evaluate it. This is the Artifact Paradox, documented by Anthropic across 9,830 conversations. The diagram shows what separates the 30% of high-fluency users from the 70% who accept first outputs, and the measurable difference in outcome quality.
 
 ```mermaid
 flowchart TD
@@ -395,4 +395,4 @@ Silent defects                  Satisfied? ──No──► iterate
 
 </details>
 
-> **Source**: [Anthropic AI Fluency Index](https://www.anthropic.com/research/AI-fluency-index) (Swanson et al., 2026-02-23) — [Guide section: Common Pitfalls](../ultimate-guide.md#common-pitfalls--best-practices)
+> **Source**: [Anthropic AI Fluency Index](https://www.anthropic.com/research/AI-fluency-index) (Swanson et al., 2026-02-23); [Guide section: Common Pitfalls](../ultimate-guide.md#common-pitfalls--best-practices)

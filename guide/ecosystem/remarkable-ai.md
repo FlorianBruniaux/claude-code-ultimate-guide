@@ -1,6 +1,6 @@
 ---
 title: "reMarkable 2 + AI : Hacks, Outils et Workflows"
-description: "Cartographie complète des intégrations AI pour reMarkable 2 — MCP server, OCR, pipelines Obsidian/Notion, et automatisations"
+description: "Cartographie complète des intégrations AI pour reMarkable 2 : MCP server, OCR, pipelines Obsidian/Notion, et automatisations"
 tags: [mcp, integration, hardware, workflow, remarkable]
 ---
 
@@ -8,7 +8,7 @@ tags: [mcp, integration, hardware, workflow, remarkable]
 
 > **Last verified**: February 2026
 
-La reMarkable 2 est une tablette e-ink Linux full-root-access. Sa philosophie de distraction zéro en fait un outil de pensée, mais ses intégrations natives sont minimalistes. Cette page couvre tout ce qui existe pour l'augmenter avec l'AI — du plus simple au plus technique.
+La reMarkable 2 est une tablette e-ink Linux full-root-access. Sa philosophie de distraction zéro en fait un outil de pensée, mais ses intégrations natives sont minimalistes. Cette page couvre tout ce qui existe pour l'augmenter avec l'AI, du plus simple au plus technique.
 
 ## Table of Contents
 
@@ -40,12 +40,12 @@ Sam Morrow a créé un **serveur MCP** qui connecte directement la reMarkable à
 |---------|---------|
 | **Repo** | https://github.com/SamMorrowDrums/remarkable-mcp |
 | **Blog** | https://sam-morrow.com/blog/building-an-mcp-server-for-remarkable |
-| **Connexion** | SSH over USB — pas de cloud, pas d'abonnement |
+| **Connexion** | SSH over USB (pas de cloud, pas d'abonnement) |
 | **Langage** | Python (FastMCP) |
 
 ### Ce que ça fait
 
-- **Extraction native du texte tapé** (Type Folio / clavier virtuel) — instant, sans OCR
+- **Extraction native du texte tapé** (Type Folio / clavier virtuel), instant, sans OCR
 - **OCR handwriting** via Google Cloud Vision (1000 requêtes gratuites/mois)
 - **Recherche intelligente** dans toute ta bibliothèque
 - **Extraction de texte** depuis PDF et EPUB + annotations
@@ -53,7 +53,7 @@ Sam Morrow a créé un **serveur MCP** qui connecte directement la reMarkable à
 
 ### Pourquoi c'est le #1
 
-Tu peux demander à Claude "qu'est-ce que j'ai noté sur X pendant la réunion du 15 janvier ?" — il va chercher dans tes notes manuscrites. La reMarkable devient un **second brain queryable**.
+Tu peux demander à Claude "qu'est-ce que j'ai noté sur X pendant la réunion du 15 janvier ?". Il va chercher dans tes notes manuscrites. La reMarkable devient un **second brain queryable**.
 
 ### Stack technique
 
@@ -129,7 +129,7 @@ chmod +x ghostwriter && ./ghostwriter
 
 ### Use case concret
 
-Tu dessines un schéma d'architecture, tu écris "optimise ça" — le LLM analyse visuellement et répond. Prototype fascinant pour l'interaction humain-AI par le stylo.
+Tu dessines un schéma d'architecture, tu écris "optimise ça". Le LLM analyse visuellement et répond. Prototype fascinant pour l'interaction humain-AI par le stylo.
 
 **Limite honnête** : L'app native de dessin de la reMarkable est minimaliste (pas de placement libre de texte dans la réponse).
 
@@ -454,18 +454,18 @@ Idées griffonnées librement
 
 ## 15. Par où commencer
 
-### Phase 1 — Ce week-end (2h)
+### Phase 1 : Ce week-end (2h)
 
 1. Activer le SSH via Settings → Help → Copyrights and licenses
 2. Installer **remarkable-mcp** et le connecter à Claude Code
 3. Test : demander à Claude de chercher dans tes notes
 
-### Phase 2 — Semaine suivante
+### Phase 2 : Semaine suivante
 
 4. Si tu utilises Obsidian → installer Scrybble
 5. Tester **Ghostwriter** (10 min d'install, fun garanti)
 
-### Phase 3 — Quand tu veux aller plus loin
+### Phase 3 : Quand tu veux aller plus loin
 
 6. Monter un pipeline OCR custom avec Claude Vision API
 7. Explorer rmfakecloud pour se passer de l'abonnement Connect

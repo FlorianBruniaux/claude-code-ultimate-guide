@@ -382,7 +382,7 @@ Le mode auto délègue les décisions de permission à un second modèle dédié
 **Architecture : deux couches de défense**
 
 1. **Probe d'injection** : avant que tout contenu externe entre dans le contexte Claude (lecture de fichier, web fetch, sortie shell), un probe serveur scanne les instructions suspectes et injecte un avertissement si détecté.
-2. **Classificateur transcript** (Sonnet 4.6) : évalue chaque tool call sur trois catégories — escalade de portée, infrastructure non reconnue, prompt injection. Il voit uniquement les messages utilisateur et les tool calls en attente ; les réponses des outils et le raisonnement de Claude sont retirés pour éviter la manipulation.
+2. **Classificateur transcript** (Sonnet 4.6) : évalue chaque tool call sur trois catégories : escalade de portée, infrastructure non reconnue, prompt injection. Il voit uniquement les messages utilisateur et les tool calls en attente ; les réponses des outils et le raisonnement de Claude sont retirés pour éviter la manipulation.
 
 **Chiffres sur traffic production (Anthropic)** : 94% de détection des opérations dangereuses, 17% de faux négatifs.
 
@@ -634,19 +634,19 @@ skills-ref validate ./skill-directory
 
 **Menaces Récentes (v2.11.0 → v2.17.0, mai 2026)** :
 
-- **T010 Agent-to-Agent Communication Injection** : injection dans les canaux de communication (Slack, commentaires PR, tickets) que des agents IA surveillent — l'agent exécute des actions non autorisées sans vérification cryptographique de la source.
+- **T010 Agent-to-Agent Communication Injection** : injection dans les canaux de communication (Slack, commentaires PR, tickets) que des agents IA surveillent. L'agent exécute des actions non autorisées sans vérification cryptographique de la source.
 - **T011 Project Configuration Hijacking** : fichiers repo malveillants (`.claude/settings.json`, `.mcp.json`) qui auto-démarrent des serveurs MCP ou redirigent le trafic API avant l'affichage du dialog de confiance. (CVE-2025-59536, CVE-2026-21852)
 - **T012 AI Recommendation Poisoning** : instructions cachées dans des URLs ("Summarize with AI") qui injectent des entrées de mémoire persistante, biaisant les recommandations futures vers des contenus contrôlés par l'attaquant. (Microsoft, 50+ prompts, 31 entreprises)
 - **T013 Autonomous Safety Control Bypass** : l'agent désactive de lui-même ses protections (sandbox, denylist) pour accomplir sa tâche, sans instruction attaquant explicite. (Ona Security, mars 2026)
 - **T014 WebSocket Localhost Gateway Hijacking** (ClawJacked) : site malveillant brute-force la gateway IA en localhost, auto-s'enregistre comme appareil de confiance. (Oasis Security, CVE-2026-25253)
 - **T015 Log Poisoning via WebSocket** : injections dans les fichiers de log exposés via WebSocket non authentifié → prompt injection indirecte quand l'agent relit ses propres logs.
-- **T016 Lookalike Platform / Scanner Evasion** : skills propres sur la plateforme légitime redirigent vers des domaines imitateurs pour les "dépendances" — contourne les scans hash-based.
+- **T016 Lookalike Platform / Scanner Evasion** : skills propres sur la plateforme légitime redirigent vers des domaines imitateurs pour les "dépendances", contournant les scans hash-based.
 - **T019 Marketplace Ranking Manipulation** : endpoint de mutation backend exposé exploité pour gonfler les compteurs de téléchargement sans limite. (Silverfort, ClawHub, mars 2026)
 - **T020 Agentic Tool Chain Reasoning Layer Attack** : manipulation de la couche de raisonnement de l'agent (READMEs empoisonnés, métadonnées, contexte injecté) pour orienter le choix d'outils vers l'attaquant. (CrowdStrike, mars 2026)
-- **T022 NomShub: IDE Remote Tunnel Persistence** : injection dans un README déclenche au démarrage de l'IDE une chaîne — sandbox escape + écriture `.zshenv` + tunnel Cursor → backdoor shell persistant. (Straiker.ai, CVE Cursor)
+- **T022 NomShub: IDE Remote Tunnel Persistence** : injection dans un README déclenche au démarrage de l'IDE une chaîne : sandbox escape + écriture `.zshenv` + tunnel Cursor → backdoor shell persistant. (Straiker.ai, CVE Cursor)
 - **T023 Lies-in-the-Loop UI Deception** : l'UI de confirmation affiche une action bénigne pendant que le tool call exécute une opération malveillante différente. (Dark Reading / Equixly)
 - **T024 Prompt Poaching via Browser Extension** : extensions malveillantes interceptent passivement toutes les conversations IA (code, secrets, credentials) sans injection ni erreur utilisateur.
-- **T025 Comment and Control: CI/CD Credential Theft** : titres de PR et commentaires d'issues injectés dans les agents CI/CD via GitHub Actions — fuite d'ANTHROPIC_API_KEY et GITHUB_TOKEN. (Johns Hopkins / SecurityWeek, CVSS 9.4)
+- **T025 Comment and Control: CI/CD Credential Theft** : titres de PR et commentaires d'issues injectés dans les agents CI/CD via GitHub Actions, fuite d'ANTHROPIC_API_KEY et GITHUB_TOKEN. (Johns Hopkins / SecurityWeek, CVSS 9.4)
 - **T026 Claudy Day: Session Hijack via URL Injection** : 3 vulnérabilités chaînées sur Claude.ai (URL injection + open redirect + Google Ads bypass) permettent un hijack silencieux en un clic.
 - **T027 Supply Chain Memory Poisoning** : dépendance compromise écrit dans CLAUDE.md / MEMORY.md des instructions de backdoor qui persistent entre tous les projets et sessions. (Cisco / THN)
 - **T028 Zero-Click RCE via Prompt Injection** : injection de prompt sans interaction utilisateur permet une exécution de code arbitraire. Démontré par Cymulate (mai 2026) sur Cursor, AWS Kiro et OpenAI Codex. Vecteur : fichiers du projet ou dépendances lus automatiquement par l'agent.
@@ -667,19 +667,19 @@ skills-ref validate ./skill-directory
 - **CVE-2025-35028** : HexStrike AI MCP Server
 - **CVE-2025-15061** : Framelink Figma MCP Server fetchWithRetry RCE
 - **CVE-2026-3484** : nmap-mcp-server command injection
-- **CVE-2026-33032** : nginx-ui MCPwn — authentication bypass, KEV actively exploited
+- **CVE-2026-33032** : nginx-ui MCPwn, authentication bypass, KEV actively exploited
 - **ADVISORY-MCP-STDIO-2026-001** : faille de design MCP STDIO (OX Security), 7000+ serveurs exposés, 150M+ téléchargements
 - **CVE-2025-69256** : Serverless Framework MCP RCE
 - **CVE-2026-6494** : AAP MCP Server log injection (Red Hat)
 
 **CVEs v2.17.0 (mai 2026)** :
 
-- **CVE-2025-66335** : Apache Doris MCP Server — injection SQL via paramètre non sanitisé dans l'interface MCP.
-- **CVE-2025-53107** : Git MCP Server — injection de commande via nom de branche malformé, RCE sur le serveur hôte.
-- **CVE-2026-22252** : LibreChat STDIO transport — RCE via désérialisation non sécurisée dans le handler de messages STDIO.
-- **CVE-2026-22688** : WeKnora STDIO transport — RCE via traversal de chemin dans les requêtes MCP STDIO.
-- **CVE-2025-54994** : `@akoskm/create-mcp-server-stdio` — RCE via injection de commande dans le script de génération de serveur MCP.
-- **CVE-2026-26030** : Microsoft AI agent framework — RCE via chaînage d'outils (tool-chaining) permettant une escalade de privilèges entre agents.
+- **CVE-2025-66335** : Apache Doris MCP Server, injection SQL via paramètre non sanitisé dans l'interface MCP.
+- **CVE-2025-53107** : Git MCP Server, injection de commande via nom de branche malformé, RCE sur le serveur hôte.
+- **CVE-2026-22252** : LibreChat STDIO transport, RCE via désérialisation non sécurisée dans le handler de messages STDIO.
+- **CVE-2026-22688** : WeKnora STDIO transport, RCE via traversal de chemin dans les requêtes MCP STDIO.
+- **CVE-2025-54994** : `@akoskm/create-mcp-server-stdio`, RCE via injection de commande dans le script de génération de serveur MCP.
+- **CVE-2026-26030** : Microsoft AI agent framework, RCE via chaînage d'outils (tool-chaining) permettant une escalade de privilèges entre agents.
 
 **CVEs v2.18.0 → v2.23.0 (juin-juillet 2026)** :
 

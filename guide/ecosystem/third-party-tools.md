@@ -148,10 +148,10 @@ A social dashboard for tracking and sharing Claude Code (and OpenAI Codex) usage
 
 **Key features**:
 
-- `straude` — smart sync: authenticate + push usage in one command
-- `straude push --dry-run` — preview what would be submitted without sending
-- `straude push --days N` — backfill last N days (max 7)
-- `straude status` — streak, weekly spend, token totals, global rank
+- `straude`: smart sync, authenticate + push usage in one command
+- `straude push --dry-run`: preview what would be submitted without sending
+- `straude push --days N`: backfill last N days (max 7)
+- `straude status`: streak, weekly spend, token totals, global rank
 - Tracks both Claude Code (`ccusage`) and OpenAI Codex (`@ccusage/codex`)
 
 **What is sent to the Straude server**:
@@ -163,14 +163,14 @@ Your source code, API keys, and conversation content are **not** accessed or tra
 **Security notes**:
 
 - Auth token stored in `~/.straude/config.json` with `0600` permissions (owner-only)
-- Project is very young (created 2026-02-18, rapid iteration) — no public security audit
+- Project is very young (created 2026-02-18, rapid iteration) and has no public security audit
 - Machine hostname is sent as `device_name`
 - No published privacy policy as of March 2026
 - Use `--dry-run` to verify what would be submitted before your first push
 
 **When to choose Straude over ccusage/ccburn**:
 
-Straude is the only tool in this list that is **social** — it uploads your stats to a shared platform. If you want a leaderboard, streak tracking, or to benchmark your usage against other developers, Straude is unique. If you want local-only cost visibility, ccusage or ccburn are better fits and carry no data-sharing implications.
+Straude is the only tool in this list that is **social**: it uploads your stats to a shared platform. If you want a leaderboard, streak tracking, or to benchmark your usage against other developers, Straude is unique. If you want local-only cost visibility, ccusage or ccburn are better fits and carry no data-sharing implications.
 
 > **Security reminder**: Before running any community CLI tool with `npx`, review its npm page and source for red flags. For Straude, the compiled source is readable and consistent with its stated purpose. See the [resource evaluation](../../docs/resource-evaluations/straude-evaluation.md) for the full analysis.
 
@@ -198,7 +198,7 @@ A CLI proxy that filters command outputs **before** they reach Claude's context.
 - `rtk wc` - compact word/line/byte counts
 - `rtk init --global` - hook-first install with settings.json auto-patch
 - `rtk gain` / `rtk gain -p` - token savings analytics (global + per-project)
-- **TOML Filter DSL**: add custom output filters for any command without writing Rust — `.rtk/filters.toml` (project) or `~/.config/rtk/filters.toml` (global), 33+ built-in filters
+- **TOML Filter DSL**: add custom output filters for any command without writing Rust, via `.rtk/filters.toml` (project) or `~/.config/rtk/filters.toml` (global), 33+ built-in filters
 - `rtk rewrite` - single source of truth for hook command mapping (v0.25.0+, requires `rtk init --global` after upgrade)
 - `exclude_commands` config to exclude specific commands from auto-rewriting
 
@@ -301,7 +301,7 @@ All four tools above (Claude Code Usage Monitor, claude-spend, cc-statistics, cl
 
 ## Context Compression
 
-Tools that reduce tokens entering LLM context through compression, lazy-loading, or intelligent filtering — complementary to the tracking tools above.
+Tools that reduce tokens entering LLM context through compression, lazy-loading, or intelligent filtering, complementary to the tracking tools above.
 
 ### lean-ctx
 
@@ -319,15 +319,15 @@ A local-first context compression CLI and MCP server written in Rust. Installs o
 
 lean-ctx registers as a global MCP server (`~/.claude.json`) and installs three hooks in `~/.claude/settings.json` that fire on every tool call:
 
-- `PreToolUse hook redirect` — intercepts native Read calls and routes them to `ctx_read` (AST parsing + file cache)
-- `PreToolUse hook rewrite` — routes Bash calls through `ctx_shell` (pattern-based shell compression)
-- `PostToolUse / SessionEnd hook observe` — feeds the CCP cross-session memory
+- `PreToolUse hook redirect`: intercepts native Read calls and routes them to `ctx_read` (AST parsing + file cache)
+- `PreToolUse hook rewrite`: routes Bash calls through `ctx_shell` (pattern-based shell compression)
+- `PostToolUse / SessionEnd hook observe`: feeds the CCP cross-session memory
 
 **The 4 compression dimensions**
 
 - **File reads with AST parsing**: tree-sitter parses TypeScript, Python, Rust, and 15 other languages. `signatures` mode returns only type and function signatures (no bodies). `map` mode returns exports and dependencies. A 2364-line `schema.prisma` compresses to ~200 tokens. Unchanged files are served from cache at ~13 tokens on re-read.
 - **Shell output**: 60+ compression patterns specific to git, cargo, npm, docker, and kubectl. `git log -10 --stat` becomes 10 commit lines plus a single summary.
-- **Cross-session memory (CCP — Context Continuity Protocol)**: stores a ~400-token session summary on exit. The next session loads it rather than cold-reading 50,000+ tokens of prior context.
+- **Cross-session memory (CCP: Context Continuity Protocol)**: stores a ~400-token session summary on exit. The next session loads it rather than cold-reading 50,000+ tokens of prior context.
 - **Codebase graph**: SQLite-backed dependency graph built from tree-sitter imports/exports across 18 languages. `ctx_overview` uses it to score files by import centrality and surface the most connected modules first.
 
 **Measured benchmarks (TypeScript/T3 monorepo, 2455 files)**
@@ -341,7 +341,7 @@ lean-ctx registers as a global MCP server (`~/.claude.json`) and installs three 
 | schema.prisma 2364L in signatures mode | ~200 tokens (99%) |
 | File re-read (cache hit) | 13 tokens |
 
-Results are lower on Markdown-heavy repos — the AST parser finds less structure to compress in documentation files than in TypeScript or Rust source.
+Results are lower on Markdown-heavy repos, because the AST parser finds less structure to compress in documentation files than in TypeScript or Rust source.
 
 **RTK vs lean-ctx: complementary layers**
 
@@ -464,7 +464,7 @@ The `task` tool: sub-agent delegation with dynamic model selection (haiku for si
 
 ### mcp2cli
 
-A universal CLI bridge that converts any MCP server, OpenAPI spec, or GraphQL endpoint into shell commands — without injecting tool schemas into the LLM context. The key insight: most MCP clients push the full schema of every registered tool into context on every turn, whether the agent needs it or not. mcp2cli replaces that with lazy loading.
+A universal CLI bridge that converts any MCP server, OpenAPI spec, or GraphQL endpoint into shell commands, without injecting tool schemas into the LLM context. The key insight: most MCP clients push the full schema of every registered tool into context on every turn, whether the agent needs it or not. mcp2cli replaces that with lazy loading.
 
 | Attribute | Details |
 |-----------|---------|
@@ -486,7 +486,7 @@ Full schemas never enter LLM context unless explicitly requested.
 
 **Benchmarks** (independently reproduced by Firecrawl, Scalekit, CircleCI):
 
-- GitHub MCP server (43 tools), simple task: 44 026 tokens (MCP native) vs 1 365 tokens (gh CLI / mcp2cli pattern) — 32× reduction
+- GitHub MCP server (43 tools), simple task: 44 026 tokens (MCP native) vs 1 365 tokens (gh CLI / mcp2cli pattern), a 32× reduction
 - Failure rate on the same tasks: MCP native 28%, CLI pattern 0% (context overflow = missed steps)
 - 120 tools, 25 turns: MCP native injects ~362 000 tokens of schemas before any real work starts
 
@@ -496,7 +496,7 @@ Full schemas never enter LLM context unless explicitly requested.
 - **Auth**: OAuth 2.1 with PKCE for interactive use, client credentials for CI/CD pipelines, cached token refresh
 - **Daemon + connection pooling**: MCP connections take 2-5 seconds cold. The daemon keeps them warm for millisecond-latency reuse.
 - **`--toon` format**: token-efficient output encoding that cuts response tokens 40-60% vs plain JSON
-- **Semantic exit codes**: `validation_error`, `auth_failure`, `tool_error`, `connection_error` — shell scripts can branch without text parsing
+- **Semantic exit codes**: `validation_error`, `auth_failure`, `tool_error`, `connection_error`, so shell scripts can branch without text parsing
 
 ```bash
 # No-install test
@@ -523,7 +523,7 @@ mcp2cli bake create petstore --spec URL && mcp2cli @petstore --list
 
 **When not to use it**:
 
-- Enterprise multi-tenant contexts requiring per-user OAuth and audit logs — native MCP gateways handle this better
+- Enterprise multi-tenant contexts requiring per-user OAuth and audit logs (native MCP gateways handle this better)
 - Agents using well-known native CLIs (gh, git, kubectl): the model knows their interface from training data, no bridge needed
 - Fewer than ~10 tools per server: the gain is real but not urgent
 
@@ -755,12 +755,12 @@ A security scanner that grades your `.claude/` directory on a 0–100 scale (A�
 | **Install** | `npx ecc-agentshield scan` (zero-install) or `npm install -g ecc-agentshield` |
 | **Language** | TypeScript (Node.js) |
 | **License** | MIT |
-| **Status** | Early-stage (released Feb 2026) — rules not independently audited |
+| **Status** | Early-stage (released Feb 2026): rules not independently audited |
 
 **Key features**:
 
 - **5 scan categories**: secrets (14 patterns: `sk-ant-`, `ghp_`, AWS, Stripe…), permissions (wildcard `Bash(*)`, missing deny lists), hooks (34 rules: command injection via `${var}`, data exfiltration, silent errors, reverse shells), MCP servers (23 rules: supply-chain, `npx -y`, remote transport), agents (25 rules: auto-run instructions, hidden Unicode directives, prompt reflection)
-- **Auto-fix**: `agentshield scan --fix` — replaces hardcoded secrets with env var references
+- **Auto-fix**: `agentshield scan --fix` replaces hardcoded secrets with env var references
 - **Multiple output formats**: terminal (default), JSON (`--format json`), Markdown, self-contained HTML
 - **GitHub Action**: posts inline annotations on affected files, emits `score` and `grade` outputs, supports `fail-on-findings` threshold
 - **Opus adversarial analysis** (`--opus --stream`): three-agent pipeline (Attacker → Defender → Auditor) using Opus 4.6 for deep threat modeling
@@ -790,18 +790,18 @@ agentshield scan --opus --stream
     fail-on-findings: "true"
 ```
 
-**`runtimeConfidence` context**: findings are weighted by source — `active-runtime` (full weight) vs `template-example` (0.25x) vs `docs-example` (0.25x) — so a large MCP template catalog doesn't inflate the score like dozens of active servers.
+**`runtimeConfidence` context**: findings are weighted by source: `active-runtime` (full weight) vs `template-example` (0.25x) vs `docs-example` (0.25x), so a large MCP template catalog doesn't inflate the score like dozens of active servers.
 
 **Limitations**:
-- Rules are not independently audited — treat the grade as a useful signal, not a compliance certification
+- Rules are not independently audited; treat the grade as a useful signal, not a compliance certification
 - `--opus` mode triggers Opus 4.6 API calls; budget accordingly before enabling in CI
-- Project is 2 months old — API surface may evolve; pin to a specific version in production
+- Project is 2 months old, so the API surface may evolve; pin to a specific version in production
 
 > **See also**: [Security Hardening guide](../security/security-hardening.md) for manual hook and permission patterns.
 
 ### DeepSec
 
-An agent-powered vulnerability scanner from Vercel Labs that finds logic-level security bugs in application code — the kind that regex-based SAST tools miss. Where AgentShield above audits your Claude Code configuration, DeepSec audits the application itself.
+An agent-powered vulnerability scanner from Vercel Labs that finds logic-level security bugs in application code, the kind that regex-based SAST tools miss. Where AgentShield above audits your Claude Code configuration, DeepSec audits the application itself.
 
 | Attribute | Details |
 |-----------|---------|
@@ -809,7 +809,7 @@ An agent-powered vulnerability scanner from Vercel Labs that finds logic-level s
 | **Install** | `npx deepsec init` (bootstraps a `.deepsec/` directory at repo root) |
 | **Language** | TypeScript |
 | **License** | Apache 2.0 |
-| **Status** | Vercel Labs — experimental, not production-ready |
+| **Status** | Vercel Labs: experimental, not production-ready |
 
 **How it works**: DeepSec runs a 5-step pipeline. First a fast regex scan identifies sensitive zones (auth flows, crypto calls, user inputs). Then AI agents trace data flows through each candidate file and produce findings. A second agent pass revalidates those findings and consults git history to filter already-patched issues. Final output is structured Markdown or JSON, ready to paste into tickets.
 
@@ -836,13 +836,13 @@ pnpm deepsec process --diff
 pnpm deepsec sandbox process --sandboxes 10 --concurrency 4
 ```
 
-**When to use it**: DeepSec finds edge cases in authentication conditions and subtle data-flow issues that pattern-based tools won't surface. It's well-suited for a periodic deep audit on critical services or as a `--diff` gate on security-sensitive PRs — not as a per-commit scanner.
+**When to use it**: DeepSec finds edge cases in authentication conditions and subtle data-flow issues that pattern-based tools won't surface. It's well-suited for a periodic deep audit on critical services or as a `--diff` gate on security-sensitive PRs, not as a per-commit scanner.
 
 **Cost warning**: a full scan on a 50K-line codebase can cost $10–50 in Claude Opus tokens. Large monorepos can reach thousands of dollars. Run `--diff` mode for routine use; reserve full scans for targeted audits.
 
 **Configuration**: create `.deepsec/INFO.md` (50–100 lines) documenting project-specific auth patterns and sensitive zones. Without it, agents reason without context and produce more false positives. A plugin system allows custom regex matchers aligned to your architecture.
 
-**Security posture**: DeepSec has full shell access — treat it like a coding agent. Vercel recommends deploying in Sandbox microVMs (Firecracker) so API keys cannot be exfiltrated from worker processes.
+**Security posture**: DeepSec has full shell access; treat it like a coding agent. Vercel recommends deploying in Sandbox microVMs (Firecracker) so API keys cannot be exfiltrated from worker processes.
 
 > **See also**: [Vercel blog announcement](https://vercel.com/blog/introducing-deepsec-find-and-fix-vulnerabilities-in-your-code-base) for architecture details and real-world examples.
 
@@ -918,7 +918,7 @@ docker run --rm -v "$PWD:/scan" skillspector scan ./my-skill/ --no-llm
 
 ## Configuration Quality
 
-Tools that score, audit, and maintain the quality of existing AI agent configs over time — as opposed to creating them from scratch.
+Tools that score, audit, and maintain the quality of existing AI agent configs over time, as opposed to creating them from scratch.
 
 > **Context**: CLAUDE.md is not a one-time artifact. As a codebase evolves, the context it provides to the AI can drift: paths referenced no longer exist, domain knowledge becomes stale, new patterns emerge without being documented. The tools below address this maintenance layer.
 
@@ -932,12 +932,12 @@ A CLI that scores your AI agent config quality (0-100), generates tailored confi
 | **Install** | `npx @rely-ai/caliber score` (zero-install) or `npm install -g @rely-ai/caliber` |
 | **Language** | TypeScript (Node.js ≥20) |
 | **License** | MIT |
-| **Status** | Early-stage (released March 2026) — APIs may evolve |
+| **Status** | Early-stage (released March 2026): APIs may evolve |
 
 **Key features**:
 
-- **Local scoring**: deterministic 100-point rubric across 6 categories (Existence, Quality, Grounding, Accuracy, Freshness, Bonus) — no LLM calls, no API keys required
-- **Drift detection**: git-based — detects when code commits outpace config updates; cache invalidates on tree signature or HEAD change
+- **Local scoring**: deterministic 100-point rubric across 6 categories (Existence, Quality, Grounding, Accuracy, Freshness, Bonus), no LLM calls, no API keys required
+- **Drift detection**: git-based, detects when code commits outpace config updates; cache invalidates on tree signature or HEAD change
 - **Config generation**: codebase fingerprinting (languages, frameworks, deps) → generates CLAUDE.md + MCP suggestions via your existing AI subscription (Claude Code seat, Cursor seat, or API key)
 - **Review workflow**: score → propose → diff review → accept/decline → backup to `.caliber/backups/` → `caliber undo`
 - **GitHub Action**: posts PR comments with score, grade, delta vs base branch; optional `fail-below` threshold blocks merge
@@ -972,12 +972,12 @@ caliber refresh
 
 | Need | Existing tool | What Caliber adds |
 |------|--------------|-------------------|
-| Create config from scratch | AIBlueprint | — |
+| Create config from scratch | AIBlueprint | N/A |
 | Audit existing config quality | Nothing | Scored rubric + specific failing checks |
 | Detect config drift from code | Nothing | Git-based drift detection |
-| Distribute standards at org scale | Packmind | — |
+| Distribute standards at org scale | Packmind | N/A |
 
-**Limitations**: Early-stage tool (March 2026, ~65 stars at time of writing; the project has since rebranded to `ai-setup` under caliber-ai-org and reached 1,223 stars by 2026-07-27). Multi-tool support (Claude Code + Cursor + Codex + Copilot) may produce generically adequate configs rather than deeply Claude Code-specific ones. Scoring rubric is not exposed as a standalone document — the categories are deterministic but not user-visible without reading the source.
+**Limitations**: Early-stage tool (March 2026, ~65 stars at time of writing; the project has since rebranded to `ai-setup` under caliber-ai-org and reached 1,223 stars by 2026-07-27). Multi-tool support (Claude Code + Cursor + Codex + Copilot) may produce generically adequate configs rather than deeply Claude Code-specific ones. Scoring rubric is not exposed as a standalone document: the categories are deterministic but not user-visible without reading the source.
 
 **Security note**: `caliber refresh` and `caliber watch` have write access to CLAUDE.md. Same risk class as Packmind: review generated output before accepting, particularly when using external sources (`caliber config`). Treat `.caliber/` config files with the same discipline as a secrets manager.
 
@@ -1001,7 +1001,7 @@ An OSS tool by Packmind that evaluates CLAUDE.md and AGENTS.md quality using 17 
 **Key features**:
 
 - 17 evaluators split into 13 error types (existing issues) and 4 suggestion types (gaps from codebase analysis): content quality, structure/formatting, command completeness, testing guidance, security awareness, contradictory instructions, outdated paths, and more
-- AGENTS.md and CLAUDE.md treated equivalently — works with Claude Code, Cursor, GitHub Copilot, and Codex formats
+- AGENTS.md and CLAUDE.md treated equivalently: works with Claude Code, Cursor, GitHub Copilot, and Codex formats
 - Codebase fingerprinting: CLOC + folder analysis + config file detection runs first, so each evaluator prompt includes the project's actual languages, frameworks, and key folders. Issues are project-specific, not generic.
 - **Unified mode**: when all files fit under 100K tokens, one agent evaluates them together and can detect cross-file contradictions. Above the threshold, agents run independently per file.
 - **Automated remediation**: select issues from the web UI, choose a target format (Claude Code, Cursor, GitHub Copilot, Cursor), and the AI generates a `.patch` file. Apply manually with `git apply remediation.patch`. No changes committed without review.
@@ -1038,7 +1038,7 @@ An OSS tool by Packmind that evaluates CLAUDE.md and AGENTS.md quality using 17 
 
 ## Project Context Bootstrapping
 
-Tools that compile structured codebase knowledge before a Claude Code session starts — so the AI understands routes, schema, dependencies, and high-impact files from the first message, without spending tokens on file exploration.
+Tools that compile structured codebase knowledge before a Claude Code session starts, so the AI understands routes, schema, dependencies, and high-impact files from the first message, without spending tokens on file exploration.
 
 > **Context**: Claude Code explores a codebase by calling Glob, Grep, and Read. On large projects, this costs thousands of tokens before any real work begins. The tools below pre-compile that exploration into a single structured artifact (or a set of targeted wiki articles) that Claude reads once at session start. Think of it as "loading the project into RAM before the session opens."
 
@@ -1050,7 +1050,7 @@ A zero-dependency CLI that analyzes a codebase via AST and generates structured 
 |-----------|---------|
 | **Source** | [GitHub: Houseofmvps/codesight](https://github.com/Houseofmvps/codesight) |
 | **Install** | `npx codesight` (zero dependencies, zero config) |
-| **Language** | TypeScript — borrows the TS compiler from your project when present |
+| **Language** | TypeScript, borrows the TS compiler from your project when present |
 | **License** | MIT |
 | **Status** | Early-stage (released April 2026, ~386 stars at time of writing, 1,253 as of 2026-07-27), APIs may evolve |
 
@@ -1086,10 +1086,10 @@ npx codesight --open
 
 | File | Content |
 |------|---------|
-| `.codesight/CODESIGHT.md` | Combined context map — one file with full project understanding |
+| `.codesight/CODESIGHT.md` | Combined context map: one file with full project understanding |
 | `.codesight/routes.md` | Every API route with method, path, params, and what it touches (auth, db, cache, payments) |
 | `.codesight/schema.md` | Every database model with fields, types, primary keys, foreign keys, relations |
-| `.codesight/graph.md` | Import graph — which files import what, which files break the most things if changed |
+| `.codesight/graph.md` | Import graph: which files import what, which files break the most things if changed |
 | `.codesight/middleware.md` | Auth, rate limiting, CORS, validation, logging, error handlers |
 | `.codesight/config.md` | Every env var (required vs default), config files, key dependencies |
 | `.codesight/wiki/` | Persistent knowledge base: one article per topic (`auth.md`, `database.md`, `payments.md`, etc.) |
@@ -1101,7 +1101,7 @@ npx codesight --open
 - Components: React, Vue, Svelte, Flutter, SwiftUI
 - Languages: TypeScript (full AST), JavaScript, Python, Go, Ruby, Elixir, Java, Kotlin, Rust, PHP, Dart, Swift, C# (regex fallback for non-TS)
 
-**MCP integration** — once configured, Claude calls it directly without running `npx`:
+**MCP integration**: once configured, Claude calls it directly without running `npx`:
 
 ```json
 {
@@ -1124,18 +1124,18 @@ Available MCP tools: `codesight_scan`, `codesight_get_wiki_index`, `codesight_ge
 | "What models exist?" | ~5K tokens (full CODESIGHT.md) | ~400 tokens (`database.md`) |
 | New session start | ~5K tokens (full reload) | ~200 tokens (`index.md`) |
 
-**At what scale to switch from CODESIGHT.md to wiki**: on small to medium projects (under ~1,500 files), loading `CODESIGHT.md` at session start via CLAUDE.md is practical. On large projects — a 1,700-file Next.js + tRPC monorepo generates a 35K-token CODESIGHT.md — loading the full file becomes counterproductive. Use `--wiki` + MCP server instead: Claude pulls one targeted article (~200-400 tokens) per question rather than loading the entire map upfront.
+**At what scale to switch from CODESIGHT.md to wiki**: on small to medium projects (under ~1,500 files), loading `CODESIGHT.md` at session start via CLAUDE.md is practical. On large projects (a 1,700-file Next.js + tRPC monorepo generates a 35K-token CODESIGHT.md), loading the full file becomes counterproductive. Use `--wiki` + MCP server instead: Claude pulls one targeted article (~200-400 tokens) per question rather than loading the entire map upfront.
 
 **Limitations and caveats**:
 
-- Benchmarks are self-reported on 3 production projects — no independent verification at time of writing
+- Benchmarks are self-reported on 3 production projects, with no independent verification at time of writing
 - AST precision applies to TypeScript only; other languages use regex-based fallback
-- `--init` generates a CLAUDE.md automatically — it can overwrite an existing one. Back up your CLAUDE.md before running this on a project with an established config
+- `--init` generates a CLAUDE.md automatically; it can overwrite an existing one. Back up your CLAUDE.md before running this on a project with an established config
 - Early-stage tool (April 2026): API surface may change across releases
 - MongoDB projects correctly report 0 schema models (no SQL ORM declarations)
-- Cloudflare Workers using raw HTTP handlers (no recognized framework) report 0 routes — the worker runtime falls outside the 25+ supported framework list
-- Next.js App Router projects report 0 routes — file-based routing has no explicit route declarations for static analysis to parse; routes are inferred from file paths, not code patterns
-- Rust projects produce near-empty output — no AST support, regex fallback captures only top-level module imports (`src/main.rs` → `mod X`); routes, structs, and business logic are invisible. Not useful on Rust codebases
+- Cloudflare Workers using raw HTTP handlers (no recognized framework) report 0 routes: the worker runtime falls outside the 25+ supported framework list
+- Next.js App Router projects report 0 routes: file-based routing has no explicit route declarations for static analysis to parse; routes are inferred from file paths, not code patterns
+- Rust projects produce near-empty output: no AST support, regex fallback captures only top-level module imports (`src/main.rs` → `mod X`); routes, structs, and business logic are invisible. Not useful on Rust codebases
 
 **CI integration** (keeps context fresh on every push):
 
@@ -1165,7 +1165,7 @@ jobs:
 
 Tools that solve the organizational-scale problem: keeping engineering standards in sync across dozens of repositories and multiple AI coding agents.
 
-> **Context**: The guide covers CLAUDE.md authorship at the project level (Section 3 in the Ultimate Guide). The tools below address the next level — distributing and maintaining those standards across an entire engineering org.
+> **Context**: The guide covers CLAUDE.md authorship at the project level (Section 3 in the Ultimate Guide). The tools below address the next level: distributing and maintaining those standards across an entire engineering org.
 
 ### Packmind
 
@@ -1175,7 +1175,7 @@ An open-source "ContextOps" platform (Packmind's term for treating engineering c
 |-----------|---------|
 | **Source** | [GitHub: PackmindHub/packmind](https://github.com/PackmindHub/packmind) |
 | **Install** | `npx @packmind/cli init` |
-| **License** | Apache-2.0 (CLI) — SaaS layer at packmind.com (pricing unspecified) |
+| **License** | Apache-2.0 (CLI); SaaS layer at packmind.com (pricing unspecified) |
 | **Self-hosted** | Docker / Kubernetes |
 | **Language** | TypeScript |
 
@@ -1186,11 +1186,11 @@ An open-source "ContextOps" platform (Packmind's term for treating engineering c
 - Continuous learning loop (claimed): bug fixed → root cause captured via Skill+MCP → playbook update proposed → human validates → distributed across repos
 - Knowledge ingestion from team tools via MCP servers: GitHub PR comments, Slack, Jira, GitLab MRs, Confluence, Notion ([demo use cases](https://github.com/PackmindHub/demo-use-case-skills))
 
-**Mental model**: Think of Packmind as the org-level version of the `.claude/rules/` modular pattern. Where `.claude/rules/*.md` keeps a single project consistent, Packmind keeps 40 repositories consistent — and syncs to every AI tool the team uses, not just Claude Code.
+**Mental model**: Think of Packmind as the org-level version of the `.claude/rules/` modular pattern. Where `.claude/rules/*.md` keeps a single project consistent, Packmind keeps 40 repositories consistent, and syncs to every AI tool the team uses, not just Claude Code.
 
 **Security note**: Centralizing CLAUDE.md distribution means a compromised Packmind repository can propagate malicious instructions to every developer's AI session simultaneously. Treat the Packmind configuration as a sensitive artifact, apply the same access controls as you would a secrets manager, and review proposed playbook updates carefully before merging.
 
-> **Cross-ref**: For CLAUDE.md authorship at project scale, see [Section 3.5 — Team Configuration at Scale](#35-team-configuration-at-scale). For the Packmind MCP server, see [mcp-servers-ecosystem.md — Orchestration](./mcp-servers-ecosystem.md#orchestration).
+> **Cross-ref**: For CLAUDE.md authorship at project scale, see [Section 3.5 - Team Configuration at Scale](#35-team-configuration-at-scale). For the Packmind MCP server, see [mcp-servers-ecosystem.md - Orchestration](./mcp-servers-ecosystem.md#orchestration).
 
 ---
 
@@ -1207,10 +1207,10 @@ A Stop hook utility that enforces quality gates before Claude hands back control
 | **Source** | [GitHub: fcamblor/gitdiff-watcher](https://github.com/fcamblor/gitdiff-watcher) |
 | **Install** | `npx @fcamblor/gitdiff-watcher@0.1.0` (no global install needed) |
 | **Language** | Node.js |
-| **Version** | 0.1.0 — work in progress, APIs may change |
+| **Version** | 0.1.0: work in progress, APIs may change |
 | **Author** | Florian Camblor |
 
-**The problem it solves**: CLAUDE.md rules like "tests must pass before handoff" are non-deterministic. As context grows, these rules compete with recent tool outputs for the model's attention and can be deprioritized — so Claude sometimes returns control with broken code even when the rule is explicit. A Stop hook runs outside the LLM context, making it structurally impossible to skip.
+**The problem it solves**: CLAUDE.md rules like "tests must pass before handoff" are non-deterministic. As context grows, these rules compete with recent tool outputs for the model's attention and can be deprioritized, so Claude sometimes returns control with broken code even when the rule is explicit. A Stop hook runs outside the LLM context, making it structurally impossible to skip.
 
 **How it works**:
 
@@ -1219,7 +1219,7 @@ A Stop hook utility that enforces quality gates before Claude hands back control
 3. Compares against the previous snapshot stored in `.claude/gitdiff-watcher.state.local.json`
 4. If no relevant changes: exits 0 silently (no command runs)
 5. If changes detected: runs all `--exec` commands
-6. If any command fails (exit code 2): Claude receives the stderr and retries — the snapshot is NOT updated, so the check runs again next turn
+6. If any command fails (exit code 2): Claude receives the stderr and retries; the snapshot is NOT updated, so the check runs again next turn
 7. On full success: updates the snapshot
 
 **Example configuration** (`.claude/settings.json`):
@@ -1253,17 +1253,17 @@ Multiple hooks run in parallel (Claude Code spawns one subagent per hook entry).
 
 **Key behaviors**:
 
-- **Conditional**: only fires when matching files changed — no wasted CI time on unrelated edits
+- **Conditional**: only fires when matching files changed, so there's no wasted CI time on unrelated edits
 - **Retry-safe**: failed runs preserve the snapshot, so the same check runs on the next attempt
 - **Parallel**: multiple `--exec` commands within one hook entry run sequentially; use separate hook entries for parallel execution
 - **Silent on no-op**: exits 0 without output when no relevant changes are detected
 
 **Limitations**:
 
-- v0.1.0 — explicitly "work in progress", CLI options and state file format may change
-- Uses `git diff (staged + unstaged)` for file detection — files not tracked by git are not visible to the watcher
+- v0.1.0 (explicitly "work in progress"), CLI options and state file format may change
+- Uses `git diff (staged + unstaged)` for file detection, so files not tracked by git are not visible to the watcher
 - Retry loops: a misconfigured check that always fails will cause Claude to retry indefinitely; add a `--exec-timeout` and ensure your commands have correct exit codes
-- Each Stop hook failure starts a new Claude turn, consuming context — near the 200K limit, repeated failures accelerate context consumption
+- Each Stop hook failure starts a new Claude turn, consuming context. Near the 200K limit, repeated failures accelerate context consumption
 
 **When to use gitdiff-watcher vs a native Stop hook**:
 
@@ -1347,7 +1347,7 @@ A macOS desktop app for orchestrating multiple Claude Code (and Codex) instances
 
 - Integrated diff viewer in the chat panel, turn-by-turn diffs per agent message (v0.22.0)
 - Open diff with `⌘D`; navigate file-by-file without leaving Conductor
-- **Manual Mode** (v0.37.0): built-in file editor with syntax highlighting and `⌘F` search — covers quick edits without opening a separate IDE
+- **Manual Mode** (v0.37.0): built-in file editor with syntax highlighting and `⌘F` search, covers quick edits without opening a separate IDE
 - Comment directly on diffs and send feedback to Claude (v0.10.0)
 
 **GitHub & CI integration**:
@@ -1372,7 +1372,7 @@ A macOS desktop app for orchestrating multiple Claude Code (and Codex) instances
 
 **Reported workflow pattern (community)**:
 
-Users working across 5+ parallel features on multiple repos report the following flow: create one workspace per feature (GitHub issue or Linear issue as context), let agents run, use the **Next Workspace** button to process only workspaces awaiting input, review diffs in-app, merge from the Checks tab. Reported combination with BMAD: one workspace per epic, one Claude agent for implementation and a second for the next story — described as a significant productivity multiplier for spec-driven development.
+Users working across 5+ parallel features on multiple repos report the following flow: create one workspace per feature (GitHub issue or Linear issue as context), let agents run, use the **Next Workspace** button to process only workspaces awaiting input, review diffs in-app, merge from the Checks tab. Reported combination with BMAD: one workspace per epic, one Claude agent for implementation and a second for the next story, described as a significant productivity multiplier for spec-driven development.
 
 **Limitations**: macOS only (as of Mar 2026). Proprietary (not open source). Overlaps with multi-agent orchestration tools listed below.
 
@@ -1414,7 +1414,7 @@ A cross-platform desktop and web app for agentic AI development. Maintains full 
 
 **Key features**:
 
-- **Multi-provider**: Claude Pro/Max, GitHub Copilot, Amazon Bedrock, Google Antigravity, Qwen, and any OpenAI/Anthropic/Google-compatible endpoint — bring your own subscription
+- **Multi-provider**: Claude Pro/Max, GitHub Copilot, Amazon Bedrock, Google Antigravity, Qwen, and any OpenAI/Anthropic/Google-compatible endpoint (bring your own subscription)
 - **Claude Code compatibility**: Explicit support for hooks, AGENTS.md, MCP servers, permission modes, subagents, and chat compaction
 - **Dev environment**: Git worktrees (first-class), integrated terminal, file browser, Git browser, and code editor (Pro)
 - **Chat management**: Branching/forking, message queuing, slash commands, context management, desktop notifications
@@ -1422,7 +1422,7 @@ A cross-platform desktop and web app for agentic AI development. Maintains full 
 
 **Windows gap**: All other "Alternative UIs" in this section are macOS/Linux only. Piebald is the only GUI option with native Windows support (no WSL required).
 
-**Relation to Piebald-AI org**: The same team maintains [claude-code-system-prompts](https://github.com/Piebald-AI/claude-code-system-prompts) — the most comprehensive public reverse-engineering of Claude Code's internal system prompts, cited throughout this guide.
+**Relation to Piebald-AI org**: The same team maintains [claude-code-system-prompts](https://github.com/Piebald-AI/claude-code-system-prompts), the most comprehensive public reverse-engineering of Claude Code's internal system prompts, cited throughout this guide.
 
 **Limitations**: Proprietary, not open source. File browser and code editor require Pro tier.
 
@@ -1468,7 +1468,7 @@ This section covers tools for running **multiple Claude Code instances in parall
 
 ### abtop
 
-A Rust TUI that shows all active Claude Code and Codex CLI sessions in one screen — like htop, but for agent fleets.
+A Rust TUI that shows all active Claude Code and Codex CLI sessions in one screen, like htop but for agent fleets.
 
 | Attribute | Details |
 |-----------|---------|
@@ -1480,7 +1480,7 @@ A Rust TUI that shows all active Claude Code and Codex CLI sessions in one scree
 
 **Key features**:
 
-- Auto-discovery of Claude Code and Codex CLI sessions from local process/file state — no API key, no auth
+- Auto-discovery of Claude Code and Codex CLI sessions from local process/file state: no API key, no auth
 - Per-session bars: token usage, context window %, rate limit quota
 - Orphan port detection with one-key kill (`X`)
 - Subagent tree (Claude Code only)
@@ -1524,7 +1524,7 @@ tmux new -s work
 
 ## External Orchestration Frameworks
 
-> **Architectural distinction**: The tools above (Gas Town, multiclaude) run multiple Claude Code instances side by side. External orchestration frameworks go further — they replace or augment Claude Code's internal orchestration layer with their own runtime, adding swarm coordination, persistent memory, and specialized agent pools on top. Use native Claude Code capabilities (Task tool, sub-agents) first; reach for these frameworks when you've exhausted them.
+> **Architectural distinction**: The tools above (Gas Town, multiclaude) run multiple Claude Code instances side by side. External orchestration frameworks go further: they replace or augment Claude Code's internal orchestration layer with their own runtime, adding swarm coordination, persistent memory, and specialized agent pools on top. Use native Claude Code capabilities (Task tool, sub-agents) first; reach for these frameworks when you've exhausted them.
 
 ### Ruflo (formerly claude-flow)
 
@@ -1573,7 +1573,7 @@ npx ruflo@latest init wizard
 ### Athena Flow
 
 **GitHub**: [github.com/lespaceman/athena-flow](https://github.com/lespaceman/athena-flow) | **License**: MIT (claimed)
-**Status**: Watch — published March 2026, not yet audited
+**Status**: Watch, published March 2026, not yet audited
 
 A different architectural approach: instead of augmenting Claude Code's agent layer, Athena Flow sits at the **hooks layer**. It intercepts hook events via Unix Domain Socket (NDJSON), routes them through a persistent Node.js runtime, and provides a TUI for real-time observability and workflow control.
 
@@ -1583,7 +1583,7 @@ Claude Code → hook-forwarder → Unix Domain Socket → Athena Flow runtime �
 
 First shipped workflow: autonomous E2E test builder (Playwright CI-ready output). Roadmap: visual regression, API testing, Codex support.
 
-**Not recommended yet** — source audit pending, project too new to assess stability. Revisit in 4-6 weeks.
+**Not recommended yet**: source audit pending, project too new to assess stability. Revisit in 4-6 weeks.
 
 ---
 
@@ -1592,9 +1592,9 @@ First shipped workflow: autonomous E2E test builder (Playwright CI-ready output)
 **GitHub**: [github.com/Pipelex/pipelex](https://github.com/Pipelex/pipelex), 693 stars (2026-07-27, was 623 in March 2026)
 **License**: MIT | **Language**: Python | **Standard**: [mthds.ai](https://mthds.ai)
 
-> **Architectural distinction**: Pipelex n'orchestre pas des agents Claude Code — il fournit un **DSL déclaratif** (fichiers `.mthds`) pour définir des AI methods réutilisables. Là où Ruflo gère des swarms d'agents, Pipelex gère des pipelines multi-LLM typés et git-versionables.
+> **Architectural distinction**: Pipelex n'orchestre pas des agents Claude Code : il fournit un **DSL déclaratif** (fichiers `.mthds`) pour définir des AI methods réutilisables. Là où Ruflo gère des swarms d'agents, Pipelex gère des pipelines multi-LLM typés et git-versionables.
 
-Runtime Python pour le standard ouvert MTHDS. Une "AI method" est un workflow multi-étapes qui chaîne LLMs, OCR, et génération d'image — chaque étape typée et validée avant exécution. Les méthodes sont git-versionables, partageables via le hub communautaire [mthds.sh](https://mthds.sh), et peuvent être auto-générées par Claude Code.
+Runtime Python pour le standard ouvert MTHDS. Une "AI method" est un workflow multi-étapes qui chaîne LLMs, OCR, et génération d'image, chaque étape typée et validée avant exécution. Les méthodes sont git-versionables, partageables via le hub communautaire [mthds.sh](https://mthds.sh), et peuvent être auto-générées par Claude Code.
 
 **Intégration Claude Code** (Path A recommandé) :
 ```bash
@@ -1614,9 +1614,9 @@ npm install -g mthds
 /mthds-run
 ```
 
-**Cas d'usage** : workflows répétables à fort volume — traitement de documents, scoring de candidats, classification d'emails, analyse de contrats. Pas adapté à l'exploration créative open-ended où les agents natifs Claude Code restent plus appropriés.
+**Cas d'usage** : workflows répétables à fort volume : traitement de documents, scoring de candidats, classification d'emails, analyse de contrats. Pas adapté à l'exploration créative open-ended où les agents natifs Claude Code restent plus appropriés.
 
-**Status** : Watch — 8 mois d'existence, standard MTHDS pas encore validé à grande échelle. Surveiller la traction d'ici Q3 2026.
+**Status** : Watch, 8 mois d'existence, standard MTHDS pas encore validé à grande échelle. Surveiller la traction d'ici Q3 2026.
 
 ---
 
@@ -1627,7 +1627,7 @@ npm install -g mthds
 A CLI tool that maps a codebase (plus any mix of docs, PDFs, images, and videos) into a queryable knowledge graph. Instead of asking Claude Code to re-read files every session to understand structure, you build the graph once and query it. The payoff: far fewer tokens spent on orientation, and surfaced connections that grep and manual browsing miss.
 
 **GitHub**: [github.com/safishamsi/graphify](https://github.com/safishamsi/graphify)
-**PyPI**: `graphifyy` (note the double-y — the single-y package is a different, unrelated project)
+**PyPI**: `graphifyy` (note the double-y: the single-y package is a different, unrelated project)
 **License**: MIT | **Language**: Python 3.10+
 
 | Attribute | Details |
@@ -1644,16 +1644,16 @@ A CLI tool that maps a codebase (plus any mix of docs, PDFs, images, and videos)
 | `graphify-out/GRAPH_REPORT.md` | Key concepts, surprising connections, suggested questions |
 | `graphify-out/graph.json` | Structured graph data reused on every query |
 
-**Under the hood — cache files in `graphify-out/`:**
+**Under the hood: cache files in `graphify-out/`:**
 
 Beyond the 3 public files, Graphify keeps a cache layer that powers incremental rebuilds. These hidden files appear after the first run:
 
 | File | Role |
 |------|------|
-| `.graphify_ast.json` | Raw AST from tree-sitter — all code, no API call, often 15-20 MB |
-| `.graphify_detect.json` | Output of `collect_files()` — the full file manifest |
+| `.graphify_ast.json` | Raw AST from tree-sitter, all code, no API call, often 15-20 MB |
+| `.graphify_detect.json` | Output of `collect_files()`: the full file manifest |
 | `.graphify_chunk_XX.json` | Batches of files sent to the AI API for semantic extraction |
-| `.chunk_manifest_XX.json` | Which files belong to each chunk — used by `--update` to isolate changes |
+| `.chunk_manifest_XX.json` | Which files belong to each chunk, used by `--update` to isolate changes |
 | `.graphify_semantic.json` | Semantic embeddings after entity deduplication |
 | `.graphify_uncached.txt` | Files not yet cached in the last run |
 | `cache/` | Content hashes per file for change detection |
@@ -1685,11 +1685,11 @@ graphify query "what connects auth to the database?"
 graphify path "UserService" "DatabasePool"
 ```
 
-Once registered with Claude Code, the installed skill lets Claude read `graph.json` directly instead of crawling files — so queries happen inside the conversation without re-reading source.
+Once registered with Claude Code, the installed skill lets Claude read `graph.json` directly instead of crawling files, so queries happen inside the conversation without re-reading source.
 
 **Key analytical features:**
 
-- **God nodes**: highly-connected architectural hubs — the components that everything else depends on
+- **God nodes**: highly-connected architectural hubs, the components that everything else depends on
 - **Surprising connections**: cross-module links ranked by an unexpectedness score
 - **Design rationale extraction**: pulls the WHY from inline comments and docstrings, not just the WHAT
 - **Confidence tagging**: every relationship is tagged `EXTRACTED` (explicit import/call), `INFERRED` (deduced from context), or `AMBIGUOUS` (flagged for review)
@@ -1703,15 +1703,15 @@ Once registered with Claude Code, the installed skill lets Claude read `graph.js
 graphify mcp
 ```
 
-For large codebases (graph.json above ~5 MB), MCP mode is significantly more efficient. Without it, Claude loads `GRAPH_REPORT.md` first for orientation, then pulls targeted sections of `graph.json` as needed. With MCP running, Claude calls `god_nodes`, `query "auth flow"`, or `shortest_path` directly and receives only the relevant subgraph — no full graph load into context. A 22 MB `graph.json` loaded in full costs far more tokens than 4-5 targeted MCP tool calls returning the same answer.
+For large codebases (graph.json above ~5 MB), MCP mode is significantly more efficient. Without it, Claude loads `GRAPH_REPORT.md` first for orientation, then pulls targeted sections of `graph.json` as needed. With MCP running, Claude calls `god_nodes`, `query "auth flow"`, or `shortest_path` directly and receives only the relevant subgraph, no full graph load into context. A 22 MB `graph.json` loaded in full costs far more tokens than 4-5 targeted MCP tool calls returning the same answer.
 
 **How Claude uses the installed skill:**
 
 After `graphify install --platform claude`, the skill injects a rule: if `graphify-out/` exists in the current project, treat architecture questions as graph queries rather than file reads. The resolution order in practice:
 
-1. Claude reads `GRAPH_REPORT.md` first — compact (typically 150-200 KB), gives orientation on god nodes and surprising connections
+1. Claude reads `GRAPH_REPORT.md` first, compact (typically 150-200 KB), gives orientation on god nodes and surprising connections
 2. For specific queries, Claude consults targeted sections of `graph.json`
-3. With MCP server running: Claude calls `query`, `shortest_path`, `god_nodes`, or `neighbor_traversal` tools directly — far cheaper at scale
+3. With MCP server running: Claude calls `query`, `shortest_path`, `god_nodes`, or `neighbor_traversal` tools directly, far cheaper at scale
 
 Without Graphify: Claude re-reads source files every session to understand structure, burning tokens on orientation. With Graphify: that cost is paid once at build time, then amortized across all sessions.
 
@@ -1721,11 +1721,11 @@ Without Graphify: Claude re-reads source files every session to understand struc
 
 **Team workflow**: Committing `graphify-out/` to git gives every teammate a shared map on clone. Graphify ships a git merge driver that prevents conflict markers in `graph.json`, and optional git hooks for automatic rebuilds on commit.
 
-**Pipeline:** `detect() → extract() → build_graph() → cluster() → analyze() → report() → export()` — each stage isolated, no shared state. Adding a language requires registering an extractor in `extract.py` plus tree-sitter dependencies.
+**Pipeline:** `detect() → extract() → build_graph() → cluster() → analyze() → report() → export()`: each stage isolated, no shared state. Adding a language requires registering an extractor in `extract.py` plus tree-sitter dependencies.
 
 **Limitations:**
 
-- Package name `graphifyy` (double-y) is the main friction point — `pip install graphify` installs an unrelated tool without any error
+- Package name `graphifyy` (double-y) is the main friction point: `pip install graphify` installs an unrelated tool without any error
 - Doc/PDF extraction makes AI API calls; cost scales with documentation volume, not code size
 - v0.8.x evolves fast; some CLI flags shift between minor versions, check the changelog before upgrading
 
@@ -1737,11 +1737,11 @@ Without Graphify: Claude re-reads source files every session to understand struc
 
 ### Skillsight
 
-The only open-source tool for team-level skills usage analytics. Ingests Claude Code OTEL telemetry and shows which skills are actually invoked — by whom, how often, in which sessions — rather than which skills you think are being used.
+The only open-source tool for team-level skills usage analytics. Ingests Claude Code OTEL telemetry and shows which skills are actually invoked (by whom, how often, in which sessions) rather than which skills you think are being used.
 
 | Attribute | Details |
 |-----------|---------|
-| **Source** | [GitHub — PackmindHub/skillsight](https://github.com/PackmindHub/skillsight) |
+| **Source** | [GitHub: PackmindHub/skillsight](https://github.com/PackmindHub/skillsight) |
 | **Author** | Cédric Teyton (Packmind) |
 | **License** | Apache 2.0 |
 | **Version** | 0.2.1 (active, 101 commits) |
@@ -1752,7 +1752,7 @@ The only open-source tool for team-level skills usage analytics. Ingests Claude 
 
 **Two ingestion modes:**
 
-*Direct OTLP push* — Claude Code sends telemetry straight to Skillsight. Lower latency, simpler setup:
+*Direct OTLP push*: Claude Code sends telemetry straight to Skillsight. Lower latency, simpler setup:
 
 ```json
 // ~/.claude/settings.json
@@ -1768,36 +1768,36 @@ The only open-source tool for team-level skills usage analytics. Ingests Claude 
 }
 ```
 
-*Loki pull* — Skillsight polls a Grafana Cloud Loki endpoint on a configurable schedule. Useful if you already aggregate logs there.
+*Loki pull*: Skillsight polls a Grafana Cloud Loki endpoint on a configurable schedule. Useful if you already aggregate logs there.
 
-The ingestion token is created from the Skillsight UI (`/tokens`) and has a separate JWT type from session tokens — it can only write telemetry, not access the admin interface.
+The ingestion token is created from the Skillsight UI (`/tokens`) and has a separate JWT type from session tokens: it can only write telemetry, not access the admin interface.
 
 **Setup (direct push):**
 
-1. `docker compose up -d` — starts Skillsight on port 4200 + Postgres
+1. `docker compose up -d`: starts Skillsight on port 4200 + Postgres
 2. Login at `http://localhost:4200` with the initial admin credentials
-3. Navigate to the Onboarding page — it generates a complete settings.json snippet with a pre-created ingestion token
+3. Navigate to the Onboarding page: it generates a complete settings.json snippet with a pre-created ingestion token
 4. Copy the snippet into `~/.claude/settings.json` or your project `.claude/settings.json`
-5. Run a Claude Code session — events appear in the dashboard within 5 seconds
+5. Run a Claude Code session: events appear in the dashboard within 5 seconds
 
 **Deployment caveats (read before going to production):**
 
-- **Never deploy without overriding `JWT_SECRET` and `ADMIN_PASSWORD_INITIAL`** — the shipped defaults are literal public strings (`change-me-in-production...` and `admin`). No boot-time warning is issued. Any instance reachable from the internet with these defaults is trivially compromised.
-- **Set `PUBLIC_BASE_URL`** in your `.env` — this variable controls both CORS policy and the endpoint shown in the Onboarding snippet. Without it, the CORS is permissive (echoes request origin) and the snippet shows `https://your-domain.com`.
-- **Run Drizzle migrations manually on upgrades** — the container does not run `drizzle-kit migrate` automatically at startup (as of v0.2.1). If upgrading from 0.1.x, run migrations before starting the new container or the app will crash against a stale schema.
+- **Never deploy without overriding `JWT_SECRET` and `ADMIN_PASSWORD_INITIAL`**: the shipped defaults are literal public strings (`change-me-in-production...` and `admin`). No boot-time warning is issued. Any instance reachable from the internet with these defaults is trivially compromised.
+- **Set `PUBLIC_BASE_URL`** in your `.env`: this variable controls both CORS policy and the endpoint shown in the Onboarding snippet. Without it, the CORS is permissive (echoes request origin) and the snippet shows `https://your-domain.com`.
+- **Run Drizzle migrations manually on upgrades**: the container does not run `drizzle-kit migrate` automatically at startup (as of v0.2.1). If upgrading from 0.1.x, run migrations before starting the new container or the app will crash against a stale schema.
 
 These are known issues under active development. The fixes are straightforward; track resolution at the repo.
 
 **Limitations:**
 
-- Self-hosted only — no SaaS offering
+- Self-hosted only: no SaaS offering
 - Marketplace source management is API-only (no UI yet, no curl examples in the docs)
-- Image name mismatch in README (`skills-obs` vs actual `skillsight`) — follow the `docker-compose.yml`, not the README curl snippet
-- v0.2.x — young project, some rough edges in docs; the CLAUDE.md is however genuinely useful for contributors
+- Image name mismatch in README (`skills-obs` vs actual `skillsight`): follow the `docker-compose.yml`, not the README curl snippet
+- v0.2.x: young project, some rough edges in docs; the CLAUDE.md is however genuinely useful for contributors
 
 **When to use:** You want to know which skills your team actually invokes in practice vs which ones you deployed. Useful for skills library ROI, onboarding effectiveness measurement, and identifying dead skills.
 
-> **Related:** [Packmind ContextOps Platform](#engineering-standards-distribution) — the same author's tool for *distributing* standards to AI agents. Skillsight tells you which skills are used; Packmind helps you author and sync them.
+> **Related:** [Packmind ContextOps Platform](#engineering-standards-distribution): the same author's tool for *distributing* standards to AI agents. Skillsight tells you which skills are used; Packmind helps you author and sync them.
 > **Evaluation:** [2026-05-18-skillsight-packmind.md](../../docs/resource-evaluations/2026-05-18-skillsight-packmind.md)
 
 ---
@@ -1812,10 +1812,10 @@ Claude Code's plugin system supports community-built extensions. For detailed do
 - **[agentskills.io](https://agentskills.io)** - Open standard for agent skills (26+ platforms)
 
 **Notable skill packs**:
-- **[Superpowers](https://github.com/obra/superpowers)**: Complete software development methodology suite (262K stars, 23.4K forks as of 2026-07-27, up from 95K+ stars / 7.5K forks earlier; MIT). 7 context-aware skills covering the full development arc: spec elicitation through Socratic brainstorming, detailed implementation planning (2-5 min tasks with exact file paths), subagent-driven development with two-stage review (spec compliance then code quality), mandatory TDD enforcement (code written before a test gets deleted), code review, git worktree management, and branch lifecycle completion (merge/PR/discard decision). Skills trigger automatically based on context — no manual invocation needed. Install: `/plugin install superpowers@claude-plugins-official`. Created by Jesse Vincent (Prime Radiant), MIT. Also supports Cursor, Codex, OpenCode, and Gemini CLI.
-- **[gstack](https://github.com/garrytan/gstack)** — 6-skill workflow suite covering the full ship cycle: strategic product gate (`/plan-ceo-review`), architecture review (`/plan-eng-review`), paranoid code review (`/review`), automated release (`/ship`), native browser QA (`/browse`), and retrospective (`/retro`). Created by Garry Tan (Y Combinator CEO). See [Cognitive Mode Switching](../workflows/gstack-workflow.md) for the workflow pattern and adoption guide.
+- **[Superpowers](https://github.com/obra/superpowers)**: Complete software development methodology suite (262K stars, 23.4K forks as of 2026-07-27, up from 95K+ stars / 7.5K forks earlier; MIT). 7 context-aware skills covering the full development arc: spec elicitation through Socratic brainstorming, detailed implementation planning (2-5 min tasks with exact file paths), subagent-driven development with two-stage review (spec compliance then code quality), mandatory TDD enforcement (code written before a test gets deleted), code review, git worktree management, and branch lifecycle completion (merge/PR/discard decision). Skills trigger automatically based on context: no manual invocation needed. Install: `/plugin install superpowers@claude-plugins-official`. Created by Jesse Vincent (Prime Radiant), MIT. Also supports Cursor, Codex, OpenCode, and Gemini CLI.
+- **[gstack](https://github.com/garrytan/gstack)**: 6-skill workflow suite covering the full ship cycle: strategic product gate (`/plan-ceo-review`), architecture review (`/plan-eng-review`), paranoid code review (`/review`), automated release (`/ship`), native browser QA (`/browse`), and retrospective (`/retro`). Created by Garry Tan (Y Combinator CEO). See [Cognitive Mode Switching](../workflows/gstack-workflow.md) for the workflow pattern and adoption guide.
 - **[Ponytail](https://github.com/DietrichGebert/ponytail)**: "Lazy senior dev" mode for AI agents. Before writing code, the agent stops at the first rung that holds: does this need to exist? → stdlib? → native platform feature? → installed dependency? → one line? → only then the minimum that works. Benchmarked at 80-94% less code, 47-77% lower cost, and 3-6x faster than an unconstrained agent across Haiku, Sonnet, and Opus (median of 10 runs, 5 tasks). Three intensity levels: `lite` (suggest the lazier path, let the user pick), `full` (enforce the ladder, default), `ultra` (YAGNI extremist, challenges the requirement in the same response). Deliberate shortcuts are marked with a `ponytail:` comment naming the ceiling and upgrade path; `/ponytail-debt` harvests them into a ledger so "later" stays visible. Four commands: `/ponytail [lite|full|ultra|off]`, `/ponytail-review` (over-engineering review of current diff), `/ponytail-audit` (whole-repo scan), `/ponytail-debt` (shortcut ledger). Install: `/plugin install ponytail@ponytail`. MIT. Supports 13 agents: Claude Code, Codex, GitHub Copilot CLI, Gemini CLI, Antigravity CLI, OpenCode, pi, OpenClaw, Cursor, Windsurf, Cline, Kiro, and VS Code with the Codex extension.
-- **[fable-mode](https://github.com/mrtooher/fable-mode)**: Execution discipline skill for complex tasks, structured as a 4-step loop: (1) write a numbered stage map with expected outputs before touching anything, (2) delegate independent stages to parallel subagents where the runtime allows, (3) verify each stage with a check that can actually fail (tests, diffs, sources read — not self-assessment), (4) self-critique as a skeptical reviewer before delivery. Named after the Claude Fable model but works on any model; honest that it shapes procedure, not capability ceiling. Three variants: `fable-mode` (inline on current model), `fable-sonnet` (pins a Sonnet subagent), `fable-haiku` (pins a Haiku subagent for cost-sensitive work). Includes 4 worked examples across domains — API null-path bug, mis-attributed research claim, SQL nulls silently dropped from an AVG, multi-session refactor with no done criteria — each showing exactly where the failable check catches what one-shot misses. Two operational rules worth noting: surface accumulated warnings at threshold 3 rather than one by one; anchor sed replacements on word boundaries to avoid corrupting compound words. Install: copy the skill directory to wherever your Claude environment loads skills from (no plugin registry entry yet). No license. 802 stars, 86 forks as of 2026-07-27 (was 477 stars, 54 forks at 5 days post-launch in June 2026).
+- **[fable-mode](https://github.com/mrtooher/fable-mode)**: Execution discipline skill for complex tasks, structured as a 4-step loop: (1) write a numbered stage map with expected outputs before touching anything, (2) delegate independent stages to parallel subagents where the runtime allows, (3) verify each stage with a check that can actually fail (tests, diffs, sources read, not self-assessment), (4) self-critique as a skeptical reviewer before delivery. Named after the Claude Fable model but works on any model; honest that it shapes procedure, not capability ceiling. Three variants: `fable-mode` (inline on current model), `fable-sonnet` (pins a Sonnet subagent), `fable-haiku` (pins a Haiku subagent for cost-sensitive work). Includes 4 worked examples across domains (API null-path bug, mis-attributed research claim, SQL nulls silently dropped from an AVG, multi-session refactor with no done criteria), each showing exactly where the failable check catches what one-shot misses. Two operational rules worth noting: surface accumulated warnings at threshold 3 rather than one by one; anchor sed replacements on word boundaries to avoid corrupting compound words. Install: copy the skill directory to wherever your Claude environment loads skills from (no plugin registry entry yet). No license. 802 stars, 86 forks as of 2026-07-27 (was 477 stars, 54 forks at 5 days post-launch in June 2026).
 
 ---
 
@@ -1825,16 +1825,16 @@ As of February 2026, the community tooling ecosystem has notable gaps:
 
 | Gap | Description |
 |-----|-------------|
-| **Skills usage analytics** | ✅ **FILLED**: [Skillsight](https://github.com/PackmindHub/skillsight) (Packmind, launched May 2026) — self-hosted OTEL dashboard showing which skills are actually invoked per user/session. Deploy with caveats (see [Skills Observability](#skills-observability)). |
-| **Visual skills editor** | No GUI for creating/editing `.claude/skills/` — must edit YAML/Markdown manually |
-| **Visual hooks editor** | No GUI for managing hooks in `settings.json` — requires JSON editing |
+| **Skills usage analytics** | ✅ **FILLED**: [Skillsight](https://github.com/PackmindHub/skillsight) (Packmind, launched May 2026): self-hosted OTEL dashboard showing which skills are actually invoked per user/session. Deploy with caveats (see [Skills Observability](#skills-observability)). |
+| **Visual skills editor** | No GUI for creating/editing `.claude/skills/`: must edit YAML/Markdown manually |
+| **Visual hooks editor** | No GUI for managing hooks in `settings.json`: requires JSON editing |
 | **Unified admin panel** | No single dashboard combining config, sessions, cost, and MCP management |
 | **Session replay** | ✅ **FILLED**: Entire CLI (launched Feb 2026) provides rewindable checkpoints with full context replay |
-| **Automated `.claude/` security scanning** | ✅ **FILLED**: [AgentShield](https://github.com/affaan-m/agentshield) (launched Feb 2026) — 102-rule scanner with A–F grading, `--fix`, and GitHub Action integration |
+| **Automated `.claude/` security scanning** | ✅ **FILLED**: [AgentShield](https://github.com/affaan-m/agentshield) (launched Feb 2026): 102-rule scanner with A–F grading, `--fix`, and GitHub Action integration |
 | **Agent-native issue tracking** | No established tool for markdown-based, git-committable issue tracking with Claude Code. [fp.dev](https://fp.dev/) is an early-stage solution (local-first, `/fp-plan` + `/fp-implement` skills, diff viewer) but lacks adoption signals and requires Apple Silicon for the desktop app. The Tasks API covers state persistence but issues aren't git-committable. |
 | **Per-MCP-server profiler** | No way to measure token cost attributable to each MCP server individually |
 | **Cross-platform config sync** | No tool syncs Claude Code config across machines (must manual copy `~/.claude/`) |
-| **Programmatic sandboxed orchestration** | Watch: [Sandcastle](https://github.com/mattpocock/sandcastle) (`@ai-hero/sandcastle`, Matt Pocock) — TypeScript API for running agents in Docker/Podman/Vercel containers with branch strategy management and prompt templating. Unique niche but not guide-ready at v0.5.x (active bugs, TypeScript-only, requires separate `ANTHROPIC_API_KEY`, Docker/Podman hard dependency). Revisit at v1.0. |
+| **Programmatic sandboxed orchestration** | Watch: [Sandcastle](https://github.com/mattpocock/sandcastle) (`@ai-hero/sandcastle`, Matt Pocock): TypeScript API for running agents in Docker/Podman/Vercel containers with branch strategy management and prompt templating. Unique niche but not guide-ready at v0.5.x (active bugs, TypeScript-only, requires separate `ANTHROPIC_API_KEY`, Docker/Podman hard dependency). Revisit at v1.0. |
 
 ---
 

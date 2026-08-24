@@ -109,7 +109,7 @@ Context full → /compact or /clear
 
 ## Choose Your Path
 
-The guide has 11 chapters and 22,000+ lines. You don't need to read everything — here's what matters for your situation:
+The guide has 11 chapters and 22,000+ lines. You don't need to read everything: here's what matters for your situation.
 
 | I am... | Read this | Skip this | Time |
 |---------|-----------|-----------|------|
@@ -125,11 +125,11 @@ The guide has 11 chapters and 22,000+ lines. You don't need to read everything �
 
 If you only have time for 5 sections:
 
-1. **[2.6 Mental Model](#26-mental-model)** — Understand how Claude Code thinks (20 min)
-2. **[3.1 CLAUDE.md](#31-memory-files-claudemd)** — Persistent memory that survives sessions (30 min)
-3. **[9.1 The Trinity](#91-the-trinity)** — The core pattern for agentic work (20 min)
-4. **[7.4 Security Hooks](#74-security-hooks)** — Automate guardrails you won't forget (30 min)
-5. **[10.5 Cheatsheet](#105-cheatsheet)** — Daily reference, bookmark it (5 min)
+1. **[2.6 Mental Model](#26-mental-model)**: Understand how Claude Code thinks (20 min)
+2. **[3.1 CLAUDE.md](#31-memory-files-claudemd)**: Persistent memory that survives sessions (30 min)
+3. **[9.1 The Trinity](#91-the-trinity)**: The core pattern for agentic work (20 min)
+4. **[7.4 Security Hooks](#74-security-hooks)**: Automate guardrails you won't forget (30 min)
+5. **[10.5 Cheatsheet](#105-cheatsheet)**: Daily reference, bookmark it (5 min)
 
 ---
 
@@ -316,7 +316,7 @@ claude doctor
 
 ### Desktop App: Claude Code Without the Terminal
 
-Claude Code is available in two forms: the CLI (what this guide focuses on) and the **Code tab** in the Claude Desktop app. Same underlying engine, graphical interface instead of terminal. Available on macOS and Windows — no Node.js installation required.
+Claude Code is available in two forms: the CLI (what this guide focuses on) and the **Code tab** in the Claude Desktop app. Same underlying engine, graphical interface instead of terminal. Available on macOS and Windows, with no Node.js installation required.
 
 **What the desktop adds on top of standard Claude Code:**
 
@@ -326,7 +326,7 @@ Claude Code is available in two forms: the CLI (what this guide focuses on) and 
 | Live app preview | Claude starts your dev server, opens an embedded browser, auto-verifies changes |
 | GitHub PR monitoring | Auto-fix CI failures, auto-merge once checks pass |
 | Parallel sessions | Multiple sessions in the sidebar, each with automatic Git worktree isolation |
-| Connectors | GitHub, Slack, Linear, Notion — GUI setup, no manual MCP config |
+| Connectors | GitHub, Slack, Linear, Notion: GUI setup, no manual MCP config |
 | File attachments | Attach images and PDFs directly to prompts |
 | Remote sessions | Run long tasks on Anthropic's cloud, continue after closing the app |
 | SSH sessions | Connect to remote machines, cloud VMs, dev containers |
@@ -343,11 +343,11 @@ Claude Code is available in two forms: the CLI (what this guide focuses on) and 
 
 **What's NOT available in Desktop** (CLI only): third-party API providers, scripting flags (`--print`, `--output-format`), `--allowedTools`/`--disallowedTools`, agent teams, `--verbose`, Linux.
 
-**Shared configuration**: Desktop and CLI read the same files — CLAUDE.md, MCP servers (via `~/.claude.json` or `.mcp.json`), hooks, skills, and settings. Your CLI setup carries over automatically.
+**Shared configuration**: Desktop and CLI read the same files: CLAUDE.md, MCP servers (via `~/.claude.json` or `.mcp.json`), hooks, skills, and settings. Your CLI setup carries over automatically.
 
 > **Migration tip**: run `/desktop` in the terminal to move an active CLI session into the Desktop app. On macOS and Windows only.
 
-> **Note on MCP servers**: MCP servers configured in `claude_desktop_config.json` (the Chat tab) are separate from Claude Code. To use MCP servers in the Code tab, configure them in `~/.claude.json` or your project's `.mcp.json`. See [Section 8.1 — MCP](#81-what-is-mcp).
+> **Note on MCP servers**: MCP servers configured in `claude_desktop_config.json` (the Chat tab) are separate from Claude Code. To use MCP servers in the Code tab, configure them in `~/.claude.json` or your project's `.mcp.json`. See [Section 8.1: MCP](#81-what-is-mcp).
 
 > **Full reference**: [code.claude.com/docs/en/desktop](https://code.claude.com/docs/en/desktop)
 
@@ -736,7 +736,7 @@ Understanding Claude's image processing helps optimize for speed and accuracy.
 |--------|----------|
 | **PNG** | Wireframes, diagrams, text, sharp lines |
 | **WebP** | General screenshots, good compression |
-| **JPEG** | Photos only—compression artifacts harm line detection |
+| **JPEG** | Photos only, compression artifacts harm line detection |
 | **GIF** | Avoid (static only, poor quality) |
 
 **Optimization checklist**:
@@ -782,7 +782,7 @@ Claude Code allows you to **continue previous conversations** across terminal se
    claude --from-pr 123  # Resumes the session context for this PR
    ```
 
-   Useful for continuing work on a feature exactly where you left off relative to a specific PR — no need to remember session IDs.
+   Useful for continuing work on a feature exactly where you left off relative to a specific PR, with no need to remember session IDs.
 
 **Finding session IDs**:
 
@@ -804,7 +804,7 @@ You: /exit
 Session ID: abc123def (saved for resume)
 ```
 
-> **Session Search Tools**: For fast session search, see [session-search.sh](../examples/scripts/session-search.sh) (bash, lightweight) and [cc-sessions.py](../examples/scripts/cc-sessions.py) (Python, advanced features: incremental index, partial ID resume, branch filter, and `discover` for automated pattern analysis — [GitHub](https://github.com/FlorianBruniaux/cc-sessions)). Also: [Observability Guide](./ops/observability.md#session-search--resume).
+> **Session Search Tools**: For fast session search, see [session-search.sh](../examples/scripts/session-search.sh) (bash, lightweight) and [cc-sessions.py](../examples/scripts/cc-sessions.py) (Python, advanced features: incremental index, partial ID resume, branch filter, and `discover` for automated pattern analysis, [GitHub](https://github.com/FlorianBruniaux/cc-sessions)). Also: [Observability Guide](./ops/observability.md#session-search--resume).
 
 **Common use cases**:
 
@@ -840,11 +840,11 @@ Claude: [Continues with full context of Day 1 work]
 - **Use `/exit` properly**: Always exit with `/exit` or `Ctrl+D` (not force-kill) to ensure session is saved
 - **Descriptive final messages**: End sessions with context ("Ready for testing") so you remember the state when resuming
 - **Proactive context management**: Monitor with `/status` and use research-backed thresholds:
-  - **< 70%**: Optimal — full reasoning capacity
-  - **75%**: Good time to `/compact` manually — before quality degrades
-  - **85%**: Auto-compact territory — Claude Code will compress automatically once remaining context drops below its fixed buffer (~6-7% of window). Manual handoff recommended before this point ([research-backed](core/architecture.md#auto-compaction))
-  - **95%**: Force handoff — severe quality degradation, reset immediately
-- **Session naming**: Use `/rename` to give sessions descriptive names — critical when running multiple sessions in parallel (see [Auto-Rename Pattern](#session-auto-rename) below)
+  - **< 70%**: Optimal, full reasoning capacity
+  - **75%**: Good time to `/compact` manually, before quality degrades
+  - **85%**: Auto-compact territory. Claude Code will compress automatically once remaining context drops below its fixed buffer (~6-7% of window). Manual handoff recommended before this point ([research-backed](core/architecture.md#auto-compaction))
+  - **95%**: Force handoff, severe quality degradation, reset immediately
+- **Session naming**: Use `/rename` to give sessions descriptive names, critical when running multiple sessions in parallel (see [Auto-Rename Pattern](#session-auto-rename) below)
 
 **Resume vs. fresh start**:
 
@@ -950,7 +950,7 @@ cc-sessions --all discover --json | jq '.[] | select(.category == "skill")'
     → 44aab71c-...
 ```
 
-**The 20% rule built into scoring**: patterns above 20% of sessions become `CLAUDE.md rule` suggestions (always load), 5-20% become `skill` suggestions (load on demand), below 5% become `command` suggestions (explicit invocation). The cross-project bonus (1.5×) prioritizes patterns that recur across different codebases — those are worth extracting even at lower frequency.
+**The 20% rule built into scoring**: patterns above 20% of sessions become `CLAUDE.md rule` suggestions (always load), 5-20% become `skill` suggestions (load on demand), below 5% become `command` suggestions (explicit invocation). The cross-project bonus (1.5×) prioritizes patterns that recur across different codebases. Those are worth extracting even at lower frequency.
 
 See also: [§5.1 Understanding Skills](#51-understanding-skills) for the distinction between CLAUDE.md rules, skills, and commands, and the [20% rule](#the-20-rule) for the decision framework.
 
@@ -958,7 +958,7 @@ See also: [§5.1 Understanding Skills](#51-understanding-skills) for the distinc
 
 ### Session Auto-Rename
 
-When running multiple Claude Code sessions in parallel (split terminals, WebStorm tabs, parallel workstreams), the `/resume` picker shows sessions by timestamp or truncated first prompt — impossible to distinguish at a glance.
+When running multiple Claude Code sessions in parallel (split terminals, WebStorm tabs, parallel workstreams), the `/resume` picker shows sessions by timestamp or truncated first prompt, impossible to distinguish at a glance.
 
 Two complementary approaches solve this. Use one or both together.
 
@@ -977,7 +977,7 @@ A behavioral instruction in `~/.claude/CLAUDE.md` makes Claude call `/rename` au
 
 ## Title format
 
-`[action] [subject]` — examples:
+`[action] [subject]`. Examples:
 - "fix whitepaper PDF build"
 - "add auth middleware + tests"
 - "refactor hook system"
@@ -1159,22 +1159,22 @@ Auto-approves everything, including shell commands. No permission prompts at all
 
 ⚠️ **Warning**: Only use in sandboxed CI/CD environments. Requires `--dangerously-skip-permissions` to enable from CLI. Never use on production systems or with untrusted code.
 
-**Safety invariant — some paths always prompt, even in `bypassPermissions` mode**:
+**Safety invariant: some paths always prompt, even in `bypassPermissions` mode**:
 
 Certain writes are considered too sensitive to auto-approve under any configuration. Claude Code always prompts before modifying:
 
 | Protected target | Examples |
 |-----------------|---------|
 | `.git/` directory | git hooks, refs, config inside the repo |
-| `.claude/` directory | agents, skills, hooks, settings — except `.claude/worktrees/` |
+| `.claude/` directory | agents, skills, hooks, settings, except `.claude/worktrees/` |
 | Shell config files | `.bashrc`, `.zshrc`, `.bash_profile`, `.profile` |
 | VCS and tool configs | `.gitconfig`, `.mcp.json`, `.claude.json` |
 
-Content-specific `allow` rules (e.g., `Bash(npm publish:*)`) defined in `settings.json` or CLAUDE.md also survive `bypassPermissions` — they continue to apply as additional filters on top of any permission mode. This lets you build precise guardrails (e.g., "always ask before publishing to npm") that hold regardless of how the session is launched.
+Content-specific `allow` rules (e.g., `Bash(npm publish:*)`) defined in `settings.json` or CLAUDE.md also survive `bypassPermissions`: they continue to apply as additional filters on top of any permission mode. This lets you build precise guardrails (e.g., "always ask before publishing to npm") that hold regardless of how the session is launched.
 
 ### Permission Fatigue (anti-pattern)
 
-A common trap: you're deep in a task, prompts keep appearing, you start approving them without reading. This is **permission fatigue** — and it defeats the purpose of the permission system entirely.
+A common trap: you're deep in a task, prompts keep appearing, you start approving them without reading. This is **permission fatigue**, and it defeats the purpose of the permission system entirely.
 
 The fix is to pick the right mode upfront rather than clicking through prompts one by one:
 
@@ -1183,11 +1183,11 @@ The fix is to pick the right mode upfront rather than clicking through prompts o
 | Exploratory work, unfamiliar codebase | Plan mode | Can't accidentally change anything |
 | Trusted local edits, no shell ops | `acceptEdits` | Approves edits silently, still gates commands |
 | Long agentic tasks, Max plan | Auto mode | Claude judges actions; fewer interruptions with less risk than bypass |
-| Automated pipeline, sandboxed env | `bypassPermissions` | No prompts at all — but only safe in isolation |
+| Automated pipeline, sandboxed env | `bypassPermissions` | No prompts at all, but only safe in isolation |
 | You need one tool auto-approved | `permissions.allow` in CLAUDE.md | Granular, not all-or-nothing |
 | Default new session | Default mode | Explicit review of each action |
 
-The failure mode to avoid: reaching for `--dangerously-skip-permissions` on a dev machine with SSH keys, API tokens, or production access in scope. The permissions system only adds value if you actually read what you're approving — or configure a mode that matches your real trust level.
+The failure mode to avoid: reaching for `--dangerously-skip-permissions` on a dev machine with SSH keys, API tokens, or production access in scope. The permissions system only adds value if you actually read what you're approving, or configure a mode that matches your real trust level.
 
 ## 1.5 Productivity Checklist
 
@@ -1231,7 +1231,7 @@ Switching from GitHub Copilot, Cursor, or other AI assistants? Here's what you n
 | **Zed** | — | $10/mo | — | — | — |
 | **Claude Code** | — | $20/mo | Max $100-200/mo | — | Via Anthropic |
 
-**Key mindset shift**: Claude Code is a **structured context system**, not a chatbot or autocomplete tool. You build persistent context (CLAUDE.md, skills, hooks) that compounds over time — see [§2.5](#from-chatbot-to-context-system).
+**Key mindset shift**: Claude Code is a **structured context system**, not a chatbot or autocomplete tool. You build persistent context (CLAUDE.md, skills, hooks) that compounds over time, see [§2.5](#from-chatbot-to-context-system).
 
 ### Migration Guide: GitHub Copilot → Claude Code
 
@@ -1475,7 +1475,7 @@ Research consistently shows AI code has higher defect rates than human-written c
 
 **Key insight**: AI produces code faster but verification becomes the bottleneck. The question isn't "does it work?" but "how do I know it works?"
 
-> **Nuance on downstream maintainability**: A 2-phase blind RCT (Borg et al., 2025, n=151 professional developers) found no significant difference in the time needed for downstream developers to evolve AI-generated vs. human-generated code. The defect rates above are real — but they do not systematically translate into higher maintenance burden for the next developer. The risk is more narrowly scoped than commonly assumed. ([arXiv:2507.00788](https://arxiv.org/abs/2507.00788))
+> **Nuance on downstream maintainability**: A 2-phase blind RCT (Borg et al., 2025, n=151 professional developers) found no significant difference in the time needed for downstream developers to evolve AI-generated vs. human-generated code. The defect rates above are real, but they do not systematically translate into higher maintenance burden for the next developer. The risk is more narrowly scoped than commonly assumed. ([arXiv:2507.00788](https://arxiv.org/abs/2507.00788))
 
 ### The Verification Spectrum
 
@@ -1610,7 +1610,7 @@ Your verification strategy should evolve:
 └─────────────────────────────────────────────────────────┘
 ```
 
-> "AI lets you code faster—make sure you're not also failing faster."
+> "AI lets you code faster, but make sure you're not also failing faster."
 > — Adapted from Addy Osmani
 
 **Attribution**: This section draws from Addy Osmani's ["AI Code Review"](https://addyosmani.com/blog/code-review-ai/) (Jan 2026), research from ACM, Veracode, CodeRabbit, and Cortex.io.
@@ -1678,16 +1678,16 @@ VERIFY: Login persists after browser refresh
 
 **Splitting heuristic**: if your task description requires "and" between two user-facing behaviors, split it. "Users can reset passwords" is one task. "Users can reset passwords AND admins can force-expire sessions" is two.
 
-> **Deep dive**: [Spec-First Workflow — Task Granularity](./workflows/spec-first.md#task-granularity-sizing-work-for-agents) covers the vertical slice pattern, PRD quality checklist, and concrete before/after examples.
+> **Deep dive**: [Spec-First Workflow: Task Granularity](./workflows/spec-first.md#task-granularity-sizing-work-for-agents) covers the vertical slice pattern, PRD quality checklist, and concrete before/after examples.
 
 ### 8. ❌ Treating Claude Code Like a Chatbot
 
 **Mistake**: Typing ad-hoc instructions every session. Repeating project conventions, re-explaining architecture, manually enforcing quality checks.
 
 **Fix**: Build structured context that compounds over time:
-- **CLAUDE.md**: Your conventions, stack, and patterns — loaded every session automatically
+- **CLAUDE.md**: Your conventions, stack, and patterns, loaded every session automatically
 - **Skills**: Reusable workflows (`/review`, `/deploy`) for consistent execution
-- **Hooks**: Automated guardrails (lint, security, formatting) — zero manual effort
+- **Hooks**: Automated guardrails (lint, security, formatting), zero manual effort
 
 Start with CLAUDE.md in Week 1. See [§2.6 Mental Model](#from-chatbot-to-context-system) for the full framework.
 
@@ -1711,7 +1711,7 @@ _Quick jump:_ [The Interaction Loop](#21-the-interaction-loop) · [Context Manag
 
 ---
 
-> **Experienced with Claude Code?** Jump to [2.6 Mental Model](#26-mental-model) — the highest-ROI section in this chapter.
+> **Experienced with Claude Code?** Jump to [2.6 Mental Model](#26-mental-model), the highest-ROI section in this chapter.
 
 ## 📌 Section 2 TL;DR (2 minutes)
 
@@ -1719,7 +1719,7 @@ _Quick jump:_ [The Interaction Loop](#21-the-interaction-loop) · [Context Manag
 
 ### Key Concepts:
 - **Interaction Loop**: Describe → Analyze → Review → Accept/Reject cycle
-- **Context Management** 🔴 CRITICAL: Watch `Ctx(u):` — /compact at 70%, /clear at 90%
+- **Context Management** 🔴 CRITICAL: Watch `Ctx(u):`, /compact at 70%, /clear at 90%
 - **Plan Mode**: Read-only exploration before making changes
 - **Rewind**: Undo with Esc×2 or /rewind
 - **Mental Model**: Claude = expert pair programmer, not autocomplete
@@ -1869,7 +1869,7 @@ Use `/statusline` command in Claude Code to auto-generate a starter script.
 | `git` | object | Branch, staged/unstaged counts |
 | `rate_limits` | object | Claude.ai usage (v2.1.80+) |
 
-**`rate_limits` object** (v2.1.80+) — displays Claude.ai token usage directly in the statusline without opening the dashboard:
+**`rate_limits` object** (v2.1.80+): displays Claude.ai token usage directly in the statusline without opening the dashboard:
 
 ```json
 {
@@ -1914,7 +1914,7 @@ When context gets high:
 - Loses all context
 - Use when changing topics
 
-> **"One Task, One Chat"** — mixing unrelated topics across turns degrades model accuracy by ~39%. Context accumulates noise ("context rot") that distorts judgment even when total token usage stays low. Use `/clear` aggressively between distinct tasks, not just when the context bar turns red.
+> **"One Task, One Chat"**: mixing unrelated topics across turns degrades model accuracy by ~39%. Context accumulates noise ("context rot") that distorts judgment even when total token usage stays low. Use `/clear` aggressively between distinct tasks, not just when the context bar turns red.
 
 **Option 3: Summarize from here** (v2.1.32+)
 - Use `/rewind` (or `Esc + Esc`) to open the checkpoint list
@@ -1963,7 +1963,7 @@ When approaching the red zone (75%+), `/compact` alone may not be enough. You ne
 
 ### Session vs. Persistent Memory
 
-Claude Code has three distinct memory systems. Understanding the difference is crucial for effective long-term work:
+Claude Code has three distinct memory systems. Knowing which one to use avoids losing context you meant to keep across sessions:
 
 | Aspect | Session Memory | Auto-Memory (native) | Persistent Memory (Serena) |
 |--------|----------------|----------------------|---------------------------|
@@ -1980,7 +1980,7 @@ Claude Code has three distinct memory systems. Understanding the difference is c
 - Disappears when you close Claude Code
 
 **Auto-Memory** *(native, v2.1.59+)*:
-- Built into Claude Code — no MCP server or configuration required
+- Built into Claude Code, no MCP server or configuration required
 - Claude automatically saves useful context (decisions, patterns, preferences) to `MEMORY.md` files
 - Organized per-project: `.claude/memory/MEMORY.md` or `~/.claude/projects/<path>/memory/MEMORY.md`
 - Managed with `/memory`: view, edit, or delete what's been saved
@@ -2014,9 +2014,9 @@ Claude Code has three distinct memory systems. Understanding the difference is c
 - **Persistent memory (Serena)**: Structured key-value store for architectural decisions across many projects
 - **CLAUDE.md**: Team conventions, project structure (versioned with git)
 
-**Auto-compact and PostToolUse memory capture — a conflict to know about**:
+**Auto-compact and PostToolUse memory capture: a conflict to know about**:
 
-Claude Code auto-compacts the conversation when the remaining context drops below a fixed buffer threshold (roughly the last 6-7% of the context window, or about 13K tokens from the effective limit). In practice, this triggers somewhere in the 90-95% usage range depending on the model's context window and reserved output tokens. Before full compaction runs, Claude Code also applies **micro-compaction** — a lighter pass that selectively compresses older tool results (file reads, bash outputs, search results) to free space incrementally without summarizing the whole conversation. If auto-compact fails (e.g., due to a rate limit), it retries up to 3 consecutive times before giving up for that session.
+Claude Code auto-compacts the conversation when the remaining context drops below a fixed buffer threshold (roughly the last 6-7% of the context window, or about 13K tokens from the effective limit). In practice, this triggers somewhere in the 90-95% usage range depending on the model's context window and reserved output tokens. Before full compaction runs, Claude Code also applies **micro-compaction**: a lighter pass that selectively compresses older tool results (file reads, bash outputs, search results) to free space incrementally without summarizing the whole conversation. If auto-compact fails (e.g., due to a rate limit), it retries up to 3 consecutive times before giving up for that session.
 
 If you use a hook-based memory capture tool (like claude-mem) that saves session history via `PostToolUse`, auto-compact can fire and discard conversation history **before** the save pipeline has a chance to capture it.
 
@@ -2036,7 +2036,7 @@ Two ways to handle this:
 # — check your memory plugin's cooldowns/threshold config
 ```
 
-Option 1 gives full control but requires discipline. Option 2 is safer if you forget to compact manually. The general guide advice (use `/compact` proactively at 75%) still applies — auto-compact disabled just means you own the timing.
+Option 1 gives full control but requires discipline. Option 2 is safer if you forget to compact manually. The general guide advice (use `/compact` proactively at 75%) still applies. Auto-compact disabled just means you own the timing.
 
 > **See also**: [Memory Systems: Session vs Persistent Memory](./core/memory-systems.md#25-session-vs-persistent-memory) for the full comparison table and cross-session tool options.
 
@@ -2058,12 +2058,12 @@ Instead of managing context within a session, you can **restart with a fresh ses
 while :; do cat TASK.md PROGRESS.md | claude -p ; done
 ```
 
-> **Naming note**: "Ralph Loop" is used in two distinct ways in the community. Geoffrey Huntley's original pattern (above) is about context rotation — spawning fresh sessions to avoid context rot. A separate usage, popularized by Addy Osmani and others in 2026, applies the same term to *atomic task iteration* in multi-agent teams: pick task → implement → validate → commit → reset context → repeat. Both share the same core mechanic (stateless loop with external state), but the scope differs. When the term appears without attribution, clarify which variant is meant.
+> **Naming note**: "Ralph Loop" is used in two distinct ways in the community. Geoffrey Huntley's original pattern (above) is about context rotation: spawning fresh sessions to avoid context rot. A separate usage, popularized by Addy Osmani and others in 2026, applies the same term to *atomic task iteration* in multi-agent teams: pick task → implement → validate → commit → reset context → repeat. Both share the same core mechanic (stateless loop with external state), but the scope differs. When the term appears without attribution, clarify which variant is meant.
 
 **State persists via**:
-- `TASK.md` — Current task definition with acceptance criteria
-- `PROGRESS.md` — Learnings, completed tasks, blockers
-- Git commits — Each iteration commits atomically
+- `TASK.md`: Current task definition with acceptance criteria
+- `PROGRESS.md`: Learnings, completed tasks, blockers
+- Git commits: Each iteration commits atomically
 
 **Variant: tasks/lessons.md**
 
@@ -2075,7 +2075,7 @@ tasks/
 └── lessons.md   # Rules accumulated from corrections
 ```
 
-The difference from PROGRESS.md: `lessons.md` captures *behavioral rules* ("always diff before marking done", "never mock without asking") rather than task state. It compounds over time — the mistake rate drops as the ruleset grows.
+The difference from PROGRESS.md: `lessons.md` captures *behavioral rules* ("always diff before marking done", "never mock without asking") rather than task state. It compounds over time. The mistake rate drops as the ruleset grows.
 
 | Traditional | Fresh Context |
 |-------------|---------------|
@@ -2106,11 +2106,11 @@ The difference from PROGRESS.md: `lessons.md` captures *behavioral rules* ("alwa
 
 Instead of looping the same task, dedicate a fresh session to each quality dimension:
 
-1. **Plan session** — Architecture, scope, acceptance criteria
-2. **Test session** — Write unit, integration, and E2E tests first (TDD)
-3. **Implement session** — Code until all linters and tests pass
-4. **Review sessions** — Separate sessions for security audit, performance, code review
-5. **Repeat** — Iterate with scope adjustments as needed
+1. **Plan session**: Architecture, scope, acceptance criteria
+2. **Test session**: Write unit, integration, and E2E tests first (TDD)
+3. **Implement session**: Code until all linters and tests pass
+4. **Review sessions**: Separate sessions for security audit, performance, code review
+5. **Repeat**: Iterate with scope adjustments as needed
 
 This combines Fresh Context (clean 200K per phase) with [OpusPlan](#62-opusplan-hybrid-mode) (Opus for review/strategy sessions, Sonnet for implementation). Each session generates progress artifacts that feed the next.
 
@@ -2137,7 +2137,7 @@ done
 
 **Option 3: External orchestrators**
 
-- [AFK CLI](https://github.com/m0nkmaster/afk) — Zero-config orchestration across task sources
+- [AFK CLI](https://github.com/m0nkmaster/afk): Zero-config orchestration across task sources
 
 #### Task Definition Template
 
@@ -2219,7 +2219,7 @@ Example output:
 
 ### Cost Awareness & Optimization
 
-> **Note:** If you use `claude -p`, the Agent SDK, GitHub Actions, or any automation harness, a billing model change effective June 15, 2026 introduces a new monthly credit cap on programmatic usage separate from interactive limits. See [§9.13 — The Interactive/Programmatic Billing Split](#the-interactiveprogrammatic-billing-split-effective-june-15-2026) for the full breakdown, affected tools, and audit steps.
+> **Note:** If you use `claude -p`, the Agent SDK, GitHub Actions, or any automation harness, a billing model change effective June 15, 2026 introduces a new monthly credit cap on programmatic usage separate from interactive limits. See [§9.13: The Interactive/Programmatic Billing Split](#the-interactiveprogrammatic-billing-split-effective-june-15-2026) for the full breakdown, affected tools, and audit steps.
 
 Claude Code isn't free - you're using API credits. Understanding costs helps optimize usage.
 
@@ -2253,7 +2253,7 @@ The default model depends on your subscription: **Max/Team Premium** subscribers
 
 #### 200K vs 1M Context: Performance, Cost & Use Cases
 
-The 1M context window (GA for Max/Team/Enterprise plans; API tier 4 still required for direct API use) is a significant capability jump — but community feedback consistently frames it as a **niche premium tool**, not a default.
+The 1M context window (GA for Max/Team/Enterprise plans; API tier 4 still required for direct API use) is a significant capability jump, but community feedback consistently frames it as a **niche premium tool**, not a default.
 
 **Retrieval accuracy at scale (MRCR v2 8-needle 1M variant)**
 
@@ -2266,7 +2266,7 @@ The 1M context window (GA for Max/Team/Enterprise plans; API tier 4 still requir
 | Opus 5 | Not yet published | Not yet published | N/A |
 | Sonnet 5 | Not yet published | Not yet published | N/A |
 
-The benchmark is the "8-needle 1M variant" — finding 8 specific facts in a 1M-token document. Opus 4.6 drops from 93% to 76% when scaling from 256K to 1M; Sonnet 4.5 collapses to 18.5%. **Community validation**: a developer loaded ~733K tokens (4 Harry Potter books) and Opus 4.6 retrieved 49/50 documented spells in a single prompt ([HN, Feb 2026](https://news.ycombinator.com/item?id=46905735)). Sonnet 4.6 MRCR not yet published, but community reports suggest it "struggles with following specific instructions and retrieving precise information" at full 1M context.
+The benchmark is the "8-needle 1M variant": finding 8 specific facts in a 1M-token document. Opus 4.6 drops from 93% to 76% when scaling from 256K to 1M; Sonnet 4.5 collapses to 18.5%. **Community validation**: a developer loaded ~733K tokens (4 Harry Potter books) and Opus 4.6 retrieved 49/50 documented spells in a single prompt ([HN, Feb 2026](https://news.ycombinator.com/item?id=46905735)). Sonnet 4.6 MRCR not yet published, but community reports suggest it "struggles with following specific instructions and retrieving precise information" at full 1M context.
 
 **Cost per session (approximate)**
 
@@ -2278,7 +2278,7 @@ Above 200K input tokens on direct API, **all tokens** in the request are charged
 | Module refactoring (≤200K) | 150K | 20K | ~$0.50 | ~$1.25 |
 | Full service analysis (>200K, 1M context) | 500K | 50K | ~$2.75 | ~$6.88 |
 
-For comparison: Gemini 1.5 Pro offers a 2M context window at $3.50/$10.50/MTok — significantly cheaper for pure long-context RAG. Community advice: use Gemini for large-document RAG, Claude for reasoning quality and agentic workflows.
+For comparison: Gemini 1.5 Pro offers a 2M context window at $3.50/$10.50/MTok, significantly cheaper for pure long-context RAG. Community advice: use Gemini for large-document RAG, Claude for reasoning quality and agentic workflows.
 
 **When to use which**
 
@@ -2293,7 +2293,7 @@ For comparison: Gemini 1.5 Pro offers a 2M context window at $3.50/$10.50/MTok �
 **Key facts**
 - Opus 5 max output: **128K tokens** (same as prior Opus generations); Sonnet 5 max output: **128K tokens**
 - 1M context ≈ 30,000 lines of code / 750,000 words
-- 1M context is **GA for Max/Team/Enterprise Claude Code plans** (v2.1.75, March 2026) — API direct use still requires tier 4 or custom rate limits
+- 1M context is **GA for Max/Team/Enterprise Claude Code plans** (v2.1.75, March 2026). API direct use still requires tier 4 or custom rate limits
 - API direct use above 200K input tokens: Sonnet 5 doubles to $4/$20/MTok (from promotional pricing); Opus 5 doubles to $10/$37.50/MTok (standard rate applies for Claude Code Max/Team/Enterprise plans)
 - If input stays ≤200K, standard pricing applies even with the beta flag enabled
 - **Practical workaround**: check context at ~70% and open a new session rather than hitting compaction ([HN pattern](https://news.ycombinator.com/item?id=46902427))
@@ -2429,7 +2429,7 @@ response = client.messages.create(
 - Max **4 cache breakpoints** per request
 - Cache key = exact prefix match (single character change = cache miss)
 - Place breakpoints after large stable sections: system prompt, tool definitions, codebase context
-- For Claude Code itself: caching is handled automatically by the CLI — this applies to API-based workflows you build on top of Claude
+- For Claude Code itself: caching is handled automatically by the CLI. This applies to API-based workflows you build on top of Claude
 
 > Docs: [prompt caching](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching)
 
@@ -2441,9 +2441,9 @@ Claude Code manages prompt caching without any configuration on your part. Under
 
 Every API call Claude Code makes structures content in this fixed order: `tools → system → messages`. Cache matching always starts from the beginning of this prefix. A stable tool list + stable CLAUDE.md + growing conversation history means the first two layers are almost always cache hits, while only new message turns require fresh computation.
 
-**The 20-block lookback — the long-session trap**
+**The 20-block lookback: the long-session trap**
 
-Cache matching uses a bounded lookback of approximately 20 blocks. In a long session with many tool calls and exchanges, blocks from early in the conversation fall outside this window and become cache misses. Practical consequence: very long sessions gradually lose cache efficiency at the message layer. The fix is `/compact` — it compresses the conversation history into a single summary block, resetting the lookback window and restoring high hit rates.
+Cache matching uses a bounded lookback of approximately 20 blocks. In a long session with many tool calls and exchanges, blocks from early in the conversation fall outside this window and become cache misses. Practical consequence: very long sessions gradually lose cache efficiency at the message layer. The fix is `/compact`: it compresses the conversation history into a single summary block, resetting the lookback window and restoring high hit rates.
 
 **Minimum token thresholds by model**
 
@@ -2462,7 +2462,7 @@ Short CLAUDE.md files (under ~1,000 tokens) may not be cached at all on Sonnet m
 
 **Tool result size and cache economics**
 
-Tool results land in the message history and stay there for the rest of the session. Every subsequent API call re-reads that history — at cache read price (0.1x), but still proportional to size. A `git status` output of 500 tokens costs 500 × 0.1x to read on every turn that follows. The same output at 50 tokens (filtered by a tool like RTK) costs 50 × 0.1x — 90% less, compounding across every turn in the session. Compact tool outputs are not just faster to process; they make the entire cached prefix cheaper to maintain.
+Tool results land in the message history and stay there for the rest of the session. Every subsequent API call re-reads that history, at cache read price (0.1x), but still proportional to size. A `git status` output of 500 tokens costs 500 × 0.1x to read on every turn that follows. The same output at 50 tokens (filtered by a tool like RTK) costs 50 × 0.1x: 90% less, compounding across every turn in the session. Compact tool outputs are not just faster to process; they make the entire cached prefix cheaper to maintain.
 
 The same logic applies to cache writes: a smaller history prefix means cheaper initial writes (1.25x × fewer tokens).
 
@@ -2478,16 +2478,16 @@ print(response.usage.cache_read_input_tokens)       # Tokens read from cache (hi
 print(response.usage.input_tokens)                  # Non-cached input tokens
 ```
 
-Calculate your hit rate as `cache_read / (cache_read + cache_creation)` across requests. A ratio above 0.8 means your prompt structure is working well. Low ratios usually mean content in the stable prefix is changing between requests — check for timestamps, random IDs, or dynamic content embedded in your system prompt.
+Calculate your hit rate as `cache_read / (cache_read + cache_creation)` across requests. A ratio above 0.8 means your prompt structure is working well. Low ratios usually mean content in the stable prefix is changing between requests: check for timestamps, random IDs, or dynamic content embedded in your system prompt.
 
 No dedicated monitoring tool exists specifically for Claude Code session cache metrics. Cost tracking via `ccusage` covers overall spend but does not break out cache hit rates. For cache-specific visibility in custom pipelines, parse the response fields above.
 
 **Practical rules**
 
-- Keep CLAUDE.md stable between sessions — edits invalidate the system cache one-shot, then it re-warms on the next request
+- Keep CLAUDE.md stable between sessions: edits invalidate the system cache one-shot, then it re-warms on the next request
 - Run `/compact` before the conversation gets very long, not after performance degrades
 - Avoid dynamic content in stable sections (dates, random values, per-request context)
-- Larger CLAUDE.md = more expensive cache write, but also more tokens saved per read — profitable after ~2 hits
+- Larger CLAUDE.md = more expensive cache write, but also more tokens saved per read, profitable after ~2 hits
 
 **Known cache bugs (v2.1.69+)**
 
@@ -2653,7 +2653,7 @@ Unlike API usage (pay-per-token), subscriptions use a hybrid model that's delibe
 | **Max 5x** ($100/mo) | ~88,000-220,000 tokens | ~50-200 prompts | 140-280 hours | 15-35 hours | ✅ Full |
 | **Max 20x** ($200/mo) | ~220,000+ tokens | ~200-800 prompts | 240-480 hours | 24-40 hours | ✅ Full |
 
-> **Warning**: These are community-measured estimates. Anthropic does not publish exact token limits, and limits have been reduced without announcement (notably Oct 2025). The 8-10× Opus/Sonnet ratio means Max 20x users get only ~24-40 Opus hours weekly despite paying $200/month. "Prompts/5h" is a rough practical translation of the token budget — actual capacity varies significantly with task complexity, context size, and sub-agent usage. Monthly cap: ~50 active 5-hour windows across all plans.
+> **Warning**: These are community-measured estimates. Anthropic does not publish exact token limits, and limits have been reduced without announcement (notably Oct 2025). The 8-10× Opus/Sonnet ratio means Max 20x users get only ~24-40 Opus hours weekly despite paying $200/month. "Prompts/5h" is a rough practical translation of the token budget: actual capacity varies significantly with task complexity, context size, and sub-agent usage. Monthly cap: ~50 active 5-hour windows across all plans.
 
 **Why "Hours" Are Misleading**
 
@@ -2693,7 +2693,7 @@ For subscription usage history: Check your [Anthropic Console](https://console.a
 
 **Historical Note**: In October 2025, users reported significant undocumented limit reductions coinciding with Sonnet 4.5's release. Pro users who previously sustained 40-80 Sonnet hours weekly reported hitting limits after only 6-8 hours. Anthropic acknowledged the limits but did not explain the discrepancy.
 
-**Peak Hours (March 2026)**: On March 26, 2026, Anthropic adjusted how session limits are consumed during peak demand — the 5-hour rolling window drains faster during **weekdays 5am–11am PT** (1pm–7pm GMT). Same weekly total, different distribution. Anthropic cited GPU capacity constraints; roughly 7% of users hit limits they wouldn't have before. Max users reported going from 21% to 100% usage on a single prompt during peak. Practical workaround: move compute-heavy agentic tasks (long sub-agent chains, large refactors) to evenings or weekends. Off-peak usage clears faster, stretching the same budget further.
+**Peak Hours (March 2026)**: On March 26, 2026, Anthropic adjusted how session limits are consumed during peak demand: the 5-hour rolling window drains faster during **weekdays 5am–11am PT** (1pm–7pm GMT). Same weekly total, different distribution. Anthropic cited GPU capacity constraints; roughly 7% of users hit limits they wouldn't have before. Max users reported going from 21% to 100% usage on a single prompt during peak. Practical workaround: move compute-heavy agentic tasks (long sub-agent chains, large refactors) to evenings or weekends. Off-peak usage clears faster, stretching the same budget further.
 
 ### Context Poisoning (Bleeding)
 
@@ -2852,11 +2852,11 @@ The critical addition is per-section merge rules in `update`:
 | Section | Merge Rule |
 |---------|------------|
 | Task, Scope | Keep or refine |
-| Files | Merge — combine original with new files touched |
-| Discoveries | Append — add new findings, never remove prior ones |
-| Work Done | **Append only** — add new entries, never delete history, include commit hashes |
-| Status | Replace — write current state |
-| Next Steps | Replace — write updated checklist |
+| Files | Merge: combine original with new files touched |
+| Discoveries | Append: add new findings, never remove prior ones |
+| Work Done | **Append only**: add new entries, never delete history, include commit hashes |
+| Status | Replace: write current state |
+| Next Steps | Replace: write updated checklist |
 
 The append-only Work Done section creates an audit trail across sessions. Even if earlier work was revised, the revision appears as a new entry rather than an overwrite.
 
@@ -2905,7 +2905,7 @@ You: Let's plan this feature before implementing
 | Fixing a typo | ❌ No |
 | Quick edit to known file | ❌ No |
 
-> **Recommended frequency**: Boris Cherny (Head of Claude Code at Anthropic) starts approximately **80% of tasks in Plan Mode** — letting Claude plan before writing a single line of code. Once the plan is approved, execution is almost always correct on the first try.
+> **Recommended frequency**: Boris Cherny (Head of Claude Code at Anthropic) starts approximately **80% of tasks in Plan Mode**, letting Claude plan before writing a single line of code. Once the plan is approved, execution is almost always correct on the first try.
 > — *Lenny's Newsletter, February 19, 2026*
 
 ### Exiting Plan Mode
@@ -3010,7 +3010,7 @@ Model can also be set via `claude --model <alias>`, `ANTHROPIC_MODEL` env var, o
 | Claude Opus 4.6 | May 2025 |
 | Claude Haiku 4.5 | February 2025 |
 
-Claude Code injects the cutoff date for the active model into the system prompt at the start of each session. You can ask Claude directly — "what's your knowledge cutoff?" — to confirm which date applies to your current session.
+Claude Code injects the cutoff date for the active model into the system prompt at the start of each session. You can ask Claude directly ("what's your knowledge cutoff?") to confirm which date applies to your current session.
 
 ### OpusPlan Mode
 
@@ -3075,7 +3075,7 @@ tools: Write, Edit, Bash
 
 **Budget Variant: SonnetPlan (Community Hack)**
 
-`opusplan` is hardcoded to Opus+Sonnet — there's no native `sonnetplan` alias. But you can remap what the `opus` and `sonnet` aliases resolve to via environment variables, effectively creating a Sonnet→Haiku hybrid:
+`opusplan` is hardcoded to Opus+Sonnet. There's no native `sonnetplan` alias. But you can remap what the `opus` and `sonnet` aliases resolve to via environment variables, effectively creating a Sonnet→Haiku hybrid:
 
 ```bash
 # Add to ~/.zshrc
@@ -3090,7 +3090,7 @@ With `sonnetplan`, `/model opusplan` routes:
 - **Plan Mode** → Sonnet 4.6 (via remapped `opus` alias)
 - **Act Mode** → Haiku 4.5 (via remapped `sonnet` alias)
 
-> **Caveat**: The model's self-report (`what model are you?`) is unreliable — models don't always know their own identity. Trust the status bar (`Model: Sonnet 4.6` in plan mode) or verify via billing dashboard. GitHub issue [#9749](https://github.com/anthropics/claude-code/issues/9749) tracks native support.
+> **Caveat**: The model's self-report (`what model are you?`) is unreliable: models don't always know their own identity. Trust the status bar (`Model: Sonnet 4.6` in plan mode) or verify via billing dashboard. GitHub issue [#9749](https://github.com/anthropics/claude-code/issues/9749) tracks native support.
 
 <a id="pinning-opus-46-community-hack"></a>
 
@@ -3098,7 +3098,7 @@ With `sonnetplan`, `/model opusplan` routes:
 
 Opus 4.7 ships with a new tokenizer that maps the same input to roughly 1.0-1.35x more tokens depending on content type, and at higher effort levels it produces more output tokens (more reasoning steps). For workflows where that extra spend doesn't translate into better results, pinning to Opus 4.6 cuts cost without changing behavior.
 
-**Option A — Opus 4.6 everywhere (simplest)**
+**Option A: Opus 4.6 everywhere (simplest)**
 
 ```json
 // ~/.claude/settings.json
@@ -3109,7 +3109,7 @@ Opus 4.7 ships with a new tokenizer that maps the same input to roughly 1.0-1.35
 
 All sessions use Opus 4.6. No hybrid. Add `[1M]` if you need the 1M context window: `"claude-opus-4-6[1M]"`.
 
-**Option B — Keep OpusPlan, pin only the Opus side (recommended)**
+**Option B: Keep OpusPlan, pin only the Opus side (recommended)**
 
 ```json
 // ~/.claude/settings.json
@@ -3128,7 +3128,7 @@ Shell variant (non-persistent, useful for testing):
 ANTHROPIC_DEFAULT_OPUS_MODEL=claude-opus-4-6 claude
 ```
 
-**Option C — Per-session switch (no config change)**
+**Option C: Per-session switch (no config change)**
 
 ```
 /model claude-opus-4-6
@@ -3178,15 +3178,15 @@ Claude: [Refined plan incorporating both rounds]
 User: Implement the plan from round 3.
 ```
 
-**Why it works**: Each round forces Claude to reconsider assumptions. Round 2 typically catches 30-40% of issues that round 1 missed. Round 3 synthesizes into a more robust plan.
+**Why it works**: Each round forces Claude to reconsider assumptions. Round 2 typically catches 30-40% of issues that round 1 missed. Round 3 synthesizes into a more complete plan.
 
-> **📊 Empirical backing — Anthropic AI Fluency Index (Feb 2026)**
+> **📊 Empirical backing: Anthropic AI Fluency Index (Feb 2026)**
 >
 > An Anthropic study analyzing 9,830 Claude conversations quantifies exactly why plan review works: users who iterate and **question the AI's reasoning are 5.6× more likely to catch missing context** and errors compared to users who accept the first output. A second round of review makes you 4× more likely to identify what was left out.
 >
 > The Rev the Engine pattern operationalizes this finding: each round of deep challenge triggers the questioning behavior that produces measurably better plans.
 >
-> *Source: Swanson et al., "The AI Fluency Index", Anthropic (2026-02-23) — [anthropic.com/research/AI-fluency-index](https://www.anthropic.com/research/AI-fluency-index)*
+> *Source: Swanson et al., "The AI Fluency Index", Anthropic (2026-02-23), [anthropic.com/research/AI-fluency-index](https://www.anthropic.com/research/AI-fluency-index)*
 
 ### Ultrareview (v2.1.114+)
 
@@ -3380,7 +3380,7 @@ For systematic experimentation, use the checkpoint pattern to create safe restor
 
 ## 2.5 Model Selection & Thinking Guide
 
-Choosing the right model for each task is the fastest ROI improvement most Claude Code users can make. One decision per task — no overthinking.
+Choosing the right model for each task is the fastest ROI improvement most Claude Code users can make. One decision per task, no overthinking.
 
 _Quick jump:_ [Decision Table](#decision-table) · [Effort Levels](#effort-levels) · [Model per Agent](#model-per-agent-patterns) · [When Thinking Helps](#when-thinking-helps-vs-wastes-tokens)
 
@@ -3422,22 +3422,22 @@ Practical scenarios: production security audits where errors are unacceptable, a
 
 The `effort` parameter (Opus 4.6+ API) controls the model's overall computational budget: not just thinking tokens, but tool calls, verbosity, and analysis depth. Low effort = fewer tool calls, no preamble. High effort = more explanations, detailed analysis.
 
-**Calibrated gradient — one real prompt per level:**
+**Calibrated gradient: one real prompt per level:**
 
-- **`low`** — Mechanical, no design decisions needed
-  > `"Rename getUserById to findUserById across src/"` — Find-replace scope, zero reasoning required.
+- **`low`**: Mechanical, no design decisions needed
+  > `"Rename getUserById to findUserById across src/"`: Find-replace scope, zero reasoning required.
 
-- **`medium`** — Clear pattern, defined scope, one concern
-  > `"Convert fetchUser() in api/users.ts from callbacks to async/await"` — Pattern is known, scope bounded.
+- **`medium`**: Clear pattern, defined scope, one concern
+  > `"Convert fetchUser() in api/users.ts from callbacks to async/await"`: Pattern is known, scope bounded.
 
-- **`high`** — Design decisions, edge cases, multiple concerns
-  > `"Redesign error handling in the payment module: add retry logic, partial failure recovery, and idempotency guarantees"` — Architectural choices, not just pattern application.
+- **`high`**: Design decisions, edge cases, multiple concerns
+  > `"Redesign error handling in the payment module: add retry logic, partial failure recovery, and idempotency guarantees"`: Architectural choices, not just pattern application.
 
 - **`xhigh`** _(Opus 4.8+, v2.1.114+)_: extra-high effort between `high` and `max`, introduced with Opus 4.8 (which defaults to `high` effort in Claude Code, all plans)
   > `"Debug this race condition in the distributed job queue with concurrent writes and partial reads"`, more reasoning depth than `high`, faster than `max`.
 
-- **`max`** _(Opus 4.7+ only — returns error on other models)_ — Cross-system reasoning, irreversible decisions
-  > `"Analyze the microservices event pipeline for race conditions across order-service, inventory-service, and notification-service"` — Multi-service hypothesis testing, adversarial thinking.
+- **`max`** _(Opus 4.7+ only, returns error on other models)_: Cross-system reasoning, irreversible decisions
+  > `"Analyze the microservices event pipeline for race conditions across order-service, inventory-service, and notification-service"`: Multi-service hypothesis testing, adversarial thinking.
 
 ---
 
@@ -3474,7 +3474,7 @@ effort: high
 | Architecture review | `high` | Design decisions, cross-component reasoning |
 | Multi-agent orchestration | `high` | Coordination + planning |
 
-> **Cost model**: `low` effort means fewer tool calls, no preamble, direct output. `high` effort means more tool calls with explanations, detailed summaries, deeper exploration. Match effort to where analysis adds value — not to "effort = quality" uniformly.
+> **Cost model**: `low` effort means fewer tool calls, no preamble, direct output. `high` effort means more tool calls with explanations, detailed summaries, deeper exploration. Match effort to where analysis adds value, not to "effort = quality" uniformly.
 
 ---
 
@@ -3482,7 +3482,7 @@ effort: high
 
 Assign models to agents based on **role**, not importance:
 
-**Planner** (`examples/agents/planner.md`) — Strategy, read-only exploration
+**Planner** (`examples/agents/planner.md`): Strategy, read-only exploration
 
 ```yaml
 ---
@@ -3493,7 +3493,7 @@ tools: Read, Grep, Glob
 ---
 ```
 
-**Implementer** (`examples/agents/implementer.md`) — Mechanical execution, bounded scope
+**Implementer** (`examples/agents/implementer.md`): Mechanical execution, bounded scope
 
 ```yaml
 ---
@@ -3504,9 +3504,9 @@ tools: Write, Edit, Bash, Read, Grep, Glob
 ---
 ```
 
-> **Note**: Haiku is for mechanical tasks only. If the implementation requires design decisions or complex business logic, use Sonnet — state this in the task prompt.
+> **Note**: Haiku is for mechanical tasks only. If the implementation requires design decisions or complex business logic, use Sonnet, and state this in the task prompt.
 
-**Architecture Reviewer** (`examples/agents/architecture-reviewer.md`) — Critical design review
+**Architecture Reviewer** (`examples/agents/architecture-reviewer.md`): Critical design review
 
 ```yaml
 ---
@@ -3529,7 +3529,7 @@ tools: Read, Grep, Glob
 
 | Scenario | Thinking | Reason |
 |----------|----------|--------|
-| Rename 50 files | OFF | Zero reasoning — pure mechanics |
+| Rename 50 files | OFF | Zero reasoning, pure mechanics |
 | Bug spanning 3+ services | ON (high) | Multi-layer hypothesis testing |
 | Boilerplate / test generation | OFF | Repetitive pattern, no decisions |
 | Architecture migration | ON (max) | Irreversible decisions |
@@ -3586,7 +3586,7 @@ Understanding how Claude Code "thinks" makes you more effective.
 
 ### You Are the Main Thread
 
-Think of yourself as a CPU scheduler. Claude Code instances are worker threads. You don't write the code—you **orchestrate** the work.
+Think of yourself as a CPU scheduler. Claude Code instances are worker threads. You don't write the code, you **orchestrate** the work.
 
 ```
 ┌─────────────────────────────────────────┐
@@ -3612,13 +3612,13 @@ Think of yourself as a CPU scheduler. Claude Code instances are worker threads. 
 - **Don't write code** when Claude can. Your time is for decisions, not keystrokes.
 - **Don't micromanage**. Give clear instructions, then review results.
 - **Context-switch deliberately**. Like a scheduler, batch similar tasks.
-- **Escalate to yourself**. When Claude is stuck, step in—then hand back.
+- **Escalate to yourself**. When Claude is stuck, step in, then hand back.
 
 This mental model scales: one developer can orchestrate 2-5 Claude instances on independent tasks (see [§9.17 Scaling Patterns](#917-scaling-patterns-multi-instance-workflows)).
 
 ### From Chatbot to Context System
 
-The most common mistake is treating Claude Code like a chatbot — typing ad-hoc requests and hoping for good output. What separates casual usage from production workflows is a shift in thinking:
+The most common mistake is treating Claude Code like a chatbot: typing ad-hoc requests and hoping for good output. What separates casual usage from production workflows is a shift in thinking:
 
 > **Chatbot mode**: You write good prompts. **Context system**: You build structured context that makes every prompt better.
 >
@@ -4129,7 +4129,7 @@ The Claude Code team internally treats prompts as **challenges to a peer**, not 
 
 **Three challenge patterns from the team**:
 
-**1. The Gatekeeper** — Force Claude to defend its work before shipping:
+**1. The Gatekeeper**: Force Claude to defend its work before shipping:
 
 ```
 "Grill me on these changes and don't make a PR until I pass your test"
@@ -4137,7 +4137,7 @@ The Claude Code team internally treats prompts as **challenges to a peer**, not 
 
 Claude reviews your diff, asks pointed questions about edge cases, and only proceeds when satisfied. This catches issues that passive review misses.
 
-**2. The Proof Demand** — Require evidence, not assertions:
+**2. The Proof Demand**: Require evidence, not assertions:
 
 ```
 "Prove to me this works — show me the diff in behavior between main and this branch"
@@ -4145,7 +4145,7 @@ Claude reviews your diff, asks pointed questions about edge cases, and only proc
 
 Claude runs both branches, compares outputs, and presents concrete evidence. Eliminates the "trust me, it works" failure mode.
 
-**3. The Reset** — After a mediocre first attempt, invoke full-context rewrite:
+**3. The Reset**: After a mediocre first attempt, invoke full-context rewrite:
 
 ```
 "Knowing everything you know now, scrap this and implement the elegant solution"
@@ -4639,7 +4639,7 @@ This section provides a summary of Claude Code's internal mechanisms. For the co
 
 ### The Master Loop
 
-At its core, Claude Code is a simple `while` loop:
+Claude Code runs on a simple `while` loop:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -4692,7 +4692,7 @@ Claude Code has 8 core tools:
 | `Task` | Spawn sub-agents (isolated context) |
 | `TodoWrite` | Track progress (legacy, see below) |
 
-**How tool execution works**: Claude Code can start executing tools marked as concurrency-safe (read-only operations like `Read`, `Grep`, `Glob`) while the model is still generating its response, reducing total turn time. Non-concurrent tools (writes, bash commands) wait for the response to complete and run serially. When multiple read-only tools appear in a single response, they run in parallel — up to 10 concurrent by default.
+**How tool execution works**: Claude Code can start executing tools marked as concurrency-safe (read-only operations like `Read`, `Grep`, `Glob`) while the model is still generating its response, reducing total turn time. Non-concurrent tools (writes, bash commands) wait for the response to complete and run serially. When multiple read-only tools appear in a single response, they run in parallel, up to 10 concurrent by default.
 
 ### Task Management System
 
@@ -4719,7 +4719,7 @@ Claude Code provides two task management approaches:
 - `TaskUpdate` - Modify task status, metadata, and dependencies
 - `TaskGet` - Retrieve individual task details
 - `TaskList` - List all tasks in current task list
-- ~~`TaskOutput`~~ — **Deprecated (v2.1.83+)**. Use `Read` on `.claude/tasks/<id>/output.log` to access task output directly.
+- ~~`TaskOutput`~~: **Deprecated (v2.1.83+)**. Use `Read` on `.claude/tasks/<id>/output.log` to access task output directly.
 
 **Core capabilities:**
 - **Persistent storage**: Tasks saved to `~/.claude/tasks/<task-list-id>/`
@@ -4867,7 +4867,7 @@ Project (parent)
 
 #### Task Lists as Diagnostic Tool
 
-**The Diagnostic Principle**: When Claude's task list doesn't match your intent, the problem isn't Claude—it's your instructions.
+**The Diagnostic Principle**: When Claude's task list doesn't match your intent, the problem sits in your instructions, not in Claude.
 
 Task lists act as a **mirror** for instruction clarity. If you ask Claude to plan a feature and the resulting tasks surprise you, that divergence is diagnostic information:
 
@@ -4935,7 +4935,7 @@ User: "Actually, here's what I need: [refined instruction with specifics]"
 
 ### Context Management
 
-Claude Code operates within a **200K token context window** (1M beta available via API — see [200K vs 1M comparison](line 1751)):
+Claude Code operates within a **200K token context window** (1M beta available via API, see [200K vs 1M comparison](line 1751)):
 
 | Component | Approximate Size |
 |-----------|------------------|
@@ -5190,7 +5190,7 @@ _Quick jump:_ [Memory Files (CLAUDE.md)](#31-memory-files-claudemd) · [.claude/
 
 CLAUDE.md files are persistent instructions read at every session start. Three levels: `~/.claude/CLAUDE.md` (global) → `/project/CLAUDE.md` (project) → `/project/.claude/CLAUDE.md` (local/personal). All merge additively; more specific file wins on conflict.
 
-**Minimum viable**: project name, one-sentence description, and `## Commands` block. Claude auto-detects stack, directory structure, and conventions. Add a line only when Claude makes the same mistake twice — not preemptively.
+**Minimum viable**: project name, one-sentence description, and `## Commands` block. Claude auto-detects stack, directory structure, and conventions. Add a line only when Claude makes the same mistake twice, not preemptively.
 
 **The anchoring risk**: stale CLAUDE.md entries bias every session toward outdated patterns. Treat pruning as maintenance. Structure around WHAT/WHY/HOW for larger projects.
 
@@ -5201,7 +5201,7 @@ CLAUDE.md files are persistent instructions read at every session start. Three l
 > **"You should never have to correct Claude twice for the same mistake."**
 > — Boris Cherny, creator of Claude Code
 
-**The Mental Model**: CLAUDE.md isn't just a configuration file—it's an **organizational learning system** where every error compounds into permanent team knowledge.
+**The Mental Model**: CLAUDE.md matters as a configuration file, but it matters more as an **organizational learning system** where every error compounds into permanent team knowledge.
 
 **How it works**:
 1. **Claude makes an error** (e.g., uses `npm` instead of `pnpm`)
@@ -5235,7 +5235,7 @@ docs/solutions/
 └── kotlin-coroutine-timeout-pattern.md
 ```
 
-Each file documents: the problem, the solution, why it works, and edge cases. Claude reads these files when similar patterns appear — the third time a related issue surfaces, the fix is already there. The distinction with CLAUDE.md is intentional: CLAUDE.md contains rules, `docs/solutions/` contains solved problems with their full context.
+Each file documents: the problem, the solution, why it works, and edge cases. Claude reads these files when similar patterns appear: the third time a related issue surfaces, the fix is already there. The distinction with CLAUDE.md is intentional: CLAUDE.md contains rules, `docs/solutions/` contains solved problems with their full context.
 
 #### The Compound Engineering philosophy (Every.to)
 
@@ -5252,7 +5252,7 @@ Most teams skip the fourth step, which is where the real gains accumulate.
 | **Review** | Multiple specialized agents review in parallel (security, performance, architecture, etc.), findings are prioritized P1/P2/P3 | ~40% |
 | **Compound** | Document what worked, update CLAUDE.md with new patterns, create agents for recurring review tasks | ~10% |
 
-The critical insight: 80% of engineer time should be planning and reviewing, 20% implementing and compounding. Writing code is not the job — shipping value is.
+The critical insight: 80% of engineer time should be planning and reviewing, 20% implementing and compounding. The job is shipping value, not writing code.
 
 **The 50/50 rule**
 
@@ -5271,15 +5271,15 @@ Where you are determines what you should focus on next, not what someone else is
 | 4 | Idea to PR (single machine) | Full delegation, minimal touch points |
 | 5 | Parallel cloud execution | Fleet of agents, you review PRs as they arrive |
 
-Most developers plateau at stage 2 (approving every action) because they don't trust the output. The answer isn't more review, it's better safety nets: tests, automated review agents, git worktrees for isolation.
+Most developers plateau at stage 2 (approving every action) because they don't trust the output. Better safety nets fix this, not more review: tests, automated review agents, git worktrees for isolation.
 
 **Key beliefs to adopt**
 
 - Every unit of work should make subsequent work easier, not harder
 - Taste belongs in systems (CLAUDE.md, agents, skills), not in manual review
-- Build safety nets, not review processes — trust comes from verification infrastructure, not gatekeeping
-- Plans are the new code — a well-written plan is the most valuable artifact you produce
-- Parallelization is the new bottleneck — compute, not attention, is the constraint now
+- Build safety nets, not review processes: trust comes from verification infrastructure, not gatekeeping
+- Plans are the new code: a well-written plan is the most valuable artifact you produce
+- Parallelization is the new bottleneck: compute, not attention, is the constraint now
 
 **The plugin (optional)**
 
@@ -5332,9 +5332,9 @@ You can adopt this structure incrementally: start with `docs/solutions/` (highes
 The corollary: every investment you make today in CLAUDE.md, skills, hooks, and workflows compounds *harder* as the models improve. If you optimize purely for current limitations, you'll be constantly rewriting your setup. If you build for a slightly more capable model, your workflows will run automatically when the next version drops.
 
 **Practical implications**:
-- Write CLAUDE.md rules as if Claude will understand nuance better — don't over-specify constraints that will be unnecessary with the next model
+- Write CLAUDE.md rules as if Claude will understand nuance better: don't over-specify constraints that will be unnecessary with the next model
 - Build agents for goals, not for step-by-step procedures (models get better at navigation, not just execution)
-- Invest in your prompt patterns and slash commands now — they age well
+- Invest in your prompt patterns and slash commands now: they age well
 
 ### Continuous Context Update
 
@@ -5373,7 +5373,7 @@ User: Before we finish this session, review what we discovered today.
 
 **Frequency**: Update CLAUDE.md at least once per session where you learn something non-obvious. Over time, this builds a knowledge base that rivals onboarding documentation.
 
-**Size guideline**: Keep CLAUDE.md files between **4-8KB total** (all levels combined). Practitioner studies show that context files exceeding 16K tokens degrade model coherence. Include architecture overviews, key conventions, and critical constraints—exclude full API references or extensive code examples (link to them instead). Vercel's Next.js team compressed ~40KB of framework docs to an 8KB index with zero performance loss in agent evals ([Gao, 2026](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals)), confirming the 4-8KB target.
+**Size guideline**: Keep CLAUDE.md files between **4-8KB total** (all levels combined). Practitioner studies show that context files exceeding 16K tokens degrade model coherence. Include architecture overviews, key conventions, and critical constraints, and exclude full API references or extensive code examples (link to them instead). Vercel's Next.js team compressed ~40KB of framework docs to an 8KB index with zero performance loss in agent evals ([Gao, 2026](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals)), confirming the 4-8KB target.
 
 ### Level 1: Global (~/.claude/CLAUDE.md)
 
@@ -5450,13 +5450,13 @@ Personal overrides not committed to git (add to .gitignore):
 
 **File imports**: CLAUDE.md can import additional files using `@path/to/file` syntax (e.g., `@README.md`, `@docs/conventions.md`, `@~/.claude/my-overrides.md`). Imported files load on-demand, only consuming tokens when referenced.
 
-> **📊 Empirical backing — Anthropic AI Fluency Index (Feb 2026)**
+> **📊 Empirical backing: Anthropic AI Fluency Index (Feb 2026)**
 >
-> Only **30% of Claude users explicitly define collaboration terms** before starting a session. Users who do — the 30% — produce measurably more directed and effective interactions. A well-configured CLAUDE.md is the structural equivalent of that 30%: it sets expectations, scope, and constraints once, so every session starts with the right context already loaded.
+> Only **30% of Claude users explicitly define collaboration terms** before starting a session. Users who do (the 30%) produce measurably more directed and effective interactions. A well-configured CLAUDE.md is the structural equivalent of that 30%: it sets expectations, scope, and constraints once, so every session starts with the right context already loaded.
 >
-> The 70% who skip this step negotiate scope implicitly, per request — a less efficient and less reliable pattern.
+> The 70% who skip this step negotiate scope implicitly, per request: a less efficient and less reliable pattern.
 >
-> *Source: Swanson et al., "The AI Fluency Index", Anthropic (2026-02-23) — [anthropic.com/research/AI-fluency-index](https://www.anthropic.com/research/AI-fluency-index)*
+> *Source: Swanson et al., "The AI Fluency Index", Anthropic (2026-02-23), [anthropic.com/research/AI-fluency-index](https://www.anthropic.com/research/AI-fluency-index)*
 
 > **Advanced patterns**: For agent-optimized codebase design including domain knowledge embedding, code discoverability, and testing strategies, see [Section 9.18: Codebase Design for Agent Productivity](#918-codebase-design-for-agent-productivity).
 
@@ -5488,14 +5488,14 @@ Claude Code automatically saves useful context across sessions without manual CL
 |--------|--------|
 | Storage | `.claude/memory/MEMORY.md` (project) or `~/.claude/projects/<path>/memory/MEMORY.md` |
 | Limits | 200 lines / 25 KB (truncated at read time with warning) |
-| Management | `/memory` command — view, edit, delete entries |
+| Management | `/memory` command: view, edit, delete entries |
 | vs CLAUDE.md | CLAUDE.md: team conventions, git-tracked. Auto-memory: personal context, gitignored |
 
 > **Full coverage**: See [Memory Systems: Auto Memory](./core/memory-systems.md#22-auto-memory-v21594) for limits breakdown, CLAUDE.md vs Auto-Memory comparison, and recommended workflow.
 
 ### Auto Dream: Memory Consolidation (Community-Discovered)
 
-Background sub-agent that consolidates MEMORY.md between sessions — the system prompt literally says "You are performing a dream." Triggers when both conditions are met: ≥24 hours since last run AND ≥5 sessions elapsed.
+Background sub-agent that consolidates MEMORY.md between sessions: the system prompt literally says "You are performing a dream." Triggers when both conditions are met: ≥24 hours since last run AND ≥5 sessions elapsed.
 
 | Phase | Action |
 |-------|--------|
@@ -5504,7 +5504,7 @@ Background sub-agent that consolidates MEMORY.md between sessions — the system
 | Consolidate | Merges signal, converts relative dates, removes contradicted facts |
 | Prune & Index | Rebuilds MEMORY.md under 200-line cap |
 
-Trigger via `/memory` or natural language: "consolidate my memory files". The `/dream` command exists in the UI but returns "Unknown skill" on most installs — use natural language instead.
+Trigger via `/memory` or natural language: "consolidate my memory files". The `/dream` command exists in the UI but returns "Unknown skill" on most installs, use natural language instead.
 
 > **Full coverage**: See [Memory Systems: Auto Dream](./core/memory-systems.md#23-auto-dream-background-consolidation) for trigger conditions, 4-phase breakdown, quality gaps, and community implementations.
 
@@ -5538,7 +5538,7 @@ knowledge_base:
       - "docs/conventions/*.md"
 ```
 
-**Why this matters**: Without a single source, your local agent might approve code that CodeRabbit then flags — wasting cycles. With aligned conventions, all tools enforce the same standards.
+**Why this matters**: Without a single source, your local agent might approve code that CodeRabbit then flags, wasting cycles. With aligned conventions, all tools enforce the same standards.
 
 > Inspired by [Nick Tune's Coding Agent Development Workflows](https://medium.com/nick-tune-tech-strategy-blog/coding-agent-development-workflows-af52e6f912aa)
 
@@ -5569,7 +5569,7 @@ monorepo/
 - When you work in `packages/api/`, it merges root + api CLAUDE.md
 - More specific files add to (don't replace) parent context
 
-**Conflict resolution**: If the same instruction appears in both files, the more specific (child) file takes precedence. Instructions are merged additively—child rules don't delete parent rules, they override conflicting ones.
+**Conflict resolution**: If the same instruction appears in both files, the more specific (child) file takes precedence. Instructions are merged additively: child rules don't delete parent rules, they override conflicting ones.
 
 **What goes where**:
 
@@ -5648,7 +5648,7 @@ Always include a markdown cell explaining the experiment goal before any code.
 Never use global state between notebook cells.
 ```
 
-> **Warning — `paths:` array syntax fails silently.** The documented `paths:` field with a YAML array (`paths:\n  - "**/*.ts"`) does not work due to an internal CSV parser bug (confirmed in GitHub issue #17204 and 8 duplicate reports). Quoted strings under `paths:` also break silently, preserving literal quote characters in the glob. Use `globs:` with unquoted, comma-separated patterns instead. No quotes, no array syntax.
+> **Warning: `paths:` array syntax fails silently.** The documented `paths:` field with a YAML array (`paths:\n  - "**/*.ts"`) does not work due to an internal CSV parser bug (confirmed in GitHub issue #17204 and 8 duplicate reports). Quoted strings under `paths:` also break silently, preserving literal quote characters in the glob. Use `globs:` with unquoted, comma-separated patterns instead. No quotes, no array syntax.
 
 Rules without a `globs:` key load unconditionally. Rules with `globs:` only load when Claude is working with files that match those patterns.
 
@@ -6056,7 +6056,7 @@ Personal permission overrides (gitignored):
 
 Two settings let you customize the text that rotates in the terminal while the agent is working ("Analyzing…", "Prestidigitating…", etc.).
 
-**`spinnerVerbs`** — replaces or extends the action words displayed in the spinner:
+**`spinnerVerbs`**: replaces or extends the action words displayed in the spinner:
 
 ```json
 {
@@ -6069,7 +6069,7 @@ Two settings let you customize the text that rotates in the terminal while the a
 
 Use `"mode": "add"` to extend the default list instead of replacing it.
 
-**`spinnerTipsOverride`** — customizes the tips shown in the spinner. Use `excludeDefault: true` to remove all built-in tips:
+**`spinnerTipsOverride`**: customizes the tips shown in the spinner. Use `excludeDefault: true` to remove all built-in tips:
 
 ```json
 {
@@ -6080,7 +6080,7 @@ Use `"mode": "add"` to extend the default list instead of replacing it.
 }
 ```
 
-These go in `~/.claude/settings.json` (personal, not committed) or `.claude/settings.json` (shared with team). Zero functional value — pure UX personalization.
+These go in `~/.claude/settings.json` (personal, not committed) or `.claude/settings.json` (shared with team). Zero functional value, pure UX personalization.
 
 Full example with 80+ guide-derived tips and custom verbs: [`examples/config/settings-personalization.json`](../examples/config/settings-personalization.json)
 
@@ -6099,7 +6099,7 @@ Full example with 80+ guide-derived tips and custom verbs: [`examples/config/set
 | `Edit(file_path:*.pem)` | Edit matching file paths (tool-qualified format) |
 | `Write(file_path:*.key)` | Write matching file paths (tool-qualified format) |
 
-**Tool-qualified deny format** — lock down file access by path pattern, not just by tool name:
+**Tool-qualified deny format**: lock down file access by path pattern, not just by tool name:
 
 ```json
 {
@@ -6121,7 +6121,7 @@ Full example with 80+ guide-derived tips and custom verbs: [`examples/config/set
 
 The `file_path:` prefix matches against the full path argument passed to Read/Edit/Write. Use glob patterns (`*`, `**`). This is more granular than the simple string form (e.g. `".env"`) which only matches exact file names.
 
-> **Defense-in-depth**: `permissions.deny` has a known limitation — background indexing may expose file contents via system reminders before permission checks apply ([GitHub #4160](https://github.com/anthropics/claude-code/issues/4160)). Store secrets outside the project directory for guaranteed protection.
+> **Defense-in-depth**: `permissions.deny` has a known limitation: background indexing may expose file contents via system reminders before permission checks apply ([GitHub #4160](https://github.com/anthropics/claude-code/issues/4160)). Store secrets outside the project directory for guaranteed protection.
 
 ### Permission Behavior
 
@@ -6339,7 +6339,7 @@ Understanding when each memory method loads is critical for token optimization:
 | `@path/to/file.md` | On-demand (when referenced) | Only when used | Optional/conditional context |
 | `.claude/skills/*.md` | Invocation only | When invoked (`/name`) or auto-loaded | Workflow templates + knowledge modules |
 
-**Key insight**: `.claude/rules/` is NOT on-demand. Every `.md` file in that directory loads at session start, consuming tokens. Reserve it for always-relevant conventions, not rarely-used guidelines. Skills are invocation-only and may not be triggered reliably—one eval found agents invoked skills in only 56% of cases ([Gao, 2026](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals)). Never rely on skills for critical instructions; use CLAUDE.md or rules instead.
+**Key insight**: `.claude/rules/` is NOT on-demand. Every `.md` file in that directory loads at session start, consuming tokens. Reserve it for always-relevant conventions, not rarely-used guidelines. Skills are invocation-only and may not be triggered reliably: one eval found agents invoked skills in only 56% of cases ([Gao, 2026](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals)). Never rely on skills for critical instructions; use CLAUDE.md or rules instead.
 
 > **See also**: [Token Cost Estimation](#token-saving-techniques) for approximate token costs per file size. For a unified "which mechanism for what?" reference, see [Memory Loading Comparison](#memory-loading-comparison).
 
@@ -6361,7 +6361,7 @@ These rules only apply when working with API files:
 - Include rate limiting middleware
 ```
 
-> **Warning — `paths:` array syntax fails silently.** The documented `paths:` field with a YAML array is broken due to an internal CSV parser bug (`_9A()` receives a JS Array and iterates characters of the stringified value instead of the actual patterns). Quoted strings under `paths:` have the same problem, preserving literal quote characters in the glob. This is confirmed across GitHub issue #17204 and 8 duplicate reports. The workaround is to use `globs:` with unquoted, comma-separated patterns. No quotes, no YAML arrays.
+> **Warning: `paths:` array syntax fails silently.** The documented `paths:` field with a YAML array is broken due to an internal CSV parser bug (`_9A()` receives a JS Array and iterates characters of the stringified value instead of the actual patterns). Quoted strings under `paths:` have the same problem, preserving literal quote characters in the glob. This is confirmed across GitHub issue #17204 and 8 duplicate reports. The workaround is to use `globs:` with unquoted, comma-separated patterns. No quotes, no YAML arrays.
 
 This enables progressive context loading: rules only appear when Claude works with matching files. Real-world example: Avo migrated a 600-line CLAUDE.md to ~15 path-scoped files, reporting sharper responses and easier maintenance across domains. ([Björn Jóhannsson](https://www.linkedin.com/posts/bj%C3%B6rn-j%C3%B3hannsson-72435083_your-claudemd-is-eating-your-context-window-activity-7431750526729338881-ODSs))
 
@@ -6378,9 +6378,9 @@ This enables progressive context loading: rules only appear when Claude works wi
 
 ### 📌 Section 3.5 TL;DR (60 seconds)
 
-**Problem**: AI instruction files (CLAUDE.md, .cursorrules, AGENTS.md) fragment across developers, tools, and OS — each dev ends up with a slightly different version, and nobody knows which is "correct."
+**Problem**: AI instruction files (CLAUDE.md, .cursorrules, AGENTS.md) fragment across developers, tools, and OS: each dev ends up with a slightly different version, and nobody knows which is "correct."
 
-**Solution**: Profile-Based Module Assembly — extract reusable modules, define per-dev profiles in YAML, auto-assemble the final instruction file.
+**Solution**: Profile-Based Module Assembly: extract reusable modules, define per-dev profiles in YAML, auto-assemble the final instruction file.
 
 **Measured gain**: 59% token context reduction (from ~8,400 to ~3,450 tokens per assembled file). Measured on a team of 5 developers, TypeScript/Node.js stack.
 
@@ -6409,7 +6409,7 @@ In practice, this causes real drift:
 - Carol configures macOS-specific paths. Dave on Linux copies the file and gets broken paths.
 - Someone updates the git workflow section in one file. The other 4 files stay stale.
 
-After 3 months, no two developers have the same instructions — and nobody knows which version is "right."
+After 3 months, no two developers have the same instructions, and nobody knows which version is "right."
 
 ### Solution: Profile-Based Module Assembly
 
@@ -6497,7 +6497,7 @@ The skeleton is a Markdown template with placeholders. The assembler fills them 
 {{MODULE:{{OS}}-paths}}
 ```
 
-The `DO NOT EDIT` header is important — it prevents developers from making local changes that would be overwritten on next assembly.
+The `DO NOT EDIT` header is important: it prevents developers from making local changes that would be overwritten on next assembly.
 
 ### Assembler Script
 
@@ -6553,7 +6553,7 @@ for (const dev of profiles) {
 }
 ```
 
-You can write this in Python or bash too — the logic is the same: read profile, load modules, replace placeholders, write output.
+You can write this in Python or bash too, the logic is the same: read profile, load modules, replace placeholders, write output.
 
 ### Measured Results
 
@@ -6606,7 +6606,7 @@ This catches two scenarios:
 
 3. **Profile**: Create one YAML per developer, listing which modules they need based on their tools, OS, and role.
 
-4. **Script**: Write an assembler that reads profiles, injects modules into the skeleton, and writes output. Start simple — the example above is production-ready for small teams.
+4. **Script**: Write an assembler that reads profiles, injects modules into the skeleton, and writes output. Start simple: the example above is production-ready for small teams.
 
 5. **CI**: Add a daily GitHub Actions job that re-generates all output and runs `git diff --exit-code` to catch drift.
 
@@ -6650,13 +6650,13 @@ When multiple developers use Claude Code on the same codebase, hidden AI generat
 - Prevents "vibe coding" from silently accumulating technical debt
 - Creates a paper trail for architectural decisions
 
-**Graduated enforcement** — match to your team's maturity:
+**Graduated enforcement**: match to your team's maturity.
 
 | Developer level | Disclosure requirement |
 |-----------------|----------------------|
-| Junior / onboarding | Mandatory — every AI-generated block |
-| Intermediate | Recommended — non-trivial features |
-| Senior | Optional — own judgment |
+| Junior / onboarding | Mandatory: every AI-generated block |
+| Intermediate | Recommended: non-trivial features |
+| Senior | Optional: own judgment |
 
 **What it's NOT**:
 - Not a ban on AI generation
@@ -6672,7 +6672,7 @@ When multiple developers use Claude Code on the same codebase, hidden AI generat
 
 **1. Underfund projects on purpose**
 
-Having one great engineer on a big problem — instead of a full team — forces deep AI utilization. The constraint accelerates shipping, not slows it. The bottleneck shifts from headcount to quality of prompts and workflows.
+Having one great engineer on a big problem, instead of a full team, forces deep AI utilization. The constraint accelerates shipping, not slows it. The bottleneck shifts from headcount to quality of prompts and workflows.
 
 **2. Give engineers unlimited tokens first**
 
@@ -6680,7 +6680,7 @@ Don't optimize token costs early. Give engineers the freedom to experiment maxim
 
 **3. Encourage people to go faster**
 
-The default instinct with AI tools is caution — reviewing every output, second-guessing every suggestion. The better instinct: ship, validate, iterate. Claude Code is designed for high-velocity cycles, not careful deliberation.
+The default instinct with AI tools is caution: reviewing every output, second-guessing every suggestion. The better instinct: ship, validate, iterate. Claude Code is designed for high-velocity cycles, not careful deliberation.
 
 > **When to apply**: Teams of 2+ using Claude Code professionally. Solo developers should focus on the first two principles (underfund = treat yourself as a one-person team with AI leverage; unlimited tokens = don't self-censor your experiments).
 
@@ -6690,7 +6690,7 @@ The default instinct with AI tools is caution — reviewing every output, second
 
 Profile-Based Module Assembly solves the per-developer consistency problem. It still requires your team to maintain the modules manually and run the assembler. At 50+ developers across 30+ repositories, even that becomes friction.
 
-Tools like [Packmind](ecosystem/third-party-tools.md#packmind) take the same principle further: define standards once in a central playbook, and distribute them automatically as `CLAUDE.md` files, slash commands, and skills — across repositories and across AI tools (Claude Code, Cursor, Copilot, Windsurf). The playbook can also ingest knowledge from PR review comments, Slack discussions, and incident reports to keep standards current without manual maintenance.
+Tools like [Packmind](ecosystem/third-party-tools.md#packmind) take the same principle further: define standards once in a central playbook, and distribute them automatically as `CLAUDE.md` files, slash commands, and skills, across repositories and across AI tools (Claude Code, Cursor, Copilot, Windsurf). The playbook can also ingest knowledge from PR review comments, Slack discussions, and incident reports to keep standards current without manual maintenance.
 
 > **When to consider this**: Teams of 10+ developers, 5+ repositories, using more than one AI coding agent.
 
@@ -6793,14 +6793,14 @@ All official fields supported by Claude Code ([source](https://code.claude.com/d
 | `permissionMode` | ❌ | `default`, `acceptEdits`, `dontAsk`, `bypassPermissions`, or `plan` |
 | `maxTurns` | ❌ | Maximum agentic turns before the subagent stops |
 | `skills` | ❌ | Skills to preload into agent context at startup (full content injected, not just available) |
-| `mcpServers` | ❌ | MCP servers for this subagent — server name strings or inline configs |
+| `mcpServers` | ❌ | MCP servers for this subagent: server name strings or inline configs |
 | `hooks` | ❌ | Lifecycle hooks scoped to this subagent (`PreToolUse`, `PostToolUse`, `Stop`) |
 | `memory` | ❌ | Persistent memory scope: `user`, `project`, or `local` |
 | `background` | ❌ | `true` to always run as a background task (default: `false`) |
 | `isolation` | ❌ | `worktree` to run in a temporary git worktree (auto-cleaned if no changes) |
 | `color` | ❌ | CLI output color for visual distinction (e.g., `green`, `magenta`) |
 
-**Memory scopes** — choose based on how broadly the knowledge should apply:
+**Memory scopes**: pick the scope based on how broadly the knowledge should apply:
 
 | Scope | Storage | Use when |
 |-------|---------|----------|
@@ -6808,7 +6808,7 @@ All official fields supported by Claude Code ([source](https://code.claude.com/d
 | `project` | `.claude/agent-memory/<name>/` | Project-specific, shareable via git |
 | `local` | `.claude/agent-memory-local/<name>/` | Project-specific, not committed |
 
-> Full coverage of agent memory — 200-line injection limit, MEMORY.md structure, scope selection guide — in [§4.5 Agent Memory](#45-agent-memory).
+> Full coverage of agent memory (200-line injection limit, MEMORY.md structure, scope selection guide) in [§4.5 Agent Memory](#45-agent-memory).
 
 ### Model Selection
 
@@ -7003,8 +7003,8 @@ Choose a scope based on where the knowledge is useful:
 
 | Scope | Storage location | Version controlled | Best for |
 |-------|-----------------|-------------------|----------|
-| `user` | `~/.claude/agent-memory/<agent-name>/` | No | Cross-project learning — a code reviewer that builds up pattern knowledge across every repo |
-| `project` | `.claude/agent-memory/<agent-name>/` | Yes (committed) | Project-specific knowledge the whole team should share — e.g., API conventions discovered by a scaffolding agent |
+| `user` | `~/.claude/agent-memory/<agent-name>/` | No | Cross-project learning: a code reviewer that builds up pattern knowledge across every repo |
+| `project` | `.claude/agent-memory/<agent-name>/` | Yes (committed) | Project-specific knowledge the whole team should share (e.g., API conventions discovered by a scaffolding agent) |
 | `local` | `.claude/agent-memory-local/<agent-name>/` | No (gitignored) | Project-specific knowledge that is personal and should not be committed |
 
 These scopes mirror the settings hierarchy (`~/.claude/settings.json` → `.claude/settings.json` → `.claude/settings.local.json`), making the mental model consistent across the whole system.
@@ -7022,7 +7022,7 @@ memory: user
 
 ### How the 200-Line Injection Works
 
-When an agent starts, Claude Code reads the first 200 lines of `MEMORY.md` in the agent's memory directory and injects them directly into the agent's system prompt. This is automatic — no explicit tool call needed.
+When an agent starts, Claude Code reads the first 200 lines of `MEMORY.md` in the agent's memory directory and injects them directly into the agent's system prompt. This is automatic. No explicit tool call needed.
 
 ```
 ~/.claude/agent-memory/code-reviewer/
@@ -7031,7 +7031,7 @@ When an agent starts, Claude Code reads the first 200 lines of `MEMORY.md` in th
 └── security-checklist.md       ← Topic-specific file, loaded on demand
 ```
 
-Once `MEMORY.md` exceeds 200 lines the agent should move detailed content into topic-specific files and keep `MEMORY.md` as a concise index with references. The agent manages this itself — `Read`, `Write`, and `Edit` are automatically available to any agent with `memory` set.
+Once `MEMORY.md` exceeds 200 lines the agent should move detailed content into topic-specific files and keep `MEMORY.md` as a concise index with references. The agent manages this itself: `Read`, `Write`, and `Edit` are automatically available to any agent with `memory` set.
 
 **Practical implication**: structure `MEMORY.md` like a smart summary, not an append-only log. High-signal entries at the top, topic files for depth.
 
@@ -7078,16 +7078,16 @@ architectural decisions, or recurring issues you observed. Keep MEMORY.md
 under 200 lines — move detailed notes to topic-specific files.
 ```
 
-This pattern — skills for static startup knowledge, memory for dynamic accumulated knowledge — gives agents the best of both worlds. Skills inject curated reference material at first run; memory carries forward what the agent discovers on its own.
+This pattern (skills for static startup knowledge, memory for dynamic accumulated knowledge) gives agents the best of both worlds. Skills inject curated reference material at first run; memory carries forward what the agent discovers on its own.
 
 ### Choosing the Right Scope
 
 | Situation | Recommended scope |
 |-----------|------------------|
-| Generic code reviewer used across multiple projects | `user` — knowledge accumulates globally |
-| API scaffolding agent that learns your team's endpoint conventions | `project` — commit the memory so teammates benefit |
-| Personal refactoring agent with your preferred style preferences | `local` — stays on your machine only |
-| Agent for a client project you do not want to mix with personal knowledge | `local` — isolated, not committed |
+| Generic code reviewer used across multiple projects | `user`: knowledge accumulates globally |
+| API scaffolding agent that learns your team's endpoint conventions | `project`: commit the memory so teammates benefit |
+| Personal refactoring agent with your preferred style preferences | `local`: stays on your machine only |
+| Agent for a client project you do not want to mix with personal knowledge | `local`: isolated, not committed |
 
 > **Sources**: [Create custom subagents](https://code.claude.com/docs/en/sub-agents) · [Manage Claude's memory](https://code.claude.com/docs/en/memory) · Claude Code v2.1.33 release notes
 
@@ -7173,7 +7173,7 @@ tools: Read, Bash, Grep, Glob
 Perform systematic debugging with isolated context:
 - Investigate root causes, not symptoms
 - Use evidence-based debugging approach
-- Verify rather than assume (always review output—LLMs can make mistakes)
+- Verify rather than assume (always review output, LLMs can make mistakes)
 
 Scope: Debugging analysis only. Focus on root cause identification without context pollution from previous debugging attempts.
 
@@ -7526,7 +7526,7 @@ Estimated savings: significant (varies by project)
 
 An agent that updates its own skills after each execution. Instead of manually maintaining documentation, the agent reads the current state of its domain and rewrites the knowledge injected into itself.
 
-**When to use**: Long-lived agents whose domain evolves — presentation editors, API clients tracking schema changes, agents managing living documents.
+**When to use**: Long-lived agents whose domain evolves (presentation editors, API clients tracking schema changes, agents managing living documents).
 
 **Core mechanism** (in agent system prompt):
 
@@ -7542,7 +7542,7 @@ After completing your main task, update your preloaded skills to stay in sync:
 This prevents knowledge drift between what you know and what is.
 ```
 
-**Full example** — a presentation curator agent that keeps its own layout/weight knowledge fresh:
+**Full example**: a presentation curator agent that keeps its own layout/weight knowledge fresh.
 
 ```yaml
 ---
@@ -7571,7 +7571,7 @@ _Each run appends findings here. Future invocations start informed._
 **Why it works**: The `skills:` frontmatter injects skill content at agent startup. By writing back to those files after each run, the agent's next invocation starts with current knowledge. No human maintenance required.
 
 **Key constraints**:
-- Scope updates narrowly — only update what actually changed
+- Scope updates narrowly: only update what actually changed
 - Keep a `## Learnings` log so the agent builds cumulative knowledge over sessions
 - Pair with `memory: project` for cross-session persistence of broader context
 
@@ -7593,7 +7593,7 @@ _Quick jump:_ [Two Kinds of Skills](#50-two-kinds-of-skills) · [Understanding S
 
 ## 5.0 Two Kinds of Skills
 
-> **New in March 2026**: Anthropic's Skill Creator update formalizes a taxonomy that changes how you design, test, and eventually retire skills. Sources: ainews.com, mexc.co, claudecode.jp — not yet reflected in the official `llms-full.txt`.
+> **New in March 2026**: Anthropic's Skill Creator update formalizes a taxonomy that changes how you design, test, and eventually retire skills. Sources: ainews.com, mexc.co, claudecode.jp (not yet reflected in the official `llms-full.txt`).
 
 Not all skills age the same way. The type you're building determines how you write it, how you test it, and when to retire it.
 
@@ -7605,9 +7605,9 @@ Not all skills age the same way. The type you're building determines how you wri
 | **Retirement signal** | Model passes the eval without the skill | Workflow changes or becomes irrelevant |
 | **Eval approach** | A/B test: with vs. without the skill | Fidelity check: does it follow the sequence correctly? |
 
-**Capability Uplift** teaches Claude something it genuinely can't do well on its own — yet. High value today, but carries a maintenance debt: as Claude improves, these skills may become redundant. Evals tell you when that happens before a user does.
+**Capability Uplift** teaches Claude something it genuinely can't do well on its own, yet. High value today, but carries a maintenance debt: as Claude improves, these skills may become redundant. Evals tell you when that happens before a user does.
 
-**Encoded Preference** encodes your team's specific way of doing something Claude already knows how to do. An NDA review follows your legal team's criteria, not a generic checklist. These skills don't compete with model improvements — they capture workflow decisions that are yours to make, and stay relevant as long as your process does.
+**Encoded Preference** encodes your team's specific way of doing something Claude already knows how to do. An NDA review follows your legal team's criteria, not a generic checklist. These skills don't compete with model improvements: they capture workflow decisions that are yours to make, and stay relevant as long as your process does.
 
 > **Practical implication**: When building a Capability Uplift skill, budget time for evals. When building an Encoded Preference skill, budget time for keeping the workflow description accurate as your process evolves.
 
@@ -7673,13 +7673,13 @@ Is this a repeatable workflow with steps?
 
 #### Skills and Subagents
 
-Subagents don't inherit skills automatically — this is a common source of confusion.
+Subagents don't inherit skills automatically: this is a common source of confusion.
 
 | Rule | Details |
 |------|---------|
 | **Built-in agents can't use skills** | Explorer, Plan, and Verify agents have no access to skills |
 | **Custom subagents need explicit wiring** | Skills must be listed in the agent's `skills:` frontmatter field |
-| **Skills load at agent start** | Not on-demand like in the main conversation — all listed skills are loaded upfront |
+| **Skills load at agent start** | Not on-demand like in the main conversation: all listed skills are loaded upfront |
 | **List only always-relevant skills** | Don't add a skill unless it applies to every single task the subagent performs |
 
 Custom subagent frontmatter with skills (`.claude/agents/my-agent.md`):
@@ -7818,7 +7818,7 @@ allowed-tools: Bash
 ---
 ```
 
-**Why it matters**: Effort controls thinking depth, tool call verbosity, and analysis depth — not just tokens. A `low` effort skill runs faster and cheaper. A `high` effort skill reasons deeper without the user having to manually adjust the session setting. This enables automatic cognitive budget allocation per task type: pay for reasoning only where it adds value.
+**Why it matters**: Effort controls thinking depth, tool call verbosity, and analysis depth, not just tokens. A `low` effort skill runs faster and cheaper. A `high` effort skill reasons deeper without the user having to manually adjust the session setting. This enables automatic cognitive budget allocation per task type: pay for reasoning only where it adds value.
 
 **`${CLAUDE_EFFORT}` in skill content** (v2.1.120): Skill body text can reference `${CLAUDE_EFFORT}` as a variable. Claude substitutes it with the current effort level string (`low`, `medium`, `high`, `xhigh`, `max`) before processing the skill. Use this to branch instructions based on effort:
 
@@ -7837,7 +7837,7 @@ ${end}
 
 This lets one skill serve both quick-scan (low/medium) and thorough (high/xhigh) use cases without maintaining two separate skills.
 
-**`allowed-tools` wildcard scoping** — limit a skill to specific command namespaces rather than opening full Bash access:
+**`allowed-tools` wildcard scoping** limits a skill to specific command namespaces rather than opening full Bash access:
 
 ```yaml
 # Scope to a specific CLI tool only — no other Bash commands allowed
@@ -7864,9 +7864,9 @@ skills-ref to-prompt ./my-skill     # Generate <available_skills> XML for agent 
 ```
 
 > **Beyond spec validation**: Three complementary audit tools:
-> - `/audit-agents-skills` — broad quality audit across agents, skills, AND commands (16 criteria, 32-pt weighted grading). Use for general production readiness.
-> - `/eval-skills` — skills-only audit with effort-level inference engine. Discovers all skills, infers the appropriate `effort` level from content analysis, flags mismatches, and prints copy-paste ready frontmatter patches. Use when adding `effort` fields to an existing library or auditing a new project. See `examples/skills/eval-skills/`.
-> - `/eval-rules` — rules-focused audit with interactive usefulness review. Resolves every `paths:` glob pattern against real project files, flags dead or over-broad patterns, then asks you rule-by-rule whether each rule still fires in the right context and whether its content is still accurate. Can apply edits in-place based on your answers. Use for periodic rules hygiene or when a rule fires too often/never. See `examples/skills/eval-rules/`.
+> - `/audit-agents-skills`: broad quality audit across agents, skills, AND commands (16 criteria, 32-pt weighted grading). Use for general production readiness.
+> - `/eval-skills`: skills-only audit with effort-level inference engine. Discovers all skills, infers the appropriate `effort` level from content analysis, flags mismatches, and prints copy-paste ready frontmatter patches. Use when adding `effort` fields to an existing library or auditing a new project. See `examples/skills/eval-skills/`.
+> - `/eval-rules`: rules-focused audit with interactive usefulness review. Resolves every `paths:` glob pattern against real project files, flags dead or over-broad patterns, then asks you rule-by-rule whether each rule still fires in the right context and whether its content is still accurate. Can apply edits in-place based on your answers. Use for periodic rules hygiene or when a rule fires too often/never. See `examples/skills/eval-rules/`.
 
 ### Skill Quality Gates
 
@@ -7881,7 +7881,7 @@ Before publishing or committing a skill, run through this content checklist. `/a
 - [ ] **allowed-tools scoped to minimum**: if the skill only reads files, don't grant Bash; if it searches, don't grant Edit
 - [ ] **Output format documented**: what does Claude produce? Example or template included
 - [ ] **No AskUserQuestion for cross-platform skills**: skills invoked by other agents should not block on interactive prompts
-- [ ] **Single responsibility**: one skill, one domain — not a catch-all that dispatches to sub-skills
+- [ ] **Single responsibility**: one skill, one domain, not a catch-all that dispatches to sub-skills
 - [ ] **Description is a trigger sentence**: the `description` field should tell Claude when to activate this skill, not what it does internally
 
 A skill that passes these 9 gates is ready for production use or sharing via the agentskills.io registry.
@@ -7907,7 +7907,7 @@ Fix or Retire
 
 **Catch Regressions**: Your skill worked last month. The model updated. Now it behaves differently. Without evals, you discover this when a user reports a problem. With evals, you catch it before the failure reaches anyone.
 
-**Spot Outgrowth**: You built a Capability Uplift skill to cover a gap. Six months later, Claude handles that gap natively. Run the eval without the skill — if it passes, the skill is no longer needed. Remove it to reduce context load and maintenance overhead.
+**Spot Outgrowth**: You built a Capability Uplift skill to cover a gap. Six months later, Claude handles that gap natively. Run the eval without the skill. If it passes, the skill is no longer needed, remove it to reduce context load and maintenance overhead.
 
 ### Retirement Decision Checklist
 
@@ -7916,7 +7916,7 @@ Fix or Retire
 - [ ] **Check workflow accuracy**: for Encoded Preference skills, has the underlying process changed?
 - [ ] **Archive before deleting**: move to `.claude/skills/archive/` with a dated note explaining why it was retired
 
-> **See also**: [§5.Y Skill Evals](#5y-skill-evals) — how to run evals to inform retirement decisions.
+> **See also**: [§5.Y Skill Evals](#5y-skill-evals), for how to run evals to inform retirement decisions.
 
 ---
 
@@ -7924,7 +7924,7 @@ Fix or Retire
 
 Skill evals move quality from "seems to work" to "know it works." They're the testing layer that makes skills production-grade.
 
-> **Available via**: Skill Creator plugin (Anthropic GitHub) for Claude Code users. Live on Claude.ai and Cowork as of March 2026. Sources: ainews.com, mexc.co — not yet in official `llms-full.txt`.
+> **Available via**: Skill Creator plugin (Anthropic GitHub) for Claude Code users. Live on Claude.ai and Cowork as of March 2026. Sources: ainews.com, mexc.co. Not yet in official `llms-full.txt`.
 
 ### How It Works
 
@@ -7940,17 +7940,17 @@ Skill → Test Prompts + Files
      Improve skill → Re-run
 ```
 
-You define three things: test prompts (realistic inputs that trigger the skill), expected outputs (description of what "good" looks like — not exact string matching), and a pass rate threshold. Claude executes the skill against each test case and judges the output.
+You define three things: test prompts (realistic inputs that trigger the skill), expected outputs (description of what "good" looks like, not exact string matching), and a pass rate threshold. Claude executes the skill against each test case and judges the output.
 
 Results report: pass rate, elapsed time, token usage per test case.
 
 ### The Three Eval Tools
 
-**Benchmark Mode** — tracks pass rates, elapsed time, and token usage across model updates. Runs tests in parallel with clean, isolated contexts (no cross-contamination between cases). Use this to detect regressions automatically when Claude updates.
+**Benchmark Mode**: tracks pass rates, elapsed time, and token usage across model updates. Runs tests in parallel with clean, isolated contexts (no cross-contamination between cases). Use this to detect regressions automatically when Claude updates.
 
-**A/B Testing (Comparator Agents)** — blind head-to-head comparison between two versions of a skill. Version A vs. Version B, judged without knowing which is which. Removes confirmation bias from skill improvement decisions.
+**A/B Testing (Comparator Agents)**: blind head-to-head comparison between two versions of a skill. Version A vs. Version B, judged without knowing which is which. Removes confirmation bias from skill improvement decisions.
 
-**Trigger Tuning (Description Optimizer)** — analyzes your skill's `description` field and suggests improvements to reduce false positives (skill fires when it shouldn't) and false negatives (skill doesn't fire when it should). Anthropic's internal test: 5 of 6 document-creation skills showed improved triggering accuracy after optimization. [Source: claudecode.jp — directional, not independently verified]
+**Trigger Tuning (Description Optimizer)**: analyzes your skill's `description` field and suggests improvements to reduce false positives (skill fires when it shouldn't) and false negatives (skill doesn't fire when it should). Anthropic's internal test: 5 of 6 document-creation skills showed improved triggering accuracy after optimization. [Source: claudecode.jp, directional, not independently verified]
 
 ### Two Uses of Evals
 
@@ -7972,7 +7972,7 @@ Results report: pass rate, elapsed time, token usage per test case.
 
 ### Eval Design Principles
 
-- **One behavior per test**: don't combine multiple assertions — failures become ambiguous
+- **One behavior per test**: don't combine multiple assertions, or failures become ambiguous
 - **Include edge cases**: test the inputs that made the skill necessary in the first place
 - **Define "good" precisely**: vague expected outputs make eval judgments unreliable
 - **Set a pass rate threshold**: 80% is a reasonable starting point; adjust for criticality
@@ -8371,11 +8371,11 @@ This skill is now installed in the Méthode Aristote repository at:
 
 ### Example 4: Tally Form Builder Skill
 
-**Purpose**: Create and modify Tally forms via MCP — no browser, no UI, just `/tally-form-builder` and a description.
+**Purpose**: Create and modify Tally forms via MCP, no browser, no UI, just `/tally-form-builder` and a description.
 
 **Location**: `~/.claude/skills/tally-form-builder/`
 
-**What This Pattern Demonstrates**: MCP wrapping with deferred tool loading. The Tally MCP tools are not available by default — their schemas must be fetched via `ToolSearch` before any call. This skill handles that automatically and documents all the gotchas that cause failures when calling the API blind.
+**What This Pattern Demonstrates**: MCP wrapping with deferred tool loading. The Tally MCP tools are not available by default: their schemas must be fetched via `ToolSearch` before any call. This skill handles that automatically and documents all the gotchas that cause failures when calling the API blind.
 
 **Key Features**:
 - OAuth flow management (authenticate → browser → callback URL → complete)
@@ -8395,7 +8395,7 @@ tally-form-builder/
 
 **Core Concept: Deferred Tools**
 
-Tally MCP tools are deferred — calling them without `ToolSearch` first returns `InputValidationError`. The skill enforces a mandatory `ToolSearch` step before any MCP call. This pattern applies to any MCP server with deferred tools.
+Tally MCP tools are deferred: calling them without `ToolSearch` first returns `InputValidationError`. The skill enforces a mandatory `ToolSearch` step before any MCP call. This pattern applies to any MCP server with deferred tools.
 
 ```
 ToolSearch → authenticate → list_workspaces → create_new_form
@@ -8434,7 +8434,7 @@ Edit form [formId]:
 ```
 
 **Key Limitations (documented in `references/known-issues.md`)**:
-- Options (checkbox, dropdown, multiple choice) do not support HTML — labels are always plain text
+- Options (checkbox, dropdown, multiple choice) do not support HTML: labels are always plain text
 - "Other" option generates a fixed small input; cannot be converted to a textarea via API
 - `list_forms` always returns 0 until `save_form` is called
 
@@ -8448,7 +8448,7 @@ Edit form [formId]:
 
 ### Registry-based Discovery: ctx7 CLI
 
-Before diving into specific repositories, Context7 provides a CLI companion (`ctx7`) that automates skill discovery and installation. Instead of manually cloning repos, `ctx7 skills suggest` analyzes your project's dependencies and recommends matching skills from the [context7.com/skills](https://context7.com/skills) registry — with trust scores to help evaluate quality.
+Before diving into specific repositories, Context7 provides a CLI companion (`ctx7`) that automates skill discovery and installation. Instead of manually cloning repos, `ctx7 skills suggest` analyzes your project's dependencies and recommends matching skills from the [context7.com/skills](https://context7.com/skills) registry, with trust scores to help evaluate quality.
 
 **Install**:
 
@@ -8484,7 +8484,7 @@ npx ctx7 setup --claude
 
 `ctx7 setup` runs a wizard that configures Context7 in the right mode for your editor. Use it when setting up Context7 for the first time instead of writing `claude mcp add` manually. The `--claude` flag targets Claude Code specifically; `--cursor` and `--universal` are available for other editors.
 
-**Registry vs. agentskills.io**: The [agentskills.io](https://agentskills.io) specification is the open standard defining the skill format (supported by 30+ platforms — see §5.1). The [context7.com/skills](https://context7.com/skills) registry is a hosted directory of skills conforming to that standard. The two are complementary: agentskills.io defines the format, context7.com/skills is one place to discover and share conforming skills. Skills installed via `ctx7` land in `~/.claude/skills/` and work identically to manually installed ones.
+**Registry vs. agentskills.io**: The [agentskills.io](https://agentskills.io) specification is the open standard defining the skill format (supported by 30+ platforms, see §5.1). The [context7.com/skills](https://context7.com/skills) registry is a hosted directory of skills conforming to that standard. The two are complementary: agentskills.io defines the format, context7.com/skills is one place to discover and share conforming skills. Skills installed via `ctx7` land in `~/.claude/skills/` and work identically to manually installed ones.
 
 **Skill generation** (authenticated, rate-limited):
 
@@ -8505,7 +8505,7 @@ npx ctx7 library react
 npx ctx7 docs /facebook/react "useEffect cleanup"
 ```
 
-This is the terminal equivalent of what the Context7 MCP server does. Useful when you want to look something up yourself without invoking Claude, or in environments where MCP is not configured. Claude Code users who already have the MCP server active don't need this — Claude handles it automatically.
+This is the terminal equivalent of what the Context7 MCP server does. Useful when you want to look something up yourself without invoking Claude, or in environments where MCP is not configured. Claude Code users who already have the MCP server active don't need this. Claude handles it automatically.
 
 ---
 
@@ -8600,15 +8600,15 @@ A more comprehensive alternative to the zebbern collection above. claude-red is 
 
 **Categories**: Web app (16 skills: SQLi, XSS, SSRF, SSTI, XXE, IDOR, RCE, deserialization, race conditions, request smuggling, WAF bypass, GraphQL…), Auth & Identity (JWT manipulation, OAuth exploitation), Active Directory, Wireless (13 skills), Cloud (AWS/Azure/GCP), Mobile (Android/iOS), IoT & Embedded, Infrastructure & Red Team, Exploit Development (6 skills), Fuzzing & Vulnerability Research, OSINT/Recon, AI Security, and Utility (fast triage checklist, reporting).
 
-Each skill is a structured `SKILL.md` with frontmatter (name, description, trigger phrases), detailed methodology, tool enumeration, and escalation paths — not ready-to-copy exploits, but expert-level operational guidance.
+Each skill is a structured `SKILL.md` with frontmatter (name, description, trigger phrases), detailed methodology, tool enumeration, and escalation paths, not ready-to-copy exploits, but expert-level operational guidance.
 
 #### One-Shot Usage (No Global Install)
 
 The most important pattern with claude-red is loading skills **without permanently installing them**. This keeps your global `~/.claude/skills/` clean.
 
-**Option 1 — Read directly in session**: Ask Claude to read a skill file and apply its methodology. The context disappears when the session closes.
+**Option 1: Read directly in session**: Ask Claude to read a skill file and apply its methodology. The context disappears when the session closes.
 
-**Option 2 — `--system-file` at launch**: Load one or more skills at session start via CLI:
+**Option 2: `--system-file` at launch**: Load one or more skills at session start via CLI:
 
 ```bash
 # Single skill
@@ -8620,7 +8620,7 @@ cat Skills/utility/offensive-fast-checking/SKILL.md \
   | claude --system-file /dev/stdin
 ```
 
-**Option 3 — Project-level `.claude/skills/`**: Symlink only the relevant skills into the target repo's `.claude/skills/`, run the audit, then remove the directory. Zero pollution beyond the repo boundary.
+**Option 3: Project-level `.claude/skills/`**: Symlink only the relevant skills into the target repo's `.claude/skills/`, run the audit, then remove the directory. Zero pollution beyond the repo boundary.
 
 #### Targeted Prompt Pattern
 
@@ -8722,7 +8722,7 @@ Unlike traditional skill repositories, Claudeception is a **meta-skill** that ge
 
 #### Validated Use Case
 
-A user reported Claudeception auto-generated a `pre-merge-code-review` skill from their actual workflow—transforming an ad-hoc debugging session into a reusable, automatically-triggered skill.
+A user reported Claudeception auto-generated a `pre-merge-code-review` skill from their actual workflow, transforming an ad-hoc debugging session into a reusable, automatically-triggered skill.
 
 #### Installation
 
@@ -8747,7 +8747,7 @@ See the [repository README](https://github.com/blader/Claudeception) for hook co
 
 #### Why It's Notable
 
-This skill demonstrates the **skill-that-creates-skills** pattern—a meta-approach where Claude Code improves itself through session learning. Inspired by academic work on reusable skill libraries (Voyager, CASCADE, SEAgent, Reflexion).
+This skill demonstrates the **skill-that-creates-skills** pattern, a meta-approach where Claude Code improves itself through session learning. Inspired by academic work on reusable skill libraries (Voyager, CASCADE, SEAgent, Reflexion).
 
 ### Automatic Skill Improvement: Claude Reflect System
 
@@ -8891,7 +8891,7 @@ Default: **Disabled** (opt-in for safety)
 
 UI UX Pro Max is the most popular design skill in the AI coding assistant ecosystem. It adds a **design reasoning engine** to Claude Code (and 14 other assistants), replacing generic AI-generated UI with professional, industry-aware design systems.
 
-The engine works offline — it runs BM25 search over ~400 local JSON rules to recommend styles, palettes, and typography. No external LLM calls, no network dependency at runtime.
+The engine works offline: it runs BM25 search over ~400 local JSON rules to recommend styles, palettes, and typography. No external LLM calls, no network dependency at runtime.
 
 #### What It Provides
 
@@ -8946,20 +8946,20 @@ Now generate the code.
 
 #### Installation
 
-**Option 1 — Claude Marketplace** (two commands):
+**Option 1: Claude Marketplace** (two commands):
 ```
 /plugin marketplace add nextlevelbuilder/ui-ux-pro-max-skill
 /plugin install ui-ux-pro-max@ui-ux-pro-max-skill
 ```
 
-**Option 2 — CLI** (recommended):
+**Option 2: CLI** (recommended):
 ```bash
 npm install -g uipro-cli
 cd /path/to/your/project
 uipro init --ai claude   # Claude Code
 ```
 
-**Option 3 — Manual** (no npm):
+**Option 3: Manual** (no npm):
 ```bash
 git clone --depth=1 https://github.com/nextlevelbuilder/ui-ux-pro-max-skill /tmp/uipro
 cp -r /tmp/uipro/.claude/skills/ui-ux-pro-max .claude/skills/
@@ -8981,14 +8981,14 @@ Design a fintech app with dark theme
 
 | Aspect | Notes |
 |--------|-------|
-| **Scope** | Multi-platform — supports Cursor, Windsurf, Copilot, Gemini CLI, and 10 others alongside Claude Code |
+| **Scope** | Multi-platform: supports Cursor, Windsurf, Copilot, Gemini CLI, and 10 others alongside Claude Code |
 | **Quality signal** | 110.8K stars, 11.8K forks as of 2026-07-27 (was 33.7k / 3.3k in the first 3 months), strongest community traction of any design skill |
-| **Maintenance** | Active — v2.0→v2.2.1 in 10 days (Jan 2026), updated regularly |
+| **Maintenance** | Active: v2.0→v2.2.1 in 10 days (Jan 2026), updated regularly |
 | **Chinese community** | Strong adoption: listed on [jimmysong.io](https://jimmysong.io/ai/ui-ux-pro-max-skill/), benchmark repos in Chinese dev ecosystem |
 
 > **Security note**: `npm install -g uipro-cli` installs a package from an anonymous organization ("nextlevelbuilder") globally. Source audit (Feb 2026) confirmed:
 > - **No preinstall/postinstall scripts** in the npm package
-> - **No network calls** in the Python engine (`search.py`, `core.py`, `design_system.py` — stdlib + local CSV/JSON only)
+> - **No network calls** in the Python engine (`search.py`, `core.py`, `design_system.py`; stdlib + local CSV/JSON only)
 >
 > Option 3 (manual git clone) remains the safest route if you want to inspect before installing. The package has not been formally audited by Anthropic or the maintainers of this guide.
 
@@ -9058,11 +9058,11 @@ Vercel launched automated security scanning on every skills.sh skill ([announcem
 | ✅ Safe | Verified against security best practices |
 | 🟡 Low Risk | Minor risk indicators detected |
 | 🔴 High Risk | Significant security concerns |
-| ☠️ Critical | Severe or malicious behavior — hidden from search |
+| ☠️ Critical | Severe or malicious behavior, hidden from search |
 
 **Continuous monitoring**: skills are re-evaluated as detection improves. If a repository becomes malicious after install, its rating updates automatically.
 
-> **Mental model**: treat a skill like a Docker image — it's an executable dependency, not a prompt. Verify the rating before installing in production.
+> **Mental model**: treat a skill like a Docker image; it's an executable dependency, not a prompt. Verify the rating before installing in production.
 
 #### Status & Trade-offs
 
@@ -9193,14 +9193,14 @@ Claude Code ships with roughly 100 built-in commands. The full categorized list 
 
 ### The /btw Command
 
-`/btw` lets you ask a quick side question while Claude is working without breaking your flow. Type `/btw what does this function return?` and get an instant response in an overlay — the main task keeps running uninterrupted.
+`/btw` lets you ask a quick side question while Claude is working without breaking your flow. Type `/btw what does this function return?` and get an instant response in an overlay. The main task keeps running uninterrupted.
 
 **How it works**: Claude spawns a temporary ephemeral agent with NO tools available. It cannot read files, run commands, or take actions. It responds once based solely on the current conversation context, then the overlay closes. The exchange never enters your main conversation history.
 
 **Key constraints:**
-- Read-only — no file access, no shell commands
-- Single response — no follow-up in the overlay
-- Context-only — answers from what's already in the conversation, not from disk
+- Read-only: no file access, no shell commands
+- Single response: no follow-up in the overlay
+- Context-only: answers from what's already in the conversation, not from disk
 - "Full context aware" means conversation context, not project files
 
 **When to use it:**
@@ -9233,7 +9233,7 @@ claude --resume <session-id> --fork-session
 - You want to try two different approaches to the same problem in parallel
 - You found a good mid-session checkpoint and want to branch off for a hypothesis test
 
-**After forking**: both branches are independent — changes in one don't affect the other. Resume either later with `claude --resume` and the interactive session picker.
+**After forking**: both branches are independent; changes in one don't affect the other. Resume either later with `claude --resume` and the interactive session picker.
 
 **Tip**: run `/rename` before forking so you can tell the two branches apart in the picker.
 
@@ -9284,7 +9284,7 @@ Running `/insights` generates an interactive HTML report at `~/.claude/usage-dat
 **Detailed Sections**:
 1. **What You Work On**: 3-5 auto-detected project areas with descriptions
 2. **How You Use Claude Code**: Narrative analysis (2-3 paragraphs) of your interaction style + key pattern summary
-3. **Impressive Things You Did**: 3 "big wins" — sophisticated workflows the system detected (e.g., multi-agent reviews, custom automation layers)
+3. **Impressive Things You Did**: 3 "big wins": sophisticated workflows the system detected (e.g., multi-agent reviews, custom automation layers)
 4. **Where Things Go Wrong**: 3 friction categories with examples and mitigation strategies
 5. **Existing CC Features to Try**:
    - 6+ CLAUDE.md additions (pre-formatted, ready to copy)
@@ -9524,9 +9524,9 @@ Run it after finishing a feature, before opening a pull request:
 #### What It Does
 
 `/simplify` analyzes changed code for:
-- **Reuse** — duplicated logic that could be extracted
-- **Quality** — patterns that reduce readability or maintainability
-- **Efficiency** — algorithmic and structural improvements
+- **Reuse**: duplicated logic that could be extracted
+- **Quality**: patterns that reduce readability or maintainability
+- **Efficiency**: algorithmic and structural improvements
 
 It operates at the architecture and structure level, not at the formatter or linter level. `/simplify` complements tools like ESLint or Prettier rather than replacing them.
 
@@ -9546,9 +9546,9 @@ Added in v2.1.63, `/batch` orchestrates large-scale codebase changes by distribu
 
 #### How It Works
 
-1. **Research & plan** — analyzes the codebase and breaks the change into independent units
-2. **Parallel execution** — spawns 5–30 isolated git worktree agents simultaneously
-3. **PR per agent** — each agent completes its portion and opens a pull request
+1. **Research & plan**: analyzes the codebase and breaks the change into independent units
+2. **Parallel execution**: spawns 5–30 isolated git worktree agents simultaneously
+3. **PR per agent**: each agent completes its portion and opens a pull request
 
 #### Usage
 
@@ -9585,7 +9585,7 @@ Claude Code provides three distinct mechanisms for running recurring tasks. They
 
 #### Routines (Cloud Automation)
 
-Routines run on Anthropic's infrastructure — your machine can be completely off. Each run clones a fresh copy of your GitHub repository. Three trigger types can be combined on a single routine.
+Routines run on Anthropic's infrastructure; your machine can be completely off. Each run clones a fresh copy of your GitHub repository. Three trigger types can be combined on a single routine.
 
 > **Research preview**: behavior, limits, and API surface may change.
 
@@ -9602,8 +9602,8 @@ Routines run on Anthropic's infrastructure — your machine can be completely of
 Extra runs are available with billing enabled beyond the daily cap.
 
 **Create a routine** via:
-- `claude.ai/code/routines` — web interface
-- Desktop app — **New task** → **New remote task**
+- `claude.ai/code/routines`: web interface
+- Desktop app: **New task** → **New remote task**
 - `/schedule` in the CLI (schedule trigger only; API and GitHub triggers require the web UI)
 
 **How each run works**: Anthropic clones your repo, spins up a Claude session with the configured environment and MCP connectors, executes the task, then pushes any commits to a branch prefixed `claude/` by default.
@@ -9626,7 +9626,7 @@ Runs on a recurring cron cadence. Four presets (hourly / daily / weekdays / week
 
 ##### API Trigger
 
-Each routine gets a dedicated HTTP endpoint. POST to it from any external system — alerting tools, deploy pipelines, CI scripts — and Claude opens a new autonomous session.
+Each routine gets a dedicated HTTP endpoint. POST to it from any external system, such as alerting tools, deploy pipelines, or CI scripts, and Claude opens a new autonomous session.
 
 ```bash
 curl -X POST https://api.anthropic.com/v1/claude_code/routines/trig_01.../fire \
@@ -9639,7 +9639,7 @@ curl -X POST https://api.anthropic.com/v1/claude_code/routines/trig_01.../fire \
 
 The optional `text` field passes run-specific context (alert body, deploy ID, log snippet) to the routine's prompt. The response returns a `session_url` to observe the run live.
 
-**Setup**: add an API trigger from the routine's edit page in the web UI, click **Generate token** (shown once — store it immediately), copy the endpoint URL. Tokens are per-routine and can be rotated or revoked from the same panel.
+**Setup**: add an API trigger from the routine's edit page in the web UI, click **Generate token** (shown once, store it immediately), copy the endpoint URL. Tokens are per-routine and can be rotated or revoked from the same panel.
 
 **Use cases**: Datadog alert fires → Claude correlates trace with recent commits, opens draft fix PR; CD pipeline calls endpoint after deploy → smoke checks + go/no-go to Slack channel.
 
@@ -9677,7 +9677,7 @@ Five angles to audit any project:
 | Cross-system sync | What drifts because the sync is manual? Two SDKs, a doc site and an API, GitHub issues and Linear |
 | Release automation | What do you run by hand before or after a deploy? Smoke tests, release notes, stakeholder notifications |
 
-Use the `/routines-discover` command to run this analysis against any codebase — it reads the repo, identifies concrete candidates across the five angles, and ranks them by value-to-effort ratio.
+Use the `/routines-discover` command to run this analysis against any codebase: it reads the repo, identifies concrete candidates across the five angles, and ranks them by value-to-effort ratio.
 
 ```bash
 /routines-discover
@@ -10319,7 +10319,7 @@ Not everything needs AI. Choose the right tool:
 
 **Rule of thumb**: If you can write a regex or a simple conditional for it, use a bash script. If it requires "understanding" or "judgment", use an agent.
 
-**Example — PR workflow**:
+**Example: PR workflow**:
 ```bash
 # Deterministic (bash): create branch, push, open PR
 git checkout -b feature/xyz
@@ -10362,10 +10362,10 @@ gh pr create --title "..." --body "..."
 | Field | Description |
 |-------|-------------|
 | `matcher` | Regex pattern filtering when hooks fire (tool name, session start reason, etc.) |
-| `if` | Permission-rule filter controlling when the hook fires (e.g. `Bash(git *)`) — v2.1.85+ |
+| `if` | Permission-rule filter controlling when the hook fires (e.g. `Bash(git *)`, v2.1.85+) |
 | `type` | Hook type: `"command"`, `"http"`, `"mcp_tool"`, `"prompt"`, or `"agent"` |
 | `command` | Shell command to run (for `command` type) |
-| `args` | `string[]` — exec form: array of strings spawned directly without a shell. Path placeholders need no quoting. When present, `command` is ignored. Use to avoid shell-injection risks. (v2.1.139) |
+| `args` | `string[]`, exec form: array of strings spawned directly without a shell. Path placeholders need no quoting. When present, `command` is ignored. Use to avoid shell-injection risks. (v2.1.139) |
 | `prompt` | Prompt text for LLM evaluation (for `prompt`/`agent` types). Use `$ARGUMENTS` as placeholder for hook input JSON |
 | `timeout` | Max execution time in seconds (default: 600s command, 30s prompt, 60s agent) |
 | `model` | Model to use for evaluation (for `prompt`/`agent` types). Defaults to a fast model |
@@ -10554,7 +10554,7 @@ Use cases: scrub PII from tool outputs before Claude processes them, compress la
 }
 ```
 
-**PreToolUse satisfying AskUserQuestion (v2.1.85+ — headless integrations)**:
+**PreToolUse satisfying AskUserQuestion (v2.1.85+, headless integrations)**:
 
 When Claude fires `AskUserQuestion` mid-session, interactive prompts are not available in headless environments (CI pipelines, web frontends, orchestrators). A `PreToolUse` hook can intercept the question, collect the answer via an external UI, and return it before the tool executes:
 
@@ -10570,7 +10570,7 @@ When Claude fires `AskUserQuestion` mid-session, interactive prompts are not ava
 
 The hook script is responsible for retrieving the answer (e.g., polling a webhook or reading from a queue). Return `updatedInput` with the answer and `permissionDecision: "allow"` to satisfy the question and continue execution without interactive prompts.
 
-**PreToolUse `defer` decision (v2.1.89+ — headless/non-interactive only)**:
+**PreToolUse `defer` decision (v2.1.89+, headless/non-interactive only)**:
 
 `defer` is designed for headless integrations where Claude is orchestrated by an external process. When a hook returns `permissionDecision: "defer"`, Claude pauses with `stop_reason: "tool_deferred"` and waits. The calling process can then collect input from a user or another system and resume the session with `--resume <session-id>`. In interactive terminal sessions, `defer` is ignored with a warning.
 
@@ -10795,7 +10795,7 @@ exit 0
 
 ### PowerShell Native Tool (Windows, v2.1.84+ opt-in preview)
 
-On Windows, Claude Code can use PowerShell as a first-class tool alongside Bash — allowing `.ps1` scripts, PowerShell modules, and Windows-native commands without requiring WSL or Git Bash.
+On Windows, Claude Code can use PowerShell as a first-class tool alongside Bash, allowing `.ps1` scripts, PowerShell modules, and Windows-native commands without requiring WSL or Git Bash.
 
 Enable it in `~/.claude/settings.json`:
 
@@ -10963,9 +10963,9 @@ Security hooks are critical for protecting your system.
 
 > **Advanced patterns**: For comprehensive security including Unicode injection detection, MCP config integrity verification, and CVE-specific mitigations, see [Security Hardening Guide](./security/security-hardening.md).
 
-> **Claude Code Security (research preview)**: Anthropic offers a dedicated codebase vulnerability scanner that traces data flows across files, challenges findings internally before surfacing them (adversarial validation), and generates patch suggestions. Separate from the Security Auditor Agent above — waitlist access only. See [Security Hardening Guide → Claude Code as Security Scanner](./security/security-hardening.md#claude-code-as-security-scanner-research-preview).
+> **Claude Code Security (research preview)**: Anthropic offers a dedicated codebase vulnerability scanner that traces data flows across files, challenges findings internally before surfacing them (adversarial validation), and generates patch suggestions. Separate from the Security Auditor Agent above (waitlist access only). See [Security Hardening Guide → Claude Code as Security Scanner](./security/security-hardening.md#claude-code-as-security-scanner-research-preview).
 >
-> **Validated at scale**: In a March 2026 partnership with Mozilla, Claude Opus 4.6 scanned ~6,000 C++ files in Firefox's JS engine in two weeks, surfacing 22 confirmed vulnerabilities (14 high severity) — roughly one fifth of all high-severity Firefox CVEs fixed in 2025. Demonstrates the model's practical depth for production security work, well beyond surface-level linting.
+> **Validated at scale**: In a March 2026 partnership with Mozilla, Claude Opus 4.6 scanned ~6,000 C++ files in Firefox's JS engine in two weeks, surfacing 22 confirmed vulnerabilities (14 high severity), roughly one fifth of all high-severity Firefox CVEs fixed in 2025. Demonstrates the model's practical depth for production security work, well beyond surface-level linting.
 
 ### Recommended Security Rules
 
@@ -11020,7 +11020,7 @@ echo "Exit code: $?"  # Should be 0
 
 The Claude Code team uses a pattern where permission requests are routed to a **more capable model** acting as a security gate, rather than relying solely on static rule matching.
 
-**Concept**: A `PreToolUse` hook intercepts permission requests and forwards them to Opus 4.7 (or another capable model) via the API. The gate model scans for prompt injection, dangerous patterns, and unexpected tool usage — then auto-approves safe requests or blocks suspicious ones.
+**Concept**: A `PreToolUse` hook intercepts permission requests and forwards them to Opus 4.7 (or another capable model) via the API. The gate model scans for prompt injection, dangerous patterns, and unexpected tool usage, then auto-approves safe requests or blocks suspicious ones.
 
 ```bash
 # .claude/hooks/opus-security-gate.sh (conceptual)
@@ -11042,7 +11042,7 @@ echo "BLOCKED by security gate: $VERDICT" >&2
 exit 2
 ```
 
-**Why use a model as gate**: Static rules catch known patterns but miss novel attacks. A capable model understands intent and context — it can distinguish `rm -rf node_modules` (cleanup) from `rm -rf /` (destruction) based on the surrounding conversation, not just pattern matching.
+**Why use a model as gate**: Static rules catch known patterns but miss novel attacks. A capable model understands intent and context: it can distinguish `rm -rf node_modules` (cleanup) from `rm -rf /` (destruction) based on the surrounding conversation, not just pattern matching.
 
 **Trade-off**: Each gated call adds latency and cost. Use fast-path exemptions for read-only tools and only gate write/execute operations.
 
@@ -11751,11 +11751,11 @@ echo '{"session_id":"test","cwd":"'$(pwd)'"}' | .claude/hooks/session-summary.sh
 
 ### Identity Re-injection After Compaction
 
-**The problem**: When Claude compacts context during a long session, agents configured with a specific role — team lead, developer, reviewer — can "forget" their identity. The compacted transcript no longer contains the original system instructions, so the next response drops the role entirely and starts behaving generically.
+**The problem**: When Claude compacts context during a long session, agents configured with a specific role (team lead, developer, reviewer) can "forget" their identity. The compacted transcript no longer contains the original system instructions, so the next response drops the role entirely and starts behaving generically.
 
 This is most visible in agent teams with explicit identity prefixes. A developer agent that was consistently marking messages with `🔨 DEVELOPER:` suddenly stops after compaction and starts responding as a generic assistant.
 
-**The pattern**: Store the agent's identity in a file (`.claude/agent-identity.txt`). After each user message, a `UserPromptSubmit` hook checks whether the last assistant response includes the expected identity marker. If not — which happens after compaction — it injects the identity file contents as `additionalContext`. The next response re-establishes the role without human intervention.
+**The pattern**: Store the agent's identity in a file (`.claude/agent-identity.txt`). After each user message, a `UserPromptSubmit` hook checks whether the last assistant response includes the expected identity marker. If not (which happens after compaction), it injects the identity file contents as `additionalContext`. The next response re-establishes the role without human intervention.
 
 ```bash
 # .claude/agent-identity.txt
@@ -11817,14 +11817,14 @@ exit 0
 **How it behaves**:
 - Zero overhead when identity marker is present (exits immediately on match)
 - Silent no-op when no `.claude/agent-identity.txt` file exists
-- Triggers automatically after compaction — no manual intervention needed
+- Triggers automatically after compaction, no manual intervention needed
 - Works in both solo sessions (long-running agents) and agent team configurations
 
 **Customization**: Set `CLAUDE_IDENTITY_MARKER` in your environment to a short, distinctive string from the agent's standard output (e.g. `"LEAD:"`, `"DEVELOPER:"`, `"🔨"`). If not set, the hook uses the first 40 characters of the identity file as the marker.
 
 > **Full implementation**: [`examples/hooks/bash/identity-reinjection.sh`](../examples/hooks/bash/identity-reinjection.sh)
 >
-> **Origin**: Pattern sourced from Nick Tune's [hook-driven dev workflows](https://nick-tune.me/blog/2026-02-28-hook-driven-dev-workflows-with-claude-code/) (2026-02-28). The broader article covers state machine workflows with agent teams — see [Agent Teams Workflow](workflows/agent-teams.md) for context.
+> **Origin**: Pattern sourced from Nick Tune's [hook-driven dev workflows](https://nick-tune.me/blog/2026-02-28-hook-driven-dev-workflows-with-claude-code/) (2026-02-28). The broader article covers state machine workflows with agent teams (see [Agent Teams Workflow](workflows/agent-teams.md) for context).
 
 ---
 
@@ -11904,7 +11904,7 @@ fi
 }
 ```
 
-**Activate per session** — or export globally in your shell profile:
+**Activate per session**, or export globally in your shell profile:
 
 ```bash
 # Exploration session — fast startup, minimal checks
@@ -11934,8 +11934,8 @@ export ECC_HOOK_PROFILE=strict
 
 ### Key Design Rules
 
-- **Security hooks** (`minimal`) should never be gated — hardcode them without the level check
-- **Default to `standard`** if `ECC_HOOK_PROFILE` is unset — never default to `minimal` as the fallback
+- **Security hooks** (`minimal`) should never be gated: hardcode them without the level check
+- **Default to `standard`** if `ECC_HOOK_PROFILE` is unset, never default to `minimal` as the fallback
 - **Document in CLAUDE.md** which hooks run at which level so teammates aren't surprised
 
 > **Credit**: Hook profile gating pattern from [Everything Claude Code](https://github.com/affaan-m/everything-claude-code) (Affaan Mustafa, Anthropic hackathon winner).
@@ -12103,7 +12103,7 @@ MCP Apps is built on the **Model Context Protocol** (open standard by Anthropic)
 
 **Purpose**: Deep code understanding through semantic analysis, indexing, and persistent memory.
 
-**Why Serena matters**: Claude Code has no built-in indexation (unlike Cursor). Serena fills this gap by indexing your codebase for faster, smarter searches. It also provides **session memory** — context that persists across conversations.
+**Why Serena matters**: Claude Code has no built-in indexation (unlike Cursor). Serena fills this gap by indexing your codebase for faster, smarter searches. It also provides **session memory**, context that persists across conversations.
 
 **Key Features**:
 
@@ -12193,7 +12193,7 @@ uvx --from git+https://github.com/oraios/serena serena project index --help
 
 **Purpose**: Privacy-first semantic code search with call graph analysis.
 
-**Why grepai is recommended**: It's **fully open-source**, runs entirely locally using Ollama embeddings (no cloud/privacy concerns), and offers **call graph analysis** — trace who calls what function and visualize dependencies. This combination makes it the best choice for most semantic search needs.
+**Why grepai is recommended**: It's **fully open-source**, runs entirely locally using Ollama embeddings (no cloud/privacy concerns), and offers **call graph analysis** (trace who calls what function and visualize dependencies). This combination makes it the best choice for most semantic search needs.
 
 **Key Features**:
 
@@ -12287,7 +12287,7 @@ grepai search "session creation logic"
 
 **Blast-Radius Pattern (pre-refactoring workflow):**
 
-Before modifying any widely-used function, run a dependency query to enumerate all affected call sites — then decide whether to proceed. This named workflow prevents cascading breakage in large codebases.
+Before modifying any widely-used function, run a dependency query to enumerate all affected call sites, then decide whether to proceed. This named workflow prevents cascading breakage in large codebases.
 
 ```bash
 # Step 1: Map all callers before touching a function
@@ -12302,7 +12302,7 @@ grepai trace callees "processPayment"
 # 14 callers + 3 deps = significant blast radius → plan the refactor first
 ```
 
-Run this before starting any refactor touching a function used in 3+ places — not after hitting compile errors.
+Run this before starting any refactor touching a function used in 3+ places, not after hitting compile errors.
 
 ---
 
@@ -12321,7 +12321,7 @@ Run this before starting any refactor touching a function used in 3+ places — 
 | License | AGPL-3.0 + PolyForm Noncommercial (check for commercial use) |
 | Stars | 88.7K as of 2026-07-27 (was 26.5K on 2026-03-30, v10.6.3) |
 
-**Security warning**: `GET /api/settings` exposes API keys in plain text — set `host: "127.0.0.1"`, never `"0.0.0.0"`.
+**Security warning**: `GET /api/settings` exposes API keys in plain text. Set `host: "127.0.0.1"`, never `"0.0.0.0"`.
 
 **Hook coexistence gotcha**: claude-mem installation overwrites existing `settings.json` hooks arrays. Back up before installing, then manually merge.
 
@@ -12341,15 +12341,15 @@ Graphify converts a project directory into a persistent knowledge graph and inje
 
 **How it works**: Three passes per run:
 
-1. **Local AST extraction** — tree-sitter parses 25+ languages (Python, TS, Go, Rust, Java, etc.) into a call graph. No API cost, no network.
-2. **Optional local transcription** — faster-whisper transcribes audio/video locally.
-3. **Parallel semantic extraction** — Claude subagents process docs, PDFs, and images using your existing API key.
+1. **Local AST extraction**: tree-sitter parses 25+ languages (Python, TS, Go, Rust, Java, etc.) into a call graph. No API cost, no network.
+2. **Optional local transcription**: faster-whisper transcribes audio/video locally.
+3. **Parallel semantic extraction**: Claude subagents process docs, PDFs, and images using your existing API key.
 
-Results merge into a NetworkX graph clustered with the Leiden algorithm (topology-based — no vector embeddings). Every relationship is tagged `EXTRACTED`, `INFERRED`, or `AMBIGUOUS`. Three output files land in `graphify-out/`:
+Results merge into a NetworkX graph clustered with the Leiden algorithm (topology-based, no vector embeddings). Every relationship is tagged `EXTRACTED`, `INFERRED`, or `AMBIGUOUS`. Three output files land in `graphify-out/`:
 
-- `graph.html` — interactive browser visualization
-- `GRAPH_REPORT.md` — god nodes, cross-file connections, suggested queries (injected into Claude)
-- `graph.json` — persistent, queryable without re-extraction
+- `graph.html`: interactive browser visualization
+- `GRAPH_REPORT.md`: god nodes, cross-file connections, suggested queries (injected into Claude)
+- `graph.json`: persistent, queryable without re-extraction
 
 **Install**:
 
@@ -12382,18 +12382,18 @@ pip install "graphifyy[office]"   # .docx, .xlsx support
 pip install "graphifyy[video]"    # .mp4, .mov, .mp3 transcription
 ```
 
-**Graphify vs GrepAI**: Different layers, complementary. GrepAI (Ollama, local, free) handles real-time semantic lookups during active coding — fast, targeted, exact. Graphify pre-computes structural relationships across the full codebase (call chains, cross-file dependencies, community clusters) and replaces repeated file reads with a single compact report per session. GrepAI for discovery; Graphify for architectural reasoning and multi-hop questions.
+**Graphify vs GrepAI**: Different layers, complementary. GrepAI (Ollama, local, free) handles real-time semantic lookups during active coding: fast, targeted, exact. Graphify pre-computes structural relationships across the full codebase (call chains, cross-file dependencies, community clusters) and replaces repeated file reads with a single compact report per session. GrepAI for discovery; Graphify for architectural reasoning and multi-hop questions.
 
-**Graphify vs claude-mem**: Separate concerns. claude-mem stores what you *discussed* across sessions (decisions, tool calls, observations). Graphify maps what the *codebase contains* (structure, dependencies, concept clusters). No overlap — they address different layers of context loss.
+**Graphify vs claude-mem**: Separate concerns. claude-mem stores what you *discussed* across sessions (decisions, tool calls, observations). Graphify maps what the *codebase contains* (structure, dependencies, concept clusters). No overlap: they address different layers of context loss.
 
 **Team workflow**: Commit `graphify-out/` (excluding `manifest.json` and `cache/`) to git so teammates inherit the pre-built graph without running extraction themselves.
 
 **Caveats**:
 
-- Non-code files (docs, PDFs, images) are sent to your AI assistant's API on first run — costs accumulate on large mixed-media repositories.
+- Non-code files (docs, PDFs, images) are sent to your AI assistant's API on first run, costs accumulate on large mixed-media repositories.
 - Without the post-commit hook, the graph drifts from the codebase.
 - Token efficiency claims from the author (71.5x–120x fewer tokens vs grep-based exploration) are self-reported benchmarks without independent reproduction. Treat as directional.
-- No native query language — graph queries go through the AI assistant, not Cypher/SQL.
+- No native query language: graph queries go through the AI assistant, not Cypher/SQL.
 
 **Stats**: 97.1K GitHub stars as of 2026-07-27 (was 42K) | v0.7.4 (2026-05-04) | Python ≥3.10 | MIT
 
@@ -12711,7 +12711,7 @@ This means you must **explicitly tell Claude** to use ast-grep. It won't decide 
 
 Early Claude Code versions used RAG with Voyage embeddings for semantic search. Anthropic switched to grep-based (ripgrep) agentic search after benchmarks showed superior performance with lower operational complexity (no index sync, no security liabilities). This "Search, Don't Index" philosophy prioritizes simplicity.
 
-ast-grep is a **community extension** for specialized structural searches where grep's regex approach isn't sufficient, but it's not a replacement for grep — it's a surgical tool for specific use cases.
+ast-grep is a **community extension** for specialized structural searches where grep's regex approach isn't sufficient: a surgical tool for specific use cases, not a replacement for grep.
 
 **Related**: See [Section 8.4 - Server Selection Guide](#84-server-selection-guide) for choosing between grep/ast-grep/Serena/grepai.
 
@@ -12763,13 +12763,13 @@ ast-grep is a **community extension** for specialized structural searches where 
 - Visual validation
 - Browser debugging
 
-### agent-browser (Vercel Labs) — AI-Native Browser Automation
+### agent-browser (Vercel Labs): AI-Native Browser Automation
 
 > **Status**: Active development, v0.15.0 (Feb 2026). 39.3K stars as of 2026-07-27 (was 12,100+). Rapid release cycle.
 
 **Purpose**: Headless browser CLI built for AI agents. Uses Playwright/CDP under the hood but optimizes all output for LLM consumption. Written in Rust for sub-millisecond startup.
 
-**Why it matters for agentic workflows**: Playwright MCP is verbose — every DOM snapshot adds tokens. agent-browser returns only actionable elements via stable short references (`@e1`, `@e2`), cutting token usage by ~82.5% on identical scenarios (Pulumi benchmark, 2026-03-03).
+**Why it matters for agentic workflows**: Playwright MCP is verbose, every DOM snapshot adds tokens. agent-browser returns only actionable elements via stable short references (`@e1`, `@e2`), cutting token usage by ~82.5% on identical scenarios (Pulumi benchmark, 2026-03-03).
 
 **Install**:
 
@@ -12805,7 +12805,7 @@ npm install -g @vercel-labs/agent-browser
 | Security controls | None | Auth vaults, domain allowlists |
 | Self-verifying agents | Awkward | Native pattern |
 
-**The Ralph Wiggum Loop** — self-verifying agent pattern:
+**The Ralph Wiggum Loop** (self-verifying agent pattern):
 
 ```
 1. Agent codes the feature
@@ -12825,8 +12825,8 @@ Documented in production at Pulumi (2026-03-03) across 6 test scenarios on a rea
 - Visual regression in agentic CI/CD pipelines
 
 **Don't use when**:
-- You have existing Playwright test suites — not a drop-in replacement for test runners
-- Scraping anti-bot protected sites — IP/behavior detection unchanged (Browserbase-type services still needed)
+- You have existing Playwright test suites: not a drop-in replacement for test runners
+- Scraping anti-bot protected sites: IP/behavior detection unchanged (Browserbase-type services still needed)
 
 **Resources**:
 - [GitHub: vercel-labs/agent-browser](https://github.com/vercel-labs/agent-browser)
@@ -12834,7 +12834,7 @@ Documented in production at Pulumi (2026-03-03) across 6 test scenarios on a rea
 
 ### doobidoo Memory Service (Semantic Memory)
 
-> **⚠️ Status: Under Testing** — Evaluated early 2026. MIT licensed, Python.
+> **⚠️ Status: Under Testing**, evaluated early 2026. MIT licensed, Python.
 
 **Purpose**: Persistent semantic memory with cross-session search and multi-client support. Complements Serena (key-value) with meaning-based retrieval: `retrieve_memory("what did we decide about auth?")`.
 
@@ -12854,9 +12854,9 @@ Documented in production at Pulumi (2026-03-03) across 6 test scenarios on a rea
 
 ### Kairn: Knowledge Graph Memory with Biological Decay
 
-> **⚠️ Status: Under Testing** — Evaluated Feb 2026. MIT licensed, Python.
+> **⚠️ Status: Under Testing**, evaluated Feb 2026. MIT licensed, Python.
 
-**Purpose**: Long-term project memory as a knowledge graph with automatic biological decay — stale info expires without manual cleanup.
+**Purpose**: Long-term project memory as a knowledge graph with automatic biological decay, stale info expires without manual cleanup.
 
 | Feature | Value |
 |---------|-------|
@@ -12873,7 +12873,7 @@ Use Kairn when causality matters ("this breaks *because* of that") or when long-
 
 ### ICM: Dual Memory Architecture (Rust Binary, Zero Dependencies)
 
-> **⚠️ Status: Under Testing** — Evaluated March 2026. Source-Available license (free for individuals and teams ≤20). Benchmarks are vendor-reported, unverified independently.
+> **⚠️ Status: Under Testing**, evaluated March 2026. Source-Available license (free for individuals and teams ≤20). Benchmarks are vendor-reported, unverified independently.
 
 **Purpose**: Persistent memory combining episodic decay (Memories) and permanent knowledge graph (Memoirs) in a single zero-dependency Rust binary.
 
@@ -12885,7 +12885,7 @@ Use Kairn when causality matters ("this breaks *because* of that") or when long-
 | Hybrid search | BM25 30% + vector 70%, hybrid latency ~951 µs/op |
 | Auto-extraction | Three layers: pattern hooks, pre-compaction, session-start |
 | Cross-IDE | 14 clients (Claude Code, Cursor, VS Code, Windsurf, Zed, Amp, Cline, Roo Code...) |
-| License | Source-Available — free for teams ≤20, enterprise required above |
+| License | Source-Available, free for teams ≤20, enterprise required above |
 
 **Critical setup note**: `icm init --mode hook` ships the hook file but does NOT register it in `settings.json`. Add manually:
 
@@ -12920,7 +12920,7 @@ Combination workflows: `retrieve_memory()` for business context, `grepai search`
 
 **Why Git MCP vs Bash `git`**: The Bash tool can run `git` commands but returns raw terminal output that requires parsing and consumes tokens. Git MCP returns structured data directly usable by Claude, with built-in filters (date, author, branch) and token-efficient diffs via the `context_lines` parameter.
 
-> **⚠️ Status**: Early development — API subject to change. Suitable for local workflows; test before adopting in production pipelines.
+> **⚠️ Status**: Early development, API subject to change. Suitable for local workflows; test before adopting in production pipelines.
 
 **Tools (12)**:
 
@@ -12997,7 +12997,7 @@ uvx mcp-server-git --repository /path/to/repo
 
 ### GitHub MCP Server (Official GitHub)
 
-**Purpose**: Full GitHub platform access — Issues, Pull Requests, Projects, Code search, repository management, and GitHub Enterprise.
+**Purpose**: Full GitHub platform access covering Issues, Pull Requests, Projects, Code search, repository management, and GitHub Enterprise.
 
 **Git MCP vs GitHub MCP** (two distinct layers):
 
@@ -13019,20 +13019,20 @@ Both can be active simultaneously. They complement each other: Git MCP handles l
 
 > **⚠️ Known issue**: `claude mcp add --transport http` attempts OAuth dynamic client registration by default, which the Copilot endpoint does not support. You'll get: `Incompatible auth server: does not support dynamic client registration`. The fix is to inject the token manually (see below).
 
-Step 1 — Add the server:
+Step 1. Add the server:
 
 ```bash
 claude mcp add --transport http github https://api.githubcopilot.com/mcp/
 ```
 
-Step 2 — Get your active GitHub CLI token:
+Step 2. Get your active GitHub CLI token:
 
 ```bash
 gh auth token
 # → gho_xxxxxxxxxxxx
 ```
 
-Step 3 — Edit `~/.claude.json` to add the `Authorization` header:
+Step 3. Edit `~/.claude.json` to add the `Authorization` header:
 
 ```json
 {
@@ -13095,7 +13095,7 @@ export GITHUB_PERSONAL_ACCESS_TOKEN=ghp_xxx
 
 ### 📖 This Guide as an MCP Server
 
-The Claude Code Ultimate Guide ships its own MCP server — `claude-code-ultimate-guide-mcp` — so you can query the guide directly from any Claude Code session without cloning the repo.
+The Claude Code Ultimate Guide ships its own MCP server (`claude-code-ultimate-guide-mcp`) so you can query the guide directly from any Claude Code session without cloning the repo.
 
 **What it gives you**: 9 tools covering search, content reading, templates, digests, cheatsheet, and release notes. The structured index (882 entries) is bundled in the package (~130KB); markdown files are fetched from GitHub on demand with 24h local cache.
 
@@ -13115,7 +13115,7 @@ Add to `~/.claude.json`:
 }
 ```
 
-Or with a local clone (dev mode — reads files directly from disk):
+Or with a local clone (dev mode, reads files directly from disk):
 
 ```json
 {
@@ -13148,7 +13148,7 @@ Or with a local clone (dev mode — reads files directly from disk):
 
 **Resources**: `claude-code-guide://reference` (full 94KB YAML index), `claude-code-guide://releases`, `claude-code-guide://llms`
 
-**Prompt**: `claude-code-expert` — activates expert mode with optimal search workflow
+**Prompt**: `claude-code-expert`, activates expert mode with optimal search workflow
 
 #### Slash command shortcuts
 
@@ -13342,11 +13342,11 @@ Reference the script in your MCP server config:
 
 > **Warning**: The syntax `${workspaceFolder}` and `${env:VAR_NAME}` are VS Code conventions, not Claude Code. Claude Code uses standard shell-style `${VAR}` and `${VAR:-default}` for environment variable expansion in MCP config.
 
-> **MCP stdio env injection**: All `stdio`-type MCP servers automatically receive `CLAUDE_PROJECT_DIR` as an environment variable — no config needed. This lets MCP servers know which project they're operating in without requiring the client to pass it explicitly.
+> **MCP stdio env injection**: All `stdio`-type MCP servers automatically receive `CLAUDE_PROJECT_DIR` as an environment variable, no config needed. This lets MCP servers know which project they're operating in without requiring the client to pass it explicitly.
 
 ### Managing Large MCP Server Sets
 
-When you accumulate many MCP servers, enabling them all globally degrades Claude's tool selection — each server adds tool descriptions to the context, making the model less precise at picking the right one.
+When you accumulate many MCP servers, enabling them all globally degrades Claude's tool selection: each server adds tool descriptions to the context, making the model less precise at picking the right one.
 
 **Pattern**: keep a minimal global config (2-3 core servers) and activate project-specific servers via per-project `.mcp.json`.
 
@@ -13360,9 +13360,9 @@ playwright      # frontend project
 serena          # large codebase
 ```
 
-Community tools (e.g. [cc-setup](https://github.com/rhuss/cc-setup)) are emerging to provide a TUI registry with per-project toggling and health checks — useful if you manage 8+ servers regularly.
+Community tools (e.g. [cc-setup](https://github.com/rhuss/cc-setup)) are emerging to provide a TUI registry with per-project toggling and health checks, useful if you manage 8+ servers regularly.
 
-#### MCP Tool Search — Lazy-Loading at Scale
+#### MCP Tool Search: Lazy-Loading at Scale
 
 Claude Code v4 introduced **MCP Tool Search**: instead of loading all MCP tool definitions at startup, tool schemas are fetched on-demand when Claude needs them.
 
@@ -13393,9 +13393,9 @@ To opt a specific server out of deferral entirely, set `alwaysLoad: true` in its
 }
 ```
 
-**CLI vs MCP — when a shell command beats a server**: Familiar CLI tools (git, grep, jq, curl) are already deeply embedded in Claude's training data. A few usage examples in CLAUDE.md are often more effective than an equivalent MCP server, because the model already knows the tool's behavior, flags, and output format. An MCP server adds tool schema overhead and introduces an unfamiliar interface. Default to CLIs for standard tools; use MCP servers for proprietary systems or APIs the model has no training context for.
+**CLI vs MCP, when a shell command beats a server**: Familiar CLI tools (git, grep, jq, curl) are already deeply embedded in Claude's training data. A few usage examples in CLAUDE.md are often more effective than an equivalent MCP server, because the model already knows the tool's behavior, flags, and output format. An MCP server adds tool schema overhead and introduces an unfamiliar interface. Default to CLIs for standard tools; use MCP servers for proprietary systems or APIs the model has no training context for.
 
-> Source: [HumanLayer — Harness Engineering for Coding Agents](https://www.humanlayer.dev/blog/skill-issue-harness-engineering-for-coding-agents) (March 2026)
+> Source: [HumanLayer: Harness Engineering for Coding Agents](https://www.humanlayer.dev/blog/skill-issue-harness-engineering-for-coding-agents) (March 2026)
 
 ### CLI-Based MCP Configuration
 
@@ -13854,7 +13854,7 @@ Servers can work together:
 
 ### Production Case Study: Multi-System Support Investigator
 
-**Context**: Mergify (CI/CD automation platform) needed to triage support tickets across 5 disconnected systems — a manual 15-minute process per ticket.
+**Context**: Mergify (CI/CD automation platform) needed to triage support tickets across 5 disconnected systems, a manual 15-minute process per ticket.
 
 **Architecture**: Claude Code as orchestrator + 5 custom MCP servers as system adapters:
 
@@ -13876,7 +13876,7 @@ Support ticket received
 ```
 
 **Key design decisions:**
-- MCP servers handle auth/credentials — Claude Code sees only clean interfaces
+- MCP servers handle auth/credentials, Claude Code sees only clean interfaces
 - Queries execute **in parallel**, not sequentially → majority of the time savings
 - Human investigators review Claude's structured report, not raw data
 - One dedicated repo for all MCP server implementations + system prompt
@@ -13885,9 +13885,9 @@ Support ticket received
 - Triage time: ~15 min → <5 min (⅔ reduction)
 - First-pass accuracy: 75% (25% still require human follow-up)
 
-**Key takeaway**: This pattern — Claude Code as operational orchestrator with domain-specific MCP adapters — applies to any ops/support team juggling multiple disconnected systems. It's distinct from "Claude Code as dev tool": here Claude runs in a **production workflow**, not an IDE.
+**Key takeaway**: This pattern (Claude Code as operational orchestrator with domain-specific MCP adapters) applies to any ops/support team juggling multiple disconnected systems. It's distinct from "Claude Code as dev tool": here Claude runs in a **production workflow**, not an IDE.
 
-> Source: [Mergify blog — "How We Turned Claude Into a Cross-System Support Investigator"](https://mergify.com/blog/how-we-turned-claude-into-a-cross-system-support-investigator) (Julian Maurin, Nov 2025)
+> Source: [Mergify blog: "How We Turned Claude Into a Cross-System Support Investigator"](https://mergify.com/blog/how-we-turned-claude-into-a-cross-system-support-investigator) (Julian Maurin, Nov 2025)
 
 ## 8.5 Plugin System
 
@@ -13916,7 +13916,7 @@ Think of plugins as **distributable packages** that bundle agents, skills, and c
 | `claude plugin update [name]` | Update plugin to latest version | `claude plugin update security-audit` |
 | `claude plugin validate <path>` | Validate plugin manifest | `claude plugin validate ./my-plugin` |
 
-> **`${CLAUDE_PLUGIN_DATA}` — Persistent plugin storage (v2.1.78+)**: Plugins can store state that survives updates using the `${CLAUDE_PLUGIN_DATA}` env variable. This variable points to a dedicated directory that is preserved when the plugin is updated and only deleted on explicit `/plugin uninstall` (with confirmation prompt). Use it for caches, user preferences, or any data your plugin needs across sessions.
+> **`${CLAUDE_PLUGIN_DATA}`, persistent plugin storage (v2.1.78+)**: Plugins can store state that survives updates using the `${CLAUDE_PLUGIN_DATA}` env variable. This variable points to a dedicated directory that is preserved when the plugin is updated and only deleted on explicit `/plugin uninstall` (with confirmation prompt). Use it for caches, user preferences, or any data your plugin needs across sessions.
 >
 > ```json
 > // In your plugin's hooks.json
@@ -14013,7 +14013,7 @@ The directory's `settings.json` can specify:
 }
 ```
 
-**Team use case**: Commit a shared config directory to your repo and all team members automatically get the same enabled plugins and approved marketplaces — no per-user configuration needed.
+**Team use case**: Commit a shared config directory to your repo and all team members automatically get the same enabled plugins and approved marketplaces, no per-user configuration needed.
 
 ### When to Use Plugins
 
@@ -14050,9 +14050,9 @@ my-plugin/
 
 ### LSP Native Support (v2.0.74+)
 
-Since v2.0.74 (December 2025), Claude Code natively integrates with Language Server Protocol servers. Instead of navigating your codebase through text search (grep), Claude connects to the LSP server of your project and understands symbols, types, and cross-references — the same way an IDE does.
+Since v2.0.74 (December 2025), Claude Code natively integrates with Language Server Protocol servers. Instead of navigating your codebase through text search (grep), Claude connects to the LSP server of your project and understands symbols, types, and cross-references, the same way an IDE does.
 
-**Why it matters**: Finding all call sites of a function drops from ~45 seconds (text search) to ~50ms (LSP). Claude also gets automatic diagnostics after every file edit — errors and warnings appear in real time, without a separate build step.
+**Why it matters**: Finding all call sites of a function drops from ~45 seconds (text search) to ~50ms (LSP). Claude also gets automatic diagnostics after every file edit: errors and warnings appear in real time, without a separate build step.
 
 **Supported languages (11)**: Python, TypeScript, JavaScript, Go, Rust, Java, C/C++, C#, PHP, Kotlin, Ruby.
 
@@ -14070,7 +14070,7 @@ ENABLE_LSP_TOOL=1 claude
 }
 ```
 
-The LSP server for your language must already be installed on the machine — Claude Code connects to it, it doesn't install it. Common servers:
+The LSP server for your language must already be installed on the machine. Claude Code connects to it, it doesn't install it. Common servers:
 
 | Language | Server | Install |
 |----------|--------|---------|
@@ -14276,7 +14276,7 @@ The Claude Code plugin ecosystem has grown significantly. Here are verified comm
 
 ### Production-Ready Plugins from This Guide
 
-All 181 templates in this guide's `examples/` directory are available as installable plugins — no file copying, hooks auto-wired on install:
+All 181 templates in this guide's `examples/` directory are available as installable plugins, no file copying, hooks auto-wired on install:
 
 ```bash
 claude plugin marketplace add FlorianBruniaux/claude-code-plugins
@@ -14293,7 +14293,7 @@ claude plugin marketplace add FlorianBruniaux/claude-code-plugins
 | `ai-methodology` | Scaffolding, 6-stage talk pipeline, landing page generator |
 | `session-summary` | Analytics dashboard at session end (15 configurable sections) |
 
-Install only what you need. Source of truth for all templates stays in `examples/` — the plugins repo is the published distribution layer.
+Install only what you need. Source of truth for all templates stays in `examples/`; the plugins repo is the published distribution layer.
 
 → **[github.com/FlorianBruniaux/claude-code-plugins](https://github.com/FlorianBruniaux/claude-code-plugins)**
 
@@ -14301,9 +14301,9 @@ Install only what you need. Source of truth for all templates stays in `examples
 
 Two community plugins address complementary problems that AI-assisted development creates: **code quality drift** (accumulation of poorly-structured AI-generated code) and **hallucination in generated solutions**.
 
-#### Vitals — Codebase Health Detection
+#### Vitals: Codebase Health Detection
 
-**Problem solved**: AI tools write code faster than teams can maintain it. GitClear's analysis of 211M lines shows refactoring collapsed from 25% to under 10% of all changes (2021–2025). Vitals identifies which files are most likely to cause problems next — before they do.
+**Problem solved**: AI tools write code faster than teams can maintain it. GitClear's analysis of 211M lines shows refactoring collapsed from 25% to under 10% of all changes (2021–2025). Vitals identifies which files are most likely to cause problems next, before they do.
 
 **How it works**: Computes `git churn × structural complexity × coupling centrality` to rank hotspots. Not just "this file is complex" but "this complex file changed 49 times in 90 days and 63 other files break when it does."
 
@@ -14321,25 +14321,25 @@ Two community plugins address complementary problems that AI-assisted developmen
 /vitals:scan src/auth --top 5
 ```
 
-**What you get**: Claude reads the flagged files and gives semantic diagnosis. Instead of "high complexity," you get: "this class handles routing, caching, rate limiting, AND metrics in 7,137 lines — extract each concern."
+**What you get**: Claude reads the flagged files and gives semantic diagnosis. Instead of "high complexity," you get: "this class handles routing, caching, rate limiting, AND metrics in 7,137 lines. Extract each concern."
 
 **Status**: v0.1 alpha. MIT. Zero dependencies (Python stdlib + git). Works on any repo.
 
 **Source**: [chopratejas/vitals](https://github.com/chopratejas/vitals)
 
-#### SE-CoVe — Chain-of-Verification
+#### SE-CoVe: Chain-of-Verification
 
 **Problem solved**: AI-generated code contains subtle errors that survive code review because both the AI and the reviewer follow the same reasoning path. SE-CoVe breaks this by running an independent verifier that never sees the initial solution.
 
-**Research foundation**: Adaptation of Meta's Chain-of-Verification methodology (Dhuliawala et al., ACL 2024 Findings — [arXiv:2309.11495](https://arxiv.org/abs/2309.11495)).
+**Research foundation**: Adaptation of Meta's Chain-of-Verification methodology (Dhuliawala et al., ACL 2024 Findings, [arXiv:2309.11495](https://arxiv.org/abs/2309.11495)).
 
-**How it works** — 5-stage pipeline:
+**How it works**: 5-stage pipeline:
 
-1. **Baseline** — Claude generates initial solution
-2. **Planner** — Creates verification questions from the solution's claims
-3. **Executor** — Answers questions without seeing the baseline (prevents confirmation bias)
-4. **Synthesizer** — Compares findings, surfaces discrepancies
-5. **Output** — Produces verified solution
+1. **Baseline**: Claude generates initial solution
+2. **Planner**: Creates verification questions from the solution's claims
+3. **Executor**: Answers questions without seeing the baseline (prevents confirmation bias)
+4. **Synthesizer**: Compares findings, surfaces discrepancies
+5. **Output**: Produces verified solution
 
 ```bash
 # Install (two separate commands — marketplace limitation)
@@ -14351,11 +14351,11 @@ Two community plugins address complementary problems that AI-assisted developmen
 /ver<Tab>   # Autocomplete available
 ```
 
-**Trade-offs**: ~2x token cost, reduced output volume. Worth it for security-sensitive code, complex debugging, and architectural decisions — not for rapid prototyping or simple fixes.
+**Trade-offs**: ~2x token cost, reduced output volume. Worth it for security-sensitive code, complex debugging, and architectural decisions. Skip it for rapid prototyping or simple fixes.
 
-**Source**: [vertti/se-cove-claude-plugin](https://github.com/vertti/se-cove-claude-plugin) — v1.1.1, MIT
+**Source**: [vertti/se-cove-claude-plugin](https://github.com/vertti/se-cove-claude-plugin), v1.1.1, MIT
 
-#### Vitals vs. SE-CoVe — Which to Use
+#### Vitals vs. SE-CoVe: Which to Use
 
 These tools solve different problems at different stages of the development cycle:
 
@@ -14467,7 +14467,7 @@ Before adding an MCP server to your configuration:
 | Check | Why |
 |-------|-----|
 | **Source verification** | GitHub with stars, known organization, or official vendor |
-| **Code audit** | Review source code—avoid opaque binaries without source |
+| **Code audit** | Review source code, avoid opaque binaries without source |
 | **Minimal permissions** | Does it need filesystem access? Network? Why? |
 | **Active maintenance** | Recent commits, responsive to issues |
 | **Documentation** | Clear explanation of what tools it exposes |
@@ -14570,7 +14570,7 @@ _Quick jump:_ [The Trinity](#91-the-trinity) · [Composition Patterns](#92-compo
 
 ### Pattern Categories:
 
-**🎯 The Trinity (9.1)** — Ultimate workflow: Plan Mode → Extended Thinking → Sequential MCP
+**🎯 The Trinity (9.1)**: Ultimate workflow, Plan Mode → Extended Thinking → Sequential MCP
 - When: Architecture decisions, complex refactoring, critical systems
 - Why: Maximum reasoning power + safe exploration
 
@@ -14713,7 +14713,7 @@ The most powerful Claude Code pattern combines three techniques:
 
 #### Adaptive Thinking (Opus 4.6+, including Opus 4.8)
 
-**How it works**: The `effort` parameter controls the model's **overall computational budget** — not just thinking tokens, but the entire response including text generation and tool calls. The model dynamically allocates this budget based on query complexity.
+**How it works**: The `effort` parameter controls the model's **overall computational budget**, not just thinking tokens but the entire response including text generation and tool calls. The model dynamically allocates this budget based on query complexity.
 
 **Key insight**: `effort` affects everything, even when thinking is disabled. Lower effort = fewer tool calls, more concise text. Higher effort = more tool calls with explanations, detailed analysis.
 
@@ -14809,7 +14809,7 @@ claude -p "Analyze this architecture."
 #### API Breaking Changes (Opus 4.6)
 
 **Removed features**:
-- **`assistant-prefill`**: Deprecated on Opus 4.6. Previously allowed pre-filling Claude's response to guide output format. Now unsupported — use system prompts or examples instead.
+- **`assistant-prefill`**: Deprecated on Opus 4.6. Previously allowed pre-filling Claude's response to guide output format. Now unsupported. Use system prompts or examples instead.
 
 **New features**:
 - **Fast mode API**: Add `speed: "fast"` + beta header `fast-mode-2026-02-01` for 2.5x faster responses (2x cost on Opus 4.8)
@@ -14917,9 +14917,9 @@ For critical work, combine everything:
 
 > **📖 Complete Workflow Guide**: See [GitHub Actions Workflows](./workflows/github-actions.md) for 5 production-ready patterns using the official `anthropics/claude-code-action` (PR review, triage, security, scheduled maintenance).
 
-> **Code Review (Teams/Enterprise)**: For automated PR review without manual prompting, see [Code Review](./workflows/code-review.md) — Anthropic's multi-agent review feature that posts inline GitHub comments on every PR.
+> **Code Review (Teams/Enterprise)**: For automated PR review without manual prompting, see [Code Review](./workflows/code-review.md), Anthropic's multi-agent review feature that posts inline GitHub comments on every PR.
 
-> **Billing (June 15, 2026):** All workflows in this section — headless mode (`claude -p`), GitHub Actions, Agent SDK — fall into the new **programmatic billing bucket** and consume from a monthly credit equal to your subscription price ($20/$100/$200). Once exhausted, usage is billed at API token rates. Audit your CI/CD usage with `ccusage` before the change takes effect. See [§9.13 — The Interactive/Programmatic Billing Split](#the-interactiveprogrammatic-billing-split-effective-june-15-2026) for details and a decision framework.
+> **Billing (June 15, 2026):** All workflows in this section (headless mode via `claude -p`, GitHub Actions, Agent SDK) fall into the new **programmatic billing bucket** and consume from a monthly credit equal to your subscription price ($20/$100/$200). Once exhausted, usage is billed at API token rates. Audit your CI/CD usage with `ccusage` before the change takes effect. See [§9.13: The Interactive/Programmatic Billing Split](#the-interactiveprogrammatic-billing-split-effective-june-15-2026) for details and a decision framework.
 
 ### Headless Mode
 
@@ -15175,7 +15175,7 @@ jobs:
             Output as markdown." --bare
 ```
 
-> **`--bare` flag for CI scripting (v2.1.81+)**: Add `--bare` to any `claude -p` call to get a deterministic, hermetic execution environment. It disables hooks, LSP, plugin sync, and skill directory scanning — ensuring local developer config never bleaks into CI. Requires `ANTHROPIC_API_KEY` (no OAuth/keychain). Also disables auto-memory.
+> **`--bare` flag for CI scripting (v2.1.81+)**: Add `--bare` to any `claude -p` call to get a deterministic, hermetic execution environment. It disables hooks, LSP, plugin sync, and skill directory scanning, ensuring local developer config never bleaks into CI. Requires `ANTHROPIC_API_KEY` (no OAuth/keychain). Also disables auto-memory.
 >
 > ```bash
 > # Without --bare: picks up local hooks, plugins, skills — non-deterministic in CI
@@ -15626,7 +15626,7 @@ An alternative to generating release notes from commits is to capture the contex
 
 The fragments pattern solves this with 3 enforcement layers:
 
-**Layer 1 — CLAUDE.md rule**: Load a `git-workflow.md` rule that encodes the full fragment workflow. When a developer asks Claude Code to "create the PR," it reads the diff, infers type/scope/title, generates the YAML, validates it, and commits it as part of the branch. Claude handles it autonomously.
+**Layer 1 (CLAUDE.md rule)**: Load a `git-workflow.md` rule that encodes the full fragment workflow. When a developer asks Claude Code to "create the PR," it reads the diff, infers type/scope/title, generates the YAML, validates it, and commits it as part of the branch. Claude handles it autonomously.
 
 ```yaml
 # changelog/fragments/886-fix-visiochat-sse-race-condition.yml
@@ -15641,7 +15641,7 @@ breaking: false
 migration: false
 ```
 
-**Layer 2 — `UserPromptSubmit` hook**: Detects PR creation intent and checks whether the fragment was already mentioned.
+**Layer 2 (`UserPromptSubmit` hook)**: Detects PR creation intent and checks whether the fragment was already mentioned.
 
 ```bash
 # Tier 0 enforcement in smart-suggest.sh
@@ -15656,7 +15656,7 @@ fi
 
 The hook is non-blocking and shows one suggestion inline, before Claude processes the prompt. If the fragment is already mentioned, the hook stays silent and suggests the normal PR command.
 
-**Layer 3 — CI gate**: Two independent GitHub Actions jobs. The first validates fragment existence and structure. The second checks that `migration: true` is set if the PR adds SQL migration files — this job runs regardless of bypass labels, because a "skip-changelog" PR can still add a migration that the deployment team needs to know about.
+**Layer 3 (CI gate)**: Two independent GitHub Actions jobs. The first validates fragment existence and structure. The second checks that `migration: true` is set if the PR adds SQL migration files. This job runs regardless of bypass labels, because a "skip-changelog" PR can still add a migration that the deployment team needs to know about.
 
 **Assembly at release:**
 
@@ -15693,7 +15693,7 @@ security add-generic-password -a claude -s VERCEL_PROJECT_ID -w "your_project_id
 VERCEL_TOKEN=$(security find-generic-password -s VERCEL_TOKEN -w)
 ```
 
-For multi-platform secrets (GitHub, Vercel, AWS simultaneously), **Infisical** provides centralized management with versioning and point-in-time recovery — a useful open-source alternative to HashiCorp Vault:
+For multi-platform secrets (GitHub, Vercel, AWS simultaneously), **Infisical** provides centralized management with versioning and point-in-time recovery, a useful open-source alternative to HashiCorp Vault:
 
 ```bash
 # Install Infisical CLI
@@ -15765,7 +15765,7 @@ fi
 exit 0
 ```
 
-> **Sources**: Vercel deploy skill pattern documented by the community (lobehub.com, haniakrim21); Infisical multi-platform secrets management at [infisical.com](https://infisical.com). No end-to-end automated deploy workflow exists in the community as of March 2026 — the building blocks are available but the staging-to-production promotion pattern is something each team assembles themselves.
+> **Sources**: Vercel deploy skill pattern documented by the community (lobehub.com, haniakrim21); Infisical multi-platform secrets management at [infisical.com](https://infisical.com). No end-to-end automated deploy workflow exists in the community as of March 2026. The building blocks are available, but the staging-to-production promotion pattern is something each team assembles themselves.
 
 ## 9.4 IDE Integration
 
@@ -15802,7 +15802,7 @@ Works with IntelliJ, WebStorm, PyCharm:
 
 **Claude Agent SDK**: Separate product from Claude Code, but shares the same agent execution framework. Enables Claude-powered development tools in IDEs beyond VS Code.
 
-> **Note**: Claude Agent SDK is not Claude Code — it's Anthropic's framework for building agent-powered developer tools. Claude Code CLI and Xcode integration both use this SDK.
+> **Note**: Claude Agent SDK is Anthropic's framework for building agent-powered developer tools, separate from Claude Code itself. Claude Code CLI and Xcode integration both use this SDK.
 
 ### Terminal Integration
 
@@ -15996,7 +15996,7 @@ $ Ctrl+B  # Background the server
 
 #### Context Rot Prevention
 
-**Problem**: Long-running background tasks can cause context rot—Claude loses awareness of what's running.
+**Problem**: Long-running background tasks can cause context rot. Claude loses awareness of what's running.
 
 **Solution**: Check task status periodically:
 
@@ -16087,7 +16087,7 @@ claude
 
 ### Claude in Chrome: The Visual Feedback Loop
 
-All the loops above validate code. None of them tell Claude whether the UI actually looks correct, whether a form works, or whether the page renders without errors. Without a browser connection, Claude can only infer — it writes code and assumes the result matches intent.
+All the loops above validate code. None of them tell Claude whether the UI actually looks correct, whether a form works, or whether the page renders without errors. Without a browser connection, Claude can only infer: it writes code and assumes the result matches intent.
 
 Claude in Chrome closes that gap. It's a Chrome browser extension that gives Claude Code direct control over your browser: navigate to URLs, click elements, read the console, fill forms, take screenshots, and observe the rendered result of what it just built.
 
@@ -16111,7 +16111,7 @@ claude --no-chrome       # disable for this session
 | Screenshot + compare | Check visual output against expectations |
 | Fill inputs | Test validation, edge cases, empty states |
 
-**The key insight from Boris Cherny (Claude Code creator)**: "If Claude can't see the result, it can't improve it." Code feedback loops catch syntax and logic errors. Browser feedback loops catch the rest — layout, interactions, runtime errors.
+**The key insight from Boris Cherny (Claude Code creator)**: "If Claude can't see the result, it can't improve it." Code feedback loops catch syntax and logic errors. Browser feedback loops catch the rest: layout, interactions, runtime errors.
 
 **When `/chrome` is hidden**: Claude Code hides the `/chrome` command when no Chrome integration is available for your current auth setup (v2.1.87+). Verify the extension is installed and Chrome is running if it doesn't appear.
 
@@ -16122,7 +16122,7 @@ claude --no-chrome       # disable for this session
 **Reading time**: 5 minutes
 **Skill level**: Week 1+
 
-TodoWrite isn't just tracking—it's an instruction mechanism. Well-crafted todos guide Claude's execution.
+TodoWrite is an instruction mechanism, not just tracking. Well-crafted todos guide Claude's execution.
 
 ### The Mirror Principle
 
@@ -16192,7 +16192,7 @@ Embed constraints directly in todos:
 **Reading time**: 5 minutes
 **Skill level**: Week 1+
 
-Control how Claude responds to match your workflow and learning preferences. Output styles are a built-in product feature — not a prompt trick — and apply at the session level.
+Control how Claude responds to match your workflow and learning preferences. Output styles are a built-in product feature (not a prompt trick) and apply at the session level.
 
 ### Built-in Styles
 
@@ -16383,7 +16383,7 @@ classDiagram
 
 ### Vibe Coding
 
-"Vibe Coding" is rapid prototyping through natural conversation—exploring ideas before committing to implementation.
+"Vibe Coding" is rapid prototyping through natural conversation, exploring ideas before committing to implementation.
 
 #### When to Vibe Code
 
@@ -16473,15 +16473,15 @@ Claude: [writes handoff to claudedocs/handoffs/oauth-implementation.md]
 - Fresh context pattern: See [§2.2 Fresh Context Pattern](#22-fresh-context-pattern) (line 1525)
 - Session handoffs: See [Session Handoffs](#session-handoffs) (line 2278)
 
-**The insight:** Rusitschka's "Vibe Coding, Level 2" is Claude Code's native workflow — it just needed explicit framing as an anti-pattern antidote. Plan mode prevents context pollution during exploration, fresh context prevents accumulation during implementation, and handoffs enable clean phase transitions.
+**The insight:** Rusitschka's "Vibe Coding, Level 2" is Claude Code's native workflow: it just needed explicit framing as an anti-pattern antidote. Plan mode prevents context pollution during exploration, fresh context prevents accumulation during implementation, and handoffs enable clean phase transitions.
 
 ### Fighting Vibe Code Degradation
 
 Vibe coding gets things built fast. The codebases it produces tend to rot in ways that are hard to see: abstractions drift, naming becomes inconsistent, error handling gets done three different ways. The code still works, but working in it gets progressively worse.
 
-"Slop" — a term [coined by Simon Willison](https://simonwillison.net/2024/May/8/slop/) in 2024 for unwanted, unreviewed AI-generated content — is the quality problem that vibe coding at scale inevitably produces.
+"Slop" (a term [coined by Simon Willison](https://simonwillison.net/2024/May/8/slop/) in 2024 for unwanted, unreviewed AI-generated content) is the quality problem that vibe coding at scale inevitably produces.
 
-**Desloppify** ([github.com/peteromallet/desloppify](https://github.com/peteromallet/desloppify)) is a community tool that directly addresses this. It installs a workflow guide into Claude Code as a skill, then runs a prioritized fix loop: scan → get next issue → fix → resolve → repeat until a quality score target is hit. The scoring is designed to resist gaming — improving the number requires actually improving the code.
+**Desloppify** ([github.com/peteromallet/desloppify](https://github.com/peteromallet/desloppify)) is a community tool that directly addresses this. It installs a workflow guide into Claude Code as a skill, then runs a prioritized fix loop: scan → get next issue → fix → resolve → repeat until a quality score target is hit. The scoring is designed to resist gaming: improving the number requires actually improving the code.
 
 ```bash
 pip install --upgrade "desloppify[full]"
@@ -16500,7 +16500,7 @@ desloppify next                  # repeat
 
 The loop handles both mechanical issues (dead code, duplication, complexity) and structural ones (naming clarity, abstraction design, module boundaries). A score above 98 is meant to correlate with what a senior engineer would call a clean codebase.
 
-> **Status**: Early-stage (released February 2026, ~2K GitHub stars; 2,996 as of 2026-07-27). Promising native Claude Code integration but not yet battle-tested at scale. Evaluate token cost before running on large codebases — multi-pass LLM review across a full codebase can be substantial.
+> **Status**: Early-stage (released February 2026, ~2K GitHub stars; 2,996 as of 2026-07-27). Promising native Claude Code integration but not yet battle-tested at scale. Evaluate token cost before running on large codebases: multi-pass LLM review across a full codebase can be substantial.
 
 ---
 
@@ -16640,7 +16640,7 @@ The script ([`examples/scripts/pptx-to-pdf.sh`](../examples/scripts/pptx-to-pdf.
 - Opens each file via shell, exports to PDF via AppleScript, then closes Keynote
 - Prints a summary of all generated PDFs at the end
 
-**Critical gotcha — open via shell, not AppleScript**:
+**Critical gotcha: open via shell, not AppleScript**:
 
 The intuitive approach fails:
 ```applescript
@@ -16670,7 +16670,7 @@ This same shell-open-then-AppleScript pattern generalizes to any macOS app that 
 
 ## 9.10 Continuous Improvement Mindset
 
-The goal isn't just to use AI for coding — it's to **continuously improve the workflow** so AI produces better results with less intervention.
+The goal goes beyond simply using AI for coding: **continuously improve the workflow** so AI produces better results with less intervention.
 
 ### The Key Question
 
@@ -16721,7 +16721,7 @@ This is the meta-skill: instead of fixing code, **fix the system that produces t
 
 > Inspired by [Nick Tune's Coding Agent Development Workflows](https://medium.com/nick-tune-tech-strategy-blog/coding-agent-development-workflows-af52e6f912aa)
 
-> **See also**: [§2.5 From Chatbot to Context System](#from-chatbot-to-context-system) — the four-layer framework (CLAUDE.md, skills, hooks, memory) that makes this mindset operational.
+> **See also**: [§2.5 From Chatbot to Context System](#from-chatbot-to-context-system), the four-layer framework (CLAUDE.md, skills, hooks, memory) that makes this mindset operational.
 
 ## 9.11 Common Pitfalls & Best Practices
 
@@ -16834,12 +16834,12 @@ exit 0  # Allow
 - Be specific and goal-oriented in prompts using WHAT/WHERE/HOW/VERIFY format
 - Monitor via logs or OpenTelemetry when appropriate
 - Test automation in dev/staging environments first
-- Always review agent outputs before accepting — especially polished ones (see Artifact Paradox below)
+- Always review agent outputs before accepting, especially polished ones (see Artifact Paradox below)
 - Use git branches for experimental changes
 - Break complex tasks into focused sessions
 - Commit frequently with descriptive messages
 
-> **⚠️ The Artifact Paradox — Anthropic AI Fluency Index (Feb 2026)**
+> **⚠️ The Artifact Paradox: Anthropic AI Fluency Index (Feb 2026)**
 >
 > Anthropic research on 9,830 Claude conversations reveals a critical counter-intuitive finding: **when Claude produces a polished artifact (code, files, configs), users become measurably less critical**, not more.
 >
@@ -16848,9 +16848,9 @@ exit 0  # Allow
 > - **−3.7pp** likelihood of fact-checking the output
 > - **−3.1pp** likelihood of questioning the reasoning
 >
-> Users *do* become more directive (+14.7pp clarifying goals, +14.5pp specifying format) — but their **critical evaluation drops precisely when the output looks finished**.
+> Users *do* become more directive (+14.7pp clarifying goals, +14.5pp specifying format), but their **critical evaluation drops precisely when the output looks finished**.
 >
-> **For Claude Code, this is the nominal case.** Every generated file, every written test, every created config is an artifact. The polished compile-and-run output is exactly when you should apply the most scrutiny — not the least.
+> **For Claude Code, this is the nominal case.** Every generated file, every written test, every created config is an artifact. The polished compile-and-run output is exactly when you should apply the most scrutiny, not the least.
 >
 > **Counter-measures:**
 > - Run tests *before* accepting generated code, not after
@@ -16859,9 +16859,9 @@ exit 0  # Allow
 > - Apply the VERIFY step of the WHAT/WHERE/HOW/VERIFY format even when output looks complete
 > - In Plan Mode: challenge the plan *before* executing, not after seeing the result
 >
-> *Source: Swanson et al., "The AI Fluency Index", Anthropic (2026-02-23) — [anthropic.com/research/AI-fluency-index](https://www.anthropic.com/research/AI-fluency-index)*
+> *Source: Swanson et al., "The AI Fluency Index", Anthropic (2026-02-23), [anthropic.com/research/AI-fluency-index](https://www.anthropic.com/research/AI-fluency-index)*
 >
-> 📊 Visual: [AI Fluency — High vs Low Fluency Paths](../guide/diagrams/06-development-workflows.md#ai-fluency--high-vs-low-fluency-paths)
+> 📊 Visual: [AI Fluency: High vs Low Fluency Paths](../guide/diagrams/06-development-workflows.md#ai-fluency--high-vs-low-fluency-paths)
 
 **Effective Prompt Format:**
 
@@ -17453,7 +17453,7 @@ You: "/git-worktree-clean --dry-run"
 # → Preview: 3 merged (4.2 MB), 1 unmerged (kept)
 ```
 
-> **💡 Tip — Symlink node_modules**: The `/git-worktree` command symlinks `node_modules` from the main worktree by default, saving ~30s per worktree creation and significant disk space. Use `--isolated` when you need fresh dependencies (e.g., testing upgrades).
+> **💡 Tip: Symlink node_modules**: The `/git-worktree` command symlinks `node_modules` from the main worktree by default, saving ~30s per worktree creation and significant disk space. Use `--isolated` when you need fresh dependencies (e.g., testing upgrades).
 
 **Worktree management:**
 
@@ -17468,7 +17468,7 @@ git worktree remove .worktrees/feature/new-api
 git worktree prune
 ```
 
-> **💡 Team tip — Shell aliases for fast worktree navigation**: The Claude Code team uses single-letter aliases to hop between worktrees instantly:
+> **💡 Team tip: Shell aliases for fast worktree navigation**: The Claude Code team uses single-letter aliases to hop between worktrees instantly:
 >
 > ```bash
 > # ~/.zshrc or ~/.bashrc
@@ -17596,10 +17596,10 @@ git worktree remove --force .worktrees/old-feature
 **Resources:**
 - [Git Worktree Documentation](https://git-scm.com/docs/git-worktree)
 - Worktree lifecycle commands:
-  - [`examples/commands/git-worktree.md`](../examples/commands/git-worktree.md) — Create
-  - [`examples/commands/git-worktree-status.md`](../examples/commands/git-worktree-status.md) — Status
-  - [`examples/commands/git-worktree-remove.md`](../examples/commands/git-worktree-remove.md) — Remove
-  - [`examples/commands/git-worktree-clean.md`](../examples/commands/git-worktree-clean.md) — Clean
+  - [`examples/commands/git-worktree.md`](../examples/commands/git-worktree.md): Create
+  - [`examples/commands/git-worktree-status.md`](../examples/commands/git-worktree-status.md): Status
+  - [`examples/commands/git-worktree-remove.md`](../examples/commands/git-worktree-remove.md): Remove
+  - [`examples/commands/git-worktree-clean.md`](../examples/commands/git-worktree-clean.md): Clean
 
 ### Claude Code Native Worktree Features (v2.1.49–v2.1.50)
 
@@ -17621,8 +17621,8 @@ The worktree is created automatically, Claude runs inside it, and it is cleaned 
 
 | Value | Behavior |
 |-------|----------|
-| `fresh` | Branch from `origin/<default-branch>` — always a clean remote base |
-| `head` | Branch from local HEAD — includes unpushed commits |
+| `fresh` | Branch from `origin/<default-branch>`, always a clean remote base |
+| `head` | Branch from local HEAD, includes unpushed commits |
 
 ```json
 // .claude/settings.json (or .claude/settings.local.json)
@@ -17695,7 +17695,7 @@ Typical `worktree-setup.sh`: create a Neon/PlanetScale DB branch, copy `.env.loc
 
 #### Enterprise config auditing with ConfigChange (v2.1.49+)
 
-The `ConfigChange` hook fires whenever a configuration file changes during a session. Use it to audit or block unauthorized live configuration modifications — particularly useful in enterprise environments with managed policy hooks.
+The `ConfigChange` hook fires whenever a configuration file changes during a session. Use it to audit or block unauthorized live configuration modifications, particularly useful in enterprise environments with managed policy hooks.
 
 ```json
 // .claude/settings.json
@@ -17727,7 +17727,7 @@ echo "[ConfigChange] $(date -u +%Y-%m-%dT%H:%M:%SZ) $CONFIG" >> ~/.claude/logs/c
 exit 0
 ```
 
-> **Enterprise note**: `disableAllHooks` (v2.1.49+) can no longer bypass *managed* hooks — hooks set via organizational policy always run regardless of this setting. Only non-managed hooks are affected.
+> **Enterprise note**: `disableAllHooks` (v2.1.49+) can no longer bypass *managed* hooks: hooks set via organizational policy always run regardless of this setting. Only non-managed hooks are affected.
 
 #### Policy fragment deployment with `managed-settings.d/` (v2.1.83+)
 
@@ -17766,7 +17766,7 @@ By default, subprocesses spawned by Claude Code (Bash tool, hooks, MCP stdio) in
 export CLAUDE_CODE_SUBPROCESS_ENV_SCRUB=1
 ```
 
-This scrubs `ANTHROPIC_API_KEY`, `AWS_*`, `GOOGLE_*`, `AZURE_*`, and similar cloud provider variables from the subprocess environment. Claude Code's own API calls are unaffected — only the child processes are restricted.
+This scrubs `ANTHROPIC_API_KEY`, `AWS_*`, `GOOGLE_*`, `AZURE_*`, and similar cloud provider variables from the subprocess environment. Claude Code's own API calls are unaffected. Only the child processes are restricted.
 
 **When to enable**: any hook or MCP script that makes outbound network calls and should not have access to your API credentials.
 
@@ -17867,7 +17867,7 @@ neonctl branches delete feature-payments
 
 ### Coordinating Parallel Worktrees: Task Dependencies
 
-When running multiple agents in parallel worktrees, the hardest problem isn't setup — it's coordination. There is no built-in automatic dependency detection between worktree agents. You manage it explicitly.
+When running multiple agents in parallel worktrees, the hardest problem is coordination, not setup. There is no built-in automatic dependency detection between worktree agents. You manage it explicitly.
 
 **The pattern: analyze files touched, then set `blockedBy` manually**
 
@@ -17903,7 +17903,7 @@ TaskCreate("Implement payment service", { blockedBy: ["task-a-id"] })
 
 **Practical rule**: A 5-minute analysis to find file overlaps before spawning agents saves hours of merge conflict resolution.
 
-**Tooling**: [coderabbitai/git-worktree-runner](https://github.com/coderabbitai/git-worktree-runner) provides a bash-based worktree manager with basic AI tool integration. It handles the worktree lifecycle but not dependency detection — that stays manual.
+**Tooling**: [coderabbitai/git-worktree-runner](https://github.com/coderabbitai/git-worktree-runner) provides a bash-based worktree manager with basic AI tool integration. It handles the worktree lifecycle but not dependency detection: that stays manual.
 
 > **Note**: Fully automatic dependency detection (where the system infers which tasks conflict) doesn't exist in Claude Code or the broader ecosystem as of March 2026. The approaches above are the practical state of the art.
 
@@ -17956,7 +17956,7 @@ You: "Implement the caching layer following the plan"
 
 Note: These are loaded **once at session start**, not per request. A 200-line CLAUDE.md costs ~2K tokens upfront but doesn't grow during the session. The concern is the cumulative effect when combined with multiple `@includes` and all files in `.claude/rules/`.
 
-> **Important**: Beyond file size, context files containing non-essential information (style guides, architecture descriptions, general conventions) add **+20-23% inference cost per session** regardless of line count — because agents process and act on every instruction. The same research confirms that LLM-generated context files reduce task success by ~3%, while developer-written files improve it by ~4%. ([Gloaguen et al., 2026](https://arxiv.org/abs/2602.11988))
+> **Important**: Beyond file size, context files containing non-essential information (style guides, architecture descriptions, general conventions) add **+20-23% inference cost per session** regardless of line count, because agents process and act on every instruction. The same research confirms that LLM-generated context files reduce task success by ~3%, while developer-written files improve it by ~4%. ([Gloaguen et al., 2026](https://arxiv.org/abs/2602.11988))
 
 > **See also**: [Memory Loading Comparison](#memory-loading-comparison) for when each method loads.
 
@@ -17974,7 +17974,7 @@ Note: These are loaded **once at session start**, not per request. A 200-line CL
 - Split by concern: team rules in project CLAUDE.md, personal prefs in ~/.claude/CLAUDE.md
 ```
 
-> **Research note** (Gloaguen et al., ETH Zürich, Feb 2026 — 138 benchmarks, 12 repos): The first empirical study on context files shows developer-written CLAUDE.md improves agent success rate by **+4%**, but LLM-generated files reduce it by **-3%**. Cause: agents faithfully follow all instructions, even those irrelevant to the task, leading to broader file exploration and longer reasoning chains. **Recommendation: include only build/test commands and project-specific tooling.** Style guides and architecture descriptions belong in separate docs. ([Full evaluation](../docs/resource-evaluations/agents-md-empirical-study-2602-11988.md))
+> **Research note** (Gloaguen et al., ETH Zürich, Feb 2026, 138 benchmarks, 12 repos): The first empirical study on context files shows developer-written CLAUDE.md improves agent success rate by **+4%**, but LLM-generated files reduce it by **-3%**. Cause: agents faithfully follow all instructions, even those irrelevant to the task, leading to broader file exploration and longer reasoning chains. **Recommendation: include only build/test commands and project-specific tooling.** Style guides and architecture descriptions belong in separate docs. ([Full evaluation](../docs/resource-evaluations/agents-md-empirical-study-2602-11988.md))
 
 **2. Use targeted file references:**
 
@@ -18041,15 +18041,15 @@ cxr watch &         # Background sync on file changes
 # "find the payment module" → 1 graph query vs 5-10 file reads
 ```
 
-Tools built on this pattern replace 5-10 file reads with 1 structured query — roughly 75% fewer tool calls for discovery tasks.
+Tools built on this pattern replace 5-10 file reads with 1 structured query: roughly 75% fewer tool calls for discovery tasks.
 
 **Dead code and circular dependency detection:**
 
 A structural index also enables analysis that file-by-file reading cannot surface efficiently:
 
-- **Dead code**: Functions defined but never called — safe to delete, reducing future context noise
-- **Circular dependencies**: Module A imports B imports A — architectural debt that silently inflates Claude's reasoning overhead
-- **Hotspots**: Files with the highest dependency count — prioritize for documentation or refactoring first
+- **Dead code**: Functions defined but never called, safe to delete, reducing future context noise
+- **Circular dependencies**: Module A imports B imports A, architectural debt that silently inflates Claude's reasoning overhead
+- **Hotspots**: Files with the highest dependency count. Prioritize these for documentation or refactoring first
 
 ```bash
 # With grepai (zero callers = dead code candidate):
@@ -18059,7 +18059,7 @@ grepai trace callers "MyFunction"  # Empty result → safe to investigate for de
 # Tools like CodeXRay expose: codexray_deadcode, codexray_circular, codexray_hotspots
 ```
 
-> **Community tools**: [CodeXRay](https://github.com/NeuralRays/codexray) (Tree-sitter + SQLite, 16 MCP tools, 15 languages) and [Claudette](https://github.com/nicmarti/Claudette) (Go binary, 4 languages) are early implementations of this approach. Both are alpha-stage as of March 2026 — use grepai for production workflows.
+> **Community tools**: [CodeXRay](https://github.com/NeuralRays/codexray) (Tree-sitter + SQLite, 16 MCP tools, 15 languages) and [Claudette](https://github.com/nicmarti/Claudette) (Go binary, 4 languages) are early implementations of this approach. Both are alpha-stage as of March 2026. Use grepai for production workflows.
 
 ---
 
@@ -18100,26 +18100,26 @@ Also auto-triggers on phrases like "be brief" or "less tokens please." Auto-disa
 | Lite | Full grammar, pleasantries stripped |
 | Full (default) | Fragmented sentences, articles dropped |
 | Ultra | Maximum telegraphic compression |
-| Wenyan (文言文) | Classical Chinese literary mode — experimental |
+| Wenyan (文言文) | Classical Chinese literary mode, experimental |
 
-**How it saves tokens** — two mechanisms:
+**How it saves tokens**: two mechanisms:
 
 1. **Output compression**: Prose responses run 65% shorter on average (22–87% range depending on task type). Most effective on explanation-heavy back-and-forth: architecture discussions, debugging narratives, Q&A.
 
-2. **Input compression via `/caveman-compress`**: Rewrites your CLAUDE.md and project memory files into compressed form in-place — claimed ~46% reduction in session startup token cost. Code blocks, URLs, and paths are untouched.
+2. **Input compression via `/caveman-compress`**: Rewrites your CLAUDE.md and project memory files into compressed form in place, claimed ~46% reduction in session startup token cost. Code blocks, URLs, and paths are untouched.
 
 **Companion tools included**:
 
-- `/caveman-commit` — conventional commit messages under 50 chars, focused on "why"
-- `/caveman-review` — one-line PR comments with emoji severity markers
-- `/caveman-stats` — session token usage and lifetime savings (Claude Code only)
-- `caveman-shrink` — MCP wrapper that compresses tool/prompt description fields before they load into context
+- `/caveman-commit`: conventional commit messages under 50 chars, focused on "why"
+- `/caveman-review`: one-line PR comments with emoji severity markers
+- `/caveman-stats`: session token usage and lifetime savings (Claude Code only)
+- `caveman-shrink`: MCP wrapper that compresses tool/prompt description fields before they load into context
 
-**Honest numbers**: The headline "75% fewer output tokens" applies to individual prose responses. In a typical session, prose represents a small fraction of total token budget — whole-session savings are closer to 4–10%. Caveman pays off most on sessions heavy in conversational back-and-forth, and least on sessions dominated by file reads, tool calls, or code generation.
+**Honest numbers**: The headline "75% fewer output tokens" applies to individual prose responses. In a typical session, prose represents a small fraction of total token budget, so whole-session savings are closer to 4–10%. Caveman pays off most on sessions heavy in conversational back-and-forth, and least on sessions dominated by file reads, tool calls, or code generation.
 
 **When NOT to use it**:
 
-- Documentation generation — output is meant to be read by humans
+- Documentation generation: output is meant to be read by humans
 - Code review comments shared with non-technical stakeholders
 - Debugging sessions where reasoning transparency matters
 - Multi-agent chains where downstream agents parse prior responses to reconstruct state
@@ -18227,7 +18227,7 @@ rtk verify               # Validate TOML filter rules
 - Savings: 109K tokens (72.6% reduction)
 ```
 
-**TOML Filter DSL (v0.28.0 — add filters without writing Rust):**
+**TOML Filter DSL (v0.28.0, add filters without writing Rust):**
 
 RTK now supports a declarative filter engine via TOML config. You can add custom output filters for any command without touching Rust code.
 
@@ -18306,7 +18306,7 @@ rtk init --global          # Replace hook with thin delegator
 
 RTK handles **command outputs** (what you run). Smart explore handles **code reading** (what you read). Together they cover both major token sinks in a Claude Code session.
 
-**The problem**: When Claude explores a codebase, it reads files completely — 400 lines when it needed 3 function signatures. A typical 10-file module exploration costs 35,000 tokens. With progressive exploration, the same task costs 3,500.
+**The problem**: When Claude explores a codebase, it reads files completely: 400 lines when it needed 3 function signatures. A typical 10-file module exploration costs 35,000 tokens. With progressive exploration, the same task costs 3,500.
 
 **The pattern (3 steps, 86-92% reduction):**
 
@@ -18326,7 +18326,7 @@ Step 3 — Cross-reference (~150 tokens)
 
 This is the same pattern Aider uses for its repo map (47.7K stars as of 2026-07-27, was 40k+), validated at scale since 2023.
 
-**Approach A: No setup — CLAUDE.md discipline**
+**Approach A: No setup, CLAUDE.md discipline**
 
 The fastest path. Add to your project's `CLAUDE.md`:
 
@@ -18393,7 +18393,7 @@ code-review-graph build     # first-time parse (~10s for 500 files)
 | PR review (10 changed files) | ~25,000 tokens | ~3,500 tokens | **86%** |
 | Single function lookup | ~3,000 tokens | ~350 tokens | **88%** |
 
-**RTK vs Smart Explore — complete picture:**
+**RTK vs Smart Explore, complete picture:**
 
 | | RTK | Smart Explore |
 |---|---|---|
@@ -18668,7 +18668,7 @@ Smart escalation (Haiku → Sonnet for 10% of PRs):
 
 **Perspective on ROI:**
 
-Time savings from effective Claude Code usage typically far outweigh API costs for most development tasks. Rather than calculating precise ROI (which depends heavily on your specific context, hourly rate, and task complexity), focus on whether the tool is genuinely helping you ship faster. For team-level measurement, see [Contribution Metrics](#contribution-metrics-january-2026) — Anthropic's GitHub-integrated dashboard for tracking PR and code attribution (Team/Enterprise plans, public beta).
+Time savings from effective Claude Code usage typically far outweigh API costs for most development tasks. Rather than calculating precise ROI (which depends heavily on your specific context, hourly rate, and task complexity), focus on whether the tool is genuinely helping you ship faster. For team-level measurement, see [Contribution Metrics](#contribution-metrics-january-2026), Anthropic's GitHub-integrated dashboard for tracking PR and code attribution (Team/Enterprise plans, public beta).
 
 **When to optimize aggressively:**
 - High-volume operations (>1000 requests/day)
@@ -18688,11 +18688,11 @@ Time savings from effective Claude Code usage typically far outweigh API costs f
 
 #### What changed
 
-Anthropic split subscription usage into two distinct buckets. The first, called interactive usage, covers the Claude Code terminal and IDE, plus the web, desktop, and mobile chat interfaces. Nothing changes for these workflows — existing subscription limits remain as-is.
+Anthropic split subscription usage into two distinct buckets. The first, called interactive usage, covers the Claude Code terminal and IDE, plus the web, desktop, and mobile chat interfaces. Nothing changes for these workflows: existing subscription limits remain as-is.
 
 The second bucket, programmatic usage, is new and capped. It covers `claude -p` (headless mode), the Agent SDK (Python and TypeScript), GitHub Actions with Claude, and third-party harnesses including OpenClaw, Hermes, Conductor, and any custom orchestration pipeline that invokes Claude outside of Anthropic's own interfaces. For a detailed breakdown of these third-party harnesses and how they compare to Claude Code, see [Agent Tools: Beyond Claude Code](ecosystem/agentic-tools.md). Each subscription plan receives a monthly credit equal to the subscription price. After that credit is exhausted, usage is billed at standard API token rates with no rollover.
 
-The split is not "human interaction vs automation." The operative distinction is **Anthropic's interface vs your interface**. Running Claude Code interactively in the terminal uses Anthropic's interface — unlimited, unchanged. Running your own harness or orchestrator uses your interface — capped. This reflects where Anthropic is capturing value as LLM models commoditize: at the harness and UX layer, not the model layer.
+The split is not "human interaction vs automation." The operative distinction is **Anthropic's interface vs your interface**. Running Claude Code interactively in the terminal uses Anthropic's interface, unlimited and unchanged. Running your own harness or orchestrator uses your interface, which is capped. This reflects where Anthropic is capturing value as LLM models commoditize: at the harness and UX layer, not the model layer.
 
 #### Credit amounts and overage rates
 
@@ -18706,14 +18706,14 @@ The split is not "human interaction vs automation." The operative distinction is
 - Input: $3.00 per million tokens
 - Output: $15.00 per million tokens
 
-Credits do not carry over to the following month. They are also **not activated automatically** — Anthropic sends an email approximately two weeks before June 15 with activation instructions. If you do not claim your credits before the deadline, limits may apply immediately on June 15. Watch your inbox.
+Credits do not carry over to the following month. They are also **not activated automatically**: Anthropic sends an email approximately two weeks before June 15 with activation instructions. If you do not claim your credits before the deadline, limits may apply immediately on June 15. Watch your inbox.
 
 #### What is and is not affected
 
 | Affected (programmatic bucket) | Not affected (interactive bucket) |
 |-------------------------------|----------------------------------|
 | `claude -p` / `claude --print` | Claude Code terminal (interactive sessions) |
-| Agent SDK — Python and TypeScript | Claude Code IDE integrations (VS Code, JetBrains, Xcode) |
+| Agent SDK (Python and TypeScript) | Claude Code IDE integrations (VS Code, JetBrains, Xcode) |
 | GitHub Actions using `anthropics/claude-code-action` | Claude.ai web chat |
 | Scheduled automation and cron-triggered jobs | Claude desktop app |
 | Background agent loops | Claude mobile apps |
@@ -18721,11 +18721,11 @@ Credits do not carry over to the following month. They are also **not activated 
 | CI/CD pipelines invoking Claude | `/loop` scheduled tasks triggered interactively |
 | Recursive multi-agent workflows | Routines triggered by GitHub events (counted as interactive) |
 
-> **Note:** Routines (cloud-based scheduled tasks via `claude.ai/code/routines`) run on Anthropic's infrastructure using Anthropic's agent system. Their billing classification was not explicitly confirmed in the May 13 announcement — verify with Anthropic support if your Routines usage is substantial.
+> **Note:** Routines (cloud-based scheduled tasks via `claude.ai/code/routines`) run on Anthropic's infrastructure using Anthropic's agent system. Their billing classification was not explicitly confirmed in the May 13 announcement; verify with Anthropic support if your Routines usage is substantial.
 
 #### The ANTHROPIC_API_KEY billing trap
 
-> **Warning:** If `ANTHROPIC_API_KEY` is set in your shell environment or a `.env` file, Claude Code bypasses the subscription entirely and bills every request at API token rates — including your interactive sessions. This is independent of the June 15 change but compounds it. Users have received API bills of $400 or more on top of an active $200 Max plan because of this.
+> **Warning:** If `ANTHROPIC_API_KEY` is set in your shell environment or a `.env` file, Claude Code bypasses the subscription entirely and bills every request at API token rates, including your interactive sessions. This is independent of the June 15 change but compounds it. Users have received API bills of $400 or more on top of an active $200 Max plan because of this.
 >
 > **Diagnose:**
 > ```bash
@@ -18739,25 +18739,25 @@ Credits do not carry over to the following month. They are also **not activated 
 
 Run this audit now to understand where you stand before the change takes effect.
 
-**Step 1 — Check session spend:**
+**Step 1. Check session spend:**
 ```bash
 claude /cost    # or /usage since v2.1.118
 ```
 
-**Step 2 — Review cross-session history with ccusage:**
+**Step 2. Review cross-session history with ccusage:**
 ```bash
 npx ccusage     # Breakdown by model and session type
 ```
 
-Look for sessions initiated by scripts, CI jobs, or automation — these are your programmatic sessions. Estimate total monthly token spend for those sessions and compare against your plan's credit amount.
+Look for sessions initiated by scripts, CI jobs, or automation: these are your programmatic sessions. Estimate total monthly token spend for those sessions and compare against your plan's credit amount.
 
-**Step 3 — Identify programmatic workflows in your setup:**
+**Step 3. Identify programmatic workflows in your setup:**
 ```bash
 # Find all places you invoke claude -p or use headless flags
 grep -r "claude -p\|claude --print\|claude --headless" ~/.claude/ .github/ scripts/ Makefile
 ```
 
-**Step 4 — Check your `.env` files for API key presence:**
+**Step 4. Check your `.env` files for API key presence:**
 ```bash
 grep -r "ANTHROPIC_API_KEY" ~/.zshrc ~/.bashrc ~/.env .env* 2>/dev/null
 ```
@@ -18770,12 +18770,12 @@ Once you have your audit results, apply this framework:
 
 **If your programmatic usage exceeds or will exceed the monthly credit**, choose one or more of the following paths:
 
-**Path A — Reduce scope or frequency:**
+**Path A. Reduce scope or frequency:**
 - Increase the interval on scheduled jobs
 - Gate CI/CD Claude invocations to run only on PRs that touch specific paths
 - Replace multi-step agentic loops with single focused invocations
 
-**Path B — Migrate to direct API billing with a budget cap:**
+**Path B. Migrate to direct API billing with a budget cap:**
 ```yaml
 # .github/workflows/claude-review.yml — with spend awareness
 - name: Run Claude analysis
@@ -18788,7 +18788,7 @@ Once you have your audit results, apply this framework:
 ```
 Direct API billing gives you predictable per-call costs and Console budget alerts. For low-volume CI/CD (occasional PR reviews), per-token API cost is typically lower than dedicating monthly credit to it.
 
-**Path C — Diversify orchestrators:**
+**Path C. Diversify orchestrators:**
 
 | Use case | Alternative | Rationale |
 |----------|-------------|-----------|
@@ -18797,7 +18797,7 @@ Direct API billing gives you predictable per-call costs and Console budget alert
 | Synthesis and summarization at volume | Local models (Ollama + Llama/Qwen) | Zero marginal cost if hardware is available |
 | Writing, planning, interactive review | Claude (keep) | Still the strongest model for these tasks |
 
-These are not mutually exclusive. A common pattern: keep Claude for interactive work and writing-quality tasks, route high-volume automated pipelines to whichever provider offers the best cost-performance for that specific workload. See [Section 11 — AI Ecosystem](#11-ai-ecosystem-complementary-tools) for a full tool matrix.
+These are not mutually exclusive. A common pattern: keep Claude for interactive work and writing-quality tasks, route high-volume automated pipelines to whichever provider offers the best cost-performance for that specific workload. See [Section 11: AI Ecosystem](#11-ai-ecosystem-complementary-tools) for a full tool matrix.
 
 #### Strategic context
 
@@ -19138,11 +19138,11 @@ claude --teleport
 
 ### Best Practices
 
-1. **Commit frequently** — Clean git state is required
-2. **Use meaningful branch names** — Helps identify sessions
-3. **Check `/tasks`** — Verify background task status before teleporting
-4. **Same account** — Ensure CLI and web use same Claude.ai login
-5. **Push branches** — Remote must have the branch for sync
+1. **Commit frequently**: Clean git state is required
+2. **Use meaningful branch names**: Helps identify sessions
+3. **Check `/tasks`**: Verify background task status before teleporting
+4. **Same account**: Ensure CLI and web use same Claude.ai login
+5. **Push branches**: Remote must have the branch for sync
 
 ### Environment Variables
 
@@ -19156,15 +19156,15 @@ claude --teleport
 
 **Reading time**: 10 minutes
 
-**TL;DR**: Multi-instance orchestration = advanced pattern for teams managing 10+ concurrent features. Requires modular architecture + budget + monitoring. **95% of users don't need this** — sequential workflows with 1-2 instances are more efficient for most contexts.
+**TL;DR**: Multi-instance orchestration = advanced pattern for teams managing 10+ concurrent features. Requires modular architecture + budget + monitoring. **95% of users don't need this.** Sequential workflows with 1-2 instances are more efficient for most contexts.
 
 ---
 
 ### Agent View: Native Session Management (v2.1.139+)
 
-> **Research Preview** — Available on Pro, Max, Team, Enterprise, and Claude API plans. Opt-in: `claude agents`.
+> **Research Preview** (available on Pro, Max, Team, Enterprise, and Claude API plans). Opt-in: `claude agents`.
 
-Before setting up tmux grids or third-party orchestrators, try Agent View — Claude Code's built-in session manager.
+Before setting up tmux grids or third-party orchestrators, try Agent View, Claude Code's built-in session manager.
 
 **How to access**:
 - `claude agents` from any terminal
@@ -19192,9 +19192,9 @@ Before setting up tmux grids or third-party orchestrators, try Agent View — Cl
 
 **Relation to third-party tools**: Before Agent View, parallel session management required tmux, multiclaude, or apps like Conductor. Agent View covers the core "what's running and what needs me" use case natively. Conductor and similar tools remain relevant for GitHub CI integration, PR workflows, and multi-repo management beyond what Agent View provides.
 
-### /goal — Autonomous Completion Mode (v2.1.139)
+### /goal: Autonomous Completion Mode (v2.1.139)
 
-`/goal <condition>` sets a completion contract for the current session. Claude keeps working across turns until a separate evaluator model verifies the condition is met — no need to send "continue" after each step.
+`/goal <condition>` sets a completion contract for the current session. Claude keeps working across turns until a separate evaluator model verifies the condition is met. No need to send "continue" after each step.
 
 ```bash
 /goal all unit tests pass and no TypeScript errors
@@ -19202,7 +19202,7 @@ Before setting up tmux grids or third-party orchestrators, try Agent View — Cl
 /goal migrate all legacy API calls to v2 while preserving existing coverage
 ```
 
-**How it works**: After each turn, a small fast model (Haiku by default) reads the conversation and judges: "Is the condition met, based only on evidence already in this conversation?" If not, it generates a concise reason explaining the gap, which drives the next turn. If yes, the loop ends. The evaluator cannot independently run commands — it judges solely against what Claude has already surfaced in the conversation.
+**How it works**: After each turn, a small fast model (Haiku by default) reads the conversation and judges: "Is the condition met, based only on evidence already in this conversation?" If not, it generates a concise reason explaining the gap, which drives the next turn. If yes, the loop ends. The evaluator cannot independently run commands. It judges solely against what Claude has already surfaced in the conversation.
 
 A live overlay tracks elapsed time, turn count, and token consumption throughout execution.
 
@@ -19216,9 +19216,9 @@ A live overlay tracks elapsed time, turn count, and token consumption throughout
 
 **Three elements of an effective condition**:
 
-1. **Measurable end state** — a specific output, test result, or file state. "All tests in `test/auth` pass" beats "improve the auth system."
-2. **Verification mechanism** — how success is demonstrated. "verified by `npm test auth` exit 0."
-3. **Constraints** — what must stay intact throughout. "no files outside `src/services/auth` modified."
+1. **Measurable end state**: a specific output, test result, or file state. "All tests in `test/auth` pass" beats "improve the auth system."
+2. **Verification mechanism**: how success is demonstrated. "verified by `npm test auth` exit 0."
+3. **Constraints**: what must stay intact throughout. "no files outside `src/services/auth` modified."
 
 Full example: `/goal all tests in test/auth pass, verified by npm test auth exit 0, no files outside src/services/auth modified`
 
@@ -19231,7 +19231,7 @@ Full example: `/goal all tests in test/auth pass, verified by npm test auth exit
 | Best for | Task with a clear, measurable finish line | Ongoing monitoring without a defined end |
 | Example | "Migrate all API calls, tests pass" | "Check the deploy every 5 minutes" |
 
-**Anti-patterns** — skip `/goal` when:
+**Anti-patterns** (skip `/goal` when):
 - The objective is vague or qualitative ("make the code cleaner")
 - Completion requires human judgment the AI cannot verify
 - Production data is involved and every step needs direct oversight
@@ -19347,9 +19347,9 @@ Boris Cherny, creator of Claude Code, shared his workflow orchestrating 5-15 Cla
 The broader team extends Boris's individual workflow with institutional patterns:
 
 - **Skills as institutional knowledge**: Anything done more than once daily becomes a skill checked into version control. Examples:
-  - `/techdebt` — run at end of session to eliminate duplicate code
-  - Context dump skills — sync 7 days of Slack, Google Drive, Asana, and GitHub into a single context
-  - Analytics agents — dbt-powered skills that query BigQuery; one engineer reports not writing SQL manually for 6+ months
+  - `/techdebt`: run at end of session to eliminate duplicate code
+  - Context dump skills: sync 7 days of Slack, Google Drive, Asana, and GitHub into a single context
+  - Analytics agents: dbt-powered skills that query BigQuery; one engineer reports not writing SQL manually for 6+ months
 - **CLI and scripts over MCP**: The team prefers shell scripts and CLI integrations over MCP servers for external tool connections. Rationale: less magic, easier to debug, and more predictable behavior. MCP is reserved for cases where bidirectional communication is genuinely needed.
 - **Re-plan when stuck**: Rather than pushing through a stalled implementation, the team switches back to Plan Mode. One engineer uses a secondary Claude instance to review plans "as a staff engineer" before resuming execution.
 - **Claude writes its own rules**: After each correction, the team instructs Claude to update CLAUDE.md with the lesson learned. Over time, this compounds into a team-specific ruleset that prevents recurring mistakes.
@@ -19686,10 +19686,10 @@ When Claude Zero reviews Claude One's implementation:
 
 #### See Also
 
-- **Workflow guide**: [dual-instance-planning.md](workflows/dual-instance-planning.md) — Full workflow with templates
-- **Plan Mode**: Section 9.1 "The Trinity" — Foundation for planning
-- **Multi-Instance (Boris)**: Section 9.17 — Horizontal scaling alternative
-- **Cost optimization**: Section 8.10 — Budget management strategies
+- **Workflow guide**: [dual-instance-planning.md](workflows/dual-instance-planning.md), full workflow with templates
+- **Plan Mode**: Section 9.1 "The Trinity", foundation for planning
+- **Multi-Instance (Boris)**: Section 9.17, horizontal scaling alternative
+- **Cost optimization**: Section 8.10, budget management strategies
 
 **External resource**: [Jon Williams LinkedIn post](https://www.linkedin.com/posts/thatjonwilliams_ive-been-using-cursor-for-six-months-now-activity-7424481861802033153-k8bu) (Feb 3, 2026)
 
@@ -19724,7 +19724,7 @@ Multi-instance workflows **REQUIRE** git worktrees to avoid conflicts. Without w
 
 ### Advanced Tooling for Worktree Management (Optional)
 
-While git worktrees are foundational, **daily productivity** improves with automation wrappers. Multiple professional teams have independently created worktree management tools—a validated pattern.
+While git worktrees are foundational, **daily productivity** improves with automation wrappers. Multiple professional teams have independently created worktree management tools, a validated pattern.
 
 #### Pattern Validation: 3 Independent Implementations
 
@@ -19939,7 +19939,7 @@ Five months after the internal study, Anthropic published updated productivity d
 
 **Methodological note**: These figures are PR/commit-based (measured via GitHub integration), not self-reported surveys as in the Aug 2025 study. However, Anthropic discloses no baseline period, no team breakdown, and defines measurement only as "conservative — only code where we have high confidence in Claude Code's involvement." Treat as directional indicators, not rigorous benchmarks.
 
-**Product feature — Contribution Metrics dashboard**:
+**Product feature: Contribution Metrics dashboard**:
 - **Status**: Public beta (January 2026)
 - **Availability**: Claude Team and Enterprise plans (exact add-on requirements unconfirmed)
 - **Tracks**: PRs merged and lines of code committed, with/without Claude Code attribution
@@ -19947,7 +19947,7 @@ Five months after the internal study, Anthropic published updated productivity d
 - **Setup**: Install Claude GitHub App → Enable GitHub Analytics in Admin settings → Authenticate GitHub organization
 - **Positioning**: Complement to existing engineering KPIs (DORA metrics, sprint velocity), not a replacement
 
-**Source**: [Anthropic — Contribution Metrics (Jan 2026)](https://claude.com/blog/contribution-metrics)
+**Source**: [Anthropic, Contribution Metrics (Jan 2026)](https://claude.com/blog/contribution-metrics)
 
 ---
 
@@ -20162,7 +20162,7 @@ access_log:
         status: "%RESPONSE_CODE%"
 ```
 
-This lets you build per-session dashboards, enforce session-level rate limits, or attribute API costs to individual developers or CI jobs — all without modifying Claude Code's configuration.
+This lets you build per-session dashboards, enforce session-level rate limits, or attribute API costs to individual developers or CI jobs, all without modifying Claude Code's configuration.
 
 #### Warning Signs (Rollback Triggers)
 
@@ -20271,14 +20271,14 @@ New feature request
 
 ### 📌 Section 9.18 TL;DR (2 minutes)
 
-**The paradigm shift**: Traditional codebases are optimized for human developers. AI agents have different needs—they excel at pattern matching but struggle with implicit knowledge and scattered context.
+**The paradigm shift**: Traditional codebases are optimized for human developers. AI agents have different needs. They excel at pattern matching but struggle with implicit knowledge and scattered context.
 
 **Key principles**:
 - **Domain Knowledge Embedding**: Put business logic and design decisions directly in code (CLAUDE.md, ADRs, comments)
-- **Code Discoverability**: Make code "searchable" like SEO—use synonyms, tags, complete terms
+- **Code Discoverability**: Make code "searchable" like SEO: use synonyms, tags, complete terms
 - **Documentation Formats**: Use llms.txt for AI-optimized documentation indexing (complements MCP servers)
 - **Token Efficiency**: Split large files, remove obvious comments, use verbose flags for debug output
-- **Testing for Autonomy**: TDD is more critical for agents than humans—tests guide behavior
+- **Testing for Autonomy**: TDD is more critical for agents than humans: tests guide behavior
 - **Guardrails**: Hooks, CI checks, and PR reviews catch agent mistakes early
 
 **When to optimize for agents**: High-impact files (core business logic, frequently modified modules) and greenfield projects. Don't refactor stable code just for agents.
@@ -20297,7 +20297,7 @@ New feature request
 | **File size** | 1000+ lines OK | Split at 500 lines |
 | **Architecture docs** | Separate wiki/Confluence | Embedded in CLAUDE.md + ADRs |
 | **Conventions** | Oral tradition, tribal knowledge | Written, discoverable, tagged |
-| **Testing** | Optional for prototypes | Critical—agents follow tests |
+| **Testing** | Optional for prototypes | Critical: agents follow tests |
 | **Error messages** | Generic | Specific with recovery hints |
 
 **Why this matters**: Agents read code sequentially and lack the "mental model" humans build over time. What's obvious to you (e.g., "this service handles auth") must be made explicit.
@@ -20550,7 +20550,7 @@ async function deleteEvent(eventId: string) {
 
 **Problem**: Agents search for code using keyword matching. If your variable is named `usr`, the agent won't find it when searching for "user".
 
-**Solution**: Treat code discoverability like SEO—use complete terms, synonyms, and tags.
+**Solution**: Treat code discoverability like SEO: use complete terms, synonyms, and tags.
 
 #### Use Complete Terms, Not Abbreviations
 
@@ -20757,7 +20757,7 @@ class UserManager {
 
 #### What is llms.txt?
 
-llms.txt is a lightweight standard for making documentation discoverable to LLMs. It's like `robots.txt` for AI agents—a simple index file that tells agents where to find relevant documentation.
+llms.txt is a lightweight standard for making documentation discoverable to LLMs. It's like `robots.txt` for AI agents: a simple index file that tells agents where to find relevant documentation.
 
 **Specification**: https://llmstxt.org/
 
@@ -21718,7 +21718,7 @@ class UserController {
 
 ### 9.18.9 Guardrails & Validation
 
-**Problem**: Agents make mistakes—hallucinations, incorrect assumptions, security oversights.
+**Problem**: Agents make mistakes: hallucinations, incorrect assumptions, security oversights.
 
 **Solution**: Multi-layer guardrails to catch errors before they reach production.
 
@@ -22472,7 +22472,7 @@ Business logic and domain operations. Services are framework-agnostic.
 
 ### The Problem: Single-Approach Thinking
 
-Most developers pick one approach and stick with it. But Claude Code's tooling supports systematic variation—testing multiple approaches to find the optimal solution.
+Most developers pick one approach and stick with it. But Claude Code's tooling supports systematic variation: testing multiple approaches to find the optimal solution.
 
 **Permutation Frameworks** formalize this: instead of hoping your first approach works, you systematically generate and evaluate variations.
 
@@ -22720,10 +22720,10 @@ Navigation: Shift+Down to cycle through teammates, or tmux panes
 4. **Full codebase analysis**: Architecture review, pattern detection
 
 **❌ Poor fit** (avoid these):
-- Simple tasks (<5 files affected) — coordination overhead not justified
-- Write-heavy tasks (many shared file modifications) — merge conflict risks
-- Sequential dependencies — no parallelization benefit
-- Budget-constrained projects — 3x token cost multiplier
+- Simple tasks (<5 files affected): coordination overhead not justified
+- Write-heavy tasks (many shared file modifications): merge conflict risks
+- Sequential dependencies: no parallelization benefit
+- Budget-constrained projects: 3x token cost multiplier
 
 ### Quick Example: Multi-Layer Code Review
 
@@ -22901,9 +22901,9 @@ This section is a quick overview. For complete guide:
   - Best practices, troubleshooting
 
 **Related patterns**:
-- [§9.17 Multi-Instance Workflows](#917-scaling-patterns-multi-instance-workflows) — Manual parallel coordination
-- [§4.3 Sub-Agents](#43-sub-agents) — Single-agent task delegation
-- [AI Ecosystem: Beads Framework](./ecosystem/ai-ecosystem.md) — Alternative orchestration (Gas Town)
+- [§9.17 Multi-Instance Workflows](#917-scaling-patterns-multi-instance-workflows): Manual parallel coordination
+- [§4.3 Sub-Agents](#43-sub-agents): Single-agent task delegation
+- [AI Ecosystem: Beads Framework](./ecosystem/ai-ecosystem.md): Alternative orchestration (Gas Town)
 
 **Official sources**:
 - [Introducing Claude Opus 4.6](https://www.anthropic.com/news/claude-opus-4-6) (Anthropic, Feb 2026)
@@ -22914,17 +22914,17 @@ This section is a quick overview. For complete guide:
 
 ## 9.21 Legacy Codebase Modernization
 
-> **Context**: In February 2026, Anthropic published a [COBOL modernization playbook](https://claude.com/blog/how-ai-helps-break-cost-barrier-cobol-modernization) positioning Claude Code as a direct replacement for legacy consulting teams. The same day, IBM stock dropped -13% (its worst single-day performance since October 2000). The workflow described is validated by independent research — it applies to any large legacy codebase (COBOL, Fortran, VB6, PL/I), not just COBOL.
+> **Context**: In February 2026, Anthropic published a [COBOL modernization playbook](https://claude.com/blog/how-ai-helps-break-cost-barrier-cobol-modernization) positioning Claude Code as a direct replacement for legacy consulting teams. The same day, IBM stock dropped -13% (its worst single-day performance since October 2000). The workflow described is validated by independent research. It applies to any large legacy codebase (COBOL, Fortran, VB6, PL/I), not just COBOL.
 
 ### Why Legacy Modernization Is Hard
 
-The real cost isn't the migration itself — it's the **discovery phase**. Original developers have retired. Documentation is absent or wrong. Code has been patched for decades by engineers who never understood the full system. Finding what talks to what requires consultants billing by the hour.
+The real cost sits in the **discovery phase**, not the migration itself. Original developers have retired. Documentation is absent or wrong. Code has been patched for decades by engineers who never understood the full system. Finding what talks to what requires consultants billing by the hour.
 
 AI changes the economics by automating this exact phase.
 
 **COBOL context** (for scale reference):
 - ~220 billion lines of COBOL still in production (IBM estimate)
-- ~95% of US ATM transactions run on COBOL-based systems (Reuters/industry consensus — methodology varies by source)
+- ~95% of US ATM transactions run on COBOL-based systems (Reuters/industry consensus, methodology varies by source)
 - Modernization previously required multi-year, multi-team projects
 
 ### The 4-Step Workflow
@@ -22933,7 +22933,7 @@ AI changes the economics by automating this exact phase.
 
 ---
 
-**Step 1 — Automated Exploration & Discovery**
+**Step 1: Automated Exploration & Discovery**
 
 ```
 Map the entire codebase:
@@ -22953,7 +22953,7 @@ Map the entire codebase:
 
 ---
 
-**Step 2 — Risk Analysis & Opportunity Mapping**
+**Step 2: Risk Analysis & Opportunity Mapping**
 
 ```
 With the dependency map in hand:
@@ -22972,7 +22972,7 @@ With the dependency map in hand:
 
 ---
 
-**Step 3 — Strategic Planning**
+**Step 3: Strategic Planning**
 
 ```
 Human + AI collaboration:
@@ -22982,13 +22982,13 @@ Human + AI collaboration:
 - Design function-level tests for validation before migration begins
 ```
 
-> This phase is **not fully automatable** — business context requires human judgment.
+> This phase is **not fully automatable**: business context requires human judgment.
 > Hybrid human-AI workflows show 31% higher completion rates within initial time estimates
 > vs. purely automated approaches (WJAETS 2025).
 
 ---
 
-**Step 4 — Incremental Implementation**
+**Step 4: Incremental Implementation**
 
 ```
 Never migrate the whole system at once:
@@ -23001,7 +23001,7 @@ Never migrate the whole system at once:
 > Prompt pattern:
 > ```
 > "Translate [module X] to [target language].
->  Preserve exact business logic — no optimization yet.
+>  Preserve exact business logic: no optimization yet.
 >  Add a compatibility wrapper so both versions can run in parallel.
 >  Write tests that verify identical outputs for identical inputs."
 > ```
@@ -23020,7 +23020,7 @@ Never migrate the whole system at once:
 
 ### Realistic Expectations
 
-"Years to quarters" is real — but it's the **optimistic scenario**, not the average:
+"Years to quarters" is real, but it's the **optimistic scenario**, not the average:
 
 | Scenario | Timeline reduction | Source |
 |----------|-------------------|--------|
@@ -23033,10 +23033,10 @@ The average gains are real and significant. The headline numbers require favorab
 
 ### Anti-Patterns
 
-- **❌ Big bang migration** — Rewriting everything at once. No company has survived this at scale.
-- **❌ No parallel run** — Cutting over without a fallback. One undiscovered edge case = production outage.
-- **❌ Skipping discovery** — Starting to translate before mapping. You will break things you didn't know existed.
-- **❌ Trusting AI on business logic** — AI translates faithfully what it reads. If the original was wrong or context-dependent, the translation will be too.
+- **❌ Big bang migration**: Rewriting everything at once. No company has survived this at scale.
+- **❌ No parallel run**: Cutting over without a fallback. One undiscovered edge case = production outage.
+- **❌ Skipping discovery**: Starting to translate before mapping. You will break things you didn't know existed.
+- **❌ Trusting AI on business logic**: AI translates faithfully what it reads. If the original was wrong or context-dependent, the translation will be too.
 
 ### Feature-to-Code Anchoring: When You're Not Rewriting
 
@@ -23109,9 +23109,9 @@ It tells you where the code is, not what it does; no business rule gets extracte
 **Reading time**: 7 minutes
 **Skill level**: Week 2+
 **Status**: Research Preview (as of February 2026)
-**Availability**: Pro and Max plans only — not available on Team, Enterprise, or API keys
+**Availability**: Pro and Max plans only, not available on Team, Enterprise, or API keys
 
-Remote Control lets you monitor and control a local Claude Code session from a phone, tablet, or web browser — without migrating anything to the cloud. Your terminal keeps running locally; the mobile/web interface is a remote window onto that session.
+Remote Control lets you monitor and control a local Claude Code session from a phone, tablet, or web browser, without migrating anything to the cloud. Your terminal keeps running locally; the mobile/web interface is a remote window onto that session.
 
 > **Key difference from Session Teleportation (§9.16)**: Teleportation *migrates* a session (web → local). Remote Control *mirrors* a local session to a remote viewer. Execution always stays on your local machine.
 
@@ -23128,7 +23128,7 @@ Local terminal (running claude)
 Phone / tablet / browser (claude.ai/code or Claude app)
 ```
 
-- **Execution**: 100% local — your terminal does all the work
+- **Execution**: 100% local (your terminal does all the work)
 - **Security**: HTTPS outbound only, zero inbound ports, short-lived scoped credentials
 - **What you can do remotely**: Send messages, approve/deny tool calls, read responses
 
@@ -23141,7 +23141,7 @@ Phone / tablet / browser (claude.ai/code or Claude app)
 
 ### Two Ways to Start
 
-**Option A — From the command line (start a new session):**
+**Option A: From the command line (start a new session):**
 
 ```bash
 claude remote-control
@@ -23151,7 +23151,7 @@ claude remote-control
 #   --sandbox    Restrict to sandbox mode
 ```
 
-**Option B — From inside an active session:**
+**Option B: From inside an active session:**
 
 ```
 /remote-control
@@ -23166,7 +23166,7 @@ Once started, Claude Code displays:
 
 1. A **session URL** (open in any browser)
 2. Press **spacebar** to show a **QR code** (scan with your phone)
-3. Or open the **Claude app** (iOS / Android) — your active session appears automatically
+3. Or open the **Claude app** (iOS / Android): your active session appears automatically
 
 To enable remote control on every session by default:
 
@@ -23190,7 +23190,7 @@ To enable remote control on every session by default:
 | **Slash commands don't work remotely** | `/new`, `/compact`, etc. are treated as plain text in the remote UI |
 | **Pro/Max only** | Not available on Team, Enterprise, or API keys |
 
-> **⚠️ Slash commands limitation**: When you type `/new`, `/compact`, or any slash command in the remote interface (mobile app or browser), they are treated as plain text messages — not forwarded as commands to the local CLI. Use slash commands from your local terminal instead.
+> **⚠️ Slash commands limitation**: When you type `/new`, `/compact`, or any slash command in the remote interface (mobile app or browser), they are treated as plain text messages, not forwarded as commands to the local CLI. Use slash commands from your local terminal instead.
 
 ### Advanced Patterns (Community-Validated)
 
@@ -23241,7 +23241,7 @@ This gives you persistent sessions that survive closing your laptop. Combine 6-8
 
 **Quick summary:**
 
-- The session URL is a **live access key** — treat it like a password
+- The session URL is a **live access key**: treat it like a password
 - Anyone with the URL can send commands to your local Claude session while active
 - Short-lived credentials + HTTPS outbound-only limits the exposure window
 - Per-command approval prompts on mobile guard against accidental execution (not against active attackers)
@@ -23252,8 +23252,8 @@ This gives you persistent sessions that survive closing your laptop. Combine 6-8
 
 | Issue | Solution |
 |-------|----------|
-| Session not appearing in Claude app | Known bug (Research Preview) — use `claude.ai/code` in Safari instead (see below) |
-| QR code opens app but session not visible | Known bug on iOS — scan with native camera app, open in Safari rather than Claude app |
+| Session not appearing in Claude app | Known bug (Research Preview): use `claude.ai/code` in Safari instead (see below) |
+| QR code opens app but session not visible | Known bug on iOS: scan with native camera app, open in Safari rather than Claude app |
 | QR code not showing | Press spacebar after starting remote-control |
 | Slash commands not working | Type them in your local terminal instead |
 | Session expired | Reconnect: run `/rc` again |
@@ -23262,7 +23262,7 @@ This gives you persistent sessions that survive closing your laptop. Combine 6-8
 
 > **Known bug (Research Preview, March 2026)**: On iOS (confirmed iPhone), scanning the QR code opens the Claude app but the remote session doesn't appear in the session list. The bug also affects automatic session discovery in the Claude mobile app. MacStories confirmed this is inconsistent on non-local machines.
 >
-> **Most reliable workaround**: open `claude.ai/code` in Safari on your phone — your active session appears in the list there. Alternatively, copy the session URL from the terminal and paste it directly in Safari. Both paths bypass the app's sync bug entirely.
+> **Most reliable workaround**: open `claude.ai/code` in Safari on your phone. Your active session appears in the list there. Alternatively, copy the session URL from the terminal and paste it directly in Safari. Both paths bypass the app's sync bug entirely.
 
 ### Evolution Timeline
 
@@ -23311,7 +23311,7 @@ Before moving to Section 10 (Reference), verify you understand:
 
 ### What's Next?
 
-**Section 10 is your command reference** — bookmark it for quick lookups during daily work.
+**Section 10 is your command reference**: bookmark it for quick lookups during daily work.
 
 You've mastered the concepts and patterns. Now Section 10 gives you the technical reference for efficient execution.
 
@@ -23322,11 +23322,11 @@ You've mastered the concepts and patterns. Now Section 10 gives you the technica
 **Reading time**: 8 minutes
 **Skill level**: Month 1+
 
-> **See also**: [§9.10 Continuous Improvement Mindset](#910-continuous-improvement-mindset) — the conceptual foundation for this section. §9.23 is the operational layer: detecting when to act, and how.
+> **See also**: [§9.10 Continuous Improvement Mindset](#910-continuous-improvement-mindset): the conceptual foundation for this section. §9.23 is the operational layer: detecting when to act, and how.
 
-As your Claude Code setup matures — skills, agents, rules, CLAUDE.md — a silent failure mode emerges: **your configuration drifts away from how you actually work**. Skills accumulate assumptions that no longer hold. CLAUDE.md describes a codebase that has evolved. Rules cover edge cases that became the norm. The agent keeps making the same correctable mistakes because nothing captures what you learned last week.
+As your Claude Code setup matures (skills, agents, rules, CLAUDE.md), a silent failure mode emerges: **your configuration drifts away from how you actually work**. Skills accumulate assumptions that no longer hold. CLAUDE.md describes a codebase that has evolved. Rules cover edge cases that became the norm. The agent keeps making the same correctable mistakes because nothing captures what you learned last week.
 
-This section covers how to detect that drift early and close the loop — turning session observations into concrete config improvements.
+This section covers how to detect that drift early and close the loop: turning session observations into concrete config improvements.
 
 ---
 
@@ -23334,10 +23334,10 @@ This section covers how to detect that drift early and close the loop — turnin
 
 Staleness doesn't happen in one go. It accumulates from small gaps:
 
-- A skill was written for a v1 API that's now v2 — the skill still "works" but generates code that needs manual fixing every time
-- CLAUDE.md has context that's 6 months old — the agent reasons from a mental model of the codebase that no longer exists
-- A rule was added for an edge case that's now the default pattern — it fires constantly and you've stopped reading its output
-- You've corrected the same mistake across 5 sessions — but nothing ever captured that correction as a rule
+- A skill was written for a v1 API that's now v2: the skill still "works" but generates code that needs manual fixing every time
+- CLAUDE.md has context that's 6 months old: the agent reasons from a mental model of the codebase that no longer exists
+- A rule was added for an edge case that's now the default pattern: it fires constantly and you've stopped reading its output
+- You've corrected the same mistake across 5 sessions, but nothing ever captured that correction as a rule
 
 The signal is always there: you keep doing the same manual fixes. The work is identifying which fixes are worth encoding.
 
@@ -23407,7 +23407,7 @@ Skills accumulate. Without a lifecycle policy, you end up with 20+ skills where 
 
 **When to create a skill:**
 
-A task is worth encoding as a skill when you've done it manually 3+ times and the steps are stable enough to write down. If you're still figuring out the right approach, don't encode it yet — premature skills crystallize bad patterns.
+A task is worth encoding as a skill when you've done it manually 3+ times and the steps are stable enough to write down. If you're still figuring out the right approach, don't encode it yet: premature skills crystallize bad patterns.
 
 **When to update a skill (patch):**
 
@@ -23428,15 +23428,15 @@ breaking_since: null
 ```
 
 Use a simple policy:
-- **patch** (`x.x.Z`): rewording, clarification, examples added — no behavior change
+- **patch** (`x.x.Z`): rewording, clarification, examples added, no behavior change
 - **minor** (`x.Y.z`): new instructions, extended scope, new behavior opt-in
-- **major** (`X.y.z`): default behavior changes — annotate what broke and when in your CHANGELOG
+- **major** (`X.y.z`): default behavior changes, annotate what broke and when in your CHANGELOG
 
 **When to deprecate a skill:**
 
-Add a `deprecated: true` flag and a note explaining what replaced it. Don't delete immediately — other skills or commands may reference it.
+Add a `deprecated: true` flag and a note explaining what replaced it. Don't delete immediately: other skills or commands may reference it.
 
-**CI staleness check — CLAUDE.md vs source modules:**
+**CI staleness check: CLAUDE.md vs source modules:**
 
 If your CLAUDE.md is assembled from source modules (e.g., via a `pnpm ai:configure` pipeline), add a CI job to catch divergence before it causes silent failures:
 
@@ -23494,7 +23494,7 @@ The update loop formalizes what you already do informally: something doesn't wor
 └──────────────────────────────────────────────┘
 ```
 
-**The delta update principle:** when updating a skill or rule, make the smallest targeted edit that fixes the observed problem. Don't rewrite the whole skill — you'll lose what was working. One problem, one edit, one test.
+**The delta update principle:** when updating a skill or rule, make the smallest targeted edit that fixes the observed problem. Don't rewrite the whole skill: you'll lose what was working. One problem, one edit, one test.
 
 **Integrating into `/tech:handoff`:**
 
@@ -23531,19 +23531,19 @@ Run canary tests before merging skill changes, especially for skills that other 
 
 If you want to automate prompt optimization beyond the manual update loop, two frameworks are worth knowing:
 
-**DSPy** (Stanford, open-source) — optimizes prompts programmatically given a metric and a set of examples. Requires 20+ labeled examples per skill for reliable results. Useful when you have a well-defined task and enough session history to build a dataset. [dspy.ai](https://dspy.ai)
+**DSPy** (Stanford, open-source): optimizes prompts programmatically given a metric and a set of examples. Requires 20+ labeled examples per skill for reliable results. Useful when you have a well-defined task and enough session history to build a dataset. [dspy.ai](https://dspy.ai)
 
-**TextGrad** — treats prompts as differentiable parameters and iterates using LLM-generated feedback as "gradients". Better for creative or domain-specific tasks where the evaluation is qualitative. [github.com/zou-group/textgrad](https://github.com/zou-group/textgrad)
+**TextGrad**: treats prompts as differentiable parameters and iterates using LLM-generated feedback as "gradients". Better for creative or domain-specific tasks where the evaluation is qualitative. [github.com/zou-group/textgrad](https://github.com/zou-group/textgrad)
 
-Both require more setup than the manual loop above, and neither eliminates the need for human judgment on what to optimize. Start with the update loop and canary tests — they'll surface most of the value with a fraction of the overhead.
+Both require more setup than the manual loop above, and neither eliminates the need for human judgment on what to optimize. Start with the update loop and canary tests: they'll surface most of the value with a fraction of the overhead.
 
 ---
 
 **What's Next?**
 
-- [§9.10 Continuous Improvement Mindset](#910-continuous-improvement-mindset) — the decision framework for when to encode vs. accept as an edge case
-- [§Observability: Reading for Quality](#reading-for-quality-not-just-quantity) — qualitative JSONL analysis patterns
-- [§9.12 Git Best Practices](#912-git-best-practices--workflows) — version control for your config alongside your code
+- [§9.10 Continuous Improvement Mindset](#910-continuous-improvement-mindset): the decision framework for when to encode vs. accept as an edge case
+- [§Observability: Reading for Quality](#reading-for-quality-not-just-quantity): qualitative JSONL analysis patterns
+- [§9.12 Git Best Practices](#912-git-best-practices--workflows): version control for your config alongside your code
 
 ---
 
@@ -23552,17 +23552,17 @@ Both require more setup than the manual loop above, and neither eliminates the n
 **Reading time**: 6 minutes
 **Skill level**: Month 2+
 
-> **Relationship to §9.23**: The Update Loop handles *deliberate* config maintenance — you notice drift, you fix it. Instinct-based learning handles *incidental* capture — useful observations you'd otherwise forget by end of session.
+> **Relationship to §9.23**: The Update Loop handles *deliberate* config maintenance: you notice drift, you fix it. Instinct-based learning handles *incidental* capture: useful observations you'd otherwise forget by end of session.
 
 ### The Problem with Manual Learning
 
 Standard session-end prompts ("what did you learn this session?") produce verbose summaries that rarely get acted on. The friction between "observation" and "encoded rule" is high enough that most corrections never make it back into your config.
 
-What actually gets encoded: corrections you make twice, then a third time, until the repetition forces you to write a rule. That's too slow, and it only captures the painful patterns — not the useful ones.
+What actually gets encoded: corrections you make twice, then a third time, until the repetition forces you to write a rule. That's too slow, and it only captures the painful patterns, not the useful ones.
 
 ### What Are Instincts?
 
-**Instincts** are lightweight, low-commitment observations — candidate rules that haven't been validated yet. They sit below skills (stable, tested, promoted) and below memory (project context, decisions):
+**Instincts** are lightweight, low-commitment observations: candidate rules that haven't been validated yet. They sit below skills (stable, tested, promoted) and below memory (project context, decisions):
 
 ```
 Session observation
@@ -23580,7 +23580,7 @@ Each instinct tracks: **content** (the observation), **confidence** (0.0–1.0, 
 
 The key design choice: capture at the **Stop** hook, not at UserPromptSubmit.
 
-**Why Stop, not UserPromptSubmit**: UserPromptSubmit runs before every message — adding extraction logic there adds latency to every interaction. Stop runs once when the session ends — zero impact on session speed, and the full session context is available for pattern extraction.
+**Why Stop, not UserPromptSubmit**: UserPromptSubmit runs before every message: adding extraction logic there adds latency to every interaction. Stop runs once when the session ends: zero impact on session speed, and the full session context is available for pattern extraction.
 
 ```bash
 #!/bin/bash
@@ -23622,20 +23622,20 @@ claude --print "Convert this instinct into a CLAUDE.md rule:
 $(grep -A3 'content: "your instinct text"' ~/.claude/instincts/pending.yaml)"
 ```
 
-The promotion step stays manual by design — you decide what gets encoded. The pipeline reduces the friction of *capturing* observations, not the friction of *validating* them.
+The promotion step stays manual by design: you decide what gets encoded. The pipeline reduces the friction of *capturing* observations, not the friction of *validating* them.
 
 ### Practical Setup
 
 1. Create `~/.claude/instincts/pending.yaml` (start empty)
 2. Add `capture-instincts.sh` as a Stop hook in `settings.json`
-3. Review weekly — 5 minutes maximum
+3. Review weekly (5 minutes maximum)
 4. Promote 0–2 high-confidence instincts per week; delete the rest
 
 **What not to capture**: project-specific context (use memory), patterns you're already confident in (write the skill directly), one-off workarounds (let them go).
 
 > **Credit**: Instinct-based learning pipeline and the Stop hook capture pattern from [Everything Claude Code v2](https://github.com/affaan-m/everything-claude-code) (Affaan Mustafa). The confidence scoring, decay model, and instinct → skill evolution pipeline are their original contribution.
 
-> **See also**: [§9.23 Configuration Lifecycle & The Update Loop](#923-configuration-lifecycle--the-update-loop) — deliberate maintenance vs. incidental capture
+> **See also**: [§9.23 Configuration Lifecycle & The Update Loop](#923-configuration-lifecycle--the-update-loop): deliberate maintenance vs. incidental capture
 
 ---
 
@@ -23707,8 +23707,8 @@ A reliable session follows this sequence every time, not just at startup:
 | Step | Action | Subsystem |
 |------|--------|-----------|
 | 1. READ | Read AGENTS.md and CLAUDE.md | Instructions |
-| 2. INIT | Run `./init.sh` — verify environment is healthy | Environment |
-| 3. RESUME | Read `progress.md` — what happened last session | State |
+| 2. INIT | Run `./init.sh`: verify environment is healthy | Environment |
+| 3. RESUME | Read `progress.md`: what happened last session | State |
 | 4. SELECT | Pick one feature with `not_started` status from `feature_list.json` | State |
 | 5. EXECUTE | Implement only that feature | — |
 | 6. VERIFY | Run all three verification layers | Feedback |
@@ -23776,7 +23776,7 @@ echo "=== Environment ready ==="
 echo "Next: read feature_list.json and pick one not_started feature"
 ```
 
-`set -e` is non-negotiable. If install fails, the script stops. An agent that proceeds past a broken environment produces confusing errors for the rest of the session, and the root cause becomes difficult to isolate. Run it idempotently — calling it five times should produce the same result as calling it once.
+`set -e` is non-negotiable. If install fails, the script stops. An agent that proceeds past a broken environment produces confusing errors for the rest of the session, and the root cause becomes difficult to isolate. Run it idempotently: calling it five times should produce the same result as calling it once.
 
 ### progress.md: Session Continuity
 
@@ -24001,7 +24001,7 @@ This philosophy only applies when throughput is genuinely high. At normal develo
 
 > **Sources**: Session lifecycle, Verification Gap, WIP=1, feature_list.json, init.sh, and progress.md patterns from [Learn Harness Engineering](https://github.com/humanlayer/learn-harness-engineering) (HumanLayer, 2026). AGENTS.md-as-TOC, knowledge boundary principle, exec plans, docs/ structure, ephemeral observability stack, taste invariants, doc-gardening agent, anti-entropy model, layered domain architecture, and high-throughput merge philosophy from "Harness engineering: exploiting Codex in the agent era," Ryan Lopopolo, OpenAI Engineering blog, Feb 11, 2026 (https://openai.com/index/harness-engineering/).
 
-> **See also**: [§3.1 CLAUDE.md](#31-memory-files-claudemd) — instruction files, the Instructions subsystem. [§9.5 Tight Feedback Loops](#95-tight-feedback-loops) — automated feedback, the Feedback subsystem. [§9.24 Instinct-Based Continuous Learning](#924-instinct-based-continuous-learning) — capturing session observations across sessions.
+> **See also**: [§3.1 CLAUDE.md](#31-memory-files-claudemd): instruction files, the Instructions subsystem. [§9.5 Tight Feedback Loops](#95-tight-feedback-loops): automated feedback, the Feedback subsystem. [§9.24 Instinct-Based Continuous Learning](#924-instinct-based-continuous-learning): capturing session observations across sessions.
 
 ---
 
@@ -24140,14 +24140,14 @@ _Quick jump:_ [Commands Table](#101-commands-table) · [Keyboard Shortcuts](#102
 | Fix an error | [10.4 Troubleshooting](#104-troubleshooting) |
 | Quick daily reference | [10.5 Cheatsheet](#105-cheatsheet) |
 | Set up workflow | [10.6 Daily Workflow](#106-daily-workflow--checklists) |
-| **Copy ready-to-use templates** | **[examples/ directory](../examples/)** — Commands, hooks, agents |
+| **Copy ready-to-use templates** | **[examples/ directory](../examples/)**: Commands, hooks, agents |
 
 ### Most Common Lookups:
 - **Context full?** → [10.4.1 Context Issues](#context-issues)
 - **MCP not working?** → [10.4.4 MCP Troubleshooting](#mcp-issues)
 - **Need clean reinstall?** → [10.4.3 Full Reinstall](#full-clean-reinstall-procedures)
 
-**Usage tip**: Bookmark this section — you'll reference it often.
+**Usage tip**: Bookmark this section: you'll reference it often.
 
 ---
 
@@ -24366,7 +24366,7 @@ MCP servers add their own commands as `/mcp__<server>__<prompt>`, discovered fro
 
 | Shortcut | Action |
 |----------|--------|
-| `Space` (hold) | Push-to-talk — hold to speak, release to send (default binding) |
+| `Space` (hold) | Push-to-talk: hold to speak, release to send (default binding) |
 
 **Rebinding**: The `voice:pushToTalk` binding is configurable in `~/.claude/keybindings.json` (v2.1.71+). Add a custom binding if Space conflicts with your workflow:
 
@@ -24694,7 +24694,7 @@ Use this symptom-based guide for rapid issue identification and resolution:
 | MCP tool not found | Server not running | Check `mcp.json` config |
 | Agent not found | File naming | Check `.claude/agents/` |
 | Command not found | Path error | Check `.claude/commands/` |
-| Unexpected API charges despite active subscription | `ANTHROPIC_API_KEY` set in shell or `.env` bypasses subscription | Run `echo $ANTHROPIC_API_KEY` — if it returns a value, Claude Code is billing at API rates. Unset it from your shell profile to restore subscription billing. Run `claude /cost` to check spend in the current session. |
+| Unexpected API charges despite active subscription | `ANTHROPIC_API_KEY` set in shell or `.env` bypasses subscription | Run `echo $ANTHROPIC_API_KEY`: if it returns a value, Claude Code is billing at API rates. Unset it from your shell profile to restore subscription billing. Run `claude /cost` to check spend in the current session. |
 
 ### Context Recovery
 
@@ -24723,11 +24723,11 @@ Use this symptom-based guide for rapid issue identification and resolution:
 - Adjust hook rules if needed
 
 **"Unexpected API charges despite subscription"**
-- Run `echo $ANTHROPIC_API_KEY` in your shell — any output means Claude Code is routing via API billing, not your subscription
+- Run `echo $ANTHROPIC_API_KEY` in your shell: any output means Claude Code is routing via API billing, not your subscription
 - Remove the key from `~/.zshrc`, `~/.bashrc`, or `.env` files if subscription billing is intended
 - Use `claude /cost` (or `/usage` since v2.1.118) to check real-time spend in the current session
 - Use `npx ccusage` to review cross-session historical spend
-- See [§9.13 — The Interactive/Programmatic Billing Split](#the-interactiveprogrammatic-billing-split-effective-june-15-2026) for the full billing model and June 15 changes
+- See [§9.13: The Interactive/Programmatic Billing Split](#the-interactiveprogrammatic-billing-split-effective-june-15-2026) for the full billing model and June 15 changes
 
 ### MCP Server Issues
 
@@ -25399,7 +25399,7 @@ _Quick jump:_ [Why Complementarity](#111-why-complementarity-matters) · [Tool M
 
 ## 11.1 Why Complementarity Matters
 
-Claude Code is designed to be your **implementation partner** with deep codebase understanding. It deliberately doesn't try to do everything—and that's a strength.
+Claude Code is designed to be your **implementation partner** with deep codebase understanding. It deliberately doesn't try to do everything, and that's a strength.
 
 ### What Claude Code Does Best
 
@@ -25422,7 +25422,7 @@ Claude Code is designed to be your **implementation partner** with deep codebase
 | **Live browser prototyping** | No visual preview | v0.dev, Bolt (instant preview) |
 | **Rate limits / cost control** | Per-token billing, API limits | cc-copilot-bridge (flat-rate via Copilot) |
 
-The goal isn't replacement—it's **chaining the right tool for each step**.
+The goal is **chaining the right tool for each step**, not replacement.
 
 ## 11.2 Tool Matrix
 
@@ -25831,7 +25831,7 @@ For **battle-tested, ready-to-use configurations** from production environments:
 - **Strategic compaction skills**: Manual compaction suggestions to manage context growth
 - **Plugin ecosystem**: One-command installation for all configs
 
-**Positioning**: Complementary to this guide—we teach concepts ("why"), they provide production configs ("how").
+**Positioning**: Complementary to this guide. We teach concepts ("why"), they provide production configs ("how").
 
 **See also**: [Comprehensive evaluation](../docs/resource-evaluations/015-everything-claude-code-github-repo.md) (Score 5/5)
 
@@ -26028,9 +26028,9 @@ Before delegating heavy coding work to an agent, check whether your project is w
 
 **File**: [`tools/spec-completeness-audit.md`](../tools/spec-completeness-audit.md)
 
-**The problem**: agents don't fail because they lack capability — they fail because the spec is incomplete. They silently fill gaps from training priors (average public code). This audit finds the holes before you delegate.
+**The problem**: agents don't fail because they lack capability. They fail because the spec is incomplete. They silently fill gaps from training priors (average public code). This audit finds the holes before you delegate.
 
-**Framework** — 5 layers, 100 pts total:
+**Framework**: 5 layers, 100 pts total:
 
 | Layer | What it covers | Weight |
 |-------|---------------|--------|
@@ -26246,7 +26246,7 @@ Thumbs.db
 
 **Question**: Both tools use "Claude" in their name and I've seen buzz about both recently. Are they competitors? Which should I choose?
 
-**Short answer**: They serve completely different use cases. Not competitors—complementary tools for different audiences.
+**Short answer**: They serve completely different use cases. They're complementary tools for different audiences, not competitors.
 
 **Detailed comparison**:
 
@@ -26334,9 +26334,9 @@ Common misconceptions we've seen:
 **Reality check**: PM workflows with Claude Code are an **emerging area** with limited community validation. We currently have 1 practitioner report (the source practitioner noted they tried Claude Code but didn't adopt it long-term). If you're a PM using Claude Code successfully, [contribute your workflow](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/discussions) to help the community.
 
 **See also**:
-- [AI Ecosystem Guide](ecosystem/ai-ecosystem.md) — Complementary tools (Granola, Wispr Flow, ChatPRD, v0)
-- [Cowork Guide](https://github.com/FlorianBruniaux/claude-cowork-guide) — Claude Desktop for non-technical PMs
-- [Design-to-Code Workflow](workflows/design-to-code.md#for-product-managers) — PM perspective on Figma MCP
+- [AI Ecosystem Guide](ecosystem/ai-ecosystem.md): Complementary tools (Granola, Wispr Flow, ChatPRD, v0)
+- [Cowork Guide](https://github.com/FlorianBruniaux/claude-cowork-guide): Claude Desktop for non-technical PMs
+- [Design-to-Code Workflow](workflows/design-to-code.md#for-product-managers): PM perspective on Figma MCP
 
 ---
 

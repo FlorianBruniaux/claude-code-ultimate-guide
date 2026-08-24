@@ -6,10 +6,10 @@ tags: [workflow, architecture, design-patterns]
 
 # Exploration Before Implementation
 
-> **Confidence**: Tier 2 — Validated by practitioner studies (+20-30% decision quality, +40% alternatives identified).
+> **Confidence**: Tier 2, validated by practitioner studies (+20-30% decision quality, +40% alternatives identified).
 > **Source**: [MetalBear Engineering Blog](https://metalbear.com/blog/engineering-ai-use/), arXiv practitioner studies
 
-Before coding, ask Claude for multiple approaches with trade-offs. This prevents anchoring bias—the tendency to fixate on the first solution proposed.
+Before coding, ask Claude for multiple approaches with trade-offs. This prevents anchoring bias: the tendency to fixate on the first solution proposed.
 
 ---
 
@@ -317,7 +317,7 @@ User: Let's go with SSE. Now implement it.
 
 ## See Also
 
-- [plan-driven.md](./plan-driven.md) — For codebase exploration (/plan mode)
-- [iterative-refinement.md](./iterative-refinement.md) — Refine after choosing approach
-- [../examples/semantic-anchors/anchor-catalog.md](../../examples/semantic-anchors/anchor-catalog.md) — Precision vocabulary for prompts
-- [spec-first.md](./spec-first.md) — Define requirements before exploring
+- [plan-driven.md](./plan-driven.md): for codebase exploration (/plan mode)
+- [iterative-refinement.md](./iterative-refinement.md): refine after choosing approach
+- [../examples/semantic-anchors/anchor-catalog.md](../../examples/semantic-anchors/anchor-catalog.md): precision vocabulary for prompts
+- [spec-first.md](./spec-first.md): define requirements before exploring

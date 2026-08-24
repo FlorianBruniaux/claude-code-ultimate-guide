@@ -10,7 +10,7 @@ keywords:
 
 # Security Hardening Guide
 
-> **Confidence**: Tier 2 — Based on CVE disclosures, security research (2024-2026), and community validation
+> **Confidence**: Tier 2, based on CVE disclosures, security research (2024-2026), and community validation
 >
 > **Scope**: Active threats (attacks, injection, CVE). For data retention and privacy, see [data-privacy.md](./data-privacy.md)
 
@@ -70,20 +70,20 @@ This attack exploits the one-time approval model: once you approve an MCP, updat
 | **CVE-2025-49596** | Critical (9.4) | RCE in MCP Inspector tool | Update to patched version |
 | **CVE-2026-24052** | High | SSRF via domain validation bypass in WebFetch | Update to v1.0.111+ |
 | **CVE-2025-66032** | High | 8 command execution bypasses via blocklist flaws | Update to v1.0.93+ |
-| **ADVISORY-CC-2026-001** | High | Sandbox bypass — commands excluded from sandboxing bypass Bash permissions (no CVE assigned) | **Update to v2.1.34+ immediately** |
-| **CVE-2026-0755** | **Critical (9.8)** | RCE in gemini-mcp-tool — LLM-generated args passed to shell without validation; no auth, network-reachable | **No fix yet** — avoid using in production or on exposed networks |
-| **SNYK-PYTHON-MCPRUNPYTHON-15250607** | High | SSRF in mcp-run-python — Deno sandbox permits localhost access, enabling internal network pivoting | Restrict sandbox network permissions; block localhost range |
-| **CVE-2026-25725** | High | Claude Code sandbox escape — malicious code inside bubblewrap sandbox creates missing `.claude/settings.json` with SessionStart hooks that execute with host privileges on restart | Update to >= v2.1.2 (covered by v2.1.34+) |
-| **CVE-2026-25253** | High (8.8) | OpenClaw 1-click RCE — malicious link triggers WebSocket to attacker-controlled server, exfiltrating auth token; 17,500+ exposed instances found | Update OpenClaw to >= 2026.1.29; block public internet exposure |
+| **ADVISORY-CC-2026-001** | High | Sandbox bypass: commands excluded from sandboxing bypass Bash permissions (no CVE assigned) | **Update to v2.1.34+ immediately** |
+| **CVE-2026-0755** | **Critical (9.8)** | RCE in gemini-mcp-tool: LLM-generated args passed to shell without validation; no auth, network-reachable | **No fix yet**, avoid using in production or on exposed networks |
+| **SNYK-PYTHON-MCPRUNPYTHON-15250607** | High | SSRF in mcp-run-python: Deno sandbox permits localhost access, enabling internal network pivoting | Restrict sandbox network permissions; block localhost range |
+| **CVE-2026-25725** | High | Claude Code sandbox escape: malicious code inside bubblewrap sandbox creates missing `.claude/settings.json` with SessionStart hooks that execute with host privileges on restart | Update to >= v2.1.2 (covered by v2.1.34+) |
+| **CVE-2026-25253** | High (8.8) | OpenClaw 1-click RCE: malicious link triggers WebSocket to attacker-controlled server, exfiltrating auth token; 17,500+ exposed instances found | Update OpenClaw to >= 2026.1.29; block public internet exposure |
 | **CVE-2026-0757** | High | MCP Manager for Claude Desktop sandbox escape via command injection in execute-command with unsanitized MCP config objects | Restrict to trusted configs; check upstream for patch |
-| **CVE-2025-35028** | **Critical (9.1)** | HexStrike AI MCP Server — semicolon-prefixed arg causes OS command injection in EnhancedCommandExecutor, typically running as root; no auth required | **No fix yet** — avoid exposing to untrusted inputs/networks |
-| **CVE-2025-15061** | **Critical (9.8)** | Framelink Figma MCP Server — fetchWithRetry method executes attacker-controlled shell metacharacters; unauthenticated RCE | Update to latest patched version |
-| **CVE-2026-3484** | Medium (6.5) | nmap-mcp-server (PhialsBasement) — command injection in `child_process.exec` Nmap CLI handler; remotely exploitable | Apply patch commit `30a6b9e` |
-| **CVE-2026-33032** | **Critical (9.8)** | nginx-ui MCPwn — missing `AuthRequired()` on `/mcp_message` endpoint allows unauthenticated full nginx takeover in 2 HTTP requests; actively exploited, 2,689+ exposed instances | **Update to nginx-ui >= v2.3.4 immediately** |
-| **ADVISORY-MCP-STDIO-2026-001** | Critical | OX Security: MCP STDIO interface lacks input validation across all SDK languages — enables RCE in any MCP-integrated app that doesn't sanitize inputs; Anthropic considers this by design; 150M+ downloads affected | Sanitize all STDIO inputs; sandbox MCP services; see OX Security advisory |
-| **CVE-2026-25723** | High | Claude Code file-write sandbox bypass — piped sed/echo commands escaped project sandbox because command chaining wasn't validated | Update to v2.0.55+ |
-| **CVE-2026-33068** | High | Claude Code permission mode bypass — settings.json resolved before workspace trust dialog, allowing `bypassPermissions` to silently skip consent | Update to v2.1.53+ |
-| **ADVISORY-CC-2026-002** | Medium | Claude Code deny-rule bypass — all configured deny rules silently dropped when command exceeded 50 subcommands | **Update to v2.1.90+** |
+| **CVE-2025-35028** | **Critical (9.1)** | HexStrike AI MCP Server: semicolon-prefixed arg causes OS command injection in EnhancedCommandExecutor, typically running as root; no auth required | **No fix yet**, avoid exposing to untrusted inputs/networks |
+| **CVE-2025-15061** | **Critical (9.8)** | Framelink Figma MCP Server: fetchWithRetry method executes attacker-controlled shell metacharacters; unauthenticated RCE | Update to latest patched version |
+| **CVE-2026-3484** | Medium (6.5) | nmap-mcp-server (PhialsBasement): command injection in `child_process.exec` Nmap CLI handler; remotely exploitable | Apply patch commit `30a6b9e` |
+| **CVE-2026-33032** | **Critical (9.8)** | nginx-ui MCPwn: missing `AuthRequired()` on `/mcp_message` endpoint allows unauthenticated full nginx takeover in 2 HTTP requests; actively exploited, 2,689+ exposed instances | **Update to nginx-ui >= v2.3.4 immediately** |
+| **ADVISORY-MCP-STDIO-2026-001** | Critical | OX Security: MCP STDIO interface lacks input validation across all SDK languages, which enables RCE in any MCP-integrated app that doesn't sanitize inputs; Anthropic considers this by design; 150M+ downloads affected | Sanitize all STDIO inputs; sandbox MCP services; see OX Security advisory |
+| **CVE-2026-25723** | High | Claude Code file-write sandbox bypass: piped sed/echo commands escaped project sandbox because command chaining wasn't validated | Update to v2.0.55+ |
+| **CVE-2026-33068** | High | Claude Code permission mode bypass: settings.json resolved before workspace trust dialog, allowing `bypassPermissions` to silently skip consent | Update to v2.1.53+ |
+| **ADVISORY-CC-2026-002** | Medium | Claude Code deny-rule bypass: all configured deny rules silently dropped when command exceeded 50 subcommands | **Update to v2.1.90+** |
 | **CVE-2026-50548/50549** | **Critical (9.8 each)** | Cursor "DuneSlide" agent terminal sandbox escape (working-directory restriction bypass plus a symlink file-write escape when path canonicalization fails), letting zero-click prompt injection overwrite the sandbox binary and reach OS-level RCE | Update to Cursor Desktop 3.0+ |
 | **CVE-2026-12958/12957** | High (7.8) | "GhostApproval": a booby-trapped repo ships a file that is really a symlink to a sensitive path (`~/.ssh/authorized_keys`, agent config), so the agent writes attacker content there while the approval dialog shows a benign in-project path. Class flaw across Amazon Q, Cursor, Claude Code, Antigravity, Augment, Windsurf | Amazon Q language server >= 1.69.0; Cursor >= 3.0; never approve writes to symlinked paths. Anthropic disputes it applies to Claude Code (folder-trust equals consent) |
 | **CVE-2026-59950** | High | MCP Python SDK's deprecated WebSocket server transport skips Host/Origin validation on the handshake, so a hostile web page can drive a user's local MCP server via a cross-site WebSocket connection (auth bypass) | Update `mcp` (PyPI) to >= 1.28.1; stop using the deprecated `websocket_server` transport |
@@ -96,15 +96,15 @@ This attack exploits the one-time approval model: once you approve an MCP, updat
 
 **v2.1.34 Security Fix (Feb 2026)**: Claude Code v2.1.34 patched a sandbox bypass vulnerability where commands excluded from sandboxing could bypass Bash permission enforcement. **Upgrade immediately** if running v2.1.33 or earlier. Note: this is separate from CVE-2026-25725 (a different sandbox escape fixed later).
 
-**⚠️ CVE-2026-0755 (Feb 2026 — No Patch)**: Critical RCE in `gemini-mcp-tool` (CVSS 9.8). An attacker can send crafted JSON-RPC `CallTool` requests with malicious arguments that execute arbitrary code on the host machine with full service account privileges. No fix confirmed as of 2026-02-22. Do not expose gemini-mcp-tool to untrusted networks.
+**⚠️ CVE-2026-0755 (Feb 2026, No Patch)**: Critical RCE in `gemini-mcp-tool` (CVSS 9.8). An attacker can send crafted JSON-RPC `CallTool` requests with malicious arguments that execute arbitrary code on the host machine with full service account privileges. No fix confirmed as of 2026-02-22. Do not expose gemini-mcp-tool to untrusted networks.
 
 **⚠️ CVE-2025-35028 (No Patch)**: Critical RCE in HexStrike AI MCP Server (CVSS 9.1). Passing any argument starting with `;` to the API endpoint executes arbitrary OS commands, typically as root. No fix confirmed. Do not expose this server to untrusted inputs or networks.
 
-**⚠️ CVE-2025-15061 (Jan 2026)**: Critical RCE in Framelink Figma MCP Server (CVSS 9.8). The `fetchWithRetry` method passes unsanitized user input to shell — unauthenticated remote code execution. Update Figma MCP Server to the latest patched version immediately.
+**⚠️ CVE-2025-15061 (Jan 2026)**: Critical RCE in Framelink Figma MCP Server (CVSS 9.8). The `fetchWithRetry` method passes unsanitized user input to shell: unauthenticated remote code execution. Update Figma MCP Server to the latest patched version immediately.
 
-**⚠️ CVE-2026-33032 (MCPwn, April 2026 — Actively Exploited)**: Critical authentication bypass in nginx-ui's MCP integration (CVSS 9.8). The `/mcp_message` endpoint is missing the `AuthRequired()` middleware, allowing any network-adjacent attacker to invoke 12 destructive MCP tools — including nginx config write/reload — with zero authentication in two HTTP requests. Added to VulnCheck KEV April 13, 2026. 2,689+ publicly reachable instances confirmed. **Update nginx-ui to >= v2.3.4 immediately.** Chains with CVE-2026-27944 (unauthenticated `/api/backup` endpoint leaking SSL keys and credentials).
+**⚠️ CVE-2026-33032 (MCPwn, April 2026, Actively Exploited)**: Critical authentication bypass in nginx-ui's MCP integration (CVSS 9.8). The `/mcp_message` endpoint is missing the `AuthRequired()` middleware, allowing any network-adjacent attacker to invoke 12 destructive MCP tools, including nginx config write/reload, with zero authentication in two HTTP requests. Added to VulnCheck KEV April 13, 2026. 2,689+ publicly reachable instances confirmed. **Update nginx-ui to >= v2.3.4 immediately.** Chains with CVE-2026-27944 (unauthenticated `/api/backup` endpoint leaking SSL keys and credentials).
 
-**⚠️ CVE-2026-25253 (OpenClaw, Feb 2026)**: One-click RCE affecting OpenClaw/clawdbot/Moltbot (CVSS 8.8). A malicious link causes OpenClaw to automatically establish a WebSocket to an attacker-controlled server, leaking the auth token — which grants full system control since OpenClaw runs with filesystem and shell access. Over 17,500 internet-exposed instances identified. Update to >= 2026.1.29.
+**⚠️ CVE-2026-25253 (OpenClaw, Feb 2026)**: One-click RCE affecting OpenClaw/clawdbot/Moltbot (CVSS 8.8). A malicious link causes OpenClaw to automatically establish a WebSocket to an attacker-controlled server, leaking the auth token, which grants full system control since OpenClaw runs with filesystem and shell access. Over 17,500 internet-exposed instances identified. Update to >= 2026.1.29.
 
 **Source**: [Cymulate EscapeRoute](https://cymulate.com/blog/cve-2025-53109-53110-escaperoute-anthropic/), [Checkpoint MCPoison](https://research.checkpoint.com/2025/cursor-vulnerability-mcpoison/), [Cato CurXecute](https://www.catonetworks.com/blog/curxecute-rce/), [SentinelOne CVE-2026-24052](https://www.sentinelone.com/vulnerability-database/cve-2026-24052/), [Flatt Security](https://flatt.tech/research/posts/pwning-claude-code-in-8-different-ways/), [Penligent AI CVE-2026-0755](https://www.penligent.ai/hackinglabs/de/deep-analysis-of-gemini-mcp-tool-command-injection-cve-2026-0755-when-an-mcp-toolchain-hands-user-input-to-the-shell/), Claude Code CHANGELOG
 
@@ -189,11 +189,11 @@ Earlier research by [SafeDep](https://safedep.io/agent-skills-threat-model) esti
 **Source**: [Snyk ToxicSkills](https://snyk.io/fr/blog/toxicskills-malicious-ai-agent-skills-clawhub/)
 
 **Mitigations**:
-- **Scan before installing** — `mcp-scan` (Snyk, open-source) achieves 90-100% recall on confirmed malicious skills with 0% false positives on top-100 legitimate skills
-- **Review SKILL.md before installing** — Check `allowed-tools` for unexpected access (especially `Bash`)
-- **Validate with skills-ref** — `skills-ref validate ./skill-dir` checks spec compliance ([agentskills.io](https://agentskills.io))
-- **Pin skill versions** — Use specific commit hashes when installing from GitHub
-- **Audit scripts/** — Executable scripts bundled with skills are the highest-risk component
+- **Scan before installing**: `mcp-scan` (Snyk, open-source) achieves 90-100% recall on confirmed malicious skills with 0% false positives on top-100 legitimate skills
+- **Review SKILL.md before installing**: Check `allowed-tools` for unexpected access (especially `Bash`)
+- **Validate with skills-ref**: `skills-ref validate ./skill-dir` checks spec compliance ([agentskills.io](https://agentskills.io))
+- **Pin skill versions**: Use specific commit hashes when installing from GitHub
+- **Audit scripts/**: Executable scripts bundled with skills are the highest-risk component
 
 **Test prompt injection systematically before shipping an agent to production.** A practical baseline covers at least five categories: system message manipulation, structured-output attacks, role-play framing designed to talk the model out of a refusal, and multi-turn manipulation that builds trust across several exchanges before the payload lands. The same scrutiny applies to third-party skills and agent definition files: installing one from the internet without reading its contents first is a direct injection vector, no different in kind from running an unaudited npm package.
 
@@ -276,11 +276,11 @@ Block **all** access vectors, not just `Read`:
 
 Because `permissions.deny` alone cannot guarantee complete protection:
 
-1. **Store secrets outside project directories** — Use `~/.secrets/` or external vault
-2. **Use external secrets management** — AWS Secrets Manager, 1Password, HashiCorp Vault
-3. **Add PreToolUse hooks** — Secondary blocking layer (see [Section 2.3](#23-hook-stack-setup))
-4. **Never commit secrets** — Even "blocked" files can leak through other vectors
-5. **Review bash commands** — Manually inspect before approving execution
+1. **Store secrets outside project directories**: Use `~/.secrets/` or external vault
+2. **Use external secrets management**: AWS Secrets Manager, 1Password, HashiCorp Vault
+3. **Add PreToolUse hooks**: Secondary blocking layer (see [Section 2.3](#23-hook-stack-setup))
+4. **Never commit secrets**: Even "blocked" files can leak through other vectors
+5. **Review bash commands**: Manually inspect before approving execution
 
 > **Bottom line**: `permissions.deny` is necessary but not sufficient. Treat it as one layer in a defense-in-depth strategy, not a complete solution.
 
@@ -301,10 +301,10 @@ These protections work automatically without configuration. The fail-closed desi
 Before opening untrusted repositories, scan for injection vectors:
 
 **High-risk files to inspect**:
-- `README.md`, `SECURITY.md` — Hidden HTML comments with instructions
-- `package.json`, `pyproject.toml` — Malicious scripts in hooks
-- `.cursor/`, `.claude/` — Tampered configuration files
-- `CONTRIBUTING.md` — Social engineering instructions
+- `README.md`, `SECURITY.md`: Hidden HTML comments with instructions
+- `package.json`, `pyproject.toml`: Malicious scripts in hooks
+- `.cursor/`, `.claude/`: Tampered configuration files
+- `CONTRIBUTING.md`: Social engineering instructions
 
 **Quick scan command**:
 ```bash
@@ -475,7 +475,7 @@ Keep it on. Decline it for any repository you have not read.
 
 ### 1.7 Third-Party Command Wrappers & Shell Interceptors
 
-Any binary or function that sits between Claude Code and the actual CLI tool can read all command arguments and outputs — diffs, credentials printed by `gh auth status`, env vars echoed during builds, database URLs in psql connection strings. This includes token-saving wrappers like RTK, but also shell plugins and completion frameworks that are often installed and forgotten.
+Any binary or function that sits between Claude Code and the actual CLI tool can read all command arguments and outputs: diffs, credentials printed by `gh auth status`, env vars echoed during builds, database URLs in psql connection strings. This includes token-saving wrappers like RTK, but also shell plugins and completion frameworks that are often installed and forgotten.
 
 #### What Can Intercept Commands in an Agent Session
 
@@ -949,7 +949,7 @@ fi
 
 ### 3.5 AI Kill Switch & Containment Architecture
 
-> **Context**: Agentic coding tools operate at the developer's privilege level — anything you can do, the agent can do ([Fortune, Dec 2025](https://fortune.com/2025/12/15/ai-coding-tools-security-exploit-software/)). No model provider has fully solved prompt injection. Plan your containment accordingly.
+> **Context**: Agentic coding tools operate at the developer's privilege level: anything you can do, the agent can do ([Fortune, Dec 2025](https://fortune.com/2025/12/15/ai-coding-tools-security-exploit-software/)). No model provider has fully solved prompt injection. Plan your containment accordingly.
 
 **Three-level kill switch mapped to Claude Code:**
 
@@ -959,7 +959,7 @@ fi
 | **2. Velocity Governor** | Rate-limit or threshold triggers | Custom hook tracking command frequency, `--allowedTools` flag to restrict tool set | Agent acting erratically, too many changes |
 | **3. Global Hard Stop** | Kill everything immediately | `Ctrl+C` / `Esc`, `claude config set --disable`, uninstall | Confirmed compromise, emergency |
 
-**Practical example — Level 2 velocity governor hook:**
+**Practical example: Level 2 velocity governor hook**
 
 ```bash
 #!/bin/bash
@@ -1033,7 +1033,7 @@ echo -e "test\u200Bhidden" | grep -P '[\x{200B}-\x{200D}]'
 
 The most high-ROI use of Claude Code for security: systematic review of every PR before merge. Takes 2-3 minutes, catches issues before they reach production.
 
-#### Setup — Add to your PR checklist
+#### Setup: Add to your PR checklist
 
 ```bash
 # Run from repo root before merging any PR
@@ -1101,7 +1101,7 @@ exit 0
 
 Beyond securing Claude Code itself, Anthropic offers a dedicated vulnerability scanning feature: **Claude Code Security**.
 
-> ⚠️ **Research preview** — Access via waitlist only. Not yet in GA. Details: [claude.com/solutions/claude-code-security](https://claude.com/solutions/claude-code-security)
+> ⚠️ **Research preview**: Access via waitlist only. Not yet in GA. Details: [claude.com/solutions/claude-code-security](https://claude.com/solutions/claude-code-security)
 
 ### What it does
 
@@ -1129,16 +1129,16 @@ Beyond securing Claude Code itself, Anthropic offers a dedicated vulnerability s
 
 ## See Also
 
-- [Enterprise AI Governance](./enterprise-governance.md) — Org-level MCP governance (approval workflow, registry, guardrail tiers). This guide covers individual MCP vetting; that guide covers org-level policy.
-- [Data Privacy Guide](./data-privacy.md) — Retention policies, compliance, what data leaves your machine
-- [AI Traceability](../ops/ai-traceability.md) — PromptPwnd vulnerability, CI/CD security, attribution policies
-- [Security Checklist Skill](../../examples/skills/security-checklist.md) — OWASP Top 10 patterns for code review
-- [Security Auditor Agent](../../examples/agents/security-auditor.md) — Automated vulnerability detection (read-only)
-- [Security Patcher Agent](../../examples/agents/security-patcher.md) — Applies patches from audit findings (human approval required)
-- [Security Gate Hook](../../examples/hooks/bash/security-gate.sh) — Blocks vulnerable code patterns at write time (7 patterns)
-- [MCP Registry Template](../../examples/scripts/mcp-registry-template.yaml) — YAML format for tracking approved MCPs at org level
-- [Ultimate Guide §7.4](#74-security-hooks) — Hook system basics
-- [Ultimate Guide §8.6](#86-mcp-security) — MCP security overview
+- [Enterprise AI Governance](./enterprise-governance.md): Org-level MCP governance (approval workflow, registry, guardrail tiers). This guide covers individual MCP vetting; that guide covers org-level policy.
+- [Data Privacy Guide](./data-privacy.md): Retention policies, compliance, what data leaves your machine
+- [AI Traceability](../ops/ai-traceability.md): PromptPwnd vulnerability, CI/CD security, attribution policies
+- [Security Checklist Skill](../../examples/skills/security-checklist.md): OWASP Top 10 patterns for code review
+- [Security Auditor Agent](../../examples/agents/security-auditor.md): Automated vulnerability detection (read-only)
+- [Security Patcher Agent](../../examples/agents/security-patcher.md): Applies patches from audit findings (human approval required)
+- [Security Gate Hook](../../examples/hooks/bash/security-gate.sh): Blocks vulnerable code patterns at write time (7 patterns)
+- [MCP Registry Template](../../examples/scripts/mcp-registry-template.yaml): YAML format for tracking approved MCPs at org level
+- [Ultimate Guide §7.4](#74-security-hooks): Hook system basics
+- [Ultimate Guide §8.6](#86-mcp-security): MCP security overview
 
 ## References
 
@@ -1176,7 +1176,7 @@ Local terminal ──HTTPS outbound──► Anthropic relay ──► Mobile/Br
 
 | Threat | Risk | Mitigation |
 |--------|------|------------|
-| **Session URL leak** | Full terminal access for whoever holds the URL | Treat URL as password — don't share in Slack/logs/screenshots |
+| **Session URL leak** | Full terminal access for whoever holds the URL | Treat URL as password: don't share in Slack/logs/screenshots |
 | **RCE via remote commands** | Attacker who gets the URL can run commands if they approve tool calls | Per-command approval prompts on mobile (not foolproof against active attacker) |
 | **Corporate policy violation** | Personal Claude account on corporate machine routes traffic through Anthropic relay | Verify policy before enabling, even on personal plans |
 | **Persistent session exposure** | Long-running sessions increase window of exposure | Close sessions when done; ~10min auto-timeout on disconnect |

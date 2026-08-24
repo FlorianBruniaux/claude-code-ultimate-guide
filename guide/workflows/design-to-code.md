@@ -6,7 +6,7 @@ tags: [workflow, mcp, integration]
 
 # Design-to-Code Workflow with Figma MCP
 
-> **Confidence**: Tier 2 — Based on documented production case studies (Parallel HQ, builder.io), MCP server specifications, and community workflows.
+> **Confidence**: Tier 2, based on documented production case studies (Parallel HQ, builder.io), MCP server specifications, and community workflows.
 
 Automated design system implementation using Figma MCP Server enables Product Designers to hand off production-ready specifications to Claude Code, which implements components maintaining 1:1 design-code parity.
 
@@ -829,14 +829,14 @@ Claude output:
 
 ### Related Workflows
 
-- [Working with Images](#working-with-images-and-screenshots) — Claude Code image analysis
-- [ASCII Art & Wireframing](#wireframing-tools-for-ai-development) — Low-fidelity design iteration
-- [Playwright MCP](#playwright-browser-automation) — Visual regression testing
+- [Working with Images](#working-with-images-and-screenshots): Claude Code image analysis
+- [ASCII Art & Wireframing](#wireframing-tools-for-ai-development): low-fidelity design iteration
+- [Playwright MCP](#playwright-browser-automation): visual regression testing
 
 ---
 
 ## See Also
 
-- [Figma MCP section](#figma-mcp-integration) — Main guide Figma MCP section
-- [examples/claude-md/product-designer.md](../../examples/claude-md/product-designer.md) — Product Designer CLAUDE.md template
-- [../cheatsheet.md](../cheatsheet.md) — Quick reference
+- [Figma MCP section](#figma-mcp-integration): main guide Figma MCP section
+- [examples/claude-md/product-designer.md](../../examples/claude-md/product-designer.md): Product Designer CLAUDE.md template
+- [../cheatsheet.md](../cheatsheet.md): quick reference

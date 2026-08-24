@@ -1,15 +1,15 @@
 ---
-title: "Claude Code — Visual Reference"
+title: "Claude Code: Visual Reference"
 description: "ASCII diagrams consolidating key Claude Code concepts in one visual overview"
 tags: [reference, architecture, cheatsheet]
 ---
 
-# Claude Code — Visual Reference
+# Claude Code: Visual Reference
 
 All diagrams in one place. Quick visual overview of Claude Code's key concepts.
 For detailed docs → [Ultimate Guide](../ultimate-guide.md) | [Cheatsheet](../cheatsheet.md)
 
-> **Interactive Mermaid diagrams available**: For 40 interactive diagrams covering model selection, agent lifecycle, memory hierarchy, multi-agent patterns, security threats, and more — see **[guide/diagrams/](../diagrams/)**. This file contains ASCII versions of key concepts.
+> **Interactive Mermaid diagrams available**: For 40 interactive diagrams covering model selection, agent lifecycle, memory hierarchy, multi-agent patterns, security threats, and more, see **[guide/diagrams/](../diagrams/)**. This file contains ASCII versions of key concepts.
 
 > **20 diagrams**: 8 new (this file) + 12 from existing guides, all consolidated here.
 
@@ -73,10 +73,10 @@ Context Usage
 ```
 
 **Actions by zone:**
-- **Green (0-50%)** — Full speed. Read files, explore freely.
-- **Yellow (50-70%)** — Be selective. Avoid unnecessary file reads.
-- **Orange (70-90%)** — Run `/compact` immediately. Context is degrading.
-- **Red (90%+)** — Run `/clear` and restart. Responses are unreliable.
+- **Green (0-50%)**: Full speed. Read files, explore freely.
+- **Yellow (50-70%)**: Be selective. Avoid unnecessary file reads.
+- **Orange (70-90%)**: Run `/compact` immediately. Context is degrading.
+- **Red (90%+)**: Run `/clear` and restart. Responses are unreliable.
 
 → Source: [ultimate-guide.md:1335](../ultimate-guide.md)
 
@@ -101,14 +101,14 @@ Cycle through modes with `Shift+Tab`:
 
 | Mode | Use when... | Risk level |
 |------|-------------|------------|
-| **Default** | Normal development — review each change | Low |
+| **Default** | Normal development: review each change | Low |
 | **Auto-accept** | Trusted tasks (formatting, refactoring) | Medium |
-| **Plan mode** | Complex/risky operations — explore safely first | None |
+| **Plan mode** | Complex/risky operations: explore safely first | None |
 
 **Shortcuts:**
-- `Shift+Tab` — Cycle to next mode
-- `Shift+Tab × 2` — Jump to plan mode from default
-- `/plan` — Enter plan mode directly
+- `Shift+Tab`: Cycle to next mode
+- `Shift+Tab × 2`: Jump to plan mode from default
+- `/plan`: Enter plan mode directly
 - Exit plan mode: approve the plan Claude presents, or press `Shift+Tab` (there is no `/execute` command)
 
 → Source: [ultimate-guide.md:760](../ultimate-guide.md)
@@ -138,7 +138,7 @@ The recommended workflow for every task:
 **Key principles:**
 - **Step 2**: Always check context before starting. If >70%, `/compact` first.
 - **Step 3**: Use plan mode for anything risky, complex, or multi-file.
-- **Step 4**: Be specific — vague prompts produce vague results.
+- **Step 4**: Be specific. Vague prompts produce vague results.
 - **Step 5**: Read every diff. Never blindly accept.
 - **Step 9**: Compact after each task to stay in the green zone.
 
@@ -180,7 +180,7 @@ What do you need?
 
 ## 5. Master Loop
 
-The entire architecture is a simple `while` loop — no DAG, no classifier, no RAG.
+The entire architecture is a simple `while` loop: no DAG, no classifier, no RAG.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐

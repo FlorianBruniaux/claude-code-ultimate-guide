@@ -1,14 +1,14 @@
 ---
-title: "Claude Code — Context Engineering Diagrams"
+title: "Claude Code: Context Engineering Diagrams"
 description: "3-layer context system, adherence degradation, modular architecture, rule placement decision tree"
 tags: [context-engineering, configuration, architecture, modular, adherence]
 ---
 
 # Context Engineering
 
-How to fill Claude's context window with the right information at the right time — and how architectural choices determine whether Claude consistently follows your conventions.
+How to fill Claude's context window with the right information at the right time, and how architectural choices determine whether Claude consistently follows your conventions.
 
-> "Context engineering is the art of filling the context window with the right information at the right time." — Andrej Karpathy
+> "Context engineering is the art of filling the context window with the right information at the right time." (Andrej Karpathy)
 
 ---
 
@@ -85,13 +85,13 @@ More specific beats less specific at the same level
 
 </details>
 
-> **Source**: [Context Engineering — Configuration Hierarchy](../core/context-engineering.md#3-configuration-hierarchy)
+> **Source**: [Context Engineering: Configuration Hierarchy](../core/context-engineering.md#3-configuration-hierarchy)
 
 ---
 
 ### Context Budget & Adherence Degradation
 
-Adherence to CLAUDE.md rules degrades predictably as file size grows. Beyond ~150 rules, models begin selectively ignoring instructions. Path-scoping is the primary fix — it reduces always-on context by 40-50% without losing coverage.
+Adherence to CLAUDE.md rules degrades predictably as file size grows. Beyond ~150 rules, models begin selectively ignoring instructions. Path-scoping is the primary fix, reducing always-on context by 40-50% without losing coverage.
 
 ```mermaid
 flowchart LR
@@ -144,7 +144,7 @@ Result: 40-50% always-on context reduction, adherence back in green zone
 
 </details>
 
-> **Source**: [Context Budget](../core/context-engineering.md#2-the-context-budget) — Adherence data: HumanLayer production data (15-25% improvement with structured context)
+> **Source**: [Context Budget](../core/context-engineering.md#2-the-context-budget). Adherence data: HumanLayer production data (15-25% improvement with structured context)
 
 ---
 
@@ -211,7 +211,7 @@ Result: 40-50% reduction in always-on tokens, full coverage per subsystem
 
 </details>
 
-> **Source**: [Modular Architecture](../core/context-engineering.md#4-modular-architecture) — Path-scoping pattern
+> **Source**: [Modular Architecture](../core/context-engineering.md#4-modular-architecture): path-scoping pattern
 
 ---
 
@@ -282,4 +282,4 @@ Rule of thumb: if you say it more than once, promote it to a permanent layer.
 
 </details>
 
-> **Source**: [Rule Placement](../core/context-engineering.md#3-configuration-hierarchy) — Decision tree from §3
+> **Source**: [Rule Placement](../core/context-engineering.md#3-configuration-hierarchy): decision tree from §3

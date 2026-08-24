@@ -6,7 +6,7 @@ tags: [workflow, guide, integration]
 
 # PDF Generation with Claude Code
 
-> **Confidence**: Tier 2 — Based on production-tested workflow with Quarto/Typst stack.
+> **Confidence**: Tier 2. Based on a production-tested workflow with the Quarto/Typst stack.
 
 Generate professional PDFs (documentation, whitepapers, reports) using Claude Code with modern typography and design.
 
@@ -508,5 +508,5 @@ done
 - [Quarto Documentation](https://quarto.org/docs/guide/)
 - [Typst Documentation](https://typst.app/docs/)
 - [Quarto + Typst Guide](https://quarto.org/docs/output-formats/typst.html)
-- [examples/skills/pdf-generator.md](../../examples/skills/pdf-generator.md) — Skill template
-- [whitepapers/README.md](../../whitepapers/README.md) — Production example
+- [examples/skills/pdf-generator.md](../../examples/skills/pdf-generator.md): Skill template
+- [whitepapers/README.md](../../whitepapers/README.md): Production example

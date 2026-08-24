@@ -58,7 +58,7 @@ La règle de la communauté : 200K + RAG par défaut, 1M Opus réservé aux cas 
 
 ## Activation (API)
 
-> **Plans Claude Code Max, Team et Enterprise** : le contexte 1M est activé automatiquement depuis v2.1.75 — aucun header nécessaire. La section ci-dessous concerne uniquement l'accès API direct (appels Anthropic hors CLI Claude Code).
+> **Plans Claude Code Max, Team et Enterprise** : le contexte 1M est activé automatiquement depuis v2.1.75, aucun header nécessaire. La section ci-dessous concerne uniquement l'accès API direct (appels Anthropic hors CLI Claude Code).
 
 ```python
 response = client.messages.create(

@@ -57,11 +57,11 @@ Rules scoped by path (paths:) or global
 
 ## Strategies by Scenario
 
-**Long session (refactor)** — Make regular checkpoints with `/compact` every 30 min. Save important decisions in `CLAUDE.md`.
+**Long session (refactor)**: Make regular checkpoints with `/compact` every 30 min. Save important decisions in `CLAUDE.md`.
 
-**Complex debugging** — Provide only the relevant files with `@file`. Avoid loading the entire project at once.
+**Complex debugging**: Provide only the relevant files with `@file`. Avoid loading the entire project at once.
 
-**Multi-file** — Use agents (`--agent`) to delegate: each sub-agent has its own isolated context.
+**Multi-file**: Use agents (`--agent`) to delegate: each sub-agent has its own isolated context.
 
 ## What Consumes the Most
 
@@ -87,4 +87,4 @@ and the team decided after many debates to...
 
 ## Common Anti-patterns
 
-Do not paste large JSON or raw logs into the prompt — use a temporary file and `@file` instead. Do not ignore context warnings: at 85%+, response quality degrades noticeably.
+Do not paste large JSON or raw logs into the prompt. Use a temporary file and `@file` instead. Do not ignore context warnings: at 85%+, response quality degrades noticeably.

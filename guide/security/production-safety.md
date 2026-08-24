@@ -914,13 +914,13 @@ Team settings take precedence, but individuals can opt-in to stricter rules.
 
 ## See Also
 
-- [Ultimate Guide §9.12 Git Best Practices](#912-git-best-practices-workflows) — Commit workflow, Plan → Act pattern
-- [Security Hardening Guide](./security-hardening.md) — MCP security, secret protection, hook stack
-- [Data Privacy Guide](./data-privacy.md) — MCP database risks, retention policies
-- [Enterprise AI Governance](./enterprise-governance.md) — Org-level governance: usage charters, MCP approval workflow, guardrail tiers, compliance
-- [Adoption Approaches](../roles/adoption-approaches.md) — Team setup, shared conventions, enterprise rollout
-- [Plan Mode](#23-plan-mode) — Safe exploration before execution
-- [Permissions System](#33-settings-permissions) — Allow/deny rules, hooks
+- [Ultimate Guide §9.12 Git Best Practices](#912-git-best-practices-workflows): Commit workflow, Plan → Act pattern
+- [Security Hardening Guide](./security-hardening.md): MCP security, secret protection, hook stack
+- [Data Privacy Guide](./data-privacy.md): MCP database risks, retention policies
+- [Enterprise AI Governance](./enterprise-governance.md): Org-level governance, usage charters, MCP approval workflow, guardrail tiers, compliance
+- [Adoption Approaches](../roles/adoption-approaches.md): Team setup, shared conventions, enterprise rollout
+- [Plan Mode](#23-plan-mode): Safe exploration before execution
+- [Permissions System](#33-settings-permissions): Allow/deny rules, hooks
 
 ---
 
@@ -981,7 +981,7 @@ After expiry: revert to standard rules.
 
 ### The Problem
 
-Autonomous agent loops — a Claude session running unattended for hours, processing a queue, monitoring a system — have a failure mode that's hard to debug: the process *appears* to be running but has silently stalled. No error. No exit code. Just nothing happening, consuming your API budget.
+Autonomous agent loops (a Claude session running unattended for hours, processing a queue, monitoring a system) have a failure mode that's hard to debug: the process *appears* to be running but has silently stalled. No error. No exit code. Just nothing happening, consuming your API budget.
 
 This happens when:
 - Claude enters a reasoning loop with no exit condition
@@ -990,13 +990,13 @@ This happens when:
 
 ### The Rule
 
-For any autonomous session expected to run longer than a few minutes, implement a heartbeat mechanism. If the heartbeat stops, kill the entire **process group** — not just the parent process.
+For any autonomous session expected to run longer than a few minutes, implement a heartbeat mechanism. If the heartbeat stops, kill the entire **process group**, not just the parent process.
 
 **Why process group, not just parent**: Claude Code spawns child processes (shell commands, tool calls). Killing only the parent leaves orphaned children consuming resources and potentially taking actions without oversight.
 
 ### Implementation
 
-**Heartbeat writer** — runs inside the autonomous loop as a PostToolUse hook:
+**Heartbeat writer**: runs inside the autonomous loop as a PostToolUse hook:
 
 ```bash
 #!/bin/bash
@@ -1007,7 +1007,7 @@ HEARTBEAT_FILE="${CLAUDE_HEARTBEAT_FILE:-/tmp/claude-heartbeat-$$}"
 date +%s > "$HEARTBEAT_FILE"
 ```
 
-**Dead-man watchdog** — runs as a separate process alongside Claude:
+**Dead-man watchdog**: runs as a separate process alongside Claude:
 
 ```bash
 #!/bin/bash
@@ -1081,8 +1081,8 @@ Start at 30s and increase only when you observe legitimate pauses longer than yo
 
 ### When NOT to Use This
 
-- Interactive sessions (you're watching) — the watchdog adds no value
-- Tasks under 5 minutes — setup overhead isn't justified
+- Interactive sessions (you're watching): the watchdog adds no value
+- Tasks under 5 minutes: setup overhead isn't justified
 - Pipelines where failure is expected and handled by retry logic
 
 > **Credit**: Heartbeat dead-man switch pattern for autonomous agents from [Everything Claude Code Security Guide](https://github.com/affaan-m/everything-claude-code) (Affaan Mustafa). The process-group kill and watchdog separation are their contributions.

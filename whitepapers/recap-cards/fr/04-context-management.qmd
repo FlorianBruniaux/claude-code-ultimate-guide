@@ -59,11 +59,11 @@ Rules scopées par chemin (paths:) ou globales
 
 ## Stratégies par Scénario
 
-**Session longue (refacto)** — Faire des checkpoints réguliers avec `/compact` tous les 30 min. Sauvegarder les décisions importantes dans `CLAUDE.md`.
+**Session longue (refacto)** : Faire des checkpoints réguliers avec `/compact` tous les 30 min. Sauvegarder les décisions importantes dans `CLAUDE.md`.
 
-**Débogage complexe** — Donner uniquement les fichiers pertinents avec `@fichier`. Éviter d'ouvrir tout le projet d'un coup.
+**Débogage complexe** : Donner uniquement les fichiers pertinents avec `@fichier`. Éviter d'ouvrir tout le projet d'un coup.
 
-**Multi-fichiers** — Utiliser les agents (`--agent`) pour déléguer : chaque sous-agent a son propre contexte isolé.
+**Multi-fichiers** : Utiliser les agents (`--agent`) pour déléguer : chaque sous-agent a son propre contexte isolé.
 
 ## Ce qui Consomme le Plus
 
@@ -89,4 +89,4 @@ and the team decided after many debates to...
 
 ## Anti-patterns Fréquents
 
-Ne pas coller de gros JSON ou logs bruts dans le prompt — utiliser plutôt un fichier temporaire et `@fichier`. Ne pas ignorer les avertissements de contexte : à 85%+, la qualité des réponses se dégrade visiblement.
+Ne pas coller de gros JSON ou logs bruts dans le prompt. Utiliser plutôt un fichier temporaire et `@fichier`. Ne pas ignorer les avertissements de contexte : à 85%+, la qualité des réponses se dégrade visiblement.

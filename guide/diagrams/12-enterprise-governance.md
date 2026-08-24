@@ -1,20 +1,20 @@
 ---
-title: "Claude Code — Enterprise Governance Diagrams"
+title: "Claude Code: Enterprise Governance Diagrams"
 description: "Governance risk tiers, MCP approval workflow, guardrail tier selection"
 tags: [security, enterprise, governance, compliance, mcp]
 ---
 
 # Enterprise Governance
 
-Org-level patterns for teams deploying Claude Code at scale — usage tiers, MCP approval workflows, and guardrail configurations.
+Org-level patterns for teams deploying Claude Code at scale: usage tiers, MCP approval workflows, and guardrail configurations.
 
 > **Audience**: Tech leads, engineering managers, security officers. For individual dev security see [Security & Production](./08-security-and-production.md).
 
 ---
 
-### Governance Risk Tiers — What to Control and When
+### Governance Risk Tiers: What to Control and When
 
-Not everything needs heavy governance. This decision tree routes your context to the right control level based on actual risk — from personal dev workflow (minimal) to regulated environments (full compliance stack).
+Not everything needs heavy governance. This decision tree routes your context to the right control level based on actual risk, from personal dev workflow (minimal) to regulated environments (full compliance stack).
 
 ```mermaid
 flowchart TD
@@ -73,7 +73,7 @@ You CANNOT control: personal ~/.claude, personal API key model choice, personal 
 
 </details>
 
-> **Source**: [Enterprise Governance](../security/enterprise-governance.md) — §1 Governance Split, §4 Guardrail Tiers
+> **Source**: [Enterprise Governance](../security/enterprise-governance.md), §1 Governance Split, §4 Guardrail Tiers
 
 ---
 
@@ -138,7 +138,7 @@ Monitor every 30 days:
 
 </details>
 
-> **Source**: [MCP Governance Workflow](../security/enterprise-governance.md#3-mcp-governance-workflow) — §3.1 Approval Workflow
+> **Source**: [MCP Governance Workflow](../security/enterprise-governance.md#3-mcp-governance-workflow), §3.1 Approval Workflow
 
 ---
 
@@ -205,4 +205,4 @@ Not in prompts, not in files Claude reads, not as examples.
 
 </details>
 
-> **Source**: [AI Usage Charter](../security/enterprise-governance.md#2-ai-usage-charter) — §2.1 Data Classification
+> **Source**: [AI Usage Charter](../security/enterprise-governance.md#2-ai-usage-charter), §2.1 Data Classification

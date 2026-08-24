@@ -68,7 +68,7 @@ response = client.messages.create(
 )
 ```
 
-For direct API access only. Claude Code Max/Team/Enterprise plans have 1M enabled automatically — no header needed. Without this header on direct API calls, requests exceeding 200K tokens return an error even on tier 4 accounts.
+For direct API access only. Claude Code Max/Team/Enterprise plans have 1M enabled automatically, no header needed. Without this header on direct API calls, requests exceeding 200K tokens return an error even on tier 4 accounts.
 
 ## Recommended Pattern
 

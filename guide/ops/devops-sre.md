@@ -314,7 +314,7 @@ Understanding limitations prevents frustration and unsafe reliance.
 - **Highly confidential incidents**: Data breach investigation (legal implications)
 - **Simple, obvious fixes**: If you know the answer, just do it
 - **Compliance-restricted environments**: Check if AI tools are allowed
-- **AI-specific security incidents**: Prompt injection detected, MCP compromised, agent exfiltrating data → See [Security Hardening — Response](../security/security-hardening.md#part-3-response-when-things-go-wrong) for dedicated procedures (kill switch architecture, containment levels, incident timelines)
+- **AI-specific security incidents**: Prompt injection detected, MCP compromised, agent exfiltrating data → See [Security Hardening: Response](../security/security-hardening.md#part-3-response-when-things-go-wrong) for dedicated procedures (kill switch architecture, containment levels, incident timelines)
 
 ### When Claude Excels
 
@@ -493,7 +493,7 @@ Output: Prioritized prevention measures, effort estimates, ownership suggestions
 - Postmortem completion: 95% within 24 hours
 - Knowledge sharing: Claude-generated runbooks accessible to all
 
-**Key Insight**: Biggest gains weren't speed—they were consistency and documentation.
+**Key Insight**: The biggest gains were consistency and documentation, not speed.
 
 ---
 

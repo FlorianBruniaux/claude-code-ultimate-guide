@@ -89,16 +89,16 @@ Skills are triggered like commands, by their name:
 /design-patterns detect     # With argument
 ```
 
-Agents can preload skills via the `skills:` field in their frontmatter — the content is injected into the agent's context at startup.
+Agents can preload skills via the `skills:` field in their frontmatter. The content is injected into the agent's context at startup.
 
 ## Lifecycle and improvement
 
 Two long-term management patterns:
 
-**Claudeception** — meta-skill that generates new skills from session discoveries. Install: `git clone https://github.com/blader/Claudeception ~/.claude/skills/claudeception`
+**Claudeception**: meta-skill that generates new skills from session discoveries. Install: `git clone https://github.com/blader/Claudeception ~/.claude/skills/claudeception`
 
-**Claude Reflect System** — improves existing skills by analyzing corrections detected during sessions. Proposes changes before applying them.
+**Claude Reflect System**: improves existing skills by analyzing corrections detected during sessions. Proposes changes before applying them.
 
 ## Important caveat
 
-Skills are only invoked on explicit activation — evals show automatic invocation in only 56% of cases. For critical instructions that must always apply, use `CLAUDE.md` or `.claude/rules/` rather than a skill.
+Skills are only invoked on explicit activation. Evals show automatic invocation in only 56% of cases. For critical instructions that must always apply, use `CLAUDE.md` or `.claude/rules/` rather than a skill.

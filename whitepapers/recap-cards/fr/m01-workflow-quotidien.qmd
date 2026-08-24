@@ -46,7 +46,7 @@ claude
 
 ## Pendant la Session
 
-**Revue du diff à chaque étape** — ne pas laisser Claude enchaîner plusieurs changements sans validation intermédiaire. Sur des modifications significatives, demander explicitement :
+**Revue du diff à chaque étape** : ne pas laisser Claude enchaîner plusieurs changements sans validation intermédiaire. Sur des modifications significatives, demander explicitement :
 
 ```
 You: Montre-moi ce que tu as modifié avant de continuer

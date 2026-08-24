@@ -31,7 +31,7 @@ esac
 exit 0
 ```
 
-Configure as `async: true` — formatting is cosmetic and should not block Claude.
+Configure as `async: true`, since formatting is cosmetic and should not block Claude.
 
 ## macOS notification on completion
 

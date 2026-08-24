@@ -6,7 +6,7 @@ tags: [workflow, architecture, design-patterns]
 
 # Dual-Instance Planning Workflow
 
-> **Confidence**: Tier 2 — Based on practitioner experience (Jon Williams, Feb 2026). Pattern validated through personal transition Cursor → Claude Code over 6 months.
+> **Confidence**: Tier 2, based on practitioner experience (Jon Williams, Feb 2026). Pattern validated through personal transition Cursor → Claude Code over 6 months.
 
 Use two Claude instances with distinct roles: one for planning and review (Claude Zero), one for implementation (Claude One). Separation of concerns improves plan quality and reduces implementation errors.
 
@@ -78,9 +78,9 @@ mkdir -p .claude/plans/{Review,Active,Completed}
 ```
 
 **Directory roles**:
-- `Review/` — Plans awaiting human approval
-- `Active/` — Approved plans under implementation
-- `Completed/` — Archived plans (learning resource)
+- `Review/`: Plans awaiting human approval
+- `Active/`: Approved plans under implementation
+- `Completed/`: Archived plans (learning resource)
 
 **Add to .gitignore**:
 ```bash
@@ -742,11 +742,11 @@ complete-plan auth-jwt    # Archive completed plan
 
 ## See Also
 
-- **Main guide**: [Section 9.17.1](#alternative-pattern-dual-instance-planning-vertical-separation) — Overview and comparison
-- **Plan Mode**: [plan-driven.md](plan-driven.md) — Foundation for planning workflows
-- **Multi-Instance (Boris)**: [Section 9.17](#917-scaling-patterns-multi-instance-workflows) — Horizontal scaling alternative
-- **Cost optimization**: [Section 8.10](#cost-optimization-tips) — Budget management
+- **Main guide**: [Section 9.17.1](#alternative-pattern-dual-instance-planning-vertical-separation) (overview and comparison)
+- **Plan Mode**: [plan-driven.md](plan-driven.md) (foundation for planning workflows)
+- **Multi-Instance (Boris)**: [Section 9.17](#917-scaling-patterns-multi-instance-workflows) (horizontal scaling alternative)
+- **Cost optimization**: [Section 8.10](#cost-optimization-tips) (budget management)
 
 **External resources**:
-- [Jon Williams LinkedIn post](https://www.linkedin.com/posts/thatjonwilliams_ive-been-using-cursor-for-six-months-now-activity-7424481861802033153-k8bu) — Original pattern description (Feb 3, 2026)
-- [10 Tips from Claude Code Team](https://paddo.dev/blog/claude-code-team-tips/) — Team workflows including plan-first approach
+- [Jon Williams LinkedIn post](https://www.linkedin.com/posts/thatjonwilliams_ive-been-using-cursor-for-six-months-now-activity-7424481861802033153-k8bu) (original pattern description, Feb 3, 2026)
+- [10 Tips from Claude Code Team](https://paddo.dev/blog/claude-code-team-tips/) (team workflows including plan-first approach)
