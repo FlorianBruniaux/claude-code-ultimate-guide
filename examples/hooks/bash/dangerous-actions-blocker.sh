@@ -5,7 +5,7 @@
 # Place in: .claude/hooks/dangerous-actions-blocker.sh
 # Register in: .claude/settings.json under PreToolUse event
 
-set -e
+set -euo pipefail
 
 # Read JSON from stdin
 INPUT=$(cat)
@@ -101,6 +101,29 @@ if [[ "$TOOL_NAME" == "Bash" ]]; then
         exit 2
     fi
 
+    # Block bash commands that reference credential files
+    CREDENTIAL_FILE_PATTERNS=(
+        ".env"
+        ".env.local"
+        ".env.production"
+        ".aws/credentials"
+        ".ssh/id_rsa"
+        ".ssh/id_ed25519"
+        ".ssh/id_ecdsa"
+        "credentials.json"
+        "serviceAccountKey.json"
+        "secrets.yaml"
+        "secrets.yml"
+    )
+
+    for cred in "${CREDENTIAL_FILE_PATTERNS[@]}"; do
+        cred_regex=$(printf '%s' "$cred" | sed 's/\./\\./g')
+        if echo "$COMMAND" | grep -qP "${cred_regex}(?![a-zA-Z0-9._-])"; then
+            echo "BLOCKED: Command references credential file: '$cred'" >&2
+            exit 2
+        fi
+    done
+
     # Check for potential secrets in command
     SECRET_PATTERNS=(
         "password="
@@ -114,7 +137,7 @@ if [[ "$TOOL_NAME" == "Bash" ]]; then
     )
 
     for pattern in "${SECRET_PATTERNS[@]}"; do
-        if echo "$COMMAND" | grep -qi "$pattern"; then
+        if echo "$COMMAND" | grep -qiF "$pattern"; then
             echo "BLOCKED: Potential secret detected in command: '$pattern'" >&2
             exit 2
         fi
@@ -204,7 +227,6 @@ fi
 
 # === DELETE: Always warn ===
 if [[ "$TOOL_NAME" == "Bash" ]]; then
-    COMMAND=$(echo "$TOOL_INPUT" | jq -r '.command // empty')
     if echo "$COMMAND" | grep -qE "rm -r|rmdir|unlink"; then
         # Warning but not blocking (exit 0)
         echo '{"systemMessage": "Warning: File deletion detected. Verify this is intentional."}'
