@@ -360,7 +360,7 @@ Claude decides which tool to use based on the task. There's no hardcoded routing
 
 ### Extended Tool Ecosystem
 
-Beyond the 8 core tools, Claude Code can leverage:
+Beyond the 8 core tools, Claude Code can use:
 
 **MCP Servers** (Model Context Protocol):
 - **Serena**: Symbol-aware code navigation + session memory

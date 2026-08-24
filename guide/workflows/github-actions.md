@@ -319,7 +319,7 @@ The examples above use `ANTHROPIC_API_KEY` directly. For teams using cloud provi
     ANTHROPIC_MODEL: 'claude-3-5-sonnet-v2@20241022'
 ```
 
-Cloud providers benefit from data residency compliance and can leverage existing IAM policies instead of managing a separate API key.
+Cloud providers benefit from data residency compliance and can use existing IAM policies instead of managing a separate API key.
 
 ---
 

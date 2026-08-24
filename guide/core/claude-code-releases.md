@@ -3288,7 +3288,7 @@ keywords:
 
 | Date | Feature |
 |------|---------|
-| 2026-01-29 | **Structured Outputs GA**: `output_config.format` remplace `output_format`. [Docs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs) |
+| 2026-01-29 | **Structured Outputs GA**: `output_config.format` replaces `output_format`. [Docs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs) |
 | 2026-04-30 | **1M context beta retired**: `context-1m-2025-08-07` header no longer accepted for Sonnet 4.5/4: requests >200k tokens error. Migrate to Sonnet 4.6 or Opus 4.6. |
 
 ### Shortcuts

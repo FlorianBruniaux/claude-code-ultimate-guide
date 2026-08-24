@@ -12,7 +12,7 @@ tags: [workflow, guide, agents]
 
 ## Overview
 
-Task management in Claude Code evolved significantly in v2.1.16 with the introduction of the **Tasks API**, complementing the original **TodoWrite** tool. This workflow teaches you when to use each system and how to leverage multi-session task coordination for complex projects.
+Task management in Claude Code evolved significantly in v2.1.16 with the introduction of the **Tasks API**, complementing the original **TodoWrite** tool. This workflow teaches you when to use each system and how to coordinate tasks across sessions for complex projects.
 
 **When to use this workflow:**
 - Projects spanning multiple coding sessions

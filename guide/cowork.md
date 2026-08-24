@@ -6,7 +6,7 @@ tags: [guide, agents, workflows]
 
 # Claude Cowork: Agentic Desktop for Knowledge Work
 
-> **📦 Complete documentation migrated to dedicated repository**
+> **Complete documentation migrated to dedicated repository**
 > This file is a summary. For full documentation, see:
 > **https://github.com/FlorianBruniaux/claude-cowork-guide**
 

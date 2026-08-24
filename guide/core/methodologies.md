@@ -488,7 +488,7 @@ Workflow: Proposal → Review → Apply → Archive
 
 ### Curse of Instructions
 
-> ⚠️ Research shows **more instructions = worse adherence** to each one.
+> ⚠️ The same analysis found **more instructions = worse adherence** to each one.
 >
 > Solution: Feed only relevant spec sections per task, not the entire document.
 

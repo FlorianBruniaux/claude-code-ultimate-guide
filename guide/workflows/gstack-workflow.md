@@ -27,7 +27,7 @@ One generic assistant blurs all phases together. This pattern gives each phase a
 /retro            → How well did we ship this week?
 ```
 
-The insight is that planning, reviewing, and shipping require fundamentally different cognitive postures, and a single assistant left in generic mode will blend them badly.
+Planning, reviewing, and shipping require fundamentally different cognitive postures. A single assistant left in generic mode blends them badly.
 
 ---
 
@@ -206,7 +206,7 @@ For team installs (committed to repo so `git clone` just works for teammates), s
 | Browser automation, multi-step QA loop | `/browse` | MCP tools (slower) |
 | Want structured ADR learning loop | [Plan Pipeline](./plan-pipeline.md) | — |
 
-The main differentiator from [Plan Pipeline](./plan-pipeline.md): gstack is a linear gear sequence you control manually. Plan Pipeline is a more automated orchestration with ADR memory and parallel agent teams. For solo developers who want explicit control over each phase, gstack is faster to adopt.
+gstack is a linear gear sequence you control manually; [Plan Pipeline](./plan-pipeline.md) is a more automated orchestration with ADR memory and parallel agent teams. For solo developers who want explicit control over each phase, gstack is faster to adopt.
 
 ---
 

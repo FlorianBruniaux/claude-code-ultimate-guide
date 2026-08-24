@@ -265,7 +265,7 @@ The SWE-Bench benchmark trajectory tells the story well: Aider held the top scor
 | **Agentic loop** | Full (multi-turn, tool use) | Full (auto-accepts changes in architect mode) |
 | **Release cadence** | Weekly | Monthly (last: v0.86.0, Aug 2025) |
 
-The last release date (August 2025) is worth noting. Aider remains maintained and functional, but the release cadence has slowed relative to Claude Code and Hermes. This is not a warning sign by itself, but worth checking if you need cutting-edge features.
+The last release date, August 2025, matters here: Aider remains maintained and functional, but the release cadence has slowed relative to Claude Code and Hermes. That is not a warning sign by itself, but check it against your need for recent features before adopting.
 
 #### When to Choose Aider
 
@@ -835,7 +835,7 @@ OpenAI's answer to "what do you build on top of Codex?" Symphony watches a Linea
 
 The tagline is "manage work, not agents." Symphony polls a tracker, dispatches an agent per issue into its own workspace, and gathers evidence the work is real: CI status, PR review feedback, complexity analysis, and a walkthrough video. An engineer reviews the evidence instead of watching the agent type.
 
-The distribution model is unusual and worth noting. The repo's primary recommendation is not "install our binary" but "hand [SPEC.md](https://github.com/openai/symphony/blob/main/SPEC.md) to your favorite coding agent and have it build Symphony in the language of your choice." The Elixir version is an experimental reference implementation, built on BEAM/OTP for supervision and concurrency. The spec is the product.
+The distribution model is unusual: the repo's primary recommendation is not "install our binary" but "hand [SPEC.md](https://github.com/openai/symphony/blob/main/SPEC.md) to your favorite coding agent and have it build Symphony in the language of your choice." The Elixir version is an experimental reference implementation, built on BEAM/OTP for supervision and concurrency. The spec is the product.
 
 Symphony assumes you have already done [harness engineering](https://openai.com/index/harness-engineering/) on your codebase: making the repo legible to agents through tests, docs, and tooling. It positions itself as the step after that.
 

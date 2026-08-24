@@ -64,7 +64,7 @@ When a rule accidentally ends up in two configs, don't leave it, pick whichever 
 
 ## Blocking Merge: the CI Gate
 
-Automated review comments are advisory by default, nothing stops a merge unless a required CI check fails. The pattern that makes Claude's findings actually block bad merges: post the review as structured markdown with a parseable severity count, then run a small script that reads that count and fails the job if it's non-zero.
+Automated review comments are advisory by default, nothing stops a merge unless a required CI check fails. The pattern that makes Claude's findings block bad merges: post the review as structured markdown with a parseable severity count, then run a small script that reads that count and fails the job if it's non-zero.
 
 The [`gate` job](../../examples/github-actions/claude-code-review.yml) in this repo's template does exactly this: it fetches the review Claude just posted, regex-matches `### 🔴 Must Fix (n)` from the summary table, and calls `core.setFailed()` if `n > 0`. Add that job's name to your branch protection's required status checks, and a 🔴 finding now genuinely blocks the merge button, not just guilt-trips the author in a comment thread.
 

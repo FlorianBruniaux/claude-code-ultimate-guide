@@ -646,7 +646,7 @@ Project settings cannot set it, so a checked-out repository cannot switch filesy
 
 Credential files to hide from sandboxed commands. `mode` accepts only `"deny"`, which blocks reads the same way `filesystem.denyRead` does.
 
-This matters more than its placement suggests. The sandbox's default read policy covers the **entire machine**, and there is no built-in credential denylist, so `~/.ssh` and `~/.aws/credentials` are readable by every sandboxed command until you list them. Paths follow the same prefix rules as `sandbox.filesystem.*`, and `deny` entries merge across every scope: any scope can add one, no scope can remove one another scope added.
+The sandbox's default read policy covers the **entire machine**, and there is no built-in credential denylist, so `~/.ssh` and `~/.aws/credentials` are readable by every sandboxed command until you list them. Paths follow the same prefix rules as `sandbox.filesystem.*`, and `deny` entries merge across every scope: any scope can add one, no scope can remove one another scope added.
 
 ```json
 {

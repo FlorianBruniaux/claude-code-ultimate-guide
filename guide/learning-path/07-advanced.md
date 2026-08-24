@@ -580,6 +580,6 @@ You've completed the 7-module learning path! You now understand:
 
 ---
 
-**Completed Module 07?** → You're a Claude Code power user! 🚀
+**Completed Module 07?** → You're a Claude Code power user.
 
 Explore the full guide at `guide/ultimate-guide.md` for depth, or teach others what you've learned.

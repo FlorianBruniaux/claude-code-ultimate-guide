@@ -499,7 +499,7 @@ Output: Prioritized prevention measures, effort estimates, ownership suggestions
 
 # Pattern: Infrastructure as Code
 
-**Goal**: Leverage Claude for Terraform, Ansible, and GitOps workflows.
+**Goal**: Use Claude for Terraform, Ansible, and GitOps workflows.
 
 ## Terraform with Claude
 

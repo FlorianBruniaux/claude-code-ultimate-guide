@@ -208,7 +208,7 @@ Do not proceed until explicitly told to skip that content.
 
 ### 2.3 Propagating Settings to the Team
 
-Writing a charter is not enough. Developers need to actually run with the right config. Three mechanisms exist, and most orgs use all three:
+Writing a charter is not enough: developers need to actually run with the right config. Three mechanisms exist, and most orgs use all three:
 
 **Shared settings.json in your team repo**
 

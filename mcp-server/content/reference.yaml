@@ -373,7 +373,7 @@ deep_dive:
   talk_pipeline_kimi: "kimi.com (free) — copy-paste Stage 5 prompt for AI slide generation"
   # reMarkable 2 + AI (guide/ecosystem/remarkable-ai.md)
   remarkable_ai_guide: "guide/ecosystem/remarkable-ai.md"
-  remarkable_mcp_server: "guide/ecosystem/remarkable-ai.md#1-remarkable-mcp--le-game-changer"
+  remarkable_mcp_server: "guide/ecosystem/remarkable-ai.md#1-remarkable-mcp--accès-mcp-direct-par-ssh"
   remarkable_mcp_repo: "https://github.com/SamMorrowDrums/remarkable-mcp"
   remarkable_ghostwriter: "guide/ecosystem/remarkable-ai.md#2-ghostwriter--interface-vision-llm"
   remarkable_obsidian_sync: "guide/ecosystem/remarkable-ai.md#3-sync-remarkable--obsidian"
@@ -2982,7 +2982,7 @@ section_maps:
     - "agent-security"
     - "devx--adoption"
   "guide/ecosystem/remarkable-ai.md":
-    - "1-remarkable-mcp--le-game-changer"
+    - "1-remarkable-mcp--accès-mcp-direct-par-ssh"
     - "2-ghostwriter--interface-vision-llm"
     - "3-sync-remarkable--obsidian"
     - "4-ocr--ai-pipeline-custom"

@@ -422,7 +422,7 @@ Key quote:
 
 ### What This Is
 
-Claude's output quality can vary noticeably from session to session, even with identical prompts and a clean context window. This is distinct from context window degradation (which happens within a session as context fills up). This is about variance between fresh sessions.
+Claude's output quality can vary noticeably from session to session, even with identical prompts and a clean context window. That differs from context window degradation, which happens within a session as context fills up. Here the concern is variance between fresh sessions.
 
 Users sometimes report shorter responses, more conservative suggestions, or unexpected refusals on tasks that worked fine the day before. This can feel like a model downgrade, but it is not.
 

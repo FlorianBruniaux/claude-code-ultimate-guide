@@ -1140,6 +1140,30 @@ Unconditional block rules that fire before the classifier and cannot be overridd
 
 Unlike classifier rules (which weigh context and user intent), `hard_deny` entries are absolute. Use them for operations that must never run unattended: destructive commands, credential files, system config paths.
 
+**Generating environment entries with `/auto-mode-setup`** (v2.1.228+, v2.1.233+ on native Windows)
+
+Run `/auto-mode-setup` to have Claude Code draft `autoMode.environment` entries, and sometimes `allow`/`soft_deny`/`hard_deny` entries, from the current project and your recent sessions in it. Accepting the draft writes it to `~/.claude/settings.json`. Requires a Pro, Max, or Team plan and feature-flag fetching enabled; not available in Claude Code on the web.
+
+What it reads:
+
+| Always scanned | Optional (asked first) |
+|-----------------|------------------------|
+| This project's CLAUDE.md, README.md, config files, and git remotes | First word of each shell-history command |
+| Your `autoMode` and `permissions.allow` settings | Remote hosts and names of repos under your home directory |
+| Hosts, buckets, and command names from commands Claude ran in this project's recent sessions (never your messages) | |
+
+You accept or discard the draft as a whole, then edit `~/.claude/settings.json` afterward to adjust individual entries. On acceptance, Claude Code writes the `environment` list without `"$defaults"` (the draft spells out the unchanged built-ins), adds `"$defaults"` to any `allow`/`soft_deny`/`hard_deny` list it touches so the built-in rules stay in effect, and offers to remove `permissions.allow` rules that auto mode ignores or that auto-approve destructive commands (e.g. `Bash(*)`).
+
+Once auto mode has blocked several actions with no `autoMode.environment` entries configured, Claude Code shows a "Teach auto mode about your environment?" dialog offering to run the wizard. "Don't show again" stops the offer but keeps the command; to turn off both:
+
+```json
+{ "skillOverrides": { "auto-mode-setup": "off" } }
+```
+
+`/auto-mode-setup` is a built-in command, not a bundled skill, so `disableBundledSkills` doesn't turn it off, only `skillOverrides` does.
+
+Related inspection commands: `claude auto-mode defaults` (built-in rules as JSON), `claude auto-mode config` (effective config with your settings applied), `claude auto-mode critique` (AI review of your custom rules), `claude auto-mode reset` (v2.1.212+, discards your customizations; managed-settings entries still apply).
+
 **When to use auto mode**
 
 | Context | Verdict | Notes |
@@ -1152,7 +1176,7 @@ Unlike classifier rules (which weigh context and user intent), `hard_deny` entri
 
 For team use: keep audit logs of auto-approved actions, set a distinct git committer identity for Claude commits so you can trace them, and review Claude's commits before merging.
 
-**Requirements**: All plans (Max subscribers gained seamless access at v2.1.111; all plans at v2.1.114). Team and Enterprise require admin enablement in Claude Code admin settings. Cost and latency are slightly higher than other modes since a second model runs on every tool call.
+**Requirements**: All plans (Max subscribers gained access automatically at v2.1.111; all plans at v2.1.114). Team and Enterprise require admin enablement in Claude Code admin settings. Cost and latency are slightly higher than other modes since a second model runs on every tool call.
 
 ### Bypass Permissions Mode (`bypassPermissions`)
 
@@ -1612,7 +1636,7 @@ Your verification strategy should evolve:
 ```
 
 > "AI lets you code faster, but make sure you're not also failing faster."
-> — Adapted from Addy Osmani
+> *Adapted from Addy Osmani*
 
 **Attribution**: This section draws from Addy Osmani's ["AI Code Review"](https://addyosmani.com/blog/code-review-ai/) (Jan 2026), research from ACM, Veracode, CodeRabbit, and Cortex.io.
 
@@ -2824,7 +2848,7 @@ When ending a session or switching contexts, create a **handoff document** to ma
 
 | Scenario | Why |
 |----------|-----|
-| End of work day | Resume seamlessly tomorrow |
+| End of work day | Resume tomorrow without re-explaining context |
 | Before context limit | Preserve state before `/clear` |
 | Switching focus areas | Different task requires fresh context |
 | Interruption expected | Emergency or meeting disrupts work |
@@ -2907,7 +2931,7 @@ You: Let's plan this feature before implementing
 | Quick edit to known file | ❌ No |
 
 > **Recommended frequency**: Boris Cherny (Head of Claude Code at Anthropic) starts approximately **80% of tasks in Plan Mode**, letting Claude plan before writing a single line of code. Once the plan is approved, execution is almost always correct on the first try.
-> — *Lenny's Newsletter, February 19, 2026*
+> *Lenny's Newsletter, February 19, 2026*
 
 ### Exiting Plan Mode
 
@@ -3072,7 +3096,7 @@ tools: Write, Edit, Bash
 # Fast Implementation Agent
 ```
 
-**Pro Users Note**: OpusPlan is particularly valuable for Pro subscribers with limited Opus tokens. It lets you leverage Opus reasoning for critical planning while preserving tokens for more sessions.
+**Pro Users Note**: OpusPlan is particularly valuable for Pro subscribers with limited Opus tokens. It lets you use Opus reasoning for critical planning while preserving tokens for more sessions.
 
 **Budget Variant: SonnetPlan (Community Hack)**
 
@@ -3624,7 +3648,7 @@ The most common mistake is treating Claude Code like a chatbot: typing ad-hoc re
 > **Chatbot mode**: You write good prompts. **Context system**: You build structured context that makes every prompt better.
 >
 > *"Stop treating it like a chatbot. Give it structured context. CLAUDE.md, hooks, skills, project memory. Changes everything."*
-> — [Robin Lorenz](https://www.linkedin.com/in/robin-lorenz-54055412a/), AI Engineer ([comment](https://www.linkedin.com/feed/update/urn:li:activity:7426936437746352128?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7426936437746352128%2C7426941635306987520%29))
+> [Robin Lorenz](https://www.linkedin.com/in/robin-lorenz-54055412a/), AI Engineer ([comment](https://www.linkedin.com/feed/update/urn:li:activity:7426936437746352128?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7426936437746352128%2C7426941635306987520%29))
 
 Claude Code has four layers of persistent context that compound over time:
 
@@ -14400,7 +14424,7 @@ This works because the explicit instruction to "forget you wrote it" forces Clau
 
 #### Cross-Model Review
 
-A single model reviewing its own code follows the same reasoning patterns that produced the code. Using a different model for review introduces genuinely independent analysis.
+A single model reviewing its own code follows the same reasoning patterns that produced the code. Using a different model for review introduces independent analysis.
 
 **The pattern**: generate with one model, review with another.
 
@@ -14578,7 +14602,7 @@ _Quick jump:_ [The Trinity](#91-the-trinity) · [Composition Patterns](#92-compo
 **🔄 Integration Patterns (9.2-9.4)**
 - Composition: Agents + Skills + Hooks working together
 - CI/CD: GitHub Actions, automated reviews, quality gates
-- IDE: VS Code + Claude Code = seamless flow
+- IDE: VS Code + Claude Code integration
 
 **⚡ Productivity Patterns (9.5-9.8)**
 - Tight feedback loops: Test-driven with instant validation
@@ -15623,7 +15647,7 @@ We've made your experience faster and more personal:
 
 An alternative to generating release notes from commits is to capture the context _while implementing_, not at release time. The "changelog fragments" pattern replaces a shared `CHANGELOG.md` with one YAML file per PR, accumulated in `changelog/fragments/`, assembled automatically at release.
 
-**The core problem with commit-based approaches**: by the time you run `git log` to generate release notes, context is gone. The developer who fixed a race condition three weeks ago is the only one who understood the impact. The commit message says `fix SSE handling`.
+Commit-based approaches lose context by the time you run `git log` to generate release notes. The developer who fixed a race condition three weeks ago is the only one who understood the impact. The commit message says `fix SSE handling`.
 
 The fragments pattern solves this with 3 enforcement layers:
 
@@ -16442,7 +16466,7 @@ Claude: [Provides minimal example for exploration]
 
 **The Phased Context Strategy:**
 
-Instead of big-bang context dump, use a **staged approach** that leverages Claude Code's native features:
+Instead of big-bang context dump, use a **staged approach** that uses Claude Code's native features:
 
 | Phase | Tool | Purpose | Context Size |
 |-------|------|---------|--------------|
@@ -16474,7 +16498,7 @@ Claude: [writes handoff to claudedocs/handoffs/oauth-implementation.md]
 - Fresh context pattern: See [§2.2 Fresh Context Pattern](#22-fresh-context-pattern) (line 1525)
 - Session handoffs: See [Session Handoffs](#session-handoffs) (line 2278)
 
-**The insight:** Rusitschka's "Vibe Coding, Level 2" is Claude Code's native workflow: it just needed explicit framing as an anti-pattern antidote. Plan mode prevents context pollution during exploration, fresh context prevents accumulation during implementation, and handoffs enable clean phase transitions.
+Rusitschka's "Vibe Coding, Level 2" is Claude Code's native workflow, needing only explicit framing as an anti-pattern antidote. Plan mode prevents context pollution during exploration, fresh context prevents accumulation during implementation, and handoffs enable clean phase transitions.
 
 ### Fighting Vibe Code Degradation
 
@@ -16716,7 +16740,7 @@ Traditional: *"I write code, AI helps"*
 AI-native: *"I improve the workflow and context so AI writes better code"*
 
 > "Software engineering might be more workflow + context engineering."
-> — Nick Tune
+> Nick Tune
 
 This is the meta-skill: instead of fixing code, **fix the system that produces the code**.
 
@@ -17000,7 +17024,7 @@ class UserManager {
 - Monitor cost with `/status` regularly
 - Set budget alerts if using API directly
 - Use Serena memory to avoid re-analyzing code
-- Leverage context caching with `/compact`
+- Use context caching with `/compact`
 - Batch similar operations together
 
 **Cost-Effective Model Selection:**
@@ -18831,7 +18855,7 @@ Six levers control LLM costs. Some are directly accessible within Claude Code; o
 
 > **Full reference**: [methodologies.md](./core/methodologies.md) | **Hands-on workflows**: [workflows/](./workflows/)
 
-15 structured development methodologies have emerged for AI-assisted development (2025-2026). This section provides quick navigation; detailed workflows are in dedicated files.
+15 structured development methodologies have emerged for AI-assisted development (2025-2026).
 
 ### Quick Decision Tree
 
@@ -23079,7 +23103,7 @@ On a fleet where the resolution can't be inferred from clean route names, expect
 
 Three tools were evaluated hands-on against a legacy fleet that includes a non-standard, in-house framework, the exact condition that breaks framework-signature detection.
 
-**Reversa** (`github.com/sandeco/reversa`), a multi-agent framework (scout, archaeologist, detective, architect, writer, reviewer, curator) that turns a legacy repo into specs for coding agents. Rejected for this use case: one CRITICAL path-traversal vulnerability in its uninstall path, zero automated tests across 56 releases in three months, a bus factor of one, and a confidence seal (🟢🟡🔴) that nothing mechanically verifies, its own validator is 22 lines long. File:line traceability exists for non-functional requirements and tasks, then disappears exactly at the business-rule layer, the one place it matters most, where rules are bullet points followed by an emoji. When its framework detector doesn't recognize a custom in-house framework, it invents a module split blindly and freezes that decision as immutable after the first pass. Every downstream step inherits a guess it can no longer revise.
+**Reversa** (`github.com/sandeco/reversa`), a multi-agent framework (scout, archaeologist, detective, architect, writer, reviewer, curator) that turns a legacy repo into specs for coding agents. Rejected for this use case: one CRITICAL path-traversal vulnerability in its uninstall path, zero automated tests across 56 releases in three months, a bus factor of one, and a confidence seal (🟢🟡🔴) that nothing mechanically verifies; its own validator is 22 lines long. File:line traceability exists for non-functional requirements and tasks, then disappears exactly at the business-rule layer, the one place it matters most, where rules are bullet points followed by an emoji. When its framework detector doesn't recognize a custom in-house framework, it invents a module split blindly and freezes that decision as immutable after the first pass. Every downstream step inherits a guess it can no longer revise.
 
 **code-graph-mcp** (`github.com/sdsrss/code-graph-mcp`), a Rust MCP server building an AST knowledge graph (tree-sitter, 19 languages) with call graph, hybrid semantic search, and HTTP route tracing. Clean on security. Rejected on evidence, not on youth: measured 12/12 false "inferred" edges with maximum confidence on a modern, well-supported stack (Fastify), and zero routes extracted against the custom in-house framework. A tool that answers confidently and wrong is worse than one that answers nothing.
 
@@ -23282,7 +23306,7 @@ Before moving to Section 10 (Reference), verify you understand:
 - [ ] **Trinity Pattern**: Plan Mode → Extended Thinking → Sequential MCP for critical work
 - [ ] **Composition**: Agents + Skills + Hooks working together seamlessly
 - [ ] **CI/CD Integration**: Automated reviews and quality gates in pipelines
-- [ ] **IDE Integration**: VS Code + Claude Code = seamless development flow
+- [ ] **IDE Integration**: VS Code + Claude Code = integrated development flow
 
 **Productivity Patterns**:
 - [ ] **Tight Feedback Loops**: Test-driven workflows with instant validation
@@ -23530,7 +23554,7 @@ Run canary tests before merging skill changes, especially for skills that other 
 
 ### Going Further
 
-If you want to automate prompt optimization beyond the manual update loop, two frameworks are worth knowing:
+If you want to automate prompt optimization beyond the manual update loop, two frameworks apply:
 
 **DSPy** (Stanford, open-source): optimizes prompts programmatically given a metric and a set of examples. Requires 20+ labeled examples per skill for reliable results. Useful when you have a well-defined task and enough session history to build a dataset. [dspy.ai](https://dspy.ai)
 
@@ -23918,7 +23942,7 @@ docs/
 └── SECURITY.md            # Security requirements and patterns
 ```
 
-**Exec plans as first-class artifacts**: for any non-trivial task, the agent creates a plan document before writing code. Simple changes get ephemeral plans: a short markdown file with the approach and expected outcome, created at the start of the task and moved to completed/ when done. Complex tasks get full exec plans with progress logs, decision records, and explicit notes on alternatives rejected. The separation of active/ and completed/ keeps the agent's attention on current work while preserving a searchable history of past decisions. The tech-debt-tracker.md is the backlog for known quality issues, populated by the background cleanup agents described in §9.25.5, addressed incrementally rather than in a disruptive periodic cleanup.
+**Exec plans as first-class artifacts**: for any non-trivial task, the agent creates a plan document before writing code. Simple changes get ephemeral plans: a short markdown file with the approach and expected outcome, created at the start of the task and moved to completed/ when done. Complex tasks get full exec plans with progress logs, decision records, and explicit notes on alternatives rejected. The separation of active/ and completed/ keeps the agent's attention on current work while preserving a searchable history of past decisions. The tech-debt-tracker.md is the backlog for known quality issues; the background cleanup agents described in §9.25.5 populate it and address issues incrementally rather than through a disruptive periodic cleanup.
 
 **generated/ directory**: certain documentation must track code exactly. Database schemas, API surface areas, generated type definitions. These go in generated/ and are produced by automated scripts, not written by hand. The doc-gardening agent (described below) enforces the invariant that generated/ files match the actual runtime state.
 
@@ -23944,7 +23968,7 @@ Agent access:     curl / CLI tools → structured data in agent context
 
 The stack enables metric-based prompts that were previously impossible. Instead of "implement service startup," the prompt becomes "ensure service startup completes in under 800ms." Instead of "optimize the checkout flow," it becomes "no UI journey through checkout should exceed 2 seconds." The agent implements a change, restarts the application, runs the workload, queries the observability stack, reads the result, and iterates. The feedback loop is closed without human measurement.
 
-This approach requires infrastructure that not every team has available. The pattern is worth knowing because it illustrates the direction: as harness investment increases, the agent can take on work that was previously impossible to delegate because verification required human judgment on runtime behavior. Teams without this stack can approximate it by making performance requirements explicit (run this benchmark before and after, compare output) and scripting the measurement, even if the infrastructure is not as complete.
+This approach requires infrastructure that not every team has available. The pattern illustrates the direction: as harness investment increases, the agent can take on work that was previously impossible to delegate because verification required human judgment on runtime behavior. Teams without this stack can approximate it by making performance requirements explicit (run this benchmark before and after, compare output) and scripting the measurement, even if the infrastructure is not as complete.
 
 ### 9.25.5 Enforcing Architecture and Taste
 

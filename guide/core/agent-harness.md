@@ -182,7 +182,7 @@ A managed runtime for production agents: versioning of agent definitions, Memory
 
 Fix CI/CD Pipeline reached General Availability in GitLab 18.8. When a pipeline fails, Duo reads up to 150 KiB of logs, diagnoses the root cause, and proposes a fix as a Merge Request. CI Expert Agent is in beta as of 18.11 for broader pipeline assistance.
 
-**Key constraint**: 150 KiB log limit. Pipelines with verbose output beyond this threshold get truncated context, which degrades diagnosis quality. Worth knowing before routing all failures through this path.
+**Key constraint**: 150 KiB log limit. Pipelines with verbose output beyond this threshold get truncated context, which degrades diagnosis quality before routing failures through this path.
 
 **Best for**: GitLab-centric organizations that want agent-assisted CI diagnosis without adopting a separate platform.
 

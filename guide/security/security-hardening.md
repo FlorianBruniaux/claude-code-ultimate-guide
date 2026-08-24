@@ -282,7 +282,7 @@ Because `permissions.deny` alone cannot guarantee complete protection:
 4. **Never commit secrets**: Even "blocked" files can leak through other vectors
 5. **Review bash commands**: Manually inspect before approving execution
 
-> **Bottom line**: `permissions.deny` is necessary but not sufficient. Treat it as one layer in a defense-in-depth strategy, not a complete solution.
+> **Bottom line**: `permissions.deny` is necessary but not sufficient. Treat it as one layer in a defense-in-depth strategy.
 
 #### Built-in Permission Safeguards
 

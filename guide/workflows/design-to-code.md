@@ -495,7 +495,7 @@ IDE Canvas (design + AI agents + code) → Git commit → Continuous alignment
 - Engineer-designers comfortable with terminal/IDE workflows
 - Projects requiring tight design-code alignment (design-as-code paradigm)
 - Desire for git-native design versioning (branch protection, rollback, etc.)
-- Want to leverage parallel AI agents for design automation
+- Want to use parallel AI agents for design automation
 
 ⚠️ **Consider Carefully**:
 - Traditional design team (non-technical) → Figma may be better

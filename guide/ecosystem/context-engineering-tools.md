@@ -348,7 +348,7 @@ A different category of tool-schema cost: an MCP server with hundreds or thousan
 
 Instead of exposing one MCP tool per endpoint, it exposes exactly two meta-tools, `search()` and `execute()`, backed by a typed SDK. The model writes and runs JavaScript in a sandboxed V8 instance (Dynamic Worker Loader) that calls the typed SDK, rather than receiving a schema definition for every possible endpoint upfront. For Cloudflare's full API surface (2,500+ endpoints), this drops the schema-loading cost from roughly 1.17M tokens to about 1,000, a 99.9% reduction on that specific dimension.
 
-This is a shipped production feature at a major infrastructure vendor, not a side project or a research prototype. It generalizes a pattern worth naming explicitly: when a tool surface is large and mostly unused per session, exposing a code-execution interface over the API instead of one MCP tool per endpoint moves the token cost from "loaded upfront for every session" to "paid only for the endpoints actually called." See [MCP Servers Ecosystem](./mcp-servers-ecosystem.md) for how this interacts with Claude Code's MCP tool-count guidance ([Progressive Disclosure](../core/context-engineering.md#progressive-disclosure) in the core context engineering guide recommends fewer than 80 total tools across active servers; a code-execution MCP server sidesteps that ceiling entirely by exposing 2 tools regardless of API surface size).
+This is a shipped production feature at a major infrastructure vendor, not a side project or a research prototype. It generalizes a pattern worth naming: when a tool surface is large and mostly unused per session, exposing a code-execution interface over the API instead of one MCP tool per endpoint moves the token cost from "loaded upfront for every session" to "paid only for the endpoints actually called." See [MCP Servers Ecosystem](./mcp-servers-ecosystem.md) for how this interacts with Claude Code's MCP tool-count guidance ([Progressive Disclosure](../core/context-engineering.md#progressive-disclosure) in the core context engineering guide recommends fewer than 80 total tools across active servers; a code-execution MCP server sidesteps that ceiling entirely by exposing 2 tools regardless of API surface size).
 
 ### Zero-install approach: claude-token-efficient
 
@@ -390,7 +390,7 @@ Selective Context (Li et al., 2023) predates LLMLingua and scores lexical units 
 
 A distinct family that compresses context into learned vectors instead of shorter text. **AutoCompressors** (Chevalier et al., EMNLP 2023) fine-tune a base model to summarize long segments into reusable "summary vectors." **Gisting** (Mu, Li & Goodman, Stanford, NeurIPS 2023) trains a model to compress a prompt into a handful of cacheable "gist tokens" by modifying attention masks during standard fine-tuning, reporting up to 26x compression with minimal quality loss on the Alpaca+ dataset.
 
-Neither technique is deployed in production tooling as of mid-2026: both require fine-tuning the target model itself, which breaks the "works on any LLM" portability that made LLMLingua adoptable. Worth knowing these exist as a category; not yet something to install.
+Neither technique is deployed in production tooling as of mid-2026: both require fine-tuning the target model itself, which breaks the "works on any LLM" portability that made LLMLingua adoptable. They exist as a category to track, not yet something to install.
 
 ### RECOMP (RAG-Specific Compression)
 

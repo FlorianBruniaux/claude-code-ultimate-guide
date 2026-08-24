@@ -12,7 +12,7 @@ La reMarkable 2 est une tablette e-ink Linux full-root-access. Sa philosophie de
 
 ## Table of Contents
 
-1. [remarkable-mcp : Le game-changer](#1-remarkable-mcp--le-game-changer)
+1. [remarkable-mcp : accès MCP direct par SSH](#1-remarkable-mcp--accès-mcp-direct-par-ssh)
 2. [Ghostwriter : Interface Vision-LLM](#2-ghostwriter--interface-vision-llm)
 3. [Sync reMarkable → Obsidian](#3-sync-remarkable--obsidian)
 4. [OCR + AI Pipeline custom](#4-ocr--ai-pipeline-custom)
@@ -30,7 +30,7 @@ La reMarkable 2 est une tablette e-ink Linux full-root-access. Sa philosophie de
 
 ---
 
-## 1. remarkable-mcp : Le game-changer
+## 1. remarkable-mcp : accès MCP direct par SSH
 
 **ROI : maximal | Effort : moyen | Connexion : SSH over USB (sans cloud)**
 

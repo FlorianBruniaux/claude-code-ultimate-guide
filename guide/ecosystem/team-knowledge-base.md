@@ -27,7 +27,7 @@ Once you classify each piece of knowledge by its nature, the tool choice becomes
 
 ### Why Claude Projects does not fit
 
-Before the three tiers, one anti-pattern worth naming, because teams reach for it first. Claude Projects (the web feature where you upload files and chat against them) looks like an obvious shared KB. It is not, for a team running Code and Cowork.
+Before the three tiers: one anti-pattern to name first, because teams reach for it before any of the three. Claude Projects (the web feature where you upload files and chat against them) looks like an obvious shared KB. It is not, for a team running Code and Cowork.
 
 | Limitation | Consequence for a team KB |
 |------------|---------------------------|

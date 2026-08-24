@@ -784,7 +784,7 @@ Some terms you'll hear that describe practices or methodologies, not job titles:
 
 **AI-native engineer**: describes a quality expected of all engineers increasingly, not a specialized role. It means: you use AI tools fluently in your daily workflow. It's the bar, not the title.
 
-These terms are worth knowing (you'll encounter them in job descriptions and articles) but don't represent distinct career paths, at least not yet.
+You'll encounter these terms in job descriptions and articles, but they don't represent distinct career paths, at least not yet.
 
 ---
 

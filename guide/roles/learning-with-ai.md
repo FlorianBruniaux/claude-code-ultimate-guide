@@ -571,7 +571,7 @@ Balance learning and producing:
 | Activity | Time | AI Usage | Why |
 |----------|------|----------|-----|
 | **Core learning** (new concepts) | 70% | 30% AI | Struggle builds understanding |
-| **Practice/projects** (applying known skills) | 30% | 70% AI | Leverage what you already know |
+| **Practice/projects** (applying known skills) | 30% | 70% AI | Apply what you already know |
 
 > **Research basis**: This ratio aligns with [productivity research](#the-reality-of-ai-productivity) showing AI delivers highest gains on well-defined tasks (practice/projects) while learning new concepts requires cognitive struggle that AI can't shortcut.
 
@@ -585,7 +585,7 @@ Thursday:  Learn testing approach      (minimal AI)
 Friday:    Apply + ship                (full AI assistance)
 ```
 
-The key: Don't use AI heavily when learning NEW concepts. Use it heavily when applying concepts you already understand.
+Don't use AI heavily when learning NEW concepts. Use it heavily when applying concepts you already understand.
 
 ---
 
@@ -785,7 +785,7 @@ Studies on AI-assisted learning show optimal results with:
 | **AI assistance** | Immediate feedback, infinite patience, practice repetition | Slower iteration, less practice |
 | **Progressive autonomy** | Decreasing supervision as skill grows | Never become independent |
 
-The key insight: AI excels at **practice and feedback**, humans excel at **motivation and critical evaluation**.
+AI excels at **practice and feedback**, humans excel at **motivation and critical evaluation**.
 
 ### Real-World Implementation: Méthode Aristote
 
@@ -1150,7 +1150,7 @@ Reviewing agent output is neither writing nor reviewing a colleague. It carries 
 - **Lee, Sarkar et al.** ([CHI 2025](https://www.microsoft.com/en-us/research/publication/the-impact-of-generative-ai-on-critical-thinking-self-reported-reductions-in-cognitive-effort-and-confidence-effects-from-a-survey-of-knowledge-workers/), Microsoft Research and Carnegie Mellon, 319 knowledge workers, 936 first-hand task examples) found that higher confidence in GenAI predicts *less* critical thinking, while higher confidence in one's own ability predicts *more*. They also found the work of critical thinking migrating into three activities: verifying information, integrating responses, and stewarding the task.
 - **DORA** ([trust in AI](https://dora.dev/insights/trust-in-ai/)) reports roughly 39% of developers outside Google trust generative AI output "a little" or "not at all".
 
-The uncomfortable implication: a tool that is usually right is harder to review well than one that is usually wrong. Obvious garbage triggers scrutiny. Plausible output does not.
+A tool that is usually right is harder to review well than one that is usually wrong. Obvious garbage triggers scrutiny. Plausible output does not.
 
 ### The Day Lost Its Low-Load Stretches
 

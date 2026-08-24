@@ -8,7 +8,7 @@ tags: [workflow, reliability, production, escalation, circuit-breaker, error-han
 
 > **Confidence**: Tier 2. Patterns derived from production deployments. Core design principles are stable; specific thresholds and field names will vary by system.
 
-Claude-powered systems fail in ways that differ from traditional software. The model may produce syntactically valid output that is semantically wrong, may refuse to continue when it cannot make progress, or may produce partial results when source data is incomplete. This guide covers the reliability patterns that address these failure modes in production.
+Claude-powered systems fail in ways that differ from traditional software. The model may produce syntactically valid output that is semantically wrong, may refuse to continue when it cannot make progress, or may produce partial results when source data is incomplete. The patterns below address each of these failure modes in production.
 
 ---
 
