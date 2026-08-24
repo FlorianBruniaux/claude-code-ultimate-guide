@@ -52,6 +52,12 @@ straude push --dry-run  # Preview without sending
 straude status       # Streak, global rank, totals
 ```
 
+**viberank**: leaderboard covering more tools (Claude Code, Codex, Gemini CLI, OpenCode, and more). Sends aggregate totals only, no hostname or device UUID. Publishes its dataset via a free JSON API under CC BY 4.0.
+
+```bash
+npx viberank-cli      # Submit ccusage data
+```
+
 ## Token Optimization
 
 **RTK (Rust Token Killer)**: CLI proxy that filters outputs before they enter the context. 92% reduction on `git log`, 90% on tests. See card T20 for details.

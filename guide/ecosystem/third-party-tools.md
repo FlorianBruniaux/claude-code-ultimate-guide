@@ -170,9 +170,37 @@ Your source code, API keys, and conversation content are **not** accessed or tra
 
 **When to choose Straude over ccusage/ccburn**:
 
-Straude is the only tool in this list that is **social**: it uploads your stats to a shared platform. If you want a leaderboard, streak tracking, or to benchmark your usage against other developers, Straude is unique. If you want local-only cost visibility, ccusage or ccburn are better fits and carry no data-sharing implications.
+Straude is one of two social tools in this list: it uploads your stats to a shared platform. If you want a leaderboard, streak tracking, or to benchmark your usage against other developers, Straude or viberank (below) both fit; ccusage and ccburn stay local-only with no data-sharing implications.
 
 > **Security reminder**: Before running any community CLI tool with `npx`, review its npm page and source for red flags. For Straude, the compiled source is readable and consistent with its stated purpose. See the [resource evaluation](../../docs/resource-evaluations/straude-evaluation.md) for the full analysis.
+
+---
+
+### viberank
+
+A public leaderboard for AI coding usage, reading the same local `ccusage` data as Straude but scoped wider: submissions come from Claude Code, Codex, Gemini CLI, Copilot, OpenCode, and other tools ccusage tracks, not Claude Code and Codex alone.
+
+| Attribute | Details |
+|-----------|---------|
+| **Source** | [GitHub: sculptdotfun/viberank](https://github.com/sculptdotfun/viberank) |
+| **Website** | [viberank.app](https://viberank.app) |
+| **Install** | `npx viberank-cli` |
+| **Stars** | 114 (2026-08-24) |
+| **License** | MIT |
+| **Language** | TypeScript |
+| **Created** | July 3, 2025 |
+
+**Key features**:
+
+- Global and per-tool leaderboards (Claude Code, Codex, OpenCode, and more), ranked by measured token spend
+- Spend tiers from Spark ($0+) to Supernova ($50K+)
+- Verified GitHub profile linking and README badges
+- Submission via `npx viberank-cli`, a curl command, or manual web upload
+- Publishes aggregate spend distribution through a free JSON API under CC BY 4.0
+
+**What is sent to the viberank server**: aggregate totals only, tokens, cost, dates, and model names, per the CLI's stated behavior. Unlike Straude, no hostname or device UUID.
+
+**When to choose viberank over Straude**: viberank covers more tools than Claude Code and Codex, and its dataset is published openly rather than staying behind the leaderboard UI. Straude adds streak tracking and a workout-app-styled presentation; pick whichever social framing and tool coverage fits.
 
 ---
 

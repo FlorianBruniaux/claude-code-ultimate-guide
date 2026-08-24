@@ -629,6 +629,7 @@ deep_dive:
   third_party_straude_npm: "https://www.npmjs.com/package/straude"
   third_party_straude_guide: "guide/ecosystem/third-party-tools.md#straude"
   third_party_straude_eval: "docs/resource-evaluations/straude-evaluation.md"
+  third_party_viberank: "guide/ecosystem/third-party-tools.md#viberank"  # AI coding usage leaderboard, Claude Code + Codex + Gemini CLI + OpenCode, aggregate-only telemetry, no hostname/device UUID unlike Straude
   third_party_claude_code_viewer: "https://www.npmjs.com/package/@kimuson/claude-code-viewer"
   third_party_claude_code_config: "https://github.com/joeyism/claude-code-config"
   third_party_aiblueprint: "https://github.com/Melvynx/aiblueprint"
@@ -789,6 +790,7 @@ deep_dive:
   metagpt_tool: "guide/ecosystem/agentic-tools.md#35-metagpt"  # Code = SOP(Team), 5 fixed roles; 69K stars but last release v0.8.1 (Apr 2024), reference only, dormant
   symphony_tool: "guide/ecosystem/agentic-tools.md#44-symphony-openai"  # OpenAI, Elixir, Apache-2.0; Linear board -> per-issue workspace -> Codex agent; engineering preview, spec-as-product
   paperclip_tool: "guide/ecosystem/agentic-tools.md#45-paperclip"  # org chart/budgets/approvals for agent fleets; runtime-agnostic; 74K stars; governs who+how much, not how work is done
+  nimbalyst_tool: "guide/ecosystem/agentic-tools.md#47-nimbalyst"  # visual workspace, Claude Code + Codex side by side, worktree-per-session, inline diff review on markdown/mockups/diagrams, kanban, MIT, 1.5K stars
   opencode_tool: "guide/ecosystem/agentic-tools.md#15-opencode-anomaly-formerly-sst"  # Anomaly (fka SST), MIT, 199K+ stars (highest in category); 75+ providers, client/server split
   gemini_cli_tool: "guide/ecosystem/agentic-tools.md#16-gemini-cli-google"  # Google, Apache-2.0, 106K+ stars; Gemini-first, free tier is the reason to pick it (60 req/min, 1000/day)
   crush_tool: "guide/ecosystem/agentic-tools.md#17-crush-charm"  # Charm, FSL-1.1-MIT (converts to MIT 2yr after each release), 27.5K+ stars; multi-provider, polished TUI

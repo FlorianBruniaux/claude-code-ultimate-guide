@@ -922,6 +922,30 @@ No published case study with measured outcomes exists as of July 2026, which put
 
 ---
 
+### 4.7 Nimbalyst
+
+A desktop workspace for running Claude Code and Codex side by side, built around visual review rather than terminal output. Each session can be isolated in its own git worktree, so several agents work the same repository without colliding.
+
+| Attribute | Details |
+|-----------|---------|
+| **GitHub** | [nimbalyst/nimbalyst](https://github.com/nimbalyst/nimbalyst) |
+| **Stars** | 1,558 (2026-08-24), 223 forks |
+| **License** | MIT |
+| **Language** | TypeScript |
+| **Created** | October 30, 2025 |
+| **Platforms** | macOS, Windows, Linux; mobile companion for iOS and Android |
+| **Works with** | Claude Code, Codex; OpenCode and GitHub Copilot in alpha |
+
+#### What It Actually Does
+
+Every session lands on a searchable kanban board linked to the files it touched. The differentiator is how review works: agent edits render as inline red/green changes inside the document itself, whether that document is markdown, a mockup, a Mermaid or Excalidraw diagram, a CSV, or a data model, and each change gets accepted or rejected in place. Trackers for plans and bugs live in the same workspace and are readable and writable by the agents. It also bundles git management (worktrees, AI-assisted commits, workstreams) and a terminal, plus an extension SDK and MCP client for wiring in other tools.
+
+#### Where It Stops
+
+560 open issues against 1,558 stars (2026-08-24) is a high ratio for a project that has been public less than a year, worth checking before depending on it for anything unattended. Codex and Claude Code are the only providers with full support; OpenCode and Copilot integration is still alpha.
+
+---
+
 ## Section 5: Decision Framework
 
 ### Full Comparison Matrix
@@ -963,6 +987,7 @@ Star counts read July 15, 2026 via the GitHub API. Two rows carry a caveat the n
 | Study role decomposition and SOP pipelines | MetaGPT (read it, do not depend on it) |
 | Dispatch a tracker board to agents, one workspace per issue | Symphony spec (§4.4) |
 | Coordinate mixed agent runtimes under budgets and approvals | Paperclip |
+| Review Claude Code/Codex edits visually instead of reading diffs in a terminal | Nimbalyst (§4.7) |
 | Enforce how work gets done inside an agent session | None of the above (see [spec-first.md](../workflows/spec-first.md)) |
 
 ### The Model Lock-In Question
