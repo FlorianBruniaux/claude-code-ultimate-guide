@@ -4,10 +4,10 @@ subtitle: "Trouver du code par intention, pas par regex"
 card-number: "T14"
 category: "Technique"
 difficulty: "intermediate"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "Mai 2026"
+version: "3.41.3"
+date: "2026-08-24"
 layout: "two-col"
 lang: fr
 format:
@@ -20,7 +20,7 @@ Grep natif (ripgrep) est idéal quand on connaît le texte exact à trouver. Gre
 
 **Économie de tokens** : ~4K tokens avec grepai vs ~15K en faisant grep brut + lecture de fichiers entiers.
 
-## Les 4 outils principaux
+## Les 5 outils principaux
 
 **`grepai_search`** : recherche par description naturelle. Les requêtes courtes (1-3 mots-clés) donnent de meilleurs résultats que des phrases longues.
 
@@ -33,6 +33,8 @@ grepai_search("rate limiting middleware")
 **`grepai_trace_callers`** : trouve toutes les fonctions qui appellent un symbole donné.
 
 **`grepai_trace_callees`** : liste ce qu'une fonction appelle en interne.
+
+**`grepai_trace_graph`** : génère le graphe de dépendances complet autour d'un symbole.
 
 **`grepai_index_status`** : vérifie que l'index est à jour avant de lancer des recherches.
 

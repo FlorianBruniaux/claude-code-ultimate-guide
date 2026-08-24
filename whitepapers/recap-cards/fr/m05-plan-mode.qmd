@@ -4,10 +4,10 @@ subtitle: "Faire planifier Claude avant d'agir"
 card-number: "M05"
 category: "Méthodologie"
 difficulty: "intermediate"
-guide-version: "3.41.1"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.1"
-date: "Mai 2026"
+version: "3.41.3"
+date: "Août 2026"
 layout: "two-col"
 lang: fr
 format:

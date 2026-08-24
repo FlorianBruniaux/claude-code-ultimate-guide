@@ -2,10 +2,10 @@
 title: "Personnaliser Claude"
 subtitle: "CLAUDE.md, Agents, Skills : votre assistant sur-mesure"
 author: "Florian BRUNIAUX"
-date: 2026-07-02
+date: 2026-08-24
 date-format: "MMMM YYYY"
-version: "3.41.1"
-wp-version: "1.5.1"
+version: "3.41.3"
+wp-version: "1.5.2"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -384,17 +384,21 @@ Copiez les templates qui correspondent à vos besoins dans `.claude/rules/` et a
 - Patterns projet-spécifiques : "API routes suivent naming RESTful dans `/api/v1/`"
 - Issues connues : "Ne pas utiliser package X à cause du conflit version avec Y"
 
-### Les 3 Scopes de Mémoire (v3.37.6)
+### Stockage Auto-Memory (v3.37.6)
 
-Claude Code distingue désormais trois scopes de fichiers MEMORY.md, avec une limite d'injection de 200 lignes par fichier (overflow géré via des fichiers thématiques) :
+Auto-Memory stocke la mémoire de projet dans `.claude/memory/MEMORY.md`, et la mémoire globale dans `~/.claude/projects/<path>/memory/MEMORY.md`, avec une limite d'injection de 200 lignes par fichier (overflow géré via des fichiers thématiques). Il n'existe pas de troisième variante gitignorée pour Auto-Memory.
 
-| Scope | Fichier | Partagé | Usage |
-|-------|---------|---------|-------|
-| `user` | `~/.claude/MEMORY.md` | Non (global, tous projets) | Préférences personnelles inter-projets |
-| `project` | `.claude/MEMORY.md` | Oui (commité) | Décisions équipe, conventions projet |
-| `local` | `.claude/MEMORY.local.md` | Non (gitignored) | Overrides personnels par projet |
+La feature Auto-Memory crée ces fichiers automatiquement depuis la conversation. Pour des sujets spécifiques, créez des fichiers dédiés (ex: `.claude/memory/MEMORY-architecture.md`) référencés depuis le fichier principal avec `@`.
 
-La feature Auto-Memory crée ces fichiers automatiquement depuis la conversation. Pour des sujets spécifiques, créez des fichiers dédiés (ex: `.claude/MEMORY-architecture.md`) référencés depuis le fichier principal avec `@`.
+### Les 3 Scopes de l'Agent Memory (frontmatter)
+
+Le champ `memory` du frontmatter agent (voir plus haut) distingue lui trois scopes réels, chacun mappé sur un répertoire, pas sur un fichier MEMORY.md unique :
+
+| Scope | Répertoire | Partagé | Usage |
+|-------|-----------|---------|-------|
+| `user` | `~/.claude/agent-memory/<name>/` | Non (global, tous projets) | Préférences personnelles inter-projets |
+| `project` | `.claude/agent-memory/<name>/` | Oui (commité) | Décisions équipe, conventions projet |
+| `local` | `.claude/agent-memory-local/<name>/` | Non (gitignored) | Overrides personnels par projet |
 
 **Différence avec CLAUDE.md** :
 
@@ -577,23 +581,22 @@ Le frontmatter YAML est le contrat d'exécution de l'agent : il détermine quels
 |-------|--------|-------------|
 | `name` | Oui | Identifiant kebab-case |
 | `description` | Oui | Quand activer cet agent |
-| `model` | Non | `haiku`, `sonnet` (défaut), `opus-4.6` |
+| `model` | Non | `haiku`, `sonnet` (défaut), `opus` |
 | `tools` | Non | Outils autorisés (comma-separated) |
 | `skills` | Non | Skills à hériter |
 | `disallowedTools` | Non | Outils bloqués |
-| `memory` | Non | Contexte pré-populé pour l'agent (v2.1.32+) |
+| `memory` | Non | Scope de mémoire persistante : `user`, `project` ou `local` (v2.1.32+) |
 
-**Nouveau (v2.1.32)** : Le champ `memory` permet de pré-populer le contexte agent :
+**Nouveau (v2.1.32)** : Le champ `memory` pointe l'agent vers un scope de stockage persistant, pas vers un bloc de texte pré-rempli :
 
 ```yaml
 ---
 name: security-auditor
-memory: |
-  This project follows OWASP Top 10 guidelines.
-  Previous audit (Dec 2025) flagged JWT expiry handling.
-  Team prefers early warnings over false positives.
+memory: project
 ---
 ```
+
+Claude lit et écrit des notes persistantes pour cet agent d'une session à l'autre, dans le répertoire correspondant au scope choisi : `~/.claude/agent-memory/security-auditor/` (`user`), `.claude/agent-memory/security-auditor/` (`project`) ou `.claude/agent-memory-local/security-auditor/` (`local`).
 
 ### Sélection du Modèle
 
@@ -603,7 +606,7 @@ Le choix du modèle dans le frontmatter détermine le rapport qualité/coût de 
 |--------|-------|---------|------|
 | `haiku` | Tâches simples, rapides | Rapide | Bas |
 | `sonnet` | Développement général (défaut) | Équilibré | Moyen |
-| `opus-4.6` | Raisonnement complexe, architecture | Lent | Élevé |
+| `opus` | Raisonnement complexe, architecture | Lent | Élevé |
 
 {{< pagebreak >}}
 
@@ -689,7 +692,7 @@ Debugger systématique qui :
 
 **Nouveau (v2.1.32+)** : TeammateTool permet l'orchestration multi-agents avec communication persistante, notamment les patterns Parallel Specialists et Swarm pour analyses parallèles sur grandes codebases.
 
-> **Statut expérimental** : feature flags community-discovered, timeout heartbeat 5 min, pas de support officiel Anthropic. Éviter en production.
+> **Statut expérimental** : research preview officiellement annoncé par Anthropic (v2.1.32+), derrière le flag `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`. Aucune garantie de stabilité -- rester prudent en production.
 
 → Voir **#8 Agent Teams** (`08-agent-teams.qmd`) pour la documentation complète : backends, patterns, exemples de code.
 
@@ -817,6 +820,8 @@ Agent C: inherits security-guardian
 
 Le frontmatter d'un skill controle son isolation (`context: fork` pour un bac a sable propre, `inherit` pour partager le contexte parent) et ses outils. Choisir `fork` quand le skill fait des operations potentiellement destructrices ; `inherit` quand il enrichit le flux de travail courant.
 
+**Limite documentée** : `context: fork` n'isole que lorsque le skill est invoqué comme slash command tapée par un utilisateur. Appelé via le Skill tool depuis du code agent, `context: fork` est ignoré et l'isolation ne s'active pas -- ne comptez pas dessus seul pour sandboxer des opérations destructrices déclenchées par un autre agent.
+
 ::: {.callout-note title="Exemple concret : skill security-guardian"}
 ```yaml
 ---
@@ -824,7 +829,7 @@ name: security-guardian
 description: OWASP Top 10 security checks for web applications
 allowed-tools: Read, Grep, Glob
 context: fork
-agent: specialist
+model: haiku
 ---
 ```
 :::
@@ -837,7 +842,7 @@ name: skill-name
 description: Short description (100 chars)
 allowed-tools: Read, Grep, Bash
 context: fork
-agent: specialist
+effort: low
 ---
 ```
 
@@ -847,7 +852,6 @@ agent: specialist
 | `description` | Trigger d'activation |
 | `allowed-tools` | Outils autorisés |
 | `context` | `fork` (isolé) ou `inherit` (partagé) |
-| `agent` | `specialist` (domaine) ou `general` |
 | `effort` | `low`, `medium` ou `high`: coût computationnel attendu (v3.37.3) |
 
 **Champ `effort` (v3.37.3)** : Signal le coût computationnel attendu de la skill ou command. Inféré automatiquement par `eval-skills` depuis les signaux de contenu : tâches mécaniques → `low`, analyse bornée → `medium`, adversarial ou architectural → `high`. Utile pour prioriser et budgéter les appels en production.
@@ -1365,12 +1369,12 @@ Voici l'arborescence complète d'un projet bien configuré. Les fichiers marqué
 ├── settings.local.json    # Permissions personnelles (gitignored)
 ├── agents/                # Agents custom
 │   └── code-reviewer.md
-├── commands/              # Slash commands
+├── skills/                # Modules connaissance + slash commands (depuis CC 2.1.3)
+│   ├── security-guardian/
+│   │   └── SKILL.md
 │   └── tech/
-│       └── commit.md
-├── skills/                # Modules connaissance
-│   └── security-guardian/
-│       └── SKILL.md
+│       └── commit/
+│           └── SKILL.md
 └── rules/                 # Auto-load session start (depuis Claude Code 1.0.x)
     ├── code-conventions.md    # Style, naming (50-100 lines)
     ├── git-workflow.md        # Commits, branching
@@ -1399,7 +1403,7 @@ Overrides personnels de permissions (gitignored) :
 
 **Règles Git** :
 
-- ✅ **Commit** : `settings.json` (équipe), `agents/`, `commands/`, `hooks/`, `skills/`, `rules/`
+- ✅ **Commit** : `settings.json` (équipe), `agents/`, `hooks/`, `skills/`, `rules/`
 - ❌ **Gitignore** : `settings.local.json` (personnel), `CLAUDE.md` (local), `.serena/`
 
 ## Références Officielles
@@ -1434,7 +1438,7 @@ Overrides personnels de permissions (gitignored) :
 
 **Repository** : [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)
 
-*Version 3.41.1 | Juillet 2026*
+*Version 3.41.3 | Août 2026*
 
 
 ---

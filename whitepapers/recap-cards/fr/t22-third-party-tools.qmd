@@ -4,10 +4,10 @@ subtitle: "Les outils complémentaires indispensables de l'écosystème"
 card-number: "T22"
 category: "Technique"
 difficulty: "intermediate"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "Mai 2026"
+version: "3.41.3"
+date: "Août 2026"
 layout: "two-col"
 lang: fr
 format:
@@ -42,7 +42,7 @@ ccboard          # Interface TUI
 ccboard --web    # UI web sur localhost:3000
 ```
 
-## Recherche dans l'Historique
+## Partage Social & Classement
 
 **Straude** : dashboard social pour tracker et partager ses stats de consommation. Pousse les métriques quotidiennes (coût, tokens, modèles) vers un leaderboard public. Attention : envoie le hostname machine et un UUID device aux serveurs Straude. Utiliser `--dry-run` avant le premier push.
 
@@ -78,6 +78,6 @@ Flux typique : créer un workspace par feature depuis une issue GitHub ou Linear
 | Multi-agents | Conductor ou Toad |
 | Écosystème Python | ccburn + Claude Chic |
 
-## Lacunes Connues (Mars 2026)
+## Lacunes Connues
 
-Pas d'éditeur visuel pour les skills `.claude/skills/`. Pas de dashboard unifié combinant config, sessions, coûts et MCP. La gestion de config MCP reste manuelle via `~/.claude.json`.
+Pas d'éditeur visuel pour les skills `.claude/skills/`. Pas de dashboard unifié combinant config, sessions, coûts et MCP. Un TUI dédié existe pour les serveurs MCP (`claude-code-config`, `pip install claude-code-config`), mais reste limité au scope `~/.claude.json` : ni `settings.json`, ni hooks, ni commandes.

@@ -4,10 +4,10 @@ subtitle: "Où vit l'information que Claude utilise et comment la gérer"
 card-number: "C05"
 category: "Conception"
 difficulty: "intermediate"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "Mai 2026"
+version: "3.41.3"
+date: "Août 2026"
 layout: "two-col"
 lang: fr
 format:
@@ -63,4 +63,4 @@ Mois 1    : 20 règles → 20 erreurs évitées
 Mois 3    : 50 règles → onboarding accéléré
 ```
 
-**Taille cible :** entre 4 et 8 Ko au total (tous niveaux confondus). Au-delà de 16 Ko, la cohérence du modèle se dégrade selon les études praticiennes.
+**Taille cible :** entre 4 et 8 Ko au total (tous niveaux confondus). Au-delà de 16K tokens, la cohérence du modèle se dégrade selon les études praticiennes.

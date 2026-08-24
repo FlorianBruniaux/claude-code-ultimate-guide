@@ -2,10 +2,10 @@
 title: "Leading a Team in the Age of AI"
 subtitle: "Metrics, adoption, and governance for engineering managers"
 author: "Florian Bruniaux"
-date: 2026-07-02
+date: 2026-08-24
 date-format: "MMMM YYYY"
-version: "3.41.1"
-wp-version: "1.2.0"
+version: "3.41.3"
+wp-version: "1.2.1"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -272,6 +272,8 @@ Sourced from Strata Identity Research 2026 and CSA/Zenity 2026. These reflect th
 ## The Heavy-User Review Time Contradiction
 
 Digital Applied Q1 2026 (n=2,847 developers) found that heavy AI tool users spend 14-16 hours per week reviewing AI-generated code, compared to 11.4 hours per week for average users. This directly contradicts the narrative that AI reduces review burden. The most likely explanation: per-review unit efficiency may improve, but the volume of generated code grows faster than review capacity. Before committing to time-savings projections, measure your team's actual review time distribution across AI-generated and manually written PRs.
+
+Review effectiveness has a ceiling that predates AI and hasn't moved: detection degrades sharply past roughly 200-400 lines per review, or 60-90 minutes of sustained reviewing (Cisco/SmartBear, Cohen 2006). A 14-16 hour weekly review load is therefore not 14-16 hours of equivalent-quality review. See [The Attention Cost of the Review Shift](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/roles/learning-with-ai.md#the-attention-cost-of-the-review-shift) for the underlying studies and the practices that keep review inside the effective band.
 
 ## The Uplevel Copilot Study
 
@@ -555,9 +557,9 @@ For regulated environments and compliance-conscious orgs, a PR audit trail captu
 # See Also
 
 - [Team Metrics: Reference Guide](https://cc.bruniaux.com/guide/team-metrics/): full version with dashboards and additional resources
-- [Session Observability](https://cc.bruniaux.com/guide/ops/observability/): Claude Code session monitoring, cost tracking, usage patterns
-- [AI Traceability](https://cc.bruniaux.com/guide/ops/ai-traceability/): AI contribution auditing, attribution, and compliance
-- [Team Deployment](https://cc.bruniaux.com/guide/roles/team-deployment/): Claude Code team adoption, CI/CD, champions program
+- [Session Observability](https://cc.bruniaux.com/guide/observability/): Claude Code session monitoring, cost tracking, usage patterns
+- [AI Traceability](https://cc.bruniaux.com/guide/ai-traceability/): AI contribution auditing, attribution, and compliance
+- [Choosing Your Adoption Approach](https://cc.bruniaux.com/guide/adoption-approaches/): Claude Code team adoption patterns, CLAUDE.md configuration strategies
 
 # The Series
 

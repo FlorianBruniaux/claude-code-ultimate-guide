@@ -4,10 +4,10 @@ subtitle: "Toutes les clés de configuration et leur portée"
 card-number: "T06"
 category: "Technique"
 difficulty: "intermediate"
-guide-version: "3.41.1"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.1"
-date: "Mai 2026"
+version: "3.41.3"
+date: "Août 2026"
 layout: "two-col"
 lang: fr
 format:
@@ -90,7 +90,7 @@ format:
 }
 ```
 
-`mode: "add"` étend la liste par défaut plutôt que de la remplacer. Ces clés n'ont aucun impact fonctionnel, uniquement cosmétique.
+`mode: "append"` étend la liste par défaut plutôt que de la remplacer. Ces clés n'ont aucun impact fonctionnel, uniquement cosmétique.
 
 ## Ce qui doit rester en .gitignore
 

@@ -4,10 +4,10 @@ subtitle: "Automatically react to Claude Code actions"
 card-number: "M11"
 category: "Methodology"
 difficulty: "intermediate"
-guide-version: "3.41.1"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.1"
-date: "May 2026"
+version: "3.41.3"
+date: "2026-08-24"
 layout: "two-col"
 lang: en
 format:
@@ -32,15 +32,15 @@ A hook is a shell script (or any command) executed automatically when Claude Cod
 | `Stop` | Claude finishes responding | Yes |
 | `SubagentStop` | A sub-agent ends | Yes |
 
-## Agent Teams events (v2.1.32+)
+## Multi-agent and configuration events
 
-| Event | Use |
-|-------|-----|
-| `TeammateIdle` | A team member is about to go idle |
-| `TaskCompleted` | A task is about to be marked complete |
-| `ConfigChange` | A config file changed during the session |
+| Event | Since | Use |
+|-------|-------|-----|
+| `TeammateIdle` | v2.1.32+ (Agent Teams) | A team member is about to go idle |
+| `TaskCompleted` | v2.1.32+ (Agent Teams) | A task is about to be marked complete |
+| `ConfigChange` | v2.1.49+ | A config file changed during the session |
 
-These events allow implementing quality gates at the agent team level: preventing a task from being marked `completed` if tests fail, for example.
+`TeammateIdle` and `TaskCompleted` allow implementing quality gates at the agent team level: preventing a task from being marked `completed` if tests fail, for example. `ConfigChange` is for configuration auditing in enterprise environments and does not depend on Agent Teams.
 
 ## Configuration in settings.json
 

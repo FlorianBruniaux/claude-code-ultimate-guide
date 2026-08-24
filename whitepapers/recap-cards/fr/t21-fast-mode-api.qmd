@@ -4,10 +4,10 @@ subtitle: "Le mode rapide et les changements API majeurs à connaître"
 card-number: "T21"
 category: "Technique"
 difficulty: "intermediate"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "Mai 2026"
+version: "3.41.3"
+date: "Août 2026"
 layout: "two-col"
 lang: fr
 format:
@@ -16,14 +16,16 @@ format:
 
 ## Fast Mode
 
-Fast Mode produit des réponses **2.5x plus rapides** en échange d'un coût 2x supérieur (vérifiée pour Opus 4.8). Le modèle sous-jacent reste Opus 4.8, et non un modèle différent. Fast Mode priorise l'allocation de ressources, sans simplifier le raisonnement.
+Fast Mode produit des réponses **2.5x plus rapides** en échange d'un coût 2x supérieur. Disponible sur Opus 5, le modèle Opus par défaut depuis la v2.1.219, et sur Opus 4.8, la génération précédente restée par défaut sur Bedrock/Vertex/Claude-Platform-on-AWS. Le modèle sous-jacent reste le même, Fast Mode ne bascule pas vers un modèle différent. Opus 4.7 a été retiré de Fast Mode depuis la v2.1.219.
 
 | Paramètre | Standard | Fast Mode |
 |-----------|----------|-----------|
-| Modèle | Opus 4.8 | Opus 4.8 |
+| Modèle | Opus 5 | Opus 5 |
 | Vitesse | Référence | 2.5x plus rapide |
-| Prix input | Voir docs officielles | 2x standard |
-| Prix output | Voir docs officielles | 2x standard |
+| Prix input | $5.00/Mtok | $10.00/Mtok |
+| Prix output | $25.00/Mtok | $50.00/Mtok |
+
+Sur Opus 4.8, Fast Mode applique le même ratio (2.5x plus rapide, 2x le prix standard) ; les tarifs précis ne sont pas publiés, voir la documentation officielle.
 
 **En CLI :** `/fast` active le mode pour la session courante.
 
@@ -41,11 +43,11 @@ Fast Mode est rentable quand le temps de réponse a une valeur métier directe :
 - Tâches simples couvrable par Sonnet ou Haiku
 - Budgets API serrés
 
-## Fast Mode via API (Opus 4.8)
+## Fast Mode via API (Opus 5)
 
 ```python
 response = client.messages.create(
-    model="claude-opus-4-8",
+    model="claude-opus-5",
     speed="fast",
     extra_headers={
         "anthropic-beta": "fast-mode-2026-02-01"
@@ -78,7 +80,7 @@ system="Always respond with valid JSON only."
 Le paramètre `effort` remplace `budget_tokens` sur Opus 4.6 pour contrôler la profondeur de raisonnement.
 
 ```python
-output_config={"effort": "medium"}  # low|medium|high|max
+output_config={"effort": "medium"}  # low|medium|high|xhigh|max
 ```
 
 `budget_tokens` reste fonctionnel sur Opus 4.5 mais est déprécié sur 4.6. Migrer vers `effort` pour les nouveaux pipelines.

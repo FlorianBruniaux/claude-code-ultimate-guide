@@ -4,10 +4,10 @@ subtitle: "Understanding the attack vectors specific to Claude Code"
 card-number: "C08"
 category: "Design"
 difficulty: "intermediate"
-guide-version: "3.41.1"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.1"
-date: "May 2026"
+version: "3.41.3"
+date: "August 2026"
 layout: "two-col"
 lang: en
 format:
@@ -41,6 +41,7 @@ Claude Code is an agent with access to the filesystem, Bash commands, and the in
 | CVE-2025-53109/53110 | High | Sandbox escape filesystem MCP |
 | CVE-2025-54135 | High | RCE via prompt injection in Cursor |
 | ADVISORY-CC-2026-001 | High | Sandbox bypass, patch v2.1.34+ |
+| ADVISORY-CC-2026-002 | Medium | Deny rules silently dropped past 50 subcommands, patch v2.1.90+ |
 | CVE-2026-0755 | Critical (9.8) | RCE in gemini-mcp-tool (no patch) |
 
 **Immediate action if you are on v2.1.33 or earlier:** update to v2.1.34+ to fix the sandbox bypass.
@@ -61,9 +62,9 @@ Minimal permissions (settings.json)
 
 ## Audit with JSONL logs
 
-Claude Code writes all its tool calls to `~/.claude/logs/`. These JSONL logs allow detecting abnormal behavior after the fact: unexpected reads of sensitive files, unplanned network calls, modification attempts outside scope.
+Claude Code writes all its tool calls to the session JSONL file, `~/.claude/projects/{encoded-path}/{session-id}.jsonl`. These logs allow detecting abnormal behavior after the fact: unexpected reads of sensitive files, unplanned network calls, modification attempts outside scope.
 
 ```bash
 # Inspect tool calls from a session
-cat ~/.claude/logs/session-*.jsonl | jq '.tool_name'
+cat ~/.claude/projects/*/*.jsonl | jq '.message.content[]?.name // empty'
 ```

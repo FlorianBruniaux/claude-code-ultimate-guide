@@ -4,10 +4,10 @@ subtitle: "Synchroniser sa configuration Claude Code entre plusieurs postes"
 card-number: "T10"
 category: "Technique"
 difficulty: "intermediate"
-guide-version: "3.41.1"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.1"
-date: "Mai 2026"
+version: "3.41.3"
+date: "Août 2026"
 layout: "two-col"
 lang: fr
 format:
@@ -44,7 +44,11 @@ cp ~/.claude/settings.json ./settings.template.json
 # Remplacer les valeurs par ${ANTHROPIC_API_KEY} etc.
 
 # 4. .gitignore strict
-echo "settings.json\nmcp.json\nprojects/" > .gitignore
+cat > .gitignore << EOF
+settings.json
+mcp.json
+projects/
+EOF
 
 git remote add origin git@github.com:you/claude-config-private.git
 git push -u origin main

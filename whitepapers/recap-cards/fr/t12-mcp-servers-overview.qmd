@@ -4,10 +4,10 @@ subtitle: "Le protocole d'extension et les serveurs essentiels"
 card-number: "T12"
 category: "Technique"
 difficulty: "intermediate"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "Mai 2026"
+version: "3.41.3"
+date: "2026-08-24"
 layout: "two-col"
 lang: fr
 format:
@@ -40,7 +40,7 @@ Les MCP servers se déclarent dans `~/.claude/settings.json` (global) ou `.claud
   "mcpServers": {
     "context7": {
       "command": "npx",
-      "args": ["-y", "@upstash/context7-mcp"],
+      "args": ["-y", "@upstash/context7-mcp", "--api-key", "YOUR_API_KEY"],
       "env": {}
     },
     "github": {
@@ -73,9 +73,9 @@ Les MCP servers se déclarent dans `~/.claude/settings.json` (global) ou `.claud
 
 ## MCP Apps (SEP-1865)
 
-Extension stable depuis janvier 2026, co-développée par Anthropic et OpenAI. Elle permet aux MCP servers de retourner des interfaces interactives (HTML/JS) en plus des réponses texte classiques, rendues dans un iframe sandboxé côté client.
+Extension disponible depuis le 26 janvier 2026, co-écrite par Anthropic, OpenAI et les créateurs de MCP-UI. Elle permet aux MCP servers de retourner des interfaces interactives (HTML/JS) en plus des réponses texte classiques.
 
-**Cas d'usage** : dashboards de données, formulaires complexes, visualisations temps réel directement dans la conversation.
+**Non disponible en Claude Code CLI** : le terminal reste text-only, ces interfaces ne s'y affichent pas. MCP Apps fonctionne dans Claude Desktop, VS Code Insiders et ChatGPT. Intérêt pour un usage CLI : explorer visuellement dans Claude Desktop, puis automatiser les actions identifiées dans Claude Code.
 
 ## alwaysLoad (v2.1.121)
 

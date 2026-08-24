@@ -4,10 +4,10 @@ subtitle: "Where the information Claude uses lives and how to manage it"
 card-number: "C05"
 category: "Design"
 difficulty: "intermediate"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "May 2026"
+version: "3.41.3"
+date: "August 2026"
 layout: "two-col"
 lang: en
 format:
@@ -63,4 +63,4 @@ Month 1 : 20 rules → 20 errors avoided
 Month 3 : 50 rules → accelerated onboarding
 ```
 
-**Target size:** between 4 and 8 KB total (across all levels). Beyond 16 KB, model coherence degrades according to practitioner studies.
+**Target size:** between 4 and 8 KB total (across all levels). Beyond 16K tokens, model coherence degrades according to practitioner studies.

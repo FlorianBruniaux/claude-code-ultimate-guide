@@ -4,10 +4,10 @@ subtitle: "Manually triggered skills via /name (CC 2.1.3)"
 card-number: "M09"
 category: "Methodology"
 difficulty: "intermediate"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "May 2026"
+version: "3.41.3"
+date: "August 2026"
 layout: "two-col"
 lang: en
 format:

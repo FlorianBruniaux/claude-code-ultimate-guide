@@ -4,10 +4,10 @@ subtitle: "Official documentation and multi-step reasoning within reach of a pro
 card-number: "T13"
 category: "Technical"
 difficulty: "intermediate"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "May 2026"
+version: "3.41.3"
+date: "2026-08-24"
 layout: "two-col"
 lang: en
 format:
@@ -33,14 +33,14 @@ Context7 solves a common problem: Claude knows popular APIs up to its knowledge 
 
 Sequential Thinking brings a multi-step reasoning engine for complex problems. Rather than answering directly, it decomposes the problem into hypotheses, tests them, and builds an argued response step by step.
 
-**Triggers**: `--think`, `--think-hard`, `--ultrathink` flags, or problems involving 3+ interconnected components.
+**Triggers**: an explicit request ("reason step by step", "use Sequential Thinking"), or problems involving 3+ interconnected components. There is no dedicated CLI flag for Sequential Thinking: `--think-hard` and `--ultrathink` are old keywords for the model's own native extended thinking, now purely cosmetic and without effect (reasoning depth is set via the `/model` slider or `effortLevel`).
 
 ```bash
-# Activate Sequential for complex debugging
-"Why is this API slow? --think-hard"
+# Invoke Sequential for complex debugging
+"Why is this API slow? Use Sequential Thinking to analyze it step by step."
 
 # Architecture design
-"Design a multi-level cache system --ultrathink"
+"Design a multi-level cache system with Sequential Thinking."
 ```
 
 **Do not use for**: simple fixes, typos, short explanations, single-file tasks. The reasoning overhead is not justified on trivial cases.
@@ -73,8 +73,8 @@ The two servers complement each other well for architecture or migration tasks:
 ## Quick installation
 
 ```bash
-# Context7
-npx -y @upstash/context7-mcp
+# Context7 (requires an API key)
+npx -y @upstash/context7-mcp --api-key YOUR_API_KEY
 
 # Sequential Thinking (official Anthropic)
 npx -y @modelcontextprotocol/server-sequential-thinking

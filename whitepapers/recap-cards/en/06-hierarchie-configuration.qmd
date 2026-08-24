@@ -3,11 +3,11 @@ title: "Configuration Hierarchy"
 subtitle: "Where to configure what, from global to local"
 card-number: "T05"
 category: "Technical"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 difficulty: "beginner"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "May 2026"
+version: "3.41.3"
+date: "2026-08-24"
 layout: "two-col"
 lang: en
 format:
@@ -43,7 +43,7 @@ Rules at a lower level **supplement** rather than replace higher levels.
 
 ```json
 {
-  "model": "claude-opus-4-5",
+  "model": "claude-sonnet-5",
   "permissions": {
     "allow": ["Bash(git *)"],
     "deny": ["Bash(rm -rf*)"]

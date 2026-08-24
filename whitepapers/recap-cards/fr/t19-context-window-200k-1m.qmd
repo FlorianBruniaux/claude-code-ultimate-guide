@@ -4,10 +4,10 @@ subtitle: "Quand passer à la fenêtre de contexte étendue et à quel coût"
 card-number: "T19"
 category: "Technique"
 difficulty: "intermediate"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "Mai 2026"
+version: "3.41.3"
+date: "Août 2026"
 layout: "two-col"
 lang: fr
 format:
@@ -32,15 +32,15 @@ Au-dessus de 200K tokens en entrée, **tous les tokens du contexte** sont factur
 | Opus 4.6 | 93% | 76% |
 | Sonnet 4.5 | n/a | 18.5% |
 
-Opus 4.8 reste utilisable à 1M (76% de précision), mais la dégradation est mesurable. Sonnet s'effondre et n'est pas recommandé au-delà de 200K pour des tâches précises.
+Ce sont les derniers scores MRCR publiés par Anthropic ; ceux d'Opus 4.8, Opus 5 et Sonnet 5 ne sont pas encore publiés. Opus reste la référence à 1M, mais la dégradation au-delà de 256K est mesurable. Sonnet s'effondre et n'est pas recommandé au-delà de 200K pour des tâches précises.
 
 ## Coût par Session (Approximatif)
 
-| Type de session | Tokens in | Sonnet 4.6 | Opus 4.8 |
+| Type de session | Tokens in | Sonnet 5 | Opus 5 |
 |-----------------|-----------|-----------|---------|
-| PR review (≤200K) | 50K | ~$0.23 | ~$0.38 |
-| Refactorisation (≤200K) | 150K | ~$0.75 | ~$1.25 |
-| Analyse service (>200K) | 500K | ~$4.13 | ~$6.88 |
+| PR review (≤200K) | 50K | ~$0.15 | ~$0.38 |
+| Refactorisation (≤200K) | 150K | ~$0.50 | ~$1.25 |
+| Analyse service (>200K) | 500K | ~$2.75 | ~$6.88 |
 
 ## Quand Utiliser 1M
 
@@ -58,7 +58,7 @@ La règle de la communauté : 200K + RAG par défaut, 1M Opus réservé aux cas 
 
 ## Activation (API)
 
-> **Plans Claude Code Max, Team et Enterprise** : le contexte 1M est activé automatiquement depuis v2.1.75, aucun header nécessaire. La section ci-dessous concerne uniquement l'accès API direct (appels Anthropic hors CLI Claude Code).
+> **Plans Claude Code Max, Team et Enterprise** : le contexte 1M est activé automatiquement depuis v2.1.75, aucun header nécessaire. Sonnet 5 et Opus 5 embarquent nativement 1M ; ce header d'activation manuelle concerne Opus 4.8 (génération précédente) en accès API direct (appels Anthropic hors CLI Claude Code).
 
 ```python
 response = client.messages.create(

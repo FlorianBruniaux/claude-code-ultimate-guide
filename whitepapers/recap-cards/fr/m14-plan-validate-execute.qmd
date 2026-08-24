@@ -1,13 +1,13 @@
 ---
 title: "Plan-Validate-Execute Pipeline"
-subtitle: "Le workflow 3 phases pour des tâches complexes sous contrôle"
+subtitle: "Workflow de production en 3 commandes : recherche, validation, exécution jusqu'au PR mergé"
 card-number: "M14"
 category: "Méthodologie"
 difficulty: "advanced"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "Mai 2026"
+version: "3.41.3"
+date: "2026-08-24"
 layout: "two-col"
 lang: fr
 format:
@@ -16,75 +16,63 @@ format:
 
 ## Vue d'ensemble
 
-Plan-Validate-Execute est un pipeline en trois phases qui s'impose dès qu'une tâche touche plus de cinq fichiers ou deux répertoires. L'objectif : ne jamais exécuter sans avoir validé un plan explicite. Boris Cherny (Head of Claude Code chez Anthropic) démarre 80% de ses tâches en Plan Mode pour cette raison. L'exécution est presque toujours correcte du premier coup quand le plan est solide.
+Plan-Validate-Execute est un workflow de production en trois commandes qui étend le Plan Mode natif : `/plan-start`, `/plan-validate`, `/plan-execute`. Chaque run alimente une boucle d'apprentissage ADR qui réduit les interruptions humaines au fil des projets. Confiance Tier 2 : testé en production par des équipes qui shippent des produits AI-first à l'échelle.
 
-## Phase 1 : Plan
-
-Entrer en Plan Mode (lecture seule) pour que Claude analyse et propose un plan d'action détaillé avant d'écrire une seule ligne.
+## Les 3 commandes
 
 ```bash
-# Activer le Plan Mode
-Shift+Tab x2   # Depuis Normal Mode
-
-# Ou via slash command
-/plan
-
-# Claude génère un plan structuré :
-# 1. Lire schema.prisma
-# 2. Ajouter le champ email: String? @unique
-# 3. Générer la migration Prisma
-# 4. Mettre à jour les types TypeScript
-# Impact: 3 fichiers, 1 migration
+/plan-start    # PRD + équipe de recherche dynamique + ADRs
+/plan-validate # Checks structurels + agents spécialistes déclenchés
+/plan-execute  # Worktree + TDD + exécution parallèle + PR mergé
 ```
 
-Sortir du Plan Mode : `Shift+Tab` (retour en Normal Mode). Claude demandera confirmation avant d'implémenter.
+Lancer `/clear` entre chaque commande : chaque commande lit ses entrées depuis le disque (fichier de plan, ADRs), rien à garder en mémoire de contexte.
 
-## Phase 2 : Validate
+## /plan-start : planification en 5 phases
 
-Avant d'approuver le plan, le soumettre à une revue critique. Deux approches :
+| Phase | Contenu |
+|-------|---------|
+| 1. PRD & design | Requirements manquants/ambigus, conformité |
+| 2. Technique | Agents Explore, création d'ADRs si décision nouvelle |
+| 3. Scope | Sélection de l'équipe de recherche (tier 0 à 4) |
+| 4. Recherche | Agents en parallèle, `planning-coordinator` (Opus) synthétise |
 
-**Review manuelle** : lire le plan et identifier les angles morts (fichiers oubliés, ordre d'opérations incorrect, effets de bord non anticipés).
+Si 3+ ADRs confirmés couvrent déjà la décision, la phase 2 s'auto-résout sans agent.
 
-**Agent adversarial** : déléguer la critique à un sous-agent dont la mission est de trouver des failles dans le plan proposé. Demander explicitement : "Quel est le risque principal de ce plan ? Qu'est-ce qui pourrait mal tourner ?"
+## /plan-validate : validation à 2 couches
 
-La validation n'est pas optionnelle sur les tâches complexes : c'est le filet de sécurité.
+Couche 1 (structurelle, instantanée) : format du plan, ordre des tâches, cohérence avec les ADRs. Couche 2 (spécialistes, 0 à 8 agents selon le risque) : `security-reviewer`, `db-migration-reviewer`, `performance-reviewer`, entre autres, chacun déclenché par un critère précis (auth, migration de schéma, nouvelle route...).
 
-## Phase 3 : Execute
+Toute issue doit être résolue : auto-résolue via un ADR ou `PATTERNS.md` existant, ou tranchée par un humain, ce qui devient une règle pour la prochaine fois.
 
-Une fois le plan validé, exécuter avec des checkpoints réguliers.
+## /plan-execute : jusqu'au PR mergé
 
-```bash
-# Quitter le Plan Mode et exécuter
-Shift+Tab   # Retour en Normal Mode
-> "Approuve ce plan et implémente étape par étape"
+Worktree isolé, scaffolding TDD, exécution parallèle des tâches indépendantes (commit par tâche), quality gate (tests + smoke test), PR et merge squash, nettoyage du worktree. Si le quality gate échoue : jusqu'à 3 tentatives d'auto-correction par des agents de debug dédiés, puis notification humaine.
 
-# Pour les tâches très longues : créer les tasks avant d'exécuter
-export CLAUDE_CODE_TASK_LIST_ID="projet-migration-v2"
-# Puis TaskCreate depuis le plan validé
-```
+## Boucle d'apprentissage ADR
 
-## Intégration Tasks API
+Chaque décision architecturale significative génère un ADR. 1 ADR : suivi. 2 ADR : recommandé par défaut. 3+ ADR : confirmé, auto-résolu lors des plans suivants, candidat à une promotion en règle dure dans `CLAUDE.md`. Sur un projet à 20 plans, environ 80% des décisions d'architecture s'auto-résolvent.
 
-Convertir le plan validé en tasks persistantes avant l'exécution. Chaque étape du plan devient une task avec ses dépendances déclarées. Si la session est interrompue en cours d'exécution, `TaskList` permet de reprendre exactement là où on s'est arrêté.
+## Quand utiliser ce pipeline
 
-## Quand appliquer ce pipeline
+| Critère | Réponse |
+|---------|---------|
+| Feature multi-couches (API + DB + UI) | Oui |
+| Changement sensible (auth, paiement, PII) | Oui |
+| Typo, refactor trivial | Non, `/plan` natif suffit |
+| Prototypage exploratoire aux besoins flous | Non |
 
-| Critère | Seuil |
-|---------|-------|
-| Fichiers touchés | Plus de 5 |
-| Répertoires impliqués | Plus de 2 |
-| Durée estimée | Plus de 30 minutes |
-| Risque de régression | Toute modification de schéma, API publique, ou config |
+## Coût
 
-Pour les corrections rapides et les tâches connues, le pipeline ajoute plus de friction que de valeur. Le bon réflexe : douter de la complexité avant de lancer, pas après.
+Feature Tier 2 typique : $2 à $10 pour le pipeline complet. Le coût décroît à mesure que la couverture ADR grandit : moins d'agents nécessaires, moins d'issues en validation, exécution plus rapide.
 
 ## Auto Plan Mode
 
-Forcer le Plan Mode sur toutes les opérations via `--append-system-prompt` :
+Forcer le Plan Mode natif sur toutes les opérations via `--append-system-prompt` :
 
 ```bash
 alias claude-safe='claude --append-system-prompt \
   "$(cat ~/.claude/auto-plan-mode.txt)"'
 ```
 
-Le fichier `auto-plan-mode.txt` instruit Claude de présenter un plan et d'attendre l'approbation explicite avant chaque outil. Utile pour les sessions sur des bases de code critiques ou inconnues.
+Le fichier `auto-plan-mode.txt` instruit Claude de présenter un plan et d'attendre l'approbation explicite avant chaque outil. Utile pour les sessions sur des bases de code critiques ou inconnues, en dehors du pipeline à 3 commandes.

@@ -4,10 +4,10 @@ subtitle: "Structured approach to diagnosing and resolving errors"
 card-number: "M21"
 category: "Methodology"
 difficulty: "intermediate"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "May 2026"
+version: "3.41.3"
+date: "2026-08-24"
 layout: "two-col"
 lang: en
 format:
@@ -66,7 +66,7 @@ This prompt forces Claude to expose its reasoning, allowing you to validate or c
 
 ## When to use debug agents
 
-A single agent suits bugs localized to 1 to 3 files. For problems that cross multiple interconnected components (a network bug affecting auth affecting the database), delegating exploration to a sub-agent via the Task tool preserves the main context.
+A single agent suits bugs localized to 1 to 3 files. For problems that cross multiple interconnected components (a network bug affecting auth affecting the database), delegating exploration to a sub-agent via the Agent tool (formerly Task) preserves the main context.
 
 ```
 Main agent  →  Task("Explore auth flow from request to DB")

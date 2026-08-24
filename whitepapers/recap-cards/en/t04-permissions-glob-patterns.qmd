@@ -4,10 +4,10 @@ subtitle: "Precisely controlling accessible tools with glob patterns"
 card-number: "T04"
 category: "Technical"
 difficulty: "intermediate"
-guide-version: "3.41.1"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.1"
-date: "May 2026"
+version: "3.41.3"
+date: "2026-08-24"
 layout: "two-col"
 lang: en
 format:

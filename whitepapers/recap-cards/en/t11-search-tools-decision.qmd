@@ -1,13 +1,13 @@
 ---
 title: "Search Tools Decision Tree"
-subtitle: "Choosing between Glob, Grep, Read, Task and Bash based on context"
+subtitle: "Choosing between Glob, Grep, Read, Agent and Bash based on context"
 card-number: "T11"
 category: "Technical"
 difficulty: "intermediate"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "May 2026"
+version: "3.41.3"
+date: "2026-08-24"
 layout: "two-col"
 lang: en
 format:
@@ -23,7 +23,7 @@ Claude Code offers 5 distinct tools to find and read information in a project. E
 | `Glob` | Find files by pattern | Low |
 | `Grep` | Search content by regex | Low |
 | `Read` | Read a full or partial file | High |
-| `Task` | Broad, multi-file exploration | Very high |
+| `Agent` | Broad, multi-file exploration | Very high |
 | `Bash` | System commands, uncovered cases | Variable |
 
 ## Glob: files by pattern
@@ -51,7 +51,7 @@ Grep "authenticate" --type ts
 Grep "validateJWT" -A 3
 ```
 
-Grep is sufficient for 90% of exact text searches. Do not escalate to Task or Bash if the pattern is known.
+Grep is sufficient for 90% of exact text searches. Do not escalate to Agent or Bash if the pattern is known.
 
 ## Read: targeted reading
 
@@ -64,9 +64,9 @@ Read("auth.service.ts", offset=50, limit=70)
 
 Always prefer a targeted Read with offset/limit over a full Read on a file with several hundred lines.
 
-## Task: broad exploration
+## Agent: broad exploration
 
-The Task tool spawns a sub-agent with its own isolated context. It is the right option when you do not know where to look, the scope is wide, or exploration requires multiple files in parallel.
+The Agent tool (formerly named Task) spawns a sub-agent with its own isolated context. It is the right option when you do not know where to look, the scope is wide, or exploration requires multiple files in parallel.
 
 **Cost**: each sub-agent opens a new context, which represents a significant overhead. Reserve it for tasks that truly justify it.
 
@@ -94,10 +94,10 @@ Want to read an identified file
   → Read (with offset/limit for long files)
 
 Do not know where to look, broad scope
-  → Task (sub-agent)
+  → Agent (sub-agent)
 
 None of the 4 tools is sufficient
   → Bash
 ```
 
-**Core principle**: Glob and Grep before opening files with Read. Task only when the scope is unknown.
+**Core principle**: Glob and Grep before opening files with Read. Agent only when the scope is unknown.

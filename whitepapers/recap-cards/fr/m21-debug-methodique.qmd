@@ -4,10 +4,10 @@ subtitle: "Approche structurée pour diagnostiquer et résoudre les erreurs"
 card-number: "M21"
 category: "Méthodologie"
 difficulty: "intermediate"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "Mai 2026"
+version: "3.41.3"
+date: "2026-08-24"
 layout: "two-col"
 lang: fr
 format:
@@ -66,7 +66,7 @@ Ce prompt force Claude à exposer son raisonnement, ce qui permet de valider ou 
 
 ## Quand utiliser des agents de debug
 
-Un agent unique convient pour les bugs localisés sur 1 à 3 fichiers. Pour les problèmes qui traversent plusieurs composants interconnectés (un bug de réseau qui affecte l'auth qui affecte la base de données), déléguer l'exploration à un sous-agent via le Task tool préserve le contexte principal.
+Un agent unique convient pour les bugs localisés sur 1 à 3 fichiers. Pour les problèmes qui traversent plusieurs composants interconnectés (un bug de réseau qui affecte l'auth qui affecte la base de données), déléguer l'exploration à un sous-agent via l'Agent tool (anciennement Task) préserve le contexte principal.
 
 ```
 Main agent  →  Task("Explore auth flow from request to DB")

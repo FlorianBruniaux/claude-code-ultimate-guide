@@ -1,13 +1,13 @@
 ---
 title: "Arbre de Décision : Outils de Recherche"
-subtitle: "Choisir entre Glob, Grep, Read, Task et Bash selon le contexte"
+subtitle: "Choisir entre Glob, Grep, Read, Agent et Bash selon le contexte"
 card-number: "T11"
 category: "Technique"
 difficulty: "intermediate"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "Mai 2026"
+version: "3.41.3"
+date: "2026-08-24"
 layout: "two-col"
 lang: fr
 format:
@@ -23,7 +23,7 @@ Claude Code propose 5 outils distincts pour trouver et lire des informations dan
 | `Glob` | Trouver des fichiers par pattern | Faible |
 | `Grep` | Chercher du contenu par regex | Faible |
 | `Read` | Lire un fichier entier ou partiel | Élevé |
-| `Task` | Exploration large, multi-fichiers | Très élevé |
+| `Agent` | Exploration large, multi-fichiers | Très élevé |
 | `Bash` | Commandes système, cas non couverts | Variable |
 
 ## Glob : fichiers par pattern
@@ -51,7 +51,7 @@ Grep "authenticate" --type ts
 Grep "validateJWT" -A 3
 ```
 
-Grep est suffisant pour 90% des recherches de texte exact. Ne pas escalader vers Task ou Bash si la pattern est connue.
+Grep est suffisant pour 90% des recherches de texte exact. Ne pas escalader vers Agent ou Bash si la pattern est connue.
 
 ## Read : lecture ciblée
 
@@ -64,9 +64,9 @@ Read("auth.service.ts", offset=50, limit=70)
 
 Toujours préférer un Read ciblé avec offset/limit plutôt qu'un Read complet sur un fichier de plusieurs centaines de lignes.
 
-## Task : exploration large
+## Agent : exploration large
 
-L'outil Task spawne un sous-agent avec son propre contexte isolé. C'est la bonne option quand on ne sait pas où chercher, que le périmètre est vaste, ou que l'exploration nécessite plusieurs fichiers en parallèle.
+L'outil Agent (anciennement nommé Task) spawne un sous-agent avec son propre contexte isolé. C'est la bonne option quand on ne sait pas où chercher, que le périmètre est vaste, ou que l'exploration nécessite plusieurs fichiers en parallèle.
 
 **Coût** : chaque sous-agent ouvre un nouveau contexte, ce qui représente un overhead significatif. À réserver aux tâches qui le justifient réellement.
 
@@ -94,10 +94,10 @@ Je veux lire un fichier identifié
   → Read (avec offset/limit si fichier long)
 
 Je ne sais pas où chercher, périmètre large
-  → Task (sous-agent)
+  → Agent (sous-agent)
 
 Aucun des 4 outils ne suffit
   → Bash
 ```
 
-**Principe fondamental** : Glob et Grep avant d'ouvrir des fichiers avec Read. Task uniquement quand le périmètre est inconnu.
+**Principe fondamental** : Glob et Grep avant d'ouvrir des fichiers avec Read. Agent uniquement quand le périmètre est inconnu.

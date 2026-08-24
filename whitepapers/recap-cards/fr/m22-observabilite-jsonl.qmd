@@ -4,10 +4,10 @@ subtitle: "Auditer et analyser l'activité de Claude Code via les logs"
 card-number: "M22"
 category: "Méthodologie"
 difficulty: "advanced"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "Mai 2026"
+version: "3.41.3"
+date: "2026-08-24"
 layout: "two-col"
 lang: fr
 format:

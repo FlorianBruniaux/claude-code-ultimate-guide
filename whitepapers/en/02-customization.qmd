@@ -2,10 +2,10 @@
 title: "Customizing Claude"
 subtitle: "CLAUDE.md, Agents, Skills: Your Tailor-Made Assistant"
 author: "Florian BRUNIAUX"
-date: 2026-07-02
+date: 2026-08-24
 date-format: "MMMM YYYY"
-version: "3.41.1"
-wp-version: "1.5.1"
+version: "3.41.3"
+wp-version: "1.5.2"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -382,17 +382,21 @@ Copy the templates that match your needs into `.claude/rules/` and adapt them to
 - Project-specific patterns: "API routes follow RESTful naming in `/api/v1/`"
 - Known issues: "Don't use package X due to version conflict with Y"
 
-### The 3 Memory Scopes (v3.37.6)
+### Auto-Memory Storage (v3.37.6)
 
-Claude Code now distinguishes three MEMORY.md file scopes, with a 200-line injection limit per file (overflow handled via topic-specific files):
+Auto-Memory stores project memory in `.claude/memory/MEMORY.md`, and global memory in `~/.claude/projects/<path>/memory/MEMORY.md`, with a 200-line injection limit per file (overflow handled via topic-specific files). There is no third gitignored variant for Auto-Memory.
 
-| Scope | File | Shared | Usage |
-|-------|------|--------|-------|
-| `user` | `~/.claude/MEMORY.md` | No (global, all projects) | Personal cross-project preferences |
-| `project` | `.claude/MEMORY.md` | Yes (committed) | Team decisions, project conventions |
-| `local` | `.claude/MEMORY.local.md` | No (gitignored) | Personal per-project overrides |
+The Auto-Memory feature creates these files automatically from conversation. For specific topics, create dedicated files (e.g., `.claude/memory/MEMORY-architecture.md`) referenced from the main file with `@`.
 
-The Auto-Memory feature creates these files automatically from conversation. For specific topics, create dedicated files (e.g., `.claude/MEMORY-architecture.md`) referenced from the main file with `@`.
+### The 3 Agent Memory Scopes (frontmatter)
+
+The agent frontmatter's `memory` field (see above) distinguishes three real scopes of its own, each mapped to a directory rather than a single MEMORY.md file:
+
+| Scope | Directory | Shared | Usage |
+|-------|-----------|--------|-------|
+| `user` | `~/.claude/agent-memory/<name>/` | No (global, all projects) | Personal cross-project preferences |
+| `project` | `.claude/agent-memory/<name>/` | Yes (committed) | Team decisions, project conventions |
+| `local` | `.claude/agent-memory-local/<name>/` | No (gitignored) | Personal per-project overrides |
 
 **Difference from CLAUDE.md**:
 
@@ -578,23 +582,22 @@ The YAML frontmatter is the agent's execution contract: it determines which tool
 |-------|----------|-------------|
 | `name` | Yes | kebab-case identifier |
 | `description` | Yes | When to activate this agent |
-| `model` | No | `haiku`, `sonnet` (default), `opus-4.6` |
+| `model` | No | `haiku`, `sonnet` (default), `opus` |
 | `tools` | No | Allowed tools (comma-separated) |
 | `skills` | No | Skills to inherit |
 | `disallowedTools` | No | Blocked tools |
-| `memory` | No | Pre-populated context for the agent (v2.1.32+) |
+| `memory` | No | Persistent memory scope: `user`, `project`, or `local` (v2.1.32+) |
 
-**New (v2.1.32)**: The `memory` field lets you pre-populate agent context:
+**New (v2.1.32)**: The `memory` field points the agent at a persistent storage scope, not an inline pre-populated text block:
 
 ```yaml
 ---
 name: security-auditor
-memory: |
-  This project follows OWASP Top 10 guidelines.
-  Previous audit (Dec 2025) flagged JWT expiry handling.
-  Team prefers early warnings over false positives.
+memory: project
 ---
 ```
+
+Claude reads and writes persistent notes for that agent across sessions, in the directory matching the chosen scope: `~/.claude/agent-memory/security-auditor/` (`user`), `.claude/agent-memory/security-auditor/` (`project`), or `.claude/agent-memory-local/security-auditor/` (`local`).
 
 ### Model Selection
 
@@ -604,7 +607,7 @@ The model choice in the frontmatter determines the quality-to-cost ratio of each
 |-------|-------|-------|------|
 | `haiku` | Simple, fast tasks | Fast | Low |
 | `sonnet` | General development (default) | Balanced | Medium |
-| `opus-4.6` | Complex reasoning, architecture | Slow | High |
+| `opus` | Complex reasoning, architecture | Slow | High |
 
 {{< pagebreak >}}
 
@@ -690,7 +693,7 @@ Systematic debugger who:
 
 **New (v2.1.32+)**: TeammateTool enables multi-agent orchestration with persistent communication; Parallel Specialists and Swarm patterns for parallel analysis on large codebases.
 
-> **Experimental status**: community-discovered feature flags, 5-min heartbeat timeout, no official Anthropic support. Avoid in production.
+> **Experimental status**: official Anthropic research preview (v2.1.32+), behind the flag `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`. No stability guarantee -- stay cautious in production.
 
 → See **#8 Agent Teams** (`08-agent-teams.qmd`) for full documentation: backends, patterns, code examples.
 
@@ -820,6 +823,8 @@ Agent C: inherits security-guardian
 
 The skill frontmatter controls isolation (`context: fork` for a clean sandbox, `inherit` to share the parent context) and tools. Choose `fork` when the skill performs potentially destructive operations; `inherit` when it enriches the current workflow.
 
+**Documented limitation**: `context: fork` only isolates when the skill runs as a slash command typed by a user. Invoked via the Skill tool from agent code, `context: fork` is ignored and the isolation does not apply -- don't rely on it alone to sandbox destructive operations triggered by another agent.
+
 ::: {.callout-note title="Concrete example: security-guardian skill"}
 ```yaml
 ---
@@ -827,7 +832,7 @@ name: security-guardian
 description: OWASP Top 10 security checks for web applications
 allowed-tools: Read, Grep, Glob
 context: fork
-agent: specialist
+model: haiku
 ---
 ```
 :::
@@ -840,7 +845,7 @@ name: skill-name
 description: Short description (100 chars)
 allowed-tools: Read, Grep, Bash
 context: fork
-agent: specialist
+effort: low
 ---
 ```
 
@@ -850,7 +855,6 @@ agent: specialist
 | `description` | Activation trigger |
 | `allowed-tools` | Authorized tools |
 | `context` | `fork` (isolated) or `inherit` (shared) |
-| `agent` | `specialist` (domain) or `general` |
 | `effort` | `low`, `medium`, or `high` (expected computational cost, v3.37.3) |
 
 **`effort` field (v3.37.3)**: Signals the expected computational cost of the skill or command. Inferred automatically by `eval-skills` from content signals: mechanical tasks → `low`, bounded analysis → `medium`, adversarial or architectural → `high`. Useful for prioritizing and budgeting calls in production.
@@ -1421,7 +1425,7 @@ Personal permission overrides (gitignored):
 
 **Repository**: [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)
 
-*Version 3.41.1 | July 2026*
+*Version 3.41.3 | August 2026*
 
 # The Series
 

@@ -4,10 +4,10 @@ subtitle: "Utiliser Claude Code en production avec les bonnes garanties de sécu
 card-number: "M20"
 category: "Méthodologie"
 difficulty: "advanced"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "Mai 2026"
+version: "3.41.3"
+date: "2026-08-24"
 layout: "two-col"
 lang: fr
 format:
@@ -62,7 +62,7 @@ Même en mode bypass, il est possible de limiter les outils disponibles. Un agen
 | Analyse de sécurité | Read, Glob, Grep |
 | Implémentation | Read, Edit, Write, Bash |
 
-La whitelist se configure via `--allowedTools` en CLI ou `allowed_tools` dans l'action GitHub.
+La whitelist se configure via `--allowedTools` en CLI, ou via `claude_args: '--allowedTools ...'` dans l'action GitHub officielle `anthropics/claude-code-action`.
 
 ## Secrets en CI
 

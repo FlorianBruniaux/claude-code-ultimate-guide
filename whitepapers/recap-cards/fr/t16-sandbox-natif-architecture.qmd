@@ -4,10 +4,10 @@ subtitle: "Comment Claude Code isole ses opérations au niveau OS"
 card-number: "T16"
 category: "Technique"
 difficulty: "advanced"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "Mai 2026"
+version: "3.41.3"
+date: "Août 2026"
 layout: "two-col"
 lang: fr
 format:
@@ -59,13 +59,13 @@ Pour restreindre la lecture de répertoires sensibles (SSH, credentials cloud), 
 
 Toutes les connexions réseau des commandes sandboxées passent par un proxy SOCKS5 qui tourne hors sandbox. Le proxy applique un filtrage par domaine sans inspecter le contenu du trafic (pas de deep packet inspection).
 
-Configuration : mode `deny` (bloquer tout sauf liste blanche) ou mode `allow` (autoriser tout sauf liste noire).
+Deux modes selon `sandbox.network.strictAllowlist` : permissif (défaut, un domaine hors liste déclenche une confirmation) ou strict (`strictAllowlist: true`, échec immédiat sans confirmation).
 
 ```json
 {
   "sandbox": {
     "network": {
-      "policy": "deny",
+      "strictAllowlist": true,
       "allowedDomains": ["api.anthropic.com", "*.npmjs.org", "github.com"]
     }
   }
@@ -93,4 +93,4 @@ Pour désactiver complètement l'escape hatch dans les environnements critiques 
 }
 ```
 
-`failIfUnavailable: true` (v2.1.78+) : fait échouer la session si le sandbox ne peut pas démarrer, plutôt que de continuer sans isolation. Recommandé pour les environnements de production.
+`failIfUnavailable: true` (v2.1.83+) : fait échouer la session si le sandbox ne peut pas démarrer, plutôt que de continuer sans isolation. Recommandé pour les environnements de production.

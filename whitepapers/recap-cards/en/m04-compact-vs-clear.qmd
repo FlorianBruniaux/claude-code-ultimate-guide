@@ -4,10 +4,10 @@ subtitle: "When to summarize and when to reset the context"
 card-number: "M04"
 category: "Methodology"
 difficulty: "beginner"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "May 2026"
+version: "3.41.3"
+date: "August 2026"
 layout: "two-col"
 lang: en
 format:

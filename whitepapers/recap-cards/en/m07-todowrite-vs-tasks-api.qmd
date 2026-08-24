@@ -4,15 +4,17 @@ subtitle: "The old and new task management systems"
 card-number: "M07"
 category: "Methodology"
 difficulty: "intermediate"
-guide-version: "3.41.1"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.1"
-date: "May 2026"
+version: "3.41.3"
+date: "August 2026"
 layout: "two-col"
 lang: en
 format:
   recap-card-typst: default
 ---
+
+> **v2.1.233**: on Opus 4.8, Sonnet 5, Fable 5, Mythos 5, and newer models, both TodoWrite AND the Tasks API are disabled by default. Re-enable with `CLAUDE_CODE_ENABLE_TODO_TOOLS=1`.
 
 ## Direct comparison
 

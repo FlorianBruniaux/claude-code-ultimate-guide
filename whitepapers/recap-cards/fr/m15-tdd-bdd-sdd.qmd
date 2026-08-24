@@ -4,10 +4,10 @@ subtitle: "Méthodologies de développement structurées avec Claude Code"
 card-number: "M15"
 category: "Méthodologie"
 difficulty: "intermediate"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "Mai 2026"
+version: "3.41.3"
+date: "2026-08-24"
 layout: "two-col"
 lang: fr
 format:
@@ -89,15 +89,13 @@ Applicable quand la correction du résultat est critique et que les tests automa
 
 ```bash
 # Créer la hiérarchie TDD dans Tasks API
-TaskCreate: { title: "Écrire les tests failing pour auth" }
-TaskCreate: {
-  title: "Implémenter auth pour passer les tests",
+TaskCreate("Écrire les tests failing pour auth")
+TaskCreate("Implémenter auth pour passer les tests", {
   blockedBy: ["task-tests-failing"]
-}
-TaskCreate: {
-  title: "Refactoriser auth",
+})
+TaskCreate("Refactoriser auth", {
   blockedBy: ["task-impl-auth"]
-}
+})
 ```
 
 Le cycle Red-Green-Refactor devient traçable et persistant entre sessions.

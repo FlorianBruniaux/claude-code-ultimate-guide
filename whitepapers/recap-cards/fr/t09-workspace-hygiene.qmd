@@ -1,60 +1,64 @@
 ---
-title: "Hygiène du Workspace & .claudeignore"
-subtitle: "Garder le contexte propre en excluant ce que Claude ne doit pas lire"
+title: "Hygiène du Workspace"
+subtitle: "Garder le contexte propre en bloquant ce que Claude ne doit pas lire"
 card-number: "T09"
 category: "Technique"
 difficulty: "beginner"
-guide-version: "3.41.1"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.1"
-date: "Mai 2026"
+version: "3.41.3"
+date: "Août 2026"
 layout: "two-col"
 lang: fr
 format:
   recap-card-typst: default
 ---
 
-## .claudeignore : même syntaxe que .gitignore
+## Il n'y a pas de .claudeignore
 
-`.claudeignore` se place à la racine du projet et suit exactement la même syntaxe que `.gitignore`. Les patterns qu'il contient indiquent à Claude Code quels fichiers et dossiers exclure de son exploration du contexte.
+Claude Code n'a pas de fichier `.claudeignore` à la `.gitignore`. Le blocage de fichiers passe par `permissions.deny` dans `.claude/settings.json`, avec le qualificatif `file_path:` pour cibler des chemins par glob.
 
-```gitignore
-# Dépendances (lourd, inutile pour Claude)
-node_modules/
-.pnpm-store/
-vendor/
-
-# Secrets (protection essentielle)
-.env
-.env.*
-*.pem
-*.key
-*credentials*
-
-# Générés automatiquement (bruit pur)
-dist/
-build/
-.next/
-coverage/
-*.min.js
-
-# Logs verbeux
-*.log
-logs/
+```json
+{
+  "permissions": {
+    "deny": [
+      "Read(file_path:*.env*)",
+      "Edit(file_path:*.env*)",
+      "Write(file_path:*.env*)",
+      "Read(file_path:*.pem)",
+      "Read(file_path:*.key)",
+      "Read(file_path:*credentials*)",
+      "Bash(cat .env*)"
+    ]
+  }
+}
 ```
 
 ## Pourquoi c'est important
 
-Claude Code indexe les fichiers du projet pour fournir du contexte. Sans `.claudeignore`, il peut lire des milliers de fichiers dans `node_modules/` ou des logs de 50 Mo, ce qui dilue la qualité des réponses. Moins de bruit dans le contexte signifie des réponses plus précises et des sessions moins coûteuses en tokens.
+`deny` a la priorité la plus haute : aucune règle `allow` ou `ask`, à aucun niveau, ne peut la contourner. La règle bloque les appels `Read`, `Edit`, `Write`, et les commandes Bash qui correspondent explicitement à un pattern deny. Elle ne bloque pas les commandes Bash génériques sans règle deny dédiée, ni un `ls .env*` qui révèle l'existence du fichier sans son contenu.
 
-## .gitignore vs .claudeignore
+## Ce que permissions.deny couvre
 
-| Fichier | Rôle | Scope |
-|---------|------|-------|
+| Vecteur | Bloqué |
+|---------|--------|
+| `Read()` | Oui |
+| `Edit()` / `Write()` avec règle | Oui |
+| `Bash(cat .env)` avec règle explicite | Oui |
+| Bash générique sans règle deny | Non |
+| `ls .env*` (nom de fichier) | Partiel |
+
+Pour une protection en profondeur : stocker les secrets hors du répertoire projet, ajouter un hook PreToolUse en second verrou, ne jamais committer de secrets même « bloqués ».
+
+## .gitignore vs permissions.deny
+
+| Mécanisme | Rôle | Scope |
+|-----------|------|-------|
 | `.gitignore` | Exclut du contrôle de version | Git |
-| `.claudeignore` | Exclut de l'exploration Claude | Claude Code |
+| `permissions.deny` | Bloque la lecture/édition/écriture par les outils | Claude Code |
+| `respectGitignore` (défaut : `true`) | Le picker `@` respecte les patterns `.gitignore` | Claude Code |
 
-Les deux fichiers coexistent et sont indépendants. On peut vouloir que Git ignore un fichier que Claude doit lire, ou l'inverse.
+Ces trois mécanismes sont indépendants. Un fichier peut être ignoré par Git sans être bloqué pour Claude, et inversement.
 
 ## Structure recommandée du dossier .claude/
 
@@ -63,18 +67,18 @@ Les deux fichiers coexistent et sont indépendants. On peut vouloir que Git igno
 ├── settings.json        # Config équipe (commité)
 ├── settings.local.json  # Config locale (gitignore)
 ├── agents/              # Agents personnalisés
-├── skills/              # Skills (inclut les commandes slash depuis CC 2.1.3)
-├── hooks/               # Scripts d'automatisation
-├── rules/               # Conventions auto-chargées
-└── memories/            # Memories manuelles
+├── skills/               # Skills (inclut les commandes slash depuis CC 2.1.3)
+├── hooks/                # Scripts d'automatisation
+├── rules/                # Conventions auto-chargées
+└── memory/               # Auto-memory (MEMORY.md)
 ```
 
 Les dossiers `agents/`, `skills/`, `hooks/` et `rules/` se committent avec le projet. `settings.local.json` et `CLAUDE.md` (si personnel) restent dans `.gitignore`.
 
 ## Checklist workspace propre
 
-- `node_modules/` dans `.claudeignore`
-- Fichiers `.env` exclus ou hors du répertoire projet
-- Binaires et assets lourds ignorés (`*.png`, `*.pdf`, `dist/`)
-- Logs et fichiers générés exclus
+- `.env*`, `*.pem`, `*.key`, `*credentials*` dans `permissions.deny`
+- Règles deny couvrant Read, Edit, Write ET les commandes Bash équivalentes
+- Secrets stockés hors du répertoire projet quand possible
 - `settings.local.json` dans `.gitignore`
+- Hook PreToolUse en second verrou sur les fichiers critiques

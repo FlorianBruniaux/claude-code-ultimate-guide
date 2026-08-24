@@ -4,10 +4,10 @@ subtitle: "Choisir le bon mécanisme d'extension selon le besoin"
 card-number: "C04"
 category: "Conception"
 difficulty: "intermediate"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "Mai 2026"
+version: "3.41.3"
+date: "Août 2026"
 layout: "two-col"
 lang: fr
 format:
@@ -21,7 +21,7 @@ format:
 | **Skill (user)** | Workflow codifié | `/nom` (utilisateur) | Oui | Tâche répétable déclenchée manuellement |
 | **Skill (auto)** | Connaissance réutilisable | Auto par le modèle | Oui | Expertise partagée entre agents |
 | **Plugin** | Marketplace | Global | Oui | Intégration tierce |
-| **Agent** | Spécialiste autonome | Task tool | Via memory | Délégation complexe |
+| **Agent** | Spécialiste autonome | Agent tool | Via memory | Délégation complexe |
 
 > **CC 2.1.3** : `.claude/commands/` est fusionné dans `.claude/skills/`. Ajoutez `disable-model-invocation: true` pour une skill déclenchée uniquement par l'utilisateur.
 

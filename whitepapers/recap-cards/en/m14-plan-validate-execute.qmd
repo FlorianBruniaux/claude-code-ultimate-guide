@@ -1,13 +1,13 @@
 ---
 title: "Plan-Validate-Execute Pipeline"
-subtitle: "The 3-phase workflow for complex tasks under control"
+subtitle: "The production 3-command workflow: research, validation, execution to a merged PR"
 card-number: "M14"
 category: "Methodology"
 difficulty: "advanced"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "May 2026"
+version: "3.41.3"
+date: "2026-08-24"
 layout: "two-col"
 lang: en
 format:
@@ -16,75 +16,63 @@ format:
 
 ## Overview
 
-Plan-Validate-Execute is a three-phase pipeline that applies as soon as a task touches more than five files or two directories. The goal: never execute without having validated an explicit plan. Boris Cherny (Head of Claude Code at Anthropic) starts 80% of his tasks in Plan Mode for this reason. Execution is almost always correct on the first try when the plan is solid.
+Plan-Validate-Execute is a production workflow in three commands that extends native Plan Mode: `/plan-start`, `/plan-validate`, `/plan-execute`. Each run feeds an ADR learning loop that reduces human interruptions over time. Confidence: Tier 2, battle-tested by production teams shipping AI-first products at scale.
 
-## Phase 1: Plan
-
-Enter Plan Mode (read-only) so Claude can analyze and propose a detailed action plan before writing a single line.
+## The 3 commands
 
 ```bash
-# Activate Plan Mode
-Shift+Tab x2   # From Normal Mode
-
-# Or via slash command
-/plan
-
-# Claude generates a structured plan:
-# 1. Read schema.prisma
-# 2. Add the field email: String? @unique
-# 3. Generate the Prisma migration
-# 4. Update TypeScript types
-# Impact: 3 files, 1 migration
+/plan-start    # PRD + dynamic research team + ADRs
+/plan-validate # Structural checks + triggered specialist agents
+/plan-execute  # Worktree + TDD + parallel execution + merged PR
 ```
 
-Exit Plan Mode: `Shift+Tab` (back to Normal Mode). Claude will ask for confirmation before implementing.
+Run `/clear` between each command: every command reads its inputs from disk (the plan file, ADRs), nothing needs to stay in context memory.
 
-## Phase 2: Validate
+## /plan-start: 5-phase planning
 
-Before approving the plan, submit it to a critical review. Two approaches:
+| Phase | Content |
+|-------|---------|
+| 1. PRD & design | Missing/ambiguous requirements, compliance |
+| 2. Technical | Explore agents, ADR creation for new decisions |
+| 3. Scope | Research team selection (tier 0 to 4) |
+| 4. Research | Agents run in parallel, `planning-coordinator` (Opus) synthesizes |
 
-**Manual review**: read the plan and identify blind spots (forgotten files, incorrect operation order, unanticipated side effects).
+If 3+ confirmed ADRs already cover the decision, phase 2 auto-resolves with no agent.
 
-**Adversarial agent**: delegate the critique to a sub-agent whose mission is to find flaws in the proposed plan. Ask explicitly: "What is the main risk of this plan? What could go wrong?"
+## /plan-validate: 2-layer validation
 
-On complex tasks, validation is the safety net, not an optional step.
+Layer 1 (structural, instant): plan format, task ordering, ADR consistency. Layer 2 (specialists, 0 to 8 agents by risk): `security-reviewer`, `db-migration-reviewer`, `performance-reviewer`, among others, each triggered by a precise criterion (auth, schema migration, new route...).
 
-## Phase 3: Execute
+Every issue must be resolved: auto-resolved from an existing ADR or `PATTERNS.md` entry, or settled by a human, which becomes a rule for next time.
 
-Once the plan is validated, execute with regular checkpoints.
+## /plan-execute: to a merged PR
 
-```bash
-# Exit Plan Mode and execute
-Shift+Tab   # Back to Normal Mode
-> "Approve this plan and implement step by step"
+Isolated worktree, TDD scaffolding, parallel execution of independent tasks (commit per task), quality gate (tests + smoke test), PR and squash merge, worktree cleanup. If the quality gate fails: up to 3 auto-fix attempts by dedicated debug agents, then human notification.
 
-# For very long tasks: create tasks before executing
-export CLAUDE_CODE_TASK_LIST_ID="project-migration-v2"
-# Then TaskCreate from the validated plan
-```
+## ADR learning loop
 
-## Tasks API integration
+Every significant architectural decision generates an ADR. 1 ADR: watching. 2 ADRs: recommended default. 3+ ADRs: confirmed, auto-resolved on future plans, candidate for promotion to a hard rule in `CLAUDE.md`. On a 20-plan project, roughly 80% of architecture decisions auto-resolve.
 
-Convert the validated plan into persistent tasks before execution. Each step of the plan becomes a task with its declared dependencies. If the session is interrupted mid-execution, `TaskList` allows resuming exactly where you left off.
+## When to use this pipeline
 
-## When to apply this pipeline
+| Criterion | Answer |
+|-----------|--------|
+| Multi-layer feature (API + DB + UI) | Yes |
+| Sensitive change (auth, payments, PII) | Yes |
+| Typo, trivial refactor | No, native `/plan` is enough |
+| Exploratory prototyping with unclear requirements | No |
 
-| Criterion | Threshold |
-|-----------|-----------|
-| Files touched | More than 5 |
-| Directories involved | More than 2 |
-| Estimated duration | More than 30 minutes |
-| Regression risk | Any schema, public API, or config modification |
+## Cost
 
-For quick fixes and known tasks, the pipeline adds more friction than value. The right reflex: question the complexity before launching, not after.
+Typical Tier 2 feature: $2 to $10 for the full pipeline. Cost drops as ADR coverage grows: fewer agents needed, fewer validation issues, faster execution.
 
 ## Auto Plan Mode
 
-Force Plan Mode on all operations via `--append-system-prompt`:
+Force native Plan Mode on all operations via `--append-system-prompt`:
 
 ```bash
 alias claude-safe='claude --append-system-prompt \
   "$(cat ~/.claude/auto-plan-mode.txt)"'
 ```
 
-The `auto-plan-mode.txt` file instructs Claude to present a plan and wait for explicit approval before each tool. Useful for sessions on critical or unfamiliar codebases.
+The `auto-plan-mode.txt` file instructs Claude to present a plan and wait for explicit approval before each tool. Useful for sessions on critical or unfamiliar codebases, outside the 3-command pipeline.

@@ -4,10 +4,10 @@ subtitle: "When to switch to the extended context window and at what cost"
 card-number: "T19"
 category: "Technical"
 difficulty: "intermediate"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "May 2026"
+version: "3.41.3"
+date: "August 2026"
 layout: "two-col"
 lang: en
 format:
@@ -32,15 +32,15 @@ Above 200K input tokens, **all context tokens** are billed at the premium rate, 
 | Opus 4.6 | 93% | 76% |
 | Sonnet 4.5 | n/a | 18.5% |
 
-Opus 4.8 remains usable at 1M (76% precision), but degradation is measurable. Sonnet collapses and is not recommended beyond 200K for precise tasks.
+These are the latest MRCR scores Anthropic has published; Opus 4.8, Opus 5, and Sonnet 5 scores are not yet published. Opus remains the reference model at 1M, but degradation past 256K is measurable. Sonnet collapses and is not recommended beyond 200K for precise tasks.
 
 ## Cost per Session (Approximate)
 
-| Session type | Tokens in | Sonnet 4.6 | Opus 4.8 |
+| Session type | Tokens in | Sonnet 5 | Opus 5 |
 |-------------|-----------|-----------|---------|
-| PR review (≤200K) | 50K | ~$0.23 | ~$0.38 |
-| Refactoring (≤200K) | 150K | ~$0.75 | ~$1.25 |
-| Service analysis (>200K) | 500K | ~$4.13 | ~$6.88 |
+| PR review (≤200K) | 50K | ~$0.15 | ~$0.38 |
+| Refactoring (≤200K) | 150K | ~$0.50 | ~$1.25 |
+| Service analysis (>200K) | 500K | ~$2.75 | ~$6.88 |
 
 ## When to Use 1M
 
@@ -68,7 +68,7 @@ response = client.messages.create(
 )
 ```
 
-For direct API access only. Claude Code Max/Team/Enterprise plans have 1M enabled automatically, no header needed. Without this header on direct API calls, requests exceeding 200K tokens return an error even on tier 4 accounts.
+For direct API access only, on Opus 4.8 (previous generation). Sonnet 5 and Opus 5 ship with native 1M, no header required. Claude Code Max/Team/Enterprise plans have 1M enabled automatically. Without this header on direct API calls to Opus 4.8, requests exceeding 200K tokens return an error even on tier 4 accounts.
 
 ## Recommended Pattern
 

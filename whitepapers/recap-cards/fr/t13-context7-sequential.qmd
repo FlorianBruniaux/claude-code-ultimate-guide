@@ -4,10 +4,10 @@ subtitle: "Documentation officielle et raisonnement multi-étapes à portée de 
 card-number: "T13"
 category: "Technique"
 difficulty: "intermediate"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "Mai 2026"
+version: "3.41.3"
+date: "2026-08-24"
 layout: "two-col"
 lang: fr
 format:
@@ -33,14 +33,14 @@ Context7 résout un problème courant : Claude connaît les APIs populaires jusq
 
 Sequential Thinking apporte un moteur de raisonnement multi-étapes pour les problèmes complexes. Plutôt que de répondre directement, il décompose le problème en hypothèses, les teste, et construit une réponse argumentée étape par étape.
 
-**Triggers** : flags `--think`, `--think-hard`, `--ultrathink`, ou problèmes impliquant 3+ composants interconnectés.
+**Triggers** : demande explicite ("raisonne étape par étape", "utilise Sequential Thinking"), ou problèmes impliquant 3+ composants interconnectés. Il n'existe pas de flag CLI dédié à Sequential Thinking : `--think-hard` et `--ultrathink` sont d'anciens mots-clés pour l'extended thinking natif du modèle, aujourd'hui purement cosmétiques et sans effet (la profondeur de raisonnement se règle via le curseur `/model` ou `effortLevel`).
 
 ```bash
-# Activer Sequential pour un debug complexe
-"Pourquoi cette API est-elle lente ? --think-hard"
+# Invoquer Sequential pour un debug complexe
+"Pourquoi cette API est-elle lente ? Utilise Sequential Thinking pour analyser étape par étape."
 
 # Design d'architecture
-"Conçois un système de cache multi-niveaux --ultrathink"
+"Conçois un système de cache multi-niveaux avec Sequential Thinking."
 ```
 
 **Ne pas utiliser pour** : corrections simples, typos, explications courtes, tâches à fichier unique. L'overhead de raisonnement ne se justifie pas sur des cas triviaux.
@@ -73,8 +73,8 @@ Les deux serveurs se complètent bien pour les tâches d'architecture ou de migr
 ## Installation rapide
 
 ```bash
-# Context7
-npx -y @upstash/context7-mcp
+# Context7 (nécessite une clé API)
+npx -y @upstash/context7-mcp --api-key YOUR_API_KEY
 
 # Sequential Thinking (officiel Anthropic)
 npx -y @modelcontextprotocol/server-sequential-thinking

@@ -4,10 +4,10 @@ subtitle: "Créer des sous-agents spécialisés pour déléguer des tâches"
 card-number: "M08"
 category: "Méthodologie"
 difficulty: "intermediate"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "Mai 2026"
+version: "3.41.3"
+date: "Août 2026"
 layout: "two-col"
 lang: fr
 format:
@@ -36,7 +36,7 @@ Le corps du fichier contient les instructions en Markdown : rôle, méthodologie
 |-------|-------------|------|
 | `name` | Oui | Identifiant kebab-case |
 | `description` | Oui | Déclencheur d'activation (50-100 chars) |
-| `model` | Non | `haiku`, `sonnet` (défaut), `opus` |
+| `model` | Non | `haiku`, `sonnet` (défaut), `opus`, `inherit` |
 | `tools` | Non | Whitelist des outils accessibles |
 | `memory` | Non | Portée de la mémoire persistante |
 | `maxTurns` | Non | Limite de tours agentic |
@@ -48,7 +48,7 @@ Le corps du fichier contient les instructions en Markdown : rôle, méthodologie
 
 Limiter `tools` à ce dont l'agent a réellement besoin réduit la surface d'exposition et les erreurs accidentelles. Un agent de code review n'a besoin que de `Read, Grep, Glob`. Aucune raison de lui donner `Bash` ou `Write`.
 
-## Mémoire persistante (v2.1.32+)
+## Mémoire persistante (v2.1.33+)
 
 ```yaml
 memory: project   # .claude/agent-memory/<name>/
@@ -63,7 +63,7 @@ La mémoire `project` est committée avec le repo, utile pour que l'agent accumu
 | Critère | Agent | Slash Command |
 |---------|-------|---------------|
 | Spécialité | Oui, domaine précis | Non, workflow générique |
-| Mémoire propre | Oui (v2.1.32+) | Non |
+| Mémoire propre | Oui (v2.1.33+) | Non |
 | Outils isolés | Oui, whitelist | Non |
 | Invocation | Automatique ou manuelle | Manuelle uniquement |
 | Format | Markdown + frontmatter | Markdown template |

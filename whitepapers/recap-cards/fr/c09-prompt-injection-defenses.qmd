@@ -4,10 +4,10 @@ subtitle: "Protéger Claude Code quand il traite du contenu externe non fiable"
 card-number: "C09"
 category: "Conception"
 difficulty: "intermediate"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "Mai 2026"
+version: "3.41.3"
+date: "Août 2026"
 layout: "two-col"
 lang: fr
 format:

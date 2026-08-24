@@ -11,6 +11,16 @@ Suivi des versions des ebooks, indépendamment de la version du guide.
 
 ---
 
+## [2026-08-24] Audit de contenu complet, 13 whitepapers + 57 fiches récap, PDF régénérés et déployés
+
+Premier audit de contenu (pas seulement de fraîcheur des métadonnées) mené sur l'ensemble de la série depuis sa création : chaque whitepaper et chaque fiche récap comparés phrase par phrase au guide actuel et au `CHANGELOG.md` racine, via deux passages d'agents en parallèle (13 pour les whitepapers, 12 lots de 5 fiches pour les fiches récap). 116 problèmes trouvés sur les whitepapers (35 critiques), dont plusieurs répétés à l'identique sur les fiches récap qui en dérivent : Claude Opus 4.8 présenté comme modèle par défaut (remplacé par Opus 5 depuis v2.1.219), profondeur de nesting des sub-agents à 5 niveaux (actuellement 3), outil `MultiEdit` inventé, `TodoWrite` présenté sans la mention de désactivation par défaut depuis v2.1.233, `--safe-mode` mal décrit, champ `agent:` inventé dans les frontmatters SKILL.md, chemins de fichiers cassés (`guide/security-hardening.md`, `guide/data-privacy.md`, etc.), et pour 03-securite, l'omission du gap de sécurité le plus grave documenté dans le guide (`permissions.deny` sur Read n'atteint jamais un sous-processus Bash). Détail complet : `claudedocs/whitepaper-content-audit-2026-08-24.md` et `claudedocs/recap-card-content-audit-2026-08-24.md` (non versionnés, working docs). Toutes les corrections appliquées, `wp-version` bumpé en patch sur les 13 whitepapers, `guide-version`/`version` synchronisés à 3.41.3 sur les 57 fiches récap. Les 26 PDF whitepapers et les 114 PDF de fiches récap (+ 6 ZIP par série T/M/C × FR/EN) ont été régénérés et déployés sur `florian-portfolio/public/guides/`, avec mise à jour de `guides.mjs` (liens email) et `whitepapers-data.ts`/`recap-cards-data.ts` (landing).
+
+### Fixed
+- **13 whitepapers FR+EN** : voir `CHANGELOG.md` racine, entrées "recap cards" et "whitepapers" du 2026-08-24 pour le détail par WP.
+- **57 fiches récap FR+EN** : voir `CHANGELOG.md` racine, entrées "Recap cards" du 2026-08-24 pour le détail par lot.
+
+---
+
 ## [2026-08-20] Cheatsheet v1.1.2: /ultraplan removed, /simplify description corrected
 
 `/ultraplan` was removed from Claude Code in v2.1.222 (2026-08-04). The FR and EN cheatsheets still listed it as a research-preview command five months of releases later, discovered while syncing the release tracker to v2.1.237. `/simplify`'s description was also stale: it described general over-engineering detection with auto-fix, the behavior before v2.1.154 reworked it into a cleanup-only review (reuse, simplification, efficiency) that no longer hunts bugs.

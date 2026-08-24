@@ -3,12 +3,12 @@ title: "Erreurs Courantes"
 subtitle: "Les pièges fréquents et comment les éviter"
 card-number: "C13"
 category: "Conception"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 difficulty: "beginner"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
+version: "3.41.3"
 wp-version: "1.1.0"
-date: "Mai 2026"
+date: "2026-08-24"
 layout: "two-col"
 lang: fr
 format:
@@ -59,7 +59,7 @@ Passer des clés API dans le prompt ou les lire via `@fichier`. Utiliser des var
 **--dangerously-skip-permissions sans sandbox**
 Exécuter en bypass total sur une machine partagée ou en production. Réserver aux environnements éphémères.
 
-## Routines (cloud automation, avril 2026)
+## Routines (cloud automation, mars 2026)
 
 **Mal configurer les Routines sans tester les permissions** : les Routines tournent sans supervision humaine dans le cloud. Tester d'abord la tâche en interactif, restreindre les outils autorisés via `allowedTools`, et vérifier les sorties avant de planifier une exécution récurrente.
 

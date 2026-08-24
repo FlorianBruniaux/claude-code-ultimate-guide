@@ -4,10 +4,10 @@ subtitle: "Utiliser Claude Code sans interaction humaine : scripts, CI, pipes"
 card-number: "T02"
 category: "Technique"
 difficulty: "intermediate"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "Mai 2026"
+version: "3.41.3"
+date: "2026-08-24"
 layout: "two-col"
 lang: fr
 format:
@@ -46,12 +46,12 @@ git status --short | claude -p "Catégorise les changements" \
 cat rapport.txt | claude -p "Résume" --output-format stream-json
 ```
 
-## `--no-stream` et contrôle de flux
+## Contrôle de flux dans les pipes
 
-Par défaut, Claude Code streame la réponse caractère par caractère. `--no-stream` attend la réponse complète avant d'afficher quoi que ce soit, ce qui simplifie les pipes avec des outils qui attendent une entrée complète.
+En mode print, `claude -p` attend la réponse complète et l'écrit sur stdout en un seul bloc, ce qui simplifie les pipes avec des outils qui attendent une entrée complète. Le streaming temps réel est optionnel via `--output-format stream-json`.
 
 ```bash
-claude -p "Génère un rapport" --no-stream > rapport.md
+claude -p "Génère un rapport" > rapport.md
 ```
 
 ## Usage en CI/CD

@@ -4,10 +4,10 @@ subtitle: "Comprendre quand chaque modèle de facturation est avantageux"
 card-number: "C11"
 category: "Conception"
 difficulty: "intermediate"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "Mai 2026"
+version: "3.41.3"
+date: "Août 2026"
 layout: "two-col"
 lang: fr
 format:
@@ -76,6 +76,6 @@ La subscription atteint ses limites dans trois cas : les équipes où plusieurs 
 
 | Session type | Sonnet | Opus |
 |---|---|---|
-| Bug fix / PR review | ~$0.23 | ~$0.38 |
+| Bug fix / PR review | ~$0.15 | ~$0.38 |
 | Refactoring d'un module | ~$0.75 | ~$1.25 |
 | Review CI/CD par PR (Haiku) | ~$0.02 | N/A |

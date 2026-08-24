@@ -4,10 +4,10 @@ subtitle: "Quand résumer et quand réinitialiser le contexte"
 card-number: "M04"
 category: "Méthodologie"
 difficulty: "beginner"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "Mai 2026"
+version: "3.41.3"
+date: "Août 2026"
 layout: "two-col"
 lang: fr
 format:

@@ -3,12 +3,12 @@ title: "Commandes Essentielles"
 subtitle: "Raccourcis clavier & commandes slash indispensables"
 card-number: "T01"
 category: "Technique"
-guide-version: "3.41.1"
+guide-version: "3.41.3"
 difficulty: "beginner"
 author: "Florian BRUNIAUX"
-version: "3.41.1"
+version: "3.41.3"
 wp-version: "1.1.1"
-date: "Mai 2026"
+date: "2026-08-24"
 layout: "two-col"
 lang: fr
 format:
@@ -19,7 +19,7 @@ format:
 
 | Raccourci | Action |
 |-----------|--------|
-| `Ctrl+J` / `Cmd+J` | Ouvrir Claude Code |
+| `Cmd+Esc` / `Ctrl+Esc` | Lancer Claude Code depuis le terminal intégré (VS Code, Cursor) |
 | `Shift+Tab` | Basculer mode auto-accept |
 | `Shift+Enter` | Nouvelle ligne (multiline) |
 | `Ctrl+C` | Interrompre la génération |
@@ -43,7 +43,7 @@ format:
 /usage          Consommation tokens par modèle (v2.1.118)
 /cost           alias de /usage (v2.1.118)
 /plan           Entrer en Plan Mode (aucune modification)
-/effort low/medium/high/xhigh/max   Niveau de réflexion (v2.1.111)
+/effort low/medium/high/xhigh/max   Niveau de réflexion (xhigh depuis v2.1.114)
 /recap          Résumé de session (v2.1.108)
 /undo           Alias de /rewind : revenir à un checkpoint (v2.1.108)
 /ultrareview    Revue de code multi-agent (v2.1.114)
@@ -51,7 +51,7 @@ format:
 /rename [nom]   Nommer la session courante
 /loop [int] [prompt]  Scheduler récurrent (ex: /loop 5m check deploy)
 /voice          Activer saisie vocale
-/fast           Toggle Fast Mode (2.5× vitesse, 6× coût)
+/fast           Toggle Fast Mode (2.5× vitesse, 2× coût)
 ```
 
 ## Modes de Permission
@@ -109,7 +109,7 @@ claude --continue
 
 ## Tips Essentiels
 
-**Contrôle de verbosité** : utiliser `--no-stream` pour voir la réponse complète d'un coup.
+**Contrôle de verbosité** : utiliser `--verbose` au lancement, ou `Ctrl+O` en session, pour voir le transcript détaillé tour par tour.
 
 **Multiline** : `Shift+Enter` dans le terminal pour sauter une ligne sans valider.
 

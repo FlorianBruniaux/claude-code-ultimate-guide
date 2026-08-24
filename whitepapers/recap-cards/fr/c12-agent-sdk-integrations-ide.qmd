@@ -4,10 +4,10 @@ subtitle: "Intégrer Claude Code dans Xcode, VS Code et d'autres environnements"
 card-number: "C12"
 category: "Conception"
 difficulty: "advanced"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "Mai 2026"
+version: "3.41.3"
+date: "Août 2026"
 layout: "two-col"
 lang: fr
 format:
@@ -26,7 +26,7 @@ L'implication architecturale : les intégrations IDE (VS Code, Xcode, JetBrains)
 
 **JetBrains (IntelliJ, WebStorm, PyCharm) :** plugin installable via Settings > Plugins. Fenêtre persistante accessible via `Ctrl+Shift+A > Claude Code`.
 
-**Xcode (v2.1.32+, Feb 2026) :** l'intégration la plus récente. Xcode 26.3 RC+ inclut un support natif du Claude Agent SDK, exposant les mêmes capacités que le CLI directement dans l'IDE Apple. Configuration via Xcode > Preferences > Claude.
+**Xcode (Feb 2026) :** l'intégration la plus récente. Xcode 26.3 RC+ inclut un support natif du Claude Agent SDK, exposant les mêmes capacités que le CLI directement dans l'IDE Apple. Configuration via Xcode > Preferences > Claude.
 
 ## Pattern d'intégration IDE via MCP
 

@@ -2,10 +2,10 @@
 title: "Claude Code: The Reference Guide"
 subtitle: "Complete synthesis + advanced workflows"
 author: "Florian BRUNIAUX"
-date: 2026-07-02
+date: 2026-08-24
 date-format: "MMMM YYYY"
-version: "3.41.1"
-wp-version: "1.4.1"
+version: "3.41.3"
+wp-version: "1.4.3"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -38,7 +38,7 @@ lang: en
 - 15 documented methodologies (TDD-AI, SDD, BDD with Claude Code)
 :::
 
-> **In 5 lines:** This reference guide condenses the 22,000-line main guide into quickly-consultable sections. The 20 most useful commands, migration patterns from other tools, and 15 development methodologies adapted for Claude Code. Bookmark it and consult during your sessions.
+> **In 5 lines:** This reference guide condenses the ~26,600-line main guide into quickly-consultable sections. The 20 most useful commands, migration patterns from other tools, and 15 development methodologies adapted for Claude Code. Bookmark it and consult during your sessions.
 
 # Introduction
 
@@ -67,7 +67,7 @@ These five rules form the foundation on which the rest of this guide is built. P
 
 ## How to Use This Guide
 
-This reference guide **synthesizes the 7 whitepapers** in the series (WP00--WP06 + WP08) and **adds 5 original chapters**: Ch.8b Migration, Ch.9 IDE, Ch.10 Git, Ch.11 Patterns, Ch.12 Methodologies.
+This reference guide **synthesizes the 7 whitepapers** in the series (WP00--WP06 + WP08) and **adds original chapters** on migration, IDE integration, Git, advanced patterns, and development methodologies.
 
 **Structure**:
 
@@ -88,7 +88,7 @@ My level?
 
 **To go deeper**: Each section links to the corresponding detailed whitepaper.
 
-> 📖 **This whitepaper condenses the full guide.** For the exhaustive version (~19,000 lines, 10 chapters): [The Ultimate Claude Code Guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md) | [189 ready-to-use templates](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/)
+> 📖 **This whitepaper condenses the full guide.** For the exhaustive version (~26,600 lines, 10 chapters): [The Ultimate Claude Code Guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md) | [271 ready-to-use templates](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/)
 
 {{< pagebreak >}}
 
@@ -1239,7 +1239,7 @@ You: "What did the research find?"
 | Test generation | Review/debug main code |
 | Documentation scraping | Plan architecture |
 
-**Nesting**: Sub-agents can spawn their own sub-agents, up to 5 levels of depth (since v2.1.172).
+**Nesting**: Sub-agents can spawn their own sub-agents (since v2.1.172); disabled by default in v2.1.217, restored to a depth of 3 in v2.1.219 (tune via CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH).
 
 ## Agent Teams (since v2.1.32)
 
@@ -1672,12 +1672,13 @@ Complete configuration (place in `.claude/settings.json`):
 
 ## Available Hook Events
 
-The hook system gained new events between v2.1.32 and v2.1.76. The two core events (`PreToolUse`, `PostToolUse`) remain the most widely used, but new events now cover worktrees, teammate agents, and MCP interactions.
+The hook system now counts **30 events** in total. Full reference: `guide/core/hooks-events-reference.md`. The two core events (`PreToolUse`, `PostToolUse`) remain the most widely used, but new events now cover worktrees, teammate agents, parallel batches, and MCP interactions.
 
 | Event | Trigger | Version |
 |-------|---------|---------|
 | `PreToolUse` | Before any tool call | Core |
 | `PostToolUse` | After any tool call | Core |
+| `PostToolBatch` | After a batch of parallel tool calls fully resolves | v2.1.x |
 | `Notification` | When Claude sends a notification | Core |
 | `Stop` | When Claude finishes a response | Core |
 | `SubagentStop` | When a sub-agent finishes | Core |
@@ -1692,6 +1693,8 @@ The hook system gained new events between v2.1.32 and v2.1.76. The two core even
 | `FileChanged` | When a file is modified | v2.1.83 |
 | `TaskCreated` | When a new task is created | v2.1.84 |
 | `PermissionDenied` | When the auto-mode classifier denies a tool call; return `{"retry": true}` to retry | v2.1.88 |
+| `UserPromptExpansion` | When a slash command expands into a prompt | v2.1.x |
+| `MessageDisplay` | During streaming of the assistant's response text (10s timeout) | v2.1.x |
 
 **Example: PostCompact to save context:**
 
@@ -2036,7 +2039,7 @@ These commands were added incrementally between v2.1.71 and v2.1.77. They cover 
 | `/rename [name]` | Name or rename the current session | v2.1.71+ |
 | `/copy [N]` | Interactive copy of a code block or the Nth last response | v2.1.71+ |
 | `/effort` | Control effort level (low/medium/high/xhigh/max/ultracode) for the session | v2.1.71+ |
-| `/branch` | Creates a parallel branch/timeline (replaces `/fork` since v2.1.77) | v2.1.77 |
+| `/branch` | Creates a parallel branch/timeline (replaced `/fork` in v2.1.77; `/fork` reappeared as of v2.1.212 with a different meaning: copies the conversation into a separate background session, not a parallel timeline) | v2.1.77 |
 | `/btw [question]` | Ephemeral side question, read-only agent with no history | v2.1.71+ |
 | `/voice` | Enable voice input | v2.1.71+ |
 | `/remote-control` (`/rc`) | Remote control from mobile/browser (Pro/Max, Research Preview) | v2.1.51 |
@@ -2071,9 +2074,10 @@ These commands were added incrementally between v2.1.71 and v2.1.77. They cover 
 
 | Model | `/model` alias | Knowledge cutoff |
 |-------|---------------|-----------------|
-| Claude Opus 4.8 | `opus` | Current |
+| Claude Opus 5 | `opus` | May 2026 |
+| Claude Opus 4.8 | (previous gen, default on Bedrock/Vertex/Claude Platform on AWS only) | January 2026 |
 | Claude Sonnet 5 | `sonnet` (default since v2.1.197) | January 2026 |
-| Claude Fable 5 | `claude-fable-5` | June 2026 |
+| Claude Fable 5 | `claude-fable-5` | January 2026 |
 | Claude Opus 4.6 | (previous gen) | May 2025 |
 | Claude Haiku 4.5 | `haiku` | February 2025 |
 
@@ -2293,7 +2297,7 @@ For a broader survey of third-party tools in the ecosystem (session managers, ob
 
 *This Reference Guide synthesizes the 7 whitepapers of the Claude Code Ultimate Guide series and adds original content on migration, IDE integration, Git, advanced patterns, and development methodologies.*
 
-*Version 3.41.1 --- July 2026 (updated: Sonnet 5 default model, Dynamic Workflows, sub-agent nesting up to 5 levels, `/ultrareview`, `/fewer-permission-prompts`, read-only glob patterns skip permission prompts)*
+*Version 3.41.3 --- August 2026 (updated: Sonnet 5 default model, Dynamic Workflows, sub-agent nesting depth 3, `/ultrareview`, `/fewer-permission-prompts`, read-only glob patterns skip permission prompts)*
 
 ---
 

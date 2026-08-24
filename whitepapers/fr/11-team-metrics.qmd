@@ -2,10 +2,10 @@
 title: "Piloter une Équipe à l'Ère de l'IA"
 subtitle: "DORA, SPACE et les métriques qui comptent quand l'IA écrit 70 % de votre code"
 author: "Florian BRUNIAUX"
-date: 2026-07-02
+date: 2026-08-24
 date-format: "MMMM YYYY"
-version: "3.41.1"
-wp-version: "1.2.0"
+version: "3.41.3"
+wp-version: "1.2.1"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -201,7 +201,7 @@ La proportion de code commité qui était IA-généré ou IA-assisté. Disponibl
 
 ## CFR : Code IA vs Code Manuel
 
-Séparez votre Change Failure Rate par origine du code : commits IA-générés versus commits écrits manuellement. La plupart des outils enterprise de coding IA peuvent tagger les commits ou les PRs. Si vous préférez un mécanisme self-hosted plutôt qu'un outil enterprise payant, le [PR Audit Trail](https://cc.bruniaux.com/guide/ops/ai-traceability/) fait ce tagging pour vous : un hook `PreToolUse` journalise chaque appel d'outil, une GitHub Action capture et attache l'artefact à la PR à sa création (rétention 90 jours).
+Séparez votre Change Failure Rate par origine du code : commits IA-générés versus commits écrits manuellement. La plupart des outils enterprise de coding IA peuvent tagger les commits ou les PRs. Si vous préférez un mécanisme self-hosted plutôt qu'un outil enterprise payant, le [PR Audit Trail](https://cc.bruniaux.com/guide/ai-traceability/) fait ce tagging pour vous : un hook `PreToolUse` journalise chaque appel d'outil, une GitHub Action capture et attache l'artefact à la PR à sa création (rétention 90 jours).
 
 Si le CFR IA est dans les 2 à 3 points de pourcentage du CFR manuel, votre processus de revue fonctionne. S'il est significativement plus élevé, la discipline de revue a chuté. S'il est plus bas, les outils IA améliorent peut-être réellement la qualité du code dans votre domaine.
 
@@ -272,6 +272,8 @@ Sourcées de Strata Identity Research 2026 et CSA/Zenity 2026. Elles reflètent 
 ## La Contradiction du Temps de Revue chez les Power Users
 
 Digital Applied Q1 2026 (n=2 847 développeurs) montre que les utilisateurs intensifs d'outils IA passent 14 à 16 heures par semaine à relire du code IA-généré, contre 11,4 heures par semaine pour l'utilisateur moyen. Ça contredit directement le narratif selon lequel l'IA réduit la charge de revue. L'explication la plus probable : l'efficacité par unité de revue s'améliore peut-être, mais le volume de code généré grandit plus vite que la capacité de revue. Avant de vous engager sur des projections de gain de temps, mesurez la distribution réelle du temps de revue de votre équipe entre code IA-généré et code écrit manuellement.
+
+L'efficacité de la revue a un plafond antérieur à l'IA, et ce plafond n'a pas bougé : la détection des défauts s'effondre au-delà de 200 à 400 lignes par revue, ou de 60 à 90 minutes de lecture soutenue (Cisco/SmartBear, Cohen 2006). Une charge de revue de 14 à 16 heures par semaine n'est donc pas 14 à 16 heures de revue à qualité équivalente. Voir [The Attention Cost of the Review Shift](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/roles/learning-with-ai.md#the-attention-cost-of-the-review-shift) pour le détail des études et des pratiques qui maintiennent la revue dans la fenêtre efficace.
 
 ## L'Étude Uplevel sur Copilot
 
@@ -402,9 +404,9 @@ Si collecter la métrique requiert un travail manuel, elle sera abandonnée dans
 | Axify | Suite complète de métriques engineering, DORA + flow + team health | 15+ personnes | Startup canadienne, forte couverture SPACE |
 | GitHub Insights | Métriques d'activité basiques, gratuit, natif | Toute taille | Suffisant pour 5 à 10 personnes, insuffisant à l'échelle |
 | Tableur | Tracking manuel, toujours fonctionnel, zéro setup | Moins de 10 personnes | Le bon outil si l'overhead de setup automatisé n'est pas justifié |
-| LiteLLM + Loki + Tempo + Grafana | Stack self-hosted : spend par équipe, volume de requêtes par modèle, headroom budgétaire | Équipes qui veulent du cost/usage tracking sans outil SaaS payant | Ne calcule ni CFR ni lead time, complète LinearB/Faros plutôt que les remplacer. Voir [API Gateway](https://cc.bruniaux.com/guide/ops/api-gateway/) |
+| LiteLLM + Loki + Tempo + Grafana | Agrégation self-hosted d'usage, de coûts et de traces | 25+ personnes, contrainte self-hosted | LiteLLM Gateway journalise l'usage côté serveur, sans setup côté client. Loki ingère les JSONL de session pour le détail fichier par fichier. Tempo corrèle les sessions IA avec les traces de déploiement via OTel. Les panneaux Grafana couvrent le spend quotidien par équipe, le volume de requêtes par modèle et le headroom budgétaire via PromQL |
 
-Aucun outil ne remonte automatiquement les métriques AI-specific décrites plus haut (CFR par origine du code, comparaison temps de revue, signaux de compréhension), et ça reste vrai même avec la stack self-hosted ci-dessus. Ça nécessite soit des dashboards custom construits sur vos données CI/CD, soit un tracking manuel. GitHub Analytics couvre le % de code assisté par IA ; le reste vous devrez le câbler vous-même.
+Aucun outil ne remonte automatiquement les métriques AI-specific décrites plus haut (CFR par origine du code, comparaison temps de revue, signaux de compréhension). Ça nécessite soit des dashboards custom construits sur vos données CI/CD, soit un tracking manuel. GitHub Analytics couvre le % de code assisté par IA ; le reste vous devrez le câbler vous-même. Les équipes qui ne peuvent pas envoyer leurs données d'usage à un vendeur tiers doivent privilégier par défaut le chemin self-hosted LiteLLM/Loki/Tempo/Grafana plutôt que LinearB ou Faros.ai.
 
 **Évitez la prolifération d'outils.** Une équipe avec LinearB, Jira, GitHub Insights et deux outils analytics séparés passera plus de temps à réconcilier les chiffres qu'à agir dessus. Un outil DORA, un outil analytics produit, GitHub Analytics pour les données AI-specific.
 
@@ -551,10 +553,10 @@ La tentation est de tout vouloir dès le départ. Une stack de métriques, comme
 # Voir Aussi
 
 - [Team Metrics : Guide de référence](https://cc.bruniaux.com/guide/team-metrics/) : version complète avec tableaux de bord et ressources complémentaires
-- [Observabilité des Sessions](https://cc.bruniaux.com/guide/ops/observability/) : monitoring des sessions Claude Code, tracking des coûts, patterns d'usage
-- [Traçabilité IA](https://cc.bruniaux.com/guide/ops/ai-traceability/) : audit des contributions IA, attribution et conformité
-- [Déployer en Équipe](https://cc.bruniaux.com/guide/roles/team-deployment/) : adoption Claude Code en équipe, CI/CD, champions program
-- [API Gateway](https://cc.bruniaux.com/guide/ops/api-gateway/) : LiteLLM/Portkey, clés virtuelles, budgets par équipe, allowlists de modèles
+- [Observabilité des Sessions](https://cc.bruniaux.com/guide/observability/) : monitoring des sessions Claude Code, tracking des coûts, patterns d'usage
+- [Traçabilité IA](https://cc.bruniaux.com/guide/ai-traceability/) : audit des contributions IA, attribution et conformité
+- [Choisir son Approche d'Adoption](https://cc.bruniaux.com/guide/adoption-approaches/) : patterns d'adoption Claude Code en équipe, stratégies de configuration CLAUDE.md
+- [API Gateway](https://cc.bruniaux.com/guide/api-gateway/) : LiteLLM/Portkey, clés virtuelles, budgets par équipe, allowlists de modèles
 
 # La Série
 

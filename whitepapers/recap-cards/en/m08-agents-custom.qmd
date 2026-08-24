@@ -4,10 +4,10 @@ subtitle: "Create specialized sub-agents to delegate tasks"
 card-number: "M08"
 category: "Methodology"
 difficulty: "intermediate"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "May 2026"
+version: "3.41.3"
+date: "August 2026"
 layout: "two-col"
 lang: en
 format:
@@ -36,7 +36,7 @@ The file body contains instructions in Markdown: role, methodology, examples, co
 |-------|----------|------|
 | `name` | Yes | kebab-case identifier |
 | `description` | Yes | Activation trigger (50-100 chars) |
-| `model` | No | `haiku`, `sonnet` (default), `opus` |
+| `model` | No | `haiku`, `sonnet` (default), `opus`, `inherit` |
 | `tools` | No | Whitelist of accessible tools |
 | `memory` | No | Persistent memory scope |
 | `maxTurns` | No | Agentic turn limit |
@@ -48,7 +48,7 @@ The file body contains instructions in Markdown: role, methodology, examples, co
 
 Limiting `tools` to what the agent actually needs reduces the exposure surface and accidental errors. A code review agent only needs `Read, Grep, Glob`. No reason to give it `Bash` or `Write`.
 
-## Persistent memory (v2.1.32+)
+## Persistent memory (v2.1.33+)
 
 ```yaml
 memory: project   # .claude/agent-memory/<name>/
@@ -63,7 +63,7 @@ memory: local     # .claude/agent-memory-local/<name>/
 | Criterion | Agent | Slash Command |
 |-----------|-------|---------------|
 | Specialty | Yes, specific domain | No, generic workflow |
-| Own memory | Yes (v2.1.32+) | No |
+| Own memory | Yes (v2.1.33+) | No |
 | Isolated tools | Yes, whitelist | No |
 | Invocation | Automatic or manual | Manual only |
 | Format | Markdown + frontmatter | Markdown template |

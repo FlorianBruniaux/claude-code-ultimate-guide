@@ -4,10 +4,10 @@ subtitle: "Quel mécanisme de configuration utiliser selon la situation"
 card-number: "C06"
 category: "Conception"
 difficulty: "intermediate"
-guide-version: "3.41.1"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.1"
-date: "Mai 2026"
+version: "3.41.3"
+date: "Août 2026"
 layout: "two-col"
 lang: fr
 format:
@@ -16,7 +16,7 @@ format:
 
 ## Le problème des configurations fragmentées
 
-56% des équipes n'utilisent pas de configuration projet partagée pour Claude Code. Chaque développeur configure son environnement localement, les conventions dérivent, et personne ne sait quelle version des instructions est "correcte". Le résultat : des comportements inconsistants selon qui lance Claude et sur quelle machine.
+Sans configuration projet partagée pour Claude Code, chaque développeur configure son environnement localement, les conventions dérivent, et personne ne sait quelle version des instructions est "correcte". Le résultat : des comportements inconsistants selon qui lance Claude et sur quelle machine.
 
 La bonne pratique se résume à une distinction simple : ce qui appartient à l'équipe va dans les fichiers versionnés, ce qui est personnel reste local.
 

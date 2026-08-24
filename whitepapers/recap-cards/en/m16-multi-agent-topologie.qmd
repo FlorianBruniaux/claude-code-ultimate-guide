@@ -4,10 +4,10 @@ subtitle: "Architecting agent teams for complex tasks"
 card-number: "M16"
 category: "Methodology"
 difficulty: "advanced"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "May 2026"
+version: "3.41.3"
+date: "2026-08-24"
 layout: "two-col"
 lang: en
 format:
@@ -16,11 +16,11 @@ format:
 
 ## When to switch to multi-agent
 
-A single agent remains optimal up to roughly 7 directories or 50 files. Beyond that, the context window fills to 80-90% just loading relevant files, leaving almost no room for reasoning. Distributing work across multiple agents keeps each around 40% utilization, with enough space to analyze and decide.
+A single agent remains optimal up to roughly 10K lines of code, running at ~30% context usage. Beyond 50K lines, the context window fills to 80-90% just loading relevant files, leaving almost no room for reasoning. Distributing work across multiple agents keeps each around 40% utilization, with enough space to analyze and decide.
 
 | Scope | Single agent | Team |
 |-------|-------------|------|
-| <10 directories | Comfortable (~30%) | Unnecessary |
+| ~10K lines | Comfortable (~30%) | Unnecessary |
 | 50K lines | Degraded (80-90%) | Recommended |
 | 100K+ lines | Context overflow | Essential |
 
@@ -61,7 +61,7 @@ Applicability condition: modules must have zero shared state. If agents constant
 
 ## Isolation and permissions per agent
 
-Each agent has its own context window (1M tokens with Opus 4.8) and can receive a distinct tool whitelist. Limiting an agent to `Read`, `Glob`, `Grep` tools prevents any accidental modification during the analysis phase.
+Each agent has its own context window (1M tokens with Opus 5) and can receive a distinct tool whitelist. Limiting an agent to `Read`, `Glob`, `Grep` tools prevents any accidental modification during the analysis phase.
 
 | Agent | Allowed tools |
 |-------|--------------|
@@ -85,7 +85,7 @@ claude
 }
 ```
 
-Prerequisites: Claude Code v2.1.32+, Opus 4.8 recommended, Opus 4.6+ compatible (`/model opus`), initialized git repository. Navigate between agents with `Shift+Down` in in-process mode.
+Prerequisites: Claude Code v2.1.32+, Opus 5 recommended, Opus 4.6+ compatible (`/model opus`), initialized git repository. Navigate between agents with `Shift+Down` in in-process mode.
 
 ## Guardrails (v3.38.0)
 
@@ -93,7 +93,7 @@ Three essential controls for autonomous agent teams:
 
 **Loops**: `MAX_ITERATIONS=8` and a mandatory reflection prompt before each cycle. If an agent hits the limit, kill or reassign rather than letting it keep running.
 
-**Dedicated Reviewer**: 1 read-only Opus 4.8 agent (tools `Read/Grep/Glob`) auto-triggered on `TaskCompleted`, for every 4 worker agents. Ratio 1:4. (Credit: Addy Osmani)
+**Dedicated Reviewer**: 1 read-only Opus 5 agent (tools `Read/Grep/Glob`) auto-triggered on `TaskCompleted`, for every 3 to 4 worker agents. (Credit: Addy Osmani)
 
 **Token budget per agent**: set a hard token limit per agent; auto-pause at 85% for human verification before continuing.
 

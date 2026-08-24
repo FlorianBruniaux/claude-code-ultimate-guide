@@ -4,10 +4,10 @@ subtitle: "Integrating Claude Code into GitHub CI/CD pipelines"
 card-number: "M19"
 category: "Methodology"
 difficulty: "advanced"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "May 2026"
+version: "3.41.3"
+date: "2026-08-24"
 layout: "two-col"
 lang: en
 format:
@@ -59,7 +59,7 @@ jobs:
       - uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          model: claude-sonnet-4-6
+          model: claude-sonnet-5
           prompt_file: .github/prompts/code-review.md
           allowed_tools: Read,Glob,Grep
 ```

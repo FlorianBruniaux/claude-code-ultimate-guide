@@ -2,10 +2,10 @@
 title: "L'Architecture Démystifiée"
 subtitle: "Pas de RAG, pas de magie noire - juste une boucle"
 author: "Florian BRUNIAUX"
-date: 2026-07-02
+date: 2026-08-24
 date-format: "MMMM YYYY"
-version: "3.41.1"
-wp-version: "1.4.0"
+version: "3.41.3"
+wp-version: "1.4.1"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -34,11 +34,11 @@ lang: fr
 **Ce que vous allez retenir** :
 
 - Le master loop : pas de RAG, pas d'orchestrateur LLM; un agent synchrone réaction/action/observation
-- 10 outils natifs et comment les combiner efficacement
+- 9 outils natifs et comment les combiner efficacement
 - Budget contexte 200K: comprendre la consommation pour optimiser
 :::
 
-> **En 5 lignes :** Comprendre l'architecture interne de Claude Code change la façon dont vous l'utilisez. Cet ebook expose le master loop (le cycle fondamental réaction-action-observation), les 10 outils natifs avec leurs trade-offs, et la mécanique du budget contexte 200K tokens. Avec ce modèle mental, vous anticipez les comportements au lieu de les subir.
+> **En 5 lignes :** Comprendre l'architecture interne de Claude Code change la façon dont vous l'utilisez. Cet ebook expose le master loop (le cycle fondamental réaction-action-observation), les 9 outils natifs avec leurs trade-offs, et la mécanique du budget contexte 200K tokens. Avec ce modèle mental, vous anticipez les comportements au lieu de les subir.
 
 # Philosophie : Less Scaffolding, More Model
 
@@ -129,6 +129,8 @@ Opus 4.7 introduit un nouveau palier d'effort au-dessus de `high` : `xhigh`. C'e
 | `medium` | Modéré | Usage quotidien |
 | `high` | Élevé | Ancien défaut |
 | `xhigh` | Maximum | Défaut Opus 4.7+ |
+| `max` | Au-delà de xhigh | Session-only, non persistant comme défaut |
+| `ultracode` | Le plus élevé de l'enum | Session-only, non persistant comme défaut |
 
 Le passage du défaut de `high` à `xhigh` améliore la qualité sur les tâches d'analyse et de débogage complexes, au prix d'une latence légèrement accrue. Pour les équipes soucieuses du coût, il reste possible de forcer un niveau inférieur via la configuration.
 
@@ -220,22 +222,21 @@ Chaque aller-retour vers l'API Claude consomme des tokens (input + output). Un t
 
 Le master loop décide quand agir ; les outils natifs sont ce avec quoi il agit. Chaque outil a un coût token et un scope précis. Comprendre ce que chaque outil fait (et coûte) permet de calibrer vos attentes et de diagnostiquer les sessions lentes.
 
-## Arsenal Complet (10 outils principaux)
+## Arsenal Complet (9 outils principaux)
 
-Ces 10 outils constituent l'interface entre le raisonnement du modèle et le système de fichiers local. Chacun est spécialisé pour une tâche précise, ce qui permet au modèle de choisir l'outil le plus efficace plutôt que de tout faire passer par Bash. Les outils les plus récents (LSP Tool, MultiEdit) ont été ajoutés pour combler des lacunes identifiées par la communauté en production.
+Ces 9 outils constituent l'interface entre le raisonnement du modèle et le système de fichiers local. Chacun est spécialisé pour une tâche précise, ce qui permet au modèle de choisir l'outil le plus efficace plutôt que de tout faire passer par Bash. L'outil le plus récent (LSP Tool) a été ajouté pour combler une lacune identifiée par la communauté en production; le besoin de remplacement multi-fichiers est couvert par l'option `replace_all: true` d'Edit et par le tool Agent (ex-Task) pour les opérations distribuées sur plusieurs fichiers.
 
 | Outil | But | Comportement Clé |
 |-------|-----|------------------|
 | **Bash** | Exécuter commandes shell | Adaptateur universel |
 | **Read** | Lire contenu fichiers | Max 2000 lignes |
-| **Edit** | Modifier fichiers existants | Basé sur diff, match exact |
+| **Edit** | Modifier fichiers existants | Basé sur diff, match exact ; `replace_all: true` pour remplacer un pattern partout dans le fichier |
 | **Write** | Créer/écraser fichiers | Doit lire avant si existe |
 | **Grep** | Chercher dans fichiers | Basé sur ripgrep |
 | **Glob** | Trouver fichiers par pattern | Trié par mtime |
-| **Task** | Spawner sub-agents | Contexte isolé, depth=1 |
-| **TodoWrite** | Suivre progression | Gestion tâches structurée |
+| **Agent** (ex-Task) | Spawner sub-agents | Contexte isolé, depth 3 par défaut |
+| **TodoWrite** | Suivre progression | Gestion tâches structurée ; désactivé par défaut sur Sonnet 5/Opus 4.8/Fable 5 et modèles plus récents depuis v2.1.233, réactivable via `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` |
 | **LSP Tool** (v2.0.74+) | Intelligence de code | Symboles, références, diagnostics |
-| **MultiEdit** (v2.1.18+) | Éditions multi-fichiers | Pattern replace across files |
 
 ## Bash : L'Adaptateur Universel
 
@@ -259,7 +260,7 @@ La sélection d'outil est entièrement pilotée par le raisonnement du modèle, 
 "Find all test files"    → Glob tool
 "Search for TODO"        → Grep tool
 "Run npm test"           → Bash tool
-"Explore the codebase"   → Task tool (sub-agent)
+"Explore the codebase"   → Agent tool (sub-agent)
 "Track my progress"      → TodoWrite tool
 ```
 
@@ -275,7 +276,7 @@ Chaque appel d'outil consomme des tokens du budget contexte, en input (la requê
 | Read | Moyen | Élevé (gros fichiers) | ~100 input / 500-8K output |
 | Edit | Moyen | Moyen | ~200 input / 100-500 output |
 | Grep | Bas | Variable | ~80 input / 50-5K output |
-| Task | Élevé (nouveau contexte) | Résumé seulement | ~2K input / 200-1K output |
+| Agent | Élevé (nouveau contexte) | Résumé seulement | ~2K input / 200-1K output |
 
 L'écart entre un Read sur un petit fichier (500 tokens) et un Read sur un fichier de 2000 lignes (8K tokens) montre pourquoi la gestion du contexte est critique. Chaque token consommé est un token de moins pour le raisonnement du modèle.
 
@@ -432,7 +433,7 @@ Besoin d'accéder à une ressource externe ?
 │         └─ Non → Recherche sémantique locale ?
 │                   ├─ Oui → Grepai (Couche 4, local)
 │                   └─ Non → Tâche parallélisable ou isolation requise ?
-│                             ├─ Oui → Task Tool / Agent Teams
+│                             ├─ Oui → Agent Tool / Agent Teams
 │                             └─ Non → Outils Natifs (Bash, Read, Edit...)
 └─ Non → Valider ou logger les actions ?
           ├─ Oui → Hooks (PreToolUse/PostToolUse)
@@ -519,17 +520,17 @@ Claude Code offre trois scopes de mémoire persistante injectés automatiquement
 
 {{< pagebreak >}}
 
-# Sub-Agents : Le Task Tool
+# Sub-Agents : L'Agent Tool
 
-Les outils natifs opèrent dans le contexte de l'agent principal. Mais certaines tâches (exploration large, recherche parallèle, analyse risquée) bénéficient d'un contexte isolé. C'est le rôle du Task tool : spawner un sub-agent avec son propre context window, qui renvoie un résumé sans polluer le contexte principal.
+Les outils natifs opèrent dans le contexte de l'agent principal. Mais certaines tâches (exploration large, recherche parallèle, analyse risquée) bénéficient d'un contexte isolé. C'est le rôle de l'Agent tool (anciennement nommé Task) : spawner un sub-agent avec son propre context window, qui renvoie un résumé sans polluer le contexte principal.
 
 ## Architecture d'Isolation
 
 ```
-1. Agent Principal → Sub-Agent (niveau 1) : Task("Explore authentication patterns")
-                                             [Contexte frais | Mêmes outils sauf Task]
-2. Sub-Agent (n1)  → Sub-Agent (niveau 2) : Task("Deep-dive OAuth flow")
-                                             [Jusqu'à 5 niveaux de profondeur]
+1. Agent Principal → Sub-Agent (niveau 1) : Agent("Explore authentication patterns")
+                                             [Contexte frais | Mêmes outils sauf Agent]
+2. Sub-Agent (n1)  → Sub-Agent (niveau 2) : Agent("Deep-dive OAuth flow")
+                                             [3 niveaux de profondeur par défaut]
 3. Sub-Agent (n2)  → Sub-Agent (n2)       : Glob, Read, Grep...
 4. Sub-Agent (n2)  → Sub-Agent (n1)       : Résumé texte uniquement
 5. Sub-Agent (n1)  → Agent Principal      : Résumé texte uniquement
@@ -538,16 +539,16 @@ Les outils natifs opèrent dans le contexte de l'agent principal. Mais certaines
 
 L'isolation est bidirectionnelle : un sub-agent ne voit pas l'historique de conversation de son parent, et le parent ne reçoit que le résumé final de chaque enfant. Cela signifie que si un sub-agent lit 50 fichiers (consommant 40K tokens dans son contexte), seuls 200-1K tokens de résumé reviennent dans le contexte de son parent, quel que soit le niveau où il se trouve dans la chaîne.
 
-## Pourquoi une Profondeur Limitée à 5 Niveaux ?
+## Pourquoi une Profondeur Limitée à 3 Niveaux ?
 
-Depuis la v2.1.172 (juin 2026), un sub-agent peut spawner ses propres sub-agents, jusqu'à cinq niveaux de profondeur. Avant cette release, la profondeur était plafonnée à 1 : un sub-agent ne pouvait appeler que des outils, jamais le Task tool. Le plafond à 5 niveaux garde le même objectif que l'ancienne limite stricte, contenir les risques d'une récursion incontrôlée, tout en ouvrant des cas d'usage réels comme la décomposition récursive d'une exploration très large (un agent d'architecture qui délègue chaque sous-système à un agent dédié, qui délègue à son tour chaque module).
+Depuis la v2.1.172 (juin 2026), un sub-agent peut spawner ses propres sub-agents ; la v2.1.172 avait initialement porté ce plafond à cinq niveaux. La v2.1.217 est revenue en arrière et a désactivé l'imbrication (profondeur remise à 1), en ajoutant au passage `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS` pour plafonner la concurrence. La v2.1.219 a rétabli l'imbrication à une profondeur de 3 niveaux par défaut, valeur toujours en vigueur ; `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH=1` permet de désactiver l'imbrication pour revenir au comportement strict d'un seul niveau. Le plafond à 3 niveaux garde le même objectif que l'ancienne limite stricte, contenir les risques d'une récursion incontrôlée, tout en ouvrant des cas d'usage réels comme la décomposition récursive d'une exploration large (un agent d'architecture qui délègue chaque sous-système à un agent dédié, qui délègue à son tour chaque module).
 
-| Risque | Explication | Ce que la limite à 5 change |
+| Risque | Explication | Ce que la limite à 3 change |
 |--------|-------------|------------------------------|
-| Explosion récursive | Agent-ception consommerait des ressources infinies | Le plafond dur empêche toute chaîne illimitée, mais cinq niveaux suffisent à provoquer une explosion combinatoire si chaque niveau spawne plusieurs enfants en parallèle |
+| Explosion récursive | Agent-ception consommerait des ressources infinies | Le plafond dur empêche toute chaîne illimitée, mais trois niveaux suffisent à provoquer une explosion combinatoire si chaque niveau spawne plusieurs enfants en parallèle |
 | Pollution contexte | Chaque niveau accumulerait du contexte | Toujours vrai : seul le résumé remonte à chaque niveau, l'isolation protège le parent même sur une chaîne profonde |
-| Cauchemar débogage | Tracer des chaînes multi-niveau est difficile | Le risque augmente avec la profondeur ; tracer une chaîne à 5 niveaux demande une observabilité que Claude Code n'expose pas encore finement |
-| Coûts imprévisibles | Agents imbriqués = tokens imprévisibles | Le budget devient plus difficile à estimer à l'avance ; en pratique, la plupart des tâches restent utiles à 2-3 niveaux, au-delà le ROI décroît vite |
+| Cauchemar débogage | Tracer des chaînes multi-niveau est difficile | Le risque augmente avec la profondeur ; tracer une chaîne à 3 niveaux demande une observabilité que Claude Code n'expose pas encore finement |
+| Coûts imprévisibles | Agents imbriqués = tokens imprévisibles | Le budget devient plus difficile à estimer à l'avance ; en pratique, la plupart des tâches restent utiles à 2 niveaux, au-delà le ROI décroît vite |
 
 ## Types de Sub-Agents
 
@@ -577,7 +578,7 @@ Leïla debug un problème de performance sur l'API de paiement. Plutôt que lire
 
 **Status** : Expérimental (v2.1.32+, Opus 4.8 recommandé, Opus 4.6+ compatible)
 
-Les sub-agents résolvent le problème de l'isolation contexte, mais restent synchrones et limités à depth 1. Pour les tâches nécessitant une coordination réelle entre plusieurs agents autonomes (chacun avec son propre context window de 1M tokens), les Agent Teams représentent l'étape suivante.
+Les sub-agents résolvent le problème de l'isolation contexte, mais restent synchrones et limités à depth 3. Pour les tâches nécessitant une coordination réelle entre plusieurs agents autonomes (chacun avec son propre context window de 1M tokens), les Agent Teams représentent l'étape suivante.
 
 ## Architecture Lead-Teammate
 
@@ -667,9 +668,9 @@ You: & run full test suite
 # Notification quand terminé (~15min later)
 ```
 
-**Différence vs Task Tool** :
+**Différence vs Agent Tool** :
 
-- **Task** : Synchrone, bloque jusqu'à résumé
+- **Agent** : Synchrone, bloque jusqu'à résumé
 - **Background** : Asynchrone, non-bloquant, notif à la fin
 
 ## Architecture
@@ -985,10 +986,10 @@ La documentation officielle d'Anthropic est la source primaire pour les détails
 | Ressource | Contenu | Lien |
 |-----------|---------|------|
 | **Engineering Blog** | Best practices officiel Anthropic pour Claude Code | [anthropic.com/engineering/claude-code-best-practices](https://www.anthropic.com/engineering/claude-code-best-practices) |
-| **Docs overview** | Point d'entrée documentation Claude Code | [docs.anthropic.com/en/docs/claude-code/overview](https://docs.anthropic.com/en/docs/claude-code/overview) |
-| **Context Windows** | Fenêtres de contexte, tarification, benchmarks | [docs.anthropic.com/en/docs/build-with-claude/context-windows](https://docs.anthropic.com/en/docs/build-with-claude/context-windows) |
-| **Hooks Reference** | Documentation complète du système de hooks | [docs.anthropic.com/en/docs/claude-code/hooks](https://docs.anthropic.com/en/docs/claude-code/hooks) |
-| **MCP Docs** | Intégration MCP dans Claude Code | [docs.anthropic.com/en/docs/claude-code/mcp](https://docs.anthropic.com/en/docs/claude-code/mcp) |
+| **Docs overview** | Point d'entrée documentation Claude Code | [code.claude.com/docs/en/setup](https://code.claude.com/docs/en/setup) |
+| **Context Windows** | Fenêtres de contexte, tarification, benchmarks | [platform.claude.com/docs/en/build-with-claude/context-windows](https://platform.claude.com/docs/en/build-with-claude/context-windows) |
+| **Hooks Reference** | Documentation complète du système de hooks | [code.claude.com/docs/en/hooks](https://code.claude.com/docs/en/hooks) |
+| **MCP Docs** | Intégration MCP dans Claude Code | [code.claude.com/docs/en/mcp](https://code.claude.com/docs/en/mcp) |
 | **Model Context Protocol** | Spécification officielle du protocole MCP | [modelcontextprotocol.io](https://modelcontextprotocol.io) |
 | **Architecture Internals** | Master loop, tool arsenal, sub-agents (ce repo) | [guide/core/architecture.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/architecture.md) |
 | **MCP Ecosystem Guide** | Répertoire et évaluation des serveurs MCP | [guide/ecosystem/mcp-servers-ecosystem.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ecosystem/mcp-servers-ecosystem.md) |
@@ -1012,7 +1013,7 @@ Chaque whitepaper de la série est autonome, mais ils se complètent mutuellemen
 
 **Repository** : [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)
 
-*Version 3.41.1 | Juillet 2026*
+*Version 3.41.3 | Août 2026*
 
 
 ---

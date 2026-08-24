@@ -4,10 +4,10 @@ subtitle: "Tracking AI contributions in code and commits"
 card-number: "C10"
 category: "Design"
 difficulty: "intermediate"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "May 2026"
+version: "3.41.3"
+date: "August 2026"
 layout: "two-col"
 lang: en
 format:
@@ -35,7 +35,7 @@ feat: implement user authentication
 
 JWT-based auth with refresh tokens.
 
-Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
 ```
 
 **`Assisted-by` convention (LLVM standard):** different semantics. The developer remains the primary author, AI assisted.

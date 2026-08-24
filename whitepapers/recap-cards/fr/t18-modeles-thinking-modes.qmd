@@ -4,26 +4,28 @@ subtitle: "Choisir le bon modèle et le bon niveau de réflexion"
 card-number: "T18"
 category: "Technique"
 difficulty: "beginner"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "Mai 2026"
+version: "3.41.3"
+date: "Août 2026"
 layout: "two-col"
 lang: fr
 format:
   recap-card-typst: default
 ---
 
-## Les Trois Modèles
+## Les Quatre Modèles
 
 | Modèle | Prix input/1M | Idéal pour |
 |--------|--------------|------------|
-| **Haiku 4.5** | $0.80 | Tâches mécaniques, CI/CD |
-| **Sonnet 4.6** | $3.00 | Développement quotidien (défaut) |
-| **Fable 5** | Voir docs officielles | Tâches les plus complexes (Mythos-class) |
-| **Opus 4.8** | Voir docs officielles | Architecture, sécurité, audit |
+| **Haiku 4.5** | $1.00 | Tâches mécaniques, CI/CD |
+| **Sonnet 5** | $2.00* | Développement quotidien (défaut) |
+| **Opus 5** | $5.00 | Architecture, sécurité, audit |
+| **Fable 5** | $10.00 | Tâches les plus complexes (Mythos-class) |
 
-Sonnet est le point de départ naturel, couvrant 80% des cas d'usage. Haiku divise le coût par 4 sur les tâches répétitives (génération de tests, renommage massif). Opus entre en jeu uniquement quand le raisonnement profond change réellement la qualité du résultat.
+*Prix promotionnel jusqu'au 31 août 2026, $3.00 ensuite.
+
+Sonnet est le point de départ naturel, couvrant 80% des cas d'usage. Haiku réduit le coût par 3 (prix standard) sur les tâches répétitives (génération de tests, renommage massif). Opus entre en jeu uniquement quand le raisonnement profond change réellement la qualité du résultat.
 
 ## Changer de Modèle
 
@@ -47,26 +49,27 @@ claude --model opus "Design the auth system"
 | Architecture système | Opus | high |
 | Audit sécurité critique | Opus | max |
 
-## Thinking Modes (Opus 4.8)
+## Thinking Modes (Opus 4.6+)
 
-Opus 4.8 utilise l'**Adaptive Thinking** : le modèle alloue dynamiquement son budget de calcul selon la complexité de la requête. Le paramètre `effort` contrôle cette profondeur.
+Les modèles Opus (4.6 à 5) utilisent l'**Adaptive Thinking** : le modèle alloue dynamiquement son budget de calcul selon la complexité de la requête. Le paramètre `effort` contrôle cette profondeur. Sonnet et Haiku n'ont pas de thinking étendu.
 
 **Niveaux d'effort** :
 
 - **low** : zéro preamble, opérations combinées, tâches mécaniques
 - **medium** : pattern défini, scope borné, une seule préoccupation
-- **high** : décisions de design, edge cases, multiple préoccupations
-- **max** : raisonnement cross-système, décisions irréversibles (Opus 4.8+)
+- **high** : décisions de design, edge cases, multiple préoccupations (défaut)
+- **xhigh** : raisonnement approfondi entre high et max (Opus 4.7+)
+- **max** : raisonnement cross-système, décisions irréversibles (Opus 4.7+)
 
 ## Contrôler le Thinking
 
 ```
 Alt+T          Activer/désactiver (session courante)
 /config        Persistant entre sessions
-/model + ←/→  Slider effort low|medium|high
+/model + ←/→  Slider effort low|medium|high|xhigh|max (Opus 4.7+)
 ```
 
-Les keywords `ultrathink`, `think hard` n'ont plus d'effet fonctionnel depuis v2.0.67. Le thinking adaptatif est actif par défaut sur Opus 4.8.
+Les keywords `ultrathink`, `think hard` n'ont plus d'effet fonctionnel depuis v2.0.67. Le thinking adaptatif est actif par défaut sur les modèles Opus 4.6+, y compris Opus 5.
 
 ## Règle d'Or
 

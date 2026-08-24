@@ -4,10 +4,10 @@ subtitle: "Practical hook examples to automate your workflow"
 card-number: "M12"
 category: "Methodology"
 difficulty: "intermediate"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "May 2026"
+version: "3.41.3"
+date: "2026-08-24"
 layout: "two-col"
 lang: en
 format:
@@ -51,7 +51,7 @@ exit 0
 `PreToolUse` hook on `Bash`. Intercepts destructive patterns before execution.
 
 ```bash
-COMMAND=$(echo "$TOOL_INPUT" | jq -r '.command')
+COMMAND=$(cat | jq -r '.tool_input.command')
 DANGEROUS=("rm -rf /" "dd if=" "DROP DATABASE"
            "git push --force.*main")
 for pattern in "${DANGEROUS[@]}"; do

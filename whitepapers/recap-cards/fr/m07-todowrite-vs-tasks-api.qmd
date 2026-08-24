@@ -4,15 +4,17 @@ subtitle: "L'ancien et le nouveau système de gestion des tâches"
 card-number: "M07"
 category: "Méthodologie"
 difficulty: "intermediate"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "Mai 2026"
+version: "3.41.3"
+date: "Août 2026"
 layout: "two-col"
 lang: fr
 format:
   recap-card-typst: default
 ---
+
+> **v2.1.233** : sur Opus 4.8, Sonnet 5, Fable 5, Mythos 5 et modèles plus récents, TodoWrite ET la Tasks API sont désactivés par défaut. Réactiver avec `CLAUDE_CODE_ENABLE_TODO_TOOLS=1`.
 
 ## Comparaison directe
 
@@ -41,7 +43,7 @@ Reprise après /compact            → persistance garantie
 ## Activer et désactiver
 
 ```bash
-# Tasks API est activée par défaut depuis v2.1.19
+# Tasks API est activée par défaut depuis v2.1.142
 claude
 
 # Forcer le retour à TodoWrite (rare)
@@ -77,6 +79,6 @@ Quand vous migrez, mettez à jour vos instructions projet pour que Claude utilis
 
 TodoWrite continuera à fonctionner, mais la direction d'Anthropic est clairement vers Tasks API. Les nouvelles fonctionnalités de coordination multi-agents sont exclusivement construites sur Tasks API. Migrer maintenant évite une refonte forcée plus tard, sur des projets plus grands.
 
-## Flag de migration automatique
+## Activation automatique
 
-Depuis la v2.1.19, le flag `--task-manage` active automatiquement Tasks API pour toute opération impliquant plus de trois étapes ou deux répertoires distincts. Pratique pour forcer la bonne habitude sans y penser.
+Depuis la v2.1.142, la Tasks API est le système par défaut : Claude bascule de lui-même vers `TaskCreate`/`TaskUpdate` pour tout travail en plusieurs étapes, sans flag à activer. TodoWrite reste disponible via `CLAUDE_CODE_ENABLE_TASKS=false`.

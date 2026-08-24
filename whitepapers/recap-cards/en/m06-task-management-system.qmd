@@ -4,19 +4,21 @@ subtitle: "Organize Claude's work with the Tasks API"
 card-number: "M06"
 category: "Methodology"
 difficulty: "intermediate"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "May 2026"
+version: "3.41.3"
+date: "August 2026"
 layout: "two-col"
 lang: en
 format:
   recap-card-typst: default
 ---
 
+> **v2.1.233**: on Opus 4.8, Sonnet 5, Fable 5, Mythos 5, and newer models, the Tasks API (and TodoWrite) are disabled by default. Re-enable with `CLAUDE_CODE_ENABLE_TODO_TOOLS=1`.
+
 ## Task hierarchy
 
-The Tasks API (v2.1.16+) introduces a four-level structure to break down any complex project in a clear and traceable way.
+The Tasks API (v2.1.16+, default since v2.1.142) introduces a four-level structure to break down any complex project in a clear and traceable way.
 
 | Level | Role |
 |-------|------|
@@ -59,7 +61,7 @@ claude
 | `pending` | Waiting |
 | `in_progress` | Currently executing |
 | `completed` | Successfully finished |
-| `cancelled` | Cancelled |
+| `failed` | Failed, with error metadata for debugging |
 
 ## Dependencies with blockedBy
 

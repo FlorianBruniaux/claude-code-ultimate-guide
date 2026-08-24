@@ -3,12 +3,12 @@ title: "Modes de Permission"
 subtitle: "Contrôle des accès outils, du plus sûr au plus permissif"
 card-number: "T03"
 category: "Technique"
-guide-version: "3.41.1"
+guide-version: "3.41.3"
 difficulty: "beginner"
 author: "Florian BRUNIAUX"
-version: "3.41.1"
+version: "3.41.3"
 wp-version: "1.1.1"
-date: "Mai 2026"
+date: "2026-08-24"
 layout: "two-col"
 lang: fr
 format:
@@ -22,13 +22,14 @@ format:
 | **Default** | `default` | _(aucun)_ | Développement quotidien |
 | **Auto-accept edits** | `acceptEdits` | `Shift+Tab` | Revues de code |
 | **Plan** | `plan` | `Shift+Tab x2` ou `/plan` | Analyse sans modification |
+| **Don't Ask** | `dontAsk` | `/permissions` ou règles `permissions.allow` | Workflows restrictifs, refus silencieux si non pré-approuvé |
 | **Auto (classifier IA)** | `auto` | `permissions.defaultMode: "auto"` | Tâches longues, moins d'interruptions |
 | **Bypass total** | `bypassPermissions` | `--dangerously-skip-permissions` | CI/CD headless, sandboxé |
 | **Moins de prompts** | — | `/fewer-permission-prompts` | Génère un allowlist à partir des transcripts (livrée sous le nom `/less-permission-prompts` en v2.1.111) |
 
 **Activation en CLI :** `claude --permission-mode <mode>` accepte `default`, `plan`, `acceptEdits`, `bypassPermissions`. **Activation persistante :** clé `permissions.defaultMode` dans `settings.json`.
 
-**Note :** `--dangerously-skip-permissions` skippe aussi le répertoire `.claude/` (v2.1.121). Le mode `auto` s'appuie sur un modèle classifieur qui évalue chaque appel d'outil avant exécution : friction en moins, pas une frontière de sécurité.
+**Note :** `--dangerously-skip-permissions` ne prompte plus pour les écritures dans `.claude/skills/`, `.claude/agents/` et `.claude/commands/` (v2.1.121) ; le reste de `.claude/` (settings, hooks) et `.git/` restent protégés même en bypass total. Le mode `auto` s'appuie sur un modèle classifieur qui évalue chaque appel d'outil avant exécution : friction en moins, pas une frontière de sécurité.
 
 ## Whitelist d'Outils
 
@@ -94,4 +95,4 @@ Les permissions se cumulent et s'héritent dans cet ordre :
 
 ## Threat Intelligence
 
-La base de données des menaces connues (v2.15.0) recense 28+ CVEs et 655 patterns de skills malicieux. Parmi les vulnérabilités actives : CVE-2026-33032 (nginx-ui MCPwn, CVSS 9.8, exploitation active) et CVE-2026-30623 (LiteLLM). Vérifier régulièrement les outils MCP tiers avant intégration.
+La base de données des menaces connues (v2.27.0) recense 118 CVEs et 93 skills malveillants identifiés. Parmi les vulnérabilités actives : CVE-2026-33032 (nginx-ui MCPwn, CVSS 9.8, exploitation active) et CVE-2026-30623 (LiteLLM, patchée). Vérifier régulièrement les outils MCP tiers avant intégration.

@@ -4,10 +4,10 @@ subtitle: "La routine optimale pour une session de développement productive"
 card-number: "M01"
 category: "Méthodologie"
 difficulty: "beginner"
-guide-version: "3.41.0"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.0"
-date: "Mai 2026"
+version: "3.41.3"
+date: "Août 2026"
 layout: "two-col"
 lang: fr
 format:
@@ -34,14 +34,14 @@ La clé : **Claude propose, vous décidez.** Ne jamais sauter l'étape de review
 
 **Avant de taper la première demande :**
 
-1. Vérifier que CLAUDE.md est chargé (première ligne affichée dans le contexte)
+1. Vérifier que CLAUDE.md est chargé : demander "Quelle est la commande de test de ce projet ?" et voir si Claude répond avec la commande configurée
 2. Définir une intention claire : un seul objectif par session
 3. Commencer par `/plan` si la tâche touche plusieurs fichiers
 
 ```bash
 cd votre-projet
 claude
-# Vérifier : "✓ CLAUDE.md loaded"
+# Vérifier avec /status ou une question sur la config du projet
 ```
 
 ## Pendant la Session

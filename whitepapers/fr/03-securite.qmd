@@ -1,11 +1,11 @@
 ---
 title: "Sécurité en Production"
-subtitle: "17 hooks, threat DB v2.23, 0 incident"
+subtitle: "17 hooks, threat DB v2.27, 0 incident"
 author: "Florian BRUNIAUX"
-date: 2026-07-02
+date: 2026-08-24
 date-format: "MMMM YYYY"
-version: "3.41.1"
-wp-version: "1.4.2"
+version: "3.41.3"
+wp-version: "1.4.3"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -352,6 +352,7 @@ Malgre son utilite, `permissions.deny` presente des gaps documentes qui le rende
 | System reminders | Indexation peut exposer contenu avant permission check |
 | Bash wildcards | Commandes génériques peuvent contourner |
 | Indexing timing | File watching opère avant tool permissions |
+| Sandbox actif | Les règles `permissions.deny` (Read) ne s'appliquent jamais à un sous-processus Bash ; seul `sandbox.credentials.files` (chemins absolus, sans glob) protège les credentials en mode sandbox |
 
 **Amélioration (v2.1.111)** : Les glob patterns bash en lecture seule ne déclenchent plus de prompts de permission, ce qui réduit la friction sur les opérations de lecture courantes sans compromettre les protections d'écriture.
 
@@ -361,7 +362,7 @@ Malgre son utilite, `permissions.deny` presente des gaps documentes qui le rende
 /fewer-permission-prompts
 ```
 
-**Bottom line** : `permissions.deny` est nécessaire mais pas suffisant. → Compléter avec [Layer 1.5 Native Sandbox](#layer-1.5-native-sandbox-v2.1.0) et [Layer 2 Hooks](#layer-2-hooks-pretooluse).
+**Bottom line** : `permissions.deny` est nécessaire mais pas suffisant. Pour les lectures via l'outil Read, → compléter avec [Layer 2 Hooks](#layer-2-hooks-pretooluse). Pour les lectures via Bash (`cat`, `grep`, etc.), le [Native Sandbox](#layer-1.5-native-sandbox-v2.1.0) ne complète pas `permissions.deny`, il le remplace : seul `sandbox.credentials.files`, déclaré en chemins absolus, protège les credentials contre un sous-processus Bash sandboxé.
 
 ::: {.callout-warning title="Scenario reel : Sophie, lead backend dans une startup healthtech (12 devs)"}
 **Contexte** : Sophie a configure `permissions.deny` pour bloquer l'acces aux fichiers `.env`. Son equipe utilise Claude Code en mode semi-autonome pour du refactoring.
@@ -377,12 +378,12 @@ Malgre son utilite, `permissions.deny` presente des gaps documentes qui le rende
 
 ### Mode Auto : délégation et limites réelles (v2.1.114+)
 
-Le mode auto délègue les décisions de permission à un second modèle dédié (Sonnet 4.6), qui évalue chaque tool call avant exécution. Alternative au `--dangerously-skip-permissions`, il vise à réduire la friction sans supprimer toute vérification.
+Le mode auto délègue les décisions de permission à un second modèle dédié (Sonnet 5), qui évalue chaque tool call avant exécution. Alternative au `--dangerously-skip-permissions`, il vise à réduire la friction sans supprimer toute vérification.
 
 **Architecture : deux couches de défense**
 
 1. **Probe d'injection** : avant que tout contenu externe entre dans le contexte Claude (lecture de fichier, web fetch, sortie shell), un probe serveur scanne les instructions suspectes et injecte un avertissement si détecté.
-2. **Classificateur transcript** (Sonnet 4.6) : évalue chaque tool call sur trois catégories : escalade de portée, infrastructure non reconnue, prompt injection. Il voit uniquement les messages utilisateur et les tool calls en attente ; les réponses des outils et le raisonnement de Claude sont retirés pour éviter la manipulation.
+2. **Classificateur transcript** (Sonnet 5) : évalue chaque tool call sur trois catégories : escalade de portée, infrastructure non reconnue, prompt injection. Il voit uniquement les messages utilisateur et les tool calls en attente ; les réponses des outils et le raisonnement de Claude sont retirés pour éviter la manipulation.
 
 **Chiffres sur traffic production (Anthropic)** : 94% de détection des opérations dangereuses, 17% de faux négatifs.
 
@@ -492,6 +493,8 @@ Les hooks communiquent avec Claude Code via des codes de sortie standardises. C'
 | `exit 2` | Bloquer l'opération (message stderr affiché à Claude) |
 
 **Important (v2.1+)** : Toujours utiliser `exit 2` pour bloquer, pas `exit 1`. Exit 1 peut être interprété différemment selon le contexte du hook.
+
+**Méthode préférée pour PreToolUse** : le guide documente désormais une réponse JSON avec `hookSpecificOutput.permissionDecision: "deny"` sur `exit 0` comme méthode préférée pour bloquer un `PreToolUse`, `exit 2` restant une alternative plus simple valide pour un blocage limité au message stderr.
 
 ### Hook Profiles: Gating par Environnement (v3.38.0)
 
@@ -622,7 +625,7 @@ skills-ref validate ./skill-directory
 
 **Nouveau (v3.26)** : Base de données communautaire de menaces connues (skills/MCPs malicieux).
 
-**Fichier** : `examples/commands/resources/threat-db.yaml` (v2.23.0, juillet 2026)
+**Fichier** : `examples/commands/resources/threat-db.yaml` (v2.27.0, août 2026)
 
 **Contenu** :
 
@@ -658,6 +661,19 @@ skills-ref validate ./skill-directory
 - **T031 Shadow Escape : exfiltration zero-click via document piégé** : un PDF ou tableur malveillant uploadé à un assistant IA connecté en MCP suffit à déclencher un accès silencieux aux systèmes connectés (CRM, base de données) et une exfiltration de données sans autre interaction utilisateur que l'upload. (Operant AI, mai 2026)
 - **T032 Miasma Worm : injection Unicode zero-width dans les fichiers de config agent** : des caractères Unicode invisibles (`U+200B`, `U+200C`, `U+200D`, `U+FEFF`) injectés dans `CLAUDE.md`, `.cursorrules` ou `AGENTS.md` via des packages npm compromis restent invisibles dans les diffs GitHub tout en étant exécutés par l'agent. Premier ver documenté capable de se propager entre organisations via des dépendances npm partagées. (TeamPCP / StepSecurity, juin 2026)
 - **T033 Agentjacking : injection via faux événements Sentry** : un DSN Sentry write-only exposé publiquement permet de fabriquer des événements d'erreur piégés ; quand un développeur demande à son agent de "corriger les erreurs Sentry", l'agent exécute le payload comme une instruction de diagnostic légitime. 85% de taux de succès en test, plus de 2 388 organisations exposées identifiées. (Tenet Security, 2026-06-17)
+
+**Menaces Récentes (v2.23.0 → v2.27.0, août 2026)** :
+
+- **T034 GhostApproval** : un fichier en apparence anodin dans un repo est en réalité un lien symbolique vers un emplacement sensible de la machine (`~/.ssh/authorized_keys`) ; l'agent suit le lien et écrit le contenu de l'attaquant pendant que la boîte de confirmation n'affiche que le chemin bénin du projet.
+- **T035 GuardFall** : faille structurelle des denylists qui filtrent la commande shell en texte brut avant l'expansion bash, alors que bash évalue le texte après expansion ; toute réécriture équivalente à un pattern bloqué mais qui passe le filtre textuel contourne la garde.
+- **T036 Runtime DNS-TXT Payload Delivery** : un script de setup récupère un payload encodé en base64 depuis un enregistrement DNS TXT contrôlé par l'attaquant, l'exécute, et ouvre un reverse shell ; le payload n'existe nulle part dans le repo au moment de la revue statique.
+- **T037 Friendly Fire** : des injections cachées dans la documentation d'une librairie tierce détournent l'agent pendant une revue de sécurité automatisée, transformant une tâche défensive en exécution de code arbitraire.
+- **T038 HalluSquatting** : des attaquants pré-enregistrent des noms de packages malveillants correspondant à des hallucinations récurrentes des LLM, puis attendent qu'un agent recommande ce nom à un autre développeur.
+- **T039 Agent Config Persistence** : un `.claude/settings.json` ou `.vscode/tasks.json` avec un hook `SessionStart`/`folderOpen` exécute du code dès l'ouverture du repo, avant toute action de l'utilisateur.
+- **T040 AI Agent Commit Impersonation** : un token GitHub volé sert à committer sous l'identité d'un agent IA, noyant les écritures malveillantes dans l'historique des équipes qui laissent déjà des agents committer.
+- **T041 Ghostjacking** : injection indirecte via des logs ou alertes que l'agent inspecte plus tard, les instructions malveillantes arrivant par une donnée d'observabilité traitée à tort comme fiable.
+- **T042 Progressive Disclosure Payload Hiding** : le fichier d'entrée d'un skill est propre, les instructions malveillantes vivent dans un fichier secondaire chargé seulement à une étape précise, invisible à la revue du `SKILL.md`.
+- **T043 Trusted-Domain Counter as Exfiltration Oracle** : quand l'allowlist d'un agent fait confiance à un nom de domaine, un compteur public sur ce domaine devient un canal d'exfiltration caractère par caractère, sans jamais contacter l'infrastructure de l'attaquant.
 
 **CVEs Récents (v2.11.0 → v2.16.0)** :
 
@@ -929,7 +945,7 @@ Cette configuration regroupe les hooks essentiels sur les trois events critiques
 }
 ```
 
-> 📖 **Pour aller plus loin :** [§7.4 Security Hooks](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#74-security-hooks) (event system complet, templates prêts à l'emploi) | [33 templates hooks](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/hooks/)
+> 📖 **Pour aller plus loin :** [§7.4 Security Hooks](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#74-security-hooks) (event system complet, templates prêts à l'emploi) | [38 templates hooks](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/hooks/)
 
 ::: {.callout-note title="Scenario : Leila, DevSecOps dans une scale-up fintech (80 devs)"}
 Leila a deploye les 5 hooks essentiels sur les 80 postes de son equipe en une apres-midi via un script d'installation centralise. La premiere semaine, `output-secrets-scanner.sh` a intercepte 3 tokens AWS qui auraient ete commites. Cout de l'intervention : 0 -- les hooks ont bloque avant le commit. Sans eux, la rotation de credentials et l'investigation auraient mobilise l'equipe securite pendant 2 jours.
@@ -1232,7 +1248,7 @@ Trois outils dominent la detection de secrets dans les repositories git, chacun 
 | **mcp-scan (Snyk)** | Scanner supply chain pour skills et MCPs | [github.com/snyk/mcp-scan](https://github.com/snyk/mcp-scan) |
 | **mcpwn** | Scanner de sécurité pour serveurs MCP | [github.com/AgniveshChaubey/mcpwn](https://github.com/AgniveshChaubey/mcpwn) |
 | **Security Hardening Guide** | Guide dédié sécurité Claude Code (ce repo) | [guide/security/security-hardening.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/security/security-hardening.md) |
-| **33 templates hooks** | Hooks de sécurité prêts à déployer | [examples/hooks/](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/hooks/) |
+| **38 templates hooks** | Hooks de sécurité prêts à déployer | [examples/hooks/](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/hooks/) |
 
 ## Parcours Recommandé
 
@@ -1255,7 +1271,7 @@ Selon votre niveau et votre besoin, les whitepapers complementaires de cette ser
 
 **Repository** : [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)
 
-*Version 3.41.1 | Juillet 2026*
+*Version 3.41.3 | Août 2026*
 
 
 ---

@@ -2,10 +2,10 @@
 title: "Claude Code : Le Guide de Référence"
 subtitle: "Synthèse complète + workflows avancés"
 author: "Florian BRUNIAUX"
-date: 2026-07-02
+date: 2026-08-24
 date-format: "MMMM YYYY"
-version: "3.41.1"
-wp-version: "1.4.1"
+version: "3.41.3"
+wp-version: "1.4.3"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -38,7 +38,7 @@ lang: fr
 - 15 méthodologies documentées (TDD-AI, SDD, BDD avec Claude Code)
 :::
 
-> **En 5 lignes :** Ce guide de référence condense les 22 000 lignes du guide principal en sections consultables rapidement. Les 20 commandes les plus utiles, les patterns de migration depuis d'autres outils, les 15 méthodologies de développement adaptées à Claude Code. À bookmarker et consulter pendant vos sessions.
+> **En 5 lignes :** Ce guide de référence condense les ~26 600 lignes du guide principal en sections consultables rapidement. Les 20 commandes les plus utiles, les patterns de migration depuis d'autres outils, les 15 méthodologies de développement adaptées à Claude Code. À bookmarker et consulter pendant vos sessions.
 
 # Introduction
 
@@ -88,7 +88,7 @@ Mon niveau ?
 
 **Pour approfondir** : Chaque section renvoie vers le whitepaper détaillé correspondant.
 
-> 📖 **Ce whitepaper condense le guide complet.** Pour la version exhaustive (~19,000 lignes, 10 chapitres) : [The Ultimate Claude Code Guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md) | [189 templates prêts à l'emploi](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/)
+> 📖 **Ce whitepaper condense le guide complet.** Pour la version exhaustive (~26 600 lignes, 10 chapitres) : [The Ultimate Claude Code Guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md) | [271 templates prêts à l'emploi](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/)
 
 {{< pagebreak >}}
 
@@ -1714,7 +1714,7 @@ You: "What did the research find?"
 | Génération de tests | Review/debug code principal |
 | Documentation scraping | Planifier architecture |
 
-**Depth** : depuis v2.1.172, les sub-agents peuvent spawner leurs propres sub-agents, jusqu'à 5 niveaux de profondeur.
+**Depth** : depuis v2.1.172, les sub-agents peuvent spawner leurs propres sub-agents ; désactivé par défaut en v2.1.217, restauré à une profondeur de 3 niveaux depuis v2.1.219 (réglable via CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH).
 
 ## Agent Teams (depuis v2.1.32)
 
@@ -1964,7 +1964,7 @@ Ces commandes ont été ajoutées progressivement entre v2.1.71 et v2.1.77. Elle
 | `/rename [nom]` | Nommer ou renommer la session courante | v2.1.71+ |
 | `/copy [N]` | Copie interactive d'un bloc de code ou de la Nème dernière réponse | v2.1.71+ |
 | `/effort` | Contrôler le niveau d'effort (low/medium/high/xhigh/max/ultracode) pour la session | v2.1.71+ |
-| `/branch` | Crée une branche/timeline parallèle (remplace `/fork` depuis v2.1.77) | v2.1.77 |
+| `/branch` | Crée une branche/timeline parallèle (a remplacé `/fork` en v2.1.77 ; `/fork` a réapparu depuis v2.1.212 avec un sens différent : copie la conversation dans une session background séparée, pas une timeline parallèle) | v2.1.77 |
 | `/btw [question]` | Question latérale éphémère, agent read-only sans historique | v2.1.71+ |
 | `/voice` | Active la saisie vocale | v2.1.71+ |
 | `/remote-control` (`/rc`) | Contrôle à distance depuis mobile/navigateur (Pro/Max, Research Preview) | v2.1.51 |
@@ -2006,8 +2006,9 @@ Ces commandes ont été ajoutées progressivement entre v2.1.71 et v2.1.77. Elle
 | Modèle | Alias `/model` | Coupure connaissance |
 |--------|---------------|----------------------|
 | **Claude Sonnet 5** (défaut depuis v2.1.197) | `sonnet` | Janvier 2026 |
-| Claude Fable 5 | `claude-fable-5` | Juin 2026 |
-| Claude Opus 4.8 | `opus` | Actuel |
+| Claude Fable 5 | `claude-fable-5` | Janvier 2026 |
+| Claude Opus 5 | `opus` | Mai 2026 |
+| Claude Opus 4.8 | (génération précédente, défaut sur Bedrock/Vertex/AWS uniquement) | Janvier 2026 |
 | Claude Opus 4.6 | (génération précédente) | Mai 2025 |
 | Claude Haiku 4.5 | `haiku` | Fév. 2025 |
 
@@ -2203,7 +2204,7 @@ Selon votre objectif immédiat, vous n'avez pas besoin de lire les 9 whitepapers
 
 | Repository | Contenu | Lien |
 |------------|---------|------|
-| **Claude Code Ultimate Guide** | Ce guide (~23K lignes, 232 templates) | [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide) |
+| **Claude Code Ultimate Guide** | Ce guide (~26,6K lignes, 271 templates) | [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide) |
 | **MCP Servers Registry** | Registre officiel des serveurs MCP | [github.com/modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) |
 | **Community Examples** | Exemples communautaires validés Anthropic | [github.com/anthropics/claude-code-examples](https://github.com/anthropics/claude-code-examples) |
 | **Claude Code Action** | GitHub Action officielle pour CI/CD | [github.com/anthropics/claude-code-action](https://github.com/anthropics/claude-code-action) |
@@ -2250,7 +2251,7 @@ Le Discord officiel Anthropic est le canal le plus rapide pour obtenir de l'aide
 
 *Ce Guide de Référence synthétise les 7 whitepapers de la série Claude Code Ultimate Guide et ajoute du contenu inédit sur la migration, l'intégration IDE, Git, les patterns avancés et les méthodologies de développement.*
 
-*Version 3.41.1 --- Juillet 2026 (mis à jour : Claude Sonnet 5 modèle par défaut, sub-agents 5 niveaux de profondeur, Dynamic Workflows `ultracode`)*
+*Version 3.41.3 --- Août 2026 (mis à jour : Claude Sonnet 5 modèle par défaut, sub-agents profondeur 3, Dynamic Workflows `ultracode`)*
 
 ---
 

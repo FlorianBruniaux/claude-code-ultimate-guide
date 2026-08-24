@@ -4,10 +4,10 @@ subtitle: "Réagir automatiquement aux actions de Claude Code"
 card-number: "M11"
 category: "Méthodologie"
 difficulty: "intermediate"
-guide-version: "3.41.1"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.1"
-date: "Mai 2026"
+version: "3.41.3"
+date: "2026-08-24"
 layout: "two-col"
 lang: fr
 format:
@@ -32,15 +32,15 @@ Un hook est un script shell (ou toute commande) exécuté automatiquement quand 
 | `Stop` | Claude finit de répondre | Oui |
 | `SubagentStop` | Fin d'un sous-agent | Oui |
 
-## Événements Agent Teams (v2.1.32+)
+## Événements multi-agents et configuration
 
-| Événement | Utilité |
-|-----------|---------|
-| `TeammateIdle` | Un membre de l'équipe va passer en idle |
-| `TaskCompleted` | Une tâche est sur le point d'être marquée terminée |
-| `ConfigChange` | Un fichier de config a changé pendant la session |
+| Événement | Depuis | Utilité |
+|-----------|--------|---------|
+| `TeammateIdle` | v2.1.32+ (Agent Teams) | Un membre de l'équipe va passer en idle |
+| `TaskCompleted` | v2.1.32+ (Agent Teams) | Une tâche est sur le point d'être marquée terminée |
+| `ConfigChange` | v2.1.49+ | Un fichier de config a changé pendant la session |
 
-Ces événements permettent d'implémenter des quality gates au niveau de l'équipe d'agents : empêcher qu'une tâche soit marquée `completed` si les tests échouent, par exemple.
+`TeammateIdle` et `TaskCompleted` permettent d'implémenter des quality gates au niveau de l'équipe d'agents : empêcher qu'une tâche soit marquée `completed` si les tests échouent, par exemple. `ConfigChange` sert plutôt à l'audit de configuration en environnement entreprise et ne dépend pas d'Agent Teams.
 
 ## Configuration dans settings.json
 

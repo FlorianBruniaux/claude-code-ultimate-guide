@@ -4,10 +4,10 @@ subtitle: "Structuring complex prompts for reproducible results"
 card-number: "C03"
 category: "Design"
 difficulty: "advanced"
-guide-version: "3.41.1"
+guide-version: "3.41.3"
 author: "Florian BRUNIAUX"
-version: "3.41.1"
-date: "May 2026"
+version: "3.41.3"
+date: "August 2026"
 layout: "two-col"
 lang: en
 format:
