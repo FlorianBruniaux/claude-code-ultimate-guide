@@ -1139,6 +1139,7 @@ Beyond securing Claude Code itself, Anthropic offers a dedicated vulnerability s
 - [MCP Registry Template](../../examples/scripts/mcp-registry-template.yaml): YAML format for tracking approved MCPs at org level
 - [Ultimate Guide §7.4](#74-security-hooks): Hook system basics
 - [Ultimate Guide §8.6](#86-mcp-security): MCP security overview
+- [Cross-Session Messaging](../workflows/cross-session-messaging.md): full `ListAgents`/`SendMessage` mechanics between independent sessions
 
 ## References
 
@@ -1222,6 +1223,60 @@ Remote Control is **not available** on Team or Enterprise plans. However:
 | **VPN + SSH** | Yes (behind VPN) | VPN + direct | Low |
 
 For the highest security: prefer SSH over VPN rather than Remote Control, especially on sensitive environments.
+
+---
+
+## Part 8: Cross-Session Messaging Threat Model {#cross-session-messaging-threat-model}
+
+> **Feature context**: since v2.1.224, any two Claude Code sessions can message each other via `ListAgents` and `SendMessage`, on the same machine automatically, or across your account through Remote Control. Full mechanics: [Cross-Session Messaging](../workflows/cross-session-messaging.md).
+
+### Architecture
+
+```
+Same machine:    Session A ──Unix socket / named pipe──► Session B   (never touches Anthropic servers)
+Other machine:   Session A ──HTTPS──► Anthropic relay ──► Remote Control ──► Session B
+Web session:     Session A ──HTTPS──► Anthropic relay ──► Session B (Claude Code on the web)
+```
+
+Each session registers itself in on-disk files and binds an inbox socket restricted to the operating-system user (a per-connection key on native Windows). A session started as one OS user cannot see or message a session started as another, even sharing the same terminal multiplexer.
+
+### Threat Model
+
+The core risk is **cross-session prompt injection**: a compromised, misconfigured, or simply overzealous peer session sends text designed to get the receiving session to act outside what its own user authorized.
+
+| Threat | Risk | Mitigation |
+|--------|------|------------|
+| **Peer suggests a destructive or risky action** | A compromised peer session tries to get another session to run a command, touch a file, or approve something it shouldn't | Text-only channel: a message can never approve a permission prompt or change configuration. The receiving session's own permission rules still apply to anything it's asked to do. |
+| **Command injection via message text** | A message body contains something that looks like a slash command or shell instruction | Claude Code never executes text arriving in a message; it is delivered as plain text, same as any other prompt content. |
+| **Socket spoofing / stale endpoint** | A reply is routed to the wrong process because a socket path was replaced or a session restarted | `SendMessage` verifies the endpoint before delivering and refuses on a symlinked target, an unexpected connected process, or an endpoint whose identity can't be read, rather than sending blind. |
+| **Unsolicited flood from a peer** | A misbehaving or looping peer sends messages faster than the recipient can process | Burst refusal at the sender once a same-machine inbox's capacity is reached; at the recipient, repeated messages from one sender are rate-limited, identical repeats within a short window are dropped, and at most 50 accepted messages queue for Claude to read. |
+| **Cross-machine exposure via Remote Control** | Messages to another of your machines or the web pass through Anthropic's infrastructure rather than staying local | Same-machine traffic never leaves the box; cross-machine traffic is HTTPS through the same relay Remote Control already uses. Set `isolatePeerMachines: true` to require explicit approval before anything crosses a machine boundary. |
+| **Silent acceptance of untrusted peers** | A session with permissive defaults accepts messages from any session that can reach it | `crossSessionInbound: "refuse"` drops all inbound peer messages; `"hold"` requires a per-message **Approve**; the receiving session's permission-mode class sets the default when nothing else applies (a session that bypasses prompts holds by default, one that prompts delivers by default). |
+
+The design constraint that makes this tractable: a cross-session message is informational only. It is never treated as user consent, and the receiving session is explicitly instructed never to change its own permission settings, `CLAUDE.md`, or other configuration because a peer asked.
+
+### Best Practices
+
+```bash
+# 1. Lock down a sensitive session's inbound side explicitly
+#    In that project's settings.json:
+#    { "crossSessionInbound": "refuse" }
+
+# 2. Require approval before any message leaves the machine
+#    { "isolatePeerMachines": true }
+
+# 3. Turn the whole feature off for a session or an organization
+#    { "permissions": { "deny": ["SendMessage", "ListAgents"] }, "crossSessionInbound": "refuse" }
+#    Denying SendMessage also removes messaging to subagents and agent-team teammates.
+
+# 4. Don't assume a quiet /status means the feature is off
+#    A refusing session shows no visible change in its own /status or in peers' /list-agents.
+#    Confirm via the settings files that apply, not by observing behavior.
+```
+
+### Enterprise Considerations
+
+Same-machine messaging never leaves the box and needs no Remote Control connection. Cross-machine and web messaging route through Anthropic's relay, the same one Remote Control already uses; organizations with data-residency constraints on that relay should treat cross-session messaging like any other Remote-Control-adjacent traffic and consider the managed-settings lockdown above. `crossSessionInbound` and permission deny rules on `SendMessage`/`ListAgents` both apply from managed settings, so this is enforceable at the org level without relying on individual developers to configure it.
 
 ---
 

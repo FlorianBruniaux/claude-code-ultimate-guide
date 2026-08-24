@@ -45,7 +45,8 @@ The table below covers every built-in tool Claude Code ships with. "Permission R
 | `Workflow` | Run a dynamic workflow: a script that orchestrates many subagents and returns one result | Yes |
 | `TeamCreate` | Create an agent team with multiple teammates (`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`) | No |
 | `TeamDelete` | Disband an agent team and clean up teammate processes | No |
-| `SendMessage` | Send a message to an agent team teammate, or resume a stopped subagent by ID | No |
+| `ListAgents` | List every session this one can reach: subagents, agent-team teammates, other local Claude Code sessions on this machine, cloud sessions, Remote Control sessions on other machines (v2.1.224+) | No |
+| `SendMessage` | Send a message to an agent-team teammate, resume a stopped subagent by ID, or message an independent session found via `ListAgents` (cross-session messaging, v2.1.224+) | No |
 
 ### Task management
 
@@ -218,6 +219,10 @@ Claude calls `PushNotification` to send a desktop notification and, when Remote 
 
 Experimental feature behind `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`. `TeamCreate` spawns a team of named teammates; `SendMessage` sends a message to a teammate or resumes a stopped subagent by its agent ID; `TeamDelete` disbands the team. See the dedicated [Agent Teams guide](../workflows/agent-teams.md) for setup, patterns, and examples.
 
+### Cross-session messaging: ListAgents / SendMessage
+
+Distinct from Agent Teams above: this is messaging between sessions that were never spawned by each other, each already running independently, on the same machine or reachable through your account. `ListAgents` (`/list-agents`, alias `/peers`) lists every reachable session with its name; two Claude Code sessions running locally at the same time see each other automatically, no setup required. `SendMessage({to: "session-name"})` delivers text into the target session's own conversation under the sender's name; the receiving session replies the same way, no ID tracking needed. A message from a peer never carries authority: it cannot approve a permission prompt or change configuration on the receiving session's behalf, and the receiving session's own permission rules still apply to anything it asks for. Requires v2.1.224+ (macOS/Linux/WSL2) or v2.1.234+ (native Windows); not available on Bedrock, Vertex AI, or Foundry. See the dedicated [Cross-Session Messaging guide](../workflows/cross-session-messaging.md) for discovery mechanics, the `crossSessionInbound`/`isolatePeerMachines` security controls, and coordination patterns.
+
 ### Tasks API: TaskCreate through TaskStop
 
 The modern task management system (v2.1.16+, default since v2.1.142). The full tool set:
@@ -253,6 +258,7 @@ Some tools are only available when Claude Code connects through Anthropic's own 
 - [Architecture internals](./architecture.md): master loop, tool selection logic, context budget
 - [Permission Rule Syntax](./settings-reference.md#permission-rule-syntax): full `allow`/`deny` rule format with all specifier forms
 - [Sub-agents](../ultimate-guide.md#sub-agents): how `Agent` spawns work, tool inheritance, foreground vs background
+- [Cross-Session Messaging](../workflows/cross-session-messaging.md): full `ListAgents`/`SendMessage` mechanics between independent sessions
 - [Skills](../ultimate-guide.md#skills): how to build reusable prompt workflows using the `Skill` tool
 - [MCP servers](../ecosystem/mcp-servers-ecosystem.md): how to add custom tools via MCP
 - [Hooks](../ultimate-guide.md#hooks): run commands before or after tool execution

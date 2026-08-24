@@ -1,6 +1,6 @@
 ---
 title: "Claude Code: Multi-Agent Patterns Diagrams"
-description: "Agent topologies, worktrees, dual-instance planning, horizontal scaling, decision matrix"
+description: "Agent topologies, worktrees, dual-instance planning, horizontal scaling, decision matrix, cross-session messaging"
 tags: [multi-agent, patterns, worktrees, orchestration, scaling]
 ---
 
@@ -341,3 +341,87 @@ Need multiple instances?
 </details>
 
 > **Source**: [Multi-Instance Patterns](../ultimate-guide.md#multi-instance-patterns), line ~11176
+
+---
+
+### Cross-Session Messaging: Discovery & Delivery
+
+Independent Claude Code sessions, no spawn relationship between them, discover each other with `ListAgents` and message each other with `SendMessage`. Whether the message ever touches Anthropic's servers depends entirely on where the target session runs.
+
+```mermaid
+flowchart TD
+    subgraph DISCOVER["Discovery: ListAgents"]
+        SA(Session A<br/>repo-a) -->|registers on start| REG[(On-disk registry<br/>+ inbox socket)]
+        SB(Session B<br/>repo-b) -->|registers on start| REG
+        REG --> LA[[ListAgents reads registry]]
+        LA --> ROWS[[/list-agents rows:<br/>subagents, teammates,<br/>local peers, cloud, Remote Control/]]
+    end
+
+    subgraph DELIVER["Delivery: SendMessage"]
+        ROWS --> SM{Target session<br/>runs where?}
+        SM -->|Same machine| SOCK[Unix socket / named pipe<br/>never through Anthropic servers]
+        SM -->|Other machine or web| RC{{Remote Control channel<br/>through Anthropic servers}}
+        SOCK --> GATE{crossSessionInbound<br/>on receiving side}
+        RC --> GATE
+        GATE -->|accept| DELIVERED([Delivered to<br/>receiving Claude])
+        GATE -->|hold| HELD([Held: user must<br/>click Approve])
+        GATE -->|refuse| DROPPED([Dropped,<br/>never delivered])
+    end
+
+    DELIVERED --> BOUND(Receiving session's own permission<br/>rules still apply. Message text alone<br/>cannot approve or reconfigure anything.)
+
+    style SA fill:#F5E6D3,color:#333
+    style SB fill:#F5E6D3,color:#333
+    style REG fill:#B8B8B8,color:#333
+    style LA fill:#6DB3F2,color:#fff
+    style ROWS fill:#6DB3F2,color:#fff
+    style SM fill:#E87E2F,color:#fff
+    style SOCK fill:#B8B8B8,color:#333
+    style RC fill:#B8B8B8,color:#333
+    style GATE fill:#E87E2F,color:#fff
+    style DELIVERED fill:#7BC47F,color:#333
+    style HELD fill:#F5E6D3,color:#333
+    style DROPPED fill:#E85D5D,color:#fff
+    style BOUND fill:#7BC47F,color:#333
+
+    click SA href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md#2-discovery-listagents" "Session A"
+    click SB href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md#2-discovery-listagents" "Session B"
+    click REG href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md#5-the-sessions-inbox-socket" "On-disk registry"
+    click LA href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md#2-discovery-listagents" "ListAgents"
+    click ROWS href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md#2-discovery-listagents" "list-agents rows"
+    click SM href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md#4-same-machine-vs-cross-machine-delivery" "Target session runs where"
+    click SOCK href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md#4-same-machine-vs-cross-machine-delivery" "Same-machine socket"
+    click RC href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md#4-same-machine-vs-cross-machine-delivery" "Remote Control channel"
+    click GATE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md#6-security-model" "crossSessionInbound"
+    click DELIVERED href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md#6-security-model" "Delivered"
+    click HELD href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md#6-security-model" "Held"
+    click DROPPED href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md#6-security-model" "Dropped"
+    click BOUND href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/cross-session-messaging.md#6-security-model" "Permission boundary"
+```
+
+<details>
+<summary>ASCII version</summary>
+
+```
+DISCOVERY                              DELIVERY
+Session A ─┐                           list-agents rows
+Session B ─┴─> on-disk registry           │
+              + inbox socket              ▼
+                   │                 Target runs where?
+                   ▼                 ├─ Same machine ──> local socket ──┐
+            ListAgents reads              (never via Anthropic servers) │
+                   │                 └─ Other machine/web ──> Remote    │
+                   ▼                      Control (via Anthropic) ──────┤
+            list-agents rows                                           ▼
+                                                              crossSessionInbound?
+                                                              ├─ accept ─> delivered
+                                                              ├─ hold ───> user must Approve
+                                                              └─ refuse ─> dropped
+
+  Delivered message still cannot approve permissions or change config;
+  the receiving session's own permission rules apply to anything it asks for.
+```
+
+</details>
+
+> **Source**: [Cross-Session Messaging](../workflows/cross-session-messaging.md)

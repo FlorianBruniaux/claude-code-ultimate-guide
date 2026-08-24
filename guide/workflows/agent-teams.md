@@ -49,6 +49,8 @@ Agent teams enable **multiple Claude instances to work in parallel** on differen
 - ⚠️ **Experimental**: research preview, stability not guaranteed
 - ⚠️ **Token-intensive**: multiple simultaneous model calls means high cost
 
+> **Not the same as cross-session messaging**: the mailbox above connects teammates a team lead spawned itself. To message a session that already exists independently, one you started and steer yourself, see [Cross-Session Messaging](./cross-session-messaging.md) instead. Both use the same underlying `SendMessage` tool.
+
 ### When Introduced
 
 **Version**: v2.1.32 (2026-02-05)

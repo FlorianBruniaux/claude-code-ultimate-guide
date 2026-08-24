@@ -221,6 +221,7 @@ If you only have time for 5 sections:
   - [9.24 Instinct-Based Continuous Learning](#924-instinct-based-continuous-learning)
   - [9.25 Harness Engineering](#925-harness-engineering)
   - [9.26 Review-Driven Context Optimization](#926-review-driven-context-optimization)
+  - [9.27 Cross-Session Messaging (Peer Coordination)](#927-cross-session-messaging-peer-coordination)
 - [10. Reference](#10-reference) `🟢 All levels` `⏱ As needed`
   - [10.1 Commands Table](#101-commands-table)
   - [10.2 Keyboard Shortcuts](#102-keyboard-shortcuts)
@@ -24117,6 +24118,48 @@ This is the verification step that distinguishes review-driven optimization from
 > **Tool**: [crit by tomasz-tomczyk](https://github.com/tomasz-tomczyk/crit), MIT, active maintenance, native `crit install claude-code` support.
 
 > **See also**: [§9.24 Instinct-Based Continuous Learning](#924-instinct-based-continuous-learning) for passive capture from session logs. [§9.23 Configuration Lifecycle & The Update Loop](#923-configuration-lifecycle--the-update-loop) for deliberate CLAUDE.md maintenance. [§3.1 CLAUDE.md](#31-memory-files-claudemd) for where the extracted rules land.
+
+---
+
+## 9.27 Cross-Session Messaging (Peer Coordination)
+
+**Reading time**: 5 minutes (overview) | [Full guide →](./workflows/cross-session-messaging.md) (~15 min, full mechanics and security model)
+**Skill level**: Month 1+
+**Status**: Stable, v2.1.224+ (macOS/Linux/WSL2), v2.1.234+ (native Windows)
+
+### What It Is
+
+Two Claude Code sessions do not need to have spawned each other to talk. `ListAgents` discovers which sessions Claude can reach; `SendMessage` delivers a short text message to one of them by name. Two sessions running in parallel on the same machine, on different repositories or the same one, see each other automatically, with nothing to configure.
+
+This is distinct from [Agent Teams (§9.20)](#920-agent-teams-multi-agent-coordination): a team lead spawns and supervises its own teammates, with task assignment and synthesis. Cross-session messaging targets sessions that already exist independently, that a human started and steers, and simply cuts the copy-paste out of relaying information between them.
+
+### Discovery and Delivery
+
+Run `/list-agents` (alias `/peers`) to see what a session can reach: subagents, agent-team teammates, other local sessions on this machine, cloud sessions, and Remote Control sessions on other machines. Claude then addresses a message by name, either on its own initiative (after a change that affects another session's work) or because you asked:
+
+```text
+Ask the session running in my other terminal whether the migration finished
+```
+
+Or name the target directly with an `@`-mention, the same mechanism used for subagents (v2.1.232+):
+
+```text
+Let @api-worker know the schema migration finished
+```
+
+Whether the message ever leaves the machine depends on where the target runs: same-machine delivery goes over a local Unix socket or named pipe and never touches Anthropic's servers; a session on another of your machines or on the web is reached through Anthropic servers via the Remote Control connection.
+
+### Security Boundary
+
+A message from a peer session carries information, never authority. Claude Code tells the receiving Claude explicitly that the text came from another session, not from the user, and constrains it: it cannot approve a pending permission prompt, it cannot change `CLAUDE.md` or any other configuration, and a command embedded in the message's text arrives as plain text rather than something that runs. If acting on the message needs a permission the receiving session doesn't already have, the normal prompt fires, exactly as it would for anything else.
+
+Each session controls what it accepts from peers via `crossSessionInbound` (`accept` / `hold` / `refuse`, configurable in `/config`), and `isolatePeerMachines: true` forces explicit approval before any message leaves the current machine at all, even in `bypassPermissions` mode.
+
+### When to Use It
+
+Coordinate sessions you already have open and steer yourself: hand a finding from one worktree to a sibling worktree, tell the backend session when the database migration finished, push a documentation session the answer that just unblocked the frontend one. No `TeamCreate`, no team lead, no shared task list, just two (or more) independent sessions cutting the human out of the relay.
+
+> **Full reference**: [Cross-Session Messaging](./workflows/cross-session-messaging.md) covers the discovery rows in detail, the inbox socket mechanism, the full `crossSessionInbound` precedence rules, message size and burst limits, and the version timeline. Diagram: [Cross-Session Messaging: Discovery & Delivery](./diagrams/07-multi-agent-patterns.md#cross-session-messaging-discovery--delivery).
 
 ---
 

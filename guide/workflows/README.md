@@ -240,6 +240,18 @@ Multi-session task tracking with TodoWrite, tasks API, and context persistence a
 
 **When to use**: Long-running tasks spanning multiple sessions, team coordination, complex backlogs
 
+### [Cross-Session Messaging](./cross-session-messaging.md) ⭐ NEW
+
+`ListAgents` and `SendMessage`: how independent, already-running Claude Code sessions discover and message each other, on the same machine or across your account, without a human relaying context between terminals.
+
+**When to use**: Coordinating sessions you started and steer yourself (parallel worktrees, per-role sessions, cross-machine hand-offs), distinct from Agent Teams (a lead session spawns and supervises its own teammates)
+
+**Key Topics**:
+- `ListAgents` discovery: subagents, teammates, local peers, cloud, Remote Control
+- Same-machine socket delivery vs. cross-machine Remote Control routing
+- Security model: `crossSessionInbound`, `isolatePeerMachines`, why a peer message never carries authority
+- Version timeline and limitations (message size cap, burst throttling)
+
 ---
 
 ## Quick Selection Guide
@@ -268,6 +280,7 @@ Multi-session task tracking with TodoWrite, tasks API, and context persistence a
 | **Hook-driven automation** | [Event-Driven Agents](./event-driven-agents.md) |
 | **Full plan workflow** | [Plan Pipeline](./plan-pipeline.md) |
 | **Multi-session tracking** | [Task Management](./task-management.md) |
+| **Coordinating sessions you already have open** | [Cross-Session Messaging](./cross-session-messaging.md) |
 | **Strategic gate before coding** | [Cognitive Mode Switching](./gstack-workflow.md) |
 | **Non-MCP browser automation** | [Cognitive Mode Switching](./gstack-workflow.md) |
 
