@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
+- **AgentSec CoSnitch intelligence mirrored** (`machine-readable/agentsec-security-feed.v1.json`): synchronized the 2026-08-24 AgentSec feed with two reviewed sources and one `CVE-2026-24301` event covering Varonis's Microsoft Copilot Personal disclosure. The event is `not_applicable` to repository scanning, so AgentSec's runtime database remains at 114 CVEs while the public intelligence ledger moves to 20 sources and 10 events.
+
 ## [3.41.3] - 2026-08-20
 
 ### Added
