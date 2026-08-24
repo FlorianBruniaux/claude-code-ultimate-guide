@@ -11,6 +11,18 @@ Suivi des versions des ebooks, indépendamment de la version du guide.
 
 ---
 
+## [2026-08-24] Audit de style anti-IA, 13 whitepapers + 57 fiches récap, PDF régénérés et déployés
+
+Passage systématique des 13 whitepapers et des 57 fiches récap (FR+EN, 70 documents bilingues) contre la checklist `~/.claude/ANTI_AI.md` (em dash, ouvertures stéréotypées, deux-points rhétoriques d'annonce, chutes sentencieuses, emoji décoratifs, personas inventées, buzzwords creux), via 70 agents en parallèle (1 par document bilingue), suivi d'une passe de vérification. 59 documents sur 70 étaient déjà conformes. 11 ont reçu des corrections réelles, la plus importante étant WP07 (51 corrections, essentiellement des tirets `---` faisant office d'em dash). Deux points laissés en l'état par choix éditorial délibéré, à trancher séparément : les personas récurrentes (Antoine, Léa, Karim, Sophie, Marc, Thomas, Julien) utilisées dans les encadrés de mise en situation à travers toute la série, et le marqueur de navigation `📖 Pour aller plus loin / Further reading` répété à l'identique sur les 13 whitepapers. Les 10 whitepapers et la fiche récap M03 modifiés ont vu leurs PDF (et EPUB pour les whitepapers) régénérés et redéployés sur `florian-portfolio/public/guides/`, avec mise à jour de `guides.mjs`, `whitepapers-data.ts` et `recap-cards-data.ts` (landing), plus régénération du ZIP série méthodologie (FR+EN).
+
+### Fixed
+- **WP07 Guide de Référence** : 51 corrections (24 FR + 27 EN), essentiellement des tirets `---` en em dash et des emoji décoratifs hors tableau.
+- **WP11 Team Metrics** : 20 corrections (10 FR + 10 EN), deux-points rhétoriques d'annonce réécrits en phrases directes.
+- **WP00, WP01, WP02, WP04, WP05, WP06, WP08, WP09** : corrections ponctuelles (emoji décoratifs, personas isolées, buzzwords, chutes sentencieuses), 4 à 10 par whitepaper.
+- **Fiche récap M03 Sessions Continuité** : chute sentencieuse type maxime réécrite en phrase factuelle (FR+EN).
+
+---
+
 ## [2026-08-24] Audit de contenu complet, 13 whitepapers + 57 fiches récap, PDF régénérés et déployés
 
 Premier audit de contenu (pas seulement de fraîcheur des métadonnées) mené sur l'ensemble de la série depuis sa création : chaque whitepaper et chaque fiche récap comparés phrase par phrase au guide actuel et au `CHANGELOG.md` racine, via deux passages d'agents en parallèle (13 pour les whitepapers, 12 lots de 5 fiches pour les fiches récap). 116 problèmes trouvés sur les whitepapers (35 critiques), dont plusieurs répétés à l'identique sur les fiches récap qui en dérivent : Claude Opus 4.8 présenté comme modèle par défaut (remplacé par Opus 5 depuis v2.1.219), profondeur de nesting des sub-agents à 5 niveaux (actuellement 3), outil `MultiEdit` inventé, `TodoWrite` présenté sans la mention de désactivation par défaut depuis v2.1.233, `--safe-mode` mal décrit, champ `agent:` inventé dans les frontmatters SKILL.md, chemins de fichiers cassés (`guide/security-hardening.md`, `guide/data-privacy.md`, etc.), et pour 03-securite, l'omission du gap de sécurité le plus grave documenté dans le guide (`permissions.deny` sur Read n'atteint jamais un sous-processus Bash). Détail complet : `claudedocs/whitepaper-content-audit-2026-08-24.md` et `claudedocs/recap-card-content-audit-2026-08-24.md` (non versionnés, working docs). Toutes les corrections appliquées, `wp-version` bumpé en patch sur les 13 whitepapers, `guide-version`/`version` synchronisés à 3.41.3 sur les 57 fiches récap. Les 26 PDF whitepapers et les 114 PDF de fiches récap (+ 6 ZIP par série T/M/C × FR/EN) ont été régénérés et déployés sur `florian-portfolio/public/guides/`, avec mise à jour de `guides.mjs` (liens email) et `whitepapers-data.ts`/`recap-cards-data.ts` (landing).

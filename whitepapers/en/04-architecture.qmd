@@ -730,8 +730,8 @@ claude --worktree --base head  # Create from local HEAD (includes unpushed commi
 
 | Value | Behavior |
 |-------|----------|
-| `fresh` (default) | Branch from `origin/<default-branch>` — always a clean remote base |
-| `head` | Branch from local HEAD — includes unpushed commits |
+| `fresh` (default) | Branch from `origin/<default-branch>`, always a clean remote base |
+| `head` | Branch from local HEAD, includes unpushed commits |
 
 {{< pagebreak >}}
 
@@ -928,7 +928,7 @@ Antoine notices that Claude fails to edit a file with "old_string not found". Re
 
 ## Architectural Comparison (2026)
 
-The coding agent landscape evolves fast, but fundamental architectural differences remain stable. Claude Code stands out through its local execution, transparent reasoning model, and absence of an orchestrator, where alternatives rely on cloud pipelines or event-driven systems.
+Coding agents evolve fast, but fundamental architectural differences remain stable. Claude Code stands out through its local execution, transparent reasoning model, and absence of an orchestrator, where alternatives rely on cloud pipelines or event-driven systems.
 
 | Dimension | Claude Code | GitHub Copilot Workspace | Cursor |
 |-----------|-------------|--------------------------|--------|
@@ -961,7 +961,7 @@ Choosing a coding agent depends on your team's dominant workflow. Claude Code ex
 
 ## What We DON'T Know
 
-Despite Anthropic's growing transparency, several internal aspects of Claude Code remain publicly undocumented. These blind spots do not prevent effective use of the tool, but they limit the ability to fine-tune sessions or predict certain behaviors.
+Despite Anthropic's growing transparency, several internal aspects of Claude Code remain publicly undocumented. These blind spots do not prevent effective use of Claude Code, but they limit the ability to fine-tune sessions or predict certain behaviors.
 
 | Topic | Status |
 |-------|--------|

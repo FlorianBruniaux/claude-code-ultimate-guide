@@ -74,7 +74,7 @@ Main agent  →  Task("Explore auth flow from request to DB")
 Main agent reçoit le résumé (pas le contexte brut)
 ```
 
-L'avantage : les erreurs du sous-agent ne polluent pas le contexte de l'agent principal.
+Les erreurs du sous-agent ne polluent pas le contexte de l'agent principal.
 
 ## Signaux d'alarme pendant le debug
 

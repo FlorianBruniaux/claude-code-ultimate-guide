@@ -24,7 +24,7 @@ format:
 | **Don't Ask** | `dontAsk` | `/permissions` or `permissions.allow` rules | Restrictive workflows, silent auto-deny if not pre-approved |
 | **Auto (AI classifier)** | `auto` | `permissions.defaultMode: "auto"` | Long tasks, fewer interruptions |
 | **Full bypass** | `bypassPermissions` | `--dangerously-skip-permissions` | Headless CI/CD, sandboxed |
-| **Fewer prompts** | — | `/fewer-permission-prompts` | Generates an allowlist from transcripts (shipped as `/less-permission-prompts` in v2.1.111) |
+| **Fewer prompts** | _(none)_ | `/fewer-permission-prompts` | Generates an allowlist from transcripts (shipped as `/less-permission-prompts` in v2.1.111) |
 
 **CLI activation:** `claude --permission-mode <mode>` accepts `default`, `plan`, `acceptEdits`, `bypassPermissions`. **Persistent activation:** `permissions.defaultMode` key in `settings.json`.
 

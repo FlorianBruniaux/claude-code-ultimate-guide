@@ -74,7 +74,7 @@ GitHub MCP tools (`mcp__github__get_pull_request_diff`, `mcp__github__submit_pen
 
 ## Anti-hallucination protocol
 
-The main problem with automated reviews: Claude invents line numbers or reports issues it has not verified. The mitigation protocol consists of explicitly asking in the prompt to verify before any assertion.
+Automated reviews suffer from a recurring problem: Claude invents line numbers or reports issues it has not verified. The mitigation protocol consists of explicitly asking in the prompt to verify before any assertion.
 
 Wording in `code-review.md`:
 

@@ -45,7 +45,7 @@ lang: en
 
 Adopting AI in development changes delivery speed fast enough to break most existing benchmarks. A team that shipped 2 features per sprint in 2022 can now ship 6, with AI generating 70 to 90% of the code. That looks like a win on every traditional dashboard, and it may genuinely be a win. Or velocity is masking superficial reviews, skill atrophy, and growing technical debt that nobody fully understands.
 
-The core tension: activity metrics rise immediately when you adopt AI tools, but quality and maintainability signals are slower and harder to instrument. Sprint velocity, daily commits, lines written: everything goes up. Production bug rate, PR comprehension time, developer confidence: those are the ones that will tell you the truth 6 months from now.
+Activity metrics rise immediately when you adopt AI tools, but quality and maintainability signals are slower and harder to instrument. Sprint velocity, daily commits, lines written: everything goes up. Production bug rate, PR comprehension time, developer confidence: those are the ones that will tell you the truth 6 months from now.
 
 This guide gives engineering managers, tech leads, and CTOs a practical metrics stack: the DORA foundation recalibrated for an AI context, human factors through SPACE, and the AI-specific signals that standard frameworks don't cover.
 
@@ -53,11 +53,11 @@ This guide gives engineering managers, tech leads, and CTOs a practical metrics 
 
 Anthropic's internal data (January 2026) is clear: **+67% PRs merged per engineer per day**, with 70 to 90% of shipped code AI-assisted. Not a marketing projection, not a controlled demo: production numbers from a mature engineering team using Claude Code in real conditions.
 
-The practical consequence: "Medium" on DORA benchmarks is no longer a credible target for a team using AI tools at full capacity. If your team stagnates at "Medium" on deployment frequency or lead time after AI adoption, the constraint is in your processes and pipeline, not in developer productivity. Adjust your targets accordingly.
+"Medium" on DORA benchmarks is no longer a credible target for a team using AI tools at full capacity. If your team stagnates at "Medium" on deployment frequency or lead time after AI adoption, the constraint is in your processes and pipeline, not in developer productivity. Adjust your targets accordingly.
 
 # The DORA Foundation
 
-DORA (DevOps Research and Assessment) measures the health of your delivery system, not individual contributors. That distinction matters: it keeps metrics conversations focused on process improvement rather than surveillance. It's also the most validated framework in the domain, backed by years of research across thousands of organizations.
+DORA (DevOps Research and Assessment) measures the health of your delivery system, not individual contributors. That distinction keeps metrics conversations focused on process improvement rather than surveillance. It's also the most validated framework in the domain, backed by years of research across thousands of organizations.
 
 ## Deployment Frequency
 
@@ -137,7 +137,7 @@ DORA (DevOps Research and Assessment) measures the health of your delivery syste
 
 The DORA 2025 report made a significant methodological change: the four-tier model (Elite/High/Medium/Low) has been abandoned. DORA now identifies **7 organizational archetypes** covering expanded dimensions: throughput, stability, team performance, product performance, individual efficiency, time on value work, friction, and burnout.
 
-The consequence for teams: stop chasing "Elite" as an endpoint. "Elite" on deployment frequency can coexist with burnout and high friction. The new model pushes you to identify your archetype and improve your weakest dimensions rather than optimizing metrics where you're already strong.
+For teams, that means no longer chasing "Elite" as an endpoint. "Elite" on deployment frequency can coexist with burnout and high friction. The new model pushes you to identify your archetype and improve your weakest dimensions rather than optimizing metrics where you're already strong.
 
 # Beyond DORA: The SPACE Framework
 
@@ -231,7 +231,7 @@ DORA and SPACE were designed for deterministic software systems. Agents introduc
 
 DORA measures pipeline health, not output correctness. A study of 39 agent frameworks and 439 agentic applications (arXiv 2509.19185) found that 70% of test effort concentrates on deterministic components (tools, workflows) while less than 5% covers the LLM Plan Body, the central reasoning component most likely to produce incorrect results. Most DORA tooling has the same blind spot.
 
-A second structural gap: DORA doesn't capture the cost of the verification loop. Agent-generated PRs require at least as much review scrutiny as manually written code, and in practice more, because subtle behavioral errors can appear in syntactically correct code. Standard deployment frequency and lead time metrics look identical whether review is thorough or rubber-stamped.
+DORA doesn't capture the cost of the verification loop either. Agent-generated PRs require at least as much review scrutiny as manually written code, and in practice more, because subtle behavioral errors can appear in syntactically correct code. Standard deployment frequency and lead time metrics look identical whether review is thorough or rubber-stamped.
 
 ## Group 1: RCT-Verifiable Metrics
 
@@ -271,7 +271,7 @@ Sourced from Strata Identity Research 2026 and CSA/Zenity 2026. These reflect th
 
 ## The Heavy-User Review Time Contradiction
 
-Digital Applied Q1 2026 (n=2,847 developers) found that heavy AI tool users spend 14-16 hours per week reviewing AI-generated code, compared to 11.4 hours per week for average users. This directly contradicts the narrative that AI reduces review burden. The most likely explanation: per-review unit efficiency may improve, but the volume of generated code grows faster than review capacity. Before committing to time-savings projections, measure your team's actual review time distribution across AI-generated and manually written PRs.
+Digital Applied Q1 2026 (n=2,847 developers) found that heavy AI tool users spend 14-16 hours per week reviewing AI-generated code, compared to 11.4 hours per week for average users. This directly contradicts the narrative that AI reduces review burden. Per-review unit efficiency may improve, but the volume of generated code grows faster than review capacity, the most likely explanation for the gap. Before committing to time-savings projections, measure your team's actual review time distribution across AI-generated and manually written PRs.
 
 Review effectiveness has a ceiling that predates AI and hasn't moved: detection degrades sharply past roughly 200-400 lines per review, or 60-90 minutes of sustained reviewing (Cisco/SmartBear, Cohen 2006). A 14-16 hour weekly review load is therefore not 14-16 hours of equivalent-quality review. See [The Attention Cost of the Review Shift](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/roles/learning-with-ai.md#the-attention-cost-of-the-review-shift) for the underlying studies and the practices that keep review inside the effective band.
 
@@ -426,7 +426,7 @@ The starter table above covers what most teams reach for first. The 2026 market 
 
 ## AI-Generated Board Narratives
 
-A genuinely new 2026 capability: some of these platforms now generate a written narrative from the metrics they already compute, rather than leaving that translation to a human. Two concrete examples.
+In 2026, some of these platforms now generate a written narrative from the metrics they already compute, rather than leaving that translation to a human, a genuinely new capability. Two concrete examples.
 
 **LinearB** generates an AI iteration summary from Jira, Git, PR, and deployment data, structured around three axes: what went well, what didn't, and what could improve. It's delivered automatically to Slack or Microsoft Teams at sprint end, replacing the manual retro write-up a tech lead would otherwise produce.
 
@@ -442,7 +442,7 @@ Every benchmark so far in this whitepaper answers "how are we doing." This secti
 
 ## Why a Point Estimate Misleads
 
-Traditional forecasting takes your velocity (story points or throughput per sprint) and divides it into remaining scope to produce a single date. That date carries false precision: it implies a certainty the underlying data never had. Two teams with identical average velocity can have wildly different variance, and variance is exactly what a point estimate throws away.
+Traditional forecasting takes your velocity (story points or throughput per sprint) and divides it into remaining scope to produce a single date. That date carries false precision, implying a certainty the underlying data never had. Two teams with identical average velocity can have wildly different variance, and variance is exactly what a point estimate throws away.
 
 Monte Carlo forecasting instead runs your team's actual historical cycle times (or throughput) through thousands of simulated iterations and produces a distribution: "80% confidence between March 3 and March 20" instead of "March 12." That's a more honest answer, because it's the one your data can actually support.
 
@@ -488,7 +488,7 @@ Everything above this section assumes the audience is your own team or your engi
 
 ## The Diagnostic: Doubt Is a Trust Problem, Not a Data Problem
 
-When a board starts doubting a team's delivery capacity after past estimates have slipped, adding more delivery dashboards rarely fixes it on its own. The board's doubt is almost always about trust and visibility: what caused the slip, and will it happen again. It is much less often about the data itself: board members generally don't disbelieve the velocity number on the screen, they disbelieve the story that number is supposed to support.
+When a board starts doubting a team's delivery capacity after past estimates have slipped, adding more delivery dashboards rarely fixes it on its own. The board's doubt is almost always about trust and visibility, about what caused the slip and whether it will happen again. It is much less often about the data itself: board members generally don't disbelieve the velocity number on the screen, they disbelieve the story that number is supposed to support.
 
 ::: {.callout-warning title="An evidence gap, stated plainly"}
 No published study or vendor report actually measures whether delivery-intelligence tooling repairs executive trust. That's a gap in the field, not a gap in this whitepaper. Nothing here, and none of the tools covered earlier, comes with proof that it fixes a board's confidence. What follows reframes the conversation into one a board can act on, not a guaranteed remedy.
@@ -496,7 +496,7 @@ No published study or vendor report actually measures whether delivery-intellige
 
 ## Bring Scenarios, Not a Velocity Chart
 
-A single velocity number invites a single question: can the team go faster. That's rarely the question worth answering, and it's an easy one to lose regardless of the real numbers behind it.
+A single velocity number invites a single question, whether the team can go faster. That's rarely the question worth answering, and it's an easy one to lose regardless of the real numbers behind it.
 
 Bring 2 to 3 named delivery scenarios instead, each with a concrete timeline, a rework or cost estimate if sequencing gets compressed, and the business impact of picking that option. "Ship the full scope in Q3 at current pace" versus "compress two workstreams into Q2 at an estimated higher defect rate and additional engineer-weeks of rework" versus "cut scope and ship on the original date" is a decision a board can actually make. "Can the team go faster" is not.
 

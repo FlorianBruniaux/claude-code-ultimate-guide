@@ -28,7 +28,7 @@ Every Claude Code session follows this pattern:
 7. COMMIT    → Save (optional)
 ```
 
-The key: **Claude proposes, you decide.** Never skip the review step, even on changes that seem obvious.
+**Claude proposes, you decide.** Never skip the review step, even on changes that seem obvious.
 
 ## Session Start
 

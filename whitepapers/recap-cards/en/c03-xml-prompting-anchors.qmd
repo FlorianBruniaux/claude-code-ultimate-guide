@@ -16,7 +16,7 @@ format:
 
 ## Why XML works
 
-Claude was trained on massive corpora that include XML. When you structure a prompt with tags, you create unambiguous delimiters that separate the instruction, context, reference code, and constraints. The result: Claude interprets each section exactly in the role you assign it, without having to infer what is instruction and what is context.
+Claude was trained on massive corpora that include XML. When you structure a prompt with tags, you create unambiguous delimiters that separate the instruction, context, reference code, and constraints. Claude then interprets each section exactly in the role you assign it, without having to infer what is instruction and what is context.
 
 XML structure is relevant for complex or reusable tasks. For a one-line fix, it is unnecessary noise.
 

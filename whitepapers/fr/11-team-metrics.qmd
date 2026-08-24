@@ -45,7 +45,7 @@ lang: fr
 
 L'adoption de l'IA dans le développement change la vitesse de livraison assez vite pour casser la plupart des benchmarks existants. Une équipe qui livrait 2 features par sprint en 2022 peut maintenant en livrer 6, avec l'IA générant 70 à 90 % du code. Ça ressemble à une victoire sur tous les tableaux de bord traditionnels, et c'est peut-être effectivement une victoire. Ou la vélocité masque des revues superficielles, une atrophie des compétences, et une dette technique croissante que personne ne comprend vraiment.
 
-La tension centrale : les métriques d'activité montent immédiatement quand vous adoptez des outils IA, mais les signaux de qualité et de maintenabilité sont plus lents et plus difficiles à instrumenter. Vélocité de sprint, commits par jour, lignes écrites : tout monte. Taux de bugs en prod, temps de compréhension d'une PR, confiance des développeurs : ce sont eux qui vous diront la vérité dans 6 mois.
+Les métriques d'activité montent immédiatement quand vous adoptez des outils IA, mais les signaux de qualité et de maintenabilité sont plus lents et plus difficiles à instrumenter. Vélocité de sprint, commits par jour, lignes écrites : tout monte. Taux de bugs en prod, temps de compréhension d'une PR, confiance des développeurs : ce sont eux qui vous diront la vérité dans 6 mois.
 
 Ce guide donne aux engineering managers, tech leads et CTO une stack de métriques pratique : la fondation DORA recalibrée pour un contexte IA, les facteurs humains via SPACE, et les signaux AI-specific que les frameworks standard ne couvrent pas.
 
@@ -53,11 +53,11 @@ Ce guide donne aux engineering managers, tech leads et CTO une stack de métriqu
 
 Les données internes d'Anthropic (janvier 2026) sont claires : **+67 % de PRs mergées par ingénieur par jour**, avec 70 à 90 % du code shipé assisté par IA. Pas une projection marketing, pas une démo controlée : des chiffres de production sur une équipe d'ingénierie mature qui utilise Claude Code en conditions réelles.
 
-La conséquence pratique : "Medium" sur les benchmarks DORA n'est plus une cible crédible pour une équipe qui utilise des outils IA à pleine capacité. Si votre équipe stagne en "Medium" sur la fréquence de déploiement ou le lead time après adoption IA, la contrainte est dans vos processus et votre pipeline, pas dans la productivité de vos développeurs. Ajustez vos cibles en conséquence.
+"Medium" sur les benchmarks DORA n'est plus une cible crédible pour une équipe qui utilise des outils IA à pleine capacité. Si votre équipe stagne en "Medium" sur la fréquence de déploiement ou le lead time après adoption IA, la contrainte est dans vos processus et votre pipeline, pas dans la productivité de vos développeurs. Ajustez vos cibles en conséquence.
 
 # La Fondation DORA
 
-DORA (DevOps Research and Assessment) mesure la santé de votre système de livraison, pas des contributeurs individuels. Cette distinction compte : elle maintient les conversations sur les métriques focalisées sur l'amélioration des processus plutôt que sur la surveillance. C'est aussi le framework le plus validé du domaine, appuyé par des années de recherche sur des milliers d'organisations.
+DORA (DevOps Research and Assessment) mesure la santé de votre système de livraison, pas des contributeurs individuels. Cette distinction maintient les conversations sur les métriques focalisées sur l'amélioration des processus plutôt que sur la surveillance. C'est aussi le framework le plus validé du domaine, appuyé par des années de recherche sur des milliers d'organisations.
 
 ## Fréquence de Déploiement
 
@@ -137,7 +137,7 @@ DORA (DevOps Research and Assessment) mesure la santé de votre système de livr
 
 Le rapport DORA 2025 a fait un changement méthodologique significatif : le modèle à quatre tiers (Elite/High/Medium/Low) a été abandonné. DORA identifie maintenant **7 archétypes organisationnels** couvrant des dimensions élargies : throughput, stabilité, performance d'équipe, performance produit, efficacité individuelle, temps sur du travail à valeur, friction et burnout.
 
-La conséquence pour les équipes : arrêtez de chaser "Elite" comme endpoint. "Elite" sur la fréquence de déploiement peut coexister avec du burnout et une friction élevée. Le nouveau modèle pousse à identifier votre archétype et améliorer vos dimensions les plus faibles plutôt qu'optimiser les métriques où vous êtes déjà bons.
+Pour les équipes, ça veut dire arrêter de chaser "Elite" comme endpoint. "Elite" sur la fréquence de déploiement peut coexister avec du burnout et une friction élevée. Le nouveau modèle pousse à identifier votre archétype et améliorer vos dimensions les plus faibles plutôt qu'optimiser les métriques où vous êtes déjà bons.
 
 # Au-delà de DORA : Le Framework SPACE
 
@@ -231,7 +231,7 @@ DORA et SPACE ont été conçus pour des systèmes logiciels déterministes. Les
 
 DORA mesure la santé du pipeline, pas la justesse du résultat produit. Une étude portant sur 39 frameworks d'agents et 439 applications agentiques (arXiv 2509.19185) montre que 70 % de l'effort de test se concentre sur les composants déterministes (outils, workflows), contre moins de 5 % sur le "LLM Plan Body", le composant de raisonnement central le plus susceptible de produire des résultats incorrects. La plupart des outils DORA ont le même angle mort.
 
-Un second manque structurel : DORA ne capture pas le coût de la boucle de vérification. Les PRs générées par des agents demandent au moins autant de scrutin à la revue que le code écrit manuellement, et en pratique davantage, parce que des erreurs comportementales subtiles peuvent apparaître dans du code syntaxiquement correct. La fréquence de déploiement et le lead time standard se ressemblent, que la revue soit rigoureuse ou expédiée.
+DORA ne capture pas non plus le coût de la boucle de vérification. Les PRs générées par des agents demandent au moins autant de scrutin à la revue que le code écrit manuellement, et en pratique davantage, parce que des erreurs comportementales subtiles peuvent apparaître dans du code syntaxiquement correct. La fréquence de déploiement et le lead time standard se ressemblent, que la revue soit rigoureuse ou expédiée.
 
 ## Groupe 1 : Métriques Vérifiables par Étude Contrôlée (RCT)
 
@@ -271,7 +271,7 @@ Sourcées de Strata Identity Research 2026 et CSA/Zenity 2026. Elles reflètent 
 
 ## La Contradiction du Temps de Revue chez les Power Users
 
-Digital Applied Q1 2026 (n=2 847 développeurs) montre que les utilisateurs intensifs d'outils IA passent 14 à 16 heures par semaine à relire du code IA-généré, contre 11,4 heures par semaine pour l'utilisateur moyen. Ça contredit directement le narratif selon lequel l'IA réduit la charge de revue. L'explication la plus probable : l'efficacité par unité de revue s'améliore peut-être, mais le volume de code généré grandit plus vite que la capacité de revue. Avant de vous engager sur des projections de gain de temps, mesurez la distribution réelle du temps de revue de votre équipe entre code IA-généré et code écrit manuellement.
+Digital Applied Q1 2026 (n=2 847 développeurs) montre que les utilisateurs intensifs d'outils IA passent 14 à 16 heures par semaine à relire du code IA-généré, contre 11,4 heures par semaine pour l'utilisateur moyen. Ça contredit directement le narratif selon lequel l'IA réduit la charge de revue. L'efficacité par unité de revue s'améliore peut-être, mais le volume de code généré grandit plus vite que la capacité de revue, ce qui est l'explication la plus probable. Avant de vous engager sur des projections de gain de temps, mesurez la distribution réelle du temps de revue de votre équipe entre code IA-généré et code écrit manuellement.
 
 L'efficacité de la revue a un plafond antérieur à l'IA, et ce plafond n'a pas bougé : la détection des défauts s'effondre au-delà de 200 à 400 lignes par revue, ou de 60 à 90 minutes de lecture soutenue (Cisco/SmartBear, Cohen 2006). Une charge de revue de 14 à 16 heures par semaine n'est donc pas 14 à 16 heures de revue à qualité équivalente. Voir [The Attention Cost of the Review Shift](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/roles/learning-with-ai.md#the-attention-cost-of-the-review-shift) pour le détail des études et des pratiques qui maintiennent la revue dans la fenêtre efficace.
 
@@ -426,7 +426,7 @@ Le tableau de départ ci-dessus couvre ce que la plupart des équipes essaient e
 
 ## Récits de Board Générés par IA
 
-Une capacité vraiment nouvelle en 2026 : certaines de ces plateformes génèrent maintenant un récit écrit à partir des métriques qu'elles calculent déjà, plutôt que de laisser cette traduction à un humain. Deux exemples concrets.
+En 2026, certaines de ces plateformes génèrent maintenant un récit écrit à partir des métriques qu'elles calculent déjà, plutôt que de laisser cette traduction à un humain, une capacité vraiment nouvelle. Deux exemples concrets.
 
 **LinearB** génère un résumé d'itération par IA à partir des données Jira, Git, PR et déploiement, structuré autour de trois axes : ce qui a bien marché, ce qui n'a pas marché, ce qui pourrait s'améliorer. Il est livré automatiquement sur Slack ou Microsoft Teams en fin de sprint, remplaçant le compte rendu de rétro manuel qu'un tech lead aurait sinon produit.
 
@@ -442,7 +442,7 @@ Chaque benchmark de ce whitepaper jusqu'ici répond à "où on en est". Cette se
 
 ## Pourquoi une Estimation Ponctuelle Trompe
 
-La prévision traditionnelle prend votre vélocité (points de story ou throughput par sprint) et la divise dans le scope restant pour produire une date unique. Cette date porte une fausse précision : elle implique une certitude que les données sous-jacentes n'ont jamais eue. Deux équipes avec la même vélocité moyenne peuvent avoir une variance radicalement différente, et la variance, c'est exactement ce qu'une estimation ponctuelle jette à la poubelle.
+La prévision traditionnelle prend votre vélocité (points de story ou throughput par sprint) et la divise dans le scope restant pour produire une date unique. Cette date porte une fausse précision, en impliquant une certitude que les données sous-jacentes n'ont jamais eue. Deux équipes avec la même vélocité moyenne peuvent avoir une variance radicalement différente, et la variance, c'est exactement ce qu'une estimation ponctuelle jette à la poubelle.
 
 La prévision Monte Carlo fait tourner à la place vos cycle times historiques réels (ou votre throughput) à travers des milliers d'itérations simulées et produit une distribution : "80 % de confiance entre le 3 et le 20 mars" au lieu de "le 12 mars". C'est une réponse plus honnête, parce que c'est celle que vos données peuvent réellement soutenir.
 
@@ -488,7 +488,7 @@ Tout ce qui précède suppose une audience interne : votre propre équipe ou vot
 
 ## Le Diagnostic : un Problème de Confiance, pas un Problème de Données
 
-Quand un board commence à douter de la capacité de livraison d'une équipe après des estimations passées qui ont dérapé, ajouter plus de dashboards de delivery ne règle rarement le problème à lui seul. Le doute du board porte presque toujours sur la confiance et la visibilité : qu'est-ce qui a causé le dérapage, et est-ce que ça va se reproduire. Il porte beaucoup plus rarement sur les données elles-mêmes : les membres d'un board ne remettent généralement pas en cause le chiffre de vélocité affiché à l'écran, ils remettent en cause l'histoire que ce chiffre est censé soutenir.
+Quand un board commence à douter de la capacité de livraison d'une équipe après des estimations passées qui ont dérapé, ajouter plus de dashboards de delivery ne règle rarement le problème à lui seul. Le doute du board porte presque toujours sur la confiance et la visibilité, sur ce qui a causé le dérapage et sur le risque que ça se reproduise. Il porte beaucoup plus rarement sur les données elles-mêmes : les membres d'un board ne remettent généralement pas en cause le chiffre de vélocité affiché à l'écran, ils remettent en cause l'histoire que ce chiffre est censé soutenir.
 
 ::: {.callout-warning title="Un manque de preuves, dit sans détour"}
 Aucune étude publiée ni aucun rapport vendeur ne mesure réellement si l'outillage de delivery intelligence répare la confiance d'un exécutif. C'est un manque de preuves du domaine, pas un manque de ce whitepaper. Rien ici, et aucun des outils couverts plus haut, ne vient avec la preuve qu'il répare la confiance d'un board. Ce qui suit reformule la conversation en une décision que le board peut réellement prendre, pas en un remède garanti.
@@ -496,7 +496,7 @@ Aucune étude publiée ni aucun rapport vendeur ne mesure réellement si l'outil
 
 ## Apportez des Scénarios, pas un Graphique de Vélocité
 
-Un chiffre de vélocité unique appelle une question unique : est-ce que l'équipe peut aller plus vite. C'est rarement la bonne question, et c'est une question facile à perdre indépendamment des chiffres réels derrière.
+Un chiffre de vélocité unique appelle une question unique, celle de savoir si l'équipe peut aller plus vite. C'est rarement la bonne question, et c'est une question facile à perdre indépendamment des chiffres réels derrière.
 
 Apportez plutôt 2 à 3 scénarios de livraison nommés, chacun avec un calendrier concret, une estimation de rework ou de coût si le séquençage est compressé, et l'impact business de choisir cette option. "Livrer le scope complet en Q3 au rythme actuel" contre "compresser deux chantiers dans le Q2 avec un taux de défauts estimé plus élevé et des semaines-ingénieur de rework additionnelles" contre "couper du scope et livrer à la date d'origine" est une décision que le board peut réellement prendre. "Est-ce que l'équipe peut aller plus vite" n'en est pas une.
 

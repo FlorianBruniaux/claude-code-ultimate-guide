@@ -622,7 +622,7 @@ Ou dans `~/.claude/settings.json` :
 - Parallel hypothesis testing (3 root causes → 3 agents)
 - Architecture analysis (explore alternatives)
 
-**Write-heavy tasks** (⚠️ Risqué) :
+**Write-heavy tasks** (Risqué) :
 
 - Refactoring shared files → merge conflicts
 - Coordinated migrations → timing issues
@@ -925,7 +925,7 @@ Antoine constate que Claude échoue à éditer un fichier avec "old_string not f
 
 ## Comparaison Architecturale (2026)
 
-Le paysage des coding agents évolue vite, mais les différences architecturales fondamentales restent stables. Claude Code se distingue par son exécution locale, son modèle de raisonnement transparent et son absence d'orchestrateur, là où les alternatives reposent sur des pipelines cloud ou des systèmes event-driven.
+Les coding agents évoluent vite, mais les différences architecturales fondamentales restent stables. Claude Code se distingue par son exécution locale, son modèle de raisonnement transparent et son absence d'orchestrateur, là où les alternatives reposent sur des pipelines cloud ou des systèmes event-driven.
 
 | Dimension | Claude Code | GitHub Copilot Workspace | Cursor |
 |-----------|-------------|--------------------------|--------|
@@ -958,7 +958,7 @@ Le choix d'un coding agent dépend du workflow dominant dans votre équipe. Clau
 
 ## Ce Qu'On NE Sait PAS
 
-Malgré la transparence croissante d'Anthropic, plusieurs aspects internes de Claude Code restent non documentés publiquement. Ces zones d'ombre n'empêchent pas l'utilisation efficace de l'outil, mais elles limitent la capacité à optimiser finement les sessions ou à prédire certains comportements.
+Malgré la transparence croissante d'Anthropic, plusieurs aspects internes de Claude Code restent non documentés publiquement. Ces zones d'ombre n'empêchent pas l'utilisation efficace de Claude Code, mais elles limitent la capacité à optimiser finement les sessions ou à prédire certains comportements.
 
 | Sujet | État |
 |-------|------|

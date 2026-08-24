@@ -74,7 +74,7 @@ Les outils MCP GitHub (`mcp__github__get_pull_request_diff`, `mcp__github__submi
 
 ## Anti-hallucination protocol
 
-Le principal problème des reviews automatisées : Claude invente des numéros de ligne ou rapporte des issues qu'il n'a pas vérifiées. Le protocol de mitigation consiste à demander explicitement dans le prompt de vérification avant toute assertion.
+Les reviews automatisées souffrent d'un problème récurrent : Claude invente des numéros de ligne ou rapporte des issues qu'il n'a pas vérifiées. Le protocol de mitigation consiste à demander explicitement dans le prompt de vérification avant toute assertion.
 
 Formulation dans `code-review.md` :
 

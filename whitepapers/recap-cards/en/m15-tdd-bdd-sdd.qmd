@@ -55,7 +55,7 @@ Being explicit about "FAILING" and "does not exist yet" matters. Otherwise Claud
 #   Then they are redirected to their dashboard
 ```
 
-The benefit: scenarios serve simultaneously as spec, documentation and test base, in a language readable by non-developers.
+Scenarios serve simultaneously as spec, documentation, and test base, in a language readable by non-developers.
 
 ## SDD with Claude: Spec first
 

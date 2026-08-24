@@ -82,4 +82,4 @@ Les sessions de sous-agents (tâches déléguées) sont stockées dans un sous-d
 
 ## Pattern Recommandé
 
-Ne pas compter sur `--resume` comme mécanisme de continuité principal sur des projets longs. Préférer un CLAUDE.md bien tenu avec les décisions clés, des commits réguliers, et des sessions courtes et ciblées. La reprise de session est un filet de sécurité, pas un workflow de substitution.
+Ne pas compter sur `--resume` comme mécanisme de continuité principal sur des projets longs. Préférer un CLAUDE.md bien tenu avec les décisions clés, des commits réguliers, et des sessions courtes et ciblées. La reprise de session complète cette discipline, elle ne la remplace pas.

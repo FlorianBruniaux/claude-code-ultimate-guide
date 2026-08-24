@@ -49,7 +49,7 @@ Claude Code is Anthropic's official CLI tool for AI-assisted development. In one
 | Feature | Description |
 |---------|-------------|
 | **Native CLI** | No IDE lock-in, works in any terminal |
-| **Agentic** | Analyzes, plans, executes --- not just autocompletion |
+| **Agentic** | Analyzes, plans, executes, not just autocompletion |
 | **Extensible** | MCP (Model Context Protocol) to connect external tools |
 | **Customizable** | Agents, Skills (user-invocable + model-invocable), Hooks |
 
@@ -57,11 +57,11 @@ Claude Code is Anthropic's official CLI tool for AI-assisted development. In one
 
 These five principles emerged from thousands of production sessions. They address the most common mistakes during the first weeks of adoption: accepting code without review, saturating the context window, writing vague prompts, losing conventions between sessions, and working directly on main. Applying them from day one avoids the majority of frustrations reported by the community.
 
-1. **Claude proposes, you decide** --- Every modification goes through your explicit validation
-2. **Context is king** --- Watch `Ctx(u):` and prepare `/compact` at 50%, run it at 70%
-3. **Specify with WHAT/WHERE/HOW/VERIFY** --- Precise prompts = fewer iterations
-4. **CLAUDE.md is your memory** --- Document conventions and preferences
-5. **Feature branches always** --- Never work directly on main/master
+1. **Claude proposes, you decide**: every modification goes through your explicit validation
+2. **Context is king**: watch `Ctx(u):` and prepare `/compact` at 50%, run it at 70%
+3. **Specify with WHAT/WHERE/HOW/VERIFY**: precise prompts, fewer iterations
+4. **CLAUDE.md is your memory**: document conventions and preferences
+5. **Feature branches always**: never work directly on main/master
 
 These five rules form the foundation on which the rest of this guide is built. Parts I through IV put them into practice: Part I teaches you to formulate your requests (rule 3) and manage context (rule 2), Part II to configure your project memory (rule 4), Part III to structure your Git workflows (rule 5), and Part IV to manage risks (rule 1).
 
@@ -88,7 +88,7 @@ My level?
 
 **To go deeper**: Each section links to the corresponding detailed whitepaper.
 
-> 📖 **This whitepaper condenses the full guide.** For the exhaustive version (~26,600 lines, 10 chapters): [The Ultimate Claude Code Guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md) | [271 ready-to-use templates](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/)
+> **This whitepaper condenses the full guide.** For the exhaustive version (~26,600 lines, 10 chapters): [The Ultimate Claude Code Guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md) | [271 ready-to-use templates](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/)
 
 {{< pagebreak >}}
 
@@ -98,7 +98,7 @@ My level?
 
 *-> To go deeper: WP01 "Prompts That Work"*
 
-Before configuring anything, you need to know how to talk to Claude Code. The quality of your prompts directly determines the quality of the responses --- and the number of iterations required.
+Before configuring anything, you need to know how to talk to Claude Code. The quality of your prompts directly determines the quality of the responses and the number of iterations required.
 
 ## The Problem: Vague Prompts
 
@@ -138,7 +138,7 @@ HOW: Use Zod schema, display inline errors below each field
 VERIFY: Empty email shows "Email required", invalid format shows "Invalid email"
 ```
 
-::: {.callout-tip title="Memo --- WHAT/WHERE/HOW/VERIFY Formula"}
+::: {.callout-tip title="Memo: WHAT/WHERE/HOW/VERIFY Formula"}
 **What**: Structure your prompts along 4 dimensions for accurate first-try responses.
 
 **When**: Systematically for any non-trivial task (>5 lines of change).
@@ -196,7 +196,7 @@ Apply to src/utils/helpers.ts
 
 # Chapter 2: Migrating from Other Tools
 
-*Original section --- Not covered in the whitepapers*
+*Original section, not covered in the whitepapers*
 
 If you've mastered prompt formulation (Ch.1), the next question is often: "How do I integrate Claude Code into my existing workflow?" This chapter is for those coming from Copilot, Cursor, or another code assistance tool.
 
@@ -216,16 +216,16 @@ If you've mastered prompt formulation (Ch.1), the next question is often: "How d
 
 ### What Copilot does well
 
-- **Inline suggestions** --- Fast autocompletion while typing
-- **Familiar workflow** --- Works inside the editor
-- **Low friction** --- No context switching
+- **Inline suggestions**: fast autocompletion while typing
+- **Familiar workflow**: works inside the editor
+- **Low friction**: no context switching
 
 ### What Claude Code does better
 
-- **Multi-file refactoring** --- Copilot: one file at a time | Claude: reads and edits across files
-- **Complex tasks** --- Copilot: suggests lines | Claude: implements features
-- **Understanding context** --- Copilot: current file | Claude: can search the entire project
-- **Debugging** --- Copilot: weak | Claude: systematic root cause analysis
+- **Multi-file refactoring**: Copilot one file at a time, Claude reads and edits across files
+- **Complex tasks**: Copilot suggests lines, Claude implements features
+- **Understanding context**: Copilot sees the current file, Claude can search the entire project
+- **Debugging**: weak on Copilot, systematic root cause analysis on Claude
 
 ### Hybrid Approach (Recommended)
 
@@ -363,7 +363,7 @@ USABLE = Total - System - Reserved ~ 140-150K tokens
 
 ## Essential Commands
 
-### /compact --- Context Compression
+### /compact: Context Compression
 
 ```bash
 /compact
@@ -371,7 +371,7 @@ USABLE = Total - System - Reserved ~ 140-150K tokens
 # Typically reduces by 60-70%
 ```
 
-### /clear --- Full Reset
+### /clear: Full Reset
 
 ```bash
 /clear
@@ -387,7 +387,7 @@ Watch the `Ctx(u):` indicator in the prompt:
 Ctx(u): 45% <- You are here
 ```
 
-::: {.callout-note title="🔄 /compact vs /clear vs --continue vs --resume: When to use which?"}
+::: {.callout-note title="/compact vs /clear vs --continue vs --resume: When to use which?"}
 | Command | What it does | When to use it | What is preserved |
 |---------|-------------|----------------|-------------------|
 | `/compact` | Summarizes the current context | Context full, task continues | Condensed summary, CLAUDE.md |
@@ -402,7 +402,7 @@ Ctx(u): 45% <- You are here
 
 Two bundled commands added in v2.1.63 cover post-implementation code quality and large-scale refactors.
 
-### /simplify --- Over-engineering Detection
+### /simplify: Over-engineering Detection
 
 ```bash
 /simplify
@@ -417,7 +417,7 @@ Two bundled commands added in v2.1.63 cover post-implementation code quality and
 
 `/simplify` operates at the architecture level, not the formatter level. It complements ESLint/Prettier rather than replacing them.
 
-### /batch --- Massive Refactors via Parallel Agents
+### /batch: Massive Refactors via Parallel Agents
 
 ```bash
 /batch migrate from react to vue
@@ -732,7 +732,7 @@ claude -a security-auditor
 
 # Chapter 6: IDE Integration
 
-*Original section --- Not covered in the whitepapers*
+*Original section, not covered in the whitepapers*
 
 You now have a well-structured CLAUDE.md (Ch.4) and ready-to-use extensions (Ch.5). The last step of customization is integrating Claude Code into your daily development environment, so it's accessible without leaving your editor.
 
@@ -756,16 +756,16 @@ Works with IntelliJ, WebStorm, PyCharm:
    - `Ctrl+Shift+A` -> "Claude Code"
    - Tool window for persistent session
 
-::: {.callout-note title="Scenario: Julie, senior dev, configures Claude Code in VS Code"}
-Julie works on a React/Node monorepo with 3 packages. She wants Claude Code to be accessible without leaving VS Code. Here's her setup in 3 steps:
+::: {.callout-note title="Setup: VS Code split terminal in 3 steps"}
+For a React/Node monorepo with multiple packages, the goal is to keep Claude Code accessible without leaving VS Code. Setup in 3 steps:
 
-**Step 1 --- Extension + integrated terminal**: Julie installs the Claude Code extension from the VS Code marketplace. She configures the shortcut `Ctrl+Shift+C` to quickly open a Claude session in the integrated terminal.
+**Step 1 (Extension + integrated terminal)**: install the Claude Code extension from the VS Code marketplace. Configure the shortcut `Ctrl+Shift+C` to quickly open a Claude session in the integrated terminal.
 
-**Step 2 --- Split terminal**: She configures VS Code for a permanent horizontal split: editor on top, Claude terminal at the bottom. In `keybindings.json`, she adds a shortcut to toggle between the two panels.
+**Step 2 (Split terminal)**: configure VS Code for a permanent horizontal split, editor on top, Claude terminal at the bottom. In `keybindings.json`, add a shortcut to toggle between the two panels.
 
-**Step 3 --- Daily workflow**: In the morning, Julie opens her workspace and launches `claude` in the integrated terminal. When she encounters a bug, she selects the problematic code, right-clicks -> "Ask Claude", and Claude receives the context from the open file directly. For multi-file refactorings, she switches to the Claude terminal and uses the WHAT/WHERE/HOW/VERIFY formula.
+**Step 3 (Daily workflow)**: in the morning, open the workspace and launch `claude` in the integrated terminal. On a bug, select the problematic code, right-click -> "Ask Claude": Claude receives the context from the open file directly. For multi-file refactorings, switch to the Claude terminal and use the WHAT/WHERE/HOW/VERIFY formula.
 
-**Result**: Julie no longer needs to switch between windows. The editor and Claude Code coexist in the same workspace, and switching between them is a single keyboard shortcut.
+**Result**: no more switching between windows. The editor and Claude Code coexist in the same workspace, and switching between them is a single keyboard shortcut.
 :::
 
 ## Terminal Integration
@@ -836,7 +836,7 @@ Parts I and II gave you the basics and customization tools. Part III gets into c
 
 # Chapter 7: Git Best Practices
 
-*Original section --- Not covered in the whitepapers*
+*Original section, not covered in the whitepapers*
 
 Claude Code interacts directly with Git: it creates commits, manages branches, and can even amend history. These capabilities are powerful but require clear guardrails to avoid accidents.
 
@@ -996,7 +996,7 @@ claude                    # Continue the feature
 
 # Chapter 8: Advanced Patterns
 
-*Original section --- Not covered in the whitepapers*
+*Original section, not covered in the whitepapers*
 
 The patterns in this chapter come from community experience with Claude Code. They cover two axes: accelerating feedback loops (to catch errors earlier) and structuring interactions with Claude (for more predictable results).
 
@@ -1120,7 +1120,7 @@ Link to documentation for concepts used.
 
 ### Vibe Coding
 
-"Vibe Coding" = rapid prototyping through natural conversation --- exploring ideas before committing.
+"Vibe Coding" = rapid prototyping through natural conversation, exploring ideas before committing.
 
 **When to vibe code:**
 
@@ -1172,7 +1172,7 @@ Apply to all .tsx files in the directory.
 
 # Chapter 8b: Essential v2.x Features
 
-*Original section --- Key features introduced in v2.0+*
+*Original section, key features introduced in v2.0+*
 
 ## Tasks API (since v2.1.16)
 
@@ -1390,7 +1390,7 @@ Note: `claude --resume <full-uuid>` (native) is also available but requires the 
 
 **Performance**: ~200ms on 1300+ sessions (incremental JSONL index, ~360KB).
 
-::: {.callout-tip title="📋 Quick Reference: When to use cc-sessions"}
+::: {.callout-tip title="Quick Reference: When to use cc-sessions"}
 | Use case | Command |
 |----------|---------|
 | Resume yesterday's work | `cc-sessions recent 5` → `resume <id>` |
@@ -1473,7 +1473,7 @@ Claude generates a temporary link. Scanning that link from your phone opens a we
 
 # Chapter 9: 15 Methodologies
 
-*Original section --- Based on methodologies.md*
+*Original section, based on methodologies.md*
 
 The patterns from Ch.8 cover the "how to interact" with Claude Code on a daily basis. This chapter steps back to address the "how to structure" an entire project with Claude Code. The choice of methodology determines whether you fully leverage the tool's capabilities or miss its potential.
 
@@ -1512,7 +1512,7 @@ The choice of methodology depends on your primary goal, not project size. A sing
 | **Doc-Driven** | Docs = source of truth | Cross-team alignment | CLAUDE.md native |
 | **DDD** | Domain language first | Business logic | Design-time |
 
-**SDD (Spec-Driven Development)** --- Specifications BEFORE code. One well-structured iteration is worth 8 unstructured ones. CLAUDE.md IS your spec file.
+**SDD (Spec-Driven Development)**: specifications BEFORE code. One well-structured iteration is worth 8 unstructured ones. CLAUDE.md IS your spec file.
 
 ### Tier 3: Behavior & Acceptance
 
@@ -1522,7 +1522,7 @@ The choice of methodology depends on your primary goal, not project size. A sing
 | **ATDD** | Acceptance criteria first | Compliance, regulated | Process-heavy |
 | **CDD** | API contracts as interface | Microservices | OpenAPI native |
 
-**BDD (Behavior-Driven Development)** --- Beyond testing: a collaboration process.
+**BDD (Behavior-Driven Development)**: beyond testing, a collaboration process.
 
 ```gherkin
 Feature: Order Management
@@ -1547,7 +1547,7 @@ Feature: Order Management
 | **Eval-Driven** | Evals for LLM outputs | AI products | Agents |
 | **Multi-Agent** | Orchestrate sub-agents | Complex tasks | Task tool |
 
-**TDD (Test-Driven Development)** --- The classic cycle:
+**TDD (Test-Driven Development)**, the classic cycle:
 
 1. **Red**: Write a failing test
 2. **Green**: Minimal code to pass
@@ -1625,7 +1625,7 @@ Claude Code executes shell commands with the same permissions as your system use
 
 These five hooks cover the most common attack vectors and constitute the recommended minimum for any production use. They activate through the PreToolUse/PostToolUse event system and work in cascade: each hook intercepts a specific threat category before or after tool execution.
 
-*(Aligned with WP03 --- complete templates in `examples/hooks/bash/`)*
+*(Aligned with WP03, complete templates in `examples/hooks/bash/`)*
 
 | # | Hook | Role |
 |---|------|------|
@@ -1635,9 +1635,9 @@ These five hooks cover the most common attack vectors and constitute the recomme
 | 4 | `repo-integrity-scanner` | Verifies commit signatures, modified .claude/ files |
 | 5 | `output-secrets-scanner` | Prevents secret leaks in responses (API keys, tokens) |
 
-> **Complementary tool**: `mcpwn` --- MCP vulnerability scanner (supply chain attack detection, slopsquatting).
+> **Complementary tool**: `mcpwn`, MCP vulnerability scanner (supply chain attack detection, slopsquatting).
 
-> 📖 **To go deeper:** [§7 Hooks](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#7-hooks) --- event system, 33 hook templates
+> **To go deeper:** [§7 Hooks](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#7-hooks), event system, 33 hook templates
 
 Complete configuration (place in `.claude/settings.json`):
 
@@ -1895,7 +1895,7 @@ project/
 }
 ```
 
-> 📖 **To go deeper:** [§8 MCP Servers](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#8-mcp-servers) --- configuration, evaluation, security
+> **To go deeper:** [§8 MCP Servers](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#8-mcp-servers), configuration, evaluation, security
 
 ## Progressive Adoption
 
@@ -2239,7 +2239,7 @@ To go deeper on each topic, consult the dedicated whitepapers:
 | 04 | Architecture | ~20 | Master Loop, 8 native tools, context |
 | 05 | Team | ~28 | Adoption, standards, CI/CD, metrics |
 | 06 | Privacy | ~18 | Data retention, compliance, opt-out |
-| **07** | **Reference Guide** | **~120** | **This document --- synthesis + new content** |
+| **07** | **Reference Guide** | **~120** | **This document: synthesis + new content** |
 | 08 | Agent Teams | ~15 | TeamCreate, SendMessage, multi-agent coordination |
 
 ## Reading Matrix by Need
@@ -2297,7 +2297,7 @@ For a broader survey of third-party tools in the ecosystem (session managers, ob
 
 *This Reference Guide synthesizes the 7 whitepapers of the Claude Code Ultimate Guide series and adds original content on migration, IDE integration, Git, advanced patterns, and development methodologies.*
 
-*Version 3.41.3 --- August 2026 (updated: Sonnet 5 default model, Dynamic Workflows, sub-agent nesting depth 3, `/ultrareview`, `/fewer-permission-prompts`, read-only glob patterns skip permission prompts)*
+*Version 3.41.3, August 2026 (updated: Sonnet 5 default model, Dynamic Workflows, sub-agent nesting depth 3, `/ultrareview`, `/fewer-permission-prompts`, read-only glob patterns skip permission prompts)*
 
 ---
 

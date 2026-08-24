@@ -82,4 +82,4 @@ Sub-agent sessions (delegated tasks) are stored in a `subagents/` subfolder. The
 
 ## Recommended Pattern
 
-Do not rely on `--resume` as the primary continuity mechanism for long projects. Prefer a well-maintained CLAUDE.md with key decisions, regular commits, and short targeted sessions. Session resumption is a safety net, not a replacement workflow.
+Do not rely on `--resume` as the primary continuity mechanism for long projects. Prefer a well-maintained CLAUDE.md with key decisions, regular commits, and short targeted sessions. Session resumption complements that discipline, it does not replace it.

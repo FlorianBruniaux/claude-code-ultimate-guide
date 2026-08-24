@@ -23,7 +23,7 @@ format:
 | Context freed | ~40-50% | 100% |
 | When to use | Mid-task | Topic change |
 
-The fundamental distinction: `/compact` compresses without cutting the thread, `/clear` starts from scratch. Neither is universally better, the choice depends on the situation.
+`/compact` compresses without cutting the thread, `/clear` starts from scratch. Neither is universally better, the choice depends on the situation.
 
 ## Context Zones
 
@@ -35,7 +35,7 @@ The fundamental distinction: `/compact` compresses without cutting the thread, `
         or /compact as a last resort
 ```
 
-The classic mistake: waiting until 90% to run `/compact`. At that point, Claude starts forgetting instructions and response quality drops. 75% is the right threshold.
+Waiting until 90% to run `/compact` is the classic mistake. At that point, Claude starts forgetting instructions and response quality drops. 75% is the right threshold.
 
 ## When to Use `/compact`
 

@@ -23,7 +23,7 @@ format:
 | Libération contexte | ~40-50% | 100% |
 | Quand utiliser | En cours de tâche | Changement de sujet |
 
-La distinction fondamentale : `/compact` compresse sans couper le fil, `/clear` repart de zéro. Aucun des deux n'est meilleur dans l'absolu, le choix dépend de la situation.
+`/compact` compresse sans couper le fil, `/clear` repart de zéro. Aucun des deux n'est meilleur dans l'absolu, le choix dépend de la situation.
 
 ## Zones de Contexte
 
@@ -35,7 +35,7 @@ La distinction fondamentale : `/compact` compresse sans couper le fil, `/clear` 
         ou /compact en dernier recours
 ```
 
-L'erreur classique : attendre 90% pour faire `/compact`. À ce stade, Claude commence à oublier des instructions et la qualité des réponses baisse. 75% est le bon seuil.
+Attendre 90% pour faire `/compact` est l'erreur classique. À ce stade, Claude commence à oublier des instructions et la qualité des réponses baisse. 75% est le bon seuil.
 
 ## Quand Utiliser `/compact`
 

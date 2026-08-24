@@ -16,7 +16,7 @@ format:
 
 ## Pourquoi XML fonctionne
 
-Claude a été entraîné sur des corpus massifs qui incluent du XML. Quand vous structurez un prompt avec des balises, vous créez des délimiteurs sans ambiguïté qui séparent l'instruction, le contexte, le code de référence et les contraintes. Résultat : Claude interprète chaque section exactement dans le rôle que vous lui assignez, sans devoir inférer ce qui est instruction et ce qui est contexte.
+Claude a été entraîné sur des corpus massifs qui incluent du XML. Quand vous structurez un prompt avec des balises, vous créez des délimiteurs sans ambiguïté qui séparent l'instruction, le contexte, le code de référence et les contraintes. Claude interprète alors chaque section exactement dans le rôle que vous lui assignez, sans devoir inférer ce qui est instruction et ce qui est contexte.
 
 La structure XML est pertinente pour les tâches complexes ou réutilisables. Pour une correction d'une ligne, c'est du bruit inutile.
 

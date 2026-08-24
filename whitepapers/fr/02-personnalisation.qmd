@@ -498,7 +498,7 @@ CLAUDE.md et rules/ posent le socle : Claude sait comment travailler dans votre 
 
 **Erreur commune** : Créer des agents comme si on construisait une équipe humaine avec des titres de job.
 
-❌ **Mauvais** (Anthropomorphisation) :
+**Mauvais** (Anthropomorphisation) :
 
 ```
 - Frontend Agent (rôle: UI developer)
@@ -509,7 +509,7 @@ CLAUDE.md et rules/ posent le socle : Claude sait comment travailler dans votre 
 
 **Pourquoi ça échoue** : Les agents ne sont pas des humains avec des domaines d'expertise. Ce sont des **outils d'isolation de contexte** pour l'efficacité computationnelle.
 
-✅ **Bon** (Contrôle de Contexte) :
+**Bon** (Contrôle de Contexte) :
 
 ```
 - Agent pour analyse de dépendances isolée (scope: package.json + lock files uniquement)
@@ -960,7 +960,7 @@ Créez vos propres skills user-invocables dans `.claude/skills/` :
 ```
 .claude/skills/
 ├── release/
-│   └── SKILL.md    # /release — disable-model-invocation: true
+│   └── SKILL.md    # /release, disable-model-invocation: true
 ├── tech/           # Workflows dev
 │   ├── commit/
 │   │   └── SKILL.md
@@ -1403,8 +1403,8 @@ Overrides personnels de permissions (gitignored) :
 
 **Règles Git** :
 
-- ✅ **Commit** : `settings.json` (équipe), `agents/`, `hooks/`, `skills/`, `rules/`
-- ❌ **Gitignore** : `settings.local.json` (personnel), `CLAUDE.md` (local), `.serena/`
+- **Commit** : `settings.json` (équipe), `agents/`, `hooks/`, `skills/`, `rules/`
+- **Gitignore** : `settings.local.json` (personnel), `CLAUDE.md` (local), `.serena/`
 
 ## Références Officielles
 

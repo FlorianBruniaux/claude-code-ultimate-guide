@@ -55,7 +55,7 @@ Le cycle classique, rendu explicite dans les prompts pour éviter que Claude ne 
 #   Then il est redirigé vers son tableau de bord
 ```
 
-L'intérêt : les scénarios servent à la fois de spec, de documentation et de base de test, dans un langage lisible par des non-développeurs.
+Les scénarios servent à la fois de spec, de documentation et de base de test, dans un langage lisible par des non-développeurs.
 
 ## SDD avec Claude : Spec d'abord
 

@@ -28,7 +28,7 @@ Chaque session Claude Code suit ce schéma :
 7. COMMIT    → Sauvegarder (optionnel)
 ```
 
-La clé : **Claude propose, vous décidez.** Ne jamais sauter l'étape de review, même sur des changements qui paraissent évidents.
+**Claude propose, vous décidez.** Ne jamais sauter l'étape de review, même sur des changements qui paraissent évidents.
 
 ## Démarrage de Session
 

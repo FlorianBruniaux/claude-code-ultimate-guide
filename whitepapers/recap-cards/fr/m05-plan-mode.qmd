@@ -26,9 +26,9 @@ Approuver le plan   # Quitter et passer à l'exécution
 
 ## Pourquoi Ça Change Tout
 
-Boris Cherny (Head of Claude Code chez Anthropic) commence environ **80% de ses tâches en Plan Mode**, laissant Claude planifier avant d'écrire une seule ligne de code. Résultat : l'exécution est presque toujours correcte au premier essai.
+Boris Cherny (Head of Claude Code chez Anthropic) commence environ **80% de ses tâches en Plan Mode**, laissant Claude planifier avant d'écrire une seule ligne de code. L'exécution est ainsi presque toujours correcte au premier essai.
 
-Le raisonnement : Claude explore le codebase sans pression d'agir. Il identifie les dépendances cachées, les impacts secondaires, les edge cases. Le plan qui en sort est plus solide que ce que Claude produirait en mode réactif.
+Claude explore le codebase sans pression d'agir. Il identifie les dépendances cachées, les impacts secondaires, les edge cases. Le plan qui en sort est plus solide que ce que Claude produirait en mode réactif.
 
 ## Ce que Permet Plan Mode
 
