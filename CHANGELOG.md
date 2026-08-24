@@ -6883,3 +6883,4 @@ quiz/
 - .gitignore for common patterns
 
 <!-- git-ai test: 2026-06-26 -->
+- **Memory Systems cross-linked with the claude-mem field audit and corrected** (`guide/core/memory-systems.md`, portfolio guide `persistent-memory-silent-failures`): added links in both directions between the canonical comparison and the operational audit. Corrected claude-mem's license from AGPL-3.0 plus PolyForm Noncommercial to Apache-2.0 against the repository's current `LICENSE`, removed the commercial compliance warning, replaced the `just works` decision label with `local auto-hooks`, and bounded the recommendation with explicit scope, indexing, backlog, version, cost-routing, and retention checks.

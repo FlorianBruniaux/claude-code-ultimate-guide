@@ -330,7 +330,7 @@ Five gaps that external tooling addresses:
 
 ### 3.1 claude-mem
 
-**Repo**: github.com/thedotmack/claude-mem | **Stars**: ~88.7K (2026-07-27) | **License**: AGPL-3.0 + PolyForm Noncommercial
+**Repo**: github.com/thedotmack/claude-mem | **Stars**: ~88.7K (2026-07-27) | **License**: Apache-2.0
 
 Hooks into Claude Code lifecycle events (SessionStart, PostToolUse, Stop, SessionEnd). Records observations during sessions, semantically compresses them using an LLM worker (Bun, port 37777), stores results in SQLite plus optional Chroma vector search. Injects relevant context back at session start or when the agent faces a relevant task.
 
@@ -371,7 +371,9 @@ Layer 3: Details (full context)   → complete tool call + result
 
 **Fail-open architecture (v9.1.0+)**: if the worker process is down, Claude Code continues normally; sessions simply aren't captured until the worker restarts.
 
-**Limitations**: CLI only, no cloud sync, AGPL-3.0 license requires compliance review for commercial use.
+**Limitations**: CLI only, no cloud sync.
+
+**Field audit**: A four-and-a-half-month audit of one local claude-mem installation found six failures that produced no error, including incomplete project coverage, an empty semantic index, ineffective cost routing, and stalled reconciliation. See [Persistent memory: the six failures that never raise an error](https://www.florian.bruniaux.com/guides/persistent-memory-silent-failures/). The audit covers one installation, not every claude-mem deployment.
 
 ---
 
@@ -965,7 +967,7 @@ flowchart TD
     C -->|Yes| E[mcp-memory Puliczek\nCloudflare D1 + Vectorize]
 
     D -->|Yes, benchmarks matter| H[agentmemory\n26K stars, RRF hybrid, leases+signals]
-    D -->|Yes, just works| I[claude-mem\n89K stars, hooks, local SQLite]
+    D -->|Yes, local auto-hooks| I[claude-mem\n89K stars, hooks, local SQLite]
     D -->|No| G{Cross-tool portable?}
 
     G -->|Yes — Claude + Cursor + Desktop| J[OpenMemory MCP\n4 tools, local, mem0ai]
@@ -990,7 +992,7 @@ flowchart TD
 | Scenario | Recommended tool | Notes |
 |----------|-----------------|-------|
 | Solo, cross-session recall, auto-hooks | agentmemory | 26K stars, 12 hooks auto-wired, 0 external deps |
-| Solo, cross-session recall, proven | claude-mem | ~89K stars, hooks-based, AGPL-3.0 |
+| Solo, cross-session recall, local hooks | claude-mem | ~89K stars, hooks-based; verify scope, indexing, backlog, version, cost routing, and retention |
 | Solo, want human-readable KB | claude-memory-compiler | Daily logs + concept articles |
 | Solo, portable cross-tool memory | OpenMemory MCP | mem0ai, local dashboard, 4 tools |
 | Solo, cross-tool + knowledge graph | ICM (+ wire the hook) | 17 tools, local SQLite, typed relations |
