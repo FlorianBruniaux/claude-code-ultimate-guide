@@ -22,6 +22,7 @@ tags: [ecosystem, hardware, local-llm, cloud, cost, benchmarks]
 - [One-Year Cost Projections](#one-year-cost-projections)
 - [Cloud API Throughput: Claude vs GPT-5.6](#cloud-api-throughput-claude-vs-gpt-56)
 - [Why Cloud and Local Tokens/Sec Are Not Comparable](#why-cloud-and-local-tokenssec-are-not-comparable)
+- [Decision Diagram](#decision-diagram)
 - [Decision Framework](#decision-framework)
 
 ---
@@ -169,6 +170,64 @@ Comparing a cloud API's tokens/sec to a local GPU's tokens/sec is comparing a ca
 One measured data point from this page's own research process: `llmfit system` on a real MacBook Pro M5 Max reported **171 GB/s measured RAM bandwidth**, well below the ~460-614 GB/s Apple lists as the chip's theoretical peak. Real, measured, sustained bandwidth on your actual machine is the number that predicts your actual tokens/sec, not a spec sheet peak.
 
 ---
+
+## Decision Diagram
+
+```mermaid
+flowchart TD
+    A([Need to run a large LLM]) --> B{Data must never<br/>leave your infra?}
+
+    B -->|Yes| C{Model over 70B, or need<br/>maximum quality?}
+    B -->|No| D{Usage pattern?}
+
+    C -->|Yes, up to 405B| E([Buy local hardware<br/>Mac Studio M5 Ultra or<br/>dual RTX PRO 6000])
+    C -->|No, 70B fits| F([Buy local hardware<br/>single RTX PRO 6000<br/>or Mac Studio M5 Max])
+
+    D -->|Light or bursty| G([Managed API license<br/>Claude, GPT-5.6, pay per token])
+    D -->|Sustained, 4-8h/day| H([Rent a cloud GPU<br/>OVHcloud, Lambda, RunPod])
+    D -->|Heavy, 24/7| I{Sustained over<br/>more than a year?}
+
+    I -->|Yes| E
+    I -->|No, short-term burst| H
+
+    style A fill:#F5E6D3,color:#333
+    style B fill:#E87E2F,color:#fff
+    style C fill:#E87E2F,color:#fff
+    style D fill:#E87E2F,color:#fff
+    style I fill:#E87E2F,color:#fff
+    style E fill:#7BC47F,color:#333
+    style F fill:#7BC47F,color:#333
+    style G fill:#6DB3F2,color:#fff
+    style H fill:#6DB3F2,color:#fff
+
+    click B href "#decision-framework" "Data sovereignty requirement"
+    click C href "#what-actually-fits-named-models" "Model size vs quality"
+    click D href "#one-year-cost-projections" "Usage pattern"
+    click E href "#ten-comparable-hardware-configurations" "Buy: large local hardware"
+    click F href "#ten-comparable-hardware-configurations" "Buy: single-GPU local hardware"
+    click G href "#cloud-api-throughput-claude-vs-gpt-56" "License: managed API"
+    click H href "#cloud-gpu-rental-pricing" "Rent: cloud GPU"
+    click I href "#one-year-cost-projections" "Time horizon"
+```
+
+<details>
+<summary>ASCII version</summary>
+
+```
+Need to run a large LLM
+└─ Data must never leave your infra?
+   ├─ Yes → Model over 70B, or need maximum quality?
+   │        ├─ Yes, up to 405B → BUY: Mac Studio M5 Ultra or dual RTX PRO 6000
+   │        └─ No, 70B fits    → BUY: single RTX PRO 6000 or Mac Studio M5 Max
+   └─ No  → Usage pattern?
+            ├─ Light or bursty      → LICENSE: managed API (Claude, GPT-5.6)
+            ├─ Sustained, 4-8h/day  → RENT: cloud GPU (OVHcloud, Lambda, RunPod)
+            └─ Heavy, 24/7          → Sustained over more than a year?
+                                       ├─ Yes           → BUY (see above)
+                                       └─ No, short-term → RENT (see above)
+```
+
+</details>
 
 ## Decision Framework
 
