@@ -1488,6 +1488,16 @@ deep_dive:
   team_knowledge_decision_table: "guide/ecosystem/team-knowledge-base.md#decision-table"
   team_knowledge_problem: "Company KB accessible from both Claude Code (CLI) and Cowork (desktop, no API/no code exec)"
   team_knowledge_threshold: "Static <100 docs: direct read | 100-1000: judgment call | >1000: RAG required"
+  # Local vs Cloud LLM Inference Economics (guide/ecosystem/local-vs-cloud-inference.md) - Added 2026-08-25
+  local_vs_cloud_guide: "guide/ecosystem/local-vs-cloud-inference.md"
+  local_vs_cloud_llmfit: "guide/ecosystem/local-vs-cloud-inference.md#sizing-local-hardware-with-llmfit"  # llmfit CLI, --memory vs --ram, backend-lock caveat
+  local_vs_cloud_hardware_configs: "guide/ecosystem/local-vs-cloud-inference.md#ten-comparable-hardware-configurations"  # 10 complete systems, sorted by price
+  local_vs_cloud_named_models: "guide/ecosystem/local-vs-cloud-inference.md#what-actually-fits-named-models"  # Llama/Qwen/Mixtral/DeepSeek fit by memory budget
+  local_vs_cloud_gpu_rental: "guide/ecosystem/local-vs-cloud-inference.md#cloud-gpu-rental-pricing"  # OVH, AWS, Lambda, RunPod hourly rates
+  local_vs_cloud_tco: "guide/ecosystem/local-vs-cloud-inference.md#one-year-cost-projections"  # 4h/8h/24-7 usage vs local purchase price
+  local_vs_cloud_throughput: "guide/ecosystem/local-vs-cloud-inference.md#cloud-api-throughput-claude-vs-gpt-56"  # Claude Opus 5/Sonnet 5 vs GPT-5.6 Sol/Terra/Luna
+  local_vs_cloud_not_comparable: "guide/ecosystem/local-vs-cloud-inference.md#why-cloud-and-local-tokenssec-are-not-comparable"  # queueing, TTFT reasoning tokens, model size mismatch
+  local_vs_cloud_decision: "guide/ecosystem/local-vs-cloud-inference.md#decision-framework"
   # Experimental Features
   teammatetool: "guide/ultimate-guide.md#teammatetool-experimental" # was line 5071
   teammatetool_status: "Experimental, progressive rollout, feature-flagged"
@@ -2953,6 +2963,16 @@ section_maps:
     - "9-llmops--observability"
     - "10-tool-selection-by-use-case"
     - "11-research-landscape"
+  "guide/ecosystem/local-vs-cloud-inference.md":
+    - "data-snapshot-date"
+    - "sizing-local-hardware-with-llmfit"
+    - "ten-comparable-hardware-configurations"
+    - "what-actually-fits-named-models"
+    - "cloud-gpu-rental-pricing"
+    - "one-year-cost-projections"
+    - "cloud-api-throughput-claude-vs-gpt-56"
+    - "why-cloud-and-local-tokenssec-are-not-comparable"
+    - "decision-framework"
   "guide/ecosystem/mcp-servers-ecosystem.md":
     - "official-vs-community-servers"
     - "evaluation-framework"
