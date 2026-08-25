@@ -1496,6 +1496,7 @@ deep_dive:
   local_vs_cloud_gpu_rental: "guide/ecosystem/local-vs-cloud-inference.md#cloud-gpu-rental-pricing"  # OVH, AWS, Lambda, RunPod hourly rates
   local_vs_cloud_tco: "guide/ecosystem/local-vs-cloud-inference.md#one-year-cost-projections"  # 4h/8h/24-7 usage vs local purchase price
   local_vs_cloud_power: "guide/ecosystem/local-vs-cloud-inference.md#power-consumption-watts-watt-hours-joules-per-token"  # TDP specs, measured wattage, ML.Energy J/token, Neuralwatt Wh/req, TokenPowerBench
+  local_vs_cloud_model_efficiency: "guide/ecosystem/local-vs-cloud-inference.md#energy-efficiency-by-model-architecture"  # Llama 4 CO2e disclosure, MoE active-param energy, FP8 batch-size-dependent gains
   local_vs_cloud_throughput: "guide/ecosystem/local-vs-cloud-inference.md#cloud-api-throughput-claude-vs-gpt-56"  # Claude Opus 5/Sonnet 5 vs GPT-5.6 Sol/Terra/Luna
   local_vs_cloud_not_comparable: "guide/ecosystem/local-vs-cloud-inference.md#why-cloud-and-local-tokenssec-are-not-comparable"  # queueing, TTFT reasoning tokens, model size mismatch
   local_vs_cloud_diagram: "guide/ecosystem/local-vs-cloud-inference.md#decision-diagram"  # Mermaid flowchart: license vs local vs cloud rental
@@ -2974,6 +2975,7 @@ section_maps:
     - "cloud-gpu-rental-pricing"
     - "one-year-cost-projections"
     - "power-consumption-watts-watt-hours-joules-per-token"
+    - "energy-efficiency-by-model-architecture"
     - "cloud-api-throughput-claude-vs-gpt-56"
     - "why-cloud-and-local-tokenssec-are-not-comparable"
     - "decision-diagram"
