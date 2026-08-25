@@ -31,6 +31,8 @@ tags: [ecosystem, hardware, local-llm, cloud, cost, benchmarks]
 
 Every price, spec, and throughput number on this page is a snapshot from **August 2026**. GPU prices move by double digits in weeks, cloud providers reprice without notice, and model families get replaced. Treat the tables as a method to reproduce, not a permanent price list. The queries and CLI commands used to produce this page are included so you can rerun them.
 
+For a live view instead of this fixed snapshot, two trackers update continuously rather than on a fixed schedule: [llm-stats.com](https://llm-stats.com/llm-updates) (benchmark scores, arena votes, and API pricing pulled directly from providers) and [benchlm.ai](https://benchlm.ai/) (401+ models across 46 leaderboard categories, including tokens/sec and time-to-first-token, explicitly excluding algorithmically-generated benchmark data). Neither replaces the hardware-fit math on this page, which still needs `llmfit` against your own target model.
+
 ---
 
 ## Sizing Local Hardware with llmfit
@@ -74,21 +76,23 @@ Sources: Nvidia RTX 5090 and RTX PRO 6000 Blackwell core counts and VRAM confirm
 
 ## What Actually Fits: Named Models
 
-Sorting `llmfit`'s database by raw parameter count surfaces obscure or roleplay-oriented fine-tunes that happen to fit in memory, not the flagship models most people actually want to run. Querying `llmfit info` against each lab's own official repo (not a third-party quant mirror) gives a cleaner answer, and the memory-required figure is backend-independent (pure arithmetic on model size and quantization), so it holds regardless of which machine the query runs on.
+Sorting `llmfit`'s database by raw parameter count surfaces obscure or roleplay-oriented fine-tunes that happen to fit in memory, not the flagship models most people actually want to run. Querying `llmfit info` against each lab's own official repo (not a third-party quant mirror) gives a cleaner starting point, but `llmfit`'s HuggingFace scrape has its own data-quality gaps (see the Kimi K3 row below, where it was off by roughly 2x). Every parameter count and MoE expert count in this table was cross-checked a second time against each lab's own model card, GitHub repo, or official announcement, not `llmfit` alone.
 
-This table uses the current generation as of August 2026, not the mid-2024/2025 models (Llama 3.x, Qwen2.5, Mixtral, original DeepSeek-V3) that dated an earlier version of this page. Every repo below was verified to exist with `llmfit search`, then queried directly with `llmfit info "<official-org>/<repo>"`.
+This table uses the current generation as of August 2026, not the mid-2024/2025 models (Llama 3.x, Qwen2.5, Mixtral, original DeepSeek-V3) that dated an earlier version of this page.
 
 | Hardware memory budget | Model that fits | Architecture | Full weight VRAM required |
 |---|---|---|---|
-| 32 GB VRAM (1x RTX 5090) | **`Qwen/Qwen3.8-27B`** (Aug 15, 2026, Apache 2.0) | Dense, 27.8B | 14.2 GB, large headroom |
-| 48 GB unified (MacBook Pro M5 Pro) | Qwen3.8-27B fits easily; **`meta-llama/Llama-4-Scout-17B-16E-Instruct`** (108.6B total, MoE) does not quite fit | MoE, 1 of 16 experts active | 55.6 GB required, exceeds 48 GB |
-| 64 GB VRAM (dual RTX 5090) | **`meta-llama/Llama-4-Scout-17B-16E-Instruct`** | MoE, 108.6B total, 1 of 16 experts active | 55.6 GB, comfortable |
+| 32 GB VRAM (1x RTX 5090) | **`Qwen/Qwen3.8-27B`** (Aug 2026, Apache 2.0) | Dense, ~27B | 14.2 GB, large headroom |
+| 48 GB unified (MacBook Pro M5 Pro) | Qwen3.8-27B fits easily; **`meta-llama/Llama-4-Scout-17B-16E`** (109B total, MoE) does not quite fit | MoE, 17B active / 16 experts | 55.6 GB required, exceeds 48 GB |
+| 64 GB VRAM (dual RTX 5090) | **`meta-llama/Llama-4-Scout-17B-16E`** | MoE, 109B total, 17B active | 55.6 GB, comfortable |
 | 96-128 GB (RTX PRO 6000, Mac Studio M5 Max, DGX Spark, Ryzen AI Halo) | Llama-4-Scout fits with large headroom; no confirmed current-generation flagship lands specifically between 56 GB and 200 GB as of this snapshot | | |
-| 192-256 GB (dual RTX PRO 6000, Mac Studio M5 Ultra) | **`meta-llama/Llama-4-Maverick-17B-128E-Instruct`** (401.6B total, MoE) | MoE, 128 experts total | 205.7 GB, fits 256 GB, marginal on 192 GB |
-| Any config on this page | **`zai-org/GLM-5.2`** (753.4B total, MoE, June 2026, MIT) | MoE, 8 of 256 experts active | 385.9 GB, exceeds everything here |
-| Any config on this page | **`deepseek-ai/DeepSeek-V4-Pro-0813`** (1,650.5B total, MoE, MIT) | MoE, 6 of 384 experts active | 845.4 GB, does not fit |
-| Any config on this page | **`Qwen/Qwen3.8-2.4T-A95B`** (2,446.2B total, MoE) | MoE, 10 of 512 experts active | 1,253 GB, does not fit |
-| Any config on this page | **`moonshotai/Kimi-K3`** (5,526.6B total, Aug 10, 2026) | Active-expert count not exposed by this data source | 2,831 GB, does not fit by a wide margin |
+| 192-256 GB (dual RTX PRO 6000, Mac Studio M5 Ultra) | **`meta-llama/Llama-4-Maverick-17B-128E`** (~400B total, MoE) | MoE, 17B active / 128 experts | 205.7 GB, fits 256 GB, marginal on 192 GB |
+| Any config on this page | **`zai-org/GLM-5.2`** (~753B total, MoE, MIT). `GLM-5.3` (Aug 17, 2026) is the same base model with a post-training coding upgrade; weights ship staged, roughly two weeks after announcement | MoE, ~40B active / 256 experts | 385.9 GB, exceeds everything here |
+| Any config on this page | **`deepseek-ai/DeepSeek-V4-Pro-0813`** (1.6T total, MoE, MIT, GA Aug 13, 2026) | MoE, **49B active** (officially confirmed) | 845.4 GB, does not fit |
+| Any config on this page | **`Qwen/Qwen3.8-2.4T-A95B`** (2.4T total, MoE, open-weight base of the hosted Qwen3.8-Max) | MoE, ~95B active / 512 experts | 1,253 GB, does not fit |
+| Any config on this page | **`MoonshotAI/Kimi-K3`** (**2.8T total**, confirmed via Moonshot's own GitHub repo, Aug 2026) | MoE, 16 of 896 experts active (~50B active, calculated) | ~1,430 GB estimated (extrapolated from DeepSeek-V4-Pro's VRAM-per-parameter ratio; `llmfit`'s own entry for this repo reports an incorrect 5,527B total and was not used) |
+
+Sources for the officially-confirmed figures: [Qwen3.8-27B](https://huggingface.co/Qwen/Qwen3.8-27B), [Qwen3.8-2.4T-A95B](https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B), [Llama 4 announcement](https://ai.meta.com/blog/llama-4-multimodal-intelligence/), [Llama-4-Scout model card](https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E), [DeepSeek-V4-Pro model card](https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro), [GLM-5.2 announcement](https://datanorth.ai/news/zhipu-ai-releases-glm-5-2), [Kimi K3 GitHub repo](https://github.com/MoonshotAI/Kimi-K3).
 
 **MoE full weight is not optional, even though only a few experts compute per token.** `llmfit` reports both a "full model" VRAM figure and a much smaller "active" figure (for example DeepSeek-V4-Pro-0813 shows 845.4 GB full versus 63.6 GB active). The active figure describes the compute cost of a single forward pass, not what you can get away with loading. Because routing picks a different expert combination for every token, the entire expert set has to stay resident in memory (or be swapped in from very fast storage at a steep latency cost); there is no shortcut where only the "active" slice needs to fit. The full-weight column above is the one that determines whether a model runs on a given machine.
 
