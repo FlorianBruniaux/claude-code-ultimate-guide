@@ -1499,6 +1499,7 @@ deep_dive:
   local_vs_cloud_not_comparable: "guide/ecosystem/local-vs-cloud-inference.md#why-cloud-and-local-tokenssec-are-not-comparable"  # queueing, TTFT reasoning tokens, model size mismatch
   local_vs_cloud_diagram: "guide/ecosystem/local-vs-cloud-inference.md#decision-diagram"  # Mermaid flowchart: license vs local vs cloud rental
   local_vs_cloud_decision: "guide/ecosystem/local-vs-cloud-inference.md#decision-framework"
+  local_vs_cloud_cli_bridge: "guide/ecosystem/local-vs-cloud-inference.md#switching-providers-at-the-cli-level"  # cc-copilot-bridge, ccd/ccc/cco backend routing
   # Experimental Features
   teammatetool: "guide/ultimate-guide.md#teammatetool-experimental" # was line 5071
   teammatetool_status: "Experimental, progressive rollout, feature-flagged"
@@ -2975,6 +2976,7 @@ section_maps:
     - "why-cloud-and-local-tokenssec-are-not-comparable"
     - "decision-diagram"
     - "decision-framework"
+    - "switching-providers-at-the-cli-level"
   "guide/ecosystem/mcp-servers-ecosystem.md":
     - "official-vs-community-servers"
     - "evaluation-framework"

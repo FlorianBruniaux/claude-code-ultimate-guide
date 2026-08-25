@@ -6,7 +6,7 @@ tags: [ecosystem, hardware, local-llm, cloud, cost, benchmarks]
 
 # Local vs Cloud: LLM Hardware and Inference Economics
 
-> **Reading time**: ~20 minutes
+> **Reading time**: ≈20 minutes
 >
 > **Purpose**: Answer one question with numbers instead of vibes: for running a large open-weight model (70B to 400B+ parameters), when does a local hardware purchase beat renting a cloud GPU or paying per token, and what actually fits on what machine.
 
@@ -24,6 +24,7 @@ tags: [ecosystem, hardware, local-llm, cloud, cost, benchmarks]
 - [Why Cloud and Local Tokens/Sec Are Not Comparable](#why-cloud-and-local-tokenssec-are-not-comparable)
 - [Decision Diagram](#decision-diagram)
 - [Decision Framework](#decision-framework)
+- [Switching Providers at the CLI Level](#switching-providers-at-the-cli-level)
 
 ---
 
@@ -59,18 +60,18 @@ Bare GPUs are not comparable to laptops or appliances. The table below only list
 
 | # | Configuration | CPU | System memory | GPU | Storage | Price (Aug 2026) |
 |---|---|---|---|---|---|---|
-| 1 | AMD Ryzen AI Halo | Ryzen AI Max+ 395, Zen 5, 16 cores/32 threads | 128 GB unified LPDDR5x | Radeon 8060S integrated, 40 CU RDNA 3.5, no dedicated VRAM | 2 TB SSD | ~$3,999 (~€3,700-4,000) |
-| 2 | NVIDIA DGX Spark | Grace, 20 Arm cores (10x Cortex-X925 + 10x Cortex-A725) | 128 GB unified LPDDR5x | GB10 Blackwell, 6,144 CUDA cores (48 SM), no dedicated VRAM | 4 TB NVMe (included) | ~$4,699 (~€4,180-4,700) |
-| 3 | MacBook Pro, Apple M5 Pro | Apple M5 Pro, 15 or 18 cores | 48 GB unified | Integrated GPU, 20 cores | 2 TB SSD | ~€4,500-5,000 |
-| 4 | Workstation, 1x RTX 5090 | *Example*: AMD Ryzen 9 9950X, 16 cores | 64-128 GB DDR5 (host only) | RTX 5090, 21,760 CUDA cores, 32 GB GDDR7 dedicated | 2-4 TB NVMe | ~€5,000-6,000 |
-| 5 | MacBook Pro, Apple M5 Max | Apple M5 Max, 18 cores | 128 GB unified | Integrated GPU, 40 cores | 2 TB SSD | ~€5,500-6,500 |
-| 6 | AMD Ryzen AI Max PRO 400 ("Gorgon Halo") | Ryzen AI Max+ PRO 495, Zen 5, 16 cores/32 threads, up to 5.2 GHz | 192 GB unified + 160 GB dedicated graphics memory | Radeon 8065S integrated, 40 CU RDNA 3.5 | 2-4 TB (estimated) | Unannounced, ~€5,000-10,000 est. (Q3 2026 launch, no independent benchmark exists) |
-| 7 | Workstation, dual RTX 5090 | *Example*: AMD Threadripper 7960X, 24 cores | 128-256 GB DDR5 (host only) | 2x RTX 5090, 43,520 CUDA cores combined, 64 GB GDDR7 combined, no NVLink | 4 TB NVMe | ~€8,000-12,000 |
-| 8 | Mac Studio, Apple M5 Ultra | Apple M5 Ultra, 36 cores | 256 GB unified | Integrated GPU, 80 cores | 4 TB SSD | ~€12,000 |
-| 9 | Workstation, RTX PRO 6000 Blackwell | *Example*: AMD Threadripper PRO 7975WX, 32 cores | 128-256 GB DDR5 ECC (host only) | RTX PRO 6000, 24,064 CUDA cores, 96 GB GDDR7 ECC dedicated | 4 TB NVMe | ~€16,000-18,000 (the card alone is ~€14,000) |
-| 10 | Workstation, dual RTX PRO 6000 Blackwell | *Example*: AMD Threadripper PRO 7995WX, 96 cores | 256 GB+ DDR5 ECC (host only) | 2x RTX PRO 6000, 48,128 CUDA cores combined, 192 GB GDDR7 combined, no NVLink | 4-8 TB NVMe | ~€30,000-32,000+ |
+| 1 | AMD Ryzen AI Halo | Ryzen AI Max+ 395, Zen 5, 16 cores/32 threads | 128 GB unified LPDDR5x | Radeon 8060S integrated, 40 CU RDNA 3.5, no dedicated VRAM | 2 TB SSD | ≈$3,999 (≈€3,700-4,000) |
+| 2 | NVIDIA DGX Spark | Grace, 20 Arm cores (10x Cortex-X925 + 10x Cortex-A725) | 128 GB unified LPDDR5x | GB10 Blackwell, 6,144 CUDA cores (48 SM), no dedicated VRAM | 4 TB NVMe (included) | ≈$4,699 (≈€4,180-4,700) |
+| 3 | MacBook Pro, Apple M5 Pro | Apple M5 Pro, 15 or 18 cores | 48 GB unified | Integrated GPU, 20 cores | 2 TB SSD | ≈€4,500-5,000 |
+| 4 | Workstation, 1x RTX 5090 | *Example*: AMD Ryzen 9 9950X, 16 cores | 64-128 GB DDR5 (host only) | RTX 5090, 21,760 CUDA cores, 32 GB GDDR7 dedicated | 2-4 TB NVMe | ≈€5,000-6,000 |
+| 5 | MacBook Pro, Apple M5 Max | Apple M5 Max, 18 cores | 128 GB unified | Integrated GPU, 40 cores | 2 TB SSD | ≈€5,500-6,500 |
+| 6 | AMD Ryzen AI Max PRO 400 ("Gorgon Halo") | Ryzen AI Max+ PRO 495, Zen 5, 16 cores/32 threads, up to 5.2 GHz | 192 GB unified + 160 GB dedicated graphics memory | Radeon 8065S integrated, 40 CU RDNA 3.5 | 2-4 TB (estimated) | Unannounced, ≈€5,000-10,000 est. (Q3 2026 launch, no independent benchmark exists) |
+| 7 | Workstation, dual RTX 5090 | *Example*: AMD Threadripper 7960X, 24 cores | 128-256 GB DDR5 (host only) | 2x RTX 5090, 43,520 CUDA cores combined, 64 GB GDDR7 combined, no NVLink | 4 TB NVMe | ≈€8,000-12,000 |
+| 8 | Mac Studio, Apple M5 Ultra | Apple M5 Ultra, 36 cores | 256 GB unified | Integrated GPU, 80 cores | 4 TB SSD | ≈€12,000 |
+| 9 | Workstation, RTX PRO 6000 Blackwell | *Example*: AMD Threadripper PRO 7975WX, 32 cores | 128-256 GB DDR5 ECC (host only) | RTX PRO 6000, 24,064 CUDA cores, 96 GB GDDR7 ECC dedicated | 4 TB NVMe | ≈€16,000-18,000 (the card alone is ≈€14,000) |
+| 10 | Workstation, dual RTX PRO 6000 Blackwell | *Example*: AMD Threadripper PRO 7995WX, 96 cores | 256 GB+ DDR5 ECC (host only) | 2x RTX PRO 6000, 48,128 CUDA cores combined, 192 GB GDDR7 combined, no NVLink | 4-8 TB NVMe | ≈€30,000-32,000+ |
 
-Sources: Nvidia RTX 5090 and RTX PRO 6000 Blackwell core counts and VRAM confirmed via [Central Computer](https://www.centralcomputer.com/pny-nvidia-rtx-pro-6000-graphics-card-96gb-gddr6-24-064-cuda-cores-pci-express-5-0-x16-600w-vcnrtxpro6000b-pb.html) and [Schneider Digital](https://shop.schneider-digital.com/en/graphics-cards/nvidia/rtx-pro-blackwell-series/nvidia-rtx-pro-6000-blackwell-workstation-edition-96gb-pcie-5.0-x16) (card price ~€14,000). GB10 specs from [Arm Learning Paths](https://learn.arm.com/learning-paths/laptops-and-desktops/dgx_spark_llamacpp/1_gb10_introduction/) and [NVIDIA DGX Spark](https://www.nvidia.com/en-us/products/workstations/dgx-spark/). Radeon 8060S CU count from [TechPowerUp](https://www.techpowerup.com/342635/amd-readies-ryzen-ai-max-388-8c-16t-and-full-40-cu-radeon-8060s-gpu). Apple M5 Pro/Max chip specs (core counts, memory bandwidth, confirmed 24/48/64 GB tiers) from [Apple's own tech specs page](https://support.apple.com/en-mide/126318). Apple has not published M5 Ultra specs; the 256 GB / 36-core / 80-core figures come from pre-launch reporting, not an Apple source.
+Sources: Nvidia RTX 5090 and RTX PRO 6000 Blackwell core counts and VRAM confirmed via [Central Computer](https://www.centralcomputer.com/pny-nvidia-rtx-pro-6000-graphics-card-96gb-gddr6-24-064-cuda-cores-pci-express-5-0-x16-600w-vcnrtxpro6000b-pb.html) and [Schneider Digital](https://shop.schneider-digital.com/en/graphics-cards/nvidia/rtx-pro-blackwell-series/nvidia-rtx-pro-6000-blackwell-workstation-edition-96gb-pcie-5.0-x16) (card price ≈€14,000). GB10 specs from [Arm Learning Paths](https://learn.arm.com/learning-paths/laptops-and-desktops/dgx_spark_llamacpp/1_gb10_introduction/) and [NVIDIA DGX Spark](https://www.nvidia.com/en-us/products/workstations/dgx-spark/). Radeon 8060S CU count from [TechPowerUp](https://www.techpowerup.com/342635/amd-readies-ryzen-ai-max-388-8c-16t-and-full-40-cu-radeon-8060s-gpu). Apple M5 Pro/Max chip specs (core counts, memory bandwidth, confirmed 24/48/64 GB tiers) from [Apple's own tech specs page](https://support.apple.com/en-mide/126318). Apple has not published M5 Ultra specs; the 256 GB / 36-core / 80-core figures come from pre-launch reporting, not an Apple source.
 
 ---
 
@@ -82,15 +83,15 @@ This table uses the current generation as of August 2026, not the mid-2024/2025 
 
 | Hardware memory budget | Model that fits | Architecture | Full weight VRAM required |
 |---|---|---|---|
-| 32 GB VRAM (1x RTX 5090) | **`Qwen/Qwen3.8-27B`** (Aug 2026, Apache 2.0) | Dense, ~27B | 14.2 GB, large headroom |
+| 32 GB VRAM (1x RTX 5090) | **`Qwen/Qwen3.8-27B`** (Aug 2026, Apache 2.0) | Dense, ≈27B | 14.2 GB, large headroom |
 | 48 GB unified (MacBook Pro M5 Pro) | Qwen3.8-27B fits easily; **`meta-llama/Llama-4-Scout-17B-16E`** (109B total, MoE) does not quite fit | MoE, 17B active / 16 experts | 55.6 GB required, exceeds 48 GB |
 | 64 GB VRAM (dual RTX 5090) | **`meta-llama/Llama-4-Scout-17B-16E`** | MoE, 109B total, 17B active | 55.6 GB, comfortable |
 | 96-128 GB (RTX PRO 6000, Mac Studio M5 Max, DGX Spark, Ryzen AI Halo) | Llama-4-Scout fits with large headroom; no confirmed current-generation flagship lands specifically between 56 GB and 200 GB as of this snapshot | | |
-| 192-256 GB (dual RTX PRO 6000, Mac Studio M5 Ultra) | **`meta-llama/Llama-4-Maverick-17B-128E`** (~400B total, MoE) | MoE, 17B active / 128 experts | 205.7 GB, fits 256 GB, marginal on 192 GB |
-| Any config on this page | **`zai-org/GLM-5.2`** (~753B total, MoE, MIT). `GLM-5.3` (Aug 17, 2026) is the same base model with a post-training coding upgrade; weights ship staged, roughly two weeks after announcement | MoE, ~40B active / 256 experts | 385.9 GB, exceeds everything here |
+| 192-256 GB (dual RTX PRO 6000, Mac Studio M5 Ultra) | **`meta-llama/Llama-4-Maverick-17B-128E`** (≈400B total, MoE) | MoE, 17B active / 128 experts | 205.7 GB, fits 256 GB, marginal on 192 GB |
+| Any config on this page | **`zai-org/GLM-5.2`** (≈753B total, MoE, MIT). `GLM-5.3` (Aug 17, 2026) is the same base model with a post-training coding upgrade; weights ship staged, roughly two weeks after announcement | MoE, ≈40B active / 256 experts | 385.9 GB, exceeds everything here |
 | Any config on this page | **`deepseek-ai/DeepSeek-V4-Pro-0813`** (1.6T total, MoE, MIT, GA Aug 13, 2026) | MoE, **49B active** (officially confirmed) | 845.4 GB, does not fit |
-| Any config on this page | **`Qwen/Qwen3.8-2.4T-A95B`** (2.4T total, MoE, open-weight base of the hosted Qwen3.8-Max) | MoE, ~95B active / 512 experts | 1,253 GB, does not fit |
-| Any config on this page | **`MoonshotAI/Kimi-K3`** (**2.8T total**, confirmed via Moonshot's own GitHub repo, Aug 2026) | MoE, 16 of 896 experts active (~50B active, calculated) | ~1,430 GB estimated (extrapolated from DeepSeek-V4-Pro's VRAM-per-parameter ratio; `llmfit`'s own entry for this repo reports an incorrect 5,527B total and was not used) |
+| Any config on this page | **`Qwen/Qwen3.8-2.4T-A95B`** (2.4T total, MoE, open-weight base of the hosted Qwen3.8-Max) | MoE, ≈95B active / 512 experts | 1,253 GB, does not fit |
+| Any config on this page | **`MoonshotAI/Kimi-K3`** (**2.8T total**, confirmed via Moonshot's own GitHub repo, Aug 2026) | MoE, 16 of 896 experts active (≈50B active, calculated) | ≈1,430 GB estimated (extrapolated from DeepSeek-V4-Pro's VRAM-per-parameter ratio; `llmfit`'s own entry for this repo reports an incorrect 5,527B total and was not used) |
 
 Sources for the officially-confirmed figures: [Qwen3.8-27B](https://huggingface.co/Qwen/Qwen3.8-27B), [Qwen3.8-2.4T-A95B](https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B), [Llama 4 announcement](https://ai.meta.com/blog/llama-4-multimodal-intelligence/), [Llama-4-Scout model card](https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E), [DeepSeek-V4-Pro model card](https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro), [GLM-5.2 announcement](https://datanorth.ai/news/zhipu-ai-releases-glm-5-2), [Kimi K3 GitHub repo](https://github.com/MoonshotAI/Kimi-K3).
 
@@ -131,26 +132,26 @@ AWS does not sell a single-GPU H200 instance: the smallest P5en node is already 
 
 | Provider / GPU | 4h/day | 8h/day | 24/7 |
 |---|---|---|---|
-| OVH H100 80 GB | ~€4,088 | ~€8,176 | ~€24,528 |
-| GMI Cloud H100 80 GB | ~$2,920 (~€2,716) | ~$5,840 (~€5,431) | ~$17,520 (~€16,294) |
-| GMI Cloud H200 | ~$3,796 (~€3,530) | ~$7,592 (~€7,061) | ~$22,776 (~€21,182) |
-| Decentralized H100 (~$3/h) | ~$4,380 | ~$8,760 | ~$26,280 |
-| Lambda H100 80 GB | ~$6,263 (~€5,825) | ~$12,527 (~€11,650) | ~$37,580 (~€34,955) |
-| AWS H200 spot | ~$4,925 (~€4,580) | ~$9,850 (~€9,161) | ~$29,547 (~€27,479) |
-| AWS H200 on-demand | ~$11,552 (~€10,743) | ~$23,104 (~€21,487) | ~$69,309 (~€64,457) |
-| AWS H100 (~$10/h estimate) | ~$14,600 (~€13,578) | ~$29,200 (~€27,156) | ~$87,600 (~€81,468) |
+| OVH H100 80 GB | ≈€4,088 | ≈€8,176 | ≈€24,528 |
+| GMI Cloud H100 80 GB | ≈$2,920 (≈€2,716) | ≈$5,840 (≈€5,431) | ≈$17,520 (≈€16,294) |
+| GMI Cloud H200 | ≈$3,796 (≈€3,530) | ≈$7,592 (≈€7,061) | ≈$22,776 (≈€21,182) |
+| Decentralized H100 (≈$3/h) | ≈$4,380 | ≈$8,760 | ≈$26,280 |
+| Lambda H100 80 GB | ≈$6,263 (≈€5,825) | ≈$12,527 (≈€11,650) | ≈$37,580 (≈€34,955) |
+| AWS H200 spot | ≈$4,925 (≈€4,580) | ≈$9,850 (≈€9,161) | ≈$29,547 (≈€27,479) |
+| AWS H200 on-demand | ≈$11,552 (≈€10,743) | ≈$23,104 (≈€21,487) | ≈$69,309 (≈€64,457) |
+| AWS H100 (≈$10/h estimate) | ≈$14,600 (≈€13,578) | ≈$29,200 (≈€27,156) | ≈$87,600 (≈€81,468) |
 
 Hetzner's GEX131 (RTX PRO 6000 Blackwell 96 GB) doesn't fit this hourly-prorated format since it bills a flat €889/month regardless of hours used, but at 12 months of straight rental (€10,668/year) it is worth comparing directly against buying: see below.
 
 Cross-referenced against the hardware table above:
 
-**At light usage (4h/day), OVH's rental cost for one year (~€4,088) roughly equals the purchase price of the cheapest machines on this page** (Ryzen AI Halo, DGX Spark, ~€3,700-4,700). Buying wins from year two onward at this usage level, on the cheapest provider.
+**At light usage (4h/day), OVH's rental cost for one year (≈€4,088) roughly equals the purchase price of the cheapest machines on this page** (Ryzen AI Halo, DGX Spark, ≈€3,700-4,700). Buying wins from year two onward at this usage level, on the cheapest provider.
 
-**Renting the exact RTX PRO 6000 tier beats buying it, even at full-time usage for a year.** A full year of Hetzner's GEX131 (€10,668) is cheaper than the ~€14,000 the same RTX PRO 6000 Blackwell card costs to buy outright, before even adding a host system. This overturns the general "buy wins at 24/7" pattern for this specific GPU tier: Hetzner's bare-metal dedicated-server pricing (no hypervisor overhead, no cloud margin stack) undercuts every hourly cloud provider on this page for that card by a wide margin, and undercuts the purchase price too. If your workload fits a single RTX PRO 6000's 96 GB, renting one from Hetzner is the better default over buying, unless you specifically need the hardware for more than roughly 16 months or have a data-sovereignty requirement that rules out a rented dedicated server.
+**Renting the exact RTX PRO 6000 tier beats buying it, even at full-time usage for a year.** A full year of Hetzner's GEX131 (€10,668) is cheaper than the ≈€14,000 the same RTX PRO 6000 Blackwell card costs to buy outright, before even adding a host system. This overturns the general "buy wins at 24/7" pattern for this specific GPU tier: Hetzner's bare-metal dedicated-server pricing (no hypervisor overhead, no cloud margin stack) undercuts every hourly cloud provider on this page for that card by a wide margin, and undercuts the purchase price too. If your workload fits a single RTX PRO 6000's 96 GB, renting one from Hetzner is the better default over buying, unless you specifically need the hardware for more than roughly 16 months or have a data-sovereignty requirement that rules out a rented dedicated server.
 
-**GMI Cloud is the cheapest elastic (per-second, not dedicated) H100/H200 option found on this page, undercutting even OVHcloud.** At 24/7, GMI's H100 (~€16,294/year) costs less than OVH's H100 (~€24,528/year) for the identical GPU class, and its H200 (~€21,182/year) still comes in under OVH's H100.
+**GMI Cloud is the cheapest elastic (per-second, not dedicated) H100/H200 option found on this page, undercutting even OVHcloud.** At 24/7, GMI's H100 (≈€16,294/year) costs less than OVH's H100 (≈€24,528/year) for the identical GPU class, and its H200 (≈€21,182/year) still comes in under OVH's H100.
 
-**AWS is not economically viable for this use case at any usage level.** Even at 4h/day, AWS H100 (~€13,578/year) costs nearly as much as an entire RTX PRO 6000 workstation bought once. At 24/7, AWS H100 (~€81,468/year) funds close to three dual-RTX-PRO-6000 workstations (~€30,000 each) in a single year of rental.
+**AWS is not economically viable for this use case at any usage level.** Even at 4h/day, AWS H100 (≈€13,578/year) costs nearly as much as an entire RTX PRO 6000 workstation bought once. At 24/7, AWS H100 (≈€81,468/year) funds close to three dual-RTX-PRO-6000 workstations (≈€30,000 each) in a single year of rental.
 
 ---
 
@@ -160,13 +161,13 @@ OpenAI's GPT-5.6 family (launched July 9, 2026) ships in three durable capabilit
 
 | Model | Typical throughput | Max-effort/benchmark throughput | Time to first token | Price ($/M tokens, in/out) |
 |---|---|---|---|---|
-| GPT-5.6 Sol | ~70 tok/s (OpenRouter P50) | 74.3 tok/s (ArtificialAnalysis) | ~138.6s in max reasoning mode | $5 / $30 |
-| GPT-5.6 Terra | ~58 tok/s (OpenRouter P50) | n/a | ~2.48s | $2 / $12 (cut 20% from launch, effective July 30, 2026) |
-| GPT-5.6 Luna | ~112 tok/s (OpenRouter P50) | 140.7 tok/s (ArtificialAnalysis) | ~150.7s in max reasoning mode | $0.20 / $1.20 (cut 80% from launch, effective July 30, 2026) |
-| Claude Sonnet 5 | ~75.9 tok/s (ArtificialAnalysis, max effort) | n/a | not published | $2 / $10 |
-| Claude Opus 5 | **~26 tok/s average** (LLM-Benchmarks production telemetry, min 5.3, max 60.9) | n/a | ~2.87s | $5 / $25 (fast mode research preview: $10 / $50) |
+| GPT-5.6 Sol | ≈70 tok/s (OpenRouter P50) | 74.3 tok/s (ArtificialAnalysis) | ≈138.6s in max reasoning mode | $5 / $30 |
+| GPT-5.6 Terra | ≈58 tok/s (OpenRouter P50) | n/a | ≈2.48s | $2 / $12 (cut 20% from launch, effective July 30, 2026) |
+| GPT-5.6 Luna | ≈112 tok/s (OpenRouter P50) | 140.7 tok/s (ArtificialAnalysis) | ≈150.7s in max reasoning mode | $0.20 / $1.20 (cut 80% from launch, effective July 30, 2026) |
+| Claude Sonnet 5 | ≈75.9 tok/s (ArtificialAnalysis, max effort) | n/a | not published | $2 / $10 |
+| Claude Opus 5 | **≈26 tok/s average** (LLM-Benchmarks production telemetry, min 5.3, max 60.9) | n/a | ≈2.87s | $5 / $25 (fast mode research preview: $10 / $50) |
 
-Claude Opus 5's ~26 tok/s average comes from production telemetry across real calls, not a single benchmark preset, a materially lower number than the ~55-80 tok/s figures reported for Opus 5 under lighter-effort presets on other trackers. Anthropic optimizes Opus 5 for reasoning depth, not raw streaming speed.
+Claude Opus 5's ≈26 tok/s average comes from production telemetry across real calls, not a single benchmark preset, a materially lower number than the ≈55-80 tok/s figures reported for Opus 5 under lighter-effort presets on other trackers. Anthropic optimizes Opus 5 for reasoning depth, not raw streaming speed.
 
 On specialized hardware (Cerebras wafer-scale systems, not a standard cloud GPU), Sol reaches roughly **750 tok/s**, about 10x the typical cloud API rate. This confirms the throughput ceiling is set by deployment infrastructure and multi-tenant scheduling, not by the model's architecture alone.
 
@@ -184,7 +185,7 @@ Comparing a cloud API's tokens/sec to a local GPU's tokens/sec is comparing a ca
 
 **Cloud frontier models and local models are not the same size or precision.** Sol and Opus 5 run at full precision on hundreds of billions of parameters. A local deployment typically runs 4-8 bit quantized weights on 7-70B parameters. Illustrative local ranges from the same evidence base: a 7B model on an RTX-4090-class GPU reaches roughly 100-150 tok/s, a 13B model 50-100 tok/s, a 30B model 20-50 tok/s, a 70B model on a single GPU 10-30 tok/s. These numbers land in the same range as Terra and Luna's cloud figures by coincidence of scale, not because the comparison is meaningful.
 
-One measured data point from this page's own research process: `llmfit system` on a real MacBook Pro M5 Max reported **171 GB/s measured RAM bandwidth**, well below the ~460-614 GB/s Apple lists as the chip's theoretical peak. Real, measured, sustained bandwidth on your actual machine is the number that predicts your actual tokens/sec, not a spec sheet peak.
+One measured data point from this page's own research process: `llmfit system` on a real MacBook Pro M5 Max reported **171 GB/s measured RAM bandwidth**, well below the ≈460-614 GB/s Apple lists as the chip's theoretical peak. Real, measured, sustained bandwidth on your actual machine is the number that predicts your actual tokens/sec, not a spec sheet peak.
 
 ---
 
@@ -250,10 +251,16 @@ Need to run a large LLM
 
 **Light or bursty usage, no data sovereignty requirement**: use a managed API (Claude, GPT-5.6) or a specialized inference provider. No hardware to maintain, pay only for what you use.
 
-**Sustained usage, 4-8 hours a day, open-weight models up to 70B**: rent a GPU. OVHcloud's H100 at ~€4,000-8,000/year beats every local hardware option on this page at that usage level. Avoid AWS for this shape of workload; it is priced for enterprises with different constraints, not for a single sustained GPU.
+**Sustained usage, 4-8 hours a day, open-weight models up to 70B**: rent a GPU. OVHcloud's H100 at ≈€4,000-8,000/year beats every local hardware option on this page at that usage level. Avoid AWS for this shape of workload; it is priced for enterprises with different constraints, not for a single sustained GPU.
 
-**Heavy or 24/7 usage, sustained over more than a year**: buy, on elastic hourly clouds specifically. The break-even against elastic cloud rental (even the cheapest provider tested, GMI Cloud) lands inside twelve months once usage crosses roughly 12-16 hours/day. The one exception on this page: Hetzner's dedicated-server GEX131 (RTX PRO 6000 Blackwell 96 GB) rents for less per year (€10,668) than the card costs to buy outright (~€14,000), so for that specific GPU tier, renting stays the better default even at full-time usage, unless data sovereignty or a horizon past ~16 months tips it toward buying.
+**Heavy or 24/7 usage, sustained over more than a year**: buy, on elastic hourly clouds specifically. The break-even against elastic cloud rental (even the cheapest provider tested, GMI Cloud) lands inside twelve months once usage crosses roughly 12-16 hours/day. The one exception on this page: Hetzner's dedicated-server GEX131 (RTX PRO 6000 Blackwell 96 GB) rents for less per year (€10,668) than the card costs to buy outright (≈€14,000), so for that specific GPU tier, renting stays the better default even at full-time usage, unless data sovereignty or a horizon past ≈16 months tips it toward buying.
 
-**Need genuinely huge models (400B-class, MoE up to ~400B) locally**: only the Mac Studio M5 Ultra 256 GB and the dual RTX PRO 6000 Blackwell workstation on this page can host a model the size of Llama 4 Maverick (401.6B total) at a usable quantization, and both do so at the edge of their memory budget. Anything past that (GLM-5.2, DeepSeek-V4-Pro, or the multi-trillion-parameter MoE releases) does not fit on anything covered here.
+**Need genuinely huge models (400B-class, MoE up to ≈400B) locally**: only the Mac Studio M5 Ultra 256 GB and the dual RTX PRO 6000 Blackwell workstation on this page can host a model the size of Llama 4 Maverick (401.6B total) at a usable quantization, and both do so at the edge of their memory budget. Anything past that (GLM-5.2, DeepSeek-V4-Pro, or the multi-trillion-parameter MoE releases) does not fit on anything covered here.
 
 **Data never leaves the building is a hard requirement**: this eliminates managed APIs and cloud rental outright, regardless of the economics above. Buy local hardware sized with `llmfit` against your actual target model, not against a marketing spec sheet.
+
+---
+
+## Switching Providers at the CLI Level
+
+Everything above is about which hardware or API to run inference on. A separate, complementary problem is how to point Claude Code itself at whichever backend you picked without rewriting configuration every time. [cc-copilot-bridge](https://ccbridge.bruniaux.com/) is a routing layer for the Claude Code CLI that toggles between three backends with a three-character command: `ccd` for Anthropic direct (pay-per-token), `ccc` for a GitHub Copilot subscription, and `cco` for fully offline local inference via Ollama. It doesn't change any of the hardware-fit or cost math on this page, it changes which backend Claude Code talks to once you've decided. Current release is v1.5.3, with a v2 in progress. Worth flagging: the Copilot route relies on a reverse-engineered API, which the project's own documentation notes may violate GitHub Copilot's Terms of Service.
