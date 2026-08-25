@@ -74,21 +74,25 @@ Sources: Nvidia RTX 5090 and RTX PRO 6000 Blackwell core counts and VRAM confirm
 
 ## What Actually Fits: Named Models
 
-Sorting `llmfit`'s database by raw parameter count surfaces obscure or roleplay-oriented fine-tunes that happen to fit in memory, not the flagship models most people actually want to run. Querying `llmfit info` for specific well-known repos gives a cleaner answer, and the memory-required figure is backend-independent (pure arithmetic on model size and quantization), so it holds regardless of which machine the query runs on.
+Sorting `llmfit`'s database by raw parameter count surfaces obscure or roleplay-oriented fine-tunes that happen to fit in memory, not the flagship models most people actually want to run. Querying `llmfit info` against each lab's own official repo (not a third-party quant mirror) gives a cleaner answer, and the memory-required figure is backend-independent (pure arithmetic on model size and quantization), so it holds regardless of which machine the query runs on.
 
-| Hardware memory budget | Model that fits comfortably | Quantization | Min. VRAM/RAM required |
+This table uses the current generation as of August 2026, not the mid-2024/2025 models (Llama 3.x, Qwen2.5, Mixtral, original DeepSeek-V3) that dated an earlier version of this page. Every repo below was verified to exist with `llmfit search`, then queried directly with `llmfit info "<official-org>/<repo>"`.
+
+| Hardware memory budget | Model that fits | Architecture | Full weight VRAM required |
 |---|---|---|---|
-| 32 GB VRAM (1x RTX 5090) | **Qwen2.5-32B-Instruct** | 4-bit | 16.8 GB, comfortable fit |
-| 32 GB VRAM (1x RTX 5090) | Llama 3.3 70B Instruct | Q2 (aggressive) | 36.1 GB, exceeds available VRAM, marginal at best |
-| 48 GB unified (MacBook Pro M5 Pro) | **Qwen2.5-72B-Instruct** | 4-bit | 37.2 GB, tight marginal fit |
-| 64 GB VRAM (dual RTX 5090) | **Llama 3.3 70B Instruct** or **Qwen2.5-72B-Instruct** | 4-bit | ~36-37 GB, comfortable, sharded across cards |
-| 96 GB VRAM (RTX PRO 6000) | **Llama 3.3 70B Instruct** | 8-bit / FP8 | 36.1 GB, comfortable, large headroom for KV cache |
-| 96 GB VRAM (RTX PRO 6000) | **Mixtral 8x22B Instruct** (140.6B total) | 4-bit | 72 GB, comfortable |
-| 128 GB unified (MacBook Pro M5 Max, DGX Spark, Ryzen AI Halo) | **Llama 3.3 70B Instruct** | 8-bit | 36.1 GB, comfortable |
-| 192-256 GB VRAM/unified (dual RTX PRO 6000, Mac Studio M5 Ultra) | **Llama 3.1 405B Instruct** | 4-bit | 207.9 GB, marginal, needs the full budget |
-| Any config tested, up to 256 GB | **DeepSeek-V3** (684.5B total) | 4-bit | 350.6 GB, does not fit anywhere on this page |
+| 32 GB VRAM (1x RTX 5090) | **`Qwen/Qwen3.8-27B`** (Aug 15, 2026, Apache 2.0) | Dense, 27.8B | 14.2 GB, large headroom |
+| 48 GB unified (MacBook Pro M5 Pro) | Qwen3.8-27B fits easily; **`meta-llama/Llama-4-Scout-17B-16E-Instruct`** (108.6B total, MoE) does not quite fit | MoE, 1 of 16 experts active | 55.6 GB required, exceeds 48 GB |
+| 64 GB VRAM (dual RTX 5090) | **`meta-llama/Llama-4-Scout-17B-16E-Instruct`** | MoE, 108.6B total, 1 of 16 experts active | 55.6 GB, comfortable |
+| 96-128 GB (RTX PRO 6000, Mac Studio M5 Max, DGX Spark, Ryzen AI Halo) | Llama-4-Scout fits with large headroom; no confirmed current-generation flagship lands specifically between 56 GB and 200 GB as of this snapshot | | |
+| 192-256 GB (dual RTX PRO 6000, Mac Studio M5 Ultra) | **`meta-llama/Llama-4-Maverick-17B-128E-Instruct`** (401.6B total, MoE) | MoE, 128 experts total | 205.7 GB, fits 256 GB, marginal on 192 GB |
+| Any config on this page | **`zai-org/GLM-5.2`** (753.4B total, MoE, June 2026, MIT) | MoE, 8 of 256 experts active | 385.9 GB, exceeds everything here |
+| Any config on this page | **`deepseek-ai/DeepSeek-V4-Pro-0813`** (1,650.5B total, MoE, MIT) | MoE, 6 of 384 experts active | 845.4 GB, does not fit |
+| Any config on this page | **`Qwen/Qwen3.8-2.4T-A95B`** (2,446.2B total, MoE) | MoE, 10 of 512 experts active | 1,253 GB, does not fit |
+| Any config on this page | **`moonshotai/Kimi-K3`** (5,526.6B total, Aug 10, 2026) | Active-expert count not exposed by this data source | 2,831 GB, does not fit by a wide margin |
 
-DeepSeek-V3/R1-class models do not fit on any configuration in the €30,000 range covered here. Reaching them requires either heavier quantization than `llmfit` rates as usable, or a budget well past this page's scope.
+**MoE full weight is not optional, even though only a few experts compute per token.** `llmfit` reports both a "full model" VRAM figure and a much smaller "active" figure (for example DeepSeek-V4-Pro-0813 shows 845.4 GB full versus 63.6 GB active). The active figure describes the compute cost of a single forward pass, not what you can get away with loading. Because routing picks a different expert combination for every token, the entire expert set has to stay resident in memory (or be swapped in from very fast storage at a steep latency cost); there is no shortcut where only the "active" slice needs to fit. The full-weight column above is the one that determines whether a model runs on a given machine.
+
+The frontier gap widened rather than narrowed since the previous generation covered here: DeepSeek-V3 needed 350.6 GB at 4-bit, its August 2026 successor DeepSeek-V4-Pro needs 845.4 GB, and neither Qwen's 2.4T-parameter MoE nor Moonshot's 5.5T-parameter Kimi-K3 fit on anything in this hardware lineup, including the €30,000+ dual RTX PRO 6000 workstation. Reaching that class of model requires either quantization aggressive enough that `llmfit` no longer rates it usable, or a budget and interconnect (NVLink-class, not the PCIe-only multi-GPU builds on this page) well past this page's scope.
 
 ---
 
@@ -237,6 +241,6 @@ Need to run a large LLM
 
 **Heavy or 24/7 usage, sustained over more than a year**: buy. The break-even against cloud rental (even the cheapest provider) lands inside twelve months once usage crosses roughly 12-16 hours/day, and OVH's own yearly-commitment discount is only about 5%, so cloud does not close that gap by committing longer.
 
-**Need genuinely huge models (405B+, MoE up to 400B) locally**: only the Mac Studio M5 Ultra 256 GB and the dual RTX PRO 6000 Blackwell workstation on this page can host Llama 3.1 405B at a usable quantization, and both do so at the edge of their memory budget. DeepSeek-V3/R1-class models (684.5B total) do not fit on anything covered here.
+**Need genuinely huge models (400B-class, MoE up to ~400B) locally**: only the Mac Studio M5 Ultra 256 GB and the dual RTX PRO 6000 Blackwell workstation on this page can host a model the size of Llama 4 Maverick (401.6B total) at a usable quantization, and both do so at the edge of their memory budget. Anything past that (GLM-5.2, DeepSeek-V4-Pro, or the multi-trillion-parameter MoE releases) does not fit on anything covered here.
 
 **Data never leaves the building is a hard requirement**: this eliminates managed APIs and cloud rental outright, regardless of the economics above. Buy local hardware sized with `llmfit` against your actual target model, not against a marketing spec sheet.
