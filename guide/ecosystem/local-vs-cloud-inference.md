@@ -175,17 +175,17 @@ One measured data point from this page's own research process: `llmfit system` o
 
 ```mermaid
 flowchart TD
-    A([Need to run a large LLM]) --> B{Data must never<br/>leave your infra?}
+    A([Need to run a large LLM]) --> B{Data must stay<br/>on your own infra?}
 
-    B -->|Yes| C{Model over 70B, or need<br/>maximum quality?}
+    B -->|Yes| C{Need over 70B<br/>or max quality?}
     B -->|No| D{Usage pattern?}
 
-    C -->|Yes, up to 405B| E([Buy local hardware<br/>Mac Studio M5 Ultra or<br/>dual RTX PRO 6000])
-    C -->|No, 70B fits| F([Buy local hardware<br/>single RTX PRO 6000<br/>or Mac Studio M5 Max])
+    C -->|Yes, up to 405B| E([Buy local hardware:<br/>Mac Studio M5 Ultra<br/>or dual RTX PRO 6000])
+    C -->|No, 70B fits| F([Buy local hardware:<br/>RTX PRO 6000<br/>or Mac Studio M5 Max])
 
-    D -->|Light or bursty| G([Managed API license<br/>Claude, GPT-5.6, pay per token])
-    D -->|Sustained, 4-8h/day| H([Rent a cloud GPU<br/>OVHcloud, Lambda, RunPod])
-    D -->|Heavy, 24/7| I{Sustained over<br/>more than a year?}
+    D -->|Light or bursty| G([License a managed API:<br/>Claude or GPT-5.6])
+    D -->|Sustained, 4-8h/day| H([Rent a cloud GPU:<br/>OVHcloud, Lambda, RunPod])
+    D -->|Heavy, 24/7| I{Committed for<br/>over a year?}
 
     I -->|Yes| E
     I -->|No, short-term burst| H
@@ -215,16 +215,16 @@ flowchart TD
 
 ```
 Need to run a large LLM
-└─ Data must never leave your infra?
-   ├─ Yes → Model over 70B, or need maximum quality?
+└─ Data must stay on your own infra?
+   ├─ Yes → Need over 70B or max quality?
    │        ├─ Yes, up to 405B → BUY: Mac Studio M5 Ultra or dual RTX PRO 6000
-   │        └─ No, 70B fits    → BUY: single RTX PRO 6000 or Mac Studio M5 Max
+   │        └─ No, 70B fits    → BUY: RTX PRO 6000 or Mac Studio M5 Max
    └─ No  → Usage pattern?
-            ├─ Light or bursty      → LICENSE: managed API (Claude, GPT-5.6)
+            ├─ Light or bursty      → LICENSE: managed API (Claude or GPT-5.6)
             ├─ Sustained, 4-8h/day  → RENT: cloud GPU (OVHcloud, Lambda, RunPod)
-            └─ Heavy, 24/7          → Sustained over more than a year?
-                                       ├─ Yes           → BUY (see above)
-                                       └─ No, short-term → RENT (see above)
+            └─ Heavy, 24/7          → Committed for over a year?
+                                       ├─ Yes            → BUY (see above)
+                                       └─ No, short burst → RENT (see above)
 ```
 
 </details>
