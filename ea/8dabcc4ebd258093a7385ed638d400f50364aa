@@ -1,0 +1,41 @@
+CHANGELOG.md
+  s_4ef5554bf194a6::t_4728ee6ef2950b 29-32
+guide/ecosystem/local-vs-cloud-inference.md
+  s_03c81d045cd4f9::t_85f9e2334198a4 23,163-196
+machine-readable/reference.yaml
+  s_03c81d045cd4f9::t_2fafd75ef3970e 1498,2976
+mcp-server/content/reference.yaml
+  s_a344663771d926::t_f71e79f0e54e59 1498,2976
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "ea8dabcc4ebd258093a7385ed638d400f50364aa",
+  "prompts": {},
+  "sessions": {
+    "s_03c81d045cd4f9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e05b7bc8-edcd-4053-8e74-7d2a105fa1b8",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_4ef5554bf194a6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a03846-1217-74b1-8253-9a8b77645d36",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_a344663771d926": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6bf12911-8795-4088-b8a4-c648c238a31e",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
