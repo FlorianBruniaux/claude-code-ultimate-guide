@@ -113,12 +113,15 @@ Hourly, on-demand, per GPU. USD figures kept as published; EUR given only where 
 | RunPod (Community Cloud) | L40S 48 GB | $0.79 |
 | Lambda | H100 80 GB SXM | $3.99-4.29 depending on node size |
 | Lambda | A6000 48 GB (RTX PRO 6000-class) | $1.09 |
+| GMI Cloud | H100 80 GB | $2.00 |
+| GMI Cloud | H200 | $2.60 |
+| Hetzner (`GEX131`, dedicated bare-metal, not elastic hourly cloud) | RTX PRO 6000 Blackwell Max-Q 96 GB | €1.4247 (€889/month flat, excl. VAT) |
 | Decentralized (Vast.ai-class marketplace) | H100 80 GB | $2.50-3.89 |
 | AWS | H100 80 GB (no direct AWS tariff found; market range per [AltStreet](https://altstreet.investments/tools/gpu/gpu-price-comparison)) | $8.00-12.29, mid estimate $10 |
 | AWS | H200, `p5en.48xlarge`, on-demand (8-GPU node, per GPU) | $7.91 |
 | AWS | H200, `p5en.48xlarge`, spot (per GPU) | $3.37 |
 
-AWS does not sell a single-GPU H200 instance: the smallest P5en node is already 8 GPUs at $63.30/hour total. For a "one GPU as a remote workstation" use case, OVHcloud, Lambda, or RunPod fit the shape of the need better than AWS. Sources: [OVHcloud price list](https://us.ovhcloud.com/public-cloud/prices/), [Cloud Mercato H100-380](https://pcr.cloud-mercato.com/providers/ovh/flavors/H100-380), [Lambda pricing](https://lambda.ai/pricing), [RunPod L40S](https://www.runpod.io/gpu-models/l40s), [Vantage EC2 P5en](https://instances.vantage.sh/aws/ec2/p5en.48xlarge).
+AWS does not sell a single-GPU H200 instance: the smallest P5en node is already 8 GPUs at $63.30/hour total. For a "one GPU as a remote workstation" use case, OVHcloud, Lambda, GMI Cloud, or RunPod fit the shape of the need better than AWS. GMI Cloud in particular undercuts OVHcloud on H100 (\$2.00/h vs OVH's \$2.99/h). Hetzner's GEX131 is a dedicated server, not a per-second elastic cloud instance: it bills a flat monthly rate regardless of how many hours you actually use that month, which is why it doesn't appear in the hourly-prorated table below. Sources: [OVHcloud price list](https://us.ovhcloud.com/public-cloud/prices/), [Cloud Mercato H100-380](https://pcr.cloud-mercato.com/providers/ovh/flavors/H100-380), [Lambda pricing](https://lambda.ai/pricing), [RunPod L40S](https://www.runpod.io/gpu-models/l40s), [Vantage EC2 P5en](https://instances.vantage.sh/aws/ec2/p5en.48xlarge), [GMI Cloud pricing](https://www.gmicloud.ai/en/pricing), [Hetzner GEX131 press release](https://www.hetzner.com/pressroom/new-gex131/).
 
 ---
 
@@ -129,17 +132,23 @@ AWS does not sell a single-GPU H200 instance: the smallest P5en node is already 
 | Provider / GPU | 4h/day | 8h/day | 24/7 |
 |---|---|---|---|
 | OVH H100 80 GB | ~€4,088 | ~€8,176 | ~€24,528 |
+| GMI Cloud H100 80 GB | ~$2,920 (~€2,716) | ~$5,840 (~€5,431) | ~$17,520 (~€16,294) |
+| GMI Cloud H200 | ~$3,796 (~€3,530) | ~$7,592 (~€7,061) | ~$22,776 (~€21,182) |
 | Decentralized H100 (~$3/h) | ~$4,380 | ~$8,760 | ~$26,280 |
 | Lambda H100 80 GB | ~$6,263 (~€5,825) | ~$12,527 (~€11,650) | ~$37,580 (~€34,955) |
 | AWS H200 spot | ~$4,925 (~€4,580) | ~$9,850 (~€9,161) | ~$29,547 (~€27,479) |
 | AWS H200 on-demand | ~$11,552 (~€10,743) | ~$23,104 (~€21,487) | ~$69,309 (~€64,457) |
 | AWS H100 (~$10/h estimate) | ~$14,600 (~€13,578) | ~$29,200 (~€27,156) | ~$87,600 (~€81,468) |
 
+Hetzner's GEX131 (RTX PRO 6000 Blackwell 96 GB) doesn't fit this hourly-prorated format since it bills a flat €889/month regardless of hours used, but at 12 months of straight rental (€10,668/year) it is worth comparing directly against buying: see below.
+
 Cross-referenced against the hardware table above:
 
 **At light usage (4h/day), OVH's rental cost for one year (~€4,088) roughly equals the purchase price of the cheapest machines on this page** (Ryzen AI Halo, DGX Spark, ~€3,700-4,700). Buying wins from year two onward at this usage level, on the cheapest provider.
 
-**At heavy usage (24/7), OVH's rental cost for one year (~€24,528) already exceeds a Mac Studio M5 Ultra 256 GB (~€12,000) and approaches an RTX PRO 6000 workstation (~€16,000-18,000).** At this usage level, buying wins inside year one, even against the cheapest cloud provider tested.
+**Renting the exact RTX PRO 6000 tier beats buying it, even at full-time usage for a year.** A full year of Hetzner's GEX131 (€10,668) is cheaper than the ~€14,000 the same RTX PRO 6000 Blackwell card costs to buy outright, before even adding a host system. This overturns the general "buy wins at 24/7" pattern for this specific GPU tier: Hetzner's bare-metal dedicated-server pricing (no hypervisor overhead, no cloud margin stack) undercuts every hourly cloud provider on this page for that card by a wide margin, and undercuts the purchase price too. If your workload fits a single RTX PRO 6000's 96 GB, renting one from Hetzner is the better default over buying, unless you specifically need the hardware for more than roughly 16 months or have a data-sovereignty requirement that rules out a rented dedicated server.
+
+**GMI Cloud is the cheapest elastic (per-second, not dedicated) H100/H200 option found on this page, undercutting even OVHcloud.** At 24/7, GMI's H100 (~€16,294/year) costs less than OVH's H100 (~€24,528/year) for the identical GPU class, and its H200 (~€21,182/year) still comes in under OVH's H100.
 
 **AWS is not economically viable for this use case at any usage level.** Even at 4h/day, AWS H100 (~€13,578/year) costs nearly as much as an entire RTX PRO 6000 workstation bought once. At 24/7, AWS H100 (~€81,468/year) funds close to three dual-RTX-PRO-6000 workstations (~€30,000 each) in a single year of rental.
 
@@ -243,7 +252,7 @@ Need to run a large LLM
 
 **Sustained usage, 4-8 hours a day, open-weight models up to 70B**: rent a GPU. OVHcloud's H100 at ~€4,000-8,000/year beats every local hardware option on this page at that usage level. Avoid AWS for this shape of workload; it is priced for enterprises with different constraints, not for a single sustained GPU.
 
-**Heavy or 24/7 usage, sustained over more than a year**: buy. The break-even against cloud rental (even the cheapest provider) lands inside twelve months once usage crosses roughly 12-16 hours/day, and OVH's own yearly-commitment discount is only about 5%, so cloud does not close that gap by committing longer.
+**Heavy or 24/7 usage, sustained over more than a year**: buy, on elastic hourly clouds specifically. The break-even against elastic cloud rental (even the cheapest provider tested, GMI Cloud) lands inside twelve months once usage crosses roughly 12-16 hours/day. The one exception on this page: Hetzner's dedicated-server GEX131 (RTX PRO 6000 Blackwell 96 GB) rents for less per year (€10,668) than the card costs to buy outright (~€14,000), so for that specific GPU tier, renting stays the better default even at full-time usage, unless data sovereignty or a horizon past ~16 months tips it toward buying.
 
 **Need genuinely huge models (400B-class, MoE up to ~400B) locally**: only the Mac Studio M5 Ultra 256 GB and the dual RTX PRO 6000 Blackwell workstation on this page can host a model the size of Llama 4 Maverick (401.6B total) at a usable quantization, and both do so at the edge of their memory budget. Anything past that (GLM-5.2, DeepSeek-V4-Pro, or the multi-trillion-parameter MoE releases) does not fit on anything covered here.
 
