@@ -6,7 +6,7 @@ tags: [ecosystem, hardware, local-llm, cloud, cost, benchmarks]
 
 # Local vs Cloud: LLM Hardware and Inference Economics
 
-> **Reading time**: ≈20 minutes
+> **Reading time**: ≈35 minutes
 >
 > **Purpose**: Answer one question with numbers instead of vibes: for running a large open-weight model (70B to 400B+ parameters), when does a local hardware purchase beat renting a cloud GPU or paying per token, and what actually fits on what machine.
 
