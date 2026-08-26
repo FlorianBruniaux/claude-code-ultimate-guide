@@ -94,13 +94,13 @@ This table uses the current generation as of August 2026, not the mid-2024/2025 
 | 48 GB unified (MacBook Pro M5 Pro) | Qwen3.8-27B fits easily; **`meta-llama/Llama-4-Scout-17B-16E`** (109B total, MoE) does not quite fit | MoE, 17B active / 16 experts | 55.6 GB required, exceeds 48 GB |
 | 64 GB VRAM (dual RTX 5090) | **`meta-llama/Llama-4-Scout-17B-16E`** | MoE, 109B total, 17B active | 55.6 GB, comfortable |
 | 96-128 GB (RTX PRO 6000, Mac Studio M5 Max, DGX Spark, Ryzen AI Halo) | Llama-4-Scout fits with large headroom; no confirmed current-generation flagship lands specifically between 56 GB and 200 GB as of this snapshot | | |
-| 192-256 GB (dual RTX PRO 6000, Mac Studio M5 Ultra) | **`meta-llama/Llama-4-Maverick-17B-128E`** (≈400B total, MoE) | MoE, 17B active / 128 experts | 205.7 GB, fits 256 GB, marginal on 192 GB |
+| 192-256 GB (dual RTX PRO 6000, Mac Studio M5 Ultra) | **`deepseek-ai/DeepSeek-V4-Flash-0731`** (MIT, GA release July 30-31, 2026) fits with comfortable headroom on both configs; `meta-llama/Llama-4-Maverick-17B-128E` (≈400B total, MoE, community license) also fits but far more tightly | MoE, 304B total / 13B active per NVIDIA's official Build model card; the earlier preview build was 284B total at the same 13B active, and neither DeepSeek nor NVIDIA states why the GA release's total grew | No official VRAM figure exists. Third-party quantized estimates for the GA release cluster 100-170 GB (Unsloth: ≈103 GB at 3-bit, ≈162 GB at "lossless" 8-bit; Spheron: ≈166 GB at INT4; `llmfit`: 155.8 GB), all comfortable on the 192 GB and 256 GB configs. Llama-4-Maverick-17B-128E needs 205.7 GB, fits 256 GB, marginal on 192 GB |
 | Any config on this page | **`zai-org/GLM-5.2`** (≈753B total, MoE, MIT). `GLM-5.3` (Aug 17, 2026) is the same base model with a post-training coding upgrade; weights ship staged, roughly two weeks after announcement | MoE, ≈40B active / 256 experts | 385.9 GB, exceeds everything here |
 | Any config on this page | **`deepseek-ai/DeepSeek-V4-Pro-0813`** (1.6T total, MoE, MIT, GA Aug 13, 2026) | MoE, **49B active** (officially confirmed) | 845.4 GB, does not fit |
 | Any config on this page | **`Qwen/Qwen3.8-2.4T-A95B`** (2.4T total, MoE, open-weight base of the hosted Qwen3.8-Max) | MoE, ≈95B active / 512 experts | 1,253 GB, does not fit |
 | Any config on this page | **`MoonshotAI/Kimi-K3`** (**2.8T total**, confirmed via Moonshot's own GitHub repo, Aug 2026) | MoE, 16 of 896 experts active (≈50B active, calculated) | ≈1,430 GB estimated (extrapolated from DeepSeek-V4-Pro's VRAM-per-parameter ratio; `llmfit`'s own entry for this repo reports an incorrect 5,527B total and was not used) |
 
-Sources for the officially-confirmed figures: [gpt-oss-20b model card](https://huggingface.co/openai/gpt-oss-20b), [Qwen3.8-27B](https://huggingface.co/Qwen/Qwen3.8-27B), [Qwen3.8-2.4T-A95B](https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B), [Llama 4 announcement](https://ai.meta.com/blog/llama-4-multimodal-intelligence/), [Llama-4-Scout model card](https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E), [DeepSeek-V4-Pro model card](https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro), [GLM-5.2 announcement](https://datanorth.ai/news/zhipu-ai-releases-glm-5-2), [Kimi K3 GitHub repo](https://github.com/MoonshotAI/Kimi-K3).
+Sources for the officially-confirmed figures: [gpt-oss-20b model card](https://huggingface.co/openai/gpt-oss-20b), [Qwen3.8-27B](https://huggingface.co/Qwen/Qwen3.8-27B), [Qwen3.8-2.4T-A95B](https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B), [Llama 4 announcement](https://ai.meta.com/blog/llama-4-multimodal-intelligence/), [Llama-4-Scout model card](https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E), [DeepSeek-V4-Flash-0731 model card](https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731) and [NVIDIA's Build model card](https://build.nvidia.com/deepseek-ai/deepseek-v4-flash-0731/modelcard) for the 304B/13B figures (third-party VRAM estimates from [Unsloth's deployment guide](https://unsloth.ai/docs/models/deepseek-v4) and [Spheron's GPU recommender](https://www.spheron.network/tools/gpu-recommender/deepseek-ai/DeepSeek-V4-Flash-0731/)), [DeepSeek-V4-Pro model card](https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro), [GLM-5.2 announcement](https://datanorth.ai/news/zhipu-ai-releases-glm-5-2), [Kimi K3 GitHub repo](https://github.com/MoonshotAI/Kimi-K3).
 
 **The full-weight column above assumes every expert must be resident in VRAM. That's the requirement for `llmfit`'s "GPU" run mode, not a law of physics.** `llmfit` reports both a "full model" VRAM figure and a much smaller "active" figure (for example DeepSeek-V4-Pro-0813 shows 845.4 GB full versus 63.6 GB active). The active figure describes the compute cost of a single forward pass; the full-weight figure is what a naive all-in-VRAM deployment needs. A real shortcut does exist, but it moves the constraint rather than removing it: the full expert set must stay resident somewhere fast (system RAM, not VRAM), and only the handful of experts routing picks for the current token get streamed to the GPU or computed on CPU.
 
@@ -122,30 +122,30 @@ The two tables above answer "what fits where." This section answers a different,
 | Daily coding assistant, one model up to ≈30B, real context window | Mac mini M5 Pro (64 GB) or MacBook Pro M5 Pro (48 GB) | `Qwen3.8-27B` comfortable; `Llama-4-Scout` too tight | 48-64 GB gives one model room plus enough context to be useful, not just a benchmark pass |
 | Mid-size MoE (≈100B total, ≈17B active) at good throughput | RTX 5090 workstation (32-64 GB VRAM) or a 128 GB unified config (DGX Spark, Ryzen AI Halo, MacBook Pro M5 Max) | `Llama-4-Scout-17B-16E` | 55.6 GB full-weight fits comfortably above 64 GB with headroom |
 | Frontier MoE (GLM-5.2, DeepSeek-V4-Pro), reduced but usable throughput accepted | Any workstation on this page with 512 GB+ system RAM added, running `llama.cpp --n-cpu-moe` or [FreeToken](https://github.com/FlashML-org/FreeToken) | `GLM-5.2`, `DeepSeek-V4-Pro-0813` | Full expert set stays resident in system RAM; only the per-token active experts stream to GPU, so VRAM stops being the hard limit |
-| Largest model this page supports at full-VRAM residency, no offload tricks | Mac Studio M5 Ultra (256 GB) or dual RTX PRO 6000 Blackwell (192 GB combined) | `Llama-4-Maverick-17B-128E` | 205.7 GB full weight fits 256 GB with room, is marginal on 192 GB |
+| Largest model this page supports at full-VRAM residency, no offload tricks | Mac Studio M5 Ultra (256 GB) or dual RTX PRO 6000 Blackwell (192 GB combined) | `DeepSeek-V4-Flash-0731` (fits both with headroom); `Llama-4-Maverick-17B-128E` also fits but only comfortably on the 256 GB config | ≈100-170 GB (third-party quantized estimates, no official figure) for DeepSeek-V4-Flash-0731, comfortable on both; 205.7 GB for Llama-4-Maverick, marginal on 192 GB |
 | Local fine-tuning or training, not inference-only | RTX PRO 6000 Blackwell workstation (single or dual) | Depends on target model | Training needs VRAM headroom beyond weight residency for optimizer states and gradients, a cost this page's inference-only figures don't model |
 | Sustained heavy or 24/7 production serving | Don't buy: rent | Any | See [Cloud GPU Rental Pricing](#cloud-gpu-rental-pricing) and [One-Year Cost Projections](#one-year-cost-projections) below; buying only wins past roughly a year of continuous use, per that section's own numbers |
 
 ```mermaid
 flowchart TD
-    A([What's the local usage?]) --> B{Trying it out,<br/>budget under €2,000?}
+    A([What's the local usage?]) --> B{Trying it out, under €2,000?}
 
-    B -->|Yes| C([Mac mini M6 32GB<br/>or RTX 5060 Ti 16GB])
-    B -->|No| D{Daily driver,<br/>one model up to ~30B?}
+    B -->|Yes| C([Mac mini M6 32GB or RTX 5060 Ti 16GB])
+    B -->|No| D{Daily driver, one model up to 30B?}
 
-    D -->|Yes| E([Mac mini M5 Pro 64GB<br/>or MacBook Pro M5 Pro])
-    D -->|No| F{Mid-size MoE,<br/>~100B total, good tok/s?}
+    D -->|Yes| E([Mac mini M5 Pro 64GB or MacBook Pro M5 Pro])
+    D -->|No| F{Mid-size MoE, about 100B total?}
 
-    F -->|Yes| G([RTX 5090 workstation<br/>or 128GB unified])
-    F -->|No| H{Frontier MoE,<br/>reduced tok/s OK?}
+    F -->|Yes| G([RTX 5090 workstation or 128GB unified])
+    F -->|No| H{Frontier MoE, reduced tok/s OK?}
 
-    H -->|Yes| I([Any workstation +<br/>512GB+ RAM, CPU offload])
-    H -->|No| J{Full-VRAM flagship,<br/>up to ~400B?}
+    H -->|Yes| I([Any workstation, 512GB+ RAM, CPU offload])
+    H -->|No| J{Full-VRAM flagship, up to 400B?}
 
-    J -->|Yes| K([Mac Studio M5 Ultra<br/>or dual RTX PRO 6000])
-    J -->|No| L{Training, not<br/>just inference?}
+    J -->|Yes| K([Mac Studio M5 Ultra or dual RTX PRO 6000])
+    J -->|No| L{Training, not just inference?}
 
-    L -->|Yes| M([RTX PRO 6000 workstation,<br/>extra VRAM headroom])
+    L -->|Yes| M([RTX PRO 6000 workstation, extra headroom])
     L -->|No, 24/7 serving| N([Rent, don't buy])
 
     style A fill:#F5E6D3,color:#333
@@ -177,15 +177,15 @@ flowchart TD
 
 ```
 What's the local usage?
-└─ Trying it out, budget under €2,000?
+└─ Trying it out, under €2,000?
    ├─ Yes → Mac mini M6 32GB or RTX 5060 Ti 16GB
-   └─ No  → Daily driver, one model up to ~30B?
+   └─ No  → Daily driver, one model up to 30B?
             ├─ Yes → Mac mini M5 Pro 64GB or MacBook Pro M5 Pro
-            └─ No  → Mid-size MoE, ~100B total, good tok/s?
+            └─ No  → Mid-size MoE, about 100B total?
                      ├─ Yes → RTX 5090 workstation or 128GB unified
                      └─ No  → Frontier MoE, reduced tok/s OK?
-                              ├─ Yes → Any workstation + 512GB+ RAM, CPU offload
-                              └─ No  → Full-VRAM flagship, up to ~400B?
+                              ├─ Yes → Any workstation, 512GB+ RAM, CPU offload
+                              └─ No  → Full-VRAM flagship, up to 400B?
                                        ├─ Yes → Mac Studio M5 Ultra or dual RTX PRO 6000
                                        └─ No  → Training, not just inference?
                                                 ├─ Yes             → RTX PRO 6000 workstation, extra VRAM headroom
@@ -336,17 +336,17 @@ One measured data point from this page's own research process: `llmfit system` o
 
 ```mermaid
 flowchart TD
-    A([Need to run a large LLM]) --> B{Data must stay<br/>on your own infra?}
+    A([Need to run a large LLM]) --> B{Data must stay on your own infra?}
 
-    B -->|Yes| C{Need over 70B<br/>or max quality?}
+    B -->|Yes| C{Need over 70B or max quality?}
     B -->|No| D{Usage pattern?}
 
-    C -->|Yes, up to 405B| E([Buy local hardware:<br/>Mac Studio M5 Ultra<br/>or dual RTX PRO 6000])
-    C -->|No, 70B fits| F([Buy local hardware:<br/>RTX PRO 6000<br/>or Mac Studio M5 Max])
+    C -->|Yes, up to 405B| E([Buy local: Mac Studio M5 Ultra or dual RTX PRO 6000])
+    C -->|No, 70B fits| F([Buy local: RTX PRO 6000 or Mac Studio M5 Max])
 
-    D -->|Light or bursty| G([License a managed API:<br/>Claude or GPT-5.6])
-    D -->|Sustained, 4-8h/day| H([Rent a cloud GPU:<br/>OVHcloud, Lambda, RunPod])
-    D -->|Heavy, 24/7| I{Committed for<br/>over a year?}
+    D -->|Light or bursty| G([License a managed API: Claude or GPT-5.6])
+    D -->|Sustained, 4-8h/day| H([Rent a cloud GPU: OVHcloud, Lambda, RunPod])
+    D -->|Heavy, 24/7| I{Committed for over a year?}
 
     I -->|Yes| E
     I -->|No, short-term burst| H
@@ -398,7 +398,7 @@ Need to run a large LLM
 
 **Heavy or 24/7 usage, sustained over more than a year**: buy, on elastic hourly clouds specifically. The break-even against elastic cloud rental (even the cheapest provider tested, GMI Cloud) lands inside twelve months once usage crosses roughly 12-16 hours/day. The one exception on this page: Hetzner's dedicated-server GEX131 (RTX PRO 6000 Blackwell 96 GB) rents for less per year (€10,668) than the card costs to buy outright (≈€14,000), so for that specific GPU tier, renting stays the better default even at full-time usage, unless data sovereignty or a horizon past ≈16 months tips it toward buying.
 
-**Need genuinely huge models (400B-class, MoE up to ≈400B) locally**: only the Mac Studio M5 Ultra 256 GB and the dual RTX PRO 6000 Blackwell workstation on this page can host a model the size of Llama 4 Maverick (401.6B total) at a usable quantization, and both do so at the edge of their memory budget. Anything past that (GLM-5.2, DeepSeek-V4-Pro, or the multi-trillion-parameter MoE releases) does not fit on anything covered here.
+**Need genuinely huge models (up to ≈300-400B) locally**: the Mac Studio M5 Ultra 256 GB and the dual RTX PRO 6000 Blackwell workstation (192 GB combined) both host DeepSeek-V4-Flash-0731 (304B total, MIT) comfortably, at roughly 100-170 GB depending on quantization (no official figure, third-party estimates only). Llama 4 Maverick (401.6B total) also fits, but only on the 256 GB Mac Studio, and at the edge of its memory budget there. Anything past that (GLM-5.2, DeepSeek-V4-Pro, or the multi-trillion-parameter MoE releases) does not fit on anything covered here.
 
 **Data never leaves the building is a hard requirement**: this eliminates managed APIs and cloud rental outright, regardless of the economics above. Buy local hardware sized with `llmfit` against your actual target model, not against a marketing spec sheet.
 
