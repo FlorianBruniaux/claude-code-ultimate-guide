@@ -61,6 +61,8 @@ Two limits to know before trusting its output:
 
 Bare GPUs are not comparable to laptops or appliances. The table below only lists complete systems: CPU, memory, GPU, and storage together, sorted by increasing price. For workstation builds around a bare Nvidia GPU (no fixed CPU from the vendor), the CPU column shows one realistic example, not a spec. The first three rows are the entry tier a reader specifically asked for: machines with a GPU (dedicated or unified) capped around 16-32 GB, cheap enough to try local inference without committing to a €4,000+ build.
 
+![Sixteen gigabytes is enough to start: RTX 5060 Ti workstation at about 1,500 euros or Mac mini M6 at 1,049 euros both run gpt-oss-20b comfortably](../images/local-vs-cloud-entry-tier.webp)
+
 | # | Configuration | CPU | System memory | GPU | Storage | Price (Aug 2026) |
 |---|---|---|---|---|---|---|
 | 1 | Mac mini, Apple M6 | Apple M6, 12 cores (2 super + 4 performance + 6 efficiency) | 16-32 GB unified | Integrated GPU, 12 cores, 170 GB/s bandwidth | 256 GB-2 TB SSD | €1,049 (16 GB/256 GB base) / ≈€1,500 est. at 32 GB max (+$400 BTO) |
@@ -115,6 +117,8 @@ The frontier gap still widened rather than narrowed since the previous generatio
 ## Which Local Machine for Which Usage
 
 The two tables above answer "what fits where." This section answers a different, more common question: given what you actually want to do, which of the thirteen configurations is the right one to buy. Same underlying data, organized by use case instead of by price.
+
+![Three questions, one machine: what's the usage, trying it out, daily coding one model, or 24/7 production](../images/local-vs-cloud-decision-tree.webp)
 
 | Usage | Recommended configuration(s) | Model class this targets | Why |
 |---|---|---|---|
@@ -243,6 +247,8 @@ Cross-referenced against the hardware table above:
 **At light usage (4h/day), OVH's rental cost for one year (≈€4,088) roughly equals the purchase price of the cheapest machines on this page** (Ryzen AI Halo, DGX Spark, ≈€3,700-4,700). Buying wins from year two onward at this usage level, on the cheapest provider.
 
 **Renting the exact RTX PRO 6000 tier beats buying it, even at full-time usage for a year.** A full year of Hetzner's GEX131 (€10,668) is cheaper than the ≈€14,000 the same RTX PRO 6000 Blackwell card costs to buy outright, before even adding a host system. This overturns the general "buy wins at 24/7" pattern for this specific GPU tier: Hetzner's bare-metal dedicated-server pricing (no hypervisor overhead, no cloud margin stack) undercuts every hourly cloud provider on this page for that card by a wide margin, and undercuts the purchase price too. If your workload fits a single RTX PRO 6000's 96 GB, renting one from Hetzner is the better default over buying, unless you specifically need the hardware for more than roughly 16 months or have a data-sovereignty requirement that rules out a rented dedicated server.
+
+![The math nobody expected: buying an RTX PRO 6000 card costs about 14,000 euros, renting one year at Hetzner costs 10,668 euros, cheaper even at full time use](../images/local-vs-cloud-hetzner-math.webp)
 
 **GMI Cloud is the cheapest elastic (per-second, not dedicated) H100/H200 option found on this page, undercutting even OVHcloud.** At 24/7, GMI's H100 (≈€16,294/year) costs less than OVH's H100 (≈€24,528/year) for the identical GPU class, and its H200 (≈€21,182/year) still comes in under OVH's H100.
 
