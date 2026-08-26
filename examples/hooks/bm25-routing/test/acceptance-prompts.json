@@ -1,0 +1,23 @@
+[
+  { "id": "g01", "prompt": "trouve des projets open source pour la mémoire partagée entre agents", "expected": ["agentic-project-finder"] },
+  { "id": "g02", "prompt": "cherche des repos GitHub de frameworks multi-agents", "expected": ["agentic-project-finder"] },
+  { "id": "g03", "prompt": "quels outils agentiques existants puis-je évaluer", "expected": ["agentic-project-finder"] },
+  { "id": "g04", "prompt": "identifie des coding agents autonomes maintenus", "expected": ["agentic-project-finder"] },
+  { "id": "g05", "prompt": "compare des plateformes open source d'orchestration d'agents", "expected": ["agentic-project-finder"] },
+  { "id": "g06", "prompt": "find repositories implementing shared agent memory", "expected": ["agentic-project-finder"] },
+  { "id": "g07", "prompt": "discover maintained multi-agent frameworks", "expected": ["agentic-project-finder"] },
+  { "id": "g08", "prompt": "locate open source autonomous coding agent projects", "expected": ["agentic-project-finder"] },
+  { "id": "g09", "prompt": "research existing tools for agent collaboration", "expected": ["agentic-project-finder"] },
+  { "id": "g10", "prompt": "search GitHub for agent orchestration software", "expected": ["agentic-project-finder"] },
+  { "id": "n01", "prompt": "crée un nouvel orchestrateur dans ce repository", "expected": [], "forbidden": ["agentic-project-finder"] },
+  { "id": "n02", "prompt": "audite l'architecture de mon système multi-agent", "expected": [], "forbidden": ["agentic-project-finder"] },
+  { "id": "n03", "prompt": "corrige ce bug dans notre coding agent", "expected": [], "forbidden": ["agentic-project-finder"] },
+  { "id": "n04", "prompt": "ouvre la documentation officielle des hooks Codex", "expected": [], "forbidden": ["agentic-project-finder"] },
+  { "id": "n05", "prompt": "write unit tests for this repository", "expected": [], "forbidden": ["agentic-project-finder"] },
+  { "id": "n06", "prompt": "design a new agent architecture", "expected": [], "forbidden": ["agentic-project-finder"] },
+  { "id": "n07", "prompt": "review this project for security issues", "expected": [], "forbidden": ["agentic-project-finder"] },
+  { "id": "n08", "prompt": "deploy the current application", "expected": [], "forbidden": ["agentic-project-finder"] },
+  { "id": "x01", "prompt": "$agentic-project-finder trouve des projets", "expected": [] },
+  { "id": "x02", "prompt": "ne suggère aucune skill pour cette recherche", "expected": [] }
+]
+

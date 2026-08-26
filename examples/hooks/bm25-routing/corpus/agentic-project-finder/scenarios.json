@@ -1,0 +1,30 @@
+{
+  "skill": "agentic-project-finder",
+  "positive": [
+    "trouve des projets open source d'agents logiciels",
+    "cherche des dépôts GitHub pour des frameworks multi-agents",
+    "quels projets existants implémentent une mémoire partagée entre agents",
+    "je veux découvrir des outils agentiques déjà disponibles",
+    "identifie des repositories de coding agents autonomes",
+    "fais une recherche de projets pour orchestrer plusieurs agents",
+    "find open source agentic software projects",
+    "search GitHub repositories for multi-agent frameworks",
+    "discover existing coding agent tools",
+    "which repositories implement shared memory for agents",
+    "locate autonomous agent frameworks I can evaluate",
+    "find maintained projects for agent orchestration",
+    "compare existing open source agent platforms",
+    "research repositories that provide agent collaboration"
+  ],
+  "negative": [
+    "crée un nouveau projet d'agent dans ce dépôt",
+    "audite l'architecture de mon système multi-agent",
+    "corrige le bug dans notre orchestrateur",
+    "cherche la documentation officielle de Codex",
+    "fais une recherche web générale sur l'intelligence artificielle",
+    "write tests for this agent implementation",
+    "design a new multi-agent architecture",
+    "review this repository for security vulnerabilities"
+  ]
+}
+

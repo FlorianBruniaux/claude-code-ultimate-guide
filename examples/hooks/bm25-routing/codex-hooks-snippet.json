@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "env SKILL_ROUTER_HOST=codex SKILL_ROUTER_DATA_DIR=\"/absolute/path/to/.codex/skill-router-data\" node \"/absolute/path/to/.codex/hooks/skill-router/bm25-suggest.js\"",
+            "timeout": 2,
+            "additionalContextLimit": 300
+          }
+        ]
+      }
+    ]
+  }
+}

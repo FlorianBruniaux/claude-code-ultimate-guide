@@ -3,9 +3,10 @@
 /**
  * Okapi BM25 scoring engine.
  *
- * K1 = 1.2, B = 0.3 — tuned for short corpora (10-15 phrases per skill).
- * IDF is the BM25-plus variant: log(1 + (N - n + 0.5) / (n + 0.5))
- * computed over positive docs only, so negatives don't skew term weights.
+ * K1 = 1.2, B = 0.3, tuned for short corpora (10-15 phrases per skill).
+ * IDF uses the Robertson-Sparck Jones BM25 form with a positive floor:
+ * log(1 + (N - n + 0.5) / (n + 0.5)). Positive and contrastive negative
+ * documents share the same term space so negative-only terms can veto a match.
  *
  * Per-skill score in bm25-suggest.js = max over that skill's positive scenarios
  * (best single match wins, not a sum). This avoids biasing toward large corpora.
@@ -50,22 +51,29 @@ function scoreDoc(queryTokens, doc, idf, avgdl) {
 }
 
 function buildIndex(scenarios) {
-  const positives = scenarios.filter(s => s.polarity === 'pos');
-  const avgdl = positives.reduce((a, s) => a + s.tokens.length, 0) / (positives.length || 1);
-  const idf = computeIdf(positives);
+  const avgdl = scenarios.reduce((a, s) => a + s.tokens.length, 0) / (scenarios.length || 1);
+  const idf = computeIdf(scenarios);
   return { idf, avgdl, K1, B };
 }
 
 function scoreSkills(queryTokens, scenarios, index) {
   const bySkill = new Map();
+  const negativeBySkill = new Map();
   for (const s of scenarios) {
-    if (s.polarity !== 'pos') continue;
     const raw = scoreDoc(queryTokens, s, index.idf, index.avgdl);
+    if (s.polarity === 'neg') {
+      const currentNegative = negativeBySkill.get(s.skill) || 0;
+      if (raw > currentNegative) negativeBySkill.set(s.skill, raw);
+      continue;
+    }
+    if (s.polarity !== 'pos') continue;
     const cur = bySkill.get(s.skill) || 0;
     if (raw > cur) bySkill.set(s.skill, raw);
   }
   const out = [];
-  for (const [skill, score] of bySkill) out.push({ skill, score });
+  for (const [skill, score] of bySkill) {
+    out.push({ skill, score, negativeScore: negativeBySkill.get(skill) || 0 });
+  }
   out.sort((a, b) => b.score - a.score);
   return out;
 }

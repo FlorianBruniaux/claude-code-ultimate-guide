@@ -1,246 +1,224 @@
 ---
 title: "Smart-Suggest Routing: Regex + BM25 Skill Hints"
-description: "A two-engine UserPromptSubmit hook system that injects skill suggestions via pattern matching and self-calibrating BM25 lexical scoring"
+description: "A Codex and Claude Code UserPromptSubmit routing system using regex rules and calibrated Okapi BM25 skill hints"
 tags: [workflow, hooks, guide, reference]
 ---
 
 # Smart-Suggest Routing: Regex + BM25 Skill Hints
 
-A `UserPromptSubmit` hook that goes beyond pattern matching: BM25 lexical scoring scores every prompt against a curated skill corpus and injects ranked suggestions as `additionalContext`, so Claude proposes the right skill even when phrasing was never anticipated.
+`UserPromptSubmit` hooks can add advisory context before a model handles a prompt. Regex works for fixed enforcement rules. Okapi BM25 works for natural-language variations backed by a reviewed skill corpus.
 
----
+The runnable implementation in `examples/hooks/bm25-routing/` supports Claude Code and Codex. Its recommended Codex deployment is one global hook that resolves both project and user skills from each prompt's working directory.
 
-## Why this exists
+## Pick the right engine
 
-Regex hooks are fast and precise for anticipated patterns. They break on reformulations. "my Prisma throws connection refused" and "prisma connection error" should both suggest `/debug-db`, but a regex written for the second form silently ignores the first. Every new phrasing requires a new rule, and bilingual teams double the maintenance burden.
+| Situation | Regex | BM25 |
+|---|---:|---:|
+| Fixed command or policy phrase | Strong | Weak |
+| Enforcement before an action | Strong | Not appropriate |
+| Bilingual natural-language variations | Brittle | Strong with a corpus |
+| New skill with fewer than eight positives | Manual rule possible | Native matching only |
+| Broad intent with contrastive examples | Large rule set | Strong after evaluation |
 
-BM25 solves this differently. It scores prompts against positive scenario examples stored per skill, using term frequency and inverse document frequency to find lexical overlap without requiring exact phrasing. You write representative examples once; the engine generalizes.
+Regex and BM25 can both attach to `UserPromptSubmit`, but they solve different problems. A regex reminder can require a changelog check. A BM25 hint can identify a likely review or repository-discovery skill. Neither should auto-approve or auto-run a destructive action.
 
-The two hooks run in parallel and are additive, not competitive. Regex catches high-confidence enforcement cases. BM25 catches the long tail of natural-language variations.
+## Codex architecture
 
----
+Codex combines matching hooks from global and project configuration. Installing the same BM25 handler at both levels can therefore inject duplicate context. Use one global handler on a configured workstation:
 
-## Regex vs BM25: when each fires
-
-Both hooks fire on every prompt. The difference is what they're good at.
-
-| Situation | Regex wins | BM25 wins |
-|-----------|-----------|-----------|
-| Pattern is fixed and predictable | Yes | No |
-| Enforcement rule (must run before code) | Yes | No |
-| Natural-language variation, FR/EN mix | No | Yes |
-| Skill with 10+ documented phrasings | No | Yes |
-| New skill, corpus still small | No | Maybe (check `excluded`) |
-| Speed | ~1ms | ~20-50ms |
-
-Regex is the right tool when you want to intercept a specific intent reliably, such as "create a PR without mentioning the changelog fragment." BM25 is the right tool when you want broad coverage of a skill's semantic territory without maintaining an exhaustive list of patterns.
-
----
-
-## Architecture
-
-Both hooks attach to `UserPromptSubmit`. Claude Code delivers their outputs to context before the model processes the prompt. Neither blocks; both emit `additionalContext` through `hookSpecificOutput`.
-
-```
-User prompt
-     │
-     ├──► bm25-suggest.js (timeout 2s)
-     │      BM25 scores prompt vs all skills
-     │      Returns: "BM25 routing hint:\n- /skill (NN%)\n..."
-     │
-     └──► smart-suggest.sh (timeout 2s)
-            Regex matches against known patterns
-            Returns: enforcement reminder or skill suggestion
-                              │
-                    Both delivered as additionalContext
-                    Claude sees both hints, picks the relevant one
+```text
+prompt + cwd
+    |
+    v
+~/.codex/hooks/skill-router/bm25-suggest.js
+    |
+    +-- <cwd>/.agents/skills up to <git-root>/.agents/skills
+    +-- ~/.agents/skills
+    +-- ~/.codex/skills
+    +-- /etc/codex/skills when readable
+    +-- SKILL_ROUTER_EXTRA_ROOTS
+    +-- external corpus overlays
+    |
+    v
+user-owned cache keyed by repo, relative cwd, and resolved roots
+    |
+    v
+one bounded additionalContext, or silent output
 ```
 
-The BM25 hook runs first in the settings array (see [Wiring](#wiring-into-settingsjson)). When the index does not exist yet (first run, or detached rebuild still in progress), the hook passes through silently.
+The nearest project skill shadows a project-root or global skill with the same frontmatter `name`. This matters in monorepos where a nested `.agents/skills` directory can intentionally override a broader definition.
 
----
+Skills without a calibrated corpus are marked `native-only`. Codex can still select them from their description or the user can invoke them explicitly with `$skill-name`.
 
-## The corpus format
+## Claude Code architecture
 
-Each skill gets its own `evals/scenarios.json` file placed under your skills directory. The discovery walk finds all `evals/` folders recursively under `BM25_SKILLS_ROOT`:
+The same runtime can be installed in project mode with `SKILL_ROUTER_HOST=claude`. Discovery and calibration stay the same. Only the explicit hint syntax changes from Codex `$skill-name` to Claude Code `/skill-name`.
 
-```
-<BM25_SKILLS_ROOT>/
-  debug-db/
-    evals/
-      scenarios.json    ← one file per skill
-  code-review/
-    evals/
-      scenarios.json
-```
+Keep project-specific regex hooks such as `smart-suggest.sh` when they encode separate enforcement rules. Do not duplicate the BM25 handler itself across active Codex configuration layers.
 
-Each `scenarios.json` is a single JSON object:
+## Corpus format
+
+An adjacent corpus belongs at `<skill>/evals/scenarios.json`:
 
 ```json
 {
   "skill": "debug-db",
   "positive": [
-    "my Prisma throws connection refused",
-    "prisma connection error",
-    "database won't connect",
-    "connexion base de données échoue",
-    "DB connection pool exhausted",
-    "sequelize authenticate failed",
-    "TypeORM cannot connect",
-    "psql: could not connect to server",
-    "redis ECONNREFUSED",
-    "MongoDB MongoNetworkError"
+    "my Prisma client reports connection refused",
+    "connexion à la base de données impossible",
+    "the database pool is exhausted"
   ],
   "negative": [
-    "slow query performance",
-    "database schema migration",
-    "add index to table",
-    "export database backup"
+    "optimize this slow SQL query",
+    "add an index to the users table",
+    "export a database backup"
   ]
 }
 ```
 
-Guidelines for writing good corpus entries:
+The `skill` value must match an active `SKILL.md` name and `^[a-z0-9][a-z0-9:_-]{0,127}$`. At least eight positive and two negative prompts are required for calibration. In practice, use 12 or more varied positives and at least five close negatives.
 
-Write 10+ positives per skill. Fewer than 8 triggers `excluded` status during calibration. Vary phrasing, not just vocabulary: "database won't connect" and "cannot reach DB" cover different token patterns. Include both languages if your team is bilingual; BM25 treats FR and EN tokens equally.
+Negatives need shared vocabulary with the positives. Unrelated negatives make the task artificially easy and set an unsafe threshold. The runtime also scores contrastive negative examples and vetoes a candidate when its strongest negative match is at least as strong as its positive match.
 
-Write 3+ negatives: prompts that sound adjacent but should route elsewhere. "slow query" looks like a DB prompt but belongs to a performance skill, not a connection-error skill. Negatives are what separate overlapping skills, and calibration cannot find a threshold without them.
+Use an external overlay when a skill directory has a strict file contract. `SKILL_ROUTER_OVERLAY_ROOTS` points to one or more directories containing JSON corpus files. An overlay is ignored unless its `skill` currently resolves to an active skill.
 
----
+## Discovery and security boundaries
 
-## Building the index
+The router parses only `name` and `description` from the first 64 KiB of each `SKILL.md`. It rejects malformed names and scenario files that target inactive or mismatched skills.
 
-```bash
-node routing/build-index.js
-```
+Skill symlinks resolve to their real path. A target is accepted only when it stays inside a discovered or explicitly authorized skill root. The emitted hint includes that exact resolved `SKILL.md` path, which gives the model an auditable target.
 
-This discovers all `evals/scenarios.json` files under `BM25_SKILLS_ROOT`, runs leave-one-out cross-scoring for every skill, picks a threshold via F-beta optimization, and writes three files to `BM25_DATA_DIR` (defaults to `.claude/hooks/routing/data/`):
+Precedence is deterministic:
 
-- `index.json`: per-term IDF + per-skill posting lists
-- `thresholds.json`: per-skill calibrated tau (the score above which a suggestion fires)
-- `manifest.json`: SHA-256 fingerprint of inputs for cache invalidation
+1. nearest `.agents/skills` ancestor of `cwd`;
+2. repository-root `.agents/skills`;
+3. `~/.agents/skills`;
+4. `~/.codex/skills`;
+5. `/etc/codex/skills`;
+6. explicit extra roots.
 
-The output lists each skill with one of three statuses:
+## Index and calibration
 
-| Status | Meaning | Fix |
-|--------|---------|-----|
-| `ok` | Corpus is large enough, threshold found | None needed |
-| `excluded` | Fewer than 8 positives or fewer than 2 negatives | Add more examples |
-| `conflict` | F1 below 0.60 on leave-one-out scoring | Add contrastive negatives |
+The scorer uses Okapi BM25 with `K1 = 1.2` and `B = 0.3`. It does not implement BM25+, because there is no delta term. The IDF form is:
 
-A `conflict` status usually means your positive scenarios are lexically too similar to your negatives. The calibration found a threshold, but either too many negatives score above it or too many positives score below. Adding negatives that share surface features but differ in intent (e.g., "check database health" as a negative for a connection-error skill) gives the threshold somewhere to land.
-
-The cache mechanism skips the full rebuild when the SHA-256 fingerprint over input file paths and mtimes matches the stored manifest. A cache hit bumps `built_at` and exits immediately. This makes the hook fast after the first build.
-
----
-
-## The BM25 scoring
-
-The hook uses BM25-plus with K1 = 1.2 and B = 0.3. For each skill, the score is the **maximum** across that skill's positive scenarios rather than a sum. This is deliberate: the best single matching scenario is sufficient evidence for routing. Summing would bias toward large corpora, making well-documented skills appear more relevant simply because they have more examples.
-
-IDF is computed over positive scenarios only, using the formula:
-
-```
+```text
 IDF(t) = log(1 + (N - n + 0.5) / (n + 0.5))
 ```
 
-where N is the total number of positive scenarios across all skills, and n is the number that contain term t.
+Positive and contrastive negative documents share the same IDF term space. Per-skill positive and negative scores are each the maximum over that skill's matching examples. A maximum avoids favoring skills merely because their corpus has more prompts.
 
-The top 3 skills above their respective thresholds appear in the hint output. Confidence is displayed as a share of the top-N scores:
+Leave-one-out calibration selects a threshold that maximizes F-beta with beta squared equal to four. Status uses plain F1:
 
-```
-confidence = skill_score / sum(all_top_scores)
-```
+| Status | Meaning | Runtime behavior |
+|---|---|---|
+| `ok` | Calibration F1 is at least 0.60 and cross-skill evaluation passes | Eligible for BM25 |
+| `conflict` | A threshold exists but F1 is below 0.60 | Never suggested |
+| `excluded` | Fewer than eight positives or two negatives | Never suggested |
+| `native-only` | Active skill has no accepted corpus | Native matching only |
 
-If 2 or more skills are suggested, the output appends "Multiple candidates, pick the one matching intent." so Claude knows to exercise judgment rather than defaulting to the first entry.
+The original router filtered only `excluded`, which let `conflict` skills fire. The current runtime requires exactly `status: ok`, a finite threshold, cross-skill eligibility, an active resolved skill, and no stronger contrastive negative match. The combined eligible set must reach global F1 0.70. Lower-quality project corpora stay `native-only`; an overlay that passed its independent holdout remains protected while the project set is trimmed.
 
-For deeper background on BM25 theory and IR foundations, this guide covers it in `guide/core/memory-systems.md` and `guide/ecosystem/context-engineering-tools.md`.
+## Cache behavior
 
----
+Each resolved scope gets a separate cache key based on repository root, relative `cwd`, resolved skill roots, and algorithm version. This prevents two nested monorepo workspaces from sharing an incompatible index.
 
-## Auto-calibration
+The build fingerprint includes normalized paths, size, modification time, SHA-256 content hash, and algorithm version for every active `SKILL.md` and corpus. The prompt hot path checks a stat fingerprint over known source and watch paths, which detects ordinary additions, edits, and deletions without rereading hundreds of files. Every 60 seconds, a detached deep check recomputes content hashes. This also catches an unusual same-size edit whose modification time was restored manually.
 
-Threshold calibration uses F-beta with beta-squared = 4. That makes the metric recall-favoring: missing a correct skill suggestion costs four times more than a false positive. The intent is to suggest broadly and let Claude pick, rather than to suggest conservatively and miss relevant skills.
+One builder holds an `O_EXCL` lock with a 30-second TTL. Cache files are written to temporary files and renamed atomically. During a rebuild, the current prompt uses the last valid index. Without a valid index, the hook exits silently and schedules the build in the background.
 
-The calibration picks tau as the midpoint between observed score pairs that maximizes this F-beta. It then gates status on F1 (not F-beta): a skill is `conflict` if F1 < 0.60, meaning calibration found a threshold but it does not generalize well to the leave-one-out splits.
+No prompt-time file is written under the current repository. The global installer sets a user-owned data directory. Optional logs contain routing metadata only, never raw prompt text.
 
-At runtime, when the index file is missing or the fingerprint has changed, the hook spawns a detached `node routing/build-index.js` rebuild in the background (via `spawn().unref()`) and passes the current prompt through without suggestions. The next prompt runs against the freshly rebuilt index.
+## Output contract
 
----
-
-## Wiring into settings.json
-
-The correct shape nests each hook inside a `hooks` array inside an outer array element. BM25 comes before regex so its broader coverage runs first.
+The Codex adapter emits:
 
 ```json
 {
-  "hooks": {
-    "UserPromptSubmit": [
-      {
-        "hooks": [{
-          "type": "command",
-          "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/user-prompt-submit/bm25-suggest.js",
-          "timeout": 2
-        }]
-      },
-      {
-        "hooks": [{
-          "type": "command",
-          "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/user-prompt-submit/smart-suggest.sh",
-          "timeout": 2
-        }]
-      }
-    ]
+  "hookSpecificOutput": {
+    "hookEventName": "UserPromptSubmit",
+    "additionalContext": "Skill routing candidates:\n- $agentic-project-finder (/absolute/path/SKILL.md)\nUse only if the intent matches."
   }
 }
 ```
 
-Both hooks use `timeout: 2` (2 seconds). BM25 typically resolves in 20-50ms; the budget is generous to absorb cold Node.js startup on the first call.
+The Claude adapter uses `/agentic-project-finder`. The router emits at most three candidates and 500 characters. It does not display a confidence percentage because `score / sum(top scores)` is not a calibrated probability. Normal suggestions have no `systemMessage`.
 
-**Runtime requirements**: Node.js (no npm install, zero external dependencies, CommonJS via `"type": "commonjs"` in the hook's `package.json`). The regex hook (`smart-suggest.sh`) needs `jq`, `git`, and standard coreutils.
+Ordinary negation remains routable. For example, `analyse ce dépôt sans modifier les fichiers` can still select a review skill. Explicit opt-outs such as `ne suggère aucune skill` stop routing. An existing active `$skill` mention for Codex or `/skill` command for Claude also stops the router to avoid redundant advice.
 
----
+## Installation
 
-## Adapting to your project
-
-| File | What to customize |
-|------|------------------|
-| `<BM25_SKILLS_ROOT>/<skill>/evals/scenarios.json` | Add/remove skills, write positives and negatives |
-| `routing/build-index.js` | `MIN_POS`, `MIN_NEG` constants; K1, B live in `routing/bm25.js` |
-| `routing/paths.js` | `skillsRoot()` default; override via `BM25_SKILLS_ROOT` env |
-| `bm25-suggest.js` | `MAX_HINTS` (default: 3), output text format |
-| `smart-suggest.sh` | Regex patterns, enforcement tiers |
-
-After editing or adding corpus files, rebuild:
+Preview a global Codex installation:
 
 ```bash
-node routing/build-index.js
+cd examples/hooks/bm25-routing
+node install.js --host codex --scope user --dry-run
 ```
 
-Check the output for any `excluded` or `conflict` statuses before committing the updated index.
+The preview lists source, destination, checksum, and hook changes without writing. Apply only after review:
 
----
+```bash
+node install.js --host codex --scope user --apply
+```
 
-> [!NOTE]
-> **Production deployment**: In the MethodeAristote project, this system runs across 58 skills with 803 scenarios (610 positive, 193 negative). The calibrated thresholds cover skills ranging from narrow utility commands to broad semantic categories like "debugging" or "database work." At this scale, the detached rebuild takes under 3 seconds on an M-series Mac; hooks see the updated index on the following prompt.
+The installer preserves existing handlers, adds one `UserPromptSubmit` handler, and creates a timestamped backup. Repeating an identical installation is a no-op.
 
----
+Open `/hooks` in Codex after installation. Non-managed hooks require explicit review and trust. A file copy alone does not make the new handler active.
 
-## Common pitfalls
+For a standalone project installation on a machine without the global handler:
 
-**Negation tokens short-circuit the prompt.** Any negation token in the prompt (not, never, no, ne, pas, jamais, non, sans, dont) causes the entire prompt to pass through silently without suggestions. Negated phrases are genuinely ambiguous for routing, so this is intentional, not a bug. "Don't suggest anything" and "not a database error" both bail out.
+```bash
+node install.js \
+  --host codex \
+  --scope project \
+  --project-root /absolute/path/to/repo \
+  --dry-run
+```
 
-**`conflict` status means the corpus boundaries are too soft.** Your positive scenarios are lexically too similar to your negatives. The calibration cannot find a stable threshold. Add negatives that share surface vocabulary with your positives but represent genuinely different intents.
+The generated project hook still writes caches to a user directory. Do not activate project and global Codex BM25 handlers together.
 
-**`excluded` status means the corpus is too small.** The calibration requires at least 8 positives and 2 negatives per skill. A skill with 5 examples might work in practice, but it cannot be calibrated and is excluded from the index.
+## Evaluation
 
-**The hook passes through silently on first run.** If the index does not exist yet, no suggestions appear. This is expected. Run `node routing/build-index.js` once before wiring the hook.
+Training examples must not double as acceptance evidence. Keep a separate prompt set with expected and forbidden skills:
 
-**Do not confuse threshold and calibration metrics.** Tau is picked on F-beta (recall-favoring, beta^2=4), but `conflict` status is gated on F1. A skill can have a well-chosen tau and still be `conflict` if its F1 is poor.
+```json
+{
+  "prompt": "find repositories implementing shared agent memory",
+  "expected": ["agentic-project-finder"],
+  "forbidden": ["critique-plan"]
+}
+```
 
----
+Run the strict evaluator:
+
+```bash
+SKILL_ROUTER_CWD=/absolute/path/to/repo \
+node routing/eval.js \
+  --acceptance test/acceptance-prompts.json \
+  --strict
+```
+
+The included gate requires precision of at least 0.80, F1 of at least 0.70, and zero forbidden hits. Extend coverage one reviewed skill at a time. Do not generate production scenarios automatically from descriptions.
+
+## Failure modes to test
+
+- missing, truncated, or invalid cache returns silently;
+- project and global duplicate names resolve to the project path;
+- `conflict`, `excluded`, and inactive skill names never appear;
+- adding, editing, or deleting a corpus invalidates only the relevant scope;
+- two simultaneous rebuilds produce one writer;
+- optional logs contain no prompt text;
+- 30 or more positive, negative, and explicit-invocation prompts pass before deployment;
+- warm hook latency stays below 75 ms at p95 on the target machine.
+
+Use `routing/benchmark.js --iterations 1000 --cwd <repo>` for the warm-path latency gate. It measures cache loading, stat invalidation checks, tokenization, scoring, filtering, and output construction in one process, excluding one-time Node startup.
+
+The complete runnable tests use the built-in Node test runner:
+
+```bash
+node --test examples/hooks/bm25-routing/test/*.test.js
+```
 
 ## Related workflows
 
-- [Changelog Fragments](./changelog-fragments.md): the regex-only sibling, documenting the `smart-suggest.sh` enforcement patterns and the `UserPromptSubmit` 3-tier hook architecture
-- Runnable example with full corpus scaffolding: `examples/hooks/bm25-routing/`
+- [Changelog Fragments](./changelog-fragments.md): regex enforcement patterns for `UserPromptSubmit`
+- Runnable implementation: `examples/hooks/bm25-routing/`

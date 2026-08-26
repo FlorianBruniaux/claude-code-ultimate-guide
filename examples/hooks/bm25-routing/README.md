@@ -1,164 +1,180 @@
-# BM25 Routing Hook
+# BM25 Skill Router for Codex and Claude Code
 
-A `UserPromptSubmit` hook that scores every prompt against a skill corpus using Okapi BM25 and injects routing hints via `additionalContext`. When a match clears its calibrated threshold, Claude sees `BM25 routing hint: - /skill-name (NN%)` in its context and can proactively invoke the right skill.
+This `UserPromptSubmit` hook ranks active skills against curated examples with Okapi BM25. It supports one global Codex installation that discovers both project and user skills from the prompt's `cwd`.
 
-Zero npm dependencies. Requires Node.js and nothing else.
+The hook is advisory. It emits `additionalContext` only. It never invokes a skill or approves an action.
 
-## How it works
+## What changed from the first example
 
-Each skill you want to suggest gets a `scenarios.json` file with positive examples (prompts that should trigger the skill) and negative examples (prompts that look similar but shouldn't). The `build-index.js` script tokenizes all corpora, builds a BM25 index, and auto-calibrates a per-skill confidence threshold using leave-one-out cross-validation.
+The original implementation was project-only and Claude-specific. It also routed `conflict` corpora, treated any negation as an opt-out, displayed a score share as a confidence percentage, and missed some cache invalidations.
 
-At runtime, `bm25-suggest.js` reads the user's prompt from stdin, tokenizes it, scores it against the index, and returns the top-3 skills that clear their threshold. The confidence percentage is each skill's share of the combined top scores, not an absolute probability. If no skill clears its threshold, the hook exits silently.
+This version:
 
-The hook self-heals: if corpus files change after the index was built, a detached background process rebuilds the index while the current prompt passes through unblocked.
+- discovers `.agents/skills` from `cwd` to the Git root;
+- then discovers `~/.agents/skills`, `~/.codex/skills`, `/etc/codex/skills`, and `SKILL_ROUTER_EXTRA_ROOTS`;
+- lets the nearest project skill shadow a global skill with the same `name`;
+- routes only calibrated `status: ok` corpora for active skills;
+- stores every cache and optional log outside repositories;
+- detects additions, edits, and deletions with an algorithm-versioned SHA-256 fingerprint;
+- serializes rebuilds with an expiring lock and writes cache files atomically;
+- emits `$skill-name` for Codex and `/skill-name` for Claude Code;
+- never logs the raw prompt.
 
-## Prerequisites
+Skills without a valid corpus remain available through native Codex skill matching. The manifest labels them `native-only`.
 
-Node.js (v16+). No `npm install` needed. All modules use Node builtins (`fs`, `path`, `crypto`, `child_process`).
+## Requirements
 
-The regex hook `smart-suggest.sh` additionally needs `jq` and standard coreutils, but BM25 routing has no shell dependencies.
+- Node.js 18 or newer
+- no npm dependencies
+- a Codex or Claude Code `UserPromptSubmit` hook
 
-## Setup
+## Recommended Codex installation
 
-Copy this directory into your project. A natural home is `.claude/hooks/bm25-routing/` if you follow the Claude Code convention, or anywhere you prefer.
-
-Tell the system where your skills live and where to write the index:
-
-```bash
-export BM25_SKILLS_ROOT=/your-project/.claude/skills   # where evals/scenarios.json files live
-export BM25_DATA_DIR=/your-project/.claude/hooks/bm25-routing/routing/data
-```
-
-You can also set these permanently in your shell profile, or rely on the defaults (see `routing/paths.js` for the fallback logic).
-
-## Build the index
-
-After adding or editing corpus files, build the index:
+Preview every destination, checksum, and hook change:
 
 ```bash
-node routing/build-index.js
+node install.js --host codex --scope user --dry-run
 ```
 
-This writes three files to `BM25_DATA_DIR`:
-
-- `index.json` — tokenized scenarios, BM25 IDF weights, average document length
-- `thresholds.json` — per-skill calibrated threshold (tau), F1, precision, recall, and status
-- `manifest.json` — build metadata and cache key
-
-On subsequent runs, if corpus file contents and mtimes are unchanged, the build is skipped and only `built_at` is updated.
-
-The `--dry-run` flag reports what would be built without writing any files:
+Install after reviewing the preview:
 
 ```bash
-BM25_SKILLS_ROOT=./skills-corpus BM25_DATA_DIR=/tmp/bm25-test \
-  node routing/build-index.js --dry-run
+node install.js --host codex --scope user --apply
 ```
 
-Check the output for `conflict` and `excluded` skills. See the [Threshold statuses](#threshold-statuses) section below.
+The installer copies the runtime to `~/.codex/hooks/skill-router/`, stores caches separately in `~/.codex/skill-router-data/`, preserves existing handlers in `~/.codex/hooks.json`, and creates a timestamped backup before replacing anything. A second identical installation makes no changes. Keeping cache data outside the runtime directory also preserves it across router upgrades.
 
-## Wire into settings.json
+Codex requires non-managed hooks to be reviewed and trusted. Open `/hooks`, inspect the installed command and approve its hash. Until that human step is complete, the files can exist while the hook remains inactive.
 
-Add both hooks to your `UserPromptSubmit` array. BM25 should run before the regex hook so its hints appear first in the context:
+Do not also install a project BM25 hook on the same machine. Codex combines matching global and project hooks, so two handlers can inject duplicate context. The global hook already discovers project skills.
+
+## Project-only installation
+
+For a machine without the global router:
+
+```bash
+node install.js \
+  --host codex \
+  --scope project \
+  --project-root /absolute/path/to/repo \
+  --dry-run
+```
+
+Replace `--dry-run` with `--apply` after review. The runtime is installed under `<repo>/.codex/hooks/skill-router/` and uses the same discovery and cache logic. The generated hook sets `SKILL_ROUTER_DATA_DIR` to `~/.codex/skill-router-data`, so prompts never write cache files into the repository.
+
+Claude Code project mode uses `--host claude --scope project`. The hint syntax changes to `/skill-name`. Do not activate both a global Codex router and a project Codex router.
+
+## Corpus format
+
+An adjacent corpus lives at `<skill>/evals/scenarios.json`:
 
 ```json
 {
-  "hooks": {
-    "UserPromptSubmit": [
-      {
-        "hooks": [{
-          "type": "command",
-          "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/bm25-routing/bm25-suggest.js",
-          "timeout": 2
-        }]
-      },
-      {
-        "hooks": [{
-          "type": "command",
-          "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/user-prompt-submit/smart-suggest.sh",
-          "timeout": 2
-        }]
-      }
-    ]
-  }
-}
-```
-
-Make the entry point executable: `chmod +x .claude/hooks/bm25-routing/bm25-suggest.js`
-
-The `timeout: 2` value is intentional. The hook is non-blocking: it always exits 0 and never delays the prompt even if the index is unavailable.
-
-## Write your corpus
-
-Create a `scenarios.json` file for each skill you want to suggest:
-
-```json
-{
-  "skill": "my-skill-name",
+  "skill": "my-skill",
   "positive": [
     "run the linter on this file",
-    "check code style",
-    "lint errors in my component",
-    "formatting issues in src/",
-    "style violations found by ESLint"
+    "check code style"
   ],
   "negative": [
-    "review this PR for security issues",
-    "fix the failing tests",
-    "deploy to production"
+    "review this PR for security",
+    "deploy the application"
   ]
 }
 ```
 
-The `skill` field must match the slash command or skill ID you want Claude to suggest (it appears as `/<skill>` in the hint). Aim for 10-15 positives and 3-5 negatives. More is better; the calibrator needs enough variance to find a reliable threshold.
+The `skill` value must equal the active `name` in `SKILL.md` and match `^[a-z0-9][a-z0-9:_-]{0,127}$`. Calibration requires at least eight positive and two contrastive negative examples.
 
-Write positives that cover realistic phrasings of the same intent: direct ("lint this"), roundabout ("check if my code follows the style guide"), error-report style ("ESLint is complaining about unused variables"), and task-description style ("I want to enforce formatting"). Mix languages if your team works in multiple.
+Use `SKILL_ROUTER_OVERLAY_ROOTS` for a skill whose directory cannot contain `evals/`. The bundled `agentic-project-finder` corpus demonstrates this. An overlay is accepted only when its skill is active in one of the resolved roots.
 
-Negatives should be superficially related but clearly routing to a different skill. If your negatives are unrelated ("write a poem"), the calibrator will set the threshold too low and the skill will over-trigger.
+## Build and inspect
 
-Place corpus files at `<BM25_SKILLS_ROOT>/<skill-name>/evals/scenarios.json`. The discovery walk handles arbitrary nesting up to depth 8.
+Build the cache for a specific working directory:
 
-## Threshold statuses
+```bash
+SKILL_ROUTER_CWD=/absolute/path/to/repo \
+node routing/build-index.js
+```
 
-After building the index, `thresholds.json` reports a status for each skill:
+Inspect without writing:
 
-`ok` means F1 >= 0.60 on cross-validation. The skill will suggest when its threshold is cleared.
+```bash
+SKILL_ROUTER_CWD=/absolute/path/to/repo \
+node routing/build-index.js --dry-run
+```
 
-`conflict` means the calibrator found a threshold but F1 was below 0.60. The skill won't suggest. Fix: add more contrastive negatives, or rephrase positives that are lexically similar to your negatives.
+Generated files per scope:
 
-`excluded` means the corpus is too small (fewer than 8 positives or fewer than 2 negatives). The skill won't suggest until you add more examples.
+- `index.json`: tokenized positive and contrastive negative scenarios;
+- `thresholds.json`: calibrated thresholds and `ok`, `conflict`, or `excluded` status;
+- `manifest.json`: resolved roots, active skills, paths, coverage, exclusions, and source fingerprint;
+- `coverage.json`: `covered`, cross-skill `eligible`, and `native-only` skills;
+- `metrics.json`: initial and gated leave-one-out quality, removals, and global F1;
+- `verified.json`: timestamp of the last deep source verification.
 
-## Calibration details
+Only `ok` skills that also pass cross-skill evaluation can appear in a BM25 hint. If the eligible set remains below global F1 0.70, the lowest-quality project corpus stays `native-only`. Acceptance-validated overlay skills are retained while noisy project corpora are removed. `conflict`, `excluded`, malformed, inactive, and `native-only` skills remain silent.
 
-The threshold for each skill is chosen to maximize F-beta with beta-squared=4, which weights recall 4x more than precision. The system prefers to over-suggest and occasionally miss rather than stay silent when a skill is relevant. Status classification then gates on F1 >= 0.60 (plain F1, not fbeta2) to ensure the suggestion is meaningful.
+## Evaluation
 
-Cache key is a SHA-256 hash of corpus file paths and their modification times. The rebuild is fully atomic: each output file is written to `.tmp.<pid>` and renamed, so a concurrent read never sees a partial file.
+The acceptance file is independent from the training corpus:
 
-## What the hook outputs
+```bash
+SKILL_ROUTER_CWD=/absolute/path/to/repo \
+node routing/eval.js \
+  --acceptance test/acceptance-prompts.json \
+  --strict
+```
 
-When a skill clears its threshold, the hook writes to stdout:
+Strict mode requires precision of at least 0.80, F1 of at least 0.70, and zero forbidden matches. The report also includes p50, p95, and maximum in-process scoring latency.
+
+Run all tests:
+
+```bash
+node --test test/*.test.js
+```
+
+Measure 1,000 warm routing decisions on the target scope:
+
+```bash
+SKILL_ROUTER_HOST=codex \
+SKILL_ROUTER_DATA_DIR="$HOME/.codex/skill-router-data" \
+node routing/benchmark.js --iterations 1000 --cwd /absolute/path/to/repo
+```
+
+## Runtime contract
+
+Every hook command must set `SKILL_ROUTER_HOST=codex` or `SKILL_ROUTER_HOST=claude`. The runtime does not infer the host from unstable payload fields.
+
+Example Codex output:
 
 ```json
 {
   "hookSpecificOutput": {
     "hookEventName": "UserPromptSubmit",
-    "additionalContext": "BM25 routing hint:\n- /debug-tool (72%)\n- /code-review (28%)\nMultiple candidates, pick the one matching intent."
+    "additionalContext": "Skill routing candidates:\n- $agentic-project-finder (/absolute/path/SKILL.md)\nUse only if the intent matches."
   }
 }
 ```
 
-Claude Code delivers this to Claude's context. Claude sees the hint alongside the user's prompt and can proactively invoke the suggested skill without the user having to know its name.
+The output has at most three candidates and 500 characters. A normal match has no `systemMessage` and no fake confidence percentage.
 
-## Adapting to your project
+Ordinary negation does not disable routing. Explicit opt-outs such as `ne suggère aucune skill` and `disable skill routing` do. A prompt that already contains an active `$skill` mention for Codex or `/skill` command for Claude Code also passes through silently.
 
-| File | What to customize |
-|------|------------------|
-| `routing/paths.js` | `skillsRoot()` default path; use `BM25_SKILLS_ROOT` env to override without editing |
-| `routing/build-index.js` | `MIN_POS` and `MIN_NEG` constants if your corpus is larger or smaller |
-| `routing/tokenize.js` | `STOP_WORDS` and `NEGATION_TOKENS` sets for language-specific needs |
-| `routing/bm25.js` | `K1` and `B` constants (1.2 / 0.3 tuned for short 10-15 phrase corpora) |
-| `bm25-suggest.js` | `MAX_HINTS` (default 3); the output text format |
+## Configuration
 
-## Related
+| Variable | Purpose |
+|---|---|
+| `SKILL_ROUTER_HOST` | Required adapter: `codex` or `claude` |
+| `SKILL_ROUTER_CWD` | Build target working directory |
+| `SKILL_ROUTER_HOME` | Home override for tests or isolated installations |
+| `SKILL_ROUTER_DATA_DIR` | Cache and optional log root |
+| `SKILL_ROUTER_EXTRA_ROOTS` | Additional authorized skill roots, separated by the OS path delimiter |
+| `SKILL_ROUTER_OVERLAY_ROOTS` | External corpus roots, separated by the OS path delimiter |
+| `SKILL_ROUTER_LOG=1` | Enable metadata-only routing logs |
+| `SKILL_ROUTER_DEEP_CHECK_MS` | Interval for a detached content-hash verification, default 60000 ms |
 
-- `examples/hooks/bash/smart-suggest.sh` — the regex-based sibling hook (3-tier priority, max 1 suggestion per prompt)
-- `guide/workflows/smart-suggest-routing.md` — full documentation covering both engines, calibration, and the decision framework for when to use each
+## Rollback
+
+1. Remove only the handler whose command contains `skill-router/bm25-suggest.js` from the relevant hooks file.
+2. Restore the timestamped backup printed by the installer.
+3. Open `/hooks` in Codex and verify that no modified untrusted hook remains active.
+4. Keep the cache temporarily for diagnosis. It contains scenarios and metadata, not user prompts.

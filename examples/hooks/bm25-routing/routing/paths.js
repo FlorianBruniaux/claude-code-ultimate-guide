@@ -1,61 +1,41 @@
 'use strict';
 
-/**
- * Path resolution for BM25 routing.
- *
- * Customize via environment variables:
- *   BM25_SKILLS_ROOT  — directory containing skill subdirectories with evals/scenarios.json
- *                       Default: <project>/.claude/skills
- *                       Example: /my-project/skills or /my-project/.agents/skills
- *
- *   BM25_DATA_DIR     — where index.json, thresholds.json, manifest.json are written
- *                       Default: <projectRoot>/.claude/hooks/routing/data
- *
- *   CLAUDE_PROJECT_DIR — project root (set automatically by Claude Code)
- *                        Falls back to 4 levels above this file's location
- */
+const os = require('node:os');
+const path = require('node:path');
+const { discoverRoots, findRepoRoot, splitRoots } = require('./discovery');
+const { computeScopeKey } = require('./cache');
 
-const fs = require('fs');
-const path = require('path');
-
-function projectRoot() {
-  if (process.env.CLAUDE_PROJECT_DIR) return process.env.CLAUDE_PROJECT_DIR;
-  // When installed at <project>/.claude/hooks/bm25-routing/routing/paths.js, 4 levels up = project root.
-  // Adjust if you install the routing/ module at a different depth.
-  return path.resolve(__dirname, '..', '..', '..', '..');
+function homeDir() {
+  return path.resolve(process.env.SKILL_ROUTER_HOME || os.homedir());
 }
 
-function skillsRoot() {
-  if (process.env.BM25_SKILLS_ROOT) return process.env.BM25_SKILLS_ROOT;
-  // Default: .claude/skills — a common convention for project-local skills.
-  // Change this to match wherever your skills/agents live (e.g. .agents/skills).
-  return path.join(projectRoot(), '.claude', 'skills');
+function dataRoot() {
+  return path.resolve(process.env.SKILL_ROUTER_DATA_DIR || process.env.BM25_DATA_DIR || path.join(__dirname, 'data'));
 }
 
-function dataDir() {
-  if (process.env.BM25_DATA_DIR) return process.env.BM25_DATA_DIR;
-  return path.join(projectRoot(), '.claude', 'hooks', 'routing', 'data');
+function overlayRoots() {
+  const configured = splitRoots(process.env.SKILL_ROUTER_OVERLAY_ROOTS);
+  return configured.length ? configured.map((root) => path.resolve(root)) : [path.join(__dirname, '..', 'corpus')];
 }
 
-function findScenariosFiles(root) {
-  const files = [];
-  function walk(dir, depth) {
-    if (depth > 8) return;
-    let entries;
-    try { entries = fs.readdirSync(dir, { withFileTypes: true }); } catch { return; }
-    for (const e of entries) {
-      if (!e.isDirectory()) continue;
-      const sub = path.join(dir, e.name);
-      if (e.name === 'evals') {
-        const sf = path.join(sub, 'scenarios.json');
-        if (fs.existsSync(sf)) files.push(sf);
-      } else {
-        walk(sub, depth + 1);
-      }
-    }
-  }
-  walk(root || skillsRoot(), 0);
-  return files;
+function extraRoots() {
+  const roots = splitRoots(process.env.SKILL_ROUTER_EXTRA_ROOTS);
+  if (process.env.BM25_SKILLS_ROOT) roots.push(process.env.BM25_SKILLS_ROOT);
+  return [...new Set(roots.map((root) => path.resolve(root)))];
 }
 
-module.exports = { projectRoot, skillsRoot, dataDir, findScenariosFiles };
+function resolveContext(cwd) {
+  const resolvedCwd = path.resolve(cwd || process.env.SKILL_ROUTER_CWD || process.cwd());
+  const roots = discoverRoots({ cwd: resolvedCwd, home: homeDir(), extraRoots: extraRoots() });
+  const repoRoot = findRepoRoot(resolvedCwd);
+  const scopeKey = computeScopeKey({ cwd: resolvedCwd, repoRoot, roots: roots.map((root) => root.path) });
+  return {
+    cwd: resolvedCwd,
+    repoRoot,
+    roots,
+    scopeKey,
+    cacheDir: path.join(dataRoot(), 'scopes', scopeKey),
+  };
+}
+
+module.exports = { dataRoot, extraRoots, homeDir, overlayRoots, resolveContext };
