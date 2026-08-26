@@ -57,6 +57,17 @@ The spec becomes the source of truth that:
 - Documents decisions for the team
 - Enables verification of completeness
 
+For larger initiatives, a single spec file can be split further upstream. Anthropic's [AI-native SDLC playbook](https://claude.com/blog/the-ai-native-sdlc-playbook) (2026) names a three-document chain, each gated by a different reviewer before the next document gets written:
+
+```
+intent.md → spec.md → plan.md
+   │            │          │
+ PM gate    Tech gate   Approval before
+(the "why")  (the "what")  code generation (the "how")
+```
+
+`intent.md` states the problem in plain language before any technical framing exists (see "With intent.md" below). `spec.md` is the technical spec this guide already covers in the rest of this section. `plan.md` is the file-by-file implementation plan (ordering, risk, evidence) approved before Claude writes code, distinct from the spec itself.
+
 ---
 
 ## Task Granularity: Sizing Work for Agents
@@ -297,6 +308,34 @@ Then implement the rate limiting.
 ---
 
 ## Integration with Tools
+
+### With intent.md (Upstream Problem Statement)
+
+Anthropic's [AI-native SDLC playbook](https://claude.com/blog/the-ai-native-sdlc-playbook) (2026) puts one document ahead of the spec: `intent.md` states the problem in natural language, written and gated by the person who owns the problem (usually a PM), before any technical framing exists. Claude only starts drafting `spec.md` once `intent.md` is approved.
+
+```markdown
+# Intent: Reduce checkout abandonment on mobile
+
+## Author
+Jane Doe, Product (jane@company.com)
+
+## Problem
+32% of mobile checkouts are abandoned at the payment step, versus 11% on desktop.
+Support tickets point to the card form timing out on slow connections.
+
+## Constraints
+- Must not change the payment provider (Stripe, contractual)
+- Must ship before the Q3 promo (2026-09-01)
+
+## Open questions
+- Retry silently, or show a "reconnecting" state?
+- Is Apple Pay / Google Pay in scope?
+
+## Gate
+Approved by: [PM name], [date]
+```
+
+The gate is deliberately informal: a PM signs off on the problem statement, not on any implementation detail. Once approved, `spec.md` inherits the constraints and open questions as its starting boundary. `plan.md`, the third document in the chain, is the file-by-file implementation plan (Spec Kit's `/speckit.plan` output, or a standalone file when not using Spec Kit) with its own gate: a technical reviewer approves it before Claude writes any code.
 
 ### With Spec Kit (Greenfield)
 

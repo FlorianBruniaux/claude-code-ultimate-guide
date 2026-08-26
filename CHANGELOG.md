@@ -72,6 +72,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - **Guide export script now supports Quarto's bundled Typst on Linux** (`scripts/generate-guide-exports.sh`, `docs/workflows/whitepaper-build.md`): added the supported `quarto typst` CLI as a portable fallback between a standalone Typst install and Quarto's legacy macOS-only bundle path. Pandoc/Typst diagnostics are no longer discarded; each run uses an isolated, automatically cleaned build directory; and all requested outputs are staged and verified before replacing existing exports.
 
+## [3.42.0] - 2026-08-26
+
+### Added
+
+- **`intent.md` upstream document and closed `Maintain → Plan` loop, sourced from Anthropic's "AI-Native SDLC Playbook"** (`guide/workflows/spec-first.md`, `guide/diagrams/06-development-workflows.md`, `machine-readable/reference.yaml`, `docs/resource-evaluations/2026-08-26-anthropic-ai-native-sdlc-playbook.md`): evaluated the Anthropic blog post (score 3/5, most content already covered by the existing spec-first/BMAD-METHOD/hooks documentation) and integrated the two genuine gaps found. `spec-first.md` now documents the 3-document chain `intent.md → spec.md → plan.md`, each gated by a different reviewer, with a full `intent.md` example (author, problem, constraints, open questions, PM gate) in a new "With intent.md (Upstream Problem Statement)" subsection. The "Spec-First Development Pipeline" Mermaid diagram now opens with an `intent.md`/PM-approval step and closes the loop with a `Maintain` stage that drafts a new `intent.md` automatically when a production monitoring threshold is crossed.
+
 ## [3.41.3] - 2026-08-20
 
 ### Added

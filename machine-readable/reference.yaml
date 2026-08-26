@@ -3,7 +3,7 @@
 # Source: guide/ultimate-guide.md
 # Purpose: Condensed index for LLMs to quickly answer user questions about Claude Code
 
-version: "3.41.3"
+version: "3.42.0"
 updated: "2026-07-28"
 
 # ════════════════════════════════════════════════════════════════
@@ -1064,6 +1064,11 @@ deep_dive:
   liza_framework_governance: "Go supervisors enforce state/merge/TDD gates + adversarial doer/reviewer pairs + YAML blackboard audit trail + circuit breaker (explicit stop-the-line) + 55+ failure-mode behavioral contract"
   liza_framework_evaluation: "docs/resource-evaluations/liza-mas-framework.md"
   liza_satellite_tools_rejected: "docs/resource-evaluations/liza-mas-token-saving-cli-tools.md (scip-search/mdtoc/functional-clusters/stacklit-cli rejected 2026-06-10; framework itself is a separate, higher-scored object)"
+  # Anthropic AI-native SDLC playbook: intent.md upstream document + closed Maintain-to-Plan loop (added 2026-08-26)
+  ai_native_sdlc_playbook_source: "https://claude.com/blog/the-ai-native-sdlc-playbook"
+  ai_native_sdlc_playbook_evaluation: "docs/resource-evaluations/2026-08-26-anthropic-ai-native-sdlc-playbook.md"
+  intent_md_pattern: "guide/workflows/spec-first.md#with-intentmd-upstream-problem-statement"  # intent.md -> spec.md -> plan.md, 3-document chain with separate human gates
+  intent_md_diagram: "guide/diagrams/06-development-workflows.md#spec-first-development-pipeline"  # updated with intent.md upstream node + Maintain-to-Plan closed loop
   # Agentic Software Factories orientation page (added 2026-07-15)
   agentic_software_factories_hub: "guide/workflows/agentic-software-factories.md"  # single entry point: spectrum, decision tree, file map, governance checklist, velocity-trap case study
   agentic_software_factories_spectrum: "guide/workflows/agentic-software-factories.md#1-the-spectrum-six-levels-six-costs"  # 6 levels: single session -> /batch -> Agent Teams -> dynamic-workflows -> plan-pipeline -> third-party orchestrator -> closed factory
@@ -3606,6 +3611,7 @@ section_maps:
     - "task-granularity-sizing-work-for-agents"
     - "claudemd-spec-templates"
     - "integration-with-tools"
+    - "with-intentmd-upstream-problem-statement"
     - "when-to-use"
     - "anti-patterns"
     - "modular-spec-design"
