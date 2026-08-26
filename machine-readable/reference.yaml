@@ -1491,8 +1491,9 @@ deep_dive:
   # Local vs Cloud LLM Inference Economics (guide/ecosystem/local-vs-cloud-inference.md) - Added 2026-08-25
   local_vs_cloud_guide: "guide/ecosystem/local-vs-cloud-inference.md"
   local_vs_cloud_llmfit: "guide/ecosystem/local-vs-cloud-inference.md#sizing-local-hardware-with-llmfit"  # llmfit CLI, --memory vs --ram, backend-lock caveat
-  local_vs_cloud_hardware_configs: "guide/ecosystem/local-vs-cloud-inference.md#ten-comparable-hardware-configurations"  # 10 complete systems, sorted by price
+  local_vs_cloud_hardware_configs: "guide/ecosystem/local-vs-cloud-inference.md#thirteen-comparable-hardware-configurations"  # 13 complete systems, sorted by price, incl. Mac mini M6/M5 Pro and RTX 5060 Ti 16GB entry tier
   local_vs_cloud_named_models: "guide/ecosystem/local-vs-cloud-inference.md#what-actually-fits-named-models"  # Llama/Qwen/Mixtral/DeepSeek fit by memory budget
+  local_vs_cloud_which_machine: "guide/ecosystem/local-vs-cloud-inference.md#which-local-machine-for-which-usage"  # usage-to-hardware table + Mermaid decision tree
   local_vs_cloud_gpu_rental: "guide/ecosystem/local-vs-cloud-inference.md#cloud-gpu-rental-pricing"  # OVH, AWS, Lambda, RunPod hourly rates
   local_vs_cloud_tco: "guide/ecosystem/local-vs-cloud-inference.md#one-year-cost-projections"  # 4h/8h/24-7 usage vs local purchase price
   local_vs_cloud_power: "guide/ecosystem/local-vs-cloud-inference.md#power-consumption-watts-watt-hours-joules-per-token"  # TDP specs, measured wattage, ML.Energy J/token, Neuralwatt Wh/req, TokenPowerBench
@@ -2970,8 +2971,9 @@ section_maps:
   "guide/ecosystem/local-vs-cloud-inference.md":
     - "data-snapshot-date"
     - "sizing-local-hardware-with-llmfit"
-    - "ten-comparable-hardware-configurations"
+    - "thirteen-comparable-hardware-configurations"
     - "what-actually-fits-named-models"
+    - "which-local-machine-for-which-usage"
     - "cloud-gpu-rental-pricing"
     - "one-year-cost-projections"
     - "power-consumption-watts-watt-hours-joules-per-token"
