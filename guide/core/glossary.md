@@ -87,6 +87,14 @@ Visible step-by-step reasoning the model performs before responding. You can cap
 
 ## H
 
+### Agent harness
+
+The runtime around a model that executes an agent loop: it assembles context, exposes tools, applies permissions, preserves or restores state, and feeds tool results back to the model. Claude Code is a runtime harness; Claude is the model it runs. Do not confuse it with the repository harness, which is the project-specific layer of instructions, setup, state, and verification gates. See [Agent Harness Engineering](./agent-harness.md) and [§9.25 Repository Harness Engineering](../ultimate-guide.md#925-harness-engineering).
+
+### Evaluation harness
+
+A repeatable setup that runs an agent or model against defined tasks and records outcomes, costs, traces, or scores. An evaluation harness measures a system; it does not need to own the system's interactive tool loop or act on a repository. SWE-bench tooling is an evaluation harness, while SWE-agent is a coding runtime that can be evaluated with one. See [Agent Evaluation](../roles/agent-evaluation.md).
+
 ### Hook
 
 A user-defined handler that executes automatically at a specific point in Claude Code's lifecycle, such as before a tool runs, after a file edit, or at session start. A hook configuration has three levels: the hook event (which lifecycle point), the matcher (which events fire it), and the hook handler (what runs). Handlers can be a shell command, HTTP endpoint, MCP tool, LLM prompt, or subagent. Hooks are deterministic: they fire at fixed lifecycle points, not at the model's discretion. See [§7 Hooks](../ultimate-guide.md#7-hooks).

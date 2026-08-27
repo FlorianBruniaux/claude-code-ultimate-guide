@@ -26,12 +26,15 @@ Martin Fowler, Addy Osmani, O'Reilly's 2026 AI Radar, and arXiv 2605.18747 (May 
 
 As of May 2026, 57% of organizations have agents running in production, and 32% cite quality as their primary obstacle (LangChain State of Agent Engineering). The teams that have closed this gap have one thing in common: they engineered the harness, not just the prompt.
 
-This page covers what's inside a harness. For a comparison of specific harness products across CLI, IDE, and cloud, see [Agent Harness Comparison](../ecosystem/agent-harness-landscape.md).
+This page uses **agent harness** in its runtime sense: the system that owns the agent loop, tools, context, state, and permissions. A repository can also provide a **repository harness** around that runtime: its instructions, setup, task state, and verification gates. The distinction matters because a project can improve its repository harness without replacing Claude Code, and a team can switch runtime harnesses without discarding every project practice.
+
+This page covers what is inside the runtime. For the repository layer, see [Repository Harness Engineering](../ultimate-guide.md#925-harness-engineering). For a dated comparison of specific products across CLI, IDE, and cloud, see [Agent Harness Comparison](../ecosystem/agent-harness-landscape.md).
 
 ---
 
 ## Table of Contents
 
+0. [Four Layers, Four Responsibilities](#0-four-layers-four-responsibilities)
 1. [Three Foundational Properties](#1-three-foundational-properties)
 2. [The Nine Components](#2-the-nine-components)
 3. [The Lethal Trifecta: Security Model](#3-the-lethal-trifecta-security-model)
@@ -41,6 +44,21 @@ This page covers what's inside a harness. For a comparison of specific harness p
 7. [Test Distribution Anti-pattern](#7-test-distribution-anti-pattern)
 8. [Creator-Verifier Pattern](#8-creator-verifier-pattern)
 9. [Reference Architecture](#9-reference-architecture)
+
+---
+
+## 0. Four Layers, Four Responsibilities
+
+The word *harness* is overloaded. This guide uses four layers so a model, a runtime, a repository setup, and a fleet manager are not treated as interchangeable products.
+
+| Layer | Responsibility | Examples | What it does not replace |
+|-------|----------------|----------|--------------------------|
+| **Model** | Generates and reasons over tokens | Claude, GPT, Gemini, DeepSeek, Qwen | Tools, policy, durable state, or execution |
+| **Runtime harness** | Runs the agent loop and mediates tool use, context, permissions, and recovery | Claude Code, Codex, Gemini CLI, DeepSeek Harness, OpenCode | Project-specific instructions and delivery gates |
+| **Repository harness** | Makes one codebase legible and verifiable to a runtime | `CLAUDE.md`/`AGENTS.md`, `init.sh`, lockfiles, task state, tests | The runtime's model routing, tool loop, or sandbox |
+| **Orchestrator** | Coordinates multiple runs, workspaces, or harnesses | Symphony, Vibe Kanban, AgentBox, Proliferate | The underlying runtime agent loop |
+
+The boundary is practical. If a product can only schedule or inspect Claude Code and Codex sessions, it is an orchestrator. If it supplies an iterative model-and-tools loop itself, it is a runtime harness. If it is committed with the repository and tells any compatible runtime how to work safely, it is a repository harness.
 
 ---
 

@@ -219,7 +219,7 @@ If you only have time for 5 sections:
   - [9.22 Remote Control (Mobile Access)](#922-remote-control-mobile-access)
   - [9.23 Configuration Lifecycle & The Update Loop](#923-configuration-lifecycle--the-update-loop)
   - [9.24 Instinct-Based Continuous Learning](#924-instinct-based-continuous-learning)
-  - [9.25 Harness Engineering](#925-harness-engineering)
+  - [9.25 Repository Harness Engineering](#925-harness-engineering)
   - [9.26 Review-Driven Context Optimization](#926-review-driven-context-optimization)
   - [9.27 Cross-Session Messaging (Peer Coordination)](#927-cross-session-messaging-peer-coordination)
 - [10. Reference](#10-reference) `🟢 All levels` `⏱ As needed`
@@ -23664,16 +23664,20 @@ The promotion step stays manual by design: you decide what gets encoded. The pip
 
 ---
 
-## 9.25 Harness Engineering
+<a id="925-harness-engineering"></a>
+
+## 9.25 Repository Harness Engineering
 
 **Reading time**: 10 minutes
 **Skill level**: Month 2+
 
-> **The core insight**: model capability and execution reliability are orthogonal. The same model produces fundamentally different outcomes depending on the infrastructure around it, not the model's quality. That infrastructure is the harness.
+> **The core insight**: model capability and execution reliability are orthogonal. The same model produces fundamentally different outcomes depending on the infrastructure around it, not the model's quality. In this section, that infrastructure is the **repository harness**: the project environment a runtime such as Claude Code operates inside.
 
-### What Is a Harness?
+The vocabulary is deliberately layered: the **model** generates text; the **runtime harness** runs its tool loop, context, permissions, and sessions; this **repository harness** supplies project instructions, setup, state, and feedback; an **orchestrator** coordinates multiple runtime sessions. See [Agent Harness Engineering](./core/agent-harness.md#0-four-layers-four-responsibilities) for the full distinction and [Agent Harness Comparison](./ecosystem/agent-harness-landscape.md) for the product landscape.
 
-The harness is everything in the engineering environment around the agent: the instruction files, initialization scripts, state tracking, verification commands, and feedback loops. It is not a prompt file and not a list of guidelines. The harness is the workbench the agent operates inside.
+### What Is a Repository Harness?
+
+The repository harness is everything in the engineering environment around the agent: the instruction files, initialization scripts, state tracking, verification commands, and feedback loops. It is not a prompt file and not a list of guidelines. It is the workbench the runtime operates inside.
 
 Five subsystems make up a complete harness:
 

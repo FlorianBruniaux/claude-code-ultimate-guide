@@ -145,6 +145,7 @@ deep_dive:
   permissions_audit_time: "3-5 min per repo | 30s for the fleet sweep"
   # Agent Harness Engineering (new May 2026)
   agent_harness_guide: "guide/core/agent-harness.md"
+  agent_harness_four_layers: "guide/core/agent-harness.md#0-four-layers-four-responsibilities"
   agent_harness_nine_components: "guide/core/agent-harness.md#2-the-nine-components"
   agent_harness_lethal_trifecta: "guide/core/agent-harness.md#3-the-lethal-trifecta-security-model"
   agent_harness_cicd: "guide/core/agent-harness.md#4-cicd-agentic-patterns"
@@ -809,10 +810,11 @@ deep_dive:
   opencode_tool: "guide/ecosystem/agentic-tools.md#15-opencode-anomaly-formerly-sst"  # Anomaly (fka SST), MIT, 199K+ stars (highest in category); 75+ providers, client/server split
   gemini_cli_tool: "guide/ecosystem/agentic-tools.md#16-gemini-cli-google"  # Google, Apache-2.0, 106K+ stars; Gemini-first, free tier is the reason to pick it (60 req/min, 1000/day)
   crush_tool: "guide/ecosystem/agentic-tools.md#17-crush-charm"  # Charm, FSL-1.1-MIT (converts to MIT 2yr after each release), 27.5K+ stars; multi-provider, polished TUI
-  agent_harness_comparison_page: "guide/ecosystem/agent-harness-landscape.md"  # 25-harness comparison table spanning CLI/IDE/cloud, open source through proprietary; complements agentic-tools.md (CLI deep profiles) and ai-ecosystem.md §6 (IDE workflow)
+  agent_harness_comparison_page: "guide/ecosystem/agent-harness-landscape.md"  # Curated 33-runtime comparison spanning CLI/IDE/cloud, open source through proprietary; complements agentic-tools.md (deep profiles) and ai-ecosystem.md §6 (IDE workflow)
   agent_harness_definition: "guide/ecosystem/agent-harness-landscape.md#agent-harness-comparison"  # what "agent harness" means: tools, context, permissions, action loop, memory, crash recovery; cites Simon Willison + SWE-agent's agent-computer interface
   agent_harness_boundary_table: "guide/ecosystem/agent-harness-landscape.md#whats-not-a-full-harness"  # frameworks/SDKs/sandboxes/memory layers/observability/protocols/models that are not themselves a harness
-  deepseek_harness_tool: "guide/ecosystem/agent-harness-landscape.md#core-coding-harnesses"  # deepseek-ai/deepseek-harness, MIT, developer preview; Cordis "everything is a plugin" architecture; Tencent arXiv 2608.16393 prompt-injection study (~5.3-5.6% success rate)
+  agent_harness_orchestrators: "guide/ecosystem/agent-harness-landscape.md#orchestrators-products-above-the-runtime"  # 7 products coordinating agent sessions, queues, or isolated workspaces; deliberately separated from runtime harnesses
+  deepseek_harness_tool: "guide/ecosystem/agentic-tools.md#18-deepseek-harness-dsh"  # deepseek-ai/deepseek-harness, MIT, developer preview; Cordis plugin architecture, operational limits, and external prompt-injection study
   programmatic_billing_unaffected: "Claude Code terminal (interactive), IDE integrations, web/desktop/mobile chat, human-in-the-loop workflows"
   programmatic_billing_credits: "Pro $20/mo | Max 5x $100/mo | Max 20x $200/mo — no rollover, not automatic (requires email activation)"
   programmatic_billing_overage_sonnet: "$3/MTok input, $15/MTok output (standard API rates)"
