@@ -197,6 +197,9 @@ deep_dive:
   memory_systems_decision_flowchart: "guide/core/memory-systems.md#81-decision-flowchart"
   memory_systems_benchmarks: "guide/core/memory-systems.md#9-benchmarks-and-evaluation"
   memory_systems_open_problems: "guide/core/memory-systems.md#10-open-problems"
+  memory_systems_supermemory: "guide/core/memory-systems.md#38-other-notable-tools"  # Added 2026-08-27: free MCP + paid CC plugin + self-hosted MIT binary, three distinct surfaces
+  memory_systems_supermemory_team_gap: "guide/core/memory-systems.md#47-why-the-team-gap-is-structural"  # Added 2026-08-27: container tags as evidence for "no team taxonomy standard" and "no enterprise buyer yet"
+  memory_systems_supermemory_benchmark_inconsistency: "guide/core/memory-systems.md#9-benchmarks-and-evaluation"  # Added 2026-08-27: 95% vs 85.4% Recall@15 self-published on two different vendor pages, same benchmark
   # Team Configuration at Scale (Profile-Based Module Assembly)
   team_ai_instructions_section: "guide/ultimate-guide.md#35-team-configuration-at-scale"
   team_ai_instructions_workflow: "guide/workflows/team-ai-instructions.md"
