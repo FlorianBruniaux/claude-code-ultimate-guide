@@ -1,0 +1,34 @@
+CHANGELOG.md
+  h_07916ece6468dd 11-12
+guide/README.md
+  h_07916ece6468dd 35,44
+guide/core/agent-harness.md
+  h_07916ece6468dd 29-31,37,50-64
+guide/core/glossary.md
+  h_07916ece6468dd 90-97
+guide/ecosystem/agent-harness-landscape.md
+  h_07916ece6468dd 4,17-18,23,30,32,37-38,42-43,45-47,63-81
+guide/ecosystem/agentic-tools.md
+  h_07916ece6468dd 3-4,449-489,1001,1011
+guide/ultimate-guide.md
+  h_07916ece6468dd 222,23667-23669,23674-23676,23678,23680
+llms.txt
+  h_07916ece6468dd 17
+machine-readable/llms.txt
+  h_07916ece6468dd 17
+machine-readable/reference.yaml
+  h_07916ece6468dd 148,813,816-817
+mcp-server/content/reference.yaml
+  h_07916ece6468dd 148,813,816-817
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "40965c892a6b318013a5d674c5c0add75ace3c6f",
+  "prompts": {},
+  "humans": {
+    "h_07916ece6468dd": {
+      "author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
