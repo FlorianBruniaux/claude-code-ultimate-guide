@@ -61,6 +61,8 @@ What Claude Code doesn't do well (by design):
 
 The goal is not to find "better" tools, but to chain the **right tool for each step**.
 
+> The same persona/agent pattern that chains complementary tools here is being applied one level up, to named business executive roles (CFO, CMO, board of directors) rather than dev tools. See [AI Executive Agents](./ai-executive-agents.md) for that landscape.
+
 ### The Complementarity Matrix
 
 | Task | Claude Code | Better Alternative | Why |

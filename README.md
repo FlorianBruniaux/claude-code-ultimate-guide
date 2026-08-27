@@ -796,6 +796,7 @@ Open an issue if a claim in this guide turns out wrong in your setup.
 | **[Production Safety](./guide/security/production-safety.md)** | Port stability, DB safety, infrastructure lock | 20 min |
 | **[DevOps & SRE](./guide/ops/devops-sre.md)** | FIRE framework, K8s troubleshooting, incident response | 30 min |
 | **[AI Ecosystem](./guide/ecosystem/ai-ecosystem.md)** | Complementary AI tools & integration patterns | 20 min |
+| **[AI Executive Agents](./guide/ecosystem/ai-executive-agents.md)** | Virtual C-suites and board simulators: OpenExecutive, open-source alternatives, routing table by role | 12 min |
 | **[AI Traceability](./guide/ops/ai-traceability.md)** | Code attribution & provenance tracking | 15 min |
 | **[Search Tools Cheatsheet](./guide/cheatsheet.md)** | Grep, Serena, ast-grep, grepai comparison | 5 min |
 | **[Learning with AI](./guide/roles/learning-with-ai.md)** | Use AI without becoming dependent | 15 min |

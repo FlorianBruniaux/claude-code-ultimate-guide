@@ -357,6 +357,14 @@ deep_dive:
   gstack_upstream: "https://github.com/garrytan/gstack"
   gstack_purpose: "6-skill workflow suite: strategic gate + architecture + paranoid review + release + browser QA + retro"
   third_party_tools_skill_packs: "guide/ecosystem/third-party-tools.md#plugin-ecosystem"  # Notable skill packs (gstack)
+  # AI Executive Agents (Added 2026-08-27)
+  ai_executive_agents: "guide/ecosystem/ai-executive-agents.md"
+  ai_executive_agents_openexecutive: "guide/ecosystem/ai-executive-agents.md#openexecutive-reference-architecture"  # OpenExecutive deep dive: 8-agent architecture, prompt caching, eval gate
+  ai_executive_agents_gstack_disambiguation: "guide/ecosystem/ai-executive-agents.md#gstack-is-not-this-category"  # Clarifies Gstack is a dev-workflow suite, not a business-persona tool
+  ai_executive_agents_oss_alternatives: "guide/ecosystem/ai-executive-agents.md#open-source-alternatives-to-openexecutive"  # Become CEO, OneManCompany, AI CFO Agent, Quorum Virtual Board, crewAI, verified GitHub stats
+  ai_executive_agents_routing_table: "guide/ecosystem/ai-executive-agents.md#routing-table-which-project-for-which-role"  # Role sought -> open source / commercial project
+  ai_executive_agents_governance: "guide/ecosystem/ai-executive-agents.md#augmentation-not-replacement-so-far"  # Synthetic Director concept, EU AI Act, augmentation vs replacement stance
+  ai_executive_agents_upstream: "https://github.com/SenteLabsAI/OpenExecutive"
   # Talk Preparation Pipeline (6-stage: extract → research → concepts → position → script → revision)
   talk_pipeline_workflow: "guide/workflows/talk-pipeline.md"
   talk_pipeline_skills: "examples/skills/talk-pipeline/"
