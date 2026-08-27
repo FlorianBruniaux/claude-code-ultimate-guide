@@ -141,6 +141,7 @@ Hands-on guides for effective development patterns:
 | [workflows/dynamic-workflows.md](./workflows/dynamic-workflows.md) | JavaScript-orchestrated multi-agent pipelines: deterministic control flow, parallel fan-out, automatic resume |
 | [workflows/dual-instance-planning.md](./workflows/dual-instance-planning.md) | Dual-instance planning: Opus plans, Sonnet executes |
 | [workflows/event-driven-agents.md](./workflows/event-driven-agents.md) | Event-driven agent coordination patterns |
+| [workflows/monitor-event-delegation.md](./workflows/monitor-event-delegation.md) | Monitor command/WebSocket, plugin monitors, Channels, Routines, and safe Codex delegation |
 | [workflows/github-actions.md](./workflows/github-actions.md) | Step-by-step claude-code-action setup: PR review on mention, automatic review on push, issue triage |
 | [workflows/support-csm-agent.md](./workflows/support-csm-agent.md) | Internal support/CSM agent: ticket triage, DB diagnosis, CRM via MCP |
 | [workflows/plan-pipeline.md](./workflows/plan-pipeline.md) | End-to-end plan pipeline: start, validate, execute |

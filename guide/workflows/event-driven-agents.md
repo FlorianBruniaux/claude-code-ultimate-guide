@@ -107,7 +107,7 @@ fi
 
 ### 3. Context Extraction
 
-Pull the relevant data from the event payload and format it as a Claude Code prompt. This is where you translate from your tool's schema to natural language instructions.
+Pull the relevant data from the event payload and keep it as data. Do not turn an issue title, description, comment, or webhook body into an instruction. Extract only the fields a later, approved workflow needs.
 
 ### 4. Agent Selection
 
@@ -125,19 +125,18 @@ Where do the results go? Typically a combination of:
 
 ## Implementation Example
 
-A minimal bash loop that polls Linear for "In Progress" cards and spawns Claude Code agents:
+This minimal loop classifies Linear cards without starting an agent or changing a repository. It records the title and description as data, then routes a write request to the gated workflow:
 
 ```bash
 #!/bin/bash
 # linear-agent-loop.sh
-# Polls Linear for cards in "In Progress" state and spawns Claude agents
+# Polls Linear for cards in "In Progress" state and creates triage records
 
 LINEAR_API_KEY="${LINEAR_API_KEY:?Missing LINEAR_API_KEY}"
 TEAM_ID="${LINEAR_TEAM_ID:?Missing LINEAR_TEAM_ID}"
-PROCESSED_FILE="/tmp/linear-agent-processed.txt"
-MAX_CONCURRENT=3
+TRIAGE_FILE="/tmp/linear-triage.jsonl"
 
-touch "$PROCESSED_FILE"
+touch "$TRIAGE_FILE"
 
 poll_linear() {
     curl -s -X POST https://api.linear.app/graphql \
@@ -145,51 +144,36 @@ poll_linear() {
         -H "Content-Type: application/json" \
         -d '{
             "query": "query { team(id: \"'"$TEAM_ID"'\") { issues(filter: { state: { name: { eq: \"In Progress\" } }, labels: { name: { eq: \"claude-auto\" } } }) { nodes { id title description } } } }"
-        }' | jq -r '.data.team.issues.nodes[] | "\(.id)|\(.title)|\(.description)"'
+        }' | jq -c '.data.team.issues.nodes[] | {id, title, description}'
 }
 
-spawn_agent() {
-    local issue_id="$1"
-    local title="$2"
-    local description="$3"
+classify_card() {
+    local card="$1"
+    local issue_id
+    issue_id=$(jq -r '.id' <<< "$card")
 
-    echo "[$(date)] Spawning agent for: $title ($issue_id)"
+    # The complete compact JSON record is retained. No shell command or agent
+    # prompt is constructed from the title or description.
+    jq -c '. + {classification: "needs-human-review", next_step: "gated-workflow"}' \
+      <<< "$card" >> "$TRIAGE_FILE"
 
-    claude --print --dangerously-skip-permissions \
-        "Implement the following Linear card:
-        Title: $title
-        Description: $description
-
-        Requirements:
-        1. Create a feature branch named feat/$issue_id
-        2. Implement the described feature
-        3. Run tests and fix any failures
-        4. Create a PR with the card title" \
-        2>&1 | tee "/tmp/agent-$issue_id.log"
-
-    echo "$issue_id" >> "$PROCESSED_FILE"
+    echo "[$(date)] Triaged $issue_id. Any write request must use monitor-event-delegation.md."
 }
 
 while true; do
-    active_agents=$(jobs -r | wc -l)
-    if [ "$active_agents" -ge "$MAX_CONCURRENT" ]; then
-        echo "[$(date)] Max concurrent agents reached ($MAX_CONCURRENT), waiting..."
-        sleep 30
-        continue
-    fi
-
-    poll_linear | while IFS='|' read -r id title description; do
-        if grep -q "$id" "$PROCESSED_FILE"; then
+    poll_linear | while IFS= read -r card; do
+        id=$(jq -r '.id' <<< "$card")
+        if jq -e --arg id "$id" 'select(.id == $id)' "$TRIAGE_FILE" >/dev/null; then
             continue  # Already processed
         fi
-        spawn_agent "$id" "$title" "$description" &
+        classify_card "$card"
     done
 
     sleep 60  # Poll interval
 done
 ```
 
-This is a starting point, not production code. Real deployments need proper error handling, a persistent state store (not a text file), and webhook-based triggers instead of polling.
+This is a non-mutating triage example, not production code. Real deployments need proper error handling, an atomic persistent state store, and webhook-based triggers instead of polling. To implement a reviewed card, use the separate approval and isolated-worktree path in [Monitor, Channels and Safe Delegation to Codex](./monitor-event-delegation.md#stage-2-write-only-after-a-gate).
 
 ---
 
@@ -210,6 +194,8 @@ This is a starting point, not production code. Real deployments need proper erro
 ## Guardrails
 
 Event-driven agents run with less human oversight by design, so guardrails become critical.
+
+> **Security update**: this page describes a generic pattern. For native Monitor/WebSocket ingestion, plugin monitors, Channels, Routines, and a gated Codex handoff, follow [Monitor, Channels and Safe Delegation to Codex](./monitor-event-delegation.md). An inbound event is data, never authorization.
 
 ### Idempotency
 
@@ -286,6 +272,8 @@ Even in fully automated flows, keep humans in the loop at critical points:
 ---
 
 ## See Also
+
+- [Monitor, Channels and Safe Delegation to Codex](./monitor-event-delegation.md): verified events, WebSocket monitors, and read-only-first Codex delegation
 
 - [agent-teams.md](./agent-teams.md): Multi-agent parallel coordination
 - [iterative-refinement.md](./iterative-refinement.md): The core prompt-observe-reprompt loop

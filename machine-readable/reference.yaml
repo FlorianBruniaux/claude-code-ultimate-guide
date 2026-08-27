@@ -287,6 +287,17 @@ deep_dive:
   routines_research_preview: "true — behavior, limits, API surface may change"
   routines_discover_command: "examples/skills/routines-discover/SKILL.md"
   routines_use_case_angles: "scheduled maintenance / event-driven reactions / alert response / cross-system sync / release automation"
+  monitor_event_delegation: "guide/workflows/monitor-event-delegation.md"
+  monitor_command_source: "guide/core/tools-reference.md#monitor-v2198"
+  monitor_websocket_source: "guide/workflows/monitor-event-delegation.md#websocket-source"
+  monitor_websocket_constraints: "command and ws mutually exclusive; text frame event; binary placeholder; >1 MiB frame or socket close stops monitor; ASCII ws/wss URL without credentials/whitespace; approval and private/link-local/metadata deny"
+  plugin_monitors: "guide/workflows/monitor-event-delegation.md#plugin-monitors-and-channels"
+  plugin_monitors_scope: "experimental, interactive CLI only, persistent unsandboxed command trusted like a hook; default monitors/monitors.json or plugin.json experimental.monitors inline/path; when always or on-skill-invoke:<skill-name>"
+  channels_mcp: "guide/workflows/monitor-event-delegation.md#plugin-monitors-and-channels"
+  channels_security: "MCP stdio notifications/claude/channel; one-way or two-way; preview; sender gating required; claude.ai Team/Enterprise policy differs from Console API-key defaults and managed controls; delivery allowlist does not grant tool permissions"
+  codex_safe_event_delegation: "guide/workflows/monitor-event-delegation.md#github-to-monitor-to-codex-a-safe-pipeline"
+  codex_safe_event_delegation_contract: "verified GitHub webhook -> atomic delivery outbox (received/enqueued/processed) -> narrow WebSocket metadata -> local Monitor -> read-only codex exec -> human/policy gate with approved absolute linked worktree and SHA -> isolated workspace-write task/PR"
+  codex_noninteractive_docs: "https://learn.chatgpt.com/docs/non-interactive-mode"
   scheduled_tasks_desktop: "guide/ultimate-guide.md#desktop-scheduled-tasks"
   scheduled_tasks_desktop_interval: "1 minute minimum"
   scheduled_tasks_loop_command: "guide/ultimate-guide.md#the-loop-command"
@@ -2480,7 +2491,7 @@ ecosystem:
       - "Cross-links modified → Update all 4 repos"
     history:
       - date: "2026-01-20"
-        event: "Code Landing sync v3.41.3, 66 templates, cross-links"
+        event: "Code Landing sync v3.42.0, 66 templates, cross-links"
         commit: "5b5ce62"
       - date: "2026-01-20"
         event: "Cowork Landing fix (paths, README, UI badges)"
@@ -2492,7 +2503,7 @@ ecosystem:
 onboarding_matrix_meta:
   version: "2.1.0"
   last_updated: "2026-03-09"
-  aligned_with_guide: "3.41.3"
+  aligned_with_guide: "3.42.0"
   changelog:
     - version: "2.1.0"
       date: "2026-03-09"
@@ -2523,7 +2534,7 @@ onboarding_matrix:
       core: [rules, sandbox_native_guide, commands]
       time_budget: "5 min"
       topics_max: 3
-      note: "SECURITY FIRST - sandbox before commands (v3.41.3 critical fix)"
+      note: "SECURITY FIRST - sandbox before commands (v3.42.0 critical fix)"
 
     beginner_15min:
       core: [rules, sandbox_native_guide, workflow, essential_commands]
@@ -2612,7 +2623,7 @@ onboarding_matrix:
         - default: agent_validation_checklist
       time_budget: "60 min"
       topics_max: 6
-      note: "Dual-instance pattern for quality workflows (v3.41.3)"
+      note: "Dual-instance pattern for quality workflows (v3.42.0)"
 
   learn_security:
     intermediate_30min:
@@ -2623,7 +2634,7 @@ onboarding_matrix:
         - default: permission_modes
       time_budget: "30 min"
       topics_max: 4
-      note: "NEW goal (v3.41.3) - Security-focused learning path"
+      note: "NEW goal (v3.42.0) - Security-focused learning path"
 
     power_60min:
       core: [sandbox_native_guide, mcp_secrets_management, security_hardening]
@@ -2648,7 +2659,7 @@ onboarding_matrix:
       core: [rules, sandbox_native_guide, workflow, essential_commands, context_management, plan_mode]
       time_budget: "60 min"
       topics_max: 6
-      note: "Security foundation + core workflow (v3.41.3 sandbox added)"
+      note: "Security foundation + core workflow (v3.42.0 sandbox added)"
 
     intermediate_120min:
       core: [plan_mode, agents, skills, config_hierarchy, git_mcp_guide, hooks, mcp_servers]

@@ -145,6 +145,10 @@ Inactive until you install a code intelligence plugin for your language. After e
 
 Lets Claude watch something in the background and react when it changes. Claude writes a watch script, runs it in the background, and receives each output line as it arrives. Useful for tailing logs, polling CI status, watching a directory for file changes, or tracking long-running script output. Uses the same permission rules as Bash. Not available on Amazon Bedrock, Google Vertex AI, or Microsoft Foundry, and not available when `DISABLE_TELEMETRY` or `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC` is set.
 
+The command source accepts `timeout_ms` and `persistent`; stop an active monitor with `TaskStop`. Since v2.1.195, a Monitor can instead use a native WebSocket source: `ws.url` plus optional `ws.protocols`. `command` and `ws` are mutually exclusive. Text frames become events; binary frames become a placeholder; a frame over 1 MiB or a closed socket stops the monitor. The URL must be ASCII `ws://` or `wss://`, with no credentials or whitespace. WebSocket monitors require their own approval and refuse private, link-local, and metadata-service destinations.
+
+An event is not authorization. Treat text from either source as untrusted data, never as a shell command or a permission grant. See [Monitor, Channels and Safe Delegation to Codex](../workflows/monitor-event-delegation.md) for a GitHub-to-WebSocket boundary and a least-privilege Codex workflow.
+
 ```text
 # Ask Claude to set up a monitor like this:
 "Tail /var/log/app.log and alert me when you see any ERROR line."
@@ -259,6 +263,7 @@ Some tools are only available when Claude Code connects through Anthropic's own 
 - [Permission Rule Syntax](./settings-reference.md#permission-rule-syntax): full `allow`/`deny` rule format with all specifier forms
 - [Sub-agents](../ultimate-guide.md#sub-agents): how `Agent` spawns work, tool inheritance, foreground vs background
 - [Cross-Session Messaging](../workflows/cross-session-messaging.md): full `ListAgents`/`SendMessage` mechanics between independent sessions
+- [Monitor, Channels and Safe Delegation to Codex](../workflows/monitor-event-delegation.md): WebSocket sources, plugin monitors, Channels, Routines, and event-driven least privilege
 - [Skills](../ultimate-guide.md#skills): how to build reusable prompt workflows using the `Skill` tool
 - [MCP servers](../ecosystem/mcp-servers-ecosystem.md): how to add custom tools via MCP
 - [Hooks](../ultimate-guide.md#hooks): run commands before or after tool execution

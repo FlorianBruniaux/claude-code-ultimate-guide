@@ -457,7 +457,7 @@ When `true`, only `allowedMcpServers` from managed settings are respected. Users
 **Scope:** managed only
 **Default:** `false`
 
-Allow channels for Team and Enterprise users. When unset or `false`, channel message delivery is blocked regardless of what users pass to `--channels`.
+Allow channels for claude.ai Team and Enterprise users. When unset or `false`, channel message delivery is blocked regardless of what users pass to `--channels`. Console API-key deployments use Console defaults and managed controls instead; do not infer their policy from this Team/Enterprise-only setting.
 
 #### `allowedChannelPlugins`
 **Type:** array
@@ -465,6 +465,8 @@ Allow channels for Team and Enterprise users. When unset or `false`, channel mes
 **Default:** none (uses default Anthropic allowlist)
 
 Allowlist of channel plugins that may push messages. Replaces the default Anthropic allowlist when set. Requires `channelsEnabled: true`. Empty array blocks all channel plugins.
+
+> **Security boundary**: this allowlist controls which Channel plugins may deliver messages. It does not grant a delivered message, its sender, or the plugin any Bash, filesystem, GitHub, or other tool permission. Gate senders and treat Channel content as untrusted input, including when a plugin can relay a permission prompt.
 
 ---
 

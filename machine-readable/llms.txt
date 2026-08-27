@@ -2,7 +2,7 @@
 
 > The most comprehensive documentation for Claude Code CLI by Anthropic. Covers beginner to advanced: hooks, skills, agents, MCP servers, context engineering, memory systems, multi-agent orchestration, and production patterns.
 
-Guide version 3.42.0, tracking Claude Code up to v2.1.237 (August 2026).
+Guide version 3.42.0, tracking Claude Code up to v2.1.246 (August 2026).
 
 ## What is covered
 
@@ -11,6 +11,7 @@ Guide version 3.42.0, tracking Claude Code up to v2.1.237 (August 2026).
 - Context engineering: managing what the model sees, when and in what shape; token audit workflow, compression tools, ejection discipline, maturity model
 - Memory systems: native stack (CLAUDE.md levels, auto memory, auto dream, agent frontmatter), cross-session tools (claude-mem, agentmemory, ICM, Kairn, OpenMemory), team sharing, file-based experience playbooks, memory poisoning risks
 - Hook system: all 30 hook events with matchers, input schemas, exit-code-2 behavior and decision-control formats; blocking vs non-blocking
+- Event ingestion and safe delegation: Monitor command/WebSocket sources, plugin monitors, MCP Channels, Routines GitHub triggers, and a read-only-first Codex workflow
 - Slash commands: full categorized table of the ~100 built-in commands with aliases, mirroring the official reference at https://code.claude.com/docs/en/commands (the source of truth), plus removed and renamed commands
 - Skills and slash commands: authoring, trigger patterns, progressive disclosure, skill design patterns
 - Agents: subagent frontmatter, delegation, agent teams, agent evaluation metrics, harness engineering

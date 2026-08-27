@@ -26,7 +26,7 @@ Claude Code has a dedicated feature for each way of running or reaching multiple
 | A coordinated team of sessions Claude spawns and supervises itself | [Agent Teams](./agent-teams.md) |
 | Watch and steer many sessions from one place | Agent view (background sessions) |
 | Steer a session yourself from your phone or another device | [Remote Control](../ultimate-guide.md#922-remote-control-mobile-access) |
-| Push external events (CI results, chat messages) into a session | Channels |
+| Push external events (CI results, chat messages) into a session | [Channels](./monitor-event-delegation.md#plugin-monitors-and-channels) |
 | **Message between independent sessions you start and steer yourself** | **Cross-session messaging** |
 
 This last row is the case the rest of this page covers: sessions with no spawn relationship to each other, each open in its own terminal, each with its own context window, permissions, and working directory.
