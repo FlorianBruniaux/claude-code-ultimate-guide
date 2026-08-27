@@ -1863,6 +1863,7 @@ As of February 2026, the community tooling ecosystem has notable gaps:
 | **Per-MCP-server profiler** | No way to measure token cost attributable to each MCP server individually |
 | **Cross-platform config sync** | No tool syncs Claude Code config across machines (must manual copy `~/.claude/`) |
 | **Programmatic sandboxed orchestration** | Watch: [Sandcastle](https://github.com/mattpocock/sandcastle) (`@ai-hero/sandcastle`, Matt Pocock): TypeScript API for running agents in Docker/Podman/Vercel containers with branch strategy management and prompt templating. Unique niche but not guide-ready at v0.5.x (active bugs, TypeScript-only, requires separate `ANTHROPIC_API_KEY`, Docker/Podman hard dependency). Revisit at v1.0. |
+| **Cross-platform agent-human chat bridge with governance** | Watch: [Switch](https://github.com/sandbox-quantum/switch) (Flint AI / SandboxAQ): Matrix-based bus connecting heterogeneous agents (Claude Code, Codex, OpenCode, anything speaking its protocol) and humans in the same room, relayed bidirectionally into Slack, Microsoft Teams, Discord, Telegram, and Mattermost, with a centralized owner-inheritance authorization model. No comparable multi-platform, multi-framework bridge exists elsewhere in this list; agent-chat above is the closest name match but is a read-only local dashboard, not a live external bridge. Pre-1.0 (`0.21.0`), 252 stars at 6 weeks, bus factor close to 1. Evaluation: [switch-agent-human-chat-bridge.md](../../docs/resource-evaluations/switch-agent-human-chat-bridge.md). |
 
 ---
 

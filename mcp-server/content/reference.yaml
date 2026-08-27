@@ -651,6 +651,10 @@ deep_dive:
   third_party_agent_orchestrator_guide: "guide/ecosystem/third-party-tools.md:1381"
   third_party_agent_orchestrator_purpose: "OSS cross-platform equivalent to Conductor: 23 agent CLIs supported vs 2, git worktree isolation, automatic CI/review/conflict feedback loop. PostHog telemetry on by default."
   third_party_agent_orchestrator_evaluation: "docs/resource-evaluations/agent-orchestrator-composio.md"
+  third_party_switch: "https://github.com/sandbox-quantum/switch"
+  third_party_switch_guide: "guide/ecosystem/third-party-tools.md#known-gaps"
+  third_party_switch_purpose: "Matrix-based bus bridging heterogeneous agents (Claude Code, Codex, OpenCode) and humans into Slack/Teams/Discord/Telegram/Mattermost, with owner-inheritance authz. Known Gaps entry, not integrated: pre-1.0 (0.21.0), 252 stars/6 weeks, bus factor close to 1."
+  third_party_switch_evaluation: "docs/resource-evaluations/switch-agent-human-chat-bridge.md"
   # Project Context Bootstrapping (Added 2026-04-08)
   third_party_tools_context_bootstrap: "guide/ecosystem/third-party-tools.md:1039"
   third_party_codesight: "https://github.com/Houseofmvps/codesight"
