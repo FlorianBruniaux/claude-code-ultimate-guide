@@ -58,9 +58,9 @@ cd whitepapers/recap-cards && ./render-recap-cards.sh all
 
 **Stack**: `recap-card` extension (`whitepapers/_extensions/recap-card/`). Format `recap-card-typst`. Same Bold Guy palette.
 
-**Sources**: `whitepapers/recap-cards/fr/*.qmd` (FR), `whitepapers/recap-cards/en/*.qmd` (EN coming).
+**Sources**: `whitepapers/recap-cards/fr/*.qmd` (FR), `whitepapers/recap-cards/en/*.qmd` (EN).
 
-**25 cards planned** — 5 Phase 1-2 prototypes delivered: 01, 03, 04, 06, 25.
+**58 cards per language** in the Technical, Methodology, and Design series.
 
 ## Guide Export (EPUB + PDF, full ~25K lines)
 

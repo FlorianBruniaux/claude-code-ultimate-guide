@@ -4,8 +4,8 @@ subtitle: "No RAG, no black magic - just a loop"
 author: "Florian BRUNIAUX"
 date: 2026-08-24
 date-format: "MMMM YYYY"
-version: "3.41.3"
-wp-version: "1.4.1"
+version: "3.42.0"
+wp-version: "1.5.0"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -955,6 +955,19 @@ Choosing a coding agent depends on your team's dominant workflow. Claude Code ex
 | Team standardization | Good (CLAUDE.md) | Variable |
 | IDE integration | Limited | Cursor/Copilot |
 
+## Four Layers, Four Responsibilities
+
+Comparing products only by model or interface hides the responsibility that matters: who decides the next action. The [harness selection guide](https://cc.bruniaux.com/guide/agent-harness-landscape/) separates four layers.
+
+| Layer | Responsibility | What it does not decide |
+|-------|----------------|--------------------------|
+| Model | Proposes text and tool calls | Permission or task recovery |
+| Runtime harness | Runs the loop, calls tools, observes, and selects the next turn | Repository-specific conventions |
+| Repository harness | Supplies project instructions, task state, and verification | The runtime inference loop |
+| Orchestrator | Distributes work across runtimes or sessions | The detailed behavior of each runtime |
+
+An orchestrator can launch several harnesses without becoming their runtime. Conversely, a repository can strengthen its instructions and controls without changing runtime. The distinction localizes a failure: loop and permissions at the runtime layer, change contract at the repository layer, coordination at the orchestrator layer. See also [Agent Harness Engineering](https://cc.bruniaux.com/guide/agent-harness/) and the [glossary](https://cc.bruniaux.com/guide/glossary/).
+
 {{< pagebreak >}}
 
 # Resources
@@ -1013,7 +1026,7 @@ Each whitepaper in the series is self-contained, but they complement each other.
 
 **Repository**: [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)
 
-*Version 3.41.3 | August 2026*
+*Version 3.42.0 | August 2026*
 
 # The Series
 

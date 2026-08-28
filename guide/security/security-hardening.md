@@ -31,6 +31,14 @@ keywords:
 
 ---
 
+## Apply Controls at the Owning Layer
+
+Security review starts by identifying who owns the loop and who can act on its output. A runtime harness mediates tool use, permissions, context, and sandboxing. A repository harness supplies the instructions, dependency setup, and deterministic verification gates. An orchestrator can create additional identities, workspaces, handoffs, and unattended execution, so it needs separate credentials, budgets, stop conditions, and audit trails.
+
+The [Agent Harness Map](../ecosystem/agent-harness-landscape.md) distinguishes runtime harnesses from the wider directory of plugins, frameworks, observability tools, and control planes. Use [Agent Harness Engineering](../core/agent-harness.md) to understand runtime boundaries, [Agent Tools: Beyond Claude Code](../ecosystem/agentic-tools.md) to assess adjacent products, and [Session Observability](../ops/observability.md) to retain evidence without expanding access. Definitions live in the [glossary](../core/glossary.md).
+
+---
+
 ## Part 1: Prevention (Before You Start)
 
 ### 1.1 MCP Vetting Workflow

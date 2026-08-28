@@ -4,8 +4,8 @@ subtitle: "Metrics, adoption, and governance for engineering managers"
 author: "Florian Bruniaux"
 date: 2026-08-24
 date-format: "MMMM YYYY"
-version: "3.41.3"
-wp-version: "1.2.1"
+version: "3.42.0"
+wp-version: "1.3.0"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -257,6 +257,22 @@ These require instrumentation via Langfuse, Arize Phoenix, or AWS Bedrock AgentC
 | Code review recall | Rate at which agent-generated review comments are acted on by developers | Code Review Bench (Martian, March 2026, 200,000+ open-source PRs): Augment Code 62.8% recall, GitHub Copilot 53.3% recall, Graphite 75% precision but only 8.8% recall |
 | Cost per completed task | Token spend plus human review time per agent task that reaches a mergeable state | No industry benchmark published yet. Track manually: tokens consumed, cost per model call, human review hours per task completion |
 | Tokens per feature | Average tokens consumed per merged feature, crossed with Jira or Linear ticket boundaries. A better signal than tokens per request because it accounts for session count variation per feature | No industry benchmark. Track via ccboard's project leaderboard (tokens per session times sessions per feature). Establish a baseline before optimizing; typical range for a complete PR is 500K-2M tokens on complex codebases |
+
+## Test a Harness Before Standardizing It
+
+A harness trial should compare two or three candidates on the same real tasks, with the same instructions and model where possible. Write pass criteria before the trial, isolate each candidate in its own worktree, and retain the traces that explain the result. A public benchmark can inform the shortlist; it cannot replace that local test.
+
+| Measurement | Decision question |
+|-------------|-------------------|
+| Human verdict | Is the change acceptable without unplanned rework? |
+| Interventions | How many human corrections or redirects were needed? |
+| Plan drift | Did the work stay within the stated scope and contract? |
+| Wall time | What elapsed time passed from launch to verified result? |
+| Accepted-task cost | What cost belongs to tasks the team actually accepted? |
+| Recovery | What remains after a failure, interruption, or rejection? |
+| Setup friction | Which permissions, dependencies, and operations remain to maintain? |
+
+The [Agent Harness Map test protocol](https://cc.bruniaux.com/guide/agent-harness-landscape/) connects these measures to the choice between a runtime, repository contract, and orchestrator. They complement DORA; they do not measure people.
 
 ## Group 3: Agent Governance Metrics
 

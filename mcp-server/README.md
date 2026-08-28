@@ -1,8 +1,8 @@
 # claude-code-ultimate-guide-mcp
 
-MCP server for the [Claude Code Ultimate Guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide) — search, read, and explore 20,000+ lines of documentation directly from Claude Code or any MCP-compatible client.
+MCP server for the [Claude Code Ultimate Guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide): search, read, and explore 26,000+ lines of documentation directly from Claude Code or any MCP-compatible client.
 
-No need to clone the repo. The guide's structured index is bundled in the package (~130KB compressed), and file content is fetched from GitHub on demand with 24h local cache.
+No need to clone the repo. The guide's structured indexes and Agent Harness Map dataset are bundled in the package, and guide file content is fetched from GitHub on demand with a 24-hour local cache.
 
 ## Installation
 
@@ -49,7 +49,7 @@ Add to `.claude/settings.json` at your repo root.
 
 | Tool | Signature | Description |
 |------|-----------|-------------|
-| `search_guide` | `(query, limit?)` | Search by keyword or question across 882 indexed entries. Returns ranked results with GitHub links. |
+| `search_guide` | `(query, limit?)` | Search by keyword or question across 1,693 indexed entries. Returns ranked results with GitHub links. |
 | `read_section` | `(path, offset?, limit?)` | Read a file section with pagination (500 lines max per call). Returns GitHub + guide site links. |
 | `list_topics` | `()` | Browse all 25 topic categories in the guide with entry counts. |
 
@@ -85,11 +85,19 @@ Add to `.claude/settings.json` at your repo root.
 
 ## Resources
 
+The server exposes the following machine-readable resources:
+
+- `claude-code-guide://reference`: complete YAML index.
+- `claude-code-guide://releases`: Claude Code release history.
+- `claude-code-guide://llms`: guide identity and navigation file.
+- `claude-code-guide://agent-harnesses`: normalized Agent Harness Map JSON with source provenance, evidence states, loop ownership, official URLs, and dated GitHub metadata.
+
 | URI | Description |
 |-----|-------------|
-| `claude-code-guide://reference` | Full structured index (94KB YAML, ~900 entries) — use as fallback when search isn't enough |
+| `claude-code-guide://reference` | Full structured index. Use as fallback when search is not enough. |
 | `claude-code-guide://releases` | Claude Code official releases history (YAML) |
 | `claude-code-guide://llms` | Guide identity/navigation file (llms.txt) |
+| `claude-code-guide://agent-harnesses` | Normalized Agent Harness Map dataset with provenance and evidence states (JSON) |
 
 ## Prompts
 
@@ -208,10 +216,12 @@ With `GUIDE_ROOT` set:
 
 ## Bundled content
 
-The npm package includes (~130KB compressed total):
-- `content/reference.yaml` — 94KB structured index (~900 entries, ~882 indexed)
-- `content/claude-code-releases.yaml` — 27KB releases history (76 releases)
-- `content/llms.txt` — 8KB identity file
+The npm package includes:
+
+- `content/reference.yaml`: structured guide index.
+- `content/claude-code-releases.yaml`: condensed release history.
+- `content/agent-harnesses.json`: evidence-backed Agent Harness Map dataset.
+- `content/llms.txt`: guide identity and navigation file.
 
 Guide markdown files (3.5MB) are **not** bundled — they're fetched from GitHub on demand and cached at `~/.cache/claude-code-guide/{version}/`.
 

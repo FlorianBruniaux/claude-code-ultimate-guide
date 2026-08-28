@@ -19186,6 +19186,8 @@ claude --teleport
 
 **TL;DR**: Multi-instance orchestration = advanced pattern for teams managing 10+ concurrent features. Requires modular architecture + budget + monitoring. **95% of users don't need this.** Sequential workflows with 1-2 instances are more efficient for most contexts.
 
+Before adding another process manager, identify the layer that owns each responsibility. The model generates text; the runtime harness owns a session's model-and-tool loop; the repository harness supplies instructions and delivery gates; the orchestrator coordinates sessions. [Agent Harness Engineering](./core/agent-harness.md) explains the boundaries. The [Agent Harness Map](./ecosystem/agent-harness-landscape.md) compares strict runtime harnesses and keeps its wider sourced directory separate from the runtime table. [Agent Tools: Beyond Claude Code](./ecosystem/agentic-tools.md) covers frameworks and control planes; the [glossary](./core/glossary.md) defines the terms.
+
 ---
 
 ### Agent View: Native Session Management (v2.1.139+)
@@ -23676,7 +23678,7 @@ The promotion step stays manual by design: you decide what gets encoded. The pip
 
 > **The core insight**: model capability and execution reliability are orthogonal. The same model produces fundamentally different outcomes depending on the infrastructure around it, not the model's quality. In this section, that infrastructure is the **repository harness**: the project environment a runtime such as Claude Code operates inside.
 
-The vocabulary is deliberately layered: the **model** generates text; the **runtime harness** runs its tool loop, context, permissions, and sessions; this **repository harness** supplies project instructions, setup, state, and feedback; an **orchestrator** coordinates multiple runtime sessions. See [Agent Harness Engineering](./core/agent-harness.md#0-four-layers-four-responsibilities) for the full distinction and [Agent Harness Comparison](./ecosystem/agent-harness-landscape.md) for the product landscape.
+The vocabulary is deliberately layered: the **model** generates text; the **runtime harness** runs its tool loop, context, permissions, and sessions; this **repository harness** supplies project instructions, setup, state, and feedback; an **orchestrator** coordinates multiple runtime sessions. See [Agent Harness Engineering](./core/agent-harness.md#0-four-layers-four-responsibilities) for the full distinction and the [Agent Harness Landscape](./ecosystem/agent-harness-landscape.md) for the product landscape.
 
 ### What Is a Repository Harness?
 

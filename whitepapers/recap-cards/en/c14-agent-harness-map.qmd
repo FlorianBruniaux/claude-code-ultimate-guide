@@ -1,0 +1,48 @@
+---
+title: "Agent Harness Map"
+subtitle: "Choose a runtime, repository contract, or orchestrator"
+card-number: "C14"
+category: "Design"
+difficulty: "advanced"
+guide-version: "3.42.0"
+author: "Florian BRUNIAUX"
+version: "3.42.0"
+date: "2026-08-28"
+layout: "two-col"
+lang: en
+format:
+  recap-card-typst: default
+---
+
+## The Four Layers
+
+| Layer | Responsibility | Does not replace |
+|-------|----------------|------------------|
+| Model | Proposes text and tool calls | Permission and recovery |
+| Runtime harness | Runs the loop and tools | Repository contract |
+| Repository harness | Instructions, state, verification | Runtime loop |
+| Orchestrator | Coordinates runtimes and sessions | Each runtime's decisions |
+
+An orchestrator can launch several runtimes without owning their loops. A repository can improve its contract without changing runtime.
+
+## Choose in the Right Order
+
+1. Define the task and acceptable autonomy.
+2. Select a runtime that owns the required loop.
+3. Write the repository contract: instructions, pass criteria, verification.
+4. Add an orchestrator only when coordination, isolation, or recovery across tasks requires it.
+
+## Four Sources, Four Uses
+
+| Source | Used to | Limit |
+|--------|---------|-------|
+| Strict comparison | Identify runtimes | Not a universal ranking |
+| Orchestrator table | Compare coordination | Not a runtime |
+| Best of Agent Harnesses | Explore 160 projects, 12 categories | 2026-08-23 snapshot |
+| `agent-harnesses.json` | Read provenance and evidence | `unknown` is not `none` |
+
+## Short Trial, Traceable Verdict
+
+Compare two or three candidates on real tasks in separate worktrees. Measure human verdict, interventions, plan drift, wall time, accepted-task cost, recovery, and setup friction.
+
+Links: [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/) · [Agent Harness Engineering](https://cc.bruniaux.com/guide/agent-harness/) · [Agent Tools](https://cc.bruniaux.com/guide/agentic-tools/) · [Glossary](https://cc.bruniaux.com/guide/glossary/)

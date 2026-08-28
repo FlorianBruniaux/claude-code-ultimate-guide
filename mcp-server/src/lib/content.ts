@@ -169,6 +169,11 @@ export function getReleasesYamlRaw(): string {
   return readFileSync(filePath, 'utf8');
 }
 
+export function getAgentHarnessesJsonRaw(): string {
+  const filePath = join(CONTENT_DIR, 'agent-harnesses.json');
+  return readFileSync(filePath, 'utf8');
+}
+
 // ─── Deep dive resolver ───────────────────────────────────────────────────────
 
 export function resolveDeepDive(value: unknown): DeepDiveTarget | undefined {

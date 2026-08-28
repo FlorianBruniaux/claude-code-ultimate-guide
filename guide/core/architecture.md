@@ -30,6 +30,14 @@ Each claim is marked with its confidence level. **Always prefer official documen
 
 ---
 
+## Where Claude Code Sits in the Harness Stack
+
+Claude Code is a **runtime harness**: it owns the iterative model-and-tool loop for a coding task. The model generates tokens; the repository supplies instructions, setup, state, and verification; an orchestrator coordinates multiple runtime sessions. Those layers answer different questions and should not be evaluated as interchangeable products.
+
+Read [Agent Harness Engineering](./agent-harness.md) for the four-layer model and the mechanics inside a runtime. Use the [Agent Harness Map](../ecosystem/agent-harness-landscape.md) when comparing products that own a coding loop. Use [Agent Tools: Beyond Claude Code](../ecosystem/agentic-tools.md) for the broader set of frameworks, control planes, and runtime-adjacent tools. The [glossary](./glossary.md) defines the terms used across those pages.
+
+---
+
 ## TL;DR - 5 Bullet Summary
 
 1. **Simple Loop**: Claude Code runs a `while(tool_call)` loop, with no DAGs, no classifiers, no RAG. The model decides everything.

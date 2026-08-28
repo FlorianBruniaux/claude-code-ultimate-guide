@@ -10,6 +10,8 @@ This page catalogs community-built tools that extend Claude Code, organized by u
 
 This is not a list of AI tools that complement Claude Code generally. It covers only tools whose primary purpose is extending the Claude Code CLI itself. For broader AI ecosystem coverage, see [AI Ecosystem](./ai-ecosystem.md). For MCP server recommendations, see [MCP Servers Ecosystem](./mcp-servers-ecosystem.md).
 
+These extensions may observe, configure, or coordinate Claude Code, but they do not necessarily own an agent loop. Use the [Agent Harness Map](./agent-harness-landscape.md) for the strict runtime comparison and a wider sourced directory, [Agent Harness Engineering](../core/agent-harness.md) for the layer boundaries, and [Agent Tools: Beyond Claude Code](./agentic-tools.md) for runtime-adjacent frameworks and control planes. Evaluate, observe, and secure an added tool through [Agent Evaluation](../roles/agent-evaluation.md), [Session Observability](../ops/observability.md), and [Security Hardening](../security/security-hardening.md). The [glossary](../core/glossary.md) defines the distinctions.
+
 > **Last verified**: June 2026. 40+ tools across 17 categories.
 
 ## Table of Contents

@@ -1,0 +1,505 @@
+---
+title: "L'Ingénierie Logicielle à l'Ère des Agents Autonomes"
+subtitle: "Harnesses, CI/CD agentic, et la mesure honnête de la productivité"
+author: "Florian BRUNIAUX"
+date: 2026-08-24
+date-format: "MMMM YYYY"
+version: "3.42.0"
+wp-version: "1.2.0"
+series: "Claude Code Ultimate Guide"
+format:
+  whitepaper-typst:
+    toc: true
+    toc-depth: 2
+    section-numbering: "1.1"
+  html:
+    toc: true
+    theme: cosmo
+  epub:
+    toc: true
+    toc-depth: 2
+    epub-cover-image: _extensions/whitepaper/assets/claude-code-ai-logo.jpg
+    css: ../epub-styles.css
+    number-sections: true
+lang: fr
+---
+
+::: {.callout-tip title="Pour qui ce whitepaper ?"}
+**Audience principale** : Tech leads, staff/principal engineers, engineering managers techniques
+
+**Prérequis** : Usage actif d'au moins un agent de code dans votre équipe (Claude Code, Cursor, Copilot Workspace, etc.)
+
+**Temps de lecture** : 55 min
+
+**Ce que vous allez retenir** :
+
+- La J-curve de productivité et ce que les RCT (essais contrôlés randomisés) mesurent réellement au palier L2-L3
+- Les 9 composants d'un harness d'agent (armature d'orchestration) et pourquoi le code est l'unité d'ingénierie
+- Ce que livrent aujourd'hui GitHub Agentic Workflows, AWS Bedrock AgentCore et GitLab Duo
+- Pourquoi le SDD (spec-driven development) remplace le TDD (test-driven development) comme discipline de référence en mode agentic
+- Les signaux d'alarme en observabilité et gouvernance : 93% d'approbations sans examen, LLM-judge (grand modèle de langage utilisé comme évaluateur) < 25% TNR
+:::
+
+> **En 5 lignes :** Les agents passent du mode "auto-complétion augmentée" à des boucles autonomes capables de passer des jours sur un codebase. Ce changement de régime n'est pas un gain automatique : le seul essai contrôlé randomisé (RCT) sur des développeurs expérimentés (METR, Model Evaluation and Threat Research, n=16) mesure -19% de temps réel malgré une perception positive de +24%. La productivité revient quand les équipes maîtrisent trois choses : un harness correctement architecturé (executability, inspectability, statefulness), un pipeline CI/CD (intégration continue / déploiement continu) instrumenté pour évaluer en continu, et une gouvernance HITL (Human-in-the-Loop, supervision humaine dans la boucle) qui résiste à l'échelle plutôt que de laisser 93% des approbations sans examen réel.
+
+# Le Palier L2-L3 et la J-curve de Productivité
+
+L'adoption des agents de code n'est plus une question. Stack Overflow Developer Survey 2025 mesure 84% d'adoption sur sa base de 49 000+ répondants, dont 51% en usage quotidien et 31% qui utilisent réellement des agents au sens fort, pas seulement de l'auto-complétion. DeputyDev observe une adoption naturelle qui passe de 4% le premier mois à 83% au sixième sur une équipe de 300 ingénieurs. Le débat n'est pas "faut-il adopter", il porte sur ce qui se passe vraiment quand une équipe franchit le palier entre l'usage assistant (L0-L1) et l'usage autonome (L2-L3).
+
+Ce palier est qualitatif, pas quantitatif. Les premières équipes à le franchir voient souvent leurs métriques empirer avant de s'améliorer. Cette dégradation initiale n'est ni un échec ni une anomalie, c'est la J-curve économique documentée par Brynjolfsson, Rock et Syverson (NBER w25148) appliquée à un nouveau régime de travail. Comprendre cette courbe change la façon de piloter l'adoption.
+
+Le vrai travail d'un tech lead n'est pas de "faire adopter l'IA". C'est de savoir où son équipe se situe sur la Shapiro Scale, quels investissements de tooling sont nécessaires pour passer au niveau suivant, et comment mesurer honnêtement les gains sans se mentir sur la base du ressenti.
+
+## L'échelle de Shapiro : cinq régimes, pas un continuum
+
+Dan Shapiro, CEO de Glowforge, a publié en janvier 2026 une taxonomie en cinq niveaux qui sert maintenant de référence dans la communauté ("Five Levels: from Spicy Autocomplete to the Dark Factory", factorydark.com, 28 janvier 2026). Cette échelle ne décrit pas une progression linéaire de capacités, elle décrit cinq régimes d'usage avec des contraintes opérationnelles distinctes.
+
+**L0** correspond à l'autocomplete contextuel à la GitHub Copilot inline suggestions : l'agent propose la suite probable de la ligne en cours. **L1** ajoute la génération de fichier isolé ou le refactoring single-file sur instruction explicite. **L2** introduit les tâches sur branche isolée portant sur 1 à 2 fichiers, avec une boucle de retour interactive où l'humain et l'agent itèrent en quelques tours. Claude Code en usage standard se situe ici.
+
+**L3** est le saut qualitatif majeur. L'agent ouvre une session multi-fichiers autonome de plusieurs heures sur un repo en conditions réelles, exécute des tests, soumet une PR. L'humain n'intervient plus à chaque tour, il valide en sortie. **L4** étend l'autonomie à des missions de plusieurs jours, avec débogage croisé, coordination de sous-agents, accès à des outils externes. **L5**, la "Dark Factory", désigne un mode pleinement autonome sans intervention humaine sur un cycle complet. Aucune équipe n'a documenté de L5 en production réelle à mai 2026.
+
+Le piège du discours marketing est de confondre L2 et L3. Un développeur qui utilise Claude Code en chat interactif (L2) extrapole intuitivement vers une autonomie de L3, mais le saut implique des composants techniques absents en L2 : gestion d'état persistant, bac à sable (sandbox) d'exécution, observabilité par span, gouvernance d'approbations. Toute la section 2 de ce document détaille ces composants.
+
+## Ce que les études mesurent réellement
+
+Le seul essai contrôlé randomisé (RCT) publié sur des développeurs expérimentés en conditions réelles donne un résultat contre-intuitif. METR Study 1 (arXiv 2507.09089, juillet 2025) a recruté 16 développeurs avec 5 ans d'expérience minimum, leur a confié 246 tâches réelles d'environ 2h sur des repositories de production avec 23 000+ étoiles GitHub et 1 million de lignes de code minimum. Outils utilisés : Cursor Pro avec Claude 3.5 et 3.7 Sonnet. Mesure principale : temps réel pour compléter chaque tâche, avec et sans AI.
+
+Résultat : **-19% de temps réel avec AI**, intervalle de confiance à 95% allant de +2% à +39%. Autrement dit, dans le pire cas du protocole METR, l'AI fait perdre du temps. Le détail le plus frappant porte sur la perception : les participants estimaient ex-ante un gain de 24% (une accélération de 24%), et ex-post un gain de 20%. **Écart entre perception et mesure réelle : 39 points.**
+
+Ce gap n'est ni un biais cognitif marginal ni une erreur de protocole. Il est mesuré sur 246 tâches, dans deux directions temporelles (avant et après), avec une amplitude constante. Cela invalide le pilotage par anecdote ("je code 2x plus vite") comme méthode d'évaluation, sans pour autant disqualifier les agents : la conclusion correcte est qu'au palier L2-L3 sur des tâches complexes, les gains ne sont pas automatiques et ne se laissent pas mesurer par le ressenti.
+
+METR a tenté une seconde étude avec un échantillon élargi (n=57, 143 repositories, 800+ tâches). Cette étude a été abandonnée pour biais de sélection : 30 à 50% des participants refusaient de travailler sans AI, ce qui rendait le bras contrôle impossible à constituer. Sur les 10 développeurs communs aux deux études, le speedup est de -18% avec IC -38% à +9%, ce que METR qualifie eux-mêmes de "very weak evidence". Pas une preuve de ralentissement, mais une absence de preuve de gain au palier L2-L3.
+
+DeputyDev (arXiv 2509.19708) raconte une histoire différente, mais sur une méthode différente. Étude cohorte sur 300 ingénieurs pendant 1 an, mesure de -31.8% sur le cycle time des PRs (p=0.0018, statistiquement solide). Sans groupe contrôle randomisé, on ne peut pas conclure à un effet causal de l'AI seule (l'équipe a aussi changé ses processus, ses outils annexes, sa culture de revue), mais le signal est clair : sur le métriquage du cycle de PR, l'amélioration est mesurable et persistante après stabilisation de l'adoption à 60% en régime de croisière.
+
+La tâche synthétique de 45 minutes en JavaScript utilisée pour le célèbre "Copilot fait gagner 55% de temps" de GitHub n'est pas comparable à ces études. Ni la durée, ni la complexité du codebase, ni le niveau d'expérience des participants ne sont du même ordre. Un tech lead qui justifie un budget agentique en citant ce chiffre se met en risque face à un CFO qui demanderait les données METR.
+
+| Étude | Type | n | Résultat sur le temps |
+|-------|------|---|----------------------|
+| METR Study 1 (arXiv 2507.09089) | RCT | 16 | -19% (IC +2% à +39%) |
+| METR Study 2 (arXiv 2507.09089 update) | Cohort, abandonné biais | 57 | "Very weak evidence" |
+| DeputyDev (arXiv 2509.19708) | Cohort, 1 an | 300 | -31.8% PR cycle time (p=0.0018) |
+| GitHub "Copilot 55% faster" | Tâche synthétique JS | non publié | +55% (tâche de 45 min) |
+
+::: {.callout-warning title="Le gap de 39 points"}
+Dans METR Study 1, les développeurs estimaient gagner 24% de temps avant les tâches, 20% après. La réalité mesurée : -19%. Cet écart de 39 points n'est pas une anomalie : il persiste sur 246 tâches dans des repos de production. Piloter uniquement sur les perceptions revient à naviguer avec un compas biaisé.
+:::
+
+## La J-curve macro et le creux d'adoption
+
+Au niveau macro-économique, le travail de Brynjolfsson et al. avec le Census Bureau (2025) utilise une méthode quasi-expérimentale fondée sur une variable instrumentale exploitant les écarts régionaux dans le pool de compétences AI. L'échantillon couvre des dizaines de milliers d'usines américaines. Le résultat principal : -1.33 point de PTF (productivité totale des facteurs, TFP en anglais) à court terme chez les adoptants. Sur certains segments, le LATE (Local Average Treatment Effect, effet de traitement local moyen) descend à -44 voire -60 points.
+
+Ces chiffres choquent quand on les présente isolément, mais ils sont le creux attendu de la J-curve. Brynjolfsson, Rock et Syverson (NBER w25148) avaient théorisé ce phénomène dès 2019 : les technologies à usage général (electricité, IT, AI) produisent une dégradation initiale de la productivité mesurée, parce que les organisations doivent réinvestir massivement (en formation, en re-engineering des processus, en nouvelle infrastructure) avant que les gains émergent. Sur la même étude Census Bureau, les adoptants précoces et les jeunes entreprises montrent des gains à moyen terme.
+
+Cette J-curve est cohérente avec le ressenti des équipes qui passent à L3. Les premiers mois sont marqués par une explosion des artefacts produits (code, PRs, tests), une augmentation du temps de relecture, des incidents nouveaux (hallucinations, drift, accès incorrects). Les gains se matérialisent seulement après avoir structuré le harness, instrumenté l'évaluation continue et établi la gouvernance.
+
+Brynjolfsson, interviewé dans le Financial Times en février 2026, note que la productivité américaine 2025 a atteint +2.7%, soit le double de la moyenne décennale (1.4%). Difficile d'attribuer ce gain à l'AI seule, mais le ratio évolue dans la bonne direction. La leçon pour un tech lead : la J-curve d'une équipe individuelle ressemble à la J-curve macro, avec un creux mesurable avant les gains. Anticiper ce creux dans la communication avec la direction évite les arrêts d'investissement au pire moment.
+
+# Le Code comme Harness d'Agent
+
+Une confusion fréquente dans les discussions sur les agents : "j'utilise Claude" est traité comme synonyme de "j'opère un agent". Ce n'est pas la même chose. Le modèle (Claude, GPT-5, Gemini) est l'inférence brute. L'agent est la combinaison d'un modèle et d'une boucle de contrôle qui décide quoi faire à chaque tour, avec quels outils, dans quel contexte. Cette boucle de contrôle s'appelle un harness (armature d'orchestration), et c'est l'unité d'ingénierie qui importe pour un tech lead.
+
+Le papier de référence sur cette distinction est "Code as Agent Harness" (arXiv 2605.18747, mai 2026). Il définit trois propriétés fondamentales qu'un harness doit garantir pour qualifier comme outil d'ingénierie sérieux : executability, inspectability, statefulness. Sans ces trois propriétés, on a un démonstrateur, pas un système. La plupart des frameworks agentiques en circulation aujourd'hui en respectent une ou deux, rarement les trois.
+
+Une analyse arXiv 2509.19185 sur 39 frameworks agentiques et 439 applications en production révèle un déséquilibre symptomatique : 70% de l'effort de test se concentre sur les composants déterministes (parsing, formatage, API calls), moins de 5% sur le "Plan Body", c'est-à-dire la logique de décision de l'agent lui-même. Moins de 1% des applications utilisent DeepEval ou un framework d'évaluation formel équivalent. Les équipes testent la plomberie, pas le comportement.
+
+## Les trois propriétés fondamentales
+
+**Executability** signifie que le code peut lancer l'agent et vérifier sa sortie sans intervention humaine. Cela paraît évident, mais beaucoup d'équipes ont des "agents" qui tournent en notebook, démarrent à la main, ou nécessitent qu'un humain copie-colle entre l'IDE et un terminal. Sans executability, pas de CI/CD agentic possible, pas d'évaluation continue, pas de scaling.
+
+**Inspectability** signifie que chaque step, chaque décision, chaque tool call est loggué et auditable. Un agent qui prend 50 décisions intermédiaires pour répondre à une requête doit produire 50 traces lisibles. Sans cette propriété, on ne peut ni déboguer un comportement erratique, ni faire de la post-mortem analysis quand quelque chose dérape, ni satisfaire les exigences de gouvernance type EU AI Act article 14.
+
+**Statefulness** signifie que le contexte persiste entre les tours, que les missions peuvent être reprises. Un agent qui doit tout recommencer à chaque session ne peut pas tenir des missions de plusieurs heures (L3) ou plusieurs jours (L4). La persistance implique des choix techniques : points de reprise (checkpointing), mémoire vectorielle, journal d'événements, snapshot du repo. Chacun a un coût et des limites de récupération différents.
+
+LangChain a publié son "State of Agent Engineering 2026" : 57% des entreprises ont des agents en production, 32% citent la qualité comme frein numéro un, 89% instrumentent l'observabilité, 62% font du tracing step-by-step. Ces chiffres confirment que l'observabilité (donc l'inspectability) est devenue le standard de fait. La qualité reste le frein principal, ce qui pointe vers les sections 4 et 5 de ce document.
+
+## Neuf composants pour un harness opérationnel
+
+Au-delà des trois propriétés, un harness en production doit articuler neuf composants. Ils ne sont pas tous obligatoires pour tous les cas d'usage, mais l'absence de plusieurs d'entre eux signale un harness immature. Une preuve par l'exemple inverse : mini-SWE-agent atteint 74% sur SWE-bench Verified avec 100 lignes de Python, en respectant strictement ces composants. Plus de code ne signifie pas un meilleur harness, c'est la discipline d'architecture qui compte.
+
+| Composant | Rôle | Signal d'absence |
+|-----------|------|-----------------|
+| Boucle principale (while-loop) | Contrôle le cycle agentic jusqu'à completion ou timeout | L'agent ne sait pas quand s'arrêter |
+| Context management | Gère fenêtre de contexte, compaction, priorités | Dégradation silencieuse après 50k tokens |
+| Tool registry | Catalogue des outils disponibles, discovery on demand | Tous les outils toujours chargés, coût constant |
+| Sub-agents | Délégation de sous-tâches à des agents spécialisés | Monolith lent, pas de parallélisme |
+| Skills | Comportements réutilisables encapsulés | Duplication de contexte entre sessions |
+| Persistence | Mémoire inter-sessions, checkpoints intermédiaires | Perte de contexte à chaque redémarrage |
+| Prompt assembly | Construction dynamique du contexte selon la tâche | Contexte générique non adapté |
+| Hooks | Événements pré/post tool call, telemetry, validation | Pas de visibilité sur les décisions intermédiaires |
+| Permission enforcement | Allow/deny lists, sandboxing, scoped credentials | Lethal Trifecta activée par défaut |
+
+Quelques estimations practitioner circulent sur les gains liés à ces composants. Anthropic Research a publié en interne une mesure de -37% de tokens consommés via le tool search on demand (chargement des outils uniquement quand demandés, plutôt que injection systématique en début de prompt). Une seconde mesure interne donne -47% de temps de recherche pour 92% d'accuracy sur une étude de cas (case study). Ces chiffres ne sont pas peer-reviewed et ne précisent pas le n, ils servent d'indication d'ordre de grandeur, pas de preuve.
+
+## La Lethal Trifecta
+
+Simon Willison a formalisé en 2025 un risque sécuritaire spécifique aux agents : la Lethal Trifecta. Un agent présente un risque de fuite ou de manipulation quand il combine simultanément trois capacités. Premièrement, l'accès à des données privées de l'organisation. Deuxièmement, le traitement de contenu non fiable (pages web, mails entrants, PRs tierces, prompts utilisateur). Troisièmement, la capacité de communication externe (push git, envoi de mail, appel API sortant).
+
+L'attaque type est l'injection de prompt indirect : un PR tiers contient un commentaire crafted qui demande à l'agent d'exfiltrer une variable d'environnement vers un endpoint externe. Si l'agent a les trois capacités, l'attaque réussit. Si l'une des trois manque, la surface d'attaque s'effondre. La règle d'architecture est donc : ne jamais avoir les trois simultanément dans le même contexte d'exécution. Soit on segmente par sous-agents (chacun n'a que deux des trois), soit on désactive l'une des trois pour les workflows à risque.
+
+Les environnements isolés (sandboxes) opérationnels aujourd'hui : agent-sandbox.sigs.k8s.io (special interest group Kubernetes, isolation native K8s), E2B (bac à sable cloud facturé à la seconde, isolation par container), Northflank (orchestration CI/CD avec sandboxes intégrées). Chacun permet de couper l'une des trois pattes de la trifecta selon le contexte d'exécution.
+
+::: {.callout-note title="L'écart 70/5 sur l'effort de test"}
+arXiv 2509.19185 a analysé 39 frameworks et 439 applications agentiques en production. 70% de l'effort de test couvre les composants déterministes (parsing, API, formatage), moins de 5% le Plan Body. Moins de 1% utilisent DeepEval ou un framework d'évaluation formel. Si votre équipe se reconnaît dans ce ratio, vous testez la plomberie pendant que la logique de décision dérive sans contrôle.
+:::
+
+# CI/CD Agentic Productisé
+
+Les pages précédentes ont traité le harness comme construction interne. Le mouvement de 2025-2026 est la productisation : les grandes plateformes (GitHub, AWS, GitLab, Anthropic) livrent maintenant des composants managés qui implémentent une partie du harness, avec des SLAs, des intégrations natives, et des limites documentées. Ce qui était à construire en interne il y a 18 mois s'achète aujourd'hui.
+
+Cette section présente l'état du marché à mai 2026 et les benchmarks indépendants qui mesurent la performance réelle de ces plateformes. La distinction entre claim marketing et résultat mesuré est ici cruciale : les benchmarks indépendants (c-CRAB, Code Review Bench Martian) donnent des chiffres bien plus modestes que les press releases, et c'est sur ces chiffres qu'un tech lead doit dimensionner ses attentes.
+
+## Benchmarks indépendants : le plafond observable
+
+C-CRAB (arXiv 2603.23448, mars 2026) est un benchmark indépendant qui évalue les outils de revue de code agentic sur des PRs réelles avec tests exécutables. La métrique principale est le taux de réussite (pass rate) : la proportion de PRs sur lesquelles l'outil fournit une revue qui passe les tests automatiques et la validation humaine de qualité. Claude Code seul atteint 32.1%. L'union des quatre meilleurs outils combinés monte à 41.5%.
+
+Ce 41.5% est le plafond observable du meilleur état de l'art en revue agentic à mars 2026. Ce chiffre ne disqualifie pas les outils, il calibre les attentes : sur 100 PRs, environ 40 reçoivent une revue automatique de qualité suffisante, les 60 autres nécessitent encore un jugement humain ou un contexte sémantique plus profond. Un tech lead qui annonce à sa direction "on automatise la revue de code à 100%" sur la base d'un démo se prépare à un retour de bâton.
+
+Code Review Bench de Martian (mars 2026) analyse 200 000+ PRs sur 17 outils, avec deux métriques distinctes : le rappel, ou recall (proportion de bugs détectés parmi les bugs réels), et la précision (proportion de signaux émis qui correspondent à de vrais bugs). Augment arrive premier en rappel avec 62.8%. GitHub Copilot suit à 53.3%. Graphite affiche 75% de précision mais seulement 8.8% de rappel : l'outil signale peu, mais quand il signale c'est juste. Le choix entre Augment et Graphite n'est pas "lequel est meilleur" mais "quel compromis rappel/précision votre équipe préfère".
+
+GitHub a publié ses chiffres internes de Copilot revue de code en 2026 : 60 millions de revues traitées, 1 PR sur 5 sur l'ensemble de GitHub passe par Copilot Code Review. Taux d'actionnabilité (le développeur accepte ou modifie la suggestion) : 71%. Silence (ni accepté ni rejeté, ignoré) : 29%. Impact UX mesuré : +8.1% de retours positifs des auteurs de PR, mais +16% de latence perçue sur le cycle de revue. GitHub assume ce trade-off : on accepte une latence accrue contre une qualité de revue augmentée.
+
+## La contradiction des heavy users
+
+Digital Applied a publié au Q1 2026 une étude sur n=2 847 développeurs qui contredit frontalement le narratif "l'AI accélère la revue". Les heavy agentic users (top quartile d'usage) passent 14 à 16 heures par semaine à relire du code AI, contre 11.4 heures de moyenne générale. L'AI ne fait pas gagner du temps de revue, elle déplace la charge : l'agent produit plus de code, donc il y a plus de code à relire.
+
+Cette contradiction est importante pour le pilotage. Une équipe qui adopte massivement l'AI sans recalibrer ses processus de revue voit sa charge de relecture augmenter, pas diminuer. Les gains attendus se réalisent ailleurs (vélocité d'écriture, exploration de variantes), pas sur le temps de revue. Le tech lead doit anticiper ce déplacement et ajuster ses cibles, sinon il mesure un faux gain de productivité tout en laissant une dette de qualité s'accumuler.
+
+## GitHub Agentic Workflows
+
+GitHub Agentic Workflows (preview technique, février 2026) est la réponse de GitHub à la demande d'orchestration multi-agents managée. Le workflow se définit en Markdown lisible par humain. La commande `gh aw compile` produit un fichier `.lock.yml` versionné qui est le contrat exécutable du workflow. Cette séparation Markdown source / YAML compilé est analogue à la séparation source code / bytecode : on édite l'un, on exécute l'autre, et on commit les deux.
+
+Le pipeline de sécurité intégré comporte trois couches. Safe Outputs filtre les sorties de l'agent pour éviter l'exfiltration de secrets ou d'informations sensibles. Threat Detection combine Semgrep (analyse SAST sur le code produit), TruffleHog (détection de secrets), LlamaGuard (filtrage de contenu). Un firewall réseau Squid impose une allowlist sur les destinations sortantes. Cette pile technologique est ce que Simon Willison appelle "casser la Lethal Trifecta par construction".
+
+Le `.lock.yml` est le pivot. Versionné dans git, il devient le contrat documentaire entre l'équipe et l'agent : la diff sur ce fichier raconte l'évolution du workflow, le code review s'applique dessus comme sur n'importe quel code, et le runtime GitHub Actions l'exécute. C'est un pattern qui se généralise et qu'on retrouvera dans AWS Bedrock AgentCore.
+
+## AWS Bedrock AgentCore
+
+AWS Bedrock AgentCore est passé en GA en 2026. Le runtime est managé : pas de gestion de containers, pas de provisioning, AWS s'occupe du scaling. Trois modules principaux structurent l'offre. Le module Memory gère la persistance cross-session avec garanties de durabilité (les sessions interrompues peuvent reprendre dans un état cohérent). Le module Observability expose des traces OTel (OpenTelemetry) natives, exploitables depuis Datadog, New Relic, Honeycomb ou CloudWatch. Le module d'évaluation online échantillonne 1 à 2% du trafic en production pour évaluer en continu la qualité de l'agent, sans bloquer la chaîne de production.
+
+Le bac à sable (sandboxing) est natif, intégré au modèle de permissions IAM (Identity and Access Management) d'AWS. Un agent reçoit un IAM role scopé, ses actions sortantes passent par des VPC endpoints qu'AWS contrôle. Le couplage à AWS est le revers : déployer AgentCore signifie accepter une portion d'AWS lock-in, ce qui peut être un trade-off acceptable pour les équipes déjà sur AWS et un blocker pour les autres.
+
+## GitLab Duo : la version stable
+
+GitLab Duo a livré plusieurs composants matures à mai 2026. Le Fix CI/CD Pipeline Flow est GA depuis GitLab 18.8 : il analyse les logs de pipeline jusqu'à 150 KiB, identifie la cause d'un échec et propose un correctif applicable en un clic. Limite documentée : si les artefacts dépassent 150 KiB, le flow ne peut pas les analyser et l'humain reprend la main. Cette limite est honnête, peu de concurrents documentent ainsi leurs frontières.
+
+Le Code Review Flow fait de la revue automatique sur les MR (merge requests) avec suggestions inline. Le CI Expert Agent (GitLab 18.11, beta) répond aux questions sur la configuration CI en langage naturel, avec accès au contexte du projet. Convert to GitLab CI/CD est un agent dédié à la migration depuis Jenkins ou CircleCI, ce qui répond à un besoin métier précis et mesurable (réduire le coût d'un changement de plateforme CI).
+
+| Plateforme | Statut (mai 2026) | Capacité principale | Limite documentée |
+|------------|-------------------|---------------------|-------------------|
+| GitHub Agentic Workflows | Preview tech | Orchestration Markdown -> YAML lockfile | Preview, pas GA |
+| AWS Bedrock AgentCore | GA | Runtime managé + Memory + OTel | Couplage AWS |
+| GitLab Duo Fix Pipeline | GA (18.8) | Analyse + correctif CI/CD | Logs <= 150 KiB |
+| GitLab CI Expert | Beta (18.11) | Assistance config CI en langage naturel | Beta, non GA |
+| Anthropic Claude Managed Agents | GA | Runtime, checkpointing, scoped perms | API Anthropic uniquement |
+
+Anthropic Claude Managed Agents fournit un runtime managé via l'API Anthropic, avec checkpointing entre sessions et permissions scopées par agent. Le session tracing est natif. C'est l'équivalent fonctionnel de Bedrock AgentCore sans le couplage AWS, mais avec un couplage à l'API Anthropic à la place.
+
+## Claude Code : les primitives natives de workflow
+
+Anthropic livre depuis la v2.1.154 (28 mai 2026) sa propre réponse à la question de l'orchestration managée, directement dans le CLI que la majorité des lecteurs de ce document utilisent déjà. Les Dynamic Workflows (mot-clé déclencheur `ultracode`, renommé depuis `workflow` en v2.1.160) sont des scripts JavaScript qui orchestrent des dizaines à des centaines de sous-agents dans une seule session, via quatre primitives : `agent()` pour lancer un sous-agent isolé avec sa propre fenêtre de contexte, `parallel()` pour exécuter plusieurs thunks en concurrence et récupérer les résultats dans l'ordre d'entrée, `pipeline()` pour enchaîner des étapes séquentielles, `phase()` pour regrouper des appels sous un intitulé visible dans l'interface `/workflows`. Le script orchestrateur lui-même ne consomme aucun token, seul chaque appel `agent()` facture.
+
+Trois garanties distinguent ce mécanisme des plateformes tierces décrites ci-dessus. Le contrôle de flux est déterministe : les mêmes entrées produisent le même chemin d'orchestration, ce qui rend le résultat reproductible et donc auditable. La reprise sur interruption est automatique, le runtime rejoue l'état exact où le workflow s'est arrêté sans tout relancer depuis zéro. Le handoff entre étapes est validé par schéma JSON : quand `agent()` reçoit une option `schema`, le runtime valide la sortie et relance automatiquement en cas de non-conformité, ce qui élimine le parsing regex fragile entre phases.
+
+Le choix entre Agent tool, Skill et Dynamic Workflow dépend du nombre de conditions réunies. Un seul sous-agent pour une seule tâche appelle l'Agent tool directement, sans overhead de script à maintenir. Une procédure réutilisable où Claude choisit dynamiquement ses étapes appelle un Skill. Trois conditions ou plus parmi les suivantes appellent un Workflow : étapes multiples qui s'alimentent entre elles, parallélisation possible, mission assez longue pour que la reprise sur interruption compte, besoin de reproductibilité, ou besoin de schémas structurés entre étapes.
+
+Pour la thèse centrale de ce document (le harness est l'unité d'ingénierie), cette primitive change la donne : le harness n'est plus seulement une construction interne ou un achat sur étagère chez GitHub, AWS ou GitLab, c'est aussi une capacité native du CLI déjà installé sur le poste du développeur. Le compromis reste réel : les Dynamic Workflows évitent le lock-in AWS de Bedrock AgentCore ou le couplage à un framework externe type LangGraph, au prix d'un couplage à l'écosystème Claude Code lui-même.
+
+## Estimations practitioner : prudence requise
+
+Quelques chiffres circulent dans les press releases et les études de cas (case studies), à signaler comme tels. Plane, un client de CodeRabbit, rapporte -50% de temps de revue et une accélération 4x des merges (étude de cas auto-reportée, sans groupe contrôle, méthodologie non publiée). GitLab annonce que son CI Expert atteint 89% de pipelines validés sans ajustement YAML (press release GitLab, pas de dataset public). Ces chiffres sont utiles comme ordre de grandeur, ils ne valent pas preuve.
+
+::: {.callout-important title="Le plafond des 40%"}
+C-CRAB (arXiv 2603.23448) mesure le meilleur état de l'art à 41.5% en union de 4 outils. En solo, Claude Code atteint 32.1%. Ces chiffres ne disqualifient pas les outils : ils définissent le palier d'autonomie réaliste d'un agent de revue en conditions contrôlées à mars 2026. Les 60% restants nécessitent encore un jugement humain ou un contexte sémantique plus profond.
+:::
+
+# L'Écosystème des Agents en 2026
+
+Claude Code n'est pas le seul outil dans ce champ. Depuis 2024, trois familles d'agents ont émergé avec des modèles d'usage distincts : les agents interactifs de terminal (pair programmers), les agents autonomes (assign-and-come-back), et les frameworks multi-agents (build-your-own). Une équipe qui passe à L3 doit savoir les distinguer pour ne pas utiliser un outil prévu pour l'interaction quand la situation demande de l'autonomie, ou l'inverse.
+
+## Agents de terminal : les alternatives directes
+
+**Codex CLI** (openai/codex, 86 200+ étoiles, Rust, Apache 2.0, lancé avril 2025) est la réponse directe d'OpenAI à Claude Code. Même modèle d'interaction, même cycle edit-test-iterate, mais connecté à GPT-4o, o3 et o4-mini. Pour les équipes déjà abonnées à ChatGPT Pro ou Team ($20-$30/mois), il vient sans surcoût marginal. Le choix entre Claude Code et Codex CLI se réduit souvent à une préférence de modèle selon les tâches.
+
+**Hermes Agent** (NousResearch/hermes-agent, 170 000+ étoiles, MIT, Python), ancien OpenClaw rebaptisé fin 2025, présente trois différenciateurs concrets. Support de 200+ providers LLM via OpenRouter, OpenAI, Anthropic et Ollama, ce qui permet de mixer Claude pour la génération et un modèle local pour le travail hors-connexion dans un même environnement. Boucle d'auto-amélioration : après chaque session, Hermes extrait des patterns récurrents et génère automatiquement des skills réutilisables, produisant un gain cumulatif mesurable sur 30 à 40 sessions sur un même codebase. Intégration avec 22 plateformes de messagerie (Telegram, Discord, Slack, WhatsApp, Signal, Teams), pertinente pour les équipes qui préfèrent assigner des tâches depuis un canal de communication plutôt que depuis un terminal. Depuis la clarification Anthropic en 2026, l'utilisation de Hermes avec Claude impute les tokens sur le bucket programmatique du plan Max.
+
+**Aider** (Aider-AI/aider, 45 400+ étoiles, Apache 2.0, Python) a précédé Claude Code et établi plusieurs conventions adoptées depuis par le secteur : auto-commits git avec messages descriptifs, édition whole-file, support multi-modèle via LiteLLM. Mature, 5,3M+ téléchargements PyPI, bien documenté. Utile pour les équipes qui veulent un outil multi-modèle dans un package plus léger que Hermes. Sa cadence de release a ralenti depuis mi-2025 (v0.86.0, août 2025), ce qui le rend stable mais moins réactif aux dernières avancées des modèles.
+
+## Agents autonomes : assign and come back
+
+Le modèle d'interaction est fondamentalement différent des agents de terminal. Vous décrivez une tâche, partez, et revenez à une PR. La qualité de la spécification de la tâche détermine la qualité du résultat plus que le choix de l'agent.
+
+**Devin** (Cognition, cloud, plan Team à $500/mois) exécute dans une VM Linux cloud avec shell, éditeur et navigateur. La facturation en ACU (Agent Compute Units, 1 ACU approximativement 15 minutes d'exécution) s'applique à des clients comme Goldman Sachs, Microsoft et Palantir. Le cas d'usage idéal est une tâche bien spécifiée et bornée : refactoring documenté, implémentation d'un endpoint précisé, correction d'une régression à cause connue. Devin échoue sur les tâches qui nécessitent du contexte implicite profond sur votre codebase ou des jugements continus. À $500/mois, le calcul doit montrer un ROI net sur le temps développeur libéré, pas seulement un décompte de tâches complétées.
+
+**SWE-agent** (Princeton NLP Group, NeurIPS 2024, 19 300+ étoiles, MIT) cible spécifiquement la résolution d'issues GitHub : vous lui passez une URL, il produit un patch. Son architecture Agent-Computer Interface (ACI) a démontré que la performance d'un agent dépend autant de la qualité d'exposition de l'environnement que de la puissance brute du modèle. Claude Code en mode headless (`claude -p`) est l'équivalent non-académique pour les équipes qui veulent ce pattern en CI.
+
+## Frameworks multi-agents : build vs use
+
+CrewAI (52 300+ étoiles), LangGraph (33 100+ étoiles) et AutoGen/MAF (Microsoft) sont des librairies pour construire des systèmes d'agents sur mesure, pas des outils de coding directement utilisables. Pour les équipes Claude Code, l'orchestration native (sous-agents, parallélisation, event-driven) couvre la majorité des besoins L3. Ces frameworks deviennent pertinents dans trois situations : coordination d'agents hétérogènes entre modèles et stacks différents, pipelines de traitement qui ne correspondent pas au modèle interactif, ou intégrations métier sans équivalent natif. LangGraph donne le contrôle le plus fin via un graphe d'état explicite avec exécution durable. CrewAI est plus rapide à déployer pour des workflows avec des rôles bien définis. Ces outils orchestrent Claude Code, ils ne le remplacent pas.
+
+| Situation | Outil recommandé |
+|-----------|-----------------|
+| Coding quotidien, modèles Claude | Claude Code |
+| Multi-modèle (Claude + local + OpenAI) | Hermes Agent |
+| Multi-modèle, empreinte légère | Aider |
+| Tâche bornée, exécution async | Devin ou `claude -p` en CI |
+| Résolution d'issues GitHub | SWE-agent |
+| Pipeline agent sur mesure | CrewAI (simple) ou LangGraph (contrôle fin) |
+| Stack OpenAI existante | Codex CLI |
+
+Référence complète avec configurations et comparaisons détaillées : [Agent Tools: Beyond Claude Code](https://cc.bruniaux.com/guide/ecosystem/agentic-tools/).
+
+## Choisir un harness sans confondre les jeux de données
+
+La sélection commence par le travail à faire et le niveau de responsabilité acceptable, pas par un classement global. Séparer le runtime qui possède la boucle, le contrat du dépôt qui borne le changement, et l'orchestrateur qui coordonne plusieurs sessions évite de demander à une catégorie de résoudre le problème d'une autre.
+
+Quatre jeux de données servent des décisions différentes. Le tableau strict du [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/) compare les runtimes de code. Son tableau d'orchestrateurs couvre les produits qui coordonnent des runtimes sans être assimilés à eux. Le snapshot *Best of Agent Harnesses*, daté du 23 août 2026, recense 160 projets dans 12 catégories; il inclut aussi des frameworks, sandboxes, mémoires et outils d'observabilité. Le JSON canonique `machine-readable/agent-harnesses.json` réunit ces observations sous un contrat lisible par machine, avec provenance et statut de preuve.
+
+| Question | Jeu de données à consulter | Limite |
+|----------|-----------------------------|--------|
+| Quel runtime exécute la boucle de code? | Comparaison stricte | Ne mesure pas l'adéquation à votre dépôt |
+| Faut-il coordonner plusieurs sessions? | Tableau des orchestrateurs | Ne remplace pas l'évaluation d'un runtime |
+| Quelle infrastructure est adjacente? | Snapshot Best of Agent Harnesses | 160 projets ne signifient pas 160 runtimes |
+| Quel fait est vérifié et par quelle source? | JSON canonique | `unknown` signifie non établi, pas absent |
+
+Le JSON conserve les liens, la date de vérification, la portée et les valeurs `confirmed`, `claimed`, `unknown` ou `not_applicable`. Un statut `claimed` rapporte une déclaration de la source, non confirmée par une preuve de mécanisme. Ce modèle aide à distinguer une capacité démontrée d'une déclaration ou d'une donnée absente. Les critères de choix et le protocole d'essai figurent dans le [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/); les définitions restent dans le [glossaire](https://cc.bruniaux.com/guide/glossary/).
+
+# Spec-Driven Development
+
+Le TDD (test-driven development, développement piloté par les tests) nous a appris à écrire les tests avant le code, dans l'idée que cette inversion force la clarté de l'intention. Quand un humain écrit le test, il doit nommer précisément ce que la fonction doit faire, et le test devient la spécification exécutable de l'intention. Cette discipline reste valide pour du code écrit par humain.
+
+Le problème en mode agentic est que l'agent peut écrire ses propres tests. Si la spec est vague, l'agent générera des tests justes par rapport à cette spec vague, qui passeront, mais ne captureront pas l'intention réelle. Le test ne joue plus son rôle de garde-fou sémantique, il devient un miroir de la sortie de l'agent. Le TDD n'est pas mort, mais il ne suffit plus comme discipline de référence pour les équipes L3+.
+
+Le SDD (spec-driven development, développement piloté par les spécifications) est la réponse convergente que GitHub Spec Kit, Kiro AWS, Augment SDD Toolkit, Cursor SDD, Agent OS et OpenSpec ont articulée en parallèle. Le principe : la spec précède le plan, le plan précède les tâches, les tâches précèdent l'implémentation. L'humain valide chaque étape avant d'autoriser la suivante.
+
+## Le problème de fond : 19.4% de pass@1 multi-fichiers
+
+MIT CSAIL a publié en 2025 une analyse qui résume bien l'écart entre démo et production : le code généré par AI compile et passe les tests superficiels, mais échoue aux vérifications CI et aux conventions de l'équipe sur la majorité des cas multi-fichiers. Augment Code a publié en interne (donc non peer-reviewed) un chiffre frappant : 19.4% de pass@1 sur des tâches multi-fichiers, contre 87% sur des fonctions isolées. L'écart de 68 points reflète le coût de la cohérence structurelle quand l'agent doit raisonner sur plusieurs fichiers en parallèle.
+
+Stack Overflow Developer Survey 2025 (n=49 000+) donne deux chiffres complémentaires. 66% des développeurs sont frustrés par des solutions "presque justes" générées par l'AI, des solutions qui ressemblent à la bonne réponse mais contiennent une erreur subtile qui demande du temps à diagnostiquer. 45% trouvent que déboguer du code AI est plus chronophage que d'écrire du code soi-même. Combiné avec la mesure Digital Applied de 11.4h/semaine à relire et valider du code AI contre 9.8h à en écrire, on voit que la charge de travail s'est déplacée de l'écriture vers la vérification.
+
+C'est dans ce contexte que le SDD prend tout son sens. Si la vérification est devenue le goulot d'étranglement, investir dans la qualité de la spécification (qui sert de référence pour la vérification) rapporte plus qu'investir dans la vitesse d'écriture.
+
+## Le pattern convergent en 4 phases
+
+Six produits différents ont convergé indépendamment vers le même pattern, ce qui suggère que le pattern reflète une structure réelle du problème plutôt qu'une mode marketing.
+
+**Phase 1 (Specify)** : rédiger la spec fonctionnelle, les contraintes de sécurité, les critères d'acceptation. La spec n'est pas une user story informelle, c'est un document précis qui sert de référence pour valider la sortie de l'agent. Cette phase est dominée par l'humain, l'agent peut aider à structurer mais pas à inventer.
+
+**Phase 2 (Plan)** : l'agent décompose la spec en plan d'implémentation, identifie les fichiers à toucher, les dépendances entre modifications, les risques. Les humains valident le plan avant qu'aucun code ne soit écrit. C'est l'étape qui change le plus la dynamique : on dépense du temps en amont pour gagner du temps en aval, en évitant les implémentations qui partent dans la mauvaise direction.
+
+**Phase 3 (Tasks)** : décomposition atomique en tâches testables indépendamment. Chaque tâche doit pouvoir être implémentée, testée, mergée sans dépendre des autres tâches du même plan. Cette atomicité permet la parallélisation par sous-agents et la reprise sur erreur sans tout recommencer.
+
+**Phase 4 (Implement)** : exécution avec tests, avec la spec comme référence pour valider, pas seulement le test. Si le test passe mais que la spec n'est pas satisfaite, la tâche échoue. Cette double validation est ce qui distingue le SDD du TDD agentic.
+
+## GitHub Spec Kit : six commands, 30+ agents
+
+GitHub Spec Kit est la formalisation la plus aboutie du pattern à mai 2026. Six slash commands structurent le workflow : `/speckit.constitution` (établir les principes du projet), `/speckit.specify` (rédiger la spec), `/speckit.clarify` (questionner et préciser), `/speckit.plan` (décomposer en plan), `/speckit.tasks` (atomiser en tâches), `/speckit.implement` (exécuter).
+
+L'outil est compatible avec 30+ agents (Claude Code, Cursor, Copilot Workspace, Aider, etc.), ce qui en fait un standard de fait. Pas besoin d'adopter un runtime spécifique, Spec Kit s'ajoute par-dessus l'agent qu'on utilise déjà.
+
+Factory.ai, une plateforme spécialisée sur les missions longues, donne des chiffres production utiles pour calibrer ce qu'on peut attendre du SDD à L3-L4. Durée médiane d'une mission : 2 heures. Maximum observé : 16 jours. 37% des missions durent plus de 4 heures, 14% plus de 24 heures. Sur un exemple documenté de clone Slack, l'agent détecte 81 problèmes via ses validators internes et génère 21 features de correction représentant 34% du travail total. La CLI : `droid exec --mission`. Ces chiffres montrent que les missions L3-L4 longues sont opérationnelles, pas un fantasme de pitch.
+
+## Spec drift : le risque opérationnel central
+
+Martin Fowler a analysé Spec Kit en 2026 et a identifié une limite structurelle : Spec Kit est "spec-first" (les specs sont écrites avant le code) mais pas "spec-anchored" (les specs ne restent pas synchronisées avec le code qui évolue après l'implémentation). Le code part de la spec, puis évolue sous la pression des refactorings, des bug fixes, des nouvelles features. Quelques semaines plus tard, la spec ne reflète plus le code, et l'avantage initial du SDD s'évapore.
+
+Ce phénomène s'appelle le spec drift, et il est le risque opérationnel central du SDD. Sans discipline de re-synchronisation, le SDD devient un théâtre : on écrit des specs avant chaque mission, on les archive, on ne les relit jamais. L'effort de spec est perdu, et l'agent qui réécrit du code 3 mois plus tard ne bénéficie pas du contexte initial.
+
+Tessl propose une position orthogonale, plus radicale : la spec-as-source. Le code généré contient un commentaire en tête `// GENERATED FROM SPEC - DO NOT EDIT`, la spec est la source unique de vérité, et toute modification passe par la spec, jamais par le code. Le code redevient un artefact dérivé, comme du bytecode est un artefact dérivé du source. Cette position élimine le spec drift par construction, au prix d'un couplage fort à la toolchain Tessl et d'une perte de flexibilité (on ne peut plus "juste tweaker une ligne" sans repasser par la spec).
+
+| Dimension | Spec Kit (GitHub) | Tessl |
+|-----------|-------------------|-------|
+| Positionnement | Spec-first : spec avant code | Spec-as-source : code dérivé de la spec |
+| Synchronisation | Manuelle post-changement | Automatique (code régénéré) |
+| Rôle du code | Premier citoyen, modifié | Artéfact dérivé (`GENERATED FROM SPEC`) |
+| Risque principal | Spec drift (spec et code divergent) | Couplage fort à la toolchain Tessl |
+| Compatibilité | 30+ agents | Runtime Tessl uniquement |
+
+Le choix entre les deux dépend du contexte. Spec Kit conserve la flexibilité du code-first et demande une discipline de re-sync. Tessl impose une discipline, mais à la place d'une discipline humaine continue, c'est un investissement en toolchain.
+
+## Estimations practitioner : ordre de grandeur uniquement
+
+Augment Code publie une mesure de "56% de réduction du temps en SDD" (citant MIT Sloan, Microsoft et GitHub comme sources, mais les liens directs ne sont pas vérifiables). Un autre chiffre d'Augment : "18 jours-développeur transformés en 6h" sur un exemple précis (non reproductible, dépend fortement du contexte). McKinsey, dans un rapport 2026 sur l'automatisation logicielle, annonce 30 à 40% de réduction du time-to-market sans publier la méthodologie. Ces chiffres servent à dimensionner les attentes, pas à construire un business case auditable.
+
+# Évaluation et Observabilité
+
+Les sections précédentes ont insisté sur le besoin d'évaluer en continu. Cette section descend dans les outils et les méthodes qui permettent cette évaluation, et documente leurs limites. Deux dimensions à traiter : les tests automatiques générés par les agents (la qualité des artefacts produits), et l'observabilité du comportement de l'agent en production (la qualité des décisions prises).
+
+Le contraste avec ce qu'on faisait il y a 18 mois est saisissant. En 2024, "évaluer un agent" signifiait souvent passer un benchmark statique une fois, regarder le score, communiquer. En 2026, l'évaluation est continue, granulaire au niveau du span, et calibrée par des benchmarks indépendants qui exposent les limites du LLM-as-judge.
+
+## Génération automatique de tests : ce que mesurent les benchmarks
+
+CovQValue (arXiv 2604.05159) est une approche d'apprentissage par renforcement Q-learning pour la génération de tests. L'évaluation est faite sur RepoExploreBench et TestGenEval Lite, avec 3 LLMs différents pour éviter le biais d'un modèle. Résultat : gain de +51 à +77% de branch coverage par rapport à la baseline, soit +16.8 à +47.4 branches absolues. Victoire sur 77 à 84% des cibles testées. Ce chiffre est mesuré, pas estimé.
+
+TOGLL (arXiv 2405.03786) attaque le problème de la génération d'oracles (les assertions qui décident si un test réussit). Sur un benchmark de mutation testing, TOGLL détecte 1 023 mutants uniques que EvoSuite (l'outil de référence depuis 10 ans) ne détecte pas. Il génère 3.8x plus d'assertion oracles et 4.9x plus d'exception oracles. Le taux de faux positifs est de 7%, à comparer à 81% pour TOGA, un outil concurrent plus ancien. Cette amélioration du taux de FP est importante : un outil avec 81% de FP rend tous ses signaux inactionnables.
+
+Argus est un système qui combine LLMs et fuzzing pour détecter des bugs dans les SGBD. Résultat documenté : 41 bugs inconnus dans 5 SGBD différents pour environ 10 USD de coût LLM total. 36 de ces 41 bugs sont des logic bugs, non détectés par les tests existants. Ce chiffre montre qu'à coût quasi-nul, un agent bien architecturé peut atteindre des bugs que les méthodes traditionnelles n'attrapent pas.
+
+BlueCodeAgent (arXiv 2510.18131, Microsoft Research) ajoute la dimension sécurité : +12.7% de F1 moyen sur 4 datasets de vulnérabilités. TDAD (arXiv 2603.08806) combine plusieurs techniques et atteint 92% de taux de compilation au premier essai, 97% de pass rate sur tests cachés, 86 à 100% de mutation score selon les projets, 97% de sécurité de régression. Meta ACH (ACM 10.1145/3696630.3728544) documente l'usage d'Atlassian Rovo Dev CLI atteignant 80%+ de mutation coverage en production.
+
+| Outil/Paper | Gain mesuré | Méthode |
+|-------------|-------------|---------|
+| CovQValue (arXiv 2604.05159) | +51 à +77% branch coverage | 3 LLMs, RepoExploreBench |
+| TOGLL (arXiv 2405.03786) | 1 023 mutants supplémentaires, FP 7% | vs EvoSuite |
+| Argus | 41 bugs SGBD pour ~10 USD | 5 SGBD, logic bugs |
+| TDAD (arXiv 2603.08806) | 97% pass rate, 86-100% mutation score | Benchmark dédié |
+| Meta ACH (Atlassian) | 80%+ mutation coverage | Production Rovo Dev CLI |
+
+Ces chiffres convergent vers un constat : sur la génération de tests, l'état de l'art agentic dépasse maintenant les outils symboliques de référence (EvoSuite, Pitest) sur plusieurs dimensions. Ce n'est pas universellement vrai (les outils symboliques restent plus prévisibles, plus rapides, et plus économes), mais l'écart se referme rapidement.
+
+## La règle creator ≠ verifier
+
+Un papier accepté sur OpenReview (4O0v4s3IzY) documente un phénomène devenu une règle d'ingénierie : le self-verification collapse. Quand l'agent qui crée et l'agent qui vérifie sont le même modèle, la détection d'erreurs est systématiquement plus faible. Un vérificateur indépendant (un autre modèle, ou le même modèle dans un contexte différent) donne +12 à +26% de correctness, et +4.3 points sur les benchmarks arithmétiques.
+
+La conséquence pratique : ne jamais utiliser le même modèle (et idéalement la même session) pour générer du code et pour le vérifier. Si Claude écrit la fonction, c'est GPT-5 ou Gemini qui doit l'auditer, ou au minimum une instance Claude indépendante avec un prompt orienté vérification. Cette règle s'applique aussi bien à la génération de tests qu'à la revue de code.
+
+## Observabilité : OTel GenAI comme standard convergent
+
+OpenTelemetry (OTel) a publié en mai 2026 le statut de son GenAI SIG (Special Interest Group). La spécification `gen_ai.client` est marquée stable et prête pour la production : elle couvre les attributs d'appel LLM (modèle, temperature, top_p, latence, coût, tokens). La spécification `gen_ai.agent` reste expérimentale : les attributs liés aux décisions d'agent (tool selection, planning steps, sub-agent delegation) ne sont pas encore stables, mais les principaux acteurs travaillent à converger.
+
+Côté implémentations, deux piles d'outils dominent. Arize OpenInference fournit un schéma sémantique pour les traces agentiques. Traceloop OpenLLMetry fournit l'instrumentation runtime Python et TypeScript. Côté backends d'observabilité, Datadog, Honeycomb, New Relic et MLflow supportent tous OTel GenAI en ingestion native. Cette convergence signifie qu'un investissement en instrumentation OTel aujourd'hui est portable entre backends, contrairement aux solutions propriétaires de 2024.
+
+Arize Phoenix est devenu la solution dominante sur le marché LLM observability self-hosted : 1 trillion de spans LLM traités par mois (clients : DoorDash, Instacart, Reddit, Uber, Booking.com). 9 000+ étoiles GitHub. Licence ELv2 qui autorise le self-hosting. Pour les équipes qui ne veulent pas envoyer leurs traces à un SaaS, Phoenix est l'option de référence.
+
+## LLM-as-judge : limites documentées
+
+Le LLM-as-judge est une pratique répandue : utiliser un LLM pour évaluer la sortie d'un autre LLM, sur des dimensions comme la qualité, la sécurité, la pertinence. C'est pratique parce que c'est rapide et peu coûteux, mais c'est dangereux parce que les biais documentés sont importants.
+
+JudgeBiasBench (arXiv 2604.23178) a évalué les LLM-judges sur des tests de biais avancés. Résultat : plus de 50% d'erreurs sur des tests adversariaux. Le style bias domine (score 0.76 à 0.92 selon le test) : le LLM-judge favorise les outputs qui ressemblent stylistiquement à ses propres outputs habituels. Le position bias (privilégier la première ou la dernière option présentée) est plus modéré (<0.04). Cette asymétrie est importante : un LLM-judge va systématiquement préférer du code écrit dans son style habituel, pas du code de qualité supérieure dans un style différent.
+
+Galileo AI a mesuré sur ses benchmarks internes que le True Negative Rate (TNR) typique d'un LLM-judge pour détecter des outputs invalides est inférieur à 25%. Autrement dit, sur 100 outputs invalides, le LLM-judge en laisse passer 75. Pour un workflow où la détection d'erreurs est critique (sécurité, conformité, données sensibles), un TNR de 25% est inacceptable comme seul mécanisme.
+
+GAAT (arXiv 2604.05119, Apple ML Research) propose une approche différente : la détection de violations de politique en moins de 200ms via règles déclaratives Open Policy Agent (OPA). L'architecture combine un Governance Enforcement Bus (qui applique les règles) et un Trusted Telemetry Plane (qui enregistre les événements avec provenance cryptographique). Cette approche déclarative complète le LLM-judge : on garde le LLM pour les jugements qualitatifs subtils, on délègue à OPA les jugements binaires (autorisé/refusé) avec garanties formelles.
+
+Agent GPA (Snowflake) introduit deux métriques opérationnelles utiles. Détection des erreurs d'agent : 95%. Précision de la localisation (pinpointer dans quel step l'agent a dérapé) : 86%. Tool Correctness Score formulé comme nombre d'outils corrects appelés divisé par total d'outils appelés. Ce dernier ratio est devenu un KPI standard dans les équipes qui pilotent par observabilité.
+
+::: {.callout-warning title="LLM-as-judge : une baseline, pas une conclusion"}
+JudgeBiasBench (arXiv 2604.23178) documente >50% d'erreurs sur des tests de biais avancés. Le True Negative Rate pour les outputs invalides est typiquement inférieur à 25% (Galileo AI). Le LLM-judge est un signal utile en première ligne, pas un arbitre final. La règle creator ≠ verifier (OpenReview 4O0v4s3IzY) s'applique aussi bien aux évaluateurs qu'aux générateurs.
+:::
+
+## Dataset noté, pas suite de tests rouge/vert
+
+Un test unitaire classique répond oui ou non. Un agent qui produit une sortie différente à chaque run avec la même entrée n'entre pas dans ce moule. Les équipes qui pilotent des pipelines agentic en production ont convergé vers un autre modèle d'évaluation : construire un dataset d'entrées appariées à des sorties attendues, faire tourner une fonction de scoring sur les réponses de l'agent, suivre le score dans le temps. La métrique est un pourcentage, pas un booléen. Passer de 85% à 87% à 89% est un signal de progrès, une suite de tests verte la semaine dernière et verte cette semaine ne dit rien sur la trajectoire.
+
+Concrètement, cela veut dire collecter des entrées réelles issues de la production, labelliser les sorties attendues (manuellement ou via un modèle plus large qui juge), et relancer la fonction de scoring après chaque changement significatif de prompt, de modèle ou de configuration d'outils sur l'agent. Louis Pinsard, CTO de Dialogue, résume la bascule dans IFTTD épisode 338 : arrêter de chercher un vert/rouge binaire, commencer à suivre une courbe.
+
+## Le CI/CD statistique : rejouer, pas asserter
+
+Parce que la sortie d'un LLM n'est pas déterministe, un seul run d'un scénario de test ne prouve rien sur la fiabilité. L'approche du CI/CD statistique rejoue chaque scénario clé 10 à 100 fois en parallèle et mesure le taux de succès avec un intervalle de confiance. Une régression se détecte quand ce taux de succès passe sous un seuil sur un grand nombre de runs, pas quand un run isolé échoue.
+
+Le pattern est simple à implémenter : boucler N fois sur la même tâche, scorer chaque réponse, calculer le pourcentage de runs au-dessus d'un seuil de score. Fixer un seuil de pass-rate par scénario (par exemple 90% des runs doivent scorer au-dessus de 0.8), puis surveiller la dérive de ce seuil au fil des versions d'agent et des mises à jour de modèle. Frédéric Barthelet documente ce pattern dans IFTTD épisode 329. C'est un axe orthogonal aux plateformes de la section 3 (GitHub Agentic Workflows, Bedrock AgentCore, GitLab Duo) : ces plateformes orchestrent l'exécution CI/CD, cette méthode statistique définit ce qu'on mesure une fois que ça tourne.
+
+## L'hallucination comme compromis calibré, pas comme bug
+
+L'hallucination est une caractéristique structurelle de la façon dont les LLM sont entraînés, pas un défaut qu'on peut éliminer. Le processus d'entraînement récompense les réponses confiantes plus que les abstentions, ce qui pousse le modèle à parfois fabriquer un contenu plausible plutôt que d'admettre qu'il ne sait pas.
+
+La question d'évaluation à se poser n'est donc pas "comment éliminer les hallucinations" mais "quel équilibre entre bonnes réponses, abstentions et hallucinations convient à mon cas d'usage". Un système à 85% de bonnes réponses, 10% d'abstentions et 5% d'hallucinations peut être préférable à un système à 80% de bonnes réponses, 19% d'abstentions et 1% d'hallucination, ou l'inverse, selon le coût de chaque type d'erreur dans le contexte métier. Ajuster cet équilibre passe par les seuils de confiance dans le system prompt, par un contexte de retrieval qui ancre le modèle sur du factuel, et par le modèle-juge qui détecte et signale les réponses hallucinées. La cible n'est pas zéro hallucination, c'est un taux calibré et surveillé qui correspond à la tolérance au risque de l'application.
+
+## Workflow vs agent pur : deux régimes d'évaluation différents
+
+Les workflows agentiques où la séquence d'étapes est prédéterminée s'évaluent plus facilement que les agents purs où le modèle décide lui-même de son chemin. Dans un workflow, chaque étape a une sortie attendue définie et peut être évaluée indépendamment. Dans un agent pur, le chemin vers le résultat varie d'un run à l'autre, et on ne peut évaluer que la sortie finale.
+
+Si la latence et le coût sont des contraintes, et elles le sont presque toujours, un workflow déterministe avec des composants LLM aux points de décision s'évalue de façon moins chère et plus fiable qu'une boucle d'agent ouverte. Réserver le pattern agent pur aux tâches où la séquence d'actions est réellement impossible à connaître à l'avance. Cette distinction rejoint directement les primitives natives `agent()/parallel()/pipeline()` de Claude Code présentées en section 3 : elles permettent de construire ce régime de workflow déterministe plutôt que de tout confier à un agent pur, avec le bénéfice d'évaluation qui va avec.
+
+*Sources des quatre sous-sections ci-dessus : Louis Pinsard (CTO, Dialogue), [IFTTD ep 338 "Evaluation de GenAI"](https://www.ifttd.io/episodes/evaluation-de-genai) ; Frédéric Barthelet (ingénieur), [IFTTD ep 329 "Front agentique"](https://www.ifttd.io/episodes/front-agentique).*
+
+# Gouvernance et HITL à l'Échelle
+
+Le HITL (Human-in-the-Loop, supervision humaine dans la boucle) est une bonne idée tant que l'échelle reste compatible avec une attention humaine soutenue. Le problème est que les équipes qui passent à L3 voient leur volume d'opérations agentiques exploser. 100 demandes d'approbation par jour, c'est gérable. 10 000, c'est du rubber-stamping. Cette section documente la transition HITL vers HOTL (Human-on-the-Loop, supervision humaine au-dessus de la boucle) vers auto-review agent, avec les données empiriques qui justifient chaque étape.
+
+Le paradoxe central est que vouloir garder l'humain dans la boucle "pour la sécurité" peut produire l'effet inverse : si l'humain valide sans examiner réellement parce que le volume excède sa capacité cognitive, le HITL devient un théâtre rassurant pour le management, pas un contrôle effectif. Mieux vaut un HOTL bien conçu avec interventions ciblées qu'un HITL formellement appliqué mais cognitivement vidé.
+
+## Le chiffre des 93%
+
+Anthropic a publié en 2026 une mesure interne sur les workflows agentic à grande échelle : **93% des demandes d'approbation sont approuvées sans examen adéquat** quand les workflows humains traitent plus de quelques milliers d'opérations par jour. Ce chiffre fait partie de leur communication sur le shared responsibility model et l'architecture des Claude Managed Agents.
+
+Ce 93% ne signifie pas que les 93% sont des erreurs. Beaucoup de ces approbations seraient acceptables même après examen. Il signifie que le processus d'approbation ne produit plus de filtre effectif : l'humain coche la case sans lire le contexte, sans valider la cohérence avec la spec, sans vérifier les permissions demandées. Cette dérive est une contrainte cognitive, pas un problème de motivation. Aucun humain ne peut maintenir un niveau d'attention constant sur 1 000+ demandes par jour, c'est physiologique.
+
+Anthropic a publié en parallèle "Measuring Agent Autonomy" (janvier 2026) qui documente l'évolution de la durée des tours d'agent. Le 99.9e percentile de durée d'un tour est passé de moins de 25 minutes en octobre 2025 à plus de 45 minutes en janvier 2026. Les sessions les plus longues ont plus que doublé en 3 mois. Cette augmentation reflète la complexification des tâches confiées aux agents (passage de L2 vers L3-L4), et elle rend le HITL synchrone (l'humain attend que l'agent demande pour valider) encore moins viable : on ne va pas attendre 45 minutes devant un écran à chaque demande.
+
+## La progression HITL vers HOTL vers auto-review
+
+Le HITL classique (Human-in-the-Loop) demande une approbation humaine avant chaque action critique. C'est le modèle par défaut, et il fonctionne tant que le débit reste inférieur à environ 100 opérations par jour par humain. Au-delà, la dégradation cognitive démarre.
+
+Le HOTL (Human-on-the-Loop) inverse la logique : l'agent exécute par défaut, l'humain surveille et intervient uniquement sur les cas signalés à haute incertitude ou à fort impact. Ce modèle scale jusqu'à environ 10 000 opérations par jour par humain, parce que l'humain ne traite que les exceptions (typiquement 1 à 5% du flux).
+
+HSBC a documenté un cas d'usage HOTL en détection de fraude : 1.35 milliard de transactions par mois traitées par un système agentic, avec intervention humaine ciblée sur les cas à haute incertitude. Résultat : -20% de faux positifs après mise en place du HOTL, par rapport au système précédent qui faisait du HITL systématique. Ce gain illustre que le HOTL n'est pas une régression de sécurité, c'est un déplacement de l'attention humaine vers les cas où elle ajoute vraiment de la valeur.
+
+L'auto-review agent va plus loin : un second agent dédié analyse l'intention de la demande, l'environnement d'exécution, la policy applicable et l'impact probable. L'humain n'est sollicité que sur les cas où l'auto-reviewer n'arrive pas à conclure. OpenAI Codex a publié une mesure de réduction des approbations humaines par un facteur 200x grâce à un auto-reviewer dédié. Le HITL ne disparaît pas, il se délègue à un agent vérificateur spécialisé, et l'humain devient l'arbitre des cas où les deux agents (créateur et reviewer) ne convergent pas.
+
+| Mode | Principe | Débit max | Quand l'utiliser |
+|------|----------|-----------|-----------------|
+| HITL (Human-in-the-Loop) | Approbation avant chaque action | ~100 ops/jour | Tâches irréversibles à haut impact, systèmes EU AI Act art. 14 |
+| HOTL (Human-on-the-Loop) | Surveillance + intervention sur cas critiques | ~10 000 ops/jour | Tâches à impact intermédiaire, flux réversibles |
+| Auto-review agent | Agent vérificateur analyse intention + policy | Illimité | Flux à haut volume après calibration du vérificateur |
+
+## La crise IAM pour agents
+
+Strata Identity a publié une étude 2026 sur l'identité des agents. Les chiffres sont révélateurs (le n n'est pas publié dans le rapport, prudence sur la généralisation). Seulement 18% des entreprises font confiance à leurs systèmes IAM pour gérer des agents AI. 23% ont une stratégie formelle d'identité pour agents. 44% utilisent encore des API keys statiques (le pire scénario sécuritaire). 28% ont de la traçabilité cross-environnement. 21% ont un inventaire en temps réel de leurs agents en production.
+
+La CSA (Cloud Security Alliance) et Zenity (étude conjointe 2026) complètent le tableau. 53% des entreprises ont subi un incident de sécurité lié à des agents en 12 mois. 47% ont vu des agents dépasser leurs permissions initialement allouées (souvent par chaînage d'outils légitimes individuellement, mais combinés dangereusement). 58% mettent plus de 5 heures à détecter une anomalie d'agent. Ce dernier chiffre est particulièrement préoccupant : un agent compromis qui agit pendant 5 heures peut faire des dégâts significatifs.
+
+Les outils d'identity governance qui répondent à ce besoin convergent vers des patterns similaires. Strata Maverics propose une orchestration multi-IdP, un gateway MCP (Model Context Protocol) natif, et des tokens OBO (On-Behalf-Of, délégation au nom d'un utilisateur) pour la délégation cryptographique. Microsoft Entra Agent ID introduit les blueprints d'agent, les service principals dédiés, et OAuth OBO. Okta for AI Agents gère les identités non-humaines avec des cycles de vie courts. Aembit fournit des credentials courte durée pour agents. Anthropic Claude Managed Agents offre scoped permissions, session tracing et points de reprise (checkpointing) dans son runtime managé.
+
+Le pattern commun : finir les API keys statiques, passer à des credentials à durée de vie courte (minutes), tracer chaque action de l'agent avec une identité distincte de l'utilisateur qui l'a invoqué, et logger les actions à un niveau qui permet l'audit cross-environnement.
+
+## Critères décisionnels pour passer en HITL
+
+Quatre critères justifient de maintenir un HITL strict malgré le coût opérationnel. Premièrement, le seuil d'impact financier : au-delà de 10 000 USD d'impact potentiel par action, le ratio coût-d'-approbation versus coût-d'-erreur penche vers HITL. Deuxièmement, le réglementaire : EU AI Act article 14 (systèmes à haut risque) impose une supervision humaine effective, HIPAA pour les données de santé, SOX pour les contrôles financiers. Troisièmement, la sémantique : si l'instruction originale contient une ambiguïté que l'agent doit résoudre par interprétation, le HITL ramène la décision à l'humain qui connaît l'intention. Quatrièmement, l'irréversibilité : suppression de données, déploiement en production, modification de schéma de base de données, toute action où le rollback est impossible ou coûteux.
+
+En dehors de ces quatre critères, le HOTL ou l'auto-review devraient être le mode par défaut, sous peine de tomber dans le 93%.
+
+::: {.callout-important title="93% d'approvals sans examen"}
+Les mesures internes Anthropic montrent que 93% des demandes d'approbation sont validées sans examen adéquat en production quand le volume dépasse quelques milliers d'opérations par jour. Ce n'est pas un problème de motivation des équipes : c'est une contrainte cognitive. Un humain ne peut pas maintenir un niveau d'attention constant sur 1 000 demandes par jour. La solution n'est pas de demander plus de vigilance, c'est de changer d'architecture.
+:::
+
+# Ce que Ça Change Concrètement pour les Rôles
+
+Les sept sections précédentes ont posé le cadre technique et empirique. Cette synthèse traduit en lecture par rôle : ce que change le passage à L3+ pour un développeur senior, un tech lead, un SRE, un engineering manager. Pas de nouvelles sources ici, juste l'application de ce qui précède.
+
+**Développeur senior**. Le centre de gravité du travail se déplace de "j'écris" vers "je conçois et je vérifie". Digital Applied mesure 11.4h/semaine de relecture de code AI en moyenne, 14 à 16h chez les heavy users. Cette charge n'est pas une dérive, c'est la nouvelle normale : l'agent produit plus de code, donc plus de code à valider. Les compétences qui prennent de la valeur sont la spécification précise (SDD), la revue d'intention plutôt que de syntaxe, et la compréhension fine des 9 composants du harness pour instrumenter correctement les workflows. La maîtrise du contexte (savoir ce que l'agent voit, ce qu'il ne voit pas, et quand recharger) devient un skill différenciateur. Concrètement : investir 2 à 3 jours dans Spec Kit ou un équivalent rapporte plus que d'attendre la prochaine release de Claude.
+
+**Tech lead**. La code review classique évolue vers l'évaluation continue. Les benchmarks comme c-CRAB (32.1% de taux de réussite Claude Code solo, 41.5% en union des 4 meilleurs outils) et JudgeBiasBench (>50% d'erreurs LLM-judge) montrent que l'outil ne remplace pas le jugement architectural. Le tech lead définit maintenant les critères d'évaluation (mutation score cible, property testing obligatoire pour les modules critiques, coverage de branch minimum) et calibre les seuils HOTL : au-delà de quel impact ou de quelle incertitude l'humain doit-il intervenir. Le lien avec le whitepaper 11 sur les Team Metrics est direct : les métriques qu'un tech lead instrumente déterminent ce que l'équipe optimise, et les anciennes métriques (commits par jour, PRs mergées par sprint) deviennent trompeuses en mode agentic. Concrètement : remplacer "lignes de code" par Tool Correctness Score, durée des sessions, taux d'intervention HOTL.
+
+**SRE (Site Reliability Engineer)**. L'observabilité applicative classique (latence, erreurs HTTP, disponibilité) ne suffit plus. Il faut instrumenter `gen_ai.client` (OTel stable depuis mai 2026), les trace spans d'agent au niveau de chaque décision, le Tool Correctness Score (Agent GPA Snowflake), et les taux d'intervention HITL/HOTL. Le budget d'incidents change de nature : 58% des anomalies d'agent sont détectées plus de 5 heures après leur début (CSA/Zenity), ce qui redéfinit les SLO (objectifs de niveau de service). Un SLO classique de 99.9% sur la disponibilité n'a plus de sens isolé si l'agent fonctionne mais dérape sémantiquement. Concrètement : ajouter au runbook des seuils sur la dérive sémantique (un agent dont le Tool Correctness Score chute de 10% en 24h doit déclencher une alerte), instrumenter les hooks pre/post tool call avec OpenTelemetry, intégrer Arize Phoenix ou équivalent dans la pile d'observabilité.
+
+**Engineering Manager**. Les métriques de vélocité brutes (commits, PRs mergées, story points livrés) explosent mécaniquement avec l'adoption des agents. Ce n'est pas un signal de productivité, c'est un artefact d'adoption : l'agent produit plus d'artefacts mesurables, mais la mesure du temps réel sur des tâches complexes ne suit pas (METR Study 1 : -19% mesuré contre +24% perçu, gap de 39 points). Un EM qui communique à sa direction sur la base des métriques de vélocité agentic se prépare à un retour de bâton quand la J-curve descend (creux de -1.33 point de PTF documenté par Brynjolfsson sur le terrain industriel américain). Recalibrer les cibles DORA (DevOps Research and Assessment : deployment frequency, lead time, change failure rate, MTTR) à la lumière de l'agentic, et instrumenter les métriques AI-specific détaillées dans le whitepaper 11. Concrètement : ne jamais piloter sur le ressenti seul, demander des données mesurées, accepter la J-curve dans la communication avec la direction, communiquer en amont sur le creux pour éviter les coupes budgétaires au pire moment.
+
+# Voir Aussi
+
+- [Architecture Claude Code](https://cc.bruniaux.com/guide/core/architecture/) : patterns multi-agents et orchestration
+- [Sécurité et isolation](https://cc.bruniaux.com/guide/security/security-hardening/) : Lethal Trifecta et configurations recommandées
+- [Piloter une équipe à l'ère de l'IA](https://cc.bruniaux.com/whitepapers/) : WP 11, métriques DORA recalibrées
+- [Agent Teams](https://cc.bruniaux.com/whitepapers/) : WP 08, coordination multi-agents
+- [Observabilité et traçabilité IA](https://cc.bruniaux.com/guide/ops/observability/) : pile OTel GenAI
+
+| Licence | Contenu | Code |
+|---------|---------|------|
+| Régime | CC BY-SA 4.0 | MIT |
+
+**Repository** : [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)
+
+*Version 3.42.0 | Août 2026*
+
+{{< include fiches/fiche-12-agent-engineering.qmd >}}
+
+# La Série
+
+Cette collection couvre les pratiques Claude Code de l'adoption initiale à l'ingénierie avancée. Treize livres blancs, du prompt efficace à la gouvernance d'agents autonomes.
+
+- **WP00** Introduction à la série
+- **WP01** Prompts efficaces
+- **WP02** Personnalisation et configuration
+- **WP03** Sécurité et conformité
+- **WP04** Architecture multi-agents
+- **WP05** Collaboration d'équipe
+- **WP06** Privacy et RGPD
+- **WP07** Guide de référence complet
+- **WP08** Agent Teams en production
+- **WP09** Apprendre avec l'IA
+- **WP10** Budget et ROI
+- **WP11** Métriques d'équipe
+- **WP12** Ingénierie à l'ère des agents autonomes
+
+Disponibles sur [cc.bruniaux.com/whitepapers/](https://cc.bruniaux.com/whitepapers/)

@@ -1,0 +1,1280 @@
+---
+title: "Whitepaper 08 : Agent Teams"
+subtitle: "Coordination multi-agents pour tâches complexes"
+author: "Florian BRUNIAUX"
+date: 2026-08-24
+date-format: "MMMM YYYY"
+version: "3.42.0"
+wp-version: "1.6.0"
+series: "Claude Code Ultimate Guide"
+format:
+  whitepaper-typst:
+    toc: true
+    toc-depth: 2
+    section-numbering: "1.1"
+  html:
+    toc: true
+    theme: cosmo
+  epub:
+    toc: true
+    toc-depth: 2
+    epub-cover-image: _extensions/whitepaper/assets/claude-code-ai-logo.jpg
+    css: ../epub-styles.css
+    number-sections: true
+lang: fr
+---
+
+::: {.callout-tip title="Pour qui ce whitepaper ?"}
+**Audience principale** : Développeurs seniors, architectes systèmes
+
+**Prérequis** : Bonne maîtrise Claude Code (3+ mois), concepts d'agents (WP04)
+
+**Temps de lecture** : 35 min
+
+**Ce que vous allez retenir** :
+
+- Sub-agents via l'outil Task = délégation simple et stable (commencez ici)
+- Agent teams = coordination peer-to-peer, expérimental, coût 3-5× solo
+- 95% des besoins multi-agents sont couverts par les sub-agents seuls
+:::
+
+> **En 5 lignes :** Il y a une confusion persistante dans l'écosystème entre sub-agents et agent teams. Les sub-agents (outil Task) permettent la délégation de tâches parallèles, stables et recommandés, couvrant 95% des besoins. Les agent teams (coordination P2P entre instances Claude) sont expérimentaux, 3 à 5 fois plus chers, et nécessaires seulement dans des cas très spécifiques. Cet ebook clarifie quand utiliser quoi, avec des exemples concrets des deux patterns.
+
+# Introduction
+
+> Un projet de revue de code qui prend 3 heures en agent unique peut descendre à 45 minutes avec trois agents spécialisés travaillant en parallèle --- mais le coût en tokens triple simultanément. C'est le compromis fondamental des agent teams : puissance de parallélisation contre intensité de consommation. Ce guide vous aide à décider quand ce trade-off vaut la peine.
+
+Les agent teams permettent à **plusieurs instances Claude de travailler en parallèle** sur des sous-tâches différentes, coordonnées via un système git. Contrairement aux workflows multi-instances manuels où vous orchestrez vous-même les sessions Claude, les agent teams fournissent une coordination intégrée : les agents revendiquent des tâches, fusionnent les changements en continu et résolvent les conflits automatiquement.
+
+L'idée centrale est simple : certaines tâches de développement sont naturellement décomposables en sous-problèmes indépendants. Quand un humain fait une revue de code, il examine la sécurité, la qualité API et le frontend séquentiellement. Avec des agent teams, ces trois analyses se déroulent en même temps, chaque agent apportant son expertise dans un domaine dédié. Le gain de temps est réel, mais le surcoût en tokens l'est aussi --- le choix des cas d'usage détermine si le compromis est rentable.
+
+## Statut et Maturité
+
+- **Statut** : Experimental (v2.1.32+, *research preview*)
+- **Modèle requis** : Opus 5 (recommandé/requis), Opus 4.6+ compatible
+- **Activation** : `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
+- **Stabilite** : *Research preview*, *breaking changes* possibles
+
+## Caractéristiques Clés
+
+Les agent teams étendent les sous-agents avec deux apports clés : messagerie bilatérale pair-à-pair (les teammates communiquent directement entre eux, pas seulement avec le lead) et outils de coordination intégrés (liste de tâches partagée, fusion git, système mailbox). L'isolation de contexte existe dans les deux cas. Chaque *teammate* dispose de sa propre fenêtre de 1M tokens, ce qui permet de couvrir des codebases larges sans pression de contexte. Le compromis principal reste le coût en tokens, qui augmente linéairement avec le nombre d'agents.
+
+> **Important** : Un agent Claude Code solo est un agent de codage autonome à part entière, pas un chatbot. Les agent teams étendent cela avec une coordination parallèle entre plusieurs instances; la différence est la structure de coordination, pas le niveau de capacité.
+
+| Aspect | Description |
+|--------|-------------|
+| **Coordination autonome** | Le *team lead* délègue, les *teammates* communiquent via *mailbox* |
+| **Messagerie pair-à-pair** | Communication directe entre agents (pas uniquement hiérarchique) |
+| **Verrouillage git** | Les agents revendiquent des tâches via un répertoire partagé |
+| **Fusion continue** | Les modifications sont committées, pullées et pushées automatiquement, sans intervention manuelle |
+| **Contexte isolé** | Chaque agent dispose de sa propre fenêtre de contexte indépendante (~30K lignes de code, environ 1M tokens) --- disponible en beta (usage tier 4 ou *rate limits* personnalisés). Voir -> **Architecture : Contexte par agent** |
+| **Intensif en tokens** | Appels modèle simultanés multiples = coût élevé |
+
+## Quand Utiliser les Agent Teams ?
+
+Décision rapide --- pour l'arbre de décision complet, voir -> **#6 Cadre de Décision** (`08-agent-teams.qmd#decision-framework`).
+
+**Oui si** : tâche *read-heavy*, multi-couches, haute criticité, parallélisable --- et coût tokens justifié.
+
+**Non si** : tâche simple (<5 fichiers), workflow séquentiel, budget serré (3x+ tokens), *write-heavy*, ou faible criticité.
+
+::: {.callout-warning title="Mémo Express --- Coût Agent Teams"}
+| Config | Coût relatif | Temps relatif | Recommandé quand |
+|--------|-------------|---------------|-----------------|
+| Solo | 1x | 1x | Tâches séquentielles simples |
+| 2 agents | ~2x | ~0.6x | Review + implémentation en parallèle |
+| 3 agents | ~3x | ~0.4x | Analyse multi-couche (sécurité + API + frontend) |
+| 5 agents | ~3-5x | ~0.3x | Refactoring multi-fichiers à grande échelle |
+
+**Règle** : Si le temps économisé > 2x le surcoût tokens -> go agents. Ces multiplicateurs sont des approximations basées sur les cas d'usage documentés.
+:::
+
+> **Pour aller plus loin :** [§9.20 Agent Teams](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#920-agent-teams-multi-agent-coordination) --- section complète du guide | [Agent Teams Workflow](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md) --- guide pratique dédié
+
+---
+
+::: {.callout-warning title="Sub-agents vs Agent Teams : deux choses différentes"}
+**Sub-agents** (outil `Task`) = délégation de tâches parallèles depuis un orchestrateur. Stable, disponible depuis la v1, couvre 95% des besoins multi-agents. **Commencez ici.**
+
+**Agent Teams** (coordination peer-to-peer) = plusieurs instances Claude qui se coordonnent entre elles sans orchestrateur central. Expérimental, coût 3-5× supérieur, cas d'usage spécifiques. **Évaluer avant d'adopter.**
+
+| Critère | Sub-agents (Task) | Agent Teams |
+|---------|-------------------|-------------|
+| **Statut** | Stable, v1+ | Experimental, v2.1.32+ |
+| **Coût** | ~1x | ~3-5x |
+| **Coordination** | Orchestrateur central | Peer-to-peer (mailbox) |
+| **Couverture** | 95% des besoins | Cas spécifiques |
+| **Commencer par** | **Oui** | Non (escalader si nécessaire) |
+:::
+
+# Architecture Agent Teams
+
+## Runtime et orchestrateur: deux responsabilités
+
+Un runtime harness reçoit un objectif, utilise des outils, observe leurs résultats et décide du tour suivant. L'orchestrateur répartit des objectifs entre plusieurs runtimes ou sessions, puis organise les dépendances et les résultats. Les Agent Teams relèvent principalement de cette seconde responsabilité: ils coordonnent les participants, mais chaque participant conserve sa propre boucle d'agent.
+
+Le choix dépend donc du problème. Pour une tâche de code bornée, tester un runtime et son contrat de dépôt suffit souvent. Ajouter un orchestrateur devient pertinent lorsque la coordination, l'isolement des espaces de travail ou la reprise entre tâches constituent le vrai problème. Le [panorama des harnesses](https://cc.bruniaux.com/guide/agent-harness-landscape/) maintient cette séparation; [Agent Tools](https://cc.bruniaux.com/guide/agentic-tools/) couvre les outils adjacents.
+
+## Architecture Lead-Teammate
+
+L'architecture des agent teams repose sur un modèle hiérarchique avec communication latérale. Le *team lead* joue le rôle d'orchestrateur : il décompose la tâche, lance les *teammates*, puis synthétise leurs résultats. Mais contrairement à un modèle purement hiérarchique, les *teammates* peuvent aussi communiquer directement entre eux via le système de *mailbox*, ce qui leur permet de se challenger mutuellement sans repasser par le *lead*.
+
+```
+Team Lead (Session principale)
+├─ délègue tâches ──────────────→ Teammate 1 (Contexte isolé, 1M tokens)
+├─ délègue tâches ──────────────→ Teammate 2 (Contexte isolé, 1M tokens)
+│
+← rapport + findings ───────────── Teammate 1
+← rapport + findings ───────────── Teammate 2
+│
+Teammate 1 ←──── messages pair-à-pair ────→ Teammate 2
+```
+
+### Composants d'Architecture
+
+**Source** : [Addy Osmani Research](https://addyosmani.com/blog/claude-code-agent-teams/), Fév 2026
+
+1. **Team lead** : Crée l'équipe, lance les *teammates*, coordonne le travail
+2. **Teammates** : Instances Claude Code indépendantes avec contexte propre --- **1M tokens chacun** (Opus 5, ~30K lignes de code, soit environ 1M tokens par fenêtre de contexte).
+3. **Liste de tâches** : Éléments de travail partagés avec suivi des dépendances et déblocage automatique
+4. **Mailbox** : Système de messagerie pair-à-pair (*inbox-based*) permettant la communication directe entre agents (pas un contexte partagé, messages explicites uniquement)
+
+### Patterns de Communication
+
+Le système de messagerie supporte quatre directions de communication, ce qui le différencie d'un modèle purement hiérarchique. La possibilité pour les *teammates* de communiquer directement entre eux est ce qui rend possible la validation croisée sans surcharger le *team lead*.
+
+- **Lead -> Teammate** : Messages directs ou diffusion à tous
+- **Teammate -> Lead** : Mises à jour de progression, questions, découvertes
+- **Teammate <-> Teammate** : Messagerie pair-à-pair directe (challenger les approches, débattre des solutions)
+- **Synthèse finale** : Le *team lead* agrège toutes les découvertes pour l'utilisateur
+
+**Exemple de flux de messagerie** :
+```
+Team Lead: "Examinez cette PR pour les problèmes de sécurité"
+|- Teammate 1 (Sécurité): Analyse -> Message à Teammate 2: "Problème d'auth ligne 45"
+|- Teammate 2 (Qualité): Examine -> Répond: "Confirmé, voir aussi violation OWASP"
++- Team Lead: Synthétise les découvertes -> Présente réponse unifiée à l'utilisateur
+```
+
+**Ce que cela permet** :
+
+- Les agents se challengent activement entre eux
+- Débattent des solutions sans intervention humaine
+- Coordination indépendante (auto-organisation)
+- Partagent des découvertes en cours de workflow (via messages, pas via contexte)
+
+**Limitation** : L'isolation de contexte reste --- les agents ne partagent pas leur fenêtre de contexte complète de 1M tokens, seulement les messages explicites.
+
+### Diagramme de Séquence : Coordination Typique
+
+Ce diagramme montre le flux réel d'une coordination entre *team lead* et deux *teammates*, depuis la création de tâches jusqu'à la synthèse des résultats.
+
+```
+1. User  → Lead : "Revue sécurité PR #42"
+2. Lead  → Lead : TaskCreate(sécurité + qualité)
+3. Lead  → T1   : SendMessage("Analyser sécurité")
+4. Lead  → T2   : SendMessage("Analyser qualité")
+
+   [Travail parallèle]
+5. T1    → T1   : Auth, injection, exposition
+5. T2    → T2   : Patterns, OWASP, dette
+
+6. T1    → T2   : SendMessage("Auth L45 : pas d'expiry")
+7. T2    → T1   : SendMessage("Confirmé + OWASP A07")
+8. T1    → Lead : TaskUpdate(done) + rapport sécurité
+9. T2    → Lead : TaskUpdate(done) + rapport qualité
+10. Lead → Lead : Synthèse des deux rapports
+11. Lead → User : Réponse : 3 critiques, 5 reco
+```
+
+**Points clés du flux** :
+
+- `TaskCreate` / `TaskUpdate` : outils natifs Claude Code pour le suivi de tâches avec dépendances
+- `SendMessage` : messagerie *mailbox* directe entre agents (pair-à-pair, pas via git)
+- **Parallélisme réel** : T1 et T2 travaillent simultanément, leurs fenêtres de contexte restent isolées
+- **Convergence** : le message T1→T2 permet la validation croisée sans passer par le *team lead*
+
+::: {.callout-important title="Changement d'API (v2.1.77) : Plus de paramètre `resume`"}
+Le tool `Agent` n'accepte plus le paramètre `resume`. Pour continuer un agent existant, utiliser `SendMessage` avec l'ID de l'agent :
+
+```javascript
+// Déprécié (v2.1.77+)
+Agent({ resume: agentId, prompt: "continue" })
+
+// Correct
+SendMessage({ to: agentId, content: "continue" })
+```
+
+`SendMessage` avec `to: agentId` reprend l'agent avec son contexte complet intact.
+:::
+
+## Coordination Git
+
+La coordination entre agents passe par git, ce qui est un choix d'architecture pragmatique : git est déjà présent dans tous les projets de développement, il gère nativement la concurrence, et son modèle de branches permet l'isolation naturelle du travail de chaque agent.
+
+### Comment ça marche
+
+1. **Revendication de tâche** : Les agents écrivent des fichiers de verrouillage dans un répertoire partagé (`.claude/tasks/`)
+2. **Exécution du travail** : Chaque agent travaille indépendamment dans son contexte
+3. **Fusion continue** : Les agents *pull/push* les modifications vers le dépôt git partagé
+4. **Résolution de conflits** : Fusion automatique (avec limitations, voir [§6](#limitations-et-pièges))
+5. **Synthèse des résultats** : Le *team lead* collecte les découvertes et présente une réponse unifiée
+
+**Structure du répertoire de tâches** (schéma simplifié) :
+```
+.claude/tasks/
+|- task-1.lock        # Agent A revendiquée
+|- task-2.lock        # Agent B revendiquée
++- task-3.pending     # Non encore revendiquée
+```
+
+> **Note** : Ce schéma est une représentation simplifiée. En pratique, Claude Code utilise l'API *Task tools* (`TaskCreate`/`TaskUpdate`) avec des fichiers JSON dans `~/.claude/tasks/` --- pas des fichiers `.lock` bruts.
+
+### Gestion du Contexte
+
+**Contexte par agent** (-> Voir *Architecture : Composants* pour la définition complète) :
+
+- Chaque agent a sa fenêtre de contexte propre (1M tokens, ~30K lignes de code)
+- **Isolation** : les agents ne partagent pas leur contexte complet
+- **Communication** : via le système de *mailbox* (pair-à-pair + synthèse du *team lead*)
+
+**Capacité totale** (exemple 3 agents) : 3M tokens répartis --- chaque fenêtre reste isolée, la coordination passe par les messages explicites.
+
+**Distinction clé** :
+
+- **Contexte NON partagé** : le contexte complet de l'Agent 1 est invisible pour l'Agent 2
+- **Messages partagés** : les agents s'envoient des messages explicites via *mailbox* (découvertes, questions, débats)
+
+## Navigation Entre Agents
+
+**Navigation intégrée** :
+
+- **Shift+Haut/Bas** : Basculer entre les sous-agents dans l'interface Claude Code
+- **tmux** : Utiliser les commandes tmux si exécution dans une session tmux. Note : tmux est un multiplexeur de terminal externe, pas une fonctionnalité native de Claude Code.
+- **Prise de contrôle directe** : Vous pouvez prendre le contrôle du travail de n'importe quel agent quand nécessaire
+- **@ mention typeahead (v2.1.83+)** : Les sous-agents peuvent être référencés par nom dans le typeahead `@`. Nommer les agents dans le prompt du *team lead* (`Agent-Sécurité`, `Agent-Backend`) les rend sélectionnables directement.
+- **`/branch` (v2.1.77+)** : Crée une branche de session parallèle. Permet d'explorer une approche alternative sans perdre la timeline principale de l'agent. `/fork` existe toujours aujourd'hui mais avec une fonction différente : il copie la conversation dans une nouvelle session en arrière-plan et laisse la session courante continuer (il a aliasé `/branch` avant la v2.1.161, puis a lancé un sous-agent forké entre les v2.1.161 et v2.1.211, rôle aujourd'hui repris par `/subtask`).
+
+**Exemple** :
+```bash
+# Terminal 1 : Team lead (activer via settings.json)
+# Claude lance automatiquement les teammates
+# Naviguez avec Shift+Haut/Bas pour inspecter chaque agent
+```
+
+# Configuration
+
+## Prérequis
+
+**Requis** :
+
+- Claude Code v2.1.32 ou ultérieur
+- Modèle Opus 5 (`/model opus`), Opus 4.6+ également compatible
+- Dépôt git (pour la coordination)
+
+**Recommandé** :
+
+- Compréhension des [sous-agents](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#sub-agents)
+- Familiarité avec les workflows git
+- Conscience du budget (fonctionnalité intensive en tokens)
+
+## Méthode 1 : Variable d'Environnement
+
+**Approche la plus simple** --- définir la variable d'environnement avant de démarrer Claude Code :
+
+```bash
+# Activer les agent teams pour cette session
+export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
+
+# Démarrer Claude Code
+claude
+```
+
+**Configuration persistante** (bash/zsh) :
+```bash
+# Ajouter à ~/.bashrc ou ~/.zshrc
+echo 'export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1' >> ~/.bashrc
+source ~/.bashrc
+```
+
+## Méthode 2 : Fichier de Configuration
+
+**Configuration persistante** --- Éditer `~/.claude/settings.json` :
+
+```json
+{
+  "experimental": {
+    "agentTeams": true
+  }
+}
+```
+
+**Avantages** :
+
+- Persistant entre les sessions
+- Pas besoin de se souvenir de la variable d'environnement
+- Peut être versionné dans les *dotfiles*
+
+**Après l'édition**, redémarrer Claude Code pour que les modifications prennent effet.
+
+## Vérification
+
+Après avoir configuré l'activation, confirmer que la fonctionnalité est bien reconnue par Claude Code avant de lancer une tâche multi-agents. Un oubli de flag ou de modèle est la cause numéro un des échecs de lancement.
+
+**Vérifier si activé** :
+
+```bash
+# Dans une session Claude Code
+> Les agent teams sont-elles activees ?
+```
+
+Claude devrait confirmer :
+> "Oui, les agent teams sont activées (fonctionnalité expérimentale). Je peux lancer plusieurs agents pour travailler en parallèle quand c'est pertinent."
+
+**Vérification alternative** (vérifier les paramètres) :
+```bash
+cat ~/.claude/settings.json | grep agentTeams
+```
+
+# Cas d'Usage en Production
+
+## Vue d'Ensemble des Cas Valides
+
+| Cas d'Usage | Source | Métriques | Idéal Pour |
+|-------------|--------|-----------|------------|
+| **Revue de code multi-couche** | Fountain (Rapport Anthropic) | 50% plus rapide (screening workforce, pas revue de code) | Revue simultanée sécurité + API + frontend |
+| **Cycle de développement complet** | CRED (Rapport Anthropic) | Temps de livraison divisé par 2 (source : planify.in, sept. 2025) | Conformité services financiers |
+| **Compilateur C autonome** | Anthropic Engineering | Projet finalisé | Projets complexes multi-phases |
+| **Application de recherche d'emploi** | Paul Rayner (LinkedIn) | "*Pretty impressive*" | Recherche design + correction de bugs |
+| **Automatisation ops business** | Paul Rayner (LinkedIn) | N/A | Système opérationnel + planification conférence |
+
+Ces cas d'usage illustrent un dénominateur commun : les agent teams brillent quand la tâche se décompose en domaines indépendants avec peu de chevauchement de fichiers. Le cas Fountain repose sur l'analyse parallèle de couches distinctes (sécurité, API, frontend), tandis que le compilateur C s'appuie sur des phases bien définies avec des interfaces claires entre elles.
+
+## Revue de Code Multi-Couche (Fountain)
+
+**Organisation** : Fountain (plateforme de gestion de la main-d'œuvre de première ligne)
+
+**Défi** : Revue de codebase exhaustive couvrant plusieurs préoccupations (sécurité, conception API, frontend)
+
+**Solution** : Orchestration multi-agents hiérarchique déployée avec des sous-agents à périmètre défini
+
+::: {.callout-note title="Scénario : revue de sécurité chez une fintech"}
+Le lead sécurité dirige la revue d'une PR majeure touchant 40+ fichiers. En agent unique, il faudrait alimenter Claude fichier par fichier, ré-expliquer l'architecture à chaque fois, et perdre du contexte après ~15 fichiers. Avec 3 agents spécialisés (sécurité, API, frontend), chacun analyse son périmètre en parallèle. Le *team lead* synthétise les découvertes en une réponse unifiée --- la revue passe de 3 heures à 45 minutes, avec une couverture plus complète.
+:::
+
+**Périmètres agents** (approche Fountain) :
+
+- **Périmètre 1 (Sécurité)** : Scanner les vulnérabilités, problèmes d'authentification, exposition de données
+- **Périmètre 2 (API)** : Examiner la conception des endpoints, validation requête/réponse, gestion d'erreurs
+- **Périmètre 3 (Frontend)** : Vérifier les patterns UI, accessibilité, performance
+
+**Résultats** :
+
+- **50% plus rapide** pour le screening candidats (cas d'usage gestion de main-d'œuvre / screening candidats, pas revue de code --- source : étude de cas anthropic.com)
+- **40% plus rapide** pour l'onboarding
+- **2x conversions candidats**
+
+**Pourquoi ça a marché** :
+
+- **Tâche *read-heavy*** : La revue de code = principalement lecture/analyse (pas de conflits d'écriture)
+- **Séparation de domaines claire** : Sécurité, API, Frontend ont un chevauchement minimal
+- **Analyse indépendante** : Chaque agent peut travailler sans attendre les autres
+
+**Exemple de prompt** (*team lead*) :
+```
+Examinez cette PR de manière exhaustive avec une analyse par périmètre :
+- Périmètre Sécurité : Vérifier vulnérabilités et problèmes d'auth (contexte : code auth, validation d'entrées)
+- Périmètre Conception API : Examiner la conception des endpoints et la gestion d'erreurs (contexte : routes API, controllers)
+- Périmètre Frontend : Vérifier patterns UI et accessibilité (contexte : composants, styles)
+
+PR : https://github.com/company/repo/pull/123
+```
+
+**Source** : [2026 Agentic Coding Trends Report](https://resources.anthropic.com/hubfs/2026%20Agentic%20Coding%20Trends%20Report.pdf), Anthropic, Jan 2026
+
+### `/ultrareview` : Alternative Managée pour la Code Review (v2.1.114+)
+
+Pour les équipes qui veulent une review multi-agents sans orchestrer manuellement les agent teams, `/ultrareview` offre une alternative clé-en-main :
+
+| Approche | Setup | Contrôle | Cas d'usage |
+|----------|-------|----------|-------------|
+| Agent teams custom | Élevé | Total | Workflows complexes, pipelines personnalisés |
+| `/ultrareview` | Aucun | Limité | Review PR standard, code review quotidienne |
+
+`/ultrareview` lance automatiquement plusieurs agents spécialisés (sécurité, qualité, architecture) sur la branche courante ou une PR GitHub. À utiliser quand la flexibilité des agent teams n'est pas nécessaire.
+
+`/ultrareview` est désormais un alias de `/code-review ultra` : les deux commandes partagent la même implémentation. Ce n'est plus une option gratuite illimitée --- 3 exécutions gratuites sur les plans Pro et Max, puis consommation de crédits d'usage.
+
+## Cycle de Développement Complet (CRED)
+
+**Organisation** : CRED (services financiers, Inde)
+
+**Défi** : Accélérer la livraison tout en maintenant les standards de qualité essentiels aux services financiers
+
+**Solution** : Claude Code déployé sur l'ensemble du cycle de développement avec agent teams pour les tâches complexes
+
+**Résultats** :
+
+- **Temps de livraison divisé par 2** (source : planify.in, sept. 2025)
+- Conformité maintenue (standards des services financiers)
+- Assurance qualité préservée
+
+**Pourquoi ça a marché** :
+
+- **Codebase complexe** : Système de services financiers nécessitant une analyse parallèle
+- **Qualité critique** : Services financiers = besoin de plusieurs couches de validation
+- **Délais serrés** : L'exigence de rapidité justifiait le coût en tokens
+
+**Patron de workflow** :
+
+1. **Phase de planification** : Le *team lead* décompose la fonctionnalité
+2. **Implémentation** : Teammate 1 = backend, Teammate 2 = frontend, Teammate 3 = tests
+3. **Assurance qualité** : Le *team lead* synthétise + lance la validation
+4. **Vérification de conformité** : Revue finale contre les standards financiers
+
+**Source** : [2026 Agentic Coding Trends Report](https://resources.anthropic.com/hubfs/2026%20Agentic%20Coding%20Trends%20Report.pdf), Anthropic, Jan 2026
+
+## Compilateur C Autonome (Recherche Anthropic)
+
+Anthropic a construit un compilateur C complet de manière autonome, en pipeline séquentiel : lexer → parser → AST → codegen → optimisation → tests. Chaque phase a des interfaces claires, ce qui rend la coordination entre agents naturelle. Résultat : projet finalisé sans intervention humaine, tests passants.
+
+> "Individual agents break the project into small pieces, track progress, and determine next steps until completion." ([Anthropic Engineering, Fév 2026](https://www.anthropic.com/engineering/building-c-compiler))
+
+**Enseignement** : Tests passants ≠ correctitude. La supervision humaine reste indispensable pour la qualité finale.
+
+## Test d'Hypothèses en Parallèle et Refactoring (Patterns)
+
+> Patterns théoriques, non validés en production avec des métriques publiées.
+
+**Test d'hypothèses** : Pour un bug de perf API avec causes multiples (BDD, réseau, cache), 3 agents profilent chaque hypothèse en parallèle. Gain : 1/3 du temps de débogage séquentiel, aucune hypothèse ignorée.
+
+**Refactoring multi-couches** : Migration JWT → OAuth2 sur 47 fichiers. Décomposer par couche (backend/frontend/tests), pas par domaine fonctionnel. Le *team lead* définit les interfaces partagées avant de déléguer pour éviter les conflits de merge sur les types communs.
+
+# Patterns de Coordination
+
+## Stratégies de Décomposition des Tâches
+
+La décomposition est le facteur de succès ou d'échec numéro un des agent teams. Une bonne décomposition signifie des ensembles de fichiers non chevauchants, des interfaces claires, et des tests indépendants par couche. Une mauvaise décomposition --- découper par fonctionnalité plutôt que par couche --- mène à des conflits de merge et annule les bénéfices de la parallélisation.
+
+**Règle fondamentale** : décomposer par couche (backend/frontend/tests), jamais par domaine fonctionnel.
+
+```
+Bon  : Agent 1 → /api/users/*, Agent 2 → src/components/users/*, Agent 3 → db/migrations/
+Mauvais : Agent 1 → auth, Agent 2 → autorisation, Agent 3 → sessions
+         (les 3 touchent auth.ts, conflits garantis)
+```
+
+**Approche *interface-first*** : définir les contrats TypeScript avant de déléguer.
+
+```typescript
+// Team lead définit l'interface d'abord
+interface UserService {
+  authenticate(email: string, password: string): Promise<User>;
+  authorize(user: User, resource: string): Promise<boolean>;
+}
+// Agent 1 implémente authenticate, Agent 2 implémente authorize → zéro conflit
+```
+
+## Patterns de Coordination
+
+Les trois patterns par ordre de complexité croissante :
+
+```
+Fan-out/Fan-in (commencer ici) :
+  Lead → Agent 1, Agent 2, Agent 3 → Synthèse
+
+Phases séquentielles + parallèle :
+  Phase 1 : Lead définit l'architecture
+  Phase 2 : Agent 1 (backend) + Agent 2 (frontend) + Agent 3 (tests) en parallèle
+  Phase 3 : Lead intègre et valide
+
+Pipeline séquentiel :
+  Lead → Agent 1 → Agent 2 → Agent 3 (chaque sortie alimente la suivante)
+```
+
+## Git Worktrees et /batch
+
+Chaque agent travaille dans un git worktree séparé: système de fichiers isolé, pas de conflits de verrouillage.
+
+```bash
+git worktree add ../project-agent1 main  # Un worktree par agent
+```
+
+**`/batch` (v2.1.63): alternative native** pour les changements homogènes à grande échelle :
+
+```bash
+/batch migrate from react to vue
+/batch add type annotations to all JavaScript files
+```
+
+`/batch` lance 5-30 agents en parallèle, chacun ouvre une PR. Utiliser plutôt que les agent teams manuelles quand le changement est répétitif et décomposable en unités indépendantes.
+
+**Commandes worktree du guide** (templates : `examples/commands/git-worktree*.md`) :
+
+| Commande | Action |
+|----------|--------|
+| `/git-worktree` | Créer un worktree isolé (symlink `node_modules`, vérification en arrière-plan) |
+| `/git-worktree-status` | Vérifier les tâches en cours |
+| `/git-worktree-remove` | Supprimer avec vérification merge + nettoyage branche |
+| `/git-worktree-clean` | Nettoyer les worktrees obsolètes en lot |
+
+## Optimisation des Coûts
+
+Quatre stratégies pour garder les bénéfices sans les coûts superflus :
+
+1. **Lancement tardif** : solo d'abord, agents uniquement si la parallélisation est évidente
+2. **Élagage de contexte** : indiquer explicitement les fichiers à ignorer ("examine l'API backend, ignore le frontend")
+3. **Escalade progressive** : agent unique → team si la complexité le justifie
+4. **Réutilisation** : "L'Agent 1 a trouvé X dans auth.ts, Agent 2 cherche le même pattern dans user.ts"
+
+## Récupération Itérative pour les Sous-Agents
+
+Quand un sous-agent manque de contexte pour accomplir sa tâche, il ne doit pas bloquer ou halluciner. Le pattern recommandé : un budget de récupération plafonné à 3 cycles, puis escalade vers l'orchestrateur.
+
+**Structure des prompts WHY/WHAT** (source : Everything Claude Code longform guide) :
+
+```
+WHY : contexte de la tâche + intention
+  "Tu travailles sur le module auth. L'objectif est de détecter
+  les injections SQL dans les endpoints de login."
+
+WHAT : instructions précises + livrables attendus
+  "1. Analyse les fichiers src/auth/*.ts
+  2. Liste chaque paramètre non sanitisé
+  3. Retourne un rapport JSON {file, line, severity}"
+```
+
+Séparer le WHY du WHAT réduit les allers-retours : l'agent comprend le but avant d'exécuter, ce qui diminue les demandes de clarification en cours de tâche.
+
+**Règle des 3 cycles** :
+
+- Cycle 1 : l'agent tente avec le contexte fourni
+- Cycle 2 : l'agent récupère les fichiers manquants identifiés
+- Cycle 3 : l'agent tente une dernière fois avec le contexte élargi
+- Si toujours bloqué : escalade à l'orchestrateur (pas de 4e cycle)
+
+## AGENTS.md pour l'Apprentissage Continu
+
+Le fichier `AGENTS.md` (ou `CLAUDE.md` pour les projets Claude Code) joue un rôle clé dans les équipes multi-agents : il ancre les décisions architecturales, les conventions de code et les patterns découverts lors des sessions précédentes.
+
+**Ce que documenter dans AGENTS.md** :
+
+- Décisions d'architecture validées (pas les hypothèses)
+- Conventions de nommage spécifiques au projet
+- Pièges identifiés lors des sessions passées
+- Interfaces partagées entre agents
+
+**Preuve empirique** (Gloaguen et al., 2026) sur la qualité du fichier :
+
+| Type de fichier | Taux de succès | Coût relatif |
+|----------------|----------------|--------------|
+| Fichier généré par LLM | -3% | +20% |
+| Fichier écrit par développeur | +4% | baseline |
+
+Les fichiers `AGENTS.md` générés automatiquement dégradent les résultats. La rédaction humaine, même concise, surpasse systématiquement la génération IA. Raison probable : un développeur priorise les informations réellement bloquantes, là où le LLM optimise pour la complétude.
+
+**Règles de maintenance** :
+
+- Mettre à jour après chaque session multi-agents significative
+- Préférer les décisions actionnables aux descriptions générales
+- Supprimer les entrées obsolètes (un AGENTS.md périmé est pire qu'un AGENTS.md absent)
+
+## Reviewer Dédié dans l'Équipe
+
+Ajouter un agent reviewer à lecture seule améliore la qualité des sorties sans surcharger les agents de production.
+
+**Configuration recommandée** (source : Addy Osmani, O'Reilly AI CodeCon) :
+
+- **Modèle** : Opus 5 (capacité d'analyse supérieure)
+- **Accès** : lecture seule (ne modifie aucun fichier)
+- **Déclencheur** : automatique sur `TaskCompleted`
+- **Ratio** : 1 reviewer pour 4 workers maximum
+
+**Prompt type pour le reviewer** :
+
+```
+Tu es un reviewer à lecture seule. Tu ne modifies aucun fichier.
+Sur chaque TaskCompleted reçu :
+1. Vérifier la cohérence avec ARCHITECTURE.md
+2. Identifier les régressions potentielles
+3. Signaler les violations de conventions (naming, error handling)
+4. Retourner un rapport structuré au team lead
+```
+
+**Quand ajouter un reviewer** : tâches critiques allant en production, code financier ou santé, PR externes, sessions longues (>1h) avec plusieurs workers.
+
+**Quand l'omettre** : exploration, prototypage, tâches simples <5 fichiers.
+
+## Budget Tokens par Agent
+
+Plafonner les tokens par agent évite les dérives de coût sur les sessions longues. Sans limite explicite, un agent peut consommer 3x son budget prévu en récupérant des fichiers non nécessaires.
+
+**Configuration pratique** :
+
+```
+# Dans le prompt du team lead
+Agent-Backend : budget max 80K tokens d'input
+Agent-Frontend : budget max 80K tokens d'input
+Agent-Tests : budget max 40K tokens d'input
+
+Si tu approches 85% de ton budget, arrête et rapporte
+ton état au team lead avant de continuer.
+```
+
+**Seuil de pause à 85%** : laisser 15% de marge permet à l'agent de terminer sa tâche en cours et de rédiger un rapport de statut propre, sans coupure brutale.
+
+**Stratégies d'optimisation coûts multi-agents** :
+
+1. Agents Haiku pour les tâches de monitoring / lecture seule (voir template `loop-monitor`)
+2. Agents Sonnet pour les tâches d'implémentation standard
+3. Agents Opus uniquement pour l'orchestration et la review critique
+
+::: {.callout-warning title="Ce mixage de modèles n'est pas natif aux agent teams"}
+Dans une session agent teams native, tous les teammates tournent sur **le même modèle** (Opus 5, requis). La sélection de modèle par rôle --- lead en Opus, implémentation en Sonnet, tests en Haiku --- est une fonctionnalité demandée par la communauté, pas encore livrée. Le contournement actuel consiste à lancer des processus Claude Code séparés avec des flags `--model` explicites, ce qui fait perdre la coordination intégrée (mailbox, liste de tâches partagée). Les trois stratégies ci-dessus décrivent donc un objectif de répartition par rôle, atteignable uniquement en sortant du cadre agent teams natif.
+:::
+
+# Patterns d'Orchestration Avancés
+
+Les patterns précédents couvrent la décomposition de base et la coordination git. À l'échelle, sept modes de défaillance récurrents apparaissent : un coordinateur qui fait le travail à la place des agents, des agents qui démarrent sans que les prérequis soient réunis, des chercheurs qui piétinent sur le même terrain, des pipelines qui repartent de zéro après un crash, des boucles sans critère d'arrêt, et des sous-tâches trop vagues pour être validées. Sept patterns y répondent.
+
+## Coordinateur Hub-and-Spoke
+
+Le pattern hub-and-spoke sépare strictement coordination et exécution. Le coordinateur décompose la tâche, sélectionne les sous-agents, distribue le travail, surveille les résultats et agrège --- il ne fait aucun travail de domaine lui-même : pas de recherche, pas d'analyse, pas de génération de contenu. Cette séparation est ce qui rend le coordinateur réutilisable d'une tâche à l'autre.
+
+```python
+class ResearchCoordinator:
+    def __init__(self, subagents: dict):
+        self.subagents = subagents  # nom -> fonction
+
+    def run(self, question: str) -> dict:
+        subtasks = self.decompose(question)
+        results = [self.dispatch(s) for s in subtasks]
+        return self.aggregate(question, results)  # seule responsabilité "métier"
+```
+
+Si le code du coordinateur contient de la logique d'analyse, des règles métier ou du traitement spécifique au domaine, cette logique appartient à un sous-agent, pas au coordinateur.
+
+## Prérequis Programmatiques
+
+Un prérequis doit être une porte déterministe, pas une instruction de prompt. Dire à un modèle "assure-toi que les données sont prêtes avant de continuer" n'est pas un prérequis, c'est une suggestion. Un prérequis programmatique est une vérification d'état qui autorise ou bloque explicitement l'exécution, avec une erreur structurée en retour.
+
+Deux variantes utiles : la porte à drapeaux d'état (`data_ingested`, `schema_validated`, `permissions_checked` --- la phase suivante refuse de démarrer tant que les trois ne sont pas à `true`) et le dispatch par phase (l'orchestrateur avance selon les phases effectivement complétées, pas selon le temps écoulé ou le nombre de tours de conversation).
+
+## Sélection Dynamique de Sous-Agents
+
+Plutôt que de coder en dur "telle tâche va à tel agent", un coordinateur peut sélectionner l'agent selon les caractéristiques de la tâche : mots-clés du domaine, budget disponible (`economy` = agent le moins cher capable de traiter la tâche, `performance` = agent le plus rapide, `standard` = le moins cher parmi les agents rapides). Ce routage dynamique permet au même coordinateur de gérer de nouveaux types de tâches sans modification de code, au prix d'une table de capacités à maintenir (nom, mots-clés gérés, coût relatif, latence attendue).
+
+## Partition de l'Espace de Recherche
+
+Quand plusieurs agents explorent un même sujet large, ils reviennent avec des résultats qui se chevauchent --- sauf si le coordinateur partitionne explicitement l'espace de recherche. Le chevauchement gaspille du budget et complique l'agrégation.
+
+Exemple : 3 agents sur "performance des bases vectorielles" reçoivent chacun une dimension exclusive (algorithmes d'indexation / optimisation des requêtes / scaling matériel) et une instruction explicite de ne pas couvrir les dimensions des deux autres. Cette contrainte négative ("ne couvre pas X, Y") compte autant que l'instruction positive.
+
+## Manifeste de Reprise après Crash
+
+Les pipelines longs (heures, jobs de nuit) ont besoin d'une reprise après crash. Un manifeste enregistre le travail complété aux frontières de phase, pour qu'un redémarrage reparte du dernier point de contrôle plutôt que de zéro : identifiant du pipeline, éléments complétés, éléments échoués, checkpoints par phase, statut.
+
+Point de vigilance : checkpointer aux frontières de phase, pas seulement à la fin de la tâche complète. Pour un pipeline en 3 phases (ingestion, analyse, rapport), un crash en cours d'analyse doit reprendre au début de l'analyse, pas au début de l'ingestion.
+
+## Boucle de Raffinement Itératif
+
+Certaines tâches demandent plusieurs passes pour atteindre une qualité acceptable. C'est le coordinateur qui pilote l'itération, pas le sous-agent : le sous-agent reste sans état (il génère ou évalue à la demande), le coordinateur contrôle les critères d'arrêt.
+
+"Continue jusqu'à ce que ce soit parfait" n'est pas un critère d'arrêt. Il faut un seuil de qualité numérique (`target_quality`, basé sur un jeu de validation) et un budget dur d'itérations (`max_iterations`). Sans les deux, la boucle termine trop tôt ou tourne indéfiniment. Ce pattern répond à un besoin différent de la règle des 3 cycles vue plus haut dans ce document : celle-ci gère le manque de contexte d'un agent, celui-ci gère la convergence vers une qualité cible.
+
+## Décomposition à Grain Fin (Test SPEC)
+
+Une décomposition trop large produit des sous-agents avec des critères de succès flous. Le test SPEC valide chaque sous-tâche avant de la distribuer : **S**pécifique (aucune ambiguïté sur le livrable), **P**rogrammatiquement évaluable (succès ou échec vérifiable sans jugement humain), **E**xplicite sur le périmètre (ce qui est inclus ou exclu est énoncé, pas implicite), **C**ontraint (format de sortie, longueur ou schéma définis).
+
+| Sous-tâche | Test SPEC | Problème |
+|---|---|---|
+| "Recherche le sujet" | Échoue | Pas spécifique, pas évaluable |
+| "Trouve 3 papers peer-reviewed sur l'indexation vectorielle publiés 2022-2024" | Passe | Spécifique, comptable, périmètre et format cadrés |
+| "Analyse les données" | Échoue | Pas de schéma de sortie |
+| "Extrais les noms de fournisseurs des factures 001-050, sortie en JSON" | Passe | Spécifique, schéma contraint, périmètre cadré |
+| "Écris un résumé exécutif de 150 mots : problème, approche, résultat" | Passe | Longueur, structure et contenu tous spécifiés |
+
+Quand une sous-tâche ne peut pas être formulée pour passer le test SPEC, c'est en général le signal que le coordinateur n'a pas encore assez d'information pour décomposer cette portion du travail. Mieux vaut rassembler du contexte supplémentaire avant de décomposer plus loin.
+
+# Boucles Autonomes
+
+## Clarification : Le Pattern "Ralph Loop"
+
+Le terme "Ralph loop" circule dans la communauté avec deux significations distinctes. Les confondre mène à des implémentations incorrectes.
+
+**Usage original (Geoffrey Huntley)** : rotation de contexte pour éviter la dégradation sur les sessions longues. L'agent termine sa session courante, sauvegarde son état dans un fichier handoff, puis relance une nouvelle session Claude propre avec ce fichier comme contexte initial. Pas de multi-agents, pas d'itérations de tâches.
+
+**Usage 2026 (popularisé dans la communauté)** : itération multi-agents sur des tâches atomiques. Un orchestrateur décompose une tâche en N sous-tâches, délègue chacune à un agent, collecte les résultats, et boucle jusqu'à la convergence ou l'atteinte d'un critère d'arrêt.
+
+::: {.callout-note title="Quel Ralph loop est documenté ici ?"}
+Ce whitepaper couvre le **pattern itération multi-agents** (usage 2026). Le pattern de rotation de contexte de Huntley est documenté dans `guide/ultimate-guide.md` section §9.17.
+:::
+
+## Garde-fous pour les Boucles Autonomes
+
+Sans limite explicite, une boucle multi-agents peut tourner indéfiniment : l'orchestrateur réassigne les tâches échouées, les agents retentent, les coûts explosent. Trois mécanismes de contrôle obligatoires :
+
+**1. MAX_ITERATIONS = 8**
+
+Plafonner à 8 itérations avant arrêt forcé. Au-delà, le problème est soit mal décomposé, soit hors de portée des agents.
+
+```
+# Dans le prompt de l'orchestrateur
+MAX_ITERATIONS = 8
+Itération actuelle : {n}
+Si n >= MAX_ITERATIONS : arrêter, retourner rapport d'échec à l'utilisateur
+```
+
+**2. Prompt de réflexion obligatoire**
+
+À chaque fin d'itération, l'orchestrateur évalue avant de relancer :
+
+```
+Avant de lancer l'itération {n+1}, répondre à :
+1. Quel progrès a été fait depuis l'itération {n} ?
+2. Quelle est la cause racine de l'échec actuel ?
+3. Quelle stratégie différente sera tentée cette fois ?
+Si tu ne peux pas répondre à #3, arrêter et escalader.
+```
+
+**3. Critères kill/reassign**
+
+| Signal | Action |
+|--------|--------|
+| Même erreur 2 fois d'affilée | Tuer l'agent, réassigner à un agent avec contexte différent |
+| Aucun progrès mesurable après 3 itérations | Escalader à l'utilisateur |
+| Dépassement de 120% du budget tokens estimé | Pause forcée + rapport |
+| Agent sans activité > 5 min | Considérer comme bloqué, intervenir |
+
+# Choisir la Bonne Topologie
+
+## Comparaison des Topologies d'Agents
+
+Le choix de la topologie détermine la structure de communication entre agents et impacte directement le coût, la vitesse, et le risque de conflits. Il n'existe pas de topologie universellement supérieure : chacune répond à un type de tâche spécifique, du pipeline séquentiel simple à l'équipe hiérarchique pour les projets à grande échelle.
+
+::: {.callout-note title="Comparaison des topologies d'agents"}
+| Topologie | Coût tokens | Vitesse | Quand l'utiliser | Risques principaux |
+|-----------|------------|---------|-----------------|-------------------|
+| **Solo** | 1x | 1x | Tâche simple, <5 fichiers, workflow séquentiel | Aucun |
+| **Pipeline** | 1.3x | 0.8x | Étapes avec dépendances strictes (A -> B -> C) | Goulot d'étranglement si une étape est lente |
+| **Review (2 agents)** | 2x | 0.7x | Code critique, besoin de validation croisée | Désaccord entre agents : arbitrage manuel |
+| **Parallèle (3-5)** | 3-5x | 0.3x | Analyse multi-couche, refactoring multi-fichiers | Context loss, conflits de merge si frontières floues |
+| **Hiérarchique** | 2-4x | 0.5x | Projets complexes avec sous-équipes spécialisées | Over-engineering, coordination overhead élevé |
+
+**Règle 30 secondes** : Si le gain de temps estimé < 2x le surcoût tokens, rester en mode solo.
+:::
+
+**Quand chaque topologie brille** :
+
+- **Pipeline** : Compilateur (lexer -> parser -> codegen), pipeline ETL, génération de rapport multi-étapes
+- **Review** : PRs critiques en production, fonctionnalités finance/santé, code de sécurité
+- **Parallèle** : Revue multi-couche (sécurité + API + frontend), refactoring large échelle avec frontières claires
+- **Hiérarchique** : Projets >10 agents, équipes spécialisées avec sous-coordination (backend lead + frontend lead)
+
+## Arbre de Décision : Quelle Topologie Choisir ?
+
+```
+Dépendances strictes ?
+├─ Oui → Pipeline séquentiel
+└─ Non → Revue / validation ?
+          ├─ Oui → Review (2 agents)
+          └─ Non → >5 fichiers, domaines ?
+                    ├─ Oui → Équipe parallèle (3-5 agents)
+                    └─ Non → Solo agent
+```
+
+::: {.callout-tip title="Règles de sélection rapide"}
+- **Solo par défaut** : commencer ici, escalader uniquement si la complexité le justifie
+- **Pipeline** si : chaque étape consomme la *sortie* de la précédente (pas juste le même dépôt)
+- **Review** si : le code va en production ou touche des données sensibles
+- **Parallèle** si : les domaines sont clairement séparés (frontières de fichiers non chevauchantes)
+- **Hiérarchique** si : chaque sous-groupe a lui-même besoin de coordination interne
+:::
+
+# Limitations et Pièges
+
+## Compromis Read-Heavy vs Write-Heavy
+
+**Limitation fondamentale** : les agent teams excellent en *read-heavy*, peinent en *write-heavy*. Les tâches d'analyse sont naturellement parallélisables ; les modifications de fichiers partagés génèrent des conflits de merge qui annulent les gains.
+
+| Type | Exemples | Recommandation |
+|------|----------|----------------|
+| **Read-heavy (bon)** | Revue de code, tracage de bugs, analyse d'architecture | Agents en parallèle sans risque |
+| **Write-heavy (risque)** | Refactoring types partagés, migrations BDD, contrats API | Un écrivain unique, les autres lisent |
+
+**Mitigation** : frontières claires (fichiers non chevauchants), interface-first, pattern écrivain unique.
+
+## Conflits de Merge et Coûts
+
+**Résolution automatique OK** : fichiers différents, fonctions différentes dans le même fichier, changements additifs.
+
+**Résolution automatique échoue** : même ligne modifiée par 2 agents, logique conflictuelle, dépendances circulaires. Dans ce cas : `git reset --hard` et redécomposer avec un agent unique.
+
+**Coût réel** (Opus 5) : 3 agents = ~3x le coût de base. La justification est simple : temps économisé > augmentation du coût. Agent teams non justifiées pour les tâches simples, les projets d'apprentissage, ou quand le budget est contraint.
+
+## Statut Expérimental et Isolation
+
+**Ce que "experimental" signifie** : breaking changes possibles, bugs attendus, performance variable. Plan de repli obligatoire. Signaler les problèmes sur [Anthropic GitHub Issues](https://github.com/anthropics/claude-code/issues).
+
+**Isolation de contexte** : les agents ne partagent pas leur fenêtre de 1M tokens. L'Agent 2 ne voit pas les découvertes de l'Agent 1 sauf message explicite via mailbox. Cette contrainte est fondamentale pour la décomposition des tâches : tout contexte partagé doit être explicite dans le prompt du team lead.
+
+**Dérive d'identité après compaction**: dans les sessions longues, un agent peut perdre ses instructions de rôle après une compaction. Pattern de mitigation : hook `UserPromptSubmit` qui détecte l'absence d'un marqueur d'identité dans le dernier message assistant et ré-injecte `.claude/agent-identity.txt` via `additionalContext`. Voir `examples/hooks/bash/identity-reinjection.sh`.
+
+# Cadre de Décision
+
+## Teams vs Multi-Instance vs Dual-Instance vs Cross-Session Messaging
+
+Avant de déployer des agent teams, il faut évaluer si la tâche nécessite réellement une coordination intégrée. Trois alternatives plus simples existent : le multi-instance (plusieurs terminaux indépendants), le dual-instance (split plan/execution), et la messagerie cross-session (`ListAgents`/`SendMessage` entre sessions déjà lancées indépendamment). Chaque approche a ses cas d'usage légitimes, et choisir la mauvaise augmente les coûts sans bénéfice réel.
+
+**Tableau comparatif** :
+
+| Critère | Agent Teams | Multi-Instance | Dual-Instance | Cross-Session Messaging |
+|---------|-------------|----------------|---------------|--------------------------|
+| **Coordination** | Automatique (git + *mailbox*) | Manuelle (humain) | Manuelle (humain) | Aucun *team lead* --- messages entre sessions déjà en cours |
+| **Configuration** | Flag expérimental | Plusieurs terminaux | 2 terminaux | `ListAgents` / `SendMessage`, aucun flag |
+| **Idéal pour** | Tâches *read-heavy* nécessitant coordination | Tâches parallèles indépendantes | Assurance qualité (split plan-execution) | Coordonner des sessions qu'un humain a déjà démarrées et pilote |
+| **Communication** | Messagerie pair-à-pair + synthèse *team lead* | Copier-coller manuel | Synchronisation manuelle | Messages directs entre sessions indépendantes |
+| **Partage de contexte** | Isolé (1M par agent, pas de sync auto) | Isolé (sessions séparées) | Isolé (2 sessions) | Isolé --- pas de liste de tâches partagée |
+| **Coût** | Élevé (~3x+ tokens) | Moyen (~2x tokens) | Moyen (~2x tokens) | Faible (messages ponctuels) |
+| **Charge cognitive** | Faible (observateur) | Élevée (orchestrateur) | Moyenne (réviseur) | Moyenne (l'humain garde la main sur chaque session) |
+| **Conflits de merge** | Résolution automatique (limitée) | N/A (dépôts séparés) | Résolution manuelle | N/A (pas de fusion automatique) |
+| **Maturité** | Expérimental (v2.1.32+) | Stable | Stable | Stable (v2.1.224+, v2.1.234+ sous Windows natif) |
+
+Le choix entre ces quatre approches dépend surtout du degré d'interdépendance entre les tâches. Si les tâches sont complètement indépendantes (dépôts différents, projets différents), multi-instance suffit. Si vous avez besoin d'un split plan/execution ou écriture/relecture, dual-instance est le bon choix. Si vous avez simplement besoin de faire passer une information entre des sessions que vous avez déjà ouvertes vous-même, sans déléguer d'autorité de décision, la messagerie cross-session est l'option la plus légère : un message porte de l'information, jamais de l'autorité. Les agent teams ne se justifient que quand les tâches sont interdépendantes ET parallélisables --- typiquement l'analyse multi-couche ou le refactoring multi-fichiers.
+
+> **Pour aller plus loin :** [§9.17 Scaling Patterns: Multi-Instance Workflows](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows) --- patterns sans agent teams
+
+## Arbre de Décision : Quand Utiliser Agent Teams
+
+```
+Tâche simple (<5 fichiers) ?
+├─ Oui → Agent unique
+└─ Non → Tâches indépendantes ?
+          ├─ Oui → Multi-Instance
+          └─ Non → Read-heavy ?
+                    ├─ Oui → Agent Teams
+                    └─ Non → Agent unique
+```
+
+## Quand Utiliser vs Quand Éviter
+
+| Signal | Agent Teams | Agent Unique |
+|--------|-------------|--------------|
+| **Type de tâche** | *Read-heavy* (analyse, revue, traçage) | *Write-heavy* (éditions fichiers partagés) |
+| **Périmètre** | Multi-couches, multi-domaines | <5 fichiers, 1 domaine |
+| **Dépendances** | Tâches parallélisables indépendantes | Workflow séquentiel (B dépend de A) |
+| **Criticité** | *Release* production, PR externe | PR interne, changement simple |
+| **Budget** | Temps sauvé > 2x surcoût tokens | Budget serré --- 3x+ tokens non justifiés |
+
+**Exemple de mauvais fit** : Mettre à jour la logique d'auth dans un seul fichier `auth.ts` partagé --- une seule zone d'écriture, aucun bénéfice de parallélisation, conflit de merge assuré.
+
+## Teams vs Framework Beads
+
+| Aspect | Framework Beads (Steve Yegge) | Agent Teams (Anthropic) |
+|--------|-------------------------------|-------------------------|
+| **Architecture** | MCP *event-sourced* (Gas Town) + SQLite | Natif Claude Code, coordination git |
+| **Contrôle** | Complet (*event sourcing*, rejeu) | Limité (coordination boîte noire) |
+| **Configuration** | Complexe (Gas Town + agent-chat) | Simple (flag unique) |
+| **Environnement** | Compatible *on-prem/airgap* | *Cloud-first* |
+| **Maturité** | Communauté, expérimental | Officiel Anthropic, expérimental |
+
+**Question ouverte** (fév. 2026) : Anthropic n'a pas publié de guide officiel sur ce choix. Les praticiens sont invités à partager leurs expériences dans les [GitHub Discussions](https://github.com/anthropics/claude-code/discussions).
+
+# Bonnes Pratiques
+
+## Assurance Qualité et Métriques
+
+**Validation post-session** :
+```bash
+git diff main..agent-teams-branch  # Examiner tous les changements
+npm test && npm run lint            # Tests + style de code
+```
+
+**Métriques ROI** (via hook `PostToolUse` pour logging automatique) :
+
+| Métrique | Cible | Signal si hors cible |
+|----------|-------|----------------------|
+| Taux de convergence | >50% | Agents travaillent en silos |
+| Insights uniques par agent | ≥1 | Tokens gaspillés sur ce périmètre |
+| Faux positifs | <20% | Prompts à affiner |
+| Gain de temps | 60-70% | ROI insuffisant vs coût tokens |
+
+> Voir `guide/agent-evaluation.md` + template `examples/agents/analytics-with-eval/`.
+
+## Anti-Patterns : Before / After
+
+::: {.callout-warning title="Anti-pattern #1 : L'équipe inutile (Over-engineering)"}
+**Symptôme** : Lancer 4 agents pour une tâche de 50 lignes
+
+**Avant** (mauvais) :
+```
+"Lance une équipe de 4 agents pour ajouter ce champ 'email'
+dans le formulaire d'inscription"
+→ Résultat : 15 min d'overhead de coordination, 4x les tokens,
+   conflits de merge sur le même fichier form.tsx
+```
+
+**Après** (correct) :
+```
+"Ajoute le champ 'email' dans le formulaire d'inscription"
+→ Agent unique, 2 min, 0 overhead
+```
+
+**Pourquoi c'est un problème** : L'overhead de coordination (TaskCreate, messages, synchronisation) consomme plus de tokens que la tâche elle-même. Pour une tâche < 200 lignes sans parallélisme naturel, solo est toujours plus efficace.
+
+**Test rapide** : "Est-ce que ces sous-tâches peuvent vraiment s'exécuter en parallèle sans se bloquer mutuellement ?" Si non, solo.
+:::
+
+::: {.callout-warning title="Anti-pattern #2 : Perte de contexte inter-agents (Context Loss)"}
+**Symptôme** : Les agents produisent des résultats incohérents car ils n'ont pas vu les mêmes fichiers ni les mêmes décisions architecturales.
+
+**Avant** (mauvais) :
+```
+Prompt : "Refactorisez l'authentification"
+→ Agent 1 : implémenter JWT stateless
+→ Agent 2 : implémenter sessions Redis
+→ Résultat : deux implémentations incompatibles, merge impossible
+```
+
+**Après** (correct) :
+```
+Prompt du team lead :
+"Avant de commencer, tous les agents lisent d'abord
+ARCHITECTURE.md et src/auth/types.ts.
+Décision d'architecture : JWT stateless.
+Agent 1 : backend (src/auth/*)
+Agent 2 : frontend (src/components/auth/*)"
+→ Contexte partagé explicitement, implémentations compatibles
+```
+
+**Pourquoi c'est un problème** : Les agents ont des fenêtres de contexte isolées. Sans instructions explicites communes, chacun prend des décisions architecturales indépendantes qui entrent en conflit.
+
+**Mitigation** : Toujours définir les décisions architecturales dans le prompt du *team lead* avant de déléguer.
+:::
+
+
+# Diagnostic et Résolution de Problèmes
+
+Quand quelque chose ne fonctionne pas avec les agent teams, le problème tombe généralement dans l'une de trois catégories : configuration (les agents ne se lancent pas), coordination (conflits de merge, résultats incohérents), ou performance (coûts, lenteur). Le flowchart ci-dessous vous guide vers la bonne catégorie.
+
+```
+Problème détecté
+├─ Agents ne se lancent pas → [CONFIGURATION]
+│   ├─ Flag activé ?
+│   │   ├─ Non → Activer CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
+│   │   └─ Oui → Modèle Opus 5 (ou 4.6+) ?
+│   │             ├─ Non → /model opus
+│   │             └─ Oui → Tâche trop simple : Claude a décidé qu'un seul agent suffisait.
+│   │                       Demander explicitement : "Lance 3 agents pour cette tâche"
+│
+├─ Conflits / incohérences → [COORDINATION]
+│   ├─ Conflits de merge ?
+│   │   ├─ Oui → Décomposition : frontières claires, pas de fichiers partagés.
+│   │   │        Revenir à git reset --hard si nécessaire
+│   │   └─ Non → Résultats incohérents ?
+│   │             ├─ Oui → Instructions explicites à tous les agents.
+│   │             │        Pointer vers les mêmes docs de référence
+│   │             └─ Non → Agent bloqué : Shift+Bas, vérifier le statut,
+│   │                       redistribuer la tâche si nécessaire
+│
+└─ Lent / cher → [PERFORMANCE]
+    ├─ Coût > 3x prévu ?
+    │   ├─ Oui → Trop d'agents ou périmètre trop large.
+    │   │        Réduire à 2 agents, élaguer le contexte
+    │   └─ Non → Coordination lente : Vérifier taille du dépôt git,
+    │             utiliser git gc si >1GB
+```
+
+## Problèmes Fréquents et Solutions
+
+| Problème | Cause probable | Solution |
+|----------|----------------|----------|
+| **Agents ne se lancent pas** | Flag manquant, mauvais modèle, tâche trop simple | Vérifier `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`, `/model opus`, demander explicitement "lance 3 agents" |
+| **Conflits de merge excessifs** | Agents modifient les mêmes fichiers | Redécomposer par couche (backend/frontend/tests), pas par domaine fonctionnel. `git reset --hard` si nécessaire |
+| **Coûts tokens >5x** | Sur-lancement d'agents, périmètre trop large | Réduire à 2 agents, élaguer le contexte, appliquer l'escalade progressive |
+| **Agent bloqué/suspendu** | Déséquilibre de charge | `Shift+Bas` pour naviguer, "Arrête et rapporte tes découvertes" |
+| **Résultats incohérents** | Agents ont vu des fichiers différents | Instructions explicites communes, pointer vers les mêmes docs de référence |
+| **Sessions introuvables** | ID de session perdu | `claude -r <session-id>` ; nommer les agents explicitement dans le prompt |
+| **Navigation tmux KO** | Session tmux absente | `tmux list-sessions`, `tmux attach -t claude-agents` |
+| **Coordination lente** | Dépôt git >1 Go | `git gc --aggressive --prune=now` ou `git clone --depth 1` |
+| **Contexte lent** | Trop de fichiers chargés | Indiquer explicitement les fichiers : "Agent 1 : src/backend/* uniquement" |
+| **Dépassement budgétaire récurrent** | Mauvaise stratégie d'escalade | Commencer toujours en solo, escalader uniquement si parallélisme évident. Hook `PostToolUse` pour loguer les tokens |
+
+## Corrections de Stabilité Récentes
+
+- **v2.1.121** : Correctifs critiques de fuites mémoire dans les sessions agent teams longues. Les sessions dépassant 2h consommaient jusqu'à 3x la mémoire attendue.
+- **v2.1.114** : Correction du crash dans le dialog de permission quand un teammate demandait l'accès à un outil pendant une phase de synchronisation git.
+
+# Checklist Déploiement
+
+**Prérequis techniques** :
+
+- [ ] Claude Code v2.1.32+, modèle Opus 5 recommandé (`/model opus`), dépôt git initialisé
+- [ ] Flag activé : `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
+- [ ] Navigation fonctionnelle : `Shift+Haut/Bas` entre agents
+
+**Architecture prête** :
+
+- [ ] Codebase modulaire (frontend/backend/tests séparés)
+- [ ] Couverture de tests >70% (les agents doivent pouvoir vérifier leurs changements)
+- [ ] Interfaces claires entre les modules (contrats définis avant le travail parallèle)
+
+**Budget et qualité** :
+
+- [ ] Budget tokens ~3x prévu et validé
+- [ ] Plan de repli prêt (retour agent unique si coûts explosent)
+- [ ] Revue humaine systématique des sorties agents
+
+**Signaux d'alarme (stop et réévaluation)** :
+
+- Conflits de merge >20% → mauvaise décomposition, retravailler
+- Coûts 5x+ → sur-lancement, réduire le périmètre
+- Agents finissant à des moments très différents → charge déséquilibrée
+- Faux positifs >50% → agents qui hallucinent, affiner les prompts
+
+# Annexes
+
+## Glossaire
+
+**Agent Teams** : Plusieurs instances Claude travaillant en parallèle sur une base de code partagée avec coordination intégrée
+
+**Team Lead** : Session Claude principale qui délègue les tâches et synthétise les résultats
+
+**Teammate** : Instance Claude Code indépendante avec sa propre fenêtre de contexte, travaillant sur une sous-tâche
+
+**Système de Mailbox** : Architecture de messagerie pair-à-pair permettant la communication directe entre agents
+
+**Isolation de Contexte** : Les agents ne partagent pas leur contexte complet --- uniquement les messages explicites envoyés via le *mailbox*
+
+**Coordination git** : Les agents utilisent le répertoire `.claude/tasks/` et les commits git pour se coordonner
+
+**Taux de convergence** (*Convergence Rate*) : Pourcentage de découvertes signalées par 2+ agents (indicateur de haute confiance)
+
+**Read-Heavy** : Tâches principalement analytiques/de review (idéales pour les agent teams)
+
+**Write-Heavy** : Tâches avec nombreuses modifications de fichiers partagés (risque de conflits de merge)
+
+**Agents à périmètre défini** (*Scope-Focused Agents*) : Agents spécialisés par domaine (Sécurité, API, Frontend)
+
+## Template : Revue de Sécurité PR
+
+```markdown
+# Prompt Agent Teams : Revue de Sécurité PR (RTK)
+
+> Examinez la PR #[NUMERO] avec une analyse par périmètre :
+
+## Périmètre Rust
+**Contexte** : Tous les fichiers .rs modifiés
+
+**Mission** : Vérifier
+- Patterns de propriété (préférer &str à String, minimiser les clones)
+- Gestion d'erreurs (anyhow::Result avec .context(), pas d'unwrap hors tests)
+- Code idiomatique (impl après type, #[cfg(test)] mod tests)
+- Conformité Clippy (zéro warnings)
+
+## Périmètre Sécurité
+**Contexte** : Gestion d'entrées, auth, code I/O fichiers
+
+**Mission** : Scanner
+- Injection de commandes (échappement shell, assainissement d'arguments)
+- Fuites tokens/credentials (secrets en dur, logs, messages d'erreur)
+- Assainissement d'entrées (traversée de chemin, DoS regex)
+- Opérations fichiers (validation de chemin, permissions)
+
+## Périmètre Performance
+**Contexte** : Chemins chauds, boucles, fonctions async
+
+**Mission** : Examiner
+- Allocations inutiles (String::from vs &str)
+- Patterns async (spawn_blocking pour travail CPU-bound)
+- Regex compilées (lazy_static! pour chemins chauds)
+- Complexité algorithmique (O(n) vs O(n^2))
+
+## Format de Sortie
+
+**Convergence** : Problèmes signalés par 2+ agents (haute confiance)
+
+**Insights uniques** : Chaque agent trouve des problèmes spécifiques à son domaine
+
+**Sévérité** : Rouge (À corriger) | Jaune (Devrait corriger) | Vert (Peut ignorer)
+```
+
+**Durée estimée** : 5-8 min
+
+**Critères de succès** : Convergence >50%, Insights uniques 3/3, Faux positifs <20%
+
+## Template : Mise à Jour de Documentation Multi-Fichiers
+
+```markdown
+# Prompt Agent Teams : Mise à Jour de Doc
+
+> Mettre à jour la documentation pour la nouvelle fonctionnalité "[NOM FONCTIONNALITE]" :
+
+## Périmètre Contenu
+**Contexte** : guide/ultimate-guide.md section [X.Y] uniquement
+
+**Mission** : Écrire la section [X.Y] avec
+- Vue d'ensemble (quoi/pourquoi/quand)
+- 2-3 exemples concrets
+- Bonnes pratiques + pièges
+- Liens vers les sections associées
+
+## Périmètre Index
+**Contexte** : Fichiers d'index uniquement (TOC, reference.yaml, README.md)
+
+**Mission** : Mettre à jour
+- guide/ultimate-guide.md TOC (ajouter section [X.Y])
+- machine-readable/reference.yaml (ajouter entrée avec numéros de ligne)
+- README.md navigation (ajouter lien si fonctionnalité majeure)
+
+## Périmètre Cohérence
+**Contexte** : Tous les fichiers modifiés pour validation des références croisées
+
+**Mission** : Vérifier
+- Toutes les références croisées résolvent correctement
+- Les numéros de ligne dans reference.yaml correspondent au contenu réel
+- Les ancres dans README pointent vers les bonnes sections
+- Pas de liens internes cassés
+
+## Format de Sortie
+
+**Fichiers touchés** : 3 (ultimate-guide.md, reference.yaml, README.md)
+
+**Zéro liens cassés** : Le vérificateur de cohérence détecte tout
+
+**Gain de temps** : 60% plus rapide que le séquentiel (écrire -> indexer -> vérifier)
+```
+
+**Durée estimée** : 5-8 min
+
+**Critères de succès** : Zéro liens cassés, 40%+ gain de temps, couverture complète
+
+## Template : Agent Loop-Monitor
+
+Template disponible dans `examples/agents/loop-monitor.md`. Surveille les sessions autonomes non supervisées et détecte trois types de dérive :
+
+| Signal surveillé | Critère | Action |
+|-----------------|---------|--------|
+| **Stall** (aucune activité) | Pas d'appel outil depuis N secondes | Alerte + rapport statut |
+| **Token runaway** | Taux consommation > 2x baseline | Pause forcée |
+| **Boucle d'action** | Même appel outil répété N fois | Interruption + escalade |
+
+**Caractéristiques** :
+
+- Modèle Haiku (coût minimal, surveillance légère)
+- Accès lecture seule (pas de modifications)
+- Compatible avec sessions agent teams et sous-agents solo
+
+**Utilisation typique** : lancer le loop-monitor en parallèle d'une session autonome longue (refactoring, migration), laisser tourner sans supervision, intervenir uniquement sur alerte.
+
+## Pour Aller Plus Loin
+
+### Sources Officielles Anthropic
+
+1. **[Introducing Claude Opus 4.6](https://www.anthropic.com/news/claude-opus-4-6)**
+   Anthropic, Fév 2026
+   Annonce officielle d'Opus 4.6 et du *research preview* des agent teams
+
+2. **[Building a C compiler with agent teams](https://www.anthropic.com/engineering/building-c-compiler)**
+   Anthropic Engineering, Fév 2026
+   Plongée technique : coordination basée sur git, étude de cas compilateur C autonome
+
+3. **[2026 Agentic Coding Trends Report](https://resources.anthropic.com/hubfs/2026%20Agentic%20Coding%20Trends%20Report.pdf)**
+   Anthropic, Jan 2026
+   Métriques de production : Fountain (50% plus rapide screening candidats, cas gestion de main-d'œuvre), CRED (temps de livraison divisé par 2, source : planify.in sept. 2025)
+
+### Sources Communautaires
+
+4. **[Claude Opus 4.6 for Developers: Agent Teams, 1M Context](https://dev.to/thegdsks/claude-opus-46-for-developers-agent-teams-1m-context-and-what-actually-matters-4h8c)**
+   dev.to, Fév 2026
+   Instructions de configuration, tableau d'impact workflow, compromis lecture/écriture
+
+5. **[The best way to do agentic development in 2026](https://dev.to/chand1012/the-best-way-to-do-agentic-development-in-2026-14mn)**
+   dev.to, Jan 2026
+   Patterns d'intégration : Claude Code + plugins (Conductor, Superpowers, Context7)
+
+### Outils Communautaires
+
+6. **[Claude Agent Teams UI](https://github.com/777genius/claude_agent_teams_ui)**
+   Application desktop open-source (Electron + React + TypeScript) pour piloter les agent teams Claude Code. Tableau kanban avec suivi des tâches en temps réel, diffs de revue de code, communication inter-équipe, analyse de session détaillée, monitoring du contexte. 100% gratuit, fonctionne en local.
+
+### Témoignages Praticiens
+
+7. **[Paul Rayner LinkedIn Post](https://www.linkedin.com/posts/thepaulrayner_this-is-wild-i-just-upgraded-claude-code-activity-7425635159678414850-MNyv)**
+   Paul Rayner (CEO Virtual Genius, auteur EventStorming Handbook), Fév 2026
+   Usage en production : 3 workflows concurrents (application de recherche d'emploi, ops business, infrastructure)
+
+8. **[IFTTD ep 311 "IA Agentique"](https://www.ifttd.io/episodes/ia-agentique)**
+   Samy Lastmann (CTO, Smart Tribune), 2024
+   Système multi-agents en production : des micro-agents remplacent un mega-prompt unique. Chaque agent a une seule tâche et les outils correspondants. Scalabilité, explicabilité et mesurabilité progressent toutes quand les agents sont découpés par responsabilité. Tous les agents du pipeline n'ont pas besoin d'un LLM : les étapes déterministes (regex, BM25, requêtes SQL) relèvent du code, pas d'un modèle de raisonnement.
+
+9. **[IFTTD ep 361 "Pourquoi le RAG n'est pas mort"](https://www.ifttd.io/episodes/rag)**
+   Guillaume Laforge (Developer Advocate, Google Cloud), 2025
+   Introduit le "harness engineering" comme discipline de gestion du flux de contexte à travers un pipeline multi-agents. Orchestrer des sous-agents isolés est autant un problème d'architecture de contexte qu'un problème de décomposition de tâches : chaque agent ne reçoit que la tranche de contexte dont il a besoin, et le harness contrôle ce qui circule où.
+
+10. **[IFTTD ep 341 "Bilan 2025"](https://www.ifttd.io/episodes/bilan-2025)**
+    Quentin Adam (CEO, Clever Cloud), 2025
+    Pattern d'orchestration multi-modèle : Claude décompose une tâche et orchestre Gemini (fenêtre de contexte plus large) pour exécuter des réécritures de codebase volumineuses qui dépasseraient la fenêtre de Claude. La planification et la formulation des tâches restent chez le raisonneur le plus fort ; l'ingestion massive de contexte va au modèle conçu pour ça.
+
+11. **[IFTTD ep 346 "IA & DevX"](https://www.ifttd.io/episodes/ia-devx)**
+    Jocelyn N'takpe (Head of Engineering & Architecture, ManoMano), 2025
+    À l'échelle (250 ingénieurs, 400+ microservices) : une équipe plateforme dédiée maintient des skills et des règles encodant les conventions d'architecture internes (patterns de connexion base de données, encodage des messages Kafka, standards de nommage). Les agents sont traités comme de nouveaux développeurs qu'il faut onboarder. La documentation destinée aux agents est aujourd'hui mieux maintenue que Confluence. Stack MCP en production : Serena (recherche sémantique de code via LSP), Playwright, Context7.
+
+### Documentation Associée
+
+- [Claude Code Releases](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/claude-code-releases.md) --- notes de version v2.1.32, v2.1.33
+- [Sous-Agents](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#sub-agents) --- Délégation de tâches en agent unique
+- [Workflows Multi-Instance](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#multi-instance-workflows) --- Coordination parallèle manuelle
+- [Pattern Dual-Instance](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#dual-instance-pattern) --- Split plan-execution
+- [Écosystème IA : Framework Beads](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ai-ecosystem.md#beads-framework) --- Orchestration alternative (Gas Town)
+
+### Recherche Académique sur les Systèmes Multi-Agents
+
+| Ressource | Contenu | Lien |
+|-----------|---------|------|
+| **SWE-bench** | Benchmark de résolution de bugs GitHub par agents IA | [swe-bench.github.io](https://swe-bench.github.io) |
+| **AgentBench** | Benchmark multi-tâches pour agents LLM (2023) | [arxiv.org/abs/2308.03688](https://arxiv.org/abs/2308.03688) |
+| **"Agents" (Wooldridge)** | Introduction aux systèmes multi-agents (référence académique) | [cs.ox.ac.uk/people/michael.wooldridge/pubs/imas](https://www.cs.ox.ac.uk/people/michael.wooldridge/pubs/imas/) |
+| **CoSAI AI Incident Response** | Framework de réponse aux incidents IA (OASIS, Nov 2025) | [cosai.org](https://cosai.org) |
+| **EU AI Act (systèmes autonomes)** | Exigences réglementaires pour systèmes IA autonomes | [eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32024R1689](https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32024R1689) |
+| **OWASP Agentic AI Top 10** | Risques des agents IA autonomes (2026) | [owasp.org/www-project-agentic-ai-top-10](https://owasp.org/www-project-agentic-ai-top-10/) |
+| **Agent Teams Workflow Guide** | Guide pratique dédié (ce repo) | [guide/workflows/agent-teams.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md) |
+
+# Retours et Contributions
+
+**Vous rencontrez des problèmes ?** Signalez-les sur les [Anthropic GitHub Issues](https://github.com/anthropics/claude-code/issues)
+
+**Retours de production ?** Partagez dans les [GitHub Discussions](https://github.com/anthropics/claude-code/discussions)
+
+**Questions ?** Posez-les dans la [communauté Dev With AI](https://www.devw.ai/) (1500+ devs, Slack)
+
+---
+
+*Version 3.42.0 | Créé : 2026-02 | Mis à jour : 2026-08 | Agent Teams (v2.1.32+, Experimental)*
+
+
+---
+
+{{< include fiches/fiche-08-agent-teams.qmd >}}
+
+# La Série
+
+Ce livre blanc fait partie de la série **Claude Code Ultimate Guide**, une ressource complète pour maîtriser Claude Code, de l'installation au déploiement en production.
+
+**13 livres blancs dans la série :**
+
+- **WP00** Introduction & Fondamentaux
+- **WP01** Prompts Efficaces
+- **WP02** Personnalisation & Configuration
+- **WP03** Sécurité en Production
+- **WP04** Architecture Interne *(à venir)*
+- **WP05** Adoption en Équipe
+- **WP06** Privacy & Conformité *(à venir)*
+- **WP07** Guide de Référence Condensé
+- **WP08** Teams d'Agents & Sub-Agents
+- **WP09** Apprendre avec l'IA (UVAL)
+- **WP10** Budget IA & ROI *(à venir)*
+- **WP11** Piloter une Équipe à l'Ère de l'IA
+- **WP12** L'Ingénierie Logicielle à l'Ère des Agents Autonomes
+
+Série complète disponible sur [cc.bruniaux.com/whitepapers/](https://cc.bruniaux.com/whitepapers/)

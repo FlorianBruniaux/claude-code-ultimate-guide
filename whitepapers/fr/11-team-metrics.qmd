@@ -4,8 +4,8 @@ subtitle: "DORA, SPACE et les métriques qui comptent quand l'IA écrit 70 % de 
 author: "Florian BRUNIAUX"
 date: 2026-08-24
 date-format: "MMMM YYYY"
-version: "3.41.3"
-wp-version: "1.2.1"
+version: "3.42.0"
+wp-version: "1.3.0"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -257,6 +257,22 @@ Elles nécessitent une instrumentation via Langfuse, Arize Phoenix ou AWS Bedroc
 | Code review recall | Taux auquel les commentaires de revue générés par agent sont réellement traités par les développeurs | Code Review Bench (Martian, mars 2026, 200 000+ PRs open-source) : Augment Code 62,8 % de recall, GitHub Copilot 53,3 % de recall, Graphite 75 % de précision mais seulement 8,8 % de recall |
 | Cost per completed task | Dépense en tokens plus temps de revue humaine par tâche agent atteignant un état mergeable | Pas de benchmark industriel publié à ce jour. Trackez manuellement : tokens consommés, coût par appel modèle, heures de revue humaine par tâche complétée |
 | Tokens per feature | Tokens moyens consommés par feature mergée, croisés avec les frontières de tickets Jira ou Linear. Meilleur signal que tokens/requête car il prend en compte la variation du nombre de sessions par feature | Pas de benchmark industriel. Trackez via le leaderboard projet ccboard (tokens/session × sessions par feature). Établissez une baseline avant d'optimiser ; la fourchette typique pour une PR complète est de 500K à 2M tokens sur des codebases complexes |
+
+## Tester un harness avant de le standardiser
+
+Un essai de harness doit comparer deux ou trois candidats sur les mêmes tâches réelles, avec les mêmes instructions et le même modèle lorsque cela est possible. Écrire les critères de réussite avant l'essai, isoler chaque candidat dans son worktree, puis conserver les traces qui expliquent le résultat. Un benchmark public peut informer la présélection, il ne remplace pas ce test local.
+
+| Mesure | Question de décision |
+|--------|----------------------|
+| Verdict humain | Le changement est-il acceptable sans reprise imprévue? |
+| Interventions | Combien de corrections ou de redirections humaines ont été nécessaires? |
+| Dérive de plan | Le travail est-il resté dans le périmètre et le contrat annoncés? |
+| Temps écoulé | Quel est le délai du lancement au résultat vérifié? |
+| Coût par tâche acceptée | Quel coût associer aux tâches réellement retenues? |
+| Récupération | Que reste-t-il après un échec, une interruption ou un refus? |
+| Friction de mise en place | Quelles permissions, dépendances et opérations restent à maintenir? |
+
+Le [protocole de test du Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/) relie ces mesures au choix entre runtime, contrat de dépôt et orchestrateur. Elles complètent DORA; elles ne mesurent pas les personnes.
 
 ## Groupe 3 : Métriques de Gouvernance des Agents
 

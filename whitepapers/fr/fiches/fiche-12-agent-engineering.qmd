@@ -1,0 +1,25 @@
+{{< pagebreak >}}
+
+## Fiche Récap : Ingénierie à l'Ère des Agents
+
+```{=typst}
+#fiche-recap(
+  title: "Ingénierie d'Agents",
+  subtitle: "Harness, CI/CD agentic, mesure honnête",
+  wp-number: "12",
+  points: (
+    "#strong[J-curve L2-L3] : METR RCT (n=16) mesure -19% de temps réel, perception +24%. Écart de 39 points. La J-curve est réelle avant d'être profitable.",
+    "#strong[Harness = unité d'ingénierie] : 3 propriétés (executability, inspectability, statefulness) + 9 composants. Le modèle est interchangeable, le harness reste.",
+    "#strong[Plafond CI/CD agentic] : 32.1% pass rate Claude Code solo (c-CRAB, mars 2026). Union 4 outils : 41.5%. Les 60% restants nécessitent encore un jugement humain.",
+    "#strong[93% d'approvals sans examen] (Anthropic, prod) : le HITL classique dégrade à l'échelle. HOTL + auto-review agent (Codex 200x) prend le relai.",
+    "#strong[Spec drift = risque #1 du SDD] : Spec Kit (spec-first, 30+ agents) vs Tessl (spec-as-source). Creator ≠ verifier : +12-26% correctness avec vérificateur indépendant.",
+    "#strong[Choisir son outil] : terminal interactif (Claude Code, Codex CLI, Hermes 170k étoiles, Aider) vs autonome (Devin $500/mois, SWE-agent) vs framework (LangGraph, CrewAI). L'outil suit le régime de travail, pas l'inverse.",
+  ),
+  actions: (
+    "Situer votre équipe sur la Shapiro Scale (L0-L5) et identifier les composants de harness manquants",
+    "Mesurer une baseline temps avant adoption, pas après : 39 points d'écart perception/mesure",
+    "Instrumenter OTel GenAI gen_ai.client (stable mai 2026) avant d'acheter un outil d'observabilité",
+    "Définir un seuil HOTL explicite : 10 000 USD impact, schéma DB, déploiement prod",
+  ),
+)
+```

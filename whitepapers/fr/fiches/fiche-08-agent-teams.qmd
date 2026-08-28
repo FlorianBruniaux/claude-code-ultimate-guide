@@ -1,0 +1,24 @@
+{{< pagebreak >}}
+
+## Fiche Récap : Agent Teams & Sub-Agents
+
+```{=typst}
+#fiche-recap(
+  title: "Agent Teams & Sub-Agents",
+  subtitle: "Délégation simple vs coordination P2P",
+  wp-number: "08",
+  points: (
+    "#strong[Sub-agents] = délégation simple via l'outil Task. Claude crée des agents enfants pour des tâches parallèles ou isolées. Stable, recommandé.",
+    "#strong[Agent teams] = coordination peer-to-peer entre instances Claude. Expérimental, plus complexe, coût 3-5× vs solo.",
+    "Commencer par les #strong[sub-agents] (95% des besoins). Agent teams seulement si coordination P2P est strictement nécessaire.",
+    "#strong[Patterns sub-agents] : fan-out (1 orchestrateur → N agents), pipeline (agents en séquence), map-reduce (distribuer + agréger).",
+    "Le #strong[coût] est réel : agent teams multiplie les tokens par 3-5. Mesurer le ROI avant d'adopter.",
+  ),
+  actions: (
+    "Implémenter votre premier sub-agent avec l'outil Task sur une tâche parallélisable",
+    "Évaluer si vos besoins nécessitent vraiment la coordination P2P",
+    "Mesurer le coût token avant/après sur une tâche réelle",
+    "Lire la section 9.17-9.20 du guide pour les patterns avancés",
+  ),
+)
+```
