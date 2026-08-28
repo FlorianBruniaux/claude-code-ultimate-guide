@@ -1,14 +1,14 @@
-# Recap Cards — Claude Code Ultimate Guide
+# Recap Cards: Claude Code Ultimate Guide
 
 Fiches mémo thématiques A4 une page, conçues pour être imprimées et gardées à portée. Chaque fiche couvre un concept précis du guide, avec commandes, tableaux et exemples concrets.
 
-58 fiches par langue, organisées en 3 séries visuelles.
+58 sources QMD de fiches par langue, organisées en 3 séries visuelles. Avant le rendu de C14, 57 PDF existent par langue; le PDF C14 n'est pas déclaré disponible.
 
 **Langues & formats :**
 
 | Format | FR | EN |
 |--------|----|----|
-| PDF (`recap-card-typst`) | ✅ disponible | ✅ disponible |
+| PDF (`recap-card-typst`) | 57 PDF existants avant rendu de C14 | 57 PDF existants avant rendu de C14 |
 | EPUB / HTML | Non applicable | Non applicable |
 
 ## Build

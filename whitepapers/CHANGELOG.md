@@ -16,7 +16,10 @@ Suivi des versions des ebooks, indépendamment de la version du guide.
 ### Added
 
 - **WP12 FR/EN**: version 1.1.1 à 1.2.0. La sélection distingue runtime, contrat de dépôt et orchestrateur. La nouvelle section décrit les quatre jeux de données, y compris le snapshot *Best of Agent Harnesses* du 23 août 2026 (160 projets, 12 catégories) et le JSON canonique `machine-readable/agent-harnesses.json` avec statuts de preuve.
-- **WP04, WP08, WP11 et WP07 FR/EN**: responsabilités des quatre couches, frontière runtime-orchestrateur, protocole d'essai et références canoniques ajoutés sans transformer le catalogue étendu en classement de runtimes.
+- **WP04 FR/EN**: version 1.4.1 à 1.5.0. Les responsabilités des quatre couches sont ajoutées.
+- **WP08 FR/EN**: version 1.5.1 à 1.6.0. La frontière entre runtime et orchestrateur est ajoutée.
+- **WP11 FR/EN**: version 1.2.1 à 1.3.0. Le protocole d'essai et ses métriques sont ajoutés.
+- **WP07 FR/EN**: version 1.4.3 à 1.4.4. Les références canoniques portables sont ajoutées sans transformer le catalogue étendu en classement de runtimes.
 - **C14 FR/EN Agent Harness Map**: fiche parallèle sur les quatre couches, les sources de comparaison et les mesures d'un essai court.
 - **Cheatsheets FR/EN et guide cheatsheet**: table compacte des quatre couches et liens canoniques vers Agent Harness Map, Agent Harness Engineering, Agent Tools et le glossaire.
 
@@ -25,7 +28,7 @@ Suivi des versions des ebooks, indépendamment de la version du guide.
 - **C12 FR/EN**: claims larges sur les intégrations IDE, le SDK et MCP remplacés par des surfaces à vérifier; les volumes d'installation non sourcés sont retirés.
 - **M16 FR/EN**: seuils de taille, de contexte, de budget et de nombre d'agents non justifiés remplacés par des critères observables de décomposition, coût, récupération et revue indépendante.
 - **T22 FR/EN**: les outils tiers sont décrits comme des couches adjacentes, pas comme des runtimes.
-- **Catalogues de publication**: série corrigée à 13 whitepapers et 58 fiches par langue après ajout de C14.
+- **Catalogues de publication**: série corrigée à 13 whitepapers, 58 sources QMD de fiches par langue et 57 PDF existants par langue avant le rendu de C14. Aucun PDF C14 n'est déclaré disponible.
 
 ## [2026-08-24] Audit de style anti-IA, 13 whitepapers + 57 fiches récap, PDF régénérés et déployés
 

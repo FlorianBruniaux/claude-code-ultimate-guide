@@ -5,7 +5,7 @@ author: "Florian BRUNIAUX"
 date: 2026-08-24
 date-format: "MMMM YYYY"
 version: "3.41.3"
-wp-version: "1.5.1"
+wp-version: "1.6.0"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:

@@ -17,10 +17,12 @@ Cette série de 13 whitepapers couvre Claude Code, de l'installation à la produ
 | **8** | **Agent Teams** | "Coordination multi-agents pour tâches complexes" | Power/TechLead | **42** |
 | **9** | **Apprendre avec l'IA** | "Protocole UVAL — apprendre sans accumuler la dette de compréhension" | Dev (tous niveaux) | **49** |
 | **10** | **Convaincre son Employeur** | "Le dossier CEO/CTO/CFO pour investir dans l'IA" | CEO/CTO/CFO/Manager | **27** |
-| **11** | **Piloter une Équipe à l'Ère de l'IA** | "Métriques de livraison, qualité et revue" | TechLead/Manager | **~45** |
-| **12** | **Ingénierie Logicielle à l'Ère des Agents Autonomes** | "Harnesses, CI/CD agentic et mesure" | TechLead/Staff/Principal | **~55** |
+| **11** | **Piloter une Équipe à l'Ère de l'IA** | "Métriques de livraison, qualité et revue" | TechLead/Manager | **40 FR / 42 EN*** |
+| **12** | **Ingénierie Logicielle à l'Ère des Agents Autonomes** | "Harnesses, CI/CD agentic et mesure" | TechLead/Staff/Principal | **39 FR / 30 EN*** |
 
 **Total : 13 whitepapers.** Les volumes PDF et le temps de lecture dépendent de la version rendue.
+
+\* Comptes mesurés sur les PDF existants le 28 août 2026, avant le nouveau rendu des sources modifiées.
 
 **Langues & formats disponibles :**
 
@@ -72,13 +74,13 @@ Cette série de 13 whitepapers couvre Claude Code, de l'installation à la produ
 
 # Fiches Mémo (Recap Cards)
 
-58 fiches A4 1-page imprimables par langue, format intermédiaire entre le cheatsheet et les whitepapers. Chaque fiche couvre un concept précis avec tables de référence et exemples de commandes.
+58 sources QMD de fiches A4 par langue, format intermédiaire entre le cheatsheet et les whitepapers. Chaque fiche couvre un concept précis avec tables de référence et exemples de commandes. Avant le rendu de C14, 57 PDF existent par langue; le PDF C14 n'est pas déclaré disponible.
 
 **Langues & formats disponibles :**
 
 | Format | FR | EN |
 |--------|----|----|
-| PDF (recap-card-typst) | ✅ `recap-cards/fr/*.pdf` | ✅ `recap-cards/en/*.pdf` |
+| PDF (recap-card-typst) | 57 PDF existants avant rendu de C14 | 57 PDF existants avant rendu de C14 |
 | EPUB / HTML | Non applicable (format 1 page) | Non applicable |
 
 **Sources** : `recap-cards/fr/*.qmd` · **PDFs** : même dossier · **En ligne** : `cc.bruniaux.com/cheatsheets/`
@@ -156,7 +158,7 @@ Cette série de 13 whitepapers couvre Claude Code, de l'installation à la produ
 | C13 | Erreurs Courantes | beginner | Les pièges fréquents et comment les éviter |
 | C14 | Agent Harness Map | advanced | Choisir runtime, contrat de dépôt ou orchestrateur |
 
-**Total : 58 fiches par langue** — toutes 1 page PDF · Guide version 3.41.3
+**Total : 58 sources QMD par langue**, dont 57 PDF existants par langue avant le rendu de C14. Les PDF existants font une page. Guide version 3.41.3
 
 ---
 

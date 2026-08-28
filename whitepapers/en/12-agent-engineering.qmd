@@ -206,7 +206,7 @@ Four data sets answer different decisions. The strict table in the [Agent Harnes
 | Which infrastructure is adjacent? | Best of Agent Harnesses snapshot | 160 projects does not mean 160 runtimes |
 | Which fact is verified and by which source? | Canonical JSON | `unknown` means not established, not absent |
 
-The JSON retains links, verification date, scope, and the values `confirmed`, `claimed`, `unknown`, or `not_applicable`. A `claimed` value records an official assertion without a verified mechanism. This model prevents a README, marketing page, or missing data from being presented as demonstrated capability. The selection criteria and trial protocol are in the [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/); definitions remain in the [glossary](https://cc.bruniaux.com/guide/glossary/).
+The JSON retains links, verification date, scope, and the values `confirmed`, `claimed`, `unknown`, or `not_applicable`. A `claimed` value records a source assertion, not confirmed by mechanism evidence. This model helps distinguish demonstrated capability from a source assertion or missing data. The selection criteria and trial protocol are in the [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/); definitions remain in the [glossary](https://cc.bruniaux.com/guide/glossary/).
 
 # Spec-Driven Development
 

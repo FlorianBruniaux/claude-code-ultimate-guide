@@ -262,7 +262,7 @@ Quatre jeux de données servent des décisions différentes. Le tableau strict d
 | Quelle infrastructure est adjacente? | Snapshot Best of Agent Harnesses | 160 projets ne signifient pas 160 runtimes |
 | Quel fait est vérifié et par quelle source? | JSON canonique | `unknown` signifie non établi, pas absent |
 
-Le JSON conserve les liens, la date de vérification, la portée et les valeurs `confirmed`, `claimed`, `unknown` ou `not_applicable`. Un statut `claimed` rapporte une déclaration officielle sans mécanisme vérifié. Ce modèle empêche de présenter un README, une page marketing ou une absence de donnée comme une capacité démontrée. Les critères de choix et le protocole d'essai figurent dans le [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/); les définitions restent dans le [glossaire](https://cc.bruniaux.com/guide/glossary/).
+Le JSON conserve les liens, la date de vérification, la portée et les valeurs `confirmed`, `claimed`, `unknown` ou `not_applicable`. Un statut `claimed` rapporte une déclaration de la source, non confirmée par une preuve de mécanisme. Ce modèle aide à distinguer une capacité démontrée d'une déclaration ou d'une donnée absente. Les critères de choix et le protocole d'essai figurent dans le [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/); les définitions restent dans le [glossaire](https://cc.bruniaux.com/guide/glossary/).
 
 # Spec-Driven Development
 
