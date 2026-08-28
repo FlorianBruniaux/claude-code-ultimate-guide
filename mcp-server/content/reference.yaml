@@ -1802,8 +1802,9 @@ deep_dive:
   api_gateway_litellm: "guide/ops/api-gateway.md#2-litellm-gateway"
   api_gateway_virtual_keys: "guide/ops/api-gateway.md#3-virtual-keys-and-team-budgets"
   api_gateway_model_allowlists: "guide/ops/api-gateway.md#4-model-allowlists"
-  api_gateway_portkey: "guide/ops/api-gateway.md#8-portkey-as-a-managed-alternative"
-  api_gateway_limits: "guide/ops/api-gateway.md#9-what-the-gateway-does-not-cover"
+  api_gateway_orcarouter: "guide/ops/api-gateway.md#8-orcarouter-as-a-managed-gateway"
+  api_gateway_portkey: "guide/ops/api-gateway.md#9-portkey-as-a-managed-alternative"
+  api_gateway_limits: "guide/ops/api-gateway.md#10-what-the-gateway-does-not-cover"
   api_gateway_scope: "proxy layer between Claude Code clients and the Anthropic API; per-session cost estimation stays in guide/ops/observability.md"
   # ── Printable cheatsheet (standalone file, distinct from the in-guide section at line 19597)
   cheatsheet_file: "guide/cheatsheet.md"
@@ -3218,8 +3219,9 @@ section_maps:
     - "5-usage-dashboards"
     - "6-opentelemetry-integration"
     - "7-production-deployment"
-    - "8-portkey-as-a-managed-alternative"
-    - "9-what-the-gateway-does-not-cover"
+    - "8-orcarouter-as-a-managed-gateway"
+    - "9-portkey-as-a-managed-alternative"
+    - "10-what-the-gateway-does-not-cover"
   "guide/ops/devops-sre.md":
     - "quick-self-check"
     - "the-fire-framework"
