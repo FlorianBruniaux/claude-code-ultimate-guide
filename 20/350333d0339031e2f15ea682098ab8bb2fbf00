@@ -1,0 +1,125 @@
+CHANGELOG.md
+  s_9cf259c16931e6::t_db8c1cca6f73a8 9-14,17-24
+guide/README.md
+  s_aa315be59f086f::t_d3d34e623df532 33-34,40,49-50,57,95,152-153
+guide/core/agent-harness.md
+  s_aa315be59f086f::t_5098231bac8eb6 33-44,103,115,123,125,127,129,145,147,151,153,157-174,378-386,390
+guide/core/context-engineering.md
+  s_aa315be59f086f::t_bb8199f9b180bc 12-13
+guide/core/hooks-events-reference.md
+  s_aa315be59f086f::t_854ca013574538 13-14
+guide/core/known-issues.md
+  s_aa315be59f086f::t_b59da83a2f9ea0 14-15
+guide/core/memory-systems.md
+  s_aa315be59f086f::t_6d1597e3323ba7 139
+guide/ecosystem/agent-harness-landscape.md
+  s_aa315be59f086f::t_4631c5c352f8c2 17-28,473,478-480,489-500
+guide/ecosystem/agentic-tools.md
+  s_aa315be59f086f::t_1dfcd61a92c9f6 15,1064-1066
+guide/ecosystem/context-engineering-tools.md
+  s_aa315be59f086f::t_c014e279a1570f 11,546
+guide/ecosystem/local-vs-cloud-inference.md
+  s_aa315be59f086f::t_53365dbee2cf75 23-24,118,129,229-373
+guide/ecosystem/remarkable-ai.md
+  s_1154b4eaec1074::t_9a221ee5c26a2d 2-3,7,11-13,17-18,20-25,27-31,35,37,39,41,45-46,48,50-54,56,58,60,63,67,70-71,73,77-78,81,100,102,104,107,112,117,120,125,128-130,132,134,136,142,144,146,149-150,153,155-159,161,163,165-168,172,174,176,178,180-183,185,187,192-194,198,200,202-204,208,210,212,215,217,219,222,224,227,229,231-237,239,242,245,249,253,255,259,261-264,266,270,272,277,279,281,285,287,289,291,295,297-299,301,304-306,309,313,315,317,319-322,324,330,332,335-338,341,344-347,350,352,354,358,360,362,364-366,368,372,374,376-378,380,384,388-400,404,406,408,411-413,416,419-421,427-428,431,434-436,439,442-444,450-452,457,459,461-463,465,467-468,470,472-473,479,481,483-484,488,490,493,496,502,504
+guide/learning-path/01-installation.md
+  s_aa315be59f086f::t_62f80bdf291168 256
+guide/learning-path/02-core-loop.md
+  s_aa315be59f086f::t_b81d20fddd281d 5-6,336
+guide/learning-path/04-agents.md
+  s_aa315be59f086f::t_ac5e11f11de34a 10-11,468
+guide/learning-path/05-skills.md
+  s_aa315be59f086f::t_e422c2542d063c 10-11,499
+guide/learning-path/06-hooks.md
+  s_aa315be59f086f::t_3b37a50886edc4 5-6,437
+guide/ops/ai-traceability.md
+  s_aa315be59f086f::t_ea60cbb10765c7 814-815
+guide/ops/ai-unit-economics.md
+  s_aa315be59f086f::t_8db9e2c87c6076 161-162
+guide/ops/team-metrics.md
+  s_aa315be59f086f::t_83a28dd0a238c8 280
+guide/roles/agent-evaluation.md
+  s_aa315be59f086f::t_91cf161cb954ba 402-403
+guide/roles/ai-roles.md
+  s_aa315be59f086f::t_8745cf0be0543d 115-116
+guide/roles/learning-with-ai.md
+  s_aa315be59f086f::t_b9c8d80747b139 244-245
+guide/security/production-safety.md
+  s_aa315be59f086f::t_e7ad6a1c85e1a9 427-428
+guide/security/sandbox-isolation.md
+  s_aa315be59f086f::t_cb5f6529219617 12
+guide/security/security-hardening.md
+  s_aa315be59f086f::t_35ec6f6b549b11 16-17
+guide/workflows/og-image-generation.md
+  s_aa315be59f086f::t_325dba82b9f9e1 11-12
+guide/workflows/tdd-with-claude.md
+  s_aa315be59f086f::t_ac451bafc0f4ac 345
+guide/workflows/team-ai-instructions.md
+  s_aa315be59f086f::t_954ce484a60891 327
+guide/workflows/tts-setup.md
+  s_aa315be59f086f::t_e36155ccd47526 319
+llms.txt
+  s_aa315be59f086f::t_44a6f17a5b6e27 41,43-44
+machine-readable/README.md
+  s_aa315be59f086f::t_a181b78000769a 9-10,15,46-56
+machine-readable/llms.txt
+  s_aa315be59f086f::t_81ba6be09ce345 41,43-44
+machine-readable/reference.yaml
+  s_ace304c1533c64::t_68b72605ed12d2 39,146,148-149,152,159-165,409,411,413-414,416-417,835-836,892,894-895,904,906,908,914,932,934-935,1075,1153,1202,1282,1417,1546-1547,2779,2789,2799,2811,2915,2947,2974-2985,2995,3028-3035,3051,3055-3056,3097-3098,3100-3105,3107-3111,3287,3329,3440,3448,3460,3476,3497-3508,3598-3604,3697-3707
+mcp-server/content/llms.txt
+  s_aa315be59f086f::t_4a525957c797ae 41,43-44
+mcp-server/content/reference.yaml
+  s_ace304c1533c64::t_23988d529b8ff9 39,146,148-149,152,159-165,409,411,413-414,416-417,835-836,892,894-895,904,906,908,914,932,934-935,1075,1153,1202,1282,1417,1546-1547,2779,2789,2799,2811,2915,2947,2974-2985,2995,3028-3035,3051,3055-3056,3097-3098,3100-3105,3107-3111,3287,3329,3440,3448,3460,3476,3497-3508,3598-3604,3697-3707
+guide/ecosystem/mcp-servers-ecosystem.md
+  s_96a3c73f13796c::t_7092fec9b8afdb 70
+guide/workflows/agent-teams.md
+  s_96a3c73f13796c::t_f0efc4c8ff8bc6 394-395
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "20350333d0339031e2f15ea682098ab8bb2fbf00",
+  "prompts": {},
+  "sessions": {
+    "s_1154b4eaec1074": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04239-d1b3-78a3-94c6-57a972d138fc",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_96a3c73f13796c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-aimpl-portfolio-crosslinks-9fa660fb28c7e9d6",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_9cf259c16931e6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a03e6c-f9af-7811-b19d-91365bbf6d38",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_aa315be59f086f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a5a7e254-edb6-4421-91f2-98aeef3a1c3e",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_ace304c1533c64": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "76d2e928-42ad-4207-a483-8ac592582528",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
