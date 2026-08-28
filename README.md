@@ -7,7 +7,7 @@
 
 <!-- Stats -->
 <p align="center">
-  <a href="https://github.com/FlorianBruniaux/claude-code-ultimate-guide/stargazers"><img src="https://img.shields.io/github/stars/FlorianBruniaux/claude-code-ultimate-guide?style=for-the-badge" alt="Stars"/></a>
+  <a href="https://github.com/FlorianBruniaux/claude-code-ultimate-guide"><img src="https://img.shields.io/github/stars/FlorianBruniaux/claude-code-ultimate-guide?style=for-the-badge" alt="Stars"/></a>
   <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Updated-Aug_28,_2026_·_v3.42.0-brightgreen?style=for-the-badge" alt="Last Update"/></a>
   <a href="./quiz/"><img src="https://img.shields.io/badge/Quiz-473_questions-orange?style=for-the-badge" alt="Quiz"/></a>
   <a href="./examples/"><img src="https://img.shields.io/badge/Templates-271-green?style=for-the-badge" alt="Templates"/></a>
@@ -40,7 +40,7 @@
 
 > **Over a year of daily practice** distilled into a guide that teaches you the WHY, not just the what. From core concepts to production security, you learn to design your own agentic workflows instead of copy-pasting configs.
 
-> **If this guide helps you, [give it a star ⭐](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/stargazers)**: it helps others discover it too.
+> **If this guide helps you, [give it a star ⭐](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)**: it helps others discover it too.
 
 ---
 

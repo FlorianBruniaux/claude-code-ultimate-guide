@@ -2275,7 +2275,7 @@ The default model depends on your subscription: **Max/Team Premium** subscribers
 
 **Reality check**: A typical 1-hour session costs **$0.10 - $0.50** depending on usage patterns.
 
-> **Model retirement (April 2026)**: `claude-3-haiku-20240307` (Claude 3 Haiku) was retired on **April 20, 2026**. If your CLAUDE.md, agent definitions, or scripts still hardcode this model ID, migrate to `claude-haiku-4-5-20251001` (Haiku 4.5) immediately. Source: [platform.claude.com/docs/en/release-notes/model-deprecations](https://platform.claude.com/docs/en/release-notes/model-deprecations)
+> **Model retirement (April 2026)**: `claude-3-haiku-20240307` (Claude 3 Haiku) was retired on **April 20, 2026**. If your CLAUDE.md, agent definitions, or scripts still hardcode this model ID, migrate to `claude-haiku-4-5-20251001` (Haiku 4.5) immediately. Source: [platform.claude.com/docs/en/about-claude/model-deprecations](https://platform.claude.com/docs/en/about-claude/model-deprecations)
 
 #### 200K vs 1M Context: Performance, Cost & Use Cases
 

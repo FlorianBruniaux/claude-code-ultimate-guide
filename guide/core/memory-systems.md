@@ -529,7 +529,7 @@ python -m mcp_memory_service.scripts.installation.install --quick
 
 ### 3.6 OpenMemory MCP
 
-**Repo**: github.com/mem0ai/mem0/tree/main/openmemory | **Dashboard**: http://localhost:3000
+**Repo**: github.com/mem0ai/mem0 | **Dashboard**: http://localhost:3000
 
 User-owned, local-first, private memory layer. Standardized 4-tool interface:
 
@@ -1148,7 +1148,7 @@ These gaps have no tooling answer as of May 2026:
 > - [doobidoo/mcp-memory-service GitHub](https://github.com/doobidoo/mcp-memory-service)
 > - [Zep/Graphiti GitHub](https://github.com/getzep/graphiti)
 > - [mem0ai/mem0 GitHub](https://github.com/mem0ai/mem0)
-> - [OpenMemory MCP](https://github.com/mem0ai/mem0/tree/main/openmemory)
+> - [OpenMemory MCP](https://github.com/mem0ai/mem0) (subproject path removed, mem0ai/openmemory now hosts an unrelated CLI tool)
 > - [Sleep-time Compute paper](https://arxiv.org/html/2504.13171v1) (arXiv:2504.13171, UC Berkeley + Letta, April 2025)
 > - [CLAUDE.md impact study](https://arxiv.org/abs/2602.11988) (Gloaguen et al., arXiv 2602.11988, Feb 2026)
 > - [Auto Dream system prompts](https://github.com/Piebald-AI/claude-code-system-prompts/blob/main/system-prompts/agent-prompt-dream-memory-consolidation.md)
