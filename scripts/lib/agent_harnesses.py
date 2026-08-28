@@ -258,6 +258,8 @@ def _validate_map_record(record: Any, known_refs: set[str], label: str) -> list[
         errors.append(f"{label} owns_loop status is invalid")
     if record.get("evidence_status") not in EVIDENCE_STATUSES:
         errors.append(f"{label} evidence status is invalid")
+    if record.get("evidence_status") not in {"confirmed", "claimed"}:
+        errors.append(f"{label} requires evidence_status confirmed or claimed")
     evidence = record.get("evidence")
     if not isinstance(evidence, list):
         errors.append(f"{label} evidence must be an array")
@@ -370,9 +372,13 @@ def validate_catalog(data: Any) -> list[str]:
                         errors.append(
                             "strict_runtime_map requires owns_loop confirmed or claimed"
                         )
-                    if record.get("evidence_status") not in {"confirmed", "claimed"}:
+                    if (
+                        record.get("owns_loop") == "confirmed"
+                        and record.get("evidence_status") != "confirmed"
+                    ):
                         errors.append(
-                            "strict_runtime_map requires evidence_status confirmed or claimed"
+                            "strict_runtime_map owns_loop=confirmed requires "
+                            "evidence_status=confirmed"
                         )
                 if label == "adjacent_control_planes" and record.get("owns_loop") != "no":
                     errors.append("adjacent_control_planes requires owns_loop=no")

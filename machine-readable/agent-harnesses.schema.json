@@ -103,33 +103,17 @@
               {"$ref": "#/$defs/mapEntry"},
               {
                 "properties": {
-                  "owns_loop": {"enum": ["confirmed", "claimed"]},
-                  "evidence_status": {"enum": ["confirmed", "claimed"]}
+                  "owns_loop": {"enum": ["confirmed", "claimed"]}
                 },
                 "allOf": [
                   {
                     "if": {
-                      "required": ["evidence_status"],
-                      "properties": {"evidence_status": {"const": "confirmed"}}
+                      "required": ["owns_loop"],
+                      "properties": {"owns_loop": {"const": "confirmed"}}
                     },
                     "then": {
                       "properties": {
-                        "evidence": {
-                          "items": {"properties": {"status": {"const": "confirmed"}}}
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "if": {
-                      "required": ["evidence_status"],
-                      "properties": {"evidence_status": {"const": "claimed"}}
-                    },
-                    "then": {
-                      "properties": {
-                        "evidence": {
-                          "items": {"properties": {"status": {"const": "claimed"}}}
-                        }
+                        "evidence_status": {"const": "confirmed"}
                       }
                     }
                   }
@@ -303,13 +287,41 @@
         "project_ref": {"type": "string", "minLength": 1},
         "source_set": {"enum": ["upstream_snapshot", "guide_supplement"]},
         "owns_loop": {"enum": ["confirmed", "claimed", "unknown", "no"]},
-        "evidence_status": {"enum": ["confirmed", "claimed", "unknown", "not_applicable"]},
+        "evidence_status": {"enum": ["confirmed", "claimed"]},
         "evidence": {
           "type": "array",
           "minItems": 1,
           "items": {"$ref": "#/$defs/evidence"}
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": ["evidence_status"],
+            "properties": {"evidence_status": {"const": "confirmed"}}
+          },
+          "then": {
+            "properties": {
+              "evidence": {
+                "items": {"properties": {"status": {"const": "confirmed"}}}
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": ["evidence_status"],
+            "properties": {"evidence_status": {"const": "claimed"}}
+          },
+          "then": {
+            "properties": {
+              "evidence": {
+                "items": {"properties": {"status": {"const": "claimed"}}}
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }

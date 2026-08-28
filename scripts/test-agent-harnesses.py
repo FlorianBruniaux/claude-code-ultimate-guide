@@ -511,11 +511,45 @@ class CatalogTests(unittest.TestCase):
             validate_catalog(broken),
         )
 
+    def test_strict_confirmed_loop_requires_confirmed_evidence_status(self):
+        broken = copy.deepcopy(self.catalog)
+        entry = broken["sets"]["strict_runtime_map"][0]
+        entry["owns_loop"] = "confirmed"
+        entry["evidence_status"] = "claimed"
+        entry["evidence"][0]["status"] = "claimed"
+        recompute_internal_checksum(broken)
+        self.assertIn(
+            "strict_runtime_map owns_loop=confirmed requires evidence_status=confirmed",
+            validate_catalog(broken),
+        )
+
     def test_adjacent_map_requires_no_even_with_recomputed_checksum(self):
         broken = copy.deepcopy(self.catalog)
         broken["sets"]["adjacent_control_planes"][0]["owns_loop"] = "claimed"
         recompute_internal_checksum(broken)
         self.assertIn("adjacent_control_planes requires owns_loop=no", validate_catalog(broken))
+
+    def test_adjacent_map_rejects_unknown_evidence_status(self):
+        broken = copy.deepcopy(self.catalog)
+        entry = broken["sets"]["adjacent_control_planes"][0]
+        entry["evidence_status"] = "unknown"
+        entry["evidence"][0]["status"] = "unknown"
+        recompute_internal_checksum(broken)
+        self.assertIn(
+            "adjacent_control_planes requires evidence_status confirmed or claimed",
+            validate_catalog(broken),
+        )
+
+    def test_adjacent_map_rejects_evidence_status_mismatch(self):
+        broken = copy.deepcopy(self.catalog)
+        entry = broken["sets"]["adjacent_control_planes"][0]
+        entry["evidence_status"] = "confirmed"
+        entry["evidence"][0]["status"] = "claimed"
+        recompute_internal_checksum(broken)
+        self.assertIn(
+            "adjacent_control_planes evidence status must match evidence_status",
+            validate_catalog(broken),
+        )
 
     def test_raw_github_branch_evidence_fails_closed(self):
         broken = copy.deepcopy(self.catalog)
@@ -760,9 +794,31 @@ class SchemaHostileTests(unittest.TestCase):
         entry["evidence"][0]["status"] = "claimed"
         self.assertSchemaRejects(broken)
 
+    def test_schema_requires_confirmed_evidence_for_confirmed_loop(self):
+        broken = copy.deepcopy(self.catalog)
+        entry = broken["sets"]["strict_runtime_map"][0]
+        entry["owns_loop"] = "confirmed"
+        entry["evidence_status"] = "claimed"
+        entry["evidence"][0]["status"] = "claimed"
+        self.assertSchemaRejects(broken)
+
     def test_schema_rejects_claimed_in_adjacent_map(self):
         broken = copy.deepcopy(self.catalog)
         broken["sets"]["adjacent_control_planes"][0]["owns_loop"] = "claimed"
+        self.assertSchemaRejects(broken)
+
+    def test_schema_rejects_unknown_evidence_status_in_adjacent_map(self):
+        broken = copy.deepcopy(self.catalog)
+        entry = broken["sets"]["adjacent_control_planes"][0]
+        entry["evidence_status"] = "unknown"
+        entry["evidence"][0]["status"] = "unknown"
+        self.assertSchemaRejects(broken)
+
+    def test_schema_rejects_adjacent_evidence_status_mismatch(self):
+        broken = copy.deepcopy(self.catalog)
+        entry = broken["sets"]["adjacent_control_planes"][0]
+        entry["evidence_status"] = "confirmed"
+        entry["evidence"][0]["status"] = "claimed"
         self.assertSchemaRejects(broken)
 
     def test_schema_rejects_stars_without_repository(self):
