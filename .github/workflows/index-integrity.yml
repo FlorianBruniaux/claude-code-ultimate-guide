@@ -82,13 +82,24 @@ jobs:
           # this pass the moment reference.yaml was repaired. Same failure class as
           # the reference rot itself: a copy nobody verifies.
           fail=0
-          for f in reference.yaml claude-code-releases.yaml llms.txt; do
+          for f in reference.yaml claude-code-releases.yaml llms.txt agent-harnesses.json; do
             if ! diff -q "mcp-server/content/$f" "machine-readable/$f" >/dev/null; then
               echo "DRIFTED: mcp-server/content/$f differs from machine-readable/$f"
               echo "  fix with: cp machine-readable/$f mcp-server/content/$f"
               fail=1
             fi
           done
+          # The volatile GitHub sidecar is deliberately absent until the first
+          # complete API collection is reviewed and promoted. Once present, it
+          # must be mirrored exactly or the MCP package would serve stale facts.
+          github_sidecar="agent-harnesses-github.json"
+          if [[ -e "machine-readable/$github_sidecar" || -e "mcp-server/content/$github_sidecar" ]]; then
+            if ! diff -q "mcp-server/content/$github_sidecar" "machine-readable/$github_sidecar" >/dev/null; then
+              echo "DRIFTED: mcp-server/content/$github_sidecar differs from machine-readable/$github_sidecar"
+              echo "  fix with: cp machine-readable/$github_sidecar mcp-server/content/$github_sidecar"
+              fail=1
+            fi
+          fi
           exit $fail
 
       - name: Check examples-data.ts is in sync with examples/

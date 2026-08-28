@@ -10,7 +10,9 @@ Files optimized for LLM/AI consumption. Sizes below are measured, not targets.
 | [claude-code-releases.yaml](./claude-code-releases.yaml) | Condensed history of official Claude Code releases: per-version highlights, `breaking_summary` grouped by category, `milestones` quick reference. Source of truth for `guide/core/claude-code-releases.md`. | ~123 KB | ~27K |
 | [cowork-reference.yaml](./cowork-reference.yaml) | Index for Claude Cowork (Claude Desktop, non-dev audience). Paths resolve against the dedicated [claude-cowork-guide](https://github.com/FlorianBruniaux/claude-cowork-guide) repo, not this one. | ~21 KB | ~5K |
 | [agentsec-security-feed.v1.json](./agentsec-security-feed.v1.json) | AgentSec database metadata, detector coverage, security counters, and reviewed incident fiches consumed by the landing. | ~8 KB | ~2K |
-| [agent-harnesses.json](./agent-harnesses.json) | Normalized Agent Harness Map: pinned 160-project upstream snapshot, 32 guide supplements, 42 strict runtimes, 15 adjacent control planes, evidence states, project URLs, and dated GitHub metadata. Research harness optimizers remain in the cited guide layer rather than this runtime catalog. | Generated | Generated |
+| [agent-harnesses.json](./agent-harnesses.json) | Immutable normalized Agent Harness Map: pinned 160-project upstream snapshot, 32 guide supplements, 42 strict runtimes, 15 adjacent control planes, evidence states, and project URLs. | Generated | Generated |
+| `agent-harnesses-github.json` | Optional reviewed GitHub observation sidecar: stars, archive state, language, SPDX signal, branch and push timestamp, bound to the catalog checksum. It is not committed until a complete verified collection is promoted. | Volatile | Volatile |
+| [agent-harnesses-github.schema.json](./agent-harnesses-github.schema.json) | JSON Schema for the volatile GitHub observation sidecar. | Generated | N/A |
 | [agent-harnesses.schema.json](./agent-harnesses.schema.json) | JSON Schema for validating the normalized harness catalog before publication. | Generated | N/A |
 | [llms.txt](./llms.txt) | Standard LLM context file for repository indexation: topic coverage, entry points, key URLs. | ~5 KB | ~1K |
 
@@ -85,6 +87,32 @@ uv run --offline --with jsonschema python scripts/test-agent-harnesses.py
 The `uv` test command is the required validation gate. It always loads `jsonschema` and checks both the committed catalog and hostile schema witnesses; the runner exits immediately if `jsonschema` is unavailable.
 
 Refresh the upstream source deliberately with `scripts/collect-agent-harnesses.py`. The collector rejects any initial snapshot that no longer has exactly 160 projects, 12 categories, and the required licence. A new upstream commit requires a reviewed contract update rather than a silent count change.
+
+### GitHub metadata sidecar
+
+The scheduled `Collect Agent Harness GitHub Metadata` workflow is read-only. It derives the 179 canonical repository URLs from `agent-harnesses.json`, sends sequential GitHub API requests using the pinned `2022-11-28` API version, and uploads a candidate artifact for 14 days. It never commits or opens a pull request.
+
+The collector fails closed on a missing token, incomplete result, HTTP error including 404 or 429, rename, duplicate, cardinality mismatch, or catalog checksum mismatch. It writes atomically only after all repositories have passed validation. `license_spdx` is a GitHub observation and never replaces the editorial `license_signal`; the sidecar never changes `freshness.checked_at`.
+
+To collect a candidate locally, write it outside the repository first:
+
+```bash
+GITHUB_TOKEN=... python3 scripts/collect-agent-harnesses-github.py \
+  --catalog machine-readable/agent-harnesses.json \
+  --output /tmp/agent-harnesses-github.json \
+  --captured-at "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+```
+
+Promotion is a separate human review: validate the candidate against the checksum in the current catalog, copy the reviewed file to both `machine-readable/agent-harnesses-github.json` and `mcp-server/content/agent-harnesses-github.json`, then verify the byte-for-byte mirror. The page builder can consume it explicitly while retaining the catalog fallback:
+
+```bash
+python3 scripts/build-agent-harness-page.py \
+  --catalog machine-readable/agent-harnesses.json \
+  --github-sidecar machine-readable/agent-harnesses-github.json \
+  --page guide/ecosystem/agent-harness-landscape.md \
+  --check
+diff -q machine-readable/agent-harnesses-github.json mcp-server/content/agent-harnesses-github.json
+```
 
 ## Maintenance
 

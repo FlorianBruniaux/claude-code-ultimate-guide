@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 import re
 import sys
@@ -91,6 +92,47 @@ def project_index(catalog: dict[str, Any]) -> dict[str, dict[str, Any]]:
     sets = catalog["sets"]
     records = list(sets["upstream_snapshot"]["projects"]) + list(sets["guide_supplement"])
     return {record["id"]: record for record in records}
+
+
+def apply_github_sidecar(catalog: dict[str, Any], sidecar: dict[str, Any]) -> dict[str, Any]:
+    """Overlay checksum-bound GitHub stars and archive state without mutating the catalog."""
+    checksum = catalog.get("_meta", {}).get("dataset_sha256")
+    if not isinstance(checksum, str) or sidecar.get("catalog_sha256") != checksum:
+        raise ValueError("GitHub sidecar checksum does not match catalog")
+    repositories = sidecar.get("repositories")
+    if not isinstance(repositories, list):
+        raise ValueError("GitHub sidecar repositories must be an array")
+    sidecar_by_url: dict[str, dict[str, Any]] = {}
+    for repository in repositories:
+        if not isinstance(repository, dict):
+            raise ValueError("GitHub sidecar repository must be an object")
+        url = repository.get("repository_url")
+        if not isinstance(url, str) or url in sidecar_by_url:
+            raise ValueError("GitHub sidecar repository URLs must be unique strings")
+        if not isinstance(repository.get("stargazers_count"), int) or isinstance(repository["stargazers_count"], bool):
+            raise ValueError("GitHub sidecar stargazers_count must be an integer")
+        if not isinstance(repository.get("archived"), bool):
+            raise ValueError("GitHub sidecar archived must be boolean")
+        captured_at = repository.get("captured_at")
+        if not isinstance(captured_at, str) or len(captured_at) < 10:
+            raise ValueError("GitHub sidecar captured_at is invalid")
+        sidecar_by_url[url] = repository
+    merged = copy.deepcopy(catalog)
+    records = (
+        merged["sets"]["upstream_snapshot"]["projects"]
+        + merged["sets"]["guide_supplement"]
+    )
+    catalog_urls = {record["repository_url"] for record in records if record.get("repository_url")}
+    if set(sidecar_by_url) != catalog_urls:
+        raise ValueError("GitHub sidecar repository URLs do not match catalog")
+    for record in records:
+        repository = sidecar_by_url.get(record.get("repository_url"))
+        if repository is None:
+            continue
+        record["stars"] = repository["stargazers_count"]
+        record["stars_captured_at"] = repository["captured_at"][:10]
+        record["archived"] = repository["archived"]
+    return merged
 
 
 def render_project_cell(record: dict[str, Any]) -> str:
@@ -276,6 +318,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--catalog", type=Path, required=True)
     parser.add_argument("--page", type=Path, required=True)
+    parser.add_argument("--github-sidecar", type=Path)
     parser.add_argument("--check", action="store_true")
     return parser.parse_args()
 
@@ -283,6 +326,8 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     catalog = load_json(args.catalog)
+    if args.github_sidecar is not None:
+        catalog = apply_github_sidecar(catalog, load_json(args.github_sidecar))
     current = args.page.read_text(encoding="utf-8")
     rendered = build_page(current, catalog)
     if args.check:

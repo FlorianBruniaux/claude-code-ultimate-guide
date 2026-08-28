@@ -189,6 +189,221 @@ class CollectorTests(unittest.TestCase):
         self.assertTrue(all(size <= 11 for size in stream.request_sizes))
 
 
+class GithubMetadataCommandTests(unittest.TestCase):
+    def test_github_metadata_collector_exposes_a_cli(self):
+        """Break caught: removing the executable collector makes refresh impossible."""
+        result = subprocess.run(
+            [sys.executable, str(ROOT / "scripts/collect-agent-harnesses-github.py"), "--help"],
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual(0, result.returncode, result.stderr)
+        self.assertIn("GitHub", result.stdout)
+
+    def test_github_metadata_collector_exposes_injectable_collection(self):
+        """Break caught: a network-bound collector cannot be verified offline."""
+        collector = load_script("collect-agent-harnesses-github.py")
+        self.assertTrue(callable(getattr(collector, "collect_metadata", None)))
+
+
+class GithubMetadataCollectorTests(unittest.TestCase):
+    captured_at = "2026-08-29T12:00:00Z"
+
+    @staticmethod
+    def catalog(*urls: str) -> dict:
+        return {
+            "_meta": {"dataset_sha256": "a" * 64},
+            "sets": {
+                "upstream_snapshot": {"projects": [{"repository_url": url} for url in urls]},
+                "guide_supplement": [],
+            },
+        }
+
+    @staticmethod
+    def repository_payload(full_name: str = "owner/repo") -> dict:
+        return {
+            "html_url": f"https://github.com/{full_name}",
+            "full_name": full_name,
+            "stargazers_count": 42,
+            "archived": False,
+            "language": "Python",
+            "license": {"spdx_id": "MIT"},
+            "pushed_at": "2026-08-28T12:00:00Z",
+            "default_branch": "main",
+            "private": True,
+            "untrusted": "must not leak",
+        }
+
+    def test_collects_only_whitelisted_fields_bound_to_catalog(self):
+        """Break caught: arbitrary API fields can leak into published metadata."""
+        collector = load_script("collect-agent-harnesses-github.py")
+        requests: list[tuple[str, dict[str, str]]] = []
+
+        def transport(url: str, headers: dict[str, str]):
+            requests.append((url, headers))
+            return 200, {"ETag": '"fixture"'}, self.repository_payload()
+
+        sidecar = collector.collect_metadata(
+            self.catalog("https://github.com/owner/repo"), transport, self.captured_at
+        )
+        self.assertEqual(["https://api.github.com/repos/owner/repo"], [item[0] for item in requests])
+        self.assertEqual("2022-11-28", requests[0][1]["X-GitHub-Api-Version"])
+        self.assertEqual("a" * 64, sidecar["catalog_sha256"])
+        self.assertEqual(self.captured_at, sidecar["captured_at"])
+        self.assertEqual(
+            [{
+                "repository_url": "https://github.com/owner/repo",
+                "resolved_full_name": "owner/repo",
+                "stargazers_count": 42,
+                "archived": False,
+                "language": "Python",
+                "license_spdx": "MIT",
+                "pushed_at": "2026-08-28T12:00:00Z",
+                "default_branch": "main",
+                "captured_at": self.captured_at,
+                "etag": '"fixture"',
+            }],
+            sidecar["repositories"],
+        )
+
+    def test_rejects_partial_http_result_before_publication(self):
+        """Break caught: one HTTP failure must not publish a partial sidecar."""
+        collector = load_script("collect-agent-harnesses-github.py")
+        for status in (404, 429, 500):
+            with self.subTest(status=status):
+                def transport(_url: str, _headers: dict[str, str]):
+                    return status, {}, {"message": "temporary outage"}
+
+                with self.assertRaisesRegex(ValueError, f"GitHub API returned HTTP {status}"):
+                    collector.collect_metadata(self.catalog("https://github.com/owner/repo"), transport, self.captured_at)
+
+    def test_rejects_renamed_repository(self):
+        """Break caught: a redirect or rename can silently attach another repository's facts."""
+        collector = load_script("collect-agent-harnesses-github.py")
+
+        def transport(_url: str, _headers: dict[str, str]):
+            return 200, {}, self.repository_payload("other/repo")
+
+        with self.assertRaisesRegex(ValueError, "resolved_full_name differs"):
+            collector.collect_metadata(self.catalog("https://github.com/owner/repo"), transport, self.captured_at)
+
+    def test_rejects_duplicate_catalog_repositories_before_requesting(self):
+        """Break caught: duplicate identities make cardinality and cache semantics ambiguous."""
+        collector = load_script("collect-agent-harnesses-github.py")
+        called = False
+
+        def transport(_url: str, _headers: dict[str, str]):
+            nonlocal called
+            called = True
+            return 200, {}, self.repository_payload()
+
+        with self.assertRaisesRegex(ValueError, "duplicate canonical GitHub repository"):
+            collector.collect_metadata(
+                self.catalog("https://github.com/owner/repo", "https://github.com/owner/repo"),
+                transport,
+                self.captured_at,
+            )
+        self.assertFalse(called)
+
+    def test_uses_verified_cached_record_on_304(self):
+        """Break caught: a 304 without a matching cached record would create incomplete output."""
+        collector = load_script("collect-agent-harnesses-github.py")
+        cached = {
+            "schema_version": "1.0.0",
+            "catalog_sha256": "a" * 64,
+            "captured_at": "2026-08-28T12:00:00Z",
+            "repositories": [{
+                "repository_url": "https://github.com/owner/repo",
+                "resolved_full_name": "owner/repo",
+                "stargazers_count": 41,
+                "archived": False,
+                "language": "Python",
+                "license_spdx": "MIT",
+                "pushed_at": "2026-08-27T12:00:00Z",
+                "default_branch": "main",
+                "captured_at": "2026-08-28T12:00:00Z",
+                "etag": '"cached"',
+            }],
+        }
+        seen_headers: dict[str, str] = {}
+
+        def transport(_url: str, headers: dict[str, str]):
+            seen_headers.update(headers)
+            return 304, {}, None
+
+        sidecar = collector.collect_metadata(
+            self.catalog("https://github.com/owner/repo"),
+            transport,
+            self.captured_at,
+            previous_sidecar=cached,
+        )
+        self.assertEqual('"cached"', seen_headers["If-None-Match"])
+        self.assertEqual(41, sidecar["repositories"][0]["stargazers_count"])
+        self.assertEqual(self.captured_at, sidecar["repositories"][0]["captured_at"])
+
+    def test_serialization_is_deterministic(self):
+        """Break caught: nondeterministic ordering creates meaningless publication diffs."""
+        collector = load_script("collect-agent-harnesses-github.py")
+
+        def transport(url: str, _headers: dict[str, str]):
+            full_name = url.rsplit("/repos/", 1)[1]
+            return 200, {}, self.repository_payload(full_name)
+
+        catalog = self.catalog("https://github.com/zeta/repo", "https://github.com/alpha/repo")
+        first = collector.collect_metadata(catalog, transport, self.captured_at)
+        second = collector.collect_metadata(catalog, transport, self.captured_at)
+        self.assertEqual(collector.serialize_sidecar(first), collector.serialize_sidecar(second))
+        self.assertEqual(
+            ["https://github.com/alpha/repo", "https://github.com/zeta/repo"],
+            [item["repository_url"] for item in first["repositories"]],
+        )
+
+    def test_cli_preserves_existing_output_when_token_is_missing(self):
+        """Break caught: a failed scheduled run must never replace the last verified publication."""
+        with tempfile.TemporaryDirectory() as temp_dir:
+            directory = Path(temp_dir)
+            catalog = directory / "catalog.json"
+            output = directory / "sidecar.json"
+            catalog.write_text(json.dumps(self.catalog("https://github.com/owner/repo")), encoding="utf-8")
+            output.write_text("last verified output\n", encoding="utf-8")
+            environment = os.environ.copy()
+            environment.pop("GITHUB_TOKEN", None)
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "scripts/collect-agent-harnesses-github.py"),
+                    "--catalog", str(catalog),
+                    "--output", str(output),
+                    "--captured-at", self.captured_at,
+                ],
+                capture_output=True,
+                text=True,
+                env=environment,
+            )
+            self.assertNotEqual(0, result.returncode)
+            self.assertIn("GITHUB_TOKEN is required", result.stderr)
+            self.assertEqual("last verified output\n", output.read_text(encoding="utf-8"))
+
+    def test_github_sidecar_has_a_dedicated_schema(self):
+        """Break caught: a sidecar without a schema cannot be independently validated."""
+        schema_path = ROOT / "machine-readable/agent-harnesses-github.schema.json"
+        self.assertTrue(schema_path.is_file())
+        schema = json.loads(schema_path.read_text(encoding="utf-8"))
+        Draft202012Validator.check_schema(schema)
+        collector = load_script("collect-agent-harnesses-github.py")
+
+        def transport(_url: str, _headers: dict[str, str]):
+            return 200, {}, self.repository_payload()
+
+        sidecar = collector.collect_metadata(
+            self.catalog("https://github.com/owner/repo"), transport, self.captured_at
+        )
+        validator = Draft202012Validator(schema, format_checker=FormatChecker())
+        self.assertEqual([], list(validator.iter_errors(sidecar)))
+        sidecar["repositories"][0]["unapproved"] = True
+        self.assertTrue(list(validator.iter_errors(sidecar)))
+
+
 class ExtractorTests(unittest.TestCase):
     def test_delimiters_and_exfiltration_orders_remain_data(self):
         extractor = load_script("extract-agent-harness-features.py")

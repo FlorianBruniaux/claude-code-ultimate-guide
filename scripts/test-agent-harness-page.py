@@ -81,6 +81,36 @@ class AgentHarnessPageTests(unittest.TestCase):
                 self.assertIsNotNone(record["stars_captured_at"])
                 self.assertIsInstance(record["stars"], int)
 
+    def test_page_builder_can_apply_an_optional_github_sidecar(self):
+        """Break caught: the renderer cannot consume verified volatile observations."""
+        catalog = {
+            "_meta": {"dataset_sha256": "a" * 64},
+            "sets": {
+                "upstream_snapshot": {"projects": [{
+                    "repository_url": "https://github.com/owner/repo",
+                    "stars": 1,
+                    "stars_captured_at": "2026-08-20",
+                    "archived": "unknown",
+                }]},
+                "guide_supplement": [],
+            },
+        }
+        sidecar = {
+            "catalog_sha256": "a" * 64,
+            "repositories": [{
+                "repository_url": "https://github.com/owner/repo",
+                "stargazers_count": 42,
+                "archived": True,
+                "captured_at": "2026-08-29T12:00:00Z",
+            }],
+        }
+        merged = self.builder.apply_github_sidecar(catalog, sidecar)
+        record = merged["sets"]["upstream_snapshot"]["projects"][0]
+        self.assertEqual(42, record["stars"])
+        self.assertEqual("2026-08-29", record["stars_captured_at"])
+        self.assertTrue(record["archived"])
+        self.assertEqual(1, catalog["sets"]["upstream_snapshot"]["projects"][0]["stars"])
+
     def test_generated_summaries_are_plain_short_sentences(self):
         sample = {
             "summary": (

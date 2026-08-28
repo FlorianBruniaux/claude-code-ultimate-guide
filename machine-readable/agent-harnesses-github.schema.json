@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cc.bruniaux.com/machine-readable/agent-harnesses-github.schema.json",
+  "title": "Agent Harness GitHub Metadata Sidecar",
+  "description": "Volatile GitHub observations bound to the immutable Agent Harness catalog checksum.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "catalog_sha256", "captured_at", "repositories"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "catalog_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "captured_at": {"type": "string", "format": "date-time"},
+    "repositories": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/repository"}
+    }
+  },
+  "$defs": {
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository_url",
+        "resolved_full_name",
+        "stargazers_count",
+        "archived",
+        "language",
+        "license_spdx",
+        "pushed_at",
+        "default_branch",
+        "captured_at"
+      ],
+      "properties": {
+        "repository_url": {
+          "type": "string",
+          "pattern": "^https://github\\.com/[^/]+/[^/]+$"
+        },
+        "resolved_full_name": {"type": "string", "pattern": "^[^/]+/[^/]+$"},
+        "stargazers_count": {"type": "integer", "minimum": 0},
+        "archived": {"type": "boolean"},
+        "language": {"type": ["string", "null"]},
+        "license_spdx": {"type": ["string", "null"]},
+        "pushed_at": {"type": ["string", "null"], "format": "date-time"},
+        "default_branch": {"type": "string", "minLength": 1},
+        "captured_at": {"type": "string", "format": "date-time"},
+        "etag": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}
