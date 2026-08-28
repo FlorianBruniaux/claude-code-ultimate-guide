@@ -316,6 +316,7 @@ echo "*.onnx" >> .gitignore
 
 ## Next Steps
 
+- **[Tools Reference](../core/tools-reference.md)** - Full list of Claude Code's built-in tools
 - **[Voice Catalog](../../examples/integrations/agent-vibes/voice-catalog.md)** - Explore 15 voices
 - **[Integration Guide](../../examples/integrations/agent-vibes/README.md)** - Learn commands
 - **[Installation Details](../../examples/integrations/agent-vibes/installation.md)** - Deep dive

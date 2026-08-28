@@ -136,7 +136,7 @@ Claude automatically detects the tech stack, directory structure, and existing c
 
 **The discoverability filter**: before adding any line, ask "Can the agent find this by reading the codebase?" If yes, don't add it. Tech stack and testing conventions are discoverable. What earns a line: tooling gotchas (`use uv, not pip`), operational landmines (`legacy/ is deprecated but imported by prod`), and conventions that conflict with standard patterns.
 
-**The anchoring risk**: every entry loads every session regardless of task. A stale entry referencing a deprecated library biases the agent toward it on every prompt. Treat periodic CLAUDE.md pruning as maintenance, not cleanup.
+**The anchoring risk**: every entry loads every session regardless of task. A stale entry referencing a deprecated library biases the agent toward it on every prompt. Treat periodic CLAUDE.md pruning as maintenance, not cleanup. Tools like [ctxharness](https://github.com/FlorianBruniaux/ctxharness) automate the detection half of that maintenance, scanning CLAUDE.md and AGENTS.md files for stale version references and broken paths so drift gets caught before it biases a session.
 
 > **Research note (Feb 2026)**: ETH Zürich evaluated agent context files across 138 benchmarks and 12 repositories. Developer-written files improve task success by ~4%, but LLM-generated files (`/init` output) reduce it by ~3%. Both add 20-23% inference cost. Mechanism: agents follow every instruction, including those irrelevant to the current task. Source: [Gloaguen et al., arXiv 2602.11988](https://arxiv.org/abs/2602.11988)
 

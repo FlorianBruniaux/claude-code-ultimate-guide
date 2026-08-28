@@ -12,7 +12,7 @@ Claude Code is one tool in a field that has expanded dramatically since 2024. Do
 
 **What it does not cover**: GUI-based AI coding IDEs (Cursor, Windsurf, Cline), which are covered in [AI Ecosystem §6](./ai-ecosystem.md#section-6). Multi-Claude orchestration tools (Gas Town, multiclaude, Conductor desktop app) are in [Third-Party Tools: Multi-Agent Orchestration](./third-party-tools.md#multi-agent-orchestration).
 
-For the full field across CLI, IDE, and cloud agents in one table, see the [Agent Harness Landscape](./agent-harness-landscape.md).
+For the full field across CLI, IDE, and cloud agents, use the [Agent Harness Landscape](./agent-harness-landscape.md). For the loop, context, tools, permissions, recovery, and observability inside a runtime, read [Agent Harness Engineering](../core/agent-harness.md). The [glossary](../core/glossary.md) separates runtime harnesses from repository harnesses, evaluation harnesses, and orchestrators.
 
 ---
 
@@ -1061,5 +1061,7 @@ Interactive agents (Claude Code terminal, Hermes, Aider, Goose) give you real-ti
 - **Claude Code's own agent team patterns**: [workflows/agent-teams.md](../workflows/agent-teams.md)
 - **Event-driven autonomous patterns**: [workflows/event-driven-agents.md](../workflows/event-driven-agents.md)
 - **Programmatic billing (Hermes, Codex CLI, third-party harnesses)**: [Ultimate Guide: Billing Split](../ultimate-guide.md#the-interactiveprogrammatic-billing-split-effective-june-15-2026)
-- **Agent harness engineering (theoretical framework)**: [core/agent-harness.md](../core/agent-harness.md)
+- **Agent harness engineering** (architecture, controls, and Claude Code implementation): [core/agent-harness.md](../core/agent-harness.md)
+- **Agent harness landscape** (dated catalog, evidence, and test-drive protocol): [ecosystem/agent-harness-landscape.md](./agent-harness-landscape.md)
+- **Shared harness terminology**: [core/glossary.md](../core/glossary.md)
 - **Coding agents comparison matrix** (23 tools, 11 criteria): [coding-agents-matrix.dev](https://coding-agents-matrix.dev)

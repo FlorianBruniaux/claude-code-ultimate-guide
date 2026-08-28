@@ -399,6 +399,8 @@ jq -s 'group_by(.safety) | map({safety: .[0].safety, count: length})' \
 
 **MCP observability**: Use MCP servers for advanced logging and metrics aggregation
 
+**Retrospective session analysis**: tools like [cc-sessions](https://github.com/FlorianBruniaux/cc-sessions) search past Claude Code session history directly, useful for scoring agent performance after the fact on real sessions rather than only on synthetic A/B tests set up in advance
+
 ---
 
 ## Best Practices

@@ -6,13 +6,13 @@ Files optimized for LLM/AI consumption. Sizes below are measured, not targets.
 
 | File | Description | Size | Est. tokens |
 |------|-------------|------|-------------|
-| [reference.yaml](./reference.yaml) | Master index: file paths, section anchors and line numbers into `guide/ultimate-guide.md` and the thematic guides. Also holds decision trees, CLI and env reference, permission and MCP config, agent and skill templates, onboarding question flow. | ~174 KB | ~44K |
-| [claude-code-releases.yaml](./claude-code-releases.yaml) | Condensed history of official Claude Code releases: per-version highlights, `breaking_summary` grouped by category, `milestones` quick reference. Source of truth for `guide/core/claude-code-releases.md`. | ~104 KB | ~27K |
+| [reference.yaml](./reference.yaml) | Master index: file paths, section anchors and line numbers into `guide/ultimate-guide.md` and the thematic guides. Also holds decision trees, CLI and env reference, permission and MCP config, agent and skill templates, onboarding question flow. | ~260 KB | ~44K |
+| [claude-code-releases.yaml](./claude-code-releases.yaml) | Condensed history of official Claude Code releases: per-version highlights, `breaking_summary` grouped by category, `milestones` quick reference. Source of truth for `guide/core/claude-code-releases.md`. | ~123 KB | ~27K |
 | [cowork-reference.yaml](./cowork-reference.yaml) | Index for Claude Cowork (Claude Desktop, non-dev audience). Paths resolve against the dedicated [claude-cowork-guide](https://github.com/FlorianBruniaux/claude-cowork-guide) repo, not this one. | ~21 KB | ~5K |
 | [agentsec-security-feed.v1.json](./agentsec-security-feed.v1.json) | AgentSec database metadata, detector coverage, security counters, and reviewed incident fiches consumed by the landing. | ~8 KB | ~2K |
 | [agent-harnesses.json](./agent-harnesses.json) | Normalized Agent Harness Map: pinned 160-project upstream snapshot, 31 guide supplements, 42 strict runtimes, 14 adjacent control planes, evidence states, project URLs, and dated GitHub metadata. | Generated | Generated |
 | [agent-harnesses.schema.json](./agent-harnesses.schema.json) | JSON Schema for validating the normalized harness catalog before publication. | Generated | N/A |
-| [llms.txt](./llms.txt) | Standard LLM context file for repository indexation: topic coverage, entry points, key URLs. | ~4 KB | ~1K |
+| [llms.txt](./llms.txt) | Standard LLM context file for repository indexation: topic coverage, entry points, key URLs. | ~5 KB | ~1K |
 
 `reference.yaml` is a full index, not a summary. Loading it whole costs roughly 44K tokens, so prefer grepping it for the topic you need and following the resulting path or line number, rather than pasting the entire file into context.
 
@@ -42,6 +42,17 @@ curl -sL https://raw.githubusercontent.com/FlorianBruniaux/claude-code-ultimate-
 ```
 
 ### Agent harness landscape
+
+Use the human-readable pages according to the question being asked:
+
+| Need | Entry point |
+|---|---|
+| Runtime architecture, components, controls, and Claude Code implementation | [Agent Harness Engineering](../guide/core/agent-harness.md) |
+| Dated cross-product map, classification, selection, and test-drive protocol | [Agent Harness Landscape](../guide/ecosystem/agent-harness-landscape.md) |
+| Detailed profiles of selected coding agents | [Agent Tools: Beyond Claude Code](../guide/ecosystem/agentic-tools.md) |
+| Runtime, repository, evaluation harness, and orchestrator terminology | [Glossary](../guide/core/glossary.md) |
+| Version-level Claude Code behavior | [claude-code-releases.yaml](./claude-code-releases.yaml) |
+| Stable topic and section routes | [reference.yaml](./reference.yaml) |
 
 `agent-harnesses.json` is generated from the committed snapshot at `best-of-Agent-Harnesses@ece314654d2c23fe7bd69fc6ef7088f093207e49` and curated manual overrides. The raw source is verified against `best-of-agent-harnesses-ece314654d2c.manifest.json` and SHA-256 `4c02e547e11b056aa4d7e519305b7f4ca4f02550c27018d70757a59d26ace65f` before parsing. The upstream-derived records retain the source's CC-BY-SA-4.0 attribution and its 2026-08-23 star snapshot.
 

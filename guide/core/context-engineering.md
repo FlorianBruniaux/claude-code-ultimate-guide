@@ -9,6 +9,8 @@ tags: [context, configuration, architecture, team, advanced]
 > **Confidence**: Tier 1, based on official documentation, measured production data, and community validation.
 >
 > **Last updated**: March 2026
+>
+> **Further reading**: [context engineering, the hidden variable](https://florian.bruniaux.com/articles/context-engineering-the-hidden-variable/), on why the same model produces opposite results depending on this.
 
 "Context engineering is the art of filling the context window with the right information at the right time." (Andrej Karpathy)
 

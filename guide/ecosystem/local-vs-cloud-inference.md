@@ -20,6 +20,8 @@ tags: [ecosystem, hardware, local-llm, cloud, cost, benchmarks]
 - [Fourteen Comparable Hardware Configurations](#fourteen-comparable-hardware-configurations)
 - [What Actually Fits: Named Models](#what-actually-fits-named-models)
 - [Which Local Machine for Which Usage](#which-local-machine-for-which-usage)
+- [Serving Engine Tuning: vLLM in Production](#serving-engine-tuning-vllm-in-production)
+- [Coding Agent Setup: Apple Silicon with MLX](#coding-agent-setup-apple-silicon-with-mlx)
 - [Cloud GPU Rental Pricing](#cloud-gpu-rental-pricing)
 - [One-Year Cost Projections](#one-year-cost-projections)
 - [Power Consumption: Watts, Watt-Hours, Joules per Token](#power-consumption-watts-watt-hours-joules-per-token)
@@ -113,7 +115,7 @@ This table uses the current generation as of August 2026, not the mid-2024/2025 
 | Hardware memory budget | Model that fits | Architecture | Estimated weight residency at the stated precision or quantization |
 |---|---|---|---|
 | 16 GB VRAM (RTX 5060 Ti) or 16-32 GB unified (Mac mini M6) | **`openai/gpt-oss-20b`** (Aug 2025, Apache 2.0) fits with headroom; `Qwen/Qwen3.8-27B` only reaches this tier at a heavier quant (Q3_K_M), marginal at 99% memory utilization | MoE, 21B total, 3.6B active (4/32 experts) | 11.0 GB for gpt-oss-20b, 15.84 GB for Qwen3.8-27B at Q3_K_M |
-| 32 GB VRAM (1x RTX 5090) | **`Qwen/Qwen3.8-27B`** (Aug 2026, Apache 2.0) | Dense, ≈27B | 14.2 GB, large headroom |
+| 32 GB VRAM (1x RTX 5090) or 32-48 GB unified (MacBook Pro M5 Pro) | **`Qwen/Qwen3.8-27B`** (Aug 2026, Apache 2.0) fits with large headroom; **`Qwen/Qwen3.6-35B-A3B`** (Apr 2026, Apache 2.0, MoE) also fits at 4-6-bit and decodes faster on unified-memory hardware because only ≈3B parameters activate per token | Dense ≈27B, or MoE 35B total / 3B active (256 experts, 8 routed + 1 shared per token) | 14.2 GB for Qwen3.8-27B; ≈20-26 GB for Qwen3.6-35B-A3B at 4-6-bit |
 | 48 GB unified (MacBook Pro M5 Pro) | Qwen3.8-27B fits easily; **`meta-llama/Llama-4-Scout-17B-16E`** (109B total, MoE) does not quite fit | MoE, 17B active / 16 experts | 55.6 GB required, exceeds 48 GB |
 | 64 GB VRAM (dual RTX 5090) | **`meta-llama/Llama-4-Scout-17B-16E`** | MoE, 109B total, 17B active | 55.6 GB for weights; it loads, but the remaining 8.4 GB is limited once runtime and KV cache are included |
 | 96-128 GB (RTX PRO 6000, MacBook Pro M5 Max, DGX Spark, Ryzen AI Halo) | Llama-4-Scout fits with large headroom; no confirmed current-generation flagship lands specifically between 56 GB and 200 GB as of this snapshot | | |
@@ -124,7 +126,7 @@ This table uses the current generation as of August 2026, not the mid-2024/2025 
 | Any config on this page | **`Qwen/Qwen3.8-2.4T-A95B`** (2.4T total, MoE, open-weight base of the hosted Qwen3.8-Max) | MoE, ≈95B active / 512 experts | 1,253 GB, does not fit |
 | Any config on this page | **`MoonshotAI/Kimi-K3`** (**2.8T total**, confirmed via Moonshot's own GitHub repo, Aug 2026) | MoE, 16 of 896 experts active (≈50B active, calculated) | ≈1,430 GB estimated (extrapolated from DeepSeek-V4-Pro's VRAM-per-parameter ratio; `llmfit`'s own entry for this repo reports an incorrect 5,527B total and was not used) |
 
-Sources for the officially-confirmed figures: [gpt-oss-20b model card](https://huggingface.co/openai/gpt-oss-20b), [Qwen3.8-27B](https://huggingface.co/Qwen/Qwen3.8-27B), [Qwen3.8-2.4T-A95B](https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B), [Llama 4 announcement](https://ai.meta.com/blog/llama-4-multimodal-intelligence/), [Llama-4-Scout model card](https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E), [DeepSeek-V4-Flash-0731 model card](https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731) and [NVIDIA's Build model card](https://build.nvidia.com/deepseek-ai/deepseek-v4-flash-0731/modelcard) for the 304B/13B figures (third-party VRAM estimates from [Unsloth's deployment guide](https://unsloth.ai/docs/models/deepseek-v4) and [Spheron's GPU recommender](https://www.spheron.network/tools/gpu-recommender/deepseek-ai/DeepSeek-V4-Flash-0731/)), [DeepSeek-V4-Pro model card](https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro), [GLM-5.2 announcement](https://datanorth.ai/news/zhipu-ai-releases-glm-5-2), [Kimi K3 GitHub repo](https://github.com/MoonshotAI/Kimi-K3), [GLM-5.3-Flash model card](https://huggingface.co/zai-org/GLM-5.3-Flash), [Artificial Analysis GLM-5.3-Flash](https://artificialanalysis.ai/models/glm-5-3-flash), [GLM-5.3-Flash-NVFP4 checkpoint](https://huggingface.co/LibertAIDAI/GLM-5.3-Flash-NVFP4), [Tutanka01's 2x DGX Spark deployment repo](https://github.com/Tutanka01/glm5.3-flash-2x-dgx-spark-nvfp4), [kingjones30's 2x DGX Spark benchmark repo](https://github.com/kingjones30/GLM-5.3-Flash-2x-DGX-Spark).
+Sources for the officially-confirmed figures: [gpt-oss-20b model card](https://huggingface.co/openai/gpt-oss-20b), [Qwen3.8-27B](https://huggingface.co/Qwen/Qwen3.8-27B), [Qwen3.6-35B-A3B](https://huggingface.co/Qwen/Qwen3.6-35B-A3B), [Qwen3.8-2.4T-A95B](https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B), [Llama 4 announcement](https://ai.meta.com/blog/llama-4-multimodal-intelligence/), [Llama-4-Scout model card](https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E), [DeepSeek-V4-Flash-0731 model card](https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731) and [NVIDIA's Build model card](https://build.nvidia.com/deepseek-ai/deepseek-v4-flash-0731/modelcard) for the 304B/13B figures (third-party VRAM estimates from [Unsloth's deployment guide](https://unsloth.ai/docs/models/deepseek-v4) and [Spheron's GPU recommender](https://www.spheron.network/tools/gpu-recommender/deepseek-ai/DeepSeek-V4-Flash-0731/)), [DeepSeek-V4-Pro model card](https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro), [GLM-5.2 announcement](https://datanorth.ai/news/zhipu-ai-releases-glm-5-2), [Kimi K3 GitHub repo](https://github.com/MoonshotAI/Kimi-K3), [GLM-5.3-Flash model card](https://huggingface.co/zai-org/GLM-5.3-Flash), [Artificial Analysis GLM-5.3-Flash](https://artificialanalysis.ai/models/glm-5-3-flash), [GLM-5.3-Flash-NVFP4 checkpoint](https://huggingface.co/LibertAIDAI/GLM-5.3-Flash-NVFP4), [Tutanka01's 2x DGX Spark deployment repo](https://github.com/Tutanka01/glm5.3-flash-2x-dgx-spark-nvfp4), [kingjones30's 2x DGX Spark benchmark repo](https://github.com/kingjones30/GLM-5.3-Flash-2x-DGX-Spark).
 
 **GLM-5.3-Flash-NVFP4's own maintainers publish no throughput number for the checkpoint**, stating on their own repo that they "would rather publish nothing than publish a number we did not measure." Three third parties ran the checkpoint on the same class of hardware, a 2x DGX Spark pair, within two days of each other (Aug 26-27, 2026) and reported three different results. `Tutanka01/glm5.3-flash-2x-dgx-spark-nvfp4`, a single-author repo created Aug 26 with one star, uses SGLang and measured ≈18 tokens/sec end to end, with no benchmark method documented. `kingjones30/GLM-5.3-Flash-2x-DGX-Spark`, posted to an NVIDIA developer forum thread on Aug 27, uses a modified vLLM (NoPE-MLA zero-padding, Marlin MoE kernels) plus the checkpoint's own MTP-5 speculative decoding, and reports a three-run median of 24.74 tok/s for code, 30.30 tok/s for structured output, and 19.58 tok/s for prose; without speculative decoding, the same setup drops to a flat 14.6 tok/s, which its author attributes to the decode being bound by MoE memory bandwidth. A separate NVIDIA forum thread, titled with a "43.4 tok/s PEAK" claim, reports that single number with no benchmark method disclosed at all. The gap between 18, the 24.7-30.3 range, and 43.4 tok/s on the same two machines is most plausibly explained by engine choice (SGLang versus a hand-patched vLLM) and the presence or absence of MTP-5 speculative decoding, a hypothesis the two documented threads support but neither confirms outright. Treat all three numbers as community-reported field results, not independently verified benchmarks, and rerun the Benchmark Protocol section above before sizing a purchase around any of them.
 
@@ -221,6 +223,151 @@ What's the local usage?
 ```
 
 </details>
+
+---
+
+## Serving Engine Tuning: vLLM in Production
+
+The tables above answer what hardware to buy. They say nothing about whether that hardware's throughput actually reaches users: the serving engine and its configuration decide that. [vLLM](https://docs.vllm.ai/) is the default open-source serving engine behind most self-hosted OpenAI-compatible deployments, including the CPU-offload MoE row above. These are the configuration levers with a documented effect, and what the official docs actually say about each, per the [vLLM optimization guide](https://docs.vllm.ai/en/stable/configuration/optimization/) (August 2026 snapshot; vLLM ships new releases roughly every two weeks, so re-check exact defaults before relying on them).
+
+### Compilation optimization levels
+
+Set with `-O` on `vllm serve`, or `compilation_config` in the Python API.
+
+| Level | What it does |
+|---|---|
+| `-O0` | No optimizations. Fastest startup, lowest runtime performance. |
+| `-O1` | Simple compilation, fast fusions, `PIECEWISE` CUDA graphs. |
+| `-O2` | Default. Additional compilation ranges, more fusions, `FULL_AND_PIECEWISE` CUDA graphs. |
+| `-O3` | Documented as "currently equal to `-O2`", reserved for future experimental optimizations. |
+
+`-O2` being the documented default matches the "production sweet spot" framing that circulates in serving write-ups. What does not hold up: treating `-O3` as a distinct, more aggressive production tier. As of this snapshot, vLLM's own docs state `-O3` is identical to `-O2` in practice.
+
+### Prefix caching
+
+Automatic prefix caching hashes each KV-cache block by its token content plus the tokens preceding it, so a second request sharing a prompt prefix (a fixed system prompt, a repeated few-shot template) reuses already-computed blocks instead of recomputing them. It is on by default in V1; `--prefix-caching-hash-algo` (default `sha256`) is the tunable. vLLM's design docs call it "almost a free lunch" but publish no quantified Time To First Token or cost figure, official or otherwise. Treat any specific percentage attached to this feature (a commonly repeated "30-50% cost cut" among others) as anecdotal until measured on your own shared-prefix workload.
+
+### Chunked prefill
+
+On by default in V1. It splits a long prompt's prefill into chunks and interleaves them with in-flight decode steps from other requests, instead of letting one large prefill block the batch. The tuning knob is `max_num_batched_tokens`: smaller values (around 2048) favor decode latency because fewer prefill chunks slow down token-by-token generation for other requests, while larger values favor time-to-first-token. vLLM's own guidance is `max_num_batched_tokens > 8192` for smaller models on large GPUs.
+
+### KV cache preemption
+
+When KV-cache space runs out for the current batch, vLLM evicts (preempts) a request and recomputes it later, rather than crashing with an out-of-memory error. In V1, the default preemption mode is `RECOMPUTE`, not swap-to-CPU-and-restore, because recomputation has lower overhead in the current architecture. The levers that reduce how often preemption fires: `gpu_memory_utilization` up, `max_num_seqs` down, `tensor_parallel_size` and `pipeline_parallel_size` up (both shard the model and free per-GPU memory for KV cache). Preemption is the correctness fallback for running out of memory; these four settings are what actually keeps you from hitting it.
+
+### Parallelism strategies
+
+Four independent axes, [combinable](https://docs.vllm.ai/en/latest/serving/parallelism_scaling/):
+
+| Mode | Splits | Typical use |
+|---|---|---|
+| TP (tensor parallel) | Weight matrices across GPUs | Model too large for one GPU's VRAM |
+| PP (pipeline parallel) | Layers across GPUs or nodes | Multi-node scaling, usually TP within a node and PP across nodes |
+| DP (data parallel) | Full model replicated per GPU/group | Raw concurrency scaling when the model already fits on one GPU/group |
+| EP (expert parallel) | MoE expert weights across GPUs | Mixture-of-experts models; each GPU/rank hosts a subset of experts |
+
+A documented production pattern for large MoE models: 1-way tensor parallel, 8-way data-parallel attention, 8-way expert-parallel MoE layers, with attention weights replicated across all 8 GPUs while expert weights are sharded across them. Common convention: TP size equals GPUs per node, PP size equals number of nodes.
+
+### CPU and NUMA: a real bottleneck, but not a vLLM flag on CUDA
+
+Tokenization, chat-template rendering, request scheduling, and multimodal preprocessing all run on CPU before anything reaches the GPU. Under long sequences and large batches, tokenization alone has been measured at up to roughly 80% of added latency in CPU-contended configurations ([arXiv:2603.22774](https://arxiv.org/html/2603.22774v1)). That part holds up: inference is not GPU-only. What does not hold as commonly stated: vLLM's documented CPU-binding and NUMA-pinning feature is scoped to the [`vllm-ascend` plugin](https://docs.vllm.ai/projects/ascend/en/latest/user_guide/feature_guide/cpu_binding.html) (Huawei NPU, ARM servers only): its own docs say explicitly "No action needed on x86_64". For a standard CUDA multi-socket server, such as the dual-RTX-PRO-6000 or dual-RTX-5090 configurations on this page, there is no documented vLLM NUMA engine argument to reach for. The available lever is OS-level `numactl` pinning of the vLLM process, done outside vLLM, not a vLLM setting.
+
+### Multimodal (VLM) serving
+
+Three flags reduce repeated image or video preprocessing for vision-language models:
+
+- `mm_encoder_tp_mode="data"` splits batched multimodal input across TP ranks (data-parallel encoding) while each rank still hosts the full encoder weights.
+- `mm_processor_cache_gb` sets the size in GiB of the cache that avoids reprocessing multimodal inputs already seen; defaults to 4 GiB, `0` disables it.
+- `mm_processor_cache_type="shm"` moves the cache payload into shared memory accessible across worker processes, keeping only cache keys on the primary process.
+
+### What to tune first
+
+No official vLLM-published priority ranking exists. The order below follows where each feature sits in the request path (prefill/decode scheduling before OOM-avoidance before scale-out), not a benchmarked ranking:
+
+1. Prefix caching and chunked prefill (on by default in V1; confirm they are not disabled)
+2. `gpu_memory_utilization` and `max_num_batched_tokens`
+3. `max_num_seqs` and KV-cache preemption headroom
+4. Parallelism strategy (TP/PP/DP/EP) once single-GPU tuning is exhausted
+5. Multimodal cache flags, if serving VLMs
+
+---
+
+## Coding Agent Setup: Apple Silicon with MLX
+
+vLLM does not target Apple Silicon; on a Mac, the equivalent decision (model, runtime, memory budget) runs through [MLX](https://github.com/ml-explore/mlx), Apple's own array framework, and the ecosystem built on it. This section covers what to run and how, for the specific case of a local coding agent on a unified-memory Mac (the 96-128 GB configs on this page: MacBook Pro M5 Max, Mac Studio, Mac mini M5 Pro).
+
+### Model choice: one MoE for daily use, one dense model in reserve
+
+| Model | Architecture | License | Context | Published benchmarks |
+|---|---|---|---|---|
+| [`Qwen/Qwen3.6-35B-A3B`](https://huggingface.co/Qwen/Qwen3.6-35B-A3B) | MoE, 35B total / ≈3B active (256 experts, 8 routed + 1 shared per token) | Apache 2.0 | 262,144 native, extensible to ≈1.01M | SWE-Bench Verified 73.4, LiveCodeBench v6 80.4, MMLU-Pro 85.2, GPQA 86.0 (model card) |
+| [`Qwen/Qwen3.8-27B`](https://huggingface.co/Qwen/Qwen3.8-27B) | Dense, ≈27B | Apache 2.0 | 262,144 native | Same architecture as the April 2026 `Qwen3.6-27B`, all gains from post-training: Terminal-Bench 2.1 73.0 (vs 63.4), SWE-Bench Pro 61.7 (vs 53.5), LiveCodeBench v6 90.3 (vs 83.9) |
+
+Both figures are pulled directly from each model's HuggingFace card, verified in this session. `Qwen3.8-27B` is already this page's reference dense model (see the hardware table above); it supersedes the older `Qwen3.6-27B` dense release that circulates in some August 2026 write-ups (including a widely shared local-Mac-inference report reviewed while writing this section) as the "quality" pairing for `Qwen3.6-35B-A3B`. Since `Qwen3.8-27B` is strictly better on every benchmark where a comparison exists and is already the model this page uses elsewhere, use it instead of `Qwen3.6-27B` as the dense fallback: same weight footprint, no reason to run the older one.
+
+The MoE-for-speed, dense-for-depth split matches this page's [MoE CPU-offload discussion](#what-actually-fits-named-models) at a smaller scale: `Qwen3.6-35B-A3B` activates ≈3B parameters per token, so it decodes closer to a 3B model's speed while retaining a 35B model's trained capacity, at the cost of ≈20-26 GB of resident weights (4-6-bit) instead of a 3B model's ≈2 GB. On a 96-128 GB unified-memory Mac, both models fit simultaneously with room left for a large KV cache, meaning you can keep the MoE model loaded for everyday agent turns and swap in the dense model for a harder single request rather than choosing one permanently.
+
+### Runtime comparison: what is verified, what is vendor-reported, what is neither
+
+Four runtimes expose an OpenAI-compatible local API on Apple Silicon. They are not interchangeable in practice, and the size of the gap between them is the single biggest lever in this section, larger than model choice for a given quality target.
+
+| Runtime | What it is | Verified in this session |
+|---|---|---|
+| [MLX](https://github.com/ml-explore/mlx) / [`mlx-lm`](https://github.com/ml-explore/mlx-lm) | Apple's own array framework; `mlx-lm` provides model loading, quantization, and an OpenAI-compatible server via `mlx_lm.server` | Current release is v0.31.3 (checked directly against the GitHub releases page); speculative decoding exists in the codebase (a v0.31.2 changelog entry references a fix to it), confirming the feature is real and current, though the specific speedup and draft-acceptance percentages that circulate for it come from third-party blogs, not an official MLX benchmark, and were not independently reproduced here |
+| [`llama.cpp`](https://github.com/ggml-org/llama.cpp) (Metal backend) | `llama-server` built with `-DGGML_METAL=ON`; the same OpenAI-compatible server used on CUDA elsewhere on this page | MTP speculative decoding on Metal is documented as a **net loss**: [GitHub issue #23752](https://github.com/ggml-org/llama.cpp/issues/23752), open and unresolved at time of writing, measured Qwen3.5-9B-Q4_K_M dropping from a 25.3 tok/s non-speculative baseline to 19.3-22.4 tok/s (-11% to -24%) across every MTP draft-length setting tested, with the issue's own conclusion being that draft-evaluation overhead exceeds the speculative gain on Metal. **Caveat**: that issue's hardware is a 2021 MacBook Pro M1 Max, not an M5 Max; the mechanism (draft overhead on Metal) is architectural and plausibly generalizes, but the magnitude has not been independently confirmed on current-generation Apple Silicon |
+| [LM Studio](https://lmstudio.ai/) (`mlx-engine`) | LM Studio's own MLX-based backend on Mac | [LM Studio's own blog post](https://lmstudio.ai/blog/mlx-engine-agentic-workloads) on `mlx-engine` v1.8.5, an official first-party source, reports on an M3 Max/36 GB: 82% less extra RAM in parallel long-prompt workloads (6.47 GB down to 1.18 GB), parallel-chat throughput up 2.2x (15.24 to 33.97 output tok/s), and a repeated-image prompt going from 23.79s to 6.88s (uncached prompt tokens dropping from ≈3,730 to 145) thanks to disk-backed KV-cache restoration. These are vendor-published, not independently reproduced, but the source is LM Studio's own engineering blog, not a third-party aggregator |
+| [Ollama](https://ollama.com/) | General-purpose runtime, switched to an MLX backend on Mac | Real (documented in Ollama's own release notes), but the specific "1.6-2x faster, 1,100 to 1,851 tok/s prefill" figures attached to this switch in circulating write-ups trace to a third-party review blog, not Ollama's own benchmarks; not independently reproduced here |
+
+Net practical takeaway, consistent with what all four rows point toward: prefer an MLX-native server (`mlx_lm.server`, LM Studio's `mlx-engine`, or a dedicated MLX server like [oMLX](https://omlx.ai/) or [vMLX](https://vmlx.net/)) over `llama.cpp`'s Metal backend for a Mac coding-agent loop, specifically because of the confirmed MTP regression on Metal and the confirmed prefix-cache handling on MLX-based engines. Do not enable `llama.cpp`'s speculative decoding on Metal without benchmarking your own model and hardware first; issue #23752 shows it can make things worse.
+
+### A caution about Apple Silicon "benchmark" sites
+
+Researching this section surfaced a cluster of content sites that appeared through 2026 and specialize in Apple-Silicon LLM throughput numbers (domain names withheld here since none of it should be relied on): several explicitly label their own headline tok/s figures as "estimates extrapolated from chip-family data," not measured runs, while presenting them in a table indistinguishable from measured results at a glance. One source cited in an initial pass of research for this section, presented as "Apple's own scalable inference paper" reporting a 5.8x TTFT improvement (245ms to 42ms) from prefix caching, does not exist as described: the underlying arXiv paper (2601.19139) is an independent submission (not from Apple) whose abstract reports different figures entirely (21-87% throughput gains, a 24.7x video-cache speedup, and a 21.7s-to-under-1s multimodal latency drop, no 245ms/42ms TTFT numbers at all). Treat any specific M5-Max tok/s figure you find outside a lab's own model card, an official runtime's release notes, or a reproducible community benchmark repo (like `omlx.ai`'s published run pages, which are vendor-published but at least link a specific model, quantization, and context length per number) as unverified until you measure it yourself with the [Benchmark Protocol](#benchmark-protocol-before-you-buy) above.
+
+### Memory budget and context length
+
+Unified memory is shared between CPU, GPU, and NPU; macOS caps how much of it the GPU can address at once via `iogpu.wired_limit_mb`. Community Apple-Silicon LLM guides (not an Apple-published figure) converge on treating roughly 60-70% of total RAM as safely usable for model weights plus KV cache before memory pressure and swap set in; on a 128 GB machine that is a practical ceiling around 90 GB for model+KV, leaving headroom for macOS, Docker, an IDE, and a browser. `Qwen3.6-35B-A3B` at 4-6-bit (≈20-26 GB weights) leaves generous room under that ceiling for a large KV cache; a dense 70B model at Q4/Q5 (≈40-50 GB weights) leaves much less. This matches the general pattern already documented above: [context length materially reduces throughput](#benchmark-protocol-before-you-buy) as KV cache grows, so treat 32k-64k tokens as the practical working context for a continuous agent loop on a 128 GB Mac with other apps running, and reserve longer contexts for occasional large-codebase analysis rather than every-turn agent use.
+
+### Running it as a persistent local API
+
+```bash
+# Install (Python 3.12, isolated venv recommended)
+pip install mlx-lm
+
+# Serve an OpenAI-compatible endpoint at http://127.0.0.1:8080/v1
+mlx_lm.server \
+  --model mlx-community/Qwen3.6-35B-A3B-4bit \
+  --port 8080
+```
+
+To keep it running as a background service that survives a reboot and restarts on crash, a `launchd` user agent is the macOS equivalent of a systemd unit:
+
+```xml
+<!-- ~/Library/LaunchAgents/local.mlx-llm.plist -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>local.mlx-llm</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/local/bin/mlx_lm.server</string>
+    <string>--model</string><string>mlx-community/Qwen3.6-35B-A3B-4bit</string>
+    <string>--port</string><string>8080</string>
+  </array>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key>
+  <dict><key>SuccessfulExit</key><false/></dict>
+</dict>
+</plist>
+```
+
+```bash
+launchctl load ~/Library/LaunchAgents/local.mlx-llm.plist
+launchctl start local.mlx-llm
+```
+
+`RunAtLoad` starts the server at login; `KeepAlive` with `SuccessfulExit: false` restarts it if the process crashes. Swap the `ProgramArguments` for `llama-server` or `mlx-openai-server launch` to run a different runtime under the same supervision pattern. Point your coding agent's OpenAI-compatible base URL at `http://127.0.0.1:8080/v1`.
 
 ---
 

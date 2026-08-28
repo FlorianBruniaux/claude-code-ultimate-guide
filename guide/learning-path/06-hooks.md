@@ -2,6 +2,8 @@
 
 **Time**: 1 hour | **Complexity**: ⭐⭐ Intermediate
 
+**Previous:** [Module 05: Skills & Automation](05-skills.md)
+
 ## Goal
 
 Automate responses to system events. Create scripts that run before or after Claude Code operations.
@@ -432,4 +434,4 @@ This teaches you how to combine all previous concepts into sophisticated multi-a
 
 ---
 
-**Completed Module 06?** → Ready for Module 07: Advanced Patterns
+**Completed Module 06?** → Ready for [Module 07: Advanced Patterns](07-advanced.md)

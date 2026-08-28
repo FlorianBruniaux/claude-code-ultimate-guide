@@ -7,6 +7,8 @@ description: "Learning Path Module 04: create specialized Claude Code agents wit
 
 **Time**: 1.5 hours | **Complexity**: ⭐⭐ Intermediate
 
+**Previous:** [Module 03: Memory & Config](03-memory.md)
+
 ## Goal
 
 Create specialized agents for specific tasks. Learn how to focus AI capabilities on targeted problems.
@@ -463,4 +465,4 @@ This teaches you how to package knowledge so Claude remembers it across sessions
 
 ---
 
-**Completed Module 04?** → Ready for Module 05: Skills & Automation
+**Completed Module 04?** → Ready for [Module 05: Skills & Automation](05-skills.md)

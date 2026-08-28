@@ -8,6 +8,8 @@ Static OG images go stale. The day you add your 200th template or hit 1k GitHub 
 
 The pattern below uses Satori (Vercel) to render a React-like tree to SVG, then resvg to convert to PNG. It runs at build time in Astro, with zero runtime cost and no external service.
 
+See also: [PDF Generation](pdf-generation.md) for another build-time generation workflow (Quarto/Typst).
+
 ## Stack
 
 | Package | Role |

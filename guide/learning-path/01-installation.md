@@ -253,4 +253,4 @@ chmod +x /usr/local/bin/claude
 
 ---
 
-**Completed Module 01?** → Ready for Module 02: Core Loop
+**Completed Module 01?** → Ready for [Module 02: Core Loop](02-core-loop.md)

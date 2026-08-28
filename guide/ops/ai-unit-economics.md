@@ -158,6 +158,8 @@ The most avoidable cost is a loop that does not converge. An agent that keeps tr
 
 Because cache reads are priced far below fresh input, a stable context that the model reads repeatedly is much cheaper than one rebuilt from scratch each turn. Keeping the large, stable parts of the context (project instructions, reference files, schemas) in a form the cache can serve turns repeated reads from a full-price input into a fraction of it. This compounds over a long session.
 
+The same lever applies on the tool-output side of the equation. A `git status` or `find` call in a large repo can return thousands of tokens of noise the model never needed. Tools like [rtk](https://github.com/rtk-ai/rtk) filter that CLI output before it reaches the model, cutting input tokens on those calls by a reported 60 to 90% without changing what the agent can act on.
+
 ### Audit what a skill or tool injects, not just what it costs to load
 
 The skill or tool definition is rarely the expensive part. A skill instruction file that runs 10 to 20K tokens loads once per session and stays cheap. The expensive part is what the skill returns: a graph query result, a tool's raw output, a file dump pulled into context. That result does not disappear after the turn it was generated in. It sits in context and gets re-billed, at the cache-read rate, on every turn that follows for the rest of the session.

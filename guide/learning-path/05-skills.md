@@ -7,6 +7,8 @@ description: "Learning Path Module 05: build reusable Claude Code skills with SK
 
 **Time**: 1.5 hours | **Complexity**: ⭐⭐ Intermediate
 
+**Previous:** [Module 04: Agents & Specialization](04-agents.md)
+
 ## Goal
 
 Create reusable skills that give Claude domain-specific knowledge. Package solutions for repeated problems.
@@ -494,4 +496,4 @@ This teaches you how to automate repetitive tasks without manual intervention.
 
 ---
 
-**Completed Module 05?** → Ready for Module 06: Hooks & Events
+**Completed Module 05?** → Ready for [Module 06: Hooks & Events](06-hooks.md)

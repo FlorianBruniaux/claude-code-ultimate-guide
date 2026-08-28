@@ -30,6 +30,18 @@ This page uses **agent harness** in its runtime sense: the system that owns the 
 
 This page covers what is inside the runtime. For the repository layer, see [Repository Harness Engineering](../ultimate-guide.md#925-harness-engineering). For a dated comparison of specific products across CLI, IDE, and cloud, see the [Agent Harness Landscape](../ecosystem/agent-harness-landscape.md).
 
+### Choose the right entry point
+
+| Question | Canonical page |
+|---|---|
+| What does a runtime harness contain, and how do its controls work? | This [Agent Harness Engineering](./agent-harness.md) page |
+| Which runtime, orchestrator, framework, or adjacent project should I compare? | [Agent Harness Landscape](../ecosystem/agent-harness-landscape.md) |
+| What does a specific coding-agent product support? | [Agent Tools: Beyond Claude Code](../ecosystem/agentic-tools.md) |
+| What distinguishes a runtime, repository, evaluation harness, and orchestrator? | [Glossary](./glossary.md) |
+| Which Claude Code release introduced a behavior? | [Claude Code Releases](./claude-code-releases.md) and its [machine-readable history](../../machine-readable/claude-code-releases.yaml) |
+
+The pages remain separate on purpose. Engineering concepts change more slowly than product inventories, licences, feature evidence, and popularity signals. Combining both would make the architectural reference inherit the catalog's dated snapshot and maintenance cycle.
+
 ---
 
 ## Table of Contents
@@ -88,7 +100,7 @@ Where problems emerge: loops that don't cap iterations, loops that don't handle 
 
 What goes into the prompt on each loop iteration: conversation history, tool outputs, retrieved memory, current task state, rules from CLAUDE.md. The challenge is that context is finite and expensive. Strategies:
 
-- **Compaction / summarization**: replace earlier turns with a compressed summary. Claude Code's `/compact` does this manually; robust harnesses do it automatically when usage crosses a threshold.
+- **Compaction / summarization**: replace earlier turns with a compressed summary. Claude Code compacts automatically near its context threshold and also exposes `/compact` for an explicit compaction. `PreCompact` and `PostCompact` hooks let teams inspect or react to that boundary.
 - **Sliding window**: keep the last N turns verbatim, summarize everything before.
 - **Retrieval-augmented context**: retrieve relevant chunks from long-term storage rather than carrying everything in the window.
 
@@ -100,7 +112,7 @@ The catalog of available tools: name, schema, description, permissions, cost est
 
 Anthropic's internal data (cited in the Fowler article, source: practitioner post) cites a 37% reduction in token usage from dynamic tool dispatch versus static loading. This number is not independently replicated, but the directional claim is credible: giving the model 40 tool schemas when it needs 4 adds noise and cost.
 
-MCP (Model Context Protocol) tools must pass through a gateway that validates the calling agent's identity before the tool executes. This is not an optional hardening step; it is the baseline for preventing privilege escalation via chained tool calls.
+For sensitive MCP (Model Context Protocol) tools, put authentication and authorization at the execution boundary. An identity-aware gateway is one production pattern, but it is not a default property of MCP or Claude Code. The required control depends on the tool's data, side effects, and deployment model. See [MCP Servers Ecosystem](../ecosystem/mcp-servers-ecosystem.md) and [Security Hardening](../security/security-hardening.md).
 
 ### 2.4 Sub-Agent Management
 
@@ -108,13 +120,13 @@ Delegation to specialized sub-agents with their own context windows and task sco
 
 Factory.ai Missions formalizes this: an orchestrator agent decomposes requirements, delegates implementation to workers, and routes completed work to adversarial validator agents. On a documented Slack clone project, independent validators caught 81 problems before any code was merged, generating 34% of the implementation work as "fix features."
 
-Key constraint: sub-agent permissions must not be inherited from the parent. The principle of least privilege applies at the delegation boundary.
+Claude Code subagents inherit the parent session's permission mode by default. That is runtime behavior, not proof of least privilege. Narrow each agent with `tools`, `disallowedTools`, and `permissionMode`, and use `isolation: worktree` when parallel writers must not share a checkout. See [Tools Reference](./tools-reference.md), [Agent Teams](../workflows/agent-teams.md), and the [worktree isolation definition](./glossary.md#worktree-isolation).
 
-### 2.5 Built-in Skills
+### 2.5 Native Tools and Loadable Skills
 
-Native operations that do not require an LLM call: file read/write, web search, code execution, shell commands. Claude Code formalizes skills as loadable modules since late 2025. The distinction matters: a skill is deterministic (read this file, run this test), while an agent action involves LLM reasoning.
+Claude Code exposes native tools for file access, search, shell execution, web access, delegation, and other runtime operations. Skills are different: they are loadable instruction and resource modules invoked through the `Skill` tool. A skill can include scripts and deterministic checks, but the skill itself is not inherently deterministic because the model still interprets its instructions and chooses actions.
 
-The test distribution anti-pattern (Section 7 below) is partly caused by conflating skill testing (deterministic, unit-testable) with agent reasoning testing (probabilistic, requires LLM-as-judge or behavioral simulation).
+Test deterministic scripts and validators with ordinary assertions. Test the model-mediated part of a skill with behavioral tasks, expected boundaries, and human or calibrated evaluator review. The [Tools Reference](./tools-reference.md) documents the runtime tool surface; the [skills examples](../../examples/skills/) show the separate packaging model.
 
 ### 2.6 Session Persistence
 
@@ -130,19 +142,36 @@ The places where assembly goes wrong: rule injection that conflicts with the use
 
 ### 2.8 Lifecycle Hooks
 
-Injection points that fire at defined moments: pre-LLM-call, post-LLM-call, pre-tool-execution, post-tool-execution, on-error. Claude Code implements this via the settings.json hooks system. AWS Bedrock AgentCore and GitHub Agentic Workflows have their own hook models.
+Injection points that fire at defined runtime events. Claude Code does not expose generic `pre-LLM` and `post-LLM` hooks. Its event model includes instruction loading, permission requests, tool use, compaction, subagent and teammate lifecycle, worktree changes, session lifecycle, and failure events. The exact list and blocking semantics live in [Hooks Events Reference](./hooks-events-reference.md).
 
-Hooks are where you insert: observability instrumentation, permission validation, rate limiting, output sanitization, audit logging. Hooks that run inline (blocking) can abort bad actions before they execute. Hooks that run async (fire-and-forget) are appropriate for logging that doesn't need to interrupt the loop.
+Hooks are where you insert observability instrumentation, permission validation, rate limiting, output sanitization, and audit logging. Only events with documented blocking semantics can stop an action. Async hooks are appropriate for telemetry that does not need to interrupt the loop.
 
 ### 2.9 Permission Enforcement
 
-Every action passes through the policy layer. Not as a human review (see Section 3 for why that fails at scale), but as a structural enforcement that happens before the tool call executes.
+Every consequential action needs an enforcement boundary before execution. Depending on risk, that boundary can combine explicit approval, permission rules, sandboxing, network policy, scoped credentials, and post-execution verification. Human review remains useful for high-impact decisions, but repeated approval prompts are not a complete isolation strategy.
 
-The two mechanisms that work:
+Two useful structural mechanisms are:
 
 1. **Sandbox isolation**: the agent runs in an environment where destructive actions are physically impossible, not just disallowed by policy but literally impossible given the network, filesystem, and process constraints. Kubernetes agent-sandbox, E2B microVMs, and Northflank BYOC runners implement this at the hardware level.
 
-2. **Identity gateway**: every MCP tool call is authenticated at call time with a per-session credential, not a static API key. Strata Maverics and Microsoft Entra Agent ID implement this with OAuth OBO (On-Behalf-Of) flows that scope permissions to the current task context.
+2. **Identity gateway**: sensitive tool calls are authenticated at call time with a scoped session credential rather than a broad static API key. Strata Maverics and Microsoft Entra Agent ID implement this pattern with OAuth OBO (On-Behalf-Of) flows that scope permissions to the current task context.
+
+Claude Code now supplies additional primitives for this layer: `sandbox.network.strictAllowlist` denies non-allowlisted sandbox traffic without prompting, worktree isolation separates concurrent edits, and `--restricted` removes command and code execution plus `WebFetch` unless explicitly restored. These controls reduce exposure, but they do not establish that every MCP integration uses per-session identity or that every action is sandboxed.
+
+### Claude Code implementation checkpoint
+
+The nine-component model is product-independent. The table below maps it to Claude Code behavior through v2.1.250 without turning this page into a second release log.
+
+| Harness concern | Current Claude Code mechanisms | Release evidence |
+|---|---|---|
+| Context and state | Automatic and explicit compaction; `PreCompact` and `PostCompact` hooks; automatic memory | v2.1.247, v2.1.105, v2.1.76, v2.1.59 |
+| Tool and prompt assembly | Deferred tool loading, `alwaysLoad` MCP option, `InstructionsLoaded` hook | v2.1.121, v2.1.69 |
+| Delegation | Background subagents, inherited permission mode, concurrency and nesting limits, conversation forking, prompt-cache inheritance | v2.1.198, v2.1.212, v2.1.217, v2.1.219, v2.1.232 |
+| Isolation and policy | Worktree isolation and later hardening, strict network allowlist, `--restricted` launch mode | v2.1.49, v2.1.50, v2.1.222, v2.1.219, v2.1.248 |
+| Recovery and coordination | Cross-session messaging, per-agent cache TTL, subagent model fallback | v2.1.224, v2.1.248, v2.1.247 |
+| Inspection and control | Permission, tool, compaction, instruction, failure, agent, teammate, and worktree hook events | v2.1.69 to v2.1.219 |
+
+Use the [human-readable release history](./claude-code-releases.md) for interpretation and [`claude-code-releases.yaml`](../../machine-readable/claude-code-releases.yaml) for version-level lookup. `reference.yaml` provides stable topic routes into this page and the surrounding guide.
 
 ---
 
@@ -346,12 +375,16 @@ User instruction
 
 ## See Also
 
-- [Context Engineering](./context-engineering.md): ACE pipeline, signal taxonomy, drift management
-- [Security Hardening](../security/security-hardening.md): production safety, injection defense
-- [DevOps & SRE](../ops/devops-sre.md): CI/CD integration patterns
-- [AI Roles](../roles/ai-roles.md): Harness Engineer, Agent Identity Architect, AI Eval Engineer
-- [Spec-First Development](../workflows/spec-first.md): spec as the input to the harness
+- [Agent Harness Landscape](../ecosystem/agent-harness-landscape.md): dated product map, evidence states, and selection protocol
+- [Architecture](./architecture.md): Claude Code's master loop, tools, context, agents, permissions, and MCP integration
+- [Tools Reference](./tools-reference.md) and [Hooks Events Reference](./hooks-events-reference.md): exact runtime surfaces
+- [Context Engineering](./context-engineering.md) and [Memory Systems](./memory-systems.md): prompt assembly, persistence, retrieval, and drift
+- [Agent Evaluation](../roles/agent-evaluation.md) and [Observability](../ops/observability.md): acceptance evidence, traces, metrics, and failure analysis
+- [Security Hardening](../security/security-hardening.md) and [Native Sandbox](../security/sandbox-native.md): prompt-injection defense and execution boundaries
+- [Agent Teams](../workflows/agent-teams.md) and [Agentic Software Factories](../workflows/agentic-software-factories.md): multi-agent coordination above one loop
+- [Repository Harness Engineering](../ultimate-guide.md#925-harness-engineering): project-level instructions, setup, state, and verification gates
+- [Machine-Readable References](../../machine-readable/README.md): release history, topic anchors, and normalized harness data
 
 ---
 
-*Last updated: May 2026. arXiv 2605.18747 (Code as Agent Harness) is the primary academic source for the three properties. Martin Fowler's Harness Engineering article is the primary practitioner reference. Both were published in 2025-2026.*
+*Last updated: August 2026. Claude Code implementation mapping checked through v2.1.250. arXiv 2605.18747 (Code as Agent Harness) is the primary academic source for the three properties. Martin Fowler's Harness Engineering article is the primary practitioner reference.*

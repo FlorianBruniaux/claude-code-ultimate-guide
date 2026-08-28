@@ -811,6 +811,8 @@ See full template: [examples/config/PULL_REQUEST_TEMPLATE-ai.md](../../examples/
 
 For regulated environments and compliance-conscious orgs, capturing a snapshot of AI activity at PR creation gives you a structured artifact that answers the question "what did Claude do during this change?" without relying on session memory.
 
+If you'd rather query history that already exists than instrument new logging, tools like [cc-sessions](https://github.com/FlorianBruniaux/cc-sessions) search and analyze Claude Code's own session transcripts directly, useful when the question comes up after the fact and no PR-time hook was in place.
+
 ### What to Capture
 
 A minimal PR audit artifact contains four things:

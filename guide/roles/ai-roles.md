@@ -112,6 +112,8 @@ See the [Context Engineering reference](../core/context-engineering.md) for the 
 
 > "Context Engineering is providing the right information and tools, in the right format, at the right time." (Philipp Schmid, Google)
 
+This role's rise is itself the story: [context engineering became a job title](https://florian.bruniaux.com/articles/context-engineering-the-new-roles/) traces how a technique turned into a career path in under two years.
+
 ### Responsibilities
 
 - Design RAG (Retrieval-Augmented Generation) systems and knowledge bases

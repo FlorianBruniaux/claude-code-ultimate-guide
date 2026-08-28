@@ -11,6 +11,8 @@ This document tracks verified, critical issues affecting Claude Code users based
 > **Last Updated**: April 23, 2026
 > **Source**: [GitHub Issues](https://github.com/anthropics/claude-code/issues) + [Anthropic Official Communications](https://www.anthropic.com/engineering)
 
+See also: [Claude Code Releases](claude-code-releases.md) for the version history behind these issues, and [Production Safety Rules](../security/production-safety.md) for guardrails that reduce exposure to related incidents in production.
+
 ---
 
 ## 🚨 Active Critical Issues

@@ -391,6 +391,8 @@ claude
 | **Job search app** | Paul Rayner (LinkedIn) | "Pretty impressive" | Design research + bug fixing |
 | **Business ops automation** | Paul Rayner (LinkedIn) | N/A | Operating system + conference planning |
 
+For a case study outside these vendor-reported figures, [orchestrating 20+ agents on a production migration](https://florian.bruniaux.com/guides/plan-execute-migrations/) walks through a plan-execute setup at that scale, including where coordination broke down.
+
 ### 4.1 Multi-Layer Code Review (Fountain)
 
 **Organization**: Fountain (frontline workforce management platform)

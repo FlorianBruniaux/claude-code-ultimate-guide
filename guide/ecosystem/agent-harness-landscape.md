@@ -14,6 +14,18 @@ An **agent harness** is the runtime around a model that assembles context, expos
 
 This page answers *which layer and which project*. [Agent Harness Engineering](../core/agent-harness.md) documents the components inside a runtime harness. [Agent Tools: Beyond Claude Code](./agentic-tools.md) provides deeper product profiles. The [glossary](../core/glossary.md) separates runtime harnesses from repository harnesses and evaluation harnesses.
 
+### Choose the right entry point
+
+| Question | Canonical page |
+|---|---|
+| How does the loop, context, tool, hook, permission, and recovery machinery work? | [Agent Harness Engineering](../core/agent-harness.md) |
+| Which runtime or adjacent project fits a particular job? | This [Agent Harness Landscape](./agent-harness-landscape.md) page |
+| What does a named coding-agent product support in practice? | [Agent Tools: Beyond Claude Code](./agentic-tools.md) |
+| How should a repository prepare instructions, setup, state, and verification for any runtime? | [Repository Harness Engineering](../ultimate-guide.md#925-harness-engineering) |
+| How should a shortlist be evaluated and instrumented? | [Agent Evaluation](../roles/agent-evaluation.md) and [Observability](../ops/observability.md) |
+
+These pages are linked but deliberately not merged. The engineering reference explains stable mechanisms. This map is a dated evidence snapshot whose projects, licences, features, and GitHub signals need a separate refresh cycle.
+
 ## 160 Projects Does Not Mean 160 Runtime Harnesses
 
 The upstream catalog mixes ready-to-run coding agents with SDKs, frameworks, memory systems, sandboxes, evaluation tools, observability products, prompt libraries, and multi-agent control planes. Treating all 160 as interchangeable runtimes produces invalid comparisons. The strict map retains projects with evidence that they own an agent loop; adjacent products remain in the directory under their actual job.
@@ -458,11 +470,14 @@ Record seven measurements for every task:
 | Recovery | Whether the run resumes after a controlled interruption without repeating or losing work |
 | Setup friction | Time and specialist work needed to reproduce the environment |
 
-Review the produced diff and tests, not the agent's self-report. Keep consequential actions behind a human or policy gate during the trial.
+Review the produced diff and tests, not the agent's self-report. Keep consequential actions behind a human or policy gate during the trial. Use the [Agent Evaluation](../roles/agent-evaluation.md) framework to define acceptance evidence, [Observability](../ops/observability.md) to capture traces and interventions, and [Security Hardening](../security/security-hardening.md) to test the execution boundary rather than trusting a product label.
 
 ## Machine-Readable Access
 
 - [Normalized dataset on GitHub](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/machine-readable/agent-harnesses.json): four explicit sets, provenance, loop ownership, feature evidence, official URLs, and dated GitHub metadata.
+- [Machine-readable reference guide](../../machine-readable/README.md): dataset contract, evidence states, rebuild commands, and maintenance rules.
+- [`reference.yaml`](../../machine-readable/reference.yaml): stable routes to the engineering page, this landscape, product profiles, evaluation, observability, security, and release evidence.
+- [`claude-code-releases.yaml`](../../machine-readable/claude-code-releases.yaml): version-level evidence for Claude Code runtime behavior. It is release history, not a cross-product feature table.
 - [Best of Agent Harnesses site](https://ryanalberts.github.io/best-of-Agent-Harnesses/): upstream catalog and comparison guides.
 - [Pinned upstream JSON](https://raw.githubusercontent.com/RyanAlberts/best-of-Agent-Harnesses/ece314654d2c23fe7bd69fc6ef7088f093207e49/harnesses.json): the immutable source used for this snapshot.
 - [Upstream live JSON](https://ryanalberts.github.io/best-of-Agent-Harnesses/harnesses.json): useful for discovering changes after the pinned snapshot.
@@ -470,6 +485,18 @@ Review the produced diff and tests, not the agent's self-report. Keep consequent
 - Upstream MCP package: `agent-harnesses-mcp`.
 
 The refresh pipeline validates counts, URLs, evidence states, repository metadata, and deterministic output before it replaces the committed dataset. README extraction treats repository content as untrusted data and never publishes model output automatically.
+
+## Related Reading
+
+- [Agent Harness Engineering](../core/agent-harness.md): stable architecture and the Claude Code implementation checkpoint
+- [Architecture](../core/architecture.md): the master loop, tool arsenal, context, subagents, permissions, and MCP
+- [Tools Reference](../core/tools-reference.md) and [Hooks Events Reference](../core/hooks-events-reference.md): exact Claude Code interfaces behind several comparison criteria
+- [Agent Tools: Beyond Claude Code](./agentic-tools.md): deeper profiles for selected coding agents
+- [Agent Evaluation](../roles/agent-evaluation.md): task sets, graders, human verdicts, and acceptance criteria
+- [Observability](../ops/observability.md): traces, metrics, errors, costs, and intervention signals
+- [Security Hardening](../security/security-hardening.md) and [Native Sandbox](../security/sandbox-native.md): permissions, prompt injection, filesystem, process, and network controls
+- [Agent Teams](../workflows/agent-teams.md) and [Agentic Software Factories](../workflows/agentic-software-factories.md): coordination above a single runtime loop
+- [Glossary](../core/glossary.md): runtime, repository, evaluation harness, and orchestrator terminology
 
 ## Limits of This Map
 

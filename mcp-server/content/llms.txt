@@ -38,7 +38,10 @@ Guide version 3.42.0, tracking Claude Code up to v2.1.250 (August 2026).
 
 - Guide site: https://cc.bruniaux.com
 - Guide reader: https://cc.bruniaux.com/guide/
+- Agent Harness Engineering: https://cc.bruniaux.com/guide/agent-harness/
 - Agent Harness Map: https://cc.bruniaux.com/guide/agent-harness-landscape/
+- Agent Tools: https://cc.bruniaux.com/guide/agentic-tools/
+- Glossary: https://cc.bruniaux.com/guide/glossary/
 - Releases tracking: https://cc.bruniaux.com/releases/
 - Whitepapers (PDF + EPUB, FR and EN): https://cc.bruniaux.com/whitepapers/
 - GitHub: https://github.com/FlorianBruniaux/claude-code-ultimate-guide

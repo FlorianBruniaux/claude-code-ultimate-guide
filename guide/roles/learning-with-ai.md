@@ -241,6 +241,8 @@ A systematic approach to using AI without losing your edge.
 | **A** | Apply | Transform knowledge into skill through modification |
 | **L** | Learn | Capture insights for long-term retention |
 
+For the reasoning behind naming this a protocol rather than a habit, see [the UVAL protocol and the comprehension debt it prevents](https://florian.bruniaux.com/articles/uval-protocol-comprehension-debt/).
+
 ---
 
 ### U: Understand First (The 15-Minute Rule)
