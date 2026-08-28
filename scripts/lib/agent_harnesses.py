@@ -11,8 +11,10 @@ from urllib.parse import urlparse
 
 
 PINNED_UPSTREAM_COMMIT = "ece314654d2c23fe7bd69fc6ef7088f093207e49"
+PINNED_UPSTREAM_SHA256 = "4c02e547e11b056aa4d7e519305b7f4ca4f02550c27018d70757a59d26ace65f"
 UPSTREAM_PROJECT_COUNT = 160
 UPSTREAM_CATEGORY_COUNT = 12
+MAX_UPSTREAM_BYTES = 2_000_000
 EVIDENCE_STATUSES = {"confirmed", "claimed", "unknown", "not_applicable"}
 LOOP_STATUSES = {"confirmed", "claimed", "unknown", "no"}
 AUTONOMY_VALUES = {
@@ -25,6 +27,9 @@ AUTONOMY_VALUES = {
 }
 RECOVERY_VALUES = {"none", "retry", "resumable", "durable", "unknown", "not_applicable"}
 PINNED_GITHUB_RE = re.compile(r"^https://github\.com/[^/]+/[^/]+/(?:blob|commit)/[0-9a-fA-F]{40}(?:/|$)")
+PINNED_RAW_GITHUB_RE = re.compile(
+    r"^https://raw\.githubusercontent\.com/[^/]+/[^/]+/[0-9a-fA-F]{40}/"
+)
 COMMIT_RE = re.compile(r"^[0-9a-f]{40}$")
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
@@ -35,6 +40,51 @@ def load_json(path: Path) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise ValueError(f"{path} must contain a JSON object")
     return value
+
+
+def load_pinned_snapshot(
+    path: Path, manifest_path: Path, max_bytes: int = MAX_UPSTREAM_BYTES
+) -> dict[str, Any]:
+    manifest = load_json(manifest_path)
+    expected_manifest_fields = {
+        "repository",
+        "commit",
+        "sha256",
+        "license",
+        "project_count",
+        "category_count",
+    }
+    if set(manifest) != expected_manifest_fields:
+        raise ValueError("upstream source manifest fields are invalid")
+    if manifest.get("commit") != PINNED_UPSTREAM_COMMIT:
+        raise ValueError("declared upstream commit is invalid")
+    if manifest.get("sha256") != PINNED_UPSTREAM_SHA256:
+        raise ValueError("declared upstream SHA-256 is invalid")
+    if manifest.get("license") != "CC-BY-SA-4.0":
+        raise ValueError("declared upstream license is invalid")
+    if manifest.get("project_count") != UPSTREAM_PROJECT_COUNT:
+        raise ValueError("declared upstream project count is invalid")
+    if manifest.get("category_count") != UPSTREAM_CATEGORY_COUNT:
+        raise ValueError("declared upstream category count is invalid")
+    source_size = path.stat().st_size
+    if source_size > max_bytes:
+        raise ValueError(f"source snapshot exceeds {max_bytes} bytes")
+    with path.open("rb") as handle:
+        raw = handle.read(max_bytes + 1)
+    if len(raw) > max_bytes:
+        raise ValueError(f"source snapshot exceeds {max_bytes} bytes")
+    digest = hashlib.sha256(raw).hexdigest()
+    if digest != PINNED_UPSTREAM_SHA256:
+        raise ValueError("source snapshot SHA-256 mismatch")
+    try:
+        source = json.loads(raw.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise ValueError("source snapshot is not valid UTF-8 JSON") from error
+    if not isinstance(source, dict):
+        raise ValueError("source snapshot must contain a JSON object")
+    if source.get("meta", {}).get("url") != manifest.get("repository"):
+        raise ValueError("source repository does not match its declaration")
+    return source
 
 
 def serialize_catalog(data: dict[str, Any]) -> str:
@@ -71,8 +121,12 @@ def _validate_evidence(evidence: Any) -> list[str]:
     url = evidence.get("url")
     if not _is_https(url):
         errors.append("evidence URL must be absolute HTTPS")
-    elif urlparse(url).netloc.lower() == "github.com" and not PINNED_GITHUB_RE.match(url):
-        errors.append("GitHub evidence URL must pin a 40-character commit")
+    elif urlparse(url).netloc.lower() in {"github.com", "www.github.com"}:
+        if not PINNED_GITHUB_RE.match(url):
+            errors.append("GitHub evidence URL must pin a 40-character commit")
+    elif urlparse(url).netloc.lower() == "raw.githubusercontent.com":
+        if not PINNED_RAW_GITHUB_RE.match(url):
+            errors.append("GitHub evidence URL must pin a 40-character commit")
     checked_at = evidence.get("checked_at")
     if not isinstance(checked_at, str) or not DATE_RE.match(checked_at):
         errors.append("evidence checked_at must be YYYY-MM-DD")
@@ -263,6 +317,8 @@ def validate_catalog(data: Any) -> list[str]:
     if not isinstance(supplements, list):
         errors.append("guide_supplement must be an array")
         supplements = []
+    if len(supplements) != 31:
+        errors.append("guide_supplement must contain exactly 31 projects")
     supplement_ids = [record.get("id") for record in supplements if isinstance(record, dict)]
     folded_supplement_ids = [
         identifier.casefold() for identifier in supplement_ids if isinstance(identifier, str)
@@ -275,14 +331,26 @@ def validate_catalog(data: Any) -> list[str]:
     for index, record in enumerate(supplements):
         errors.extend(f"guide supplement {index}: {error}" for error in validate_record(record))
     known_refs = set(ids) | set(supplement_ids)
+    map_project_refs: dict[str, set[str]] = {}
     for label in ("strict_runtime_map", "adjacent_control_planes"):
         records = sets[label]
         if not isinstance(records, list):
             errors.append(f"{label} must be an array")
             continue
+        expected_count = 42 if label == "strict_runtime_map" else 14
+        if len(records) != expected_count:
+            errors.append(f"{label} must contain exactly {expected_count} entries")
         map_ids = [record.get("id") for record in records if isinstance(record, dict)]
         if len(map_ids) != len(set(map_ids)):
             errors.append(f"duplicate {label} id")
+        references = [
+            record.get("project_ref", "").casefold()
+            for record in records
+            if isinstance(record, dict) and isinstance(record.get("project_ref"), str)
+        ]
+        if len(references) != len(set(references)):
+            errors.append(f"duplicate project_ref within {label}")
+        map_project_refs[label] = set(references)
         for record in records:
             errors.extend(_validate_map_record(record, known_refs, label))
             if isinstance(record, dict):
@@ -292,6 +360,14 @@ def validate_catalog(data: Any) -> list[str]:
                     errors.append(f"{label} source_set does not match upstream project {reference}")
                 if reference in set(supplement_ids) and declared_set != "guide_supplement":
                     errors.append(f"{label} source_set does not match guide supplement {reference}")
+                if label == "strict_runtime_map" and record.get("owns_loop") == "no":
+                    errors.append("strict_runtime_map cannot contain owns_loop=no")
+                if label == "adjacent_control_planes" and record.get("owns_loop") != "no":
+                    errors.append("adjacent_control_planes requires owns_loop=no")
+    if map_project_refs.get("strict_runtime_map", set()) & map_project_refs.get(
+        "adjacent_control_planes", set()
+    ):
+        errors.append("project_ref appears in multiple maps")
     stats = data.get("stats")
     if not isinstance(stats, dict):
         errors.append("catalog stats are required")

@@ -4,12 +4,18 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import urllib.request
 from pathlib import Path
 from typing import Any
 
-from lib.agent_harnesses import PINNED_UPSTREAM_COMMIT, write_json
+from lib.agent_harnesses import (
+    MAX_UPSTREAM_BYTES,
+    PINNED_UPSTREAM_COMMIT,
+    PINNED_UPSTREAM_SHA256,
+    write_json,
+)
 
 
 RAW_URL = "https://raw.githubusercontent.com/RyanAlberts/best-of-Agent-Harnesses/{commit}/harnesses.json"
@@ -39,7 +45,24 @@ def validate_upstream_snapshot(source: Any) -> list[str]:
     return errors
 
 
-def fetch_snapshot(commit: str, timeout: int = 60) -> dict[str, Any]:
+def read_limited_stream(stream: Any, max_bytes: int) -> bytes:
+    chunks: list[bytes] = []
+    total = 0
+    while total <= max_bytes:
+        remaining = max_bytes + 1 - total
+        chunk = stream.read(min(64 * 1024, remaining))
+        if not chunk:
+            break
+        chunks.append(chunk)
+        total += len(chunk)
+    if total > max_bytes:
+        raise ValueError(f"upstream response exceeds {max_bytes} bytes")
+    return b"".join(chunks)
+
+
+def fetch_snapshot(
+    commit: str, timeout: int = 60, max_bytes: int = MAX_UPSTREAM_BYTES
+) -> tuple[dict[str, Any], bytes]:
     if commit != PINNED_UPSTREAM_COMMIT:
         raise ValueError(f"initial collector only accepts pinned commit {PINNED_UPSTREAM_COMMIT}")
     request = urllib.request.Request(
@@ -47,11 +70,17 @@ def fetch_snapshot(commit: str, timeout: int = 60) -> dict[str, Any]:
         headers={"Accept": "application/json", "User-Agent": "claude-code-ultimate-guide"},
     )
     with urllib.request.urlopen(request, timeout=timeout) as response:
-        source = json.loads(response.read().decode("utf-8"))
+        declared_size = response.headers.get("Content-Length")
+        if declared_size is not None and int(declared_size) > max_bytes:
+            raise ValueError(f"upstream response exceeds {max_bytes} bytes")
+        raw = read_limited_stream(response, max_bytes=max_bytes)
+    if hashlib.sha256(raw).hexdigest() != PINNED_UPSTREAM_SHA256:
+        raise ValueError("source snapshot SHA-256 mismatch")
+    source = json.loads(raw.decode("utf-8"))
     errors = validate_upstream_snapshot(source)
     if errors:
         raise ValueError("invalid upstream snapshot:\n- " + "\n- ".join(errors))
-    return source
+    return source, raw
 
 
 def parse_args() -> argparse.Namespace:
@@ -59,13 +88,33 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--upstream-commit", default=PINNED_UPSTREAM_COMMIT)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--timeout-seconds", type=int, default=60)
+    parser.add_argument("--max-bytes", type=int, default=MAX_UPSTREAM_BYTES)
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
-    source = fetch_snapshot(args.upstream_commit, timeout=args.timeout_seconds)
-    write_json(args.output, source)
+    source, raw = fetch_snapshot(
+        args.upstream_commit,
+        timeout=args.timeout_seconds,
+        max_bytes=args.max_bytes,
+    )
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    temporary = args.output.with_suffix(args.output.suffix + ".tmp")
+    temporary.write_bytes(raw)
+    temporary.replace(args.output)
+    manifest_path = args.output.with_name(args.output.stem + ".manifest.json")
+    write_json(
+        manifest_path,
+        {
+            "repository": source["meta"]["url"],
+            "commit": args.upstream_commit,
+            "sha256": PINNED_UPSTREAM_SHA256,
+            "license": source["meta"]["license"],
+            "project_count": len(source["projects"]),
+            "category_count": len(source["categories"]),
+        },
+    )
     print(f"upstream_projects={len(source['projects'])}")
     print(f"upstream_categories={len(source['categories'])}")
     print(f"upstream_commit={args.upstream_commit}")

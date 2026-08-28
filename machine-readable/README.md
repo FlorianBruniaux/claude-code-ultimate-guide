@@ -43,7 +43,7 @@ curl -sL https://raw.githubusercontent.com/FlorianBruniaux/claude-code-ultimate-
 
 ### Agent harness landscape
 
-`agent-harnesses.json` is generated from the committed snapshot at `best-of-Agent-Harnesses@ece314654d2c23fe7bd69fc6ef7088f093207e49` and curated manual overrides. The upstream-derived records retain the source's CC-BY-SA-4.0 attribution and its 2026-08-23 star snapshot.
+`agent-harnesses.json` is generated from the committed snapshot at `best-of-Agent-Harnesses@ece314654d2c23fe7bd69fc6ef7088f093207e49` and curated manual overrides. The raw source is verified against `best-of-agent-harnesses-ece314654d2c.manifest.json` and SHA-256 `4c02e547e11b056aa4d7e519305b7f4ca4f02550c27018d70757a59d26ace65f` before parsing. The upstream-derived records retain the source's CC-BY-SA-4.0 attribution and its 2026-08-23 star snapshot.
 
 The file keeps four sets separate:
 
@@ -52,7 +52,7 @@ The file keeps four sets separate:
 - `strict_runtime_map`: projects whose evidence says they own an agent loop;
 - `adjacent_control_planes`: wrappers, fleet managers, task controllers, and execution layers that call another runtime.
 
-Evidence uses `confirmed`, `claimed`, `unknown`, or `not_applicable`. `unknown` does not mean the feature is absent. `owns_loop` uses `confirmed`, `claimed`, `unknown`, or `no`. The extractor creates deterministic, fail-closed review proposals and never publishes them automatically.
+Evidence uses `confirmed`, `claimed`, `unknown`, or `not_applicable`. `unknown` does not mean the feature is absent. `owns_loop` uses `confirmed`, `claimed`, `unknown`, or `no`. The extractor never launches an agent or sends README text to a model. It emits deterministic `unknown` proposals for manual review. External proposals remain review input and are never published automatically.
 
 Rebuild and verify without network access:
 

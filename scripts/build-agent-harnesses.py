@@ -7,12 +7,19 @@ import argparse
 import sys
 from pathlib import Path
 
-from lib.agent_harnesses import build_catalog, load_json, serialize_catalog, write_json
+from lib.agent_harnesses import (
+    build_catalog,
+    load_json,
+    load_pinned_snapshot,
+    serialize_catalog,
+    write_json,
+)
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source", type=Path, required=True)
+    parser.add_argument("--source-manifest", type=Path)
     parser.add_argument("--overrides", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--check", action="store_true")
@@ -21,7 +28,15 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
-    catalog = build_catalog(load_json(args.source), load_json(args.overrides))
+    manifest = args.source_manifest or args.source.with_name(
+        args.source.stem + ".manifest.json"
+    )
+    try:
+        source = load_pinned_snapshot(args.source, manifest)
+        catalog = build_catalog(source, load_json(args.overrides))
+    except (OSError, ValueError) as error:
+        print(f"error: {error}", file=sys.stderr)
+        return 1
     rendered = serialize_catalog(catalog)
     if args.check:
         if not args.output.exists() or args.output.read_text(encoding="utf-8") != rendered:

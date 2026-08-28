@@ -90,19 +90,39 @@
         },
         "guide_supplement": {
           "type": "array",
+          "minItems": 31,
+          "maxItems": 31,
           "items": {"$ref": "#/$defs/project"}
         },
         "strict_runtime_map": {
           "type": "array",
           "minItems": 42,
           "maxItems": 42,
-          "items": {"$ref": "#/$defs/mapEntry"}
+          "items": {
+            "allOf": [
+              {"$ref": "#/$defs/mapEntry"},
+              {
+                "properties": {
+                  "owns_loop": {"enum": ["confirmed", "claimed", "unknown"]}
+                }
+              }
+            ]
+          }
         },
         "adjacent_control_planes": {
           "type": "array",
           "minItems": 14,
           "maxItems": 14,
-          "items": {"$ref": "#/$defs/mapEntry"}
+          "items": {
+            "allOf": [
+              {"$ref": "#/$defs/mapEntry"},
+              {
+                "properties": {
+                  "owns_loop": {"const": "no"}
+                }
+              }
+            ]
+          }
         }
       }
     }
@@ -120,7 +140,23 @@
       "properties": {
         "source_type": {"type": "string", "minLength": 1},
         "status": {"enum": ["confirmed", "claimed", "unknown", "not_applicable"]},
-        "url": {"$ref": "#/$defs/httpsUrl"},
+        "url": {
+          "allOf": [
+            {"$ref": "#/$defs/httpsUrl"},
+            {
+              "if": {"pattern": "^https://(?:www\\.)?github\\.com/"},
+              "then": {
+                "pattern": "^https://github\\.com/[^/]+/[^/]+/(?:blob|commit)/[0-9a-fA-F]{40}(?:/|$)"
+              }
+            },
+            {
+              "if": {"pattern": "^https://raw\\.githubusercontent\\.com/"},
+              "then": {
+                "pattern": "^https://raw\\.githubusercontent\\.com/[^/]+/[^/]+/[0-9a-fA-F]{40}/"
+              }
+            }
+          ]
+        },
         "checked_at": {"type": "string", "format": "date"}
       }
     },
@@ -201,7 +237,33 @@
           "minItems": 1,
           "items": {"$ref": "#/$defs/evidence"}
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": ["stars"],
+            "properties": {"stars": {"type": "integer"}}
+          },
+          "then": {
+            "properties": {
+              "repository_url": {"$ref": "#/$defs/httpsUrl"},
+              "stars_captured_at": {"type": "string", "format": "date"}
+            }
+          }
+        },
+        {
+          "if": {
+            "required": ["repository_url"],
+            "properties": {"repository_url": {"type": "null"}}
+          },
+          "then": {
+            "properties": {
+              "stars": {"type": "null"},
+              "stars_captured_at": {"type": "null"}
+            }
+          }
+        }
+      ]
     },
     "mapEntry": {
       "type": "object",
