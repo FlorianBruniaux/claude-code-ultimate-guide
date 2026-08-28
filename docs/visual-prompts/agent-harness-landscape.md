@@ -2,6 +2,14 @@
 
 These prompts generated the three raster figures used by the Agent Harness Map. Each image was generated as a separate asset, reviewed visually, resized to 1600 x 900, and converted to WebP.
 
+Selected Gemini source files:
+
+| Published asset | Selected source |
+|---|---|
+| `agent-harness-160-not-runtimes.webp` | `Gemini_Generated_Image_21edgl21edgl21ed.jpeg` |
+| `agent-harness-four-layers.webp` | `Gemini_Generated_Image_u0ieeju0ieeju0ie.jpeg` |
+| `agent-harness-selection-funnel.webp` | `Gemini_Generated_Image_7rttz17rttz17rtt.jpeg`, with the pilot count corrected from 5-to-10 to 8-to-12 real tickets before conversion |
+
 ## Shared art direction
 
 Use a warm cream graph-paper background (`#f5f1e8`), a subtle grid (`#d4cfb8`), precise dark pencil or ink lines (`#1a1a1a`), and restrained yellow (`#fbbf24`), green (`#16a34a`), and orange (`#d97706`) accents. Reserve red for risk gates. Keep the layout editorial and technical. Do not use photos, 3D, mascots, decorative doodles, stars, page numbers, or logos. All visible text is English. Target 1600 x 900 pixels.
@@ -69,6 +77,6 @@ Keep each step visually distinct, readable, and practical. Avoid tiny text.
 
 | Asset | Dimensions | Size |
 |---|---:|---:|
-| `agent-harness-160-not-runtimes.webp` | 1600 x 900 | 91,158 bytes |
-| `agent-harness-four-layers.webp` | 1600 x 900 | 108,270 bytes |
-| `agent-harness-selection-funnel.webp` | 1600 x 900 | Regenerated after protocol correction |
+| `agent-harness-160-not-runtimes.webp` | 1600 x 900 | Selected Gemini output, resized and converted to WebP |
+| `agent-harness-four-layers.webp` | 1600 x 900 | Selected Gemini output, resized and converted to WebP |
+| `agent-harness-selection-funnel.webp` | 1600 x 900 | Selected Gemini output, corrected to the 8-to-12-ticket protocol, resized, and converted to WebP |
