@@ -14,6 +14,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -211,13 +212,15 @@ class GithubMetadataCollectorTests(unittest.TestCase):
 
     @staticmethod
     def catalog(*urls: str) -> dict:
-        return {
-            "_meta": {"dataset_sha256": "a" * 64},
+        catalog = {
+            "_meta": {},
             "sets": {
                 "upstream_snapshot": {"projects": [{"repository_url": url} for url in urls]},
                 "guide_supplement": [],
             },
         }
+        recompute_internal_checksum(catalog)
+        return catalog
 
     @staticmethod
     def repository_payload(full_name: str = "owner/repo") -> dict:
@@ -248,7 +251,10 @@ class GithubMetadataCollectorTests(unittest.TestCase):
         )
         self.assertEqual(["https://api.github.com/repos/owner/repo"], [item[0] for item in requests])
         self.assertEqual("2022-11-28", requests[0][1]["X-GitHub-Api-Version"])
-        self.assertEqual("a" * 64, sidecar["catalog_sha256"])
+        self.assertEqual(
+            self.catalog("https://github.com/owner/repo")["_meta"]["dataset_sha256"],
+            sidecar["catalog_sha256"],
+        )
         self.assertEqual(self.captured_at, sidecar["captured_at"])
         self.assertEqual(
             [{
@@ -276,6 +282,83 @@ class GithubMetadataCollectorTests(unittest.TestCase):
 
                 with self.assertRaisesRegex(ValueError, f"GitHub API returned HTTP {status}"):
                     collector.collect_metadata(self.catalog("https://github.com/owner/repo"), transport, self.captured_at)
+
+    def test_rejects_non_rfc3339_utc_timestamps(self):
+        """Break caught: datetime.fromisoformat accepts dates and spaces the schema rejects."""
+        collector = load_script("collect-agent-harnesses-github.py")
+
+        for captured_at in ("2026-08-29Z", "2026-08-29 12:00:00Z", "2026-08-29T12:00:00+00:00"):
+            with self.subTest(captured_at=captured_at):
+                with self.assertRaisesRegex(ValueError, "RFC 3339 UTC timestamp"):
+                    collector.collect_metadata(
+                        self.catalog("https://github.com/owner/repo"),
+                        lambda _url, _headers: (200, {}, self.repository_payload()),
+                        captured_at,
+                    )
+
+    def test_rejects_catalog_with_stale_embedded_checksum(self):
+        """Break caught: a sidecar must bind to the bytes, not a trusted checksum field."""
+        collector = load_script("collect-agent-harnesses-github.py")
+        catalog = self.catalog("https://github.com/owner/repo")
+        catalog["sets"]["upstream_snapshot"]["projects"][0]["name"] = "tampered"
+
+        with self.assertRaisesRegex(ValueError, "catalog checksum is invalid"):
+            collector.collect_metadata(catalog, lambda _url, _headers: (200, {}, {}), self.captured_at)
+
+    def test_rejects_exhausted_rate_limit_before_publication(self):
+        """Break caught: a nearly exhausted token must not create a partial scheduled snapshot."""
+        collector = load_script("collect-agent-harnesses-github.py")
+
+        def transport(_url: str, _headers: dict[str, str]):
+            return 200, {"X-RateLimit-Remaining": "99", "X-RateLimit-Reset": "1780000000"}, self.repository_payload()
+
+        with self.assertRaisesRegex(ValueError, "rate limit remaining 99 is below 100"):
+            collector.collect_metadata(self.catalog("https://github.com/owner/repo"), transport, self.captured_at)
+
+    def test_github_network_stream_is_bounded(self):
+        collector = load_script("collect-agent-harnesses-github.py")
+        with self.assertRaisesRegex(ValueError, "exceeds 10 bytes"):
+            collector.read_limited_stream(io.BytesIO(b"x" * 11), max_bytes=10)
+
+    def test_retry_after_is_bounded_and_has_an_exponential_fallback(self):
+        collector = load_script("collect-agent-harnesses-github.py")
+        self.assertEqual(30, collector.retry_delay_seconds({"Retry-After": "90"}, attempt=0))
+        self.assertEqual(1, collector.retry_delay_seconds({}, attempt=0))
+        self.assertEqual(2, collector.retry_delay_seconds({"Retry-After": "invalid"}, attempt=1))
+
+    def test_network_transport_retries_a_transient_os_error(self):
+        """Break caught: declared retries must execute before a scheduled refresh fails."""
+        collector = load_script("collect-agent-harnesses-github.py")
+
+        class Response(io.BytesIO):
+            status = 200
+            headers = {"X-RateLimit-Remaining": "500"}
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *_args):
+                self.close()
+
+        payload = json.dumps(self.repository_payload()).encode("utf-8")
+        with (
+            patch.object(
+                collector.urllib.request,
+                "urlopen",
+                side_effect=[OSError("temporary network failure"), Response(payload)],
+            ) as urlopen,
+            patch.object(collector.time, "sleep") as sleep,
+        ):
+            status, headers, response_payload = collector._network_transport("secret")(
+                "https://api.github.com/repos/owner/repo",
+                {"Accept": "application/vnd.github+json"},
+            )
+
+        self.assertEqual(2, urlopen.call_count)
+        sleep.assert_called_once_with(1)
+        self.assertEqual(200, status)
+        self.assertEqual("500", headers["X-RateLimit-Remaining"])
+        self.assertEqual("owner/repo", response_payload["full_name"])
 
     def test_rejects_renamed_repository(self):
         """Break caught: a redirect or rename can silently attach another repository's facts."""
@@ -308,9 +391,10 @@ class GithubMetadataCollectorTests(unittest.TestCase):
     def test_uses_verified_cached_record_on_304(self):
         """Break caught: a 304 without a matching cached record would create incomplete output."""
         collector = load_script("collect-agent-harnesses-github.py")
+        catalog = self.catalog("https://github.com/owner/repo")
         cached = {
             "schema_version": "1.0.0",
-            "catalog_sha256": "a" * 64,
+            "catalog_sha256": catalog["_meta"]["dataset_sha256"],
             "captured_at": "2026-08-28T12:00:00Z",
             "repositories": [{
                 "repository_url": "https://github.com/owner/repo",
@@ -332,7 +416,7 @@ class GithubMetadataCollectorTests(unittest.TestCase):
             return 304, {}, None
 
         sidecar = collector.collect_metadata(
-            self.catalog("https://github.com/owner/repo"),
+            catalog,
             transport,
             self.captured_at,
             previous_sidecar=cached,

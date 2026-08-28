@@ -5,11 +5,14 @@ from __future__ import annotations
 
 import argparse
 import copy
+import hashlib
 import json
 import re
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 
 
 MARKERS = (
@@ -18,6 +21,7 @@ MARKERS = (
     "adjacent-control-planes",
     "project-catalog",
 )
+RFC3339_UTC_PATTERN = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$")
 
 CATEGORY_GUIDANCE = {
     "coding-agent-products": ("Turnkey coding agents", "Usually", "Runtime"),
@@ -47,6 +51,11 @@ GUIDE_PROFILES = {
 }
 
 UNKNOWN_MARKER = '<abbr title="Not established from the pinned sources">?</abbr>'
+GITHUB_SIDECAR_FIELDS = {
+    "repository_url", "resolved_full_name", "stargazers_count", "archived", "language",
+    "license_spdx", "pushed_at", "default_branch", "captured_at", "etag",
+}
+GITHUB_SIDECAR_REQUIRED_FIELDS = GITHUB_SIDECAR_FIELDS - {"etag"}
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -94,11 +103,55 @@ def project_index(catalog: dict[str, Any]) -> dict[str, dict[str, Any]]:
     return {record["id"]: record for record in records}
 
 
+def verified_catalog_checksum(catalog: dict[str, Any]) -> str:
+    embedded = catalog.get("_meta", {}).get("dataset_sha256")
+    if not isinstance(embedded, str) or len(embedded) != 64:
+        raise ValueError("catalog dataset_sha256 is required")
+    without_checksum = json.loads(json.dumps(catalog))
+    without_checksum.get("_meta", {}).pop("dataset_sha256", None)
+    payload = json.dumps(without_checksum, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
+    computed = hashlib.sha256(payload.encode()).hexdigest()
+    if embedded != computed:
+        raise ValueError("catalog checksum is invalid")
+    return computed
+
+
+def validate_utc_timestamp(value: Any, label: str) -> str:
+    if not isinstance(value, str) or not RFC3339_UTC_PATTERN.fullmatch(value):
+        raise ValueError(f"{label} must be an RFC 3339 UTC timestamp")
+    try:
+        datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError as error:
+        raise ValueError(f"{label} must be an RFC 3339 UTC timestamp") from error
+    return value
+
+
+def canonical_github_repository_url(value: Any) -> str:
+    if not isinstance(value, str):
+        raise ValueError("GitHub sidecar repository_url must be a string")
+    parsed = urlparse(value)
+    parts = [part for part in parsed.path.split("/") if part]
+    if (
+        parsed.scheme != "https" or parsed.netloc.lower() != "github.com" or parsed.username
+        or parsed.password or parsed.params or parsed.query or parsed.fragment or len(parts) != 2
+    ):
+        raise ValueError("GitHub sidecar repository_url must be canonical")
+    canonical = f"https://github.com/{parts[0]}/{parts[1]}"
+    if value != canonical:
+        raise ValueError("GitHub sidecar repository_url must be canonical")
+    return canonical
+
+
 def apply_github_sidecar(catalog: dict[str, Any], sidecar: dict[str, Any]) -> dict[str, Any]:
     """Overlay checksum-bound GitHub stars and archive state without mutating the catalog."""
-    checksum = catalog.get("_meta", {}).get("dataset_sha256")
-    if not isinstance(checksum, str) or sidecar.get("catalog_sha256") != checksum:
+    checksum = verified_catalog_checksum(catalog)
+    if set(sidecar) != {"schema_version", "catalog_sha256", "captured_at", "repositories"}:
+        raise ValueError("GitHub sidecar top-level fields are invalid")
+    if sidecar.get("schema_version") != "1.0.0":
+        raise ValueError("GitHub sidecar schema_version is invalid")
+    if sidecar.get("catalog_sha256") != checksum:
         raise ValueError("GitHub sidecar checksum does not match catalog")
+    sidecar_captured_at = validate_utc_timestamp(sidecar.get("captured_at"), "GitHub sidecar captured_at")
     repositories = sidecar.get("repositories")
     if not isinstance(repositories, list):
         raise ValueError("GitHub sidecar repositories must be an array")
@@ -106,16 +159,34 @@ def apply_github_sidecar(catalog: dict[str, Any], sidecar: dict[str, Any]) -> di
     for repository in repositories:
         if not isinstance(repository, dict):
             raise ValueError("GitHub sidecar repository must be an object")
-        url = repository.get("repository_url")
-        if not isinstance(url, str) or url in sidecar_by_url:
+        if set(repository) - GITHUB_SIDECAR_FIELDS or not GITHUB_SIDECAR_REQUIRED_FIELDS.issubset(repository):
+            raise ValueError("GitHub sidecar repository fields are invalid")
+        url = canonical_github_repository_url(repository.get("repository_url"))
+        if url in sidecar_by_url:
             raise ValueError("GitHub sidecar repository URLs must be unique strings")
-        if not isinstance(repository.get("stargazers_count"), int) or isinstance(repository["stargazers_count"], bool):
-            raise ValueError("GitHub sidecar stargazers_count must be an integer")
+        expected_full_name = "/".join(urlparse(url).path.split("/")[1:])
+        resolved_full_name = repository.get("resolved_full_name")
+        if not isinstance(resolved_full_name, str) or resolved_full_name.casefold() != expected_full_name.casefold():
+            raise ValueError("GitHub sidecar resolved_full_name differs from repository_url")
+        stars = repository.get("stargazers_count")
+        if not isinstance(stars, int) or isinstance(stars, bool) or stars < 0:
+            raise ValueError("GitHub sidecar stargazers_count must be a non-negative integer")
         if not isinstance(repository.get("archived"), bool):
             raise ValueError("GitHub sidecar archived must be boolean")
-        captured_at = repository.get("captured_at")
-        if not isinstance(captured_at, str) or len(captured_at) < 10:
-            raise ValueError("GitHub sidecar captured_at is invalid")
+        for nullable_field in ("language", "license_spdx"):
+            value = repository.get(nullable_field)
+            if value is not None and not isinstance(value, str):
+                raise ValueError(f"GitHub sidecar {nullable_field} must be a string or null")
+        pushed_at = repository.get("pushed_at")
+        if pushed_at is not None:
+            validate_utc_timestamp(pushed_at, "GitHub sidecar pushed_at")
+        if not isinstance(repository.get("default_branch"), str) or not repository["default_branch"]:
+            raise ValueError("GitHub sidecar default_branch must be a non-empty string")
+        captured_at = validate_utc_timestamp(repository.get("captured_at"), "GitHub sidecar repository captured_at")
+        if captured_at != sidecar_captured_at:
+            raise ValueError("GitHub sidecar repository captured_at differs from sidecar captured_at")
+        if "etag" in repository and (not isinstance(repository["etag"], str) or not repository["etag"]):
+            raise ValueError("GitHub sidecar etag must be a non-empty string")
         sidecar_by_url[url] = repository
     merged = copy.deepcopy(catalog)
     records = (
@@ -125,6 +196,8 @@ def apply_github_sidecar(catalog: dict[str, Any], sidecar: dict[str, Any]) -> di
     catalog_urls = {record["repository_url"] for record in records if record.get("repository_url")}
     if set(sidecar_by_url) != catalog_urls:
         raise ValueError("GitHub sidecar repository URLs do not match catalog")
+    if repositories != sorted(repositories, key=lambda item: item["repository_url"].casefold()):
+        raise ValueError("GitHub sidecar repositories are not deterministically sorted")
     for record in records:
         repository = sidecar_by_url.get(record.get("repository_url"))
         if repository is None:

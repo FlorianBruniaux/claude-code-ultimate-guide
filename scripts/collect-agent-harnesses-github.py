@@ -4,9 +4,12 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
+import re
 import tempfile
+import time
 import urllib.error
 import urllib.request
 from datetime import datetime, timezone
@@ -21,10 +24,68 @@ REPOSITORY_FIELDS = {
     "repository_url", "resolved_full_name", "stargazers_count", "archived", "language",
     "license_spdx", "pushed_at", "default_branch", "captured_at", "etag",
 }
+MAX_RESPONSE_BYTES = 1_000_000
+MIN_RATE_LIMIT_REMAINING = 100
+MAX_RETRY_DELAY_SECONDS = 30
+MAX_REQUEST_ATTEMPTS = 3
+TRANSIENT_HTTP_STATUSES = {429, 500, 502, 503, 504}
+RFC3339_UTC_PATTERN = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$")
 
 
 def serialize_sidecar(data: dict[str, Any]) -> str:
     return json.dumps(data, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
+
+
+def verified_catalog_checksum(catalog: dict[str, Any]) -> str:
+    embedded = catalog.get("_meta", {}).get("dataset_sha256")
+    if not isinstance(embedded, str) or len(embedded) != 64:
+        raise ValueError("catalog dataset_sha256 is required")
+    without_checksum = json.loads(json.dumps(catalog))
+    without_checksum.get("_meta", {}).pop("dataset_sha256", None)
+    payload = json.dumps(without_checksum, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
+    computed = hashlib.sha256(payload.encode()).hexdigest()
+    if embedded != computed:
+        raise ValueError("catalog checksum is invalid")
+    return computed
+
+
+def read_limited_stream(stream: Any, max_bytes: int = MAX_RESPONSE_BYTES) -> bytes:
+    chunks: list[bytes] = []
+    total = 0
+    while True:
+        chunk = stream.read(min(64 * 1024, max_bytes + 1 - total))
+        if not chunk:
+            break
+        chunks.append(chunk)
+        total += len(chunk)
+        if total > max_bytes:
+            raise ValueError(f"GitHub API response exceeds {max_bytes} bytes")
+    return b"".join(chunks)
+
+
+def enforce_rate_limit(headers: dict[str, Any]) -> None:
+    remaining = _header(headers, "X-RateLimit-Remaining")
+    if remaining is None:
+        return
+    try:
+        parsed = int(remaining)
+    except (TypeError, ValueError) as error:
+        raise ValueError("GitHub rate limit remaining header is invalid") from error
+    if parsed < MIN_RATE_LIMIT_REMAINING:
+        reset = _header(headers, "X-RateLimit-Reset")
+        suffix = f"; reset={reset}" if reset is not None else ""
+        raise ValueError(
+            f"GitHub rate limit remaining {parsed} is below {MIN_RATE_LIMIT_REMAINING}{suffix}"
+        )
+
+
+def retry_delay_seconds(headers: dict[str, Any], attempt: int) -> int:
+    retry_after = _header(headers, "Retry-After")
+    try:
+        parsed = int(retry_after)
+    except (TypeError, ValueError):
+        parsed = 2 ** attempt
+    return max(1, min(parsed, MAX_RETRY_DELAY_SECONDS))
 
 
 def canonical_repository_url(value: Any) -> str:
@@ -56,12 +117,12 @@ def catalog_repository_urls(catalog: dict[str, Any]) -> list[str]:
 
 
 def _validate_timestamp(value: Any, label: str) -> str:
-    if not isinstance(value, str) or not value.endswith("Z"):
-        raise ValueError(f"{label} must be an ISO-8601 UTC timestamp")
+    if not isinstance(value, str) or not RFC3339_UTC_PATTERN.fullmatch(value):
+        raise ValueError(f"{label} must be an RFC 3339 UTC timestamp")
     try:
         datetime.fromisoformat(value.replace("Z", "+00:00"))
     except ValueError as error:
-        raise ValueError(f"{label} must be an ISO-8601 UTC timestamp") from error
+        raise ValueError(f"{label} must be an RFC 3339 UTC timestamp") from error
     return value
 
 
@@ -171,9 +232,7 @@ def collect_metadata(
 ) -> dict[str, Any]:
     """Collect one complete, checksum-bound metadata sidecar through `transport`."""
     _validate_timestamp(captured_at, "captured_at")
-    catalog_checksum = catalog.get("_meta", {}).get("dataset_sha256")
-    if not isinstance(catalog_checksum, str) or len(catalog_checksum) != 64:
-        raise ValueError("catalog dataset_sha256 is required")
+    catalog_checksum = verified_catalog_checksum(catalog)
     urls = catalog_repository_urls(catalog)
     previous_by_url: dict[str, dict[str, Any]] = {}
     if previous_sidecar is not None:
@@ -192,6 +251,7 @@ def collect_metadata(
         if cached and cached.get("etag"):
             headers["If-None-Match"] = cached["etag"]
         status, response_headers, payload = transport(f"https://api.github.com/repos/{expected_full_name}", headers)
+        enforce_rate_limit(response_headers)
         if status == 304:
             if cached is None:
                 raise ValueError(f"GitHub API returned 304 without cached metadata: {repository_url}")
@@ -231,18 +291,31 @@ def write_sidecar(path: Path, sidecar: dict[str, Any]) -> None:
 def _network_transport(token: str) -> Callable[[str, dict[str, str]], tuple[int, dict[str, Any], Any]]:
     def request(url: str, headers: dict[str, str]) -> tuple[int, dict[str, Any], Any]:
         request_headers = {**headers, "Authorization": f"Bearer {token}"}
-        try:
-            with urllib.request.urlopen(urllib.request.Request(url, headers=request_headers), timeout=30) as response:
-                return response.status, dict(response.headers.items()), json.loads(response.read().decode("utf-8"))
-        except urllib.error.HTTPError as error:
-            raw = error.read()
+        for attempt in range(MAX_REQUEST_ATTEMPTS):
             try:
-                payload = json.loads(raw.decode("utf-8")) if raw else None
-            except (UnicodeDecodeError, json.JSONDecodeError):
-                payload = None
-            return error.code, dict(error.headers.items()) if error.headers else {}, payload
-        except OSError as error:
-            raise ValueError(f"GitHub API request failed: {error}") from error
+                with urllib.request.urlopen(urllib.request.Request(url, headers=request_headers), timeout=30) as response:
+                    raw = read_limited_stream(response)
+                    return response.status, dict(response.headers.items()), json.loads(raw.decode("utf-8"))
+            except urllib.error.HTTPError as error:
+                response_headers = dict(error.headers.items()) if error.headers else {}
+                raw = read_limited_stream(error)
+                try:
+                    payload = json.loads(raw.decode("utf-8")) if raw else None
+                except (UnicodeDecodeError, json.JSONDecodeError):
+                    payload = None
+                retryable = error.code in TRANSIENT_HTTP_STATUSES or (
+                    error.code == 403 and _header(response_headers, "Retry-After") is not None
+                )
+                if retryable and attempt + 1 < MAX_REQUEST_ATTEMPTS:
+                    time.sleep(retry_delay_seconds(response_headers, attempt))
+                    continue
+                return error.code, response_headers, payload
+            except OSError as error:
+                if attempt + 1 < MAX_REQUEST_ATTEMPTS:
+                    time.sleep(2 ** attempt)
+                    continue
+                raise ValueError(f"GitHub API request failed after {MAX_REQUEST_ATTEMPTS} attempts: {error}") from error
+        raise AssertionError("unreachable GitHub request loop")
     return request
 
 

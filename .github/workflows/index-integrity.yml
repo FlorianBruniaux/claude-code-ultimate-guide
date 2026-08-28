@@ -10,6 +10,7 @@ on:
       # on a change that breaks a gate, only later on an unrelated content edit.
       - "scripts/**"
       - ".github/workflows/index-integrity.yml"
+      - ".github/workflows/collect-agent-harnesses-github.yml"
   push:
     branches: ["main"]
     paths:
@@ -20,6 +21,7 @@ on:
       # on a change that breaks a gate, only later on an unrelated content edit.
       - "scripts/**"
       - ".github/workflows/index-integrity.yml"
+      - ".github/workflows/collect-agent-harnesses-github.yml"
 
 jobs:
   check:
@@ -109,6 +111,16 @@ jobs:
         run: |
           python3 scripts/test-check-agentsec-security-feed.py
           python3 scripts/check-agentsec-security-feed.py
+
+      - name: Check the Agent Harness catalog and page renderer
+        run: |
+          python3 -m pip install --disable-pip-version-check jsonschema==4.25.1
+          python3 scripts/test-agent-harnesses.py
+          python3 scripts/test-agent-harness-page.py
+          python3 scripts/build-agent-harness-page.py \
+            --catalog machine-readable/agent-harnesses.json \
+            --page guide/ecosystem/agent-harness-landscape.md \
+            --check
 
       - name: Check VERSION is in sync across docs
         run: ./scripts/sync-version.sh --check

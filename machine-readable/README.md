@@ -90,7 +90,7 @@ Refresh the upstream source deliberately with `scripts/collect-agent-harnesses.p
 
 ### GitHub metadata sidecar
 
-The scheduled `Collect Agent Harness GitHub Metadata` workflow is read-only. It derives the 179 canonical repository URLs from `agent-harnesses.json`, sends sequential GitHub API requests using the pinned `2022-11-28` API version, and uploads a candidate artifact for 14 days. It never commits or opens a pull request.
+The scheduled `Collect Agent Harness GitHub Metadata` workflow is read-only. It derives the 179 canonical repository URLs from `agent-harnesses.json`, sends sequential GitHub API requests using the pinned `2022-11-28` API version, and uploads a candidate artifact for 14 days. A checksum-keyed Actions cache preserves verified ETags between runs without crossing catalog revisions. It never commits or opens a pull request.
 
 The collector fails closed on a missing token, incomplete result, HTTP error including 404 or 429, rename, duplicate, cardinality mismatch, or catalog checksum mismatch. It writes atomically only after all repositories have passed validation. `license_spdx` is a GitHub observation and never replaces the editorial `license_signal`; the sidecar never changes `freshness.checked_at`.
 
@@ -103,7 +103,17 @@ GITHUB_TOKEN=... python3 scripts/collect-agent-harnesses-github.py \
   --captured-at "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 ```
 
-Promotion is a separate human review: validate the candidate against the checksum in the current catalog, copy the reviewed file to both `machine-readable/agent-harnesses-github.json` and `mcp-server/content/agent-harnesses-github.json`, then verify the byte-for-byte mirror. The page builder can consume it explicitly while retaining the catalog fallback:
+Promotion is a separate human review. First validate the complete sidecar and render it into a temporary page. This checks the recomputed catalog checksum, schema version, exact fields, timestamps, repository identities, cardinality, ordering, and non-negative stars without changing the published page:
+
+```bash
+cp guide/ecosystem/agent-harness-landscape.md /tmp/agent-harness-landscape-candidate.md
+python3 scripts/build-agent-harness-page.py \
+  --catalog machine-readable/agent-harnesses.json \
+  --github-sidecar /tmp/agent-harnesses-github.json \
+  --page /tmp/agent-harness-landscape-candidate.md
+```
+
+After reviewing the metadata diff, copy the candidate to both `machine-readable/agent-harnesses-github.json` and `mcp-server/content/agent-harnesses-github.json`, then verify the byte-for-byte mirror. The page builder can consume the promoted sidecar explicitly while retaining the catalog fallback:
 
 ```bash
 python3 scripts/build-agent-harness-page.py \

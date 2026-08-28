@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import importlib.util
+import hashlib
 import json
 import re
 import unittest
@@ -23,6 +24,13 @@ def load_builder():
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
+
+
+def bind_catalog_checksum(catalog: dict) -> dict:
+    catalog["_meta"].pop("dataset_sha256", None)
+    payload = json.dumps(catalog, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
+    catalog["_meta"]["dataset_sha256"] = hashlib.sha256(payload.encode()).hexdigest()
+    return catalog
 
 
 class AgentHarnessPageTests(unittest.TestCase):
@@ -83,8 +91,8 @@ class AgentHarnessPageTests(unittest.TestCase):
 
     def test_page_builder_can_apply_an_optional_github_sidecar(self):
         """Break caught: the renderer cannot consume verified volatile observations."""
-        catalog = {
-            "_meta": {"dataset_sha256": "a" * 64},
+        catalog = bind_catalog_checksum({
+            "_meta": {},
             "sets": {
                 "upstream_snapshot": {"projects": [{
                     "repository_url": "https://github.com/owner/repo",
@@ -94,13 +102,20 @@ class AgentHarnessPageTests(unittest.TestCase):
                 }]},
                 "guide_supplement": [],
             },
-        }
+        })
         sidecar = {
-            "catalog_sha256": "a" * 64,
+            "schema_version": "1.0.0",
+            "catalog_sha256": catalog["_meta"]["dataset_sha256"],
+            "captured_at": "2026-08-29T12:00:00Z",
             "repositories": [{
                 "repository_url": "https://github.com/owner/repo",
+                "resolved_full_name": "owner/repo",
                 "stargazers_count": 42,
                 "archived": True,
+                "language": "Python",
+                "license_spdx": "MIT",
+                "pushed_at": "2026-08-28T12:00:00Z",
+                "default_branch": "main",
                 "captured_at": "2026-08-29T12:00:00Z",
             }],
         }
@@ -110,6 +125,64 @@ class AgentHarnessPageTests(unittest.TestCase):
         self.assertEqual("2026-08-29", record["stars_captured_at"])
         self.assertTrue(record["archived"])
         self.assertEqual(1, catalog["sets"]["upstream_snapshot"]["projects"][0]["stars"])
+
+    def test_page_builder_rejects_a_stale_catalog_checksum(self):
+        catalog = bind_catalog_checksum({
+            "_meta": {},
+            "sets": {"upstream_snapshot": {"projects": []}, "guide_supplement": []},
+        })
+        catalog["sets"]["upstream_snapshot"]["projects"].append({"name": "tampered"})
+
+        with self.assertRaisesRegex(ValueError, "catalog checksum is invalid"):
+            self.builder.apply_github_sidecar(catalog, {})
+
+    def test_page_builder_rejects_incomplete_or_invalid_sidecars(self):
+        catalog = bind_catalog_checksum({
+            "_meta": {},
+            "sets": {
+                "upstream_snapshot": {"projects": [{"repository_url": "https://github.com/owner/repo"}]},
+                "guide_supplement": [],
+            },
+        })
+        valid = {
+            "schema_version": "1.0.0",
+            "catalog_sha256": catalog["_meta"]["dataset_sha256"],
+            "captured_at": "2026-08-29T12:00:00Z",
+            "repositories": [{
+                "repository_url": "https://github.com/owner/repo",
+                "resolved_full_name": "owner/repo",
+                "stargazers_count": 42,
+                "archived": False,
+                "language": None,
+                "license_spdx": None,
+                "pushed_at": None,
+                "default_branch": "main",
+                "captured_at": "2026-08-29T12:00:00Z",
+            }],
+        }
+        hostile = []
+        for mutate in (
+            lambda value: value.update(schema_version="2.0.0"),
+            lambda value: value["repositories"][0].update(stargazers_count=-1),
+            lambda value: value["repositories"][0].pop("default_branch"),
+            lambda value: value["repositories"][0].update(captured_at="not-a-date"),
+        ):
+            candidate = json.loads(json.dumps(valid))
+            mutate(candidate)
+            hostile.append(candidate)
+
+        for candidate in hostile:
+            with self.subTest(candidate=candidate):
+                with self.assertRaises(ValueError):
+                    self.builder.apply_github_sidecar(catalog, candidate)
+
+        for invalid_timestamp in ("2026-08-29Z", "2026-08-29 12:00:00Z", "2026-08-29T12:00:00+00:00"):
+            candidate = json.loads(json.dumps(valid))
+            candidate["captured_at"] = invalid_timestamp
+            candidate["repositories"][0]["captured_at"] = invalid_timestamp
+            with self.subTest(invalid_timestamp=invalid_timestamp):
+                with self.assertRaisesRegex(ValueError, "RFC 3339 UTC timestamp"):
+                    self.builder.apply_github_sidecar(catalog, candidate)
 
     def test_generated_summaries_are_plain_short_sentences(self):
         sample = {

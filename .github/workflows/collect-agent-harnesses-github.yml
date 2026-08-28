@@ -3,7 +3,7 @@ name: Collect Agent Harness GitHub Metadata
 on:
   workflow_dispatch:
   schedule:
-    - cron: "17 04 * * 1"
+    - cron: "17 06 * * 1"
 
 permissions:
   contents: read
@@ -26,14 +26,36 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Restore the latest checksum-compatible ETag sidecar
+        id: restore-sidecar
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ runner.temp }}/agent-harnesses-github-previous.json
+          key: agent-harnesses-github-${{ runner.os }}-${{ hashFiles('machine-readable/agent-harnesses.json') }}-${{ github.run_id }}
+          restore-keys: |
+            agent-harnesses-github-${{ runner.os }}-${{ hashFiles('machine-readable/agent-harnesses.json') }}-
+
       - name: Collect one complete GitHub metadata sidecar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python3 scripts/collect-agent-harnesses-github.py \
-            --catalog machine-readable/agent-harnesses.json \
-            --output "$RUNNER_TEMP/agent-harnesses-github.json" \
+          args=(
+            --catalog machine-readable/agent-harnesses.json
+            --output "$RUNNER_TEMP/agent-harnesses-github.json"
             --captured-at "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          )
+          if [[ -f "$RUNNER_TEMP/agent-harnesses-github-previous.json" ]]; then
+            args+=(--previous "$RUNNER_TEMP/agent-harnesses-github-previous.json")
+          fi
+          python3 scripts/collect-agent-harnesses-github.py "${args[@]}"
+          cp "$RUNNER_TEMP/agent-harnesses-github.json" \
+            "$RUNNER_TEMP/agent-harnesses-github-previous.json"
+
+      - name: Save the verified ETag sidecar for the next run
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ runner.temp }}/agent-harnesses-github-previous.json
+          key: agent-harnesses-github-${{ runner.os }}-${{ hashFiles('machine-readable/agent-harnesses.json') }}-${{ github.run_id }}
 
       - name: Upload candidate sidecar for manual promotion
         uses: actions/upload-artifact@v4
