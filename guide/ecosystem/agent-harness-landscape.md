@@ -12,7 +12,7 @@ The broad directory below normalizes the 160 projects and 12 categories in [Best
 
 An **agent harness** is the runtime around a model that assembles context, exposes tools, applies permissions, executes the action loop, records state, and handles failure. Simon Willison's concise definition, ["models using tools in a loop"](https://simonwillison.net/2025/May/22/tools-in-a-loop/), identifies the behavioral boundary. The [SWE-agent paper](https://papers.neurips.cc/paper_files/paper/2024/file/5a7c947568c1b1328ccc5230172e1e7c-Paper-Conference.pdf) names the coding-specific interface between the model and computer the **agent-computer interface**.
 
-This page answers *which layer and which project*. [Agent Harness Engineering](../core/agent-harness.md) documents the components inside a repository harness. [Agent Tools: Beyond Claude Code](./agentic-tools.md) provides deeper product profiles. The [glossary](../core/glossary.md) separates runtime harnesses from repository harnesses and evaluation harnesses.
+This page answers *which layer and which project*. [Agent Harness Engineering](../core/agent-harness.md) documents the components inside a runtime harness. [Agent Tools: Beyond Claude Code](./agentic-tools.md) provides deeper product profiles. The [glossary](../core/glossary.md) separates runtime harnesses from repository harnesses and evaluation harnesses.
 
 ## 160 Projects Does Not Mean 160 Runtime Harnesses
 

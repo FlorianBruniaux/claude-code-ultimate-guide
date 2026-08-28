@@ -7,7 +7,7 @@ difficulty: "advanced"
 guide-version: "3.42.0"
 author: "Florian BRUNIAUX"
 version: "3.42.0"
-date: "Août 2026"
+date: "2026-08-28"
 layout: "two-col"
 lang: fr
 format:

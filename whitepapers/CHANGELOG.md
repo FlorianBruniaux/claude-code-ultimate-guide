@@ -28,7 +28,7 @@ Suivi des versions des ebooks, indépendamment de la version du guide.
 - **C12 FR/EN**: claims larges sur les intégrations IDE, le SDK et MCP remplacés par des surfaces à vérifier; les volumes d'installation non sourcés sont retirés.
 - **M16 FR/EN**: seuils de taille, de contexte, de budget et de nombre d'agents non justifiés remplacés par des critères observables de décomposition, coût, récupération et revue indépendante.
 - **T22 FR/EN**: les outils tiers sont décrits comme des couches adjacentes, pas comme des runtimes.
-- **Catalogues de publication**: série corrigée à 13 whitepapers et 58 fiches par langue. Les PDF C14 FR/EN ont été rendus en A4 sur une page et portent le total à 58 PDF par langue dans le lot de publication.
+- **Catalogues de publication**: série corrigée à 13 whitepapers et 58 fiches par langue. Les PDF C14 FR/EN ont été rendus en A4 sur une page et portent le total à 58 PDF par langue dans le lot de publication. Les frontmatters C12, C14 et T22 utilisent désormais la date ISO `2026-08-28`, ce qui empêche Typst de rabattre les pieds de page localisés sur une date incorrecte.
 
 ## [2026-08-24] Audit de style anti-IA, 13 whitepapers + 57 fiches récap, PDF régénérés et déployés
 
