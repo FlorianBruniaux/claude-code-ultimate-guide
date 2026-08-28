@@ -116,7 +116,7 @@ Core documentation for mastering Claude Code, organized by topic.
 |------|-------------|------|
 | [ops/devops-sre.md](./ops/devops-sre.md) | FIRE framework for infrastructure diagnosis and incident response | 30 min |
 | [ops/observability.md](./ops/observability.md) | Session monitoring and cost tracking | 15 min |
-| [ops/api-gateway.md](./ops/api-gateway.md) | **API Gateway**: centralize cost control, budget enforcement, model allowlists, and usage tracking with LiteLLM Gateway or Portkey | 15 min |
+| [ops/api-gateway.md](./ops/api-gateway.md) | **API Gateway**: centralize cost control, budget enforcement, model allowlists, and usage tracking with LiteLLM Gateway, OrcaRouter, or Portkey | 15 min |
 | [ops/ai-traceability.md](./ops/ai-traceability.md) | AI attribution, disclosure policies, git-ai, compliance | 20 min |
 | [ops/team-metrics.md](./ops/team-metrics.md) | **Team metrics for AI-augmented engineering**: DORA, SPACE, DX Core 4, AI-specific signals, by team size (5–25 people) | 20 min |
 | [ops/ai-unit-economics.md](./ops/ai-unit-economics.md) | **AI unit economics**: per-task cost decomposition, real cost levers (routing, sub-agent isolation, exit criteria), autonomous agent break-even point, team budget governance | 15 min |

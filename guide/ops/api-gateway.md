@@ -1,6 +1,6 @@
 ---
 title: "API Gateway for Enterprise Claude Code"
-description: "Centralize cost control, budget enforcement, model allowlists, and usage tracking across teams using LiteLLM Gateway or Portkey as an Anthropic API proxy"
+description: "Centralize cost control, budget enforcement, model allowlists, and usage tracking across teams using LiteLLM Gateway, OrcaRouter, or Portkey as an Anthropic API proxy"
 tags: [enterprise, cost, observability, ops, guide]
 ---
 
@@ -244,7 +244,24 @@ For high availability, run two LiteLLM instances behind a load balancer. Both sh
 
 ---
 
-## 8. Portkey as a Managed Alternative
+## 8. OrcaRouter as a Managed Gateway
+
+[OrcaRouter](https://www.orcarouter.ai) is an OpenAI-compatible AI gateway built for both models and agents. Like OpenRouter, it exposes a provider/model namespace across many models — but it also combines adaptive routing, automatic failover, zero-markup inference, observability, guardrails, and agent-tool governance behind the same endpoint. Adding `orcarouter` as a first-class provider means Claude Code users can use that stack directly, without treating OrcaRouter as an anonymous custom base URL.
+
+It directly exposes the Anthropic Messages API surface, so Claude Code connects to it exactly like the self-hosted gateways above:
+
+```bash
+export ANTHROPIC_API_URL=https://api.orcarouter.ai
+export ANTHROPIC_API_KEY=sk-orca-...
+```
+
+Claude Code appends `/v1/messages` itself, so no path suffix is needed. The same key routes by model id across the upstream namespace, e.g. `orcarouter/auto` for automatic routing or `anthropic/claude-sonnet-5` for a specific model. OrcaRouter also runs gateway-level, zero-trust security for AI agents on the same endpoint — screening every prompt/response and governing every tool call on a default-deny basis, with no application code changes.
+
+The trade-off mirrors Portkey: request metadata and traffic leave your infrastructure for OrcaRouter's gateway, so review their data processing terms if you have compliance requirements.
+
+---
+
+## 9. Portkey as a Managed Alternative
 
 [Portkey](https://portkey.ai) offers the same gateway capabilities as a hosted service, with no infrastructure to manage. Free tier covers small teams (up to 10K requests/month).
 
@@ -258,7 +275,7 @@ Portkey also supports `x-portkey-virtual-key` headers for routing, logging, and 
 
 ---
 
-## 9. What the Gateway Does Not Cover
+## 10. What the Gateway Does Not Cover
 
 The gateway controls what reaches Anthropic's API. It does not address:
 
