@@ -834,6 +834,7 @@ deep_dive:
   symphony_tool: "guide/ecosystem/agentic-tools.md#44-symphony-openai"  # OpenAI, Elixir, Apache-2.0; Linear board -> per-issue workspace -> Codex agent; engineering preview, spec-as-product
   paperclip_tool: "guide/ecosystem/agentic-tools.md#45-paperclip"  # org chart/budgets/approvals for agent fleets; runtime-agnostic; 74K stars; governs who+how much, not how work is done
   nimbalyst_tool: "guide/ecosystem/agentic-tools.md#47-nimbalyst"  # visual workspace, Claude Code + Codex side by side, worktree-per-session, inline diff review on markdown/mockups/diagrams, kanban, MIT, 1.5K stars
+  liza_tool: "guide/ecosystem/agentic-tools.md#48-liza"  # code-enforced control plane over external coding-agent CLIs; doer/reviewer pairs, YAML blackboard, worktrees, leases, recovery, merge gates
   opencode_tool: "guide/ecosystem/agentic-tools.md#15-opencode-anomaly-formerly-sst"  # Anomaly (fka SST), MIT, 199K+ stars (highest in category); 75+ providers, client/server split
   gemini_cli_tool: "guide/ecosystem/agentic-tools.md#16-gemini-cli-google"  # Google, Apache-2.0, 106K+ stars; Gemini-first, free tier is the reason to pick it (60 req/min, 1000/day)
   crush_tool: "guide/ecosystem/agentic-tools.md#17-crush-charm"  # Charm, FSL-1.1-MIT (converts to MIT 2yr after each release), 27.5K+ stars; multi-provider, polished TUI
@@ -843,11 +844,12 @@ deep_dive:
   agent_harness_optimizer_research: "guide/core/agent-harness.md#11-harness-optimizers-and-meta-harnesses"
   agent_harness_scaffold_effect: "guide/core/agent-harness.md#the-core-claim"
   agent_harness_reliability_metrics: "guide/core/agent-harness.md#operational-measures-beyond-telemetry"
-  agent_harness_landscape_page: "guide/ecosystem/agent-harness-landscape.md"  # 160-project pinned upstream snapshot plus 31 guide supplements; separates 42 strict runtimes from 14 adjacent control planes
+  agent_harness_landscape_page: "guide/ecosystem/agent-harness-landscape.md"  # 160-project pinned upstream snapshot plus 32 guide supplements; separates 42 strict runtimes from 15 adjacent control planes
   agent_harness_landscape_entry_points: "guide/ecosystem/agent-harness-landscape.md#choose-the-right-entry-point"
   agent_harness_catalog_boundary: "guide/ecosystem/agent-harness-landscape.md#160-projects-does-not-mean-160-runtime-harnesses"
   agent_harness_strict_runtime_map: "guide/ecosystem/agent-harness-landscape.md#core-coding-harnesses"
   agent_harness_orchestrators: "guide/ecosystem/agent-harness-landscape.md#orchestrators-products-above-the-runtime"
+  agent_harness_liza_profile: "guide/ecosystem/agent-harness-landscape.md#liza-a-repository-harness-and-control-plane-combined"
   agent_harness_category_map: "guide/ecosystem/agent-harness-landscape.md#the-twelve-category-map"
   agent_harness_complete_directory: "guide/ecosystem/agent-harness-landscape.md#complete-project-directory"
   agent_harness_selection_guide: "guide/ecosystem/agent-harness-landscape.md#how-to-pick-a-harness"
@@ -1116,7 +1118,7 @@ deep_dive:
   ai_software_factories_maleus: "https://maleus.ai (Adrien Maret, Paris): natural-language intent to specs to owned app on customer infra"
   ai_software_factories_liza_oss: "guide/workflows/spec-first.md#full-cycle-ai-software-factories"  # Liza = OSS reference architecture answering governance Q1-3 mechanically
   liza_framework_upstream: "https://github.com/liza-mas/liza"
-  liza_framework_stars: "320, Apache-2.0, single-author (verified via gh api, 2026-07-12)"
+  liza_framework_stars: "363 stars, 49 forks, Apache-2.0 (verified via GitHub API, 2026-08-28)"
   liza_framework_governance: "Go supervisors enforce state/merge/TDD gates + adversarial doer/reviewer pairs + YAML blackboard audit trail + circuit breaker (explicit stop-the-line) + 55+ failure-mode behavioral contract"
   liza_framework_evaluation: "docs/resource-evaluations/liza-mas-framework.md"
   liza_satellite_tools_rejected: "docs/resource-evaluations/liza-mas-token-saving-cli-tools.md (scip-search/mdtoc/functional-clusters/stacklit-cli rejected 2026-06-10; framework itself is a separate, higher-scored object)"

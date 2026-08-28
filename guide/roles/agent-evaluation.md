@@ -42,6 +42,8 @@ Record the model, harness version, repository state, tool set, permissions, cont
 
 For optimizer or meta-harness experiments, split development and held-out tasks, cap search and execution budgets, retain every candidate version, and evaluate the selected candidate in a fresh environment. [HarnessOpt-Bench](https://arxiv.org/abs/2608.06301) applies these controls across 5 optimizer models, 4 tasks, and 111 scored runs. The [benchmark construction checklist](https://arxiv.org/abs/2507.02825) explains why task diversity, contamination checks, and independent scoring belong in the evaluation contract.
 
+For a multi-agent control plane, separate workflow correctness from task correctness. [Liza](https://github.com/liza-mas/liza) provides concrete orchestration signals such as lease recovery, forbidden state transitions, reviewer verdicts, worktree cleanup, and merge eligibility. Those tests show whether the control plane followed its contract. They do not show that the final patch satisfies the user's requirements, so pair them with repository tests, requirement-level review, intervention counts, recovery drills, and repeated real-ticket outcomes. The [Liza profile](../ecosystem/agentic-tools.md#48-liza) records the pinned evidence boundary.
+
 ---
 
 ## Metrics to Track

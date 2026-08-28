@@ -461,9 +461,9 @@ class CatalogTests(unittest.TestCase):
     def test_supplement_count_is_fixed_even_with_recomputed_checksum(self):
         broken = copy.deepcopy(self.catalog)
         broken["sets"]["guide_supplement"].pop()
-        broken["stats"]["guide_supplement_count"] = 30
+        broken["stats"]["guide_supplement_count"] = 31
         recompute_internal_checksum(broken)
-        self.assertIn("guide_supplement must contain exactly 31 projects", validate_catalog(broken))
+        self.assertIn("guide_supplement must contain exactly 32 projects", validate_catalog(broken))
 
     def test_cross_map_project_reference_duplicate_fails_closed(self):
         broken = copy.deepcopy(self.catalog)
@@ -764,10 +764,10 @@ class SchemaHostileTests(unittest.TestCase):
     def test_catalog_matches_schema(self):
         self.assertEqual([], list(self.validator.iter_errors(self.catalog)))
 
-    def test_schema_rejects_30_supplements(self):
+    def test_schema_rejects_31_supplements(self):
         broken = copy.deepcopy(self.catalog)
         broken["sets"]["guide_supplement"].pop()
-        broken["stats"]["guide_supplement_count"] = 30
+        broken["stats"]["guide_supplement_count"] = 31
         self.assertSchemaRejects(broken)
 
     def test_schema_rejects_no_in_strict_map(self):

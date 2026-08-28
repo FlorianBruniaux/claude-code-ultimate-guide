@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "dataset_sha256": "767d23559531d1c381c53462e78ea1710eeab615ec23e8cb76d209b21dd2d0ab",
+    "dataset_sha256": "5a84027b6770d612864fe456276c05fe0dbe094e1f5b67f7f70aec75a61d8138",
     "generated_at": "2026-08-28T00:00:00Z",
     "license": "CC-BY-SA-4.0 for upstream-derived records; project metadata retains its source terms",
     "provenance": {
@@ -131,6 +131,21 @@
         "id": "harness-cli",
         "owns_loop": "no",
         "project_ref": "hyspacex/harness-cli",
+        "source_set": "guide_supplement"
+      },
+      {
+        "evidence": [
+          {
+            "checked_at": "2026-08-28",
+            "source_type": "source_code_review",
+            "status": "confirmed",
+            "url": "https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/specs/architecture/supervision-model.md"
+          }
+        ],
+        "evidence_status": "confirmed",
+        "id": "liza",
+        "owns_loop": "no",
+        "project_ref": "liza-mas/liza",
         "source_set": "guide_supplement"
       },
       {
@@ -1008,6 +1023,48 @@
         "stars_captured_at": "2026-08-28",
         "summary": "The official repository describes Open SWE as an asynchronous coding agent for repository tasks.",
         "tags": []
+      },
+      {
+        "adoption_surface": "complex",
+        "archived": false,
+        "autonomy": "checkpoint_gated",
+        "category": "multi-agent",
+        "features": {},
+        "freshness": {
+          "checked_at": "2026-08-28",
+          "source_commit": "a22c12381c5d884d2586a48aaaa517bca184f9cf"
+        },
+        "homepage_url": null,
+        "id": "liza-mas/liza",
+        "interfaces": [
+          "cli",
+          "tui"
+        ],
+        "language": "Go",
+        "license_signal": "Apache-2.0",
+        "name": "Liza",
+        "owns_loop": "no",
+        "project_url": "https://github.com/liza-mas/liza",
+        "provenance": [
+          {
+            "checked_at": "2026-08-28",
+            "source_type": "source_code_review",
+            "status": "confirmed",
+            "url": "https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/specs/architecture/supervision-model.md"
+          }
+        ],
+        "provider_strategy": "multi_provider",
+        "recovery": "durable",
+        "repository_url": "https://github.com/liza-mas/liza",
+        "stars": 363,
+        "stars_captured_at": "2026-08-28",
+        "summary": "The source implements a control plane over external coding-agent CLIs, with a persistent YAML blackboard, isolated git worktrees, doer/reviewer roles, leases, recovery commands, and supervised merge gates.",
+        "tags": [
+          "adversarial-review",
+          "crash-recovery",
+          "multi-agent",
+          "worktrees"
+        ]
       },
       {
         "adoption_surface": "unknown",
@@ -13203,11 +13260,11 @@
     }
   },
   "stats": {
-    "adjacent_control_plane_count": 14,
+    "adjacent_control_plane_count": 15,
     "autonomy_not_applicable_count": 65,
     "deep_dive_count": 86,
     "durable_count": 8,
-    "guide_supplement_count": 31,
+    "guide_supplement_count": 32,
     "headless_count": 46,
     "open_source_count": 118,
     "recovery_not_applicable_count": 64,

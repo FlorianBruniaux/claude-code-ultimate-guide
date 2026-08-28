@@ -455,6 +455,31 @@
       "source_type": "readme",
       "evidence_url": "https://github.com/openagents-org/openagents/blob/cb03c0e9898371a2af1af722da88d50e17c26a94/README.md",
       "override_reason": "Guide adjacent control plane absent from the upstream snapshot."
+    },
+    {
+      "id": "liza-mas/liza",
+      "name": "Liza",
+      "project_url": "https://github.com/liza-mas/liza",
+      "repository_url": "https://github.com/liza-mas/liza",
+      "category": "multi-agent",
+      "summary": "The source implements a control plane over external coding-agent CLIs, with a persistent YAML blackboard, isolated git worktrees, doer/reviewer roles, leases, recovery commands, and supervised merge gates.",
+      "owns_loop": "no",
+      "stars": 363,
+      "stars_captured_at": "2026-08-28",
+      "license_signal": "Apache-2.0",
+      "archived": false,
+      "language": "Go",
+      "interfaces": ["cli", "tui"],
+      "provider_strategy": "multi_provider",
+      "tags": ["multi-agent", "worktrees", "adversarial-review", "crash-recovery"],
+      "adoption_surface": "complex",
+      "autonomy": "checkpoint_gated",
+      "recovery": "durable",
+      "source_commit": "a22c12381c5d884d2586a48aaaa517bca184f9cf",
+      "evidence_status": "confirmed",
+      "source_type": "source_code_review",
+      "evidence_url": "https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/specs/architecture/supervision-model.md",
+      "override_reason": "Adjacent code-enforced multi-agent control plane absent from the upstream snapshot."
     }
   ],
   "map_defaults": {
@@ -521,7 +546,8 @@
     {"id": "vigilante", "project_ref": "aliengiraffe/vigilante", "source_set": "guide_supplement", "owns_loop": "no", "evidence_status": "confirmed", "evidence_url": "https://github.com/aliengiraffe/vigilante/blob/406f088fb0af78b2a75bfc1fcf09137a9b91ad20/README.md", "source_type": "readme"},
     {"id": "agentsmesh", "project_ref": "AgentsMesh/AgentsMesh", "source_set": "guide_supplement", "owns_loop": "no", "evidence_status": "confirmed", "evidence_url": "https://github.com/AgentsMesh/AgentsMesh/blob/1f90b14194d03c353df4f281a05442afe93cae34/README.md", "source_type": "readme"},
     {"id": "autonomous-workstream", "project_ref": "AmoghReddy45/autonomous-workstream", "source_set": "guide_supplement", "owns_loop": "no", "evidence_status": "confirmed", "evidence_url": "https://github.com/AmoghReddy45/autonomous-workstream/blob/d256875782387c1d3f2997f5ed6d7794562df338/README.md", "source_type": "readme"},
-    {"id": "enzyme-agent-harness", "project_ref": "0xenzyme/agent-harness", "source_set": "guide_supplement", "owns_loop": "no", "evidence_status": "confirmed", "evidence_url": "https://github.com/0xenzyme/agent-harness/blob/6e76553beabdd942842c8af635b07acc1ba5549f/README.md", "source_type": "readme"}
+    {"id": "enzyme-agent-harness", "project_ref": "0xenzyme/agent-harness", "source_set": "guide_supplement", "owns_loop": "no", "evidence_status": "confirmed", "evidence_url": "https://github.com/0xenzyme/agent-harness/blob/6e76553beabdd942842c8af635b07acc1ba5549f/README.md", "source_type": "readme"},
+    {"id": "liza", "project_ref": "liza-mas/liza", "source_set": "guide_supplement", "owns_loop": "no", "evidence_status": "confirmed", "evidence_url": "https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/specs/architecture/supervision-model.md", "source_type": "source_code_review"}
   ],
   "excluded_candidates": [
     {

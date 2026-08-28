@@ -322,8 +322,8 @@ def validate_catalog(data: Any) -> list[str]:
     if not isinstance(supplements, list):
         errors.append("guide_supplement must be an array")
         supplements = []
-    if len(supplements) != 31:
-        errors.append("guide_supplement must contain exactly 31 projects")
+    if len(supplements) != 32:
+        errors.append("guide_supplement must contain exactly 32 projects")
     supplement_ids = [record.get("id") for record in supplements if isinstance(record, dict)]
     folded_supplement_ids = [
         identifier.casefold() for identifier in supplement_ids if isinstance(identifier, str)
@@ -342,7 +342,7 @@ def validate_catalog(data: Any) -> list[str]:
         if not isinstance(records, list):
             errors.append(f"{label} must be an array")
             continue
-        expected_count = 42 if label == "strict_runtime_map" else 14
+        expected_count = 42 if label == "strict_runtime_map" else 15
         if len(records) != expected_count:
             errors.append(f"{label} must contain exactly {expected_count} entries")
         map_ids = [record.get("id") for record in records if isinstance(record, dict)]

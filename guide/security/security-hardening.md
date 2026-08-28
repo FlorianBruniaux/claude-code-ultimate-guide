@@ -43,6 +43,8 @@ Benchmark security separately from task completion. [AgentDojo](https://arxiv.or
 
 Harness optimizers expand the attack surface because they can modify prompts, tool exposure, control flow, or verification policy. Freeze non-negotiable security invariants outside the optimizer's mutation space. Reject candidates that weaken permission boundaries, leak evaluation data, suppress audit events, or improve task score by skipping a required check.
 
+Worktree isolation is not process isolation. [Liza's pinned provider catalog](https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/provider-catalog.yaml), for example, launches external coding-agent CLIs and includes modes such as `--approve-all`, `--dangerously-skip-permissions`, and `--permission-mode dangerous`. Its worktrees reduce edit collisions and its supervisor constrains workflow transitions, but the launched process can still inherit host files, credentials, and network access. Review the generated global configuration, constrain writable roots, inject task-scoped credentials, and put an OS or container sandbox below the orchestrator before unattended execution. See the [Liza profile](../ecosystem/agentic-tools.md#48-liza) for the code and CI evidence behind this classification.
+
 ---
 
 ## Part 1: Prevention (Before You Start)

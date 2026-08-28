@@ -45,11 +45,11 @@ class AgentHarnessPageTests(unittest.TestCase):
     def test_rendered_counts_match_canonical_sets(self):
         self.assertEqual(12, self.builder.render_category_summary(self.catalog).count("\n| ["))
         self.assertEqual(42, self.builder.count_table_records(self.builder.render_strict_runtime_map(self.catalog)))
-        self.assertEqual(14, self.builder.count_table_records(self.builder.render_adjacent_control_planes(self.catalog)))
+        self.assertEqual(15, self.builder.count_table_records(self.builder.render_adjacent_control_planes(self.catalog)))
         directory = self.builder.render_project_catalog(self.catalog)
         self.assertEqual(12, directory.count("<details>"))
         self.assertEqual(160, self.builder.count_upstream_project_links(directory))
-        self.assertIn("Guide supplements (31)", directory)
+        self.assertIn("Guide supplements (32)", directory)
 
     def test_every_runtime_and_control_plane_cell_has_external_project_link(self):
         for fragment in (
@@ -63,10 +63,10 @@ class AgentHarnessPageTests(unittest.TestCase):
                 self.assertRegex(first_cell, r"\[[^]]+\]\(https://[^)]+\)")
                 self.assertNotRegex(first_cell, r"\]\((?:\.\.?/|/guide/)")
 
-    def test_all_191_directory_rows_link_to_external_projects(self):
+    def test_all_192_directory_rows_link_to_external_projects(self):
         directory = self.builder.render_project_catalog(self.catalog)
         rows = [line for line in directory.splitlines() if line.startswith("| [")]
-        self.assertEqual(191, len(rows))
+        self.assertEqual(192, len(rows))
         for row in rows:
             first_cell = row.split("|", 2)[1]
             self.assertRegex(first_cell, r"\[[^]]+\]\(https://[^)]+\)")

@@ -71,10 +71,12 @@ The word *harness* is overloaded. This guide uses four layers so a model, a runt
 |-------|----------------|----------|--------------------------|
 | **Model** | Generates and reasons over tokens | Claude, GPT, Gemini, DeepSeek, Qwen | Tools, policy, durable state, or execution |
 | **Runtime harness** | Runs the agent loop and mediates tool use, context, permissions, and recovery | Claude Code, Codex, Gemini CLI, DeepSeek Harness, OpenCode | Project-specific instructions and delivery gates |
-| **Repository harness** | Makes one codebase legible and verifiable to a runtime | `CLAUDE.md`/`AGENTS.md`, `init.sh`, lockfiles, task state, tests | The runtime's model routing, tool loop, or sandbox |
-| **Orchestrator** | Coordinates multiple runs, workspaces, or harnesses | Symphony, Vibe Kanban, AgentBox, Proliferate | The underlying runtime agent loop |
+| **Repository harness** | Makes one codebase legible and verifiable to a runtime | `CLAUDE.md`/`AGENTS.md`, `init.sh`, lockfiles, task state, tests; Liza's installed contracts and guardrails | The runtime's model routing, tool loop, or sandbox |
+| **Orchestrator** | Coordinates multiple runs, workspaces, or harnesses | Symphony, Vibe Kanban, AgentBox, Proliferate, Liza | The underlying runtime agent loop |
 
 The boundary is practical. If a product can only schedule or inspect Claude Code and Codex sessions, it is an orchestrator. If it supplies an iterative model-and-tools loop itself, it is a runtime harness. If it is committed with the repository and tells any compatible runtime how to work safely, it is a repository harness.
+
+A product can span two layers without owning all four. [Liza](https://github.com/liza-mas/liza) installs behavioral contracts, skills, settings, and guardrails into a repository, then coordinates external coding-agent CLIs through worktrees, durable task state, leases, doer/reviewer roles, recovery, and merge gates. Claude Code, Codex, or another selected CLI still owns the inner tool loop. The [Landscape profile](../ecosystem/agent-harness-landscape.md#liza-a-repository-harness-and-control-plane-combined) records the pinned code evidence and security limits.
 
 A **harness optimizer** or **meta-harness** sits outside those four operating layers. It proposes changes to a target harness, evaluates candidates, and promotes or rejects versions. It does not replace the runtime loop or the fleet orchestrator. It improves them under an explicit search and evaluation protocol.
 
@@ -388,6 +390,8 @@ The data:
 The underlying reason self-verification fails: the model that generated the output carries the same biases and context as the model that reviews it. Verification by a fresh model instance, with only the artifact and the success criteria in context, is structurally different from self-review.
 
 Independent verification is still not a universal free gain. It consumes tokens and latency, can over-specify an already-correct result, and may share the creator's blind spots when both use the same model and evidence. Target verifiers at declared risks, give them independent evidence where possible, and measure rescued failures, false alarms, and regressions instead of counting verifier calls.
+
+Liza implements this pattern as doer/reviewer pairs backed by a deterministic supervisor. Its [state machine and merge authority](https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/specs/architecture/supervision-model.md) can reject invalid transitions even when an agent proposes them. That is stronger than a role name in a prompt, but it still needs outcome evaluation: a structurally separate reviewer can share the same model, incomplete specification, or missing evidence as the doer.
 
 Practical implementation: spawn a second agent with the output artifact and the original requirements. Ask whether the output satisfies each requirement. Do not ask "is this good?" Ask "does this satisfy requirement X?" with explicit pass/fail for each.
 

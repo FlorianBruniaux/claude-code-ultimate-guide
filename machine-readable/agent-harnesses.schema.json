@@ -50,7 +50,7 @@
         "upstream_category_count": {"const": 12},
         "guide_supplement_count": {"type": "integer", "minimum": 0},
         "strict_runtime_count": {"const": 42},
-        "adjacent_control_plane_count": {"const": 14},
+        "adjacent_control_plane_count": {"const": 15},
         "open_source_count": {"const": 118},
         "deep_dive_count": {"const": 86},
         "headless_count": {"const": 46},
@@ -90,8 +90,8 @@
         },
         "guide_supplement": {
           "type": "array",
-          "minItems": 31,
-          "maxItems": 31,
+          "minItems": 32,
+          "maxItems": 32,
           "items": {"$ref": "#/$defs/project"}
         },
         "strict_runtime_map": {
@@ -124,8 +124,8 @@
         },
         "adjacent_control_planes": {
           "type": "array",
-          "minItems": 14,
-          "maxItems": 14,
+          "minItems": 15,
+          "maxItems": 15,
           "items": {
             "allOf": [
               {"$ref": "#/$defs/mapEntry"},
