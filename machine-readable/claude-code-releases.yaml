@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.246"
-updated: "2026-08-25"
+latest: "2.1.250"
+updated: "2026-08-27"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,27 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-August 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.250"
+    date: "2026-08-27"
+    highlights:
+      - "Bug fixes and reliability improvements"
+
+  - version: "2.1.248"
+    date: "2026-08-27"
+    highlights:
+      - "⭐ Added `--restricted` (or `CLAUDE_CODE_RESTRICTED=1`): removes tools that run commands or code and `WebFetch`, keeps file tools inside the working directory, refuses `bypassPermissions`, ignores user/project/local settings"
+      - "Added cross-session messaging (`SendMessage`/`ListAgents`) between sessions on the same machine on Bedrock, Vertex, and Foundry, and when telemetry is disabled"
+      - "Fixed a prompt-cache miss (and lost extended-thinking context) roughly once an hour in long sessions, caused by tool definitions re-rendering after an OAuth token refresh"
+      - "Added `experimental.cacheTtl` (`\"5m\"` or `\"1h\"`) to agent frontmatter for a per-agent prompt cache TTL"
+
+  - version: "2.1.247"
+    date: "2026-08-26"
+    highlights:
+      - "Added the `SendFeedback` tool: Claude can draft a feedback report for you to review and send from `/feedback`"
+      - "Changed Sonnet 5's default auto-compact window to its full 1M context, auto-compacting at ~967K tokens instead of ~934K"
+      - "Added `/claude-api cost-optimize` to profile a project's Claude API spend and work through cost levers"
+      - "Fixed sub-agents dying on a first-call model 404: they now use the session's fallback model chain"
 
   - version: "2.1.246"
     date: "2026-08-25"
