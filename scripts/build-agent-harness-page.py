@@ -35,7 +35,7 @@ CATEGORY_GUIDANCE = {
 
 GUIDE_PROFILES = {
     "aider": "./agentic-tools.md#13-aider",
-    "codex": "./agentic-tools.md#12-codex-cli-openai",
+    "codex": "./agentic-tools.md#11-codex-cli-openai",
     "crush": "./agentic-tools.md#17-crush-charm",
     "deepseek-harness": "./agentic-tools.md#18-deepseek-harness-dsh",
     "gemini-cli": "./agentic-tools.md#16-gemini-cli-google",
@@ -132,8 +132,8 @@ def render_strict_runtime_map(catalog: dict[str, Any]) -> str:
         role = markdown_escape(concise_summary(record)) + _render_profile(mapping["id"])
         lines.append(
             f"| {render_project_cell(record)} | {interfaces} | {humanize(record['provider_strategy'])} | "
-            f"{humanize(mapping['owns_loop'])} ({humanize(mapping['evidence_status'])}) | "
-            f"{markdown_escape(record['license_signal'])} | {role} |"
+            f"{humanize(mapping['evidence_status'])} | "
+            f"{markdown_escape(humanize(record['license_signal']))} | {role} |"
         )
     return "\n".join(lines)
 
@@ -148,8 +148,8 @@ def render_adjacent_control_planes(catalog: dict[str, Any]) -> str:
         record = records[mapping["project_ref"]]
         lines.append(
             f"| {render_project_cell(record)} | {markdown_escape(concise_summary(record))} | "
-            f"{humanize(mapping['owns_loop'])} ({humanize(mapping['evidence_status'])}) | "
-            f"{markdown_escape(record['license_signal'])} |"
+            f"{humanize(mapping['owns_loop'])}; evidence {humanize(mapping['evidence_status']).casefold()} | "
+            f"{markdown_escape(humanize(record['license_signal']))} |"
         )
     return "\n".join(lines)
 
@@ -181,7 +181,7 @@ def _directory_table(records: list[dict[str, Any]]) -> list[str]:
             f"| {render_project_cell(record)} | {markdown_escape(concise_summary(record))} | "
             f"{_capabilities(record)} | {humanize(record['adoption_surface'])} | "
             f"{humanize(record['autonomy'])} / {humanize(record['recovery'])} | "
-            f"{markdown_escape(record['license_signal'])} |"
+            f"{markdown_escape(humanize(record['license_signal']))} |"
         )
     return lines
 

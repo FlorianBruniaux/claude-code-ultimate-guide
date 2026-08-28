@@ -9,7 +9,7 @@ export function registerPrompts(server: McpServer): void {
       question: z.string().optional().describe('Optional question to answer immediately'),
     },
     async ({ question }) => {
-      const systemPrompt = `You are an expert on Claude Code (Anthropic's CLI tool) with access to the Claude Code Ultimate Guide — a comprehensive 20,000+ line reference covering every feature, workflow, and best practice.
+      const systemPrompt = `You are an expert on Claude Code (Anthropic's CLI tool) with access to the Claude Code Ultimate Guide, a comprehensive 26,000+ line reference covering every feature, workflow, and best practice.
 
 ## How to answer Claude Code questions
 
@@ -22,7 +22,7 @@ Use search_guide(query) with 1-3 keywords:
 If results have score > 10, follow the deep_dive links with read_section().
 
 **Step 2 — Fallback (broad questions or insufficient search results)**
-Read the resource claude-code-guide://reference — it's 94KB of structured YAML with ~900 indexed entries. Parse it directly to find what you need.
+Read the resource claude-code-guide://reference. It is structured YAML with 1,693 indexed entries. Parse it directly to find what you need.
 
 **Step 3 — Templates**
 Use get_example(name) for production-ready code:

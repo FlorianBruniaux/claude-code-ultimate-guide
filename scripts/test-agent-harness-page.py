@@ -63,6 +63,14 @@ class AgentHarnessPageTests(unittest.TestCase):
                 self.assertRegex(first_cell, r"\[[^]]+\]\(https://[^)]+\)")
                 self.assertNotRegex(first_cell, r"\]\((?:\.\.?/|/guide/)")
 
+    def test_all_191_directory_rows_link_to_external_projects(self):
+        directory = self.builder.render_project_catalog(self.catalog)
+        rows = [line for line in directory.splitlines() if line.startswith("| [")]
+        self.assertEqual(191, len(rows))
+        for row in rows:
+            first_cell = row.split("|", 2)[1]
+            self.assertRegex(first_cell, r"\[[^]]+\]\(https://[^)]+\)")
+
     def test_stars_render_only_with_repository_and_capture_date(self):
         records = self.builder.project_index(self.catalog)
         for mapping in self.catalog["sets"]["strict_runtime_map"]:
@@ -95,6 +103,19 @@ class AgentHarnessPageTests(unittest.TestCase):
             self.builder.concise_summary({"summary": "Runtime—provider-neutral and local."}),
         )
 
+    def test_guide_profile_anchors_exist(self):
+        profile_page = (ROOT / "guide/ecosystem/agentic-tools.md").read_text(encoding="utf-8")
+        anchors = set()
+        for heading in re.findall(r"^#{1,6}\s+(.+)$", profile_page, re.MULTILINE):
+            slug = heading.casefold()
+            slug = re.sub(r"[`*_]", "", slug)
+            slug = re.sub(r"[^\w\s-]", "", slug)
+            slug = re.sub(r"[\s-]+", "-", slug).strip("-")
+            anchors.add(slug)
+        for target in self.builder.GUIDE_PROFILES.values():
+            anchor = target.split("#", 1)[1]
+            self.assertIn(anchor, anchors, target)
+
     def test_second_build_is_byte_stable(self):
         first = self.builder.build_page(self.page, self.catalog)
         second = self.builder.build_page(first, self.catalog)
@@ -110,7 +131,7 @@ class AgentHarnessPageTests(unittest.TestCase):
             "claude-code-guide://agent-harnesses",
         ):
             self.assertIn(required, built)
-        self.assertIsNone(re.search(r"160 (?:runtime )?harnesses", built, re.IGNORECASE))
+        self.assertNotIn("the catalog contains 160 runtime harnesses", built.casefold())
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 # claude-code-ultimate-guide-mcp
 
-MCP server for the [Claude Code Ultimate Guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide) — search, read, and explore 20,000+ lines of documentation directly from Claude Code or any MCP-compatible client.
+MCP server for the [Claude Code Ultimate Guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide): search, read, and explore 26,000+ lines of documentation directly from Claude Code or any MCP-compatible client.
 
 No need to clone the repo. The guide's structured indexes and Agent Harness Map dataset are bundled in the package, and guide file content is fetched from GitHub on demand with a 24-hour local cache.
 
@@ -49,7 +49,7 @@ Add to `.claude/settings.json` at your repo root.
 
 | Tool | Signature | Description |
 |------|-----------|-------------|
-| `search_guide` | `(query, limit?)` | Search by keyword or question across 882 indexed entries. Returns ranked results with GitHub links. |
+| `search_guide` | `(query, limit?)` | Search by keyword or question across 1,693 indexed entries. Returns ranked results with GitHub links. |
 | `read_section` | `(path, offset?, limit?)` | Read a file section with pagination (500 lines max per call). Returns GitHub + guide site links. |
 | `list_topics` | `()` | Browse all 25 topic categories in the guide with entry counts. |
 

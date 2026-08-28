@@ -74,13 +74,13 @@ Cette série de 13 whitepapers couvre Claude Code, de l'installation à la produ
 
 # Fiches Mémo (Recap Cards)
 
-58 sources QMD de fiches A4 par langue, format intermédiaire entre le cheatsheet et les whitepapers. Chaque fiche couvre un concept précis avec tables de référence et exemples de commandes. Avant le rendu de C14, 57 PDF existent par langue; le PDF C14 n'est pas déclaré disponible.
+58 fiches A4 par langue, format intermédiaire entre le cheatsheet et les whitepapers. Chaque fiche couvre un concept précis avec tables de référence et exemples de commandes. Les sources QMD et les 58 PDF sont disponibles en FR et EN, y compris C14 Agent Harness Map.
 
 **Langues & formats disponibles :**
 
 | Format | FR | EN |
 |--------|----|----|
-| PDF (recap-card-typst) | 57 PDF existants avant rendu de C14 | 57 PDF existants avant rendu de C14 |
+| PDF (recap-card-typst) | 58 | 58 |
 | EPUB / HTML | Non applicable (format 1 page) | Non applicable |
 
 **Sources** : `recap-cards/fr/*.qmd` · **PDFs** : même dossier · **En ligne** : `cc.bruniaux.com/cheatsheets/`
@@ -158,7 +158,7 @@ Cette série de 13 whitepapers couvre Claude Code, de l'installation à la produ
 | C13 | Erreurs Courantes | beginner | Les pièges fréquents et comment les éviter |
 | C14 | Agent Harness Map | advanced | Choisir runtime, contrat de dépôt ou orchestrateur |
 
-**Total : 58 sources QMD par langue**, dont 57 PDF existants par langue avant le rendu de C14. Les PDF existants font une page. Guide version 3.41.3
+**Total : 58 sources QMD et 58 PDF par langue.** Les PDF font une page. Guide version 3.42.0.
 
 ---
 

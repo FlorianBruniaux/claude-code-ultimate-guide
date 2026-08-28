@@ -48,7 +48,7 @@ Make the layer boundaries and ownership distinction unmistakable. Avoid tiny tex
 
 Output: `guide/images/agent-harness-selection-funnel.webp`
 
-Alt text: A five-step selection flow defines the job, checks loop ownership, verifies evidence, pilots five to ten tickets, and ends in adopt, adjacent layer, or reject.
+Alt text: A five-step selection flow defines the job, checks loop ownership, verifies evidence, pilots 8 to 12 real tasks, and ends in adopt, adjacent layer, or reject.
 
 ```text
 Create a clean editorial decision infographic for a technical documentation guide, landscape 16:9 at 1600x900. Visual language: warm cream graph-paper background (#f5f1e8), very subtle grid (#d4cfb8), precise dark pencil/ink lines (#1a1a1a), restrained yellow (#fbbf24), green (#16a34a), and orange (#d97706) accents. Use red only for a risk gate. No photos, no 3D, no mascots, no decorative doodles, no stars, no page numbers, no logos. All visible text must be exactly in English and spelled correctly.
@@ -58,7 +58,7 @@ Create a left-to-right selection funnel with five large steps connected by arrow
 1. “DEFINE THE JOB” with four selectable labels: “Generate”, “Run”, “Configure”, “Coordinate”.
 2. “CHECK LOOP OWNERSHIP” with the question “Does it own plan → act → observe → repeat?” and two paths “Yes” and “No / unknown”.
 3. “VERIFY EVIDENCE” with a small checklist: “Official URL”, “README or docs”, “Security boundary”, “Recovery behavior”.
-4. “PILOT” with a bold band “5–10 representative tickets” and three measured outputs: “success”, “cost”, “recovery”.
+4. “PILOT” with a bold band “8–12 REAL TASKS” and three measured outputs: “success”, “cost”, “recovery”.
 5. “DECIDE” with three outcome cards: “Adopt”, “Keep as adjacent layer”, “Reject”.
 Below the funnel, add a horizontal red risk gate labeled “Human approval for consequential actions”.
 At the bottom, add a concise note: “Features and popularity do not replace task-level evidence.”
@@ -71,4 +71,4 @@ Keep each step visually distinct, readable, and practical. Avoid tiny text.
 |---|---:|---:|
 | `agent-harness-160-not-runtimes.webp` | 1600 x 900 | 91,158 bytes |
 | `agent-harness-four-layers.webp` | 1600 x 900 | 108,270 bytes |
-| `agent-harness-selection-funnel.webp` | 1600 x 900 | 101,554 bytes |
+| `agent-harness-selection-funnel.webp` | 1600 x 900 | Regenerated after protocol correction |
