@@ -15,6 +15,12 @@ For detailed docs → [Ultimate Guide](../ultimate-guide.md) | [Cheatsheet](../c
 
 ---
 
+## Harness Map Reading Guide
+
+Use these diagrams to understand the layers, then choose the document that answers the operational question. [Agent Harness Engineering](./agent-harness.md) explains the model, runtime harness, repository harness, and orchestrator. The [Agent Harness Map](../ecosystem/agent-harness-landscape.md) compares strict loop-owning runtimes and points to a wider sourced directory without treating every entry as a runtime. [Agent Tools: Beyond Claude Code](../ecosystem/agentic-tools.md) covers frameworks and control planes. Use [Agent Evaluation](../roles/agent-evaluation.md), [Session Observability](../ops/observability.md), and [Security Hardening](../security/security-hardening.md) to test, inspect, and constrain the chosen design. Definitions are in the [glossary](./glossary.md).
+
+---
+
 ## Table of Contents
 
 **New diagrams:**

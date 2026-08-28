@@ -19186,6 +19186,8 @@ claude --teleport
 
 **TL;DR**: Multi-instance orchestration = advanced pattern for teams managing 10+ concurrent features. Requires modular architecture + budget + monitoring. **95% of users don't need this.** Sequential workflows with 1-2 instances are more efficient for most contexts.
 
+Before adding another process manager, identify the layer that owns each responsibility. The model generates text; the runtime harness owns a session's model-and-tool loop; the repository harness supplies instructions and delivery gates; the orchestrator coordinates sessions. [Agent Harness Engineering](./core/agent-harness.md) explains the boundaries. The [Agent Harness Map](./ecosystem/agent-harness-landscape.md) compares strict runtime harnesses and keeps its wider sourced directory separate from the runtime table. [Agent Tools: Beyond Claude Code](./ecosystem/agentic-tools.md) covers frameworks and control planes; the [glossary](./core/glossary.md) defines the terms.
+
 ---
 
 ### Agent View: Native Session Management (v2.1.139+)

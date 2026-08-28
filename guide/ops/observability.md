@@ -40,6 +40,14 @@ Claude Code usage can accumulate quickly, especially in active development. Moni
 
 ---
 
+## Observability by Harness Layer
+
+Capture evidence at the layer that made the decision. A runtime harness needs traces of model calls, tool calls, permissions, context, and recovery. A repository harness needs the setup command, changed artifact, and verification result. An orchestrator needs dispatch, handoff, retry, queue, and human-escalation events. A dashboard that reports only tokens cannot establish whether the loop or its delivery gates behaved correctly.
+
+The [Agent Harness Map](../ecosystem/agent-harness-landscape.md) separates loop-owning runtimes from the broader directory of frameworks and control-plane-adjacent projects. [Agent Harness Engineering](../core/agent-harness.md) explains those layers, while [Agent Evaluation](../roles/agent-evaluation.md) defines the measures to score them. Apply [Security Hardening](../security/security-hardening.md) before exporting traces or granting a monitoring tool access. The [glossary](../core/glossary.md) keeps the terms consistent.
+
+---
+
 ## Session Search & Resume
 
 After weeks of using Claude Code, finding past conversations becomes challenging. This section covers native options and community tools.

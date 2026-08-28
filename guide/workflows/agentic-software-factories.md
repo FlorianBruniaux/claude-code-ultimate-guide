@@ -14,6 +14,14 @@ This page answers one question: you want to run Claude Code as something closer 
 
 ---
 
+## Read the Map Before Adding a Control Plane
+
+A software factory combines several layers. The model reasons; the runtime harness owns the coding loop; the repository harness provides instructions and deterministic delivery gates; the orchestrator dispatches work across sessions or workspaces. A factory or control plane can coordinate runtimes without becoming the runtime itself.
+
+Start with the [Agent Harness Map](../ecosystem/agent-harness-landscape.md) when the question is which product owns a coding loop and which catalog entries are merely adjacent. Read [Agent Harness Engineering](../core/agent-harness.md) for the layer boundaries, [Agent Tools: Beyond Claude Code](../ecosystem/agentic-tools.md) for frameworks and orchestration products, [Agent Evaluation](../roles/agent-evaluation.md) for the test protocol, [Session Observability](../ops/observability.md) for the evidence trail, and [Security Hardening](../security/security-hardening.md) before allowing unattended work. Terms are defined in the [glossary](../core/glossary.md).
+
+---
+
 ## Table of Contents
 
 1. [The spectrum: six levels, six costs](#1-the-spectrum-six-levels-six-costs)

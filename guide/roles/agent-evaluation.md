@@ -30,6 +30,14 @@ When you create custom agents in `.claude/agents/`, you're encoding specialized 
 
 ---
 
+## Evaluate the Layer That Owns the Behavior
+
+An evaluation must identify what it is scoring. A runtime harness owns the model-and-tool loop, so measure task completion, interventions, recovery, cost, and wall time there. A repository harness owns instructions and delivery gates, so measure whether setup and deterministic checks prevent regressions. An orchestrator owns routing and coordination, so measure handoffs, queueing, duplicate work, and escalation.
+
+Use the [Agent Harness Map](../ecosystem/agent-harness-landscape.md) to determine whether a candidate owns a runtime loop or is an adjacent framework, control plane, or support tool. Its test-drive protocol is for comparing shortlisted products. [Agent Harness Engineering](../core/agent-harness.md) defines the boundaries; [Session Observability](../ops/observability.md) covers collection and inspection; [Security Hardening](../security/security-hardening.md) covers the controls that evaluation must not bypass. See the [glossary](../core/glossary.md) for the shared vocabulary.
+
+---
+
 ## Metrics to Track
 
 ### 1. Response Quality Metrics
