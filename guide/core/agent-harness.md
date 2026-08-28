@@ -32,6 +32,10 @@ This page uses **agent harness** in its runtime sense: the system that owns the 
 
 This page covers what is inside the runtime. For the repository layer, see [Repository Harness Engineering](../ultimate-guide.md#925-harness-engineering). For a dated comparison of specific products across CLI, IDE, and cloud, see the [Agent Harness Landscape](../ecosystem/agent-harness-landscape.md).
 
+![A user goal moves through six harness stages: context building, LLM reasoning, policy gating, guarded tool execution, verification, and an accepted result. Observability spans every stage, constraints govern policy and runtime, and feedback returns accepted results to the context builder.](../images/agent-harness-reliability-loop.webp)
+
+*The LLM is one stage in the reliability loop. Context, policy, guarded execution, verification, observability, constraints, and feedback determine whether the model's proposal becomes an accepted result.*
+
 ### Choose the right entry point
 
 | Question | Canonical page |
