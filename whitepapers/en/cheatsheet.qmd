@@ -314,7 +314,7 @@ Quick decision: exact text → `rg` | exact name → `rg`/Serena | concept → g
 | Repository harness | Which instructions, verification, and state bound the repository? | [Agent Harness Engineering](https://cc.bruniaux.com/guide/agent-harness/) |
 | Orchestrator | Do several runtimes or sessions need coordination? | [Agent Tools](https://cc.bruniaux.com/guide/agentic-tools/) |
 
-Choose a runtime first for a coding task. Add an orchestrator when coordination is the identified need, not because the catalog is broad.
+Evaluate the exact model-harness pair for a coding task. Add an orchestrator when coordination is the identified need. A harness optimizer sits outside the four operating layers and changes candidate harnesses under a separate evaluation protocol.
 
 ```
 Simple task       → Just ask Claude

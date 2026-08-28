@@ -1,6 +1,6 @@
 ---
 title: "Agent Tools: Beyond Claude Code"
-description: "Comparative guide to terminal coding agents, autonomous coders, multi-agent frameworks, and agent orchestrators. Covers Hermes Agent, Codex CLI, Aider, DeepSeek Harness, Devin, SWE-agent, CrewAI, LangGraph, AutoGen, MetaGPT, Symphony, and Paperclip with a decision framework."
+description: "Comparative guide to terminal coding agents, autonomous coders, multi-agent frameworks, orchestrators, and adjacent harness optimizers, with evidence-aware selection guidance."
 tags: [agents, hermes, codex-cli, aider, deepseek-harness, devin, swe-agent, crewai, langgraph, autogen, metagpt, symphony, paperclip, opencode, gemini-cli, crush, comparison]
 ---
 
@@ -12,7 +12,7 @@ Claude Code is one tool in a field that has expanded dramatically since 2024. Do
 
 **What it does not cover**: GUI-based AI coding IDEs (Cursor, Windsurf, Cline), which are covered in [AI Ecosystem §6](./ai-ecosystem.md#section-6). Multi-Claude orchestration tools (Gas Town, multiclaude, Conductor desktop app) are in [Third-Party Tools: Multi-Agent Orchestration](./third-party-tools.md#multi-agent-orchestration).
 
-For the full field across CLI, IDE, and cloud agents, use the [Agent Harness Landscape](./agent-harness-landscape.md). For the loop, context, tools, permissions, recovery, and observability inside a runtime, read [Agent Harness Engineering](../core/agent-harness.md). The [glossary](../core/glossary.md) separates runtime harnesses from repository harnesses, evaluation harnesses, and orchestrators.
+For the full field across CLI, IDE, and cloud agents, use the [Agent Harness Landscape](./agent-harness-landscape.md). For the loop, context, tools, permissions, recovery, observability, and automated harness optimization, read [Agent Harness Engineering](../core/agent-harness.md). The [glossary](../core/glossary.md) separates runtime harnesses from repository harnesses, evaluation harnesses, orchestrators, and meta-harnesses.
 
 ---
 
@@ -41,6 +41,8 @@ Agent orchestrator (manage a fleet)
 **Autonomous agents**: you assign a task and come back to a result. Best for well-specified, bounded tasks: fix this bug, implement this spec, review this PR. The quality of the task description determines the quality of the output more than the agent choice.
 
 **Multi-agent frameworks**: libraries for building custom agent systems. Not coding tools themselves. You use LangGraph to build an agent, not to write code.
+
+**Harness optimizers and meta-harnesses**: systems that modify a target harness and compare candidate versions. They are not another terminal coding-agent category. [ADAS](https://proceedings.iclr.cc/paper_files/paper/2025/hash/36b7acf6f6010652b3f2a433774a66fe-Abstract-Conference.html), [AFlow](https://arxiv.org/abs/2410.10762), [Meta-Harness](https://arxiv.org/abs/2603.28052), and [Agentic Harness Engineering](https://arxiv.org/abs/2604.25850) operate at this outer loop. Compare them through the [Landscape research layer](./agent-harness-landscape.md#harness-optimizers-and-meta-harnesses), not by placing them beside Claude Code or Codex in a runtime feature table.
 
 ---
 

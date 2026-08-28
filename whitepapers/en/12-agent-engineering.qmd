@@ -5,7 +5,7 @@ author: "Florian BRUNIAUX"
 date: 2026-08-24
 date-format: "MMMM YYYY"
 version: "3.42.0"
-wp-version: "1.2.0"
+wp-version: "1.3.0"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -77,11 +77,13 @@ What this means operationally is that the dip is real, it lands on the teams cro
 
 # Code as Agent Harness
 
-The conversation about agents usually centers on the model: which provider, which checkpoint, which context window. That is the wrong unit of analysis. The unit of analysis is the harness, meaning the code that controls the agentic loop, manages context, exposes tools, enforces permissions, and persists state across turns. Two teams running the same Claude or GPT model with different harnesses will produce dramatically different outcomes, and the harness is what your team writes, owns, and improves over time.
+The conversation about agents usually centers on the model: provider, checkpoint, and context window. The reproducible unit is the **model-harness pair** under a named task set and budget. The harness controls the agentic loop, context, tools, permissions, state, and verification; the model and harness can each remain the binding constraint.
 
-The paper "Code as Agent Harness" (arXiv 2605.18747, May 2026) makes this argument formal. It defines three properties that any production-grade harness must exhibit. **Executability** means the harness can launch the agent and verify its output without human intervention in the loop, so that the cycle can run at machine speed. **Inspectability** means every step, every decision, and every tool call is logged and auditable after the fact, which is the precondition for any incident response or continuous improvement. **Statefulness** means context persists across turns and sessions, so that long-running missions can be resumed and so that the agent does not start from zero each time. Strip any of these three and you are back to a chatbot wrapped in a CI step.
+[Code as Agent Harness](https://arxiv.org/abs/2605.18747) treats code as the executable substrate for tools, memory, control, coordination, and verification. Executability, inspectability, and statefulness are useful design properties, not a universal production certification. [Agent System and Harness Design](https://arxiv.org/abs/2606.20683) complements that view with six runtime responsibilities: observation, context, control, action, state, and verification.
 
-A complementary survey (arXiv 2509.19185) analyzed 39 agentic frameworks and 439 production applications. Two findings stand out. Seventy percent of test effort in those applications concentrates on deterministic components such as parsing, formatting, and API calls. Less than 5% of the test surface targets the "Plan Body", which is the agent's actual decision logic. Less than 1% of the apps use DeepEval or any formal evaluation framework. Teams are testing the plumbing extensively and the behavior almost not at all. LangChain's State of Agent Engineering report adds context: 57% of companies have agents in production, 32% cite quality as their number one bottleneck, 89% instrument observability at some level, and 62% perform step-by-step tracing.
+Controlled evidence supports a bounded harness effect. [The Scaffold Effect](https://arxiv.org/abs/2607.22585) ran two fixed models through three coding harnesses on 50 tasks, for 300 trials. Harness choice changed token use per solved task by up to 40 times. Paired pass-rate differences stayed between 0 and 8 percentage points and were mostly not statistically significant. A harness can dominate cost and failure behavior without dominating accuracy.
+
+A separate [survey of testing in agentic systems](https://arxiv.org/abs/2509.19185) analyzed 39 frameworks and 439 applications. It reports that more than 70% of testing effort targets deterministic components, less than 5% targets the Plan Body, and fewer than 1% of applications use a dedicated LLM evaluation framework. This is repository evidence from the sampled corpus, not a population estimate for every production agent.
 
 The minimalist counter-example is mini-SWE-agent, which scores 74% on SWE-bench Verified using a Python harness of roughly 100 lines. The point is not that you should ship 100-line harnesses to production, it is that the heavy-framework approach does not automatically win. What wins is hitting the three properties cleanly.
 
@@ -197,7 +199,7 @@ Full coverage with configurations and detailed comparisons: [Agent Tools: Beyond
 
 Selection starts with the job to be done and the acceptable level of responsibility, not a global ranking. Separating the runtime that owns the loop, the repository contract that bounds the change, and the orchestrator that coordinates several sessions prevents one category from being asked to solve another category's problem.
 
-Four data sets answer different decisions. The strict table in the [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/) compares coding runtimes. Its orchestrator table covers products that coordinate runtimes without being treated as runtimes. The *Best of Agent Harnesses* snapshot, dated 2026-08-23, lists 160 projects across 12 categories; it also contains frameworks, sandboxes, memory, and observability tools. The canonical `machine-readable/agent-harnesses.json` JSON combines these observations under a machine-readable contract with provenance and evidence status.
+Five evidence surfaces answer different decisions. The strict table in the [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/) compares coding runtimes. Its orchestrator table covers products that coordinate runtimes without being treated as runtimes. The *Best of Agent Harnesses* snapshot, dated 2026-08-23, lists 160 projects across 12 categories; it also contains frameworks, sandboxes, memory, and observability tools. The canonical `machine-readable/agent-harnesses.json` JSON combines those catalog observations under a machine-readable contract. A separate research table covers systems that optimize a target harness.
 
 | Question | Data set | Limit |
 |----------|----------|-------|
@@ -205,8 +207,17 @@ Four data sets answer different decisions. The strict table in the [Agent Harnes
 | Do several sessions need coordination? | Orchestrator table | It does not replace runtime evaluation |
 | Which infrastructure is adjacent? | Best of Agent Harnesses snapshot | 160 projects does not mean 160 runtimes |
 | Which fact is verified and by which source? | Canonical JSON | `unknown` means not established, not absent |
+| Which systems modify a target harness? | Optimizer and meta-harness research table | Mostly research, not a production-product ranking |
 
 The JSON retains links, verification date, scope, and the values `confirmed`, `claimed`, `unknown`, or `not_applicable`. A `claimed` value records a source assertion, not confirmed by mechanism evidence. This model helps distinguish demonstrated capability from a source assertion or missing data. The selection criteria and trial protocol are in the [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/); definitions remain in the [glossary](https://cc.bruniaux.com/guide/glossary/).
+
+## Harness Optimizers and Meta-Harnesses
+
+A harness optimizer proposes changes to prompts, context policy, tools, memory, control flow, or verification, then evaluates candidate versions. A meta-harness adds an outer search loop around that process. It does not replace the runtime harness that executes user tasks or the orchestrator that schedules runs.
+
+[Meta-Harness](https://arxiv.org/abs/2603.28052) reports a 7.7-point improvement with four times fewer context tokens and a 4.7-point gain across five held-out models on 200 math problems. Its TerminalBench search and final evaluation reuse the same 89 tasks, so the coding result carries contamination risk. [Agentic Harness Engineering](https://arxiv.org/abs/2604.25850) reports Terminal-Bench 2 pass@1 rising from 69.7% to 77.0% over ten iterations. Both are 2026 preprints.
+
+[HarnessOpt-Bench](https://arxiv.org/abs/2608.06301) provides the stronger current protocol: hidden tests, a trusted execution environment, explicit search budgets, and versioned candidates. A credible optimizer trial freezes the model, grader, permissions, and resource limits; separates development from held-out tasks; meters all attempts; and rejects any candidate that improves task score by weakening security or skipping verification.
 
 # Spec-Driven Development
 

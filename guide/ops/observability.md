@@ -46,6 +46,10 @@ Capture evidence at the layer that made the decision. A runtime harness needs tr
 
 The [Agent Harness Map](../ecosystem/agent-harness-landscape.md) separates loop-owning runtimes from the broader directory of frameworks and control-plane-adjacent projects. [Agent Harness Engineering](../core/agent-harness.md) explains those layers, while [Agent Evaluation](../roles/agent-evaluation.md) defines the measures to score them. Apply [Security Hardening](../security/security-hardening.md) before exporting traces or granting a monitoring tool access. The [glossary](../core/glossary.md) keeps the terms consistent.
 
+Use stable event names and version every harness field that can change behavior. The [OpenTelemetry generative AI attribute registry](https://opentelemetry.io/docs/specs/semconv/registry/attributes/gen-ai/) defines attributes for agent, model, provider, operation, request, response, token, and tool data. Treat prompt text, tool arguments, tool results, file paths, and user identifiers as sensitive payloads: redact or hash them before export, and document which fields were dropped.
+
+An optimizer needs a second trace level. Link each candidate harness version to its parent, mutation, evaluation tasks, budget, scores, and promotion decision. Without that lineage, a higher final score cannot establish which change caused it or whether the candidate consumed more search and execution budget.
+
 ---
 
 ## Session Search & Resume

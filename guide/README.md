@@ -34,7 +34,7 @@ Core documentation for mastering Claude Code, organized by topic.
 | [cowork.md](./cowork.md) | Claude Cowork: agentic desktop summary for non-technical knowledge workers | 10 min |
 | [cheatsheet.md](./cheatsheet.md) | 1-page printable quick reference | 5 min |
 | [core/architecture.md](./core/architecture.md) | How Claude Code works internally (master loop, tools, context) | 25 min |
-| [core/agent-harness.md](./core/agent-harness.md) | **Agent Harness Engineering**: runtime components, four-layer model, security, CI/CD, and observability patterns | 25 min |
+| [core/agent-harness.md](./core/agent-harness.md) | **Agent Harness Engineering**: runtime components, loop horizons, security, evaluation, and outer-loop harness optimization | 35 min |
 | [core/tools-reference.md](./core/tools-reference.md) | **Complete tools reference**: all 40 built-in tools, permission rule formats, per-tool behaviors (Bash timeouts, Edit read-before-edit, Glob cap, WebFetch lossy), and how-to for Monitor, Workflow, agent teams, Cron, Tasks API | 20 min |
 | [core/hooks-events-reference.md](./core/hooks-events-reference.md) | **Complete hooks reference**: all 30 hook events, matcher fields, input schemas, decision control formats, and timeout defaults, with copy-paste JSON examples | 15 min |
 | [core/settings-reference.md](./core/settings-reference.md) | **Complete settings.json reference**: every confirmed setting and environment variable | 15 min |
@@ -93,7 +93,7 @@ Core documentation for mastering Claude Code, organized by topic.
 | [ecosystem/ai-ecosystem.md](./ecosystem/ai-ecosystem.md) | Complementary AI tools (Perplexity, Gemini, Kimi, NotebookLM, TTS) | 30 min |
 | [ecosystem/agentic-tools.md](./ecosystem/agentic-tools.md) | **Agent tools comparison**: Hermes Agent, Codex CLI, Aider, Devin, SWE-agent, CrewAI, LangGraph, AutoGen, decision framework | 20 min |
 | [ecosystem/mcp-vs-cli.md](./ecosystem/mcp-vs-cli.md) | **MCP vs CLI decision guide**: when to use MCP servers vs CLI tools in Claude Code workflows, tradeoffs and decision dimensions | 15 min |
-| [ecosystem/agent-harness-landscape.md](./ecosystem/agent-harness-landscape.md) | **Agent Harness Map**: strict runtime and orchestration comparisons, plus a sourced cross-category directory that separates loop-owning runtimes from frameworks, control planes, and support tools | 10 min |
+| [ecosystem/agent-harness-landscape.md](./ecosystem/agent-harness-landscape.md) | **Agent Harness Map**: strict runtimes, orchestrators, adjacent projects, and a sourced research layer for harness optimizers and meta-harnesses | 10 min |
 | [ecosystem/mcp-servers-ecosystem.md](./ecosystem/mcp-servers-ecosystem.md) | **Community MCP servers**: 8 validated servers (Playwright, Semgrep, Kubernetes, etc.) with production configs | 25 min |
 | [ecosystem/third-party-tools.md](./ecosystem/third-party-tools.md) | **Community tools**: GUIs, TUIs, config managers, token trackers, alternative UIs | 15 min |
 | [ecosystem/context-engineering-tools.md](./ecosystem/context-engineering-tools.md) | **Context & token optimization**: output compression (RTK, Headroom), prompt compression (LLMLingua), AI gateways (Edgee, Portkey), RAG, LLMOps | 20 min |

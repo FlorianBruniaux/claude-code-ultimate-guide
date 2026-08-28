@@ -25,6 +25,8 @@ format:
 
 Un orchestrateur peut lancer plusieurs runtimes sans posséder leur boucle. Un dépôt peut améliorer son contrat sans changer de runtime.
 
+Un optimiseur de harness reste hors de cette pile. Il modifie et évalue des harnesses candidats pour les runs suivants.
+
 ## Choisir dans le bon ordre
 
 1. Définir la tâche et le niveau d'autonomie acceptable.
@@ -32,7 +34,7 @@ Un orchestrateur peut lancer plusieurs runtimes sans posséder leur boucle. Un d
 3. Écrire le contrat du dépôt: instructions, critères de réussite, vérifications.
 4. Ajouter un orchestrateur seulement si la coordination, l'isolement ou la reprise entre tâches le demandent.
 
-## Quatre sources, quatre usages
+## Cinq sources, cinq usages
 
 | Source | Sert à | Limite |
 |--------|--------|--------|
@@ -40,9 +42,10 @@ Un orchestrateur peut lancer plusieurs runtimes sans posséder leur boucle. Un d
 | Tableau des orchestrateurs | Comparer la coordination | Pas un runtime |
 | Best of Agent Harnesses | Explorer 160 projets, 12 catégories | Snapshot du 23 août 2026 |
 | `agent-harnesses.json` | Lire provenance et preuves | `unknown` n'est pas `none` |
+| Tableau de recherche | Comparer les protocoles d'optimisation | Systèmes surtout expérimentaux |
 
 ## Essai court, verdict traçable
 
-Comparer deux ou trois candidats sur des tâches réelles, dans des worktrees séparés. Mesurer verdict humain, interventions, dérive de plan, temps écoulé, coût par tâche acceptée, récupération et friction de mise en place.
+Comparer deux ou trois couples modèle-harness sur des tâches réelles, dans des worktrees séparés. Répéter les tâches critiques. Mesurer verdict humain, interventions, dérive de plan, temps écoulé, coût par tâche acceptée, récupération et friction de mise en place.
 
 Liens: [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/) · [Agent Harness Engineering](https://cc.bruniaux.com/guide/agent-harness/) · [Agent Tools](https://cc.bruniaux.com/guide/agentic-tools/) · [Glossaire](https://cc.bruniaux.com/guide/glossary/)

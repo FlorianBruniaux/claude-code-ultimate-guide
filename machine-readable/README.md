@@ -10,7 +10,7 @@ Files optimized for LLM/AI consumption. Sizes below are measured, not targets.
 | [claude-code-releases.yaml](./claude-code-releases.yaml) | Condensed history of official Claude Code releases: per-version highlights, `breaking_summary` grouped by category, `milestones` quick reference. Source of truth for `guide/core/claude-code-releases.md`. | ~123 KB | ~27K |
 | [cowork-reference.yaml](./cowork-reference.yaml) | Index for Claude Cowork (Claude Desktop, non-dev audience). Paths resolve against the dedicated [claude-cowork-guide](https://github.com/FlorianBruniaux/claude-cowork-guide) repo, not this one. | ~21 KB | ~5K |
 | [agentsec-security-feed.v1.json](./agentsec-security-feed.v1.json) | AgentSec database metadata, detector coverage, security counters, and reviewed incident fiches consumed by the landing. | ~8 KB | ~2K |
-| [agent-harnesses.json](./agent-harnesses.json) | Normalized Agent Harness Map: pinned 160-project upstream snapshot, 31 guide supplements, 42 strict runtimes, 14 adjacent control planes, evidence states, project URLs, and dated GitHub metadata. | Generated | Generated |
+| [agent-harnesses.json](./agent-harnesses.json) | Normalized Agent Harness Map: pinned 160-project upstream snapshot, 31 guide supplements, 42 strict runtimes, 14 adjacent control planes, evidence states, project URLs, and dated GitHub metadata. Research harness optimizers remain in the cited guide layer rather than this runtime catalog. | Generated | Generated |
 | [agent-harnesses.schema.json](./agent-harnesses.schema.json) | JSON Schema for validating the normalized harness catalog before publication. | Generated | N/A |
 | [llms.txt](./llms.txt) | Standard LLM context file for repository indexation: topic coverage, entry points, key URLs. | ~5 KB | ~1K |
 
@@ -47,8 +47,8 @@ Use the human-readable pages according to the question being asked:
 
 | Need | Entry point |
 |---|---|
-| Runtime architecture, components, controls, and Claude Code implementation | [Agent Harness Engineering](../guide/core/agent-harness.md) |
-| Dated cross-product map, classification, selection, and test-drive protocol | [Agent Harness Landscape](../guide/ecosystem/agent-harness-landscape.md) |
+| Runtime architecture, components, controls, Claude Code implementation, and optimizer evaluation protocol | [Agent Harness Engineering](../guide/core/agent-harness.md) |
+| Dated cross-product map, classification, selection, test-drive protocol, and meta-harness research layer | [Agent Harness Landscape](../guide/ecosystem/agent-harness-landscape.md) |
 | Detailed profiles of selected coding agents | [Agent Tools: Beyond Claude Code](../guide/ecosystem/agentic-tools.md) |
 | Runtime, repository, evaluation harness, and orchestrator terminology | [Glossary](../guide/core/glossary.md) |
 | Version-level Claude Code behavior | [claude-code-releases.yaml](./claude-code-releases.yaml) |

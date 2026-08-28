@@ -255,7 +255,7 @@ Model: Sonnet | Ctx: 89.5k | Cost: $2.11 | Ctx(u): 56.0%
 | Repository harness | Instructions, task state, and verification | [Agent Harness Engineering](https://cc.bruniaux.com/guide/agent-harness/) |
 | Orchestrator | Coordination between runtimes or sessions | [Agent Tools](https://cc.bruniaux.com/guide/agentic-tools/) |
 
-Use one runtime for a bounded coding task. Introduce orchestration only when coordination is the constraint.
+Evaluate the exact model-harness pair for a bounded coding task. Introduce orchestration only when coordination is the constraint. A harness optimizer sits outside the four operating layers and changes candidate harnesses under a separate evaluation protocol.
 
 ---
 

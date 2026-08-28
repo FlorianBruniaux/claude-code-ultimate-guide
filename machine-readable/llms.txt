@@ -15,7 +15,7 @@ Guide version 3.42.0, tracking Claude Code up to v2.1.250 (August 2026).
 - Slash commands: full categorized table of the ~100 built-in commands with aliases, mirroring the official reference at https://code.claude.com/docs/en/commands (the source of truth), plus removed and renamed commands
 - Skills and slash commands: authoring, trigger patterns, progressive disclosure, skill design patterns
 - Agents: subagent frontmatter, delegation, agent teams, agent evaluation metrics, harness engineering
-- Agent harnesses: four-layer taxonomy, a pinned 160-project source directory plus 31 guide supplements, 42 strict runtimes, 14 adjacent control planes, a test-drive protocol, and a DeepSeek Harness profile
+- Agent harnesses: model-harness pair evidence, four operating layers plus an outer optimizer layer, a pinned 160-project source directory plus 31 guide supplements, 42 strict runtimes, 14 adjacent control planes, a research meta-harness table, a test-drive protocol, and a DeepSeek Harness profile
 - Multi-agent orchestration: parallel agents, hub-and-spoke coordinators, dynamic workflows (JavaScript-orchestrated pipelines, `ultracode`), agentic software factories, AI executive agents (virtual C-suites and board simulators applying the persona/agent pattern to named business roles)
 - MCP server integration: setup, custom servers, validated community server catalog, MCP vs CLI vs Skills trade-offs, advanced tool design
 - Security and permission model: .claude/settings.json, permission rules, sandbox isolation, threat database, data privacy and retention, enterprise governance (guardrail tiers, MCP approval workflow, audit trails)

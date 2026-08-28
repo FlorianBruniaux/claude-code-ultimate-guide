@@ -1,30 +1,32 @@
 ---
 title: "Code as Agent Harness (arXiv 2605.18747): Agent Harness Engineering"
-description: "A practical companion to the Code as Agent Harness paper (arXiv 2605.18747): the nine components that turn a raw LLM into a reliable production agent, from while-loop engine to permission enforcement."
+description: "An evidence-backed guide to agent harness engineering: runtime loops, context, tools, state, permissions, verification, observability, and automated harness optimization."
 tags: [guide, agents, architecture, security, observability]
 keywords:
   - "code as agent harness arxiv 2605.18747"
   - "agent harness"
   - "agent harness engineering"
   - "what is an agent harness"
+  - "meta harness"
+  - "harness optimizer"
   - "2605.18747"
 ---
 
 # Agent Harness Engineering
 
-> **Confidence**: Tier 1. Multiple independent sources (Martin Fowler, arXiv 2605.18747, Anthropic, O'Reilly, AWS, GitHub) converge on this framing.
+> **Confidence**: Tier 1 for the architecture framing; Tier 2 for cross-product performance claims. Controlled studies show measurable harness effects, but do not establish that the harness always matters more than the model.
 >
-> **Reading time**: ~25 minutes
+> **Reading time**: ~35 minutes
 
 ---
 
 ## The core claim
 
-A raw LLM is not an agent. It becomes one when connected to a harness.
+A raw LLM is not an agent. It becomes one when connected to a harness. The useful unit of evaluation is therefore the **model-harness pair**, not either component in isolation.
 
-Martin Fowler, Addy Osmani, O'Reilly's 2026 AI Radar, and arXiv 2605.18747 (May 2026) all converge on this: the relevant unit of engineering is not the model but the infrastructure that wraps it. Fowler defines a harness as a "cybernetic governor" combining feed-forward and feedback to regulate agent behavior toward a desired state. The harness is what makes "AI generates most of the code" sustainable at scale rather than a gradual drift toward unmaintainable systems.
+The 2026 [Agent System and Harness Design survey](https://arxiv.org/abs/2606.20683) decomposes an execution harness into observation, context, control, action, state, and verification. [Code as Agent Harness](https://arxiv.org/abs/2605.18747) adds a code-centric view: code is not only an output but the executable substrate for tools, memory, control, coordination, and verification. These are useful taxonomies, not performance proofs.
 
-As of May 2026, 57% of organizations have agents running in production, and 32% cite quality as their primary obstacle (LangChain State of Agent Engineering). The teams that have closed this gap have one thing in common: they engineered the harness, not just the prompt.
+Controlled evidence supports a narrower claim. In [The Scaffold Effect in Coding Agents](https://arxiv.org/abs/2607.22585), two fixed models were tested across three harnesses on 50 Terminal-Bench Pro tasks. Harness choice changed tokens per solved task by up to 40 times, while paired pass-rate differences stayed within 0 to 8 percentage points and were mostly not statistically significant. The harness can dominate cost and failure behavior without dominating task accuracy. Conversely, model quality or model-harness compatibility can remain the binding constraint. Report the pair, the task set, and the budget.
 
 This page uses **agent harness** in its runtime sense: the system that owns the agent loop, tools, context, state, and permissions. A repository can also provide a **repository harness** around that runtime: its instructions, setup, task state, and verification gates. The distinction matters because a project can improve its repository harness without replacing Claude Code, and a team can switch runtime harnesses without discarding every project practice.
 
@@ -53,9 +55,11 @@ The pages remain separate on purpose. Engineering concepts change more slowly th
 4. [CI/CD Agentic Patterns](#4-cicd-agentic-patterns)
 5. [Digital Twin Testing](#5-digital-twin-testing)
 6. [Observability Stack](#6-observability-stack)
-7. [Test Distribution Anti-pattern](#7-test-distribution-anti-pattern)
+7. [Test Distribution and Component-Stacking Anti-patterns](#7-test-distribution-and-component-stacking-anti-patterns)
 8. [Creator-Verifier Pattern](#8-creator-verifier-pattern)
 9. [Reference Architecture](#9-reference-architecture)
+10. [Practitioner Video Evidence](#10-practitioner-video-evidence)
+11. [Harness Optimizers and Meta-Harnesses](#11-harness-optimizers-and-meta-harnesses)
 
 ---
 
@@ -71,6 +75,8 @@ The word *harness* is overloaded. This guide uses four layers so a model, a runt
 | **Orchestrator** | Coordinates multiple runs, workspaces, or harnesses | Symphony, Vibe Kanban, AgentBox, Proliferate | The underlying runtime agent loop |
 
 The boundary is practical. If a product can only schedule or inspect Claude Code and Codex sessions, it is an orchestrator. If it supplies an iterative model-and-tools loop itself, it is a runtime harness. If it is committed with the repository and tells any compatible runtime how to work safely, it is a repository harness.
+
+A **harness optimizer** or **meta-harness** sits outside those four operating layers. It proposes changes to a target harness, evaluates candidates, and promotes or rejects versions. It does not replace the runtime loop or the fleet orchestrator. It improves them under an explicit search and evaluation protocol.
 
 ---
 
@@ -96,6 +102,22 @@ The main loop: perceive (read context, tool outputs, latest user instruction), p
 
 Where problems emerge: loops that don't cap iterations, loops that don't handle LLM refusals or ambiguous tool calls, loops that let the context grow without summarization until they hit the window limit and abort.
 
+#### Three loop horizons
+
+A useful practitioner model separates three feedback horizons. The terms are not a formal standard, but they expose where a correction should become durable.
+
+| Horizon | Boundary | Typical controls | Where it usually lives |
+|---|---|---|---|
+| **Inner loop** | One agent run | Tool results, targeted tests, skills, local checks | Runtime plus repository harness |
+| **Outer loop** | Task or pull request | Agentic QA, full test suites, deeper review, independent verifiers | Repository harness plus CI |
+| **Meta loop** | Across many runs | Failure mining, recurring review analysis, harness search, rule and verifier updates | Team process, optimizer, or meta-harness |
+
+The [AI Native DevCon interview on harness engineering](https://www.youtube.com/watch?v=D_cw-k0F1DM&t=243s) describes the inner loop as fast feedback while the agent works, the [outer loop](https://www.youtube.com/watch?v=D_cw-k0F1DM&t=340s) as slower checks around the pull-request boundary, and the [meta loop](https://www.youtube.com/watch?v=D_cw-k0F1DM&t=427s) as continuous improvement across failures. This model turns repeated human correction into a maintenance signal. A review comment that recurs should become a test, rule, skill, hook, or verifier at the earliest loop that can catch it.
+
+Build one bounded loop before adding autonomous layers. In a [2026 context-engineering interview](https://www.youtube.com/watch?v=Usufn8IQJgw&t=3112s), Dex Horthy describes a lights-off software factory that removed human testing and review, accumulated failures, and was shut down. That is a practitioner retrospective, not a controlled study, but it identifies a concrete failure mode: autonomy expanded faster than verification and recovery.
+
+The meta loop can now be automated. [Meta-Harness](https://arxiv.org/abs/2603.28052) searches harness code using prior source, scores, and execution traces. [Agentic Harness Engineering](https://arxiv.org/abs/2604.25850) represents editable components as files and couples every change to a prediction that the next evaluation can falsify. Automation does not remove the need for held-out tests or budgets. It makes those boundaries more important.
+
 ### 2.2 Context Management
 
 What goes into the prompt on each loop iteration: conversation history, tool outputs, retrieved memory, current task state, rules from CLAUDE.md. The challenge is that context is finite and expensive. Strategies:
@@ -105,6 +127,20 @@ What goes into the prompt on each loop iteration: conversation history, tool out
 - **Retrieval-augmented context**: retrieve relevant chunks from long-term storage rather than carrying everything in the window.
 
 The ACE pipeline (see [context-engineering.md §6](./context-engineering.md#6-the-ace-pipeline)) is the Config-Persistence layer above context management: it governs what rules and skills are loaded across sessions.
+
+[Agentic Context Engineering](https://arxiv.org/abs/2510.04618) treats context as an evolving playbook rather than a repeatedly rewritten summary. The paper reports gains of 10.6% on agent benchmarks and 8.6% on finance tasks through incremental generation, reflection, and curation. Cite those as method results, not proof that adding more context is better. The operational principle is smaller: preserve useful detail, attach feedback to an inspectable artifact, and test the evolved context against held-out tasks.
+
+#### Context beyond the repository
+
+Repository files are only one source of truth. Product decisions may live in Linear, interface constraints in Figma, component behavior in Storybook, and operational history in incident systems. Marc Sloan's [2026 talk on product and design constraints](https://www.youtube.com/watch?v=tf6VNGH3tRk&t=523s) argues that this external context must become accessible to the agent without silently drifting away from its source.
+
+| Access pattern | Strength | Failure mode |
+|---|---|---|
+| Live tool or MCP access | Fresh data and direct attribution | Availability, permission, and prompt-injection risk |
+| Versioned repository snapshot | Reproducible and reviewable with the code | Snapshot can become stale |
+| Synchronization bridge | Combines freshness with a local artifact | Sync failures can create two conflicting truths |
+
+Record the source, retrieval time, and freshness expectation for external context. If an agent cannot tell whether a design decision is current, the context builder has moved uncertainty into the prompt instead of resolving it.
 
 ### 2.3 Tool Registry
 
@@ -140,6 +176,8 @@ The step that turns the current state (task description + relevant context + too
 
 The places where assembly goes wrong: rule injection that conflicts with the user instruction, tool schemas that overlap in ways that confuse the model's selection, memory retrieval that surfaces outdated context. Harnesses that make assembly visible (logging the final assembled prompt, not just the response) are dramatically easier to debug.
 
+Ryan Lopopolo's [2026 harness-engineering talk](https://www.youtube.com/watch?v=c8bE0cj7vHY&t=674s) frames the repository as an environment that must make the team's standard of good work legible and surface the right context just in time. The operational test is simple: if the same review feedback appears twice, decide whether it belongs in a formatter, linter, test, architecture decision record, skill, or verifier. Prompt text is only one possible control.
+
 ### 2.8 Lifecycle Hooks
 
 Injection points that fire at defined runtime events. Claude Code does not expose generic `pre-LLM` and `post-LLM` hooks. Its event model includes instruction loading, permission requests, tool use, compaction, subagent and teammate lifecycle, worktree changes, session lifecycle, and failure events. The exact list and blocking semantics live in [Hooks Events Reference](./hooks-events-reference.md).
@@ -157,6 +195,8 @@ Two useful structural mechanisms are:
 2. **Identity gateway**: sensitive tool calls are authenticated at call time with a scoped session credential rather than a broad static API key. Strata Maverics and Microsoft Entra Agent ID implement this pattern with OAuth OBO (On-Behalf-Of) flows that scope permissions to the current task context.
 
 Claude Code now supplies additional primitives for this layer: `sandbox.network.strictAllowlist` denies non-allowlisted sandbox traffic without prompting, worktree isolation separates concurrent edits, and `--restricted` removes command and code execution plus `WebFetch` unless explicitly restored. These controls reduce exposure, but they do not establish that every MCP integration uses per-session identity or that every action is sandboxed.
+
+A [2026 interview with Claude Code creator Boris Cherny](https://www.youtube.com/watch?v=julbw1JuAz0&t=3176s) describes the permission system as a layered combination of classifiers, static analysis, pattern allowlists, conservative defaults, and a human decision when the system is unsure. This is useful design rationale from a product creator. Current behavior still needs to be checked against official documentation and the [Claude Code release history](./claude-code-releases.md).
 
 ### Claude Code implementation checkpoint
 
@@ -184,6 +224,8 @@ Simon Willison coined this term in 2025 (see [martinfowler.com/articles/202508-a
 Any two of the three are manageable. All three together, without structural isolation, create a path where an attacker plants instructions in data the agent will read (a document, a code comment, a Jira ticket), the agent processes those instructions using its access to private data, and then uses its communication capabilities to exfiltrate.
 
 This is not theoretical. GitHub Security has documented prompt injection attacks in Copilot via malicious repository content. The defense is not better prompt engineering; it is structural isolation.
+
+[AgentDojo](https://arxiv.org/abs/2406.13352) makes the threat measurable with 97 realistic tasks and 629 security test cases for agents that consume untrusted tool data. [CaMeL](https://arxiv.org/abs/2503.18813) demonstrates a structural response: trusted control flow is separated from untrusted data flow, and capabilities enforce policy when tools are called. CaMeL reports 77% task success with provable security versus 84% for its undefended system. Security has a utility cost, but the boundary is enforceable outside the model.
 
 ### Defense layers
 
@@ -273,16 +315,11 @@ DeepEval or LangWatch Scenario ← quality evaluation
 
 For enterprise with governance requirements, add Strata Maverics or Entra Agent ID in the identity layer.
 
-### OTel GenAI conventions (May 2026 status)
+### OpenTelemetry GenAI conventions (August 2026 status)
 
-| Span type | Status | Key attributes |
-|-----------|--------|---------------|
-| `gen_ai.client` | Stable | `gen_ai.request.model`, `gen_ai.usage.input_tokens`, `gen_ai.usage.output_tokens` |
-| `gen_ai.agent` | Experimental | `gen_ai.agent.name`, `gen_ai.agent.id` (may change) |
-| Events | Stable | Prompt/completion content as structured events |
-| Metrics | Stable | Token counters, latency histograms |
+The canonical [OpenTelemetry GenAI registry](https://opentelemetry.io/docs/specs/semconv/registry/attributes/gen-ai/) defines shared fields for conversations, system instructions, tool definitions, tool-call IDs, arguments, results, workflow names, token usage, and operations such as `execute_tool`, `invoke_agent`, and `invoke_workflow`. The GenAI conventions are still evolving and several definitions have moved to the dedicated semantic-conventions repository, so pin the version used by production instrumentation.
 
-The experimental status of `gen_ai.agent` spans matters: attributes may be renamed or restructured before stabilization. Production harnesses using agent spans today should expect a remapping cost when the spec stabilizes. OpenInference (Arize) and OpenLLMetry (Traceloop) address this by providing a stable schema on top of the evolving OTel spec.
+Do not record full content by default. System instructions, retrieval queries, tool arguments, and tool results may contain secrets or personal data. Prefer identifiers, sizes, hashes, allowlisted fields, and explicit redaction. Enable payload capture only for a bounded diagnostic purpose with retention and access controls.
 
 ### What to instrument first
 
@@ -290,6 +327,23 @@ The experimental status of `gen_ai.agent` spans matters: attributes may be renam
 2. **Every tool call**: tool name, arguments (redacted if sensitive), result success/failure, latency.
 3. **Session-level**: total tokens per session, session duration, task completion (binary).
 4. **Eval scores**: task completion rate, tool correctness rate (correct tools used / total tools used).
+
+### Operational measures beyond telemetry
+
+Token and latency traces explain resource use. They do not establish that the agent produced acceptable work. Add outcome and control-flow measures that connect a run to its reviewed result.
+
+| Measure | Why it matters | Source prompt |
+|---|---|---|
+| Turns to accepted completion | Reveals friction hidden by a final pass/fail score | Patrick Debois discusses [turn count as an agent-enablement signal](https://www.youtube.com/watch?v=I9RWrW32QEw&t=700s) |
+| Manual takeovers and human review comments | Measures where the harness still depends on rescue | The AI Native DevCon interview proposes tracking [takeovers and pull-request comments](https://www.youtube.com/watch?v=D_cw-k0F1DM&t=2898s) |
+| Requirement coverage | Prevents a broad success score from hiding one missed contract | Executable-spec verifiers can report one verdict per requirement |
+| Evidence completeness | Requires commands, outputs, tests, screenshots, or traces for claims of completion | Simon Willison demonstrates a [Markdown proof artifact built from commands and outputs](https://www.youtube.com/watch?v=owmJyKVu5f8&t=461s) |
+| Latency distribution | Captures slow tails that a mean or median hides | Amit Kushwaha argues for [distribution-aware agent benchmarks](https://www.youtube.com/watch?v=guhTp2Q8VX0&t=810s) |
+| Controlled recovery | Tests whether state survives an interruption without duplicated or lost work | Interrupt the run at a defined point, then inspect its resumed trajectory |
+| Repeated-run reliability | Separates a task solved once from behavior that succeeds consistently | [Towards a Science of AI Agent Reliability](https://arxiv.org/abs/2602.16666) defines consistency, robustness, predictability, and safety as separate dimensions |
+| Harness-model pair | Prevents a model name from absorbing harness-specific cost and failure behavior | [The Scaffold Effect](https://arxiv.org/abs/2607.22585) reports harness-specific cost and failure fingerprints under fixed models |
+
+Report denominators and distributions. "Eight accepted tasks out of ten" is inspectable. "The agent usually succeeds" is not. For latency and cost, include at least the median and a tail percentile when the sample supports it. For small pilots, publish every result instead of implying statistical precision.
 
 Datadog, Honeycomb, New Relic, and MLflow all support OTel GenAI conventions. Arize Phoenix processes 1 trillion spans per month across DoorDash, Instacart, Reddit, Uber, and Booking.com, making it the most documented production scale for an open-source option in this space.
 
@@ -303,15 +357,19 @@ The working solution: use LLM-as-judge for qualitative dimensions that cannot be
 
 ---
 
-## 7. Test Distribution Anti-pattern
+## 7. Test Distribution and Component-Stacking Anti-patterns
 
 An empirical study across 39 open-source agent frameworks and 439 agentic applications (arXiv 2509.19185) found that more than 70% of testing effort in agentic systems targets the deterministic components (tools, APIs, workflow logic), while less than 5% targets the Plan Body, the LLM reasoning core. Adoption of dedicated LLM evaluation tools (DeepEval) was below 1% despite those tools' high marketing visibility.
 
 This is structurally backwards. The deterministic components are the most testable with standard unit tests and will fail loudly when broken. The LLM reasoning core is where the non-obvious, non-deterministic failures live: the ones that produce plausible-looking but wrong outputs, miss edge cases in tool selection, or hallucinate capability claims.
 
-**Recommended rebalancing**: allocate at minimum 20-30% of testing effort to the Plan Body. The pass^k pattern addresses non-determinism: run a critical test 3-5 times and require it to pass in k out of k runs. Promptfoo's `--repeat` flag implements this. LangWatch Scenario SDK does it at the multi-turn simulation level.
+**Recommended rebalancing**: give the Plan Body its own behavioral and repeated-run tests instead of assigning an arbitrary percentage target. The pass^k pattern addresses non-determinism: run a critical test several times and report how many executions pass. Promptfoo's `--repeat` flag implements this. LangWatch Scenario SDK does it at the multi-turn simulation level.
 
 For deterministic components: standard unit tests, schema validation, explicit tool call checks. For LLM reasoning: behavioral simulation (LangWatch Scenario), LLM-as-judge with bias awareness, regression suites on known-good examples from production.
+
+Tests are necessary, but a green suite is not a complete proof bundle. Simon Willison's [2026 engineering-practices talk](https://www.youtube.com/watch?v=owmJyKVu5f8&t=415s) pairs tests with captured commands and outputs, then identifies [sandboxing as the main execution boundary](https://www.youtube.com/watch?v=owmJyKVu5f8&t=980s). For an agentic coding task, retain the requirement map, relevant commands, outputs, test results, review verdict, and any visual or runtime evidence needed to reproduce acceptance.
+
+Do not assume that stacking planning, tools, memory, reflection, and retrieval is monotonic. [Cross-Component Interference](https://arxiv.org/abs/2605.05716) tested all 32 subsets of five components on HotpotQA and GSM8K. A single-tool configuration exceeded the all-in system by 32% on HotpotQA; a three-component subset exceeded it by 79% on GSM8K. This is a preprint over two benchmarks, but its design supports a strong engineering rule: start with the smallest sufficient harness and require each added component to pass a paired ablation and regression test.
 
 ---
 
@@ -329,7 +387,19 @@ The data:
 
 The underlying reason self-verification fails: the model that generated the output carries the same biases and context as the model that reviews it. Verification by a fresh model instance, with only the artifact and the success criteria in context, is structurally different from self-review.
 
+Independent verification is still not a universal free gain. It consumes tokens and latency, can over-specify an already-correct result, and may share the creator's blind spots when both use the same model and evidence. Target verifiers at declared risks, give them independent evidence where possible, and measure rescued failures, false alarms, and regressions instead of counting verifier calls.
+
 Practical implementation: spawn a second agent with the output artifact and the original requirements. Ask whether the output satisfies each requirement. Do not ask "is this good?" Ask "does this satisfy requirement X?" with explicit pass/fail for each.
+
+An executable-spec variant makes that contract more granular:
+
+1. A planner extracts explicit requirements and acceptance evidence from the task.
+2. One verifier evaluates each requirement independently, in parallel where isolation allows it.
+3. Each verifier inspects the relevant codebase state, not only the produced diff.
+4. Runtime behavior is checked in an ephemeral browser or sandbox when static inspection cannot prove it.
+5. The harness aggregates per-requirement verdicts and preserves the evidence behind each one.
+
+Shachar Azriel presents this architecture in [Executable Specs: Building a Verification Layer for Agentic Coding](https://www.youtube.com/watch?v=aWrGSM5vVyc&t=861s). The talk documents an implementation approach. It does not independently prove the resulting product's accuracy, so treat the pattern as a design candidate and test it against real repository tasks.
 
 This does not eliminate hallucination; it catches the subset of hallucinations that are inconsistent with the stated requirements. For catching hallucinations that are internally consistent but factually wrong, you need domain-specific test cases.
 
@@ -373,6 +443,62 @@ User instruction
 
 ---
 
+## 10. Practitioner Video Evidence
+
+This ledger connects the architecture to dated practitioner and product-creator testimony. Every quoted sentence below was checked against the local WebVTT transcript and links to the corresponding YouTube timestamp. Capitalization and punctuation are normalized; wording is preserved. The transcript proves what was said at that point in the video. It does not prove that a product still behaves that way, that a reported outcome generalizes, or that an interview claim was independently measured.
+
+Use three evidence levels throughout this page:
+
+- **Official current evidence** for product behavior, limits, licences, and availability.
+- **Creator interviews** for dated design rationale and historical product decisions.
+- **Practitioner talks** for methods, failure reports, and hypotheses that still require local validation.
+
+| Source | Timestamped verbatim | What it supports | Evidence boundary |
+|---|---|---|---|
+| [Harness Engineering: The New Discipline of Agentic Dev](https://www.youtube.com/watch?v=D_cw-k0F1DM), AI Native DevCon interview, 2026-07-08 | ["Never tell the agent more than once how to do a thing before it gets codified somewhere in the inner or outer loop."](https://www.youtube.com/watch?v=D_cw-k0F1DM&t=459s) | Inner, outer, and meta feedback loops | Practitioner model, not a formal standard; speaker name is not established by the local metadata |
+| [Patrick Debois, The Rise of Agent Enablement](https://www.youtube.com/watch?v=I9RWrW32QEw), 2026-07-08 | ["We're not building the thing, we're building the thing that builds the thing."](https://www.youtube.com/watch?v=I9RWrW32QEw&t=98s) | Agent enablement as system design | Organizational framing, not a benchmark result |
+| [Ryan Lopopolo, Harness Engineering: How to Build Software When Humans Steer and Agents Execute](https://www.youtube.com/watch?v=c8bE0cj7vHY), 2026-06-19 | ["I never want to give the same review feedback twice."](https://www.youtube.com/watch?v=c8bE0cj7vHY&t=668s) | Codifying recurring feedback into the harness | Practitioner workflow and definition |
+| [Marc Sloan, Harness Engineering Beyond Code](https://www.youtube.com/watch?v=tf6VNGH3tRk), 2026-06-20 | ["Product and design context is important to agents, but it lives outside the code base."](https://www.youtube.com/watch?v=tf6VNGH3tRk&t=523s) | External product and design context | Practitioner talk; integration trade-offs require local testing |
+| [Boris Cherny, Building Claude Code](https://www.youtube.com/watch?v=julbw1JuAz0), 2026-03-04 | ["If you're not sure, just ask the human and then they can decide."](https://www.youtube.com/watch?v=julbw1JuAz0&t=3301s) | Conservative permission fallback | Creator interview; current behavior belongs in official docs and release notes |
+| [Dax Raad, Building OpenCode](https://www.youtube.com/watch?v=1VqKUrxR2C8), 2026-05-27 | ["You need some kind of control plane to like set up all the providers, permissions, budget controls, rate limits."](https://www.youtube.com/watch?v=1VqKUrxR2C8&t=2048s) | Separation between runtime and organizational control plane | Creator interview and dated product claim, not proof of current availability |
+| [Simon Willison, Engineering Practices That Make Coding Agents Work](https://www.youtube.com/watch?v=owmJyKVu5f8), 2026-03-19 | ["I think tests are no longer even remotely optional."](https://www.youtube.com/watch?v=owmJyKVu5f8&t=415s) | Tests, proof artifacts, and sandboxing | Practitioner recommendation |
+| [Shachar Azriel, Executable Specs: Building a Verification Layer for Agentic Coding](https://www.youtube.com/watch?v=aWrGSM5vVyc), 2026-06-15 | ["The code is how we ground that agent to reality."](https://www.youtube.com/watch?v=aWrGSM5vVyc&t=868s) | Requirement-level verification against actual code | Architecture described by the speaker; outcomes are not independently verified here |
+| [Amit Kushwaha, Benchmarking the Agent Era](https://www.youtube.com/watch?v=guhTp2Q8VX0), 2026-07-10 | ["You can't talk about mean and medians. Now you have to talk about in terms of distributions."](https://www.youtube.com/watch?v=guhTp2Q8VX0&t=810s) | Multi-turn, multi-tool, tail-aware measurement | Benchmark-methodology talk; specific performance claims require the underlying study |
+| [Dex Horthy, Context Engineering](https://www.youtube.com/watch?v=Usufn8IQJgw), 2026-07-15 | ["If you want to do loops engineering, you should build one loop at a time and keep them small and contained."](https://www.youtube.com/watch?v=Usufn8IQJgw&t=3509s) | Bounded loops before lights-off automation | Practitioner interview and retrospective, not a controlled study |
+
+The source list is selective. It includes videos that add a distinct mechanism, metric, or failure boundary to this page. Inclusion is not an endorsement of every claim in a talk.
+
+---
+
+## 11. Harness Optimizers and Meta-Harnesses
+
+A runtime harness improves one agent run. A harness optimizer improves the code and configuration that govern future runs. The optimizer can edit prompts, context policies, tools, middleware, memory, control flow, verification, or routing, then use an external evaluator to decide which candidate survives.
+
+| Work | Optimization surface | Reported evidence | Boundary |
+|---|---|---|---|
+| [Automated Design of Agentic Systems](https://proceedings.iclr.cc/paper_files/paper/2025/hash/36b7acf6f6010652b3f2a433774a66fe-Abstract-Conference.html), ICLR 2025 | Code-defined agent systems | Meta Agent Search discovers prompts, tools, and workflows that transfer across domains and models | System-level search; not every result isolates a fixed-model harness effect |
+| [AFlow](https://arxiv.org/abs/2410.10762), ICLR 2025 | Code-represented workflows | 5.7% average improvement across six benchmarks | Heterogeneous model-plus-workflow baselines |
+| [ACE](https://arxiv.org/abs/2510.04618), ICLR 2026 | Context and memory playbooks | +10.6% on agent benchmarks and +8.6% on finance tasks | Context optimization, not whole-harness search |
+| [GEPA](https://arxiv.org/abs/2507.19457), ICLR 2026 Oral | Prompts from reflected trajectories | 6% average gain over GRPO across six tasks, with up to 35 times fewer rollouts | Prompt optimizer; model control varies by experiment |
+| [Meta-Harness](https://arxiv.org/abs/2603.28052), 2026 preprint | End-to-end harness code | +7.7 points with four times fewer context tokens; +4.7 points across five held-out models on 200 math problems | TerminalBench search and final evaluation reuse the same 89 tasks; total search compute is not reduced to one comparable cost figure |
+| [Agentic Harness Engineering](https://arxiv.org/abs/2604.25850), 2026 preprint | Prompt, tools, middleware, skills, subagents, and memory | Terminal-Bench 2 pass@1 rises from 69.7% to 77.0% over ten iterations | Coding-focused preprint; external replication remains limited |
+| [HarnessOpt-Bench](https://arxiv.org/abs/2608.06301), 2026 preprint | The optimizer itself | Five optimizer models, four downstream tasks, 111 scored runs | Benchmark protocol, not a production optimizer |
+
+The evidence is promising but young. Do not promote a candidate because its development score improved. A credible optimization run needs:
+
+1. **Frozen invariants:** target model, tool permissions, task contract, grader, and resource limits remain fixed unless the experiment declares otherwise.
+2. **Separated data:** detailed development traces, bounded validation feedback, and a hidden test partition that the optimizer cannot inspect.
+3. **Explicit budgets:** evaluation calls, task attempts, tokens, wall time, and human interventions are metered.
+4. **Versioned candidates:** every change has a diff, rationale, predicted benefit, regression risk, score, and rollback path.
+5. **Multi-metric promotion:** success, accepted-task cost, latency distribution, repeated-run reliability, and failure severity all participate in the decision.
+6. **External evaluation:** the optimizer cannot alter the evaluator, reveal hidden cases, or award its own final score.
+
+[HarnessOpt-Bench](https://arxiv.org/abs/2608.06301) is the clearest current protocol: a trusted execution environment hides the test partition, enforces evaluation budgets, meters resources, and preserves candidate versions. [Establishing Best Practices for Building Rigorous Agentic Benchmarks](https://arxiv.org/abs/2507.02825) explains why those controls matter: task and reward defects can distort reported agent performance by up to 100% in relative terms, and its checklist reduced CVE-Bench overestimation by 33%.
+
+The practical conclusion is not “self-improving agents solve harness engineering.” It is that harness engineering can become an auditable experiment when the search space, evidence, budget, and promotion boundary are explicit.
+
+---
+
 ## See Also
 
 - [Agent Harness Landscape](../ecosystem/agent-harness-landscape.md): dated product map, evidence states, and selection protocol
@@ -387,4 +513,4 @@ User instruction
 
 ---
 
-*Last updated: August 2026. Claude Code implementation mapping checked through v2.1.250. arXiv 2605.18747 (Code as Agent Harness) is the primary academic source for the three properties. Martin Fowler's Harness Engineering article is the primary practitioner reference.*
+*Last updated: August 2026. Claude Code implementation mapping checked through v2.1.250. Practitioner quotations checked against the yt-insights WebVTT corpus snapshot generated on 2026-08-25. Academic evidence checked against primary sources through 2026-08-28. arXiv 2605.18747 (Code as Agent Harness) is the primary code-centric survey; arXiv 2606.20683 supplies the six-responsibility runtime taxonomy.*

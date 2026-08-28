@@ -261,8 +261,8 @@ graph LR
 - [Tools Reference](./guide/core/tools-reference.md): all 40 built-in tools, permission rule formats, per-tool behaviors (timeouts, file-read limits, lossy WebFetch), and how-to for Monitor, WebSocket event ingestion, Workflow, agent teams, Cron, Tasks API
 - [Safe event delegation](./guide/workflows/monitor-event-delegation.md): route verified GitHub events through Monitor to a read-only-first Codex workflow
 - [Architecture](./guide/core/architecture.md): Internal mechanics (context flow, tool orchestration, memory management)
-- [Agent Harness Engineering](./guide/core/agent-harness.md): understand the runtime loop, context, tools, hooks, permissions, recovery, and Claude Code implementation
-- [Agent Harness Map](./guide/ecosystem/agent-harness-landscape.md): compare loop-owning runtimes with orchestrators, frameworks, control planes, and support tools
+- [Agent Harness Engineering](./guide/core/agent-harness.md): understand the runtime loop, context, tools, permissions, recovery, evaluation, and outer-loop harness optimization
+- [Agent Harness Map](./guide/ecosystem/agent-harness-landscape.md): compare loop-owning runtimes with orchestrators, frameworks, control planes, support tools, and research meta-harnesses
 - [Agent Tools](./guide/ecosystem/agentic-tools.md): read deeper profiles of selected coding agents and orchestration products
 - [Harness terminology](./guide/core/glossary.md): distinguish runtime, repository, evaluation harness, and orchestrator
 - [Trade-offs](./guide/ultimate-guide.md#when-to-use-what): Decision frameworks for agents vs skills vs commands

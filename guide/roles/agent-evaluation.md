@@ -36,6 +36,12 @@ An evaluation must identify what it is scoring. A runtime harness owns the model
 
 Use the [Agent Harness Map](../ecosystem/agent-harness-landscape.md) to determine whether a candidate owns a runtime loop or is an adjacent framework, control plane, or support tool. Its test-drive protocol is for comparing shortlisted products. [Agent Harness Engineering](../core/agent-harness.md) defines the boundaries; [Session Observability](../ops/observability.md) covers collection and inspection; [Security Hardening](../security/security-hardening.md) covers the controls that evaluation must not bypass. See the [glossary](../core/glossary.md) for the shared vocabulary.
 
+### Evaluate the Model-Harness Pair
+
+Record the model, harness version, repository state, tool set, permissions, context policy, and budget for every comparison. A model-only label is not reproducible evidence. In [The Scaffold Effect](https://arxiv.org/abs/2607.22585), two models were each tested through three coding harnesses across 50 tasks. Harness choice changed token use per solved task by up to 40 times, while pass-rate differences stayed between 0 and 8 percentage points and were mostly not statistically significant.
+
+For optimizer or meta-harness experiments, split development and held-out tasks, cap search and execution budgets, retain every candidate version, and evaluate the selected candidate in a fresh environment. [HarnessOpt-Bench](https://arxiv.org/abs/2608.06301) applies these controls across 5 optimizer models, 4 tasks, and 111 scored runs. The [benchmark construction checklist](https://arxiv.org/abs/2507.02825) explains why task diversity, contamination checks, and independent scoring belong in the evaluation contract.
+
 ---
 
 ## Metrics to Track

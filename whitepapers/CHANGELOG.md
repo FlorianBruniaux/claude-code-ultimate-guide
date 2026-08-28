@@ -15,13 +15,13 @@ Suivi des versions des ebooks, indépendamment de la version du guide.
 
 ### Added
 
-- **WP12 FR/EN**: version 1.1.1 à 1.2.0. La sélection distingue runtime, contrat de dépôt et orchestrateur. La nouvelle section décrit les quatre jeux de données, y compris le snapshot *Best of Agent Harnesses* du 23 août 2026 (160 projets, 12 catégories) et le JSON canonique `machine-readable/agent-harnesses.json` avec statuts de preuve.
+- **WP12 FR/EN**: version 1.1.1 à 1.3.0. La sélection distingue runtime, contrat de dépôt, orchestrateur et boucle externe d'optimisation. Le whitepaper remplace l'affirmation universelle sur la primauté du harness par le couple modèle-harness, ajoute les résultats contrôlés de *The Scaffold Effect*, et documente Meta-Harness, Agentic Harness Engineering et HarnessOpt-Bench avec leurs limites expérimentales.
 - **WP04 FR/EN**: version 1.4.1 à 1.5.0. Les responsabilités des quatre couches sont ajoutées.
 - **WP08 FR/EN**: version 1.5.1 à 1.6.0. La frontière entre runtime et orchestrateur est ajoutée.
 - **WP11 FR/EN**: version 1.2.1 à 1.3.0. Le protocole d'essai et ses métriques sont ajoutés.
 - **WP07 FR/EN**: version 1.4.3 à 1.4.4. Les références canoniques portables sont ajoutées sans transformer le catalogue étendu en classement de runtimes.
-- **C14 FR/EN Agent Harness Map**: fiche parallèle sur les quatre couches, les sources de comparaison et les mesures d'un essai court.
-- **Cheatsheets FR/EN et guide cheatsheet**: table compacte des quatre couches et liens canoniques vers Agent Harness Map, Agent Harness Engineering, Agent Tools et le glossaire.
+- **C14 FR/EN Agent Harness Map**: fiche parallèle sur les quatre couches, les cinq surfaces de preuve, le couple modèle-harness et la position externe des optimiseurs.
+- **Cheatsheets FR/EN et guide cheatsheet**: table compacte des quatre couches, couple modèle-harness, optimiseur externe et liens canoniques vers Agent Harness Map, Agent Harness Engineering, Agent Tools et le glossaire.
 
 ### Changed
 

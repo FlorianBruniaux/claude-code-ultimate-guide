@@ -10,7 +10,9 @@ Use this map to separate four questions that product lists often merge: which mo
 
 The broad directory below normalizes the 160 projects and 12 categories in [Best of Agent Harnesses](https://ryanalberts.github.io/best-of-Agent-Harnesses/), then adds 31 guide supplements discovered through direct project research. It uses the upstream snapshot at commit [`ece3146`](https://github.com/RyanAlberts/best-of-Agent-Harnesses/tree/ece314654d2c23fe7bd69fc6ef7088f093207e49), dated 2026-08-23. The strict map applies an additional test: does the product own the cycle that plans, acts through tools, observes results, and decides what happens next?
 
-An **agent harness** is the runtime around a model that assembles context, exposes tools, applies permissions, executes the action loop, records state, and handles failure. Simon Willison's concise definition, ["models using tools in a loop"](https://simonwillison.net/2025/May/22/tools-in-a-loop/), identifies the behavioral boundary. The [SWE-agent paper](https://papers.neurips.cc/paper_files/paper/2024/file/5a7c947568c1b1328ccc5230172e1e7c-Paper-Conference.pdf) names the coding-specific interface between the model and computer the **agent-computer interface**.
+An **agent harness** is the runtime around a model that assembles context, exposes tools, applies permissions, executes the action loop, records state, and handles failure. Simon Willison's concise definition, ["models using tools in a loop"](https://simonwillison.net/2025/May/22/tools-in-a-loop/), identifies the behavioral boundary. The 2026 [Agent System and Harness Design survey](https://arxiv.org/abs/2606.20683) expands that runtime into six responsibilities: observation, context, control, action, state, and verification. The [SWE-agent paper](https://papers.neurips.cc/paper_files/paper/2024/file/5a7c947568c1b1328ccc5230172e1e7c-Paper-Conference.pdf) names the coding-specific interface between the model and computer the **agent-computer interface**.
+
+Comparison requires a second boundary: every outcome belongs to a **model-harness pair** under a disclosed task set and budget. In a controlled 300-run study across two models and three harnesses, [The Scaffold Effect](https://arxiv.org/abs/2607.22585) found up to a 40-times difference in tokens per solved task, while pass-rate differences stayed within 0 to 8 percentage points and were mostly not statistically significant. A harness can strongly affect cost and failure behavior without being the main accuracy bottleneck.
 
 This page answers *which layer and which project*. [Agent Harness Engineering](../core/agent-harness.md) documents the components inside a runtime harness. [Agent Tools: Beyond Claude Code](./agentic-tools.md) provides deeper product profiles. The [glossary](../core/glossary.md) separates runtime harnesses from repository harnesses and evaluation harnesses.
 
@@ -23,6 +25,7 @@ This page answers *which layer and which project*. [Agent Harness Engineering](.
 | What does a named coding-agent product support in practice? | [Agent Tools: Beyond Claude Code](./agentic-tools.md) |
 | How should a repository prepare instructions, setup, state, and verification for any runtime? | [Repository Harness Engineering](../ultimate-guide.md#925-harness-engineering) |
 | How should a shortlist be evaluated and instrumented? | [Agent Evaluation](../roles/agent-evaluation.md) and [Observability](../ops/observability.md) |
+| Which systems optimize a harness rather than run tasks directly? | [Harness Optimizers and Meta-Harnesses](#harness-optimizers-and-meta-harnesses) |
 
 These pages are linked but deliberately not merged. The engineering reference explains stable mechanisms. This map is a dated evidence snapshot whose projects, licences, features, and GitHub signals need a separate refresh cycle.
 
@@ -112,9 +115,20 @@ The strict map contains 42 runtimes. Every name links to its official product pa
 
 DeepSeek Harness needs a maturity caveat. The official repository describes `dsh` as a developer preview and warns that compatibility may change. Its plugin architecture, permissions, sandbox choices, and local-first processing do not make untrusted repositories safe by default. See the [DeepSeek Harness profile](./agentic-tools.md#18-deepseek-harness-dsh) for setup, architecture, and security boundaries.
 
+### Creator interviews as supplementary evidence
+
+Official documentation and canonical repositories remain the source of truth for current product behavior. Creator interviews add dated design rationale that a feature table cannot capture:
+
+- Boris Cherny's [Building Claude Code interview](https://www.youtube.com/watch?v=julbw1JuAz0&t=1520s) traces the product's move from a chatbot to a tool-using agent, while the [permission discussion](https://www.youtube.com/watch?v=julbw1JuAz0&t=3176s) explains the layered controls behind command execution.
+- Dax Raad's [Building OpenCode interview](https://www.youtube.com/watch?v=1VqKUrxR2C8&t=1104s) documents the open-source, provider-neutral runtime positioning. The later [control-plane discussion](https://www.youtube.com/watch?v=1VqKUrxR2C8&t=2045s) separates organization-wide provider, permission, budget, and rate-limit controls from the runtime itself.
+
+These interviews do not upgrade a generated evidence state on their own. They are dated testimony, so current availability, licence, and feature behavior still require a direct official source. The [practitioner video evidence ledger](../core/agent-harness.md#10-practitioner-video-evidence) records the short verbatim, timestamp, and boundary for each source.
+
 ## Orchestrators: Products Above the Runtime
 
 The adjacent map contains 14 control planes. An orchestrator coordinates queues, isolated workspaces, or multiple agent sessions. Use one after a single runtime is no longer the bottleneck. Parallel runs multiply throughput, context drift, and review load at the same time.
+
+The runtime/control-plane distinction also appears in Dax Raad's [May 2026 OpenCode interview](https://www.youtube.com/watch?v=1VqKUrxR2C8&t=2045s). He describes organization-wide provider setup, permissions, budgets, and rate limits as a separate control plane. That supports the architectural boundary used here, but it is not evidence that the enterprise product described in the interview is publicly available today.
 
 <!-- BEGIN GENERATED: adjacent-control-planes -->
 | Control plane | Role | Loop ownership | Licence |
@@ -135,6 +149,22 @@ The adjacent map contains 14 control planes. An orchestrator coordinates queues,
 | [Vigilante](https://github.com/aliengiraffe/vigilante)<br><small>★ 37 · 2026-08-28</small> | The README explicitly calls Vigilante a control plane over supported headless coding-agent CLIs. | No; evidence confirmed | <abbr title="Not established from the pinned sources">?</abbr> |
 <!-- END GENERATED: adjacent-control-planes -->
 
+## Harness Optimizers and Meta-Harnesses
+
+Harness optimizers are adjacent to the strict runtime map. They do not primarily execute user tasks or coordinate a fleet. They change a target harness, evaluate candidates, and decide which version should govern later runs. Most entries below are research systems, not production products.
+
+| System | Optimizes | Evidence | Maturity and main limit |
+|---|---|---|---|
+| [ADAS](https://proceedings.iclr.cc/paper_files/paper/2025/hash/36b7acf6f6010652b3f2a433774a66fe-Abstract-Conference.html) | Code-defined prompts, tools, and workflows | ICLR 2025 experiments across coding, science, and math | Peer-reviewed, but headline comparisons are system-level rather than pure fixed-model ablations |
+| [AFlow](https://arxiv.org/abs/2410.10762) | Workflow topology represented as code | 5.7% average improvement across six benchmarks | ICLR 2025; heterogeneous baselines |
+| [ACE](https://arxiv.org/abs/2510.04618) | Context and memory playbooks | +10.6% on agents and +8.6% on finance tasks | ICLR 2026; narrower than whole-harness optimization |
+| [GEPA](https://arxiv.org/abs/2507.19457) | Prompts using reflected trajectories | 6% average gain over GRPO across six tasks; up to 35 times fewer rollouts | ICLR 2026 Oral; prompt-level optimizer |
+| [Meta-Harness](https://arxiv.org/abs/2603.28052) | End-to-end harness code | Classification, math, and TerminalBench-2 improvements | 2026 preprint; coding search and final evaluation reuse the same 89 tasks |
+| [Agentic Harness Engineering](https://arxiv.org/abs/2604.25850) | Prompt, tools, middleware, skills, subagents, and memory | Terminal-Bench 2 pass@1 from 69.7% to 77.0% over ten iterations | 2026 preprint focused on coding benchmarks |
+| [HarnessOpt-Bench](https://arxiv.org/abs/2608.06301) | Evaluates the optimizer, not one target harness | Five optimizer models, four downstream tasks, 111 scored runs | 2026 benchmark preprint; early protocol awaiting broader reproduction |
+
+Do not fold these systems into the 42-runtime count. A runtime owns the task loop. An optimizer owns a search loop over candidate harnesses. [Agent Harness Engineering §11](../core/agent-harness.md#11-harness-optimizers-and-meta-harnesses) documents the evidence and the minimum evaluation protocol.
+
 ## Four Layers, Four Responsibilities
 
 ![A four-layer stack separates the model, repository harness, runtime harness, and orchestrator, with control flowing down and evidence flowing up.](../images/agent-harness-four-layers.webp)
@@ -147,6 +177,8 @@ The adjacent map contains 14 control planes. An orchestrator coordinates queues,
 | Orchestrator | Queues, workspaces, budgets, multiple runs | Scheduler, fleet manager, task board | What must coordinate more than one runtime or agent? |
 
 Frameworks, SDKs, sandboxes, memory systems, evaluation tools, observability platforms, and protocols sit beside or below these layers. LangGraph can help build a runtime; E2B can isolate its execution; Mem0 can persist memory; Langfuse can observe it; MCP can connect tools. None of those roles alone proves ownership of the coding loop.
+
+A meta-harness sits outside the four-layer operating stack and changes one or more layers under evaluation. Keep it separate from an orchestrator: the orchestrator schedules runs, while the optimizer changes the system that will perform them.
 
 ## Complete Project Directory
 
@@ -456,9 +488,9 @@ Feature count and GitHub popularity cannot answer those questions for a specific
 
 ## How to Test-Drive the Shortlist
 
-Test two or three candidates on 8 to 12 representative tasks from the same repositories. Use the same model, repository instructions, and tool permissions where the products allow it. Give each run an isolated worktree and write pass criteria before execution.
+Test two or three candidates on 8 to 12 representative tasks from the same repositories. Use the same model, repository instructions, tool permissions, and resource budget where the products allow it. Repeat critical tasks because one successful run does not establish reliability. Give each run an isolated worktree and write pass criteria before execution.
 
-Record seven measurements for every task:
+Record the following measurements for every task:
 
 | Measurement | What to record |
 |---|---|
@@ -469,8 +501,14 @@ Record seven measurements for every task:
 | Accepted-task cost | Total model and platform cost divided by accepted tasks |
 | Recovery | Whether the run resumes after a controlled interruption without repeating or losing work |
 | Setup friction | Time and specialist work needed to reproduce the environment |
+| Turns to accepted completion | Model or agent turns required before the reviewed result passes; Patrick Debois proposes [turn count as an enablement signal](https://www.youtube.com/watch?v=I9RWrW32QEw&t=700s) |
+| Requirement coverage | Passed, failed, and unresolved acceptance criteria, each linked to its evidence |
+| Proof artifacts | Commands, outputs, tests, screenshots, traces, or runtime captures needed to reproduce acceptance |
+| Tail latency | Per-run distribution and slow cases, not only the mean; see Amit Kushwaha's [distribution-aware benchmark argument](https://www.youtube.com/watch?v=guhTp2Q8VX0&t=810s) |
+| Model-harness pair | Exact model, version, reasoning mode, harness version, and configuration used for the result |
+| Repeated-run reliability | Success consistency, perturbation tolerance, predictable resource use, and bounded failure severity; see [Towards a Science of AI Agent Reliability](https://arxiv.org/abs/2602.16666) |
 
-Review the produced diff and tests, not the agent's self-report. Keep consequential actions behind a human or policy gate during the trial. Use the [Agent Evaluation](../roles/agent-evaluation.md) framework to define acceptance evidence, [Observability](../ops/observability.md) to capture traces and interventions, and [Security Hardening](../security/security-hardening.md) to test the execution boundary rather than trusting a product label.
+Review the produced diff and tests, not the agent's self-report. A green test suite is necessary but may not cover every requirement. Simon Willison's [captured command-and-output workflow](https://www.youtube.com/watch?v=owmJyKVu5f8&t=461s) is one way to preserve a human-reviewable proof artifact, while Shachar Azriel's [executable-spec pattern](https://www.youtube.com/watch?v=aWrGSM5vVyc&t=861s) maps verification to individual requirements. Keep consequential actions behind a human or policy gate during the trial. Use the [Agent Evaluation](../roles/agent-evaluation.md) framework to define acceptance evidence, [Observability](../ops/observability.md) to capture traces and interventions, and [Security Hardening](../security/security-hardening.md) to test the execution boundary rather than trusting a product label. Apply the [Agentic Benchmark Checklist](https://arxiv.org/abs/2507.02825) before treating a score change as a product result: task setup and grader defects can exceed the claimed improvement.
 
 ## Machine-Readable Access
 
@@ -488,7 +526,7 @@ The refresh pipeline validates counts, URLs, evidence states, repository metadat
 
 ## Related Reading
 
-- [Agent Harness Engineering](../core/agent-harness.md): stable architecture and the Claude Code implementation checkpoint
+- [Agent Harness Engineering](../core/agent-harness.md): stable architecture, Claude Code implementation checkpoint, [meta-harness evidence](../core/agent-harness.md#11-harness-optimizers-and-meta-harnesses), and [timestamped practitioner video evidence](../core/agent-harness.md#10-practitioner-video-evidence)
 - [Architecture](../core/architecture.md): the master loop, tool arsenal, context, subagents, permissions, and MCP
 - [Tools Reference](../core/tools-reference.md) and [Hooks Events Reference](../core/hooks-events-reference.md): exact Claude Code interfaces behind several comparison criteria
 - [Agent Tools: Beyond Claude Code](./agentic-tools.md): deeper profiles for selected coding agents
@@ -506,5 +544,7 @@ The refresh pipeline validates counts, URLs, evidence states, repository metadat
 - Commercial products require direct vendor verification. Pricing, supported models, limits, and product surfaces can change without a repository commit.
 - GitHub stars and licence metadata are snapshots captured on the date shown. A star count measures attention, not task success, security, recovery, or maintenance quality.
 - `owns_loop: claimed` records what an official source says. `confirmed` requires a concrete mechanism or executable evidence. `unknown` remains unresolved.
+- A benchmark score is not a property of a model name. Record the model-harness pair, task version, budget, and run count.
+- Meta-harness results remain early. ADAS and AFlow are peer-reviewed; several dedicated 2026 harness-optimization results are preprints and need independent replication.
 
 The upstream data is licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). This guide records the source commit, preserves attribution, and adds its own classification and verification layer.

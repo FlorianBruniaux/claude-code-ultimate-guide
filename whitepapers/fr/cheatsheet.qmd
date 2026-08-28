@@ -314,7 +314,7 @@ Décision rapide : texte exact → `rg` | nom exact → `rg`/Serena | concept �
 | Repository harness | Quelles instructions, vérifications et états encadrent le dépôt? | [Agent Harness Engineering](https://cc.bruniaux.com/guide/agent-harness/) |
 | Orchestrateur | Faut-il coordonner plusieurs runtimes ou sessions? | [Agent Tools](https://cc.bruniaux.com/guide/agentic-tools/) |
 
-Choisir d'abord le runtime pour une tâche de code. Ajouter un orchestrateur lorsque la coordination est le besoin identifié, pas parce que le catalogue est large.
+Évaluer le couple modèle-harness exact pour une tâche de code. Ajouter un orchestrateur lorsque la coordination est le besoin identifié. Un optimiseur de harness reste hors des quatre couches opérationnelles et modifie des harnesses candidats sous un protocole d'évaluation séparé.
 
 ```
 Tâche simple       → demander directement à Claude

@@ -39,6 +39,10 @@ Security review starts by identifying who owns the loop and who can act on its o
 
 The [Agent Harness Map](../ecosystem/agent-harness-landscape.md) distinguishes runtime harnesses from the wider directory of plugins, frameworks, observability tools, and control planes. Use [Agent Harness Engineering](../core/agent-harness.md) to understand runtime boundaries, [Agent Tools: Beyond Claude Code](../ecosystem/agentic-tools.md) to assess adjacent products, and [Session Observability](../ops/observability.md) to retain evidence without expanding access. Definitions live in the [glossary](../core/glossary.md).
 
+Benchmark security separately from task completion. [AgentDojo](https://arxiv.org/abs/2406.13352) includes 97 realistic tasks and 629 prompt-injection security test cases, which makes utility and attack resistance visible as separate outcomes. [CaMeL](https://arxiv.org/abs/2503.18813) reports 77% task completion under its capability-based control design versus 84% for the undefended reference configuration. These studies do not prove that one control fits every harness, but they show why a single success score hides the security trade-off.
+
+Harness optimizers expand the attack surface because they can modify prompts, tool exposure, control flow, or verification policy. Freeze non-negotiable security invariants outside the optimizer's mutation space. Reject candidates that weaken permission boundaries, leak evaluation data, suppress audit events, or improve task score by skipping a required check.
+
 ---
 
 ## Part 1: Prevention (Before You Start)

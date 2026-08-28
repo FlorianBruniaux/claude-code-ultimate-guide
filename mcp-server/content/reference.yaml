@@ -156,6 +156,12 @@ deep_dive:
   agent_harness_creator_verifier: "guide/core/agent-harness.md#8-creator-verifier-pattern"
   agent_harness_three_properties: "guide/core/agent-harness.md#1-three-foundational-properties"
   agent_harness_digital_twin: "guide/core/agent-harness.md#5-digital-twin-testing"
+  agent_harness_model_harness_pair: "guide/core/agent-harness.md#the-core-claim"
+  agent_harness_optimizer: "guide/core/agent-harness.md#11-harness-optimizers-and-meta-harnesses"
+  agent_harness_optimizer_landscape: "guide/ecosystem/agent-harness-landscape.md#harness-optimizers-and-meta-harnesses"
+  agent_harness_evaluation_protocol: "guide/core/agent-harness.md#11-harness-optimizers-and-meta-harnesses"
+  agent_harness_smallest_sufficient: "guide/core/agent-harness.md#7-test-distribution-and-component-stacking-anti-patterns"
+  agent_harness_glossary: "guide/core/glossary.md#agent-harness"
   agent_harness_release_data: "machine-readable/claude-code-releases.yaml"
   agent_harness_reference_data: "machine-readable/README.md#agent-harness-landscape"
   agent_harness_repository_guide: "guide/ultimate-guide.md#925-repository-harness-engineering"
@@ -831,6 +837,12 @@ deep_dive:
   opencode_tool: "guide/ecosystem/agentic-tools.md#15-opencode-anomaly-formerly-sst"  # Anomaly (fka SST), MIT, 199K+ stars (highest in category); 75+ providers, client/server split
   gemini_cli_tool: "guide/ecosystem/agentic-tools.md#16-gemini-cli-google"  # Google, Apache-2.0, 106K+ stars; Gemini-first, free tier is the reason to pick it (60 req/min, 1000/day)
   crush_tool: "guide/ecosystem/agentic-tools.md#17-crush-charm"  # Charm, FSL-1.1-MIT (converts to MIT 2yr after each release), 27.5K+ stars; multi-provider, polished TUI
+  agent_harness_engineering_page: "guide/core/agent-harness.md"
+  agent_harness_loop_horizons: "guide/core/agent-harness.md#three-loop-horizons"
+  agent_harness_video_evidence: "guide/core/agent-harness.md#10-practitioner-video-evidence"
+  agent_harness_optimizer_research: "guide/core/agent-harness.md#11-harness-optimizers-and-meta-harnesses"
+  agent_harness_scaffold_effect: "guide/core/agent-harness.md#the-core-claim"
+  agent_harness_reliability_metrics: "guide/core/agent-harness.md#operational-measures-beyond-telemetry"
   agent_harness_landscape_page: "guide/ecosystem/agent-harness-landscape.md"  # 160-project pinned upstream snapshot plus 31 guide supplements; separates 42 strict runtimes from 14 adjacent control planes
   agent_harness_landscape_entry_points: "guide/ecosystem/agent-harness-landscape.md#choose-the-right-entry-point"
   agent_harness_catalog_boundary: "guide/ecosystem/agent-harness-landscape.md#160-projects-does-not-mean-160-runtime-harnesses"
@@ -2803,7 +2815,7 @@ section_maps:
     - "4-cicd-agentic-patterns"
     - "5-digital-twin-testing"
     - "6-observability-stack"
-    - "7-test-distribution-anti-pattern"
+    - "7-test-distribution-and-component-stacking-anti-patterns"
     - "8-creator-verifier-pattern"
     - "9-reference-architecture"
   "guide/core/architecture.md":
