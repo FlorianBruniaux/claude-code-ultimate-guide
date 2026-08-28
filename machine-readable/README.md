@@ -41,6 +41,36 @@ curl -sL https://raw.githubusercontent.com/FlorianBruniaux/claude-code-ultimate-
 curl -sL https://raw.githubusercontent.com/FlorianBruniaux/claude-code-ultimate-guide/main/machine-readable/agent-harnesses.json
 ```
 
+### Agent harness landscape
+
+`agent-harnesses.json` is generated from the committed snapshot at `best-of-Agent-Harnesses@ece314654d2c23fe7bd69fc6ef7088f093207e49` and curated manual overrides. The upstream-derived records retain the source's CC-BY-SA-4.0 attribution and its 2026-08-23 star snapshot.
+
+The file keeps four sets separate:
+
+- `upstream_snapshot`: the 160 source projects across 12 categories;
+- `guide_supplement`: official products and reviewed repositories absent from that snapshot;
+- `strict_runtime_map`: projects whose evidence says they own an agent loop;
+- `adjacent_control_planes`: wrappers, fleet managers, task controllers, and execution layers that call another runtime.
+
+Evidence uses `confirmed`, `claimed`, `unknown`, or `not_applicable`. `unknown` does not mean the feature is absent. `owns_loop` uses `confirmed`, `claimed`, `unknown`, or `no`. The extractor creates deterministic, fail-closed review proposals and never publishes them automatically.
+
+Rebuild and verify without network access:
+
+```bash
+python3 scripts/build-agent-harnesses.py \
+  --source machine-readable/sources/best-of-agent-harnesses-ece314654d2c.json \
+  --overrides machine-readable/agent-harnesses-overrides.json \
+  --output machine-readable/agent-harnesses.json
+python3 scripts/build-agent-harnesses.py \
+  --source machine-readable/sources/best-of-agent-harnesses-ece314654d2c.json \
+  --overrides machine-readable/agent-harnesses-overrides.json \
+  --output machine-readable/agent-harnesses.json \
+  --check
+python3 scripts/test-agent-harnesses.py
+```
+
+Refresh the upstream source deliberately with `scripts/collect-agent-harnesses.py`. The collector rejects any initial snapshot that no longer has exactly 160 projects, 12 categories, and the required licence. A new upstream commit requires a reviewed contract update rather than a silent count change.
+
 ## Maintenance
 
 `version` and `updated` at the top of `reference.yaml` must track the root `VERSION` file. Run `./scripts/sync-version.sh --check` before committing.
