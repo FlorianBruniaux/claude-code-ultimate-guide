@@ -305,6 +305,17 @@ Quick decision: exact text → `rg` | exact name → `rg`/Serena | concept → g
 
 # Quick Decision Tree
 
+## Four-Layer Quick Map
+
+| Layer | Selection question | Reference |
+|-------|--------------------|-----------|
+| Model | Which reasoning and cost fit the job? | [Glossary](https://cc.bruniaux.com/guide/glossary/) |
+| Runtime harness | Who runs the tool-observation-decision loop? | [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/) |
+| Repository harness | Which instructions, verification, and state bound the repository? | [Agent Harness Engineering](https://cc.bruniaux.com/guide/agent-harness/) |
+| Orchestrator | Do several runtimes or sessions need coordination? | [Agent Tools](https://cc.bruniaux.com/guide/agentic-tools/) |
+
+Choose a runtime first for a coding task. Add an orchestrator when coordination is the identified need, not because the catalog is broad.
+
 ```
 Simple task       → Just ask Claude
 Complex task      → Tasks API to plan first

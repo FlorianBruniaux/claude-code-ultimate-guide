@@ -2287,6 +2287,8 @@ These tools integrate with Claude Code via MCP or slash commands to extend its c
 
 For a broader survey of third-party tools in the ecosystem (session managers, observability, MCP servers), see `guide/ecosystem/agentic-tools.md`.
 
+To choose a portable harness, distinguish the runtime that owns the loop, the repository contract, and the orchestrator that coordinates sessions. The comparison and trial protocol are in the [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/); adjacent tooling is in [Agent Tools](https://cc.bruniaux.com/guide/agentic-tools/) and terms are defined in the [glossary](https://cc.bruniaux.com/guide/glossary/).
+
 ## Community
 
 - Discord Claude Code: https://discord.gg/anthropic

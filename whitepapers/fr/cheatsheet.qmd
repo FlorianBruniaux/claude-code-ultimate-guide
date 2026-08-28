@@ -305,6 +305,17 @@ Décision rapide : texte exact → `rg` | nom exact → `rg`/Serena | concept �
 
 # Arbre de décision rapide
 
+## Carte rapide des quatre couches
+
+| Couche | Question de choix | Référence |
+|--------|-------------------|-----------|
+| Modèle | Quel raisonnement et quel coût conviennent? | [Glossaire](https://cc.bruniaux.com/guide/glossary/) |
+| Runtime harness | Qui exécute la boucle outils-observation-décision? | [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/) |
+| Repository harness | Quelles instructions, vérifications et états encadrent le dépôt? | [Agent Harness Engineering](https://cc.bruniaux.com/guide/agent-harness/) |
+| Orchestrateur | Faut-il coordonner plusieurs runtimes ou sessions? | [Agent Tools](https://cc.bruniaux.com/guide/agentic-tools/) |
+
+Choisir d'abord le runtime pour une tâche de code. Ajouter un orchestrateur lorsque la coordination est le besoin identifié, pas parce que le catalogue est large.
+
 ```
 Tâche simple       → demander directement à Claude
 Tâche complexe     → passer par Tasks API pour planifier

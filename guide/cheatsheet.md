@@ -246,6 +246,19 @@ Model: Sonnet | Ctx: 89.5k | Cost: $2.11 | Ctx(u): 56.0%
 
 ---
 
+## Harness Choice in Four Layers
+
+| Layer | Owns | Start here |
+|-------|------|------------|
+| Model | Reasoning and tool-call proposals | [Glossary](https://cc.bruniaux.com/guide/glossary/) |
+| Runtime harness | Tool loop, permissions, and recovery | [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/) |
+| Repository harness | Instructions, task state, and verification | [Agent Harness Engineering](https://cc.bruniaux.com/guide/agent-harness/) |
+| Orchestrator | Coordination between runtimes or sessions | [Agent Tools](https://cc.bruniaux.com/guide/agentic-tools/) |
+
+Use one runtime for a bounded coding task. Introduce orchestration only when coordination is the constraint.
+
+---
+
 ## Plan Mode & Thinking
 
 | Feature | Activation | Usage |

@@ -1,0 +1,48 @@
+---
+title: "Agent Harness Map"
+subtitle: "Choisir runtime, contrat de dépôt ou orchestrateur"
+card-number: "C14"
+category: "Conception"
+difficulty: "advanced"
+guide-version: "3.41.3"
+author: "Florian BRUNIAUX"
+version: "3.41.3"
+date: "Août 2026"
+layout: "two-col"
+lang: fr
+format:
+  recap-card-typst: default
+---
+
+## Les quatre couches
+
+| Couche | Responsabilité | Ne remplace pas |
+|--------|----------------|-----------------|
+| Modèle | Propose texte et appels d'outils | Permissions et reprise |
+| Runtime harness | Exécute la boucle et les outils | Contrat du dépôt |
+| Repository harness | Instructions, état, vérifications | Boucle du runtime |
+| Orchestrateur | Coordonne runtimes et sessions | Décisions de chaque runtime |
+
+Un orchestrateur peut lancer plusieurs runtimes sans posséder leur boucle. Un dépôt peut améliorer son contrat sans changer de runtime.
+
+## Choisir dans le bon ordre
+
+1. Définir la tâche et le niveau d'autonomie acceptable.
+2. Sélectionner un runtime qui possède la boucle utile.
+3. Écrire le contrat du dépôt: instructions, critères de réussite, vérifications.
+4. Ajouter un orchestrateur seulement si la coordination, l'isolement ou la reprise entre tâches le demandent.
+
+## Quatre sources, quatre usages
+
+| Source | Sert à | Limite |
+|--------|--------|--------|
+| Comparaison stricte | Identifier les runtimes | Pas un classement universel |
+| Tableau des orchestrateurs | Comparer la coordination | Pas un runtime |
+| Best of Agent Harnesses | Explorer 160 projets, 12 catégories | Snapshot du 23 août 2026 |
+| `agent-harnesses.json` | Lire provenance et preuves | `unknown` n'est pas `none` |
+
+## Essai court, verdict traçable
+
+Comparer deux ou trois candidats sur des tâches réelles, dans des worktrees séparés. Mesurer verdict humain, interventions, dérive de plan, temps écoulé, coût par tâche acceptée, récupération et friction de mise en place.
+
+Liens: [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/) · [Agent Harness Engineering](https://cc.bruniaux.com/guide/agent-harness/) · [Agent Tools](https://cc.bruniaux.com/guide/agentic-tools/) · [Glossaire](https://cc.bruniaux.com/guide/glossary/)

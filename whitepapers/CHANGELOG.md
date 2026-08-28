@@ -11,6 +11,22 @@ Suivi des versions des ebooks, indépendamment de la version du guide.
 
 ---
 
+## [2026-08-28] Agent Harness Map, publications dérivées
+
+### Added
+
+- **WP12 FR/EN**: version 1.1.1 à 1.2.0. La sélection distingue runtime, contrat de dépôt et orchestrateur. La nouvelle section décrit les quatre jeux de données, y compris le snapshot *Best of Agent Harnesses* du 23 août 2026 (160 projets, 12 catégories) et le JSON canonique `machine-readable/agent-harnesses.json` avec statuts de preuve.
+- **WP04, WP08, WP11 et WP07 FR/EN**: responsabilités des quatre couches, frontière runtime-orchestrateur, protocole d'essai et références canoniques ajoutés sans transformer le catalogue étendu en classement de runtimes.
+- **C14 FR/EN Agent Harness Map**: fiche parallèle sur les quatre couches, les sources de comparaison et les mesures d'un essai court.
+- **Cheatsheets FR/EN et guide cheatsheet**: table compacte des quatre couches et liens canoniques vers Agent Harness Map, Agent Harness Engineering, Agent Tools et le glossaire.
+
+### Changed
+
+- **C12 FR/EN**: claims larges sur les intégrations IDE, le SDK et MCP remplacés par des surfaces à vérifier; les volumes d'installation non sourcés sont retirés.
+- **M16 FR/EN**: seuils de taille, de contexte, de budget et de nombre d'agents non justifiés remplacés par des critères observables de décomposition, coût, récupération et revue indépendante.
+- **T22 FR/EN**: les outils tiers sont décrits comme des couches adjacentes, pas comme des runtimes.
+- **Catalogues de publication**: série corrigée à 13 whitepapers et 58 fiches par langue après ajout de C14.
+
 ## [2026-08-24] Audit de style anti-IA, 13 whitepapers + 57 fiches récap, PDF régénérés et déployés
 
 Passage systématique des 13 whitepapers et des 57 fiches récap (FR+EN, 70 documents bilingues) contre la checklist `~/.claude/ANTI_AI.md` (em dash, ouvertures stéréotypées, deux-points rhétoriques d'annonce, chutes sentencieuses, emoji décoratifs, personas inventées, buzzwords creux), via 70 agents en parallèle (1 par document bilingue), suivi d'une passe de vérification. 59 documents sur 70 étaient déjà conformes. 11 ont reçu des corrections réelles, la plus importante étant WP07 (51 corrections, essentiellement des tirets `---` faisant office d'em dash). Deux points laissés en l'état par choix éditorial délibéré, à trancher séparément : les personas récurrentes (Antoine, Léa, Karim, Sophie, Marc, Thomas, Julien) utilisées dans les encadrés de mise en situation à travers toute la série, et le marqueur de navigation `📖 Pour aller plus loin / Further reading` répété à l'identique sur les 13 whitepapers. Les 10 whitepapers et la fiche récap M03 modifiés ont vu leurs PDF (et EPUB pour les whitepapers) régénérés et redéployés sur `florian-portfolio/public/guides/`, avec mise à jour de `guides.mjs`, `whitepapers-data.ts` et `recap-cards-data.ts` (landing), plus régénération du ZIP série méthodologie (FR+EN).

@@ -2223,6 +2223,8 @@ Sept pages du guide principal détaillent des sujets condensés dans ce livre bl
 | `guide/ecosystem/practitioner-insights.md` | 22 insights terrain issus de 11 épisodes IFTTD |
 | `guide/ecosystem/agentic-tools.md` | Comparatif Codex CLI, Hermes Agent, Aider, Devin, SWE-agent, CrewAI, LangGraph, AutoGen + matrice de décision |
 
+Pour choisir un harness portable, distinguer le runtime qui possède la boucle, le contrat du dépôt et l'orchestrateur qui coordonne des sessions. La comparaison et le protocole d'essai sont dans [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/); les outils adjacents sont dans [Agent Tools](https://cc.bruniaux.com/guide/agentic-tools/) et les termes dans le [glossaire](https://cc.bruniaux.com/guide/glossary/).
+
 ## Outils Complémentaires
 
 Ces outils s'intègrent avec Claude Code via MCP ou slash commands pour étendre ses capacités dans des domaines spécifiques : spécifications, contrats API, et documentation.
