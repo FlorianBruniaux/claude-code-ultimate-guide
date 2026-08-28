@@ -103,8 +103,37 @@
               {"$ref": "#/$defs/mapEntry"},
               {
                 "properties": {
-                  "owns_loop": {"enum": ["confirmed", "claimed", "unknown"]}
-                }
+                  "owns_loop": {"enum": ["confirmed", "claimed"]},
+                  "evidence_status": {"enum": ["confirmed", "claimed"]}
+                },
+                "allOf": [
+                  {
+                    "if": {
+                      "required": ["evidence_status"],
+                      "properties": {"evidence_status": {"const": "confirmed"}}
+                    },
+                    "then": {
+                      "properties": {
+                        "evidence": {
+                          "items": {"properties": {"status": {"const": "confirmed"}}}
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "if": {
+                      "required": ["evidence_status"],
+                      "properties": {"evidence_status": {"const": "claimed"}}
+                    },
+                    "then": {
+                      "properties": {
+                        "evidence": {
+                          "items": {"properties": {"status": {"const": "claimed"}}}
+                        }
+                      }
+                    }
+                  }
+                ]
               }
             ]
           }

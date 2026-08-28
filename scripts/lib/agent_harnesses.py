@@ -264,8 +264,11 @@ def _validate_map_record(record: Any, known_refs: set[str], label: str) -> list[
         evidence = []
     if record.get("evidence_status") in {"confirmed", "claimed"} and not evidence:
         errors.append(f"{label} evidence is required")
+    evidence_status = record.get("evidence_status")
     for item in evidence:
         errors.extend(f"{label}: {error}" for error in _validate_evidence(item))
+        if isinstance(item, dict) and item.get("status") != evidence_status:
+            errors.append(f"{label} evidence status must match evidence_status")
     return errors
 
 
@@ -360,8 +363,17 @@ def validate_catalog(data: Any) -> list[str]:
                     errors.append(f"{label} source_set does not match upstream project {reference}")
                 if reference in set(supplement_ids) and declared_set != "guide_supplement":
                     errors.append(f"{label} source_set does not match guide supplement {reference}")
-                if label == "strict_runtime_map" and record.get("owns_loop") == "no":
-                    errors.append("strict_runtime_map cannot contain owns_loop=no")
+                if label == "strict_runtime_map":
+                    if record.get("owns_loop") == "no":
+                        errors.append("strict_runtime_map cannot contain owns_loop=no")
+                    elif record.get("owns_loop") not in {"confirmed", "claimed"}:
+                        errors.append(
+                            "strict_runtime_map requires owns_loop confirmed or claimed"
+                        )
+                    if record.get("evidence_status") not in {"confirmed", "claimed"}:
+                        errors.append(
+                            "strict_runtime_map requires evidence_status confirmed or claimed"
+                        )
                 if label == "adjacent_control_planes" and record.get("owns_loop") != "no":
                     errors.append("adjacent_control_planes requires owns_loop=no")
     if map_project_refs.get("strict_runtime_map", set()) & map_project_refs.get(

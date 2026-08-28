@@ -54,6 +54,8 @@ The file keeps four sets separate:
 
 Evidence uses `confirmed`, `claimed`, `unknown`, or `not_applicable`. `unknown` does not mean the feature is absent. `owns_loop` uses `confirmed`, `claimed`, `unknown`, or `no`. The extractor never launches an agent or sends README text to a model. It emits deterministic `unknown` proposals for manual review. External proposals remain review input and are never published automatically.
 
+Each extraction proposal binds its input to the canonical GitHub repository URL, the repository-relative README path, and the SHA-256 of the bytes actually read. Raw README content and local filesystem paths are not copied into the proposal.
+
 Rebuild and verify without network access:
 
 ```bash
@@ -66,8 +68,10 @@ python3 scripts/build-agent-harnesses.py \
   --overrides machine-readable/agent-harnesses-overrides.json \
   --output machine-readable/agent-harnesses.json \
   --check
-python3 scripts/test-agent-harnesses.py
+uv run --offline --with jsonschema python scripts/test-agent-harnesses.py
 ```
+
+The `uv` test command is the required validation gate. It always loads `jsonschema` and checks both the committed catalog and hostile schema witnesses; the runner exits immediately if `jsonschema` is unavailable.
 
 Refresh the upstream source deliberately with `scripts/collect-agent-harnesses.py`. The collector rejects any initial snapshot that no longer has exactly 160 projects, 12 categories, and the required licence. A new upstream commit requires a reviewed contract update rather than a silent count change.
 
