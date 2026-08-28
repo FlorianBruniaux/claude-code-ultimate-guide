@@ -4,7 +4,7 @@ subtitle: "Multi-agent coordination for complex tasks"
 author: "Florian BRUNIAUX"
 date: 2026-08-24
 date-format: "MMMM YYYY"
-version: "3.41.3"
+version: "3.42.0"
 wp-version: "1.6.0"
 series: "Claude Code Ultimate Guide"
 format:
@@ -2262,7 +2262,7 @@ When a subtask cannot be expressed in a way that passes the SPEC test, that is u
 
 ---
 
-*Version 3.41.3 | Created: 2026-02 | Updated: 2026-08 | Agent Teams (v2.1.32+, Experimental)*
+*Version 3.42.0 | Created: 2026-02 | Updated: 2026-08 | Agent Teams (v2.1.32+, Experimental)*
 
 # The Series
 

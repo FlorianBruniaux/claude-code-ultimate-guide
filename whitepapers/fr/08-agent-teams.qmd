@@ -4,7 +4,7 @@ subtitle: "Coordination multi-agents pour tâches complexes"
 author: "Florian BRUNIAUX"
 date: 2026-08-24
 date-format: "MMMM YYYY"
-version: "3.41.3"
+version: "3.42.0"
 wp-version: "1.6.0"
 series: "Claude Code Ultimate Guide"
 format:
@@ -1250,7 +1250,7 @@ Template disponible dans `examples/agents/loop-monitor.md`. Surveille les sessio
 
 ---
 
-*Version 3.41.3 | Créé : 2026-02 | Mis à jour : 2026-08 | Agent Teams (v2.1.32+, Experimental)*
+*Version 3.42.0 | Créé : 2026-02 | Mis à jour : 2026-08 | Agent Teams (v2.1.32+, Experimental)*
 
 
 ---

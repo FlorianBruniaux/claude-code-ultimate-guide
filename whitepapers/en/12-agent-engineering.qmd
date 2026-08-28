@@ -4,7 +4,7 @@ subtitle: "Harnesses, agentic CI/CD, and honest productivity measurement"
 author: "Florian BRUNIAUX"
 date: 2026-08-24
 date-format: "MMMM YYYY"
-version: "3.41.3"
+version: "3.42.0"
 wp-version: "1.2.0"
 series: "Claude Code Ultimate Guide"
 format:
@@ -336,7 +336,7 @@ The pattern across these tools is the same: treat agent identity as first-class,
 
 **Repository**: [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)
 
-*Version 3.41.3 | August 2026*
+*Version 3.42.0 | August 2026*
 
 # The Series
 

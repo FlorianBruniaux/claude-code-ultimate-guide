@@ -4,7 +4,7 @@
 # Purpose: Condensed index for LLMs to quickly answer user questions about Claude Code
 
 version: "3.42.0"
-updated: "2026-07-28"
+updated: "2026-08-28"
 
 # ════════════════════════════════════════════════════════════════
 # DEEP DIVE - Line numbers in guide/ultimate-guide.md
@@ -821,10 +821,15 @@ deep_dive:
   opencode_tool: "guide/ecosystem/agentic-tools.md#15-opencode-anomaly-formerly-sst"  # Anomaly (fka SST), MIT, 199K+ stars (highest in category); 75+ providers, client/server split
   gemini_cli_tool: "guide/ecosystem/agentic-tools.md#16-gemini-cli-google"  # Google, Apache-2.0, 106K+ stars; Gemini-first, free tier is the reason to pick it (60 req/min, 1000/day)
   crush_tool: "guide/ecosystem/agentic-tools.md#17-crush-charm"  # Charm, FSL-1.1-MIT (converts to MIT 2yr after each release), 27.5K+ stars; multi-provider, polished TUI
-  agent_harness_comparison_page: "guide/ecosystem/agent-harness-landscape.md"  # Curated 33-runtime comparison spanning CLI/IDE/cloud, open source through proprietary; complements agentic-tools.md (deep profiles) and ai-ecosystem.md §6 (IDE workflow)
-  agent_harness_definition: "guide/ecosystem/agent-harness-landscape.md#agent-harness-comparison"  # what "agent harness" means: tools, context, permissions, action loop, memory, crash recovery; cites Simon Willison + SWE-agent's agent-computer interface
-  agent_harness_boundary_table: "guide/ecosystem/agent-harness-landscape.md#whats-not-a-full-harness"  # frameworks/SDKs/sandboxes/memory layers/observability/protocols/models that are not themselves a harness
-  agent_harness_orchestrators: "guide/ecosystem/agent-harness-landscape.md#orchestrators-products-above-the-runtime"  # 7 products coordinating agent sessions, queues, or isolated workspaces; deliberately separated from runtime harnesses
+  agent_harness_landscape_page: "guide/ecosystem/agent-harness-landscape.md"  # 160-project pinned upstream snapshot plus 31 guide supplements; separates 42 strict runtimes from 14 adjacent control planes
+  agent_harness_definition: "guide/ecosystem/agent-harness-landscape.md#160-projects-does-not-mean-160-runtime-harnesses"
+  agent_harness_strict_runtime_map: "guide/ecosystem/agent-harness-landscape.md#core-coding-harnesses"
+  agent_harness_orchestrators: "guide/ecosystem/agent-harness-landscape.md#orchestrators-products-above-the-runtime"
+  agent_harness_category_map: "guide/ecosystem/agent-harness-landscape.md#the-twelve-category-map"
+  agent_harness_complete_directory: "guide/ecosystem/agent-harness-landscape.md#complete-project-directory"
+  agent_harness_selection_guide: "guide/ecosystem/agent-harness-landscape.md#how-to-pick-a-harness"
+  agent_harness_test_drive: "guide/ecosystem/agent-harness-landscape.md#how-to-test-drive-the-shortlist"
+  agent_harness_machine_data: "machine-readable/agent-harnesses.json"
   deepseek_harness_tool: "guide/ecosystem/agentic-tools.md#18-deepseek-harness-dsh"  # deepseek-ai/deepseek-harness, MIT, developer preview; Cordis plugin architecture, operational limits, and external prompt-injection study
   programmatic_billing_unaffected: "Claude Code terminal (interactive), IDE integrations, web/desktop/mobile chat, human-in-the-loop workflows"
   programmatic_billing_credits: "Pro $20/mo | Max 5x $100/mo | Max 20x $200/mo — no rollover, not automatic (requires email activation)"

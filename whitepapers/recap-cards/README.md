@@ -98,7 +98,7 @@ Comment travailler. Workflows, agents, CI/CD, debug.
 
 ---
 
-## Série Conception — 14 fiches
+## Série Conception: 14 fiches
 
 Comment penser et décider. Mental models, stratégie, sécurité par design.
 

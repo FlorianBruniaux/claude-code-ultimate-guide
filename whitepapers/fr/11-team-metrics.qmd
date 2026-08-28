@@ -4,7 +4,7 @@ subtitle: "DORA, SPACE et les métriques qui comptent quand l'IA écrit 70 % de 
 author: "Florian BRUNIAUX"
 date: 2026-08-24
 date-format: "MMMM YYYY"
-version: "3.41.3"
+version: "3.42.0"
 wp-version: "1.3.0"
 series: "Claude Code Ultimate Guide"
 format:

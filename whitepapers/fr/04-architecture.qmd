@@ -4,7 +4,7 @@ subtitle: "Pas de RAG, pas de magie noire - juste une boucle"
 author: "Florian BRUNIAUX"
 date: 2026-08-24
 date-format: "MMMM YYYY"
-version: "3.41.3"
+version: "3.42.0"
 wp-version: "1.5.0"
 series: "Claude Code Ultimate Guide"
 format:
@@ -1026,7 +1026,7 @@ Chaque whitepaper de la série est autonome, mais ils se complètent mutuellemen
 
 **Repository** : [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)
 
-*Version 3.41.3 | Août 2026*
+*Version 3.42.0 | Août 2026*
 
 
 ---

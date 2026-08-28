@@ -4,7 +4,7 @@ subtitle: "Synthèse complète + workflows avancés"
 author: "Florian BRUNIAUX"
 date: 2026-08-24
 date-format: "MMMM YYYY"
-version: "3.41.3"
+version: "3.42.0"
 wp-version: "1.4.4"
 series: "Claude Code Ultimate Guide"
 format:
@@ -2253,7 +2253,7 @@ Le Discord officiel Anthropic est le canal le plus rapide pour obtenir de l'aide
 
 *Ce Guide de Référence synthétise les 7 whitepapers de la série Claude Code Ultimate Guide et ajoute du contenu inédit sur la migration, l'intégration IDE, Git, les patterns avancés et les méthodologies de développement.*
 
-*Version 3.41.3, Août 2026 (mis à jour : Claude Sonnet 5 modèle par défaut, sub-agents profondeur 3, Dynamic Workflows `ultracode`)*
+*Version 3.42.0, Août 2026 (mis à jour : Claude Sonnet 5 modèle par défaut, sub-agents profondeur 3, Dynamic Workflows `ultracode`)*
 
 ---
 

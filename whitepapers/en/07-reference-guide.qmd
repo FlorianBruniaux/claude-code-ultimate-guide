@@ -4,7 +4,7 @@ subtitle: "Complete synthesis + advanced workflows"
 author: "Florian BRUNIAUX"
 date: 2026-08-24
 date-format: "MMMM YYYY"
-version: "3.41.3"
+version: "3.42.0"
 wp-version: "1.4.4"
 series: "Claude Code Ultimate Guide"
 format:
@@ -2299,7 +2299,7 @@ To choose a portable harness, distinguish the runtime that owns the loop, the re
 
 *This Reference Guide synthesizes the 7 whitepapers of the Claude Code Ultimate Guide series and adds original content on migration, IDE integration, Git, advanced patterns, and development methodologies.*
 
-*Version 3.41.3, August 2026 (updated: Sonnet 5 default model, Dynamic Workflows, sub-agent nesting depth 3, `/ultrareview`, `/fewer-permission-prompts`, read-only glob patterns skip permission prompts)*
+*Version 3.42.0, August 2026 (updated: Sonnet 5 default model, Dynamic Workflows, sub-agent nesting depth 3, `/ultrareview`, `/fewer-permission-prompts`, read-only glob patterns skip permission prompts)*
 
 ---
 

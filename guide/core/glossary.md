@@ -89,7 +89,7 @@ Visible step-by-step reasoning the model performs before responding. You can cap
 
 ### Agent harness
 
-The runtime around a model that executes an agent loop: it assembles context, exposes tools, applies permissions, preserves or restores state, and feeds tool results back to the model. Claude Code is a runtime harness; Claude is the model it runs. Do not confuse it with the repository harness, which is the project-specific layer of instructions, setup, state, and verification gates. See [Agent Harness Engineering](./agent-harness.md) and [§9.25 Repository Harness Engineering](../ultimate-guide.md#925-harness-engineering).
+The runtime around a model that executes an agent loop: it assembles context, exposes tools, applies permissions, preserves or restores state, and feeds tool results back to the model. Claude Code is a runtime harness; Claude is the model it runs. Do not confuse it with the repository harness, which is the project-specific layer of instructions, setup, state, and verification gates. See [Agent Harness Engineering](./agent-harness.md), the [Agent Harness Landscape](../ecosystem/agent-harness-landscape.md), and [§9.25 Repository Harness Engineering](../ultimate-guide.md#925-harness-engineering).
 
 ### Evaluation harness
 
