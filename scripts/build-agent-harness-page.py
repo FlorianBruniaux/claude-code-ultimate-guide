@@ -45,6 +45,8 @@ GUIDE_PROFILES = {
     "swe-agent": "./agentic-tools.md#22-swe-agent-princeton",
 }
 
+UNKNOWN_MARKER = '<abbr title="Not established from the pinned sources">?</abbr>'
+
 
 def load_json(path: Path) -> dict[str, Any]:
     with path.open(encoding="utf-8") as handle:
@@ -60,8 +62,10 @@ def markdown_escape(value: Any) -> str:
 
 def humanize(value: Any) -> str:
     if value is None or value == "":
-        return "Unknown"
+        return UNKNOWN_MARKER
     text = str(value)
+    if text.casefold() == "unknown":
+        return UNKNOWN_MARKER
     if text == "not_applicable":
         return "N/A"
     return text.replace("_", " ").strip().capitalize()
@@ -69,7 +73,9 @@ def humanize(value: Any) -> str:
 
 def concise_summary(record: dict[str, Any], limit: int = 180) -> str:
     """Return one plain-text sentence for dense comparison tables."""
-    raw = str(record.get("summary") or "Unknown")
+    if not record.get("summary"):
+        return UNKNOWN_MARKER
+    raw = str(record["summary"])
     plain = re.sub(r"\[([^]]+)\]\([^)]+\)", r"\1", raw)
     plain = plain.replace("**", "").replace("__", "").replace("`", "")
     plain = plain.replace("—", ": ").replace("–", "-")
@@ -123,12 +129,15 @@ def render_strict_runtime_map(catalog: dict[str, Any]) -> str:
         f"**Snapshot:** {catalog['_meta']['generated_at'][:10]}. "
         "GitHub stars are captured on the date shown in each project cell.",
         "",
+        f"**Legend:** {UNKNOWN_MARKER} = not established from the pinned sources; "
+        "N/A = does not apply.",
+        "",
         "| Harness | Interface | Provider strategy | Loop evidence | Licence | Role |",
         "|---|---|---|---|---|---|",
     ]
     for mapping in catalog["sets"]["strict_runtime_map"]:
         record = records[mapping["project_ref"]]
-        interfaces = ", ".join(humanize(item) for item in record.get("interfaces", [])) or "Unknown"
+        interfaces = ", ".join(humanize(item) for item in record.get("interfaces", [])) or UNKNOWN_MARKER
         role = markdown_escape(concise_summary(record)) + _render_profile(mapping["id"])
         lines.append(
             f"| {render_project_cell(record)} | {interfaces} | {humanize(record['provider_strategy'])} | "
@@ -168,7 +177,7 @@ def _capabilities(record: dict[str, Any]) -> str:
             unique.append(label)
         if len(unique) == 4:
             break
-    return ", ".join(unique) if unique else "Unknown"
+    return ", ".join(unique) if unique else UNKNOWN_MARKER
 
 
 def _directory_table(records: list[dict[str, Any]]) -> list[str]:

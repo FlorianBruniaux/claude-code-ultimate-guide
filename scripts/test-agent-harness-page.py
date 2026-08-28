@@ -103,6 +103,26 @@ class AgentHarnessPageTests(unittest.TestCase):
             self.builder.concise_summary({"summary": "Runtime—provider-neutral and local."}),
         )
 
+    def test_unknown_table_values_render_as_accessible_question_marks(self):
+        marker = '<abbr title="Not established from the pinned sources">?</abbr>'
+        self.assertEqual(marker, self.builder.humanize(None))
+        self.assertEqual(marker, self.builder.humanize(""))
+        self.assertEqual(marker, self.builder.humanize("unknown"))
+        self.assertEqual("N/A", self.builder.humanize("not_applicable"))
+
+        for fragment in (
+            self.builder.render_strict_runtime_map(self.catalog),
+            self.builder.render_adjacent_control_planes(self.catalog),
+            self.builder.render_project_catalog(self.catalog),
+        ):
+            self.assertNotIn("Unknown", fragment)
+
+    def test_strict_runtime_map_explains_compact_markers(self):
+        rendered = self.builder.render_strict_runtime_map(self.catalog)
+        self.assertIn("**Legend:**", rendered)
+        self.assertIn("not established from the pinned sources", rendered)
+        self.assertIn("N/A = does not apply", rendered)
+
     def test_guide_profile_anchors_exist(self):
         profile_page = (ROOT / "guide/ecosystem/agentic-tools.md").read_text(encoding="utf-8")
         anchors = set()
