@@ -50,6 +50,24 @@ Use stable event names and version every harness field that can change behavior.
 
 An optimizer needs a second trace level. Link each candidate harness version to its parent, mutation, evaluation tasks, budget, scores, and promotion decision. Without that lineage, a higher final score cannot establish which change caused it or whether the candidate consumed more search and execution budget.
 
+### Graph-Level Observability
+
+A graph-based workflow needs more than model and tool spans. The trace must reconstruct why work moved, waited, repeated, or stopped.
+
+| Field | Question it answers |
+|-------|---------------------|
+| `graph.version`, `policy.version` | Which executable topology and control policy governed the run? |
+| `node.id`, `edge.id`, `route.reason` | Which branch ran, and why was it selected? |
+| `state.before`, `state.after` | What changed at the transition boundary? |
+| `join.expected`, `join.received`, `join.wait_ms` | Was parallel work complete, missing, or blocked? |
+| `retry.count`, `interrupt.reason`, `resume.from` | Did recovery repeat work or resume from a checkpoint? |
+| `reviewer.model`, `reviewer.provider`, `evidence.refs` | How independent and evidence-backed was the verdict? |
+| `human.checkpoint`, `human.wait_ms`, `verdict.overturned` | Where did judgment return to a person, and with what effect? |
+
+The official [LangGraph Graph API](https://docs.langchain.com/oss/python/langgraph/graph-api) exposes state, nodes, edges, conditional routing, parallel super-steps, and runtime metadata. Its [persistence model](https://docs.langchain.com/oss/python/langgraph/persistence) adds checkpoints, replay, human-in-the-loop interruption, and fault recovery. Those are traceable events, not merely implementation details.
+
+Liza illustrates the same need in a coding control plane. Its pinned [architectural issues ledger](https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/specs/architecture/architectural-issues.md) identifies manual checkpoint latency, cross-pair review, provider-diversity gaps, and unmeasured reviewer accuracy as open concerns. Tokens and task status alone cannot expose those failure modes. Record routing, quorum composition, review evidence, wait time, and verdict outcomes separately.
+
 ---
 
 ## Session Search & Resume

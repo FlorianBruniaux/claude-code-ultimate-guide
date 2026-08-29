@@ -36,6 +36,18 @@ The refreshed classification is **repository harness plus adjacent control plane
 
 Current GitHub metadata on 2026-08-28: 363 stars, 49 forks, Apache-2.0, latest release [v0.8.0](https://github.com/liza-mas/liza/releases/tag/v0.8.0) from 2026-06-03. Liza now has a dedicated [Agent Tools profile](../../guide/ecosystem/agentic-tools.md#48-liza) and appears as the fifteenth adjacent control plane in the [Agent Harness Map](../../guide/ecosystem/agent-harness-landscape.md#liza-a-repository-harness-and-control-plane-combined).
 
+### Loop, graph, and responsibility refresh: 2026-08-29
+
+Two private comparison notes from Tangi Vass prompted a second code pass focused on loop engineering, graph engineering, and the boundary between human and agent judgment. The useful claim survives, but in a narrower form than the notes propose.
+
+The pinned [`pipeline.yaml`](https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/internal/embedded/pipeline.yaml) is a stable organization graph: roles, doer/reviewer pairs, state vocabularies, quorums, and transitions. Runtime tasks plus dependencies form a changing work graph. The source therefore supports describing Liza as a domain-specific executable graph. It does not support calling Liza a general graph runtime: [`TransitionDef`](https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/internal/pipeline/config.go) has source, destination, trigger, and cardinality, but no general edge schema, join policy, or arbitrary node program.
+
+The code also sharpens the responsibility claim. Mechanical guards can reject illegal transitions, stale leases, missing dependencies, and unmet quorums. They cannot prove semantic correctness. Liza's own [architectural issues ledger](https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/specs/architecture/architectural-issues.md) says cross-pair decomposition judgment is a consequential single gate, provider diversity is not enforced at verdict submission, reviewer accuracy is unmeasured, and human checkpoints plus final domain authority remain load-bearing. The private notes' claim that the human becomes optional is therefore not carried into the guide.
+
+The same applies to `capability × harnessability`. Harnessability is retained as a useful evaluation dimension, not a calibrated scalar. The guide now measures required-check completion, policy violations, recovery, false accepts, false rejects, interventions, wait time, and repeated-run cost for a specific model-harness pair.
+
+An independent practitioner report was also found after the original evaluation. Hippolyte Durix's [Ippon case write-up](https://blog.ippon.fr/2026/04/29/premier-rex-multi-agent-liza/) records a small Spring Boot, Vue.js, and PostgreSQL catalog run with roughly 30 tasks, 5 automated sprints, 35 review verdicts, 3 corrected rejections, and 3 to 4 hours of human time. It also reports massive token consumption, manual planning validation, and no cross-provider reviewer test. This improves the evidence state from "no third-party report" to "one bounded practitioner report". It does not establish production readiness, comparative cost, or semantic correctness because the project was deliberately simple, figures are self-reported, and no comparable artifact-level baseline is published.
+
 ---
 
 ## Relevance score: 3/5
@@ -131,7 +143,7 @@ Staleness explains part of it (the doc is dated March-May 2026 and was read on 2
 | Survey: MetaGPT "no release since v0.8.1 (April 2024)" | ✅ | Confirmed: `gh api repos/FoundationAgents/MetaGPT/releases/latest` returns v0.8.1, 2024-04-22. Last commit January 2026. Stars: 69,384 then, 69,538 now as of 2026-07-28 |
 | Survey: Symphony "Apache 2.0 initially reported, some sources say MIT" | ✅ Apache-2.0 | `gh api`, 2026-07-15. The ambiguity is resolved, it is Apache-2.0. Stars: 25,969 then, 26,265 now as of 2026-07-28 |
 | "L4 Collaborative Agent Networks alongside BMAD and BEADS" | ❌ Not independent | The only support for this ranking is Liza's README. Attributed to **Soufiane Keli, VP Software Engineering at Octo Technology (Accenture)**, not IBM as an earlier search in this session suggested. A Perplexity deep-research (2026-07-12) independently confirms no formal L1-L5 model is published on the Octo blog or elsewhere by Keli; the L1-L5 frameworks actually published (metacto, nextagile, boye-co) are by other authors. This is a comment-level endorsement, not a benchmark. Do not cite as external validation. |
-| Third-party community reception | ❌ None found | No dedicated Hacker News or Reddit thread (WebSearch 2026-07-12). The only activity is in the project's own GitHub Discussions. Confirms tiny adoption. |
+| Third-party practitioner evidence | ⚠️ One bounded report | [Ippon, 2026-04-29](https://blog.ippon.fr/2026/04/29/premier-rex-multi-agent-liza/): small catalog project, ~30 tasks, 5 sprints, 35 verdicts, 3 corrected rejections, 3 to 4 human hours, massive token use. Useful REX, not a production or comparative benchmark. |
 | Author: Tangi Vass, Staff Data/Backend Engineer | ✅ | Confirmed by his Medium articles and the project docs (lizamas.mintlify.app) |
 | Strict role separation (Coder never merges, Reviewer never implements) | ✅ Documented | README plus project docs; consistent with the deterministic supervisor claim, not audited in code |
 | 55+ failure modes and 43+ validation rules | ⚠️ Not exhaustively audited | README counts; representative state, lease, recovery, worktree, review, and merge mechanisms were inspected in source and tests at `a22c123` |
@@ -150,13 +162,14 @@ Staleness explains part of it (the doc is dated March-May 2026 and was read on 2
 | **Confidence** | Medium-high for architecture and classification; low for production outcomes and independent adoption evidence |
 | **Suggested review** | In 3-6 months if adoption grows (raise to 4/5 on real traction plus third-party production feedback). Signals to watch: first substantial HN/Reddit thread, active forks other than the author's, one independent production report. |
 
-### External sources (WebSearch 2026-07-12, GitHub API 2026-07-15)
+### External sources (updated 2026-08-29)
 
 - Official docs: [lizamas.mintlify.app](https://lizamas.mintlify.app/)
 - Author articles (Tangi Vass, Medium): ["Behavior, Posture, Know-How"](https://medium.com/@tangi.vass/behavior-posture-know-how-the-three-layers-that-make-ai-agents-useful-d485388442eb), ["Turning AI Coding Agents into Senior Engineering Peers"](https://medium.com/@tangi.vass/turning-ai-coding-agents-into-senior-engineering-peers-c3d178621c9e), ["I Tried to Kill Vibe Coding"](https://medium.com/@tangi.vass/i-tried-to-kill-vibe-coding-i-built-adversarial-vibe-coding-without-the-vibes-bc4a63872440)
 - Project genesis: [how-liza-grew-up.md](https://github.com/liza-mas/liza/blob/main/docs/how-liza-grew-up.md)
 - Competitive survey: [mas-survey.md](https://github.com/liza-mas/liza/blob/24b35b90801450fb8b0599358efccdda3810145d/specs/architecture/competition-survey/mas-survey.md) (pinned commit; treat as a lead list, not a source)
-- All primary sources are either the repository or the author. No independent third-party source (press, HN, Reddit, company report) found as of this date.
+- Independent practitioner report: [Hippolyte Durix, Ippon, "Du PDD au multi-agent : mon premier REX avec Liza"](https://blog.ippon.fr/2026/04/29/premier-rex-multi-agent-liza/)
+- Related practitioner and research framing: [Loop Engineering](https://addyo.substack.com/p/loop-engineering), [Own the Outer Loop](https://addyo.substack.com/p/own-the-outer-loop), [LangGraph Graph API](https://docs.langchain.com/oss/python/langgraph/graph-api), [Graph Engineering](https://arxiv.org/abs/2608.21156), and [What Makes Prompts a Graph](https://arxiv.org/abs/2607.27578)
 
 ---
 

@@ -45,6 +45,8 @@ Harness optimizers expand the attack surface because they can modify prompts, to
 
 Worktree isolation is not process isolation. [Liza's pinned provider catalog](https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/provider-catalog.yaml), for example, launches external coding-agent CLIs and includes modes such as `--approve-all`, `--dangerously-skip-permissions`, and `--permission-mode dangerous`. Its worktrees reduce edit collisions and its supervisor constrains workflow transitions, but the launched process can still inherit host files, credentials, and network access. Review the generated global configuration, constrain writable roots, inject task-scoped credentials, and put an OS or container sandbox below the orchestrator before unattended execution. See the [Liza profile](../ecosystem/agentic-tools.md#48-liza) for the code and CI evidence behind this classification.
 
+Command policy is another distinct layer. Codex's official [`execpolicy`](https://github.com/openai/codex/blob/main/codex-rs/execpolicy/README.md) matches token prefixes and returns `allow`, `prompt`, or `forbidden`, with positive and negative examples that validate rules at load time. Liza maintainer Tangi Vass's experimental [bash-policy](https://github.com/liza-mas/bash-policy) instead parses compound Bash payloads into command units before returning `allow`, `manual`, or `deny`. The latter had no tagged release at the checked 2026-08-29 snapshot, so evaluate it as source code rather than as a mature dependency. Neither mechanism is a sandbox. Policy decides whether a command shape may run; sandboxing constrains what an allowed or bypassed process can reach.
+
 ---
 
 ## Part 1: Prevention (Before You Start)

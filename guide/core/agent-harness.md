@@ -84,6 +84,21 @@ A product can span two layers without owning all four. [Liza](https://github.com
 
 A **harness optimizer** or **meta-harness** sits outside those four operating layers. It proposes changes to a target harness, evaluates candidates, and promotes or rejects versions. It does not replace the runtime loop or the fleet orchestrator. It improves them under an explicit search and evaluation protocol.
 
+### Loop, graph, harness, and orchestrator are different views
+
+These terms answer different questions. Treating them as competing product categories hides the boundary that matters.
+
+| View | Primary question | Core artifact |
+|-------|------------------|---------------|
+| **Loop engineering** | What feedback repeats, and what stops the repetition? | Goal, action, observation, verification, stopping rule |
+| **Graph engineering** | Which nodes, edges, state transitions, joins, and checkpoints are executable? | Versioned workflow graph and shared state schema |
+| **Harness engineering** | What context, tools, policy, state, verification, and recovery bound execution? | Runtime and repository controls |
+| **Orchestration** | How are runs, workspaces, queues, budgets, and people coordinated? | Scheduler or control plane |
+
+[Loop Engineering](https://addyo.substack.com/p/loop-engineering) is a useful practitioner label for replacing repeated manual prompts with a system that finds work, dispatches it, checks it, and decides what happens next. It is not a formal standard. [Graph Engineering in the Era of LLM Agents](https://arxiv.org/abs/2608.21156) and [What Makes Prompts a Graph](https://arxiv.org/abs/2607.27578) propose a broader graph-engineering vocabulary, but both are recent preprints. The mechanisms are older than the label: the official [LangGraph Graph API](https://docs.langchain.com/oss/python/langgraph/graph-api) already models shared state, nodes, fixed or conditional edges, and parallel super-steps, while its [persistence layer](https://docs.langchain.com/oss/python/langgraph/persistence) provides checkpoints, interruption, replay, and fault recovery.
+
+A loop can be encoded as a graph. A graph can coordinate several loops. A harness can execute either while adding permissions, context, tools, verification, and recovery. An orchestrator can schedule several harnesses without owning their inner loops. Compare products inside the same layer before comparing feature counts.
+
 ---
 
 ## 1. Three Foundational Properties
@@ -381,21 +396,40 @@ Do not assume that stacking planning, tools, memory, reflection, and retrieval i
 
 ## 8. Creator-Verifier Pattern
 
-A structural pattern that consistently improves output correctness: one agent (or agent step) generates, a separate agent verifies, with no shared context between the two.
+The creator-verifier pattern assigns production and evaluation to separate steps or agents. It is a useful design candidate, not a guaranteed accuracy multiplier.
 
-The data:
+The evidence is mixed. [Self-Refine](https://arxiv.org/abs/2303.17651) reports gains from iterative same-model feedback across seven tasks. [Multiagent Debate](https://arxiv.org/abs/2305.14325) reports improvements on selected reasoning and factuality tasks. Conversely, [Large Language Models Cannot Self-Correct Reasoning Yet](https://arxiv.org/abs/2310.01798) finds that intrinsic self-correction without external feedback can fail or degrade answers. [Scalable oversight experiments](https://arxiv.org/abs/2407.04622) find task-dependent rather than universal gains, and [LLM-as-a-judge bias research](https://arxiv.org/abs/2410.02736) documents systematic evaluator biases. Anthropic's [evaluator-optimizer guidance](https://www.anthropic.com/engineering/building-effective-agents) therefore recommends the pattern when evaluation criteria are clear and iterative refinement produces measurable value.
 
-- Microsoft Agent Framework, AutoGen Studio, and Google ADK have all adopted this as a standard pattern.
-- Playwright Test Agents implements it as a three-agent architecture: planner designs the test strategy, generator writes the test code, healer fixes failures.
-- Independent verification improves correctness by +12 to +26% versus self-verification across documented implementations.
-- Factory.ai Missions: adversarial validators caught 81 problems in a Slack clone project, generating 34% of the implementation work as fix features.
-- OpenAI Codex's auto-review system reduced human approval requirements by a factor of 200x versus manual review.
+A fresh context is only one dimension of independence. A verifier can still share the creator's blind spots when both depend on the same model family, specification, tools, retrieval corpus, reward signal, or missing runtime evidence. Assess at least five dimensions:
 
-The underlying reason self-verification fails: the model that generated the output carries the same biases and context as the model that reviews it. Verification by a fresh model instance, with only the artifact and the success criteria in context, is structurally different from self-review.
+| Independence dimension | Failure when shared | Stronger design |
+|------------------------|---------------------|-----------------|
+| **Context** | The reviewer inherits the creator's framing and assumptions | Give the reviewer requirements, artifact, and evidence without the creator's chain of reasoning |
+| **Model or provider** | Correlated blind spots and self-preference | Stratify results by model and test provider diversity where risk justifies the cost |
+| **Evidence and tools** | Both agents inspect the same incomplete signals | Add deterministic tests, runtime traces, external sources, or a different inspection tool |
+| **Role and incentives** | The reviewer optimizes for agreement or style | Require per-requirement pass/fail verdicts and evidence, not a generic quality score |
+| **Escalation authority** | A probabilistic verdict silently becomes final | Define appeal, timeout, human checkpoint, and fail-closed rules for high-impact decisions |
 
-Independent verification is still not a universal free gain. It consumes tokens and latency, can over-specify an already-correct result, and may share the creator's blind spots when both use the same model and evidence. Target verifiers at declared risks, give them independent evidence where possible, and measure rescued failures, false alarms, and regressions instead of counting verifier calls.
+Measure rescued failures, false accepts, false rejects, regressions, latency, and cost. Counting reviewer calls or using a different role name does not establish independence.
 
 Liza implements this pattern as doer/reviewer pairs backed by a deterministic supervisor. Its [state machine and merge authority](https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/specs/architecture/supervision-model.md) can reject invalid transitions even when an agent proposes them. That is stronger than a role name in a prompt, but it still needs outcome evaluation: a structurally separate reviewer can share the same model, incomplete specification, or missing evidence as the doer.
+
+The pinned Liza configuration makes the boundary visible. Some high-impact planning stages require a quorum of two and mark provider diversity as `preferred`, while the coding pair uses a quorum of one. Liza's own [architectural issues ledger](https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/specs/architecture/architectural-issues.md) states that provider diversity is not enforced at verdict submission, reviewer accuracy is not yet measured, and human checkpoints remain load-bearing. The code enforces workflow legality; it does not prove that a legal reviewer verdict is correct.
+
+### Judgment allocation: where responsibility actually sits
+
+A stopping condition answers when a loop ends. It does not by itself establish that the result is good enough. Every production design should record who sets the quality bar, what evidence is admissible, who decides that the evidence is sufficient, and who handles exceptions.
+
+| Decision | Default owner | Evidence | Escalate when |
+|----------|---------------|----------|---------------|
+| Product intent and acceptable risk | Accountable human or product authority | Requirements, policy, risk classification | Intent is ambiguous or impact is high |
+| Task decomposition and routing | Orchestrator or planning agent | Typed task graph, dependencies, budgets | Fan-out is large, irreversible, or crosses domains |
+| Execution | Runtime and repository harness | Tool results, sandbox events, changed artifacts | A permission, policy, or environmental boundary is reached |
+| Mechanical acceptance | Deterministic gate | Tests, schemas, linters, policy checks, reproducible commands | Coverage is incomplete or a check is flaky |
+| Semantic sufficiency | Reviewer agent for bounded work, accountable human for high-impact work | Requirement-level verdicts plus inspected evidence | The verifier is uncertain, conflicted, or outside its evidence boundary |
+| Release or policy exception | Human or external policy authority | Signed approval and auditable rationale | Never silently auto-approve an exception |
+
+This is the useful insight from the loop-engineering debate: human judgment does not necessarily disappear when prompts are automated. It moves to loop design, quality criteria, exception policy, and final accountability. [Own the Outer Loop](https://addyo.substack.com/p/own-the-outer-loop) presents this as a practitioner design principle. Treat the exact placement as a risk decision, not a universal rule.
 
 Practical implementation: spawn a second agent with the output artifact and the original requirements. Ask whether the output satisfies each requirement. Do not ask "is this good?" Ask "does this satisfy requirement X?" with explicit pass/fail for each.
 

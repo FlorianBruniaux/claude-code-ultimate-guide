@@ -839,7 +839,11 @@ deep_dive:
   gemini_cli_tool: "guide/ecosystem/agentic-tools.md#16-gemini-cli-google"  # Google, Apache-2.0, 106K+ stars; Gemini-first, free tier is the reason to pick it (60 req/min, 1000/day)
   crush_tool: "guide/ecosystem/agentic-tools.md#17-crush-charm"  # Charm, FSL-1.1-MIT (converts to MIT 2yr after each release), 27.5K+ stars; multi-provider, polished TUI
   agent_harness_engineering_page: "guide/core/agent-harness.md"
+  agent_harness_loop_graph_distinction: "guide/core/agent-harness.md#loop-graph-harness-and-orchestrator-are-different-views"
   agent_harness_loop_horizons: "guide/core/agent-harness.md#three-loop-horizons"
+  agent_harness_judgment_allocation: "guide/core/agent-harness.md#judgment-allocation-where-responsibility-actually-sits"
+  agent_harness_reviewer_independence: "guide/roles/agent-evaluation.md#evaluate-judgment-allocation-and-reviewer-independence"
+  agent_harness_graph_observability: "guide/ops/observability.md#graph-level-observability"
   agent_harness_video_evidence: "guide/core/agent-harness.md#10-practitioner-video-evidence"
   agent_harness_optimizer_research: "guide/core/agent-harness.md#11-harness-optimizers-and-meta-harnesses"
   agent_harness_scaffold_effect: "guide/core/agent-harness.md#the-core-claim"
@@ -850,6 +854,7 @@ deep_dive:
   agent_harness_strict_runtime_map: "guide/ecosystem/agent-harness-landscape.md#core-coding-harnesses"
   agent_harness_orchestrators: "guide/ecosystem/agent-harness-landscape.md#orchestrators-products-above-the-runtime"
   agent_harness_liza_profile: "guide/ecosystem/agent-harness-landscape.md#liza-a-repository-harness-and-control-plane-combined"
+  agent_harness_liza_practitioner_report: "https://blog.ippon.fr/2026/04/29/premier-rex-multi-agent-liza/"
   agent_harness_category_map: "guide/ecosystem/agent-harness-landscape.md#the-twelve-category-map"
   agent_harness_complete_directory: "guide/ecosystem/agent-harness-landscape.md#complete-project-directory"
   agent_harness_selection_guide: "guide/ecosystem/agent-harness-landscape.md#how-to-pick-a-harness"

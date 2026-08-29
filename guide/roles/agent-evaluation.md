@@ -44,6 +44,24 @@ For optimizer or meta-harness experiments, split development and held-out tasks,
 
 For a multi-agent control plane, separate workflow correctness from task correctness. [Liza](https://github.com/liza-mas/liza) provides concrete orchestration signals such as lease recovery, forbidden state transitions, reviewer verdicts, worktree cleanup, and merge eligibility. Those tests show whether the control plane followed its contract. They do not show that the final patch satisfies the user's requirements, so pair them with repository tests, requirement-level review, intervention counts, recovery drills, and repeated real-ticket outcomes. The [Liza profile](../ecosystem/agentic-tools.md#48-liza) records the pinned evidence boundary.
 
+### Evaluate Judgment Allocation and Reviewer Independence
+
+An evaluation should identify not only what ran, but who was allowed to decide. Record the owner of the quality bar, decomposition, tool permissions, acceptance verdict, exceptions, and release decision. A system that automates task execution while silently moving every ambiguous verdict to one human has improved execution capacity, not necessarily end-to-end throughput.
+
+Do not reduce **harnessability** to one score or multiply it by model capability as if both were calibrated quantities. Use it as a working label for observable compliance with the harness under realistic pressure:
+
+- required-check completion rate, including checks the agent attempted to skip;
+- policy violation and permission-escalation rate;
+- recovery rate after tool, context, lease, or environment failure;
+- protocol adherence when no human is watching the run;
+- false accept and false reject rates at reviewer gates;
+- human intervention count, wait time, and reason;
+- cost and wall time per accepted task across repeated runs.
+
+Reviewer separation also needs its own experimental design. Compare at least same-context self-review, fresh-context same-model review, different-model or provider review, deterministic checks, and human adjudication on a sampled set. Hold requirements, repository state, and budget constant. Report rescued failures, missed failures, false alarms, and disagreements by defect class. [Self-Refine](https://arxiv.org/abs/2303.17651), [intrinsic self-correction research](https://arxiv.org/abs/2310.01798), [multi-agent debate](https://arxiv.org/abs/2305.14325), and [scalable oversight experiments](https://arxiv.org/abs/2407.04622) produce mixed, task-dependent results. A fresh reviewer is a treatment to evaluate, not proof of independence.
+
+For graph-based systems, add graph-level measures: graph and policy version, node and edge chosen, routing reason, state before and after, join wait, retry, interruption, resume point, reviewer provenance, human checkpoint latency, and verdict overturn. These fields let you distinguish a bad node result from a bad route, stale state, missing join, or incorrect acceptance decision.
+
 ---
 
 ## Metrics to Track

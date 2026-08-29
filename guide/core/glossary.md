@@ -89,6 +89,14 @@ Visible step-by-step reasoning the model performs before responding. You can cap
 
 ---
 
+## G
+
+### Graph engineering
+
+The design of an agent workflow as an explicit executable graph with versioned state, nodes, edges, routing conditions, joins, checkpoints, and recovery behavior. A graph can contain loops, but the two terms are not synonyms: a loop describes repeated feedback, while a graph describes the topology that routes work and state. The label is emerging rather than standardized. See [Loop, graph, harness, and orchestrator](./agent-harness.md#loop-graph-harness-and-orchestrator-are-different-views).
+
+---
+
 ## H
 
 ### Agent harness
@@ -103,6 +111,10 @@ A repeatable setup that runs an agent or model against defined tasks and records
 
 The exact combination of model, runtime harness, configuration, tool set, repository environment, and budget used for a run. Evaluate this pair as one unit: changing the harness can change accuracy, cost, and failure modes even when the model stays fixed. [The Scaffold Effect](https://arxiv.org/abs/2607.22585) provides controlled evidence for this effect across two models and three coding harnesses. See [Agent Harness Engineering](./agent-harness.md#the-core-claim) and the [Agent Harness Landscape](../ecosystem/agent-harness-landscape.md).
 
+### Harnessability
+
+A working evaluation dimension for how reliably a model follows a particular harness under realistic pressure: required checks, policy boundaries, recovery protocol, state transitions, and escalation rules. It is not a standardized scalar or an intrinsic property of the model. Report observed rates and failure modes for a specific model-harness pair instead of publishing a single universal score. See [Evaluate Judgment Allocation and Reviewer Independence](../roles/agent-evaluation.md#evaluate-judgment-allocation-and-reviewer-independence).
+
 ### Harness optimizer
 
 An outer-loop system that proposes changes to a target harness, evaluates candidate versions, and retains or rejects those changes against defined metrics. Its search target may include prompts, context rules, tools, control flow, verification, or memory policy. A harness optimizer does not replace the runtime loop it evaluates. See [Harness Optimizers and Meta-Harnesses](./agent-harness.md#11-harness-optimizers-and-meta-harnesses).
@@ -110,6 +122,22 @@ An outer-loop system that proposes changes to a target harness, evaluates candid
 ### Hook
 
 A user-defined handler that executes automatically at a specific point in Claude Code's lifecycle, such as before a tool runs, after a file edit, or at session start. A hook configuration has three levels: the hook event (which lifecycle point), the matcher (which events fire it), and the hook handler (what runs). Handlers can be a shell command, HTTP endpoint, MCP tool, LLM prompt, or subagent. Hooks are deterministic: they fire at fixed lifecycle points, not at the model's discretion. See [§7 Hooks](../ultimate-guide.md#7-hooks).
+
+---
+
+## J
+
+### Judgment allocation
+
+The explicit assignment of decisions across humans, models, deterministic checks, policy engines, and external authorities. It answers who sets the quality bar, what evidence is admissible, who decides that evidence is sufficient, and who handles exceptions. Automating execution can relocate human judgment to loop design, policy, escalation, or release approval without eliminating it. See [Judgment allocation](./agent-harness.md#judgment-allocation-where-responsibility-actually-sits).
+
+---
+
+## L
+
+### Loop engineering
+
+The design of a repeated feedback process that finds or receives work, invokes an agent, observes results, verifies progress, and chooses the next action until a stopping rule fires. The term is useful practitioner vocabulary, not a formal standard. A loop may be encoded inside a graph and bounded by a harness. See [Loop, graph, harness, and orchestrator](./agent-harness.md#loop-graph-harness-and-orchestrator-are-different-views).
 
 ---
 
