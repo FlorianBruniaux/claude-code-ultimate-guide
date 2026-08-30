@@ -1,0 +1,12 @@
+title: Recap Card
+author: Florian BRUNIAUX
+version: "1.0.0"
+quarto-required: ">=1.4.0"
+contributes:
+  formats:
+    typst:
+      template-partials:
+        - typst-template.typ
+        - typst-show.typ
+      toc: false
+      number-sections: false

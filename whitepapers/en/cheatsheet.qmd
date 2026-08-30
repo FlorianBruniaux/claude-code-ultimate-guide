@@ -357,4 +357,4 @@ Deep analysis     → Use Opus (thinking on by default)
 
 **Author**: Florian BRUNIAUX | [Methode Aristote](https://methode-aristote.fr) | Written with Claude
 
-*Version 3.42.0 | August 2026*
+*Version 3.43.0 | August 2026*

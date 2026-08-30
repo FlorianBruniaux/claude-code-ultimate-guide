@@ -357,4 +357,4 @@ Analyse profonde   → utiliser Opus (réflexion activée par défaut)
 
 **Auteur** : Florian BRUNIAUX | [Méthode Aristote](https://methode-aristote.fr) | Écrit avec Claude
 
-*Version 3.42.0 | Août 2026*
+*Version 3.43.0 | Août 2026*
