@@ -350,6 +350,12 @@ opencode
 
 Full provider list and configuration at [opencode.ai/docs/providers](https://opencode.ai/docs/providers/); server architecture at [opencode.ai/docs/server](https://opencode.ai/docs/server/).
 
+#### opencode Go: the subscription tier, and why it does not scale to a team
+
+Beyond bring-your-own-provider-key usage, opencode offers a subscription called Go: $10/month, giving access to a curated set of open-weight models (DeepSeek, Qwen, GLM, Kimi, and others) without needing individual provider accounts. Usage is capped in dollar-value terms rather than fixed request counts: $12 per 5-hour window, $30 per week, $60 per month. Because the cap is dollar-denominated, the effective number of requests varies enormously by model choice, from roughly 110 requests per 5 hours on a premium model to tens of thousands on a cheap one. Source: [opencode.ai/docs/go](https://opencode.ai/docs/go/), verified 2026-08-29.
+
+The plan is explicitly single-seat: by opencode's own documentation, only one member per workspace can subscribe to Go. It is a fit for an individual developer wanting a cheap flat-rate way to try open-weight models, not an option for provisioning a team, whatever its per-request economics look like on paper. For team-scale subscription comparisons across providers, see [Subscription Strategy at Team Scale](../ops/subscription-strategy.md).
+
 ---
 
 ### 1.6 Gemini CLI (Google)

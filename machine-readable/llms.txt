@@ -20,7 +20,7 @@ Guide version 3.42.0, tracking Claude Code up to v2.1.250 (August 2026).
 - MCP server integration: setup, custom servers, validated community server catalog, MCP vs CLI vs Skills trade-offs, advanced tool design
 - Security and permission model: .claude/settings.json, permission rules, sandbox isolation, threat database, data privacy and retention, enterprise governance (guardrail tiers, MCP approval workflow, audit trails)
 - CI/CD and code review: GitHub Actions patterns, the Code Review feature (Teams/Enterprise), multi-provider review pipelines
-- Ops and cost: observability and session forensics, API gateway for enterprise cost control (LiteLLM, Portkey), AI unit economics, team metrics (DORA, SPACE, agentic metrics)
+- Ops and cost: observability and session forensics, API gateway for enterprise cost control (LiteLLM, Portkey), AI unit economics, subscription strategy at team scale (Claude Team seat cap, Enterprise usage billing, multi-vendor, when self-hosted inference breaks even), team metrics (DORA, SPACE, agentic metrics)
 - Team knowledge infrastructure: 3-tier framework (Markdown vault, MCP connectors, RAG at scale), Code+Cowork bridge, Atlassian/Notion/GitBook MCP, Onyx/LlamaCloud/Ragie
 - Adoption: L0-L5 maturity scale, the J-curve, empirical data (METR RCT, DeputyDev cohort), roles in AI-assisted teams
 - Practitioner insights: condensed findings from IFTTD podcast episodes, Devoxx, ByteByteGo, Stanford Online, plus 150+ scored external resource evaluations

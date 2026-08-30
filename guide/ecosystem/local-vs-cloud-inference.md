@@ -30,6 +30,7 @@ tags: [ecosystem, hardware, local-llm, cloud, cost, benchmarks]
 - [Why Cloud and Local Tokens/Sec Are Not Comparable](#why-cloud-and-local-tokenssec-are-not-comparable)
 - [Decision Diagram](#decision-diagram)
 - [Decision Framework](#decision-framework)
+- [Sizing Self-Hosted Inference for a Team](#sizing-self-hosted-inference-for-a-team)
 - [Switching Providers at the CLI Level](#switching-providers-at-the-cli-level)
 
 ---
@@ -577,6 +578,41 @@ Need to run a large LLM
 **Need genuinely huge models (up to ≈300-400B) locally**: the Mac Studio M5 Ultra 256 GB and dual RTX PRO 6000 Blackwell workstation 192 GB can hold DeepSeek-V4-Flash-0731's weights within the available 100-170 GB third-party estimates. The upper estimate leaves limited runtime and KV-cache headroom on 192 GB, so context and concurrency must be tested. Llama 4 Maverick's 205.7 GB estimate fits only on the 256 GB Mac Studio. GLM-5.2, DeepSeek-V4-Pro, and the multi-trillion-parameter MoE releases require CPU offload or hardware beyond the full-residency configurations covered here.
 
 **Data must remain on hardware your organization owns**: managed APIs and rented cloud hardware do not meet that requirement. Buy local hardware sized and benchmarked against the actual model. If the requirement concerns region, operator access, encryption, or contractual control rather than hardware ownership, a dedicated or sovereign-cloud deployment may still qualify after a security and compliance review.
+
+---
+
+## Sizing Self-Hosted Inference for a Team
+
+Everything above sizes hardware for one workload on one machine. A different question comes up whenever a company evaluates self-hosting to serve many developers running coding agents concurrently: how many concurrent sessions can a given GPU configuration actually carry, and does the math beat a per-seat subscription at that headcount? For context on the subscription side of that comparison, see [Subscription Strategy at Team Scale](./subscription-strategy.md).
+
+**Concurrency, not single-stream speed, is what a shared deployment needs.** A single interactive user rarely saturates a GPU; the economics of shared inference come from serving many requests in the same batch. Two independently sourced benchmarks give a sense of how throughput scales with concurrency and model size:
+
+| Model | Hardware | Concurrency | Aggregate throughput | Per-request throughput | P99 TTFT |
+|---|---|---|---|---|---|
+| Llama 8B | 1x H100 | 64 | n/a | 48 tok/s | 890 ms |
+| Llama 8B | 1x H100 | 256 | ≈11,200 tok/s | n/a | n/a |
+| Llama 70B | 4x H100 | 64 | n/a | 22 tok/s | 2,400 ms |
+| Llama 70B | 4x H100 | 256 | ≈3,400 tok/s | n/a | n/a |
+| 671B MoE (DeepSeek-class), 4-bit | 8x H100 | ~100 | ≈620 tok/s | ≈33 tok/s (single-stream) | not reported |
+
+Sources: [GeneralCompute vLLM benchmarks](https://www.generalcompute.com/blog/generalcompute-vs-vllm-throughput-latency-and-cost-benchmarks) for the Llama rows, [Developers Digest break-even analysis](https://www.developersdigest.tech/blog/self-hosting-open-weights-models-break-even-math) for the 671B MoE row. These are third-party benchmarks on specific hardware and quantization settings, not a guarantee of what any given deployment will reproduce; the point is the shape of the trade-off, not the exact figures.
+
+Read the per-request throughput column as a proxy for developer-facing latency: 48 tok/s per stream reads as fluent, 22 tok/s reads as noticeably slower, and neither number says anything about whether an 8B or 70B open model is *capable enough* for agentic coding, which is a separate and harder question than raw speed. Nothing here substitutes for benchmarking the exact model against the exact task mix, per the protocol earlier on this page.
+
+**The break-even math, worked through for the frontier-scale case.** The Developers Digest analysis models a 671B-parameter MoE model (DeepSeek-class) rented as an 8xH100 node (about $16,000/month) and finds:
+
+| Utilization | Output tokens/month | Cost per 1M output tokens |
+|---|---|---|
+| 100% | ≈1.6B | ≈$10 |
+| 50% | ≈800M | ≈$20 |
+| 20% | ≈320M | ≈$50 |
+| 5% | ≈80M | ≈$200 |
+
+Even at 100% utilization, that ≈$10/1M output tokens is **more than 11x** the API price of a cheap open-weight host serving the same model class (DeepSeek V4 Pro at roughly $0.87/1M output tokens at the time of that analysis). The same source states self-hosting only pencils out when three conditions hold together: sustained volume reliably fills the batch, the API being replaced is premium-priced rather than a cheap open-weights host, and the ops cost is amortized across that volume. As a rule of thumb from the same analysis, that means keeping roughly 50 to 100 concurrent requests in flight most of the time, not just at peak.
+
+**Ops cost is not optional overhead, it is a line in the same comparison.** The same analysis adds $5,000 to $15,000/month of loaded engineer time for running the deployment (capacity planning, upgrades, incident response), on top of GPU rental or purchase. A break-even calculation that stops at GPU-hours understates the real cost by that amount.
+
+**What this means for a 300-engineer org evaluating self-hosting instead of Team or Enterprise seats:** the frontier-scale case above is a large-batch, sustained-throughput workload (nightly bulk processing, high-volume classification, a shared coding-agent backend running near-continuously). It is not a good match for bursty, interactive, per-developer usage, where a $20 to $100/seat subscription already amortizes Anthropic's own fleet utilization across every customer. Self-hosting becomes a serious candidate only when the org has, or is willing to build, sustained concurrent load in the 50-100 request range and is comparing against a premium proprietary API rather than a cheap open-weight one. Both conditions are worth stating explicitly in a business case before it goes to leadership, rather than assuming general-purpose developer usage will fill the batch on its own.
 
 ---
 

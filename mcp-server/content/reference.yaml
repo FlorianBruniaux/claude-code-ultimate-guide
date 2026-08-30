@@ -452,6 +452,17 @@ deep_dive:
   ai_unit_economics_description: "Original synthesis on the unit economics of agentic AI usage: per-task cost decomposition, real cost levers (complexity routing, sub-agent isolation, exit criteria), the break-even point of an autonomous agent, and team budget governance. Flagged explicitly as original analysis, not a practitioner-sourced compilation."
   ai_unit_economics_token_estimation: "guide/ops/ai-unit-economics.md#do-not-estimate-tokens-by-string-length"  # why chars/4 breaks: measured -35% on code, -23% on accented French, erring in the unsafe direction; wrong tokenizer for Claude; plus the count-the-wrong-string second-order bug
   ai_unit_economics_skill_injection_cost: "guide/ops/ai-unit-economics.md#audit-what-a-skill-or-tool-injects-not-just-what-it-costs-to-load"  # skill definition is cheap, injected result is the recurring cache-read cost; $5.33/208.9K-token skill call example; no measured break-even, governance call per skill via /usage per-category breakdown
+  # Subscription Strategy at Team Scale (guide/ops/subscription-strategy.md) - Added 2026-08-29
+  subscription_strategy_guide: "guide/ops/subscription-strategy.md"
+  subscription_strategy_two_axes: "guide/ops/subscription-strategy.md#1-the-two-axes-that-actually-matter"  # interactive vs programmatic, seat-priced vs usage-priced
+  subscription_strategy_team_seat_cap: "guide/ops/subscription-strategy.md#2-claude-team-the-per-seat-default-and-its-hard-ceiling"  # Team: 2-150 seats/workspace, $20/$100 seat (annual), source claude.com/pricing verified 2026-08-29
+  subscription_strategy_enterprise: "guide/ops/subscription-strategy.md#3-claude-enterprise-usage-priced-seat-fee-included"  # $20/seat + API-rate usage, self-serve or sales-assisted
+  subscription_strategy_gateway: "guide/ops/subscription-strategy.md#4-api-gateway-the-missing-piece-between-team-and-enterprise"
+  subscription_strategy_multi_vendor: "guide/ops/subscription-strategy.md#5-multi-vendor-by-design-not-by-accident"  # opencode Go single-seat gate as a concrete failure case
+  subscription_strategy_personal_plan_gap: "guide/ops/subscription-strategy.md#6-personal-promax-plans-not-a-compliance-option-whatever-the-price-looks-like"  # retention parity != compliance parity; no DPA/admin control, Consumer Terms scope
+  subscription_strategy_self_hosted_split: "guide/ops/subscription-strategy.md#7-self-hosted-open-weight-models-a-separate-business-case-not-a-line-item-here"
+  opencode_go_plan: "guide/ecosystem/agentic-tools.md#opencode-go-the-subscription-tier-and-why-it-does-not-scale-to-a-team"  # $10/mo, $12/5h + $30/wk + $60/mo caps, single-seat-per-workspace gate, source opencode.ai/docs/go verified 2026-08-29
+  local_vs_cloud_team_sizing: "guide/ecosystem/local-vs-cloud-inference.md#sizing-self-hosted-inference-for-a-team"  # concurrent-throughput sizing table, 671B MoE break-even math (11x cost vs cheap open API even at 100% utilization), $5-15k/mo ops cost floor
   # Learning with AI (guide/roles/learning-with-ai.md)
   learning_quick_check: "guide/roles/learning-with-ai.md#quick-self-check-start-here"
   learning_uval_protocol: "guide/roles/learning-with-ai.md#the-uval-protocol"
