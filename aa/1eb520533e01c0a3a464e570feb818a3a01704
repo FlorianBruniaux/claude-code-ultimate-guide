@@ -1,0 +1,113 @@
+.gitignore
+  s_aeebbf2fc2680c::t_e2bb87731a6475 46-65
+scripts/check-whitepaper-version-sync.py
+  s_a76087f74be2bb::t_a724f23e903669 1-128
+whitepapers/_extensions/cheatsheet/_extension.yml
+  s_a76087f74be2bb::t_8ec62c633978fa 1-12
+whitepapers/_extensions/cheatsheet/typst-show.typ
+  s_a76087f74be2bb::t_8d1571474956b8 1-28
+whitepapers/_extensions/cheatsheet/typst-template.typ
+  s_a76087f74be2bb::t_711ba44d69517b 1-367
+whitepapers/_extensions/recap-card/_extension.yml
+  s_a76087f74be2bb::t_d997cfde6791fe 1-12
+whitepapers/_extensions/recap-card/typst-show.typ
+  s_a76087f74be2bb::t_86229457cfd687 1-35
+whitepapers/_extensions/recap-card/typst-template.typ
+  s_a76087f74be2bb::t_6c2b6386267364 1-391
+whitepapers/_extensions/whitepaper/_extension.yml
+  s_a76087f74be2bb::t_44da9b4fe3b014 1-24
+whitepapers/_extensions/whitepaper/cheatsheet-show.typ
+  s_a76087f74be2bb::t_533dc36b6a05b7 1-30
+whitepapers/_extensions/whitepaper/cheatsheet-template.typ
+  s_a76087f74be2bb::t_4ef47453cbfe29 1-460
+whitepapers/_extensions/whitepaper/recap-card-show.typ
+  s_a76087f74be2bb::t_0dfbce0e4140bb 1-35
+whitepapers/_extensions/whitepaper/recap-card-template.typ
+  s_a76087f74be2bb::t_a7806a76c2e0ba 1-391
+whitepapers/_extensions/whitepaper/typst-show.typ
+  s_d812a5cba40e21::t_08a2ccbf693a42 1-61
+whitepapers/_extensions/whitepaper/typst-template.typ
+  s_a76087f74be2bb::t_d60187f9ccdb88 1-435
+whitepapers/en/_extensions/cheatsheet/_extension.yml
+  s_a76087f74be2bb::t_89e4f18cabf608 1-12
+whitepapers/en/_extensions/cheatsheet/typst-show.typ
+  s_a76087f74be2bb::t_f6a1d1306ace84 1-28
+whitepapers/en/_extensions/cheatsheet/typst-template.typ
+  s_a76087f74be2bb::t_e1b5e9a7840569 1-363
+whitepapers/en/_extensions/whitepaper/_extension.yml
+  s_a76087f74be2bb::t_67c86bff8b9050 1-18
+whitepapers/en/_extensions/whitepaper/cheatsheet-show.typ
+  s_a76087f74be2bb::t_ad78283c41368c 1-30
+whitepapers/en/_extensions/whitepaper/cheatsheet-template.typ
+  s_a76087f74be2bb::t_9407560608ad3f 1-460
+whitepapers/en/_extensions/whitepaper/typst-show.typ
+  s_5c989f28228a89::t_5c6fd5e442f197 1-61
+whitepapers/en/_extensions/whitepaper/typst-template.typ
+  s_a76087f74be2bb::t_02f8027311d877 1-422
+whitepapers/en/cheatsheet.qmd
+  s_a76087f74be2bb::t_d0e1ca79005c8b 360
+whitepapers/fr/_extensions/cheatsheet/_extension.yml
+  s_a76087f74be2bb::t_2c3f190b80014d 1-12
+whitepapers/fr/_extensions/cheatsheet/typst-show.typ
+  s_a76087f74be2bb::t_95ae6403c5914e 1-28
+whitepapers/fr/_extensions/cheatsheet/typst-template.typ
+  s_a76087f74be2bb::t_69542310645903 1-363
+whitepapers/fr/_extensions/whitepaper/_extension.yml
+  s_a76087f74be2bb::t_91c3e78ea645bf 1-18
+whitepapers/fr/_extensions/whitepaper/cheatsheet-show.typ
+  s_a76087f74be2bb::t_24069742a083d1 1-30
+whitepapers/fr/_extensions/whitepaper/cheatsheet-template.typ
+  s_a76087f74be2bb::t_90234900265f46 1-463
+whitepapers/fr/_extensions/whitepaper/typst-show.typ
+  s_5c989f28228a89::t_de71278391895e 1-61
+whitepapers/fr/_extensions/whitepaper/typst-template.typ
+  s_a76087f74be2bb::t_7e21cc6f467a1a 1-422
+whitepapers/fr/cheatsheet.qmd
+  s_a76087f74be2bb::t_c9890b80ac1a3e 360
+whitepapers/recap-cards/en/_extensions
+  s_a76087f74be2bb::t_d1f6209cff995c 1
+whitepapers/recap-cards/fr/_extensions
+  s_a76087f74be2bb::t_2bf379d604f935 1
+.gitattributes
+  s_a76087f74be2bb::t_c6153daf1fcfc0 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "aa1eb520533e01c0a3a464e570feb818a3a01704",
+  "prompts": {},
+  "sessions": {
+    "s_5c989f28228a89": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04c88-66db-7a70-9786-c1a7e09b2797",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_a76087f74be2bb": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a01f2a-b167-78f0-a126-7450029bd920",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_aeebbf2fc2680c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a03e20-0cfd-78b0-b1fa-bfb10ef6a72f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_d812a5cba40e21": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a033c4-cc98-74d2-adf5-63f175b8463b",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
