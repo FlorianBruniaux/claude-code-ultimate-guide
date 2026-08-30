@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
+- **Public guide changelog and curated navigation contract** (`README.md`, plus the landing `/changelog/`, `/guide/`, `/sitemap/`, header, footer, Cmd+K, RSS, and XML sitemap): exposed the repository's `CHANGELOG.md` as a dedicated public page instead of redirecting readers to Claude Code CLI releases. The guide portal and readable sitemap now share one curated topic model that surfaces agent engineering, context and economics, security, operations, ecosystem, roles, and workflows without hard-coded documentation counts. `/releases/` remains exclusively about Claude Code versions and its inactive guide-changelog loader was removed.
+- **MCP 1.3.0 release candidate verified** (`mcp-server/src/server.ts`, bundled indexes, and `agent-harnesses.json`): synchronized the runtime handshake version with the npm package version. A clean build, dry-run package inspection, JSON-RPC initialization, tool listing, and resource listing confirm 17 tools, 1,751 search entries, 228 Claude Code releases, and the Agent Harness Map resource before publication.
+
 ### Fixed
 
 - **DORA metrics updated to the current five-metric model** (`guide/ops/team-metrics.md`, WP11 FR/EN, WP12 FR, and the landing Team Metrics page): replaced the historical four-key model and all-cause MTTR with Change Lead Time, Deployment Frequency, Failed Deployment Recovery Time, Change Fail Rate, and Deployment Rework Rate. Removed legacy tier tables as current targets, added deployment-to-incident measurement boundaries, and corrected the landing quiz and source descriptions against DORA's January 2026 primary documentation.

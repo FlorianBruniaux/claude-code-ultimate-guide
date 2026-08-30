@@ -19,7 +19,7 @@ export function createServer(): McpServer {
   const server = new McpServer(
     {
       name: 'claude-code-ultimate-guide',
-      version: '1.2.0',
+      version: '1.3.0',
     },
     {
       instructions: [
