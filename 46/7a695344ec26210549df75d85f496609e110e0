@@ -1,0 +1,123 @@
+CHANGELOG.md
+  s_e6f3f9b3ebc509::t_470a7591afebe2 11,13-21,33
+README.md
+  s_95392a6b844626::t_8ff0717d7e556d 268
+docs/resource-evaluations/README.md
+  s_aeebbf2fc2680c::t_ec010e907ee5bb 95,104
+docs/resource-evaluations/pavan-belagatti-agentic-engineering-2026.md
+  s_aeebbf2fc2680c::t_014f8d8646caff 1-81
+guide/README.md
+  s_95392a6b844626::t_7aa7886d096d74 102,130
+guide/core/agent-harness.md
+  s_aeebbf2fc2680c::t_45c48155c1b921 511
+guide/core/context-engineering.md
+  s_add58b6f2c831b::t_3e1223c88d17c5 139-140
+guide/core/loop-graph-engineering.md
+  s_add58b6f2c831b::t_cfd993d9adfbcc 170-183
+guide/ecosystem/agentic-tools.md
+  s_0a442347250965::t_1c9f47f9558fbb 344-345,357,359,567,1103-1104
+guide/ecosystem/local-vs-cloud-inference.md
+  s_0a442347250965::t_904c31f8c03a97 586,588,598,600,602,611-621,625-643
+guide/ecosystem/practitioner-insights.md
+  s_bd1e403875ee43::t_b7ada9569cd0e5 11,101-106,109-120,213-218,518-530
+guide/ops/subscription-strategy.md
+  s_0df90997879182::t_a04771544f8734 11,19-22,27,29,31,33-37,43,45,47,53-63,65,67-74,78-80,82,84,90,92-94,98,100,102-103,105,113-117
+guide/ops/team-metrics.md
+  s_bd1e403875ee43::t_d4bbc561378dfc 43,45,57,77-81,83-85,87,89,91,93,97,99,101,115,125,127,129,131,211,341,350,467
+guide/workflows/agentic-software-factories.md
+  s_bd1e403875ee43::t_71ca92d0d09011 23-38
+whitepapers/CHANGELOG.md
+  s_a76087f74be2bb::t_ed524c2a964fad 14-20
+whitepapers/en/11-team-metrics.qmd
+  s_add58b6f2c831b::t_408c9b6687ddc9 7-8,36,54,56,60,72,92-96,98,100,102,104,106,108,110,112,190,332,457,526-527
+whitepapers/en/12-agent-engineering.qmd
+  s_2f2b8a177ba283::t_b26dc392c74087 8
+whitepapers/fr/11-team-metrics.qmd
+  s_add58b6f2c831b::t_d728805461c03f 7-8,36,54,56,60,72,92-96,98,100,102,104,106,108,110,112,190,332,457,526-527
+whitepapers/fr/12-agent-engineering.qmd
+  s_2f2b8a177ba283::t_c7cff937381c7a 8,493
+machine-readable/reference.yaml
+  s_a76087f74be2bb::t_e1b199dff8e28e 155,448,450,456,462-463,472-475,477,479-480,1163,1170-1172,3366,3369,3371
+mcp-server/content/reference.yaml
+  s_a76087f74be2bb::t_219247d71a3fe6 155,448,450,456,462-463,472-475,477,479-480,1163,1170-1172,3366,3369,3371
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "467a695344ec26210549df75d85f496609e110e0",
+  "prompts": {},
+  "sessions": {
+    "s_0a442347250965": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04233-7990-7c82-96d1-1418fd7722e9",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_0df90997879182": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fd73a-588d-7f03-ab50-494ca0e95848",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_2f2b8a177ba283": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04a7c-f938-7500-b20e-0faa6c4019c5",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_95392a6b844626": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04821-7023-7112-aeb8-f4aa59348ce9",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_a76087f74be2bb": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a01f2a-b167-78f0-a126-7450029bd920",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_add58b6f2c831b": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04c84-8125-7153-bf35-92eab4d81a08",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_aeebbf2fc2680c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a03e20-0cfd-78b0-b1fa-bfb10ef6a72f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_bd1e403875ee43": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "953892dc-6069-48d6-8505-998f61d64787",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_e6f3f9b3ebc509": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a052bb-231b-7360-b4fd-17b0ba68c8a5",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
