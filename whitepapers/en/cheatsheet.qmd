@@ -2,10 +2,10 @@
 title: "Claude Code Cheatsheet"
 subtitle: "Daily essentials for maximum productivity"
 author: "Florian BRUNIAUX"
-date: 2026-07-01
+date: 2026-08-30
 date-format: "MMMM YYYY"
-version: "3.42.0"
-wp-version: "1.1.2"
+version: "3.43.0"
+wp-version: "1.2.0"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -315,6 +315,8 @@ Quick decision: exact text → `rg` | exact name → `rg`/Serena | concept → g
 | Orchestrator | Do several runtimes or sessions need coordination? | [Agent Tools](https://cc.bruniaux.com/guide/agentic-tools/) |
 
 Evaluate the exact model-harness pair for a coding task. Add an orchestrator when coordination is the identified need. A harness optimizer sits outside the four operating layers and changes candidate harnesses under a separate evaluation protocol.
+
+Loop and graph are not extra substitutes. Loop names the repeated feedback and stopping rule. Graph names the executable nodes, branches, and checkpoints inside the chosen structure. For observed mechanisms, `confirmed` = visible mechanism, `claimed` = source assertion, `unknown` = point not established yet. See also [Loop & Graph Engineering](https://cc.bruniaux.com/guide/loop-graph-engineering/).
 
 ```
 Simple task       → Just ask Claude

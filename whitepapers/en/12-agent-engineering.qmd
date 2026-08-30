@@ -2,10 +2,10 @@
 title: "Software Engineering in the Age of Autonomous Agents"
 subtitle: "Harnesses, agentic CI/CD, and honest productivity measurement"
 author: "Florian BRUNIAUX"
-date: 2026-08-24
+date: 2026-08-30
 date-format: "MMMM YYYY"
-version: "3.42.0"
-wp-version: "1.3.0"
+version: "3.43.0"
+wp-version: "1.4.0"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -199,6 +199,21 @@ Full coverage with configurations and detailed comparisons: [Agent Tools: Beyond
 
 Selection starts with the job to be done and the acceptable level of responsibility, not a global ranking. Separating the runtime that owns the loop, the repository contract that bounds the change, and the orchestrator that coordinates several sessions prevents one category from being asked to solve another category's problem.
 
+## Loop, Graph, Harness, and Orchestrator: Four Views, Not Four Substitutes
+
+The four words answer different questions. Treating them as competing product categories hides the boundary that matters.
+
+| View | Primary question | Core artifact | Canonical maturity |
+|------|------------------|---------------|--------------------|
+| Loop | What feedback repeats, and what stops it? | Goal, action, observation, verification, stopping rule | Useful practitioner vocabulary, not a formal standard |
+| Graph | Which nodes, edges, state transitions, joins, and checkpoints are executable? | Versioned graph and shared state schema | Emerging research vocabulary carried by 2026 preprints |
+| Harness | What context, tools, policy, state, and verification bound execution? | Runtime and repository controls | Operational engineering boundary used throughout this guide |
+| Orchestrator | How are runs, workspaces, queues, budgets, and people coordinated? | Scheduler or control plane | Operational term for cross-run coordination |
+
+The key point is not the label but the responsibility actually owned. A loop can be encoded as a graph. A graph can coordinate several loops. A harness can execute either while adding permissions, context, tools, verification, and recovery. An orchestrator can schedule several harnesses without owning their inner loops.
+
+The selection rule stays simple: choose the smallest control structure that safely solves the need. If the need is to run and stop a coding task correctly, start with the runtime harness. If the need is to version an explicit flow with nodes, branches, and checkpoints, add a graph structure inside the chosen runtime. If the need is to make one repository legible, verifiable, and recoverable across compatible runtimes, strengthen the repository harness. Add an orchestrator only when coordination across sessions, worktrees, queues, or people becomes the real constraint.
+
 Five evidence surfaces answer different decisions. The strict table in the [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/) compares coding runtimes. Its orchestrator table covers products that coordinate runtimes without being treated as runtimes. The *Best of Agent Harnesses* snapshot, dated 2026-08-23, lists 160 projects across 12 categories; it also contains frameworks, sandboxes, memory, and observability tools. The canonical `machine-readable/agent-harnesses.json` JSON combines those catalog observations under a machine-readable contract. A separate research table covers systems that optimize a target harness.
 
 | Question | Data set | Limit |
@@ -209,7 +224,7 @@ Five evidence surfaces answer different decisions. The strict table in the [Agen
 | Which fact is verified and by which source? | Canonical JSON | `unknown` means not established, not absent |
 | Which systems modify a target harness? | Optimizer and meta-harness research table | Mostly research, not a production-product ranking |
 
-The JSON retains links, verification date, scope, and the values `confirmed`, `claimed`, `unknown`, or `not_applicable`. A `claimed` value records a source assertion, not confirmed by mechanism evidence. This model helps distinguish demonstrated capability from a source assertion or missing data. The selection criteria and trial protocol are in the [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/); definitions remain in the [glossary](https://cc.bruniaux.com/guide/glossary/).
+The JSON retains links, verification date, scope, and the values `confirmed`, `claimed`, `unknown`, or `not_applicable`. A `claimed` value records a source assertion, not confirmed by mechanism evidence. An `unknown` value means a decision-relevant point has not yet been established, including after reading the public docs. These statuses apply to observed mechanisms and sourced capabilities, not to terminology labels. This model helps distinguish demonstrated capability from a source assertion or missing data. The selection criteria and trial protocol are in the [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/); the terminology synthesis is in [Loop & Graph Engineering](https://cc.bruniaux.com/guide/loop-graph-engineering/), and definitions remain in the [glossary](https://cc.bruniaux.com/guide/glossary/).
 
 ## Harness Optimizers and Meta-Harnesses
 
@@ -271,7 +286,7 @@ These numbers describe a real shift. Automated test generation has crossed from 
 
 On the observability side, Arize Phoenix has become the de facto open reference. It processes 1 trillion LLM spans per month across customers including DoorDash, Instacart, Reddit, Uber, and Booking.com. The project has more than 9,000 GitHub stars, ships under the ELv2 license, and is fully self-hostable. Phoenix is one option among several, but its production scale gives it gravity.
 
-The OpenTelemetry GenAI SIG has been the standardization vehicle. As of May 2026, `gen_ai.client` attributes are stable and production-ready, meaning instrumentation of LLM client calls can be standardized across vendors. The `gen_ai.agent` attributes are still experimental and not yet stable, which is the one area where teams should expect breaking changes in the next 12 months. The implementations that converge on this schema include Arize OpenInference, Traceloop OpenLLMetry (Python and TypeScript instrumentation), and the major commercial observability platforms (Datadog, Honeycomb, New Relic, MLflow) all support OTel GenAI ingestion.
+The OpenTelemetry GenAI SIG has been the standardization vehicle. As of May 2026, the dedicated GenAI semantic conventions, including `gen_ai.client`, are still in Development status: useful enough to instrument now, but still subject to change. `gen_ai.agent` is even less settled. The practical implication is straightforward: version a local adapter or freeze a local ingestion schema before wiring several backends to the same trace contract. The implementations converging on this area include Arize OpenInference, Traceloop OpenLLMetry (Python and TypeScript instrumentation), and the major commercial observability platforms (Datadog, Honeycomb, New Relic, MLflow) all support OTel GenAI ingestion.
 
 The hardest problem in this space is evaluation, and specifically the use of LLM-as-judge. JudgeBiasBench (arXiv 2604.23178) is the benchmark that anyone deploying LLM-judges needs to read. On advanced bias tests, LLM-judge error rates exceed 50%. The dominant bias is style bias (score 0.76 to 0.92), meaning the judge favors outputs that stylistically resemble its own typical outputs. Position bias is comparatively minor (below 0.04). Practitioner measurement from Galileo AI reports the typical True Negative Rate of an LLM-judge for detecting invalid outputs is below 25%, meaning more than three quarters of invalid outputs slip through.
 
@@ -291,7 +306,7 @@ The evaluability question also depends on architecture. Deterministic workflows,
 
 Two production observability signals have emerged as particularly valuable. Agent GPA from Snowflake reports 95% agent error detection and 86% precision in localization, using an instrumented Tool Correctness metric defined as correct tools called divided by total tools called. GAAT (arXiv 2604.05119, Apple ML Research) demonstrates policy violation detection in under 200ms via Open Policy Agent declarative rules, with an architecture combining a Governance Enforcement Bus and a Trusted Telemetry Plane that uses cryptographic provenance for tamper-evident logging.
 
-What this all means operationally: invest in automated test generation because the gains are real and measurable, never let the creator verify its own work, instrument with OpenTelemetry GenAI client attributes today and expect agent attributes to stabilize over the next year, and treat LLM-judges as fast first-line filters rather than final arbiters. Getting evaluation right means combining multiple signals (mutation scores, independent verifiers, structured policy checks) rather than relying on any single one.
+What this all means operationally: invest in automated test generation because the gains are real and measurable, never let the creator verify its own work, instrument OpenTelemetry GenAI client attributes through a versioned adapter or frozen local schema, and treat LLM-judges as fast first-line filters rather than final arbiters. Getting evaluation right means combining multiple signals (mutation scores, independent verifiers, structured policy checks) rather than relying on any single one.
 
 # Governance and HITL at Scale
 
@@ -329,7 +344,7 @@ The pattern across these tools is the same: treat agent identity as first-class,
 
 **Tech lead**. Code review evolves toward continuous evaluation. The benchmarks named in section 3 (c-CRAB at 41.5% best-of-4 ceiling) and section 6 (JudgeBiasBench >50% error on bias tests) make clear that no current tooling replaces architectural judgment. The tech lead's job is now to define the evaluation criteria the team measures against (mutation score thresholds, property-testing coverage, branch coverage targets), to calibrate the HOTL escalation thresholds described in section 6, and to keep specification quality high enough that downstream tests carry intent rather than just check syntax. The DORA (DevOps Research and Assessment) metrics still matter, but they need to be paired with AI-specific signals to avoid being fooled by velocity inflation. The WP11 in this series (Team Metrics) covers the recalibrated instrumentation in detail.
 
-**SRE (Site Reliability Engineer)**. Application observability built around HTTP latency, error rates, and availability is no longer sufficient when meaningful work happens inside agentic loops that emit no HTTP traffic until they fail. The new instrumentation includes the stable OpenTelemetry `gen_ai.client` attributes from section 5, agent trace spans (still experimental in OTel GenAI as of May 2026), the Tool Correctness Score documented by Agent GPA Snowflake, and HITL versus HOTL intervention rates over time. The incident budget changes shape as well: CSA/Zenity reports 58% of agent anomalies take more than 5 hours to detect, which redefines what a useful SLO (Service Level Objective) looks like for an agentic system. SREs who treat agent identity and credential rotation as part of the platform contract, rather than as application-team concerns, end up with systems that are auditable when something goes wrong.
+**SRE (Site Reliability Engineer)**. Application observability built around HTTP latency, error rates, and availability is no longer sufficient when meaningful work happens inside agentic loops that emit no HTTP traffic until they fail. The new instrumentation includes OpenTelemetry `gen_ai.client` attributes that are still in Development status, ideally routed through a versioned adapter or frozen local schema, agent trace spans that are even less settled, the Tool Correctness Score documented by Agent GPA Snowflake, and HITL versus HOTL intervention rates over time. The incident budget changes shape as well: CSA/Zenity reports 58% of agent anomalies take more than 5 hours to detect, which redefines what a useful SLO (Service Level Objective) looks like for an agentic system. SREs who treat agent identity and credential rotation as part of the platform contract, rather than as application-team concerns, end up with systems that are auditable when something goes wrong.
 
 **Engineering Manager**. Velocity metrics (commits per developer, PRs merged per week) inflate mechanically with agent adoption, and they say nothing about whether the team is shipping value. The only available RCT (METR Study 1, n=16, -19% actual time with a 39-point perception gap) shows that managing on developer feel rather than measurement produces systematically optimistic forecasts. Engineering managers who want to navigate the J-curve from section 1 successfully recalibrate their DORA targets around what their team actually measures, instrument the AI-specific metrics WP11 covers, and resist the temptation to treat the early adoption period as a productivity win. Communicating the dip to leadership before it shows up in the numbers avoids budget cuts at the worst possible moment.
 

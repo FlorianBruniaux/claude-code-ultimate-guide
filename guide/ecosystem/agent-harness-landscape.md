@@ -14,13 +14,14 @@ An **agent harness** is the runtime around a model that assembles context, expos
 
 Comparison requires a second boundary: every outcome belongs to a **model-harness pair** under a disclosed task set and budget. In a controlled 300-run study across two models and three harnesses, [The Scaffold Effect](https://arxiv.org/abs/2607.22585) found up to a 40-times difference in tokens per solved task, while pass-rate differences stayed within 0 to 8 percentage points and were mostly not statistically significant. A harness can strongly affect cost and failure behavior without being the main accuracy bottleneck.
 
-This page answers *which layer and which project*. [Agent Harness Engineering](../core/agent-harness.md) documents the components inside a runtime harness. [Agent Tools: Beyond Claude Code](./agentic-tools.md) provides deeper product profiles. The [glossary](../core/glossary.md) separates runtime harnesses from repository harnesses and evaluation harnesses.
+This page answers *which layer and which project*. [Agent Harness Engineering](../core/agent-harness.md) documents the components inside a runtime harness. [Loop & Graph Engineering](../core/loop-graph-engineering.md) covers feedback, topology, state transitions, stopping rules, and judgment boundaries. [Agent Tools: Beyond Claude Code](./agentic-tools.md) provides deeper product profiles. The [glossary](../core/glossary.md) separates runtime harnesses from repository harnesses and evaluation harnesses.
 
 ### Choose the right entry point
 
 | Question | Canonical page |
 |---|---|
 | How does the loop, context, tool, hook, permission, and recovery machinery work? | [Agent Harness Engineering](../core/agent-harness.md) |
+| How should a loop or executable workflow graph be designed and bounded? | [Loop & Graph Engineering](../core/loop-graph-engineering.md) |
 | Which runtime or adjacent project fits a particular job? | This [Agent Harness Landscape](./agent-harness-landscape.md) page |
 | What does a named coding-agent product support in practice? | [Agent Tools: Beyond Claude Code](./agentic-tools.md) |
 | How should a repository prepare instructions, setup, state, and verification for any runtime? | [Repository Harness Engineering](../ultimate-guide.md#925-harness-engineering) |

@@ -93,7 +93,7 @@ Visible step-by-step reasoning the model performs before responding. You can cap
 
 ### Graph engineering
 
-The design of an agent workflow as an explicit executable graph with versioned state, nodes, edges, routing conditions, joins, checkpoints, and recovery behavior. A graph can contain loops, but the two terms are not synonyms: a loop describes repeated feedback, while a graph describes the topology that routes work and state. The label is emerging rather than standardized. See [Loop, graph, harness, and orchestrator](./agent-harness.md#loop-graph-harness-and-orchestrator-are-different-views).
+The design of an agent workflow as an explicit executable graph with versioned state, nodes, edges, routing conditions, joins, checkpoints, and recovery behavior. A graph can contain loops, but the two terms are not synonyms: a loop describes repeated feedback, while a graph describes the topology that routes work and state. The label is emerging rather than standardized. See [Loop & Graph Engineering](./loop-graph-engineering.md).
 
 ---
 
@@ -129,7 +129,7 @@ A user-defined handler that executes automatically at a specific point in Claude
 
 ### Judgment allocation
 
-The explicit assignment of decisions across humans, models, deterministic checks, policy engines, and external authorities. It answers who sets the quality bar, what evidence is admissible, who decides that evidence is sufficient, and who handles exceptions. Automating execution can relocate human judgment to loop design, policy, escalation, or release approval without eliminating it. See [Judgment allocation](./agent-harness.md#judgment-allocation-where-responsibility-actually-sits).
+The explicit assignment of decisions across humans, models, deterministic checks, policy engines, and external authorities. It answers who sets the quality bar, what evidence is admissible, who decides that evidence is sufficient, and who handles exceptions. Automating execution can relocate human judgment to loop design, policy, escalation, or release approval without eliminating it. See [Allocate judgment explicitly](./loop-graph-engineering.md#5-allocate-judgment-explicitly).
 
 ---
 
@@ -137,7 +137,7 @@ The explicit assignment of decisions across humans, models, deterministic checks
 
 ### Loop engineering
 
-The design of a repeated feedback process that finds or receives work, invokes an agent, observes results, verifies progress, and chooses the next action until a stopping rule fires. The term is useful practitioner vocabulary, not a formal standard. A loop may be encoded inside a graph and bounded by a harness. See [Loop, graph, harness, and orchestrator](./agent-harness.md#loop-graph-harness-and-orchestrator-are-different-views).
+The design of a repeated feedback process that finds or receives work, invokes an agent, observes results, verifies progress, and chooses the next action until a stopping rule fires. The term is useful practitioner vocabulary, not a formal standard. A loop may be encoded inside a graph and bounded by a harness. See [Loop & Graph Engineering](./loop-graph-engineering.md).
 
 ---
 

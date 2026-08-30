@@ -2,10 +2,10 @@
 title: "L'Ingénierie Logicielle à l'Ère des Agents Autonomes"
 subtitle: "Harnesses, CI/CD agentic, et la mesure honnête de la productivité"
 author: "Florian BRUNIAUX"
-date: 2026-08-24
+date: 2026-08-30
 date-format: "MMMM YYYY"
-version: "3.42.0"
-wp-version: "1.3.0"
+version: "3.43.0"
+wp-version: "1.4.0"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -255,6 +255,21 @@ Référence complète avec configurations et comparaisons détaillées : [Agent 
 
 La sélection commence par le travail à faire et le niveau de responsabilité acceptable, pas par un classement global. Séparer le runtime qui possède la boucle, le contrat du dépôt qui borne le changement, et l'orchestrateur qui coordonne plusieurs sessions évite de demander à une catégorie de résoudre le problème d'une autre.
 
+## Boucle, graphe, harness, orchestrateur: quatre vues, pas quatre substituts
+
+Les quatre mots ne répondent pas à la même question. Les traiter comme des catégories de produits concurrentes fait perdre la frontière utile.
+
+| Vue | Question principale | Artefact central | Qualification canonique |
+|-----|---------------------|------------------|-------------------------|
+| Boucle | Quel feedback se répète et qu'est-ce qui l'arrête? | But, action, observation, vérification, règle d'arrêt | Vocabulaire praticien utile, pas standard formel |
+| Graphe | Quels nœuds, arêtes, transitions d'état, jointures et checkpoints sont exécutables? | Graphe versionné et schéma d'état partagé | Vocabulaire de recherche émergent, porté par des preprints 2026 |
+| Harness | Quel contexte, quels outils, quelles permissions, quel état et quelles vérifications bornent l'exécution? | Contrôles runtime et dépôt | Frontière d'ingénierie opératoire utilisée dans ce guide |
+| Orchestrateur | Comment plusieurs runs, workspaces, files d'attente, budgets et humains sont-ils coordonnés? | Scheduler ou control plane | Terme opérationnel pour la coordination inter-runs |
+
+Le point important n'est pas le mot choisi, mais la responsabilité possédée. Une boucle peut être encodée comme un graphe. Un graphe peut coordonner plusieurs boucles. Un harness peut exécuter l'un ou l'autre en ajoutant permissions, contexte, outils, vérification et reprise. Un orchestrateur peut planifier plusieurs harnesses sans posséder leurs boucles internes.
+
+La règle de sélection reste simple: choisir la plus petite structure de contrôle qui résout le besoin en sécurité. Si le besoin est d'exécuter et d'arrêter correctement une tâche de code, commencer par le runtime harness. Si le besoin est de versionner un flux explicite avec nœuds, branches et checkpoints, ajouter une structure de graphe dans le runtime choisi. Si le besoin est de rendre un dépôt lisible, vérifiable et récupérable par plusieurs runtimes, renforcer le repository harness. Ajouter un orchestrateur seulement quand la coordination entre sessions, worktrees, files d'attente ou humains devient la vraie contrainte.
+
 Cinq surfaces de preuve servent des décisions différentes. Le tableau strict du [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/) compare les runtimes de code. Son tableau d'orchestrateurs couvre les produits qui coordonnent des runtimes sans être assimilés à eux. Le snapshot *Best of Agent Harnesses*, daté du 23 août 2026, recense 160 projets dans 12 catégories; il inclut aussi des frameworks, sandboxes, mémoires et outils d'observabilité. Le JSON canonique `machine-readable/agent-harnesses.json` réunit ces observations de catalogue sous un contrat lisible par machine. Un tableau de recherche distinct couvre les systèmes qui optimisent un harness cible.
 
 | Question | Jeu de données à consulter | Limite |
@@ -265,7 +280,7 @@ Cinq surfaces de preuve servent des décisions différentes. Le tableau strict d
 | Quel fait est vérifié et par quelle source? | JSON canonique | `unknown` signifie non établi, pas absent |
 | Quels systèmes modifient un harness cible? | Tableau des optimiseurs et méta-harnesses | Recherche majoritaire, pas un classement de produits |
 
-Le JSON conserve les liens, la date de vérification, la portée et les valeurs `confirmed`, `claimed`, `unknown` ou `not_applicable`. Un statut `claimed` rapporte une déclaration de la source, non confirmée par une preuve de mécanisme. Ce modèle aide à distinguer une capacité démontrée d'une déclaration ou d'une donnée absente. Les critères de choix et le protocole d'essai figurent dans le [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/); les définitions restent dans le [glossaire](https://cc.bruniaux.com/guide/glossary/).
+Le JSON conserve les liens, la date de vérification, la portée et les valeurs `confirmed`, `claimed`, `unknown` ou `not_applicable`. Un statut `claimed` rapporte une déclaration de la source, non confirmée par une preuve de mécanisme. Un statut `unknown` signifie qu'un point pertinent pour votre décision n'a pas encore été établi, y compris après lecture des docs publiques. Ces statuts s'appliquent aux mécanismes observés et aux capacités sourcées, pas aux labels terminologiques. Ce modèle aide à distinguer une capacité démontrée d'une déclaration ou d'une donnée absente. Les critères de choix et le protocole d'essai figurent dans le [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/); la synthèse terminologique figure dans [Loop & Graph Engineering](https://cc.bruniaux.com/guide/loop-graph-engineering/) et les définitions restent dans le [glossaire](https://cc.bruniaux.com/guide/glossary/).
 
 ## Optimiseurs de harness et méta-harnesses
 
@@ -365,9 +380,9 @@ Un papier accepté sur OpenReview (4O0v4s3IzY) documente un phénomène devenu u
 
 La conséquence pratique : ne jamais utiliser le même modèle (et idéalement la même session) pour générer du code et pour le vérifier. Si Claude écrit la fonction, c'est GPT-5 ou Gemini qui doit l'auditer, ou au minimum une instance Claude indépendante avec un prompt orienté vérification. Cette règle s'applique aussi bien à la génération de tests qu'à la revue de code.
 
-## Observabilité : OTel GenAI comme standard convergent
+## Observabilité : OTel GenAI comme cible convergente
 
-OpenTelemetry (OTel) a publié en mai 2026 le statut de son GenAI SIG (Special Interest Group). La spécification `gen_ai.client` est marquée stable et prête pour la production : elle couvre les attributs d'appel LLM (modèle, temperature, top_p, latence, coût, tokens). La spécification `gen_ai.agent` reste expérimentale : les attributs liés aux décisions d'agent (tool selection, planning steps, sub-agent delegation) ne sont pas encore stables, mais les principaux acteurs travaillent à converger.
+OpenTelemetry (OTel) a publié en mai 2026 le statut de son GenAI SIG (Special Interest Group). Les conventions sémantiques GenAI dédiées, dont `gen_ai.client`, restent en statut Development : elles couvrent les attributs d'appel LLM (modèle, temperature, top_p, latence, coût, tokens), mais peuvent encore évoluer. `gen_ai.agent` reste encore plus mouvant. La conséquence pratique est simple : versionner un adaptateur maison ou figer un schéma local d'ingestion avant de brancher plusieurs backends.
 
 Côté implémentations, deux piles d'outils dominent. Arize OpenInference fournit un schéma sémantique pour les traces agentiques. Traceloop OpenLLMetry fournit l'instrumentation runtime Python et TypeScript. Côté backends d'observabilité, Datadog, Honeycomb, New Relic et MLflow supportent tous OTel GenAI en ingestion native. Cette convergence signifie qu'un investissement en instrumentation OTel aujourd'hui est portable entre backends, contrairement aux solutions propriétaires de 2024.
 
@@ -473,7 +488,7 @@ Les sept sections précédentes ont posé le cadre technique et empirique. Cette
 
 **Tech lead**. La code review classique évolue vers l'évaluation continue. Les benchmarks comme c-CRAB (32.1% de taux de réussite Claude Code solo, 41.5% en union des 4 meilleurs outils) et JudgeBiasBench (>50% d'erreurs LLM-judge) montrent que l'outil ne remplace pas le jugement architectural. Le tech lead définit maintenant les critères d'évaluation (mutation score cible, property testing obligatoire pour les modules critiques, coverage de branch minimum) et calibre les seuils HOTL : au-delà de quel impact ou de quelle incertitude l'humain doit-il intervenir. Le lien avec le whitepaper 11 sur les Team Metrics est direct : les métriques qu'un tech lead instrumente déterminent ce que l'équipe optimise, et les anciennes métriques (commits par jour, PRs mergées par sprint) deviennent trompeuses en mode agentic. Concrètement : remplacer "lignes de code" par Tool Correctness Score, durée des sessions, taux d'intervention HOTL.
 
-**SRE (Site Reliability Engineer)**. L'observabilité applicative classique (latence, erreurs HTTP, disponibilité) ne suffit plus. Il faut instrumenter `gen_ai.client` (OTel stable depuis mai 2026), les trace spans d'agent au niveau de chaque décision, le Tool Correctness Score (Agent GPA Snowflake), et les taux d'intervention HITL/HOTL. Le budget d'incidents change de nature : 58% des anomalies d'agent sont détectées plus de 5 heures après leur début (CSA/Zenity), ce qui redéfinit les SLO (objectifs de niveau de service). Un SLO classique de 99.9% sur la disponibilité n'a plus de sens isolé si l'agent fonctionne mais dérape sémantiquement. Concrètement : ajouter au runbook des seuils sur la dérive sémantique (un agent dont le Tool Correctness Score chute de 10% en 24h doit déclencher une alerte), instrumenter les hooks pre/post tool call avec OpenTelemetry, intégrer Arize Phoenix ou équivalent dans la pile d'observabilité.
+**SRE (Site Reliability Engineer)**. L'observabilité applicative classique (latence, erreurs HTTP, disponibilité) ne suffit plus. Il faut instrumenter `gen_ai.client` avec des conventions GenAI encore en statut Development, prévoir un adaptateur versionné ou un schéma local gelé, suivre les trace spans d'agent au niveau de chaque décision, le Tool Correctness Score (Agent GPA Snowflake), et les taux d'intervention HITL/HOTL. Le budget d'incidents change de nature : 58% des anomalies d'agent sont détectées plus de 5 heures après leur début (CSA/Zenity), ce qui redéfinit les SLO (objectifs de niveau de service). Un SLO classique de 99.9% sur la disponibilité n'a plus de sens isolé si l'agent fonctionne mais dérape sémantiquement. Concrètement : ajouter au runbook des seuils sur la dérive sémantique (un agent dont le Tool Correctness Score chute de 10% en 24h doit déclencher une alerte), instrumenter les hooks pre/post tool call avec OpenTelemetry, intégrer Arize Phoenix ou équivalent dans la pile d'observabilité.
 
 **Engineering Manager**. Les métriques de vélocité brutes (commits, PRs mergées, story points livrés) explosent mécaniquement avec l'adoption des agents. Ce n'est pas un signal de productivité, c'est un artefact d'adoption : l'agent produit plus d'artefacts mesurables, mais la mesure du temps réel sur des tâches complexes ne suit pas (METR Study 1 : -19% mesuré contre +24% perçu, gap de 39 points). Un EM qui communique à sa direction sur la base des métriques de vélocité agentic se prépare à un retour de bâton quand la J-curve descend (creux de -1.33 point de PTF documenté par Brynjolfsson sur le terrain industriel américain). Recalibrer les cibles DORA (DevOps Research and Assessment : deployment frequency, lead time, change failure rate, MTTR) à la lumière de l'agentic, et instrumenter les métriques AI-specific détaillées dans le whitepaper 11. Concrètement : ne jamais piloter sur le ressenti seul, demander des données mesurées, accepter la J-curve dans la communication avec la direction, communiquer en amont sur le creux pour éviter les coupes budgétaires au pire moment.
 

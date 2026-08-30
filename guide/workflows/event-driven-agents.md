@@ -12,6 +12,8 @@ Instead of manually invoking Claude Code for each task, let external events driv
 
 This is the shift from pull-based ("hey Claude, do this") to push-based ("events trigger agents").
 
+An event is a trigger, not a complete control contract. Use [Loop & Graph Engineering](../core/loop-graph-engineering.md) to define legal transitions, state ownership, stopping rules, retries, recovery, and escalation before an event may start or advance work.
+
 ---
 
 ## Table of Contents

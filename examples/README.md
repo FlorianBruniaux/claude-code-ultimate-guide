@@ -8,7 +8,7 @@ tags: [template, reference, workflows, architecture]
 
 Annotated templates that teach you **why** patterns work, not just how to configure them. Each template includes comments explaining trade-offs, alternatives, and when to deviate.
 
-> **[📚 Browse Auto-Generated Catalog](./CATALOG.md)** — Indexed by complexity, time, domain (181 templates)  
+> **[📚 Browse Auto-Generated Catalog](./CATALOG.md)**: Indexed by complexity, time, and domain (238 templates across six catalog categories; 271 production templates overall)
 > **[🔍 Browse Interactive Catalog](./index.html)** — View, copy, and download templates with syntax highlighting
 
 ## New: Auto-Generated Catalog
@@ -41,8 +41,8 @@ keywords: [tag1, tag2]
 |--------|-------------|-------|
 | [`agents/`](./agents/) | Custom AI personas for specialized tasks | 21 + 2 collections |
 | [`commands/`](./commands/) | Slash commands (workflow automation) | 52 |
-| [`hooks/`](./hooks/) | Event-driven security & automation scripts | 37 |
-| [`skills/`](./skills/) | Reusable knowledge modules — [9 on SkillHub](https://skills.palebluedot.live/owner/FlorianBruniaux) | 68 |
+| [`hooks/`](./hooks/) | Event-driven security and automation scripts | 39 catalog entries |
+| [`skills/`](./skills/) | Reusable knowledge modules, including [9 on SkillHub](https://skills.palebluedot.live/owner/FlorianBruniaux) | 118 catalog entries |
 | [`claude-md/`](./claude-md/) | CLAUDE.md configuration profiles | 7 |
 | [`config/`](./config/) | Settings, MCP, git templates | 6 |
 | [`memory/`](./memory/) | CLAUDE.md memory file templates | 1 |
@@ -51,7 +51,7 @@ keywords: [tag1, tag2]
 | [`team-config/`](./team-config/) | Team onboarding templates | 3 |
 | [`templates/`](./templates/) | Session and workflow templates | 1 |
 | [`github-actions/`](./github-actions/) | CI/CD workflows | 6 |
-| [`workflows/`](./workflows/) | Advanced development workflows | 3 |
+| [`workflows/`](./workflows/) | Advanced development workflows, including a bounded agent loop contract | 4 |
 | [`plugins/`](./plugins/) | Community plugins (SE-CoVe, claude-mem) | 2 |
 | [`integrations/`](./integrations/) | External tool integrations (Agent Vibes TTS) | 3 |
 | [`context-engineering/`](./context-engineering/) | Context engineering patterns and profiles | 10 |

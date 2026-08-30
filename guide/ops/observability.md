@@ -13,6 +13,8 @@ keywords:
 
 > Track Claude Code usage, estimate costs, and identify patterns across your development sessions.
 
+For systems with explicit loops or workflow graphs, instrument the decision layer as well as the model and tools. [Loop & Graph Engineering](../core/loop-graph-engineering.md#7-observe-and-evaluate-the-system) defines the minimum evidence for routes, state transitions, checkpoints, verdicts, and human overrides.
+
 ## Table of Contents
 
 1. [Why Monitor Sessions](#why-monitor-sessions)

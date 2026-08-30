@@ -4,11 +4,11 @@ subtitle: "Choose a runtime, repository contract, or orchestrator"
 card-number: "C14"
 category: "Design"
 difficulty: "advanced"
-guide-version: "3.42.0"
+guide-version: "3.43.0"
 author: "Florian BRUNIAUX"
-version: "3.42.0"
-date: "2026-08-28"
-layout: "two-col"
+version: "3.43.0"
+date: "2026-08-30"
+layout: "one-col"
 lang: en
 format:
   recap-card-typst: default
@@ -25,14 +25,17 @@ format:
 
 An orchestrator can launch several runtimes without owning their loops. A repository can improve its contract without changing runtime.
 
+Loop and graph are not extra layers. Loop names the repeated feedback and stopping rule. Graph names the executable nodes, branches, joins, and checkpoints inside a runtime or an orchestrator.
+
 A harness optimizer sits outside this stack. It changes and evaluates candidate harnesses for later runs.
 
 ## Choose in the Right Order
 
 1. Define the task and acceptable autonomy.
 2. Select a runtime that owns the required loop.
-3. Write the repository contract: instructions, pass criteria, verification.
-4. Add an orchestrator only when coordination, isolation, or recovery across tasks requires it.
+3. If the flow must be versioned, specify nodes, branches, and checkpoints inside the chosen runtime.
+4. Write the repository contract: instructions, pass criteria, verification.
+5. Add an orchestrator only when coordination, isolation, or recovery across tasks requires it.
 
 ## Five Sources, Five Uses
 
@@ -44,8 +47,10 @@ A harness optimizer sits outside this stack. It changes and evaluates candidate 
 | `agent-harnesses.json` | Read provenance and evidence | `unknown` is not `none` |
 | Optimizer research table | Compare search protocols | Mostly research systems |
 
+Statuses for observed mechanisms: `confirmed` = visible mechanism, `claimed` = source assertion, `unknown` = not established yet, `not_applicable` = category mismatch.
+
 ## Short Trial, Traceable Verdict
 
 Compare two or three model-harness pairs on real tasks in separate worktrees. Repeat critical tasks. Measure human verdict, interventions, plan drift, wall time, accepted-task cost, recovery, and setup friction.
 
-Links: [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/) · [Agent Harness Engineering](https://cc.bruniaux.com/guide/agent-harness/) · [Agent Tools](https://cc.bruniaux.com/guide/agentic-tools/) · [Glossary](https://cc.bruniaux.com/guide/glossary/)
+Links: [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/) · [Loop & Graph Engineering](https://cc.bruniaux.com/guide/loop-graph-engineering/) · [Agent Harness Engineering](https://cc.bruniaux.com/guide/agent-harness/) · [Agent Tools](https://cc.bruniaux.com/guide/agentic-tools/) · [Glossary](https://cc.bruniaux.com/guide/glossary/)

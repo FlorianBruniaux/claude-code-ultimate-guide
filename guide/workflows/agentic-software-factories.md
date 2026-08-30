@@ -10,7 +10,7 @@ This page answers one question: you want to run Claude Code as something closer 
 
 **Reading time**: ~15 min
 **Prerequisites**: Basic familiarity with sub-agents and the Task tool
-**Related**: [Agent Teams](./agent-teams.md), [Dynamic Workflows](./dynamic-workflows.md), [Plan-Validate-Execute Pipeline](./plan-pipeline.md), [Spec-First Development](./spec-first.md), [Agent Tools: Beyond Claude Code](../ecosystem/agentic-tools.md)
+**Related**: [Agent Teams](./agent-teams.md), [Dynamic Workflows](./dynamic-workflows.md), [Plan-Validate-Execute Pipeline](./plan-pipeline.md), [Spec-First Development](./spec-first.md), [Loop & Graph Engineering](../core/loop-graph-engineering.md), [Agent Tools: Beyond Claude Code](../ecosystem/agentic-tools.md)
 
 ---
 
@@ -18,7 +18,7 @@ This page answers one question: you want to run Claude Code as something closer 
 
 A software factory combines several layers. The model reasons; the runtime harness owns the coding loop; the repository harness provides instructions and deterministic delivery gates; the orchestrator dispatches work across sessions or workspaces. A factory or control plane can coordinate runtimes without becoming the runtime itself.
 
-Start with the [Agent Harness Map](../ecosystem/agent-harness-landscape.md) when the question is which product owns a coding loop and which catalog entries are merely adjacent. Read [Agent Harness Engineering](../core/agent-harness.md) for the layer boundaries, [Agent Tools: Beyond Claude Code](../ecosystem/agentic-tools.md) for frameworks and orchestration products, [Agent Evaluation](../roles/agent-evaluation.md) for the test protocol, [Session Observability](../ops/observability.md) for the evidence trail, and [Security Hardening](../security/security-hardening.md) before allowing unattended work. Terms are defined in the [glossary](../core/glossary.md).
+Start with the [Agent Harness Map](../ecosystem/agent-harness-landscape.md) when the question is which product owns a coding loop and which catalog entries are merely adjacent. Read [Agent Harness Engineering](../core/agent-harness.md) for the layer boundaries, [Loop & Graph Engineering](../core/loop-graph-engineering.md) for control flow and judgment contracts, [Agent Tools: Beyond Claude Code](../ecosystem/agentic-tools.md) for frameworks and orchestration products, [Agent Evaluation](../roles/agent-evaluation.md) for the test protocol, [Session Observability](../ops/observability.md) for the evidence trail, and [Security Hardening](../security/security-hardening.md) before allowing unattended work. Terms are defined in the [glossary](../core/glossary.md).
 
 ---
 

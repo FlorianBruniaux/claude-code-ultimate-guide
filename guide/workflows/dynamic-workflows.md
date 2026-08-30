@@ -15,6 +15,8 @@ tags: [workflow, agents, orchestration, parallel, ultracode]
 **Reading time**: ~40 min
 **Prerequisites**: Familiarity with the [Agent tool](../core/tools-reference.md#agent), basic JavaScript async/await
 
+This page documents one Claude Code implementation surface. [Loop & Graph Engineering](../core/loop-graph-engineering.md) explains when explicit topology is warranted and how to specify state, transitions, stopping rules, recovery, and judgment independently of any framework.
+
 ---
 
 ## Table of Contents

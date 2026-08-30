@@ -110,7 +110,9 @@ def scan_templates() -> Dict[str, List[Dict]]:
                 # Build template info
                 template_info = {
                     'name': metadata.get('name', filepath.stem),
-                    'file': str(filepath.relative_to('.')),
+                    # CATALOG.md lives inside examples/, so links must be relative
+                    # to that directory rather than to the repository root.
+                    'file': str(filepath.relative_to('examples')),
                     'description': metadata.get('description', extract_description(filepath, content)),
                     'complexity': metadata.get('complexity', DEFAULT_METADATA['complexity']),
                     'time': metadata.get('time', DEFAULT_METADATA['time']),
@@ -179,7 +181,8 @@ def generate_catalog(templates: Dict[str, List[Dict]]) -> str:
             output.append(f'- {entry}')
 
             if template['description']:
-                output.append(f'  {template["description"]}')
+                description = str(template['description']).replace(' \u2014 ', ': ')
+                output.append(f'  {description}')
 
             if template['prerequisites']:
                 prereqs = ', '.join(template['prerequisites'])

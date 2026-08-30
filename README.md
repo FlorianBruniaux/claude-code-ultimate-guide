@@ -8,7 +8,7 @@
 <!-- Stats -->
 <p align="center">
   <a href="https://github.com/FlorianBruniaux/claude-code-ultimate-guide"><img src="https://img.shields.io/github/stars/FlorianBruniaux/claude-code-ultimate-guide?style=for-the-badge" alt="Stars"/></a>
-  <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Updated-Aug_29,_2026_·_v3.42.0-brightgreen?style=for-the-badge" alt="Last Update"/></a>
+  <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Updated-Aug_30,_2026_·_v3.43.0-brightgreen?style=for-the-badge" alt="Last Update"/></a>
   <a href="./quiz/"><img src="https://img.shields.io/badge/Quiz-473_questions-orange?style=for-the-badge" alt="Quiz"/></a>
   <a href="./examples/"><img src="https://img.shields.io/badge/Templates-271-green?style=for-the-badge" alt="Templates"/></a>
 </p>
@@ -262,6 +262,7 @@ graph LR
 - [Safe event delegation](./guide/workflows/monitor-event-delegation.md): route verified GitHub events through Monitor to a read-only-first Codex workflow
 - [Architecture](./guide/core/architecture.md): Internal mechanics (context flow, tool orchestration, memory management)
 - [Agent Harness Engineering](./guide/core/agent-harness.md): understand the runtime loop, context, tools, permissions, recovery, evaluation, and outer-loop harness optimization
+- [Loop & Graph Engineering](./guide/core/loop-graph-engineering.md): design bounded feedback, executable state transitions, stopping rules, recovery, and judgment allocation
 - [Agent Harness Map](./guide/ecosystem/agent-harness-landscape.md): compare loop-owning runtimes with orchestrators, frameworks, control planes, support tools, and research meta-harnesses
 - [Agent Tools](./guide/ecosystem/agentic-tools.md): read deeper profiles of selected coding agents and orchestration products
 - [Harness terminology](./guide/core/glossary.md): distinguish runtime, repository, evaluation harness, and orchestrator
@@ -953,7 +954,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 ---
 
-*Version 3.42.0 | Updated daily · Aug 29, 2026 | Crafted with Claude*
+*Version 3.43.0 | Updated daily · Aug 30, 2026 | Crafted with Claude*
 
 <!-- SEO Keywords -->
 <!-- claude code, claude code tutorial, anthropic cli, ai coding assistant, claude code mcp,

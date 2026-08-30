@@ -4,11 +4,11 @@ subtitle: "Choisir runtime, contrat de dépôt ou orchestrateur"
 card-number: "C14"
 category: "Conception"
 difficulty: "advanced"
-guide-version: "3.42.0"
+guide-version: "3.43.0"
 author: "Florian BRUNIAUX"
-version: "3.42.0"
-date: "2026-08-28"
-layout: "two-col"
+version: "3.43.0"
+date: "2026-08-30"
+layout: "one-col"
 lang: fr
 format:
   recap-card-typst: default
@@ -25,14 +25,17 @@ format:
 
 Un orchestrateur peut lancer plusieurs runtimes sans posséder leur boucle. Un dépôt peut améliorer son contrat sans changer de runtime.
 
+Boucle et graphe ne sont pas des couches de plus. La boucle nomme le feedback répété et la règle d'arrêt. Le graphe nomme les nœuds, branches, jointures et checkpoints exécutables à l'intérieur d'un runtime ou d'un orchestrateur.
+
 Un optimiseur de harness reste hors de cette pile. Il modifie et évalue des harnesses candidats pour les runs suivants.
 
 ## Choisir dans le bon ordre
 
 1. Définir la tâche et le niveau d'autonomie acceptable.
 2. Sélectionner un runtime qui possède la boucle utile.
-3. Écrire le contrat du dépôt: instructions, critères de réussite, vérifications.
-4. Ajouter un orchestrateur seulement si la coordination, l'isolement ou la reprise entre tâches le demandent.
+3. Si le flux doit être versionné, expliciter nœuds, branches et checkpoints dans le runtime choisi.
+4. Écrire le contrat du dépôt: instructions, critères de réussite, vérifications.
+5. Ajouter un orchestrateur seulement si la coordination, l'isolement ou la reprise entre tâches le demandent.
 
 ## Cinq sources, cinq usages
 
@@ -44,8 +47,10 @@ Un optimiseur de harness reste hors de cette pile. Il modifie et évalue des har
 | `agent-harnesses.json` | Lire provenance et preuves | `unknown` n'est pas `none` |
 | Tableau de recherche | Comparer les protocoles d'optimisation | Systèmes surtout expérimentaux |
 
+Statuts pour les mécanismes observés: `confirmed` = mécanisme visible, `claimed` = déclaration source, `unknown` = point non établi, `not_applicable` = catégorie hors champ.
+
 ## Essai court, verdict traçable
 
 Comparer deux ou trois couples modèle-harness sur des tâches réelles, dans des worktrees séparés. Répéter les tâches critiques. Mesurer verdict humain, interventions, dérive de plan, temps écoulé, coût par tâche acceptée, récupération et friction de mise en place.
 
-Liens: [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/) · [Agent Harness Engineering](https://cc.bruniaux.com/guide/agent-harness/) · [Agent Tools](https://cc.bruniaux.com/guide/agentic-tools/) · [Glossaire](https://cc.bruniaux.com/guide/glossary/)
+Liens: [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/) · [Loop & Graph Engineering](https://cc.bruniaux.com/guide/loop-graph-engineering/) · [Agent Harness Engineering](https://cc.bruniaux.com/guide/agent-harness/) · [Agent Tools](https://cc.bruniaux.com/guide/agentic-tools/) · [Glossaire](https://cc.bruniaux.com/guide/glossary/)

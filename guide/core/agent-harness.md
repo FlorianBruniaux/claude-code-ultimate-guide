@@ -30,7 +30,7 @@ Controlled evidence supports a narrower claim. In [The Scaffold Effect in Coding
 
 This page uses **agent harness** in its runtime sense: the system that owns the agent loop, tools, context, state, and permissions. A repository can also provide a **repository harness** around that runtime: its instructions, setup, task state, and verification gates. The distinction matters because a project can improve its repository harness without replacing Claude Code, and a team can switch runtime harnesses without discarding every project practice.
 
-This page covers what is inside the runtime. For the repository layer, see [Repository Harness Engineering](../ultimate-guide.md#925-harness-engineering). For a dated comparison of specific products across CLI, IDE, and cloud, see the [Agent Harness Landscape](../ecosystem/agent-harness-landscape.md).
+This page covers what is inside the runtime. For the repository layer, see [Repository Harness Engineering](../ultimate-guide.md#925-harness-engineering). For feedback loops, executable workflow graphs, stopping rules, and judgment boundaries, use [Loop & Graph Engineering](./loop-graph-engineering.md). For a dated comparison of specific products across CLI, IDE, and cloud, see the [Agent Harness Landscape](../ecosystem/agent-harness-landscape.md).
 
 ![A user goal moves through six harness stages: context building, LLM reasoning, policy gating, guarded tool execution, verification, and an accepted result. Observability spans every stage, constraints govern policy and runtime, and feedback returns accepted results to the context builder.](../images/agent-harness-reliability-loop.webp)
 
@@ -41,6 +41,7 @@ This page covers what is inside the runtime. For the repository layer, see [Repo
 | Question | Canonical page |
 |---|---|
 | What does a runtime harness contain, and how do its controls work? | This [Agent Harness Engineering](./agent-harness.md) page |
+| How should loops, workflow graphs, state transitions, stopping rules, and judgment be designed? | [Loop & Graph Engineering](./loop-graph-engineering.md) |
 | Which runtime, orchestrator, framework, or adjacent project should I compare? | [Agent Harness Landscape](../ecosystem/agent-harness-landscape.md) |
 | What does a specific coding-agent product support? | [Agent Tools: Beyond Claude Code](../ecosystem/agentic-tools.md) |
 | What distinguishes a runtime, repository, evaluation harness, and orchestrator? | [Glossary](./glossary.md) |

@@ -12,7 +12,7 @@ Claude Code is one tool in a field that has expanded dramatically since 2024. Do
 
 **What it does not cover**: GUI-based AI coding IDEs (Cursor, Windsurf, Cline), which are covered in [AI Ecosystem §6](./ai-ecosystem.md#section-6). Multi-Claude orchestration tools (Gas Town, multiclaude, Conductor desktop app) are in [Third-Party Tools: Multi-Agent Orchestration](./third-party-tools.md#multi-agent-orchestration).
 
-For the full field across CLI, IDE, and cloud agents, use the [Agent Harness Landscape](./agent-harness-landscape.md). For the loop, context, tools, permissions, recovery, observability, and automated harness optimization, read [Agent Harness Engineering](../core/agent-harness.md). The [glossary](../core/glossary.md) separates runtime harnesses from repository harnesses, evaluation harnesses, orchestrators, and meta-harnesses.
+For the full field across CLI, IDE, and cloud agents, use the [Agent Harness Landscape](./agent-harness-landscape.md). For the loop, context, tools, permissions, recovery, observability, and automated harness optimization, read [Agent Harness Engineering](../core/agent-harness.md). For explicit feedback loops, workflow graphs, stopping rules, and responsibility boundaries, read [Loop & Graph Engineering](../core/loop-graph-engineering.md). The [glossary](../core/glossary.md) separates runtime harnesses from repository harnesses, evaluation harnesses, orchestrators, and meta-harnesses.
 
 ---
 

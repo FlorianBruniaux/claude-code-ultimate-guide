@@ -12,7 +12,7 @@ tags: [cheatsheet, reference]
 
 **Written with**: Claude (Anthropic)
 
-**Version**: 3.42.0 | **Last Updated**: May 2026
+**Version**: 3.43.0 | **Last Updated**: Aug 30, 2026
 
 ---
 
@@ -251,9 +251,11 @@ Model: Sonnet | Ctx: 89.5k | Cost: $2.11 | Ctx(u): 56.0%
 | Layer | Owns | Start here |
 |-------|------|------------|
 | Model | Reasoning and tool-call proposals | [Glossary](https://cc.bruniaux.com/guide/glossary/) |
-| Runtime harness | Tool loop, permissions, and recovery | [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/) |
-| Repository harness | Instructions, task state, and verification | [Agent Harness Engineering](https://cc.bruniaux.com/guide/agent-harness/) |
+| Runtime harness | Tool loop, permissions, and recovery | [Agent Harness Engineering](https://cc.bruniaux.com/guide/agent-harness/) |
+| Repository harness | Instructions, task state, and verification | [Repository Harness Engineering](https://cc.bruniaux.com/guide/ultimate-guide/09-advanced-patterns/#925-harness-engineering) |
 | Orchestrator | Coordination between runtimes or sessions | [Agent Tools](https://cc.bruniaux.com/guide/agentic-tools/) |
+
+Choose the smallest control structure that safely solves the need: a bounded loop for one repeated task; an explicit graph for routing, joins, parallelism, interruption, or durable recovery; a repository harness for repeatable project behavior; and an orchestrator for several runs or queues. Specify success, failure, timeout, budget, and escalation before execution. See [Loop & Graph Engineering](https://cc.bruniaux.com/guide/loop-graph-engineering/) and compare products in the [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/).
 
 Evaluate the exact model-harness pair for a bounded coding task. Introduce orchestration only when coordination is the constraint. A harness optimizer sits outside the four operating layers and changes candidate harnesses under a separate evaluation protocol.
 
@@ -725,4 +727,4 @@ Speed: `rg` (~20ms) → Serena (~100ms) → ast-grep (~200ms) → grepai (~500ms
 
 **Author**: Florian BRUNIAUX | [@Méthode Aristote](https://methode-aristote.fr) | Written with Claude
 
-*Last updated: May 2026 | Version 3.42.0*
+*Last updated: Aug 30, 2026 | Version 3.43.0*

@@ -33,6 +33,7 @@ import sys
 import unicodedata
 from datetime import date
 from pathlib import Path
+from typing import Optional
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 YAML_FILE = REPO_ROOT / "machine-readable" / "reference.yaml"
@@ -201,7 +202,7 @@ def get_slugs(rel_path: str) -> set[str]:
     return _slugs_cache[rel_path]
 
 
-def anchor_line(rel_path: str, slug: str, hint_line: int | None = None) -> int | None:
+def anchor_line(rel_path: str, slug: str, hint_line: Optional[int] = None) -> Optional[int]:
     """Line of the heading whose slug is `slug`, or None if absent/ambiguous.
 
     Ambiguity has to be None, not the first hit: GitHub suffixes a repeated slug
@@ -266,7 +267,7 @@ def score_header(keywords: list[str], header_text: str) -> float:
     return s
 
 
-def find_best_header(key: str, hs: list[tuple[int, int, str]]) -> tuple[int | None, float, str]:
+def find_best_header(key: str, hs: list[tuple[int, int, str]]) -> tuple[Optional[int], float, str]:
     """Classification match. Returns (line, confidence, heading_text)."""
     keywords = key_to_keywords(key)
     if not keywords:

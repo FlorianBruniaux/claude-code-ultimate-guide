@@ -50,6 +50,7 @@ Use the human-readable pages according to the question being asked:
 | Need | Entry point |
 |---|---|
 | Runtime architecture, components, controls, Claude Code implementation, and optimizer evaluation protocol | [Agent Harness Engineering](../guide/core/agent-harness.md) |
+| Loop contracts, graph contracts, judgment allocation, durability, observability, and control-structure selection | [Loop & Graph Engineering](../guide/core/loop-graph-engineering.md) |
 | Dated cross-product map, classification, selection, test-drive protocol, and meta-harness research layer | [Agent Harness Landscape](../guide/ecosystem/agent-harness-landscape.md) |
 | Detailed profiles of selected coding agents | [Agent Tools: Beyond Claude Code](../guide/ecosystem/agentic-tools.md) |
 | Runtime, repository, evaluation harness, and orchestrator terminology | [Glossary](../guide/core/glossary.md) |

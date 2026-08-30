@@ -2,7 +2,7 @@
 
 > The most comprehensive documentation for Claude Code CLI by Anthropic. Covers beginner to advanced: hooks, skills, agents, MCP servers, context engineering, memory systems, multi-agent orchestration, and production patterns.
 
-Guide version 3.42.0, tracking Claude Code up to v2.1.250 (August 2026).
+Guide version 3.43.0, tracking Claude Code up to v2.1.250 (August 2026).
 
 ## What is covered
 
@@ -15,7 +15,7 @@ Guide version 3.42.0, tracking Claude Code up to v2.1.250 (August 2026).
 - Slash commands: full categorized table of the ~100 built-in commands with aliases, mirroring the official reference at https://code.claude.com/docs/en/commands (the source of truth), plus removed and renamed commands
 - Skills and slash commands: authoring, trigger patterns, progressive disclosure, skill design patterns
 - Agents: subagent frontmatter, delegation, agent teams, agent evaluation metrics, harness engineering
-- Agent harnesses: model-harness pair evidence, loop/graph/harness distinctions, judgment allocation and reviewer-independence tests, four operating layers plus an outer optimizer layer, a pinned 160-project source directory plus 32 guide supplements, 42 strict runtimes, 15 adjacent control planes, a research meta-harness table, a test-drive protocol, and DeepSeek Harness plus Liza profiles
+- Agent harnesses: model-harness pair evidence, explicit loop and graph contracts, judgment allocation, durable execution, reviewer-independence tests, four operating layers plus an outer optimizer layer, a pinned 160-project source directory plus 32 guide supplements, 42 strict runtimes, 15 adjacent control planes, a research meta-harness table, a test-drive protocol, and DeepSeek Harness plus Liza profiles
 - Multi-agent orchestration: parallel agents, hub-and-spoke coordinators, dynamic workflows (JavaScript-orchestrated pipelines, `ultracode`), agentic software factories, AI executive agents (virtual C-suites and board simulators applying the persona/agent pattern to named business roles)
 - MCP server integration: setup, custom servers, validated community server catalog, MCP vs CLI vs Skills trade-offs, advanced tool design
 - Security and permission model: .claude/settings.json, permission rules, sandbox isolation, threat database, data privacy and retention, enterprise governance (guardrail tiers, MCP approval workflow, audit trails)
@@ -39,6 +39,7 @@ Guide version 3.42.0, tracking Claude Code up to v2.1.250 (August 2026).
 - Guide site: https://cc.bruniaux.com
 - Guide reader: https://cc.bruniaux.com/guide/
 - Agent Harness Engineering: https://cc.bruniaux.com/guide/agent-harness/
+- Loop & Graph Engineering: https://cc.bruniaux.com/guide/loop-graph-engineering/
 - Agent Harness Map: https://cc.bruniaux.com/guide/agent-harness-landscape/
 - Agent Tools: https://cc.bruniaux.com/guide/agentic-tools/
 - Glossary: https://cc.bruniaux.com/guide/glossary/

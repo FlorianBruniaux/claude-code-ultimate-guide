@@ -3,8 +3,8 @@
 # Source: guide/ultimate-guide.md
 # Purpose: Condensed index for LLMs to quickly answer user questions about Claude Code
 
-version: "3.42.0"
-updated: "2026-08-28"
+version: "3.43.0"
+updated: "2026-08-30"
 
 # ════════════════════════════════════════════════════════════════
 # DEEP DIVE - Line numbers in guide/ultimate-guide.md
@@ -145,6 +145,18 @@ deep_dive:
   permissions_audit_time: "3-5 min per repo | 30s for the fleet sweep"
   # Agent Harness Engineering and landscape routing
   agent_harness_guide: "guide/core/agent-harness.md"
+  loop_graph_engineering_guide: "guide/core/loop-graph-engineering.md"
+  loop_graph_smallest_structure: "guide/core/loop-graph-engineering.md#1-choose-the-smallest-control-structure"
+  loop_graph_loop_contract: "guide/core/loop-graph-engineering.md#2-write-a-loop-contract"
+  loop_graph_feedback_horizons: "guide/core/loop-graph-engineering.md#apply-the-feedback-horizons"
+  loop_graph_graph_contract: "guide/core/loop-graph-engineering.md#3-write-a-graph-contract"
+  loop_graph_static_dynamic: "guide/core/loop-graph-engineering.md#4-static-and-dynamic-graphs"
+  loop_graph_judgment: "guide/core/loop-graph-engineering.md#5-allocate-judgment-explicitly"
+  loop_graph_durable_execution: "guide/core/loop-graph-engineering.md#6-make-execution-durable"
+  loop_graph_observability: "guide/core/loop-graph-engineering.md#7-observe-and-evaluate-the-system"
+  loop_graph_cases: "guide/core/loop-graph-engineering.md#8-three-implementation-cases"
+  loop_graph_antipatterns: "guide/core/loop-graph-engineering.md#9-anti-patterns"
+  loop_graph_selection: "guide/core/loop-graph-engineering.md#10-selection-checklist"
   agent_harness_definition: "guide/core/agent-harness.md#the-core-claim"
   agent_harness_entry_points: "guide/core/agent-harness.md#choose-the-right-entry-point"
   agent_harness_four_layers: "guide/core/agent-harness.md#0-four-layers-four-responsibilities"
@@ -850,9 +862,9 @@ deep_dive:
   gemini_cli_tool: "guide/ecosystem/agentic-tools.md#16-gemini-cli-google"  # Google, Apache-2.0, 106K+ stars; Gemini-first, free tier is the reason to pick it (60 req/min, 1000/day)
   crush_tool: "guide/ecosystem/agentic-tools.md#17-crush-charm"  # Charm, FSL-1.1-MIT (converts to MIT 2yr after each release), 27.5K+ stars; multi-provider, polished TUI
   agent_harness_engineering_page: "guide/core/agent-harness.md"
-  agent_harness_loop_graph_distinction: "guide/core/agent-harness.md#loop-graph-harness-and-orchestrator-are-different-views"
+  agent_harness_loop_graph_distinction: "guide/core/loop-graph-engineering.md#1-choose-the-smallest-control-structure"
   agent_harness_loop_horizons: "guide/core/agent-harness.md#three-loop-horizons"
-  agent_harness_judgment_allocation: "guide/core/agent-harness.md#judgment-allocation-where-responsibility-actually-sits"
+  agent_harness_judgment_allocation: "guide/core/loop-graph-engineering.md#5-allocate-judgment-explicitly"
   agent_harness_reviewer_independence: "guide/roles/agent-evaluation.md#evaluate-judgment-allocation-and-reviewer-independence"
   agent_harness_graph_observability: "guide/ops/observability.md#graph-level-observability"
   agent_harness_video_evidence: "guide/core/agent-harness.md#10-practitioner-video-evidence"
@@ -2539,7 +2551,7 @@ ecosystem:
       - "Cross-links modified → Update all 4 repos"
     history:
       - date: "2026-01-20"
-        event: "Code Landing sync v3.42.0, 66 templates, cross-links"
+        event: "Code Landing sync v3.43.0, 66 templates, cross-links"
         commit: "5b5ce62"
       - date: "2026-01-20"
         event: "Cowork Landing fix (paths, README, UI badges)"
@@ -2551,7 +2563,7 @@ ecosystem:
 onboarding_matrix_meta:
   version: "2.1.0"
   last_updated: "2026-03-09"
-  aligned_with_guide: "3.42.0"
+  aligned_with_guide: "3.43.0"
   changelog:
     - version: "2.1.0"
       date: "2026-03-09"
@@ -2582,7 +2594,7 @@ onboarding_matrix:
       core: [rules, sandbox_native_guide, commands]
       time_budget: "5 min"
       topics_max: 3
-      note: "SECURITY FIRST - sandbox before commands (v3.42.0 critical fix)"
+      note: "SECURITY FIRST - sandbox before commands (v3.43.0 critical fix)"
 
     beginner_15min:
       core: [rules, sandbox_native_guide, workflow, essential_commands]
@@ -2671,7 +2683,7 @@ onboarding_matrix:
         - default: agent_validation_checklist
       time_budget: "60 min"
       topics_max: 6
-      note: "Dual-instance pattern for quality workflows (v3.42.0)"
+      note: "Dual-instance pattern for quality workflows (v3.43.0)"
 
   learn_security:
     intermediate_30min:
@@ -2682,7 +2694,7 @@ onboarding_matrix:
         - default: permission_modes
       time_budget: "30 min"
       topics_max: 4
-      note: "NEW goal (v3.42.0) - Security-focused learning path"
+      note: "NEW goal (v3.43.0) - Security-focused learning path"
 
     power_60min:
       core: [sandbox_native_guide, mcp_secrets_management, security_hardening]
@@ -2707,7 +2719,7 @@ onboarding_matrix:
       core: [rules, sandbox_native_guide, workflow, essential_commands, context_management, plan_mode]
       time_budget: "60 min"
       topics_max: 6
-      note: "Security foundation + core workflow (v3.42.0 sandbox added)"
+      note: "Security foundation + core workflow (v3.43.0 sandbox added)"
 
     intermediate_120min:
       core: [plan_mode, agents, skills, config_hierarchy, git_mcp_guide, hooks, mcp_servers]
@@ -2836,6 +2848,8 @@ section_maps:
     - "7-test-distribution-and-component-stacking-anti-patterns"
     - "8-creator-verifier-pattern"
     - "9-reference-architecture"
+    - "10-practitioner-video-evidence"
+    - "11-harness-optimizers-and-meta-harnesses"
   "guide/core/architecture.md":
     - "source-transparency"
     - "where-claude-code-sits-in-the-harness-stack"
@@ -2902,7 +2916,10 @@ section_maps:
     - "c"
     - "d"
     - "e"
+    - "g"
     - "h"
+    - "j"
+    - "l"
     - "m"
     - "n"
     - "o"
@@ -2930,6 +2947,18 @@ section_maps:
     - "-issue-statistics-as-of-jan-28-2026"
     - "-how-to-track-issues"
     - "-contributing-to-this-document"
+  "guide/core/loop-graph-engineering.md":
+    - "contents"
+    - "1-choose-the-smallest-control-structure"
+    - "2-write-a-loop-contract"
+    - "3-write-a-graph-contract"
+    - "4-static-and-dynamic-graphs"
+    - "5-allocate-judgment-explicitly"
+    - "6-make-execution-durable"
+    - "7-observe-and-evaluate-the-system"
+    - "8-three-implementation-cases"
+    - "9-anti-patterns"
+    - "10-selection-checklist"
   "guide/core/memory-systems.md":
     - "1-tldr-three-track-model"
     - "2-native-claude-code-memory-stack"
@@ -3006,6 +3035,7 @@ section_maps:
     - "the-twelve-category-map"
     - "core-coding-harnesses"
     - "orchestrators-products-above-the-runtime"
+    - "harness-optimizers-and-meta-harnesses"
     - "four-layers-four-responsibilities"
     - "complete-project-directory"
     - "how-to-pick-a-harness"
@@ -3092,6 +3122,7 @@ section_maps:
     - "why-cloud-and-local-tokenssec-are-not-comparable"
     - "decision-diagram"
     - "decision-framework"
+    - "sizing-self-hosted-inference-for-a-team"
     - "switching-providers-at-the-cli-level"
   "guide/ecosystem/mcp-servers-ecosystem.md":
     - "official-vs-community-servers"
@@ -3326,6 +3357,15 @@ section_maps:
     - "limitations"
     - "manager-audit-checklist"
     - "10-team-level-log-aggregation"
+  "guide/ops/subscription-strategy.md":
+    - "tldr"
+    - "1-the-two-axes-that-actually-matter"
+    - "2-claude-team-the-per-seat-default-and-its-hard-ceiling"
+    - "3-claude-enterprise-usage-priced-seat-fee-included"
+    - "4-api-gateway-the-missing-piece-between-team-and-enterprise"
+    - "5-multi-vendor-by-design-not-by-accident"
+    - "6-personal-promax-plans-not-a-compliance-option-whatever-the-price-looks-like"
+    - "7-self-hosted-open-weight-models-a-separate-business-case-not-a-line-item-here"
   "guide/ops/team-metrics.md":
     - "the-measurement-problem"
     - "the-dora-foundation"
