@@ -8,7 +8,7 @@ tags: [guide, community, insights]
 
 This page collects paraphrased field reports from engineers and technology leads who have built production systems with LLMs and agentic tooling. These are practitioner accounts, not vendor documentation. Every insight is attributed to its source.
 
-The corpus now spans five sources on this page. [IFTTD](https://www.ifttd.io/) (If This Then Dev), a French tech podcast hosted by Bruno Soulez covering practical software engineering, remains the largest with episodes 290 to 361 (roughly 2024-2025) and verbatim transcripts for 55 recent episodes. Devoxx adds talks from its Java/JVM and architecture conference family, Dev With AI contributes from a French AI-native development meetup, and ByteByteGo covers system design. Stanford Online supplies academic coursework on machine learning and large language models. Every talk and episode across the five sources was analyzed for patterns applicable to Claude Code workflows and paraphrased; no direct quotes appear on this page. A sixth source, The Product Crew (a French product-management podcast), was analyzed for the same project but its insights are folded into the guide's adoption, roles, and unit-economics pages instead, since none of its material fit this page's themes; see [credits.md](../core/credits.md) for that attribution.
+The corpus now spans six sources on this page. [IFTTD](https://www.ifttd.io/) (If This Then Dev), a French tech podcast hosted by Bruno Soulez covering practical software engineering, remains the largest with episodes 290 to 361 (roughly 2024-2025) and verbatim transcripts for 55 recent episodes. Devoxx adds talks from its Java/JVM and architecture conference family, Dev With AI contributes from a French AI-native development meetup, and ByteByteGo covers system design. Stanford Online supplies academic coursework on machine learning and large language models. Pavan Belagatti's 62 English-language videos published in 2026 add a vendor-oriented view of agentic engineering, loop engineering, context platforms, and software factories. Every talk and episode across the six sources was analyzed for patterns applicable to Claude Code workflows and paraphrased; no direct quotes appear on this page. A seventh source, The Product Crew (a French product-management podcast), was analyzed for the same project but its insights are folded into the guide's adoption, roles, and unit-economics pages instead, since none of its material fit this page's themes; see [credits.md](../core/credits.md) for that attribution.
 
 ---
 
@@ -98,7 +98,25 @@ The corpus now spans five sources on this page. [IFTTD](https://www.ifttd.io/) (
 
 ---
 
+**A shared context layer needs provenance and revocation, not only retrieval.** Centralizing documentation, service relationships, runtime state, and ownership data can reduce tool fragmentation. The same layer can propagate stale or poisoned data to every connected agent. Treat freshness, source identity, scoped access, and rollback as part of the context contract rather than assuming that one shared catalog is authoritative.
+
+*Pavan Belagatti, [Context Engineering Explained](https://www.youtube.com/watch?v=oExfgB9zRzA), 2026. The video demonstrates a Port-oriented architecture; the risk boundary is this guide's analysis, not a claim measured in the video.*
+
+---
+
 ## Agentic Patterns & Orchestration
+
+**A software factory is an operating model, not a product category alone.** The model, runtime harness, repository gates, orchestrator, and accountable humans own different decisions. A managed platform can package those layers, but it does not remove the need to define who writes intent, who accepts evidence, who handles exceptions, and who can release an irreversible change.
+
+*Pavan Belagatti, [What Is a Software Factory?](https://www.youtube.com/watch?v=0nM1ygBm8tA) and [Build Your Own Software Factory](https://www.youtube.com/watch?v=pE1S1egMrAI), 2026*
+
+---
+
+**Removing the operator from repeated prompting does not remove human governance.** Loop engineering can automate planning, action, observation, and retry within a budget. Humans still own permissions, acceptance policy, exceptions, and high-impact releases. Separating the execution loop from the governance loop resolves the apparent conflict between unattended iteration and human approval gates.
+
+*Pavan Belagatti, [Loop Engineering Explained](https://www.youtube.com/watch?v=RvG7R0Ue1k4) and the [human review gate in Build Your Own Software Factory](https://www.youtube.com/watch?v=pE1S1egMrAI&t=908s), 2026*
+
+---
 
 **One agent, one task.** A single agent that accumulates prompt additions over time degrades in unpredictable ways: fixing one behavior inadvertently breaks another. The alternative is small, focused agents with narrow instructions and explicit tool sets. Each agent becomes independently testable, observable, and replaceable.
 
@@ -191,6 +209,12 @@ The corpus now spans five sources on this page. [IFTTD](https://www.ifttd.io/) (
 ---
 
 ## LLM Evaluation
+
+**A dashboard or a fast demonstration is not an outcome study.** Claims such as root-cause analysis in seconds, tenfold productivity, or an entire SDLC automated need a task denominator, baseline, repeated runs, failure distribution, human review time, and cost. Without those fields, the result remains a product demonstration even when the workflow executes successfully.
+
+*Pavan Belagatti, [Become a 10x Developer](https://www.youtube.com/watch?v=6VBhFq5SJ0s) and [DORA Dashboard](https://www.youtube.com/watch?v=nqdSoLq_Qe0), 2026. The measurement requirements are this guide's evidence boundary.*
+
+---
 
 **Evaluation is a scored dataset, not a red/green test.** Unit tests that pass or fail deterministically do not apply to probabilistic outputs. Instead, build a dataset of inputs paired with expected outputs, run a scoring function, and track the score over time. The goal is moving from 85% to 87% to 89%, not achieving a binary pass state.
 
@@ -490,6 +514,19 @@ Stanford Online publishes academic coursework on machine learning and large lang
 | CS230 Lecture 8 | Stanford Online | In-context learning vs. fine-tuning |
 | CS336 Lecture 12 | Stanford Online | Evaluation metrics |
 | ISLR (Hastie & Tibshirani) | Stanford textbook / course | Verifying LLM necessity |
+
+### Pavan Belagatti YouTube Corpus
+
+The 62 English-language videos published in 2026 were analyzed from local WebVTT transcripts. They provide practical demonstrations of agentic workflows, context engineering, loop engineering, and software factories. Port appears repeatedly as the implementation platform, so these videos are treated as vendor-oriented practitioner material rather than independent architectural validation. Timestamped quotations used elsewhere in the guide were checked against the corresponding transcript.
+
+| Video | Theme | Evidence boundary |
+|---|---|---|
+| [Build Your Own Software Factory](https://www.youtube.com/watch?v=pE1S1egMrAI) | SDLC workflow, human gates, rollback, feedback | Configured Port workflow; no comparative reliability or cost study |
+| [What Is a Software Factory?](https://www.youtube.com/watch?v=0nM1ygBm8tA) | Agent execution and human gates | Short conceptual framing |
+| [Loop Engineering Explained](https://www.youtube.com/watch?v=RvG7R0Ue1k4) | Repeated execution without manual reprompting | Emerging practitioner term, not a standard |
+| [Context Engineering Explained](https://www.youtube.com/watch?v=oExfgB9zRzA) | Shared context layer | Benefits asserted without measured failure distribution |
+| [Deep Agents Hands-On](https://www.youtube.com/watch?v=K7G_FFZ9jHY) | Planning, delegation, persistent filesystem | Product tutorial, not a harness benchmark |
+| [Traditional RAG vs GraphRAG](https://www.youtube.com/watch?v=Gbztrb_Yabs) | GraphRAG comparison | One example scored by an LLM judge; no general superiority claim |
 
 ---
 

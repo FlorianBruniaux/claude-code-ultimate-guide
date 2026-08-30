@@ -5,7 +5,7 @@ author: "Florian BRUNIAUX"
 date: 2026-08-30
 date-format: "MMMM YYYY"
 version: "3.43.0"
-wp-version: "1.4.0"
+wp-version: "1.4.1"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -490,7 +490,7 @@ Les sept sections précédentes ont posé le cadre technique et empirique. Cette
 
 **SRE (Site Reliability Engineer)**. L'observabilité applicative classique (latence, erreurs HTTP, disponibilité) ne suffit plus. Il faut instrumenter `gen_ai.client` avec des conventions GenAI encore en statut Development, prévoir un adaptateur versionné ou un schéma local gelé, suivre les trace spans d'agent au niveau de chaque décision, le Tool Correctness Score (Agent GPA Snowflake), et les taux d'intervention HITL/HOTL. Le budget d'incidents change de nature : 58% des anomalies d'agent sont détectées plus de 5 heures après leur début (CSA/Zenity), ce qui redéfinit les SLO (objectifs de niveau de service). Un SLO classique de 99.9% sur la disponibilité n'a plus de sens isolé si l'agent fonctionne mais dérape sémantiquement. Concrètement : ajouter au runbook des seuils sur la dérive sémantique (un agent dont le Tool Correctness Score chute de 10% en 24h doit déclencher une alerte), instrumenter les hooks pre/post tool call avec OpenTelemetry, intégrer Arize Phoenix ou équivalent dans la pile d'observabilité.
 
-**Engineering Manager**. Les métriques de vélocité brutes (commits, PRs mergées, story points livrés) explosent mécaniquement avec l'adoption des agents. Ce n'est pas un signal de productivité, c'est un artefact d'adoption : l'agent produit plus d'artefacts mesurables, mais la mesure du temps réel sur des tâches complexes ne suit pas (METR Study 1 : -19% mesuré contre +24% perçu, gap de 39 points). Un EM qui communique à sa direction sur la base des métriques de vélocité agentic se prépare à un retour de bâton quand la J-curve descend (creux de -1.33 point de PTF documenté par Brynjolfsson sur le terrain industriel américain). Recalibrer les cibles DORA (DevOps Research and Assessment : deployment frequency, lead time, change failure rate, MTTR) à la lumière de l'agentic, et instrumenter les métriques AI-specific détaillées dans le whitepaper 11. Concrètement : ne jamais piloter sur le ressenti seul, demander des données mesurées, accepter la J-curve dans la communication avec la direction, communiquer en amont sur le creux pour éviter les coupes budgétaires au pire moment.
+**Engineering Manager**. Les métriques de vélocité brutes (commits, PRs mergées, story points livrés) explosent mécaniquement avec l'adoption des agents. Ce n'est pas un signal de productivité, c'est un artefact d'adoption : l'agent produit plus d'artefacts mesurables, mais la mesure du temps réel sur des tâches complexes ne suit pas (METR Study 1 : -19% mesuré contre +24% perçu, gap de 39 points). Un EM qui communique à sa direction sur la base des métriques de vélocité agentic se prépare à un retour de bâton quand la J-curve descend (creux de -1.33 point de PTF documenté par Brynjolfsson sur le terrain industriel américain). Recalibrer les cinq métriques DORA actuelles (change lead time, deployment frequency, failed deployment recovery time, change fail rate et deployment rework rate) à la lumière de l'agentic, puis instrumenter les métriques AI-specific détaillées dans le whitepaper 11. Concrètement : ne jamais piloter sur le ressenti seul, demander des données mesurées, accepter la J-curve dans la communication avec la direction, communiquer en amont sur le creux pour éviter les coupes budgétaires au pire moment.
 
 # Voir Aussi
 

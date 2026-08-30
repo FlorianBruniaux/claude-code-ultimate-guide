@@ -152,6 +152,7 @@ deep_dive:
   loop_graph_graph_contract: "guide/core/loop-graph-engineering.md#3-write-a-graph-contract"
   loop_graph_static_dynamic: "guide/core/loop-graph-engineering.md#4-static-and-dynamic-graphs"
   loop_graph_judgment: "guide/core/loop-graph-engineering.md#5-allocate-judgment-explicitly"
+  loop_graph_execution_governance: "guide/core/loop-graph-engineering.md#separate-execution-from-governance"
   loop_graph_durable_execution: "guide/core/loop-graph-engineering.md#6-make-execution-durable"
   loop_graph_observability: "guide/core/loop-graph-engineering.md#7-observe-and-evaluate-the-system"
   loop_graph_cases: "guide/core/loop-graph-engineering.md#8-three-implementation-cases"
@@ -444,20 +445,22 @@ deep_dive:
   recap_cards_fr: "whitepapers/recap-cards/fr/"
   recap_cards_en: "whitepapers/recap-cards/en/"
   recap_cards_count: "57"
-  # Practitioner Insights (IFTTD podcast episodes 290-361, plus Devoxx, Dev With AI Meetup, ByteByteGo, Stanford Online) - Added 2026-06-21, expanded 2026-07-07
+  # Practitioner Insights (IFTTD episodes 290-361, Devoxx, Dev With AI Meetup, ByteByteGo, Stanford Online, Pavan Belagatti 2026) - Added 2026-06-21, expanded 2026-08-30
   practitioner_insights_guide: "guide/ecosystem/practitioner-insights.md"
-  practitioner_insights_description: "Paraphrased field insights from IFTTD (episodes 290-361), Devoxx, Dev With AI Meetup, ByteByteGo, and Stanford Online, 5 themes: context engineering, agentic patterns, LLM evaluation, agent security, DevX and adoption. 65 attributed insights, English only, no direct quotes."
+  practitioner_insights_description: "Paraphrased field insights from IFTTD (episodes 290-361), Devoxx, Dev With AI Meetup, ByteByteGo, Stanford Online, and 62 Pavan Belagatti videos from 2026. Five themes: context engineering, agentic patterns, LLM evaluation, agent security, DevX and adoption. 69 attributed insights, English only, no direct quotes."
   practitioner_insights_context_engineering: "guide/ecosystem/practitioner-insights.md#context-engineering"
   practitioner_insights_agentic_patterns: "guide/ecosystem/practitioner-insights.md#agentic-patterns--orchestration"
   practitioner_insights_llm_evaluation: "guide/ecosystem/practitioner-insights.md#llm-evaluation"
   practitioner_insights_agent_security: "guide/ecosystem/practitioner-insights.md#agent-security"
   practitioner_insights_devx: "guide/ecosystem/practitioner-insights.md#devx--adoption"
-  practitioner_insights_source: "ifttd.io, Bruno Soulez, 360+ episodes, 2020-2026; plus Devoxx, Dev With AI Meetup, ByteByteGo, and Stanford Online conference and course talks"
+  practitioner_insights_source: "IFTTD, Devoxx, Dev With AI Meetup, ByteByteGo, Stanford Online, and 62 Pavan Belagatti YouTube transcripts published in 2026"
   practitioner_insights_episodes: "IFTTD ep 311 (Lastmann), 326 (Bendhiba), 329 (Barthelet), 338 (Pinsard), 341 (Adam), 346 (N'takpe), 349 (Deleuze), 351 (Lepine), 357, 360 (Lours), 361 (Laforge)"
   practitioner_insights_devoxx: "guide/ecosystem/practitioner-insights.md#devoxx"
   practitioner_insights_devwithai: "guide/ecosystem/practitioner-insights.md#dev-with-ai-meetup"
   practitioner_insights_bytebytego: "guide/ecosystem/practitioner-insights.md#bytebytego"
   practitioner_insights_stanford: "guide/ecosystem/practitioner-insights.md#stanford-online"
+  practitioner_insights_pavan_belagatti: "guide/ecosystem/practitioner-insights.md#pavan-belagatti-youtube-corpus"
+  practitioner_insights_pavan_evaluation: "docs/resource-evaluations/pavan-belagatti-agentic-engineering-2026.md"
   practitioner_insights_credits: "guide/core/credits.md#ifttd-if-this-then-dev-podcast"
   # AI Unit Economics (guide/ops/ai-unit-economics.md) - Added 2026-07-07
   ai_unit_economics_guide: "guide/ops/ai-unit-economics.md"
@@ -466,15 +469,15 @@ deep_dive:
   ai_unit_economics_skill_injection_cost: "guide/ops/ai-unit-economics.md#audit-what-a-skill-or-tool-injects-not-just-what-it-costs-to-load"  # skill definition is cheap, injected result is the recurring cache-read cost; $5.33/208.9K-token skill call example; no measured break-even, governance call per skill via /usage per-category breakdown
   # Subscription Strategy at Team Scale (guide/ops/subscription-strategy.md) - Added 2026-08-29
   subscription_strategy_guide: "guide/ops/subscription-strategy.md"
-  subscription_strategy_two_axes: "guide/ops/subscription-strategy.md#1-the-two-axes-that-actually-matter"  # interactive vs programmatic, seat-priced vs usage-priced
-  subscription_strategy_team_seat_cap: "guide/ops/subscription-strategy.md#2-claude-team-the-per-seat-default-and-its-hard-ceiling"  # Team: 2-150 seats/workspace, $20/$100 seat (annual), source claude.com/pricing verified 2026-08-29
-  subscription_strategy_enterprise: "guide/ops/subscription-strategy.md#3-claude-enterprise-usage-priced-seat-fee-included"  # $20/seat + API-rate usage, self-serve or sales-assisted
-  subscription_strategy_gateway: "guide/ops/subscription-strategy.md#4-api-gateway-the-missing-piece-between-team-and-enterprise"
+  subscription_strategy_two_axes: "guide/ops/subscription-strategy.md#1-authentication-and-billing-source-matter-more-than-interaction-mode"  # subscription limits vs Platform API billing vs usage-priced Enterprise
+  subscription_strategy_team_seat_cap: "guide/ops/subscription-strategy.md#2-claude-team-the-per-seat-default-and-its-hard-ceiling"  # Team: 2-150 seats/workspace, $20/$100 seat (annual), source claude.com/pricing verified 2026-08-30
+  subscription_strategy_enterprise: "guide/ops/subscription-strategy.md#3-claude-enterprise-usage-priced-seat-fee-included"  # $20/seat + API-rate usage, native spend controls, benchmark evidence, and observed-trace cost distributions
+  subscription_strategy_gateway: "guide/ops/subscription-strategy.md#4-api-gateway-a-control-plane-for-routed-api-traffic"
   subscription_strategy_multi_vendor: "guide/ops/subscription-strategy.md#5-multi-vendor-by-design-not-by-accident"  # opencode Go single-seat gate as a concrete failure case
-  subscription_strategy_personal_plan_gap: "guide/ops/subscription-strategy.md#6-personal-promax-plans-not-a-compliance-option-whatever-the-price-looks-like"  # retention parity != compliance parity; no DPA/admin control, Consumer Terms scope
+  subscription_strategy_personal_plan_gap: "guide/ops/subscription-strategy.md#6-personal-promax-plans-not-an-organization-control-plane"  # no organization controls or DPA; consumer retention and training choices remain separate questions
   subscription_strategy_self_hosted_split: "guide/ops/subscription-strategy.md#7-self-hosted-open-weight-models-a-separate-business-case-not-a-line-item-here"
-  opencode_go_plan: "guide/ecosystem/agentic-tools.md#opencode-go-the-subscription-tier-and-why-it-does-not-scale-to-a-team"  # $10/mo, $12/5h + $30/wk + $60/mo caps, single-seat-per-workspace gate, source opencode.ai/docs/go verified 2026-08-29
-  local_vs_cloud_team_sizing: "guide/ecosystem/local-vs-cloud-inference.md#sizing-self-hosted-inference-for-a-team"  # concurrent-throughput sizing table, 671B MoE break-even math (11x cost vs cheap open API even at 100% utilization), $5-15k/mo ops cost floor
+  opencode_go_plan: "guide/ecosystem/agentic-tools.md#opencode-go-the-subscription-tier-and-why-it-does-not-scale-to-a-team"  # $10/mo, $12/5h + $30/wk + $60/mo caps, single-seat gate, optional Zen balance fallback, verified 2026-08-30
+  local_vs_cloud_team_sizing: "guide/ecosystem/local-vs-cloud-inference.md#sizing-self-hosted-inference-for-a-team"  # workload-specific concurrency, API-price sensitivity, observed coding-agent traces, serving evidence, and ops cost
   # Learning with AI (guide/roles/learning-with-ai.md)
   learning_quick_check: "guide/roles/learning-with-ai.md#quick-self-check-start-here"
   learning_uval_protocol: "guide/roles/learning-with-ai.md#the-uval-protocol"
@@ -1157,15 +1160,16 @@ deep_dive:
   intent_md_diagram: "guide/diagrams/06-development-workflows.md#spec-first-development-pipeline"  # updated with intent.md upstream node + Maintain-to-Plan closed loop
   # Agentic Software Factories orientation page (added 2026-07-15)
   agentic_software_factories_hub: "guide/workflows/agentic-software-factories.md"  # single entry point: spectrum, decision tree, file map, governance checklist, velocity-trap case study
+  agentic_software_factories_operating_model: "guide/workflows/agentic-software-factories.md#a-software-factory-is-an-operating-model"
   agentic_software_factories_spectrum: "guide/workflows/agentic-software-factories.md#1-the-spectrum-six-levels-six-costs"  # 6 levels: single session -> /batch -> Agent Teams -> dynamic-workflows -> plan-pipeline -> third-party orchestrator -> closed factory
   agentic_software_factories_decision_tree: "guide/workflows/agentic-software-factories.md#2-the-missing-decision-tree-when-does-a-closed-software-factory-actually-win"  # closed platform vs native stack, branches on team size/budget/compliance
   agentic_software_factories_governance_5th_question: "guide/workflows/agentic-software-factories.md#4-five-governance-questions-before-you-adopt-anything"  # extends spec-first.md's 4 questions with: is the advertised verification feature actually wired
   agentic_software_factories_fusion_case_study: "docs/resource-evaluations/fusion-multi-agent-orchestrator.md"  # 727K lines/4 months, bus factor 1, verification module built but never wired into production
   # Resource Evaluations (added 2026-01-26, updated 2026-02-07, synced 2026-07-08)
   resource_evaluations_directory: "docs/resource-evaluations/"
-  resource_evaluations_count: 171
-  resource_evaluations_indexed: 52
-  resource_evaluations_count_note: "Two different numbers, both real. 171 is the count of .md files in docs/resource-evaluations/; 52 is how many the README index table actually lists. Most older evaluations were never added to the index. Figures verified 2026-08-04 against the folder and against the README's own 'Last updated' line, after adding the just-bash evaluation."
+  resource_evaluations_count: 178
+  resource_evaluations_indexed: 56
+  resource_evaluations_count_note: "Two different numbers, both real. 178 is the count of Markdown files in docs/resource-evaluations/; 56 are listed in the README index table. Most older evaluations were never added to the index. Figures verified 2026-08-30 after adding the Pavan Belagatti corpus evaluation."
   resource_evaluations_methodology: "docs/resource-evaluations/README.md"
   resource_evaluations_watchlist: "docs/resource-evaluations/watch-list.md"
   resource_evaluations_appendix: "guide/ultimate-guide.md#appendix-c-resource-evaluation-process"
@@ -3359,12 +3363,12 @@ section_maps:
     - "10-team-level-log-aggregation"
   "guide/ops/subscription-strategy.md":
     - "tldr"
-    - "1-the-two-axes-that-actually-matter"
+    - "1-authentication-and-billing-source-matter-more-than-interaction-mode"
     - "2-claude-team-the-per-seat-default-and-its-hard-ceiling"
     - "3-claude-enterprise-usage-priced-seat-fee-included"
-    - "4-api-gateway-the-missing-piece-between-team-and-enterprise"
+    - "4-api-gateway-a-control-plane-for-routed-api-traffic"
     - "5-multi-vendor-by-design-not-by-accident"
-    - "6-personal-promax-plans-not-a-compliance-option-whatever-the-price-looks-like"
+    - "6-personal-promax-plans-not-an-organization-control-plane"
     - "7-self-hosted-open-weight-models-a-separate-business-case-not-a-line-item-here"
   "guide/ops/team-metrics.md":
     - "the-measurement-problem"

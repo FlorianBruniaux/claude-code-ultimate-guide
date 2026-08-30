@@ -40,9 +40,9 @@ This page gives engineering managers, tech leads, and CTOs a practical measureme
 
 ## The DORA Foundation
 
-DORA (DevOps Research and Assessment) measures the health of your delivery system, not individual contributors. That distinction matters: it keeps metrics conversations focused on process improvement rather than surveillance. It's also the most validated framework in the field, backed by years of research across thousands of organizations.
+DORA (DevOps Research and Assessment) measures the health of a software delivery system, not individual contributors. The [current DORA guide](https://dora.dev/guides/dora-metrics/), updated January 5, 2026, defines five metrics grouped into throughput and instability. Apply them to one application or service at a time and use them to improve the delivery system, not to rank people or unlike teams.
 
-The four core metrics:
+The five current metrics are Change Lead Time, Deployment Frequency, Failed Deployment Recovery Time, Change Fail Rate, and Deployment Rework Rate.
 
 ### Deployment Frequency
 
@@ -50,33 +50,15 @@ The four core metrics:
 
 **How to measure**: Count production deployments per day, week, or month. Most CI/CD tools expose this directly (GitHub Actions, CircleCI, Vercel, etc.).
 
-**2024 benchmarks**:
-
-| Tier | Frequency |
-|------|-----------|
-| Elite | Multiple times per day |
-| High | Once per day to once per week |
-| Medium | Once per week to once per month |
-| Low | Less than once per month |
-
 **Common pitfall**: Teams conflate "deployment" with "release." If you deploy to prod but hide behind feature flags, the metric looks good but customer value isn't delivered. Track both deployment frequency and feature flag rollout cadence if your team uses flags heavily.
 
 ---
 
-### Lead Time for Changes
+### Change Lead Time
 
 **What it measures**: Time from a code commit to that code running in production.
 
 **How to measure**: Timestamp at commit, timestamp at deployment. The delta is your lead time. Tools like LinearB and Faros.ai automate this from your CI/CD pipeline.
-
-**2024 benchmarks**:
-
-| Tier | Lead Time |
-|------|-----------|
-| Elite | Less than 1 hour |
-| High | 1 hour to 1 week |
-| Medium | 1 week to 1 month |
-| Low | More than 6 months |
 
 **Common pitfall**: Lead time measures calendar time, not active work time. A PR that sits in review for 3 days has 3 days of lead time even if the actual coding took 20 minutes. If your lead time is long, check where it's accumulating: is it in review queues, staging environments, or deployment pipelines?
 
@@ -88,43 +70,35 @@ The four core metrics:
 
 **How to measure**: (Number of failed deployments) / (Total deployments). "Failed" means requiring a hotfix, rollback, or incident response. Define this clearly before measuring or you'll argue over what counts.
 
-**2024 benchmarks**:
-
-| Tier | Rate |
-|------|------|
-| Elite | 0-5% |
-| High | 5-10% |
-| Medium | 10-15% |
-| Low | More than 15% |
-
 **Common pitfall**: If you're not tracking incidents formally, this metric defaults to zero, which looks great but means nothing. Invest in an on-call system (PagerDuty, OpsGenie, even a Slack channel with a naming convention) before tracking CFR.
 
 ---
 
-### Mean Time to Recovery (MTTR)
+### Failed Deployment Recovery Time
 
-**What it measures**: How long it takes to restore service after a production failure.
+**What it measures**: How long it takes to recover from a failed deployment that requires immediate intervention.
 
-**How to measure**: Time from incident alert to service restored. Track in your incident management system. Even a spreadsheet works if your incident volume is low.
+**How to measure**: Time from the failed deployment to recovery. Track the deployment identifier, incident, intervention, and recovery timestamp together so infrastructure failures unrelated to a change do not enter this metric.
 
-**2024 benchmarks**:
-
-| Tier | MTTR |
-|------|------|
-| Elite | Less than 1 hour |
-| High | Less than 1 day |
-| Medium | 1 day to 1 week |
-| Low | More than 1 week |
-
-**Common pitfall**: MTTR only tells you recovery speed, not root cause distribution. Combine with a lightweight post-mortem process so you know whether you're improving resilience or just getting faster at firefighting the same classes of issues.
+**Common pitfall**: This is not the historical all-cause MTTR metric. DORA renamed and narrowed it in 2023 so that recovery time stays attributable to a software deployment. Keep a separate operational recovery measure when outages caused by infrastructure, dependencies, or security incidents matter to your service.
 
 ---
 
-### On the 2025 DORA Evolution
+### Deployment Rework Rate
 
-The 2025 DORA report made a significant methodological shift: the four-tier model (Elite/High/Medium/Low) was retired. DORA now identifies **7 organizational archetypes** measured across **8 dimensions**: throughput, stability, team performance, product performance, individual effectiveness, time on valuable work, friction, and burnout.
+**What it measures**: The ratio of deployments that are unplanned work caused by a production incident.
 
-The implication for teams: stop chasing "Elite" as an endpoint. "Elite" on deployment frequency can coexist with burnout and high friction. The new model pushes you to identify your archetype (e.g., "Thriving Achievers," "Struggling Strugglers," "Balanced Performers") and improve your weakest dimensions rather than optimizing the metrics you're already good at. The four classic metrics remain valid input signals; they're just no longer the whole story.
+**How to measure**: Count unplanned corrective deployments and divide by total deployments over the same period. Link each corrective deployment to the incident or failed change that caused it.
+
+**Common pitfall**: Change Fail Rate and Deployment Rework Rate are related but not interchangeable. A failed deployment records that immediate intervention was required. Rework records the unplanned deployment work produced by incidents. Track both to distinguish failure incidence from its follow-on delivery cost.
+
+---
+
+### From Four Keys to Five Metrics
+
+The [official metric history](https://dora.dev/insights/dora-metrics-history/) records two changes that many dashboards still miss. DORA replaced MTTR with Failed Deployment Recovery Time in 2023, then added Deployment Rework Rate in 2024. The current model therefore has five metrics, not four.
+
+The 2025 DORA report also moved away from the old Elite, High, Medium, and Low performance clusters toward seven team archetypes across broader dimensions. Historical tier tables can help interpret an old report, but they are not current universal targets. Compare one service against its own baseline and improve its main constraint.
 
 ---
 
@@ -138,7 +112,7 @@ AI accelerates feature development, so your deployment cadence should increase, 
 
 Watch for: deployment frequency climbing while change failure rate also climbs. That's AI-accelerated code that isn't being reviewed carefully.
 
-### Lead Time for Changes
+### Change Lead Time
 
 AI cuts coding time but has limited effect on the non-coding segments of lead time. PR review, staging validation, context-switching delays, and deployment windows are largely unchanged by AI assistance. If your lead time isn't improving alongside AI adoption, the constraint is in review velocity or pipeline automation, not coding. Map your lead time stages explicitly (code time, review wait, staging wait, deploy window) to know where the leverage is.
 
@@ -148,13 +122,13 @@ This is the metric most at risk when AI adoption outpaces review discipline. AI 
 
 Track CFR separately for AI-generated code versus manually written code (most AI coding tools can tag commits). If AI-generated CFR is materially higher, your review process needs reinforcement, not your AI tooling.
 
-### MTTR
+### Failed Deployment Recovery Time
 
-AI genuinely helps here, if observability is already in place. AI-assisted diagnosis can cut time-to-root-cause significantly when the model has access to error logs, stack traces, and codebase context. But AI diagnosis is only as good as the signals it can read. A team without structured logging, without request tracing, and without alerting won't get a meaningful MTTR improvement from AI. The sequencing matters: instrument first, then expect AI to accelerate incident response.
+AI-assisted diagnosis can reduce recovery time when the model has access to deployment metadata, error logs, traces, and codebase context. The claim must be measured rather than inferred from a demo. Track the recovery-time distribution, false diagnoses, human intervention time, and whether the failed deployment was actually the cause. Instrument first, then compare the same service against its pre-adoption baseline.
 
-### Raising the Baseline
+### Deployment Rework Rate
 
-The practical consequence of AI assistance at scale: "Medium" DORA is no longer a credible target. Anthropic's internal engineering data from January 2026 shows +67% PRs per engineer per day, with 70-90% of shipped code AI-assisted. If your team is operating at AI-assisted development and still sitting in Medium tier on deployment frequency or lead time, the constraint is in your processes and pipeline, not in your developers' output. Adjust your targets accordingly.
+Generation speed can hide corrective work. Track whether AI-assisted changes produce more hotfix, rollback, and follow-up deployments, then attach token cost and human review time to that rework. A higher deployment frequency with a rising rework rate is not a throughput improvement.
 
 ---
 
@@ -234,7 +208,7 @@ AI-generated code requires at least as much review scrutiny as manually written 
 
 A qualitative, binary signal: during PR review, can the author explain their AI-generated code in their own words, not just what it does, but why it does it that way?
 
-Track this informally through your code review culture. If reviewers start noticing that authors can't explain their AI-generated submissions, that's a skill atrophy signal that will show up in higher CFR and longer MTTR 6-12 months later.
+Track this informally through your code review culture. If reviewers start noticing that authors cannot explain their AI-generated submissions, that loss of understanding can later appear as higher CFR and longer failed deployment recovery time.
 
 ### Time-to-Understand a PR
 
@@ -364,7 +338,7 @@ The instinct at this size is often to skip metrics entirely ("we're too small, w
 
 | Metric | How | Frequency |
 |--------|-----|-----------|
-| All 4 DORA metrics | LinearB or Faros.ai automated | Weekly (automated) |
+| All 5 DORA metrics | LinearB or Faros.ai automated, after verifying field definitions | Weekly (automated) |
 | Cycle Time per squad (not global) | Same tooling, segmented | Weekly |
 | Bug Escape Rate | Issue tracker + deploy markers | Monthly |
 | Feature CSAT | In-app survey on key features | Per-release |
@@ -373,7 +347,7 @@ The instinct at this size is often to skip metrics entirely ("we're too small, w
 | PR review time | GitHub Analytics / LinearB | Weekly |
 | Time-to-value | Analytics tool | Monthly |
 
-**Tooling**: LinearB or Faros.ai for DORA automation (connects to GitHub + your CI/CD pipeline, surfaces the four metrics without manual tracking), GitHub Analytics for AI contribution data, PostHog or Amplitude for product metrics.
+**Tooling**: LinearB or Faros.ai for delivery automation, GitHub Analytics for AI contribution data, and PostHog or Amplitude for product metrics. Verify that your selected delivery tool exposes the current five-metric model and uses DORA's definitions, because existing dashboards may still label all-cause MTTR as a DORA metric.
 
 At 25 people, global averages hide squad-level problems. A team with 3 squads that has 80% of its incidents originating from one squad will show a "Medium" CFR overall and miss the signal entirely. Track DORA per squad, not just per organization. Cycle time per team is especially valuable. It surfaces bottlenecks in specific parts of your codebase or process.
 
@@ -490,7 +464,7 @@ The most common failure mode in metrics programs is trying to instrument everyth
 
 ### Phase 1 (Weeks 1-2): Instrument DORA
 
-Connect your CI/CD pipeline to a metrics tool. For most teams this means connecting GitHub Actions (or equivalent) to LinearB, Faros, or Sleuth. Get Deployment Frequency and Lead Time automated first. They require the least manual work to configure. Change Failure Rate and MTTR require incident tracking to be in place, which takes slightly longer to set up.
+Connect your CI/CD pipeline to a metrics tool. For most teams this means connecting GitHub Actions (or equivalent) to LinearB, Faros, or Sleuth. Get Deployment Frequency and Change Lead Time automated first. They require the least manual work to configure. Change Fail Rate, Failed Deployment Recovery Time, and Deployment Rework Rate require deployment-to-incident linkage, which takes longer to set up.
 
 Output: a live dashboard showing at minimum Deployment Frequency and Lead Time for Changes. Your first baseline numbers.
 

@@ -11,6 +11,13 @@ Suivi des versions des ebooks, indépendamment de la version du guide.
 
 ---
 
+## [2026-08-30] DORA 2026 et corpus Pavan Belagatti
+
+### Fixed
+
+- **WP11 FR/EN**: version 1.3.0 à 1.3.1. Le modèle historique à quatre métriques et MTTR est remplacé par les cinq métriques DORA actuelles: Change Lead Time, Deployment Frequency, Failed Deployment Recovery Time, Change Fail Rate et Deployment Rework Rate. Les anciennes tables Elite, High, Medium et Low sont retirées comme cibles courantes, les chiffres internes d'Anthropic sont bornés à leur environnement, et le protocole relie désormais déploiements, incidents et rework.
+- **WP12 FR/EN**: version 1.4.0 à 1.4.1. La recommandation Engineering Manager cite les cinq métriques DORA actuelles; la version anglaise est alignée pour conserver une version bilingue commune.
+
 ## [2026-08-30] Loop, graph, harness, orchestrator: publications dérivées
 
 ### Added

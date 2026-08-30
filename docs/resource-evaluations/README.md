@@ -92,6 +92,7 @@ Les documents de travail bruts (prompts Perplexity, audits clients) restent dans
 | **just-bash** (vercel-labs, simulated bash for agents) | 4/5 | **4/5** | ✅ Integrated: sandbox-isolation.md §5 ("simulate, don't isolate" counterpart to agentOS); bus factor 1 (84.7%), no LICENSE file despite Apache-2.0 claim | [just-bash-simulated-shell.md](./just-bash-simulated-shell.md) |
 | **Multi-Project Agent Network** (M. Grenier, CTO Easystrat) | 3/5 | **3/5** | ✅ Partial: 2 patterns into agent-teams.md §Advanced (steering rule, single-writer); novelty claim rejected (contradicted by agent-teams mailbox, Gas Town, Hermes GEPA). ⚠️ Author is NOT the same person as `grenier-agent-skill-quality.md` | [grenier-multi-project-agent-network.md](./grenier-multi-project-agent-network.md) |
 | **Supermemory** (supermemoryai/supermemory, memory API + context engine) | 3/5 | **3/5** | ✅ Integrated: memory-systems.md §3.8/§3.9 (entry), §4.7 (team-gap evidence), §9 (95%/85.4% benchmark inconsistency); paid Claude Code plugin ($19/mo min.) vs free generic MCP | [supermemory-memory-context-engine.md](./supermemory-memory-context-engine.md) |
+| **Pavan Belagatti 2026 corpus** (62 YouTube transcripts) | 3/5 | **3/5** | ✅ Selective integration: execution versus governance, software-factory operating model, evidence boundaries; Port tutorials not treated as independent validation | [pavan-belagatti-agentic-engineering-2026.md](./pavan-belagatti-agentic-engineering-2026.md) |
 | **Switch** (Flint AI / SandboxAQ, agent-human chat bridge) | 3/5 | **3/5** | ✅ Known Gaps line only: third-party-tools.md (cross-platform agent-human chat bridge with governance, no comparable peer found); watch-list, pre-1.0 (0.21.0), 252 stars/6 weeks, bus factor close to 1 (80%) | [switch-agent-human-chat-bridge.md](./switch-agent-human-chat-bridge.md) |
 
 ## Watch List
@@ -100,4 +101,4 @@ Ressources surveillées mais pas encore intégrées : [watch-list.md](./watch-li
 
 ---
 
-**Last updated**: 2026-08-27 (173 evaluation files on disk, 55 indexed above after adding the Supermemory entry; the disk/index gap is a known backlog awaiting a dedicated audit pass, see the 2026-08-16 note this replaces)
+**Last updated**: 2026-08-30 (178 Markdown files on disk, 56 indexed above; the disk/index gap is a known backlog awaiting a dedicated audit pass)

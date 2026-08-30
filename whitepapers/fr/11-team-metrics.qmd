@@ -4,8 +4,8 @@ subtitle: "DORA, SPACE et les métriques qui comptent quand l'IA écrit 70 % de 
 author: "Florian BRUNIAUX"
 date: 2026-08-24
 date-format: "MMMM YYYY"
-version: "3.42.0"
-wp-version: "1.3.0"
+version: "3.43.0"
+wp-version: "1.3.1"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -33,7 +33,7 @@ lang: fr
 
 **Ce que vous allez retenir** :
 
-- Les 4 métriques DORA recalibrées pour un contexte IA (et pourquoi elles se comportent différemment)
+- Les 5 métriques DORA actuelles recalibrées pour un contexte IA
 - Les 5 signaux AI-specific que les frameworks standard ne couvrent pas
 - La stack minimale par taille d'équipe : 5 outils pour 5 personnes, pas 20
 - Les 6 métriques vanity à supprimer dès demain
@@ -51,13 +51,13 @@ Ce guide donne aux engineering managers, tech leads et CTO une stack de métriqu
 
 ## Ce que les Données Anthropic Confirment
 
-Les données internes d'Anthropic (janvier 2026) sont claires : **+67 % de PRs mergées par ingénieur par jour**, avec 70 à 90 % du code shipé assisté par IA. Pas une projection marketing, pas une démo controlée : des chiffres de production sur une équipe d'ingénierie mature qui utilise Claude Code en conditions réelles.
+Anthropic a publié **+67 % de PRs mergées par ingénieur par jour** en janvier 2026 et 70 à 90 % de code livré avec une assistance IA dans une étude interne antérieure. Ces chiffres décrivent l'environnement d'Anthropic. Ils donnent un contexte, pas un benchmark indépendant ni une cible pour une autre équipe.
 
-"Medium" sur les benchmarks DORA n'est plus une cible crédible pour une équipe qui utilise des outils IA à pleine capacité. Si votre équipe stagne en "Medium" sur la fréquence de déploiement ou le lead time après adoption IA, la contrainte est dans vos processus et votre pipeline, pas dans la productivité de vos développeurs. Ajustez vos cibles en conséquence.
+Comparez chaque service à sa propre baseline avant adoption. Si le temps de code baisse sans réduire le change lead time, la contrainte se situe probablement dans la revue, la validation ou le déploiement.
 
 # La Fondation DORA
 
-DORA (DevOps Research and Assessment) mesure la santé de votre système de livraison, pas des contributeurs individuels. Cette distinction maintient les conversations sur les métriques focalisées sur l'amélioration des processus plutôt que sur la surveillance. C'est aussi le framework le plus validé du domaine, appuyé par des années de recherche sur des milliers d'organisations.
+DORA (DevOps Research and Assessment) mesure la santé d'un système de livraison logicielle, pas des contributeurs individuels. Le [guide DORA actuel](https://dora.dev/guides/dora-metrics/), mis à jour le 5 janvier 2026, définit cinq métriques regroupées entre throughput et instabilité. Appliquez-les à une application ou un service à la fois.
 
 ## Fréquence de Déploiement
 
@@ -65,33 +65,15 @@ DORA (DevOps Research and Assessment) mesure la santé de votre système de livr
 
 **Comment mesurer** : Comptez les déploiements en production par jour, semaine ou mois. La plupart des outils CI/CD exposent ça directement (GitHub Actions, CircleCI, Vercel, etc.).
 
-**Benchmarks 2024** :
-
-| Tier | Fréquence |
-|------|-----------|
-| Elite | Plusieurs fois par jour |
-| High | Une fois par jour à une fois par semaine |
-| Medium | Une fois par semaine à une fois par mois |
-| Low | Moins d'une fois par mois |
-
 **En contexte IA** : L'IA accélère le développement de features, donc votre cadence devrait augmenter, à condition que votre pipeline suive. Si la fréquence de déploiement reste plate après adoption IA généralisée, le goulot est en aval : environnements de staging, QA manuel, débit de revue. L'IA vous donne plus de PRs à merger, elle n'améliore pas automatiquement le reste du pipeline.
 
 **Signal d'alerte** : fréquence de déploiement qui monte pendant que le Change Failure Rate monte aussi. C'est du code IA-accéléré qui n'est pas relu sérieusement.
 
-## Lead Time for Changes
+## Change Lead Time
 
 **Ce que ça mesure** : Temps entre un commit et ce code en production.
 
 **Comment mesurer** : Timestamp au commit, timestamp au déploiement. Le delta, c'est votre lead time. Des outils comme LinearB et Faros.ai l'automatisent depuis votre pipeline CI/CD.
-
-**Benchmarks 2024** :
-
-| Tier | Lead Time |
-|------|-----------|
-| Elite | Moins d'1 heure |
-| High | 1 heure à 1 semaine |
-| Medium | 1 semaine à 1 mois |
-| Low | Plus de 6 mois |
 
 **En contexte IA** : L'IA réduit le temps de coding mais a un effet limité sur les segments non-code du lead time. Revue de PR, validation staging, délais de context-switching et fenêtres de déploiement sont largement inchangés par l'assistance IA. Si votre lead time ne s'améliore pas en parallèle de l'adoption IA, la contrainte est dans la vélocité de revue ou l'automatisation du pipeline, pas dans le coding.
 
@@ -103,41 +85,31 @@ DORA (DevOps Research and Assessment) mesure la santé de votre système de livr
 
 **Comment mesurer** : (Déploiements ratés) / (Total déploiements). "Raté" signifie nécessitant un hotfix, un rollback, ou une réponse d'incident. Définissez ça clairement avant de mesurer.
 
-**Benchmarks 2024** :
-
-| Tier | Taux |
-|------|------|
-| Elite | 0-5 % |
-| High | 5-10 % |
-| Medium | 10-15 % |
-| Low | Plus de 15 % |
-
 **En contexte IA** : C'est la métrique la plus à risque quand l'adoption IA dépasse la discipline de revue. L'IA génère du code syntaxiquement correct et structurellement plausible qui peut quand même avoir des erreurs comportementales subtiles. Les équipes qui traitent les PRs IA-générées comme "moins risquées" et font du rubber-stamping voient leur CFR monter progressivement sur 6 à 12 mois.
 
 **Recommandation** : Trackez le CFR séparément pour le code IA-généré et le code écrit manuellement. Si le CFR IA est significativement plus élevé, c'est votre processus de revue qui a besoin de renforcement, pas vos outils IA.
 
-## Mean Time to Recovery (MTTR)
+## Failed Deployment Recovery Time
 
-**Ce que ça mesure** : Combien de temps il faut pour restaurer le service après une panne en production.
+**Ce que ça mesure** : Le temps nécessaire pour récupérer après un déploiement raté qui demande une intervention immédiate.
 
-**Comment mesurer** : Temps entre l'alerte d'incident et le service restauré. Trackez dans votre système de gestion d'incidents.
+**Comment mesurer** : Reliez le déploiement raté, l'incident, l'intervention et le timestamp de récupération. Excluez les pannes sans lien avec un changement logiciel.
 
-**Benchmarks 2024** :
+**En contexte IA** : Le diagnostic assisté par IA peut réduire le temps de récupération si le modèle inspecte les métadonnées du déploiement, les logs, les traces et le code. Mesurez la distribution des temps, les faux diagnostics et le temps humain. Une démo ne prouve pas une amélioration.
 
-| Tier | MTTR |
-|------|------|
-| Elite | Moins d'1 heure |
-| High | Moins d'1 jour |
-| Medium | 1 jour à 1 semaine |
-| Low | Plus d'1 semaine |
+## Deployment Rework Rate
 
-**En contexte IA** : L'IA aide réellement ici, à condition que l'observabilité soit déjà en place. Le diagnostic assisté par IA peut réduire significativement le temps jusqu'à la cause racine quand le modèle a accès aux logs d'erreur, aux stack traces et au contexte du codebase. Mais le diagnostic IA n'est aussi bon que les signaux qu'il peut lire. Le séquençage compte : instrumentez d'abord, attendez ensuite une amélioration du MTTR grâce à l'IA.
+**Ce que ça mesure** : Le ratio de déploiements non planifiés causés par un incident en production.
 
-## L'Évolution DORA 2025
+**Comment mesurer** : Divisez les déploiements correctifs non planifiés par le nombre total de déploiements sur la même période, avec un lien entre chaque correction et son incident.
 
-Le rapport DORA 2025 a fait un changement méthodologique significatif : le modèle à quatre tiers (Elite/High/Medium/Low) a été abandonné. DORA identifie maintenant **7 archétypes organisationnels** couvrant des dimensions élargies : throughput, stabilité, performance d'équipe, performance produit, efficacité individuelle, temps sur du travail à valeur, friction et burnout.
+**En contexte IA** : La vitesse de génération peut masquer hotfixes, rollbacks et déploiements de correction. Ajoutez le coût en tokens et le temps de revue humaine à ce rework. Une fréquence de déploiement plus élevée avec un rework rate en hausse n'est pas un gain de throughput.
 
-Pour les équipes, ça veut dire arrêter de chaser "Elite" comme endpoint. "Elite" sur la fréquence de déploiement peut coexister avec du burnout et une friction élevée. Le nouveau modèle pousse à identifier votre archétype et améliorer vos dimensions les plus faibles plutôt qu'optimiser les métriques où vous êtes déjà bons.
+## Des Quatre Keys aux Cinq Métriques
+
+L'[historique officiel](https://dora.dev/insights/dora-metrics-history/) documente deux changements encore absents de nombreux dashboards. DORA a remplacé MTTR par Failed Deployment Recovery Time en 2023, puis ajouté Deployment Rework Rate en 2024. Le modèle actuel compte donc cinq métriques.
+
+Le rapport 2025 a aussi remplacé les anciens clusters Elite, High, Medium et Low par sept archétypes d'équipe plus larges. Les tables historiques ne sont pas des cibles universelles actuelles. Comparez un service à sa baseline et améliorez sa contrainte principale.
 
 # Au-delà de DORA : Le Framework SPACE
 
@@ -215,7 +187,7 @@ Le code IA-généré nécessite au moins autant de scrutin à la revue que le co
 
 Un signal qualitatif binaire : pendant la revue de PR, l'auteur peut-il expliquer son code IA-généré dans ses propres mots, pas juste ce qu'il fait mais pourquoi il le fait de cette façon ?
 
-Trackez ça informellement à travers votre culture de revue de code. Si les reviewers commencent à remarquer que les auteurs ne peuvent pas expliquer leurs soumissions IA-générées, c'est un signal d'atrophie des compétences qui se manifestera dans un CFR plus élevé et un MTTR plus long dans 6 à 12 mois.
+Trackez ce signal à travers votre culture de revue de code. Si les reviewers remarquent que les auteurs ne peuvent pas expliquer leurs soumissions générées par IA, cette perte de compréhension peut ensuite apparaître sous la forme d'un CFR plus élevé et d'un failed deployment recovery time plus long.
 
 ## Temps de Compréhension d'une PR
 
@@ -357,7 +329,7 @@ L'instinct à cette taille est souvent de sauter les métriques entièrement ("o
 
 | Métrique | Comment | Fréquence |
 |----------|---------|-----------|
-| Les 4 métriques DORA | LinearB ou Faros.ai automatisé | Hebdomadaire (automatisé) |
+| Les 5 métriques DORA | LinearB ou Faros.ai automatisé, après vérification des définitions | Hebdomadaire (automatisé) |
 | Cycle Time par squad (pas global) | Même outillage, segmenté | Hebdomadaire |
 | Bug Escape Rate | Issue tracker + marqueurs de déploiement | Mensuel |
 | Feature CSAT | Enquête in-app sur features clés | Par release |
@@ -482,7 +454,7 @@ Le mode d'échec le plus courant dans les programmes de métriques, c'est d'essa
 
 ## Phase 1 (semaines 1-2) : Instrumenter DORA
 
-Connectez votre pipeline CI/CD à un outil de métriques. Pour la plupart des équipes, ça signifie connecter GitHub Actions (ou équivalent) à LinearB, Faros ou Sleuth. Automatisez d'abord la Fréquence de Déploiement et le Lead Time, ils requièrent le moins de travail manuel à configurer. Le Change Failure Rate et le MTTR nécessitent que le tracking d'incidents soit en place, ce qui prend un peu plus de temps à configurer.
+Connectez votre pipeline CI/CD à un outil de métriques. Pour la plupart des équipes, cela signifie connecter GitHub Actions ou son équivalent à LinearB, Faros ou Sleuth. Automatisez d'abord la Fréquence de Déploiement et le Change Lead Time. Le Change Fail Rate, le Failed Deployment Recovery Time et le Deployment Rework Rate demandent de relier les déploiements aux incidents.
 
 **Output** : un dashboard live montrant au minimum la Fréquence de Déploiement et le Lead Time for Changes. Vos premiers chiffres de baseline.
 
@@ -551,7 +523,8 @@ Aucun des deux ne remplace le travail plus dur décrit ci-dessus. Une meilleure 
 **Phase 2 : Signal qualité (mois 2-4)**
 
 - Change Failure Rate (global + par origine IA/manuel)
-- MTTR
+- Failed Deployment Recovery Time
+- Deployment Rework Rate
 - Bug Escape Rate
 - % code assisté par IA
 

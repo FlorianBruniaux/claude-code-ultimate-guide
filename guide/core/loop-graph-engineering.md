@@ -167,6 +167,20 @@ This distinction is visible in the pinned [Liza](https://github.com/liza-mas/liz
 
 Automation moves judgment. It does not erase it. Write down who owns the quality bar, decomposition, tool permission, exception, acceptance verdict, and release decision. This is **judgment allocation**.
 
+### Separate execution from governance
+
+Removing a person from repetitive execution does not remove human accountability. Treat three loops as separate contracts:
+
+| Loop | Primary responsibility | Human role |
+|---|---|---|
+| Execution loop | plan, act, observe, verify, retry within a budget | handle exceptions and escalations that exceed policy |
+| Governance loop | define goals, permissions, budgets, acceptance policy, and release authority | remain accountable for risk and irreversible effects |
+| Improvement loop | inspect traces and failures, propose a changed prompt, graph, policy, or harness | approve the versioned change against held-out evidence |
+
+This resolves an ambiguity in practitioner discussions of loop engineering. Pavan Belagatti describes removing the operator who repeatedly prompts the agent, then describes software-factory workflows that retain human gates for sensitive transitions. The coherent interpretation is that the person leaves the repetitive execution loop while remaining in the governance loop. See [Loop Engineering Explained](https://www.youtube.com/watch?v=RvG7R0Ue1k4) and the [human review gate in Build Your Own Software Factory](https://www.youtube.com/watch?v=pE1S1egMrAI&t=908s). These videos are practitioner and vendor-oriented demonstrations, not comparative reliability studies.
+
+OpenAI's [Harness Engineering](https://openai.com/index/harness-engineering/) account uses the related framing "Humans steer. Agents execute." Its reported throughput and time savings describe one internal greenfield experiment. They do not establish a universal autonomy level or productivity baseline.
+
 | Decision | Prefer | Why |
 |---|---|---|
 | schema, required command, prohibited transition | deterministic validator or policy engine | exact, repeatable, auditable |

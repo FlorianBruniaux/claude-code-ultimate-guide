@@ -341,6 +341,8 @@ The strongest case is provider flexibility: a team that wants to route between C
 
 The honest weak point is depth of integration per provider. Being multi-provider by design means no single model gets the first-party polish Claude Code gives Claude models specifically (prompt caching behavior, skills, hooks tuned to one vendor's tool-use format). Star count also is not a proxy for stability here: the project moved stewards once already (SST to Anomaly), and a team betting on long-term API surface stability should read the migration history before standardizing on it.
 
+Provider breadth also does not remove operational approval or version risk. A practitioner talk about an AI code reviewer built for a stated 200-engineer scope described using OpenRouter to prototype quickly through one API, then moving to Vertex AI and Gemini for stronger monitoring, logs, budgets, and security controls. After a later model update reduced the reviewer's measured satisfaction, the team rolled back to the previous model and observed recovery. The talk reports neither active-user count, migration cost, nor satisfaction values. Treat provider allowlists, pinned model versions, quality telemetry, and rollback as acceptance criteria for a multi-provider harness. Source: ["How We Built an AI Code Reviewer for 200 Engineers", 17:19](https://www.youtube.com/watch?v=dTye2zVfSco&t=1039s) and [21:44](https://www.youtube.com/watch?v=dTye2zVfSco&t=1304s), AI DevCon, published 2026-05-29.
+
 #### Quick Start
 
 ```bash
@@ -352,9 +354,9 @@ Full provider list and configuration at [opencode.ai/docs/providers](https://ope
 
 #### opencode Go: the subscription tier, and why it does not scale to a team
 
-Beyond bring-your-own-provider-key usage, opencode offers a subscription called Go: $10/month, giving access to a curated set of open-weight models (DeepSeek, Qwen, GLM, Kimi, and others) without needing individual provider accounts. Usage is capped in dollar-value terms rather than fixed request counts: $12 per 5-hour window, $30 per week, $60 per month. Because the cap is dollar-denominated, the effective number of requests varies enormously by model choice, from roughly 110 requests per 5 hours on a premium model to tens of thousands on a cheap one. Source: [opencode.ai/docs/go](https://opencode.ai/docs/go/), verified 2026-08-29.
+Beyond bring-your-own-provider-key usage, opencode offers a subscription called Go for $10/month. The current catalog includes Grok 4.6 and GPT 5.6 Luna alongside DeepSeek, Qwen, GLM, Kimi, and other models, so this is a curated coding-model subscription rather than an open-weight-only tier. Usage is limited in dollar-value terms rather than fixed request counts: $12 per 5-hour window, $30 per week, and $60 per month. The official estimates currently range from 110 to 45,300 requests per 5-hour window, but those estimates assume model-specific request profiles with large cached-input volumes and are not request guarantees. Source: [opencode.ai/docs/go](https://opencode.ai/docs/go/), verified 2026-08-30.
 
-The plan is explicitly single-seat: by opencode's own documentation, only one member per workspace can subscribe to Go. It is a fit for an individual developer wanting a cheap flat-rate way to try open-weight models, not an option for provisioning a team, whatever its per-request economics look like on paper. For team-scale subscription comparisons across providers, see [Subscription Strategy at Team Scale](../ops/subscription-strategy.md).
+The plan is explicitly single-seat: only one member per workspace can subscribe to Go. The usage limits are also not necessarily a hard financial stop. If the subscriber enables **Use balance**, Go falls back to the workspace's OpenCode Zen balance after a limit is reached instead of blocking requests. Go can serve an individual evaluation, but it is not a documented way to provision or govern a team. Source: [opencode.ai/docs/go](https://opencode.ai/docs/go/), verified 2026-08-30. For team-scale subscription comparisons across providers, see [Subscription Strategy at Team Scale](../ops/subscription-strategy.md).
 
 ---
 
@@ -562,7 +564,7 @@ An academic agent designed specifically for resolving GitHub issues from an issu
 
 An agent pipeline that takes a GitHub issue URL and a model, then attempts to reproduce the bug, write a fix, and produce a patch. Its architecture uses an Agent-Computer Interface (ACI) layer that abstracts terminal, file editing, and test running into a consistent set of commands regardless of the underlying environment. This ACI design is the main academic contribution: it shows that agent performance correlates strongly with how well the environment exposes information, not just with the model's raw capability.
 
-SWE-agent + Claude 3.7 holds state-of-the-art on SWE-Bench Full (open-weights). The benchmark is the key context: SWE-Bench measures the percentage of real GitHub issues an agent can resolve end-to-end, and SWE-agent was designed with that benchmark as its optimization target.
+The peer-reviewed NeurIPS 2024 evaluation did not test Claude 3.7 or an open-weight model in its principal SWE-bench result. On the full SWE-bench test set, SWE-agent resolved 12.47% of issues with GPT-4 Turbo and 10.46% with Claude 3 Opus. Table 1 reports average API inference costs of $1.59 and $2.59, respectively, averaged only over successfully resolved instances, with a $4 cap per run. These figures describe the paper's 2024 benchmark configuration, not current state of the art. Source: [Yang et al., SWE-agent](https://proceedings.neurips.cc/paper_files/paper/2024/file/5a7c947568c1b1328ccc5230172e1e7c-Paper-Conference.pdf), PDF pp. 5-6, Table 1.
 
 #### When to Choose SWE-agent
 
@@ -1097,6 +1099,8 @@ Higher autonomy means the agent can complete more work without you watching, but
 Claude Code headless (`claude -p`) and SWE-agent give you controlled autonomy: you set the task, the agent runs, you review the output. Devin gives you maximal autonomy with a cloud sandbox: the agent has a full Linux environment and can take actions you did not anticipate. More power, more review required before merging.
 
 Interactive agents (Claude Code terminal, Hermes, Aider, Goose) give you real-time control. You watch the agent think, redirect it when it goes wrong, and approve destructive actions. For exploratory work where requirements shift mid-session, interactive is faster than autonomous despite appearing more manual.
+
+Agentless is a counterexample to treating autonomy or candidate volume as a quality proxy. Its FSE 2025 evaluation used a bounded three-phase workflow with GPT-4o on SWE-bench Lite and resolved 96 of 300 issues, or 32%, at an average reported inference cost of $0.70 per issue. Repair performance plateaued around 40 candidate patches. The result comes from one benchmark with 2024 API pricing and excludes test infrastructure and human review, so it is not a production forecast. It supports testing a bounded localization, repair, and validation workflow before adding more agent loops or candidates. Source: [Xia et al., Demystifying LLM-Based Software Engineering Agents](https://lingming.cs.illinois.edu/publications/fse2025.pdf), DOI [10.1145/3715754](https://doi.org/10.1145/3715754), PDF pp. 10-15, Table 1 and Figure 6.
 
 ---
 

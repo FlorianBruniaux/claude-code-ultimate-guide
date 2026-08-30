@@ -20,6 +20,22 @@ A software factory combines several layers. The model reasons; the runtime harne
 
 Start with the [Agent Harness Map](../ecosystem/agent-harness-landscape.md) when the question is which product owns a coding loop and which catalog entries are merely adjacent. Read [Agent Harness Engineering](../core/agent-harness.md) for the layer boundaries, [Loop & Graph Engineering](../core/loop-graph-engineering.md) for control flow and judgment contracts, [Agent Tools: Beyond Claude Code](../ecosystem/agentic-tools.md) for frameworks and orchestration products, [Agent Evaluation](../roles/agent-evaluation.md) for the test protocol, [Session Observability](../ops/observability.md) for the evidence trail, and [Security Hardening](../security/security-hardening.md) before allowing unattended work. Terms are defined in the [glossary](../core/glossary.md).
 
+### A software factory is an operating model
+
+Buying a platform does not create a software factory. The operating model defines who writes intent, which runtime acts, where state persists, which checks can block progress, who handles exceptions, and who may release an irreversible change. A product can package those functions, but the responsibility split remains yours.
+
+| Responsibility | Default owner | Evidence required |
+|---|---|---|
+| intent, scope, and risk tolerance | accountable human | versioned specification and named owner |
+| bounded execution | runtime harness or workflow graph | trace, tool policy, budget, and stop reason |
+| mechanical verification | repository harness or policy engine | command, output, exit status, and artifact revision |
+| ambiguous exception or high-impact release | named human or pre-authorized policy | verdict, evidence references, and exception record |
+| future process improvement | versioned improvement loop | candidate diff and held-out evaluation |
+
+Pavan Belagatti summarizes the split as ["agents do the work, humans provide the gates"](https://www.youtube.com/watch?v=0nM1ygBm8tA&t=97s). His longer software-factory walkthrough shows a [human review gate](https://www.youtube.com/watch?v=pE1S1egMrAI&t=908s) plus [automated rollback and feedback](https://www.youtube.com/watch?v=pE1S1egMrAI&t=764s) in a Port-oriented workflow. The videos prove that the demonstrated workflow can be configured. They do not measure reliability, total cost, reviewer time, hostile-input behavior, or comparative productivity.
+
+OpenAI's [Harness Engineering](https://openai.com/index/harness-engineering/) report uses the related phrase "Humans steer. Agents execute" and documents one internal greenfield experiment. Its self-reported throughput and time estimate are useful implementation evidence, not a neutral benchmark. In both accounts, the human leaves repeated execution while remaining responsible for governance.
+
 ---
 
 ## Table of Contents
