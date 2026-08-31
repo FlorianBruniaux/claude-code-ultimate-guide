@@ -116,10 +116,29 @@ def save_state(root: Path, state: Dict[str, Any], path_data: Dict[str, Any]) -> 
 
 def create_profile(root: Path, path_data: Dict[str, Any], track: str) -> Dict[str, Any]:
     _require(track in path_data["tracks"], "Unknown learning track")
-    target = state_path(root)
-    _require(not target.exists(), "Progress state already exists; refuse to overwrite it")
     state = new_state(track)
-    save_state(root, state, path_data)
+    _validate_state(state, path_data)
+    target = state_path(root)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    descriptor, temporary_name = tempfile.mkstemp(prefix=".progress-", suffix=".tmp", dir=str(target.parent))
+    temporary = Path(temporary_name)
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
+            json.dump(state, handle, indent=2, sort_keys=True)
+            handle.write("\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        try:
+            os.link(temporary, target)
+        except FileExistsError as error:
+            raise ProgressError("Progress state already exists; refuse to overwrite it") from error
+    except OSError as error:
+        raise ProgressError("Could not create progress state") from error
+    finally:
+        try:
+            temporary.unlink(missing_ok=True)
+        except OSError:
+            pass
     return state
 
 

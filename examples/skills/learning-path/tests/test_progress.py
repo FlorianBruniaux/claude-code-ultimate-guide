@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import contextlib
+from concurrent.futures import ThreadPoolExecutor
 import importlib.util
 import io
 import json
@@ -10,6 +11,7 @@ from datetime import date
 from pathlib import Path
 import sys
 import tempfile
+import threading
 import unittest
 from unittest import mock
 
@@ -39,6 +41,24 @@ class ProgressTests(unittest.TestCase):
         self.assertEqual(state["track"], "Beginner")
         self.assertTrue(state_file.is_file())
         self.assertEqual(json.loads(state_file.read_text(encoding="utf-8"))["modules"], {})
+
+    def test_concurrent_profile_creation_allows_exactly_one_winner(self) -> None:
+        worker_count = 16
+        start = threading.Barrier(worker_count)
+
+        def create_profile(index: int) -> str:
+            start.wait()
+            try:
+                return progress.create_profile(self.root, self.path, "Beginner")["track"]
+            except progress.ProgressError:
+                return "rejected"
+
+        with ThreadPoolExecutor(max_workers=worker_count) as executor:
+            results = list(executor.map(create_profile, range(worker_count)))
+
+        self.assertEqual(results.count("Beginner"), 1)
+        self.assertEqual(results.count("rejected"), worker_count - 1)
+        self.assertEqual(progress.load_state(self.root, self.path)["track"], "Beginner")
 
     def test_atomic_save_leaves_complete_json_without_a_temporary_file(self) -> None:
         state = progress.new_state("Practitioner")

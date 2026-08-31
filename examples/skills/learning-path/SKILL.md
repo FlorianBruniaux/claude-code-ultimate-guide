@@ -16,7 +16,8 @@ Run `/self-assessment quick` before choosing a track. It is a self-reporting aid
 | Beginner | Beginner |
 | Intermediate | Practitioner |
 | Advanced | Production |
-| Maintainer | Maintainer, only when the objective includes shared governance |
+
+Maintainer is not a self-assessment result. Select it manually only when the goal is shared governance, such as maintaining team instructions, controls, or evidence practices.
 
 Choose the lowest track that covers your immediate goal:
 
@@ -65,4 +66,4 @@ All writes are local and atomic. A malformed state file fails closed and remains
 
 ## Validation boundary
 
-The runtime validates `path.yaml` with Python's JSON parser because the file uses the JSON subset of YAML. A generic YAML validation additionally needs PyYAML. If `python3 -c 'import yaml'` fails, generic YAML validation is `UNKNOWN`, not a successful skill validation. The dependency-free runtime tests can still establish that this exact path definition loads.
+The runtime validates `path.yaml` with Python's JSON parser because the file uses the JSON subset of YAML. The bundled `quick_validate.py` skill validator imports PyYAML before it parses `SKILL.md` frontmatter. If that import fails, this frontmatter validation is `UNKNOWN`, not a successful skill validation. The dependency-free runtime tests can still establish that this exact path definition loads.

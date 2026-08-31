@@ -62,7 +62,8 @@ The diagnostic helps select a starting track, but it does not remove prerequisit
 | Beginner | Beginner |
 | Intermediate | Practitioner |
 | Advanced | Production |
-| Maintainer | Maintainer only for a shared-governance objective |
+
+Maintainer is a manual choice, not a self-assessment result. Use it only when the goal includes shared governance, such as maintaining team instructions, controls, or evidence practices.
 
 ## Module map
 
@@ -94,10 +95,4 @@ The focused suite covers profile creation, atomic persistence, prerequisite enfo
 
 ## Skill validation boundary
 
-`path.yaml` is valid JSON and therefore valid YAML. The dependency-free runtime validates this exact JSON subset with the Python standard library. A generic YAML validation requires PyYAML:
-
-```bash
-python3 -c 'import yaml'
-```
-
-If that import fails, generic YAML validation is `UNKNOWN`. Do not report it as a passed skill validation. The local unit suite still verifies that the runtime can load the shipped path definition.
+`path.yaml` is valid JSON and therefore valid YAML. The dependency-free runtime validates this exact JSON subset with the Python standard library. The bundled `quick_validate.py` skill validator requires PyYAML because it imports `yaml` before it parses `SKILL.md` frontmatter. If PyYAML is absent, frontmatter validation is `UNKNOWN`. Do not report it as a passed skill validation. The local unit suite still verifies that the runtime can load the shipped path definition.
