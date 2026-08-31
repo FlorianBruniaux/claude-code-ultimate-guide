@@ -21,8 +21,8 @@ The protocol therefore requires a fixed rubric, an explicit stop rule, executabl
 
 ## Local YouTube practitioner-evidence check
 
-**Date:** 2026-08-31  
-**Tool:** `/Users/florianbruniaux/Sites/perso/yt-insights/.venv/bin/yt-insights`  
+**Date:** 2026-08-31
+**Tool:** `/Users/florianbruniaux/Sites/perso/yt-insights/.venv/bin/yt-insights`
 **Mode:** read-only local search only. No discovery, subtitle download, indexing, model inference, or network acquisition was requested.
 
 | Query or inspection | Result | Coverage consequence |

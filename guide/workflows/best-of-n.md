@@ -20,7 +20,7 @@ Use one deterministic attempt when the acceptance test is already clear, the sol
 | Subjective writing, product direction, or architecture without a stable rubric | First define the decision and rubric | Candidate count cannot compensate for an undefined quality bar |
 | Security, legal, medical, or irreversible action | Specialist review and domain-specific controls | Best-of-N is not an authorization or safety mechanism |
 
-Start at three candidates. Increase to five only when the candidates remain materially different and the expected benefit exceeds the added generation, evaluation, and verification budget. Stop at the declared maximum, or earlier when one candidate meets every mandatory criterion and its executable checks pass. Do not extend the run merely because another answer might be better.
+Start at three candidates. Increase to five only when the candidates remain materially different and the expected benefit exceeds the added generation, evaluation, and verification budget. Generate and score all candidates in the declared N before selection. A batched protocol may stop only between batches that were declared before generation, after every candidate in the completed batch has been scored and the predeclared stop condition is met. It cannot skip candidates within a declared batch. Do not extend the run merely because another answer might be better.
 
 ## The six operations are different
 
@@ -45,14 +45,14 @@ Before generating anything, write down:
 - repository revision, environment, permissions, and budget;
 - acceptance criteria and mandatory failures;
 - the rubric, its weights, and the minimum passing score;
-- candidate count, time or token ceiling, and stop rule;
+- candidate count or predeclared batch schedule, time or token ceiling, and stop rule;
 - the executable checks and the reviewer who owns any non-executable judgment.
 
 Keep the rubric stable. A rubric changed after reading a candidate is a new experiment. Record the reason, version the rubric, and regenerate or rescore all candidates under the revised rubric.
 
 ### 2. Generate independent candidates
 
-Give each generator the same frozen task contract, but do not show it other candidates, their scores, or a leader's reasoning. Assign opaque identifiers such as `C-01`, `C-02`, and `C-03`. For patches, use isolated worktrees or separate diffs so one candidate cannot silently inherit another's changes.
+Give each generator the same frozen task contract, but do not show it other candidates, their scores, or a leader's reasoning. Assign every generated candidate an opaque identifier from the frozen ID scheme. The proof log must contain one line for every generated identifier, including rejected candidates. For patches, use isolated worktrees or separate diffs so one candidate cannot silently inherit another's changes.
 
 Independence is operational, not mystical. Same model, prompt template, tools, and repository state may still produce correlated failures. Varying the model or prompting angle may improve diversity, but it does not establish independence. Record the actual controls used.
 
@@ -67,7 +67,7 @@ Where practical, hide candidate provenance and order from the scorer. A useful i
 | Testability | 20 | Commands, environment, expected result, and artifacts are named |
 | Maintainability | 15 | Smallest coherent change with explicit trade-offs |
 
-Disqualify a candidate that fails a mandatory criterion even if its weighted score is high. Preserve raw scores and short evidence notes for every criterion. A score without a witness is a preference, not an audit trail.
+Disqualify a candidate that fails a mandatory criterion even if its weighted score is high. Score every candidate in the declared N, or every candidate in a completed predeclared batch before applying its stop condition. Preserve raw scores and short evidence notes for every criterion. A score without a witness is a preference, not an audit trail.
 
 ### 4. Select, then synthesize only deliberately
 
@@ -81,7 +81,7 @@ When no executable check exists, use a reviewer who did not generate the candida
 
 ### 6. Publish the proof log
 
-Copy the portable [`TESTING.md` template](../../examples/claude-md/TESTING.md) into the work item. Record the task contract, candidate identifiers, rubric version, commands, environment, results, failures, unknowns, reviewer provenance, and artifact links. Link the final entry to the selected diff, test output, and review record.
+Copy the portable [`TESTING.md` template](../../examples/claude-md/TESTING.md) into the work item. Record the task contract, every generated candidate identifier and score, rubric version, commands, environment, results, failures, unknowns, reviewer provenance, and artifact links. Link the final entry to the selected diff, test output, and review record.
 
 ## Worked code-change pattern
 

@@ -30,12 +30,12 @@ Method reference: [Best-of-N: Generate, Select, and Verify](../../guide/workflow
 
 ## 3. Candidate and selection record
 
-Use this section only when more than one candidate was generated. Candidate identifiers should be opaque during scoring where practical.
+Use this section only when more than one candidate was generated. Candidate identifiers should be opaque during scoring where practical. Add one table row for every generated candidate. Do not omit rejected candidates or candidates generated in a later batch.
 
 | Field | Record |
 | --- | --- |
 | Frozen rubric version | `<path, hash, or dated identifier>` |
-| Candidate count and stop rule | `<N and trigger>` |
+| Candidate count, batch schedule, and stop rule | `<N, every declared batch, and between-batch trigger>` |
 | Isolation controls | `<separate prompts, worktrees, models, or fresh contexts>` |
 | Known correlation | `<shared model, prompt, tools, state, or none known>` |
 | Selected candidate | `<ID and artifact link>` |
@@ -43,9 +43,7 @@ Use this section only when more than one candidate was generated. Candidate iden
 
 | Candidate | Mandatory criteria | Rubric score and evidence | Artifact link | Status |
 | --- | --- | --- | --- | --- |
-| `C-01` | `<pass/fail>` | `<score, criterion evidence>` | `<path, diff, or URL>` | `<selected/rejected>` |
-| `C-02` | `<pass/fail>` | `<score, criterion evidence>` | `<path, diff, or URL>` | `<selected/rejected>` |
-| `C-03` | `<pass/fail>` | `<score, criterion evidence>` | `<path, diff, or URL>` | `<selected/rejected>` |
+| `<generated candidate ID>` | `<pass/fail>` | `<score, criterion evidence>` | `<path, diff, or URL>` | `<selected/rejected>` |
 
 ## 4. Executable checks
 
