@@ -1,0 +1,49 @@
+examples/learning-project/.claude/settings.json
+  s_9cf259c16931e6::t_f344d4731e6a83 11
+examples/learning-project/.claude/skills/verify-release/SKILL.md
+  s_9cf259c16931e6::t_7a3d6a037b1cd3 11,13-15,19
+examples/learning-project/CLAUDE.md
+  s_9cf259c16931e6::t_90bb5cc5ea7304 24
+examples/learning-project/ISSUE.md
+  s_9cf259c16931e6::t_7ccb342812e95f 15
+examples/learning-project/README.md
+  s_9cf259c16931e6::t_810ad805e19b67 47,61
+examples/learning-project/evidence/PROOF-LOG.md
+  s_0a442347250965::t_83253a55d15a93 12-13,20,23,31,37
+examples/learning-project/evidence/SOURCE-FINGERPRINT.txt
+  s_0a442347250965::t_9c8397b16e1d3e 7
+examples/learning-project/fixtures/release-ready.json
+  s_9cf259c16931e6::t_27e3f52a02b675 8
+examples/learning-project/src/release-verifier.mjs
+  s_9cf259c16931e6::t_89144159cb74b4 16-20
+examples/learning-project/test/cli.test.mjs
+  s_9cf259c16931e6::t_e5aba0acd44dc4 3-5,29,44-70
+examples/learning-project/test/documentation-links.test.mjs
+  s_9cf259c16931e6::t_d040ec06f74124 61,67,77,81-86
+examples/learning-project/test/package-check.test.mjs
+  s_9cf259c16931e6::t_58982c62b2e3ab 1-36
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "3fac052d9ed1ce1779bb05a784fa406415cf8f12",
+  "prompts": {},
+  "sessions": {
+    "s_0a442347250965": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04233-7990-7c82-96d1-1418fd7722e9",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_9cf259c16931e6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a03e6c-f9af-7811-b19d-91365bbf6d38",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
