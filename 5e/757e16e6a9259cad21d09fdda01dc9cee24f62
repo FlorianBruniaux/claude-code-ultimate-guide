@@ -1,0 +1,33 @@
+machine-readable/translations.json
+  s_2efec322df84ae::t_cbfb48db051a3e 1-105
+mcp-server/content/translations.json
+  s_2efec322df84ae::t_47d838c3b64561 1-105
+mcp-server/src/lib/content.ts
+  s_0a442347250965::t_06a93de4388b46 177-181
+mcp-server/src/resources/index.ts
+  s_0a442347250965::t_157ca4c3430c80 6,98-118
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "5e757e16e6a9259cad21d09fdda01dc9cee24f62",
+  "prompts": {},
+  "sessions": {
+    "s_0a442347250965": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04233-7990-7c82-96d1-1418fd7722e9",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_2efec322df84ae": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a056aa-68dc-76c1-95fa-3e383c196e6d",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
