@@ -1,0 +1,61 @@
+CHANGELOG.md
+  s_2efec322df84ae::t_114dc3129a2753 10
+README.md
+  s_2efec322df84ae::t_44a2a596ce62c0 186-188
+guide/README.md
+  s_d812a5cba40e21::t_14a53a5700400a 97
+guide/ecosystem/claude-code-guide-mcp.md
+  s_82ec82b5854d16::t_bcf11603eb8a07 1-311
+guide/ultimate-guide.md
+  s_2efec322df84ae::t_cc6eb901902d76 13199
+llms.txt
+  s_d812a5cba40e21::t_2ff9d7f2472aae 21,37
+machine-readable/llms.txt
+  s_2efec322df84ae::t_64f0bdf9202bf9 21,37
+machine-readable/mcp-product.json
+  s_2efec322df84ae::t_47c0e402b4cf8c 16,482
+machine-readable/reference.yaml
+  s_d812a5cba40e21::t_241ae071968f7b 27,2420-2424,2427,2445,2448-2449,2453-2454,2457,3107-3121
+mcp-server/README.md
+  s_2efec322df84ae::t_c8707d9ab30c0e 172-174
+mcp-server/content/llms.txt
+  s_2efec322df84ae::t_d6afce141c4040 5,18,21,24,37,44
+mcp-server/content/reference.yaml
+  s_2efec322df84ae::t_22ef9ac18a3a81 27,2420-2424,2427,2445,2448-2449,2453-2454,2457,3107-3121
+mcp-server/scripts/render-product-docs.mjs
+  s_82ec82b5854d16::t_ebc4d09c0fd346 247-249,274-276,319,349
+mcp-server/test/render-product-docs.test.mjs
+  s_d812a5cba40e21::t_a6a5ee109abd80 15,84,124-167
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "2253e29dfc3dced84b7a35f305ed52a96c3f7931",
+  "prompts": {},
+  "sessions": {
+    "s_2efec322df84ae": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a056aa-68dc-76c1-95fa-3e383c196e6d",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_82ec82b5854d16": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05911-6168-7b73-be55-98ceb226a181",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_d812a5cba40e21": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a033c4-cc98-74d2-adf5-63f175b8463b",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
