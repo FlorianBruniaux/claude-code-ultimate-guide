@@ -78,7 +78,7 @@ test('renderer derives the Node badge and dependency security disclosure from ma
   assert.match(changelog, /required reviewer on the `mcp-production` environment remains an external prerequisite/)
   assert.match(changelog, /repository code does not verify either setting/)
   assert.doesNotMatch(changelog, /is protected by the `mcp-production` environment|uses npm trusted publishing/)
-  assert.match(changelog, /io\.github\.florianbruniaux\/claude-code-guide/)
+  assert.ok(changelog.includes(`\`${fixture.package.mcp_registry_name}\``))
   assert.match(changelog, /monthly npm, GSC, and GA4 dashboard/)
   assert.match(changelog, /missing Google access remains unavailable rather than zero/)
   assert.match(changelog, /canonical technical guide/)
