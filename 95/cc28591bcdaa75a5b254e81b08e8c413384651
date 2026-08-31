@@ -1,0 +1,117 @@
+examples/learning-project/.claude/hooks/fixtures/docker-push.json
+  s_d812a5cba40e21::t_015d1568def79b 1-7
+examples/learning-project/.claude/hooks/fixtures/fail.json
+  s_22da54dcd2d04c::t_fe278c7f471ca2 1-7
+examples/learning-project/.claude/hooks/fixtures/malformed.json
+  s_22da54dcd2d04c::t_48a4c564a42aa2 1
+examples/learning-project/.claude/hooks/fixtures/pass.json
+  s_22da54dcd2d04c::t_17592ef3c20939 1-7
+examples/learning-project/.claude/hooks/release-guard.mjs
+  s_d812a5cba40e21::t_98fdcb86ec6dfd 1-48
+examples/learning-project/.gitignore
+  s_6a650b076cec18::t_1347513b82e451 1-2
+examples/learning-project/README.md
+  s_d1f4f0f7b38590::t_1e66401a319667 1-89
+examples/learning-project/evidence/PROOF-LOG.md
+  s_95392a6b844626::t_7fa56d3ccb0c55 1-32
+examples/learning-project/fixtures/release-duplicate.json
+  s_6a650b076cec18::t_97bdfdc606b218 1-26
+examples/learning-project/fixtures/release-incomplete.json
+  s_6a650b076cec18::t_57fa34a55f3c45 1-16
+examples/learning-project/fixtures/release-invalid-version.json
+  s_6a650b076cec18::t_d1f23e4d10043b 1-21
+examples/learning-project/fixtures/release-malformed.json
+  s_6a650b076cec18::t_21e7165f694cdd 1
+examples/learning-project/fixtures/release-ready.json
+  s_95392a6b844626::t_9c517d70f05f8b 1-21
+examples/learning-project/package.json
+  s_6a650b076cec18::t_913a0685fc457d 1-26
+examples/learning-project/src/cli.mjs
+  s_95392a6b844626::t_209d770fff3947 1-21
+examples/learning-project/src/release-verifier.mjs
+  s_95392a6b844626::t_1264869ee8f528 1-38
+examples/learning-project/test/cli.test.mjs
+  s_6a650b076cec18::t_091c75fd7cf251 1-67
+examples/learning-project/test/documentation-links.test.mjs
+  s_d812a5cba40e21::t_318b2102bc016d 1-40
+examples/learning-project/test/release-guard.test.mjs
+  s_d812a5cba40e21::t_0eece956eb8505 1-54
+examples/learning-project/.claude/agents/evidence-reviewer.md
+  s_a76087f74be2bb::t_eca004619e9f00 1-21
+examples/learning-project/.claude/settings.json
+  s_a76087f74be2bb::t_ce3b49ae7898c4 1-16
+examples/learning-project/.claude/skills/verify-release/SKILL.md
+  s_a76087f74be2bb::t_a2f1427f49caf1 1-34
+examples/learning-project/.dockerignore
+  s_3b34824cc873e5::t_3abc10fe9e9ab6 1-6
+examples/learning-project/CLAUDE.md
+  s_22da54dcd2d04c::t_139efbcd727eb2 1-30
+examples/learning-project/Dockerfile
+  s_3b34824cc873e5::t_79b87c08774e9b 1-12
+examples/learning-project/ISSUE.md
+  s_22da54dcd2d04c::t_fe2a9ddfb63048 1-25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "95cc28591bcdaa75a5b254e81b08e8c413384651",
+  "prompts": {},
+  "sessions": {
+    "s_22da54dcd2d04c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05405-09d5-7f43-9f5f-775fec594dcd",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_3b34824cc873e5": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a056cf-1c51-74e1-9b6f-34b13da5d8e8",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_6a650b076cec18": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05667-935d-7c22-86fd-282e66ab41cf",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_95392a6b844626": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04821-7023-7112-aeb8-f4aa59348ce9",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_a76087f74be2bb": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a01f2a-b167-78f0-a126-7450029bd920",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_d1f4f0f7b38590": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0530d-5ec5-76c3-aab8-dc6aa5c35a1d",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_d812a5cba40e21": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a033c4-cc98-74d2-adf5-63f175b8463b",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
