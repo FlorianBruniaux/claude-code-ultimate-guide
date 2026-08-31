@@ -78,6 +78,8 @@ test('renderer derives the Node badge and dependency security disclosure from ma
   assert.match(changelog, /repository code does not verify either setting/)
   assert.doesNotMatch(changelog, /is protected by the `mcp-production` environment|uses npm trusted publishing/)
   assert.match(changelog, /io\.github\.florianbruniaux\/claude-code-guide/)
+  assert.match(changelog, /monthly npm, GSC, and GA4 dashboard/)
+  assert.match(changelog, /missing Google access remains unavailable rather than zero/)
   assert.doesNotMatch(changelog, /zero vulnerabilities overall/)
 
   fixture.security.production_vulnerabilities = 2

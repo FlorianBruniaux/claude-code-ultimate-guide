@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "snapshot_at": "2026-08-31T16:51:31Z",
+  "period": {
+    "start": "2026-07-01",
+    "end": "2026-07-31",
+    "timezone": "UTC"
+  },
+  "sources": {
+    "npm": {
+      "status": "available",
+      "retrieved_at": "2026-08-31T16:51:31Z",
+      "scope": {
+        "package": "claude-code-ultimate-guide-mcp"
+      },
+      "definitions": {
+        "downloads": "npm package downloads during the completed calendar month"
+      },
+      "values": {
+        "downloads": 1459
+      },
+      "reason": null
+    },
+    "gsc_landing": {
+      "status": "unavailable",
+      "retrieved_at": "2026-08-31T16:51:31Z",
+      "scope": {
+        "property": null,
+        "page_url": "https://cc.bruniaux.com/mcp/"
+      },
+      "definitions": {
+        "clicks": "Google Search clicks for the exact page URL",
+        "impressions": "Google Search impressions for the exact page URL",
+        "ctr": "clicks divided by impressions as reported by Google Search Console",
+        "average_position": "average topmost result position as reported by Google Search Console"
+      },
+      "values": null,
+      "reason": "GOOGLE_ACCESS_TOKEN or MCP_GSC_LANDING_SITE_URL is not configured"
+    },
+    "gsc_portfolio": {
+      "status": "unavailable",
+      "retrieved_at": "2026-08-31T16:51:31Z",
+      "scope": {
+        "property": null,
+        "page_url": "https://florian.bruniaux.com/blog/articles/claude-code-guide-mcp/"
+      },
+      "definitions": {
+        "clicks": "Google Search clicks for the exact page URL",
+        "impressions": "Google Search impressions for the exact page URL",
+        "ctr": "clicks divided by impressions as reported by Google Search Console",
+        "average_position": "average topmost result position as reported by Google Search Console"
+      },
+      "values": null,
+      "reason": "GOOGLE_ACCESS_TOKEN or MCP_GSC_PORTFOLIO_SITE_URL is not configured"
+    },
+    "ga4_portfolio": {
+      "status": "unavailable",
+      "retrieved_at": "2026-08-31T16:51:31Z",
+      "scope": {
+        "property": null,
+        "page_path": "/blog/articles/claude-code-guide-mcp/"
+      },
+      "definitions": {
+        "sessions": "GA4 sessions containing the exact page path",
+        "engaged_sessions": "GA4 engaged sessions containing the exact page path",
+        "views": "GA4 screenPageViews for the exact page path"
+      },
+      "values": null,
+      "reason": "GOOGLE_ACCESS_TOKEN or MCP_GA4_PORTFOLIO_PROPERTY_ID is not configured"
+    }
+  },
+  "methodology": {
+    "publication_boundary": "aggregate page and package metrics only",
+    "missing_source": "unavailable with a reason, never inferred as zero",
+    "npm_not_equivalent_to": [
+      "users",
+      "active installations",
+      "sessions",
+      "executions"
+    ]
+  }
+}

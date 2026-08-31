@@ -1,0 +1,15 @@
+{
+  "dimensionHeaders": [{"name": "pagePath"}],
+  "metricHeaders": [
+    {"name": "sessions", "type": "TYPE_INTEGER"},
+    {"name": "engagedSessions", "type": "TYPE_INTEGER"},
+    {"name": "screenPageViews", "type": "TYPE_INTEGER"}
+  ],
+  "rows": [
+    {
+      "dimensionValues": [{"value": "/blog/articles/claude-code-guide-mcp/"}],
+      "metricValues": [{"value": "42"}, {"value": "31"}, {"value": "58"}]
+    }
+  ],
+  "rowCount": 1
+}

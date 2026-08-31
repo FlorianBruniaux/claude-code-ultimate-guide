@@ -16,6 +16,7 @@ on:
       - ".github/workflows/index-integrity.yml"
       - ".github/workflows/collect-agent-harnesses-github.yml"
       - ".github/workflows/collect-mcp-stats.yml"
+      - ".github/workflows/collect-mcp-dashboard.yml"
   push:
     branches: ["main"]
     paths:
@@ -32,6 +33,7 @@ on:
       - ".github/workflows/index-integrity.yml"
       - ".github/workflows/collect-agent-harnesses-github.yml"
       - ".github/workflows/collect-mcp-stats.yml"
+      - ".github/workflows/collect-mcp-dashboard.yml"
 
 jobs:
   check:
@@ -139,6 +141,11 @@ jobs:
         run: |
           python3 scripts/test-collect-mcp-stats.py
           python3 scripts/collect-mcp-stats.py --validate-file machine-readable/mcp-stats.json
+
+      - name: Check MCP monthly dashboard snapshot
+        run: |
+          python3 scripts/test-collect-mcp-dashboard.py
+          python3 scripts/collect-mcp-dashboard.py --validate-file machine-readable/mcp-dashboard.json
 
       - name: Check MCP product release contract
         working-directory: mcp-server
