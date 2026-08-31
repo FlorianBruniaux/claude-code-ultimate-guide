@@ -113,7 +113,7 @@ Core documentation for mastering Claude Code, organized by topic.
 
 | File | Description | Time |
 |------|-------------|------|
-| [roles/ai-roles.md](./roles/ai-roles.md) | AI roles mapping: when to use Claude Code vs Claude Desktop vs API | 10 min |
+| [roles/ai-roles.md](./roles/ai-roles.md) | Evidence-bounded map of AI role families, specializations, tiny-team convergence, and career paths | 25 min |
 | [roles/adoption-approaches.md](./roles/adoption-approaches.md) | Implementation strategies for teams | 15 min |
 | [roles/learning-with-ai.md](./roles/learning-with-ai.md) | Guide for juniors on using AI without losing skills | 15 min |
 | [roles/agent-evaluation.md](./roles/agent-evaluation.md) | **Agent quality metrics**: Measuring custom agent effectiveness with hooks, tests, and feedback loops | 20 min |
