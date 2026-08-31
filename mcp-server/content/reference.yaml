@@ -611,6 +611,9 @@ deep_dive:
   sandbox_native_modes: "guide/security/sandbox-native.md:7"  # Auto-allow vs Regular
   sandbox_native_escape_hatch: "guide/security/sandbox-native.md#6-escape-hatch"  # dangerouslyDisableSandbox
   sandbox_native_security_limits: "guide/security/sandbox-native.md#7-security-limitations"  # Domain fronting, Unix sockets
+  sandbox_native_cross_session_socket: "guide/security/sandbox-native.md#cross-session-inbox-sockets"  # SendMessage bypasses the Bash sandbox; direct child callbacks need platform-specific Unix-socket policy
+  sandbox_network_allow_unix_sockets: "guide/core/settings-reference.md#sandboxnetworkallowunixsockets"  # macOS exact paths; ignored on Linux and WSL2
+  sandbox_network_allow_all_unix_sockets: "guide/core/settings-reference.md#sandboxnetworkallowallunixsockets"  # only Linux/WSL2 exception; skips the AF_UNIX seccomp filter
   sandbox_native_opensource: "guide/security/sandbox-native.md#8-open-source-runtime"  # Open-source runtime
   sandbox_native_platforms: "guide/security/sandbox-native.md#9-platform-support"  # Platform support
   sandbox_native_decision_tree: "guide/security/sandbox-native.md#10-decision-tree-native-vs-docker-sandboxes"  # Native vs Docker
@@ -1447,6 +1450,8 @@ deep_dive:
   cross_session_messaging_cross_machine: "guide/workflows/cross-session-messaging.md#4-same-machine-vs-cross-machine-delivery"
   cross_session_messaging_inbox_socket: "guide/workflows/cross-session-messaging.md#5-the-sessions-inbox-socket"
   cross_session_messaging_security: "guide/workflows/cross-session-messaging.md#6-security-model"
+  cross_session_messaging_sandbox_boundary: "guide/workflows/cross-session-messaging.md#where-native-sandboxing-fits"
+  cross_session_messaging_native_sandbox: "guide/security/sandbox-native.md#cross-session-inbox-sockets"
   cross_session_messaging_correlated_drift: "guide/workflows/cross-session-messaging.md#coordination-safety-correlated-drift-and-false-consensus"
   cross_session_messaging_limitations: "guide/workflows/cross-session-messaging.md#7-limitations"
   cross_session_messaging_availability: "guide/workflows/cross-session-messaging.md#8-availability"

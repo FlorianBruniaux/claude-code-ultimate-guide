@@ -1266,7 +1266,7 @@ The principal security risk is **cross-session prompt injection**: a compromised
 
 | Threat | Risk | Mitigation |
 |--------|------|------------|
-| **Peer suggests a destructive or risky action** | A compromised peer session tries to get another session to run a command, touch a file, or approve something it shouldn't | Text-only channel: a message can never approve a permission prompt or change configuration. The receiving session's own permission rules still apply to anything it's asked to do. |
+| **Peer suggests a destructive or risky action** | A compromised peer session tries to get another session to run a command, touch a file, or approve something it shouldn't | Text-only channel: a message can never approve a permission prompt or change configuration. The receiving session's own permission rules still apply. [Native sandboxing](./sandbox-native.md#cross-session-inbox-sockets) can limit Bash-command effects, but built-in file tools remain under the permission system. |
 | **Command injection via message text** | A message body contains something that looks like a slash command or shell instruction | Claude Code never executes text arriving in a message; it is delivered as plain text, same as any other prompt content. |
 | **Socket spoofing / stale endpoint** | A reply is routed to the wrong process because a socket path was replaced or a session restarted | `SendMessage` verifies the endpoint before delivering and refuses on a symlinked target, an unexpected connected process, or an endpoint whose identity can't be read, rather than sending blind. |
 | **Unsolicited flood from a peer** | A misbehaving or looping peer sends messages faster than the recipient can process | Burst refusal at the sender once a same-machine inbox's capacity is reached; at the recipient, repeated messages from one sender are rate-limited, identical repeats within a short window are dropped, and at most 50 accepted messages queue for Claude to read. |
@@ -1276,6 +1276,8 @@ The principal security risk is **cross-session prompt injection**: a compromised
 | **Shared-working-tree race** | Two sessions coordinate in text but concurrently edit the same checkout, invalidating each other's reads or overwriting changes | Use one worktree per concurrent writer and explicit ownership. Cross-session messages do not provide file locks or transactional writes. |
 
 The design constraint that makes this tractable: a cross-session message is informational only. It is never treated as user consent, and the receiving session is explicitly instructed never to change its own permission settings, `CLAUDE.md`, or other configuration because a peer asked.
+
+The [native sandbox boundary](./sandbox-native.md#cross-session-inbox-sockets) reduces the filesystem and network impact of Bash commands and their children after delivery. It does not govern built-in `Read`, `Edit`, or `Write` tools, validate the peer's claim, or isolate two sessions that share a checkout.
 
 That authority boundary does not validate correctness. The [cross-session coordination protocol](../workflows/cross-session-messaging.md#coordination-safety-correlated-drift-and-false-consensus) defines the message provenance contract and current-SHA gate; [Agent Harness: Creator-Verifier](../core/agent-harness.md#8-creator-verifier-pattern) defines the independence and proof boundary.
 

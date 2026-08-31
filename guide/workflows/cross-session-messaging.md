@@ -10,7 +10,7 @@ Cross-session messaging lets one Claude Code session deliver a short text messag
 
 **Official docs**: [code.claude.com/docs/en/cross-session-messaging](https://code.claude.com/docs/en/cross-session-messaging)
 
-> **See also**: [Tools Reference](../core/tools-reference.md#cross-session-messaging-listagents--sendmessage) for the tool table entry, [Agent Teams](./agent-teams.md) for the related but distinct teammate-mailbox mechanism, [Security Hardening: Cross-Session Messaging](../security/security-hardening.md#cross-session-messaging-threat-model) for the channel threat model, and [Agent Harness: Creator-Verifier](../core/agent-harness.md#8-creator-verifier-pattern) for proof and reviewer-independence controls.
+> **See also**: [Tools Reference](../core/tools-reference.md#cross-session-messaging-listagents--sendmessage) for the tool table entry, [Agent Teams](./agent-teams.md) for the related but distinct teammate-mailbox mechanism, [Security Hardening: Cross-Session Messaging](../security/security-hardening.md#cross-session-messaging-threat-model) for the channel threat model, [Native Sandboxing: Cross-session inbox sockets](../security/sandbox-native.md#cross-session-inbox-sockets) for Bash-process containment and Unix-socket exceptions, and [Agent Harness: Creator-Verifier](../core/agent-harness.md#8-creator-verifier-pattern) for proof and reviewer-independence controls.
 
 ---
 
@@ -126,6 +126,8 @@ The socket is restricted to the operating-system user on macOS/Linux; on Windows
 
 `claude -p` sessions bind an inbox like interactive ones. Sessions started in [bare mode](../ultimate-guide.md#headless-mode) don't bind a socket and never appear in the agent list.
 
+`ListAgents` and `SendMessage` run in Claude Code itself, outside the Bash sandbox. Normal session-to-session delivery therefore needs no Unix-socket exception. An exception matters only when a sandboxed Bash command connects directly to `CLAUDE_CODE_MESSAGING_SOCKET`. On macOS, [`sandbox.network.allowUnixSockets`](../core/settings-reference.md#sandboxnetworkallowunixsockets) can scope the exception by socket path. On Linux and WSL2, path-specific socket allowlisting is unavailable; [`sandbox.network.allowAllUnixSockets: true`](../core/settings-reference.md#sandboxnetworkallowallunixsockets) removes the Unix-socket filter for every socket the command can reach. Prefer the built-in `SendMessage` tool, and do not widen Unix-socket access merely to enable normal cross-session messaging. [Native Sandboxing: Cross-session inbox sockets](../security/sandbox-native.md#cross-session-inbox-sockets) covers the platform-specific trade-off.
+
 ---
 
 ## 6. Security model
@@ -179,6 +181,19 @@ With this in place the session still binds its inbox socket, but drops everythin
 ### Endpoint spoofing checks
 
 Before delivering to a same-machine target, `SendMessage` verifies the endpoint is what it claims to be, and refuses rather than sends when it isn't: a symlinked reply target, an endpoint that connects but isn't the expected process, or an endpoint whose identity can't be read all produce a refusal instead of a silent send to the wrong place. See [Refusing to send a cross-session message](https://code.claude.com/docs/en/errors#refusing-to-send-a-cross-session-message).
+
+### Where native sandboxing fits
+
+A delivered peer message can influence what the receiving Claude tries next. Four boundaries cover different failure modes; none substitutes for the others:
+
+| Boundary | What it controls | What it does not establish |
+|---|---|---|
+| `crossSessionInbound`, `isolatePeerMachines`, and tool permissions | Which messages arrive, whether they leave the machine without approval, and which tools the recipient may invoke | That a delivered claim is correct or current |
+| [Native sandboxing](../security/sandbox-native.md#cross-session-inbox-sockets) | Filesystem and network effects of Bash commands and their child processes | Safety of built-in `Read`, `Edit`, or `Write` calls; message correctness; session independence |
+| One worktree per concurrent writer | Separation of working files and indexes during parallel changes | Host, credential, network, or process containment |
+| [Harness and CI gates](../core/agent-harness.md#8-creator-verifier-pattern) | Reproducible checks on the current commit and independent review against requirements | OS-level containment or permission policy |
+
+The native sandbox limits part of the blast radius if a recipient acts on a malicious or incorrect message. It does not prevent correlated drift, and it does not turn two sessions sharing one checkout into isolated workers.
 
 ### Coordination safety: correlated drift and false consensus
 
