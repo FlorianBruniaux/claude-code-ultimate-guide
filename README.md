@@ -181,7 +181,7 @@ Project-scoped Claude Code configuration belongs in `.mcp.json`:
 | Prompts | 1 | `claude-code-expert` |
 | Companion commands | 5 | `/ccguide:daily`, `/ccguide:diff-docs`, `/ccguide:init-docs`, `/ccguide:refresh-docs`, `/ccguide:search-docs` |
 
-The list operations and search index use bundled content. Section, example, cheatsheet, changelog, and threat tools can fetch GitHub content and write a 24-hour local cache. The official-doc initialization and refresh tools fetch Anthropic documentation and write separate local snapshots.
+The list operations and search index use bundled content. Section, example, cheatsheet, changelog, digest (`get_digest`), and threat tools can fetch GitHub content and write a 24-hour local cache. The official-doc initialization and refresh tools fetch Anthropic documentation and write separate local snapshots.
 
 [Installation, privacy, limitations, and diagnostics](./mcp-server/README.md)
 

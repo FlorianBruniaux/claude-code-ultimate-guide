@@ -138,7 +138,7 @@ The repository contains these command files. They are not installed by the npm p
 
 The package bundles the reference index, release history, guide navigation, Agent Harness Map, and translation metadata. Initialization and list operations use bundled content and do not require the network.
 
-`read_section`, `get_example`, `get_cheatsheet`, `get_changelog`, and threat lookups can fetch files from GitHub when content is not available locally. Successful responses are written to `~/.cache/claude-code-guide/1.3.0/` for 24 hours; stale cached content is used when the network is unavailable. With `GUIDE_ROOT` set to a local guide checkout, these tools read that checkout instead.
+`read_section`, `get_example`, `get_cheatsheet`, `get_changelog`, `get_digest`, and threat lookups can fetch files from GitHub when content is not available locally. Successful responses are written to `~/.cache/claude-code-guide/1.3.0/` for 24 hours; stale cached content is used when the network is unavailable. With `GUIDE_ROOT` set to a local guide checkout, these tools read that checkout instead.
 
 `init_official_docs` and `refresh_official_docs` fetch Anthropic's official documentation and write a separate local snapshot under `~/.cache/claude-code-guide/`. `diff_official_docs` and `search_official_docs` read those snapshots.
 
@@ -148,7 +148,7 @@ The server has no first-party telemetry. MCP protocol messages use standard inpu
 
 ## Limitations
 
-- Full guide Markdown is not bundled. A first uncached section, example, cheatsheet, changelog, or threat lookup can require GitHub.
+- Full guide Markdown is not bundled. A first uncached section, example, cheatsheet, changelog, digest, or threat lookup can require GitHub.
 - Official-doc search and diff require a local snapshot created by `init_official_docs`.
 - The five `/ccguide:*` companion commands must be installed from the repository separately.
 - The MCP Registry listing is not advertised until its API returns the published namespace.

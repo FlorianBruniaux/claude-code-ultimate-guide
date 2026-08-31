@@ -3,6 +3,9 @@ name: Index Integrity
 on:
   pull_request:
     paths:
+      - "README.md"
+      - "CHANGELOG.md"
+      - ".claude/commands/ccguide/**"
       - "guide/**"
       - "examples/**"
       - "machine-readable/**"
@@ -15,6 +18,9 @@ on:
   push:
     branches: ["main"]
     paths:
+      - "README.md"
+      - "CHANGELOG.md"
+      - ".claude/commands/ccguide/**"
       - "guide/**"
       - "examples/**"
       - "machine-readable/**"

@@ -208,7 +208,7 @@ ${commandRows(commands)}
 
 The package bundles the reference index, release history, guide navigation, Agent Harness Map, and translation metadata. Initialization and list operations use bundled content and do not require the network.
 
-\`read_section\`, \`get_example\`, \`get_cheatsheet\`, \`get_changelog\`, and threat lookups can fetch files from GitHub when content is not available locally. Successful responses are written to \`~/.cache/claude-code-guide/${version}/\` for 24 hours; stale cached content is used when the network is unavailable. With \`GUIDE_ROOT\` set to a local guide checkout, these tools read that checkout instead.
+\`read_section\`, \`get_example\`, \`get_cheatsheet\`, \`get_changelog\`, \`get_digest\`, and threat lookups can fetch files from GitHub when content is not available locally. Successful responses are written to \`~/.cache/claude-code-guide/${version}/\` for 24 hours; stale cached content is used when the network is unavailable. With \`GUIDE_ROOT\` set to a local guide checkout, these tools read that checkout instead.
 
 \`init_official_docs\` and \`refresh_official_docs\` fetch Anthropic's official documentation and write a separate local snapshot under \`~/.cache/claude-code-guide/\`. \`diff_official_docs\` and \`search_official_docs\` read those snapshots.
 
@@ -218,7 +218,7 @@ The server has no first-party telemetry. MCP protocol messages use standard inpu
 
 ## Limitations
 
-- Full guide Markdown is not bundled. A first uncached section, example, cheatsheet, changelog, or threat lookup can require GitHub.
+- Full guide Markdown is not bundled. A first uncached section, example, cheatsheet, changelog, digest, or threat lookup can require GitHub.
 - Official-doc search and diff require a local snapshot created by \`init_official_docs\`.
 - The five \`/ccguide:*\` companion commands must be installed from the repository separately.
 - The MCP Registry listing is not advertised until its API returns the published namespace.
@@ -262,7 +262,7 @@ ${projectConfig(packageName, version)}
 | --- | ---: | --- |
 ${summaryRows(manifest)}
 
-The list operations and search index use bundled content. Section, example, cheatsheet, changelog, and threat tools can fetch GitHub content and write a 24-hour local cache. The official-doc initialization and refresh tools fetch Anthropic documentation and write separate local snapshots.
+The list operations and search index use bundled content. Section, example, cheatsheet, changelog, digest (\`get_digest\`), and threat tools can fetch GitHub content and write a 24-hour local cache. The official-doc initialization and refresh tools fetch Anthropic documentation and write separate local snapshots.
 
 [Installation, privacy, limitations, and diagnostics](./mcp-server/README.md)
 
@@ -305,52 +305,14 @@ ${commandRows(commands)}
 
 #### Data and network boundary
 
-List operations and the search index use bundled package content. Section, example, cheatsheet, changelog, and threat tools may fetch GitHub content and write a 24-hour local cache. The official-doc initialization and refresh tools fetch Anthropic documentation and write separate local snapshots. The server is therefore not fully offline or purely read-only.
+List operations and the search index use bundled package content. Section, example, cheatsheet, changelog, digest (\`get_digest\`), and threat tools may fetch GitHub content and write a 24-hour local cache. The official-doc initialization and refresh tools fetch Anthropic documentation and write separate local snapshots. The server is therefore not fully offline or purely read-only.
 
 See the [package README](../mcp-server/README.md) for Cursor and VS Code configuration, privacy, limitations, and diagnostics.`
 }
 
 function renderChangelog(manifest) {
   const version = manifest.package.version
-  return `- **MCP product documentation and aggregate release gate** (\`machine-readable/mcp-product.json\`, \`mcp-server/scripts/render-product-docs.mjs\`, package and guide documentation): rendered current package ${version} capabilities into marker-delimited surfaces, corrected Claude Code and Codex install commands plus project \`.mcp.json\` configuration, documented bundled versus network and local-write behavior, and published only the ${manifest.companions.slash_commands.length} companion command files that exist. The release gate now checks the live JSON-RPC contract, packed archive, manifest, generated documentation, tests, and dry-run package contents through \`npm run release:check\`.`
-}
-
-function insertBootstrapMarkers(path, source) {
-  if (source.includes(START_MARKER) || source.includes(END_MARKER)) {
-    throw new Error(`${path} already contains a product marker`)
-  }
-
-  if (path === documentPaths.packageReadme) {
-    const title = '# claude-code-ultimate-guide-mcp\n\n'
-    if (!source.startsWith(title)) throw new Error(`${path} has an unexpected title`)
-    return `${title}${START_MARKER}\nbootstrap\n${END_MARKER}\n`
-  }
-
-  if (path === documentPaths.rootReadme) {
-    const sectionStart = source.indexOf('## 🔌 MCP Server: Use the guide from any Claude Code session')
-    const sectionEnd = source.indexOf('\n---\n', sectionStart)
-    if (sectionStart < 0 || sectionEnd < 0) throw new Error(`${path} legacy MCP section not found`)
-    const section = `## MCP Server: Use the guide from any coding client\n\n${START_MARKER}\nbootstrap\n${END_MARKER}\n`
-    return `${source.slice(0, sectionStart)}${section}${source.slice(sectionEnd)}`
-  }
-
-  if (path === documentPaths.guide) {
-    const sectionStart = source.indexOf('### 📖 This Guide as an MCP Server')
-    const nextSection = source.indexOf('### 🌐 Community MCP Servers Ecosystem', sectionStart)
-    if (sectionStart < 0 || nextSection < 0) throw new Error(`${path} legacy MCP section not found`)
-    const section = `### This Guide as an MCP Server\n\n${START_MARKER}\nbootstrap\n${END_MARKER}\n\n---\n\n`
-    return `${source.slice(0, sectionStart)}${section}${source.slice(nextSection)}`
-  }
-
-  if (path === documentPaths.changelog) {
-    const unreleased = '## [Unreleased]\n\n'
-    const index = source.indexOf(unreleased)
-    if (index < 0) throw new Error(`${path} [Unreleased] heading not found`)
-    const insertion = `${START_MARKER}\nbootstrap\n${END_MARKER}\n\n`
-    return `${source.slice(0, index + unreleased.length)}${insertion}${source.slice(index + unreleased.length)}`
-  }
-
-  throw new Error(`unsupported bootstrap document: ${path}`)
+  return `- **MCP product documentation and aggregate release gate** (\`machine-readable/mcp-product.json\`, \`mcp-server/scripts/render-product-docs.mjs\`, package and guide documentation): rendered current package ${version} capabilities into marker-delimited surfaces, corrected Claude Code and Codex install commands plus project \`.mcp.json\` configuration, documented bundled versus network and local-write behavior including \`get_digest\`, and published only the ${manifest.companions.slash_commands.length} companion command files that exist. The renderer validates every target before writing. The release gate checks the live JSON-RPC contract, a clean consumer install of the exact packed archive, manifest, generated documentation, tests, and dry-run package contents through \`npm run release:check\`.`
 }
 
 function loadManifest() {
@@ -359,7 +321,17 @@ function loadManifest() {
   return manifest
 }
 
-export function renderProductDocs({ check = false, bootstrap = false } = {}) {
+export function buildRenderPlan(targets) {
+  return targets.map(({ path, source, generated }) => {
+    try {
+      return { path, source, rendered: replaceGeneratedBlock(source, generated) }
+    } catch (error) {
+      throw new Error(`${path}: ${error instanceof Error ? error.message : String(error)}`)
+    }
+  })
+}
+
+export function renderProductDocs({ check = false } = {}) {
   const manifest = loadManifest()
   const commands = readCommands(manifest)
   const generatedByPath = new Map([
@@ -369,28 +341,26 @@ export function renderProductDocs({ check = false, bootstrap = false } = {}) {
     [documentPaths.changelog, renderChangelog(manifest)],
   ])
 
-  const stale = []
-  for (const [path, generated] of generatedByPath) {
-    let source = readFileSync(path, 'utf8')
-    if (bootstrap) source = insertBootstrapMarkers(path, source)
-    const rendered = replaceGeneratedBlock(source, generated)
-    if (rendered === readFileSync(path, 'utf8')) continue
-    if (check) stale.push(path)
-    else writeFileSync(path, rendered, 'utf8')
-  }
+  const plan = buildRenderPlan([...generatedByPath].map(([path, generated]) => ({
+    path,
+    generated,
+    source: readFileSync(path, 'utf8'),
+  })))
+  const stale = plan.filter(({ source, rendered }) => source !== rendered)
 
   if (stale.length > 0) {
-    throw new Error(`stale MCP product documentation:\n${stale.map((path) => `- ${path}`).join('\n')}`)
+    if (check) throw new Error(`stale MCP product documentation:\n${stale.map(({ path }) => `- ${path}`).join('\n')}`)
+    for (const { path, rendered } of stale) writeFileSync(path, rendered, 'utf8')
   }
 }
 
 function runCli() {
   const args = process.argv.slice(2)
-  const allowed = new Set(['--check', '--bootstrap'])
+  const allowed = new Set(['--check'])
   if (args.some((arg) => !allowed.has(arg)) || args.length > 1) {
-    throw new Error('usage: node scripts/render-product-docs.mjs [--check|--bootstrap]')
+    throw new Error('usage: node scripts/render-product-docs.mjs [--check]')
   }
-  renderProductDocs({ check: args[0] === '--check', bootstrap: args[0] === '--bootstrap' })
+  renderProductDocs({ check: args[0] === '--check' })
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {

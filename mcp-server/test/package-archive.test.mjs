@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { cp, mkdir, mkdtemp, rm } from 'node:fs/promises'
+import { mkdtemp, rm } from 'node:fs/promises'
 import { spawnSync } from 'node:child_process'
 import { resolve } from 'node:path'
 import { tmpdir } from 'node:os'
@@ -11,6 +11,8 @@ import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
 const packageRoot = resolve(import.meta.dirname, '..')
 const guideRoot = resolve(packageRoot, '..')
 const manifest = JSON.parse(readFileSync(resolve(guideRoot, 'machine-readable/mcp-product.json'), 'utf8'))
+const packageJson = JSON.parse(readFileSync(resolve(packageRoot, 'package.json'), 'utf8'))
+const [binaryName] = Object.keys(packageJson.bin)
 
 function sortByName(values) {
   return [...values].sort((left, right) => left.name.localeCompare(right.name))
@@ -42,6 +44,8 @@ test('npm package excludes development files and preserves the MCP list contract
     const pack = spawnSync('npm', ['pack', '--json', '--pack-destination', tempDirectory], { cwd: packageRoot, encoding: 'utf8', env })
     assert.equal(pack.status, 0, pack.stderr)
     const [archive] = JSON.parse(pack.stdout)
+    assert.equal(archive.name, packageJson.name)
+    assert.equal(archive.version, packageJson.version)
     const required = ['dist/index.js', 'content/reference.yaml', 'content/translations.json']
     const forbidden = [/\.env/, /\.npmrc/, /^test\//, /^scripts\//, /\.map$/]
     for (const path of required) assert.ok(archive.files.some((file) => file.path === path), `missing ${path}`)
@@ -50,19 +54,11 @@ test('npm package excludes development files and preserves the MCP list contract
 
     const install = resolve(tempDirectory, 'install')
     const tarball = resolve(tempDirectory, archive.filename)
-    await mkdir(install)
-    await cp(resolve(packageRoot, 'node_modules'), resolve(install, 'node_modules'), { recursive: true })
-    const installed = spawnSync('npm', [
-      'install', '--prefix', install, '--ignore-scripts', '--no-audit', '--no-fund', '--offline',
-      tarball,
-      resolve(packageRoot, 'node_modules/@modelcontextprotocol/sdk'),
-      resolve(packageRoot, 'node_modules/yaml'),
-      resolve(packageRoot, 'node_modules/zod'),
-    ], {
-      cwd: tempDirectory, encoding: 'utf8', env, timeout: 30_000, maxBuffer: 1024 * 1024,
+    const installed = spawnSync('npm', ['install', '--prefix', install, '--ignore-scripts', '--no-audit', '--no-fund', tarball], {
+      cwd: tempDirectory, encoding: 'utf8', env, timeout: 60_000, maxBuffer: 1024 * 1024,
     })
-    assert.equal(installed.status, 0, `npm install failed or timed out after 30s (signal: ${installed.signal ?? 'none'}).\nstdout:\n${installed.stdout}\nstderr:\n${installed.stderr}`)
-    await withClient(resolve(install, 'node_modules/.bin/claude-code-ultimate-guide-mcp'), [], install, async (client) => {
+    assert.equal(installed.status, 0, `clean npm install of ${archive.filename} failed or timed out after 60s (signal: ${installed.signal ?? 'none'}). Check registry connectivity and npm cache permissions.\nstdout:\n${installed.stdout}\nstderr:\n${installed.stderr}`)
+    await withClient(resolve(install, 'node_modules/.bin', binaryName), [], install, async (client) => {
       const [tools, resources, prompts] = await Promise.all([client.listTools(), client.listResources(), client.listPrompts()])
       assert.deepEqual(contractFromLists(tools.tools, resources.resources, prompts.prompts), manifest.runtime)
       for (const resource of resources.resources) {

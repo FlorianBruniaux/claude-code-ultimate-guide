@@ -13194,7 +13194,7 @@ For project-scoped Claude Code use, add the server to `.mcp.json`:
 
 #### Data and network boundary
 
-List operations and the search index use bundled package content. Section, example, cheatsheet, changelog, and threat tools may fetch GitHub content and write a 24-hour local cache. The official-doc initialization and refresh tools fetch Anthropic documentation and write separate local snapshots. The server is therefore not fully offline or purely read-only.
+List operations and the search index use bundled package content. Section, example, cheatsheet, changelog, digest (`get_digest`), and threat tools may fetch GitHub content and write a 24-hour local cache. The official-doc initialization and refresh tools fetch Anthropic documentation and write separate local snapshots. The server is therefore not fully offline or purely read-only.
 
 See the [package README](../mcp-server/README.md) for Cursor and VS Code configuration, privacy, limitations, and diagnostics.
 <!-- mcp-product:end -->

@@ -46,6 +46,14 @@ test('renderer strictly replaces one ordered marker block', async () => {
   assert.throws(() => renderer.replaceGeneratedBlock('no markers', 'new'), /exactly one start and end marker/)
   assert.throws(() => renderer.replaceGeneratedBlock(`${end}\n${start}`, 'new'), /start marker must precede end marker/)
   assert.throws(() => renderer.replaceGeneratedBlock(`${start}\n${start}\n${end}`, 'new'), /exactly one start and end marker/)
+
+  assert.throws(
+    () => renderer.buildRenderPlan([
+      { path: 'valid.md', source: `${start}\nold\n${end}\n`, generated: 'new' },
+      { path: 'invalid.md', source: 'missing markers', generated: 'new' },
+    ]),
+    /invalid\.md: document must contain exactly one start and end marker/,
+  )
 })
 
 test('rendered product documentation is current and marker-delimited once', () => {
@@ -56,6 +64,28 @@ test('rendered product documentation is current and marker-delimited once', () =
     const source = readFileSync(file, 'utf8')
     assert.equal(source.match(/<!-- mcp-product:start -->/g)?.length, 1, `${file} start marker`)
     assert.equal(source.match(/<!-- mcp-product:end -->/g)?.length, 1, `${file} end marker`)
+  }
+})
+
+test('renderer rejects the removed bootstrap mode without changing documents', () => {
+  const before = renderedFiles.map((file) => readFileSync(file, 'utf8'))
+  const result = spawnSync(process.execPath, [rendererPath, '--bootstrap'], { cwd: packageRoot, encoding: 'utf8' })
+  assert.notEqual(result.status, 0)
+  assert.match(result.stderr, /usage: node scripts\/render-product-docs\.mjs \[--check\]/)
+  assert.deepEqual(renderedFiles.map((file) => readFileSync(file, 'utf8')), before)
+})
+
+test('every generated network boundary includes digest fetching behavior', () => {
+  const packageReadme = readFileSync(renderedFiles[0], 'utf8')
+  const rootReadme = readFileSync(renderedFiles[1], 'utf8')
+  const guide = readFileSync(renderedFiles[2], 'utf8')
+  const boundaries = [
+    packageReadme.slice(packageReadme.indexOf('## Local data, network, and cache behavior'), packageReadme.indexOf('## Privacy')),
+    rootReadme.match(/The list operations[^\n]+/)?.[0] ?? '',
+    guide.slice(guide.indexOf('#### Data and network boundary'), guide.indexOf('See the [package README]')),
+  ]
+  for (const [index, boundary] of boundaries.entries()) {
+    assert.match(boundary, /get_digest/, `${renderedFiles[index]} must identify get_digest as network and cache capable`)
   }
 })
 
@@ -86,4 +116,8 @@ test('release check is the CI package gate', () => {
   )
   const workflow = readFileSync(resolve(guideRoot, '.github/workflows/index-integrity.yml'), 'utf8')
   assert.match(workflow, /working-directory: mcp-server\s+run: npm run release:check/)
+  const pathLines = workflow.split('\n').map((line) => line.trim())
+  for (const path of ['README.md', 'CHANGELOG.md', '.claude/commands/ccguide/**']) {
+    assert.equal(pathLines.filter((line) => line === `- "${path}"`).length, 2, `${path} must trigger push and pull request checks`)
+  }
 })
