@@ -189,12 +189,22 @@ test('protected publication uses tokenless npm provenance, bounded smoke verific
   const workflow = parseYaml(source)
   const steps = workflow.jobs.publish.steps
   const names = steps.map(({ name }) => name)
+  const npmStateIndex = names.indexOf('Check npm publication state')
   const npmIndex = names.indexOf('Publish package to npm')
   const smokeIndex = names.indexOf('Smoke test published package')
   const registryIndex = names.indexOf('Publish server to MCP Registry')
-  assert.ok(npmIndex >= 0 && npmIndex < smokeIndex && smokeIndex < registryIndex)
+  assert.ok(npmStateIndex >= 0 && npmStateIndex < npmIndex && npmIndex < smokeIndex && smokeIndex < registryIndex)
+
+  const npmState = steps[npmStateIndex]
+  assert.equal(npmState.id, 'npm_status')
+  assert.match(npmState.run, /npm view .*dist\.integrity --json/)
+  assert.match(npmState.run, /createHash\('sha512'\)/)
+  assert.match(npmState.run, /published_integrity.*archive_integrity/)
+  assert.match(npmState.run, /grep -q 'E404'/)
+  assert.match(npmState.run, /published=true.*GITHUB_OUTPUT/s)
 
   const npmPublish = steps[npmIndex]
+  assert.equal(npmPublish.if, "steps.npm_status.outputs.published != 'true'")
   assert.match(npmPublish.run, /npm publish .*--provenance/)
   assert.doesNotMatch(source, /NODE_AUTH_TOKEN|NPM_TOKEN/)
 

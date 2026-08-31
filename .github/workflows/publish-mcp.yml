@@ -163,7 +163,35 @@ jobs:
           fi
           printf 'ARCHIVE_PATH=%s\nPACKAGE_NAME=%s\nPACKAGE_VERSION=%s\n' "$archive_path" "$package_name" "$package_version" >> "$GITHUB_ENV"
 
+      - name: Check npm publication state
+        id: npm_status
+        run: |
+          set -euo pipefail
+          view_error="$(mktemp)"
+          trap 'rm -f "$view_error"' EXIT
+          set +e
+          published_integrity_json="$(npm view "${PACKAGE_NAME}@${PACKAGE_VERSION}" dist.integrity --json 2>"$view_error")"
+          view_status=$?
+          set -e
+          if [[ "$view_status" -eq 0 ]]; then
+            published_integrity="$(PUBLISHED_INTEGRITY_JSON="$published_integrity_json" node -e "const value = JSON.parse(process.env.PUBLISHED_INTEGRITY_JSON); if (typeof value !== 'string') process.exit(1); process.stdout.write(value)")"
+            archive_integrity="$(ARCHIVE_PATH="$ARCHIVE_PATH" node --input-type=module -e "import { createHash } from 'node:crypto'; import { readFileSync } from 'node:fs'; process.stdout.write('sha512-' + createHash('sha512').update(readFileSync(process.env.ARCHIVE_PATH)).digest('base64'))")"
+            if [[ "$published_integrity" != "$archive_integrity" ]]; then
+              echo "npm already contains ${PACKAGE_NAME}@${PACKAGE_VERSION}, but its integrity does not match the approved archive" >&2
+              exit 1
+            fi
+            echo 'published=true' >> "$GITHUB_OUTPUT"
+            echo "Verified existing npm publication ${PACKAGE_NAME}@${PACKAGE_VERSION} against the approved archive"
+          elif grep -q 'E404' "$view_error"; then
+            echo 'published=false' >> "$GITHUB_OUTPUT"
+            echo "npm version ${PACKAGE_NAME}@${PACKAGE_VERSION} is not published yet"
+          else
+            cat "$view_error" >&2
+            exit "$view_status"
+          fi
+
       - name: Publish package to npm
+        if: steps.npm_status.outputs.published != 'true'
         run: npm publish "$ARCHIVE_PATH" --provenance --access public
 
       - name: Smoke test published package
