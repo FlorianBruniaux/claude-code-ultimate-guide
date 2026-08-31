@@ -5,11 +5,20 @@ description: Run the local Claude Code learning path, record evidence, and sched
 
 # Claude Code Learning Path
 
-Use this skill to follow a bounded, local progression through the existing seven-module guide. The engine selects only modules whose prerequisites are complete, saves nothing outside the current project's `.claude/learning/` directory, and refuses incomplete or corrupt evidence.
+Use this skill to follow a bounded, local progression through the existing seven-module guide. The engine selects only modules whose prerequisites are complete, saves nothing outside the current project's `.claude/learning/` directory, requires a non-empty evidence note, and rejects corrupt state.
 
 ## Start with the diagnostic
 
-Run `/self-assessment quick` before choosing a track. It is a self-reporting aid, not a certification. Choose the lowest track that covers your immediate goal:
+Run `/self-assessment quick` before choosing a track. It is a self-reporting aid, not a certification. Map its result deliberately:
+
+| Self-assessment result | Learning-path track |
+| --- | --- |
+| Beginner | Beginner |
+| Intermediate | Practitioner |
+| Advanced | Production |
+| Maintainer | Maintainer, only when the objective includes shared governance |
+
+Choose the lowest track that covers your immediate goal:
 
 | Track | Outcome | Modules |
 | --- | --- | --- |
@@ -22,15 +31,15 @@ The module definitions, guide references, exercises, prerequisites, and review i
 
 ## Commands
 
-Run commands from the repository or project being learned. The optional `--root` makes the target explicit when the working directory differs.
+Run commands from the repository or project being learned. `CLAUDE_SKILL_DIR` is the installed-skill directory provided by Claude Code. `--root "$PWD"` makes the learner's current project, rather than the installed skill, the only state target.
 
 ```bash
-python3 examples/skills/learning-path/scripts/progress.py init --track Beginner
-python3 examples/skills/learning-path/scripts/progress.py status
-python3 examples/skills/learning-path/scripts/progress.py next
-python3 examples/skills/learning-path/scripts/progress.py complete module-01 \
+python3 "${CLAUDE_SKILL_DIR}/scripts/progress.py" --root "$PWD" init --track Beginner
+python3 "${CLAUDE_SKILL_DIR}/scripts/progress.py" --root "$PWD" status
+python3 "${CLAUDE_SKILL_DIR}/scripts/progress.py" --root "$PWD" next
+python3 "${CLAUDE_SKILL_DIR}/scripts/progress.py" --root "$PWD" complete module-01 \
   --evidence "Installed Claude Code, ran /help, and recorded the version."
-python3 examples/skills/learning-path/scripts/progress.py due
+python3 "${CLAUDE_SKILL_DIR}/scripts/progress.py" --root "$PWD" due
 ```
 
 The state file is `.claude/learning/claude-code-guide-progress.json`. It belongs to the learner's project, not this installed skill. `init` refuses to overwrite an existing state file. Keep the state local unless you deliberately decide to share the evidence.
@@ -53,3 +62,7 @@ Each completion schedules reviews exactly at 1, 3, 7, 14, 30, 60, and 90 days af
 ## Safety boundary
 
 All writes are local and atomic. A malformed state file fails closed and remains untouched for inspection or recovery. The prototype does not call a network service, install packages, assess competence automatically, or edit the guide.
+
+## Validation boundary
+
+The runtime validates `path.yaml` with Python's JSON parser because the file uses the JSON subset of YAML. A generic YAML validation additionally needs PyYAML. If `python3 -c 'import yaml'` fails, generic YAML validation is `UNKNOWN`, not a successful skill validation. The dependency-free runtime tests can still establish that this exact path definition loads.

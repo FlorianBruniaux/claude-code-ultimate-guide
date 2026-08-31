@@ -2,13 +2,16 @@
 
 from __future__ import annotations
 
+import contextlib
 import importlib.util
+import io
 import json
 from datetime import date
 from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 
 SKILL_ROOT = Path(__file__).resolve().parents[1]
@@ -39,10 +42,23 @@ class ProgressTests(unittest.TestCase):
 
     def test_atomic_save_leaves_complete_json_without_a_temporary_file(self) -> None:
         state = progress.new_state("Practitioner")
-        progress.save_state(self.root, state)
+        progress.save_state(self.root, state, self.path)
 
         state_file = self.root / ".claude" / "learning" / "claude-code-guide-progress.json"
         self.assertEqual(json.loads(state_file.read_text(encoding="utf-8")), state)
+        self.assertEqual(list(state_file.parent.glob("*.tmp")), [])
+
+    def test_atomic_save_keeps_existing_bytes_when_replace_fails(self) -> None:
+        original = progress.new_state("Beginner")
+        progress.save_state(self.root, original, self.path)
+        state_file = self.root / ".claude" / "learning" / "claude-code-guide-progress.json"
+        original_bytes = state_file.read_bytes()
+
+        with mock.patch.object(progress.os, "replace", side_effect=OSError("injected failure")):
+            with self.assertRaisesRegex(progress.ProgressError, "Could not save"):
+                progress.save_state(self.root, progress.new_state("Production"), self.path)
+
+        self.assertEqual(state_file.read_bytes(), original_bytes)
         self.assertEqual(list(state_file.parent.glob("*.tmp")), [])
 
     def test_rejects_completion_when_a_prerequisite_is_incomplete(self) -> None:
@@ -73,7 +89,7 @@ class ProgressTests(unittest.TestCase):
             completed_on=date(2026, 8, 31),
         )
 
-        schedule = progress.review_schedule(state, "module-01")
+        schedule = progress.review_schedule(state, self.path, "module-01")
         self.assertEqual(
             [(entry["interval_days"], entry["due_on"]) for entry in schedule],
             [
@@ -93,7 +109,52 @@ class ProgressTests(unittest.TestCase):
         state_file.write_text("not json", encoding="utf-8")
 
         with self.assertRaisesRegex(progress.ProgressError, "corrupt"):
-            progress.load_state(self.root)
+            progress.load_state(self.root, self.path)
+
+    def test_rejects_invalid_state_schema_against_the_path(self) -> None:
+        state_file = self.root / ".claude" / "learning" / "claude-code-guide-progress.json"
+        state_file.parent.mkdir(parents=True)
+        cases = {
+            "boolean version": {"version": True, "track": "Beginner", "modules": {}},
+            "unknown track": {"version": 1, "track": "Unknown", "modules": {}},
+            "unknown module": {
+                "version": 1,
+                "track": "Beginner",
+                "modules": {"module-99": {"completed_on": "2026-08-31", "evidence": "note"}},
+            },
+            "module outside track": {
+                "version": 1,
+                "track": "Beginner",
+                "modules": {"module-04": {"completed_on": "2026-08-31", "evidence": "note"}},
+            },
+        }
+
+        for name, state in cases.items():
+            with self.subTest(name=name):
+                state_file.write_text(json.dumps(state), encoding="utf-8")
+                with self.assertRaisesRegex(progress.ProgressError, "corrupt"):
+                    progress.load_state(self.root, self.path)
+
+    def test_state_commands_reject_corrupt_state_before_execution(self) -> None:
+        state_file = self.root / ".claude" / "learning" / "claude-code-guide-progress.json"
+        state_file.parent.mkdir(parents=True)
+        corrupt = {
+            "version": 1,
+            "track": "Beginner",
+            "modules": {"module-99": {"completed_on": "2026-08-31", "evidence": "note"}},
+        }
+        commands = (
+            ["status"],
+            ["next"],
+            ["due"],
+            ["complete", "module-01", "--evidence", "new note"],
+        )
+
+        for command in commands:
+            with self.subTest(command=command):
+                state_file.write_text(json.dumps(corrupt), encoding="utf-8")
+                with contextlib.redirect_stderr(io.StringIO()):
+                    self.assertEqual(progress.main(["--root", str(self.root)] + command), 2)
 
 
 if __name__ == "__main__":

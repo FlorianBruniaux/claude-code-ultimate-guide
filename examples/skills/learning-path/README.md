@@ -24,23 +24,24 @@ Use the public self-assessment workflow first:
 Then start the lowest track matching your immediate goal:
 
 ```bash
-python3 examples/skills/learning-path/scripts/progress.py init --track Beginner
-python3 examples/skills/learning-path/scripts/progress.py next
+python3 "${CLAUDE_SKILL_DIR}/scripts/progress.py" --root "$PWD" init --track Beginner
+python3 "${CLAUDE_SKILL_DIR}/scripts/progress.py" --root "$PWD" next
 ```
 
 After performing the exercise, record the evidence:
 
 ```bash
-python3 examples/skills/learning-path/scripts/progress.py complete module-01 \
+python3 "${CLAUDE_SKILL_DIR}/scripts/progress.py" --root "$PWD" complete module-01 \
   --evidence "Installed Claude Code, ran /help, and recorded the version."
-python3 examples/skills/learning-path/scripts/progress.py status
-python3 examples/skills/learning-path/scripts/progress.py due
+python3 "${CLAUDE_SKILL_DIR}/scripts/progress.py" --root "$PWD" status
+python3 "${CLAUDE_SKILL_DIR}/scripts/progress.py" --root "$PWD" due
 ```
 
-For another project, pass its root explicitly:
+The skill works from a third-party project because it addresses its installed script through `CLAUDE_SKILL_DIR` and writes state under the current directory. For example:
 
 ```bash
-python3 examples/skills/learning-path/scripts/progress.py --root /path/to/project init --track Practitioner
+cd /path/to/project
+python3 "${CLAUDE_SKILL_DIR}/scripts/progress.py" --root "$PWD" init --track Practitioner
 ```
 
 ## Tracks
@@ -53,6 +54,15 @@ python3 examples/skills/learning-path/scripts/progress.py --root /path/to/projec
 | Maintainer | Maintain shared practices and operational safeguards | 01 to 07 |
 
 The diagnostic helps select a starting track, but it does not remove prerequisite checks. A learner who selects Production still completes the sequence in order.
+
+### Self-assessment mapping
+
+| Self-assessment result | Select this track |
+| --- | --- |
+| Beginner | Beginner |
+| Intermediate | Practitioner |
+| Advanced | Production |
+| Maintainer | Maintainer only for a shared-governance objective |
 
 ## Module map
 
@@ -81,3 +91,13 @@ python3 -m unittest -v examples/skills/learning-path/tests/test_progress.py
 ```
 
 The focused suite covers profile creation, atomic persistence, prerequisite enforcement, evidence gates, next-module selection, review intervals, and corrupt-state failure.
+
+## Skill validation boundary
+
+`path.yaml` is valid JSON and therefore valid YAML. The dependency-free runtime validates this exact JSON subset with the Python standard library. A generic YAML validation requires PyYAML:
+
+```bash
+python3 -c 'import yaml'
+```
+
+If that import fails, generic YAML validation is `UNKNOWN`. Do not report it as a passed skill validation. The local unit suite still verifies that the runtime can load the shipped path definition.

@@ -57,24 +57,29 @@ def new_state(track: str) -> Dict[str, Any]:
     return {"version": STATE_VERSION, "track": track, "modules": {}}
 
 
-def _validate_state(state: Any) -> Dict[str, Any]:
+def _validate_state(state: Any, path_data: Dict[str, Any]) -> Dict[str, Any]:
+    """Reject state that is incompatible with the trusted path definition."""
     _require(isinstance(state, dict), "Progress state is corrupt")
-    _require(state.get("version") == STATE_VERSION, "Progress state is corrupt")
-    _require(isinstance(state.get("track"), str) and state["track"], "Progress state is corrupt")
+    _require(type(state.get("version")) is int and state["version"] == STATE_VERSION, "Progress state is corrupt")
+    _require(isinstance(state.get("track"), str) and state["track"] in path_data["tracks"], "Progress state is corrupt")
     modules = state.get("modules")
     _require(isinstance(modules, dict), "Progress state is corrupt")
+    known_modules = _module_index(path_data)
+    track_modules = set(path_data["tracks"][state["track"]]["modules"])
     for module_id, record in modules.items():
-        _require(isinstance(module_id, str) and isinstance(record, dict), "Progress state is corrupt")
+        _require(isinstance(module_id, str) and module_id in known_modules and module_id in track_modules, "Progress state is corrupt")
+        _require(isinstance(record, dict), "Progress state is corrupt")
         _require(isinstance(record.get("completed_on"), str), "Progress state is corrupt")
         _require(isinstance(record.get("evidence"), str) and record["evidence"].strip(), "Progress state is corrupt")
         try:
             date.fromisoformat(record["completed_on"])
         except ValueError as error:
             raise ProgressError("Progress state is corrupt") from error
+        _require(all(item in modules for item in known_modules[module_id]["prerequisites"]), "Progress state is corrupt")
     return state
 
 
-def load_state(root: Path) -> Dict[str, Any]:
+def load_state(root: Path, path_data: Dict[str, Any]) -> Dict[str, Any]:
     """Read and validate state, leaving corrupt files untouched and unusable."""
     target = state_path(root)
     try:
@@ -84,12 +89,12 @@ def load_state(root: Path) -> Dict[str, Any]:
         raise ProgressError("Progress state does not exist; run init first") from error
     except (OSError, json.JSONDecodeError) as error:
         raise ProgressError("Progress state is corrupt") from error
-    return _validate_state(state)
+    return _validate_state(state, path_data)
 
 
-def save_state(root: Path, state: Dict[str, Any]) -> None:
+def save_state(root: Path, state: Dict[str, Any], path_data: Dict[str, Any]) -> None:
     """Atomically replace the state file after validating the complete payload."""
-    _validate_state(state)
+    _validate_state(state, path_data)
     target = state_path(root)
     target.parent.mkdir(parents=True, exist_ok=True)
     descriptor, temporary_name = tempfile.mkstemp(prefix=".progress-", suffix=".tmp", dir=str(target.parent))
@@ -114,7 +119,7 @@ def create_profile(root: Path, path_data: Dict[str, Any], track: str) -> Dict[st
     target = state_path(root)
     _require(not target.exists(), "Progress state already exists; refuse to overwrite it")
     state = new_state(track)
-    save_state(root, state)
+    save_state(root, state, path_data)
     return state
 
 
@@ -137,7 +142,7 @@ def complete_module(
     completed_on: Optional[date] = None,
 ) -> Dict[str, Any]:
     """Record a completion only when all prerequisites and evidence are present."""
-    _validate_state(state)
+    _validate_state(state, path_data)
     modules = _module_index(path_data)
     _require(module_id in modules, "Unknown module")
     _require(module_id in _track_module_ids(state, path_data), "Module is not in the selected track")
@@ -154,7 +159,7 @@ def complete_module(
 
 def next_module(state: Dict[str, Any], path_data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     """Return the first incomplete module whose prerequisites are satisfied."""
-    _validate_state(state)
+    _validate_state(state, path_data)
     modules = _module_index(path_data)
     for module_id in _track_module_ids(state, path_data):
         module = modules[module_id]
@@ -163,8 +168,8 @@ def next_module(state: Dict[str, Any], path_data: Dict[str, Any]) -> Optional[Di
     return None
 
 
-def review_schedule(state: Dict[str, Any], module_id: str) -> List[Dict[str, Any]]:
-    _validate_state(state)
+def review_schedule(state: Dict[str, Any], path_data: Dict[str, Any], module_id: str) -> List[Dict[str, Any]]:
+    _validate_state(state, path_data)
     _require(module_id in state["modules"], "Module is not complete")
     completed_on = date.fromisoformat(state["modules"][module_id]["completed_on"])
     return [
@@ -173,18 +178,19 @@ def review_schedule(state: Dict[str, Any], module_id: str) -> List[Dict[str, Any
     ]
 
 
-def due_reviews(state: Dict[str, Any], on_date: Optional[date] = None) -> List[Dict[str, Any]]:
-    _validate_state(state)
+def due_reviews(state: Dict[str, Any], path_data: Dict[str, Any], on_date: Optional[date] = None) -> List[Dict[str, Any]]:
+    _validate_state(state, path_data)
     today = on_date or date.today()
     return [
         review
         for module_id in sorted(state["modules"])
-        for review in review_schedule(state, module_id)
+        for review in review_schedule(state, path_data, module_id)
         if date.fromisoformat(review["due_on"]) <= today
     ]
 
 
 def status(state: Dict[str, Any], path_data: Dict[str, Any], on_date: Optional[date] = None) -> Dict[str, Any]:
+    _validate_state(state, path_data)
     module_ids = _track_module_ids(state, path_data)
     completed = [module_id for module_id in module_ids if module_id in state["modules"]]
     return {
@@ -192,7 +198,7 @@ def status(state: Dict[str, Any], path_data: Dict[str, Any], on_date: Optional[d
         "completed_modules": completed,
         "total_modules": len(module_ids),
         "next_module": next_module(state, path_data),
-        "due_reviews": due_reviews(state, on_date),
+        "due_reviews": due_reviews(state, path_data, on_date),
     }
 
 
@@ -228,17 +234,17 @@ def main(argv: Optional[List[str]] = None) -> int:
         if args.command == "init":
             print(json.dumps(create_profile(args.root, path_data, args.track), indent=2, sort_keys=True))
             return 0
-        state = load_state(args.root)
+        state = load_state(args.root, path_data)
         if args.command == "complete":
             complete_module(state, path_data, args.module_id, args.evidence, args.completed_on)
-            save_state(args.root, state)
+            save_state(args.root, state, path_data)
             print(json.dumps(state["modules"][args.module_id], indent=2, sort_keys=True))
             return 0
         if args.command == "next":
             print(json.dumps(next_module(state, path_data), indent=2, sort_keys=True))
             return 0
         if args.command == "due":
-            print(json.dumps(due_reviews(state, args.on_date), indent=2, sort_keys=True))
+            print(json.dumps(due_reviews(state, path_data, args.on_date), indent=2, sort_keys=True))
             return 0
         print(json.dumps(status(state, path_data), indent=2, sort_keys=True))
         return 0
