@@ -1,0 +1,235 @@
+.agents/skills/source-command-track-mentions/SKILL.md
+  s_2efec322df84ae::t_f719669c37aa8a 3,14-16,23-26,29-31,34,37-45,49-51,55-57,60-67,71,74-76,82-85,89-107,113-116,125-127,130-142,144,146-152,181-194,197-198,205-206
+.agents/skills/source-command-track-mentions/evals/scenarios.json
+  s_2efec322df84ae::t_f06f5a3b4f1f48 1-38
+.github/workflows/index-integrity.yml
+  s_7ff0217ab4c6a5::t_80c2b3e3639422 99,153-162
+CHANGELOG.md
+  s_2efec322df84ae::t_82338257354a4d 23-39,45-47
+README.md
+  s_2efec322df84ae::t_03d4b2da7c2d0d 11,59-74,158-163,171,202,305,631,648-649,651,653,659,997
+docs/distribution/README.md
+  s_2efec322df84ae::t_e13acfd8cd8180 1-23
+docs/distribution/quick-win-video-series.md
+  s_2efec322df84ae::t_b3ce3752942f32 1-92
+docs/media-mentions/README.md
+  s_2efec322df84ae::t_2dccc7d6e64c30 5-9,12-13,19,35,39,41,45,48,50-51,53,55-61,67,69,71-73,78-87
+docs/media-mentions/mentions.yaml
+  s_2efec322df84ae::t_52b5f268660d2c 2-3,9,451-635
+docs/media-mentions/perplexity-scheduled-search.md
+  s_2efec322df84ae::t_cfd217f1e93bf2 1-53
+docs/media-mentions/review-queue.yaml
+  s_2efec322df84ae::t_981c8adfb03a99 1-22
+docs/resource-evaluations/README.md
+  s_2efec322df84ae::t_635b8bbc6d26b3 40-43,108
+docs/resource-evaluations/best-of-n-verification-evidence.md
+  s_2efec322df84ae::t_020567dc14c37a 28-30,32-35,37
+docs/resource-evaluations/databricks-managing-ai-coding-costs-scale.md
+  s_2efec322df84ae::t_91dd117b859806 1-99
+docs/resource-evaluations/mltut-learning-resources-comparative-audit.md
+  s_2efec322df84ae::t_3512281ae0c5aa 1-381
+docs/visual-prompts/ai-subscription-and-inference.md
+  s_2efec322df84ae::t_808a14c04a2fd2 1-122
+docs/workflows/guide-distribution.md
+  s_2efec322df84ae::t_eed46702671cae 1-144
+docs/workflows/translations.md
+  s_2efec322df84ae::t_df0ad944cd95d4 1-119
+examples/learning-project/.claude/agents/evidence-reviewer.md
+  s_2efec322df84ae::t_014f02f2186606 1-21
+examples/learning-project/.claude/hooks/fixtures/docker-obfuscated.json
+  s_2efec322df84ae::t_ef21d9aebe1222 1-7
+examples/learning-project/.claude/hooks/fixtures/docker-push.json
+  s_2efec322df84ae::t_5e8e3b3c03c2ee 1-7
+examples/learning-project/.claude/hooks/fixtures/fail.json
+  s_2efec322df84ae::t_ebc610d58927c4 1-7
+examples/learning-project/.claude/hooks/fixtures/malformed.json
+  s_2efec322df84ae::t_fce43b8ab717cd 1
+examples/learning-project/.claude/hooks/fixtures/npm-obfuscated.json
+  s_2efec322df84ae::t_df15966de5d43b 1-7
+examples/learning-project/.claude/hooks/fixtures/npm-silent.json
+  s_2efec322df84ae::t_900ddd0fdad5dc 1-7
+examples/learning-project/.claude/hooks/fixtures/pass.json
+  s_2efec322df84ae::t_cb40a15f673b3b 1-7
+examples/learning-project/.claude/hooks/release-guard.mjs
+  s_2efec322df84ae::t_e4c4b8cad90f1a 1-53
+examples/learning-project/.claude/settings.json
+  s_2efec322df84ae::t_39922fbe503d81 1-19
+examples/learning-project/.claude/skills/verify-release/SKILL.md
+  s_2efec322df84ae::t_a3b0e1fe0abad2 1-38
+examples/learning-project/.dockerignore
+  s_2efec322df84ae::t_73b1754cf47f78 1-6
+examples/learning-project/.gitignore
+  s_2efec322df84ae::t_37f236d22c3ab1 1-2
+examples/learning-project/CLAUDE.md
+  s_2efec322df84ae::t_c5f1fd1b99ddcd 1-31
+examples/learning-project/Dockerfile
+  s_2efec322df84ae::t_29f43f1fd088ff 1-12
+examples/learning-project/ISSUE.md
+  s_2efec322df84ae::t_319b949babdde9 1-26
+examples/learning-project/README.md
+  s_2efec322df84ae::t_ab179826987a23 1-89
+examples/learning-project/evidence/PROOF-LOG.md
+  s_2efec322df84ae::t_affbd441797daa 1-37
+examples/learning-project/evidence/SOURCE-FINGERPRINT.txt
+  s_2efec322df84ae::t_e809cb0700ec4f 1-11
+examples/learning-project/fixtures/release-duplicate.json
+  s_2efec322df84ae::t_6a0ac5fa299eac 1-26
+examples/learning-project/fixtures/release-incomplete.json
+  s_2efec322df84ae::t_85631da316bf7c 1-16
+examples/learning-project/fixtures/release-invalid-version.json
+  s_2efec322df84ae::t_602235c440fb72 1-21
+examples/learning-project/fixtures/release-malformed.json
+  s_2efec322df84ae::t_926ab3d9785791 1
+examples/learning-project/fixtures/release-ready.json
+  s_2efec322df84ae::t_ac3bdb028afcfd 1-21
+examples/learning-project/package.json
+  s_2efec322df84ae::t_3ebe34731a6f82 1-26
+examples/learning-project/src/cli.mjs
+  s_2efec322df84ae::t_f02017bf337d83 1-21
+examples/learning-project/src/release-verifier.mjs
+  s_2efec322df84ae::t_037eb5954da547 1-44
+examples/learning-project/test/cli.test.mjs
+  s_2efec322df84ae::t_f699a7de54566a 1-99
+examples/learning-project/test/documentation-links.test.mjs
+  s_2efec322df84ae::t_eaa5fec23d528e 1-87
+examples/learning-project/test/package-check.test.mjs
+  s_2efec322df84ae::t_a369246de4ee01 1-36
+examples/learning-project/test/release-guard.test.mjs
+  s_2efec322df84ae::t_27c9ae0de46407 1-62
+examples/skills/learning-path/assets/path.yaml
+  s_2efec322df84ae::t_386be15cb1e34f 35,57,72
+guide/README.md
+  s_2efec322df84ae::t_2d8d1ce072f5e3 34,38,97,117,130,134,148
+guide/core/agent-harness.md
+  s_2efec322df84ae::t_5f9536c856ab72 45,87,417-418,524-525,559
+guide/core/glossary.md
+  s_2efec322df84ae::t_8d2591ee31c2d7 152
+guide/core/settings-reference.md
+  s_2efec322df84ae::t_b06ecdb28dccb0 546,553,752-753,1558
+guide/core/tools-reference.md
+  s_2efec322df84ae::t_961d2a5eb90884 228
+guide/core/translations.md
+  s_2efec322df84ae::t_d8d84042d491f2 1-84
+guide/diagrams/09-cost-and-optimization.md
+  s_2efec322df84ae::t_c1c45e3b6fdce5 15,24,27,31,59,70,77-78,80,103,107,111,115,119,148-152,160-164,264,273,281,289,296-297,300,312,315,318,320-322,331,333,335,337,339
+guide/ecosystem/agent-harness-landscape.md
+  s_2efec322df84ae::t_e1a38ef74f9926 199
+guide/ecosystem/context-engineering-tools.md
+  s_2efec322df84ae::t_6f216921e3be7d 417,439,454
+guide/ecosystem/local-vs-cloud-inference.md
+  s_2efec322df84ae::t_80a19362afa7de 582-583,604-609
+guide/learning-path/06-hooks.md
+  s_2efec322df84ae::t_67e9809de6e1d4 1,3,5,9,11,13,15-20,22,24,26,28,30-40,43,45,47,52-64,69,71,73,75-79,82-89,92-96,98-100,102-105,107-113,115-118,121,123,125,128-129,131-132,134-135,138,140-144,146,148,150,152-156,158,160,162-169,171,173,175-181,183,185,187-192,194,196
+guide/learning-path/README.md
+  s_2efec322df84ae::t_ea124456987fc3 85-104,185,228
+guide/ops/ai-traceability.md
+  s_2efec322df84ae::t_e0bcf63e4c5da9 934
+guide/ops/ai-unit-economics.md
+  s_2efec322df84ae::t_d35c2aae2ac599 3,9,17,19,29,39,41,52,75,78-79,81,84,91,98-105,108-111,150,154-164,166-168,184-185,216-218,220-226,228,230-232,240-241,268,270,279
+guide/ops/api-gateway.md
+  s_2efec322df84ae::t_616730b9ea8c13 3,23-25,53-54,73,75-78,80,86,188-203,218-219,250-251,254-255,328,330-331,335,338-339,349
+guide/ops/observability.md
+  s_2efec322df84ae::t_eacd1324773217 1030,1032,1034
+guide/ops/subscription-strategy.md
+  s_2efec322df84ae::t_13ca3d280c8c99 3-4,9,11,17-29,33-40,42,44,46-49,51,55-76,78,80,82-98,102,104,106,108,110,112-118,120,122,124,126,128-132,134,138-140,142,144,146-160,164-176,178,180,182-197,201-209,211,213-216,218,222-316,318,320,322-332,334
+guide/roles/ai-roles.md
+  s_2efec322df84ae::t_96e3d2231ac1a6 3-4,9,11,13,15-17,27-50,56-102,104,106,108-126,132,157,167,171,177,210,246,248-286,317,319,351,353,359,388,390,415,419,421,425,427-429,438,440,448,450,476,478,486,488,513,515,519,521,524,526-528,532,536,540,542,567,569,606,608,640,648,650,694,696,700,706,713,723,725,731,733,737-741,753,755,759,761,763,768-772,776,780-851,855,857,859-861,863-865,867-871,873-879,883-885,887-898,900,902-908,912-927,929-931,933,935-945,947,951-966,968,970,980
+guide/security/sandbox-native.md
+  s_2efec322df84ae::t_9f9520e38581f9 12,570,574,588-598,728,981-982
+guide/security/security-hardening.md
+  s_2efec322df84ae::t_ddefd38734d077 1077,1081,1085,1113,1211,1265,1269,1274-1276,1280-1283,1301-1303
+guide/ultimate-guide.md
+  s_2efec322df84ae::t_f030cf7909fefe 13155,13182
+guide/workflows/README.md
+  s_2efec322df84ae::t_4acec14db5d4b5 62-69,272,284
+guide/workflows/cross-session-messaging.md
+  s_2efec322df84ae::t_961d8fd2fcfaea 13,76,82,129-130,155,160-161,185-226,250-251,281-282,292-293
+llms-full.txt
+  s_2efec322df84ae::t_abe16447afc719 471
+llms.txt
+  s_7ff0217ab4c6a5::t_1aebb7ab21453a 10,18,26-27,41-42,53-56
+machine-readable/README.md
+  s_2efec322df84ae::t_1e1471b38273eb 17-18,46-47,50-71
+machine-readable/agentsec-security-feed.v1.json
+  s_2efec322df84ae::t_36fd0291f19e9c 23-55
+machine-readable/distribution-channels.yaml
+  s_2efec322df84ae::t_a4d453b61803dc 1-107
+machine-readable/llms.txt
+  s_7ff0217ab4c6a5::t_5efacfe5203745 10,18,26-27,41-42,53-56
+machine-readable/mcp-product.json
+  s_2efec322df84ae::t_91616072b1b923 15-16,424-429,488
+machine-readable/reference.yaml
+  s_2efec322df84ae::t_75263157df2e54 7,15-30,114-115,193,384,487-491,496-507,528-541,615-617,878-880,887,963,967,1044,1118-1119,1211-1213,1411,1454-1456,1559,1658,1907,2388,2435-2436,2935-2941,3067-3074,3236-3242,3365-3371,3373-3374,3400,3407-3409,3455-3462,3505-3528,3651-3658
+machine-readable/translations.json
+  s_95392a6b844626::t_a1f8d7830ec8c6 4-14,20-22,24-38,46-49,56,59-62,65-73,81,83,90-97,101,104-105,112-117,125,127,133-141,144-147,150-193,197-245,259-264
+mcp-server/README.md
+  s_2efec322df84ae::t_80869f21c74980 83,114
+mcp-server/content/distribution-channels.yaml
+  s_2efec322df84ae::t_71964a55281e9c 1-107
+mcp-server/content/llms.txt
+  s_7ff0217ab4c6a5::t_b278f36560329e 10,18,26-27,41-42,53-56
+mcp-server/content/reference.yaml
+  s_2efec322df84ae::t_e1c7e0bd8d6539 7,15-30,114-115,193,384,487-491,496-507,528-541,615-617,878-880,887,963,967,1044,1118-1119,1211-1213,1411,1454-1456,1559,1658,1907,2388,2435-2436,2935-2941,3067-3074,3236-3242,3365-3371,3373-3374,3400,3407-3409,3455-3462,3505-3528,3651-3658
+mcp-server/content/translations.json
+  s_95392a6b844626::t_44428810db056e 4-14,20-22,24-38,46-49,56,59-62,65-73,81,83,90-97,101,104-105,112-117,125,127,133-141,144-147,150-193,197-245,259-264
+mcp-server/src/lib/content.ts
+  s_95392a6b844626::t_75fb5db1e3fa6d 25-39,182-186,188-293
+mcp-server/src/resources/index.ts
+  s_95392a6b844626::t_0840ce64466795 4,120-140
+mcp-server/test/fixtures/expected-resource-uris.json
+  s_95392a6b844626::t_58c79e4518eea7 3
+mcp-server/test/product-manifest.test.mjs
+  s_95392a6b844626::t_992702f6fc6974 38,41
+mcp-server/test/runtime-contract.test.mjs
+  s_95392a6b844626::t_940fa94b4fab9d 43
+quiz/questions/16-agent-harness-context.yaml
+  s_2efec322df84ae::t_5d5310acb17f41 521,523-528,531-532,546,549-550,558,560-565,568-569,575,577-580,582,585-586,593,595-600,603-604,610,612-617,620-621
+scripts/check-distribution-channels.py
+  s_2efec322df84ae::t_e3bdcd2ea63c60 1-252
+scripts/check-media-mentions.py
+  s_2efec322df84ae::t_341bf04501e59b 1-164
+scripts/check-translations.py
+  s_2efec322df84ae::t_7dba1805f9264c 1-611
+scripts/sync-version.sh
+  s_2efec322df84ae::t_48375d0b21ac60 114-124
+scripts/test-check-distribution-channels.py
+  s_2efec322df84ae::t_b2012be6779338 1-186
+scripts/test-check-media-mentions.py
+  s_2efec322df84ae::t_74ea3278ed54ae 1-82
+scripts/test-check-translations.py
+  s_2efec322df84ae::t_4df1b31c77d263 1-185
+scripts/translate-guide.py
+  s_2efec322df84ae::t_84b623a5254e75 10-12,28,84-124,182-190,234-248,252
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "f1cacb44a2582a98cf080d978c7aa92a19714aaf",
+  "prompts": {},
+  "sessions": {
+    "s_2efec322df84ae": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a056aa-68dc-76c1-95fa-3e383c196e6d",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_7ff0217ab4c6a5": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a057fe-fc73-7570-b291-f5263063d475",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_95392a6b844626": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04821-7023-7112-aeb8-f4aa59348ce9",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
