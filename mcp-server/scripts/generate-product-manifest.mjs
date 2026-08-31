@@ -4,7 +4,6 @@ import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parse as parseYaml } from 'yaml'
 import { collectRuntimeSnapshot } from './runtime-snapshot.mjs'
-import { MCP_REGISTRY_NAME } from './render-registry-metadata.mjs'
 import { countReferenceEntries } from '../dist/product-metrics.js'
 
 const scriptDirectory = resolve(fileURLToPath(new URL('.', import.meta.url)))
@@ -75,7 +74,7 @@ async function buildManifest() {
       name: runtime.serverInfo.name,
       version: runtime.serverInfo.version,
       registry_name: packageJson.name,
-      mcp_registry_name: MCP_REGISTRY_NAME,
+      mcp_registry_name: packageJson.mcpName,
       node_engine: packageJson.engines.node,
       dependencies: { model_context_protocol_sdk: sdk.version },
     },

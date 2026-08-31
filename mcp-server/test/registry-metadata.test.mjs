@@ -72,7 +72,7 @@ test('npm metadata exposes the package and official MCP Registry identities', ()
   assert.equal(packageJson.description, expectedDescription)
   assert.deepEqual(packageJson.keywords, expectedKeywords)
   assert.equal(packageJson.homepage, 'https://cc.bruniaux.com/mcp/')
-  assert.equal(packageJson.mcpName, 'io.github.florianbruniaux/claude-code-guide')
+  assert.equal(packageJson.mcpName, 'io.github.FlorianBruniaux/claude-code-guide')
   assert.deepEqual(packageJson.repository, {
     type: 'git',
     url: 'git+https://github.com/FlorianBruniaux/claude-code-ultimate-guide.git',
@@ -88,7 +88,7 @@ test('npm metadata exposes the package and official MCP Registry identities', ()
 
   const manifest = readJson(manifestPath)
   assert.equal(manifest.package.registry_name, packageJson.name)
-  assert.equal(manifest.package.mcp_registry_name, expectedServer(packageJson).name)
+  assert.equal(manifest.package.mcp_registry_name, packageJson.mcpName)
 })
 
 test('registry metadata renderer produces the complete deterministic server document', async () => {
