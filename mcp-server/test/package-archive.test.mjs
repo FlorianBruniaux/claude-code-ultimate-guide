@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { mkdtemp, rm } from 'node:fs/promises'
+import { cp, mkdir, mkdtemp, rm } from 'node:fs/promises'
 import { spawnSync } from 'node:child_process'
 import { resolve } from 'node:path'
 import { tmpdir } from 'node:os'
@@ -50,7 +50,15 @@ test('npm package excludes development files and preserves the MCP list contract
 
     const install = resolve(tempDirectory, 'install')
     const tarball = resolve(tempDirectory, archive.filename)
-    const installed = spawnSync('npm', ['install', '--prefix', install, '--ignore-scripts', '--no-audit', '--no-fund', tarball], {
+    await mkdir(install)
+    await cp(resolve(packageRoot, 'node_modules'), resolve(install, 'node_modules'), { recursive: true })
+    const installed = spawnSync('npm', [
+      'install', '--prefix', install, '--ignore-scripts', '--no-audit', '--no-fund', '--offline',
+      tarball,
+      resolve(packageRoot, 'node_modules/@modelcontextprotocol/sdk'),
+      resolve(packageRoot, 'node_modules/yaml'),
+      resolve(packageRoot, 'node_modules/zod'),
+    ], {
       cwd: tempDirectory, encoding: 'utf8', env, timeout: 30_000, maxBuffer: 1024 * 1024,
     })
     assert.equal(installed.status, 0, `npm install failed or timed out after 30s (signal: ${installed.signal ?? 'none'}).\nstdout:\n${installed.stdout}\nstderr:\n${installed.stderr}`)

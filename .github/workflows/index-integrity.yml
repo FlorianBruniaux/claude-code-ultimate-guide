@@ -127,8 +127,6 @@ jobs:
       - name: Check VERSION is in sync across docs
         run: ./scripts/sync-version.sh --check
 
-      - name: Check MCP product manifest
+      - name: Check MCP product release contract
         working-directory: mcp-server
-        run: |
-          npm ci
-          npm run manifest:check
+        run: npm run release:check

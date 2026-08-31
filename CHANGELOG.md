@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+<!-- mcp-product:start -->
+- **MCP product documentation and aggregate release gate** (`machine-readable/mcp-product.json`, `mcp-server/scripts/render-product-docs.mjs`, package and guide documentation): rendered current package 1.3.0 capabilities into marker-delimited surfaces, corrected Claude Code and Codex install commands plus project `.mcp.json` configuration, documented bundled versus network and local-write behavior, and published only the 5 companion command files that exist. The release gate now checks the live JSON-RPC contract, packed archive, manifest, generated documentation, tests, and dry-run package contents through `npm run release:check`.
+<!-- mcp-product:end -->
+
 ### Fixed
 
 - MCP runtime metadata now derives from the package version. Build-time injection keeps the MCP handshake, cache namespace, and HTTP User-Agent synchronized with `package.json`.

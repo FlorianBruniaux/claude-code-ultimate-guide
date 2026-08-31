@@ -13121,15 +13121,19 @@ export GITHUB_PERSONAL_ACCESS_TOKEN=ghp_xxx
 
 ---
 
-### 📖 This Guide as an MCP Server
+### This Guide as an MCP Server
 
-The Claude Code Ultimate Guide ships its own MCP server (`claude-code-ultimate-guide-mcp`) so you can query the guide directly from any Claude Code session without cloning the repo.
-
-**What it gives you**: 9 tools covering search, content reading, templates, digests, cheatsheet, and release notes. The structured index (882 entries) is bundled in the package (~130KB); markdown files are fetched from GitHub on demand with 24h local cache.
+<!-- mcp-product:start -->
+The Claude Code Ultimate Guide ships a stdio MCP server so coding clients can search the bundled reference, read source sections, inspect releases, and retrieve templates.
 
 #### Installation
 
-Add to `~/.claude.json`:
+```bash
+claude mcp add --scope user claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.0
+codex mcp add claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.0
+```
+
+For project-scoped Claude Code use, add the server to `.mcp.json`:
 
 ```json
 {
@@ -13137,89 +13141,63 @@ Add to `~/.claude.json`:
     "claude-code-guide": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "claude-code-ultimate-guide-mcp"]
+      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.0"]
     }
   }
 }
 ```
 
-Or with a local clone (dev mode, reads files directly from disk):
+#### Generated capabilities
 
-```json
-{
-  "mcpServers": {
-    "claude-code-guide": {
-      "type": "stdio",
-      "command": "node",
-      "args": ["/path/to/claude-code-ultimate-guide/mcp-server/dist/index.js"],
-      "env": {
-        "GUIDE_ROOT": "/path/to/claude-code-ultimate-guide"
-      }
-    }
-  }
-}
-```
+| Capability | Count | Names |
+| --- | ---: | --- |
+| Tools | 17 | `compare_versions`, `diff_official_docs`, `get_changelog`, `get_cheatsheet`, `get_digest`, `get_example`, `get_release`, `get_threat`, `init_official_docs`, `list_examples`, `list_threats`, `list_topics`, `read_section`, `refresh_official_docs`, `search_examples`, `search_guide`, `search_official_docs` |
+| Resources | 5 | `claude-code-guide://agent-harnesses`, `claude-code-guide://llms`, `claude-code-guide://reference`, `claude-code-guide://releases`, `claude-code-guide://translations` |
+| Prompts | 1 | `claude-code-expert` |
+| Companion commands | 5 | `/ccguide:daily`, `/ccguide:diff-docs`, `/ccguide:init-docs`, `/ccguide:refresh-docs`, `/ccguide:search-docs` |
 
-#### Available tools
+| Tool | Description |
+| --- | --- |
+| `compare_versions` | Show what changed between two Claude Code CLI versions. Lists all releases in range with aggregated highlights and breaking changes. |
+| `diff_official_docs` | Compare the baseline and current official Anthropic Claude Code docs snapshots. Shows added, removed, and modified pages. No network call - reads local files only. Run init_official_docs() first, then refresh_official_docs() when you want to update the current snapshot. |
+| `get_changelog` | Return the last N entries from the Claude Code Ultimate Guide CHANGELOG. Shows what changed in the guide itself (not Claude Code CLI releases - use get_release() for that). |
+| `get_cheatsheet` | Return the Claude Code cheatsheet - a compact 1-page reference covering the most important commands, shortcuts, config options, and workflows. |
+| `get_digest` | Return a digest of guide and Claude Code CLI changes for a given period. Combines guide CHANGELOG entries + official Claude Code releases in the time window. |
+| `get_example` | Fetch a production-ready template or example from the guide (agents, skills, commands, hooks, scripts). Pass a partial name to search for matching examples. |
+| `get_release` | Get details about Claude Code CLI official releases. Pass a version to get a specific release, or omit to get the latest and recent history. |
+| `get_threat` | Look up a specific threat by ID from the security threat database. Supports CVE IDs (e.g. "CVE-2025-53109") and technique IDs (e.g. "T001"). |
+| `init_official_docs` | Fetch the official Anthropic Claude Code docs (llms-full.txt) and store a local snapshot as the diff baseline. Run this first. Safe to re-run - overwrites previous baseline AND current. Takes ~5s (fetches ~1.2MB from Anthropic). |
+| `list_examples` | List all production-ready templates in the guide by category (agents, commands, hooks, skills, scripts). Use get_example(name) to fetch the content of any specific template. |
+| `list_threats` | Browse the security threat database. Without a category, returns a summary with counts. With a category, returns the full list for that section. |
+| `list_topics` | List all top-level topics and categories in the Claude Code Ultimate Guide. Useful for exploring what the guide covers before searching. |
+| `read_section` | Read a section from a guide file (markdown, YAML, examples). Supports pagination via offset, or a "#heading-slug" anchor to jump straight to a section (as returned by search_guide()). Use after search_guide() to fetch the full content at a specific location. |
+| `refresh_official_docs` | Re-fetch the official Anthropic Claude Code docs and update the "current" snapshot without touching the baseline. Run this to update the comparison target before diffing. Takes ~5s (fetches ~1.2MB from Anthropic). |
+| `search_examples` | Semantic search across all production-ready templates by intent (e.g. "hook lint", "agent code review"). Different from get_example (exact name) and list_examples (category browse). |
+| `search_guide` | Search the Claude Code Ultimate Guide by topic, keyword, or question. Covers features, hooks, agents, MCP, skills, commands, and best practices. Use this FIRST for any Claude Code question instead of web search. |
+| `search_official_docs` | Search the official Anthropic Claude Code documentation by keyword or topic. Uses the local current snapshot - no network call. Run init_official_docs() first. |
 
-| Tool | Signature | Description |
-|------|-----------|-------------|
-| `search_guide` | `(query, limit?)` | Search 882 indexed entries by keyword or question |
-| `read_section` | `(path, offset?, limit?)` | Read any guide file with pagination (500 lines max) |
-| `list_topics` | `()` | Browse all 25 topic categories |
-| `get_example` | `(name)` | Fetch a production-ready template by name |
-| `list_examples` | `(category?)` | List all templates — `agents`, `commands`, `hooks`, `skills`, `scripts` |
-| `get_changelog` | `(count?)` | Last N guide CHANGELOG entries (default 5) |
-| `get_digest` | `(period)` | Combined digest of guide + CC releases: `day`, `week`, `month` |
-| `get_release` | `(version?)` | Claude Code CLI release details |
-| `get_cheatsheet` | `(section?)` | Full cheatsheet or filtered by section |
+| Resource URI | MIME type | Description |
+| --- | --- | --- |
+| `claude-code-guide://agent-harnesses` | `application/json` | Evidence-backed Agent Harness Map dataset. Separates the broad source catalog, guide supplements, strict runtime map, and adjacent control planes. Unknown evidence is preserved as unknown. |
+| `claude-code-guide://llms` | `text/plain` | llms.txt - machine-readable identity and navigation file for the Claude Code Ultimate Guide. |
+| `claude-code-guide://reference` | `text/yaml` | Complete structured index of the Claude Code Ultimate Guide. Use as fallback when search_guide() results are insufficient. |
+| `claude-code-guide://releases` | `text/yaml` | Claude Code official releases history - condensed highlights and breaking changes for each version. |
+| `claude-code-guide://translations` | `application/json` | Version, provenance, freshness, and coverage status for maintained and community translations of the guide. |
 
-**Resources**: `claude-code-guide://reference` (full 94KB YAML index), `claude-code-guide://releases`, `claude-code-guide://llms`
+| Companion command | Description |
+| --- | --- |
+| `/ccguide:daily` | Daily update check - official Anthropic docs diff + guide/CC releases digest |
+| `/ccguide:diff-docs` | Compare official Anthropic docs baseline vs current snapshot (no network - instant) |
+| `/ccguide:init-docs` | Fetch official Anthropic Claude Code docs and store as local baseline snapshot |
+| `/ccguide:refresh-docs` | Re-fetch official Anthropic Claude Code docs and update current snapshot (baseline unchanged) |
+| `/ccguide:search-docs` | Search official Anthropic Claude Code docs by keyword |
 
-**Prompt**: `claude-code-expert`, activates expert mode with optimal search workflow
+#### Data and network boundary
 
-#### Slash command shortcuts
+List operations and the search index use bundled package content. Section, example, cheatsheet, changelog, and threat tools may fetch GitHub content and write a 24-hour local cache. The official-doc initialization and refresh tools fetch Anthropic documentation and write separate local snapshots. The server is therefore not fully offline or purely read-only.
 
-Install the companion slash commands for one-keystroke access (stored in `~/.claude/commands/ccguide/`):
-
-```bash
-# These commands are included in the guide repo under .claude/commands/ccguide/
-# Copy or symlink to ~/.claude/commands/ccguide/ to install globally
-```
-
-**Guide commands:**
-
-| Command | Example | Description |
-|---------|---------|-------------|
-| `/ccguide:search` | `/ccguide:search hooks` | Search by keyword |
-| `/ccguide:cheatsheet` | `/ccguide:cheatsheet hooks` | Cheatsheet (full or section) |
-| `/ccguide:digest` | `/ccguide:digest week` | What changed this week (guide + CC releases) |
-| `/ccguide:example` | `/ccguide:example code-reviewer` | Fetch a template |
-| `/ccguide:examples` | `/ccguide:examples agents` | List templates by category |
-| `/ccguide:release` | `/ccguide:release 2.1.59` | Release details |
-| `/ccguide:changelog` | `/ccguide:changelog 10` | Recent guide CHANGELOG |
-| `/ccguide:topics` | `/ccguide:topics` | Browse all categories |
-
-**Official Anthropic docs tracker** (MCP v1.1.0+):
-
-| Command | Description |
-|---------|-------------|
-| `/ccguide:init-docs` | Fetch official docs + store as local baseline (run once) |
-| `/ccguide:refresh-docs` | Re-fetch latest docs, update current snapshot (baseline unchanged) |
-| `/ccguide:diff-docs` | Compare baseline vs current — added/removed/modified pages, 0 network |
-| `/ccguide:search-docs <query>` | Search official Anthropic docs from local cache |
-| `/ccguide:daily` | **Daily briefing**: refresh + diff official docs + guide/CC digest |
-
-Typical workflow:
-```bash
-/ccguide:init-docs          # once — stores baseline + current in ~/.cache/claude-code-guide/
-# days later...
-/ccguide:daily              # every day — refresh + diff + digest in one shot
-```
-
-#### Custom agent
-
-A `claude-code-guide` agent is included in `.claude/agents/claude-code-guide.md`. It uses Haiku (fast, cheap) and automatically searches the guide before answering any Claude Code question.
+See the [package README](../mcp-server/README.md) for Cursor and VS Code configuration, privacy, limitations, and diagnostics.
+<!-- mcp-product:end -->
 
 ---
 

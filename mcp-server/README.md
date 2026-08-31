@@ -1,14 +1,21 @@
 # claude-code-ultimate-guide-mcp
 
-MCP server for the [Claude Code Ultimate Guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide): search, read, and explore 26,000+ lines of documentation directly from Claude Code or any MCP-compatible client.
+<!-- mcp-product:start -->
+[![npm version](https://img.shields.io/npm/v/claude-code-ultimate-guide-mcp)](https://www.npmjs.com/package/claude-code-ultimate-guide-mcp) [![npm downloads](https://img.shields.io/npm/dm/claude-code-ultimate-guide-mcp)](https://www.npmjs.com/package/claude-code-ultimate-guide-mcp) ![Node.js 18+](https://img.shields.io/badge/node-%3E%3D18-brightgreen) ![MIT license](https://img.shields.io/badge/license-MIT-blue)
 
-No need to clone the repo. The guide's structured indexes and Agent Harness Map dataset are bundled in the package, and guide file content is fetched from GitHub on demand with a 24-hour local cache.
+Search the Claude Code Ultimate Guide, open exact source sections, inspect releases, and retrieve production templates from any MCP-compatible coding client.
 
-## Installation
+## Install in 30 seconds
 
-### Quick start (npx)
+### Claude Code
 
-Add to `~/.claude.json` (user-level, all projects):
+Install for the current user:
+
+```bash
+claude mcp add --scope user claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.0
+```
+
+For a project-scoped configuration, add this to `.mcp.json` at the repository root:
 
 ```json
 {
@@ -16,225 +23,153 @@ Add to `~/.claude.json` (user-level, all projects):
     "claude-code-guide": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "claude-code-ultimate-guide-mcp"]
+      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.0"]
     }
   }
 }
 ```
 
-### Global install
+### Codex
 
 ```bash
-npm install -g claude-code-ultimate-guide-mcp
+codex mcp add claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.0
 ```
+
+### Cursor
+
+Add this server entry to `.cursor/mcp.json`:
 
 ```json
 {
   "mcpServers": {
     "claude-code-guide": {
       "type": "stdio",
-      "command": "claude-code-guide-mcp"
+      "command": "npx",
+      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.0"]
     }
   }
 }
 ```
 
-### Per-project
+### VS Code
 
-Add to `.claude/settings.json` at your repo root.
-
-## Tools
-
-### Search & Navigation
-
-| Tool | Signature | Description |
-|------|-----------|-------------|
-| `search_guide` | `(query, limit?)` | Search by keyword or question across 1,693 indexed entries. Returns ranked results with GitHub links. |
-| `read_section` | `(path, offset?, limit?)` | Read a file section with pagination (500 lines max per call). Returns GitHub + guide site links. |
-| `list_topics` | `()` | Browse all 25 topic categories in the guide with entry counts. |
-
-### Templates & Examples
-
-| Tool | Signature | Description |
-|------|-----------|-------------|
-| `get_example` | `(name)` | Fetch a production-ready template by exact name (agents, hooks, commands, skills). |
-| `list_examples` | `(category?)` | List all templates by category with GitHub links. Categories: `agents`, `commands`, `hooks`, `skills`, `scripts`. |
-| `search_examples` | `(query, limit?)` | Semantic search across all templates by intent (e.g. `"hook lint"`, `"agent code review"`). |
-
-### What's New
-
-| Tool | Signature | Description |
-|------|-----------|-------------|
-| `get_changelog` | `(count?)` | Last N entries from the guide CHANGELOG (default 5, max 20). |
-| `get_digest` | `(period)` | Combined digest of guide changes + Claude Code CLI releases. Period: `day`, `week`, `month`. |
-| `get_release` | `(version?, count?)` | Claude Code CLI release details. Pass a version (e.g. `"2.1.59"`) or omit for latest + recent N. |
-| `compare_versions` | `(from, to?)` | Diff between two Claude Code versions: aggregated highlights and breaking changes for all releases in range. |
-
-### Security Intelligence
-
-| Tool | Signature | Description |
-|------|-----------|-------------|
-| `get_threat` | `(id)` | Look up a CVE (e.g. `"CVE-2025-53109"`) or attack technique (e.g. `"T001"`) from the threat database. |
-| `list_threats` | `(category?)` | Browse the threat database. Without category: global summary with counts. With category: full section list. Categories: `cves`, `authors`, `skills`, `techniques`, `mitigations`, `sources`. |
-
-### Quick Reference
-
-| Tool | Signature | Description |
-|------|-----------|-------------|
-| `get_cheatsheet` | `(section?)` | Full cheatsheet or filtered to a specific section (e.g. `"hooks"`, `"agents"`, `"mcp"`). |
-
-## Resources
-
-The server exposes the following machine-readable resources:
-
-- `claude-code-guide://reference`: complete YAML index.
-- `claude-code-guide://releases`: Claude Code release history.
-- `claude-code-guide://llms`: guide identity and navigation file.
-- `claude-code-guide://agent-harnesses`: normalized Agent Harness Map JSON with source provenance, evidence states, loop ownership, official URLs, and dated GitHub metadata.
-
-| URI | Description |
-|-----|-------------|
-| `claude-code-guide://reference` | Full structured index. Use as fallback when search is not enough. |
-| `claude-code-guide://releases` | Claude Code official releases history (YAML) |
-| `claude-code-guide://llms` | Guide identity/navigation file (llms.txt) |
-| `claude-code-guide://agent-harnesses` | Normalized Agent Harness Map dataset with provenance and evidence states (JSON) |
-
-## Prompts
-
-| Prompt | Args | Description |
-|--------|------|-------------|
-| `claude-code-expert` | `question?` | Activates expert mode with optimal workflow: search → read → example → YAML fallback |
-
-## Onboarding (first run)
-
-After installing the MCP server, run this in any Claude Code session for a personalized guided tour:
-
-```bash
-claude "Use the claude-code-guide MCP server. Activate the claude-code-expert prompt, then run a personalized onboarding: ask me 3 questions about my goal, experience level, and preferred tone — then build a custom learning path using search_guide and read_section to navigate the guide with live source links."
-```
-
-This replaces the static URL-fetch approach with live search across 900+ indexed entries, always up to date, with GitHub + guide site links on every result.
-
-## Usage examples
-
-```
-# Search
-search_guide("hooks")
-search_guide("cost optimization")
-search_guide("custom agents")
-
-# Read content
-read_section("guide/ultimate-guide.md", 8077)
-read_section("guide/cheatsheet.md")
-
-# Templates
-get_example("code-reviewer")
-get_example("pre-commit hook")
-list_examples("agents")
-list_examples("hooks")
-search_examples("hook lint")
-search_examples("agent code review")
-
-# What's new
-get_digest("week")
-get_digest("month")
-get_changelog(10)
-get_release()
-get_release("2.1.59")
-compare_versions("2.1.50", "2.1.59")
-compare_versions("2.0.0")
-
-# Security
-get_threat("CVE-2025-53109")
-get_threat("T001")
-list_threats()
-list_threats("cves")
-list_threats("techniques")
-
-# Quick reference
-get_cheatsheet()
-get_cheatsheet("hooks")
-list_topics()
-```
-
-## Slash command shortcuts
-
-Install the companion slash commands for one-keystroke access in Claude Code. They live in `.claude/commands/ccguide/` of the guide repo — copy or symlink to `~/.claude/commands/ccguide/` for global availability.
-
-```bash
-# From the guide repo root
-cp -r .claude/commands/ccguide ~/.claude/commands/ccguide
-```
-
-Once installed, these commands are available in any Claude Code session:
-
-| Command | Example | What it does |
-|---------|---------|--------------|
-| `/ccguide:search <query>` | `/ccguide:search hooks` | Search + auto-read top results |
-| `/ccguide:cheatsheet [section]` | `/ccguide:cheatsheet hooks` | Full cheatsheet or filtered |
-| `/ccguide:digest <period>` | `/ccguide:digest week` | Guide + CC releases digest |
-| `/ccguide:example <name>` | `/ccguide:example code-reviewer` | Fetch a template |
-| `/ccguide:examples [category]` | `/ccguide:examples agents` | List templates by category |
-| `/ccguide:release [version]` | `/ccguide:release 2.1.59` | CC CLI release details |
-| `/ccguide:changelog [count]` | `/ccguide:changelog 10` | Recent guide CHANGELOG |
-| `/ccguide:topics` | `/ccguide:topics` | Browse all 25 categories |
-
-## Custom agent
-
-A `claude-code-guide` agent is included in `.claude/agents/claude-code-guide.md`. It uses Haiku (fast, cheap) and searches the guide automatically before answering Claude Code questions.
-
-Copy to your `~/.claude/agents/` to use it globally:
-
-```bash
-cp .claude/agents/claude-code-guide.md ~/.claude/agents/claude-code-guide.md
-```
-
-Then invoke with: `use claude-code-guide agent to answer: how do I configure hooks?`
-
-## Dev mode (local repo)
-
-If you've cloned the guide repo, set `GUIDE_ROOT` to read files locally instead of fetching from GitHub:
+Add this to `.vscode/mcp.json`:
 
 ```json
 {
-  "mcpServers": {
+  "servers": {
     "claude-code-guide": {
       "type": "stdio",
-      "command": "node",
-      "args": ["/path/to/claude-code-ultimate-guide/mcp-server/dist/index.js"],
-      "env": {
-        "GUIDE_ROOT": "/path/to/claude-code-ultimate-guide"
-      }
+      "command": "npx",
+      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.0"]
     }
   }
 }
 ```
 
-With `GUIDE_ROOT` set:
-- YAML indexes loaded from the local repo (stays in sync with local changes)
-- File content read directly from disk (no GitHub fetch, no cache)
+## Three useful sequences
 
-## Bundled content
+1. Find and read: `search_guide({ query: "hooks" })`, then `read_section({ path: "..." })` with the returned path.
+2. Discover and retrieve a template: `search_examples({ query: "pre-commit lint" })`, then `get_example({ name: "..." })`.
+3. Track official documentation: run `init_official_docs()` once, then `refresh_official_docs()` and `diff_official_docs()` when you want a new comparison.
 
-The npm package includes:
+## Generated capabilities
 
-- `content/reference.yaml`: structured guide index.
-- `content/claude-code-releases.yaml`: condensed release history.
-- `content/agent-harnesses.json`: evidence-backed Agent Harness Map dataset.
-- `content/llms.txt`: guide identity and navigation file.
+This section is rendered from `machine-readable/mcp-product.json` for package 1.3.0 and guide 3.43.0.
 
-Guide markdown files (3.5MB) are **not** bundled — they're fetched from GitHub on demand and cached at `~/.cache/claude-code-guide/{version}/`.
+| Capability | Count | Names |
+| --- | ---: | --- |
+| Tools | 17 | `compare_versions`, `diff_official_docs`, `get_changelog`, `get_cheatsheet`, `get_digest`, `get_example`, `get_release`, `get_threat`, `init_official_docs`, `list_examples`, `list_threats`, `list_topics`, `read_section`, `refresh_official_docs`, `search_examples`, `search_guide`, `search_official_docs` |
+| Resources | 5 | `claude-code-guide://agent-harnesses`, `claude-code-guide://llms`, `claude-code-guide://reference`, `claude-code-guide://releases`, `claude-code-guide://translations` |
+| Prompts | 1 | `claude-code-expert` |
+| Companion commands | 5 | `/ccguide:daily`, `/ccguide:diff-docs`, `/ccguide:init-docs`, `/ccguide:refresh-docs`, `/ccguide:search-docs` |
 
-## Cache
+### Tools
 
-File content is cached at `~/.cache/claude-code-guide/{package-version}/` with 24h TTL. If offline, stale cache is served as fallback. If no cache exists and offline, tools return inline summaries from the YAML index instead.
+| Tool | Description |
+| --- | --- |
+| `compare_versions` | Show what changed between two Claude Code CLI versions. Lists all releases in range with aggregated highlights and breaking changes. |
+| `diff_official_docs` | Compare the baseline and current official Anthropic Claude Code docs snapshots. Shows added, removed, and modified pages. No network call - reads local files only. Run init_official_docs() first, then refresh_official_docs() when you want to update the current snapshot. |
+| `get_changelog` | Return the last N entries from the Claude Code Ultimate Guide CHANGELOG. Shows what changed in the guide itself (not Claude Code CLI releases - use get_release() for that). |
+| `get_cheatsheet` | Return the Claude Code cheatsheet - a compact 1-page reference covering the most important commands, shortcuts, config options, and workflows. |
+| `get_digest` | Return a digest of guide and Claude Code CLI changes for a given period. Combines guide CHANGELOG entries + official Claude Code releases in the time window. |
+| `get_example` | Fetch a production-ready template or example from the guide (agents, skills, commands, hooks, scripts). Pass a partial name to search for matching examples. |
+| `get_release` | Get details about Claude Code CLI official releases. Pass a version to get a specific release, or omit to get the latest and recent history. |
+| `get_threat` | Look up a specific threat by ID from the security threat database. Supports CVE IDs (e.g. "CVE-2025-53109") and technique IDs (e.g. "T001"). |
+| `init_official_docs` | Fetch the official Anthropic Claude Code docs (llms-full.txt) and store a local snapshot as the diff baseline. Run this first. Safe to re-run - overwrites previous baseline AND current. Takes ~5s (fetches ~1.2MB from Anthropic). |
+| `list_examples` | List all production-ready templates in the guide by category (agents, commands, hooks, skills, scripts). Use get_example(name) to fetch the content of any specific template. |
+| `list_threats` | Browse the security threat database. Without a category, returns a summary with counts. With a category, returns the full list for that section. |
+| `list_topics` | List all top-level topics and categories in the Claude Code Ultimate Guide. Useful for exploring what the guide covers before searching. |
+| `read_section` | Read a section from a guide file (markdown, YAML, examples). Supports pagination via offset, or a "#heading-slug" anchor to jump straight to a section (as returned by search_guide()). Use after search_guide() to fetch the full content at a specific location. |
+| `refresh_official_docs` | Re-fetch the official Anthropic Claude Code docs and update the "current" snapshot without touching the baseline. Run this to update the comparison target before diffing. Takes ~5s (fetches ~1.2MB from Anthropic). |
+| `search_examples` | Semantic search across all production-ready templates by intent (e.g. "hook lint", "agent code review"). Different from get_example (exact name) and list_examples (category browse). |
+| `search_guide` | Search the Claude Code Ultimate Guide by topic, keyword, or question. Covers features, hooks, agents, MCP, skills, commands, and best practices. Use this FIRST for any Claude Code question instead of web search. |
+| `search_official_docs` | Search the official Anthropic Claude Code documentation by keyword or topic. Uses the local current snapshot - no network call. Run init_official_docs() first. |
 
-## MCP Inspector
+### Resources
 
-Test locally with the official MCP Inspector:
+| Resource URI | MIME type | Description |
+| --- | --- | --- |
+| `claude-code-guide://agent-harnesses` | `application/json` | Evidence-backed Agent Harness Map dataset. Separates the broad source catalog, guide supplements, strict runtime map, and adjacent control planes. Unknown evidence is preserved as unknown. |
+| `claude-code-guide://llms` | `text/plain` | llms.txt - machine-readable identity and navigation file for the Claude Code Ultimate Guide. |
+| `claude-code-guide://reference` | `text/yaml` | Complete structured index of the Claude Code Ultimate Guide. Use as fallback when search_guide() results are insufficient. |
+| `claude-code-guide://releases` | `text/yaml` | Claude Code official releases history - condensed highlights and breaking changes for each version. |
+| `claude-code-guide://translations` | `application/json` | Version, provenance, freshness, and coverage status for maintained and community translations of the guide. |
+
+### Prompts
+
+| Prompt | Description |
+| --- | --- |
+| `claude-code-expert` | Activate Claude Code expert mode with the optimal workflow for answering questions using the Ultimate Guide. |
+
+### Companion Claude Code commands
+
+The repository contains these command files. They are not installed by the npm package.
+
+| Command | Description |
+| --- | --- |
+| `/ccguide:daily` | Daily update check - official Anthropic docs diff + guide/CC releases digest |
+| `/ccguide:diff-docs` | Compare official Anthropic docs baseline vs current snapshot (no network - instant) |
+| `/ccguide:init-docs` | Fetch official Anthropic Claude Code docs and store as local baseline snapshot |
+| `/ccguide:refresh-docs` | Re-fetch official Anthropic Claude Code docs and update current snapshot (baseline unchanged) |
+| `/ccguide:search-docs` | Search official Anthropic Claude Code docs by keyword |
+
+## Local data, network, and cache behavior
+
+The package bundles the reference index, release history, guide navigation, Agent Harness Map, and translation metadata. Initialization and list operations use bundled content and do not require the network.
+
+`read_section`, `get_example`, `get_cheatsheet`, `get_changelog`, and threat lookups can fetch files from GitHub when content is not available locally. Successful responses are written to `~/.cache/claude-code-guide/1.3.0/` for 24 hours; stale cached content is used when the network is unavailable. With `GUIDE_ROOT` set to a local guide checkout, these tools read that checkout instead.
+
+`init_official_docs` and `refresh_official_docs` fetch Anthropic's official documentation and write a separate local snapshot under `~/.cache/claude-code-guide/`. `diff_official_docs` and `search_official_docs` read those snapshots.
+
+## Privacy
+
+The server has no first-party telemetry. MCP protocol messages use standard input and standard output. Network-capable tools contact GitHub or Anthropic only when invoked, and their local cache or snapshot writes stay on the machine running the server.
+
+## Limitations
+
+- Full guide Markdown is not bundled. A first uncached section, example, cheatsheet, changelog, or threat lookup can require GitHub.
+- Official-doc search and diff require a local snapshot created by `init_official_docs`.
+- The five `/ccguide:*` companion commands must be installed from the repository separately.
+- The MCP Registry listing is not advertised until its API returns the published namespace.
+
+## Diagnostics
+
+Verify the package binary and JSON-RPC surface with the MCP Inspector:
 
 ```bash
-cd mcp-server
+npx -y @modelcontextprotocol/inspector npx -y claude-code-ultimate-guide-mcp@1.3.0
+```
+
+For local development:
+
+```bash
+npm ci
 npm run build
-GUIDE_ROOT=.. npx @modelcontextprotocol/inspector node dist/index.js
+GUIDE_ROOT=.. node dist/index.js
 ```
+
+## Contributing
+
+Issues and pull requests are welcome in the [Claude Code Ultimate Guide repository](https://github.com/FlorianBruniaux/claude-code-ultimate-guide). Run `npm run release:check` from `mcp-server/` before submitting package changes.
+<!-- mcp-product:end -->

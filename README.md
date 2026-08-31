@@ -150,9 +150,17 @@ claude "Fetch and follow the onboarding instructions from: https://raw.githubuse
 
 ---
 
-## 🔌 MCP Server: Use the guide from any Claude Code session
+## MCP Server: Use the guide from any coding client
 
-No cloning needed. Add to `~/.claude.json` and ask questions directly from any session:
+<!-- mcp-product:start -->
+Install the guide as a stdio MCP server and query it from Claude Code, Codex, Cursor, VS Code, or another MCP client.
+
+```bash
+claude mcp add --scope user claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.0
+codex mcp add claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.0
+```
+
+Project-scoped Claude Code configuration belongs in `.mcp.json`:
 
 ```json
 {
@@ -160,20 +168,25 @@ No cloning needed. Add to `~/.claude.json` and ask questions directly from any s
     "claude-code-guide": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "claude-code-ultimate-guide-mcp"]
+      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.0"]
     }
   }
 }
 ```
 
-17 tools: `search_guide`, `read_section`, `get_cheatsheet`, `get_digest`, `get_example`, `list_examples`, `search_examples`, `get_release`, `get_changelog`, `compare_versions`, `list_topics`, `get_threat`, `list_threats`, plus `init_official_docs`, `refresh_official_docs`, `diff_official_docs`, `search_official_docs` (v1.1.0: official Anthropic docs tracker), plus 13 slash commands `/ccguide:*` and a Haiku agent.
+| Capability | Count | Names |
+| --- | ---: | --- |
+| Tools | 17 | `compare_versions`, `diff_official_docs`, `get_changelog`, `get_cheatsheet`, `get_digest`, `get_example`, `get_release`, `get_threat`, `init_official_docs`, `list_examples`, `list_threats`, `list_topics`, `read_section`, `refresh_official_docs`, `search_examples`, `search_guide`, `search_official_docs` |
+| Resources | 5 | `claude-code-guide://agent-harnesses`, `claude-code-guide://llms`, `claude-code-guide://reference`, `claude-code-guide://releases`, `claude-code-guide://translations` |
+| Prompts | 1 | `claude-code-expert` |
+| Companion commands | 5 | `/ccguide:daily`, `/ccguide:diff-docs`, `/ccguide:init-docs`, `/ccguide:refresh-docs`, `/ccguide:search-docs` |
 
-**Onboarding one-liner** (once MCP is configured):
-```bash
-claude "Use the claude-code-guide MCP server. Activate the claude-code-expert prompt, then run a personalized onboarding: ask me 3 questions about my goal, experience level, and preferred tone, then build a custom learning path using search_guide and read_section to navigate the guide with live source links."
-```
+The list operations and search index use bundled content. Section, example, cheatsheet, changelog, and threat tools can fetch GitHub content and write a 24-hour local cache. The official-doc initialization and refresh tools fetch Anthropic documentation and write separate local snapshots.
 
-→ [MCP Server README](./mcp-server/README.md)
+[Installation, privacy, limitations, and diagnostics](./mcp-server/README.md)
+
+Companion commands rendered from the repository: `/ccguide:daily`, `/ccguide:diff-docs`, `/ccguide:init-docs`, `/ccguide:refresh-docs`, `/ccguide:search-docs`.
+<!-- mcp-product:end -->
 
 ---
 
