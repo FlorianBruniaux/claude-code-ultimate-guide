@@ -23,6 +23,7 @@ deep_dive:
   best_of_n_evidence: "docs/resource-evaluations/best-of-n-verification-evidence.md"
   learning_path_skill: "examples/skills/learning-path/SKILL.md"
   learning_path_progress_engine: "examples/skills/learning-path/scripts/progress.py"
+  learning_companion_project: "examples/learning-project/README.md"
   guide_distribution_workflow: "docs/workflows/guide-distribution.md"
   distribution_channels_registry: "machine-readable/distribution-channels.yaml"
   learning_path_slides: "docs/distribution/claude-code-learning-path-slides.pptx"
