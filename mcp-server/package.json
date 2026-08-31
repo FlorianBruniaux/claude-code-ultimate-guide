@@ -41,6 +41,7 @@
     "test:unit": "node --test test/*.test.mjs",
     "manifest": "npm run build && node scripts/generate-product-manifest.mjs",
     "manifest:check": "npm run build && node scripts/generate-product-manifest.mjs --check",
+    "snapshot:public-runtime": "node scripts/generate-public-runtime-snapshot.mjs",
     "docs:product": "node scripts/render-product-docs.mjs",
     "docs:product:check": "node scripts/render-product-docs.mjs --check",
     "registry:metadata": "node scripts/render-registry-metadata.mjs",

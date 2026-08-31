@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "snapshot_at": "2026-08-31T19:19:15Z",
+  "package": {
+    "name": "claude-code-ultimate-guide-mcp",
+    "npm_version": "1.2.10"
+  },
+  "server_info": {
+    "name": "claude-code-ultimate-guide",
+    "version": "1.2.0"
+  },
+  "capabilities": {
+    "tools": [
+      "compare_versions",
+      "diff_official_docs",
+      "get_changelog",
+      "get_cheatsheet",
+      "get_digest",
+      "get_example",
+      "get_release",
+      "get_threat",
+      "init_official_docs",
+      "list_examples",
+      "list_threats",
+      "list_topics",
+      "read_section",
+      "refresh_official_docs",
+      "search_examples",
+      "search_guide",
+      "search_official_docs"
+    ],
+    "resources": [
+      "llms",
+      "reference",
+      "releases"
+    ],
+    "prompts": [
+      "claude-code-expert"
+    ]
+  },
+  "counts": {
+    "tools": 17,
+    "resources": 3,
+    "prompts": 1
+  }
+}
