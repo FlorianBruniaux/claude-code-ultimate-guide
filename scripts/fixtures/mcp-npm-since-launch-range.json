@@ -1,0 +1,29 @@
+{
+  "start": "2026-01-10",
+  "end": "2026-01-31",
+  "package": "claude-code-ultimate-guide-mcp",
+  "downloads": [
+    {"day": "2026-01-10", "downloads": 8},
+    {"day": "2026-01-11", "downloads": 1},
+    {"day": "2026-01-12", "downloads": 6},
+    {"day": "2026-01-13", "downloads": 1},
+    {"day": "2026-01-14", "downloads": 8},
+    {"day": "2026-01-15", "downloads": 4},
+    {"day": "2026-01-16", "downloads": 4},
+    {"day": "2026-01-17", "downloads": 1},
+    {"day": "2026-01-18", "downloads": 7},
+    {"day": "2026-01-19", "downloads": 2},
+    {"day": "2026-01-20", "downloads": 7},
+    {"day": "2026-01-21", "downloads": 0},
+    {"day": "2026-01-22", "downloads": 5},
+    {"day": "2026-01-23", "downloads": 3},
+    {"day": "2026-01-24", "downloads": 4},
+    {"day": "2026-01-25", "downloads": 7},
+    {"day": "2026-01-26", "downloads": 9},
+    {"day": "2026-01-27", "downloads": 0},
+    {"day": "2026-01-28", "downloads": 5},
+    {"day": "2026-01-29", "downloads": 5},
+    {"day": "2026-01-30", "downloads": 9},
+    {"day": "2026-01-31", "downloads": 40}
+  ]
+}

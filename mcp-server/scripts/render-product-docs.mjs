@@ -8,6 +8,7 @@ const scriptDirectory = resolve(fileURLToPath(new URL('.', import.meta.url)))
 const packageRoot = resolve(scriptDirectory, '..')
 const guideRoot = resolve(packageRoot, '..')
 const manifestPath = resolve(guideRoot, 'machine-readable/mcp-product.json')
+const statsPath = resolve(guideRoot, 'machine-readable/mcp-stats.json')
 
 const documentPaths = {
   packageReadme: resolve(packageRoot, 'README.md'),
@@ -314,7 +315,25 @@ List operations and the search index use bundled package content. Section, examp
 See the [package README](../mcp-server/README.md) for Cursor and VS Code configuration, privacy, limitations, and diagnostics.`
 }
 
-export function renderChangelog(manifest) {
+function formatInteger(value) {
+  return String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+}
+
+function renderStatsChangelog(stats) {
+  const downloads = stats.downloads
+  const sinceLaunch = downloads.since_launch
+  const yearToDate = downloads.year_to_date
+  const last30 = downloads.last_30_days
+  const last7 = downloads.last_7_days
+  const registry = stats.registries.official_mcp.published
+    ? 'published'
+    : 'not returned by the official MCP Registry'
+  return `<!-- mcp-stats:start -->
+- **MCP public statistics snapshot** (\`machine-readable/mcp-stats.json\`): snapshot \`${stats.snapshot_at}\` for npm ${stats.public_version}; since launch ${sinceLaunch.start} through ${sinceLaunch.end}: ${formatInteger(sinceLaunch.count)} downloads; year to date ${yearToDate.start} through ${yearToDate.end}: ${formatInteger(yearToDate.count)} downloads; trailing 30 complete UTC days ${last30.start} through ${last30.end}: ${formatInteger(last30.count)} downloads; trailing 7 complete UTC days ${last7.start} through ${last7.end}: ${formatInteger(last7.count)} downloads. The package is ${registry}. Download counts are not users, active installations, sessions, or executions.
+<!-- mcp-stats:end -->`
+}
+
+export function renderChangelog(manifest, stats = loadStats()) {
   const version = manifest.package.version
   const sdkVersion = manifest.package.dependencies.model_context_protocol_sdk
   const audit = manifest.security
@@ -323,13 +342,21 @@ export function renderChangelog(manifest) {
   const developmentCount = development.low === 1 ? 'one' : development.low
   const developmentPackages = development.packages.join(', ')
   const developmentAdvisory = development.low === 1 ? 'advisory remains' : 'advisories remain'
-  return `- **MCP product documentation, registry metadata, and aggregate release gate** (\`machine-readable/mcp-product.json\`, \`mcp-server/server.json\`, deterministic renderers, package and guide documentation): rendered current package ${version} capabilities into marker-delimited surfaces, corrected Claude Code and Codex install commands plus project \`.mcp.json\` configuration, documented bundled versus network and local-write behavior including \`get_digest\`, and published only the ${manifest.companions.slash_commands.length} companion command files that exist. The renderers validate every target before writing. The manual release workflow checks the live JSON-RPC contract, a clean consumer install of the exact packed archive, manifest, generated documentation, registry metadata, tests, and dry-run package contents through \`npm run release:check\`. It prepares checksum-pinned Registry validation before approval and an approval-gated publication sequence for \`${manifest.package.mcp_registry_name}\`. npm trusted-publisher binding remains an external prerequisite, and a required reviewer on the \`mcp-production\` environment remains an external prerequisite; repository code does not verify either setting. Dependency security: @modelcontextprotocol/sdk ${sdkVersion}; \`npm audit --omit=dev\` reported ${productionCount} production vulnerabilities on ${audit.audit_as_of}; ${developmentCount} low-severity development-only ${developmentPackages} ${developmentAdvisory} in the full audit.`
+  return `- **MCP product documentation, registry metadata, and aggregate release gate** (\`machine-readable/mcp-product.json\`, \`mcp-server/server.json\`, deterministic renderers, package and guide documentation): rendered current package ${version} capabilities into marker-delimited surfaces, corrected Claude Code and Codex install commands plus project \`.mcp.json\` configuration, documented bundled versus network and local-write behavior including \`get_digest\`, and published only the ${manifest.companions.slash_commands.length} companion command files that exist. The renderers validate every target before writing. The manual release workflow checks the live JSON-RPC contract, a clean consumer install of the exact packed archive, manifest, generated documentation, registry metadata, tests, and dry-run package contents through \`npm run release:check\`. It prepares checksum-pinned Registry validation before approval and an approval-gated publication sequence for \`${manifest.package.mcp_registry_name}\`. npm trusted-publisher binding remains an external prerequisite, and a required reviewer on the \`mcp-production\` environment remains an external prerequisite; repository code does not verify either setting. Dependency security: @modelcontextprotocol/sdk ${sdkVersion}; \`npm audit --omit=dev\` reported ${productionCount} production vulnerabilities on ${audit.audit_as_of}; ${developmentCount} low-severity development-only ${developmentPackages} ${developmentAdvisory} in the full audit.
+
+${renderStatsChangelog(stats)}`
 }
 
 function loadManifest() {
   const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'))
   if (manifest.schema_version !== 1) throw new Error(`unsupported manifest schema: ${manifest.schema_version}`)
   return manifest
+}
+
+function loadStats() {
+  const stats = JSON.parse(readFileSync(statsPath, 'utf8'))
+  if (stats.schema_version !== 1) throw new Error(`unsupported statistics schema: ${stats.schema_version}`)
+  return stats
 }
 
 export function buildRenderPlan(targets) {

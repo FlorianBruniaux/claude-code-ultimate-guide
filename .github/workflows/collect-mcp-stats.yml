@@ -1,0 +1,41 @@
+name: Collect MCP public npm statistics
+
+on:
+  schedule:
+    - cron: "37 10 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: collect-mcp-stats
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Verify fixture contracts
+        run: python3 scripts/test-collect-mcp-stats.py
+
+      - name: Collect public snapshot
+        run: python3 scripts/collect-mcp-stats.py --changelog CHANGELOG.md
+
+      - name: Validate generated snapshot
+        run: python3 scripts/collect-mcp-stats.py --validate-file machine-readable/mcp-stats.json
+
+      - name: Commit changed public snapshot
+        run: |
+          if git diff --quiet -- machine-readable/mcp-stats.json CHANGELOG.md; then
+            echo "Public npm statistics are unchanged."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- machine-readable/mcp-stats.json CHANGELOG.md
+          git commit -m "chore(mcp): refresh public npm statistics"
+          git push

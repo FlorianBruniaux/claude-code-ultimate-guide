@@ -15,6 +15,7 @@ on:
       - "scripts/**"
       - ".github/workflows/index-integrity.yml"
       - ".github/workflows/collect-agent-harnesses-github.yml"
+      - ".github/workflows/collect-mcp-stats.yml"
   push:
     branches: ["main"]
     paths:
@@ -30,6 +31,7 @@ on:
       - "scripts/**"
       - ".github/workflows/index-integrity.yml"
       - ".github/workflows/collect-agent-harnesses-github.yml"
+      - ".github/workflows/collect-mcp-stats.yml"
 
 jobs:
   check:
@@ -132,6 +134,11 @@ jobs:
 
       - name: Check VERSION is in sync across docs
         run: ./scripts/sync-version.sh --check
+
+      - name: Check MCP public statistics snapshot
+        run: |
+          python3 scripts/test-collect-mcp-stats.py
+          python3 scripts/collect-mcp-stats.py --validate-file machine-readable/mcp-stats.json
 
       - name: Check MCP product release contract
         working-directory: mcp-server
