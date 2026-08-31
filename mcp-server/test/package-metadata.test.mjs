@@ -8,6 +8,20 @@ import test from 'node:test'
 
 const root = resolve(import.meta.dirname, '..')
 const pkg = JSON.parse(readFileSync(resolve(root, 'package.json'), 'utf8'))
+const packageLock = JSON.parse(readFileSync(resolve(root, 'package-lock.json'), 'utf8'))
+
+function minimumNodeVersion(range) {
+  const match = /^>=\s*(\d+)(?:\.(\d+))?(?:\.(\d+))?$/.exec(range)
+  assert.ok(match, `unsupported Node engine range in metadata test: ${range}`)
+  return match.slice(1).map((part) => Number(part ?? 0))
+}
+
+function compareVersions(left, right) {
+  for (let index = 0; index < 3; index += 1) {
+    if (left[index] !== right[index]) return left[index] - right[index]
+  }
+  return 0
+}
 
 async function builtJavascript() {
   const files = (await readdir(resolve(root, 'dist')))
@@ -21,6 +35,19 @@ test('built runtime uses package.json version', async () => {
   const escaped = pkg.version.replaceAll('.', '\\.')
   assert.match(source, new RegExp(`claude-code-ultimate-guide-mcp/${escaped}`))
   assert.doesNotMatch(source, /claude-code-ultimate-guide-mcp\/(1\.0\.0|1\.1\.0)/)
+})
+
+test('advertised Node floor covers the resolved production server dependency floor', () => {
+  const nodeServer = packageLock.packages['node_modules/@hono/node-server']
+  assert.ok(nodeServer, '@hono/node-server must be resolved in the production lock')
+  assert.equal(nodeServer.dev, undefined, '@hono/node-server must remain a production dependency')
+
+  const advertisedFloor = minimumNodeVersion(pkg.engines.node)
+  const dependencyFloor = minimumNodeVersion(nodeServer.engines.node)
+  assert.ok(
+    compareVersions(advertisedFloor, dependencyFloor) >= 0,
+    `package Node floor ${pkg.engines.node} is below @hono/node-server ${nodeServer.version} floor ${nodeServer.engines.node}`,
+  )
 })
 
 test('MCP initialize handshake reports package.json version', async () => {

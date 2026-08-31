@@ -115,10 +115,14 @@ function projectConfig(packageName, version) {
 \`\`\``
 }
 
-function renderPackageReadme(manifest, commands) {
+function nodeBadge(nodeEngine) {
+  return `![Node.js ${nodeEngine}](https://img.shields.io/badge/node-${encodeURIComponent(nodeEngine)}-brightgreen)`
+}
+
+export function renderPackageReadme(manifest, commands) {
   const packageName = manifest.package.registry_name
   const version = manifest.package.version
-  return `[![npm version](https://img.shields.io/npm/v/${packageName})](https://www.npmjs.com/package/${packageName}) [![npm downloads](https://img.shields.io/npm/dm/${packageName})](https://www.npmjs.com/package/${packageName}) ![Node.js 18+](https://img.shields.io/badge/node-%3E%3D18-brightgreen) ![MIT license](https://img.shields.io/badge/license-MIT-blue)
+  return `[![npm version](https://img.shields.io/npm/v/${packageName})](https://www.npmjs.com/package/${packageName}) [![npm downloads](https://img.shields.io/npm/dm/${packageName})](https://www.npmjs.com/package/${packageName}) ${nodeBadge(manifest.package.node_engine)} ![MIT license](https://img.shields.io/badge/license-MIT-blue)
 
 Search the Claude Code Ultimate Guide, open exact source sections, inspect releases, and retrieve production templates from any MCP-compatible coding client.
 
@@ -310,9 +314,16 @@ List operations and the search index use bundled package content. Section, examp
 See the [package README](../mcp-server/README.md) for Cursor and VS Code configuration, privacy, limitations, and diagnostics.`
 }
 
-function renderChangelog(manifest) {
+export function renderChangelog(manifest) {
   const version = manifest.package.version
-  return `- **MCP product documentation and aggregate release gate** (\`machine-readable/mcp-product.json\`, \`mcp-server/scripts/render-product-docs.mjs\`, package and guide documentation): rendered current package ${version} capabilities into marker-delimited surfaces, corrected Claude Code and Codex install commands plus project \`.mcp.json\` configuration, documented bundled versus network and local-write behavior including \`get_digest\`, and published only the ${manifest.companions.slash_commands.length} companion command files that exist. The renderer validates every target before writing. The release gate checks the live JSON-RPC contract, a clean consumer install of the exact packed archive, manifest, generated documentation, tests, and dry-run package contents through \`npm run release:check\`.`
+  const sdkVersion = manifest.package.dependencies.model_context_protocol_sdk
+  const audit = manifest.security
+  const productionCount = audit.production_vulnerabilities === 0 ? 'zero' : audit.production_vulnerabilities
+  const development = audit.development_only_vulnerabilities
+  const developmentCount = development.low === 1 ? 'one' : development.low
+  const developmentPackages = development.packages.join(', ')
+  const developmentAdvisory = development.low === 1 ? 'advisory remains' : 'advisories remain'
+  return `- **MCP product documentation and aggregate release gate** (\`machine-readable/mcp-product.json\`, \`mcp-server/scripts/render-product-docs.mjs\`, package and guide documentation): rendered current package ${version} capabilities into marker-delimited surfaces, corrected Claude Code and Codex install commands plus project \`.mcp.json\` configuration, documented bundled versus network and local-write behavior including \`get_digest\`, and published only the ${manifest.companions.slash_commands.length} companion command files that exist. The renderer validates every target before writing. The release gate checks the live JSON-RPC contract, a clean consumer install of the exact packed archive, manifest, generated documentation, tests, and dry-run package contents through \`npm run release:check\`. Dependency security: @modelcontextprotocol/sdk ${sdkVersion}; \`npm audit --omit=dev\` reported ${productionCount} production vulnerabilities on ${audit.audit_as_of}; ${developmentCount} low-severity development-only ${developmentPackages} ${developmentAdvisory} in the full audit.`
 }
 
 function loadManifest() {

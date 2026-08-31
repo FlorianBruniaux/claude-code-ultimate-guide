@@ -56,6 +56,29 @@ test('renderer strictly replaces one ordered marker block', async () => {
   )
 })
 
+test('renderer derives the Node badge and dependency security disclosure from manifest facts', async () => {
+  const renderer = await import(pathToFileURL(rendererPath).href)
+  const fixture = structuredClone(manifest)
+  fixture.package.node_engine = '>=18.14.1'
+  fixture.package.dependencies = { model_context_protocol_sdk: '1.30.0' }
+  fixture.security = {
+    audit_as_of: '2026-08-31',
+    production_vulnerabilities: 0,
+    development_only_vulnerabilities: { low: 1, packages: ['esbuild'] },
+  }
+
+  const packageReadme = renderer.renderPackageReadme(fixture, [])
+  const changelog = renderer.renderChangelog(fixture)
+  assert.match(packageReadme, /!\[Node\.js >=18\.14\.1\]\(https:\/\/img\.shields\.io\/badge\/node-%3E%3D18\.14\.1-brightgreen\)/)
+  assert.match(changelog, /@modelcontextprotocol\/sdk 1\.30\.0/)
+  assert.match(changelog, /zero production vulnerabilities on 2026-08-31/)
+  assert.match(changelog, /one low-severity development-only esbuild advisory remains/)
+  assert.doesNotMatch(changelog, /zero vulnerabilities overall/)
+
+  fixture.security.production_vulnerabilities = 2
+  assert.match(renderer.renderChangelog(fixture), /2 production vulnerabilities on 2026-08-31/)
+})
+
 test('rendered product documentation is current and marker-delimited once', () => {
   const check = spawnSync(process.execPath, [rendererPath, '--check'], { cwd: packageRoot, encoding: 'utf8' })
   assert.equal(check.status, 0, `${check.stdout}${check.stderr}`)

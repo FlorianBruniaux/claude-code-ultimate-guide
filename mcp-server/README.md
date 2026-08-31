@@ -1,7 +1,7 @@
 # claude-code-ultimate-guide-mcp
 
 <!-- mcp-product:start -->
-[![npm version](https://img.shields.io/npm/v/claude-code-ultimate-guide-mcp)](https://www.npmjs.com/package/claude-code-ultimate-guide-mcp) [![npm downloads](https://img.shields.io/npm/dm/claude-code-ultimate-guide-mcp)](https://www.npmjs.com/package/claude-code-ultimate-guide-mcp) ![Node.js 18+](https://img.shields.io/badge/node-%3E%3D18-brightgreen) ![MIT license](https://img.shields.io/badge/license-MIT-blue)
+[![npm version](https://img.shields.io/npm/v/claude-code-ultimate-guide-mcp)](https://www.npmjs.com/package/claude-code-ultimate-guide-mcp) [![npm downloads](https://img.shields.io/npm/dm/claude-code-ultimate-guide-mcp)](https://www.npmjs.com/package/claude-code-ultimate-guide-mcp) ![Node.js >=18.14.1](https://img.shields.io/badge/node-%3E%3D18.14.1-brightgreen) ![MIT license](https://img.shields.io/badge/license-MIT-blue)
 
 Search the Claude Code Ultimate Guide, open exact source sections, inspect releases, and retrieve production templates from any MCP-compatible coding client.
 

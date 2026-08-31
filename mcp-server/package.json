@@ -51,6 +51,16 @@
     "typescript": "^5.4.0"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=18.14.1"
+  },
+  "releaseAudit": {
+    "asOf": "2026-08-31",
+    "productionVulnerabilities": 0,
+    "developmentOnlyVulnerabilities": {
+      "low": 1,
+      "packages": [
+        "esbuild"
+      ]
+    }
   }
 }

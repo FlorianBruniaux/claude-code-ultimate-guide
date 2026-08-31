@@ -3,7 +3,11 @@
   "package": {
     "name": "claude-code-ultimate-guide",
     "version": "1.3.0",
-    "registry_name": "claude-code-ultimate-guide-mcp"
+    "registry_name": "claude-code-ultimate-guide-mcp",
+    "node_engine": ">=18.14.1",
+    "dependencies": {
+      "model_context_protocol_sdk": "1.30.0"
+    }
   },
   "guide": {
     "version": "3.43.0",
@@ -464,5 +468,15 @@
       "search-docs"
     ]
   },
-  "source_digest": "sha256:4298d1245db607ea035aa227853d7c6167cf794cb587e96e4bb75106ef76c419"
+  "security": {
+    "audit_as_of": "2026-08-31",
+    "production_vulnerabilities": 0,
+    "development_only_vulnerabilities": {
+      "low": 1,
+      "packages": [
+        "esbuild"
+      ]
+    }
+  },
+  "source_digest": "sha256:d0f45308f57a0176bc699dbcbda33c7b459f559162c2ebbc3f5aa48647430e61"
 }
