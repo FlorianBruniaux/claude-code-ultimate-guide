@@ -1,17 +1,23 @@
 {
   "name": "claude-code-ultimate-guide-mcp",
   "version": "1.3.0",
-  "description": "Search, read, and explore the Claude Code Ultimate Guide from any MCP-compatible coding client",
+  "description": "Search the Claude Code Ultimate Guide, official Anthropic documentation, releases, examples, security references, agent harness data, and translations from any MCP-compatible client.",
   "keywords": [
     "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "claude",
     "claude-code",
-    "anthropic",
-    "documentation",
-    "guide"
+    "codex",
+    "cursor",
+    "documentation-search",
+    "ai-agents",
+    "developer-tools"
   ],
   "author": "Florian Bruniaux",
   "license": "MIT",
-  "homepage": "https://github.com/FlorianBruniaux/claude-code-ultimate-guide",
+  "homepage": "https://cc.bruniaux.com/mcp/",
+  "mcpName": "io.github.florianbruniaux/claude-code-guide",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/FlorianBruniaux/claude-code-ultimate-guide.git",
@@ -37,7 +43,9 @@
     "manifest:check": "npm run build && node scripts/generate-product-manifest.mjs --check",
     "docs:product": "node scripts/render-product-docs.mjs",
     "docs:product:check": "node scripts/render-product-docs.mjs --check",
-    "release:check": "npm ci && npm test && npm run manifest:check && npm run docs:product:check && npm pack --dry-run --json",
+    "registry:metadata": "node scripts/render-registry-metadata.mjs",
+    "registry:metadata:check": "node scripts/render-registry-metadata.mjs --check",
+    "release:check": "npm ci && npm test && npm run manifest:check && npm run docs:product:check && npm run registry:metadata:check && npm pack --dry-run --json",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {

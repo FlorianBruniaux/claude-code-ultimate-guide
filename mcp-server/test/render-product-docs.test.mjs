@@ -73,6 +73,9 @@ test('renderer derives the Node badge and dependency security disclosure from ma
   assert.match(changelog, /@modelcontextprotocol\/sdk 1\.30\.0/)
   assert.match(changelog, /zero production vulnerabilities on 2026-08-31/)
   assert.match(changelog, /one low-severity development-only esbuild advisory remains/)
+  assert.match(changelog, /npm trusted publishing with provenance/)
+  assert.match(changelog, /mcp-production/)
+  assert.match(changelog, /io\.github\.florianbruniaux\/claude-code-guide/)
   assert.doesNotMatch(changelog, /zero vulnerabilities overall/)
 
   fixture.security.production_vulnerabilities = 2
@@ -135,7 +138,7 @@ test('expert prompt derives changing index and release facts from bundled conten
 test('release check is the CI package gate', () => {
   assert.equal(
     packageJson.scripts['release:check'],
-    'npm ci && npm test && npm run manifest:check && npm run docs:product:check && npm pack --dry-run --json',
+    'npm ci && npm test && npm run manifest:check && npm run docs:product:check && npm run registry:metadata:check && npm pack --dry-run --json',
   )
   const workflow = readFileSync(resolve(guideRoot, '.github/workflows/index-integrity.yml'), 'utf8')
   assert.match(workflow, /working-directory: mcp-server\s+run: npm run release:check/)

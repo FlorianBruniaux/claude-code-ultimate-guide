@@ -13,7 +13,7 @@ const manifestPath = resolve(guideRoot, 'machine-readable/mcp-product.json')
 
 /** @typedef {{
  * schema_version: 1,
- * package: { name: string, version: string, registry_name: string, node_engine: string, dependencies: { model_context_protocol_sdk: string } },
+ * package: { name: string, version: string, registry_name: string, mcp_registry_name: string, node_engine: string, dependencies: { model_context_protocol_sdk: string } },
  * guide: { version: string, line_count: number, index_entries: number, claude_code_releases: number },
  * runtime: {
  *   tools: Array<{name: string, description: string, input_schema: object, annotations?: object}>,
@@ -74,6 +74,7 @@ async function buildManifest() {
       name: runtime.serverInfo.name,
       version: runtime.serverInfo.version,
       registry_name: packageJson.name,
+      mcp_registry_name: packageJson.mcpName,
       node_engine: packageJson.engines.node,
       dependencies: { model_context_protocol_sdk: sdk.version },
     },
