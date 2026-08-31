@@ -7,7 +7,10 @@ const packageJson = JSON.parse(
 const packageUserAgent = `claude-code-ultimate-guide-mcp/${packageJson.version}`;
 
 export default defineConfig({
-  entry: ['src/index.ts'],
+  entry: {
+    index: 'src/index.ts',
+    'product-metrics': 'src/lib/product-metrics.ts',
+  },
   format: ['esm'],
   target: 'es2022',
   outDir: 'dist',

@@ -33,11 +33,14 @@
     "start": "node dist/index.js",
     "test": "npm run build && node --test test/*.test.mjs",
     "test:unit": "node --test test/*.test.mjs",
+    "manifest": "npm run build && node scripts/generate-product-manifest.mjs",
+    "manifest:check": "npm run build && node scripts/generate-product-manifest.mjs --check",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.6.0",
-    "yaml": "^2.4.0"
+    "yaml": "^2.4.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

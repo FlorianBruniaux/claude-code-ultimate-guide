@@ -6,6 +6,7 @@ on:
       - "guide/**"
       - "examples/**"
       - "machine-readable/**"
+      - "mcp-server/**"
       # The gates themselves live here. Without this the workflow could not fire
       # on a change that breaks a gate, only later on an unrelated content edit.
       - "scripts/**"
@@ -17,6 +18,7 @@ on:
       - "guide/**"
       - "examples/**"
       - "machine-readable/**"
+      - "mcp-server/**"
       # The gates themselves live here. Without this the workflow could not fire
       # on a change that breaks a gate, only later on an unrelated content edit.
       - "scripts/**"
@@ -124,3 +126,9 @@ jobs:
 
       - name: Check VERSION is in sync across docs
         run: ./scripts/sync-version.sh --check
+
+      - name: Check MCP product manifest
+        working-directory: mcp-server
+        run: |
+          npm ci
+          npm run manifest:check

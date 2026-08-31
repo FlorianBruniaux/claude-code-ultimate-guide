@@ -3,6 +3,10 @@ import { resolve, join, sep } from 'path';
 import { parse as parseYaml } from 'yaml';
 import { fileURLToPath } from 'url';
 import { fetchFile } from './fetcher.js';
+import { flattenReference, type DeepDiveTarget, type IndexEntry } from './reference-flattener.js';
+
+export type { DeepDiveTarget, IndexEntry } from './reference-flattener.js';
+export { resolveDeepDive } from './reference-flattener.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = resolve(__filename, '..');
@@ -21,21 +25,6 @@ const ALLOWED_EXTENSIONS = new Set([
 ]);
 
 // ─── Types ───────────────────────────────────────────────────────────────────
-
-export type DeepDiveTarget =
-  | { type: 'line'; file: 'guide/ultimate-guide.md'; line: number }
-  | { type: 'file'; path: string; line?: number }
-  | { type: 'url'; url: string }
-  | { type: 'inline'; text: string }
-  | { type: 'structured'; data: unknown };
-
-export interface IndexEntry {
-  key: string;
-  section: string;
-  value: unknown;
-  searchableText: string;
-  target?: DeepDiveTarget;
-}
 
 export interface ReferenceData {
   version: string;
@@ -180,109 +169,3 @@ export function getTranslationsJsonRaw(): string {
 }
 
 // ─── Deep dive resolver ───────────────────────────────────────────────────────
-
-export function resolveDeepDive(value: unknown): DeepDiveTarget | undefined {
-  if (value === null || value === undefined) return undefined;
-
-  if (typeof value === 'number') {
-    return { type: 'line', file: 'guide/ultimate-guide.md', line: value };
-  }
-
-  if (typeof value === 'string') {
-    if (value.startsWith('http://') || value.startsWith('https://')) {
-      return { type: 'url', url: value };
-    }
-    // File path with optional :line suffix
-    const filePathMatch = value.match(/^(guide\/|examples\/|whitepapers\/|machine-readable\/)(.+?)(?::(\d+))?$/);
-    if (filePathMatch) {
-      return {
-        type: 'file',
-        path: filePathMatch[1] + filePathMatch[2],
-        line: filePathMatch[3] ? parseInt(filePathMatch[3], 10) : undefined,
-      };
-    }
-    return { type: 'inline', text: value };
-  }
-
-  if (typeof value === 'object') {
-    return { type: 'structured', data: value };
-  }
-
-  return { type: 'inline', text: String(value) };
-}
-
-// ─── Reference flattener ──────────────────────────────────────────────────────
-
-function flattenReference(
-  obj: Record<string, unknown>,
-  prefix: string,
-  entries: IndexEntry[],
-): void {
-  for (const [key, value] of Object.entries(obj)) {
-    const fullKey = prefix ? `${prefix}_${key}` : key;
-
-    if (key === 'version' || key === 'generated' || key === 'description' || key === 'note') {
-      continue;
-    }
-
-    if (value === null || value === undefined) continue;
-
-    if (typeof value === 'object' && !Array.isArray(value)) {
-      const obj2 = value as Record<string, unknown>;
-      // Check if it's a leaf-like object (has deep_dive or simple scalar values)
-      const hasDeepDive = 'deep_dive' in obj2;
-      const hasNestedObjects = Object.values(obj2).some(
-        (v) => typeof v === 'object' && v !== null && !Array.isArray(v) && !('deep_dive' in (v as Record<string, unknown>)),
-      );
-
-      if (hasDeepDive || !hasNestedObjects) {
-        // Treat as leaf entry
-        const searchableText = buildSearchableText(fullKey, value);
-        const target = hasDeepDive
-          ? resolveDeepDive((obj2 as Record<string, unknown>).deep_dive)
-          : resolveDeepDive(value);
-
-        entries.push({
-          key: fullKey,
-          section: prefix.split('_')[0] ?? fullKey,
-          value,
-          searchableText,
-          target,
-        });
-      } else {
-        flattenReference(obj2, fullKey, entries);
-      }
-    } else {
-      const searchableText = buildSearchableText(fullKey, value);
-      const target = resolveDeepDive(value);
-      entries.push({
-        key: fullKey,
-        section: prefix.split('_')[0] ?? fullKey,
-        value,
-        searchableText,
-        target,
-      });
-    }
-  }
-}
-
-function buildSearchableText(key: string, value: unknown): string {
-  const parts: string[] = [key.replace(/_/g, ' ')];
-
-  if (typeof value === 'string') {
-    parts.push(value);
-  } else if (typeof value === 'number') {
-    parts.push(String(value));
-  } else if (Array.isArray(value)) {
-    for (const item of value) {
-      if (typeof item === 'string') parts.push(item);
-      else if (typeof item === 'object' && item !== null) {
-        parts.push(JSON.stringify(item));
-      }
-    }
-  } else if (typeof value === 'object' && value !== null) {
-    parts.push(JSON.stringify(value));
-  }
-
-  return parts.join(' ').toLowerCase();
-}
