@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
+- **Author profile and portfolio links** (`README.md`): added a compact profile block below the title with Florian Bruniaux's role, experience, blog, related projects, and professional links.
+
 ### Fixed
 
 - **Idempotent MCP release continuation** (`.github/workflows/publish-mcp.yml`): the protected publisher now checks whether the exact npm version already exists. It skips `npm publish` only when the public SHA-512 integrity matches the approved archive, then continues with the public smoke test and MCP Registry publication. Registry errors other than a confirmed npm 404 fail closed.
