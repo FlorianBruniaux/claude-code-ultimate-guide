@@ -32,6 +32,8 @@ test("verify reports every missing or failed required check", () => {
     version: "1.0.0",
     ready: false,
     problems: [
+      "tests: evidence does not describe a retained result",
+      "security: evidence does not describe a retained result",
       "security: expected status pass, received fail",
       "package: missing required check",
     ],

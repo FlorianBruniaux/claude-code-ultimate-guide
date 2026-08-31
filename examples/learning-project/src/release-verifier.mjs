@@ -13,6 +13,8 @@ export function verifyRelease(candidate) {
 
     if (!check.evidence?.trim()) {
       problems.push(`${check.name}: evidence is required`);
+    } else if (/\bnot run\b|no retained output/i.test(check.evidence)) {
+      problems.push(`${check.name}: evidence does not describe a retained result`);
     }
   }
 

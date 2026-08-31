@@ -5,17 +5,17 @@
     {
       "name": "tests",
       "status": "pass",
-      "evidence": "node --test: 9 passed"
+      "evidence": "node --test: 10 passed"
     },
     {
       "name": "security",
       "status": "pass",
-      "evidence": "release guard fixtures: 3 passed"
+      "evidence": "release guard fixtures: 4 passed"
     },
     {
       "name": "package",
       "status": "pass",
-      "evidence": "npm pack --dry-run: exit 0"
+      "evidence": "node --check and npm pack --dry-run: exit 0"
     }
   ]
 }

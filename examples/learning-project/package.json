@@ -21,6 +21,6 @@
     "verify": "node src/cli.mjs verify fixtures/release-ready.json",
     "verify:incomplete": "node src/cli.mjs verify fixtures/release-incomplete.json",
     "hook:fixtures": "node --test test/release-guard.test.mjs",
-    "package:check": "npm pack --dry-run --json --cache .cache/npm"
+    "package:check": "node --check src/cli.mjs && node --check src/release-verifier.mjs && npm pack --dry-run --json --cache .cache/npm"
   }
 }

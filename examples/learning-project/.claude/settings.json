@@ -6,8 +6,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/release-guard.mjs\"",
-            "timeout": 5000
+            "command": "node",
+            "args": [
+              "$CLAUDE_PROJECT_DIR/.claude/hooks/release-guard.mjs"
+            ],
+            "timeout": 5
           }
         ]
       }

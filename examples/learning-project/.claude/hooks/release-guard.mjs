@@ -9,8 +9,13 @@ try {
     throw new TypeError("expected a Bash command");
   }
 
-  const command = event.tool_input.command.replace(/\s+/g, " ").trim();
-  const publishesArtifact = /\b(?:npm publish|docker push)\b/i.test(command);
+  const command = event.tool_input.command
+    .replace(/''|""/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  const publishesArtifact =
+    (/\bnpm\b/i.test(command) && /\bpublish\b/i.test(command)) ||
+    (/\bdocker\b/i.test(command) && /\bpush\b/i.test(command));
 
   decision = publishesArtifact
     ? deny("Run npm run verify and review evidence/PROOF-LOG.md before publishing.")

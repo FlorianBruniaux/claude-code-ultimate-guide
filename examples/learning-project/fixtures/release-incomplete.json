@@ -5,12 +5,12 @@
     {
       "name": "tests",
       "status": "pass",
-      "evidence": "node --test: 9 passed"
+      "evidence": "NOT RUN"
     },
     {
       "name": "security",
       "status": "fail",
-      "evidence": "release guard malformed-input test failed"
+      "evidence": "no retained output"
     }
   ]
 }

@@ -28,20 +28,28 @@ test("the guard allows a local test command", () => {
 });
 
 test("the guard denies a publishing command", () => {
-  const result = runHook("fail.json");
-  const decision = JSON.parse(result.stdout).hookSpecificOutput;
+  for (const fixtureName of [
+    "fail.json",
+    "npm-obfuscated.json",
+    "npm-silent.json",
+  ]) {
+    const result = runHook(fixtureName);
+    const decision = JSON.parse(result.stdout).hookSpecificOutput;
 
-  assert.equal(result.status, 0, result.stderr);
-  assert.equal(decision.permissionDecision, "deny");
-  assert.match(decision.permissionDecisionReason, /npm run verify/);
+    assert.equal(result.status, 0, `${fixtureName}: ${result.stderr}`);
+    assert.equal(decision.permissionDecision, "deny", fixtureName);
+    assert.match(decision.permissionDecisionReason, /npm run verify/);
+  }
 });
 
 test("the guard denies a container push", () => {
-  const result = runHook("docker-push.json");
-  const decision = JSON.parse(result.stdout).hookSpecificOutput;
+  for (const fixtureName of ["docker-push.json", "docker-obfuscated.json"]) {
+    const result = runHook(fixtureName);
+    const decision = JSON.parse(result.stdout).hookSpecificOutput;
 
-  assert.equal(result.status, 0, result.stderr);
-  assert.equal(decision.permissionDecision, "deny");
+    assert.equal(result.status, 0, `${fixtureName}: ${result.stderr}`);
+    assert.equal(decision.permissionDecision, "deny", fixtureName);
+  }
 });
 
 test("the guard fails closed when hook input is malformed", () => {
