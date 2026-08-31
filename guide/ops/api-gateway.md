@@ -8,7 +8,7 @@ tags: [enterprise, cost, observability, ops, guide]
 
 > **Audience**: Platform engineers and DevOps teams deploying Claude Code across an organization.
 >
-> **Scope**: Setting up a proxy layer between Claude Code clients and Anthropic's API to centralize cost control, budget enforcement, and usage visibility. For individual session cost estimation, see [observability.md](./observability.md). For MCP governance, see [enterprise-governance.md §3](../security/enterprise-governance.md#3-mcp-governance-workflow).
+> **Scope**: Setting up a proxy layer between Claude Code clients and a model upstream to centralize cost control, budget enforcement, and usage visibility. For individual session cost estimation, see [observability.md](./observability.md). For MCP governance, see [enterprise-governance.md §3](../security/enterprise-governance.md#3-mcp-governance-workflow).
 
 ---
 
