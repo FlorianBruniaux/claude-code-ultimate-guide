@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-08-31",
+  "canonical": {
+    "language": "en",
+    "label": "English",
+    "kind": "canonical",
+    "path": "guide/ultimate-guide.md",
+    "version": "3.43.0",
+    "sha256": "f332251f44260ae2af4e7277e88c5e612c043f1bc90c3bb230381731683bcd0a"
+  },
+  "translations": [
+    {
+      "language": "fr",
+      "label": "Français",
+      "kind": "maintained",
+      "path": "guide/ultimate-guide.fr.md",
+      "version": "3.41.1",
+      "last_checked_at": "2026-08-31",
+      "last_full_refresh_at": "2026-07-09",
+      "sync_state": "stale",
+      "translated_from": {
+        "version": "3.41.1",
+        "commit": "9b4f047b97f533ec6f9dbef45b4079f567a66763",
+        "sha256": "7b88e19f61709014a63b4d397e91ca9e394c7657aae51ac64a592217e88dafb3"
+      },
+      "coverage": {
+        "type": "full_guide",
+        "note": "The file is complete for its recorded source baseline. English additions after 3.41.1 are not yet translated."
+      }
+    },
+    {
+      "language": "zh-CN",
+      "label": "简体中文",
+      "kind": "community",
+      "repository": "https://github.com/JAYcodr/claude-code-ultimate-guide-zh",
+      "maintainer": "JAYcodr",
+      "version": "3.41.0",
+      "last_checked_at": "2026-08-31",
+      "last_upstream_sync_at": "2026-05-23",
+      "sync_state": "stale",
+      "head_commit": "241ce641e6a2063b59343f035d73b1b3f96afd4e",
+      "translated_from": {
+        "commit": "dbeb30c"
+      },
+      "coverage": {
+        "type": "community_adaptation",
+        "completed_priority_groups": 23,
+        "total_priority_groups": 26,
+        "missing": [
+          "quiz",
+          "resource evaluations",
+          "machine-readable references"
+        ]
+      },
+      "official": false
+    },
+    {
+      "language": "uk",
+      "label": "Українська",
+      "kind": "community",
+      "repository": "https://github.com/gerasimsergey/claude-code-ultimate-guide-ua",
+      "maintainer": "gerasimsergey",
+      "version": "3.40.0",
+      "last_checked_at": "2026-08-31",
+      "last_upstream_sync_at": "2026-05-19",
+      "sync_state": "stale",
+      "head_commit": "7a48d5f603d7ff1c9c2208c95b2a51af8e6bd5da",
+      "coverage": {
+        "type": "community_adaptation",
+        "note": "The repository reports a May 2026 synchronization. Its current version is behind the canonical guide."
+      },
+      "official": false
+    }
+  ],
+  "paired_publications": {
+    "whitepapers": {
+      "roots": {
+        "fr": "whitepapers/fr",
+        "en": "whitepapers/en"
+      },
+      "public_prefixes": [
+        "00",
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08",
+        "09",
+        "10",
+        "11",
+        "12"
+      ]
+    },
+    "recap_cards": {
+      "roots": {
+        "fr": "whitepapers/recap-cards/fr",
+        "en": "whitepapers/recap-cards/en"
+      }
+    }
+  }
+}

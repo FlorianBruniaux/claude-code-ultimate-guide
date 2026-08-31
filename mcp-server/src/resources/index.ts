@@ -3,6 +3,7 @@ import {
   getAgentHarnessesJsonRaw,
   getReferenceYamlRaw,
   getReleasesYamlRaw,
+  getTranslationsJsonRaw,
   loadLlmsTxt,
 } from '../lib/content.js';
 
@@ -87,6 +88,27 @@ export function registerResources(server: McpServer): void {
         contents: [
           {
             uri: 'claude-code-guide://agent-harnesses',
+            mimeType: 'application/json',
+            text: content,
+          },
+        ],
+      };
+    },
+  );
+
+  server.resource(
+    'translations',
+    'claude-code-guide://translations',
+    {
+      description: 'Version, provenance, freshness, and coverage status for maintained and community translations of the guide.',
+      mimeType: 'application/json',
+    },
+    async () => {
+      const content = getTranslationsJsonRaw();
+      return {
+        contents: [
+          {
+            uri: 'claude-code-guide://translations',
             mimeType: 'application/json',
             text: content,
           },
