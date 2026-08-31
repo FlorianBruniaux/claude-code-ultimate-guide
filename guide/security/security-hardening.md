@@ -1074,15 +1074,15 @@ Use the security-auditor agent for the analysis.
 For high-stakes PRs (auth changes, payment flows, data access), run in sequence:
 
 ```
-Step 1 — Threat surface scan:
+Step 1: Threat surface scan:
 "Use the security-auditor agent to analyze all changed files in this diff.
  Report CRITICAL and HIGH findings only. No fixes."
 
-Step 2 — Data flow trace:
+Step 2: Data flow trace:
 "For each CRITICAL finding from the audit, trace the full data flow:
  where does user input enter? where does it reach? what sanitization exists?"
 
-Step 3 — Patch (if findings):
+Step 3: Patch (if findings):
 "Use the security-patcher agent with the findings report above.
  Propose patches for CRITICAL findings only. Do not apply without my review."
 ```
@@ -1110,7 +1110,7 @@ CHANGED=$(git diff origin/main...HEAD --name-only)
 if echo "$CHANGED" | grep -qE "(auth|payment|token|session|password|crypt)"; then
     echo "⚠️  Security-sensitive files changed. Run /security-audit before pushing."
     echo "   Files: $(echo "$CHANGED" | grep -E '(auth|payment|token|session)')"
-    # Warning only — does not block push
+    # Warning only; does not block push
 fi
 exit 0
 ```
@@ -1208,7 +1208,7 @@ Local terminal ──HTTPS outbound──► Anthropic relay ──► Mobile/Br
 ### Best Practices
 
 ```bash
-# 1. Don't auto-enable — activate only when needed
+# 1. Don't auto-enable; activate only when needed
 #    Avoid: /config → auto-enable remote-control
 
 # 2. Use on a dedicated, hardened workstation
@@ -1262,7 +1262,7 @@ Each session registers itself in on-disk files and binds an inbox socket restric
 
 ### Threat Model
 
-The core risk is **cross-session prompt injection**: a compromised, misconfigured, or simply overzealous peer session sends text designed to get the receiving session to act outside what its own user authorized.
+The principal security risk is **cross-session prompt injection**: a compromised, misconfigured, or simply overzealous peer session sends text designed to get the receiving session to act outside what its own user authorized. A separate correctness risk appears when sessions propagate a false premise and converge on the same wrong result.
 
 | Threat | Risk | Mitigation |
 |--------|------|------------|
@@ -1271,9 +1271,13 @@ The core risk is **cross-session prompt injection**: a compromised, misconfigure
 | **Socket spoofing / stale endpoint** | A reply is routed to the wrong process because a socket path was replaced or a session restarted | `SendMessage` verifies the endpoint before delivering and refuses on a symlinked target, an unexpected connected process, or an endpoint whose identity can't be read, rather than sending blind. |
 | **Unsolicited flood from a peer** | A misbehaving or looping peer sends messages faster than the recipient can process | Burst refusal at the sender once a same-machine inbox's capacity is reached; at the recipient, repeated messages from one sender are rate-limited, identical repeats within a short window are dropped, and at most 50 accepted messages queue for Claude to read. |
 | **Cross-machine exposure via Remote Control** | Messages to another of your machines or the web pass through Anthropic's infrastructure rather than staying local | Same-machine traffic never leaves the box; cross-machine traffic is HTTPS through the same relay Remote Control already uses. Set `isolatePeerMachines: true` to require explicit approval before anything crosses a machine boundary. |
-| **Silent acceptance of untrusted peers** | A session with permissive defaults accepts messages from any session that can reach it | `crossSessionInbound: "refuse"` drops all inbound peer messages; `"hold"` requires a per-message **Approve**; the receiving session's permission-mode class sets the default when nothing else applies (a session that bypasses prompts holds by default, one that prompts delivers by default). |
+| **Silent acceptance of untrusted peers** | A session with permissive defaults accepts messages from any session that can reach it | `crossSessionInbound: "refuse"` drops all inbound peer messages. An explicit `"hold"` retains messages until an applicable `accept` releases them; when no setting applies, the receiving session's permission-mode class can instead open a per-message approval dialog. |
+| **Correlated drift / false consensus** | One session's stale or incorrect conclusion becomes shared context, so another session repeats the mistake or validates it against the same incomplete evidence | Treat a peer message as a claim, not proof. Bind handoffs to a branch or worktree and commit SHA, include reproducible evidence and uncertainty, then use deterministic gates plus the [Agent Harness creator-verifier pattern](../core/agent-harness.md#8-creator-verifier-pattern). |
+| **Shared-working-tree race** | Two sessions coordinate in text but concurrently edit the same checkout, invalidating each other's reads or overwriting changes | Use one worktree per concurrent writer and explicit ownership. Cross-session messages do not provide file locks or transactional writes. |
 
 The design constraint that makes this tractable: a cross-session message is informational only. It is never treated as user consent, and the receiving session is explicitly instructed never to change its own permission settings, `CLAUDE.md`, or other configuration because a peer asked.
+
+That authority boundary does not validate correctness. The [cross-session coordination protocol](../workflows/cross-session-messaging.md#coordination-safety-correlated-drift-and-false-consensus) defines the message provenance contract and current-SHA gate; [Agent Harness: Creator-Verifier](../core/agent-harness.md#8-creator-verifier-pattern) defines the independence and proof boundary.
 
 ### Best Practices
 
@@ -1292,6 +1296,9 @@ The design constraint that makes this tractable: a cross-session message is info
 # 4. Don't assume a quiet /status means the feature is off
 #    A refusing session shows no visible change in its own /status or in peers' /list-agents.
 #    Confirm via the settings files that apply, not by observing behavior.
+
+# 5. Keep concurrent writers in separate worktrees
+#    A peer message is coordination text, not a file lock or verification result.
 ```
 
 ### Enterprise Considerations

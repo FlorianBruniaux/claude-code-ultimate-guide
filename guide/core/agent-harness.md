@@ -42,6 +42,7 @@ This page covers what is inside the runtime. For the repository layer, see [Repo
 |---|---|
 | What does a runtime harness contain, and how do its controls work? | This [Agent Harness Engineering](./agent-harness.md) page |
 | How should loops, workflow graphs, state transitions, stopping rules, and judgment be designed? | [Loop & Graph Engineering](./loop-graph-engineering.md) |
+| How should independent Claude Code sessions exchange evidence without spreading drift? | [Cross-Session Messaging: Coordination safety](../workflows/cross-session-messaging.md#coordination-safety-correlated-drift-and-false-consensus) |
 | Which runtime, orchestrator, framework, or adjacent project should I compare? | [Agent Harness Landscape](../ecosystem/agent-harness-landscape.md) |
 | What does a specific coding-agent product support? | [Agent Tools: Beyond Claude Code](../ecosystem/agentic-tools.md) |
 | What distinguishes a runtime, repository, evaluation harness, and orchestrator? | [Glossary](./glossary.md) |
@@ -413,6 +414,8 @@ A fresh context is only one dimension of independence. A verifier can still shar
 
 Measure rescued failures, false accepts, false rejects, regressions, latency, and cost. Counting reviewer calls or using a different role name does not establish independence.
 
+[Cross-session messaging](../workflows/cross-session-messaging.md#coordination-safety-correlated-drift-and-false-consensus) can carry the handoff between independently launched Claude Code sessions, but the transport does not make the verifier independent. Bind the handoff to a commit SHA, send the original requirements, artifact, evidence, and uncertainty instead of the creator's rationale, then let the verifier inspect its own current state. Apply the [cross-session threat model](../security/security-hardening.md#cross-session-messaging-threat-model) separately for sender trust, inbound policy, permissions, and cross-machine exposure.
+
 Liza implements this pattern as doer/reviewer pairs backed by a deterministic supervisor. Its [state machine and merge authority](https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/specs/architecture/supervision-model.md) can reject invalid transitions even when an agent proposes them. That is stronger than a role name in a prompt, but it still needs outcome evaluation: a structurally separate reviewer can share the same model, incomplete specification, or missing evidence as the doer.
 
 The pinned Liza configuration makes the boundary visible. Some high-impact planning stages require a quorum of two and mark provider diversity as `preferred`, while the coding pair uses a quorum of one. Liza's own [architectural issues ledger](https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/specs/architecture/architectural-issues.md) states that provider diversity is not enforced at verdict submission, reviewer accuracy is not yet measured, and human checkpoints remain load-bearing. The code enforces workflow legality; it does not prove that a legal reviewer verdict is correct.
@@ -551,6 +554,7 @@ The practical conclusion is not “self-improving agents solve harness engineeri
 - [Context Engineering](./context-engineering.md) and [Memory Systems](./memory-systems.md): prompt assembly, persistence, retrieval, and drift
 - [Agent Evaluation](../roles/agent-evaluation.md) and [Observability](../ops/observability.md): acceptance evidence, traces, metrics, and failure analysis
 - [Security Hardening](../security/security-hardening.md) and [Native Sandbox](../security/sandbox-native.md): prompt-injection defense and execution boundaries
+- [Cross-Session Messaging](../workflows/cross-session-messaging.md#coordination-safety-correlated-drift-and-false-consensus): commit-bound handoffs, correlated-drift controls, and shared-working-tree risks
 - [Agent Teams](../workflows/agent-teams.md) and [Agentic Software Factories](../workflows/agentic-software-factories.md): multi-agent coordination above one loop
 - [Repository Harness Engineering](../ultimate-guide.md#925-harness-engineering): project-level instructions, setup, state, and verification gates
 - [Machine-Readable References](../../machine-readable/README.md): release history, topic anchors, and normalized harness data

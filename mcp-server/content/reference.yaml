@@ -1443,6 +1443,7 @@ deep_dive:
   cross_session_messaging_cross_machine: "guide/workflows/cross-session-messaging.md#4-same-machine-vs-cross-machine-delivery"
   cross_session_messaging_inbox_socket: "guide/workflows/cross-session-messaging.md#5-the-sessions-inbox-socket"
   cross_session_messaging_security: "guide/workflows/cross-session-messaging.md#6-security-model"
+  cross_session_messaging_correlated_drift: "guide/workflows/cross-session-messaging.md#coordination-safety-correlated-drift-and-false-consensus"
   cross_session_messaging_limitations: "guide/workflows/cross-session-messaging.md#7-limitations"
   cross_session_messaging_availability: "guide/workflows/cross-session-messaging.md#8-availability"
   cross_session_messaging_version_timeline: "guide/workflows/cross-session-messaging.md#10-version-timeline"
