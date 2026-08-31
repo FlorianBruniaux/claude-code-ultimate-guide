@@ -22,6 +22,39 @@
   "detectors": [
     {
       "campaign_ids": [
+        "clawhavoc-fake-prerequisites-2026-02"
+      ],
+      "description": "Detect repository-local agent-skill evidence associated with the documented ClawHavoc fake-prerequisite campaign.",
+      "id": "clawhavoc-skill",
+      "limitations": [
+        "Only exact bundled campaign domains are matched.",
+        "Only same-skill Markdown files with setup or installation names are followed.",
+        "A finding is evidence to review and does not prove compromise.",
+        "Threat intelligence is bundled and is not refreshed during a scan."
+      ],
+      "not_scanned": [
+        "skill.registry_history",
+        "skill.remote_payloads",
+        "skill.runtime_behavior",
+        "skill.unreferenced_companion_files"
+      ],
+      "remediation_url": "https://cc.bruniaux.com/security/",
+      "source_references": [
+        "https://www.koi.ai/blog/clawhavoc-341-malicious-clawedbot-skills-found-by-the-bot-they-were-targeting",
+        "https://www.trendmicro.com/en_us/research/26/b/openclaw-skills-used-to-distribute-atomic-macos-stealer.html"
+      ],
+      "supported_inputs": [
+        "repository-local SKILL.md files",
+        "same-skill local Markdown setup files referenced by SKILL.md"
+      ],
+      "technique_ids": [
+        "skill.known-malicious-domain",
+        "skill.delegated-setup"
+      ],
+      "version": "1"
+    },
+    {
+      "campaign_ids": [
         "shai-hulud-keyv-2026-08"
       ],
       "description": "Detect repository-local indicators associated with the August 2026 Shai-Hulud Keyv/cacheable npm campaign.",

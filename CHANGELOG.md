@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- **AgentSec ClawHavoc detector mirrored** (`machine-readable/agentsec-security-feed.v1.json`): synchronized the canonical AgentSec feed after adding the `clawhavoc-skill` detector. The public artifact now exposes its exact campaign domain boundary, two active techniques, two primary references, supported local skill inputs, and four explicit `not_scanned` capabilities without changing the threat database version, incident counts, or CVE counts.
+
 - **Established developer roles connected to AI-era title compression** (`guide/roles/ai-roles.md`): added a sourced section explaining why the lower prevalence of the standalone Front-end Developer label does not establish declining demand for front-end capabilities. The section separates Stack Overflow self-reported roles from LinkedIn hiring and skills signals, keeps AI causality unknown, maps five adjacent search families, recommends a broad career label with a demonstrated front-end spine, and defines a reproducible method for monitoring title drift without counting reposts or confusing titles with required skills.
 
 - **AI subscription and inference infographics** (`guide/images/{subscription-provider-portfolio,mistral-deployment-paths,gateway-visibility-boundary}.webp` and `docs/visual-prompts/ai-subscription-and-inference.md`): added three reviewed 1600 x 900 Gemini infographics to the subscription strategy, local inference, and API gateway pages. Recorded the selected Gemini source files, exact prompts, alt text, and QA results. Rejected the agentic-tool selection image because its unrequested pretitle misspelled `EDITORIAL`; that asset remains unpublished until a clean regeneration passes text review.
