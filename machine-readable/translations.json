@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "checked_at": "2026-08-31",
-  "measured_at_commit": "fb3c671cc742ce21959ebab48d3829df64250ed7",
+  "measured_at_commit": "f1cacb44a2582a98cf080d978c7aa92a19714aaf",
   "official_scope": "Maintained by the Claude Code Ultimate Guide project; not official Anthropic documentation.",
   "policy": {
     "canonical_language": "en",
@@ -21,10 +21,10 @@
     "maintainer": "Florian Bruniaux",
     "status": "official",
     "version": "3.43.0",
-    "sha256": "f332251f44260ae2af4e7277e88c5e612c043f1bc90c3bb230381731683bcd0a",
+    "sha256": "d8169669946d489fbb103793fef812d6be13bb2fe5ba25824e5d10b128aedddb",
     "source": {
-      "commit": "7a9f55dd39db2e075274114c3be115fe04dbfdb0",
-      "sha256": "f332251f44260ae2af4e7277e88c5e612c043f1bc90c3bb230381731683bcd0a",
+      "commit": "f1cacb44a2582a98cf080d978c7aa92a19714aaf",
+      "sha256": "d8169669946d489fbb103793fef812d6be13bb2fe5ba25824e5d10b128aedddb",
       "commit_evidence": "latest_commit_touching_canonical_guide"
     },
     "coverage": {
@@ -68,8 +68,8 @@
       },
       "known_lag": {
         "status": "stale",
-        "canonical_guide_commits": 17,
-        "canonical_repo_commits": 193,
+        "canonical_guide_commits": 21,
+        "canonical_repo_commits": 229,
         "version_delta": "3.41.1 to 3.43.0"
       }
     },
@@ -111,8 +111,8 @@
       },
       "known_lag": {
         "status": "stale",
-        "canonical_guide_commits": 31,
-        "canonical_repo_commits": 257,
+        "canonical_guide_commits": 35,
+        "canonical_repo_commits": 293,
         "version_delta": "3.41.0 to 3.43.0"
       },
       "official": false
@@ -187,8 +187,8 @@
       },
       "known_lag": {
         "status": "stale",
-        "canonical_guide_commits": 115,
-        "canonical_repo_commits": 525,
+        "canonical_guide_commits": 119,
+        "canonical_repo_commits": 561,
         "version_delta": "3.32.2 to 3.43.0"
       },
       "official": false
@@ -197,7 +197,10 @@
   "localized_artifacts": [
     {
       "kind": "whitepaper_series",
-      "languages": ["fr", "en"],
+      "languages": [
+        "fr",
+        "en"
+      ],
       "status": "official",
       "url": "https://cc.bruniaux.com/whitepapers/",
       "maintainer": "Florian Bruniaux",
@@ -208,7 +211,9 @@
         "status": "paired_publication_catalog",
         "paired_items": 13,
         "paired_source_items_in_this_repository": 6,
-        "known_french_only_source_prefixes": ["03"],
+        "known_french_only_source_prefixes": [
+          "03"
+        ],
         "content_freshness": "not_measured_against_the_full_guide"
       },
       "known_lag": {
@@ -218,7 +223,10 @@
     },
     {
       "kind": "recap_card_series",
-      "languages": ["fr", "en"],
+      "languages": [
+        "fr",
+        "en"
+      ],
       "status": "official",
       "url": "https://cc.bruniaux.com/cheatsheets/",
       "maintainer": "Florian Bruniaux",
@@ -258,7 +266,9 @@
         "12"
       ],
       "known_unpaired_prefixes": {
-        "fr": ["03"],
+        "fr": [
+          "03"
+        ],
         "en": []
       },
       "published_catalog_pairs": 13

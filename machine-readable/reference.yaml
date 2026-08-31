@@ -987,7 +987,7 @@ deep_dive:
   opus_4_6_effort_parameter: 14824
   opus_4_6_pricing: 2226
   opus_4_6_api_breaking_changes: "guide/ultimate-guide.md#api-breaking-changes-opus-46" # was line 14920
-  opus_4_6_assistant_prefill_removed: 14837  # anchor: api-breaking-changes-opus-46
+  opus_4_6_assistant_prefill_removed: 14816  # anchor: api-breaking-changes-opus-46
   # Summarize from Here (v2.1.32+) - Added 2026-02-09
   summarize_from_here: 1927  # anchor: context-recovery-strategies | Context Recovery Strategies section
   # Agent Teams Hook Events (v2.1.32+) - Added 2026-02-09
@@ -997,7 +997,7 @@ deep_dive:
   agent_memory_frontmatter: 6892  # Agent Template section (memory field in frontmatter)
   # Xcode Integration (Feb 2026) - Added 2026-02-09
   xcode_integration: "guide/ultimate-guide.md#xcode-integration-feb-2026" # was line 12556
-  claude_agent_sdk: 15820  # anchor: xcode-integration-feb-2026
+  claude_agent_sdk: 15799  # anchor: xcode-integration-feb-2026
   # Task Management System (v2.1.16+) - Added 2026-01-26
   task_management_system: "guide/ultimate-guide.md#task-management-system" # was line 4808
   task_management_comparison: "guide/ultimate-guide.md#task-management-system" # was line 4808
@@ -1115,8 +1115,8 @@ deep_dive:
   skills_marketplace_status: "Community (Vercel Labs), launched Jan 21, 2026"
   skills_marketplace_changelog: "https://vercel.com/changelog/introducing-skills-the-open-agent-skills-ecosystem"
   # Plugin System & Community Marketplaces (updated 2026-03-06)
-  plugins_system: 13920
-  plugins_commands: 13934
+  plugins_system: 13899
+  plugins_commands: 13913
   plugins_marketplace: 14043
   plugins_community_marketplaces: 14345
   plugins_featured_community: "guide/ultimate-guide.md#featured-community-plugins" # Vitals + SE-CoVe comparison section
@@ -1286,12 +1286,12 @@ deep_dive:
   mcp_memory_stack_patterns: "guide/ultimate-guide.md#mcp-memory-stack-complementarity-patterns" # was line 13011
   mcp_config: "guide/ultimate-guide.md#mcp-configuration-location"  # was bare int 794, inside a code fence (comment/example text happened to share the key's words)
   mcp_security: "guide/ultimate-guide.md#86-mcp-security" # was line 14568
-  cicd: 14944  # anchor: 93-cicd-integration
+  cicd: 14923  # anchor: 93-cicd-integration
   ide_integration: "guide/ultimate-guide.md#94-ide-integration" # was line 15881
   feedback_loops: "guide/ultimate-guide.md#95-tight-feedback-loops" # was line 15966
   batch_operations: "guide/ultimate-guide.md#99-batch-operations-pattern" # was line 16671
   pitfalls: 16836
-  git_best_practices: 17302
+  git_best_practices: 17199
   cost_optimization: 2220
   session_teleportation: "guide/ultimate-guide.md#916-session-teleportation" # was line 19161
   remote_control: 23219
@@ -1366,7 +1366,7 @@ deep_dive:
   headless_pm_framework: 20107
   multi_instance_implementation: "guide/ultimate-guide.md#implementation-guide-progressive-scaling"  # was 19268, drifted
   multi_instance_monitoring: "guide/ultimate-guide.md#monitoring--observability"  # was 19268, drifted
-  multi_instance_decision_matrix: 20250  # anchor: decision-matrix | ambiguous slug (2x in guide), stored line manually verified against the right one
+  multi_instance_decision_matrix: 20229  # anchor: decision-matrix | ambiguous slug (2x in guide), stored line manually verified against the right one
   # External orchestration systems
   external_orchestrators:
     gas_town:
@@ -1408,7 +1408,7 @@ deep_dive:
       published: "2026-01-21"
       guide_section: "README.md:338"
   # Section 9.18 - Codebase Design for Agent Productivity
-  codebase_design_agents: 20296
+  codebase_design_agents: 20275
   codebase_design_source: "https://marmelab.com/blog/2026/01/21/agent-experience.html"
   codebase_design_author: "François Zaninotto (Marmelab)"
   codebase_design_llms_txt: 20864  # llms.txt standard for AI-optimized documentation
@@ -1556,7 +1556,7 @@ deep_dive:
   daily_workflow: 25233
   # AI Ecosystem (Section 11, ~line 10525)
   ai_ecosystem: 13308
-  ai_ecosystem_complementarity: 25475
+  ai_ecosystem_complementarity: 25454
   ai_ecosystem_tool_matrix: 25540
   ai_ecosystem_workflows: 25675
   ai_ecosystem_integration: 25803
@@ -1655,7 +1655,7 @@ deep_dive:
   # Appendix
   appendix_a_file_locations: "guide/ultimate-guide.md#appendix-a-file-locations-reference" # was line 26179
   appendix_b_faq: "guide/ultimate-guide.md#appendix-b-faq" # was line 26357
-  faq_clawdbot_vs_claudecode: 26334
+  faq_clawdbot_vs_claudecode: 26313
   faq_product_managers: "guide/ultimate-guide.md#can-product-managers-use-claude-code" # was line 26428
   appendix_c_resource_evaluation: "guide/ultimate-guide.md#appendix-c-resource-evaluation-process" # was line 26493
   appendix_d_myths_vs_reality: "guide/ultimate-guide.md#appendix-d-myths-vs-reality" # was line 26536
