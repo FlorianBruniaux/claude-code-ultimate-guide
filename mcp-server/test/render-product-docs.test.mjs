@@ -12,6 +12,7 @@ const guideRoot = resolve(packageRoot, '..')
 const rendererPath = resolve(packageRoot, 'scripts/render-product-docs.mjs')
 const manifest = JSON.parse(readFileSync(resolve(guideRoot, 'machine-readable/mcp-product.json'), 'utf8'))
 const packageJson = JSON.parse(readFileSync(resolve(packageRoot, 'package.json'), 'utf8'))
+const canonicalGuidePath = resolve(guideRoot, 'guide/ecosystem/claude-code-guide-mcp.md')
 
 const renderedFiles = [
   resolve(packageRoot, 'README.md'),
@@ -80,6 +81,7 @@ test('renderer derives the Node badge and dependency security disclosure from ma
   assert.match(changelog, /io\.github\.florianbruniaux\/claude-code-guide/)
   assert.match(changelog, /monthly npm, GSC, and GA4 dashboard/)
   assert.match(changelog, /missing Google access remains unavailable rather than zero/)
+  assert.match(changelog, /canonical technical guide/)
   assert.doesNotMatch(changelog, /zero vulnerabilities overall/)
 
   fixture.security.production_vulnerabilities = 2
@@ -117,6 +119,50 @@ test('every generated network boundary includes digest fetching behavior', () =>
   for (const [index, boundary] of boundaries.entries()) {
     assert.match(boundary, /get_digest/, `${renderedFiles[index]} must identify get_digest as network and cache capable`)
   }
+})
+
+test('canonical MCP guide is complete and reachable from every product index', () => {
+  const canonicalGuide = readFileSync(canonicalGuidePath, 'utf8')
+  const requiredHeadings = [
+    '## TL;DR',
+    '## What the server solves',
+    '## Install by client',
+    '## First useful query',
+    '## Architecture and data flow',
+    '## Tools, resources, and prompt',
+    '## Bundled content, GitHub fetch, and cache',
+    '## Network and privacy boundary',
+    '## Offline behavior',
+    '## Compatibility',
+    '## Limitations',
+    '## Troubleshooting',
+    '## Version and dated npm statistics',
+    '## Changelog and source',
+  ]
+  for (const heading of requiredHeadings) {
+    assert.match(canonicalGuide, new RegExp(`^${heading.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'm'))
+  }
+  assert.match(canonicalGuide, /downloads are not users, active installations, sessions, or executions/i)
+  assert.match(canonicalGuide, /no first-party telemetry/i)
+
+  const indexedSurfaces = [
+    resolve(guideRoot, 'README.md'),
+    resolve(guideRoot, 'guide/README.md'),
+    resolve(guideRoot, 'guide/ultimate-guide.md'),
+    resolve(guideRoot, 'machine-readable/reference.yaml'),
+    resolve(guideRoot, 'llms.txt'),
+  ]
+  for (const surface of indexedSurfaces) {
+    assert.match(readFileSync(surface, 'utf8'), /guide\/ecosystem\/claude-code-guide-mcp\.md|\.\/ecosystem\/claude-code-guide-mcp\.md|\.\/guide\/ecosystem\/claude-code-guide-mcp\.md|ecosystem\/claude-code-guide-mcp\.md/)
+  }
+
+  assert.equal(
+    readFileSync(resolve(guideRoot, 'machine-readable/reference.yaml'), 'utf8'),
+    readFileSync(resolve(packageRoot, 'content/reference.yaml'), 'utf8'),
+  )
+  const llms = readFileSync(resolve(guideRoot, 'llms.txt'), 'utf8')
+  assert.equal(llms, readFileSync(resolve(guideRoot, 'machine-readable/llms.txt'), 'utf8'))
+  assert.equal(llms, readFileSync(resolve(packageRoot, 'content/llms.txt'), 'utf8'))
 })
 
 test('expert prompt derives changing index and release facts from bundled content', async () => {

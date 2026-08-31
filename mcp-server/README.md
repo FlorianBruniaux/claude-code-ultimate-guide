@@ -169,7 +169,9 @@ npm run build
 GUIDE_ROOT=.. node dist/index.js
 ```
 
-## Contributing
+## Technical guide and contributing
+
+Read the [canonical technical guide](../guide/ecosystem/claude-code-guide-mcp.md) for the published-versus-candidate boundary, architecture, privacy, offline behavior, and dated statistics.
 
 Issues and pull requests are welcome in the [Claude Code Ultimate Guide repository](https://github.com/FlorianBruniaux/claude-code-ultimate-guide). Run `npm run release:check` from `mcp-server/` before submitting package changes.
 <!-- mcp-product:end -->

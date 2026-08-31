@@ -244,7 +244,9 @@ npm run build
 GUIDE_ROOT=.. node dist/index.js
 \`\`\`
 
-## Contributing
+## Technical guide and contributing
+
+Read the [canonical technical guide](../guide/ecosystem/claude-code-guide-mcp.md) for the published-versus-candidate boundary, architecture, privacy, offline behavior, and dated statistics.
 
 Issues and pull requests are welcome in the [Claude Code Ultimate Guide repository](https://github.com/FlorianBruniaux/claude-code-ultimate-guide). Run \`npm run release:check\` from \`mcp-server/\` before submitting package changes.`
 }
@@ -269,7 +271,9 @@ ${summaryRows(manifest)}
 
 The list operations and search index use bundled content. Section, example, cheatsheet, changelog, digest (\`get_digest\`), and threat tools can fetch GitHub content and write a 24-hour local cache. The official-doc initialization and refresh tools fetch Anthropic documentation and write separate local snapshots.
 
-[Installation, privacy, limitations, and diagnostics](./mcp-server/README.md)
+[Canonical technical guide, installation, privacy, limitations, and dated statistics](./guide/ecosystem/claude-code-guide-mcp.md)
+
+[Package README and diagnostics](./mcp-server/README.md)
 
 Companion commands rendered from the repository: ${commands.map(({ name }) => `\`/ccguide:${name}\``).join(', ')}.`
 }
@@ -312,7 +316,7 @@ ${commandRows(commands)}
 
 List operations and the search index use bundled package content. Section, example, cheatsheet, changelog, digest (\`get_digest\`), and threat tools may fetch GitHub content and write a 24-hour local cache. The official-doc initialization and refresh tools fetch Anthropic documentation and write separate local snapshots. The server is therefore not fully offline or purely read-only.
 
-See the [package README](../mcp-server/README.md) for Cursor and VS Code configuration, privacy, limitations, and diagnostics.`
+See the [canonical technical guide](ecosystem/claude-code-guide-mcp.md) for the published-versus-candidate boundary, Cursor and VS Code configuration, privacy, offline behavior, limitations, diagnostics, and dated statistics. The [package README](../mcp-server/README.md) remains the package-level quick reference.`
 }
 
 function formatInteger(value) {
@@ -342,7 +346,7 @@ export function renderChangelog(manifest, stats = loadStats()) {
   const developmentCount = development.low === 1 ? 'one' : development.low
   const developmentPackages = development.packages.join(', ')
   const developmentAdvisory = development.low === 1 ? 'advisory remains' : 'advisories remain'
-  return `- **MCP product documentation, registry metadata, and aggregate release gate** (\`machine-readable/mcp-product.json\`, \`mcp-server/server.json\`, deterministic renderers, package and guide documentation): rendered current package ${version} capabilities into marker-delimited surfaces, corrected Claude Code and Codex install commands plus project \`.mcp.json\` configuration, documented bundled versus network and local-write behavior including \`get_digest\`, and published only the ${manifest.companions.slash_commands.length} companion command files that exist. The renderers validate every target before writing. The manual release workflow checks the live JSON-RPC contract, a clean consumer install of the exact packed archive, manifest, generated documentation, registry metadata, tests, and dry-run package contents through \`npm run release:check\`. It prepares checksum-pinned Registry validation before approval and an approval-gated publication sequence for \`${manifest.package.mcp_registry_name}\`. npm trusted-publisher binding remains an external prerequisite, and a required reviewer on the \`mcp-production\` environment remains an external prerequisite; repository code does not verify either setting. The reproducible monthly npm, GSC, and GA4 dashboard limits Google queries to the two MCP page URLs and aggregate metrics; missing Google access remains unavailable rather than zero. Dependency security: @modelcontextprotocol/sdk ${sdkVersion}; \`npm audit --omit=dev\` reported ${productionCount} production vulnerabilities on ${audit.audit_as_of}; ${developmentCount} low-severity development-only ${developmentPackages} ${developmentAdvisory} in the full audit.
+  return `- **MCP product documentation, registry metadata, and aggregate release gate** (\`machine-readable/mcp-product.json\`, \`mcp-server/server.json\`, deterministic renderers, package and guide documentation): rendered current package ${version} capabilities into marker-delimited surfaces, corrected Claude Code and Codex install commands plus project \`.mcp.json\` configuration, documented bundled versus network and local-write behavior including \`get_digest\`, and published only the ${manifest.companions.slash_commands.length} companion command files that exist. The canonical technical guide separates the public npm package and observed runtime from the ${version} candidate, and documents installation, architecture, privacy, offline behavior, troubleshooting, and dated metrics. The renderers validate every target before writing. The manual release workflow checks the live JSON-RPC contract, a clean consumer install of the exact packed archive, manifest, generated documentation, registry metadata, tests, and dry-run package contents through \`npm run release:check\`. It prepares checksum-pinned Registry validation before approval and an approval-gated publication sequence for \`${manifest.package.mcp_registry_name}\`. npm trusted-publisher binding remains an external prerequisite, and a required reviewer on the \`mcp-production\` environment remains an external prerequisite; repository code does not verify either setting. The reproducible monthly npm, GSC, and GA4 dashboard limits Google queries to the two MCP page URLs and aggregate metrics; missing Google access remains unavailable rather than zero. Dependency security: @modelcontextprotocol/sdk ${sdkVersion}; \`npm audit --omit=dev\` reported ${productionCount} production vulnerabilities on ${audit.audit_as_of}; ${developmentCount} low-severity development-only ${developmentPackages} ${developmentAdvisory} in the full audit.
 
 ${renderStatsChangelog(stats)}`
 }

@@ -13196,7 +13196,7 @@ For project-scoped Claude Code use, add the server to `.mcp.json`:
 
 List operations and the search index use bundled package content. Section, example, cheatsheet, changelog, digest (`get_digest`), and threat tools may fetch GitHub content and write a 24-hour local cache. The official-doc initialization and refresh tools fetch Anthropic documentation and write separate local snapshots. The server is therefore not fully offline or purely read-only.
 
-See the [package README](../mcp-server/README.md) for Cursor and VS Code configuration, privacy, limitations, and diagnostics.
+See the [canonical technical guide](ecosystem/claude-code-guide-mcp.md) for the published-versus-candidate boundary, Cursor and VS Code configuration, privacy, offline behavior, limitations, diagnostics, and dated statistics. The [package README](../mcp-server/README.md) remains the package-level quick reference.
 <!-- mcp-product:end -->
 
 ---

@@ -94,6 +94,7 @@ Core documentation for mastering Claude Code, organized by topic.
 | [ecosystem/ai-ecosystem.md](./ecosystem/ai-ecosystem.md) | Complementary AI tools (Perplexity, Gemini, Kimi, NotebookLM, TTS) | 30 min |
 | [ecosystem/agentic-tools.md](./ecosystem/agentic-tools.md) | **Agent tools comparison**: Hermes Agent, Codex CLI, Aider, Devin, SWE-agent, CrewAI, LangGraph, AutoGen, decision framework | 20 min |
 | [ecosystem/mcp-vs-cli.md](./ecosystem/mcp-vs-cli.md) | **MCP vs CLI decision guide**: when to use MCP servers vs CLI tools in Claude Code workflows, tradeoffs and decision dimensions | 15 min |
+| [ecosystem/claude-code-guide-mcp.md](./ecosystem/claude-code-guide-mcp.md) | **Guide MCP technical reference**: installation by client, published and candidate capabilities, architecture, network and privacy boundaries, offline behavior, troubleshooting, and dated metrics | 12 min |
 | [ecosystem/agent-harness-landscape.md](./ecosystem/agent-harness-landscape.md) | **Agent Harness Map**: strict runtimes, orchestrators, adjacent projects, and a sourced research layer for harness optimizers and meta-harnesses | 10 min |
 | [ecosystem/mcp-servers-ecosystem.md](./ecosystem/mcp-servers-ecosystem.md) | **Community MCP servers**: 8 validated servers (Playwright, Semgrep, Kubernetes, etc.) with production configs | 25 min |
 | [ecosystem/third-party-tools.md](./ecosystem/third-party-tools.md) | **Community tools**: GUIs, TUIs, config managers, token trackers, alternative UIs | 15 min |

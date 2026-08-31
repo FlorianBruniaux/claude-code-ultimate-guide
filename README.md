@@ -183,7 +183,9 @@ Project-scoped Claude Code configuration belongs in `.mcp.json`:
 
 The list operations and search index use bundled content. Section, example, cheatsheet, changelog, digest (`get_digest`), and threat tools can fetch GitHub content and write a 24-hour local cache. The official-doc initialization and refresh tools fetch Anthropic documentation and write separate local snapshots.
 
-[Installation, privacy, limitations, and diagnostics](./mcp-server/README.md)
+[Canonical technical guide, installation, privacy, limitations, and dated statistics](./guide/ecosystem/claude-code-guide-mcp.md)
+
+[Package README and diagnostics](./mcp-server/README.md)
 
 Companion commands rendered from the repository: `/ccguide:daily`, `/ccguide:diff-docs`, `/ccguide:init-docs`, `/ccguide:refresh-docs`, `/ccguide:search-docs`.
 <!-- mcp-product:end -->

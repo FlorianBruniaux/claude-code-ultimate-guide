@@ -18,6 +18,7 @@ Guide version 3.43.0, tracking Claude Code up to v2.1.250 (August 2026).
 - Agent harnesses: model-harness pair evidence, explicit loop and graph contracts, judgment allocation, durable execution, reviewer-independence tests, four operating layers plus an outer optimizer layer, a pinned 160-project source directory plus 32 guide supplements, 42 strict runtimes, 15 adjacent control planes, a research meta-harness table, a test-drive protocol, and DeepSeek Harness plus Liza profiles
 - Multi-agent orchestration: parallel agents, hub-and-spoke coordinators, dynamic workflows (JavaScript-orchestrated pipelines, `ultracode`), agentic software factories, AI executive agents (virtual C-suites and board simulators applying the persona/agent pattern to named business roles)
 - MCP server integration: setup, custom servers, validated community server catalog, MCP vs CLI vs Skills trade-offs, advanced tool design
+- Guide MCP product reference: guide/ecosystem/claude-code-guide-mcp.md covers client installation, published versus candidate capabilities, architecture, privacy, offline behavior, troubleshooting, and dated npm/GSC/GA4 metrics
 - Security and permission model: .claude/settings.json, permission rules, sandbox isolation, threat database, data privacy and retention, enterprise governance (guardrail tiers, MCP approval workflow, audit trails)
 - CI/CD and code review: GitHub Actions patterns, the Code Review feature (Teams/Enterprise), multi-provider review pipelines
 - Ops and cost: observability and session forensics, API gateway for enterprise cost control (LiteLLM, Portkey), AI unit economics, subscription strategy at team scale (Claude Team seat cap, Enterprise usage billing, multi-vendor, when self-hosted inference breaks even), team metrics (DORA, SPACE, agentic metrics)
@@ -33,6 +34,7 @@ Guide version 3.43.0, tracking Claude Code up to v2.1.250 (August 2026).
 - machine-readable/cowork-reference.yaml: index for Claude Cowork (dedicated repo, non-dev audience)
 - machine-readable/agentsec-security-feed.v1.json: AgentSec versions, detector coverage, security counters, and reviewed incident fiches consumed by the landing
 - machine-readable/agent-harnesses.json: normalized Agent Harness Map with evidence states, official project URLs, and dated repository metadata
+- machine-readable/mcp-product.json, mcp-stats.json, and mcp-dashboard.json: generated runtime contract plus dated package and aggregate page metrics with explicit availability and methodology boundaries
 
 ## Key URLs
 

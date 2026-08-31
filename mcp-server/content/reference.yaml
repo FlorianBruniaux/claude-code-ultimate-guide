@@ -24,6 +24,7 @@ deep_dive:
   diagram_configuration_system: "guide/diagrams/03-configuration-system.md#hooks-event-pipeline"
   diagram_architecture_internals: "guide/diagrams/04-architecture-internals.md"
   diagram_mcp_ecosystem: "guide/diagrams/05-mcp-ecosystem.md#mcp-server-ecosystem-map"
+  claude_code_guide_mcp: "guide/ecosystem/claude-code-guide-mcp.md"
   diagram_development_workflows: "guide/diagrams/06-development-workflows.md"
   diagram_multi_agent_patterns: "guide/diagrams/07-multi-agent-patterns.md"
   diagram_security_and_production: "guide/diagrams/08-security-and-production.md"
@@ -2416,11 +2417,14 @@ ecosystem:
     unique: ["architecture docs", "TDD/SDD methodologies", "334-question quiz", "YAML index", "MCP server"]
   mcp_server:
     npm: "claude-code-ultimate-guide-mcp"
-    install: "npx -y claude-code-ultimate-guide-mcp"
-    guide_section: "guide/ultimate-guide.md#-this-guide-as-an-mcp-server"
+    public_version: "1.2.10"
+    candidate_version: "1.3.0"
+    public_contract_checked: "2026-08-31"
+    install: "npx -y claude-code-ultimate-guide-mcp@1.2.10"
+    guide_section: "guide/ecosystem/claude-code-guide-mcp.md"
     readme: "mcp-server/README.md"
     tools:
-      - "search_guide(query, limit?) — search 882 indexed entries"
+      - "search_guide(query, limit?) — search 1755 indexed entries in the 1.3.0 candidate"
       - "read_section(path, offset?, limit?) — read any guide file paginated"
       - "list_topics() — browse 25 topic categories"
       - "get_example(name) — fetch production templates"
@@ -2438,16 +2442,19 @@ ecosystem:
       - "diff_official_docs() — compare baseline vs current at section level, zero network calls"
       - "search_official_docs(query) — search official docs, loads only matching sections"
     resources:
-      - "claude-code-guide://reference — 94KB YAML index (~900 entries)"
+      - "claude-code-guide://reference — structured guide index"
       - "claude-code-guide://releases — CC releases history"
       - "claude-code-guide://llms — llms.txt"
+      - "claude-code-guide://agent-harnesses — Agent Harness Map dataset (1.3.0 candidate)"
+      - "claude-code-guide://translations — translation provenance and coverage (1.3.0 candidate)"
     prompt: "claude-code-expert — activates expert mode with optimal search workflow"
     slash_commands:
       location: "~/.claude/commands/ccguide/"
-      commands: ["/ccguide:search", "/ccguide:cheatsheet", "/ccguide:digest", "/ccguide:example", "/ccguide:examples", "/ccguide:release", "/ccguide:changelog", "/ccguide:topics", "/ccguide:init-docs", "/ccguide:refresh-docs", "/ccguide:diff-docs", "/ccguide:search-docs", "/ccguide:daily"]
+      commands: ["/ccguide:daily", "/ccguide:diff-docs", "/ccguide:init-docs", "/ccguide:refresh-docs", "/ccguide:search-docs"]
+      package_boundary: "repository companion files, not installed by the npm package"
     agent: ".claude/agents/claude-code-guide.md — Haiku, read-only, searches before answering"
-    bundle_size: "132KB compressed (YAML indexes bundled, markdown lazy-fetched)"
     cache: "~/.cache/claude-code-guide/{version}/ — 24h TTL"
+    privacy: "no first-party telemetry in the 1.3.0 candidate; network-capable tools contact GitHub or Anthropic only when invoked"
   complementary:
     claude_code_templates:
       url: "github.com/davila7/claude-code-templates"
@@ -3097,6 +3104,21 @@ section_maps:
     - "routing-table-which-project-for-which-role"
     - "augmentation-not-replacement-so-far"
     - "when-to-actually-use-one-of-these"
+  "guide/ecosystem/claude-code-guide-mcp.md":
+    - "tldr"
+    - "what-the-server-solves"
+    - "install-by-client"
+    - "first-useful-query"
+    - "architecture-and-data-flow"
+    - "tools-resources-and-prompt"
+    - "bundled-content-github-fetch-and-cache"
+    - "network-and-privacy-boundary"
+    - "offline-behavior"
+    - "compatibility"
+    - "limitations"
+    - "troubleshooting"
+    - "version-and-dated-npm-statistics"
+    - "changelog-and-source"
   "guide/ecosystem/context-engineering-tools.md":
     - "1-the-mental-model"
     - "2-core-concepts"
