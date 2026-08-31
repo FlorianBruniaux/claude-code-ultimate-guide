@@ -1,0 +1,75 @@
+examples/learning-project/.claude/hooks/fixtures/docker-obfuscated.json
+  s_2efec322df84ae::t_cc5dcda070dca1 1-7
+examples/learning-project/.claude/hooks/fixtures/npm-obfuscated.json
+  s_2efec322df84ae::t_2681c6c6d2f038 1-7
+examples/learning-project/.claude/hooks/fixtures/npm-silent.json
+  s_2efec322df84ae::t_dff3ffb87b9b66 1-7
+examples/learning-project/.claude/hooks/release-guard.mjs
+  s_2efec322df84ae::t_6af04e206ae489 12-18
+examples/learning-project/.claude/settings.json
+  s_2efec322df84ae::t_34230d4a8d114c 9-13
+examples/learning-project/.claude/skills/verify-release/SKILL.md
+  s_9cf259c16931e6::t_7bdda105fa1d41 5,11-15,19,21-22
+examples/learning-project/CLAUDE.md
+  s_d1f4f0f7b38590::t_5a8a9af2a96ff6 24,27
+examples/learning-project/ISSUE.md
+  s_d1f4f0f7b38590::t_d85ab6ba84f7dc 15
+examples/learning-project/README.md
+  s_9cf259c16931e6::t_b165a6a2d5c7fa 34,47,61,67,69
+examples/learning-project/evidence/SOURCE-FINGERPRINT.txt
+  s_8931b0443833dc::t_fc152d7024ec8a 1-11
+examples/learning-project/fixtures/release-incomplete.json
+  s_2efec322df84ae::t_3844913453fe3d 8,13
+examples/learning-project/fixtures/release-ready.json
+  s_9cf259c16931e6::t_689fa4cfb7922e 8,13,18
+examples/learning-project/package.json
+  s_2efec322df84ae::t_3f39d23fa87ed6 24
+examples/learning-project/src/release-verifier.mjs
+  s_2efec322df84ae::t_01f5990f5c610c 16-17
+examples/learning-project/test/cli.test.mjs
+  s_2efec322df84ae::t_950f9ca21519c4 35-36
+examples/learning-project/test/documentation-links.test.mjs
+  s_9cf259c16931e6::t_71ebb94dd36335 2-13,30-33,41,55-107
+examples/learning-project/test/release-guard.test.mjs
+  s_2efec322df84ae::t_6375e7eee3b04c 31-42,46-48,50-52
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "8b6a6968b1033c4e131dca170959db6076698990",
+  "prompts": {},
+  "sessions": {
+    "s_2efec322df84ae": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a056aa-68dc-76c1-95fa-3e383c196e6d",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_8931b0443833dc": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a056d1-eeb6-7f32-b67e-96f3a746caf2",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_9cf259c16931e6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a03e6c-f9af-7811-b19d-91365bbf6d38",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_d1f4f0f7b38590": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0530d-5ec5-76c3-aab8-dc6aa5c35a1d",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
