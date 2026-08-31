@@ -579,6 +579,8 @@ Need to run a large LLM
 
 **Data must remain on hardware your organization owns**: managed APIs and rented cloud hardware do not meet that requirement. Buy local hardware sized and benchmarked against the actual model. If the requirement concerns region, operator access, encryption, or contractual control rather than hardware ownership, a dedicated or sovereign-cloud deployment may still qualify after a security and compliance review.
 
+A practitioner account from two legacy-system RAG projects gives an adjacent example of that trade-off. Susanne Pieterse said both projects started with cloud APIs, then tested self-hosted Llama because the clients would not send private information to a public cloud. The self-hosted path worked, but was slower, less polished, and moved spend toward costly hardware. This is evidence that sovereignty can justify self-hosting despite weaker operating economics. It is not a coding-agent benchmark or a break-even calculation. Source: [Susanne Pieterse, "RAG in the wild," 09:38](https://www.youtube.com/watch?v=_Hbn-WhMiHA&t=578s), published 2026-04-08.
+
 ---
 
 ## Sizing Self-Hosted Inference for a Team

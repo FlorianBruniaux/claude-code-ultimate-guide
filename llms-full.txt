@@ -468,7 +468,7 @@ A: Yes, completely free. The guide is CC BY-SA 4.0 (share and adapt with attribu
 A: This guide goes 10x deeper on practical workflows, templates, security hardening, and real-world patterns. The official docs explain what Claude Code does; this guide teaches you how to use it effectively for production work.
 
 **Q: Do I need a paid Claude plan to use Claude Code?**
-A: Claude Code requires an active Claude subscription. Pro ($20/month) is sufficient for most individual developers. Team and Enterprise plans available for organizations.
+A: A Claude subscription is not the only access path. Individuals can use Pro or Max, organizations can use Team or Enterprise for workforce access, and usage-based deployments can authenticate with supported API or cloud-provider credentials. These paths have different billing and administrative controls; see `guide/ops/subscription-strategy.md`.
 
 **Q: What are Hooks in Claude Code?**
 A: Hooks are shell scripts (bash or PowerShell) that run automatically before/after Claude tool calls. They enable event-driven automation: block dangerous commands, scan for secrets, auto-format code, run tests after edits, log activity for compliance. They use `exit 0` (continue) or `exit 2` (block) to control Claude's actions.
