@@ -37,7 +37,7 @@ function expectedServer(packageJson) {
     $schema: 'https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json',
     name: 'io.github.florianbruniaux/claude-code-guide',
     title: 'Claude Code Ultimate Guide',
-    description: 'Search the Claude Code Ultimate Guide and its machine-readable references from any MCP-compatible client.',
+    description: 'Search the Claude Code Ultimate Guide and machine-readable references from any MCP client.',
     repository: {
       url: 'https://github.com/FlorianBruniaux/claude-code-ultimate-guide',
       source: 'github',
@@ -52,6 +52,13 @@ function expectedServer(packageJson) {
       },
     ],
   }
+}
+
+const actionPins = {
+  'actions/checkout': { sha: 'd23441a48e516b6c34aea4fa41551a30e30af803', version: 'v6' },
+  'actions/setup-node': { sha: '249970729cb0ef3589644e2896645e5dc5ba9c38', version: 'v6' },
+  'actions/upload-artifact': { sha: 'ea165f8d65b6e75b540449e92b4886f43607fa02', version: 'v4' },
+  'actions/download-artifact': { sha: 'd3f86a106a0bac45b974a628896c90dbdf5c8093', version: 'v4' },
 }
 
 function step(job, name) {
@@ -98,6 +105,12 @@ test('registry metadata renderer produces the complete deterministic server docu
   assert.equal(check.status, 0, `${check.stdout}${check.stderr}`)
 })
 
+test('server description satisfies the current registry schema length boundary', () => {
+  const serverJson = readJson(serverPath)
+  assert.equal(serverJson.$schema, 'https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json')
+  assert.ok(Array.from(serverJson.description).length <= 100, `server description has ${Array.from(serverJson.description).length} characters; schema maximum is 100`)
+})
+
 test('manual workflow separates reproducible preparation from protected publication', () => {
   assert.ok(existsSync(workflowPath), 'publish-mcp.yml must exist')
   const source = readFileSync(workflowPath, 'utf8')
@@ -132,6 +145,19 @@ test('manual workflow separates reproducible preparation from protected publicat
   assert.match(version.run, /packageJson\.version/)
   assert.match(step(prepare, 'Run release checks').run, /npm run release:check/)
 
+  const registryValidation = step(prepare, 'Validate official registry metadata')
+  const registryValidationRun = registryValidation.run
+  const publisherDownload = 'https://github.com/modelcontextprotocol/registry/releases/download/v1.8.1/mcp-publisher_linux_amd64.tar.gz'
+  const publisherChecksum = 'a06c9096dcb9727c13555b6be26c7effa707b01f06a4c561ba7a3635443cf2cc'
+  assert.match(registryValidationRun, /mktemp -d/)
+  assert.ok(registryValidationRun.includes(publisherDownload))
+  assert.ok(registryValidationRun.includes(publisherChecksum))
+  const checksumIndex = registryValidationRun.indexOf('sha256sum --check --strict')
+  const extractIndex = registryValidationRun.indexOf('tar -xzf')
+  const validateIndex = registryValidationRun.indexOf(' validate ')
+  assert.ok(checksumIndex >= 0 && checksumIndex < extractIndex && extractIndex < validateIndex)
+  assert.doesNotMatch(registryValidationRun, / login | publish /)
+
   const pack = step(prepare, 'Pack release archive')
   assert.equal((pack.run.match(/npm pack --json --pack-destination/g) ?? []).length, 1)
   assert.match(pack.run, /tar -tzf/)
@@ -139,6 +165,22 @@ test('manual workflow separates reproducible preparation from protected publicat
   assert.ok(prepare.steps.some((candidate) => candidate.uses?.startsWith('actions/upload-artifact@')))
   assert.ok(publish.steps.some((candidate) => candidate.uses?.startsWith('actions/download-artifact@')))
   assert.match(step(publish, 'Verify release archive').run, /sha256sum --check --strict/)
+})
+
+test('workflow pins every third-party action to an approved commit with a version comment', () => {
+  const source = readFileSync(workflowPath, 'utf8')
+  const workflow = parseYaml(source)
+  for (const job of Object.values(workflow.jobs)) {
+    for (const candidate of job.steps) {
+      if (!candidate.uses) continue
+      const [action, revision] = candidate.uses.split('@')
+      const pin = actionPins[action]
+      assert.ok(pin, `unapproved action: ${action}`)
+      assert.equal(revision, pin.sha, `${action} must use the approved full commit`)
+      const line = `uses: ${action}@${pin.sha} # ${pin.version}`
+      assert.ok(source.includes(line), `${action} must retain the ${pin.version} comment`)
+    }
+  }
 })
 
 test('protected publication uses tokenless npm provenance, bounded smoke verification, and a pinned publisher', () => {
@@ -164,16 +206,14 @@ test('protected publication uses tokenless npm provenance, bounded smoke verific
   assert.match(smoke, /resources\/list/)
 
   const registry = steps[registryIndex].run
-  const download = 'https://github.com/modelcontextprotocol/registry/releases/download/v1.8.1/mcp-publisher_linux_amd64.tar.gz'
   const checksum = 'a06c9096dcb9727c13555b6be26c7effa707b01f06a4c561ba7a3635443cf2cc'
   assert.match(registry, /mktemp -d/)
-  assert.ok(registry.includes(download))
   assert.ok(registry.includes(checksum))
+  assert.doesNotMatch(registry, /curl| validate /)
   const verifyIndex = registry.indexOf('sha256sum --check --strict')
   const extractIndex = registry.indexOf('tar -xzf')
-  const validateIndex = registry.indexOf(' validate ')
   const loginIndex = registry.indexOf(' login github-oidc')
   const publishIndex = registry.indexOf(' publish ')
   assert.ok(verifyIndex >= 0 && verifyIndex < extractIndex)
-  assert.ok(extractIndex < validateIndex && validateIndex < loginIndex && loginIndex < publishIndex)
+  assert.ok(extractIndex < loginIndex && loginIndex < publishIndex)
 })

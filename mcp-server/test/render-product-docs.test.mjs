@@ -73,8 +73,10 @@ test('renderer derives the Node badge and dependency security disclosure from ma
   assert.match(changelog, /@modelcontextprotocol\/sdk 1\.30\.0/)
   assert.match(changelog, /zero production vulnerabilities on 2026-08-31/)
   assert.match(changelog, /one low-severity development-only esbuild advisory remains/)
-  assert.match(changelog, /npm trusted publishing with provenance/)
-  assert.match(changelog, /mcp-production/)
+  assert.match(changelog, /npm trusted-publisher binding remains an external prerequisite/)
+  assert.match(changelog, /required reviewer on the `mcp-production` environment remains an external prerequisite/)
+  assert.match(changelog, /repository code does not verify either setting/)
+  assert.doesNotMatch(changelog, /is protected by the `mcp-production` environment|uses npm trusted publishing/)
   assert.match(changelog, /io\.github\.florianbruniaux\/claude-code-guide/)
   assert.doesNotMatch(changelog, /zero vulnerabilities overall/)
 

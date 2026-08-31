@@ -20,10 +20,10 @@ jobs:
       version: ${{ steps.version.outputs.version }}
     steps:
       - name: Check out candidate
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
 
       - name: Set up Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org
@@ -52,6 +52,24 @@ jobs:
         working-directory: mcp-server
         run: npm run release:check
 
+      - name: Validate official registry metadata
+        run: |
+          set -euo pipefail
+          publisher_directory="$(mktemp -d)"
+          trap 'rm -rf "$publisher_directory"' EXIT
+          publisher_archive="$publisher_directory/mcp-publisher.tar.gz"
+          curl --fail --location --proto '=https' --tlsv1.2 \
+            'https://github.com/modelcontextprotocol/registry/releases/download/v1.8.1/mcp-publisher_linux_amd64.tar.gz' \
+            --output "$publisher_archive"
+          printf '%s  %s\n' \
+            'a06c9096dcb9727c13555b6be26c7effa707b01f06a4c561ba7a3635443cf2cc' \
+            "$publisher_archive" | sha256sum --check --strict -
+          tar -xzf "$publisher_archive" -C "$publisher_directory" mcp-publisher
+          chmod +x "$publisher_directory/mcp-publisher"
+          "$publisher_directory/mcp-publisher" validate mcp-server/server.json
+          mkdir -p "$RUNNER_TEMP/mcp-publisher"
+          cp "$publisher_archive" "$RUNNER_TEMP/mcp-publisher/mcp-publisher.tar.gz"
+
       - name: Pack release archive
         id: pack
         working-directory: mcp-server
@@ -79,10 +97,18 @@ jobs:
           printf 'archive_sha256=%s\n' "$archive_sha256" >> "$GITHUB_OUTPUT"
 
       - name: Store release archive
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: mcp-release-archive
           path: ${{ runner.temp }}/release/${{ steps.pack.outputs.archive_name }}
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: Store validated publisher
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: mcp-publisher-1.8.1-linux-amd64
+          path: ${{ runner.temp }}/mcp-publisher/mcp-publisher.tar.gz
           if-no-files-found: error
           retention-days: 1
 
@@ -95,20 +121,26 @@ jobs:
       id-token: write
     steps:
       - name: Check out approved candidate
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
 
       - name: Set up Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org
           package-manager-cache: false
 
       - name: Download release archive
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: mcp-release-archive
           path: ${{ runner.temp }}/release
+
+      - name: Download validated publisher
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: mcp-publisher-1.8.1-linux-amd64
+          path: ${{ runner.temp }}/mcp-publisher
 
       - name: Verify release archive
         env:
@@ -175,15 +207,11 @@ jobs:
           publisher_directory="$(mktemp -d)"
           trap 'rm -rf "$publisher_directory"' EXIT
           export XDG_CONFIG_HOME="$publisher_directory/config"
-          publisher_archive="$publisher_directory/mcp-publisher.tar.gz"
-          curl --fail --location --proto '=https' --tlsv1.2 \
-            'https://github.com/modelcontextprotocol/registry/releases/download/v1.8.1/mcp-publisher_linux_amd64.tar.gz' \
-            --output "$publisher_archive"
+          publisher_archive="$RUNNER_TEMP/mcp-publisher/mcp-publisher.tar.gz"
           printf '%s  %s\n' \
             'a06c9096dcb9727c13555b6be26c7effa707b01f06a4c561ba7a3635443cf2cc' \
             "$publisher_archive" | sha256sum --check --strict -
           tar -xzf "$publisher_archive" -C "$publisher_directory" mcp-publisher
           chmod +x "$publisher_directory/mcp-publisher"
-          "$publisher_directory/mcp-publisher" validate mcp-server/server.json
           "$publisher_directory/mcp-publisher" login github-oidc
           "$publisher_directory/mcp-publisher" publish mcp-server/server.json

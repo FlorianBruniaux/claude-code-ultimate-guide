@@ -21,7 +21,7 @@ export function buildRegistryMetadata(packageJson) {
     $schema: 'https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json',
     name: mcpName,
     title: 'Claude Code Ultimate Guide',
-    description: 'Search the Claude Code Ultimate Guide and its machine-readable references from any MCP-compatible client.',
+    description: 'Search the Claude Code Ultimate Guide and machine-readable references from any MCP client.',
     repository: {
       url: 'https://github.com/FlorianBruniaux/claude-code-ultimate-guide',
       source: 'github',
