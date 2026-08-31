@@ -96,7 +96,7 @@ jobs:
           # this pass the moment reference.yaml was repaired. Same failure class as
           # the reference rot itself: a copy nobody verifies.
           fail=0
-          for f in reference.yaml claude-code-releases.yaml llms.txt agent-harnesses.json; do
+          for f in reference.yaml claude-code-releases.yaml llms.txt agent-harnesses.json translations.json distribution-channels.yaml; do
             if ! diff -q "mcp-server/content/$f" "machine-readable/$f" >/dev/null; then
               echo "DRIFTED: mcp-server/content/$f differs from machine-readable/$f"
               echo "  fix with: cp machine-readable/$f mcp-server/content/$f"
@@ -150,3 +150,13 @@ jobs:
       - name: Check MCP product release contract
         working-directory: mcp-server
         run: npm run release:check
+
+      - name: Check translation provenance and bilingual publication parity
+        run: |
+          python3 scripts/test-check-translations.py
+          python3 scripts/check-translations.py --check
+
+      - name: Check distribution channel registry
+        run: |
+          python3 scripts/test-check-distribution-channels.py
+          python3 scripts/check-distribution-channels.py

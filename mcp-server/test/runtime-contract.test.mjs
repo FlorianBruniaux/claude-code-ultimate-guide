@@ -40,7 +40,7 @@ test('JSON-RPC runtime exactly matches the generated manifest', async () => {
 test('offline list operations use only bundled data', async () => {
   await withRuntime(async (client) => {
     assert.equal((await client.listTools()).tools.length, 17)
-    assert.equal((await client.listResources()).resources.length, 5)
+    assert.equal((await client.listResources()).resources.length, 6)
     assert.equal((await client.listPrompts()).prompts.length, 1)
   }, { env: { ...process.env, HTTPS_PROXY: 'http://127.0.0.1:9', HTTP_PROXY: 'http://127.0.0.1:9', NO_PROXY: '' } })
 })

@@ -196,7 +196,7 @@ Do not fold these systems into the 42-runtime count. A runtime owns the task loo
 
 Frameworks, SDKs, sandboxes, memory systems, evaluation tools, observability platforms, and protocols sit beside or below these layers. LangGraph can help build a runtime; E2B can isolate its execution; Mem0 can persist memory; Langfuse can observe it; MCP can connect tools. None of those roles alone proves ownership of the coding loop.
 
-A meta-harness sits outside the four-layer operating stack and changes one or more layers under evaluation. Keep it separate from an orchestrator: the orchestrator schedules runs, while the optimizer changes the system that will perform them.
+The term *meta-harness* has two incompatible uses. Optimizer research uses it for a system that changes one or more harness layers under evaluation. Products such as Omnigent use it for a common interface that dispatches tasks to existing harnesses. Keep the roles separate: this guide classifies a dispatcher as an orchestrator or control plane, while a harness optimizer changes the system that will perform future runs. The generated directory below preserves each pinned source's wording, so Omnigent's row retains its upstream *meta-harness* label even though the guide layer is orchestration. See the [Databricks cost-management resource evaluation](../../docs/resource-evaluations/databricks-managing-ai-coding-costs-scale.md) for the terminology boundary.
 
 ## Complete Project Directory
 

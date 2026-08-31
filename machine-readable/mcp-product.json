@@ -12,8 +12,8 @@
   },
   "guide": {
     "version": "3.43.0",
-    "line_count": 26648,
-    "index_entries": 1755,
+    "line_count": 26649,
+    "index_entries": 1798,
     "claude_code_releases": 228
   },
   "runtime": {
@@ -422,6 +422,12 @@
         "mime_type": "application/json"
       },
       {
+        "name": "distribution-channels",
+        "uri": "claude-code-guide://distribution-channels",
+        "description": "Publication channels, attributed URLs, asset states, dates, and 30-day outcome fields for the guide.",
+        "mime_type": "text/yaml"
+      },
+      {
         "name": "llms",
         "uri": "claude-code-guide://llms",
         "description": "llms.txt — machine-readable identity and navigation file for the Claude Code Ultimate Guide.",
@@ -479,5 +485,5 @@
       ]
     }
   },
-  "source_digest": "sha256:f94100191abb70e2112724adc66dc2226b15c90ad757a47d92256a762e78cb98"
+  "source_digest": "sha256:e05d029e89940b772d8e940ea9f7b4f49b124b0a000daafc2772a92964421852"
 }

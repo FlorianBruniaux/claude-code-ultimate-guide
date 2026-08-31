@@ -1,119 +1,334 @@
 ---
 title: "Subscription Strategy at Team Scale"
-description: "A decision framework for choosing between per-seat subscriptions, Enterprise API billing, a capped API gateway, and self-hosted inference once an engineering org grows past a handful of developers"
-tags: [ops, cost, enterprise, guide]
+description: "A control-led framework for choosing workforce coding plans, governed API access, and self-hosted inference, with a multi-provider exercise for regulated organizations"
+tags: [ops, cost, enterprise, multi-provider, mistral, guide]
 ---
 
 # Subscription Strategy at Team Scale
 
-> **Audience**: Engineering leaders and platform teams sizing an AI coding tool budget for an organization, not an individual subscription choice.
+> **Audience**: Engineering leaders, platform teams, security teams, and procurement owners deciding how an organization should buy and govern AI coding tools.
 >
-> **Scope**: Which billing model fits which org size and workload shape. Anthropic paused the announced June 2026 interactive/programmatic billing split on June 15, so the historical announcement is not a current budgeting rule; see [Anthropic's current Agent SDK plan guidance](https://support.claude.com/en/articles/15036540-use-the-claude-agent-sdk-with-your-claude-plan). For gateway implementation, see [api-gateway.md](./api-gateway.md). For the economics of self-hosting instead of any subscription, see [Local vs Cloud Inference](../ecosystem/local-vs-cloud-inference.md#sizing-self-hosted-inference-for-a-team). For per-task cost modeling, see [ai-unit-economics.md](./ai-unit-economics.md).
+> **Scope**: Anthropic Team and Enterprise are the detailed worked example. The decision exercise also covers Codex, GitHub Copilot, Gemini Code Assist, Cursor, Mistral Vibe, governed API traffic, and self-hosted inference. This page does not treat a product plan or provider nationality as proof of regulatory compliance. For gateway implementation, see [API Gateway for Claude Code at Scale](./api-gateway.md). For task-level cost measurement, see [AI Unit Economics](./ai-unit-economics.md).
 
 ---
 
 ## TL;DR
 
-| Org shape | Start here |
-|---|---|
-| 2 to 150 intended Claude users, mostly terminal/IDE usage | Claude Team, standard and premium seats mixed |
-| More than 150 intended Claude users | Enterprise, or a multi-workspace design confirmed with Anthropic sales |
-| Shared production automation through `claude -p`, Agent SDK, or CI | Claude Platform API keys behind a capped gateway; subscription-authenticated programmatic usage still draws from plan limits while Anthropic's announced split remains paused |
-| Anthropic API spend already unpredictable across many keys | API gateway (LiteLLM or Portkey) for the API traffic routed through it |
-| Considering self-hosted open-weight models | Model it as a separate business case, not a line in this decision. See the sizing math linked above before quoting a number |
+| Situation | Start here | Why |
+|---|---|---|
+| The service supports a critical or important function under DORA, at any team size | Classify the function and run the [control gate](#7-decision-and-pilot-gate) before comparing seat counts | DORA does not mandate an Anthropic plan, but one required Enterprise-only control is enough to rule out Team for the assessed workflow |
+| 2 to 150 intended users, Team controls satisfy the risk assessment | Team, with standard and premium seats mixed | The seat includes usage subject to plan limits, SSO, central administration, Commercial Terms, and no training on inputs or outputs by default |
+| More than 150 intended users, or a documented need for an Enterprise-only control | Enterprise | The $20 seat fee buys organization access and controls; every token is then billed at API rates |
+| Shared CI jobs, services, Agent SDK workloads, or unattended agents | Claude Platform API behind a tested spend policy and terminal cap | A human seat is the wrong identity and budget boundary for a production service |
+| Regulated organization with both workforce use and production automation | Team or Enterprise for people, Platform API for services | Identity governance and API traffic control are separate decisions |
+| Several coding assistants or providers under consideration | Run the [300-engineer portfolio exercise](#exercise-choose-a-provider-portfolio-for-300-engineers) | Claude, Codex, Copilot, Gemini, Cursor, and Mistral use different seat, credit, overage, and control boundaries |
+| Self-hosted inference under consideration | A separate capacity and operations business case | Seat prices do not include the hardware, reliability, security, and staffing boundaries needed for a valid comparison |
+
+Team and Enterprise expose the same model families. Enterprise adds centralized control over the models, effort levels, roles, and budgets available to each population. Choose it when a named control owner requires one of those features, when intended users exceed Team's documented scope, or when metered usage without per-seat plan limits is required. Otherwise, Team is the stronger default. The Enterprise label alone proves neither model quality nor regulatory compliance.
+
+![A 300-engineer organization split into managed interactive workforce subscriptions, governed service automation, and private inference, each with separate cost and acceptance measures](../images/subscription-provider-portfolio.webp)
 
 ---
 
-## 1. Authentication and billing source matter more than interaction mode
+## 1. The $20 Enterprise seat does not include usage
 
-The planned split between interactive subscription usage and a separate programmatic credit did not take effect. Anthropic's June 15 update says that subscription-authenticated Agent SDK, `claude -p`, and third-party app usage still draw from the same subscription limits as interactive Claude usage. The previously announced monthly programmatic credit is unavailable until Anthropic publishes a replacement plan. Source: [Anthropic, Use the Claude Agent SDK with your Claude plan](https://support.claude.com/en/articles/15036540-use-the-claude-agent-sdk-with-your-claude-plan), verified 2026-08-30.
+The two $20 prices buy different things:
 
-Current budgeting therefore starts with the credential and plan, not whether a request is interactive:
+- **Team Standard** costs $20 per seat per month when billed annually, or $25 when billed monthly. The seat includes Claude usage subject to rolling plan limits. Team Premium costs $100 per seat per month when billed annually, or $125 when billed monthly, and includes five times more usage than Standard.
+- **Usage-based Enterprise** costs $20 per seat per month, billed annually, for access. It includes no token allowance. Claude, Claude Code, and Cowork usage is billed separately at standard API rates. Anthropic documents no per-seat usage limit on this plan, and administrators can set organization and user spend limits.
 
-- **Team subscription authentication** includes usage subject to rolling five-hour and weekly limits. All activity across Claude and Claude Code draws from the same pool. Paid plans can enable usage credits to continue at standard API rates after included limits are reached. Source: [Claude pricing FAQ](https://claude.com/pricing), verified 2026-08-30.
-- **Claude Platform API keys** use prepaid credits or an invoicing arrangement and are billed at API rates. This is the billing source to place behind a gateway for shared production automation. Source: [Anthropic API billing guidance](https://support.claude.com/en/articles/8977456-how-do-i-pay-for-my-claude-api-usage), verified 2026-08-30.
-- **Usage-based Enterprise** charges a fixed seat fee for access and bills usage separately by token consumption. The current Enterprise seat does not include usage. Source: [Anthropic Enterprise billing guidance](https://support.claude.com/en/articles/11526368-how-am-i-billed-for-my-enterprise-plan), verified 2026-08-30.
+Sources: [Anthropic plan pricing](https://claude.com/pricing) and [What is the Enterprise plan?](https://support.claude.com/en/articles/9797531-what-is-the-enterprise-plan), verified 2026-08-31.
 
-Do not compare a Team seat, an Enterprise seat, and a Platform API key as if each buys the same unit. Team buys included capacity with plan limits; Enterprise buys governed access plus metered usage; a Platform key buys metered API traffic without a Claude seat.
+Anthropic publishes a minimum of 20 seats for self-serve Enterprise and 50 seats for sales-assisted Enterprise. A smaller regulated team that needs an Enterprise-only control cannot infer a smaller purchase path from the public documentation. It must budget against the published minimum. If Sales proposes another arrangement, the purchasing file should record it before using a lower seat count in the business case.
 
----
+The default comparison is therefore:
 
-## 2. Claude Team: the per-seat default, and its hard ceiling
+```text
+Team monthly cost       = seat price + optional usage credits beyond plan limits
+Enterprise monthly cost = $20 access fee + metered token usage
+```
 
-Claude Team costs $20/seat/month (standard, billed annually; $25 billed monthly) or $100/seat/month (premium, billed annually; $125 billed monthly), mixable within one organization. It includes Claude Code, Claude Cowork, Claude Design, Claude Science, central billing, SSO, and admin controls. Source: [claude.com/pricing](https://claude.com/pricing), verified 2026-08-30.
-
-**The ceiling applies to intended Claude users, not total company headcount: one Team workspace supports 2 to 150 seats.** A 350-person company can stay within Team's published scope if no more than 150 people need seats. If more than 150 people need access, Anthropic's pricing page positions Enterprise for large businesses but does not document multiple Team workspaces as one administratively unified organization. Treat a multi-workspace split as an arrangement to confirm with Anthropic sales, not as a documented extension of one Team workspace. Source: [claude.com/pricing](https://claude.com/pricing), verified 2026-08-30.
-
-Subscription-authenticated automation currently consumes the same plan limits as interactive work. Anthropic's preserved guidance says shared production automation should use Claude Platform with an API key for predictable pay-as-you-go billing. Put that API traffic behind a tested gateway cap rather than letting unattended jobs exhaust developers' shared plan capacity. Source: [Anthropic Agent SDK plan guidance](https://support.claude.com/en/articles/15036540-use-the-claude-agent-sdk-with-your-claude-plan), verified 2026-08-30.
+At list price, an active developer's Enterprise bill combines the $20 access fee with uncapped, metered consumption. A custom sales contract may change the commercial result, but the public $20 headline does not establish a volume discount.
 
 ---
 
-## 3. Claude Enterprise: usage-priced, seat fee included
+## 2. Team covers the baseline; Enterprise adds specific controls
 
-Enterprise starts at $20/seat plus usage billed at API rates, available either self-serve or sales-assisted for custom terms. It adds role-based access with granular permissions, SCIM, audit logs, compliance APIs, custom data retention, network-level controls, IP allowlisting, and a HIPAA-ready option. Source: [claude.com/pricing](https://claude.com/pricing), verified 2026-08-30.
+The statement "we need Enterprise for compliance" is too vague to approve a purchase. Team and Enterprise both operate under Anthropic's Commercial Terms. Anthropic says it does not train generative models on Team, Enterprise, or API inputs and outputs by default. Team also includes SSO, central billing, connector administration, and a standard 30-day retention period for Claude Code data.
 
-Anthropic's Claude Code cost guide reports an average of about $13 per developer per active day and $150 to $250 per developer per month across API-priced enterprise deployments, with costs below $30 per active day for 90% of users. Anthropic also says that model choice, codebase size, multiple concurrent instances, and automation make per-developer cost vary widely, and recommends a pilot before rollout. Use those figures as a vendor benchmark, not as a forecast for a specific organization. Source: [Anthropic, Manage costs effectively](https://code.claude.com/docs/en/costs), verified 2026-08-30.
+Enterprise adds controls that can close specific audit, identity, retention, or network gaps:
 
-Observed usage telemetry adds a distribution that a per-developer average hides. TraceLab released a 2026 trace of 4,265 Claude Code and Codex sessions from 43 developers, collected from September 2025 through June 2026 across 23 models. At the providers' published API list prices, the paper estimates a median session cost of $0.61, an average of $9.70, and a P99 of $178. Prefix-cache reads account for 59.5% of that estimated cost, while output tokens account for 11.2%. These are reconstructed price equivalents from one research group's usage, not invoices or production serving costs, and the trace does not measure whether a task was accepted. Use the result to instrument complete workflows and cache behavior, not to extrapolate a 43-developer sample directly to an organization of 300 engineers. Source: [Zhu et al., TraceLab](https://arxiv.org/pdf/2606.30560), PDF pp. 4 and 6, Tables 1, 5, and 6.
+| Control | Team | Usage-based Enterprise | Decision relevance |
+|---|---|---|---|
+| Commercial Terms and no model training by default | Yes | Yes | Baseline protection, not an Enterprise differentiator |
+| Supplier certifications and assurance artifacts | Supplier-level artifacts, subject to report scope | Supplier-level artifacts, subject to report scope | SOC 2 Type I and II, ISO 27001:2022, and ISO/IEC 42001:2023 are procurement inputs, not plan differentiators; verify each artifact's product scope and audit period in the Trust Center |
+| SSO and central administration | Yes | Yes | Team can satisfy a basic managed-access requirement |
+| Provisioning | Invite, manual removal, or JIT | SCIM available | SCIM matters when offboarding must remove access and seats from the identity provider without a second manual action |
+| Roles | Primary Owner, Owner, Admin, and User | Custom roles and groups in addition to standard roles | Required when duties, feature access, or population policies must be separated more finely than Team permits |
+| Model access | Access to all available models; no documented organization policy by model | Organization and custom-role model allowlists, plus per-model effort caps for custom roles | The model families are shared; Enterprise makes the approved model and effort policy enforceable across covered products |
+| Audit evidence | No audit-log export | Audit logs and Compliance API | Required when investigations, surveillance, or control testing need organization-level evidence |
+| Claude Code retention | Standard 30-day retention | Standard 30-day retention, plus eligible ZDR | ZDR is an Enterprise difference for Claude Code, but it disables features that require stored prompts or responses |
+| Product retention policy | No custom organization schedule | Custom retention, minimum 30 days | Relevant when the organization's records schedule must be enforced centrally |
+| Network and access controls | No documented IP allowlisting or tenant restriction | Network-level access control and IP allowlisting | Relevant only if the target surfaces and traffic paths are covered |
+| Spend controls | Plan limits; optional usage-credit limits at organization and individual level | Organization, group, and individual spend limits for metered usage | Anthropic's dedicated Enterprise documentation confirms group policy; Team's published usage-credit controls stop at organization and individual levels |
+| Additional data arrangements | No documented Team option for CMEK, US-only inference, or HIPAA-ready configuration | These options are available to eligible Enterprise organizations, subject to product scope and contract | A named requirement must map to the exact option; availability is not proof that it is enabled or sufficient |
 
-Production telemetry also rules out converting seats directly into concurrent inference calls. A one-week GitHub Copilot Agent trace covered 13.5 million sessions from 3.2 million users and found that 87% of LLM calls were agent-initiated. LLM execution remained mostly serial within a turn, with median concurrency of 1.15 and P90 of 1.4 among turns with overlap, while failure-heavy turns used 36 median LLM calls versus 9 for read-heavy deep loops. This is client-side telemetry with anonymized models and no server cost, coding-task quality, GPU, or acceptance signal, so it informs pilot instrumentation rather than a budget forecast. Source: [Liu et al., Agentic Coding in the Wild](https://arxiv.org/pdf/2608.00101), PDF pp. 1, 3, 5-6, Tables 1, 3, and 5 and Figure 7.
+Sources: [Anthropic pricing](https://claude.com/pricing), [Team plan](https://support.claude.com/en/articles/9266767-what-is-the-team-plan), [roles and permissions](https://support.claude.com/en/articles/9267276-roles-and-permissions), [Anthropic certifications](https://support.claude.com/en/articles/10015870-what-certifications-has-anthropic-obtained), [Anthropic Trust Center](https://trust.anthropic.com/), [Team and seat-based Enterprise usage credits](https://support.claude.com/en/articles/12005970-manage-usage-credits-for-team-and-seat-based-enterprise-plans), [Enterprise groups and spend limits](https://support.claude.com/en/articles/13799932-manage-groups-and-group-spend-limits-on-enterprise-plans), [Enterprise model access](https://support.claude.com/en/articles/15694740-manage-model-access-for-your-organization), [JIT and SCIM provisioning](https://support.claude.com/en/articles/13133195-set-up-jit-or-scim-provisioning), [Claude Code data usage](https://code.claude.com/docs/en/data-usage), and [Claude Code zero data retention](https://code.claude.com/docs/en/zero-data-retention), verified 2026-08-31.
 
-A Back Market practitioner account supplies a larger organizational denominator, but not audited billing data. Within a stated scope of 280 people, Nicolas Martignole reported 210 to 220 active users and defined an active user as someone who spent at least $1 in the month. He reported a three-month average of $191 per active developer and said one January user spent about $3,000. The talk provides neither a median nor a full distribution, and two oral summaries conflict on January's total. Preserve the denominator, inactive population, median, upper percentiles, and outcome measure before using any fleet average. Source: [Nicolas Martignole, "Claude Code en entreprise", 49:05](https://www.youtube.com/watch?v=kSrEZ57thMg&t=2945s), [50:04](https://www.youtube.com/watch?v=kSrEZ57thMg&t=3004s), and [50:48](https://www.youtube.com/watch?v=kSrEZ57thMg&t=3048s), published 2026-04-03.
+Anthropic's Team help page and pricing comparison use overlapping labels for role-based access and spend controls. The table above uses the dedicated control documentation to distinguish Team's fixed roles and organization or user usage-credit limits from Enterprise custom roles, groups, and group-level spend policies. Confirm the exact control in the product instead of treating the shared label as feature parity.
 
-The same account describes a staged billing policy rather than one plan for every developer. Back Market began with metered API access to avoid paying for inactive subscriptions and to collect usage telemetry, then recommended moving sustained daily users to a fixed-price plan after observing their spend. The speaker's claimed API-to-Max price equivalence was introduced as an estimate and showed no calculation. Use measured crossover points from the organization's own billing data, and apply the contract and governance checks in Section 6 before treating a personal Max plan as an enterprise option. Source: [initial API decision at 06:37](https://www.youtube.com/watch?v=kSrEZ57thMg&t=397s) and [heavy-user recommendation at 44:00](https://www.youtube.com/watch?v=kSrEZ57thMg&t=2640s).
+### Provider certifications are supplier evidence, not a plan control
 
-A 2026 preprint analyzing eight frontier models on SWE-bench Verified found that agentic coding runs consumed 1,000 times more tokens than code reasoning and code chat in its experimental comparison. Repeated runs on the same task varied by up to 30 times in total tokens, and higher token use did not imply higher accuracy. The study also found only weak-to-moderate correlation between agents' predicted and actual token use, peaking at 0.39. This is benchmark evidence, not production telemetry, and the authors identify their eight-model sample as a limitation. It still explains why one average per developer or a model's own estimate cannot set a safe cap. Source: [Bai et al., How Do AI Agents Spend Your Money?](https://arxiv.org/pdf/2604.22750), PDF pp. 1-6 and 10-12.
+Anthropic scopes SOC 2 Type I and II, ISO 27001:2022, and ISO/IEC 42001:2023 to its commercial products rather than presenting them as Enterprise-only features. A procurement team should request the current certificates, reports, bridge letters, scope statements, exceptions, and any other available restricted assurance material through the Trust Center. It should then map each artifact to the products, processing paths, subcontractors, and period under review.
 
-Task specification is a second measurable cost variable. A preprint released on August 26, 2026 ran 2,700 Kimi K3 coding-agent trials across five SWE-bench Verified tasks, 12 specification variants, three thinking-effort levels, and 15 repeats. Reducing a full specification to a bare user story increased token spend by 29.7% in its pooled estimate, with a 90% credible interval from 5.1% to 58.7%. A single $0.11 probe reduced the median error of its cross-configuration cost predictor from 161% to 36%. The authors explicitly limit generalization because the experiment covers one model and five tasks. Treat this as a pilot design, not a universal saving: sample specification variants and effort levels, then price the observed distribution. Source: [Smékal, Can your AI agent be cheaper?](https://arxiv.org/pdf/2608.25399), PDF pp. 3-5, 7-10, and Appendix C p. 16.
+For a bank, those artifacts are an input to supplier assurance rather than a substitute for it. The ECB's July 2025 cloud-outsourcing guide says supervised entities must not rely over time solely on third-party audit reports or provider certifications. The institution still needs its own risk assessment, contractual audit rights, monitoring, and independent review. Source: [ECB Guide on outsourcing cloud services](https://www.bankingsupervision.europa.eu/ecb/pub/pdf/ssm.supervisory_guides202507.en.pdf), sections 2.5.1 to 2.5.3, verified 2026-08-31.
 
-Four controls keep usage-priced billing bounded:
+Each control has its own coverage boundary. The Compliance API does not capture Claude Code on the web, Claude Platform API workloads, Amazon Bedrock, or Google Vertex AI. Source: [Compliance API coverage](https://support.claude.com/en/articles/13015708-access-the-compliance-api), verified 2026-08-31.
 
-- **Native Enterprise caps**, configured per organization or user before rollout. Anthropic lists user and organizational spend controls as an Enterprise feature. Source: [claude.com/pricing](https://claude.com/pricing), verified 2026-08-30.
-- **A budget cap per team or key for Platform API traffic**, enforced by a gateway. LiteLLM's `max_budget` defaults to `null`, so a deployed proxy is not a cap until the operator configures the budget and verifies the rejection path. Source: [LiteLLM budget documentation](https://docs.litellm.ai/docs/proxy/users). See [api-gateway.md](./api-gateway.md).
-- **Model routing**, sending routine API calls to a cheaper model and reserving the expensive one for tasks that need it. RouteLLM evaluates this pattern on MT-Bench; its measured result is workload-specific, not a guaranteed saving for coding agents. Source: [Ong et al., RouteLLM](https://arxiv.org/abs/2406.18665). See [ai-unit-economics.md](./ai-unit-economics.md) for the repository's task-level cost model.
-- **Workflow and iteration budgets**, limiting candidate count, review loops, and retries against a task-success objective. The OSDI 2026 Murakkab evaluation found an order-of-magnitude spread in completion tokens and roughly a twofold pass@1 range across configurations of its LiveCodeBench coding workflow. Its review phase helped some model-task combinations and harmed others. The paper's separate multi-workflow experiment reported a cost reduction factor of up to 4.3 relative to its LangGraph baseline while maintaining its defined SLOs, but it approximated agent arrivals from a 24-hour Azure LLM trace rather than observing production coding-agent traffic. The result supports profiling workflow configurations, not applying 4.3 as a budget forecast. Source: [Chaudhry et al., Murakkab](https://www.usenix.org/system/files/osdi26-chaudhry.pdf), OSDI 2026 proceedings pp. 567-568 and 575-577, Sections 4.1, 4.3, and 4.4.
+ZDR is not included in the standard Enterprise plan. Anthropic enables it separately for qualified organizations. It applies to Claude Code inference, not to Chat or Cowork, and disables Claude Code on the web and cloud sessions from Desktop. Source: [Claude Code ZDR scope](https://code.claude.com/docs/en/zero-data-retention), verified 2026-08-31.
 
-Agentless provides a separate reason to cap candidate generation. Its FSE 2025 evaluation used a fixed localization, repair, and validation workflow with GPT-4o on 300 SWE-bench Lite issues. It resolved 96 issues, or 32%, at an average reported inference cost of $0.70 per issue, and its repair result plateaued around 40 candidate patches. This is one benchmark with 2024 API pricing, not a production cost study; the reported cost excludes test infrastructure and human review. Use it to test a candidate ceiling and selection policy before funding more retries. Source: [Xia et al., Demystifying LLM-Based Software Engineering Agents](https://lingming.cs.illinois.edu/publications/fse2025.pdf), DOI [10.1145/3715754](https://doi.org/10.1145/3715754), PDF pp. 10-15, Table 1 and Figure 6.
+Terminal clients keep plaintext session transcripts on developer machines for 30 days by default unless the organization changes `cleanupPeriodDays` and enforces the setting. Transcripts started or most recently continued in Desktop or Cowork are exempt from that local default. Test the exact surface, provider, session type, and retention mode before writing a control statement. Source: [Claude Code data usage](https://code.claude.com/docs/en/data-usage), verified 2026-08-31.
 
----
+### Compliance API evidence has its own risk boundary
 
-## 4. API gateway: a control plane for routed API traffic
+The Compliance API creates a sensitive evidence plane. Depending on its scopes, a Compliance Access Key can expose organization activity, chats, files, projects, and Claude Code or Cowork session transcripts. It can also delete chats, files, and projects on demand. Source: [Compliance API](https://platform.claude.com/docs/en/manage-claude/compliance-api), verified 2026-08-31.
 
-A gateway (LiteLLM or Portkey) sits between clients and provider APIs. For traffic routed through it, LiteLLM can issue virtual keys, restrict models, track spend, and reject requests after a configured budget is exceeded. Its documentation shows a 429 response for an exceeded user budget, while key budgets default to disabled until `max_budget` is set. Source: [LiteLLM budget documentation](https://docs.litellm.ai/docs/proxy/users), verified 2026-08-30. Full setup in [api-gateway.md](./api-gateway.md).
+Anthropic documents six-year retention for the Activity Feed, six years by default for local session transcripts unless a finite organization retention period is set, and six years for remote Cowork transcripts. Those server-side records are separate from the local 30-day transcript files described above. Restrict Compliance API keys and exports, review their access, and define the retention of SIEM indexes and compliance archives. Source: [API and data retention](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention), verified 2026-08-31.
 
-The boundary is traffic routing. A gateway cannot meter subscription-authenticated requests that go directly to Anthropic and still draw from Team plan limits. Enterprise already provides native user and organizational spend controls. Add a gateway when the organization needs one policy layer for Platform API keys, multiple providers, or automation; do not deploy it solely because Enterprise is assumed to lack spend controls. Sources: [Anthropic's current subscription guidance](https://support.claude.com/en/articles/15036540-use-the-claude-agent-sdk-with-your-claude-plan), [Claude pricing](https://claude.com/pricing), and [LiteLLM budget documentation](https://docs.litellm.ai/docs/proxy/users), verified 2026-08-30.
-
-Practitioner reports show what attribution adds beyond a global cap. Shopify's internal LLM proxy routes users through enterprise APIs and attributes API cost by team and person. Ramp described an internal provider layer that traces cost by team and product while comparing model performance against spend. Back Market separately exported Claude Code API usage to BigQuery and used client metadata to detect Anthropic calls from tools whose licenses were already being paid. These accounts provide no exported dashboards or quantified savings, and token volume remains an adoption signal until it is joined to accepted outcomes. For routed API traffic, record team, person or service, product, environment, workflow, model version, and outcome identifiers so the organization can detect duplicate spend and calculate cost per accepted result. Sources: [Farhan Thawar, Shopify, 22:22](https://www.youtube.com/watch?v=u-3IILWQPRM&t=1342s), [Ramp, 24:53](https://www.youtube.com/watch?v=NMs8C2_3M0w&t=1493s), and [Nicolas Martignole, Back Market, 45:09](https://www.youtube.com/watch?v=kSrEZ57thMg&t=2709s).
-
----
-
-## 5. Multi-vendor by design, not by accident
-
-An organization can run Claude and a second provider side by side, either through separate first-party tools or a multi-provider harness such as opencode. A gateway can centralize API keys and budgets across routed traffic, but it does not make provider contracts, retention policies, or model behavior interchangeable. Treat provider choice, harness choice, and billing control as three separate decisions. Sources: [LiteLLM budget documentation](https://docs.litellm.ai/docs/proxy/users) and [opencode provider documentation](https://opencode.ai/docs/providers/), verified 2026-08-30.
-
-An aggregator contract does not approve every downstream provider. In a Back Market account, the organization evaluated and allowed only a small subset of OpenRouter's available providers. The transcript does not preserve the approved count reliably, and the speaker explicitly did not offer legal advice. Treat provider allowlisting, data location, retention, security review, and incident ownership as controls outside the routing API. Source: [Nicolas Martignole, "Claude Max ou API", 38:17](https://www.youtube.com/watch?v=DRtd8S_3E-w&t=2297s), published 2026-07-22.
-
-If evaluating a third harness for this purpose, check its subscription model against Section 1, not just its headline price. [opencode](../ecosystem/agentic-tools.md#15-opencode-anomaly-formerly-sst)'s Go plan is a concrete case that fails the team-scale provisioning test: $10/month with usage caps of $12 per 5 hours, $30 per week, and $60 per month, and only one member per workspace can subscribe. Its current catalog also includes Grok 4.6 and GPT 5.6 Luna alongside DeepSeek, Qwen, GLM, and Kimi models, so Go is no longer accurately summarized as an open-weight-only plan. Source: [opencode.ai/docs/go](https://opencode.ai/docs/go/), verified 2026-08-30.
+Team and Enterprise share important compliance foundations, but they expose different control evidence. Approve Enterprise only when one of its additional controls closes a documented requirement.
 
 ---
 
-## 6. Personal Pro/Max plans: not an organization control plane
+## 3. A bank buys against a control gap, not a plan label
 
-A personal Claude Pro or Max subscription is priced below organization plans, which can make individual reimbursement look like a shortcut. It does not give the employer the same contractual or administrative position as an organization plan:
+A bank should classify the use case before comparing subscriptions. A developer using Claude Code on public sample code does not create the same risk as an agent reading customer data, production logs, payment logic, or authentication secrets.
 
-- **No organization control plane.** Anthropic lists central billing, SSO, and connector administration on Team and Enterprise, not on individual plans. A reimbursed personal account does not become an employer-managed seat. Source: [claude.com/pricing](https://claude.com/pricing), verified 2026-08-30.
-- **Terms depend on region and capacity.** The current Consumer Terms served for EEA and Swiss residents define a consumer as acting mainly outside their trade or profession and prohibit using the services for commercial or business purposes. Other regions may have different applicable terms. Resolve the applicable contract with legal rather than generalizing from one regional page. Source: [Anthropic Consumer Terms of Service](https://www.anthropic.com/legal/consumer-terms), effective 2025-10-08 and verified 2026-08-30.
+For EU financial entities, DORA has required a register of contractual arrangements with ICT third-party providers since 17 January 2025. The institution must classify the supported function and assess the arrangement before selecting a plan. For banks under ECB supervision, the July 2025 cloud-outsourcing guide sets out DORA-aligned supervisory expectations and good practices using a risk-based, proportionate approach. Sources: [EBA preparation for DORA registers](https://www.eba.europa.eu/activities/direct-supervision-and-oversight/digital-operational-resilience-act/preparation-dora-application) and [ECB Guide on outsourcing cloud services](https://www.bankingsupervision.europa.eu/ecb/pub/pdf/ssm.supervisory_guides202507.en.pdf), verified 2026-08-31.
 
-Retention does not have one 30-day default across these products. For consumer accounts, turning off model improvement prevents future chats from being used for training, but saved chats remain in the product until the user deletes them; deletion from backend storage then occurs within 30 days, subject to safety and legal exceptions. Anthropic does not train on Team, Enterprise, or API inputs and outputs by default. API inputs and outputs are deleted from the backend within 30 days by default, while saved commercial-product chats are retained to provide conversation history. Enterprise can set a custom product retention period, with a 30-day minimum; if no custom period is set, the current guidance says product data is retained indefinitely. Sources: [consumer retention](https://privacy.claude.com/en/articles/10023548-how-long-do-you-store-my-data), [commercial retention](https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data), [commercial model-training policy](https://privacy.claude.com/en/articles/7996868-is-my-data-used-for-model-training), and [Enterprise custom retention](https://privacy.claude.com/en/articles/10440198-configure-custom-data-retention-controls-for-enterprise-plans), verified 2026-08-30.
+Where the service supports a critical or important function, the review reaches beyond product features to data and processing locations, access and audit rights, subcontracting, incident handling, continuity, and exit.
+
+The purchasing file should answer these questions before it names Team or Enterprise:
+
+1. **Data boundary**: Which repositories, data classes, connectors, secrets, logs, and production environments are allowed or prohibited?
+2. **Identity lifecycle**: Is SSO plus JIT sufficient, or must deprovisioning and group membership be driven through SCIM?
+3. **Evidence**: Which events, prompts, responses, files, and administrative changes must be available to security, audit, legal, or a regulator? For how long?
+4. **Retention**: Does the use case require standard 30-day Claude Code retention, a custom product schedule, or ZDR? What must still be deleted from developer machines?
+5. **Third-party risk**: Do the contract and annexes cover subprocessors, processing locations, incident notification, access and audit rights, service continuity, and exit?
+6. **Change control**: Which model versions, Claude Code versions, connectors, MCP servers, and hosted surfaces are approved? How are updates tested and rolled back?
+7. **Financial control**: What visibility, warning, approval, model-downshift, and terminal thresholds apply per user, team, service, and organization? Which stages apply to interactive people, and which workloads must stop deterministically?
+
+Approve Enterprise when a named requirement maps to an Enterprise-only feature and a product test proves that the feature covers the intended workflow. A certification badge, a generic reference to compliance, or a sales comparison table is not that proof.
+
+### What Enterprise still does not solve
+
+Buying Enterprise does not transfer regulatory accountability to Anthropic. DORA keeps the financial entity responsible for its obligations, requires a register of ICT contractual arrangements, and requires additional assessment and contractual provisions where an ICT service supports a critical or important function.
+
+The plan does not by itself provide:
+
+- DORA compliance or the institution's required risk classification, due diligence, register, monitoring, and control evidence;
+- EU data residency: Anthropic's published first-party Platform controls currently offer `global` or `us` inference and a US-only workspace geography, not an EU option;
+- a tested exit and migration plan, including accessible data return and an adequate transition period;
+- contractual capacity, recovery objectives, continuity tests, incident assistance, or precise service levels suitable for the classified function;
+- automatic approval of every model, connector, MCP server, hosted surface, subprocessor, or future product change.
+
+Articles 28 to 30 of DORA make these separate obligations concrete: the institution remains responsible, must assess concentration and substitutability, and must contract for processing locations, data access and return, service levels, incident support, audit rights, continuity, and exit where applicable. Enterprise features can supply parts of the evidence. They cannot replace the bank's assessment, contract, or tested operating controls. Sources: [DORA, Articles 28 to 30](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32022R2554) and [Anthropic data residency](https://platform.claude.com/docs/en/manage-claude/data-residency), verified 2026-08-31.
 
 ---
 
-## 7. Self-hosted open-weight models: a separate business case, not a line item here
+## 4. The $13-per-active-day figure is a benchmark with missing denominators
 
-Every option above is a subscription or API billing choice. Self-hosting is a different kind of decision: a capital or dedicated-rental commitment sized to concurrent throughput, not a per-seat price. It deserves its own spike, not a bullet point in a plan-comparison table, because the two questions ("what plan do we buy" and "should we run our own inference") have almost no shared inputs.
+Anthropic reports an average of about $13 per developer per active day and $150 to $250 per developer per month across enterprise deployments, with costs below $30 per active day for 90% of users. Anthropic recommends a pilot because model choice, codebase size, parallel sessions, and automation change the result. Source: [Anthropic, Manage costs effectively](https://code.claude.com/docs/en/costs), verified 2026-08-31.
 
-The worked example in [Local vs Cloud Inference](../ecosystem/local-vs-cloud-inference.md#sizing-self-hosted-inference-for-a-team) is one 671B-class, 4-bit model on an 8xH100 node. Its source estimates about $10 per 1M output tokens at full utilization, $5,000 to $15,000/month of loaded operations time, and roughly 50 to 100 requests in flight to keep that specific batch full. Those figures are scenario inputs, not a portable threshold for every model or serving engine. Source: [Developers Digest, Self-Hosting Open-Weights Models](https://www.developersdigest.tech/blog/self-hosting-open-weights-models-break-even-math).
+That benchmark does not disclose the observation period, model mix, share of inactive developers, task mix, acceptance rate, or distribution above the 90th percentile. The daily denominator includes active days, while the monthly figure may include inactive days or users. The two values cannot establish what a particular developer, team, or agentic workflow should cost. They also cannot support the claim that a low-spend developer is not doing agentic engineering.
 
-The same June analysis compared $10 self-hosted output against DeepSeek V4 Pro at $0.87 per 1M output tokens and correctly reported a gap above 11 times for that snapshot. DeepSeek's current primary pricing is $1.98 off-peak and $3.96 peak per 1M V4 Pro output tokens. Holding the self-host estimate fixed, the comparison is now about 5.1 times off-peak or 2.5 times peak, before redundancy or additional operations cost. Sources: [DeepSeek Models and Pricing](https://api-docs.deepseek.com/quick_start/pricing/) and the [June break-even analysis](https://www.developersdigest.tech/blog/self-hosting-open-weights-models-break-even-math), verified 2026-08-30.
+Current model defaults make the missing model mix material. Claude Code now defaults to Opus 5 for usage-based Enterprise and Team Premium, while Team Standard defaults to Sonnet 5. An administrator can override the organization default. A historical or mixed-model average is not a forecast for an Opus-heavy deployment. Source: [Claude Code model configuration](https://code.claude.com/docs/en/model-config), verified 2026-08-31.
 
-General-purpose coding-agent demand is also too variable to infer GPU utilization from seat count. The 2026 coding-agent preprint found up to 30 times token variation across repeated runs of the same benchmark task. Capture a representative arrival trace, prompt and output lengths, cache behavior, parallel calls per task, and latency targets before comparing GPU-hour prices with API or seat prices. Source: [Bai et al., How Do AI Agents Spend Your Money?](https://arxiv.org/pdf/2604.22750), PDF pp. 1-6 and 10-12.
+Independent evidence supports measuring a distribution rather than trusting an average. Bai et al. repeated agentic coding runs on the same SWE-bench Verified tasks and observed up to 30-fold variation in total tokens; higher token use did not imply higher accuracy. Their eight-model benchmark is not production billing data, but it shows why one run or one fleet average cannot set a safe budget. Source: [Bai et al., How Do AI Agents Spend Your Money? Analyzing and Predicting Token Consumption in Agentic Coding Tasks](https://arxiv.org/pdf/2604.22750), PDF pp. 1-4.
+
+A practitioner account from Back Market provides a denominator closer to a 300-engineer scope. Nicolas Martignole reported 210 to 220 active users among 280 people, with an active user defined as someone who spent at least $1 that month. He reported a three-month average of $191 per active developer and about $3,000 for the highest-spend user in January. The talk provides no median, percentiles, accepted-task count, or billing export, and its later recap gives a January total that conflicts with an earlier figure. Treat the numbers as an operating account, not as an auditable forecast. Sources: [active-user scope at 49:05](https://www.youtube.com/watch?v=kSrEZ57thMg&t=2945s), [January tail at 50:04](https://www.youtube.com/watch?v=kSrEZ57thMg&t=3004s), and [three-month average at 50:48](https://www.youtube.com/watch?v=kSrEZ57thMg&t=3048s), published 2026-04-03.
+
+The same account describes a staged purchasing policy: start with API billing to observe usage and avoid idle subscriptions, then consider a fixed-price Max plan for daily users. The claimed equivalence between a $200 Max plan and $1,100 to $1,200 of API usage was introduced as an estimate and came with no calculation. Measure the crossover from the organization's own invoices and accepted outcomes. A personal Max account also remains outside the employer-managed Team and Enterprise control boundary described in [Boundaries](#8-boundaries). Sources: [initial API decision at 06:37](https://www.youtube.com/watch?v=kSrEZ57thMg&t=397s) and [daily-user recommendation at 44:00](https://www.youtube.com/watch?v=kSrEZ57thMg&t=2640s), published 2026-04-03.
+
+For a pilot, report at least:
+
+- intended seats, activated seats, active users, and active days;
+- task class, model version, effort level, context size, cache behavior, and number of parallel agents;
+- cost per session and per accepted task, with median and upper percentiles;
+- first-pass acceptance, retries, human review time, regressions, and rollback rate;
+- separate totals for interactive work and unattended automation.
+
+Without those denominators, a monthly average is an invoice summary, not an engineering decision.
+
+---
+
+## 5. Optimize cost per accepted task, not cost per token
+
+Cheaper tokens can produce a higher workflow cost. If Haiku or Sonnet needs repeated prompting, produces a wrong patch, or shifts work into human review, its lower token rate may not offset retries and rework. One successful Opus run can be cheaper than three failed runs on a smaller model.
+
+Use the canonical unit from [AI Unit Economics](./ai-unit-economics.md#2-building-a-cost-per-accepted-task):
+
+```text
+cost per accepted task =
+  (model spend + retry spend + human review cost + rework cost)
+  / accepted tasks
+```
+
+When a trial produces no accepted task, the ratio is undefined. Report zero accepted tasks, total attempts, and total spend instead of hiding the failed trial behind a dollar-per-task number.
+
+At current public API rates, Opus 5 costs $5 per million input tokens and $25 per million output tokens, Sonnet 5 costs $2 and $10, and Haiku 4.5 costs $1 and $5. The 2.5-fold Opus-to-Sonnet rate difference is meaningful only if both models clear the same quality gate. Source: [Claude model pricing](https://platform.claude.com/docs/en/about-claude/pricing), verified 2026-08-31.
+
+Databricks calls the set of models with the best price for a required quality level the *efficiency frontier*. Use the term as an evaluation discipline, not as a public ranking. A candidate belongs on the organization's frontier only for the task classes, model-harness pair, acceptance gate, and review-cost boundary that were actually tested. Databricks reports more than 30% lower average task cost from its internal Smart Router while roughly matching the most expensive model's quality, but publishes no task sample, paired protocol, or confidence interval. Source: [Databricks, "Managing AI Coding Costs at Scale"](https://www.databricks.com/blog/managing-ai-coding-costs-scale), 2026-08-07.
+
+Set routing rules from measured task outcomes:
+
+- Start ambiguous, cross-system, security-sensitive, or high-rework tasks on the strongest approved model.
+- Use a cheaper model for mechanical or well-specified work only after repeated trials show that it preserves the acceptance rate and does not increase review or retry cost.
+- Compare models on the same tasks, with more than one run per task. Record the full workflow through tests and human acceptance, not the first generated patch.
+- Route by validated task class. Do not assume that a model family or an automatic complexity classifier knows the organization's quality threshold.
+- Prefer a task-level model-harness decision before work starts when the task can remain on one stable cache path. If routing occurs per request, measure cache creation, cache reads, cold starts, and mid-task behavior changes.
+- Price escalation and delegation as separate attempts. A cheap controller that consults an expensive model can still be cheaper, but duplicated context and review belong in the accepted-task total.
+
+A failed cheaper-model comparison is valid evidence for the tasks that were tested. It is not evidence that every task requires Opus. The fleet decision needs the same comparison across representative work, with failure and rework priced into the result.
+
+Team already includes access to all available models. Enterprise adds centralized enforcement. Administrators can disable models organization-wide and, for custom roles, restrict model access and cap the maximum effort level per model across Chat, Cowork, and supported Claude Code surfaces.
+
+Anthropic's published plan comparison lists a 200k context window for Team and 500k on Enterprise's default model. That is a plan capability difference, not access to a different model family, and it does not establish a higher accepted-task rate. Source: [Anthropic pricing](https://claude.com/pricing), verified 2026-08-31.
+
+Those controls have limits. Haiku cannot be disabled. Claude Code CLI version 2.1.199 or later reflects model and effort restrictions in its picker; earlier clients can still display disabled choices, but Anthropic says requests using them are rejected. The setting does not yet apply to Claude in Chrome or Claude Security. Claude aliases such as `opus` and `sonnet` can also move to newer versions over time. Pin full model identifiers for controlled deployments, run a regression suite before changing the pin, canary the new version, and keep a rollback path. Sources: [Team plan](https://support.claude.com/en/articles/9266767-what-is-the-team-plan), [Enterprise model access](https://support.claude.com/en/articles/15694740-manage-model-access-for-your-organization), and [Claude Code model configuration](https://code.claude.com/docs/en/model-config), verified 2026-08-31.
+
+---
+
+## 6. Workforce plans and production API traffic solve different problems
+
+Use Team or Enterprise seats for named people. Use Claude Platform API identities for CI jobs, shared agents, scheduled workloads, and services that need their own budget, rate limit, and lifecycle.
+
+A gateway such as LiteLLM or Portkey can issue virtual keys, attach team or service metadata, restrict models, and reject routed API requests after a configured budget is exceeded. A terminal cap does not by itself provide spend warnings, approvals, or quality-safe model downshifts; those require a policy layer and tested client behavior. The gateway cannot see or cap subscription-authenticated traffic sent directly to Anthropic. Enterprise already provides native user and organization spend controls for its metered workforce usage. Add a gateway when the organization needs one policy layer for Platform API traffic, multiple providers, or service identities. See [API Gateway for Claude Code at Scale](./api-gateway.md#31-progressive-spend-policy-for-interactive-users).
+
+Practitioner accounts support gateway attribution, not productivity measurement. Shopify reports attributing enterprise API costs by team and person through its internal proxy. Ramp reports tracing costs by team and product through a similar internal layer. Back Market says its BigQuery telemetry exposed Anthropic API calls from clients such as Cursor alongside an existing license cost. None of the three accounts publishes the underlying spend data, implementation cost, or cost per accepted task. Sources: [Shopify at 22:22](https://www.youtube.com/watch?v=u-3IILWQPRM&t=1342s), published 2025-07-02; [Ramp at 24:53](https://www.youtube.com/watch?v=NMs8C2_3M0w&t=1493s), published 2026-03-09; and [Back Market at 45:09](https://www.youtube.com/watch?v=kSrEZ57thMg&t=2709s), published 2026-04-03.
+
+A gateway contract does not approve every routed provider. Back Market reported that its organization allowed only a small internally reviewed subset of the providers available through OpenRouter. The transcript does not establish the exact count, and the speaker explicitly did not present the statement as legal advice. Keep a provider allowlist and review each provider's contract, processing path, and controls before enabling it. Source: [Nicolas Martignole at 38:17](https://www.youtube.com/watch?v=DRtd8S_3E-w&t=2297s), published 2026-07-22.
+
+A regulated deployment can separate workforce and service identities:
+
+```text
+Developers  -> Team or Enterprise organization -> Anthropic workforce controls
+CI/services -> Internal gateway                -> Claude Platform API
+```
+
+Do not use a developer's seat credential as the production identity of an unattended service.
+
+---
+
+## 7. Decision and pilot gate
+
+Apply the gates in this order: function and data criticality, required controls and contract terms, product-surface coverage, then user count and cost. A critical or important DORA classification does not automatically mandate Enterprise. It does remove headcount as a safe shortcut: if the assessed workflow requires SCIM, Compliance API evidence, custom retention, network restrictions, or another Enterprise-only control, that requirement decides the plan even for a small team.
+
+Choose **Team** when all three conditions hold: the intended user count stays within 150, Team's SSO and administrative model meet the identity requirement, and the risk assessment does not require Enterprise-only evidence, retention, network, or role controls.
+
+Choose **Enterprise** when the user count or a signed control requirement forces it, and after the pilot validates the relevant feature on every intended surface. Accept that the $20 seat is an access charge and forecast token usage separately.
+
+Add **Claude Platform behind a gateway** when production automation needs service identities, terminal budgets, cross-provider routing, or centralized API attribution. For interactive API traffic, test progressive warnings, approvals, and downshifts before the terminal cap. This can coexist with either workforce plan.
+
+Those choices are the Anthropic branch of the decision. They do not establish that one provider should serve every developer or workload.
+
+### Exercise: choose a provider portfolio for 300 engineers
+
+The exercise asks which purchasing and deployment path should serve each population, not which vendor wins one universal ranking. Freeze every price, allowance, control, model version, and contract assumption on the date of the exercise. Re-run the commercial snapshot before procurement because several providers have changed their billing unit or plan eligibility during 2026.
+
+#### Step 1: record the public commercial starting point
+
+The table below is a source map verified on 2026-08-31. It is not a quote and does not normalize unlike billing units into one artificial seat price.
+
+| Candidate path | Public starting point | Boundary the pilot must verify |
+|---|---|---|
+| Claude Team or usage-based Enterprise with Claude Code | Sections [1](#1-the-20-enterprise-seat-does-not-include-usage) and [2](#2-team-covers-the-baseline-enterprise-adds-specific-controls) document included Team usage versus Enterprise access plus metered tokens | Intended-user scope, active-user tail, model and effort policy, covered surfaces, and accepted-task cost |
+| ChatGPT Business or Enterprise with Codex | Business publicly lists $20/$25 Standard and $100/$125 Premium seats, includes Codex, and targets organizations of 2 to 200 employees; Enterprise is custom-priced | A 300-engineer organization needs an Enterprise quote or another documented path. New Codex-only PAYG seats stopped being available to new Business workspaces on 2026-06-24, although eligible existing workspaces can retain them |
+| GitHub Copilot Business or Enterprise | Business lists $19 per granted user with 1,900 monthly AI credits; Enterprise lists $39 with 3,900. Credits pool at the billing entity and additional usage is $0.01 per credit | Model-dependent credit burn, user and cost-center budgets, agent traffic, Enterprise-plan prerequisites, and the acceptance rate behind the credits consumed |
+| Gemini Code Assist Standard or Enterprise | Google publishes per-license hourly rates under monthly and 12-month commitments. Enterprise adds code customization and higher agent usage | Actual billed commitment, license assignment, Google Cloud integration value, repository customization, daily agent limits, and portability outside Google Cloud |
+| Cursor Teams or Enterprise | Teams lists $40 Standard and $120 Premium active seats; Enterprise is custom. Third-party model use is billed at public API price plus Cursor's $0.25 per million token rate | Per-user versus pooled usage, on-demand spend, Auto routing, third-party model markup, SCIM and advanced controls, Background Agent cost, and exit from Cursor-specific workflow state |
+| Mistral Vibe Team or Enterprise | Team lists $24.99 per user; Enterprise is custom. The organization plan spans Vibe, Studio, and API usage, with included usage consumed before optional PAYG | Vibe CLI, IDE, Web, and remote-agent coverage; organization and Workspace caps; SAML, audit, Admin API maturity, support, and private-deployment terms |
+| Governed multi-provider API | Provider tokens plus gateway, telemetry, and operator cost | Service identities, provider allowlist, fallback behavior, budget rejection, payload-logging policy, and traffic that bypasses the gateway |
+| Self-hosted open-weight inference | No seat-price equivalent | Task quality, concurrency, TTFT, output speed, queue depth, availability, loaded infrastructure cost, and operator time at the same acceptance and latency gates |
+
+Sources: [OpenAI business pricing](https://openai.com/business/pricing/) and [Codex flexible-pricing eligibility](https://help.openai.com/en/articles/11487671-flexible-pricing-for-the-enterprise-and-team-plan); [GitHub Copilot plan choice](https://docs.github.com/en/copilot/tutorials/roll-out-at-scale/assign-licenses/choose-enterprise-plan) and [AI-credit billing](https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-organizations-and-enterprises); [Gemini Code Assist pricing](https://cloud.google.com/products/gemini/pricing); [Cursor team pricing](https://prod.cursor.com/docs/account/teams/pricing); [Mistral pricing](https://mistral.ai/pricing/), [subscriptions](https://docs.mistral.ai/admin/billing-usage/subscriptions), and [usage limits](https://docs.mistral.ai/admin/billing-usage/usage-limits), all verified 2026-08-31.
+
+Mistral needs three separate candidate rows in the working spreadsheet even though the summary table groups them: Vibe workforce seats, Devstral or Codestral through Mistral's API, and a private or self-hosted open-weight deployment. Mistral says data is hosted in the EU by default, but some features can temporarily transfer data outside the EU; Enterprise customers can disable some of those features at organization level. French headquarters and EU-default hosting are relevant procurement facts, not proof that every processing path remains in France or the EU. Sources: [Mistral data-location guidance](https://help.mistral.ai/en/articles/347629-where-do-you-store-my-data-or-my-organization-s-data) and [Enterprise Admin API preview](https://docs.mistral.ai/admin/admin-api/overview), verified 2026-08-31.
+
+#### Step 2: segment people before assigning seats
+
+Do not start with 300 identical licenses. Complete this table from identity and billing exports. The first three rows partition the intended workforce without double-counting people; service workloads remain separate because they need non-human identities.
+
+| Population | Intended users | Activated users | Monthly active users | Active days per user | Candidate surfaces | Required controls |
+|---|---:|---:|---:|---:|---|---|
+| Daily interactive coding-agent users |  |  |  |  |  |  |
+| Occasional coding-assistant users |  |  |  |  |  |  |
+| Restricted or sovereignty-sensitive users |  |  |  |  |  |  |
+| CI, scheduled agents, and shared services | n/a | n/a | n/a | n/a |  |  |
+
+#### Step 3: run the same four-week pilot across candidates
+
+Use representative repository tasks and the same executable acceptance gates. Repeat tasks because one agentic run does not estimate the distribution. Record model and harness version, task class, routing level, routing decision, input and output tokens or provider credits, cache creation and reads, cold starts, tool failures, retries, review time, accepted outcome, latency, and any provider or gateway fallback. Record every spend warning, approval, downshift, and suspension with its threshold and outcome. A seat that also includes chat or office features may create value outside coding, but record that value separately instead of attributing the whole seat to engineering tasks.
+
+For self-hosted candidates, replay the measured arrival pattern rather than translating 300 engineers into 300 concurrent requests. Capture GPU utilization, queue depth, TTFT, time per output token, cache eviction, outages, deployment work, and operator hours. Use the detailed method in [Sizing Self-Hosted Inference for a Team](../ecosystem/local-vs-cloud-inference.md#sizing-self-hosted-inference-for-a-team).
+
+#### Step 4: calculate comparable decision units
+
+```text
+workforce monthly cost = committed seats + metered overage + non-seat add-ons
+service monthly cost   = provider usage + gateway + telemetry + operator cost
+self-host monthly cost = amortized hardware or rental + energy + network
+                         + storage + monitoring + availability + operator cost
+
+cost per active developer = workforce monthly cost / monthly active developers
+cost per accepted task    = (all model, infrastructure, review, and rework cost)
+                            / accepted tasks
+```
+
+Also report intended, assigned, activated, and active seats; median and upper-percentile spend; unused included credits; warnings, approvals, downshifts, terminal rejections; and workflows with zero accepted tasks. Do not hide failed trials behind an undefined cost-per-accepted-task ratio.
+
+#### Step 5: choose a portfolio, then test the boundaries
+
+A valid result can assign different paths to different populations. For example, a managed workforce plan may cover interactive development, a gateway may own CI and shared agents, and a private Mistral or other open-weight deployment may cover a narrow sovereignty-sensitive workload. This is a hypothesis to test, not a recommended allocation.
+
+Reject a candidate when a required control or task-quality gate fails, even if its list price is lower. Before approval, test offboarding, each configured spend-policy stage, terminal rejection, audit export, data location and subprocessors, model-version change, cache behavior under routing, provider fallback, direct-traffic bypass, and exit or data-export behavior. Compare self-hosting only after the local model meets the same accepted-task and latency objectives as the managed candidates.
+
+Before rollout, the decision owner should approve one evidence pack containing:
+
+1. a supplier-assurance pack with the scope, audit period, exceptions, and independent assessment of each SOC 2, ISO, or restricted report used in the decision;
+2. a Team-versus-Enterprise control matrix with an owner and test result for every required control;
+3. a representative model evaluation with accepted-task quality and total workflow cost;
+4. a monthly forecast showing median and tail usage, not only an average per seat;
+5. an offboarding test, an audit or Compliance API coverage test, and a retention test;
+6. a spend-policy test for every metered traffic path, including the terminal rejection path and any warning, approval, or downshift stages;
+7. the completed multi-provider exercise with dated source URLs, contract deviations, and the selected population for each path;
+8. a DORA and third-party-risk record where the organization determines those obligations apply.
+
+For the Anthropic branch, if Team passes that gate, the purchasing file contains no demonstrated Enterprise business case. If Team fails a required control and Enterprise passes the same test, record the Enterprise-only feature, its owner, and the test evidence. For the portfolio decision, record why each selected path wins for its assigned population and which measured failure or control gap rejected the alternatives.
+
+---
+
+## 8. Boundaries
+
+A reimbursed Pro or Max account is not an employer-managed substitute for Team or Enterprise. It lacks the same organization control plane and may be governed by Consumer Terms rather than Commercial Terms. Resolve the applicable contract before using personal accounts for company work. Source: [Claude Code legal and compliance](https://code.claude.com/docs/en/legal-and-compliance).
+
+Self-hosted inference is a separate capacity and operations decision. The exercise includes it as a candidate path, but does not place it beside a seat price. Compare it on measured task quality, concurrency, throughput, latency, availability, security, and loaded operations cost. See [Local vs Cloud Inference](../ecosystem/local-vs-cloud-inference.md#sizing-self-hosted-inference-for-a-team).
+
+---
+
+## 9. One-page decision summary
+
+Use this table after completing the pilot, not as a substitute for it. The decision gate combines the main control, cost, and rejection test. It does not rank model quality.
+
+| Path | Use it for | How you pay | Decision gate |
+|---|---|---|---|
+| Claude Team | Managed interactive Claude Code use | Seat with included usage and plan limits | Team controls and included usage pass the pilot; otherwise test Enterprise |
+| Claude Enterprise | Larger or regulated Claude Code deployments | $20 access fee per seat plus metered usage, subject to contract | A named Team control gap is resolved and tail usage remains affordable |
+| ChatGPT Business or Enterprise with Codex | Interactive Codex use governed through a ChatGPT workspace | Business seat tier or Enterprise contract | The 300-person commercial path, audit coverage, spend behavior, and offboarding are documented |
+| GitHub Copilot Business or Enterprise | GitHub-centered IDE, chat, and agent workflows | Granted-user fee, pooled AI credits, then overage | Model-specific credit burn produces an acceptable cost per accepted task |
+| Gemini Code Assist Standard or Enterprise | Teams already governed through Google Cloud | Monthly or annual license-hour commitment | Code customization, agent limits, data controls, and portability justify the commitment |
+| Cursor Teams or Enterprise | Teams choosing an AI-native editor workflow | Active seats plus model usage or overage | Outcome gains cover model markup, background agents, migration, and exit cost |
+| Mistral Vibe Team or Enterprise | Managed Vibe workflows and European-provider procurement paths | Team seat with included usage and optional PAYG, or Enterprise contract | Vibe passes the task pilot and actual processing locations meet the sovereignty requirement |
+| Governed multi-provider API | CI, shared agents, services, and model routing | Provider tokens plus gateway, telemetry, and operator cost | Routing, progressive or terminal spend controls, attribution, fallback, cache behavior, and bypass controls work; direct subscriptions remain outside the gateway |
+| Self-hosted open-weight inference, including Devstral | Stable, high-volume or privacy-sensitive workloads | Infrastructure, energy, monitoring, availability, and operator time | Quality and latency match the target; measured concurrency and loaded cost beat the API alternative |
+
+For 300 engineers, the defensible output is usually a portfolio assignment by population rather than one universal winner: a managed workforce path for interactive use, governed API identities for automation, and self-hosted inference only for workloads that pass the separate quality, capacity, and operations case. Record this as a measured decision, not a default allocation.

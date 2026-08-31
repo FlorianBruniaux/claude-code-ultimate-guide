@@ -1,6 +1,6 @@
 ---
 title: "API Gateway for Enterprise Claude Code"
-description: "Centralize cost control, budget enforcement, model allowlists, and usage tracking across teams using Claude apps gateway or another Anthropic-compatible proxy"
+description: "Centralize cost control, progressive spend policy, terminal budgets, model allowlists, and usage tracking across teams using Claude apps gateway or another Anthropic-compatible proxy"
 tags: [enterprise, cost, observability, ops, guide]
 ---
 
@@ -20,8 +20,9 @@ The table and setup below describe the LiteLLM and Portkey examples in this page
 |---------|-----------------|
 | No per-team cost breakdown | Virtual keys with team metadata, aggregated in dashboards |
 | Developers can call any model | Model allowlists per key (unapproved calls return 403) |
-| Runaway costs from agents | Budget cap per key, monthly reset, returns 429 when hit |
-| No central audit log | Every request/response logged with key alias, team, tokens |
+| Runaway costs from unattended agents | Terminal budget cap per key, monthly reset, returns 429 when hit |
+| Interactive developer spend spikes | Gateway telemetry can feed warnings, approvals, and model downshifts; a budget field alone does not implement that policy |
+| No common API telemetry | Routed requests attributed by key alias, team, model, and tokens; payload logging depends on configuration |
 
 **The third-party approach**: Set `ANTHROPIC_API_URL` on each developer machine to point to a compatible gateway instead of `api.anthropic.com`. The examples below forward requests, add configured logging and budget enforcement, and issue virtual keys so the provider key need not be present on developer machines.
 
@@ -49,6 +50,8 @@ The documented sign-in flow is interactive browser SSO. It has no service-token 
 | Anthropic data plane | The gateway's data plane sends nothing to Anthropic unless the Anthropic API is configured as an upstream. |
 | Other client traffic | Version checks and downloads can still go directly from Claude Code to Anthropic and require separate egress policy or documented nonessential-traffic controls. |
 
+![User subscriptions bypass gateway budgets and attribution while CI, shared agents, scheduled workflows, and internal services pass through centralized keys, quotas, model allowlists, fallback, and observability](../images/gateway-visibility-boundary.webp)
+
 The gateway does not make a desktop application, local filesystem, or plugin automatically safe. [Computer Use](../core/computer-use.md) has a separate desktop trust boundary, and [plugin distribution](../ecosystem/plugin-distribution.md) has a separate extension supply-chain boundary.
 
 ### Verify before rollout
@@ -67,20 +70,20 @@ The remaining LiteLLM and Portkey material is third-party implementation guidanc
 
 ## 1. Why a Gateway Layer
 
-Claude Code calls Anthropic's API directly using whatever key is in `ANTHROPIC_API_KEY`. Without a proxy layer:
+Claude Code can call Anthropic or another supported provider directly with the credential and endpoint configured by the organization. Without a proxy layer:
 
-- You have no per-team or per-project cost breakdown until the monthly invoice
-- Any developer with a key can call any model, including the most expensive ones
-- Budget limits depend entirely on each person's discipline
-- There is no org-level audit log of what was built with AI assistance
+- Team and project attribution depends on provider reporting and how the organization separates keys
+- Model restrictions depend on the upstream provider's controls
+- Budget enforcement depends on upstream controls or an external policy layer
+- There is no common request telemetry across providers
 
-A gateway sits between all Claude Code instances and Anthropic. It issues virtual keys to developers (scoped to a team or project), keeps the real Anthropic key server-side, and enforces policies on every request before forwarding.
+A gateway sits between configured Claude Code instances and their upstream providers. It issues virtual keys to developers (scoped to a team or project), keeps provider credentials server-side, and enforces policies on requests routed through it. Subscription-authenticated traffic and clients using direct provider credentials remain outside that control plane.
 
 ---
 
 ## 2. LiteLLM Gateway
 
-[LiteLLM](https://github.com/BerriAI/litellm) is the most widely used open-source LLM proxy for enterprise deployments. It supports Anthropic natively, issues virtual keys, enforces budgets, and exposes Prometheus metrics for Grafana dashboards.
+[LiteLLM](https://github.com/BerriAI/litellm) is an open-source Python LLM proxy. It supports Anthropic, issues virtual keys, can enforce configured budgets, and exposes metrics for external dashboards.
 
 ### 2.1 Installation
 
@@ -182,6 +185,22 @@ curl http://localhost:4000/key/info?key=sk-litellm-team-backend-abc123 \
   -H "Authorization: Bearer $LITELLM_MASTER_KEY"
 ```
 
+### 3.1 Progressive spend policy for interactive users
+
+The LiteLLM example above demonstrates a terminal cap. It does not demonstrate progressive warnings, approval gates, or a quality-safe model downshift. Build those as an explicit policy layer, or verify that the selected gateway implements each stage on the intended client and traffic path.
+
+| Threshold stage | Required behavior | Evidence to retain |
+|---|---|---|
+| **Visibility** | Show current spend, spend rate, model, and remaining headroom without interrupting work | User, team, model, timestamp, routed traffic scope |
+| **Self-clearing warning** | Ask the developer to acknowledge an unusual spend rate | Threshold, acknowledgement, session or task identifier |
+| **Approval gate** | Require a budget owner to approve further premium-model spend | Approver, approved amount or duration, reason, expiry |
+| **Downshift** | Move future work to a lower-cost approved model only for task classes that passed the same quality gate | Previous and new model-harness pair, routing reason, cache effect, accepted outcome |
+| **Suspension** | Return a clear terminal error with reset or escalation instructions | Denial reason, reset time, owner, recovery path |
+
+Keep a hard terminal budget for unattended agents, CI, scheduled jobs, and services. No person is present to interpret a warning, and a silent downshift can change behavior inside an automated workflow. For interactive development, the stages above can prevent accidental spend before suspension. Databricks reports this progressive pattern from its own deployment and conversations with other companies; the report is informal and does not establish that higher spend means higher productivity. Source: [Databricks, "Managing AI Coding Costs at Scale"](https://www.databricks.com/blog/managing-ai-coding-costs-scale), 2026-08-07.
+
+A gateway can only apply these controls to traffic it sees. Subscription-authenticated clients and direct provider credentials remain outside this policy. Reconcile gateway events with workforce-plan controls and provider invoices before calling the organization-wide spend policy complete.
+
 ---
 
 ## 4. Model Allowlists
@@ -195,6 +214,8 @@ A three-tier structure that matches most org needs:
 | Developer default | Haiku, Sonnet | $30 | All engineers |
 | Project elevated | Haiku, Sonnet | $100 | Active sprint work |
 | Lead/Architect | All models | $300 | Tech leads, architects |
+
+A model allowlist is not a provider allowlist. An aggregator can expose the same model through several infrastructure providers, each with a different contract and processing path. Back Market reported allowing only a small internally reviewed subset of the providers available through OpenRouter. The transcript does not establish the exact count, and the speaker did not present the statement as legal advice. Review and approve each provider separately. Source: [Nicolas Martignole at 38:17](https://www.youtube.com/watch?v=DRtd8S_3E-w&t=2297s), published 2026-07-22. See [Subscription Strategy](./subscription-strategy.md#6-workforce-plans-and-production-api-traffic-solve-different-problems) for the workforce and API identity split.
 
 ---
 
@@ -226,7 +247,11 @@ litellm_tokens_total{token_type, model, team_id}
 litellm_failed_requests_total{model, error_type}
 ```
 
+For a progressive spend policy, also record the configured threshold stage, warning acknowledgements, approval decisions, downshifts, suspensions, and the task outcome after each intervention. Raw spend and token counters cannot show whether a downshift increased retries, review time, or rejected work.
+
 LiteLLM also ships a basic UI at `/ui` (enable with `LITELLM_UI_USERNAME` and `LITELLM_UI_PASSWORD` env vars) for quick cost breakdown views without needing a full Grafana setup.
+
+Practitioner accounts show what this attribution can reveal, within the traffic the gateway observes. Shopify reports attributing enterprise API costs by team and person through an internal proxy. Ramp reports tracing costs by team and product. Back Market says its BigQuery telemetry exposed Anthropic API spend from clients such as Cursor alongside an existing license cost. These accounts publish neither the underlying spend data nor implementation cost or cost per accepted task. Sources: [Shopify at 22:22](https://www.youtube.com/watch?v=u-3IILWQPRM&t=1342s), published 2025-07-02; [Ramp at 24:53](https://www.youtube.com/watch?v=NMs8C2_3M0w&t=1493s), published 2026-03-09; and [Back Market at 45:09](https://www.youtube.com/watch?v=kSrEZ57thMg&t=2709s), published 2026-04-03.
 
 ---
 
@@ -300,12 +325,17 @@ Portkey also supports `x-portkey-virtual-key` headers for routing, logging, and 
 
 ## 9. What the Gateway Does Not Cover
 
-The gateway controls what reaches Anthropic's API. It does not address:
+The gateway controls requests routed through it. It does not address:
 
+- Subscription-authenticated Claude usage sent directly to Anthropic
+- API traffic from clients that retain direct provider credentials or bypass the gateway endpoint
 - What files Claude Code reads on the developer's machine (use `permissions.deny` in `settings.json`)
 - Which MCP servers are active locally (see [enterprise-governance.md §3](../security/enterprise-governance.md#3-mcp-governance-workflow))
 - Code quality of AI output (use PR review gates)
+- Whether a warning, approval, or model downshift preserves accepted-task quality
 - Session-level audit trails showing which files were modified (see [ai-traceability.md](./ai-traceability.md#pr-audit-trail))
+
+If gateway-only API routing is a policy requirement, remove direct provider credentials from developer machines and enforce provider egress separately. Reconcile gateway telemetry with workforce-plan and provider invoices; a gateway dashboard alone is not a complete organization-wide spend ledger.
 
 ---
 
@@ -316,6 +346,7 @@ The gateway controls what reaches Anthropic's API. It does not address:
 - [ai-traceability.md](./ai-traceability.md) for AI attribution in commits and PR audit trails
 - [Computer Use in Claude Code](../core/computer-use.md) for desktop control and its local permission boundary
 - [Plugin Distribution and Recommendation Hints](../ecosystem/plugin-distribution.md) for marketplace and CLI recommendation controls
+- [Databricks cost-management resource evaluation](../../docs/resource-evaluations/databricks-managing-ai-coding-costs-scale.md) for the evidence boundary behind progressive spend controls and routing claims
 - [Claude apps gateway](https://code.claude.com/docs/en/claude-apps-gateway) for Anthropic's current gateway reference
 - [LiteLLM proxy documentation](https://docs.litellm.ai/docs/proxy/quick_start)
 - [Portkey documentation](https://docs.portkey.ai)

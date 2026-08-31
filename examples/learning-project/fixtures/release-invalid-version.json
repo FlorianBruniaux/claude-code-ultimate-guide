@@ -1,0 +1,21 @@
+{
+  "name": "proofpack",
+  "version": "v1",
+  "checks": [
+    {
+      "name": "tests",
+      "status": "pass",
+      "evidence": "node --test: 9 passed"
+    },
+    {
+      "name": "security",
+      "status": "pass",
+      "evidence": "release guard fixtures: 3 passed"
+    },
+    {
+      "name": "package",
+      "status": "pass",
+      "evidence": "npm pack --dry-run: exit 0"
+    }
+  ]
+}

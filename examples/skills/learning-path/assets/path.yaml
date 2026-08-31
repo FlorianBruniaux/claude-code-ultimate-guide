@@ -32,6 +32,7 @@
       "title": "Core loop",
       "guide": "guide/learning-path/02-core-loop.md",
       "exercise": "guide/learning-path/02-core-loop.md#exercise-the-complete-loop",
+      "related": ["guide/core/computer-use.md"],
       "prerequisites": ["module-01"]
     },
     {
@@ -53,6 +54,7 @@
       "title": "Skills and automation",
       "guide": "guide/learning-path/05-skills.md",
       "exercise": "guide/learning-path/05-skills.md#exercise-create-a-domain-skill",
+      "related": ["guide/ecosystem/plugin-distribution.md"],
       "prerequisites": ["module-04"]
     },
     {
@@ -67,6 +69,7 @@
       "title": "Advanced patterns",
       "guide": "guide/learning-path/07-advanced.md",
       "exercise": "guide/learning-path/07-advanced.md#exercise-build-your-first-multi-agent-workflow",
+      "related": ["guide/ops/api-gateway.md#current-first-party-surface-claude-apps-gateway"],
       "prerequisites": ["module-06"]
     }
   ]

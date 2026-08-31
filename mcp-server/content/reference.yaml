@@ -4,7 +4,7 @@
 # Purpose: Condensed index for LLMs to quickly answer user questions about Claude Code
 
 version: "3.43.0"
-updated: "2026-08-30"
+updated: "2026-08-31"
 
 # ════════════════════════════════════════════════════════════════
 # DEEP DIVE - Line numbers in guide/ultimate-guide.md
@@ -12,6 +12,22 @@ updated: "2026-08-30"
 # For architecture internals, see guide/core/architecture.md
 # ════════════════════════════════════════════════════════════════
 deep_dive:
+  # Learning and distribution routes added after the 2026-08-31 comparative audit
+  computer_use_guide: "guide/core/computer-use.md"
+  plugin_distribution_guide: "guide/ecosystem/plugin-distribution.md"
+  claude_apps_gateway_guide: "guide/ops/api-gateway.md#current-first-party-surface-claude-apps-gateway"
+  current_product_surface_evaluation: "docs/resource-evaluations/claude-code-current-surface-2026-08.md"
+  best_of_n_workflow: "guide/workflows/best-of-n.md"
+  best_of_n_skill: "examples/skills/best-of-n/SKILL.md"
+  testing_proof_log_template: "examples/claude-md/TESTING.md"
+  best_of_n_evidence: "docs/resource-evaluations/best-of-n-verification-evidence.md"
+  learning_path_skill: "examples/skills/learning-path/SKILL.md"
+  learning_path_progress_engine: "examples/skills/learning-path/scripts/progress.py"
+  learning_companion_project: "examples/learning-project/README.md"
+  guide_distribution_workflow: "docs/workflows/guide-distribution.md"
+  distribution_channels_registry: "machine-readable/distribution-channels.yaml"
+  learning_path_slides: "docs/distribution/claude-code-learning-path-slides.pptx"
+  quick_win_video_briefs: "docs/distribution/quick-win-video-series.md"
   # Visual Diagrams Series (41 Mermaid diagrams)
   mermaid_diagrams:
     path: "guide/diagrams/"
@@ -95,6 +111,8 @@ deep_dive:
   # Glossary (alphabetical term reference)
   glossary: "guide/core/glossary.md"
   glossary_description: "120+ terms: Claude Code-specific, community-coined patterns, AI engineering concepts. Alphabetical table with Category + Subcategory. Excludes standard CS/DevOps terms."
+  translation_status_guide: "guide/core/translations.md"
+  translation_registry: "machine-readable/translations.json"
   # Context Engineering (consolidated reference)
   context_engineering_guide: "guide/core/context-engineering.md"
   context_engineering_what_is: "guide/core/context-engineering.md#1-what-is-context-engineering"
@@ -172,6 +190,7 @@ deep_dive:
   agent_harness_digital_twin: "guide/core/agent-harness.md#5-digital-twin-testing"
   agent_harness_model_harness_pair: "guide/core/agent-harness.md#the-core-claim"
   agent_harness_optimizer: "guide/core/agent-harness.md#11-harness-optimizers-and-meta-harnesses"
+  agent_harness_meta_harness_overload: "guide/core/agent-harness.md#0-four-layers-four-responsibilities"  # research optimizer versus product dispatcher or orchestrator usage
   agent_harness_optimizer_landscape: "guide/ecosystem/agent-harness-landscape.md#harness-optimizers-and-meta-harnesses"
   agent_harness_evaluation_protocol: "guide/core/agent-harness.md#11-harness-optimizers-and-meta-harnesses"
   agent_harness_smallest_sufficient: "guide/core/agent-harness.md#7-test-distribution-and-component-stacking-anti-patterns"
@@ -362,7 +381,7 @@ deep_dive:
   edgee_compressor_v2_guide: "guide/ecosystem/context-engineering-tools.md:419"
   edgee_compressor_v2_source: "https://www.edgee.ai/blog/posts/introducing-compressor-v2-three-compression-layers-measured-end-to-end-for-a-50-cost-reduction"
   edgee_rtk_lineage: "Edgee's tool-result-trimming layer explicitly credits RTK as its inspiration; TSR and brevity are the two layers RTK cannot cover"
-  vendor_claims_checklist: "guide/ops/ai-unit-economics.md:159 (How to read a vendor's cost-reduction claim: paired design, sign test ceiling at small n, bootstrap CI width, median vs aggregate)"
+  vendor_claims_checklist: "guide/ops/ai-unit-economics.md#6-how-to-read-a-vendors-cost-reduction-claim"  # paired design, sign test ceiling at small n, bootstrap CI width, median vs aggregate
   # Google Antigravity (Agent-First IDE)
   antigravity_guide: "guide/ecosystem/ai-ecosystem.md:1370"
   antigravity_evaluation: "docs/resource-evaluations/google-antigravity-evaluation.md"
@@ -465,18 +484,27 @@ deep_dive:
   practitioner_insights_credits: "guide/core/credits.md#ifttd-if-this-then-dev-podcast"
   # AI Unit Economics (guide/ops/ai-unit-economics.md) - Added 2026-07-07
   ai_unit_economics_guide: "guide/ops/ai-unit-economics.md"
-  ai_unit_economics_description: "Original synthesis on the unit economics of agentic AI usage: per-task cost decomposition, real cost levers (complexity routing, sub-agent isolation, exit criteria), the break-even point of an autonomous agent, and team budget governance. Flagged explicitly as original analysis, not a practitioner-sourced compilation."
+  ai_unit_economics_description: "Measurement framework for agentic AI cost per accepted task: per-attempt token and cache decomposition, retries, review, rework, request/task/delegation routing, infrastructure, repeated-run variance, progressive spend controls, autonomous-agent break-even, and team budget governance. Separates illustrative arithmetic, benchmark evidence, and production traces."
+  ai_unit_economics_accepted_task: "guide/ops/ai-unit-economics.md#2-building-a-cost-per-accepted-task"  # attempt cost plus retries, review, rework, infrastructure, and explicit zero-acceptance handling
+  ai_unit_economics_routing_levels: "guide/ops/ai-unit-economics.md#route-by-complexity"  # request, task, and escalation or delegation boundaries with cache locality and accepted-task measurement
+  ai_unit_economics_progressive_spend_policy: "guide/ops/ai-unit-economics.md#5-budget-and-governance-per-team"  # interactive visibility, warning, approval, downshift, suspension versus hard terminal budgets for unattended workloads
+  ai_unit_economics_databricks_claim_review: "guide/ops/ai-unit-economics.md#6-how-to-read-a-vendors-cost-reduction-claim"  # internal 30% routing and nearly 50% token-cost results retained with missing-denominator and product-conflict boundaries
   ai_unit_economics_token_estimation: "guide/ops/ai-unit-economics.md#do-not-estimate-tokens-by-string-length"  # why chars/4 breaks: measured -35% on code, -23% on accented French, erring in the unsafe direction; wrong tokenizer for Claude; plus the count-the-wrong-string second-order bug
   ai_unit_economics_skill_injection_cost: "guide/ops/ai-unit-economics.md#audit-what-a-skill-or-tool-injects-not-just-what-it-costs-to-load"  # skill definition is cheap, injected result is the recurring cache-read cost; $5.33/208.9K-token skill call example; no measured break-even, governance call per skill via /usage per-category breakdown
   # Subscription Strategy at Team Scale (guide/ops/subscription-strategy.md) - Added 2026-08-29
   subscription_strategy_guide: "guide/ops/subscription-strategy.md"
-  subscription_strategy_two_axes: "guide/ops/subscription-strategy.md#1-authentication-and-billing-source-matter-more-than-interaction-mode"  # subscription limits vs Platform API billing vs usage-priced Enterprise
-  subscription_strategy_team_seat_cap: "guide/ops/subscription-strategy.md#2-claude-team-the-per-seat-default-and-its-hard-ceiling"  # Team: 2-150 seats/workspace, $20/$100 seat (annual), source claude.com/pricing verified 2026-08-30
-  subscription_strategy_enterprise: "guide/ops/subscription-strategy.md#3-claude-enterprise-usage-priced-seat-fee-included"  # $20/seat + API-rate usage, native spend controls, benchmark evidence, and observed-trace cost distributions
-  subscription_strategy_gateway: "guide/ops/subscription-strategy.md#4-api-gateway-a-control-plane-for-routed-api-traffic"
-  subscription_strategy_multi_vendor: "guide/ops/subscription-strategy.md#5-multi-vendor-by-design-not-by-accident"  # opencode Go single-seat gate as a concrete failure case
-  subscription_strategy_personal_plan_gap: "guide/ops/subscription-strategy.md#6-personal-promax-plans-not-an-organization-control-plane"  # no organization controls or DPA; consumer retention and training choices remain separate questions
-  subscription_strategy_self_hosted_split: "guide/ops/subscription-strategy.md#7-self-hosted-open-weight-models-a-separate-business-case-not-a-line-item-here"
+  subscription_strategy_billing: "guide/ops/subscription-strategy.md#1-the-20-enterprise-seat-does-not-include-usage"  # Team included capacity vs the Enterprise access fee plus metered usage, verified 2026-08-31
+  subscription_strategy_controls: "guide/ops/subscription-strategy.md#2-team-covers-the-baseline-enterprise-adds-specific-controls"  # shared commercial baseline vs supplier assurance, SCIM, audit, retention, model and effort policy, custom roles, network, and spend controls
+  subscription_strategy_supplier_assurance: "guide/ops/subscription-strategy.md#provider-certifications-are-supplier-evidence-not-a-plan-control"  # SOC 2 and ISO artifacts are supplier evidence shared across commercial products, not an Enterprise plan differentiator or a substitute for bank review
+  subscription_strategy_compliance_api_risk: "guide/ops/subscription-strategy.md#compliance-api-evidence-has-its-own-risk-boundary"  # chats, files, sessions, six-year retention boundaries, key access, exports, and downstream copies
+  subscription_strategy_bank_gate: "guide/ops/subscription-strategy.md#3-a-bank-buys-against-a-control-gap-not-a-plan-label"  # function criticality before headcount, then data, identity, evidence, retention, third-party risk, change, financial control, and DORA contract questions
+  subscription_strategy_enterprise_limits: "guide/ops/subscription-strategy.md#what-enterprise-still-does-not-solve"  # DORA accountability, EU residency, continuity, service levels, exit, and approval remain customer controls
+  subscription_strategy_benchmark: "guide/ops/subscription-strategy.md#4-the-13-per-active-day-figure-is-a-benchmark-with-missing-denominators"  # Anthropic fleet limits plus Back Market's 280-person active-user denominator, reported $191 average, tail, and oral-evidence caveats
+  subscription_strategy_model_quality: "guide/ops/subscription-strategy.md#5-optimize-cost-per-accepted-task-not-cost-per-token"  # efficiency frontier by validated task class, model-harness pair, cache behavior, retries, review, and rework
+  subscription_strategy_gateway: "guide/ops/subscription-strategy.md#6-workforce-plans-and-production-api-traffic-solve-different-problems"  # API-only attribution, progressive versus terminal spend controls, and provider-approval and accepted-outcome limits
+  subscription_strategy_decision_gate: "guide/ops/subscription-strategy.md#7-decision-and-pilot-gate"  # criticality and required controls precede seat count and price
+  subscription_strategy_personal_plan_gap: "guide/ops/subscription-strategy.md#8-boundaries"  # personal plans are not employer-managed workforce plans
+  subscription_strategy_self_hosted_split: "guide/ops/subscription-strategy.md#8-boundaries"  # self-hosted inference remains a separate capacity and operations decision
   opencode_go_plan: "guide/ecosystem/agentic-tools.md#opencode-go-the-subscription-tier-and-why-it-does-not-scale-to-a-team"  # $10/mo, $12/5h + $30/wk + $60/mo caps, single-seat gate, optional Zen balance fallback, verified 2026-08-30
   local_vs_cloud_team_sizing: "guide/ecosystem/local-vs-cloud-inference.md#sizing-self-hosted-inference-for-a-team"  # workload-specific concurrency, API-price sensitivity, observed coding-agent traces, serving evidence, and ops cost
   # Learning with AI (guide/roles/learning-with-ai.md)
@@ -497,11 +525,20 @@ deep_dive:
   learning_review_shift_unknowns: "guide/roles/learning-with-ai.md#what-is-not-established"  # explicit list of what the evidence does NOT support, to prevent over-reading the section
   # AI Roles (guide/roles/ai-roles.md)
   ai_roles_guide: "guide/roles/ai-roles.md"
-  ai_roles_spec_engineer: "guide/roles/ai-roles.md#17-spec-engineer"
-  ai_roles_agent_identity_architect: "guide/roles/ai-roles.md#18-agent-identity-architect"
-  ai_roles_eval_engineer: "guide/roles/ai-roles.md#19-ai-eval-engineer"
-  ai_roles_harness_engineer: "guide/roles/ai-roles.md#10-harness-engineer"
-  ai_roles_career_matrix: "guide/roles/ai-roles.md#20-career-decision-matrix"
+  ai_roles_team_convergence: "guide/roles/ai-roles.md#role-titles-multiply-while-team-boundaries-compress"  # Gartner July 2026 forecast, three team shapes, capability-retention gates, and evidence limits
+  ai_roles_applied_ai_engineer: "guide/roles/ai-roles.md#5-applied-ai-engineer"
+  ai_roles_ai_platform_engineer: "guide/roles/ai-roles.md#10-ai-platform-engineer"
+  ai_roles_harness_engineer: "guide/roles/ai-roles.md#11-harness-engineer"
+  ai_roles_spec_engineer: "guide/roles/ai-roles.md#18-spec-engineer"
+  ai_roles_agent_identity_architect: "guide/roles/ai-roles.md#19-agent-identity-architect"
+  ai_roles_evaluation_engineer: "guide/roles/ai-roles.md#20-ai-evaluation-engineer"
+  ai_roles_forward_deployed_engineer: "guide/roles/ai-roles.md#21-forward-deployed-engineer-fde"
+  ai_roles_security_engineer: "guide/roles/ai-roles.md#22-ai-security-engineer"
+  ai_roles_governance_engineer: "guide/roles/ai-roles.md#23-ai-governance-engineer"
+  ai_roles_career_matrix: "guide/roles/ai-roles.md#24-career-decision-matrix"
+  ai_roles_compensation_evidence: "guide/roles/ai-roles.md#25-compensation-evidence"
+  ai_roles_capabilities: "guide/roles/ai-roles.md#26-capabilities-and-title-qualifiers"
+  ai_roles_evidence_snapshot: "guide/roles/ai-roles.md#27-evidence-snapshot"
   # Adoption & L0-L5 (guide/roles/adoption-approaches.md)
   adoption_guide: "guide/roles/adoption-approaches.md"
   adoption_l0_l5_shapiro: "guide/roles/adoption-approaches.md#the-l0-l5-scale-where-is-your-team"
@@ -575,6 +612,9 @@ deep_dive:
   sandbox_native_modes: "guide/security/sandbox-native.md:7"  # Auto-allow vs Regular
   sandbox_native_escape_hatch: "guide/security/sandbox-native.md#6-escape-hatch"  # dangerouslyDisableSandbox
   sandbox_native_security_limits: "guide/security/sandbox-native.md#7-security-limitations"  # Domain fronting, Unix sockets
+  sandbox_native_cross_session_socket: "guide/security/sandbox-native.md#cross-session-inbox-sockets"  # SendMessage bypasses the Bash sandbox; direct child callbacks need platform-specific Unix-socket policy
+  sandbox_network_allow_unix_sockets: "guide/core/settings-reference.md#sandboxnetworkallowunixsockets"  # macOS exact paths; ignored on Linux and WSL2
+  sandbox_network_allow_all_unix_sockets: "guide/core/settings-reference.md#sandboxnetworkallowallunixsockets"  # only Linux/WSL2 exception; skips the AF_UNIX seccomp filter
   sandbox_native_opensource: "guide/security/sandbox-native.md#8-open-source-runtime"  # Open-source runtime
   sandbox_native_platforms: "guide/security/sandbox-native.md#9-platform-support"  # Platform support
   sandbox_native_decision_tree: "guide/security/sandbox-native.md#10-decision-tree-native-vs-docker-sandboxes"  # Native vs Docker
@@ -835,16 +875,16 @@ deep_dive:
   essential_commands: 47
   trust_calibration: "guide/ultimate-guide.md#17-trust-calibration-when-and-how-much-to-verify" # was line 1460
   working_with_images: "guide/ultimate-guide.md#working-with-images-and-screenshots" # was line 527
-  wireframing_tools: 596
-  figma_mcp: 645
-  image_optimization: 710
+  wireframing_tools: 598
+  figma_mcp: 647
+  image_optimization: 712
   permission_modes: "guide/ultimate-guide.md#14-permission-modes" # was line 1035
   interaction_loop: "guide/ultimate-guide.md#21-the-interaction-loop" # was line 1742
   context_management: 64
   context_triage: "guide/ultimate-guide.md#context-triage-what-to-keep-vs-evacuate" # was line 1932
   session_vs_memory: "guide/ultimate-guide.md#session-vs-persistent-memory"  # was 1553, drifted
   fresh_context_pattern: "guide/ultimate-guide.md#fresh-context-pattern-ralph-loop" # was line 2044
-  subscription_limits: 2632
+  subscription_limits: 2658
   subscription_token_budgets: 2632
   subscription_opus_ratio: 2632
   subscription_monitoring: 2632
@@ -920,11 +960,11 @@ deep_dive:
   # Fast Mode (v2.1.36+) - Added 2026-02-09
   fast_mode_command: "guide/ultimate-guide.md#model-effort-and-permission-modes"  # was bare int 797, inside a code fence (comment/example text happened to share the key's words)
   fast_mode_api: "guide/ultimate-guide.md#api-breaking-changes-opus-46"  # was bare int 797, inside a code fence (comment/example text happened to share the key's words)
-  fast_mode_pricing: 2226  # Pricing table
+  fast_mode_pricing: 2252  # Pricing table
   fast_mode_behavior: "2.5x faster, 2x price; Opus 5 model since v2.1.219 (dropped Opus 4.7), /fast covers Opus 5 and Opus 4.8"
   # Sonnet 4.6 + 1M Context (Feb 2026) - Added 2026-02-18
   sonnet_5_default: "guide/ultimate-guide.md#pricing-model-as-of-july-2026"  # was bare int 2352, inside a code fence (comment/example text happened to share the key's words)
-  context_200k_vs_1m: 2254  # Decision guide: 200K vs 1M context window
+  context_200k_vs_1m: 2280  # Decision guide: 200K vs 1M context window
   context_200k_vs_1m_perf: "Opus 4.6: 93% @ 256K, 76% @ 1M (MRCR v2). Sonnet 4.6 scores not yet published."
   context_200k_vs_1m_cost: "Sonnet 4.6: ~$0.23 bug fix, ~$0.75 module refactor, ~$2.25 full 1M session"
   context_1m_beta_requirement: "API only, requires anthropic-beta header. Opus: pricing doubles >200K."
@@ -1001,7 +1041,7 @@ deep_dive:
   agent_examples: "guide/ultimate-guide.md#46-agent-examples" # was line 3056
   skills: "guide/ultimate-guide.md#5-skills"  # was bare int 6026, inside a code fence (comment/example text happened to share the key's words)
   skills_taxonomy: 7704
-  skills_evals: 8033
+  skills_evals: 7949
   skill_template: "guide/ultimate-guide.md#53-skill-template" # was line 8095
   skill_examples: "guide/ultimate-guide.md#54-skill-examples" # was line 3555
   design_patterns_skill: "guide/ultimate-guide.md#example-3-design-patterns-analyzer-skill" # was line 8335
@@ -1075,8 +1115,8 @@ deep_dive:
   skills_marketplace_status: "Community (Vercel Labs), launched Jan 21, 2026"
   skills_marketplace_changelog: "https://vercel.com/changelog/introducing-skills-the-open-agent-skills-ecosystem"
   # Plugin System & Community Marketplaces (updated 2026-03-06)
-  plugins_system: 14002
-  plugins_commands: 14016
+  plugins_system: 13920
+  plugins_commands: 13934
   plugins_marketplace: 14043
   plugins_community_marketplaces: 14345
   plugins_featured_community: "guide/ultimate-guide.md#featured-community-plugins" # Vitals + SE-CoVe comparison section
@@ -1168,9 +1208,9 @@ deep_dive:
   agentic_software_factories_fusion_case_study: "docs/resource-evaluations/fusion-multi-agent-orchestrator.md"  # 727K lines/4 months, bus factor 1, verification module built but never wired into production
   # Resource Evaluations (added 2026-01-26, updated 2026-02-07, synced 2026-07-08)
   resource_evaluations_directory: "docs/resource-evaluations/"
-  resource_evaluations_count: 178
-  resource_evaluations_indexed: 56
-  resource_evaluations_count_note: "Two different numbers, both real. 178 is the count of Markdown files in docs/resource-evaluations/; 56 are listed in the README index table. Most older evaluations were never added to the index. Figures verified 2026-08-30 after adding the Pavan Belagatti corpus evaluation."
+  resource_evaluations_count: 181
+  resource_evaluations_indexed: 60
+  resource_evaluations_count_note: "Two different numbers, both real. 181 is the count of Markdown files in docs/resource-evaluations/; 60 are listed in the README index table. Most older evaluations were never added to the index. Figures verified 2026-08-31 after the learning-resource, current-surface, and Best-of-N evaluations."
   resource_evaluations_methodology: "docs/resource-evaluations/README.md"
   resource_evaluations_watchlist: "docs/resource-evaluations/watch-list.md"
   resource_evaluations_appendix: "guide/ultimate-guide.md#appendix-c-resource-evaluation-process"
@@ -1368,7 +1408,7 @@ deep_dive:
       published: "2026-01-21"
       guide_section: "README.md:338"
   # Section 9.18 - Codebase Design for Agent Productivity
-  codebase_design_agents: 20378
+  codebase_design_agents: 20296
   codebase_design_source: "https://marmelab.com/blog/2026/01/21/agent-experience.html"
   codebase_design_author: "François Zaninotto (Marmelab)"
   codebase_design_llms_txt: 20864  # llms.txt standard for AI-optimized documentation
@@ -1411,6 +1451,9 @@ deep_dive:
   cross_session_messaging_cross_machine: "guide/workflows/cross-session-messaging.md#4-same-machine-vs-cross-machine-delivery"
   cross_session_messaging_inbox_socket: "guide/workflows/cross-session-messaging.md#5-the-sessions-inbox-socket"
   cross_session_messaging_security: "guide/workflows/cross-session-messaging.md#6-security-model"
+  cross_session_messaging_sandbox_boundary: "guide/workflows/cross-session-messaging.md#where-native-sandboxing-fits"
+  cross_session_messaging_native_sandbox: "guide/security/sandbox-native.md#cross-session-inbox-sockets"
+  cross_session_messaging_correlated_drift: "guide/workflows/cross-session-messaging.md#coordination-safety-correlated-drift-and-false-consensus"
   cross_session_messaging_limitations: "guide/workflows/cross-session-messaging.md#7-limitations"
   cross_session_messaging_availability: "guide/workflows/cross-session-messaging.md#8-availability"
   cross_session_messaging_version_timeline: "guide/workflows/cross-session-messaging.md#10-version-timeline"
@@ -1513,7 +1556,7 @@ deep_dive:
   daily_workflow: 25233
   # AI Ecosystem (Section 11, ~line 10525)
   ai_ecosystem: 13308
-  ai_ecosystem_complementarity: 25499
+  ai_ecosystem_complementarity: 25475
   ai_ecosystem_tool_matrix: 25540
   ai_ecosystem_workflows: 25675
   ai_ecosystem_integration: 25803
@@ -1612,7 +1655,7 @@ deep_dive:
   # Appendix
   appendix_a_file_locations: "guide/ultimate-guide.md#appendix-a-file-locations-reference" # was line 26179
   appendix_b_faq: "guide/ultimate-guide.md#appendix-b-faq" # was line 26357
-  faq_clawdbot_vs_claudecode: 26358
+  faq_clawdbot_vs_claudecode: 26334
   faq_product_managers: "guide/ultimate-guide.md#can-product-managers-use-claude-code" # was line 26428
   appendix_c_resource_evaluation: "guide/ultimate-guide.md#appendix-c-resource-evaluation-process" # was line 26493
   appendix_d_myths_vs_reality: "guide/ultimate-guide.md#appendix-d-myths-vs-reality" # was line 26536
@@ -1861,6 +1904,7 @@ deep_dive:
   api_gateway_guide: "guide/ops/api-gateway.md"
   api_gateway_litellm: "guide/ops/api-gateway.md#2-litellm-gateway"
   api_gateway_virtual_keys: "guide/ops/api-gateway.md#3-virtual-keys-and-team-budgets"
+  api_gateway_progressive_spend_policy: "guide/ops/api-gateway.md#31-progressive-spend-policy-for-interactive-users"
   api_gateway_model_allowlists: "guide/ops/api-gateway.md#4-model-allowlists"
   api_gateway_portkey: "guide/ops/api-gateway.md#8-portkey-as-a-managed-alternative"
   api_gateway_limits: "guide/ops/api-gateway.md#9-what-the-gateway-does-not-cover"
@@ -2341,7 +2385,7 @@ skill_frontmatter_fields:
   disable-model-invocation: "true = user-invocable only (replaces .claude/commands/ pattern)"
   context: "fork = run skill in isolated subagent; fork ignored when called via Skill tool"
   hooks: "lifecycle hooks active during this skill's session (same format as settings.json hooks)"
-skill_frontmatter_guide_line: 7857  # Frontmatter table in §5.2
+skill_frontmatter_guide_line: 7773  # Frontmatter table in §5.2
 
 # ════════════════════════════════════════════════════════════════
 # HOOK EVENTS - see deep_dive.hooks
@@ -2388,8 +2432,8 @@ hook_events:
   # Total: 30 events (updated 2026-06-03, source: official hooks reference)
 
 # Hook Execution Model (v2.1.0+)
-hooks_execution_model: 10324  # Section in ultimate-guide.md
-hooks_session_scoped: 10489  # Session-scoped hooks (ephemeral, no settings.json, skills use this)
+hooks_execution_model: 10242  # Section in ultimate-guide.md
+hooks_session_scoped: 10407  # Session-scoped hooks (ephemeral, no settings.json, skills use this)
 hooks_async_support: "v2.1.0+ - add 'async: true' for non-blocking execution; 'asyncRewake: true' for background with exit-2 wakeup"
 hooks_async_use_cases: "logging, notifications, formatting, metrics (no feedback needed)"
 hooks_sync_use_cases: "validation, type checking, security (feedback required)"
@@ -2888,6 +2932,13 @@ section_maps:
     - "breaking-changes-summary"
     - "milestone-features"
     - "updating-this-document"
+  "guide/core/computer-use.md":
+    - "enable-the-built-in-server"
+    - "what-claude-can-control"
+    - "data-exposure-and-safety-boundary"
+    - "operate-and-stop-safely"
+    - "failure-modes-and-verification"
+    - "related-pages"
   "guide/core/context-engineering.md":
     - "1-what-is-context-engineering"
     - "2-the-context-budget"
@@ -3013,6 +3064,14 @@ section_maps:
     - "per-tool-behaviors"
     - "advanced-tools-how-to-trigger-them"
     - "provider-availability"
+  "guide/core/translations.md":
+    - "read-an-edition"
+    - "verified-inventory"
+    - "chinese-attribution-and-source-correction"
+    - "official-translation-priority"
+    - "official-and-community-labels"
+    - "language-navigation-and-seo"
+    - "evidence-boundary"
   "guide/core/visual-reference.md":
     - "harness-map-reading-guide"
     - "1-context-management-zones"
@@ -3174,6 +3233,13 @@ section_maps:
     - "tooling-in-this-space"
     - "mcp-vs-skills"
     - "what-practitioners-say"
+  "guide/ecosystem/plugin-distribution.md":
+    - "distribute-through-a-marketplace"
+    - "the-claude-code-hint--recommendation-channel"
+    - "user-control-and-prompt-limits"
+    - "guidance-for-cli-and-sdk-maintainers"
+    - "distribution-security-boundary"
+    - "related-pages"
   "guide/ecosystem/practitioner-insights.md":
     - "context-engineering"
     - "agentic-patterns--orchestration"
@@ -3296,17 +3362,16 @@ section_maps:
     - "whats-next"
   "guide/learning-path/06-hooks.md":
     - "goal"
-    - "what-youll-learn"
-    - "what-are-hooks"
-    - "creating-your-first-hook"
-    - "hook-patterns"
-    - "registering-hooks"
-    - "best-practices-for-safe-hooks"
-    - "safe-hook-template"
+    - "what-you-will-learn"
+    - "the-hook-boundary"
+    - "register-a-pretooluse-hook"
+    - "build-the-decision-script"
+    - "test-three-fixtures"
+    - "exit-codes"
+    - "safe-design-rules"
     - "exercise-create-a-validation-hook"
-    - "debugging-hooks"
-    - "validation-youre-ready-if"
-    - "whats-next"
+    - "you-are-ready-when"
+    - "what-comes-next"
   "guide/learning-path/07-advanced.md":
     - "goal"
     - "what-youll-learn"
@@ -3332,14 +3397,16 @@ section_maps:
   "guide/ops/ai-unit-economics.md":
     - "a-note-on-what-this-page-is"
     - "1-why-agentic-cost-is-not-saas-cost"
-    - "2-building-a-cost-per-task"
+    - "2-building-a-cost-per-accepted-task"
     - "3-the-real-cost-reduction-levers"
     - "4-the-break-even-point-of-an-autonomous-agent"
     - "5-budget-and-governance-per-team"
     - "6-how-to-read-a-vendors-cost-reduction-claim"
     - "7-what-this-page-does-not-cover-yet"
   "guide/ops/api-gateway.md":
-    - "tldr"
+    - "tldr-third-party-gateway-examples"
+    - "current-first-party-surface-claude-apps-gateway"
+    - "third-party-implementation-examples"
     - "1-why-a-gateway-layer"
     - "2-litellm-gateway"
     - "3-virtual-keys-and-team-budgets"
@@ -3385,13 +3452,14 @@ section_maps:
     - "10-team-level-log-aggregation"
   "guide/ops/subscription-strategy.md":
     - "tldr"
-    - "1-authentication-and-billing-source-matter-more-than-interaction-mode"
-    - "2-claude-team-the-per-seat-default-and-its-hard-ceiling"
-    - "3-claude-enterprise-usage-priced-seat-fee-included"
-    - "4-api-gateway-a-control-plane-for-routed-api-traffic"
-    - "5-multi-vendor-by-design-not-by-accident"
-    - "6-personal-promax-plans-not-an-organization-control-plane"
-    - "7-self-hosted-open-weight-models-a-separate-business-case-not-a-line-item-here"
+    - "1-the-20-enterprise-seat-does-not-include-usage"
+    - "2-team-covers-the-baseline-enterprise-adds-specific-controls"
+    - "3-a-bank-buys-against-a-control-gap-not-a-plan-label"
+    - "4-the-13-per-active-day-figure-is-a-benchmark-with-missing-denominators"
+    - "5-optimize-cost-per-accepted-task-not-cost-per-token"
+    - "6-workforce-plans-and-production-api-traffic-solve-different-problems"
+    - "7-decision-and-pilot-gate"
+    - "8-boundaries"
   "guide/ops/team-metrics.md":
     - "the-measurement-problem"
     - "the-dora-foundation"
@@ -3434,25 +3502,30 @@ section_maps:
     - "2-prompt-engineer"
     - "3-context-engineer"
     - "4-ai-engineer"
-    - "5-llm-engineer"
-    - "6-ai-agent-engineer"
-    - "7-founding-ai-engineer"
-    - "8-ai-architect"
-    - "9-platform-engineer-ai-context"
-    - "10-harness-engineer"
-    - "11-ai-product-manager"
-    - "12-ai-safety--eval-engineer"
-    - "13-ml-engineer"
-    - "14-mlops-engineer"
-    - "15-ai-developer-advocate"
-    - "16-ai-orchestration-engineer"
-    - "17-spec-engineer"
-    - "18-agent-identity-architect"
-    - "19-ai-eval-engineer"
-    - "20-career-decision-matrix"
-    - "21-salary-benchmarks-2025-2026"
-    - "22-whats-not-a-role-yet"
-    - "23-job-listings"
+    - "5-applied-ai-engineer"
+    - "6-llm-engineer"
+    - "7-ai-agent-engineer"
+    - "8-founding-ai-engineer"
+    - "9-ai-architect"
+    - "10-ai-platform-engineer"
+    - "11-harness-engineer"
+    - "12-ai-product-manager"
+    - "13-ai-safety-engineer"
+    - "14-ml-engineer"
+    - "15-mlops-engineer"
+    - "16-ai-developer-advocate"
+    - "17-ai-orchestration-engineer"
+    - "18-spec-engineer"
+    - "19-agent-identity-architect"
+    - "20-ai-evaluation-engineer"
+    - "21-forward-deployed-engineer-fde"
+    - "22-ai-security-engineer"
+    - "23-ai-governance-engineer"
+    - "24-career-decision-matrix"
+    - "25-compensation-evidence"
+    - "26-capabilities-and-title-qualifiers"
+    - "27-evidence-snapshot"
+    - "28-job-listings"
   "guide/roles/learning-with-ai.md":
     - "quick-self-check-start-here"
     - "the-problem-in-60-seconds"
@@ -3575,6 +3648,14 @@ section_maps:
     - "3-the-map-of-six-files"
     - "4-five-governance-questions-before-you-adopt-anything"
     - "5-the-unbounded-velocity-trap"
+  "guide/workflows/best-of-n.md":
+    - "decision-rule"
+    - "the-six-operations-are-different"
+    - "protocol"
+    - "worked-code-change-pattern"
+    - "evidence-boundary"
+    - "failure-modes"
+    - "reusable-skill-and-evidence-record"
   "guide/workflows/changelog-fragments.md":
     - "the-problem"
     - "the-3-layer-architecture"

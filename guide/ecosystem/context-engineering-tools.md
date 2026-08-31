@@ -414,7 +414,7 @@ The gains are entirely format-dependent: near zero on deeply nested, non-uniform
 
 ## 5. AI Gateways
 
-AI gateways sit between your application and the LLM provider. They handle routing, rate limiting, cost management, and increasingly, active context transformation. The gateway category is where infrastructure and context engineering overlap.
+AI gateways sit between configured applications and their LLM providers. They can handle routing, rate limiting, cost management, and active context transformation for requests sent through them. Traffic that bypasses the configured endpoint remains outside their telemetry and policy controls.
 
 ### Edgee
 
@@ -436,7 +436,7 @@ Edgee is a Rust-based AI gateway. Its compression features shipped as **Compress
 
 ### Portkey
 
-Portkey is the more established player in the AI gateway category, with a broader feature set centered on unified routing across multiple LLM providers.
+Portkey is a managed AI gateway centered on unified routing across multiple LLM providers.
 
 | Attribute | Details |
 |-----------|---------|
@@ -451,7 +451,7 @@ Portkey's semantic caching layer is particularly relevant for context optimizati
 
 ### LiteLLM
 
-[LiteLLM](https://github.com/BerriAI/litellm) is the most widely deployed self-hosted alternative: an MIT-licensed Python proxy with Redis-backed caching, virtual keys, and per-team/per-user budget caps. Unlike Edgee or Portkey, it ships no active compression layer of its own: its cost lever is caching and routing, not token-level compression of what gets sent. Pairs well with RTK or lean-ctx (which handle compression) when the goal is also centralized budget enforcement across a team. See [api-gateway.md](../ops/api-gateway.md) for the budget-enforcement side of this.
+[LiteLLM](https://github.com/BerriAI/litellm) is an MIT-licensed Python proxy with Redis-backed caching, virtual keys, and configurable per-team or per-user budget caps. Unlike Edgee or Portkey, it ships no active compression layer of its own: its cost levers are caching and routing, not token-level compression of what gets sent. It can be paired with RTK or lean-ctx, which handle compression, when the goal also includes centralized budget enforcement for routed team traffic. See [api-gateway.md](../ops/api-gateway.md) for the budget-enforcement boundary.
 
 ### Semantic Caching as a Library: GPTCache
 

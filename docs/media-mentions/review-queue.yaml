@@ -1,0 +1,22 @@
+meta:
+  last_updated: "2026-08-31"
+  notes: >
+    Candidates that must not enter the confirmed mentions catalog until their
+    evidence is accessible. Rejected URLs remain here to prevent rediscovery.
+
+pending:
+  - id: "P001"
+    url: "https://studylib.net/doc/28705824/guide-export"
+    kind: mirror
+    title: "Claude Code Ultimate Guide: From Zero to Power User"
+    first_seen: "2026-08-31"
+    reason: "The search report described a copied PDF with attribution, but the page returned an internal error during independent verification."
+    next_check: "Verify the page, document metadata, attribution, version, and whether a copyright or correction request is appropriate."
+
+rejected:
+  - id: "R001"
+    url: "https://dev.to/holasoymalva/the-ultimate-claude-code-guide-every-hidden-trick-hack-and-power-feature-you-need-to-know-2l45"
+    kind: false_positive
+    title: "The Ultimate Claude Code Guide: Every Hidden Trick, Hack, and Power Feature You Need to Know"
+    first_seen: "2026-08-31"
+    reason: "Title collision only. The article contains no Florian Bruniaux name, canonical repository slug, or cc.bruniaux.com reference."

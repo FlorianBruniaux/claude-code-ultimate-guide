@@ -149,7 +149,7 @@ A settings file enforced org-wide by IT or DevOps, placed at an OS-level path ou
 
 ### Meta-harness
 
-A system around one or more target harnesses that can generate or modify candidate harnesses, run evaluations, and use the results to guide another optimization step. This is an outer optimization loop, distinct from a runtime harness that owns one task loop and from an orchestrator that coordinates runs. [Meta-Harness](https://arxiv.org/abs/2603.28052) and [Agentic Harness Engineering](https://arxiv.org/abs/2604.25850) are current research examples; both are preprints and need independent replication.
+An overloaded term with two current uses. In optimizer research, it is a system around one or more target harnesses that generates or modifies candidate harnesses, runs evaluations, and uses the results to guide another optimization step. [Meta-Harness](https://arxiv.org/abs/2603.28052) and [Agentic Harness Engineering](https://arxiv.org/abs/2604.25850) are current preprint examples. Some products use *meta-harness* for a common client that dispatches tasks to existing runtime harnesses. This guide classifies that second role as an orchestrator or control plane unless the system also changes and evaluates the harness itself. See [Agent Harness Engineering](./agent-harness.md#0-four-layers-four-responsibilities).
 
 ### MCP (Model Context Protocol)
 

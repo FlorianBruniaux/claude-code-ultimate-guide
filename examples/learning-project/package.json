@@ -1,0 +1,26 @@
+{
+  "name": "claude-code-learning-proofpack",
+  "version": "1.0.0",
+  "description": "Dependency-free release evidence validator used by the Claude Code learning path.",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "proofpack": "src/cli.mjs"
+  },
+  "files": [
+    "src/",
+    "fixtures/release-ready.json",
+    "README.md"
+  ],
+  "scripts": {
+    "start": "node src/cli.mjs verify fixtures/release-ready.json",
+    "test": "node --test",
+    "verify": "node src/cli.mjs verify fixtures/release-ready.json",
+    "verify:incomplete": "node src/cli.mjs verify fixtures/release-incomplete.json",
+    "hook:fixtures": "node --test test/release-guard.test.mjs",
+    "package:check": "node --check src/cli.mjs && node --check src/release-verifier.mjs && npm pack --dry-run --json --cache .cache/npm"
+  }
+}

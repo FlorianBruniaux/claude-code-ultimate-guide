@@ -543,14 +543,14 @@ Enable a weaker sandbox for unprivileged Docker environments (Linux and WSL2 onl
 **Scope:** all
 **Default:** `[]`
 
-Specific Unix socket paths accessible in the sandbox (for SSH agents, Docker, etc.).
+Specific Unix socket paths accessible in the sandbox on macOS (for SSH agents, local databases, etc.). Ignored on Linux and WSL2, where the seccomp filter cannot inspect socket paths; use `allowAllUnixSockets` only after accepting its broader boundary. The [cross-session inbox case](../security/sandbox-native.md#cross-session-inbox-sockets) does not require this exception for normal `SendMessage` calls.
 
 #### `sandbox.network.allowAllUnixSockets`
 **Type:** boolean
 **Scope:** all
 **Default:** `false`
 
-Allow all Unix socket connections in the sandbox. Overrides `allowUnixSockets`.
+Allow all Unix socket connections in the sandbox. Overrides `allowUnixSockets`. On Linux and WSL2, this is the only way to permit Unix sockets because it skips the seccomp filter that otherwise blocks `socket(AF_UNIX, ...)` calls.
 
 #### `sandbox.network.allowLocalBinding`
 **Type:** boolean
@@ -743,12 +743,13 @@ When `true`, only `allowRead` paths from managed settings are respected. `allowR
     },
     "network": {
       "allowedDomains": ["github.com", "*.npmjs.org"],
-      "allowUnixSockets": ["/var/run/docker.sock"],
       "allowLocalBinding": true
     }
   }
 }
 ```
+
+Unix-socket exceptions are intentionally absent from this baseline. Granting `/var/run/docker.sock` would give sandboxed code control of the Docker daemon and an effective path to the host.
 
 ---
 
@@ -1554,8 +1555,7 @@ These appear in community sources or older documentation but are not confirmed i
       "denyRead": ["~/.aws/credentials"]
     },
     "network": {
-      "allowedDomains": ["github.com", "*.npmjs.org"],
-      "allowUnixSockets": ["/var/run/docker.sock"]
+      "allowedDomains": ["github.com", "*.npmjs.org"]
     }
   },
 

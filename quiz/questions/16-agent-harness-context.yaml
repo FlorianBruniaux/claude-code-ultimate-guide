@@ -518,18 +518,18 @@ questions:
       - junior
       - senior
       - power
-    question: According to the guide, what is the pass@1 failure rate for multi-file agent tasks without a specification?
+    question: How does the guide classify "Spec Engineer" after the August 2026 evidence review?
     options:
-      a: 5.2%
-      b: 19.4%
-      c: 32.1%
-      d: 41.5%
-    correct: b
-    explanation: "Multi-file tasks fail at 19.4% pass@1 without a spec. This is the quantitative case for the Spec Engineer role: as organizations move agents into multi-file implementation work, the absence of a structured specification becomes the primary driver of output quality failures. The 32.1% figure is Claude Code's pass rate on the c-CRAB benchmark (pull requests with test suites), a different metric."
+      a: A confirmed cross-employer role family
+      b: A forecasted tiny-team shape
+      c: A capability usually embedded in product, QA, requirements, writing, or domain roles
+      d: A deprecated practice that no longer matters with agents
+    correct: c
+    explanation: "Structured specifications remain useful, but the reviewed employer evidence does not establish Spec Engineer as a durable standalone job family. The guide keeps the capability and names its likely organizational homes instead of promoting an unsupported title."
     doc_reference:
       file: guide/roles/ai-roles.md
-      section: 17. Spec Engineer
-      anchor: "#17-spec-engineer"
+      section: 18. Spec Engineer
+      anchor: "#18-spec-engineer"
   - id: 16-031
     difficulty: intermediate
     profiles:
@@ -543,11 +543,11 @@ questions:
       c: Constitution, Specify, Plan, Tasks
       d: Requirements, Architecture, Implementation, Testing
     correct: c
-    explanation: "GitHub Spec Kit formalizes spec-driven development as a four-phase pipeline: Constitution (the invariants and constraints that bound the spec), Specify (writing the structured spec itself), Plan (the agent's implementation plan derived from the spec), and Tasks (the atomic implementation tasks). The spec file in `.specify/` is the governing artifact throughout. Factory.ai Missions extends this with behavioral validation contracts written before implementation begins."
+    explanation: "GitHub Spec Kit formalizes spec-driven development as a four-phase pipeline: Constitution, Specify, Plan, and Tasks. The existence of a tool and workflow supports the capability, but does not by itself establish Spec Engineer as a market-wide title."
     doc_reference:
       file: guide/roles/ai-roles.md
-      section: 17. Spec Engineer
-      anchor: "#17-spec-engineer"
+      section: 18. Spec Engineer
+      anchor: "#18-spec-engineer"
   - id: 16-032
     difficulty: intermediate
     profiles:
@@ -555,70 +555,70 @@ questions:
       - senior
       - power
       - pm
-    question: What percentage of organizations have no formal agent identity strategy as of 2026, according to Strata Identity Research?
+    question: Where does the guide say agent-identity work usually sits today?
     options:
-      a: 33%
-      b: 55%
-      c: 61%
-      d: 77%
-    correct: d
-    explanation: Strata Identity Research 2026 reports 77% of organizations have no formal agent identity strategy. Only 23% have a formal strategy, 44% are still using static API keys for agent authentication, and 18% rely on IAM trust inheritance with no per-agent scoping. This is the structural gap that motivates the Agent Identity Architect role. The Lethal Trifecta threat (private data + untrusted content + external communication) is well understood, but the defense has not been built at most organizations.
+      a: In a dedicated Agent Identity Architect department at most employers
+      b: In AI Security, IAM, platform security, or AI Platform roles
+      c: Exclusively in legal and compliance teams
+      d: Exclusively in model-training teams
+    correct: b
+    explanation: "Agent identity is a distinct control problem, but current postings usually assign it to AI Security, IAM, platform security, or AI Platform Engineering. The guide therefore classifies Agent Identity Architect as a capability rather than a confirmed standalone family."
     doc_reference:
       file: guide/roles/ai-roles.md
-      section: 18. Agent Identity Architect
-      anchor: "#18-agent-identity-architect"
+      section: 19. Agent Identity Architect
+      anchor: "#19-agent-identity-architect"
   - id: 16-033
     difficulty: senior
     profiles:
       - senior
       - power
-    question: What authentication mechanism does Microsoft Entra Agent ID use to scope permissions for individual agent sessions?
+    question: Which control set best matches the guide's agent-identity boundary?
     options:
-      a: Static API keys scoped to agent type
-      b: OAuth On-Behalf-Of (OBO) flows scoped to specific session contexts
-      c: JWT tokens with role-based claims
-      d: SAML assertions with time-bounded access
+      a: One shared team key and centralized logging
+      b: Identity per workload or session, scoped authorization, auditable delegation, and explicit sub-agent privileges
+      c: Model-level content filtering without action attribution
+      d: Full inheritance of the orchestrator's permissions by every sub-agent
     correct: b
-    explanation: Microsoft Entra Agent ID provides dedicated service principal types with OAuth On-Behalf-Of (OBO) flows scoped to specific session contexts. The OBO flow means the agent acts on behalf of a specific task context, not with the broad permissions of a shared team credential or static API key. Sub-agents spawned by orchestrators cannot inherit parent permissions by default; they receive the minimum scope for their task. This is the per-agent identity model that 77% of organizations have not implemented.
+    explanation: "Agent identity needs attribution and least privilege across delegated actions. Shared keys and inherited parent permissions obscure who or what acted and widen the blast radius."
     doc_reference:
       file: guide/roles/ai-roles.md
-      section: 18. Agent Identity Architect
-      anchor: "#18-agent-identity-architect"
+      section: 19. Agent Identity Architect
+      anchor: "#19-agent-identity-architect"
   - id: 16-034
     difficulty: intermediate
     profiles:
       - junior
       - senior
       - power
-    question: On what percentage of production traffic do AI Eval Engineers typically run canary A/B comparisons before promoting model changes?
+    question: Why does the guide use "AI Evaluation Engineer" as an umbrella family rather than one canonical market title?
     options:
-      a: 5-10%
-      b: 10-25%
-      c: 1-2%
-      d: 0.1-0.5%
-    correct: c
-    explanation: Canary pipelines run on 1-2% of production traffic. This is the standard figure cited in the guide for both the AI Eval Engineer role and for AWS Bedrock AgentCore's continuous evaluation feature. Running on more traffic increases the blast radius of a regression; running on less reduces statistical power. The 1-2% range balances statistical significance against exposure, and matches how Bedrock AgentCore implements eval-on-traffic for catching silent quality degradation.
+      a: Evaluation work has disappeared from current postings
+      b: Employers use several titles across research, infrastructure, and product evaluation
+      c: Only safety researchers perform evaluations
+      d: Every employer uses Research Engineer, Model Evaluations
+    correct: b
+    explanation: "Anthropic uses Research Engineer, Model Evaluations and eval-infrastructure titles, while OpenAI uses Backend Software Engineer (Evals) for one product domain. The work family is confirmed, but the title and ownership boundary vary."
     doc_reference:
       file: guide/roles/ai-roles.md
-      section: 19. AI Eval Engineer
-      anchor: "#19-ai-eval-engineer"
+      section: 20. AI Evaluation Engineer
+      anchor: "#20-ai-evaluation-engineer"
   - id: 16-035
     difficulty: senior
     profiles:
       - senior
       - power
-    question: What style bias score range does "Judging the Judges" (arXiv 2604.23178) report for frontier LLM-as-judge systems?
+    question: Which question belongs primarily to an AI Security Engineer rather than AI Safety or AI Governance?
     options:
-      a: 0.76-0.92
-      b: 0.10-0.25
-      c: 0.45-0.65
-      d: 0.30-0.50
-    correct: a
-    explanation: '"Judging the Judges" (arXiv 2604.23178) reports style bias scores of 0.76-0.92 for frontier models, versus position bias below 0.04. (This figure comes from that paper, not from the separate "JudgeBiasBench" paper, arXiv 2603.08091.) Style bias is the dominant pattern: LLM judges approve stylistically polished but incorrect outputs significantly more often than they should. The practical consequence is that true negative rates for identifying invalid outputs typically sit below 25%. AI Eval Engineers use this data to design evaluation pipelines that combine LLM-as-judge for qualitative dimensions with code-based checks for anything that can be evaluated mechanically.'
+      a: Which model behaviors create unacceptable harm or misuse risk?
+      b: How should a regulator's documentation obligation be encoded in an approval workflow?
+      c: How can prompt injection or insecure tool use violate confidentiality, integrity, or authorization?
+      d: Which product outcome should the team prioritize next quarter?
+    correct: c
+    explanation: "AI Security Engineering focuses on attacks, compromised components, and violations of security properties. AI Safety focuses on unacceptable behavior or harm, while AI Governance encodes policy, approvals, inventories, and evidence."
     doc_reference:
       file: guide/roles/ai-roles.md
-      section: 19. AI Eval Engineer
-      anchor: "#19-ai-eval-engineer"
+      section: 22. AI Security Engineer
+      anchor: "#22-ai-security-engineer"
   - id: 16-036
     difficulty: senior
     profiles:

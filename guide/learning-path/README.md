@@ -82,6 +82,26 @@ After this path, you have options:
 **Option D: Self-Assess**
 → Run `/self-assessment comprehensive` to identify remaining gaps
 
+### Step 5: Keep Progress in the Project
+
+The [installable learning-path skill](../../examples/skills/learning-path/SKILL.md) turns the seven modules into a local progression. It selects only modules whose prerequisites are complete, requires a non-empty evidence note, and writes state to `.claude/learning/claude-code-guide-progress.json` in the learner's project.
+
+Use the skill when the reading path spans several sessions or when another person must inspect what was completed. Its review schedule is 1, 3, 7, 14, 30, 60, and 90 days. Those intervals are project policy, not a claim that one schedule is optimal for every learner.
+
+The [Proofpack companion project](../../examples/learning-project/README.md) carries one issue through configuration, implementation, tests, a guarded release check, evidence review, packaging, and an optional Docker boundary. Use it when you want one continuous exercise across all seven modules.
+
+The [learning path slides](../../docs/distribution/claude-code-learning-path-slides.pptx) provide a short workshop version. The [video production briefs](../../docs/distribution/quick-win-video-series.md) connect individual exercises to observable checks.
+
+### Current Product Surfaces
+
+The path also routes to focused pages for product surfaces that sit outside the seven-module sequence:
+
+| After | Continue with | Why |
+| --- | --- | --- |
+| Module 02 | [Computer Use](../core/computer-use.md) | Understand the current desktop interaction boundary |
+| Module 05 | [Plugin Distribution](../ecosystem/plugin-distribution.md) | Package and distribute reusable capabilities |
+| Module 07 | [Claude apps gateway](../ops/api-gateway.md#current-first-party-surface-claude-apps-gateway) | Separate the first-party surface from adjacent gateway patterns |
+
 ---
 
 ## Module Details
@@ -162,7 +182,7 @@ After this path, you have options:
 - Hook events and matching
 - Pre-validation vs post-execution
 - Writing safe hooks
-- **Exercise:** Add 2 hooks (one pre, one post) to your config
+- **Exercise:** Add and test one narrow `PreToolUse` validation hook
 
 **Complexity:** ⭐⭐ (Intermediate)
 **Read:** [06-hooks.md](06-hooks.md)
@@ -205,6 +225,7 @@ Choose where to go next:
 
 ### Practice
 Try one of the practice projects from `/self-assessment` results:
+- [Proofpack companion project](../../examples/learning-project/README.md): one tested release-verification CLI across all seven modules
 - Project 1: Your first automation workflow
 - Project 2: Team configuration
 - Project 3: Production-grade setup

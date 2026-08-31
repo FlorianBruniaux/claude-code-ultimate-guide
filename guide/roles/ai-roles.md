@@ -1,18 +1,20 @@
 ---
 title: "AI Roles & Career Paths: The New Engineering Landscape"
-description: "Comprehensive map of emerging AI roles, from Prompt Engineer to Harness Engineer, with responsibilities, required skills, and career trajectories"
-tags: [roles, careers, ai-engineer, prompt-engineer, harness-engineer, context-engineer, guide]
+description: "Evidence-bounded map of current AI role families, emerging specializations, and capabilities absorbed into broader engineering jobs"
+tags: [roles, careers, ai-engineer, applied-ai-engineer, ai-platform-engineer, ai-security, ai-governance, guide]
 ---
 
 # AI Roles & Career Paths: The New Engineering Landscape
 
-> **Last updated**: March 2026
+> **Last updated**: August 31, 2026
 >
-> **Confidence**: Tier 2, based on job market data, industry publications, and emerging field research
+> **Confidence**: Tier 2. Current employer postings establish that a title exists, but not its market share, growth rate, or durability.
 >
-> **Reading time**: ~20 minutes
+> **Reading time**: ~30 minutes
 
-The AI wave didn't just create new tools. It created new jobs that didn't exist 3 years ago and is reshaping what existing roles mean. This guide maps the full landscape: what each role does, what skills it requires, how they relate to each other, and where each one is heading.
+AI adoption has created new job families and changed the scope of established engineering roles. This guide maps what each family owns, how adjacent roles differ, and how much evidence supports each title.
+
+Read the profiles as a **capability map**, not an organization chart with one seat per section. New specialist titles are appearing while product teams ask fewer people to own a wider path from business intent to production. A title can disappear inside a broader role while the underlying capability remains necessary.
 
 ---
 
@@ -22,52 +24,112 @@ The AI wave didn't just create new tools. It created new jobs that didn't exist 
 2. [Prompt Engineer](#2-prompt-engineer)
 3. [Context Engineer](#3-context-engineer)
 4. [AI Engineer](#4-ai-engineer)
-5. [LLM Engineer](#5-llm-engineer)
-6. [AI Agent Engineer](#6-ai-agent-engineer)
-7. [Founding AI Engineer](#7-founding-ai-engineer)
-8. [AI Architect](#8-ai-architect)
-9. [Platform Engineer (AI context)](#9-platform-engineer-ai-context)
-10. [Harness Engineer](#10-harness-engineer)
-11. [AI Product Manager](#11-ai-product-manager)
-12. [AI Safety & Eval Engineer](#12-ai-safety--eval-engineer)
-13. [ML Engineer](#13-ml-engineer)
-14. [MLOps Engineer](#14-mlops-engineer)
-15. [AI Developer Advocate](#15-ai-developer-advocate)
-16. [AI Orchestration Engineer](#16-ai-orchestration-engineer)
-17. [Spec Engineer](#17-spec-engineer)
-18. [Agent Identity Architect](#18-agent-identity-architect)
-19. [AI Eval Engineer](#19-ai-eval-engineer)
-20. [Career Decision Matrix](#20-career-decision-matrix)
-21. [Salary Benchmarks (2025-2026)](#21-salary-benchmarks-2025-2026)
-22. [What's Not a Role (Yet)](#22-whats-not-a-role-yet)
-23. [Job Listings](#23-job-listings)
+5. [Applied AI Engineer](#5-applied-ai-engineer)
+6. [LLM Engineer](#6-llm-engineer)
+7. [AI Agent Engineer](#7-ai-agent-engineer)
+8. [Founding AI Engineer](#8-founding-ai-engineer)
+9. [AI Architect](#9-ai-architect)
+10. [AI Platform Engineer](#10-ai-platform-engineer)
+11. [Harness Engineer](#11-harness-engineer)
+12. [AI Product Manager](#12-ai-product-manager)
+13. [AI Safety Engineer](#13-ai-safety-engineer)
+14. [ML Engineer](#14-ml-engineer)
+15. [MLOps Engineer](#15-mlops-engineer)
+16. [AI Developer Advocate](#16-ai-developer-advocate)
+17. [AI Orchestration Engineer](#17-ai-orchestration-engineer)
+18. [Spec Engineer](#18-spec-engineer)
+19. [Agent Identity Architect](#19-agent-identity-architect)
+20. [AI Evaluation Engineer](#20-ai-evaluation-engineer)
+21. [Forward-Deployed Engineer (FDE)](#21-forward-deployed-engineer-fde)
+22. [AI Security Engineer](#22-ai-security-engineer)
+23. [AI Governance Engineer](#23-ai-governance-engineer)
+24. [Career Decision Matrix](#24-career-decision-matrix)
+25. [Compensation Evidence](#25-compensation-evidence)
+26. [Capabilities and Title Qualifiers](#26-capabilities-and-title-qualifiers)
+27. [Evidence Snapshot](#27-evidence-snapshot)
+28. [Job Listings](#28-job-listings)
 
 ---
 
 ## 1. The Landscape in One View
 
-Two axes structure this landscape: **proximity to the model** (are you training it, prompting it, or building infrastructure around it?) and **proximity to production** (research vs. shipped product).
+The market separates more reliably by **ownership boundary** than by title. Current postings support five broad families:
 
-```
-              ← Closer to the model          Closer to infrastructure →
+| Ownership boundary | Current role families | Typical outcome |
+|--------------------|-----------------------|-----------------|
+| Model and research | ML Engineer, LLM Engineer, AI Safety Engineer | Train, adapt, study, or stress-test models |
+| Application and product | AI Engineer, Applied AI Engineer, AI Agent Engineer, AI Product Manager | Turn model capability into a measurable product behavior |
+| Shared production platform | AI Platform Engineer, MLOps Engineer, AI Architect | Give product teams reusable, governed paths to deploy and operate AI |
+| Customer deployment | Forward-Deployed Engineer, AI Developer Advocate | Move a platform into customer workflows or developer adoption |
+| Assurance and control | AI Evaluation Engineer, AI Security Engineer, AI Governance Engineer | Measure behavior, reduce technical risk, and encode policy as controls and evidence |
 
-Research    ML Engineer ←────────────────────────── AI Architect
-            AI Safety Engineer                       Platform Engineer
-                  │                                        │
-                  │                                        │
-Production   LLM Engineer ──── AI Engineer ──── AI Agent Engineer
-             Context Engineer                    Harness Engineer
-             Prompt Engineer                     Founding AI Engineer
-                                                 AI Product Manager
-```
+This page uses four evidence labels:
 
-Most new job demand sits in the **bottom-right**: building reliable AI systems that ship and stay reliable in production. The "pure research" quadrant remains competitive and specialized. The highest growth is in the applied, product-facing roles.
+| Label | Meaning |
+|-------|---------|
+| **Role family** | Current official postings at three or more unrelated employers use the title or a close variant with a consistent ownership boundary |
+| **Specialization or qualifier** | Real work and some current titles exist, but employers place it under several broader job families |
+| **Capability** | The work is necessary, but current evidence does not support a stable standalone job family |
+| **Forecasted team shape** | An analyst or employer proposes an operating model; this does not prove a labor-market title |
+
+This is a dated source snapshot, not a census. It does not infer market volume from search-result counts, expired postings, title aggregators, or salary-estimate sites.
+
+### Role titles multiply while team boundaries compress
+
+Gartner's July 2026 forecast gives the organizational counterpoint to the role catalog above. It predicts that [60% of organizations will adopt smaller software engineering teams at scale by 2029](https://www.gartner.com/en/newsroom/press-releases/2026-07-07-gartner-predicts-60-percent-of-organizations-will-adopt-smaller-software-engineering-teams-by-2029), up from 15% in 2026. Gartner describes today's "tiny teams" as typically four or five people, with two or three becoming more common as skills and AI capabilities mature. This is a forecast, not a measured productivity result, and Gartner explicitly rejects interpreting it as a cost-cutting tactic.
+
+The [role-compression research accompanying that forecast](https://www.gartner.com/en/documents/7929609) groups existing capabilities into three operating shapes. Treat these as ownership patterns rather than mandatory job titles:
+
+| Team shape | Capabilities brought together | Primary ownership |
+|------------|-------------------------------|-------------------|
+| **Product engineers** | Product management, software engineering, UX/AX, QA, and delivery | Carry a product outcome from problem framing through design, implementation, verification, and operation |
+| **Forward-deployed engineers** | Business analysis, requirements, service delivery, architecture, and implementation | Work close to a customer or domain, translate operational needs into a deployed system, and close the feedback loop |
+| **AI platform team** | Platform engineering, DevOps/SRE, agent operations, data science, ML engineering, and AI engineering | Provide shared models, agent infrastructure, identities, evals, observability, security controls, and paved roads |
+
+Compression removes handoffs, not expertise or accountability. A product engineer still needs credible UX research and verification. A forward-deployed engineer still needs architectural and domain judgment. A small product team can own more surface area only when a platform team absorbs repeated infrastructure work and supplies enforceable guardrails.
+
+Use four gates before combining roles:
+
+1. **Name the retained capability.** If the QA title disappears, specify who designs tests, owns release evidence, and can block a deployment.
+2. **Preserve independent review where failure matters.** Security, privacy, accessibility, financial controls, and safety-critical changes may require a reviewer who did not produce the work.
+3. **Fund the shared platform.** Self-service agents without identity, eval, observability, cost, and rollback controls move coordination cost into incidents.
+4. **Keep an apprenticeship path.** Gartner separately predicts that organizations using AI to cut junior roles will hollow out their software engineering talent pipeline by 2028. Smaller teams still need supervised work, knowledge transfer, and progression from junior to independent ownership.
+
+The career consequence is breadth around a technical spine. Build deep judgment in one capability, then add enough product, verification, and agent supervision skill to own a wider outcome. Choose openings by the decisions and evidence you will own, not by whether the title exactly matches one profile on this page.
+
+### Front-end expertise persists as titles broaden
+
+The available evidence supports a change in labels and ownership boundaries, not the disappearance of front-end work. Stack Overflow fielded its 2025 survey from May 29 to June 23 and asked respondents which role described their current job, or the job they held for the longest period during the previous year. Its [published role dataset](https://github.com/StackExchange/Survey/blob/main/packages/archive/2025/json/developer-profile.json) reports 26.96% for full-stack developer and 4.25% for front-end developer. In the France subset, the corresponding figures are 25.21% and 3.48%. The survey recorded 43,560 answers to the role question, but it measures self-identification among respondents rather than employer demand. Stack Overflow also added an architect category in 2025, and its [recruitment method](https://survey.stackoverflow.co/2025/methodology) overrepresents people who engage with its channels. Treat the figures as a dated classification signal, not a count of job openings or a clean causal time series.
+
+LinkedIn's [2026 US Software Engineer talent report](https://economicgraph.linkedin.com/content/dam/me/economicgraph/en-us/PDF/us-software-engineer-talent-landscape-2026.pdf) provides a separate hiring signal based on aggregated LinkedIn profiles and job postings, with 2025 data running through October. React and JavaScript remain among the leading skills of recent software-engineering hires, and Tailwind CSS appears among the fastest-growing skills. The same report records stronger demand for Python, cloud platforms, and AI. That combination is consistent with employers retaining front-end capabilities inside broader engineering scopes. It does not establish that AI caused a decline in front-end titles. LinkedIn's [Jobs on the Rise 2026 analysis](https://www.linkedin.com/pulse/linkedin-jobs-rise-2026-fastest-growing-roles-europe-gabvc/), based on job starts from January 2023 through July 2025, also places AI Engineer among the growing roles in France and identifies Software Engineer, Data Scientist, and ML Engineer as common prior roles. This documents movement from established roles into AI work, not the displacement of a specific front-end population.
+
+Job titles vary enough that a front-end specialist should search by ownership boundary as well as label:
+
+| Search family | Scope to verify in the job description | Front-end depth that may remain central |
+|---------------|----------------------------------------|-----------------------------------------|
+| Front-end Engineer or Frontend Engineer | Browser architecture, interfaces, state, and client delivery | Accessibility, interaction quality, performance, and framework judgment |
+| Software Engineer, Product or Product Engineer | A user-facing outcome from problem framing through operation | Product discovery, interface implementation, instrumentation, and iteration |
+| Full-Stack Engineer | Interface, API or service logic, data, and deployment | A production UI plus credible ownership beyond the browser |
+| UI Engineer or Design Engineer | Interaction design, prototyping, visual systems, and implementation | Design systems, responsive behavior, motion, and accessibility |
+| Frontend Platform Engineer | Shared browser tooling and paved roads for product teams | Build systems, component infrastructure, performance, testing, and developer experience |
+
+These labels are search families, not universal equivalences. Employers can use the same title for different work. Read the decisions, production surface, and evidence expected in the posting before choosing a label for a CV or profile.
+
+For career positioning, use a broad family plus a demonstrated technical spine: **Software Engineer or Product Engineer with a front-end specialization**. Keep Front-end Engineer when the target role requires deep browser ownership. Use Full-Stack Engineer only when shipped work demonstrates meaningful ownership on both sides of the interface. Using an AI coding agent does not by itself justify an AI Engineer title.
+
+A portfolio can establish that broader scope with one production-grade vertical slice. Show the user problem, accessible interaction, state and data flow, API and authentication boundary, tests, performance evidence, observability, deployment path, and rollback or failure handling. An AI-enabled feature also needs evals and behavior-specific failure handling. The goal is to expose the ownership boundary and its limits, not to claim equal expertise in every layer.
+
+Python is a useful expansion path because current hiring data connects it to back-end, cloud, data, and AI work. It is not a universal requirement. TypeScript and Node.js, Java, Go, C#, and other stacks can provide the same service-side evidence when they match the target market. Choose one credible path beyond the browser and prove it through shipped behavior.
+
+> **Measure title drift without manufacturing a trend**
+>
+> Record the platform, geography, query, filters, and collection dates. Deduplicate reposted vacancies by employer, role, location, and source identifier. Report both the count for each title family and the total number of unique postings. Measure required skills separately from titles, since a React position may appear under Product Engineer or Software Engineer. Compare periods only when the collection method is stable. Unless the study identifies a causal mechanism and controls for the broader hiring cycle, record AI attribution as **UNKNOWN**.
 
 ---
 
 ## 2. Prompt Engineer
 
-**Status**: First wave (2022-2023), partially commoditized but still relevant in specialized contexts.
+**Evidence label**: Capability. Prompt design appears inside broader product, applied AI, evaluation, and domain roles; the evidence reviewed in August 2026 does not support treating Prompt Engineer as a durable standalone family.
 
 ### What they do
 
@@ -92,7 +154,7 @@ Craft and optimize the instructions sent to AI models to get reliable, high-qual
 
 ### Where it's heading
 
-The "prompt engineer" title as a standalone role is consolidating into broader AI Engineer or Context Engineer roles. Where it persists: companies with very specific, high-stakes prompt domains (legal, medical, financial compliance). Upskill toward context engineering or AI engineering if you're in this role.
+Prompt design remains necessary, but production ownership now usually includes context, evaluation, data, integration, and monitoring. Treat prompt engineering as one skill in an AI Engineer, Applied AI Engineer, domain specialist, or evaluation role unless an employer's scope says otherwise.
 
 ### Entry paths
 
@@ -102,17 +164,17 @@ Technical writer, QA engineer, domain expert (law, medicine, finance), content s
 
 ## 3. Context Engineer
 
-**Status**: Emerging, one of the fastest-growing specializations in 2025.
+**Evidence label**: Specialization. Current postings use Context Engineer and adjacent titles, but employers also assign the same work to AI, applied AI, platform, and developer-productivity engineers.
 
 ### What they do
 
-Context engineering is the evolution of prompt engineering. Where prompt engineers craft instructions, context engineers design **systems** that give AI models the right information, at the right time, in the right format. Andrej Karpathy explicitly moved from "vibe coding" framing to "context engineering" as the more precise description of this work.
+Context engineers design **systems** that give models the right information, tools, and constraints at the right time. That scope includes retrieval, memory, tool descriptions, repository instructions, and context-budget management. The discipline is broader than prompt wording, but current evidence does not establish one standard organizational boundary for the title.
 
 See the [Context Engineering reference](../core/context-engineering.md) for the full discipline, including the ACE pipeline (Section 6), the L0→L5 maturity model (Section 9), and the operational mechanisms that separate a Level 4 from a Level 5 system: signal taxonomy and causal attribution (Section 10), PR-based loop closure (Section 11), ejection of dormant rules (Section 12), constitutional audits (Section 13), and multi-dev profile reconciliation (Section 14).
 
 > "Context Engineering is providing the right information and tools, in the right format, at the right time." (Philipp Schmid, Google)
 
-This role's rise is itself the story: [context engineering became a job title](https://florian.bruniaux.com/articles/context-engineering-the-new-roles/) traces how a technique turned into a career path in under two years.
+The article [Context engineering became a job title](https://florian.bruniaux.com/articles/context-engineering-the-new-roles/) documents early title adoption. Treat it as evidence of emergence, not proof of market volume.
 
 ### Responsibilities
 
@@ -145,7 +207,7 @@ Data engineer, backend engineer, ML engineer, information architect.
 
 ## 4. AI Engineer
 
-**Status**: Mainstream, the generalist role for building AI-powered products.
+**Evidence label**: Role family. AI Engineer is the broad application-engineering title; employer scope still ranges from model adaptation to full-stack product delivery.
 
 ### What they do
 
@@ -181,9 +243,47 @@ Software engineer (most common), backend engineer, data engineer, ML engineer tr
 
 ---
 
-## 5. LLM Engineer
+## 5. Applied AI Engineer
 
-**Status**: Specialized variant of AI Engineer, prominent in model-heavy companies.
+**Evidence label**: Role family. Current official postings from OpenAI, Cohere, Cognition, Console, and other employers use the exact title, but they do not all place the role at the same customer boundary.
+
+### What they do
+
+Turn available models into production behavior for a defined product or workflow. Applied AI Engineers spend less time on foundation-model research than LLM or ML Engineers and more time on application architecture, context, evals, tool use, data integration, guardrails, and iteration with users.
+
+The title does **not** imply customer-facing deployment. [OpenAI describes Applied AI Engineering](https://openai.com/careers/applied-ai-engineer-enterprise-san-francisco/) around safe, reliable production systems. [Cohere's Agentic Workflows role](https://jobs.ashbyhq.com/cohere/5e488a01-f015-48e8-8d25-a41cf19ab45a) includes enterprise agents and customer collaboration, while [Console's posting](https://jobs.ashbyhq.com/console/7d8114fa-4cbd-4c23-a6ba-5154b31c1d80) places the same title inside product engineering. Read the ownership boundary in the job description, not the title alone.
+
+### Responsibilities
+
+- Build AI product features and workflows against existing model APIs or open models
+- Design context, retrieval, tool-use, and agent-control paths
+- Create eval datasets and regression gates tied to user outcomes
+- Instrument latency, cost, errors, model behavior, and fallbacks in production
+- Work with product, domain, security, and platform peers to close the loop from observed failure to system change
+
+### Distinction from adjacent roles
+
+| Role | Primary ownership |
+|------|-------------------|
+| **AI Engineer** | Broad umbrella for AI-enabled software systems |
+| **Applied AI Engineer** | Application behavior and measurable workflow outcomes using available models |
+| **LLM Engineer** | Model adaptation, fine-tuning, inference, and model-level evaluation |
+| **Forward-Deployed Engineer** | Deployment and adoption inside a customer's environment |
+| **AI Platform Engineer** | Shared services and controls used by multiple AI product teams |
+
+### Required skills
+
+Strong software engineering, Python or TypeScript, model APIs, RAG and tool integration, evaluation design, observability, production debugging, and product judgment under non-deterministic behavior.
+
+### Entry paths
+
+Backend, full-stack, product, data, or ML engineer with evidence of shipping and measuring an AI workflow in production.
+
+---
+
+## 6. LLM Engineer
+
+**Evidence label**: Specialization or role family, depending on the employer. The title is current, but its scope overlaps ML Engineer, Research Engineer, and AI Engineer.
 
 ### What they do
 
@@ -214,9 +314,9 @@ Strong demand at AI companies (Anthropic, OpenAI, scale-ups) and in large enterp
 
 ---
 
-## 6. AI Agent Engineer
+## 7. AI Agent Engineer
 
-**Status**: High growth, one of the most in-demand specialized roles in 2025-2026.
+**Evidence label**: Emerging role family. Current employers use AI Agent Engineer and close variants, while many others place the same scope under Software Engineer or Applied AI Engineer.
 
 ### What they do
 
@@ -248,15 +348,15 @@ Non-determinism. Agent systems fail in ways that are hard to reproduce. Observab
 
 ---
 
-## 7. Founding AI Engineer
+## 8. Founding AI Engineer
 
-**Status**: Highly sought after in AI-native startups and seed-to-Series A companies.
+**Evidence label**: Title qualifier. Founding describes company stage and ownership breadth more reliably than a distinct technical discipline.
 
 ### What they do
 
 A hybrid role unique to early-stage companies: part AI engineer, part product engineer, part technical co-founder. They own core product functionality end-to-end, from architecture decisions to customer interactions, while building on top of AI capabilities.
 
-> Typically targets engineers with 0-4 years of experience who are comfortable with ambiguity, figure things out independently, and already use AI tools daily in their workflow.
+Seniority varies by startup. The stable signal is early ownership of product, architecture, delivery, and customer feedback, not an experience range inferred from the word "founding."
 
 ### Responsibilities
 
@@ -285,9 +385,9 @@ Strong mid-level engineers at established companies who want more ownership. Com
 
 ---
 
-## 8. AI Architect
+## 9. AI Architect
 
-**Status**: Senior/Staff level, emerging role in larger organizations.
+**Evidence label**: Role family, usually senior or staff level. AI Architect, Applied AI Architect, and Enterprise AI Architect postings share system-level decision ownership but differ in how hands-on they are.
 
 ### What they do
 
@@ -312,19 +412,21 @@ Design enterprise AI systems at the system level. Where AI engineers ship featur
 
 ### Entry paths
 
-Senior AI engineer → Staff → Architect. Often takes 5-8 years in AI-adjacent roles. Alternatively: cloud architect + strong AI self-study.
+Senior or staff AI engineer moving into cross-team architecture. Another path is a cloud or platform architect who adds model, evaluation, and AI-governance depth.
 
 ---
 
-## 9. Platform Engineer (AI context)
+## 10. AI Platform Engineer
 
-**Status**: Established role, significantly reshaped by AI.
+**Evidence label**: Role family. AI Platform Engineer now appears as an exact title across finance, media, healthcare, consulting, and software employers.
 
 ### What they do
 
-Build and maintain the internal developer platform. With AI, this role has expanded to include the "golden path" for AI development: standardized ways for teams to integrate LLMs, common observability infrastructure, cost controls, and guardrails so individual teams don't reinvent the wheel or create security risks.
+Build and operate the shared services that product teams use to create, evaluate, deploy, govern, and observe AI applications. Current postings make the AI scope explicit rather than treating it as a minor extension of generic platform engineering.
 
-### AI-specific responsibilities added to traditional platform work
+[BlackRock's current description](https://careers.blackrock.com/job/budapest/senior-ai-platform-engineer-vice-president-director/45831/99445872944) covers shared APIs, SDKs, agent runtimes, evaluation systems, observability, retrieval, guardrails, and governance. [Realtor.com](https://job-boards.greenhouse.io/rdccareers/jobs/7808378003?gh_jid=7808378003), [Absa](https://absa.wd3.myworkdayjobs.com/en-GB/ABSAcareersite/job/Senior-AI-Platform-Engineer--Cloud----KE_R-15989910), and [Alcon](https://alcon.wd5.myworkdayjobs.com/en-US/careers_alcon/job/Senior-AI-Platform-Engineer_R-2026-47897) show the same ownership boundary with different cloud, cost, and regulatory constraints.
+
+### Responsibilities
 
 - Provide standardized LLM integration patterns (internal SDKs, proxies, abstractions)
 - Manage API keys, rate limits, and cost allocation across teams
@@ -333,13 +435,9 @@ Build and maintain the internal developer platform. With AI, this role has expan
 - Maintain model registries and versioning systems
 - Create "paved roads" for RAG patterns, agent architectures, eval pipelines
 
-### Why this role matters more with AI
+### Organizational boundary
 
-When every team is building their own LLM integrations, you get: duplicated cost, inconsistent security, no centralized observability, and no shared learnings. Platform engineers who understand AI prevent this fragmentation. They're the reason the AI investment in a company scales instead of sprawling.
-
-**Operational ownership of AI works best sitting with the business experts themselves, not a centralized innovation cell.** Two independent corporate field reports converge against the instinct to centralize: routing every initiative through an innovation lab or an isolated IT department slows adoption and dilutes domain judgment. The counterintuitive position, relative to the classic "innovation cell" model, is to hand the tool to the people who already own the problem.
-
-*The Product Crew, enterprise field reports, 2026*
+The platform team owns reusable infrastructure, developer experience, and enforceable controls. Product or domain teams own each use case, acceptance criteria, and operational outcome. Centralizing use-case decisions in the platform team creates a queue; decentralizing credentials, observability, and guardrails creates inconsistent controls. The boundary should separate shared mechanisms from product accountability.
 
 ### Required skills (AI additions)
 
@@ -347,9 +445,9 @@ MLOps tooling, LLM gateway products (LiteLLM, Portkey), cloud AI services, cost 
 
 ---
 
-## 10. Harness Engineer
+## 11. Harness Engineer
 
-**Status**: Emerging, formalized by Martin Fowler in 2025, not yet institutionalized as a standalone title.
+**Evidence label**: Capability. Harness engineering names a production discipline; the evidence reviewed does not support a stable standalone Harness Engineer job family.
 
 ### What they do
 
@@ -375,30 +473,9 @@ Periodic agents that scan the codebase for: outdated documentation, architectura
 
 Without a harness, AI agents produce code that individually looks fine but collectively drifts away from your architecture, your patterns, and your documentation. The harness is what makes "AI generates most of the code" sustainable at scale rather than a path to unmaintainable systems.
 
-### The formal framework (arXiv 2605.18747, May 2026)
+### Organizational home
 
-"Code as Agent Harness" (arXiv 2605.18747) formalizes three properties that a production harness must satisfy. These serve as evaluation criteria when choosing between harness frameworks or assessing whether an internal toolchain qualifies as a harness rather than a wrapper.
-
-**Executability.** The harness actually runs the code the model produces and verifies the result objectively. Text or code generation alone does not qualify. A harness that validates syntax but not behavior fails this property. Anthropic SDK, OpenAI Agents SDK, and LangGraph each implement the while-loop execution engine that makes executability concrete.
-
-**Inspectability.** Every step the agent takes is traceable for diagnosis and feedback generation. OpenInference (maintained by Arize) and OpenLLMetry (Traceloop) are the two instrumentation layers that standardize this property within the OpenTelemetry ecosystem. The OTel GenAI SIG defines `gen_ai.client` spans as stable and `gen_ai.agent` spans as experimental as of May 2026.
-
-**Statefulness.** The harness maintains continuity between sessions and sequential tool calls. Without statefulness, each agent interaction starts blind, forcing re-discovery of context that was already established. E2B and Northflank implement this at the infrastructure level; Anthropic Claude Managed Agents and AWS Bedrock AgentCore implement it at the product level.
-
-Martin Fowler summarizes the distinction precisely: "A raw model is not an agent. It becomes one when connected to a harness." O'Reilly characterizes the harness as "the new frontier of reliable AI systems" (2026). Nine concrete components make up a prod-grade harness: while-loop engine, context management, tool registry, sub-agent management, built-in skills, session persistence, dynamic prompt assembly, lifecycle hooks, and permission enforcement.
-
-### Organizational impact
-
-This role pushes toward **intentional technological convergence**: organizations with 2-3 primary tech stacks benefit far more from standardized harnesses than organizations with 10 different stacks. It's a deliberate trade of technical freedom for reliability.
-
-> "Ce n'est pas quelque chose dans lequel vous pouvez vous lancer pour des résultats rapides." (Martin Fowler)
-
-### Where this role will emerge
-
-Currently absorbed by: platform engineers, staff/principal engineers, architecture guilds. Likely to become an explicit role in:
-- Companies running autonomous coding agents at scale
-- Large enterprises with 50+ engineers using AI coding tools
-- Organizations that've experienced "AI entropy" firsthand (code that works but nobody understands anymore)
+Platform engineers, staff engineers, developer-productivity teams, and architecture groups currently own this work. Treat Harness Engineer as a search keyword and capability profile, not as a forecast that every organization will create the title.
 
 ### Required skills
 
@@ -406,9 +483,9 @@ Software architecture, linter/static analysis tooling, LLM orchestration, observ
 
 ---
 
-## 11. AI Product Manager
+## 12. AI Product Manager
 
-**Status**: Mainstream and growing, with significant premium over traditional PM roles.
+**Evidence label**: Role family. AI Product Manager and product-manager titles scoped to AI are current, but compensation premiums require employer- and level-specific evidence.
 
 ### What they do
 
@@ -431,49 +508,38 @@ Traditional PM ships features that behave deterministically. AI PMs ship systems
 
 Standard PM skills (roadmapping, prioritization, user research) plus: LLM API familiarity, eval design, basic Python for running experiments, understanding of model tradeoffs (accuracy vs. cost vs. latency), AI UX patterns.
 
-### Salary context
-
-FAANG-level: $160K-$200K+ entry-level AI PM. Senior: $200K-$300K+ total compensation.
-
 ---
 
-## 12. AI Safety & Eval Engineer
+## 13. AI Safety Engineer
 
-**Status**: Specialized, primarily at AI labs and companies with regulated AI deployments.
+**Evidence label**: Role family. Safety work appears under Software Engineer, Research Engineer, ML/Research Engineer, red-team, safeguards, and alignment titles. Evaluation is separated in Section 20 because it has a different production boundary.
 
 ### What they do
 
-Ensure AI systems behave safely, reliably, and in alignment with intended values. Two related but distinct specializations: **Eval Engineers** (build systems to measure model behavior) and **AI Safety Engineers** (identify and mitigate risks in AI systems).
+Identify, measure, and reduce safety-relevant model or system behavior. The role can sit close to research, safeguards engineering, alignment, policy enforcement, or adversarial testing. It differs from AI Security Engineering: safety asks whether the system causes unacceptable behavior or harm; security asks how an attacker or compromised component can violate confidentiality, integrity, authorization, or availability.
 
-### Eval Engineer responsibilities
-
-- Design evaluation frameworks (evals) to measure model quality, safety, and capabilities
-- Build automated eval pipelines that run on every model version change
-- Define metrics that capture real-world performance (not just benchmark gaming)
-- Implement human evaluation workflows for subjective quality dimensions
-- Detect regressions before they reach production
-
-### AI Safety Engineer responsibilities
+### Responsibilities
 
 - Red-team AI systems to find failure modes, jailbreaks, and harmful outputs
-- Implement content filtering, output validation, and guardrail systems
+- Build or validate safeguards, classifiers, output controls, and escalation paths
 - Design human-in-the-loop checkpoints for high-risk decisions
-- Monitor production systems for harmful outputs or unexpected behavior
-- Work with legal/compliance on AI governance
+- Define threat models and evaluations for misuse, alignment, or domain-specific harm
+- Monitor deployed systems for safety regressions and emerging abuse patterns
+- Translate findings into model, product, policy, or deployment changes
 
 ### Required skills
 
-Rigorous experimental design, statistics, Python, strong understanding of LLM failure modes, communication skills for risk reporting.
+Experimental design, statistics, Python, adversarial testing, model-behavior analysis, and clear risk reporting. Research-facing roles may require deeper ML or publication experience; production-facing safeguards roles may require stronger backend and incident-response skills.
 
 ### Where to find these roles
 
-Primarily: Anthropic, OpenAI, Google DeepMind, Meta AI, Microsoft AI. Growing in: healthcare, finance, legal tech, regulated industries where AI errors have serious consequences.
+[Anthropic's current careers page](https://www.anthropic.com/careers/jobs) includes safeguards, alignment, frontier red-team, and safety-research engineering titles. OpenAI and Google DeepMind also divide safety work across research and software-engineering families. These examples establish the work and title family, not a market-wide hiring rate.
 
 ---
 
-## 13. ML Engineer
+## 14. ML Engineer
 
-**Status**: Established, the most traditional of the AI engineering roles.
+**Evidence label**: Established role family.
 
 ### What they do
 
@@ -498,9 +564,9 @@ Python (fluent), PyTorch or TensorFlow, distributed computing, data pipeline too
 
 ---
 
-## 14. MLOps Engineer
+## 15. MLOps Engineer
 
-**Status**: Established, distinct from ML Engineer, growing in enterprises deploying models at scale.
+**Evidence label**: Established role family, with substantial overlap with AI Platform Engineer in some organizations.
 
 ### What they do
 
@@ -537,9 +603,9 @@ DevOps/platform engineer adding ML knowledge, ML engineer who gravitates toward 
 
 ---
 
-## 15. AI Developer Advocate
+## 16. AI Developer Advocate
 
-**Status**: High growth, actively hiring at all major AI companies in 2025-2026.
+**Evidence label**: Role family, often posted as Developer Advocate, Developer Relations Engineer, or Technical Evangelist for an AI platform.
 
 ### What they do
 
@@ -569,13 +635,9 @@ Build the bridge between an AI platform and the developers who use it. Part engi
 
 The audience is other developers, not end users. DevRel success measures developer activation (do developers try the product?), retention (do they keep using it?), and advocacy (do they tell others?). Credibility is the core asset, which means you have to actually build things, not just talk about them. A DevRel who hasn't shipped real production code with the platform has no credibility with the audience they're trying to reach.
 
-### Salary context
-
-$120K-$180K base (US), senior/lead roles $150K-$250K+. Total compensation includes equity at most AI companies.
-
 ### Where these roles are
 
-Actively hiring: Anthropic, OpenAI, Together AI, Mistral, Cohere, Hugging Face, LangChain, and any company building developer-facing AI products. The role is expanding beyond AI labs as enterprise software companies add AI capabilities and need someone to help developers adopt them.
+AI labs, model providers, agent frameworks, and developer-facing platforms use Developer Advocate or Developer Relations titles. Confirm the current employer and product scope before treating an old listing as evidence of an open role.
 
 ### Entry paths
 
@@ -583,9 +645,9 @@ Software engineer with a public presence (blog, open source, conference talks), 
 
 ---
 
-## 16. AI Orchestration Engineer
+## 17. AI Orchestration Engineer
 
-**Status**: Emerging, real job postings in 2025, distinct from AI Agent Engineer in scope.
+**Evidence label**: Specialization. Current titles vary, and many employers place orchestration inside Applied AI, AI Agent, integration, or platform engineering.
 
 ### What they do
 
@@ -629,26 +691,26 @@ Integration engineer, backend engineer with workflow automation experience, DevO
 
 ---
 
-## 17. Spec Engineer
+## 18. Spec Engineer
 
-**Status**: Emerging in 2026, growing alongside Spec-Driven Development adoption.
+**Evidence label**: Capability. Spec-driven development is an observable practice, but current evidence does not establish Spec Engineer as a durable standalone title.
 
 ### What they do
 
-Write the structured specifications that AI agents use to plan, implement, and validate code. As organizations move from L2 (assistant) to L3 (orchestrated agents) on the Shapiro scale, spec quality becomes the primary determinant of output quality. Spec Engineers are the "requirements analysts" of the agentic era: they bridge business intent and machine-executable contracts.
+Write the structured specifications that AI agents use to plan, implement, and validate code. This capability bridges business intent, human review, and machine-executable acceptance criteria. It can belong to a product engineer, requirements analyst, QA engineer, technical writer, or domain expert.
 
 ### Core responsibility
 
 Writing specifications that satisfy three conditions simultaneously: precise enough for an agent to generate correct code from them, human-readable enough for a product manager to approve them, and stable enough to serve as the diff-able ground truth when the implementation drifts.
 
-GitHub Spec Kit formalizes this as a four-phase pipeline (Constitution, Specify, Plan, Tasks) where the spec file in `.specify/` is the governing artifact. Factory.ai Missions extends this with behavioral validation contracts written before any implementation begins. On a Slack clone, 81 problems were caught by independent validator agents from spec alone, generating 34% of the implementation work as "fix features."
+[GitHub Spec Kit](https://github.com/github/spec-kit) formalizes a Constitution, Specify, Plan, and Tasks workflow around versioned artifacts. Tool adoption does not establish Spec Engineer as a market title.
 
 ### Required skills
 
 | Technical | Soft |
 |-----------|------|
 | Structured writing (Gherkin-style Given-When-Then or equivalent) | Precision under ambiguity |
-| Understanding of agent failure modes (multi-file tasks fail at 19.4% pass@1 without spec) | Negotiation with product, engineering, and LLMs simultaneously |
+| Understanding of agent failure modes on multi-file and long-horizon tasks | Negotiation across product, engineering, and domain constraints |
 | Familiarity with SDD tools (Spec Kit, Kiro, Augment, Factory.ai) | Ability to distinguish what the spec must constrain vs what it should leave open |
 | Version control discipline (specs versioned before code) | |
 
@@ -658,24 +720,25 @@ Technical writer with engineering background, QA engineer who understands requir
 
 ---
 
-## 18. Agent Identity Architect
+## 19. Agent Identity Architect
 
-**Status**: Critical gap. 77% of organizations have no formal agent identity strategy as of 2026.
+**Evidence label**: Capability. Agent identity is a distinct control problem, but current postings usually assign it to AI Security, IAM, platform security, or AI Platform roles rather than an Agent Identity Architect family.
 
 ### What they do
 
 Design and enforce the identity layer for AI agents: how agents authenticate to services, what permissions they hold, how those permissions are scoped and audited, and how privilege escalation is prevented when agents chain tool calls across services.
 
-### Why this role exists now
+### Why the capability matters
 
-The Lethal Trifecta (Simon Willison, 2025): access to private data + exposure to untrusted content + capability for external communication = documented exfiltration vector. Most organizations understand the threat but have not built the defense. Strata Identity Research 2026 shows 44% of organizations are still using static API keys for agent authentication, 23% have a formal strategy, 18% rely on IAM trust inheritance with no per-agent scoping.
+Agents combine delegated authority, access to private data, exposure to untrusted content, and external actions. Shared credentials or inherited permissions make attribution and least privilege difficult. The control boundary therefore needs an identity per workload or session, scoped authorization, auditable delegation, and explicit handling of sub-agent privileges.
 
 ### What the role covers
 
-- **Per-agent service principals**: Microsoft Entra Agent ID provides dedicated service principal types with OAuth On-Behalf-Of (OBO) flows scoped to specific session contexts. Not shared API keys, not team credentials.
-- **MCP gateway governance**: Every MCP tool call passes through an identity enforcement point that validates the calling agent's permissions against the current task scope.
-- **Session tracing**: Each action is attributable to a specific agent session, not just "the AI system."
-- **Privilege escalation prevention**: Sub-agents spawned by orchestrators cannot inherit parent permissions by default; they receive only the minimum scope for their task.
+- **Workload identity**: issue identities per agent workload or session instead of sharing team credentials.
+- **Delegated authorization**: bind each action to a user, service, task, and allowed scope with expiry and revocation.
+- **Tool enforcement**: validate tool calls against the current task scope at an identity-aware gateway or equivalent policy point.
+- **Session tracing**: attribute each action to a specific agent session and delegation chain, not just "the AI system."
+- **Sub-agent controls**: define permission inheritance explicitly and reduce child scope to the minimum required for the delegated task.
 
 ### Required skills
 
@@ -687,114 +750,224 @@ Cloud security engineer, identity/access management specialist, platform enginee
 
 ---
 
-## 19. AI Eval Engineer
+## 20. AI Evaluation Engineer
 
-**Status**: Distinct from AI Safety & Eval (Section 12). This role focuses on production measurement, not lab safety.
+**Evidence label**: Role family with unstable naming. Current titles include Research Engineer, Model Evaluations; Backend Software Engineer (Evals); evaluation-infrastructure leadership; and product-specific AI evaluation engineering.
 
 ### What they do
 
-Build and operate the continuous measurement layer that tells the organization whether its AI systems are getting better or worse. Not red-teaming (that's AI Safety), not fine-tuning (that's LLM Engineer). Pure measurement: does the output quality hold up over time, across model upgrades, across traffic distribution shifts?
+Build and operate the measurement layer that tells an organization whether model or system behavior meets explicit criteria over time. Evaluation can target model capabilities, safety, a product workflow, an agent trajectory, or the infrastructure that runs those tests.
 
-### The structural problem they solve
+### Why the title varies
 
-Anthropic's own data shows 93% of permission requests in production are approved without adequate review. JudgeBiasBench (arXiv 2604.23178) documents that LLM-as-judge systems have style bias scores of 0.76-0.92 and true negative rates below 25%, meaning they approve most incorrect outputs. These two facts together mean that relying on human review and LLM-as-judge alone is not a quality strategy. The Eval Engineer builds the third layer: structured evaluation pipelines with explicit pass/fail criteria that do not depend on human attention or LLM approval bias.
+[Anthropic currently lists Research Engineer, Model Evaluations and Evals Infrastructure leadership](https://www.anthropic.com/careers/jobs). [OpenAI's Backend Software Engineer (Evals)](https://openai.com/careers/backend-software-engineer-%28evals%29-san-francisco/) builds reproducible pipelines, golden datasets, drift monitoring, and evaluation services for a product domain. These postings confirm a role family but also show that research, infrastructure, and product evaluation require different profiles.
 
 ### Responsibilities
 
 - Design evaluation frameworks with explicit metrics (task completion rate, tool correctness rate, hallucination rate)
-- Build canary pipelines that run A/B comparisons on 1-2% of production traffic before promoting model changes
-- Implement the creator-verifier pattern (independent agent checks agent outputs) for high-stakes workflows; independent verification improves correctness by +12 to +26% versus self-verification
-- Monitor for silent degradation: code generation quality that declines after a model update without any alarm firing
-- Maintain eval benchmarks that don't overfit to the current model's tendencies
+- Build reproducible datasets, runners, and comparison pipelines
+- Combine deterministic checks, human review, and model-based graders with documented limitations
+- Detect regressions across model, prompt, context, tool, or traffic changes
+- Maintain benchmark provenance and test for contamination or overfitting
+- Connect evaluation results to release gates, incident analysis, and product decisions
 
 ### Required skills
 
-Statistical experiment design, Python, understanding of LLM failure modes and bias patterns, CI/CD pipeline integration, working knowledge of OTel GenAI conventions (gen_ai.client spans are stable, gen_ai.agent spans are experimental as of May 2026).
+Statistical experiment design, Python, task and failure-mode analysis, dataset curation, grader validation, CI/CD integration, and reproducible reporting.
 
 ### Tools
 
-Arize Phoenix (1 trillion spans/month in production, self-hostable ELv2), Langfuse (OTel-native v3, MIT open-source), DeepEval (Python-native pytest integration), LangWatch Scenario SDK (multi-turn simulation), AWS Bedrock AgentCore (eval on 1-2% of live traffic).
+Tool choice depends on the boundary: test runners for deterministic checks, experiment stores for datasets and versions, tracing for agent trajectories, human-review interfaces, and model-based graders whose error rates are measured against labeled samples.
 
 ---
 
-## 20. Career Decision Matrix
+## 21. Forward-Deployed Engineer (FDE)
 
-Which role fits your current background and goals?
+**Evidence label**: Role family. Current official postings at OpenAI, Anthropic, ServiceNow, and other AI vendors use Forward-Deployed Engineer or a close variant.
 
-| Your current profile | Best next role | Timeline |
-|---------------------|---------------|----------|
-| Software engineer (3+ years) who wants to work with AI | AI Engineer | 3-6 months upskill |
-| Software engineer at early startup who wants ownership | Founding AI Engineer | Now, if opportunity exists |
-| Backend engineer interested in infra + AI | Platform Engineer (AI) | 6-12 months |
-| Senior engineer who thinks in systems | AI Architect or Harness Engineer | 1-2 years experience accumulation |
-| Engineer who likes research and rigor | LLM Engineer or AI Safety/Eval | +ML foundations needed |
-| Non-technical who works with AI daily | Prompt Engineer → Context Engineer | 6-18 months |
-| PM who wants to stay PM but be more relevant | AI Product Manager | 3-6 months upskill |
-| Engineer obsessed with reliability and architecture | Harness Engineer (emerging) | Pioneers' territory |
-| DevOps/platform engineer who wants to work with models | MLOps Engineer | 3-6 months upskill |
-| Engineer with public presence and community instincts | AI Developer Advocate | 6-12 months |
-| Integration or automation engineer adding AI | AI Orchestration Engineer | 3-6 months |
-| Technical writer or QA engineer with engineering background | Spec Engineer | 3-6 months |
-| Cloud/IAM security engineer moving into AI | Agent Identity Architect | 6-12 months |
-| Engineer who wants to measure AI quality rigorously | AI Eval Engineer | 3-6 months upskill |
+### What they do
 
-### The fastest path to AI employment in 2025-2026
+Own the technical deployment of an AI system inside a customer's real environment. FDEs work between the customer's domain and the vendor's product, taking a problem through discovery, architecture, implementation, evaluation, production rollout, adoption, and handoff. Field evidence then feeds back into reusable product capabilities and deployment standards.
 
-1. Build something with AI APIs (Claude, OpenAI): a real project, not a tutorial
-2. Write about what you built (blog post, GitHub README, LinkedIn)
-3. Add evaluation: measure your system's quality, show the numbers
-4. Apply for AI Engineer roles: the bar is demonstrated building, not credentials
+[OpenAI's current FDE description](https://openai.com/careers/forward-deployed-engineer-%28fde%29-sf-san-francisco/) measures the role through production adoption, workflow impact, and eval-driven feedback rather than prototype delivery. [Anthropic also lists FDE positions](https://www.anthropic.com/careers/jobs) in the United States, France, and Germany as of August 2026. Current vacancies establish that the title is real; they do not establish how common it is across the broader market.
 
-Note: 76% of candidates claiming AI expertise lack production-level deployment experience (LangChain State of Agent Engineering 2025). The bar is lower than it appears if you've actually shipped something.
+### Responsibilities
 
----
+- Translate ambiguous customer workflows, data constraints, and domain rules into technical requirements and measurable outcomes
+- Design and build the integration, evaluation, security, and production architecture
+- Work directly with customer engineers, operators, and domain experts through rollout and adoption
+- Make scope, speed, and quality trade-offs while retaining launch evidence and rollback paths
+- Turn one deployment's lessons into reusable tools, playbooks, evals, or product improvements
 
-## 21. Salary Benchmarks (2025-2026)
+### Distinction from adjacent roles
 
-> **Indicative only, large variance applies.** These figures are US market base salaries (2025-2026). Europe runs 30-50% lower, other markets 40-60% lower. Total compensation (equity, bonus, RSUs) can significantly exceed base, especially at startups and FAANG. Experience level, location within a country, company stage, and negotiation all create wide variance. Use these as orientation, not negotiation anchors.
+| Role | Primary boundary |
+|------|------------------|
+| **Solutions engineer** | Proves technical fit, often before or during a sale |
+| **Forward-deployed engineer** | Owns hands-on technical delivery and production adoption in the customer's environment |
+| **Product engineer** | Owns a reusable product surface for many customers |
+| **AI architect** | Defines reference architecture and standards across deployments |
 
-| Role | Entry | Mid | Senior | Notes |
-|------|-------|-----|--------|-------|
-| Prompt Engineer | $80K-$110K | $110K-$150K | $150K-$180K | Shrinking standalone market |
-| Context Engineer | $100K-$140K | $140K-$180K | $180K-$230K | Growing fast |
-| AI Engineer | $120K-$160K | $160K-$220K | $220K-$300K | Highest volume of open roles |
-| LLM Engineer | $130K-$170K | $170K-$250K | $250K-$350K | Lab-level roles higher |
-| AI Agent Engineer | $130K-$170K | $170K-$240K | $240K-$320K | Strong demand 2025-2026 |
-| Founding AI Engineer | $100K-$150K + equity | N/A | N/A | Equity makes total comp wide-ranging |
-| AI Architect | N/A | $180K-$260K | $260K-$380K | Senior/Staff only |
-| Platform Engineer (AI) | $110K-$150K | $150K-$210K | $210K-$280K | |
-| Harness Engineer | Not yet standardized | N/A | N/A | Absorbed into other roles |
-| AI Product Manager | $130K-$170K | $170K-$230K | $230K-$350K | FAANG premium significant |
-| AI Safety/Eval Engineer | $140K-$180K | $180K-$250K | $250K-$400K | Lab compensation highest |
-| ML Engineer | $100K-$140K | $140K-$200K | $200K-$280K | Lower demand outside labs |
-| MLOps Engineer | $110K-$150K | $150K-$200K | $200K-$270K | High demand in enterprises deploying at scale |
-| AI Developer Advocate | $120K-$160K | $160K-$220K | $220K-$300K | Active hiring at AI platforms |
-| AI Orchestration Engineer | $100K-$140K | $140K-$190K | $190K-$260K | Emerging, title varies across companies |
-| Spec Engineer | $90K-$130K | $130K-$180K | $180K-$250K | Often embedded in engineering teams, not standalone |
-| Agent Identity Architect | N/A | $170K-$240K | $240K-$340K | Senior only; deep IAM expertise required |
-| AI Eval Engineer | $110K-$150K | $150K-$210K | $210K-$290K | Growing rapidly as agentic systems reach production |
+The boundary varies by employer. OpenAI's general posting explicitly separates technical solution ownership from the commercial or executive relationship, while domain-specific FDE roles can require regulated-industry knowledge and substantial travel.
 
-> **Sources**: FinalRoundAI (2025), Alcor AI Salary Report (2025), RiseWorks AI Talent Report (2025), job postings analysis. New roles (Spec Engineer, Agent Identity Architect, AI Eval Engineer) are estimated from adjacent role benchmarks and emerging job postings. Treat with wider margin.
+### Required skills
+
+Senior software or AI engineering, systems architecture, API and data integration, eval design, production operations, customer discovery, domain modeling, and clear communication under ambiguous requirements.
+
+### Entry paths
+
+Senior software engineer with customer-facing delivery experience, solutions architect who still writes production code, implementation engineer moving into end-to-end ownership, technical consultant with strong product and AI depth.
 
 ---
 
-## 22. What's Not a Role (Yet)
+## 22. AI Security Engineer
 
-Some terms you'll hear that describe practices or methodologies, not job titles:
+**Evidence label**: Role family. Cisco, Apple, GuidePoint Security, Marvell, Prologis, Société Générale, and other employers use the exact title or a seniority-qualified variant in current official postings.
 
-**Vibe coder**: a methodology (use AI coding assistants to handle implementation while you focus on design), not a job. Andrej Karpathy coined the term then himself pivoted toward "context engineering" as more precise. No serious company has "Vibe Coder" on a job description.
+### What they do
 
-**AI-native engineer**: describes a quality expected of all engineers increasingly, not a specialized role. It means: you use AI tools fluently in your daily workflow. It's the bar, not the title.
+Protect AI applications, models, data paths, agents, and supporting platforms against misuse and attack. AI Security Engineers combine application, cloud, identity, data, and adversarial-ML security rather than treating prompt injection as the whole problem.
 
-You'll encounter these terms in job descriptions and articles, but they don't represent distinct career paths, at least not yet.
+[Apple's AI Security Engineer, Red Team](https://jobs.apple.com/en-us/search?team=sicurezza-e-privacy-SFTWR-SEC) focuses on deep technical reviews. [Marvell's AI Security Engineer](https://marvell.wd1.myworkdayjobs.com/en-US/MarvellCareers/job/AI-Security-Engineer_2603452) owns enterprise controls, runtime protection, identity, telemetry, and remediation. [Société Générale's Lead AI Security Engineer](https://careers.societegenerale.com/en/job-offers/lead-ai-security-engineer-aps-26000H78-en) combines AI red teaming with secure software engineering.
+
+### Responsibilities
+
+- Threat-model model APIs, RAG, agents, tools, data flows, identities, and third-party components
+- Test prompt injection, data exfiltration, poisoning, insecure tool use, privilege escalation, and model or supply-chain abuse
+- Build preventive and detective controls for inputs, outputs, runtime actions, data access, and credentials
+- Integrate AI findings into AppSec, cloud security, IAM, detection, incident response, and vulnerability-management workflows
+- Validate mitigations with repeatable tests and retain evidence for risk owners
+
+### Distinction from adjacent roles
+
+| Role | Primary question |
+|------|------------------|
+| **AI Security Engineer** | How can an attacker, compromised component, or unsafe integration violate a security property? |
+| **AI Safety Engineer** | Which model or system behaviors create unacceptable harm or misuse risk? |
+| **AI Governance Engineer** | How are policies, approvals, inventories, evidence, and regulatory controls encoded and operated? |
+
+### Entry paths
+
+Application security, cloud security, security architecture, adversarial ML, IAM, or platform security with hands-on AI application knowledge.
 
 ---
 
-## 23. Job Listings
+## 23. AI Governance Engineer
 
-> **Coming soon**: curated listings for AI roles at companies building seriously with Claude Code and agentic AI.
+**Evidence label**: Role family, but less standardized than AI Security Engineer. Current postings at Swiss Re, State Street, Deeploy, and Dalio Family Office use the exact title or a combined analyst/engineer variant.
 
-If you're hiring for any of the roles described in this guide, [reach out](https://florian.bruniaux.com) to discuss featuring your opportunity here.
+### What they do
+
+Turn AI policy, risk, and regulatory requirements into operational tooling and evidence. This is an engineering role when it builds catalogs, lineage, approval gates, policy checks, audit trails, and self-service controls. A governance analyst or policy lead may own interpretation and oversight without building those systems.
+
+[Swiss Re's AI Governance Engineer](https://corporatesolutions.swissre.com/careers/job/AI-Governance-Engineer/1397420433) develops governance tooling, model lineage, fairness audits, usage logging, catalogs, and compliance checks. [Deeploy](https://jobs.ashbyhq.com/deeploy/9b78c07e-9c45-4581-8969-719896f590d9/) uses the title for customer implementation, while [State Street](https://statestreet.wd1.myworkdayjobs.com/en-US/Global/job/AI-Governance-Engineer--VP_R-794568) places it closer to enterprise architecture. The common boundary is control implementation, not one reporting line.
+
+### Responsibilities
+
+- Build and operate AI inventories, ownership records, risk classifications, and approval workflows
+- Translate policy and regulatory obligations into technical requirements and automated checks
+- Capture model, dataset, prompt, evaluation, deployment, and human-approval lineage
+- Provide reusable controls and evidence for engineering, risk, legal, compliance, and audit stakeholders
+- Monitor control coverage and exceptions instead of treating a policy document as proof of implementation
+
+### Distinction from compliance and security
+
+Governance Engineering encodes and operates controls. Legal, compliance, risk, and policy specialists interpret obligations and decide acceptable risk. AI Security Engineering tests and enforces technical security properties. One person may cover several boundaries in a small organization, but the accountabilities should remain explicit.
+
+### Entry paths
+
+Governance, risk, and compliance engineer; responsible-AI specialist with software skills; data-governance engineer; platform engineer in a regulated environment; or security engineer focused on control automation.
+
+---
+
+## 24. Career Decision Matrix
+
+Choose the ownership boundary first, then compare titles. In a small AI-augmented team, a credible profile combines one deep specialty with adjacent product, verification, and agent-supervision skills.
+
+| Current strength | Closest role family | Evidence to build |
+|------------------|---------------------|-------------------|
+| Product or backend engineering | AI Engineer or Applied AI Engineer | A shipped workflow with evals, observability, failure analysis, and cost data |
+| Model training and experimentation | ML Engineer or LLM Engineer | Reproducible experiments, model comparisons, and deployment constraints |
+| Cloud, SRE, or internal platforms | AI Platform Engineer or MLOps Engineer | A reusable deployment path with identity, tracing, rollback, and cost controls |
+| Application or cloud security | AI Security Engineer | An AI threat model, adversarial tests, mitigations, and retest evidence |
+| GRC, data governance, or control automation | AI Governance Engineer | A working inventory, approval gate, lineage path, or policy-as-code control |
+| Statistics, QA, or experiment design | AI Evaluation Engineer | A versioned dataset, validated graders, regression report, and release gate |
+| Customer-facing technical delivery | Forward-Deployed Engineer | Production integration, adoption result, handoff, and reusable field feedback |
+| Product strategy and user research | AI Product Manager | Acceptance criteria for variable behavior and explicit quality, cost, latency, and fallback decisions |
+| IAM or platform security | AI Security or AI Platform Engineer with agent-identity depth | Delegated authorization, session attribution, least privilege, and revocation design |
+| Technical writing or requirements analysis | Product, QA, or Applied AI role with specification depth | A versioned specification linked to tests and implementation evidence |
+
+### Portfolio proof
+
+1. Build a real workflow against a model API or open model.
+2. Define the task, failure modes, and acceptance criteria before polishing the demo.
+3. Add a versioned evaluation set and report false positives, false negatives, and uncovered cases.
+4. Instrument latency, cost, errors, tool actions, and fallback behavior.
+5. Document one incident or failed approach and the evidence that justified the correction.
+
+These artifacts demonstrate production judgment. They do not substitute for domain, research, security, or regulatory depth where the role requires it.
+
+---
+
+## 25. Compensation Evidence
+
+The earlier version of this page published broad entry, mid, and senior ranges assembled from secondary salary sites and adjacent-role estimates. That method could not support title-level comparisons, especially for new roles with inconsistent scope. This revision removes those estimates.
+
+Current employer disclosures can establish a range for one role, level, location, and date. They are not market benchmarks:
+
+| Posting observed in August 2026 | Published base range | Evidence boundary |
+|---------------------------------|----------------------|-------------------|
+| [OpenAI Applied AI Engineer, Enterprise, US](https://openai.com/careers/applied-ai-engineer-enterprise-san-francisco/) | $197K to $278K, equity separate | Customer-facing enterprise scope at one employer |
+| [OpenAI Forward-Deployed Engineer, San Francisco](https://openai.com/careers/forward-deployed-engineer-%28fde%29-sf-san-francisco/) | $162K to $280K, equity separate | One employer, one location, broad level range |
+| [OpenAI Backend Software Engineer (Evals), San Francisco and Seattle](https://openai.com/careers/backend-software-engineer-%28evals%29-san-francisco/) | $266K to $445K, equity separate | Product-domain eval infrastructure, not every evaluation role |
+| [Cisco AI Security Engineer, US locations](https://cisco.wd5.myworkdayjobs.com/en-US/Cisco_Careers/job/AI-Security-Engineer_2017667) | $150.3K to $195.2K | One posting with employer-specific research scope |
+| [Marvell AI Security Engineer, Santa Clara or Austin](https://marvell.wd1.myworkdayjobs.com/en-US/MarvellCareers/job/AI-Security-Engineer_2603452) | $131.54K to $197K | One enterprise cyber-engineering role |
+| [BlackRock Senior AI Platform Engineer, Budapest](https://careers.blackrock.com/job/budapest/senior-ai-platform-engineer-vice-president-director/45831/99445872944) | HUF 13.4M to 20.1M | Hungary, VP or Director level, employer-specific band |
+
+For negotiation, compare live postings with the same country, city or remote policy, level, employer type, and compensation components. Do not convert one US lab range into a global role average.
+
+---
+
+## 26. Capabilities and Title Qualifiers
+
+The report used for this update was right to challenge title inflation. It was too aggressive in recommending deletion: a weak standalone title does not make the capability obsolete.
+
+| Term | Classification in this guide | Where the work usually sits |
+|------|------------------------------|------------------------------|
+| Prompt Engineer | Capability | AI, applied AI, product, evaluation, or domain role |
+| Context Engineer | Specialization | AI, applied AI, platform, developer productivity, or data role |
+| Harness Engineer | Capability | Platform, staff engineering, developer productivity, or architecture |
+| AI Orchestration Engineer | Specialization | Applied AI, agent, integration, automation, or platform engineering |
+| Spec Engineer | Capability | Product engineering, requirements, QA, technical writing, or domain ownership |
+| Agent Identity Architect | Capability | AI security, IAM, platform security, or AI platform engineering |
+| Founding AI Engineer | Title qualifier | Early-stage AI or product engineering with broad ownership |
+| AI-native engineer | Proficiency profile | Engineer who can supervise agents and own a wider delivery path |
+| Vibe coder | Practice label | AI-assisted implementation; not a defensible career family |
+
+Use these terms to describe depth or search for adjacent postings. Do not design a team with one mandatory seat per term.
+
+---
+
+## 27. Evidence Snapshot
+
+The following primary employer pages were live or indexed as current during the August 31, 2026 review. A live vacancy proves title usage at that employer on that date. It does not prove market share or future persistence.
+
+| Role family | Cross-employer evidence sampled | Review conclusion |
+|-------------|---------------------------------|-------------------|
+| Applied AI Engineer | [OpenAI](https://openai.com/careers/applied-ai-engineer-enterprise-san-francisco/), [Cohere](https://jobs.ashbyhq.com/cohere/5e488a01-f015-48e8-8d25-a41cf19ab45a), [Cognition](https://jobs.ashbyhq.com/cognition/9dc5bcf6-469d-426d-a5ca-46062f4fa33b), [Console](https://jobs.ashbyhq.com/console/7d8114fa-4cbd-4c23-a6ba-5154b31c1d80) | Confirmed family; customer boundary varies |
+| AI Platform Engineer | [BlackRock](https://careers.blackrock.com/job/budapest/senior-ai-platform-engineer-vice-president-director/45831/99445872944), [Realtor.com](https://job-boards.greenhouse.io/rdccareers/jobs/7808378003?gh_jid=7808378003), [Absa](https://absa.wd3.myworkdayjobs.com/en-GB/ABSAcareersite/job/Senior-AI-Platform-Engineer--Cloud----KE_R-15989910), [Alcon](https://alcon.wd5.myworkdayjobs.com/en-US/careers_alcon/job/Senior-AI-Platform-Engineer_R-2026-47897) | Confirmed family; absorbs part of MLOps, security, eval, and agent operations |
+| AI Security Engineer | [Apple](https://jobs.apple.com/en-us/search?team=sicurezza-e-privacy-SFTWR-SEC), [Marvell](https://marvell.wd1.myworkdayjobs.com/en-US/MarvellCareers/job/AI-Security-Engineer_2603452), [Société Générale](https://careers.societegenerale.com/en/job-offers/lead-ai-security-engineer-aps-26000H78-en), [GuidePoint Security](https://job-boards.greenhouse.io/guidepointsecurity/jobs/6030474004?gh_jid=6030474004) | Confirmed technical security family |
+| AI Governance Engineer | [Swiss Re](https://corporatesolutions.swissre.com/careers/job/AI-Governance-Engineer/1397420433), [State Street](https://statestreet.wd1.myworkdayjobs.com/en-US/Global/job/AI-Governance-Engineer--VP_R-794568), [Deeploy](https://jobs.ashbyhq.com/deeploy/9b78c07e-9c45-4581-8969-719896f590d9/), [Dalio Family Office](https://job-boards.greenhouse.io/marinomanagementllc/jobs/6133372004) | Confirmed family; scope ranges from internal tooling to customer implementation and architecture |
+| AI Evaluation Engineer | [Anthropic careers](https://www.anthropic.com/careers/jobs), [OpenAI Backend Software Engineer (Evals)](https://openai.com/careers/backend-software-engineer-%28evals%29-san-francisco/), [Ellipsis Health](https://jobs.ashbyhq.com/ellipsis-health/60fb0284-8ba7-48a6-b66b-9bf4beb7b133) | Confirmed work family; no canonical title |
+| Forward-Deployed Engineer | [OpenAI](https://openai.com/careers/forward-deployed-engineer-%28fde%29-sf-san-francisco/), [Anthropic](https://www.anthropic.com/careers/jobs), [ServiceNow team description](https://careers.servicenow.com/teams/ai-engineering-product/) | Confirmed customer-deployment family |
+
+The Perplexity report supplied for this revision also cited aggregators, search snippets, social posts, and company-specific observations. Those sources helped find candidates but did not determine the final classification when primary employer evidence was available.
+
+---
+
+## 28. Job Listings
+
+This page does not maintain a vacancy feed. Career pages change too quickly for a static list to stay current. Use the employer links in the evidence snapshot, then verify that the posting is still open and that its ownership boundary matches the profile described here.
 
 ---
 

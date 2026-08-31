@@ -1027,11 +1027,11 @@ For a full governance setup with automatic audit trail logging, see [Enterprise 
 
 The sections above cover individual developer monitoring. For a team of 10+ developers, you need logs flowing into a central store to track total spend, flag unusual patterns, and answer compliance questions.
 
-### Option A: Route Through LiteLLM Gateway (Recommended)
+### Option A: Route Configured API Traffic Through LiteLLM
 
-The [API Gateway guide](./api-gateway.md) captures usage at the network level with zero client-side setup: every request is logged server-side with the team's virtual key alias, model, and token counts. Each developer connects to the same gateway with a team-scoped virtual key. No per-machine cron jobs.
+The [API Gateway guide](./api-gateway.md) describes server-side telemetry for clients configured with the gateway URL and a team-scoped virtual key. After that client configuration, the team does not need per-machine cron jobs to collect routed request metadata. The gateway still observes only traffic sent through it. Subscription-authenticated Claude usage and clients that retain direct provider credentials remain outside this dataset.
 
-This is the lower-friction path for most teams. The session JSONL approach below is useful when you need file-level detail (which files were read and written) rather than just token usage.
+For routed API traffic, this avoids synchronizing local usage logs. The session JSONL approach below remains necessary when you need file-level detail, such as which files were read and written, rather than model and token telemetry alone.
 
 ### Option B: Ship Session JSONL to a Central Store
 

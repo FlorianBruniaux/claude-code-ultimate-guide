@@ -80,7 +80,7 @@ This section is rendered from `machine-readable/mcp-product.json` for package 1.
 | Capability | Count | Names |
 | --- | ---: | --- |
 | Tools | 17 | `compare_versions`, `diff_official_docs`, `get_changelog`, `get_cheatsheet`, `get_digest`, `get_example`, `get_release`, `get_threat`, `init_official_docs`, `list_examples`, `list_threats`, `list_topics`, `read_section`, `refresh_official_docs`, `search_examples`, `search_guide`, `search_official_docs` |
-| Resources | 5 | `claude-code-guide://agent-harnesses`, `claude-code-guide://llms`, `claude-code-guide://reference`, `claude-code-guide://releases`, `claude-code-guide://translations` |
+| Resources | 6 | `claude-code-guide://agent-harnesses`, `claude-code-guide://distribution-channels`, `claude-code-guide://llms`, `claude-code-guide://reference`, `claude-code-guide://releases`, `claude-code-guide://translations` |
 | Prompts | 1 | `claude-code-expert` |
 | Companion commands | 5 | `/ccguide:daily`, `/ccguide:diff-docs`, `/ccguide:init-docs`, `/ccguide:refresh-docs`, `/ccguide:search-docs` |
 
@@ -111,6 +111,7 @@ This section is rendered from `machine-readable/mcp-product.json` for package 1.
 | Resource URI | MIME type | Description |
 | --- | --- | --- |
 | `claude-code-guide://agent-harnesses` | `application/json` | Evidence-backed Agent Harness Map dataset. Separates the broad source catalog, guide supplements, strict runtime map, and adjacent control planes. Unknown evidence is preserved as unknown. |
+| `claude-code-guide://distribution-channels` | `text/yaml` | Publication channels, attributed URLs, asset states, dates, and 30-day outcome fields for the guide. |
 | `claude-code-guide://llms` | `text/plain` | llms.txt - machine-readable identity and navigation file for the Claude Code Ultimate Guide. |
 | `claude-code-guide://reference` | `text/yaml` | Complete structured index of the Claude Code Ultimate Guide. Use as fallback when search_guide() results are insufficient. |
 | `claude-code-guide://releases` | `text/yaml` | Claude Code official releases history - condensed highlights and breaking changes for each version. |

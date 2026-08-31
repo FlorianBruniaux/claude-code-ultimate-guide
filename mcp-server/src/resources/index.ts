@@ -1,6 +1,7 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import {
   getAgentHarnessesJsonRaw,
+  getDistributionChannelsYamlRaw,
   getReferenceYamlRaw,
   getReleasesYamlRaw,
   getTranslationsJsonRaw,
@@ -110,6 +111,27 @@ export function registerResources(server: McpServer): void {
           {
             uri: 'claude-code-guide://translations',
             mimeType: 'application/json',
+            text: content,
+          },
+        ],
+      };
+    },
+  );
+
+  server.resource(
+    'distribution-channels',
+    'claude-code-guide://distribution-channels',
+    {
+      description: 'Publication channels, attributed URLs, asset states, dates, and 30-day outcome fields for the guide.',
+      mimeType: 'text/yaml',
+    },
+    async () => {
+      const content = getDistributionChannelsYamlRaw();
+      return {
+        contents: [
+          {
+            uri: 'claude-code-guide://distribution-channels',
+            mimeType: 'text/yaml',
             text: content,
           },
         ],

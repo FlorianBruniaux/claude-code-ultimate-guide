@@ -14,6 +14,8 @@ Files optimized for LLM/AI consumption. Sizes below are measured, not targets.
 | `agent-harnesses-github.json` | Optional reviewed GitHub observation sidecar: stars, archive state, language, SPDX signal, branch and push timestamp, bound to the catalog checksum. It is not committed until a complete verified collection is promoted. | Volatile | Volatile |
 | [agent-harnesses-github.schema.json](./agent-harnesses-github.schema.json) | JSON Schema for the volatile GitHub observation sidecar. | Generated | N/A |
 | [agent-harnesses.schema.json](./agent-harnesses.schema.json) | JSON Schema for validating the normalized harness catalog before publication. | Generated | N/A |
+| [translations.json](./translations.json) | Dated registry of canonical, project-maintained, and community editions: URLs, maintainers, status, source commits, attribution, coverage, pinned lag, and bilingual publication roots. | ~10 KB | ~3K |
+| [distribution-channels.yaml](./distribution-channels.yaml) | JSON-compatible YAML registry for publication channels, attributed URLs, asset states, dates, and 30-day outcome fields. | ~8 KB | ~2K |
 | [llms.txt](./llms.txt) | Standard LLM context file for repository indexation: topic coverage, entry points, key URLs. | ~5 KB | ~1K |
 
 `reference.yaml` is a full index, not a summary. Loading it whole costs roughly 44K tokens, so prefer grepping it for the topic you need and following the resulting path or line number, rather than pasting the entire file into context.
@@ -41,7 +43,31 @@ grep -i "hooks_events" machine-readable/reference.yaml
 ```bash
 curl -sL https://raw.githubusercontent.com/FlorianBruniaux/claude-code-ultimate-guide/main/machine-readable/reference.yaml
 curl -sL https://raw.githubusercontent.com/FlorianBruniaux/claude-code-ultimate-guide/main/machine-readable/agent-harnesses.json
+curl -sL https://raw.githubusercontent.com/FlorianBruniaux/claude-code-ultimate-guide/main/machine-readable/translations.json
+curl -sL https://raw.githubusercontent.com/FlorianBruniaux/claude-code-ultimate-guide/main/machine-readable/distribution-channels.yaml
 ```
+
+### Translation status
+
+[`translations.json`](./translations.json) distinguishes the canonical English edition, the maintained French edition, and independently maintained community adaptations. A `stale` state is a truthful published status, not a failed build. Incorrect checksums, source ancestry, pinned lag, attribution fields, missing language pairs, or a state that contradicts the evidence do fail the integrity check.
+
+```bash
+python3 scripts/check-translations.py --check
+python3 scripts/check-translations.py --check --require-current-maintained
+```
+
+The MCP package exposes the same registry as `claude-code-guide://translations`.
+
+### Distribution status
+
+[`distribution-channels.yaml`](./distribution-channels.yaml) separates asset production from external publication. A `ready` asset has passed its local checks but has not been submitted or published. Missing measures remain `null`.
+
+```bash
+python3 scripts/check-distribution-channels.py
+python3 -m unittest scripts/test-check-distribution-channels.py
+```
+
+The MCP package exposes the same registry as `claude-code-guide://distribution-channels`.
 
 ### Agent harness landscape
 

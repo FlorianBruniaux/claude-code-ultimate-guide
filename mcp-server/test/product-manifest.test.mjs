@@ -35,8 +35,9 @@ test('live MCP contract matches the generated product manifest', async () => {
 
   assert.equal(runtime.serverInfo.version, packageJson.version)
   assert.equal(runtime.tools.length, 17)
-  assert.equal(runtime.resources.length, 5)
+  assert.equal(runtime.resources.length, 6)
   assert.equal(runtime.prompts.length, 1)
   assert.ok(runtime.resources.some(({ uri }) => uri === 'claude-code-guide://translations'))
+  assert.ok(runtime.resources.some(({ uri }) => uri === 'claude-code-guide://distribution-channels'))
   assert.ok(existsSync(manifestPath), 'machine-readable/mcp-product.json must be generated')
 })

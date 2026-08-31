@@ -1,0 +1,38 @@
+{
+  "skill": "source-command-track-mentions",
+  "positive": [
+    "cherche les nouvelles mentions publiques du Claude Code Ultimate Guide",
+    "lance la veille hebdomadaire des citations de cc.bruniaux.com",
+    "trouve les articles qui citent FlorianBruniaux/claude-code-ultimate-guide",
+    "mets à jour le tracker des mentions publiques du guide après vérification",
+    "vérifie quelles sources tierces citent explicitement mes projets GitHub",
+    "cherche les traductions tierces qui citent et créditent mon guide",
+    "déduplique les nouvelles mentions publiques avec docs/media-mentions/mentions.yaml",
+    "prépare un rapport Perplexity des mentions et backlinks vers le guide",
+    "find new third-party mentions of the Claude Code Ultimate Guide",
+    "track public citations of cc.bruniaux.com",
+    "search for public articles and social posts that cite FlorianBruniaux projects",
+    "run the scheduled public mentions report without changing files",
+    "compare these discovered citation URLs with the existing mentions catalog",
+    "identify directories, mirrors, and translations that cite the guide"
+  ],
+  "negative": [
+    "audite le SEO technique et les backlinks de la landing sans chercher de mentions tierces",
+    "donne-moi les statistiques Google Search Console du guide sans rechercher ses citations",
+    "cherche de nouveaux projets open source d'agents logiciels, pas leurs mentions",
+    "traduis le guide complet en français sans faire de veille de citations",
+    "mets à jour les étoiles GitHub du tableau des harnesses, pas le tracker de mentions",
+    "écris un post LinkedIn pour annoncer le guide sans chercher de posts tiers",
+    "critique mon plan de distribution du MCP, je ne demande pas une veille publique",
+    "find backlinks for a client website, not public mentions of FlorianBruniaux projects",
+    "configure GA4 telemetry for the MCP server without searching for citations",
+    "add a new project to my GitHub portfolio without tracking external mentions",
+    "update the npm download statistics for the guide MCP package",
+    "analyse les backlinks SEO de mon site client sans suivre les mentions du guide",
+    "mets à jour la traduction française du guide, ce n'est pas une recherche de citations",
+    "rafraîchis les stars GitHub et métadonnées des harnesses sans chercher de mentions",
+    "rédige une publication LinkedIn personnelle pour promouvoir le guide",
+    "discover open source agent projects on GitHub instead of tracking citations",
+    "audit a customer website backlink profile without monitoring FlorianBruniaux mentions"
+  ]
+}

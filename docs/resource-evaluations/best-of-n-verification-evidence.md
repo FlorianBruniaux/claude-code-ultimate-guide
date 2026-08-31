@@ -25,13 +25,16 @@ The protocol therefore requires a fixed rubric, an explicit stop rule, executabl
 **Tool:** `/Users/florianbruniaux/Sites/perso/yt-insights/.venv/bin/yt-insights`
 **Mode:** read-only local search only. No discovery, subtitle download, indexing, model inference, or network acquisition was requested.
 
-| Query or inspection | Result | Coverage consequence |
-| --- | --- | --- |
-| `yt-insights catalog stats` | `Error: catalog database is unavailable or invalid` | No durable catalog counts were available. |
-| `yt-insights search "best of n" --limit 10 --json` | `Error: Search index does not exist. Run 'yt-insights index' first.` | No timestamped transcript matches were available. |
-| `yt-insights search "verification testing" --limit 10 --json` | Not run after the missing-index result. | The second query would have the same absent-index boundary and would not add evidence. |
+The inspected FTS5 index contained 3,332 documents and 184,636 timestamped passages. Searches used no language or channel filter. Both `best of n` and `verification loop` returned eight results, exactly the requested limit, so additional matches are unknown. `circular verification` returned two results, below the limit, so that response was not truncated. The corpus is broad but not exhaustive. A missing match means only that no indexed passage matched the query.
 
-**Conclusion:** local practitioner evidence is `UNKNOWN`, not negative evidence. This page makes no claim about YouTube coverage, creator practice, or video recommendations. A future evidence pass must record the configured database path, corpus acquisition date, indexed channels and languages, exact query, result count, video IDs, timestamps, and transcript provenance before citing a practitioner statement.
+| Query | Timestamped result | Use in the guide |
+| --- | --- | --- |
+| `best of n` | Stanford CS221, [Search I at 00:51:16](https://youtube.com/watch?v=fPESauMaJYA&t=3076s) | Adjacent teaching evidence for sampling independent solutions and retaining the best one. |
+| `best of n` | Stanford CME295, [LLM tuning at 01:23:16](https://youtube.com/watch?v=PmW_TMQ3l0I&t=4996s) | Adjacent teaching evidence for generating N completions and using a scoring mechanism. |
+| `verification loop` | AI DevCon, [Harness Engineering at 00:06:10](https://youtube.com/watch?v=D_cw-k0F1DM&t=370s) | Practitioner evidence for separating a fast inner loop from a slower confidence loop. |
+| `circular verification` | Devoxx, [Never Trust a Monkey at 00:08:49](https://youtube.com/watch?v=uvnxEZfSr1g&t=529s) | Practitioner warning against one generator treating its own proof as sufficient. |
+
+These videos informed the workflow's vocabulary and failure modes. They do not validate the protocol, establish independence, or measure an effect on software quality. The primary papers above carry the research claims; executable repository checks and independent review remain local controls.
 
 ## Method boundary
 

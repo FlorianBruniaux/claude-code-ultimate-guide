@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-08-31",
+  "measurement_window_days": 30,
+  "campaign": "ccug-learning-path-2026",
+  "channels": [
+    {
+      "id": "github-repository-en", "channel": "github", "locale": "en", "owner": "Florian Bruniaux",
+      "asset": "README.md", "asset_status": "published",
+      "canonical_url": "https://github.com/FlorianBruniaux/claude-code-ultimate-guide",
+      "tagged_url": "https://github.com/FlorianBruniaux/claude-code-ultimate-guide?utm_source=github&utm_medium=repository&utm_campaign=ccug-learning-path-2026",
+      "status": "planned", "placement_status": "planned", "published_at": null, "observed_at": "2026-08-31",
+      "submission_date": null, "measurement_started_at": null, "placement_evidence_url": null, "placement_verified_at": null,
+      "outcome": {"impressions": null, "visits": null, "clones": null, "stars": null}
+    },
+    {
+      "id": "landing-site-en", "channel": "landing", "locale": "en", "owner": "Florian Bruniaux",
+      "asset": "https://cc.bruniaux.com/", "asset_status": "published",
+      "canonical_url": "https://cc.bruniaux.com/",
+      "tagged_url": "https://cc.bruniaux.com/?utm_source=landing&utm_medium=website&utm_campaign=ccug-learning-path-2026",
+      "status": "planned", "placement_status": "planned", "published_at": null, "observed_at": "2026-08-31",
+      "submission_date": null, "measurement_started_at": null, "placement_evidence_url": null, "placement_verified_at": null,
+      "outcome": {"impressions": null, "visits": null, "clones": null, "stars": null}
+    },
+    {
+      "id": "github-release-en", "channel": "github-releases", "locale": "en", "owner": "Florian Bruniaux",
+      "asset": "CHANGELOG.md", "asset_status": "stale",
+      "canonical_url": "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/releases",
+      "tagged_url": "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/releases?utm_source=github&utm_medium=release&utm_campaign=ccug-learning-path-2026",
+      "status": "blocked", "placement_status": "blocked",
+      "blocker": "The current CHANGELOG does not contain a release note for this delivery.",
+      "published_at": null, "observed_at": null,
+      "submission_date": null, "measurement_started_at": null, "placement_evidence_url": null, "placement_verified_at": null,
+      "outcome": {"impressions": null, "visits": null, "clones": null, "stars": null}
+    },
+    {
+      "id": "epub-en", "channel": "epub", "locale": "en", "owner": "Florian Bruniaux",
+      "asset": "dist/claude-code-ultimate-guide.epub", "asset_status": "stale",
+      "canonical_url": "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/releases",
+      "tagged_url": "https://cc.bruniaux.com/?utm_source=epub&utm_medium=ebook&utm_campaign=ccug-learning-path-2026",
+      "status": "blocked", "placement_status": "blocked",
+      "blocker": "Rebuild the EPUB from guide version 3.43.0 before publication.",
+      "published_at": null, "observed_at": null, "submission_date": null, "measurement_started_at": null,
+      "placement_evidence_url": null, "placement_verified_at": null,
+      "outcome": {"impressions": null, "visits": null, "clones": null, "stars": null}
+    },
+    {
+      "id": "slides-en", "channel": "slides", "locale": "en", "owner": "Florian Bruniaux",
+      "asset": "docs/distribution/claude-code-learning-path-slides.pptx", "asset_status": "ready",
+      "canonical_url": "https://cc.bruniaux.com/",
+      "tagged_url": "https://cc.bruniaux.com/?utm_source=slides&utm_medium=presentation&utm_campaign=ccug-learning-path-2026",
+      "status": "ready", "placement_status": "ready", "published_at": null, "observed_at": null,
+      "submission_date": null, "measurement_started_at": null, "placement_evidence_url": null, "placement_verified_at": null,
+      "outcome": {"impressions": null, "visits": null, "clones": null, "stars": null}
+    },
+    {
+      "id": "youtube-fr", "channel": "youtube", "locale": "fr", "owner": "Florian Bruniaux",
+      "asset": "planned: four-video series", "asset_status": "planned",
+      "production_brief": "docs/distribution/quick-win-video-series.md", "production_brief_status": "ready",
+      "canonical_url": "https://www.youtube.com/",
+      "tagged_url": "https://cc.bruniaux.com/?utm_source=youtube&utm_medium=video&utm_campaign=ccug-learning-path-2026",
+      "status": "planned", "placement_status": "planned", "published_at": null, "observed_at": null,
+      "submission_date": null, "measurement_started_at": null, "placement_evidence_url": null, "placement_verified_at": null,
+      "outcome": {"impressions": null, "visits": null, "clones": null, "stars": null}
+    },
+    {
+      "id": "bilibili-zh-cn", "channel": "bilibili", "locale": "zh-CN", "owner": "unassigned",
+      "asset": "planned: Chinese quick-win video", "asset_status": "blocked",
+      "canonical_url": "https://www.bilibili.com/",
+      "tagged_url": "https://cc.bruniaux.com/?utm_source=bilibili&utm_medium=video&utm_campaign=ccug-learning-path-2026",
+      "status": "blocked", "placement_status": "blocked",
+      "blocker": "A fluent reviewer, current localized copy, thumbnail, and publication authority are missing.",
+      "published_at": null, "observed_at": null, "submission_date": null, "measurement_started_at": null,
+      "placement_evidence_url": null, "placement_verified_at": null,
+      "outcome": {"impressions": null, "visits": null, "clones": null, "stars": null}
+    },
+    {
+      "id": "hellogithub-zh-cn", "channel": "hellogithub", "locale": "zh-CN", "owner": "unassigned",
+      "asset": "planned: Chinese submission copy", "asset_status": "blocked",
+      "canonical_url": "https://hellogithub.com/",
+      "tagged_url": "https://cc.bruniaux.com/?utm_source=hellogithub&utm_medium=directory&utm_campaign=ccug-learning-path-2026",
+      "status": "blocked", "placement_status": "blocked",
+      "blocker": "A fluent reviewer and publication authority are missing.",
+      "published_at": null, "observed_at": null, "submission_date": null, "measurement_started_at": null,
+      "placement_evidence_url": null, "placement_verified_at": null,
+      "outcome": {"impressions": null, "visits": null, "clones": null, "stars": null}
+    },
+    {
+      "id": "community-translation-zh-cn", "channel": "github-community-translation", "locale": "zh-CN", "owner": "JAYcodr",
+      "asset": "https://github.com/JAYcodr/claude-code-ultimate-guide-zh", "asset_status": "published",
+      "canonical_url": "https://github.com/JAYcodr/claude-code-ultimate-guide-zh",
+      "tagged_url": "https://cc.bruniaux.com/?utm_source=github&utm_medium=community_translation&utm_campaign=ccug-learning-path-2026",
+      "status": "planned", "placement_status": "planned", "published_at": null, "observed_at": "2026-08-31",
+      "submission_date": null, "measurement_started_at": null, "placement_evidence_url": null, "placement_verified_at": null,
+      "outcome": {"impressions": null, "visits": null, "clones": null, "stars": null}
+    },
+    {
+      "id": "awesome-claude-code-en", "channel": "awesome-claude-code", "locale": "en", "owner": "Florian Bruniaux",
+      "asset": "https://github.com/hesreallyhim/awesome-claude-code", "asset_status": "published",
+      "canonical_url": "https://github.com/hesreallyhim/awesome-claude-code",
+      "tagged_url": "https://cc.bruniaux.com/?utm_source=awesome_claude_code&utm_medium=directory&utm_campaign=ccug-learning-path-2026",
+      "status": "planned", "placement_status": "planned", "published_at": null, "observed_at": "2026-08-31",
+      "submission_date": null, "measurement_started_at": null, "placement_evidence_url": null, "placement_verified_at": null,
+      "outcome": {"impressions": null, "visits": null, "clones": null, "stars": null}
+    }
+  ]
+}

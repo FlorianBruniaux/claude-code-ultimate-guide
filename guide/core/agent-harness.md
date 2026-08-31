@@ -42,6 +42,7 @@ This page covers what is inside the runtime. For the repository layer, see [Repo
 |---|---|
 | What does a runtime harness contain, and how do its controls work? | This [Agent Harness Engineering](./agent-harness.md) page |
 | How should loops, workflow graphs, state transitions, stopping rules, and judgment be designed? | [Loop & Graph Engineering](./loop-graph-engineering.md) |
+| How should independent Claude Code sessions exchange evidence without spreading drift? | [Cross-Session Messaging: Coordination safety](../workflows/cross-session-messaging.md#coordination-safety-correlated-drift-and-false-consensus) |
 | Which runtime, orchestrator, framework, or adjacent project should I compare? | [Agent Harness Landscape](../ecosystem/agent-harness-landscape.md) |
 | What does a specific coding-agent product support? | [Agent Tools: Beyond Claude Code](../ecosystem/agentic-tools.md) |
 | What distinguishes a runtime, repository, evaluation harness, and orchestrator? | [Glossary](./glossary.md) |
@@ -83,7 +84,7 @@ The boundary is practical. If a product can only schedule or inspect Claude Code
 
 A product can span two layers without owning all four. [Liza](https://github.com/liza-mas/liza) installs behavioral contracts, skills, settings, and guardrails into a repository, then coordinates external coding-agent CLIs through worktrees, durable task state, leases, doer/reviewer roles, recovery, and merge gates. Claude Code, Codex, or another selected CLI still owns the inner tool loop. The [Landscape profile](../ecosystem/agent-harness-landscape.md#liza-a-repository-harness-and-control-plane-combined) records the pinned code evidence and security limits.
 
-A **harness optimizer** or **meta-harness** sits outside those four operating layers. It proposes changes to a target harness, evaluates candidates, and promotes or rejects versions. It does not replace the runtime loop or the fleet orchestrator. It improves them under an explicit search and evaluation protocol.
+The term **meta-harness** is overloaded. In the optimizer research covered by this page, a harness optimizer or meta-harness proposes changes to a target harness, evaluates candidates, and promotes or rejects versions. Some products and practitioner articles use *meta-harness* for a different role: a common client that dispatches tasks to Claude Code, Codex, Cursor, Pi, or another runtime. Under this guide's taxonomy, a system that selects or coordinates existing harnesses without modifying and evaluating them is an **orchestrator or control plane**, not a harness optimizer.
 
 ### Loop, graph, harness, and orchestrator are different views
 
@@ -413,6 +414,8 @@ A fresh context is only one dimension of independence. A verifier can still shar
 
 Measure rescued failures, false accepts, false rejects, regressions, latency, and cost. Counting reviewer calls or using a different role name does not establish independence.
 
+[Cross-session messaging](../workflows/cross-session-messaging.md#coordination-safety-correlated-drift-and-false-consensus) can carry the handoff between independently launched Claude Code sessions, but the transport does not make the verifier independent. Bind the handoff to a commit SHA, send the original requirements, artifact, evidence, and uncertainty instead of the creator's rationale, then let the verifier inspect its own current state. Apply the [cross-session threat model](../security/security-hardening.md#cross-session-messaging-threat-model) separately for sender trust, inbound policy, permissions, and cross-machine exposure.
+
 Liza implements this pattern as doer/reviewer pairs backed by a deterministic supervisor. Its [state machine and merge authority](https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/specs/architecture/supervision-model.md) can reject invalid transitions even when an agent proposes them. That is stronger than a role name in a prompt, but it still needs outcome evaluation: a structurally separate reviewer can share the same model, incomplete specification, or missing evidence as the doer.
 
 The pinned Liza configuration makes the boundary visible. Some high-impact planning stages require a quorum of two and mark provider diversity as `preferred`, while the coding pair uses a quorum of one. Liza's own [architectural issues ledger](https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/specs/architecture/architectural-issues.md) states that provider diversity is not enforced at verdict submission, reviewer accuracy is not yet measured, and human checkpoints remain load-bearing. The code enforces workflow legality; it does not prove that a legal reviewer verdict is correct.
@@ -518,6 +521,8 @@ The source list is selective. It includes videos that add a distinct mechanism, 
 
 A runtime harness improves one agent run. A harness optimizer improves the code and configuration that govern future runs. The optimizer can edit prompts, context policies, tools, middleware, memory, control flow, verification, or routing, then use an external evaluator to decide which candidate survives.
 
+This section uses *meta-harness* in that research sense. Databricks and Omnigent use the same term for a unified developer surface that dispatches a task to one of several existing coding harnesses. That dispatcher can reduce switching friction and preserve tool-policy consistency, but it belongs to the orchestrator or control-plane layer unless it also searches, changes, and evaluates the target harness. Source and terminology review: [Databricks cost-management resource evaluation](../../docs/resource-evaluations/databricks-managing-ai-coding-costs-scale.md).
+
 | Work | Optimization surface | Reported evidence | Boundary |
 |---|---|---|---|
 | [Automated Design of Agentic Systems](https://proceedings.iclr.cc/paper_files/paper/2025/hash/36b7acf6f6010652b3f2a433774a66fe-Abstract-Conference.html), ICLR 2025 | Code-defined agent systems | Meta Agent Search discovers prompts, tools, and workflows that transfer across domains and models | System-level search; not every result isolates a fixed-model harness effect |
@@ -551,6 +556,7 @@ The practical conclusion is not “self-improving agents solve harness engineeri
 - [Context Engineering](./context-engineering.md) and [Memory Systems](./memory-systems.md): prompt assembly, persistence, retrieval, and drift
 - [Agent Evaluation](../roles/agent-evaluation.md) and [Observability](../ops/observability.md): acceptance evidence, traces, metrics, and failure analysis
 - [Security Hardening](../security/security-hardening.md) and [Native Sandbox](../security/sandbox-native.md): prompt-injection defense and execution boundaries
+- [Cross-Session Messaging](../workflows/cross-session-messaging.md#coordination-safety-correlated-drift-and-false-consensus): commit-bound handoffs, correlated-drift controls, and shared-working-tree risks
 - [Agent Teams](../workflows/agent-teams.md) and [Agentic Software Factories](../workflows/agentic-software-factories.md): multi-agent coordination above one loop
 - [Repository Harness Engineering](../ultimate-guide.md#925-harness-engineering): project-level instructions, setup, state, and verification gates
 - [Machine-Readable References](../../machine-readable/README.md): release history, topic anchors, and normalized harness data

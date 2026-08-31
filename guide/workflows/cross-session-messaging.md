@@ -10,7 +10,7 @@ Cross-session messaging lets one Claude Code session deliver a short text messag
 
 **Official docs**: [code.claude.com/docs/en/cross-session-messaging](https://code.claude.com/docs/en/cross-session-messaging)
 
-> **See also**: [Tools Reference](../core/tools-reference.md#cross-session-messaging-listagents--sendmessage) for the tool table entry, [Agent Teams](./agent-teams.md) for the related but distinct teammate-mailbox mechanism, [Security Hardening: Cross-Session Messaging](../security/security-hardening.md#cross-session-messaging-threat-model) for the full threat model.
+> **See also**: [Tools Reference](../core/tools-reference.md#cross-session-messaging-listagents--sendmessage) for the tool table entry, [Agent Teams](./agent-teams.md) for the related but distinct teammate-mailbox mechanism, [Security Hardening: Cross-Session Messaging](../security/security-hardening.md#cross-session-messaging-threat-model) for the channel threat model, [Native Sandboxing: Cross-session inbox sockets](../security/sandbox-native.md#cross-session-inbox-sockets) for Bash-process containment and Unix-socket exceptions, and [Agent Harness: Creator-Verifier](../core/agent-harness.md#8-creator-verifier-pattern) for proof and reviewer-independence controls.
 
 ---
 
@@ -73,13 +73,13 @@ A bare `@` shows no session rows; type at least one more letter to trigger the s
 
 ### What the receiving session sees
 
-The message appears in the recipient's conversation under the sender's session name and stays there:
+Since v2.1.247, the message appears in the recipient's conversation as a dim one-line preview under the sender's session name. Press `Ctrl+O` to read the full text in the transcript viewer; a session started with `--verbose` shows it in full immediately. The preview stays in the conversation:
 
 ```text
 Schema migration finished: the new column is tenant_id, and rebasing on main is safe now.
 ```
 
-The receiving session gets the sender's name and, except for the one-way cross-machine case (§4), a reply address; it never gets the sender's conversation history or files. Once delivered, the message counts toward usage like a prompt you typed.
+Claude reads the full message whether or not you expand the preview. The receiving session gets the sender's name and, except for the one-way cross-machine case (§4), a reply address; it never gets the sender's conversation history or files. Once delivered, the message counts toward usage like a prompt you typed.
 
 ### Timing
 
@@ -126,6 +126,8 @@ The socket is restricted to the operating-system user on macOS/Linux; on Windows
 
 `claude -p` sessions bind an inbox like interactive ones. Sessions started in [bare mode](../ultimate-guide.md#headless-mode) don't bind a socket and never appear in the agent list.
 
+`ListAgents` and `SendMessage` run in Claude Code itself, outside the Bash sandbox. Normal session-to-session delivery therefore needs no Unix-socket exception. An exception matters only when a sandboxed Bash command connects directly to `CLAUDE_CODE_MESSAGING_SOCKET`. On macOS, [`sandbox.network.allowUnixSockets`](../core/settings-reference.md#sandboxnetworkallowunixsockets) can scope the exception by socket path. On Linux and WSL2, path-specific socket allowlisting is unavailable; [`sandbox.network.allowAllUnixSockets: true`](../core/settings-reference.md#sandboxnetworkallowallunixsockets) removes the Unix-socket filter for every socket the command can reach. Prefer the built-in `SendMessage` tool, and do not widen Unix-socket access merely to enable normal cross-session messaging. [Native Sandboxing: Cross-session inbox sockets](../security/sandbox-native.md#cross-session-inbox-sockets) covers the platform-specific trade-off.
+
 ---
 
 ## 6. Security model
@@ -150,10 +152,12 @@ Each session decides what to do with inbound peer messages via the `crossSession
 | Value | Behavior |
 |---|---|
 | `accept` | Claude Code delivers every message to Claude. |
-| `hold` | Claude Code shows a notice for each message without delivering it. **Approve** delivers that one message; **Deny** or dismissing drops it. Unanswered past the `dialogExpiry` deadline (5 minutes by default), Claude Code closes the dialog and drops the message. |
+| `hold` | Claude Code keeps messages without delivering them. A later applicable `accept` releases them; an explicit `hold` does not create a per-message approval dialog and does not expire through `dialogExpiry`. |
 | `refuse` | Claude Code drops every message without delivering it. |
 
 Editable via `/config` → **Messages from your other sessions** (v2.1.232+; hidden when managed settings or `--settings` already sets the key). When no value applies from any settings scope, Claude Code decides per message from both sessions' permission-mode class: sessions that bypass permission prompts form one class, every other session (including plan mode where bypass is available, and `auto`/`acceptEdits`/`dontAsk`, which count as prompting) forms the other. A prompting recipient delivers by default and only holds a message from a bypassing sender; a bypassing recipient holds by default and only delivers from another bypassing sender.
+
+This default hold opens a per-message dialog. **Approve** delivers that message; **Deny** or dismissing drops it. Unanswered dialogs normally expire after `dialogExpiry` (5 minutes by default). This dialog behavior belongs to the permission-mode default, not to an explicit `crossSessionInbound: "hold"` setting.
 
 Claude Code holds at most 100 messages, separately from the delivery queue, dropping the oldest past that.
 
@@ -178,6 +182,48 @@ With this in place the session still binds its inbox socket, but drops everythin
 
 Before delivering to a same-machine target, `SendMessage` verifies the endpoint is what it claims to be, and refuses rather than sends when it isn't: a symlinked reply target, an endpoint that connects but isn't the expected process, or an endpoint whose identity can't be read all produce a refusal instead of a silent send to the wrong place. See [Refusing to send a cross-session message](https://code.claude.com/docs/en/errors#refusing-to-send-a-cross-session-message).
 
+### Where native sandboxing fits
+
+A delivered peer message can influence what the receiving Claude tries next. Four boundaries cover different failure modes; none substitutes for the others:
+
+| Boundary | What it controls | What it does not establish |
+|---|---|---|
+| `crossSessionInbound`, `isolatePeerMachines`, and tool permissions | Which messages arrive, whether they leave the machine without approval, and which tools the recipient may invoke | That a delivered claim is correct or current |
+| [Native sandboxing](../security/sandbox-native.md#cross-session-inbox-sockets) | Filesystem and network effects of Bash commands and their child processes | Safety of built-in `Read`, `Edit`, or `Write` calls; message correctness; session independence |
+| One worktree per concurrent writer | Separation of working files and indexes during parallel changes | Host, credential, network, or process containment |
+| [Harness and CI gates](../core/agent-harness.md#8-creator-verifier-pattern) | Reproducible checks on the current commit and independent review against requirements | OS-level containment or permission policy |
+
+The native sandbox limits part of the blast radius if a recipient acts on a malicious or incorrect message. It does not prevent correlated drift, and it does not turn two sessions sharing one checkout into isolated workers.
+
+### Coordination safety: correlated drift and false consensus
+
+The controls above answer who can send, where the message travels, and what authority it carries. They do not establish that the message is correct, current, or within the user's intended scope. A peer message can be safe to deliver and still propagate a false premise.
+
+More communication does not necessarily produce more errors. A timely message can expose a conflict before either session edits the affected code. The risk rises when recipients reuse a peer's conclusion without checking it, because one session's mistake then becomes shared context and independent sessions begin to fail in the same direction.
+
+| Coordination failure | Example | Control |
+|---|---|---|
+| **False premise propagation** | One session reports that a migration is complete after inspecting stale state; another session treats that report as a repository fact. | Send the claim with the branch or worktree, commit SHA, commands run, relevant output, and remaining uncertainty. The recipient rechecks the state it depends on. |
+| **Stale handoff** | A message was true at one commit, but another change landed before the recipient acted on it. | Bind the handoff to a commit SHA and compare it with the recipient's current `HEAD` before editing or approving. |
+| **False consensus** | A reviewer receives the creator's reasoning, inherits its framing, and confirms the same mistake. | Give an independent verifier the original requirements, artifact, and evidence, without the creator's rationale. Add different tools, runtime evidence, or another model/provider when the risk justifies the cost. |
+| **Shared-working-tree race** | Two sessions agree on file ownership in chat but still read and write the same checkout concurrently. | Use one worktree per concurrent session and record ownership explicitly. `SendMessage` does not lock files, serialize writes, or prevent one session from invalidating another's reads. |
+| **Green but wrong result** | Both sessions satisfy the tests while missing an unstated product requirement or security property. | Run deterministic gates on the current SHA, then review each requirement against evidence. Keep a human or policy gate for ambiguous, irreversible, or high-impact decisions. |
+| **Scope laundering** | A peer asks for an action that its own user did not authorize, but that falls within the recipient's existing tool permissions. | The recipient checks the request against its own user instructions and scope. Use `hold` or `refuse` for sensitive sessions; permission availability is not task authorization. |
+
+Treat every peer message as a claim with provenance, not as proof. A compact handoff can use this contract:
+
+```text
+Target: @api-worker
+Scope: review only; do not edit
+Repository state: branch feature/tenant-migration, commit 4f2c1ab
+Claim: the tenant_id migration is complete
+Evidence: migration test and schema validation passed at that commit
+Uncertainty: rollback was not tested
+Requested action: verify compatibility against your current HEAD
+```
+
+Use the [Security Hardening threat model](../security/security-hardening.md#cross-session-messaging-threat-model) for sender, transport, inbound-policy, and execution-boundary controls. The [Agent Harness guide](../core/agent-harness.md#8-creator-verifier-pattern) covers verifier independence and proof bundles. The [Agent Evaluation guide](../roles/agent-evaluation.md#evaluate-judgment-allocation-and-reviewer-independence) explains how to measure false accepts, false rejects, rescued failures, and disagreements rather than assuming that a second agent is independent.
+
 ---
 
 ## 7. Limitations
@@ -201,8 +247,8 @@ These are properties of the channel itself, independent of platform or provider 
 | Starting a conversation with another machine | v2.1.225+ |
 | `notify_when_idle` (§9) | v2.1.236+ |
 | Teammates appear in `/list-agents`; own-name self-messaging fixed | v2.1.239+ |
-| Provider | Not available on Amazon Bedrock, Claude Platform on AWS, Google Cloud's Agent Platform, or Microsoft Foundry |
-| Kill switch | Any of `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC`, `DISABLE_TELEMETRY`, `DO_NOT_TRACK`, `DISABLE_GROWTHBOOK` turning off feature-flag evaluation keeps messaging off |
+| Same-machine provider support | Every provider. On Amazon Bedrock, Claude Platform on AWS, Google Cloud's Agent Platform, Microsoft Foundry, or with feature-flag fetching off, same-machine messaging requires v2.1.248+. |
+| Sessions beyond this machine | Requires a claude.ai sign-in and Remote Control. Those targets are unavailable through an API key or provider-managed deployment. |
 
 When a session meets the version, platform, and provider requirements, messaging is on with nothing to enable.
 
@@ -232,6 +278,8 @@ Claude subscribes via `SendMessage`'s `notify_when_idle` input, either attached 
 | v2.1.234 | Native Windows support, named-pipe inbox. |
 | v2.1.236 | `notify_when_idle`. Burst-refusal fix: previously over-limit sends reported as sent while silently dropped. |
 | v2.1.239 | Agent-team teammates appear in `/list-agents` (could already be messaged by name before). Own session name shown and self-messages handled correctly. |
+| v2.1.247 | Incoming messages use a persistent one-line preview; `Ctrl+O` or `--verbose` exposes the full text. |
+| v2.1.248 | Same-machine messaging extended to provider-managed deployments and sessions with feature-flag fetching disabled. |
 
 ---
 
@@ -240,6 +288,8 @@ Claude subscribes via `SendMessage`'s `notify_when_idle` input, either attached 
 **Hand over a finding.** A session that discovers a breaking change or makes a decision has Claude summarize it for the session working on the affected area, instead of the human re-explaining it there.
 
 **Coordinate parallel worktrees.** Sessions working the same repository in separate [worktrees](../ultimate-guide.md#912-git-best-practices--workflows) get told what landed in a sibling worktree, without a human relaying it.
+
+**Do not coordinate a shared working tree by chat.** A message about file ownership is not a lock. Put each concurrent writer in its own worktree, then integrate through commits, diffs, and the repository's normal gates.
 
 **Division of labor across roles.** One session on database migrations, one on backend, one on frontend, one on documentation, each running in its own terminal. When the migration finishes, that session messages the backend session so it can proceed without polling; when the docs session resolves a question blocking the frontend, the answer crosses the same way.
 
