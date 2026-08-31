@@ -4,6 +4,9 @@
 from __future__ import annotations
 
 import importlib.util
+import copy
+import json
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -103,6 +106,79 @@ class TranslationStatusTests(unittest.TestCase):
             }
             errors, _ = MODULE.validate_publication_pairs(registry, root)
             self.assertTrue(any("Recap cards en: missing c01-card.qmd" in error for error in errors))
+
+    def test_git_lag_counts_guide_and_repository_commits_separately(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self._git(root, "init")
+            self._git(root, "config", "user.email", "tests@example.invalid")
+            self._git(root, "config", "user.name", "Translation Tests")
+            guide = root / "guide.md"
+            guide.write_text("baseline\n", encoding="utf-8")
+            self._git(root, "add", "guide.md")
+            self._git(root, "commit", "-m", "baseline")
+            source = self._git(root, "rev-parse", "HEAD")
+            (root / "other.txt").write_text("other\n", encoding="utf-8")
+            self._git(root, "add", "other.txt")
+            self._git(root, "commit", "-m", "other")
+            guide.write_text("baseline\nchanged\n", encoding="utf-8")
+            self._git(root, "add", "guide.md")
+            self._git(root, "commit", "-m", "guide")
+
+            self.assertEqual(
+                {"canonical_guide_commits": 1, "canonical_repo_commits": 2},
+                MODULE.compute_git_lag(root, source, "guide.md"),
+            )
+
+    def test_checked_in_registry_passes_evidence_validation(self) -> None:
+        root = Path(__file__).resolve().parents[1]
+        registry = json.loads(
+            (root / "machine-readable/translations.json").read_text(encoding="utf-8")
+        )
+
+        self.assertEqual([], MODULE.validate_evidence_registry(registry, root))
+        chinese = next(item for item in registry["translations"] if item["language"] == "zh-CN")
+        self.assertEqual(
+            "7b43b9c10b241f8e196e27651e3fea6079a48d26",
+            chinese["translated_from"]["commit"],
+        )
+        self.assertIn("es-419", {item["language"] for item in registry["translations"]})
+
+    def test_community_translation_cannot_be_project_official(self) -> None:
+        root = Path(__file__).resolve().parents[1]
+        registry = json.loads(
+            (root / "machine-readable/translations.json").read_text(encoding="utf-8")
+        )
+        modified = copy.deepcopy(registry)
+        chinese = next(item for item in modified["translations"] if item["language"] == "zh-CN")
+        chinese["status"] = "official"
+
+        errors = MODULE.validate_evidence_registry(modified, root)
+
+        self.assertTrue(any("must remain unofficial" in error for error in errors), errors)
+
+    def test_unknown_source_requires_unknown_numeric_lag(self) -> None:
+        root = Path(__file__).resolve().parents[1]
+        registry = json.loads(
+            (root / "machine-readable/translations.json").read_text(encoding="utf-8")
+        )
+        modified = copy.deepcopy(registry)
+        ukrainian = next(item for item in modified["translations"] if item["language"] == "uk")
+        ukrainian["known_lag"]["canonical_repo_commits"] = 1
+
+        errors = MODULE.validate_evidence_registry(modified, root)
+
+        self.assertTrue(any("unknown numeric lag" in error for error in errors), errors)
+
+    @staticmethod
+    def _git(root: Path, *args: str) -> str:
+        return subprocess.run(
+            ["git", *args],
+            cwd=root,
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
 
 
 if __name__ == "__main__":

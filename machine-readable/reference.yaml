@@ -3047,11 +3047,13 @@ section_maps:
     - "advanced-tools-how-to-trigger-them"
     - "provider-availability"
   "guide/core/translations.md":
-    - "chinese-community-edition"
-    - "what-is-not-synchronized-yet"
-    - "publication-coverage"
-    - "maintainer-workflow"
-    - "contributing-a-translation"
+    - "read-an-edition"
+    - "verified-inventory"
+    - "chinese-attribution-and-source-correction"
+    - "official-translation-priority"
+    - "official-and-community-labels"
+    - "language-navigation-and-seo"
+    - "evidence-boundary"
   "guide/core/visual-reference.md":
     - "harness-map-reading-guide"
     - "1-context-management-zones"

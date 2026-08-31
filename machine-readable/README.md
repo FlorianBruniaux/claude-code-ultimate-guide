@@ -14,7 +14,7 @@ Files optimized for LLM/AI consumption. Sizes below are measured, not targets.
 | `agent-harnesses-github.json` | Optional reviewed GitHub observation sidecar: stars, archive state, language, SPDX signal, branch and push timestamp, bound to the catalog checksum. It is not committed until a complete verified collection is promoted. | Volatile | Volatile |
 | [agent-harnesses-github.schema.json](./agent-harnesses-github.schema.json) | JSON Schema for the volatile GitHub observation sidecar. | Generated | N/A |
 | [agent-harnesses.schema.json](./agent-harnesses.schema.json) | JSON Schema for validating the normalized harness catalog before publication. | Generated | N/A |
-| [translations.json](./translations.json) | Canonical, maintained, and community translation registry: version, source checksum, synchronization date, coverage, and bilingual publication roots. | ~4 KB | <1K |
+| [translations.json](./translations.json) | Dated registry of canonical, project-maintained, and community editions: URLs, maintainers, status, source commits, attribution, coverage, pinned lag, and bilingual publication roots. | ~10 KB | ~3K |
 | [distribution-channels.yaml](./distribution-channels.yaml) | JSON-compatible YAML registry for publication channels, attributed URLs, asset states, dates, and 30-day outcome fields. | ~8 KB | ~2K |
 | [llms.txt](./llms.txt) | Standard LLM context file for repository indexation: topic coverage, entry points, key URLs. | ~5 KB | ~1K |
 
@@ -49,7 +49,7 @@ curl -sL https://raw.githubusercontent.com/FlorianBruniaux/claude-code-ultimate-
 
 ### Translation status
 
-[`translations.json`](./translations.json) distinguishes the canonical English edition, the maintained French edition, and independently maintained community adaptations. A `stale` state is a truthful published status, not a failed build. Incorrect checksums, missing language pairs, or a state that contradicts the recorded version do fail the integrity check.
+[`translations.json`](./translations.json) distinguishes the canonical English edition, the maintained French edition, and independently maintained community adaptations. A `stale` state is a truthful published status, not a failed build. Incorrect checksums, source ancestry, pinned lag, attribution fields, missing language pairs, or a state that contradicts the evidence do fail the integrity check.
 
 ```bash
 python3 scripts/check-translations.py --check
