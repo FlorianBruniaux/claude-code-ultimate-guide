@@ -8,7 +8,7 @@
 <!-- Stats -->
 <p align="center">
   <a href="https://github.com/FlorianBruniaux/claude-code-ultimate-guide"><img src="https://img.shields.io/github/stars/FlorianBruniaux/claude-code-ultimate-guide?style=for-the-badge" alt="Stars"/></a>
-  <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Updated-Aug_30,_2026_·_v3.43.0-brightgreen?style=for-the-badge" alt="Last Update"/></a>
+  <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Updated-Aug_31,_2026_·_v3.43.0-brightgreen?style=for-the-badge" alt="Last Update"/></a>
   <a href="./quiz/"><img src="https://img.shields.io/badge/Quiz-473_questions-orange?style=for-the-badge" alt="Quiz"/></a>
   <a href="./examples/"><img src="https://img.shields.io/badge/Templates-271-green?style=for-the-badge" alt="Templates"/></a>
 </p>
@@ -53,6 +53,21 @@
     <img alt="StarMapper: see who stars this repo on a world map" src="https://starmapper.bruniaux.com/api/map-image/FlorianBruniaux/claude-code-ultimate-guide" />
   </picture>
 </a>
+
+---
+
+## Languages and Translations
+
+English is the canonical edition. French is maintained in this repository. The Chinese and Ukrainian editions are independent community projects with their own update schedules.
+
+| Language | Status checked 2026-08-31 | Guide |
+|---|---|---|
+| English | Canonical, current at 3.43.0 | [Read the English guide](guide/ultimate-guide.md) |
+| Français | Maintained here, behind canonical | [Lire le guide français](guide/ultimate-guide.fr.md) |
+| 简体中文 | Community, unofficial, behind canonical | [Chinese community edition by JAYcodr](https://github.com/JAYcodr/claude-code-ultimate-guide-zh) |
+| Українська | Community, unofficial, behind canonical | [Ukrainian community edition by gerasimsergey](https://github.com/gerasimsergey/claude-code-ultimate-guide-ua) |
+
+The [translation status page](guide/core/translations.md) records source versions, synchronization dates, coverage, and the distinction between maintained and community editions. Its machine-readable source is [`machine-readable/translations.json`](machine-readable/translations.json).
 
 ---
 
@@ -139,6 +154,10 @@ Both guides serve different needs. Choose based on your priority.
 
 **New to Claude Code?** → [**7-Module Learning Path**](./guide/learning-path/README.md): 8-11 hours, beginner to advanced
 
+**Want persistent progress?** → Use the [**learning-path skill**](./examples/skills/learning-path/SKILL.md) to unlock modules, record evidence, and schedule reviews in your project.
+
+**Comparing several solutions?** → Follow the [**Best-of-N workflow**](./guide/workflows/best-of-n.md) and keep its [verification record](./examples/claude-md/TESTING.md).
+
 **Quickest path**: [Cheat Sheet](./guide/cheatsheet.md), 1 printable page with daily essentials
 
 **Interactive onboarding** (no setup needed):
@@ -146,7 +165,7 @@ Both guides serve different needs. Choose based on your priority.
 claude "Fetch and follow the onboarding instructions from: https://raw.githubusercontent.com/FlorianBruniaux/claude-code-ultimate-guide/main/tools/onboarding-prompt.md"
 ```
 
-**Browse directly**: [Guide portal](https://cc.bruniaux.com/guide/) | [Guide changelog](https://cc.bruniaux.com/changelog/) | [Full Guide](./guide/ultimate-guide.md) | [Learning Path](./guide/learning-path/) | [Visual Diagrams](./guide/diagrams/) | [Examples](./examples/) | [Quiz](./quiz/)
+**Browse directly**: [Guide portal](https://cc.bruniaux.com/guide/) | [Guide changelog](https://cc.bruniaux.com/changelog/) | [Full Guide](./guide/ultimate-guide.md) | [Learning Path](./guide/learning-path/) | [Computer Use](./guide/core/computer-use.md) | [Visual Diagrams](./guide/diagrams/) | [Examples](./examples/) | [Quiz](./quiz/)
 
 ---
 
@@ -591,7 +610,7 @@ security_gate_hook: "examples/hooks/bash/security-gate.sh" # file path ref
 
 ## 📄 Whitepapers (FR + EN)
 
-11 focused whitepapers covering Claude Code in depth: PDF + EPUB, available in French and English. 472 pages total.
+13 focused whitepapers covering Claude Code in depth: PDF + EPUB, available in French and English.
 
 > **Coming soon**: currently in private access. Public release planned.
 
@@ -608,16 +627,18 @@ security_gate_hook: "examples/hooks/bash/security-gate.sh" # file path ref
 | **08** | *Agent Teams* | *Agent Teams* | 42 |
 | **09** | *Apprendre avec l'IA* | *Learning with AI*: UVAL protocol, comprehension debt | 49 |
 | **10** | *Convaincre son Employeur* | *Making the Case for AI*: ROI dossier for CEO/CTO/CFO | 27 |
+| **11** | *Métriques d'Équipe* | *Team Metrics*: DORA, SPACE, and AI-specific measures | See release assets |
+| **12** | *Ingénierie des Agents* | *Agent Engineering*: harnesses, CI/CD, and productivity evidence | See release assets |
 
-## 🗂️ Recap Cards (FR, EN coming)
+## 🗂️ Recap Cards (FR + EN)
 
-57 single-page A4 reference cards: printable, one concept per card. Available in French; English version in progress.
+58 single-page A4 reference cards: printable, one concept per card. French and English source sets are complete and checked for filename and metadata parity.
 
 > **Browse online**: [cc.bruniaux.com/cheatsheets/](https://cc.bruniaux.com/cheatsheets/)
 
 - **Technique (22 cards)**: Commands, permissions, configuration, MCP, models, context window
 - **Méthodologie (22 cards)**: Daily workflow, agents, hooks, CI/CD, multi-agent, debug
-- **Conception (13 cards)**: Mental models, prompting, security by design, cost patterns
+- **Conception (14 cards)**: Mental models, prompting, security by design, cost patterns, Agent Harness Map
 
 ---
 
@@ -955,7 +976,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 ---
 
-*Version 3.43.0 | Updated daily · Aug 30, 2026 | Crafted with Claude*
+*Version 3.43.0 | Updated daily · Aug 31, 2026 | Crafted with Claude*
 
 <!-- SEO Keywords -->
 <!-- claude code, claude code tutorial, anthropic cli, ai coding assistant, claude code mcp,

@@ -1,12 +1,12 @@
 ---
 title: "AI Unit Economics"
-description: "How to model the real per-task cost of agentic AI development: cost per PR, token decomposition, cost-reduction levers, and the break-even point of an autonomous agent"
+description: "How to model the real cost per accepted task in agentic AI development: attempts, retries, review, rework, token decomposition, and autonomous-agent break-even"
 tags: [cost, ops, guide]
 ---
 
 # AI Unit Economics
 
-> **Audience**: Tech leads, platform engineers, and engineering managers who need to reason about what agentic AI actually costs per unit of work, not just what shows up on the monthly invoice.
+> **Audience**: Tech leads, platform engineers, and engineering managers who need to reason about what agentic AI costs per accepted unit of work, not just what shows up on the monthly invoice.
 >
 > **Scope**: The economic reasoning behind agentic development cost. For the technical implementation of budgets and per-team enforcement, see [api-gateway.md](./api-gateway.md). For per-session logging and cost estimation, see [observability.md](./observability.md).
 
@@ -14,9 +14,9 @@ tags: [cost, ops, guide]
 
 ## A note on what this page is
 
-This page is mostly original synthesis, not a collection of field reports. Across the practitioner sources this guide draws from (conference talks, podcasts, and meetups covering agentic AI and software development), no one models the real cost of agentic AI at scale in any depth. That absence is itself a finding: teams adopt agents, then discover the cost structure after the fact.
+This page combines original synthesis with limited reproducible research. Production coding-agent traces can measure token use and reconstructed spend while omitting task acceptance. Coding benchmarks can measure resolution and cost under a narrower harness while missing production traffic, engineer review, and organizational controls. Neither evidence type is a fleet forecast by itself.
 
-So this page reasons from first principles about the cost model, and pulls in a handful of attributable practitioner observations only where they support a specific point. Every attributed claim names its source. Where a number is illustrative rather than measured, it says so. Nothing here is a benchmark, and no figure is presented as an established fact unless it is sourced.
+The page therefore separates measured evidence, illustrative arithmetic, and operating recommendations. Every attributed claim names its source. Where a number is illustrative rather than measured, it says so.
 
 ---
 
@@ -26,7 +26,7 @@ Classic SaaS pricing is a fixed cost per seat. You pay the same whether a user r
 
 Agentic AI breaks that model in three ways.
 
-**The cost is variable per task, not fixed per seat.** A developer with a Claude Code license does not cost a flat amount. One day they close a two-line fix that costs a few cents in tokens. The next day they run a multi-agent refactor across forty files that costs several dollars. The seat is not the unit of cost. The task is.
+**The invoice varies per attempt, not only per seat.** A developer with a Claude Code license does not create one fixed inference cost. Each run consumes a different mix of input, output, cache, tool, and sub-agent work. An attempt is the observable billing unit. An accepted task is the management denominator because failed attempts still consume tokens and human review.
 
 **The cost of the same task varies run to run.** Ask an agent to fix the same failing test twice and you can get two different token totals. The model may re-read a file it already saw, take an extra reasoning step, or call one more tool. Variance is inherent, not a defect. It means you budget against a distribution, not a fixed line item.
 
@@ -36,9 +36,9 @@ The framing that captures the stakes came out of an enterprise AI transformation
 
 ---
 
-## 2. Building a cost per task
+## 2. Building a cost per accepted task
 
-To manage cost per task, you first have to measure it. A single agentic task decomposes into a small number of billable components. Here is the full list for a Claude Code run:
+Measure each attempt first, then aggregate every attempt that contributed to an accepted result. A Claude Code run decomposes into these billable components:
 
 | Component | What it is | Typical driver |
 |-----------|-----------|----------------|
@@ -49,7 +49,7 @@ To manage cost per task, you first have to measure it. A single agentic task dec
 | Tool calls | Each tool invocation adds its result to the next input | Number of Read, Bash, Grep, WebFetch calls |
 | Sub-agent runs | Each sub-agent is its own input plus output cost | Number and depth of delegated tasks |
 
-Output tokens dominate the bill on most models because output is priced several times higher than input. At the cost rates this guide uses for illustration (see [observability.md §Cost Rates](./observability.md#cost-rates)), Sonnet output is $15 per million tokens against $3 for input, and Opus output is $75 against $15. A task that generates a lot of code or long reasoning is expensive on the output side even if its input was small.
+Output tokens can dominate the bill because output is priced several times higher than input. At Anthropic's public rates verified 2026-08-31, Sonnet 5 costs $2 per million input tokens and $10 per million output tokens, while Opus 5 costs $5 and $25. A task that generates a lot of code or long reasoning can therefore cost more on the output side even when its input is larger. Source: [Claude model pricing](https://platform.claude.com/docs/en/about-claude/pricing).
 
 ### A concrete calculation
 
@@ -72,31 +72,42 @@ Output side:
   output subtotal        ~20,000 tokens
 ```
 
-At Sonnet illustrative rates ($3 input, $15 output per million):
+At Sonnet 5 public rates verified 2026-08-31 ($2 input, $10 output per million):
 
 ```
-input:  73,000 / 1,000,000 x $3   = $0.219
-output: 20,000 / 1,000,000 x $15  = $0.300
+input:  73,000 / 1,000,000 x $2   = $0.146
+output: 20,000 / 1,000,000 x $10  = $0.200
                                     -------
-                        task total ~ $0.52
+                     attempt total ~ $0.35
 ```
 
-The same PR run on Opus (illustrative $15 input, $75 output) lands near $2.60, roughly five times more. The numbers above are illustrative to show the method, not a measured benchmark. The point is the shape: measure the components, price them, and you have a cost per task you can compare across models and across approaches.
+The same illustrative attempt on Opus 5 lands near $0.87, about 2.5 times more at public token rates. The token counts above are hypothetical and do not establish a typical PR cost. They show how to price one attempt before retries, review, rework, or acceptance.
 
 ### A minimal cost function
 
 Expressed as pseudo-code, the per-task cost is a sum over turns and sub-agents:
 
 ```
-cost_per_task =
+cost_per_attempt =
     sum over each model turn:
         input_tokens  * input_rate
       + output_tokens * output_rate
       + cache_write_tokens * cache_write_rate
       + cache_read_tokens  * cache_read_rate
   + sum over each sub_agent:
-        cost_per_task(sub_agent)   # recursive: sub-agents have their own turns
+        cost_per_attempt(sub_agent)   # recursive: sub-agents have their own turns
+
+cost_per_accepted_task =
+    (sum(cost_per_attempt)
+      + human_review_cost
+      + rework_cost
+      + infrastructure_cost)
+    / accepted_tasks
 ```
+
+If `accepted_tasks` is zero, do not manufacture a ratio. Report the number of attempts, total spend, review time, and zero accepted tasks. Compare models or workflows only on the same task sample and acceptance gate.
+
+Bai et al. repeated coding-agent runs on the same SWE-bench Verified tasks across eight models and observed up to 30-fold variation in total tokens. Higher token use did not imply higher accuracy. The benchmark is not a production trace and does not include organization-level review cost, but it supports repeated trials and distribution reporting rather than a single-run estimate. Source: [Bai et al., "How Do AI Agents Spend Your Money? Analyzing and Predicting Token Consumption in Agentic Coding Tasks", arXiv:2604.22750](https://arxiv.org/pdf/2604.22750), PDF pp. 1-4.
 
 Cache reads are priced far below fresh input (a fraction of the input rate), which is why a stable, reused context is cheaper than one you rebuild every turn. That single fact drives most of the levers in the next section.
 
@@ -188,13 +199,13 @@ A practical way to reason about the threshold: estimate the fully loaded cost of
 
 ## 5. Budget and governance per team
 
-Once you can compute a cost per task, you can set budgets against it. The economic reasoning belongs here; the technical enforcement belongs in [api-gateway.md](./api-gateway.md).
+Once you can compute cost per attempt and per accepted task, you can set budgets against them. The economic reasoning belongs here; the technical enforcement belongs in [api-gateway.md](./api-gateway.md).
 
-The reasoning: a per-team budget turns an unbounded variable cost into a bounded one. If the backend team's agentic work runs around a known cost per task and a known task volume, a monthly cap sized to that product gives a hard ceiling. When the cap is hit, further calls are refused rather than silently added to the invoice. That converts a surprise at invoice time into a signal during the month.
+The reasoning: a per-team budget turns an unbounded variable cost into a bounded one. Size the cap from measured attempt volume, acceptance rate, cost distribution, and expected review load. When the cap is hit, further calls are refused rather than silently added to the invoice. That converts a surprise at invoice time into a signal during the month.
 
 The mechanics of setting virtual keys, per-team budgets, model allowlists, and usage dashboards are covered in detail in [api-gateway.md](./api-gateway.md): virtual keys carry team metadata, a budget cap returns a `429` when exceeded, and a model allowlist stops a cheap-task team from calling the most expensive model by accident. This page stays on the reasoning; that page is the implementation.
 
-The one economic point worth stating here: budgets should be sized against measured cost per task, not guessed. A cap set too low blocks legitimate work and pushes people to route around it. A cap set with no basis in measured cost is theater. Measure first (§2), then set the cap.
+Budgets should be sized against measured cost per accepted task, not guessed from token averages alone. A cap set too low blocks legitimate work and pushes people to route around it. A cap with no acceptance, retry, or review denominator is an invoice limit, not an economic model. Measure first (§2), then set the cap.
 
 ---
 
@@ -228,9 +239,9 @@ This page reasons about the cost model. It deliberately does not include:
 
 - **A proprietary benchmark.** There is no measured dataset of cost-per-PR across teams here. The numbers in §2 are illustrative to teach the method, not results.
 - **A provider pricing comparison.** Per-token prices change often enough that a comparison table would be stale within a release or two. For current rates, check the provider's pricing page and the live figures that tools like `ccusage` read from your own sessions.
-- **A cost-per-outcome model.** Tying token cost to business value (revenue per feature, defects avoided) is the harder half of ROI and is out of scope here. This page stops at cost per task; connecting cost to value is a separate exercise per team.
+- **A business-value model.** This page treats human-accepted work as the quality denominator. It does not price revenue per feature, defects avoided, customer impact, or regulatory risk. Connecting accepted engineering work to business value remains a separate exercise per team.
 
-If you have measured cost-per-task data from your own work, it is exactly the kind of field report that would turn parts of this synthesis into evidence. Until then, treat this as a reasoning framework to apply, not a set of numbers to trust.
+If you have measured attempts, acceptance decisions, retries, review time, and rework from your own workflow, use that evidence instead of the illustrative token budget in §2. Treat this page as a measurement framework, not a fleet benchmark.
 
 ---
 

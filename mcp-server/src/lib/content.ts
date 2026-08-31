@@ -174,6 +174,16 @@ export function getAgentHarnessesJsonRaw(): string {
   return readFileSync(filePath, 'utf8');
 }
 
+export function getTranslationsJsonRaw(): string {
+  const filePath = join(CONTENT_DIR, 'translations.json');
+  return readFileSync(filePath, 'utf8');
+}
+
+export function getDistributionChannelsYamlRaw(): string {
+  const filePath = join(CONTENT_DIR, 'distribution-channels.yaml');
+  return readFileSync(filePath, 'utf8');
+}
+
 // ─── Deep dive resolver ───────────────────────────────────────────────────────
 
 export function resolveDeepDive(value: unknown): DeepDiveTarget | undefined {
@@ -188,7 +198,7 @@ export function resolveDeepDive(value: unknown): DeepDiveTarget | undefined {
       return { type: 'url', url: value };
     }
     // File path with optional :line suffix
-    const filePathMatch = value.match(/^(guide\/|examples\/|whitepapers\/|machine-readable\/)(.+?)(?::(\d+))?$/);
+    const filePathMatch = value.match(/^(guide\/|examples\/|whitepapers\/|machine-readable\/|docs\/)(.+?)(?::(\d+))?$/);
     if (filePathMatch) {
       return {
         type: 'file',

@@ -31,9 +31,11 @@ Core documentation for mastering Claude Code, organized by topic.
 |------|-------------|------|
 | [ultimate-guide.md](./ultimate-guide.md) | Complete reference covering all Claude Code features | ~3 hours |
 | [ultimate-guide.fr.md](./ultimate-guide.fr.md) | French translation of the complete reference guide | ~3 hours |
+| [core/translations.md](./core/translations.md) | **Translations and Language Status**: canonical, maintained, and community editions with version and coverage dates | 5 min |
 | [cowork.md](./cowork.md) | Claude Cowork: agentic desktop summary for non-technical knowledge workers | 10 min |
 | [cheatsheet.md](./cheatsheet.md) | 1-page printable quick reference | 5 min |
 | [core/architecture.md](./core/architecture.md) | How Claude Code works internally (master loop, tools, context) | 25 min |
+| [core/computer-use.md](./core/computer-use.md) | **Computer Use**: permission boundary, fallback order, safe operating procedure, and verification limits | 12 min |
 | [core/agent-harness.md](./core/agent-harness.md) | **Agent Harness Engineering**: runtime components, loop horizons, security, evaluation, and outer-loop harness optimization | 35 min |
 | [core/loop-graph-engineering.md](./core/loop-graph-engineering.md) | **Loop & Graph Engineering**: bounded feedback, executable workflow graphs, durable state, recovery, and judgment allocation | 25 min |
 | [core/tools-reference.md](./core/tools-reference.md) | **Complete tools reference**: all 40 built-in tools, permission rule formats, per-tool behaviors (Bash timeouts, Edit read-before-edit, Glob cap, WebFetch lossy), and how-to for Monitor, Workflow, agent teams, Cron, Tasks API | 20 min |
@@ -92,6 +94,7 @@ Core documentation for mastering Claude Code, organized by topic.
 | File | Description | Time |
 |------|-------------|------|
 | [ecosystem/ai-ecosystem.md](./ecosystem/ai-ecosystem.md) | Complementary AI tools (Perplexity, Gemini, Kimi, NotebookLM, TTS) | 30 min |
+| [ecosystem/plugin-distribution.md](./ecosystem/plugin-distribution.md) | **Plugin distribution**: package boundaries, marketplace trust, recommendation hints, and release checks | 15 min |
 | [ecosystem/agentic-tools.md](./ecosystem/agentic-tools.md) | **Agent tools comparison**: Hermes Agent, Codex CLI, Aider, Devin, SWE-agent, CrewAI, LangGraph, AutoGen, decision framework | 20 min |
 | [ecosystem/mcp-vs-cli.md](./ecosystem/mcp-vs-cli.md) | **MCP vs CLI decision guide**: when to use MCP servers vs CLI tools in Claude Code workflows, tradeoffs and decision dimensions | 15 min |
 | [ecosystem/agent-harness-landscape.md](./ecosystem/agent-harness-landscape.md) | **Agent Harness Map**: strict runtimes, orchestrators, adjacent projects, and a sourced research layer for harness optimizers and meta-harnesses | 10 min |
@@ -123,7 +126,7 @@ Core documentation for mastering Claude Code, organized by topic.
 |------|-------------|------|
 | [ops/devops-sre.md](./ops/devops-sre.md) | FIRE framework for infrastructure diagnosis and incident response | 30 min |
 | [ops/observability.md](./ops/observability.md) | Session monitoring and cost tracking | 15 min |
-| [ops/api-gateway.md](./ops/api-gateway.md) | **API Gateway**: centralize cost control, budget enforcement, model allowlists, and usage tracking with LiteLLM Gateway or Portkey | 15 min |
+| [ops/api-gateway.md](./ops/api-gateway.md) | **API gateways**: separate Claude apps gateway behavior from third-party proxy controls such as LiteLLM and Portkey | 15 min |
 | [ops/ai-traceability.md](./ops/ai-traceability.md) | AI attribution, disclosure policies, git-ai, compliance | 20 min |
 | [ops/team-metrics.md](./ops/team-metrics.md) | **Team metrics for AI-augmented engineering**: DORA, SPACE, DX Core 4, AI-specific signals, by team size (5–25 people) | 20 min |
 | [ops/ai-unit-economics.md](./ops/ai-unit-economics.md) | **AI unit economics**: per-task cost decomposition, real cost levers (routing, sub-agent isolation, exit criteria), autonomous agent break-even point, team budget governance | 15 min |
@@ -141,6 +144,7 @@ Hands-on guides for effective development patterns:
 | [workflows/spec-first.md](./workflows/spec-first.md) | Spec-First Development (SDD) |
 | [workflows/plan-driven.md](./workflows/plan-driven.md) | Using /plan mode effectively |
 | [workflows/iterative-refinement.md](./workflows/iterative-refinement.md) | Iterative improvement loops |
+| [workflows/best-of-n.md](./workflows/best-of-n.md) | Generate independent candidates, select with a frozen rubric, verify, and preserve the proof log |
 | [workflows/tts-setup.md](./workflows/tts-setup.md) | Add text-to-speech narration to Claude Code (18 min) |
 | [workflows/task-management.md](./workflows/task-management.md) | Multi-session task tracking, TodoWrite migration |
 | [workflows/agent-teams.md](./workflows/agent-teams.md) | Orchestrating multi-agent teams for complex tasks |

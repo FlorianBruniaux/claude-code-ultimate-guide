@@ -1,437 +1,196 @@
-# Module 06: Hooks & Events
+# Module 06: Hooks and Events
 
-**Time**: 1 hour | **Complexity**: ⭐⭐ Intermediate
+**Time:** 1 hour | **Complexity:** Intermediate
 
-**Previous:** [Module 05: Skills & Automation](05-skills.md)
+**Previous:** [Module 05: Skills and Automation](05-skills.md)
 
 ## Goal
 
-Automate responses to system events. Create scripts that run before or after Claude Code operations.
+Add one Claude Code hook that makes a tool decision from structured input, fails closed on malformed input, and can be tested without starting an interactive session.
 
----
+Claude Code hooks are not Git hooks. Git hooks respond to repository actions such as `pre-commit`. Claude Code hooks respond to Claude Code lifecycle and tool events such as `PreToolUse`, `PostToolUse`, and `SessionStart`.
 
-## What You'll Learn
+## What you will learn
 
-- How hooks work and when they trigger
-- Creating pre-commit validation
-- Building post-action notifications
-- Writing safe automation scripts
-- Common hook patterns
+- where Claude Code reads hook configuration;
+- how matchers select tool calls;
+- what a command hook receives on standard input;
+- how a `PreToolUse` hook allows or denies a call;
+- what exit codes do and do not prove;
+- how to test the decision script with fixed fixtures.
 
----
+For the complete event matrix, use the [Hooks Events Reference](../core/hooks-events-reference.md). Anthropic maintains the authoritative [hooks documentation](https://code.claude.com/docs/en/hooks).
 
-## What Are Hooks?
+## The hook boundary
 
-A **hook** is a script that runs automatically in response to an event.
+A command hook is a local program launched by Claude Code. It receives one JSON object on standard input. The fields depend on the event. For `PreToolUse`, the useful fields include `tool_name`, `tool_input`, and `tool_use_id`.
 
-### Example: Pre-Commit Hook
+The matcher for a tool event filters on `tool_name`:
 
-Before you commit changes:
-
-```
-You run: git commit -m "Fix bug"
-       ↓
-Hook runs: Check version number consistency
-       ↓
-If version wrong:
-  ❌ Commit blocked
-  Error message shows what's wrong
-       ↓
-You fix: Update VERSION file
-       ↓
-Commit succeeds
+```text
+Claude proposes Write or Edit
+             |
+             v
+PreToolUse matcher selects the hook
+             |
+             v
+Hook reads JSON and returns deny or no decision
+             |
+             v
+Claude Code applies the decision
 ```
 
-Hooks prevent common mistakes from reaching git.
+Keep the decision narrow. A path policy can decide whether a proposed file write targets a protected location. It cannot prove that the resulting program is secure or correct.
 
-### Hook Events
+## Register a `PreToolUse` hook
 
-Hooks can trigger on:
-
-| Event | Timing | Use Case |
-|-------|--------|----------|
-| PreToolUse | Before Claude runs a tool | Validate request |
-| PostToolUse | After Claude runs a tool | Log results, check output |
-| PreCommit | Before git commit | Validate changes |
-| PostPush | After git push | Notify team |
-
----
-
-## Creating Your First Hook
-
-Hooks are bash (or PowerShell) scripts in `.claude/hooks/`.
-
-### Basic Hook Structure
-
-```bash
-#!/bin/bash
-
-# Hook: validate-version
-# Event: PreCommit
-# Description: Check that VERSION file is updated with other changes
-
-# Get the files being committed
-FILES=$(git diff --cached --name-only)
-
-# Check if guide files were changed
-if echo "$FILES" | grep -q "guide/"; then
-  # If guide/ changed, VERSION must also be changed
-  if ! echo "$FILES" | grep -q "VERSION"; then
-    echo "❌ Error: guide/ was modified but VERSION wasn't updated"
-    echo "Run: echo '3.x.x' > VERSION"
-    exit 1  # Block commit
-  fi
-fi
-
-exit 0  # Allow commit
-```
-
-### File Location
-
-```
-my-project/
-└── .claude/
-    └── hooks/
-        ├── validate-version.sh
-        └── notify-team.sh
-```
-
-### Hook Exit Codes
-
-```bash
-exit 0   # Success - allow operation to proceed
-exit 1   # Failure - block operation and show error
-exit 2   # Warning - allow but show warning message
-```
-
----
-
-## Hook Patterns
-
-### Pattern 1: Pre-Commit Validation
-
-Block commits that fail validation:
-
-```bash
-#!/bin/bash
-# Hook: security-check.sh
-# Block commits if security issues found
-
-# Check for hardcoded API keys
-if grep -r "sk_live_" .; then
-  echo "❌ ERROR: Found hardcoded Stripe key"
-  exit 1
-fi
-
-# Check for console.log in production code (not tests)
-if grep -r "console.log" src/ --exclude-dir=tests; then
-  echo "❌ ERROR: Found console.log in source code"
-  exit 1
-fi
-
-# Check for TODO comments (warning, not block)
-if grep -r "TODO:" src/; then
-  echo "⚠️  Warning: TODO comments found (not blocking)"
-fi
-
-exit 0
-```
-
-### Pattern 2: Post-Commit Notification
-
-After a commit succeeds:
-
-```bash
-#!/bin/bash
-# Hook: notify-team.sh
-# Notify team after certain commits
-
-COMMIT_MSG=$(git log -1 --pretty=%B)
-
-# If security-related commit
-if echo "$COMMIT_MSG" | grep -i "security"; then
-  echo "🔐 Security commit: $COMMIT_MSG"
-  # Send to Slack (optional)
-  # curl -X POST $SLACK_WEBHOOK -d "Security update: $COMMIT_MSG"
-fi
-
-exit 0
-```
-
-### Pattern 3: Dependency Check
-
-Warn if dependencies need updating:
-
-```bash
-#!/bin/bash
-# Hook: check-deps.sh
-# Check if package.json changed without updating lock file
-
-FILES=$(git diff --cached --name-only)
-
-if echo "$FILES" | grep -q "package.json"; then
-  if ! echo "$FILES" | grep -q "package-lock.json"; then
-    echo "⚠️  Warning: package.json changed but lock file wasn't updated"
-    echo "Run: npm install"
-  fi
-fi
-
-exit 0
-```
-
----
-
-## Registering Hooks
-
-Hooks are registered in `.claude/settings.json`:
+Project hooks belong in `.claude/settings.json`. The following entry runs one Python command for `Write` and `Edit` calls:
 
 ```json
 {
   "hooks": {
-    "pre_commit": ["validate-version.sh", "security-check.sh"],
-    "post_commit": ["notify-team.sh"],
-    "post_push": ["deploy-staging.sh"]
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3",
+            "args": ["${CLAUDE_PROJECT_DIR}/.claude/hooks/protect-paths.py"],
+            "timeout": 10
+          }
+        ]
+      }
+    ]
   }
 }
 ```
 
-Or in `settings.yaml`:
+`settings.json` is the supported configuration file in this example. A `settings.yaml` variant is not part of this contract.
 
-```yaml
-hooks:
-  pre_commit:
-    - path: hooks/validate-version.sh
-      description: "Check VERSION file updated"
-      blocking: true
-    - path: hooks/security-check.sh
-      blocking: true
-  post_commit:
-    - path: hooks/notify-team.sh
-      blocking: false
+## Build the decision script
+
+Save this file as `.claude/hooks/protect-paths.py`:
+
+```python
+#!/usr/bin/env python3
+import json
+import sys
+from pathlib import PurePosixPath
+
+
+def decide(value: str, reason: str) -> None:
+    print(json.dumps({
+        "hookSpecificOutput": {
+            "hookEventName": "PreToolUse",
+            "permissionDecision": value,
+            "permissionDecisionReason": reason,
+        }
+    }))
+
+
+try:
+    payload = json.load(sys.stdin)
+except (json.JSONDecodeError, UnicodeDecodeError):
+    decide("deny", "Hook input was not valid JSON.")
+    raise SystemExit(0)
+
+if payload.get("tool_name") not in {"Write", "Edit"}:
+    decide("deny", "Unexpected tool for this matcher.")
+    raise SystemExit(0)
+
+file_path = payload.get("tool_input", {}).get("file_path")
+if not isinstance(file_path, str) or not file_path.strip():
+    decide("deny", "Write or Edit input did not contain a file_path.")
+    raise SystemExit(0)
+
+path = PurePosixPath(file_path.replace("\\", "/"))
+protected = (
+    ".git" in path.parts
+    or path.name == ".env"
+    or path.name.startswith(".env.")
+    or path.suffix in {".key", ".pem"}
+)
+
+if protected:
+    decide("deny", f"Protected path: {file_path}")
+else:
+    raise SystemExit(0)
 ```
 
----
+This example returns a structured decision only when it denies the call. Exit code `0` with no output leaves the normal Claude Code permission flow in place; it does not grant permission. Malformed or incomplete input is denied because the script cannot establish a safe path.
 
-## Best Practices for Safe Hooks
+## Test three fixtures
 
-### DO
-
-✅ Make hooks **idempotent** (safe to run multiple times)
-✅ Log what the hook is doing
-✅ Exit with clear error messages
-✅ Use `set -e` at top to fail on first error
-✅ Make hooks executable: `chmod +x hook.sh`
-
-### DON'T
-
-❌ Make hooks take >5 seconds (blocks workflow)
-❌ Have hooks make network calls (unreliable)
-❌ Have hooks modify files (they validate only)
-❌ Make hooks too strict (frustrate developers)
-❌ Forget to test hooks locally first
-
----
-
-## Safe Hook Template
+Run the decision script directly:
 
 ```bash
-#!/bin/bash
-set -euo pipefail
+printf '%s\n' '{"tool_name":"Write","tool_input":{"file_path":"src/app.py"}}' \
+  | python3 .claude/hooks/protect-paths.py
 
-# Hook template for safe, clear automation
+printf '%s\n' '{"tool_name":"Edit","tool_input":{"file_path":".env"}}' \
+  | python3 .claude/hooks/protect-paths.py
 
-HOOK_NAME="my-hook"
-HOOK_VERSION="1.0.0"
-
-# Colors for output
-RED='\033[0;31m'
-YELLOW='\033[1;33m'
-GREEN='\033[0;32m'
-NC='\033[0m' # No Color
-
-log_error() {
-  echo -e "${RED}❌ $1${NC}"
-}
-
-log_warn() {
-  echo -e "${YELLOW}⚠️  $1${NC}"
-}
-
-log_success() {
-  echo -e "${GREEN}✅ $1${NC}"
-}
-
-# Main validation logic
-main() {
-  echo "Running: $HOOK_NAME ($HOOK_VERSION)"
-  
-  # Your checks here
-  if some_check_fails; then
-    log_error "Check failed because X"
-    return 1
-  fi
-  
-  log_success "All checks passed"
-  return 0
-}
-
-# Run and exit
-main
-exit $?
+printf '%s\n' '{bad json' \
+  | python3 .claude/hooks/protect-paths.py
 ```
 
----
+Expected decisions:
 
-## Exercise: Create a Validation Hook
+| Fixture | Expected result | Reason |
+| --- | --- | --- |
+| `src/app.py` | Exit `0`, no output | The path is outside the protected set, so normal permission flow continues |
+| `.env` | `deny` | The policy names the path explicitly |
+| malformed JSON | `deny` | The hook cannot validate the request |
 
-### Scenario
+These fixture tests verify the script's local input and output contract. They do not verify that the project settings were loaded by Claude Code. Confirm runtime loading separately by attempting a harmless write and a protected write in a disposable fixture project.
 
-You want to prevent accidental commits with:
-- Trailing whitespace
-- Missing test files for new code
-- Unresolved merge conflicts
+## Exit codes
 
-### Step 1: Create the Hook
+Exit codes are event-dependent:
 
-```bash
-cat > .claude/hooks/pre-commit-validation.sh << 'EOF'
-#!/bin/bash
-set -euo pipefail
+- exit code `0` means the hook command completed; Claude Code then parses any supported JSON output;
+- exit code `2` blocks events that support blocking, including `PreToolUse`, and sends standard error back to Claude;
+- other non-zero exit codes generally report a non-blocking hook error;
+- `WorktreeCreate` is an exception because any non-zero exit fails creation;
+- some events ignore exit codes or use a structured JSON decision instead.
 
-echo "🔍 Running pre-commit validation..."
+Do not import Unix conventions blindly. Exit code `1` does not block a `PreToolUse` call. The [event reference](../core/hooks-events-reference.md#exit-code-2-behavior-per-event) records the behavior for every supported event.
 
-# Check 1: No trailing whitespace
-if git diff --cached | grep -E '^[+].*\s+$' > /dev/null; then
-  echo "❌ Trailing whitespace found:"
-  git diff --cached | grep -E '^[+].*\s+$'
-  exit 1
-fi
+## Safe design rules
 
-# Check 2: No merge conflict markers
-if git diff --cached | grep -E '^[+].*<<<<<<|^[+].*======|^[+].*>>>>>>' > /dev/null; then
-  echo "❌ Merge conflict markers found"
-  exit 1
-fi
+- Keep the matcher as narrow as the policy.
+- Parse input explicitly and reject unknown shapes when safety depends on them.
+- Avoid network calls in a blocking hook.
+- Keep secrets out of hook output and debug logs.
+- Prefer read-only validation over hidden file mutation.
+- Set a timeout.
+- Test pass, deny, and malformed fixtures.
+- Record what runtime behavior remains untested.
 
-# Check 3: New files should have tests
-STAGED_FILES=$(git diff --cached --name-only)
-for file in $STAGED_FILES; do
-  if [[ $file == src/*.ts && $file != *test* ]]; then
-    TEST_FILE="${file%.ts}.test.ts"
-    if ! git ls-files | grep -q "$TEST_FILE"; then
-      echo "⚠️  Warning: New file $file has no test file"
-    fi
-  fi
-done
+Hooks execute local code with the permissions of the Claude Code process. Review a shared hook before enabling it. For threat modeling and startup execution risks, read [Security Hardening](../security/security-hardening.md#16-startup-hooks-code-execution-before-your-first-prompt) and [Production Safety](../security/production-safety.md).
 
-echo "✅ Pre-commit validation passed"
-exit 0
-EOF
+## Exercise: create a validation hook
 
-chmod +x .claude/hooks/pre-commit-validation.sh
-```
+1. Add the `PreToolUse` registration to `.claude/settings.json` in a disposable project.
+2. Save the decision script at `.claude/hooks/protect-paths.py`.
+3. Run the three fixtures and retain their JSON outputs.
+4. Start Claude Code in the fixture project.
+5. Request a write to `src/app.py` and confirm that the decision permits it.
+6. Request a write to `.env` and confirm that the decision denies it.
+7. Record the Claude Code version, settings path, command, result, and untested scope.
 
-### Step 2: Register in settings.json
+The exercise is complete when the three direct fixtures match the table and the two disposable runtime probes match the declared decisions. If runtime loading was not tested, record it as `UNKNOWN` rather than inferring it from the direct script tests.
 
-```json
-{
-  "hooks": {
-    "pre_commit": ["hooks/pre-commit-validation.sh"]
-  }
-}
-```
+## You are ready when
 
-### Step 3: Test It
+- you can distinguish Claude Code hooks from Git hooks;
+- you can name the event and matcher used by your hook;
+- your hook reads JSON from standard input;
+- malformed input has an explicit outcome;
+- you know that exit code `1` does not block `PreToolUse`;
+- your proof separates script tests from Claude Code runtime loading.
 
-Make a file with trailing whitespace:
+## What comes next
 
-```bash
-echo "test line   " > test.txt  # Note the trailing spaces
-git add test.txt
-```
-
-Try to commit:
-
-```bash
-git commit -m "Test hook"
-```
-
-The hook blocks:
-
-```
-❌ Trailing whitespace found:
-+test line
-```
-
-### Step 4: Fix and Retry
-
-```bash
-echo "test line" > test.txt  # Remove trailing spaces
-git add test.txt
-git commit -m "Test hook (fixed)"
-```
-
-Now it succeeds:
-
-```
-✅ Pre-commit validation passed
-```
-
----
-
-## Debugging Hooks
-
-If a hook fails mysteriously:
-
-1. **Run manually**:
-```bash
-bash .claude/hooks/my-hook.sh
-```
-
-2. **Add debug output**:
-```bash
-set -x  # Print every command
-```
-
-3. **Check exit code**:
-```bash
-bash .claude/hooks/my-hook.sh; echo "Exit: $?"
-```
-
-4. **Test hook conditions**:
-```bash
-# Test if a file was changed
-git diff --cached --name-only | grep "VERSION"
-echo $?  # 0 = found, 1 = not found
-```
-
----
-
-## Validation: You're Ready If...
-
-✓ You've created at least one hook script
-
-✓ You understand hook event types (pre-commit, post-commit, etc.)
-
-✓ You can register hooks in settings.json or settings.yaml
-
-✓ You've tested a hook locally
-
-✓ You know what exit codes mean (0 = success, 1 = failure)
-
----
-
-## What's Next?
-
-**Module 07: Advanced Patterns** covers:
-- Multi-agent orchestration
-- Building complex workflows
-- Error handling and recovery
-- Production-grade automation
-- Team coordination patterns
-
-This teaches you how to combine all previous concepts into sophisticated multi-agent systems.
-
----
-
-**Completed Module 06?** → Ready for [Module 07: Advanced Patterns](07-advanced.md)
+[Module 07: Advanced Patterns](07-advanced.md) combines hooks, skills, agents, and verification into larger workflows.
