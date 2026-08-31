@@ -210,10 +210,8 @@
       "coverage": {
         "status": "paired_publication_catalog",
         "paired_items": 13,
-        "paired_source_items_in_this_repository": 6,
-        "known_french_only_source_prefixes": [
-          "03"
-        ],
+        "paired_source_items_in_this_repository": 13,
+        "known_french_only_source_prefixes": [],
         "content_freshness": "not_measured_against_the_full_guide"
       },
       "known_lag": {
@@ -258,17 +256,22 @@
         "en": "whitepapers/en"
       },
       "public_prefixes": [
+        "00",
+        "01",
         "02",
+        "03",
         "04",
+        "05",
+        "06",
         "07",
         "08",
+        "09",
+        "10",
         "11",
         "12"
       ],
       "known_unpaired_prefixes": {
-        "fr": [
-          "03"
-        ],
+        "fr": [],
         "en": []
       },
       "published_catalog_pairs": 13

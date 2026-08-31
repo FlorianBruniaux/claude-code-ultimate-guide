@@ -16,6 +16,8 @@ Files optimized for LLM/AI consumption. Sizes below are measured, not targets.
 | [agent-harnesses.schema.json](./agent-harnesses.schema.json) | JSON Schema for validating the normalized harness catalog before publication. | Generated | N/A |
 | [translations.json](./translations.json) | Dated registry of canonical, project-maintained, and community editions: URLs, maintainers, status, source commits, attribution, coverage, pinned lag, and bilingual publication roots. | ~10 KB | ~3K |
 | [distribution-channels.yaml](./distribution-channels.yaml) | JSON-compatible YAML registry for publication channels, attributed URLs, asset states, dates, and 30-day outcome fields. | ~8 KB | ~2K |
+| [navigation.json](./navigation.json) | Shared `Start`, `Build`, `Scale`, `Resources`, and `Updates` navigation contract for the repository README and public landing sitemap. Each public route can point back to its canonical repository source. | Generated | <2K |
+| [navigation.schema.json](./navigation.schema.json) | JSON Schema for the shared navigation contract. | Generated | N/A |
 | [llms.txt](./llms.txt) | Standard LLM context file for repository indexation: topic coverage, entry points, key URLs. | ~5 KB | ~1K |
 
 `reference.yaml` is a full index, not a summary. Loading it whole costs roughly 44K tokens, so prefer grepping it for the topic you need and following the resulting path or line number, rather than pasting the entire file into context.
@@ -45,7 +47,26 @@ curl -sL https://raw.githubusercontent.com/FlorianBruniaux/claude-code-ultimate-
 curl -sL https://raw.githubusercontent.com/FlorianBruniaux/claude-code-ultimate-guide/main/machine-readable/agent-harnesses.json
 curl -sL https://raw.githubusercontent.com/FlorianBruniaux/claude-code-ultimate-guide/main/machine-readable/translations.json
 curl -sL https://raw.githubusercontent.com/FlorianBruniaux/claude-code-ultimate-guide/main/machine-readable/distribution-channels.yaml
+curl -sL https://raw.githubusercontent.com/FlorianBruniaux/claude-code-ultimate-guide/main/machine-readable/navigation.json
 ```
+
+### Public navigation contract
+
+[`navigation.json`](./navigation.json) keeps the repository summary and the public website aligned without turning either one into the source for guide prose. It owns the curated intent groups, public routes, short descriptions, and source paths. The Markdown files remain canonical for their content.
+
+Validate the manifest and the generated block in `README.md`:
+
+```bash
+python3 scripts/sync-navigation.py
+```
+
+After editing the manifest, regenerate only the marked README block:
+
+```bash
+python3 scripts/sync-navigation.py --write
+```
+
+The landing build copies the same manifest into its data directory before Astro renders the readable sitemap. Landing-only pages may use `null` for `source_path`. Every non-null source must exist inside this repository, and a declared source anchor must resolve to a heading.
 
 ### Translation status
 
@@ -158,6 +179,8 @@ diff -q machine-readable/agent-harnesses-github.json mcp-server/content/agent-ha
 Anchors and line numbers drift when guide files are restructured. After a large edit to `guide/`, verify that every `path#anchor` in `reference.yaml` still resolves to a real heading, and that every `path:N` stays within its file.
 
 Adding, removing or renaming a `deep_dive` key changes the landing site's Cmd+K palette. Rebuild it from the landing repo with `pnpm build:search`.
+
+Changing a public navigation group, route, label, or source path requires `python3 scripts/sync-navigation.py --write` here and a landing build with the current guide repository available through `GUIDE_REPO_PATH` or the default sibling path.
 
 ---
 

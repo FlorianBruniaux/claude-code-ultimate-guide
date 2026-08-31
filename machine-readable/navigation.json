@@ -1,0 +1,297 @@
+{
+  "$schema": "./navigation.schema.json",
+  "version": "1.0.0",
+  "last_updated": "2026-08-31",
+  "site_base_url": "https://cc.bruniaux.com",
+  "purpose": "Shared intent navigation for the repository README and the public guide sitemap.",
+  "groups": [
+    {
+      "id": "start",
+      "title": "Start",
+      "description": "Learn Claude Code and choose a path.",
+      "items": [
+        {
+          "id": "guide-portal",
+          "title": "Guide portal",
+          "description": "Browse the curated guide map and current highlights.",
+          "site_path": "/guide/",
+          "source_path": "guide/README.md"
+        },
+        {
+          "id": "quick-start",
+          "title": "Quick Start",
+          "description": "Install Claude Code and complete a first task.",
+          "site_path": "/guide/ultimate-guide/01-quick-start/",
+          "source_path": "guide/ultimate-guide.md",
+          "source_anchor": "#1-quick-start-day-1"
+        },
+        {
+          "id": "learning-paths",
+          "title": "Learning Paths",
+          "description": "Follow structured and role-aware learning routes.",
+          "site_path": "/learning/",
+          "source_path": "guide/learning-path/README.md"
+        },
+        {
+          "id": "quick-reference",
+          "title": "Quick Reference",
+          "description": "Use the daily command and configuration reference.",
+          "site_path": "/cheatsheet/",
+          "source_path": "guide/cheatsheet.md"
+        },
+        {
+          "id": "ai-roles",
+          "title": "AI Roles",
+          "description": "Choose a route based on responsibilities and career direction.",
+          "site_path": "/roles/",
+          "source_path": "guide/roles/ai-roles.md"
+        }
+      ]
+    },
+    {
+      "id": "build",
+      "title": "Build",
+      "description": "Engineer agents, context, and delivery workflows.",
+      "items": [
+        {
+          "id": "agent-harness",
+          "title": "Agent Harness Engineering",
+          "description": "Design the reliability layer around an agent loop.",
+          "site_path": "/guide/agent-harness/",
+          "source_path": "guide/core/agent-harness.md"
+        },
+        {
+          "id": "loop-graph",
+          "title": "Loop & Graph Engineering",
+          "description": "Build bounded loops and executable workflow graphs.",
+          "site_path": "/guide/loop-graph-engineering/",
+          "source_path": "guide/core/loop-graph-engineering.md"
+        },
+        {
+          "id": "context-engineering",
+          "title": "Context Engineering",
+          "description": "Control context budgets, assembly, and measurement.",
+          "site_path": "/context-engineering/",
+          "source_path": "guide/core/context-engineering.md"
+        },
+        {
+          "id": "memory-systems",
+          "title": "Memory Systems",
+          "description": "Compare native, cross-session, and team-shared memory.",
+          "site_path": "/memory-systems/",
+          "source_path": "guide/core/memory-systems.md"
+        },
+        {
+          "id": "workflows",
+          "title": "Workflows",
+          "description": "Use runnable patterns for planning, delivery, and delegation.",
+          "site_path": "/guide/workflows/",
+          "source_path": "guide/workflows/README.md"
+        },
+        {
+          "id": "methodologies",
+          "title": "Methodologies",
+          "description": "Choose and combine disciplined development methods.",
+          "site_path": "/methodologies/",
+          "source_path": "guide/core/methodologies.md"
+        },
+        {
+          "id": "mcp-or-cli",
+          "title": "MCP or CLI?",
+          "description": "Choose the smallest interface that fits the task.",
+          "site_path": "/mcp-or-cli/",
+          "source_path": "guide/ecosystem/mcp-vs-cli.md"
+        },
+        {
+          "id": "examples",
+          "title": "Examples",
+          "description": "Browse reusable agents, skills, hooks, and workflows.",
+          "site_path": "/examples/",
+          "source_path": "examples/README.md"
+        }
+      ]
+    },
+    {
+      "id": "scale",
+      "title": "Scale",
+      "description": "Improve reliability, governance, adoption, and economics.",
+      "items": [
+        {
+          "id": "security",
+          "title": "Security",
+          "description": "Navigate threat intelligence and hardening guidance.",
+          "site_path": "/security/",
+          "source_path": "guide/security/security-hardening.md"
+        },
+        {
+          "id": "enterprise-governance",
+          "title": "Enterprise Governance",
+          "description": "Define usage charters, approvals, and risk tiers.",
+          "site_path": "/guide/enterprise-governance/",
+          "source_path": "guide/security/enterprise-governance.md"
+        },
+        {
+          "id": "observability",
+          "title": "Observability",
+          "description": "Trace failures, reliability signals, cost, and recovery.",
+          "site_path": "/guide/observability/",
+          "source_path": "guide/ops/observability.md"
+        },
+        {
+          "id": "team-metrics",
+          "title": "Team Metrics",
+          "description": "Measure delivery and agent-specific outcomes.",
+          "site_path": "/team-metrics/",
+          "source_path": "guide/ops/team-metrics.md"
+        },
+        {
+          "id": "adoption",
+          "title": "Team Adoption",
+          "description": "Plan rollout, shared practice, and trust calibration.",
+          "site_path": "/guide/adoption-approaches/",
+          "source_path": "guide/roles/adoption-approaches.md"
+        },
+        {
+          "id": "subscription-strategy",
+          "title": "Subscription Strategy",
+          "description": "Compare seats, APIs, gateways, and self-hosting scenarios.",
+          "site_path": "/guide/subscription-strategy/",
+          "source_path": "guide/ops/subscription-strategy.md"
+        },
+        {
+          "id": "unit-economics",
+          "title": "AI Unit Economics",
+          "description": "Calculate task-level spend and accepted outcomes.",
+          "site_path": "/guide/ai-unit-economics/",
+          "source_path": "guide/ops/ai-unit-economics.md"
+        },
+        {
+          "id": "team-knowledge",
+          "title": "Team Knowledge",
+          "description": "Choose between Markdown, live connectors, and RAG.",
+          "site_path": "/guide/team-knowledge-base/",
+          "source_path": "guide/ecosystem/team-knowledge-base.md"
+        },
+        {
+          "id": "api-gateway",
+          "title": "API Gateway",
+          "description": "Govern routed traffic, budgets, and attribution.",
+          "site_path": "/guide/api-gateway/",
+          "source_path": "guide/ops/api-gateway.md"
+        }
+      ]
+    },
+    {
+      "id": "resources",
+      "title": "Resources",
+      "description": "Use the format that fits the task.",
+      "items": [
+        {
+          "id": "resource-hub",
+          "title": "Resource Hub",
+          "description": "Browse the public collections and reference formats.",
+          "site_path": "/resources/",
+          "source_path": null
+        },
+        {
+          "id": "downloads",
+          "title": "Downloads",
+          "description": "Download PDF and EPUB editions.",
+          "site_path": "/downloads/",
+          "source_path": null
+        },
+        {
+          "id": "cheat-sheets",
+          "title": "Cheat Sheets",
+          "description": "Browse printable recap cards by series.",
+          "site_path": "/cheatsheets/",
+          "source_path": "whitepapers/recap-cards/README.md"
+        },
+        {
+          "id": "ebooks",
+          "title": "Ebooks",
+          "description": "Read the French and English long-form editions.",
+          "site_path": "/whitepapers/",
+          "source_path": "whitepapers/README.md"
+        },
+        {
+          "id": "diagrams",
+          "title": "Diagrams",
+          "description": "Browse architecture and workflow diagrams.",
+          "site_path": "/diagrams/",
+          "source_path": "guide/diagrams/README.md"
+        },
+        {
+          "id": "ecosystem",
+          "title": "Ecosystem",
+          "description": "Explore complementary tools and integrations.",
+          "site_path": "/ecosystem/",
+          "source_path": "guide/ecosystem/ai-ecosystem.md"
+        },
+        {
+          "id": "compare",
+          "title": "Compare",
+          "description": "Compare Claude Code with other coding tools.",
+          "site_path": "/compare/",
+          "source_path": null
+        },
+        {
+          "id": "glossary",
+          "title": "Glossary",
+          "description": "Look up Claude Code and agent-engineering terminology.",
+          "site_path": "/guide/glossary/",
+          "source_path": "guide/core/glossary.md"
+        },
+        {
+          "id": "faq",
+          "title": "FAQ",
+          "description": "Read direct answers to recurring questions.",
+          "site_path": "/faq/",
+          "source_path": null
+        },
+        {
+          "id": "mcp",
+          "title": "Guide MCP Server",
+          "description": "Install the guide as an MCP server.",
+          "site_path": "/mcp/",
+          "source_path": "mcp-server/README.md"
+        },
+        {
+          "id": "projects",
+          "title": "Related Projects",
+          "description": "Browse companion open-source projects.",
+          "site_path": "/projects/",
+          "source_path": null
+        }
+      ]
+    },
+    {
+      "id": "updates",
+      "title": "Updates",
+      "description": "Track guide changes separately from product releases.",
+      "items": [
+        {
+          "id": "guide-changelog",
+          "title": "Guide Changelog",
+          "description": "Follow new pages, corrections, and repository revisions.",
+          "site_path": "/changelog/",
+          "source_path": "CHANGELOG.md"
+        },
+        {
+          "id": "claude-code-releases",
+          "title": "Claude Code Releases",
+          "description": "Track Claude Code versions and operational impact.",
+          "site_path": "/releases/",
+          "source_path": "guide/core/claude-code-releases.md"
+        },
+        {
+          "id": "rss",
+          "title": "RSS Feed",
+          "description": "Subscribe to published updates.",
+          "site_path": "/rss.xml",
+          "source_path": null
+        }
+      ]
+    }
+  ]
+}
