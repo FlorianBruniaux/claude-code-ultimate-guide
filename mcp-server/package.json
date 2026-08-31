@@ -41,7 +41,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.6.0",
+    "@modelcontextprotocol/sdk": "^1.30.0",
     "yaml": "^2.4.0",
     "zod": "^4.3.6"
   },
