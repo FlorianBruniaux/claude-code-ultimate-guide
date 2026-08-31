@@ -53,10 +53,12 @@ test('MCP initialize handshake reports package.json version', async () => {
     params: { protocolVersion: '2024-11-05', capabilities: {}, clientInfo: { name: 'test', version: '1' } },
   }) + '\n')
 
-  const message = await Promise.race([
-    response,
-    new Promise((_, reject) => setTimeout(() => reject(new Error('initialize timed out')), 5000)),
-  ])
+  let timeout
+  const timeoutPromise = new Promise((_, reject) => {
+    timeout = setTimeout(() => reject(new Error('initialize timed out')), 5000)
+  })
+  const message = await Promise.race([response, timeoutPromise])
+  clearTimeout(timeout)
   assert.equal(message.result.serverInfo.version, pkg.version)
   child.kill('SIGTERM')
   await once(child, 'exit')
