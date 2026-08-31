@@ -58,7 +58,7 @@
 
 ## Languages and Translations
 
-English is the canonical edition. French is maintained in this repository. Chinese, Ukrainian, and Latin American Spanish editions are independent community projects with their own update schedules.
+English is the canonical edition. French is maintained in this repository. Chinese, Ukrainian, and Latin American Spanish editions are independent community projects with their own update schedules. These unofficial editions are not created, maintained, reviewed, or synchronized by this guide's author; follow each community repository for its current status.
 
 | Language | Status checked 2026-08-31 | Guide |
 |---|---|---|
