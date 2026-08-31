@@ -4,7 +4,7 @@
     "name": "claude-code-ultimate-guide",
     "version": "1.3.0",
     "registry_name": "claude-code-ultimate-guide-mcp",
-    "mcp_registry_name": "io.github.florianbruniaux/claude-code-guide",
+    "mcp_registry_name": "io.github.FlorianBruniaux/claude-code-guide",
     "node_engine": ">=18.14.1",
     "dependencies": {
       "model_context_protocol_sdk": "1.30.0"

@@ -108,7 +108,7 @@ class CollectorContractTests(unittest.TestCase):
         self.assertEqual("2026-01-10T12:00:00.000Z", candidate["package_created_at"])
         self.assertEqual("2026-01-20T09:30:00.000Z", candidate["version_published_at"])
         self.assertEqual(
-            {"name": "io.github.florianbruniaux/claude-code-guide", "published": False},
+            {"name": "io.github.FlorianBruniaux/claude-code-guide", "published": False},
             candidate["registries"]["official_mcp"],
         )
         self.assertEqual(

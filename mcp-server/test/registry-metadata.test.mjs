@@ -35,7 +35,7 @@ function readJson(path) {
 function expectedServer(packageJson) {
   return {
     $schema: 'https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json',
-    name: 'io.github.florianbruniaux/claude-code-guide',
+    name: 'io.github.FlorianBruniaux/claude-code-guide',
     title: 'Claude Code Ultimate Guide',
     description: 'Search the Claude Code Ultimate Guide and machine-readable references from any MCP client.',
     repository: {
@@ -88,7 +88,7 @@ test('npm metadata exposes the package and official MCP Registry identities', ()
 
   const manifest = readJson(manifestPath)
   assert.equal(manifest.package.registry_name, packageJson.name)
-  assert.equal(manifest.package.mcp_registry_name, packageJson.mcpName)
+  assert.equal(manifest.package.mcp_registry_name, expectedServer(packageJson).name)
 })
 
 test('registry metadata renderer produces the complete deterministic server document', async () => {

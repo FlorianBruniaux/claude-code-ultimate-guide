@@ -6,6 +6,7 @@ const scriptDirectory = resolve(fileURLToPath(new URL('.', import.meta.url)))
 const packageRoot = resolve(scriptDirectory, '..')
 const packagePath = resolve(packageRoot, 'package.json')
 const serverPath = resolve(packageRoot, 'server.json')
+export const MCP_REGISTRY_NAME = 'io.github.FlorianBruniaux/claude-code-guide'
 
 function requireNonEmptyString(value, field) {
   if (typeof value !== 'string' || value.trim() === '') throw new Error(`${field} must be a non-empty string`)
@@ -15,11 +16,10 @@ function requireNonEmptyString(value, field) {
 export function buildRegistryMetadata(packageJson) {
   const name = requireNonEmptyString(packageJson.name, 'package.json name')
   const version = requireNonEmptyString(packageJson.version, 'package.json version')
-  const mcpName = requireNonEmptyString(packageJson.mcpName, 'package.json mcpName')
 
   return {
     $schema: 'https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json',
-    name: mcpName,
+    name: MCP_REGISTRY_NAME,
     title: 'Claude Code Ultimate Guide',
     description: 'Search the Claude Code Ultimate Guide and machine-readable references from any MCP client.',
     repository: {

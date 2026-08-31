@@ -19,7 +19,7 @@ from typing import Any, Dict, Iterable, List, Mapping, Optional, Tuple
 
 ROOT = Path(__file__).resolve().parents[1]
 PACKAGE = "claude-code-ultimate-guide-mcp"
-REGISTRY_NAME = "io.github.florianbruniaux/claude-code-guide"
+REGISTRY_NAME = "io.github.FlorianBruniaux/claude-code-guide"
 DEFAULT_OUTPUT = ROOT / "machine-readable" / "mcp-stats.json"
 NPM_REGISTRY_URL = f"https://registry.npmjs.org/{PACKAGE}"
 NPM_DOWNLOADS_URL = "https://api.npmjs.org/downloads"
