@@ -286,7 +286,7 @@ graph LR
 - [Loop & Graph Engineering](./guide/core/loop-graph-engineering.md): design bounded feedback, executable state transitions, stopping rules, recovery, and judgment allocation
 - [Agent Harness Map](./guide/ecosystem/agent-harness-landscape.md): compare loop-owning runtimes with orchestrators, frameworks, control planes, support tools, and research meta-harnesses
 - [Agent Tools](./guide/ecosystem/agentic-tools.md): read deeper profiles of selected coding agents and orchestration products
-- [Subscription Strategy at Team Scale](./guide/ops/subscription-strategy.md): compare Team seats, Enterprise usage billing, governed API traffic, multi-provider routing, and scenario-based self-hosted inference
+- [Subscription Strategy at Team Scale](./guide/ops/subscription-strategy.md): compare Claude, Codex, Copilot, Gemini, Cursor, Mistral, governed API traffic, and scenario-based self-hosted inference for a 300-engineer portfolio
 - [Harness terminology](./guide/core/glossary.md): distinguish runtime, repository, evaluation harness, and orchestrator
 - [Trade-offs](./guide/ultimate-guide.md#when-to-use-what): Decision frameworks for agents vs skills vs commands
 - [Memory Loading Comparison](./guide/ultimate-guide.md#memory-loading-comparison): unified "which mechanism for what?" map across all 7 config layers

@@ -49,6 +49,8 @@ The documented sign-in flow is interactive browser SSO. It has no service-token 
 | Anthropic data plane | The gateway's data plane sends nothing to Anthropic unless the Anthropic API is configured as an upstream. |
 | Other client traffic | Version checks and downloads can still go directly from Claude Code to Anthropic and require separate egress policy or documented nonessential-traffic controls. |
 
+![User subscriptions bypass gateway budgets and attribution while CI, shared agents, scheduled workflows, and internal services pass through centralized keys, quotas, model allowlists, fallback, and observability](../images/gateway-visibility-boundary.webp)
+
 The gateway does not make a desktop application, local filesystem, or plugin automatically safe. [Computer Use](../core/computer-use.md) has a separate desktop trust boundary, and [plugin distribution](../ecosystem/plugin-distribution.md) has a separate extension supply-chain boundary.
 
 ### Verify before rollout

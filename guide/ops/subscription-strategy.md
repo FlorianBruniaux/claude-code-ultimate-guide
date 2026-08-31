@@ -1,14 +1,14 @@
 ---
 title: "Subscription Strategy at Team Scale"
-description: "A control-led framework for choosing Claude Team, usage-based Enterprise, and governed API access, with cost and model-quality gates for regulated organizations"
-tags: [ops, cost, enterprise, guide]
+description: "A control-led framework for choosing workforce coding plans, governed API access, and self-hosted inference, with a multi-provider exercise for regulated organizations"
+tags: [ops, cost, enterprise, multi-provider, mistral, guide]
 ---
 
 # Subscription Strategy at Team Scale
 
-> **Audience**: Engineering leaders, platform teams, security teams, and procurement owners deciding how an organization should buy and govern Claude.
+> **Audience**: Engineering leaders, platform teams, security teams, and procurement owners deciding how an organization should buy and govern AI coding tools.
 >
-> **Scope**: Workforce access through Team or Enterprise, plus Claude Platform API access for shared automation. This page does not treat a product plan as proof of regulatory compliance. For gateway implementation, see [API Gateway for Claude Code at Scale](./api-gateway.md). For task-level cost measurement, see [AI Unit Economics](./ai-unit-economics.md).
+> **Scope**: Anthropic Team and Enterprise are the detailed worked example. The decision exercise also covers Codex, GitHub Copilot, Gemini Code Assist, Cursor, Mistral Vibe, governed API traffic, and self-hosted inference. This page does not treat a product plan or provider nationality as proof of regulatory compliance. For gateway implementation, see [API Gateway for Claude Code at Scale](./api-gateway.md). For task-level cost measurement, see [AI Unit Economics](./ai-unit-economics.md).
 
 ---
 
@@ -21,9 +21,12 @@ tags: [ops, cost, enterprise, guide]
 | More than 150 intended users, or a documented need for an Enterprise-only control | Enterprise | The $20 seat fee buys organization access and controls; every token is then billed at API rates |
 | Shared CI jobs, services, Agent SDK workloads, or unattended agents | Claude Platform API behind a tested gateway cap | A human seat is the wrong identity and budget boundary for a production service |
 | Regulated organization with both workforce use and production automation | Team or Enterprise for people, Platform API for services | Identity governance and API traffic control are separate decisions |
+| Several coding assistants or providers under consideration | Run the [300-engineer portfolio exercise](#exercise-choose-a-provider-portfolio-for-300-engineers) | Claude, Codex, Copilot, Gemini, Cursor, and Mistral use different seat, credit, overage, and control boundaries |
 | Self-hosted inference under consideration | A separate capacity and operations business case | Seat prices do not include the hardware, reliability, security, and staffing boundaries needed for a valid comparison |
 
 Team and Enterprise expose the same model families. Enterprise adds centralized control over the models, effort levels, roles, and budgets available to each population. Choose it when a named control owner requires one of those features, when intended users exceed Team's documented scope, or when metered usage without per-seat plan limits is required. Otherwise, Team is the stronger default. The Enterprise label alone proves neither model quality nor regulatory compliance.
+
+![A 300-engineer organization split into managed interactive workforce subscriptions, governed service automation, and private inference, each with separate cost and acceptance measures](../images/subscription-provider-portfolio.webp)
 
 ---
 
@@ -222,6 +225,69 @@ Choose **Enterprise** when the user count or a signed control requirement forces
 
 Add **Claude Platform behind a gateway** when production automation needs service identities, hard budgets, cross-provider routing, or centralized API attribution. This can coexist with either workforce plan.
 
+Those choices are the Anthropic branch of the decision. They do not establish that one provider should serve every developer or workload.
+
+### Exercise: choose a provider portfolio for 300 engineers
+
+The exercise asks which purchasing and deployment path should serve each population, not which vendor wins one universal ranking. Freeze every price, allowance, control, model version, and contract assumption on the date of the exercise. Re-run the commercial snapshot before procurement because several providers have changed their billing unit or plan eligibility during 2026.
+
+#### Step 1: record the public commercial starting point
+
+The table below is a source map verified on 2026-08-31. It is not a quote and does not normalize unlike billing units into one artificial seat price.
+
+| Candidate path | Public starting point | Boundary the pilot must verify |
+|---|---|---|
+| Claude Team or usage-based Enterprise with Claude Code | Sections [1](#1-the-20-enterprise-seat-does-not-include-usage) and [2](#2-team-covers-the-baseline-enterprise-adds-specific-controls) document included Team usage versus Enterprise access plus metered tokens | Intended-user scope, active-user tail, model and effort policy, covered surfaces, and accepted-task cost |
+| ChatGPT Business or Enterprise with Codex | Business publicly lists $20/$25 Standard and $100/$125 Premium seats, includes Codex, and targets organizations of 2 to 200 employees; Enterprise is custom-priced | A 300-engineer organization needs an Enterprise quote or another documented path. New Codex-only PAYG seats stopped being available to new Business workspaces on 2026-06-24, although eligible existing workspaces can retain them |
+| GitHub Copilot Business or Enterprise | Business lists $19 per granted user with 1,900 monthly AI credits; Enterprise lists $39 with 3,900. Credits pool at the billing entity and additional usage is $0.01 per credit | Model-dependent credit burn, user and cost-center budgets, agent traffic, Enterprise-plan prerequisites, and the acceptance rate behind the credits consumed |
+| Gemini Code Assist Standard or Enterprise | Google publishes per-license hourly rates under monthly and 12-month commitments. Enterprise adds code customization and higher agent usage | Actual billed commitment, license assignment, Google Cloud integration value, repository customization, daily agent limits, and portability outside Google Cloud |
+| Cursor Teams or Enterprise | Teams lists $40 Standard and $120 Premium active seats; Enterprise is custom. Third-party model use is billed at public API price plus Cursor's $0.25 per million token rate | Per-user versus pooled usage, on-demand spend, Auto routing, third-party model markup, SCIM and advanced controls, Background Agent cost, and exit from Cursor-specific workflow state |
+| Mistral Vibe Team or Enterprise | Team lists $24.99 per user; Enterprise is custom. The organization plan spans Vibe, Studio, and API usage, with included usage consumed before optional PAYG | Vibe CLI, IDE, Web, and remote-agent coverage; organization and Workspace caps; SAML, audit, Admin API maturity, support, and private-deployment terms |
+| Governed multi-provider API | Provider tokens plus gateway, telemetry, and operator cost | Service identities, provider allowlist, fallback behavior, budget rejection, payload-logging policy, and traffic that bypasses the gateway |
+| Self-hosted open-weight inference | No seat-price equivalent | Task quality, concurrency, TTFT, output speed, queue depth, availability, loaded infrastructure cost, and operator time at the same acceptance and latency gates |
+
+Sources: [OpenAI business pricing](https://openai.com/business/pricing/) and [Codex flexible-pricing eligibility](https://help.openai.com/en/articles/11487671-flexible-pricing-for-the-enterprise-and-team-plan); [GitHub Copilot plan choice](https://docs.github.com/en/copilot/tutorials/roll-out-at-scale/assign-licenses/choose-enterprise-plan) and [AI-credit billing](https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-organizations-and-enterprises); [Gemini Code Assist pricing](https://cloud.google.com/products/gemini/pricing); [Cursor team pricing](https://prod.cursor.com/docs/account/teams/pricing); [Mistral pricing](https://mistral.ai/pricing/), [subscriptions](https://docs.mistral.ai/admin/billing-usage/subscriptions), and [usage limits](https://docs.mistral.ai/admin/billing-usage/usage-limits), all verified 2026-08-31.
+
+Mistral needs three separate candidate rows in the working spreadsheet even though the summary table groups them: Vibe workforce seats, Devstral or Codestral through Mistral's API, and a private or self-hosted open-weight deployment. Mistral says data is hosted in the EU by default, but some features can temporarily transfer data outside the EU; Enterprise customers can disable some of those features at organization level. French headquarters and EU-default hosting are relevant procurement facts, not proof that every processing path remains in France or the EU. Sources: [Mistral data-location guidance](https://help.mistral.ai/en/articles/347629-where-do-you-store-my-data-or-my-organization-s-data) and [Enterprise Admin API preview](https://docs.mistral.ai/admin/admin-api/overview), verified 2026-08-31.
+
+#### Step 2: segment people before assigning seats
+
+Do not start with 300 identical licenses. Complete this table from identity and billing exports. The first three rows partition the intended workforce without double-counting people; service workloads remain separate because they need non-human identities.
+
+| Population | Intended users | Activated users | Monthly active users | Active days per user | Candidate surfaces | Required controls |
+|---|---:|---:|---:|---:|---|---|
+| Daily interactive coding-agent users |  |  |  |  |  |  |
+| Occasional coding-assistant users |  |  |  |  |  |  |
+| Restricted or sovereignty-sensitive users |  |  |  |  |  |  |
+| CI, scheduled agents, and shared services | n/a | n/a | n/a | n/a |  |  |
+
+#### Step 3: run the same four-week pilot across candidates
+
+Use representative repository tasks and the same executable acceptance gates. Repeat tasks because one agentic run does not estimate the distribution. Record model and harness version, task class, input and output tokens or provider credits, cache behavior, tool failures, retries, review time, accepted outcome, latency, and any provider or gateway fallback. A seat that also includes chat or office features may create value outside coding, but record that value separately instead of attributing the whole seat to engineering tasks.
+
+For self-hosted candidates, replay the measured arrival pattern rather than translating 300 engineers into 300 concurrent requests. Capture GPU utilization, queue depth, TTFT, time per output token, cache eviction, outages, deployment work, and operator hours. Use the detailed method in [Sizing Self-Hosted Inference for a Team](../ecosystem/local-vs-cloud-inference.md#sizing-self-hosted-inference-for-a-team).
+
+#### Step 4: calculate comparable decision units
+
+```text
+workforce monthly cost = committed seats + metered overage + non-seat add-ons
+service monthly cost   = provider usage + gateway + telemetry + operator cost
+self-host monthly cost = amortized hardware or rental + energy + network
+                         + storage + monitoring + availability + operator cost
+
+cost per active developer = workforce monthly cost / monthly active developers
+cost per accepted task    = (all model, infrastructure, review, and rework cost)
+                            / accepted tasks
+```
+
+Also report intended, assigned, activated, and active seats; median and upper-percentile spend; unused included credits; rejected requests after caps; and workflows with zero accepted tasks. Do not hide failed trials behind an undefined cost-per-accepted-task ratio.
+
+#### Step 5: choose a portfolio, then test the boundaries
+
+A valid result can assign different paths to different populations. For example, a managed workforce plan may cover interactive development, a gateway may own CI and shared agents, and a private Mistral or other open-weight deployment may cover a narrow sovereignty-sensitive workload. This is a hypothesis to test, not a recommended allocation.
+
+Reject a candidate when a required control or task-quality gate fails, even if its list price is lower. Before approval, test offboarding, spend-cap rejection, audit export, data location and subprocessors, model-version change, provider fallback, direct-traffic bypass, and exit or data-export behavior. Compare self-hosting only after the local model meets the same accepted-task and latency objectives as the managed candidates.
+
 Before rollout, the decision owner should approve one evidence pack containing:
 
 1. a supplier-assurance pack with the scope, audit period, exceptions, and independent assessment of each SOC 2, ISO, or restricted report used in the decision;
@@ -230,9 +296,10 @@ Before rollout, the decision owner should approve one evidence pack containing:
 4. a monthly forecast showing median and tail usage, not only an average per seat;
 5. an offboarding test, an audit or Compliance API coverage test, and a retention test;
 6. a cap and rejection-path test for every metered traffic path;
-7. a DORA and third-party-risk record where the organization determines those obligations apply.
+7. the completed multi-provider exercise with dated source URLs, contract deviations, and the selected population for each path;
+8. a DORA and third-party-risk record where the organization determines those obligations apply.
 
-If Team passes that gate, the purchasing file contains no demonstrated Enterprise business case. If Team fails a required control and Enterprise passes the same test, record the Enterprise-only feature, its owner, and the test evidence in the purchasing decision.
+For the Anthropic branch, if Team passes that gate, the purchasing file contains no demonstrated Enterprise business case. If Team fails a required control and Enterprise passes the same test, record the Enterprise-only feature, its owner, and the test evidence. For the portfolio decision, record why each selected path wins for its assigned population and which measured failure or control gap rejected the alternatives.
 
 ---
 
@@ -240,4 +307,24 @@ If Team passes that gate, the purchasing file contains no demonstrated Enterpris
 
 A reimbursed Pro or Max account is not an employer-managed substitute for Team or Enterprise. It lacks the same organization control plane and may be governed by Consumer Terms rather than Commercial Terms. Resolve the applicable contract before using personal accounts for company work. Source: [Claude Code legal and compliance](https://code.claude.com/docs/en/legal-and-compliance).
 
-Self-hosted inference is a separate capacity and operations decision. It should be compared on measured concurrency, throughput, availability, security, and loaded operations cost, not placed beside a seat price. See [Local vs Cloud Inference](../ecosystem/local-vs-cloud-inference.md#sizing-self-hosted-inference-for-a-team).
+Self-hosted inference is a separate capacity and operations decision. The exercise includes it as a candidate path, but does not place it beside a seat price. Compare it on measured task quality, concurrency, throughput, latency, availability, security, and loaded operations cost. See [Local vs Cloud Inference](../ecosystem/local-vs-cloud-inference.md#sizing-self-hosted-inference-for-a-team).
+
+---
+
+## 9. One-page decision summary
+
+Use this table after completing the pilot, not as a substitute for it. The decision gate combines the main control, cost, and rejection test. It does not rank model quality.
+
+| Path | Use it for | How you pay | Decision gate |
+|---|---|---|---|
+| Claude Team | Managed interactive Claude Code use | Seat with included usage and plan limits | Team controls and included usage pass the pilot; otherwise test Enterprise |
+| Claude Enterprise | Larger or regulated Claude Code deployments | $20 access fee per seat plus metered usage, subject to contract | A named Team control gap is resolved and tail usage remains affordable |
+| ChatGPT Business or Enterprise with Codex | Interactive Codex use governed through a ChatGPT workspace | Business seat tier or Enterprise contract | The 300-person commercial path, audit coverage, spend behavior, and offboarding are documented |
+| GitHub Copilot Business or Enterprise | GitHub-centered IDE, chat, and agent workflows | Granted-user fee, pooled AI credits, then overage | Model-specific credit burn produces an acceptable cost per accepted task |
+| Gemini Code Assist Standard or Enterprise | Teams already governed through Google Cloud | Monthly or annual license-hour commitment | Code customization, agent limits, data controls, and portability justify the commitment |
+| Cursor Teams or Enterprise | Teams choosing an AI-native editor workflow | Active seats plus model usage or overage | Outcome gains cover model markup, background agents, migration, and exit cost |
+| Mistral Vibe Team or Enterprise | Managed Vibe workflows and European-provider procurement paths | Team seat with included usage and optional PAYG, or Enterprise contract | Vibe passes the task pilot and actual processing locations meet the sovereignty requirement |
+| Governed multi-provider API | CI, shared agents, services, and model routing | Provider tokens plus gateway, telemetry, and operator cost | Caps, attribution, fallback, and bypass controls work; direct subscriptions remain outside the gateway |
+| Self-hosted open-weight inference, including Devstral | Stable, high-volume or privacy-sensitive workloads | Infrastructure, energy, monitoring, availability, and operator time | Quality and latency match the target; measured concurrency and loaded cost beat the API alternative |
+
+For 300 engineers, the defensible output is usually a portfolio assignment by population rather than one universal winner: a managed workforce path for interactive use, governed API identities for automation, and self-hosted inference only for workloads that pass the separate quality, capacity, and operations case. Record this as a measured decision, not a default allocation.
