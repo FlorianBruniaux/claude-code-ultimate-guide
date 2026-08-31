@@ -10,7 +10,7 @@ tags: [roles, careers, ai-engineer, applied-ai-engineer, ai-platform-engineer, a
 >
 > **Confidence**: Tier 2. Current employer postings establish that a title exists, but not its market share, growth rate, or durability.
 >
-> **Reading time**: ~25 minutes
+> **Reading time**: ~30 minutes
 
 AI adoption has created new job families and changed the scope of established engineering roles. This guide maps what each family owns, how adjacent roles differ, and how much evidence supports each title.
 
@@ -96,6 +96,34 @@ Use four gates before combining roles:
 4. **Keep an apprenticeship path.** Gartner separately predicts that organizations using AI to cut junior roles will hollow out their software engineering talent pipeline by 2028. Smaller teams still need supervised work, knowledge transfer, and progression from junior to independent ownership.
 
 The career consequence is breadth around a technical spine. Build deep judgment in one capability, then add enough product, verification, and agent supervision skill to own a wider outcome. Choose openings by the decisions and evidence you will own, not by whether the title exactly matches one profile on this page.
+
+### Front-end expertise persists as titles broaden
+
+The available evidence supports a change in labels and ownership boundaries, not the disappearance of front-end work. Stack Overflow fielded its 2025 survey from May 29 to June 23 and asked respondents which role described their current job, or the job they held for the longest period during the previous year. Its [published role dataset](https://github.com/StackExchange/Survey/blob/main/packages/archive/2025/json/developer-profile.json) reports 26.96% for full-stack developer and 4.25% for front-end developer. In the France subset, the corresponding figures are 25.21% and 3.48%. The survey recorded 43,560 answers to the role question, but it measures self-identification among respondents rather than employer demand. Stack Overflow also added an architect category in 2025, and its [recruitment method](https://survey.stackoverflow.co/2025/methodology) overrepresents people who engage with its channels. Treat the figures as a dated classification signal, not a count of job openings or a clean causal time series.
+
+LinkedIn's [2026 US Software Engineer talent report](https://economicgraph.linkedin.com/content/dam/me/economicgraph/en-us/PDF/us-software-engineer-talent-landscape-2026.pdf) provides a separate hiring signal based on aggregated LinkedIn profiles and job postings, with 2025 data running through October. React and JavaScript remain among the leading skills of recent software-engineering hires, and Tailwind CSS appears among the fastest-growing skills. The same report records stronger demand for Python, cloud platforms, and AI. That combination is consistent with employers retaining front-end capabilities inside broader engineering scopes. It does not establish that AI caused a decline in front-end titles. LinkedIn's [Jobs on the Rise 2026 analysis](https://www.linkedin.com/pulse/linkedin-jobs-rise-2026-fastest-growing-roles-europe-gabvc/), based on job starts from January 2023 through July 2025, also places AI Engineer among the growing roles in France and identifies Software Engineer, Data Scientist, and ML Engineer as common prior roles. This documents movement from established roles into AI work, not the displacement of a specific front-end population.
+
+Job titles vary enough that a front-end specialist should search by ownership boundary as well as label:
+
+| Search family | Scope to verify in the job description | Front-end depth that may remain central |
+|---------------|----------------------------------------|-----------------------------------------|
+| Front-end Engineer or Frontend Engineer | Browser architecture, interfaces, state, and client delivery | Accessibility, interaction quality, performance, and framework judgment |
+| Software Engineer, Product or Product Engineer | A user-facing outcome from problem framing through operation | Product discovery, interface implementation, instrumentation, and iteration |
+| Full-Stack Engineer | Interface, API or service logic, data, and deployment | A production UI plus credible ownership beyond the browser |
+| UI Engineer or Design Engineer | Interaction design, prototyping, visual systems, and implementation | Design systems, responsive behavior, motion, and accessibility |
+| Frontend Platform Engineer | Shared browser tooling and paved roads for product teams | Build systems, component infrastructure, performance, testing, and developer experience |
+
+These labels are search families, not universal equivalences. Employers can use the same title for different work. Read the decisions, production surface, and evidence expected in the posting before choosing a label for a CV or profile.
+
+For career positioning, use a broad family plus a demonstrated technical spine: **Software Engineer or Product Engineer with a front-end specialization**. Keep Front-end Engineer when the target role requires deep browser ownership. Use Full-Stack Engineer only when shipped work demonstrates meaningful ownership on both sides of the interface. Using an AI coding agent does not by itself justify an AI Engineer title.
+
+A portfolio can establish that broader scope with one production-grade vertical slice. Show the user problem, accessible interaction, state and data flow, API and authentication boundary, tests, performance evidence, observability, deployment path, and rollback or failure handling. An AI-enabled feature also needs evals and behavior-specific failure handling. The goal is to expose the ownership boundary and its limits, not to claim equal expertise in every layer.
+
+Python is a useful expansion path because current hiring data connects it to back-end, cloud, data, and AI work. It is not a universal requirement. TypeScript and Node.js, Java, Go, C#, and other stacks can provide the same service-side evidence when they match the target market. Choose one credible path beyond the browser and prove it through shipped behavior.
+
+> **Measure title drift without manufacturing a trend**
+>
+> Record the platform, geography, query, filters, and collection dates. Deduplicate reposted vacancies by employer, role, location, and source identifier. Report both the count for each title family and the total number of unique postings. Measure required skills separately from titles, since a React position may appear under Product Engineer or Software Engineer. Compare periods only when the collection method is stable. Unless the study identifies a causal mechanism and controls for the broader hiring cycle, record AI attribution as **UNKNOWN**.
 
 ---
 
