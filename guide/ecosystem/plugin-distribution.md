@@ -26,7 +26,7 @@ The local test shows that Claude Code can load the plugin. It does not prove tha
 
 ## The `<claude-code-hint />` recommendation channel
 
-The hint protocol lets a CLI or SDK maintainers' command recommend its official Anthropic-marketplace plugin. When the command runs through Claude Code's Bash or PowerShell tool, it emits one self-closing tag on its own line. Claude Code removes the marker from command output before that output reaches the model, validates the targeted plugin, and may show an install prompt in the main interactive terminal session.
+The hint protocol lets a command from a CLI or SDK maintainer recommend its official Anthropic-marketplace plugin. When the command runs through Claude Code's Bash or PowerShell tool, it emits one self-closing tag on its own line. Claude Code removes the marker from command output before that output reaches the model, validates the targeted plugin, and may show an install prompt in the main interactive terminal session.
 
 ```text
 <claude-code-hint v="1" type="plugin" value="example-cli@claude-plugins-official" />
@@ -65,7 +65,7 @@ Emit from a useful, user-comprehensible touchpoint such as `--help`, an unknown-
 
 ## Distribution security boundary
 
-An official-marketplace target is a protocol requirement for hints, not a general safety verdict for a plugin's executable behavior. Before enabling a distributed plugin, identify its manifest, components, source, dependency installation behavior, and scope. Apply organizational plugin controls and [security hardening guidance](../security/security-hardening.md) before distributing hooks, MCP configuration, or executables.
+An official-marketplace target is a protocol requirement for hints, not a general safety verdict for a plugin's executable behavior. Before enabling a distributed plugin, identify its manifest, components, source, dependency installation behavior, and scope. Apply [plugin and marketplace settings](../core/settings-reference.md#plugins-and-marketplaces) and [security hardening guidance](../security/security-hardening.md) before distributing hooks, MCP configuration, or executables.
 
 ## Related pages
 

@@ -2,7 +2,7 @@
 
 Claude Code ships with a set of built-in tools it uses to read, modify, and execute things in your environment. You do not install or configure them; they are always present.
 
-Tool names are the exact strings you use in permission rules (`allow`/`deny`), subagent `tools` and `disallowedTools` frontmatter, hook `matcher` fields, and the CLI flags `--allowedTools`/`--disallowedTools`. To add custom tools, connect an [MCP server](../ecosystem/mcp-servers-ecosystem.md). To build reusable prompt-driven workflows, write a [skill](../../examples/skills/); they run through the existing `Skill` tool rather than adding a new tool entry.
+Tool names are the exact strings you use in permission rules (`allow`/`deny`), subagent `tools` and `disallowedTools` frontmatter, hook `matcher` fields, and the CLI flags `--allowedTools`/`--disallowedTools`. To add custom tools, connect an [MCP server](../ecosystem/mcp-servers-ecosystem.md). To build reusable prompt-driven workflows, write a [skill](../../examples/skills/); they run through the existing `Skill` tool rather than adding a new tool entry. [Computer Use](./computer-use.md) is a separate built-in MCP server with a macOS desktop permission boundary.
 
 ---
 

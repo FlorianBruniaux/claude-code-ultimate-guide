@@ -754,6 +754,8 @@ When `true`, only `allowRead` paths from managed settings are respected. `allowR
 
 ### Plugins and Marketplaces
 
+For marketplace publication and the `<claude-code-hint />` recommendation boundary, see [Plugin Distribution and Recommendation Hints](../ecosystem/plugin-distribution.md). The settings below govern local and managed marketplace controls.
+
 #### `enabledPlugins`
 **Type:** object
 **Scope:** all

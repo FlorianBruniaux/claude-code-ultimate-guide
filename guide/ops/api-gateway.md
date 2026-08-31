@@ -12,22 +12,24 @@ tags: [enterprise, cost, observability, ops, guide]
 
 ---
 
-## TL;DR
+## TL;DR: third-party gateway examples
 
-| Problem | Gateway solution |
+The table and setup below describe the LiteLLM and Portkey examples in this page. They do not describe Claude apps gateway.
+
+| Problem | Third-party gateway example |
 |---------|-----------------|
 | No per-team cost breakdown | Virtual keys with team metadata, aggregated in dashboards |
 | Developers can call any model | Model allowlists per key (unapproved calls return 403) |
 | Runaway costs from agents | Budget cap per key, monthly reset, returns 429 when hit |
 | No central audit log | Every request/response logged with key alias, team, tokens |
 
-**The approach**: Set `ANTHROPIC_API_URL` on each developer machine to point to your gateway instead of `api.anthropic.com`. The gateway forwards requests to Anthropic, adds logging and budget enforcement, and issues virtual keys so your real Anthropic key never touches developer machines.
+**The third-party approach**: Set `ANTHROPIC_API_URL` on each developer machine to point to a compatible gateway instead of `api.anthropic.com`. The examples below forward requests, add configured logging and budget enforcement, and issue virtual keys so the provider key need not be present on developer machines.
 
 ---
 
 ## Current first-party surface: Claude apps gateway
 
-[Claude apps gateway](https://code.claude.com/docs/en/claude-apps-gateway) is Anthropic's self-hosted gateway. It ships in the `claude` binary and runs with `claude gateway --config gateway.yaml`. It sits between Claude Code clients and an upstream, supports the Anthropic API, Amazon Bedrock, Claude Platform on AWS, Google Cloud's Agent Platform, and Microsoft Foundry, and can fail over between configured upstreams.
+[Claude apps gateway](https://code.claude.com/docs/en/claude-apps-gateway) is Anthropic's self-hosted gateway. It ships in the `claude` binary and runs with `claude gateway --config gateway.yaml`. It sits between Claude Code clients and an upstream. Its ordered configuration can route and fail over across the five documented upstream provider options: Anthropic API, Amazon Bedrock, Claude Platform on AWS, Google Cloud's Agent Platform, and Microsoft Foundry.
 
 Use it when the organization needs a self-hosted, Claude Code-specific gateway with corporate SSO, per-identity-group model access, managed-settings delivery, and OpenTelemetry Protocol telemetry. The gateway retains the upstream credential in organization infrastructure. Developers authenticate through the corporate identity provider and receive short-lived bearer tokens instead of provider credentials.
 
@@ -41,9 +43,9 @@ The documented sign-in flow is interactive browser SSO. It has no service-token 
 
 | Surface | Documented behavior |
 |---|---|
-| Identity and upstream credentials | The gateway authenticates developers with the IdP and uses the organization's provider credential upstream. |
-| Model and client policy | IdP groups map to model allowlists and managed settings. Locked managed settings cannot be overridden locally. |
-| Telemetry | The gateway can forward OTLP metrics with token counts, model, identity, and latency. Logs and traces are per-destination opt-ins and can include commands and file paths. |
+| Identity and upstream credentials | The gateway authenticates developers with the IdP, issues short-lived bearer tokens (one hour by default), and uses the organization's provider credential upstream. |
+| Model and client policy | IdP groups map to model allowlists and managed settings. A request for a non-granted model returns `400`. Locked managed settings cannot be overridden locally. |
+| Telemetry | The gateway forwards OTLP metrics with token counts, model, identity, and latency. It does not log or store prompt or completion content. Logs and traces are per-destination opt-ins and can include commands and file paths. |
 | Anthropic data plane | The gateway's data plane sends nothing to Anthropic unless the Anthropic API is configured as an upstream. |
 | Other client traffic | Version checks and downloads can still go directly from Claude Code to Anthropic and require separate egress policy or documented nonessential-traffic controls. |
 
@@ -53,11 +55,15 @@ The gateway does not make a desktop application, local filesystem, or plugin aut
 
 The official quickstart defines three initial checks: fetch the OAuth discovery document, request device authorization, then complete browser sign-in. These check boot, database access, and identity-provider redirection in sequence. A successful gateway boot is not proof that the upstream inference path works, because some cloud credentials resolve only on the first request. Run a permitted test request through the intended upstream and examine the first failing layer if it fails.
 
-Confirm the gateway's TLS certificate fingerprint during first connection, publish the full expected SHA-256 fingerprint for developers, and plan certificate rotations. Test a denied-model request, a managed-setting restriction, IdP deprovisioning, telemetry destination, and the documented no-bypass startup behavior before declaring the rollout enforced.
+Confirm the gateway's TLS certificate fingerprint during first connection, publish the full expected SHA-256 fingerprint for developers, and plan certificate rotations. Test a denied-model request, a managed-setting restriction, IdP deprovisioning, telemetry destination, and fail-closed startup for a gateway-signed-in session before declaring gateway policy enforced. Enforce provider egress separately if gateway-only routing is required.
 
 For general gateway architecture and external gateway constraints, read [Anthropic's gateway overview](https://code.claude.com/docs/en/gateways). The remainder of this page covers third-party gateway examples and is not an Anthropic product specification.
 
 ---
+
+## Third-party implementation examples
+
+The remaining LiteLLM and Portkey material is third-party implementation guidance. Its virtual keys, `403` model rejection, `429` budget behavior, and request/response logging are not claims about Claude apps gateway.
 
 ## 1. Why a Gateway Layer
 

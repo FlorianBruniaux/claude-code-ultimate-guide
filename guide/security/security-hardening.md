@@ -192,6 +192,8 @@ Before adding any MCP server, complete this checklist:
 
 Third-party Agent Skills (installed via `npx add-skill` or plugin marketplaces) introduce supply chain risks similar to npm packages.
 
+For the current official distinction between marketplace distribution and CLI recommendation hints, see [Plugin Distribution and Recommendation Hints](../ecosystem/plugin-distribution.md). That protocol requires an eligible official-marketplace target and user confirmation, but it does not replace the component review in this section.
+
 **Snyk ToxicSkills** (Feb 2026) scanned **3,984 skills** across ClawHub and skills.sh:
 
 | Finding | Stat | Impact |
