@@ -1,0 +1,51 @@
+guide/README.md
+  s_785221fef14e1f::t_7aa000a77c1c96 116
+guide/roles/ai-roles.md
+  s_a76087f74be2bb::t_c54cb02b2645b7 3-4,9,11,13,15-17,27-50,56-79,81,83-87,89-98,104,129,139,143,149,182,218,220-258,289,291,323,325,331,360,362,387,391,393,397,399-401,410,412,420,422,448,450,458,460,485,487,491,493,496,498-500,504,508,512,514,539,541,578,580,612,620,622,666,668,672,678,685,695,697,703,705,709-713,725,727,731,733,735,740-744,748,752-791,795,797-799,801-805,807-811,813,815-823,827,829,831-833,835-880,884,886,888,890-897,899,903-938,940,942,952
+machine-readable/reference.yaml
+  s_0a442347250965::t_14d6cd2ecb521c 523-536,3470-3493
+mcp-server/content/reference.yaml
+  s_bd1e403875ee43::t_7bbe3fbdd164fe 523-536,3470-3493
+quiz/questions/16-agent-harness-context.yaml
+  s_bd1e403875ee43::t_74cc9c17bcbb7d 521,523-528,531-532,546,549-550,558,560-565,568-569,575,577-580,582,585-586,593,595-600,603-604,610,612-617,620-621
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "07693d630c0ed918292b34c0ee904af518f8b539",
+  "prompts": {},
+  "sessions": {
+    "s_0a442347250965": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04233-7990-7c82-96d1-1418fd7722e9",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_785221fef14e1f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0576c-628d-7c50-99b4-3750eac428eb",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_a76087f74be2bb": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a01f2a-b167-78f0-a126-7450029bd920",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_bd1e403875ee43": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "953892dc-6069-48d6-8505-998f61d64787",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
