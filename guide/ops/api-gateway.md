@@ -1,6 +1,6 @@
 ---
 title: "API Gateway for Enterprise Claude Code"
-description: "Centralize cost control, budget enforcement, model allowlists, and usage tracking across teams using LiteLLM Gateway or Portkey as an Anthropic API proxy"
+description: "Centralize cost control, budget enforcement, model allowlists, and usage tracking across teams using Claude apps gateway or another Anthropic-compatible proxy"
 tags: [enterprise, cost, observability, ops, guide]
 ---
 
@@ -22,6 +22,40 @@ tags: [enterprise, cost, observability, ops, guide]
 | No central audit log | Every request/response logged with key alias, team, tokens |
 
 **The approach**: Set `ANTHROPIC_API_URL` on each developer machine to point to your gateway instead of `api.anthropic.com`. The gateway forwards requests to Anthropic, adds logging and budget enforcement, and issues virtual keys so your real Anthropic key never touches developer machines.
+
+---
+
+## Current first-party surface: Claude apps gateway
+
+[Claude apps gateway](https://code.claude.com/docs/en/claude-apps-gateway) is Anthropic's self-hosted gateway. It ships in the `claude` binary and runs with `claude gateway --config gateway.yaml`. It sits between Claude Code clients and an upstream, supports the Anthropic API, Amazon Bedrock, Claude Platform on AWS, Google Cloud's Agent Platform, and Microsoft Foundry, and can fail over between configured upstreams.
+
+Use it when the organization needs a self-hosted, Claude Code-specific gateway with corporate SSO, per-identity-group model access, managed-settings delivery, and OpenTelemetry Protocol telemetry. The gateway retains the upstream credential in organization infrastructure. Developers authenticate through the corporate identity provider and receive short-lived bearer tokens instead of provider credentials.
+
+### Deployment boundary
+
+The official quickstart requires Claude Code v2.1.195 or later on the gateway host and developer machines, an OIDC identity provider, PostgreSQL, an upstream credential, and a private-network gateway address. The private-address requirement is a security control because a trusted gateway can deliver settings that run commands on developer machines. Put it behind an internal load balancer or VPN; do not expose it as a public endpoint.
+
+The documented sign-in flow is interactive browser SSO. It has no service-token flow for unattended CI, so a CI system without a developer to approve the device flow must authenticate directly to its provider instead. A developer-signed-in machine can use the existing gateway session for `claude -p` and Agent SDK runs, subject to gateway policy.
+
+### What the gateway controls, and what it does not
+
+| Surface | Documented behavior |
+|---|---|
+| Identity and upstream credentials | The gateway authenticates developers with the IdP and uses the organization's provider credential upstream. |
+| Model and client policy | IdP groups map to model allowlists and managed settings. Locked managed settings cannot be overridden locally. |
+| Telemetry | The gateway can forward OTLP metrics with token counts, model, identity, and latency. Logs and traces are per-destination opt-ins and can include commands and file paths. |
+| Anthropic data plane | The gateway's data plane sends nothing to Anthropic unless the Anthropic API is configured as an upstream. |
+| Other client traffic | Version checks and downloads can still go directly from Claude Code to Anthropic and require separate egress policy or documented nonessential-traffic controls. |
+
+The gateway does not make a desktop application, local filesystem, or plugin automatically safe. [Computer Use](../core/computer-use.md) has a separate desktop trust boundary, and [plugin distribution](../ecosystem/plugin-distribution.md) has a separate extension supply-chain boundary.
+
+### Verify before rollout
+
+The official quickstart defines three initial checks: fetch the OAuth discovery document, request device authorization, then complete browser sign-in. These check boot, database access, and identity-provider redirection in sequence. A successful gateway boot is not proof that the upstream inference path works, because some cloud credentials resolve only on the first request. Run a permitted test request through the intended upstream and examine the first failing layer if it fails.
+
+Confirm the gateway's TLS certificate fingerprint during first connection, publish the full expected SHA-256 fingerprint for developers, and plan certificate rotations. Test a denied-model request, a managed-setting restriction, IdP deprovisioning, telemetry destination, and the documented no-bypass startup behavior before declaring the rollout enforced.
+
+For general gateway architecture and external gateway constraints, read [Anthropic's gateway overview](https://code.claude.com/docs/en/gateways). The remainder of this page covers third-party gateway examples and is not an Anthropic product specification.
 
 ---
 
@@ -92,7 +126,7 @@ Set these two environment variables on each developer machine (distribute via yo
 
 ```bash
 # Point Claude Code to your LiteLLM instance
-# Note the /anthropic path suffix — required for Anthropic Messages API format
+# Note the /anthropic path suffix, required for Anthropic Messages API format
 export ANTHROPIC_API_URL=http://your-litellm-host:4000/anthropic
 
 # Developer uses a virtual key, not the real Anthropic key
@@ -274,5 +308,8 @@ The gateway controls what reaches Anthropic's API. It does not address:
 - [observability.md](./observability.md) for individual session logging and cost estimation without a proxy
 - [enterprise-governance.md](../security/enterprise-governance.md) for MCP governance and guardrail tiers
 - [ai-traceability.md](./ai-traceability.md) for AI attribution in commits and PR audit trails
+- [Computer Use in Claude Code](../core/computer-use.md) for desktop control and its local permission boundary
+- [Plugin Distribution and Recommendation Hints](../ecosystem/plugin-distribution.md) for marketplace and CLI recommendation controls
+- [Claude apps gateway](https://code.claude.com/docs/en/claude-apps-gateway) for Anthropic's current gateway reference
 - [LiteLLM proxy documentation](https://docs.litellm.ai/docs/proxy/quick_start)
 - [Portkey documentation](https://docs.portkey.ai)
