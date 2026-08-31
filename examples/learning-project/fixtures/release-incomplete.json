@@ -1,0 +1,16 @@
+{
+  "name": "proofpack",
+  "version": "1.0.0",
+  "checks": [
+    {
+      "name": "tests",
+      "status": "pass",
+      "evidence": "node --test: 9 passed"
+    },
+    {
+      "name": "security",
+      "status": "fail",
+      "evidence": "release guard malformed-input test failed"
+    }
+  ]
+}
