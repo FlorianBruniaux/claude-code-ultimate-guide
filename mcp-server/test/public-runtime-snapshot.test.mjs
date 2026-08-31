@@ -10,6 +10,12 @@ const guideRoot = resolve(packageRoot, '..')
 const generator = resolve(packageRoot, 'scripts/generate-public-runtime-snapshot.mjs')
 const canonicalOutput = resolve(guideRoot, 'machine-readable/mcp-public-runtime.json')
 
+test('public collection runs the exact npm package outside its source directory', () => {
+  const source = readFileSync(generator, 'utf8')
+  assert.match(source, /args: \['--yes', `\$\{packageName\}@\$\{npmVersion\}`\]/)
+  assert.match(source, /cwd: guideRoot/)
+})
+
 const fixtureServerSource = String.raw`
 import { readFileSync } from 'node:fs'
 import { createInterface } from 'node:readline'

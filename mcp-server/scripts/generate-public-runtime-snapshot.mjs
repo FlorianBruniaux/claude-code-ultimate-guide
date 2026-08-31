@@ -76,7 +76,7 @@ function publicPackageRuntime() {
     npmVersion,
     command: process.platform === 'win32' ? 'npx.cmd' : 'npx',
     args: ['--yes', `${packageName}@${npmVersion}`],
-    cwd: packageRoot,
+    cwd: guideRoot,
   }
 }
 

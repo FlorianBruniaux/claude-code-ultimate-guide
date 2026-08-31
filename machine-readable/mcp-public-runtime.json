@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "snapshot_at": "2026-08-31T19:39:41Z",
+  "snapshot_at": "2026-08-31T22:45:38Z",
   "package": {
     "name": "claude-code-ultimate-guide-mcp",
-    "npm_version": "1.2.10"
+    "npm_version": "1.3.1"
   },
   "server_info": {
     "name": "claude-code-ultimate-guide",
-    "version": "1.2.0"
+    "version": "1.3.1"
   },
   "capabilities": {
     "tools": [
@@ -30,9 +30,12 @@
       "search_official_docs"
     ],
     "resources": [
+      "agent-harnesses",
+      "distribution-channels",
       "llms",
       "reference",
-      "releases"
+      "releases",
+      "translations"
     ],
     "prompts": [
       "claude-code-expert"
@@ -40,7 +43,7 @@
   },
   "counts": {
     "tools": 17,
-    "resources": 3,
+    "resources": 6,
     "prompts": 1
   }
 }

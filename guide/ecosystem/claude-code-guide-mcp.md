@@ -2,31 +2,28 @@
 
 Technical reference for `claude-code-ultimate-guide-mcp`, the local stdio server that exposes this guide to MCP-compatible coding clients.
 
-Status checked on 2026-08-31:
+Status checked on 2026-09-01:
 
-- public npm package: `1.2.10`
-- public runtime handshake: `1.2.0`
-- public runtime surface: 17 tools, 3 resources, 1 prompt
-- repository release candidate: `1.3.0`
-- candidate runtime surface: 17 tools, 5 resources, 1 prompt
-- official MCP Registry: the namespace was not returned by the registry API
+- public npm package: `1.3.1`
+- public runtime handshake: `1.3.1`
+- public runtime surface: 17 tools, 6 resources, 1 prompt
+- repository package version: `1.3.1`
+- official MCP Registry: `io.github.FlorianBruniaux/claude-code-guide`, active at version `1.3.1`
 
-The public-package facts above were measured by starting `claude-code-ultimate-guide-mcp@1.2.10` and calling the MCP list methods. The candidate facts come from the generated [product manifest](../../machine-readable/mcp-product.json) and its live contract test.
+The public-package facts above were measured by starting `claude-code-ultimate-guide-mcp@1.3.1` and calling the MCP list methods. The repository contract comes from the generated [product manifest](../../machine-readable/mcp-product.json) and its live contract test. The Registry status was read from its public API after publication.
 
 ## TL;DR
 
 Use the MCP server when you want a coding client to search the guide, open the exact source section, retrieve a production template, or inspect Claude Code releases without loading the full guide into context.
 
-The server runs locally over stdio. Version `1.3.0` has no first-party telemetry. Some tools can contact GitHub or Anthropic when invoked and can write local cache files. Downloads are not users, active installations, sessions, or executions.
+The server runs locally over stdio. Version `1.3.1` has no first-party telemetry. Some tools can contact GitHub or Anthropic when invoked and can write local cache files. Downloads are not users, active installations, sessions, or executions.
 
 Install the currently published package:
 
 ```bash
-claude mcp add --scope user claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.2.10
-codex mcp add claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.2.10
+claude mcp add --scope user claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.1
+codex mcp add claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.1
 ```
-
-The `1.3.0` commands elsewhere in this release branch are release-candidate commands. They become runnable from npm only after `1.3.0` is published.
 
 ## What the server solves
 
@@ -41,14 +38,14 @@ This reduces irrelevant context. It does not guarantee that an answer is correct
 
 ## Install by client
 
-All examples below use the public npm version observed on 2026-08-31. Pinning the version makes installation reproducible.
+All examples below use the public npm version observed on 2026-09-01. Pinning the version makes installation reproducible.
 
 ### Claude Code
 
 User scope:
 
 ```bash
-claude mcp add --scope user claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.2.10
+claude mcp add --scope user claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.1
 claude mcp list
 ```
 
@@ -60,7 +57,7 @@ Project scope in `.mcp.json`:
     "claude-code-guide": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "claude-code-ultimate-guide-mcp@1.2.10"]
+      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.1"]
     }
   }
 }
@@ -75,7 +72,7 @@ claude mcp remove --scope user claude-code-guide
 ### Codex
 
 ```bash
-codex mcp add claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.2.10
+codex mcp add claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.1
 codex mcp list
 ```
 
@@ -95,7 +92,7 @@ Add this entry to `.cursor/mcp.json`:
     "claude-code-guide": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "claude-code-ultimate-guide-mcp@1.2.10"]
+      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.1"]
     }
   }
 }
@@ -111,7 +108,7 @@ Add this entry to `.vscode/mcp.json`:
     "claude-code-guide": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "claude-code-ultimate-guide-mcp@1.2.10"]
+      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.1"]
     }
   }
 }
@@ -147,12 +144,12 @@ The MCP protocol travels through the child process standard input and standard o
 
 ## Tools, resources, and prompt
 
-The `1.3.0` candidate exposes the following generated contract:
+The published `1.3.1` package exposes the following generated contract:
 
 | Capability | Count | Purpose |
 | --- | ---: | --- |
 | Tools | 17 | Search, source retrieval, templates, releases, threats, and official documentation snapshots |
-| Resources | 5 | Reference index, release history, `llms.txt`, Agent Harness Map, and translation metadata |
+| Resources | 6 | Reference index, release history, `llms.txt`, Agent Harness Map, distribution channels, and translation metadata |
 | Prompts | 1 | `claude-code-expert` search and retrieval workflow |
 
 Tools by workflow:
@@ -165,15 +162,16 @@ Tools by workflow:
 | Security reference | `get_threat`, `list_threats` |
 | Official Anthropic docs | `init_official_docs`, `refresh_official_docs`, `diff_official_docs`, `search_official_docs` |
 
-Candidate resources:
+Resources:
 
 - `claude-code-guide://reference`
 - `claude-code-guide://releases`
 - `claude-code-guide://llms`
 - `claude-code-guide://agent-harnesses`
+- `claude-code-guide://distribution-channels`
 - `claude-code-guide://translations`
 
-The candidate searches 1,755 generated index entries. The public `1.2.10` package exposes only the first three resources. The Agent Harness Map and translation metadata are candidate additions until `1.3.0` is published.
+The published package searches 1,798 generated index entries. The public runtime snapshot verifies the capability names and counts without storing descriptions, arguments, content, local paths, or user data.
 
 ## Bundled content, GitHub fetch, and cache
 
@@ -195,7 +193,7 @@ Successful GitHub responses can be cached under `~/.cache/claude-code-guide/<ver
 
 ## Network and privacy boundary
 
-Version `1.3.0` has no first-party telemetry, analytics endpoint, device identifier, or event upload. MCP requests and responses are not sent to this project's author.
+Version `1.3.1` has no first-party telemetry, analytics endpoint, device identifier, or event upload. MCP requests and responses are not sent to this project's author.
 
 Network access is tool-specific:
 
@@ -208,9 +206,9 @@ Network access is tool-specific:
 
 The MCP client, npm, `npx`, GitHub, Anthropic, and the machine operator can have their own logs or policies. Those systems are outside this server's first-party telemetry boundary.
 
-### Telemetry decision for 1.3.0
+### Telemetry decision for 1.3.1
 
-Centralized product telemetry is deliberately not implemented in `1.3.0`. Download counts do not justify adding a tracking endpoint, and they cannot establish active usage.
+Centralized product telemetry is deliberately not implemented in `1.3.1`. Download counts do not justify adding a tracking endpoint, and they cannot establish active usage.
 
 Any future proposal requires a reviewed privacy decision before code exists. The minimum acceptance criteria are:
 
@@ -237,7 +235,7 @@ For development or controlled offline use, install dependencies ahead of time, b
 
 ## Compatibility
 
-| Requirement | Candidate `1.3.0` |
+| Requirement | Published `1.3.1` |
 | --- | --- |
 | Transport | local stdio |
 | Node.js | `>=18.14.1` |
@@ -250,8 +248,8 @@ Other MCP clients can work if they support local stdio servers and the same comm
 ## Limitations
 
 - The full guide Markdown is not bundled.
-- The npm package version and its MCP handshake version can diverge. Public `1.2.10` reports `1.2.0`; the `1.3.0` candidate derives the handshake from `package.json` and tests that contract.
-- The official MCP Registry namespace is prepared but was absent from the registry API snapshot on 2026-08-31.
+- Version `1.3.1` derives the MCP handshake from `package.json` and tests that contract.
+- The official Registry identity is case-sensitive: `io.github.FlorianBruniaux/claude-code-guide`.
 - Companion `/ccguide:*` command files live in the repository and are not installed by the npm package.
 - Search retrieves candidate sections; it does not replace source review or freshness checks.
 - No metric in this repository measures active users.
@@ -262,7 +260,7 @@ Other MCP clients can work if they support local stdio servers and the same comm
 | --- | --- | --- |
 | Client cannot start the server | `node --version` and `npx --version` | Use Node.js `>=18.14.1` and verify npm registry access |
 | Client shows no tools | `claude mcp list` or `codex mcp list` | Check the server name, command, arguments, and configuration scope |
-| `1.3.0` cannot be downloaded | `npm view claude-code-ultimate-guide-mcp version` | Use public `1.2.10` until the candidate is published |
+| Requested version cannot be downloaded | `npm view claude-code-ultimate-guide-mcp version` | Use the exact version returned by npm and update the pinned client command |
 | Source read fails offline | Inspect `~/.cache/claude-code-guide/` | Retry with network access, set `GUIDE_ROOT`, or prefill the cache through an earlier successful read |
 | Official-doc search says no snapshot exists | Check the official-doc cache directory | Run `init_official_docs`, which requires Anthropic network access |
 | Configuration is stale | Remove and re-add the server | Use the client-specific removal command shown above |
@@ -270,7 +268,7 @@ Other MCP clients can work if they support local stdio servers and the same comm
 Inspect the JSON-RPC surface with the MCP Inspector:
 
 ```bash
-npx -y @modelcontextprotocol/inspector npx -y claude-code-ultimate-guide-mcp@1.2.10
+npx -y @modelcontextprotocol/inspector npx -y claude-code-ultimate-guide-mcp@1.3.1
 ```
 
 ## Version and dated npm statistics
@@ -282,7 +280,7 @@ Two machine-readable snapshots serve different questions:
 
 ### Public package snapshot
 
-Snapshot time: `2026-08-31T15:06:00Z`. Last complete UTC day: 2026-08-30. Unit: npm package downloads.
+Snapshot time: `2026-08-31T22:41:52Z`. Last complete UTC day: 2026-08-30. Unit: npm package downloads.
 
 | Period | Downloads |
 | --- | ---: |
@@ -308,4 +306,4 @@ The monthly workflow uses exact page URL or path filters, publishes aggregate pa
 - [Source repository](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)
 - [npm package](https://www.npmjs.com/package/claude-code-ultimate-guide-mcp)
 
-Release changes must update the generated product manifest, pass `npm run release:check` in `mcp-server/`, and keep the public-package snapshot separate from unreleased candidate capabilities.
+Release changes must update the generated product manifest, pass `npm run release:check` in `mcp-server/`, and keep the public-package snapshot separate from repository candidates whenever their versions differ.
