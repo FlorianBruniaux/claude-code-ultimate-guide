@@ -9,7 +9,6 @@ const packageUserAgent = `claude-code-ultimate-guide-mcp/${packageJson.version}`
 export default defineConfig({
   entry: ['src/index.ts'],
   format: ['esm'],
-  splitting: false,
   target: 'es2022',
   outDir: 'dist',
   clean: true,
