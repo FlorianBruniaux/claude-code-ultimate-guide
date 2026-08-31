@@ -44,7 +44,7 @@ The validator requires one unique check for each of these names:
 - `security`
 - `package`
 
-Every check needs `status: "pass"` and a retained-result description. Empty evidence, `NOT RUN`, and `no retained output` all fail. The version must use `MAJOR.MINOR.PATCH`. A duplicate name is a failure because later evidence must not shadow an earlier result.
+Every check needs `status: "pass"` and a retained-result description. Empty evidence and the case-insensitive markers `UNKNOWN`, `failed`, `not executed`, `unverified`, `NOT RUN`, and `no retained output` all fail. This is a conservative string screen, so text such as `0 failed` also fails. The candidate schema does not parse a command, exit status, or checksum from this string. Put those structured facts in [evidence/PROOF-LOG.md](evidence/PROOF-LOG.md). The version must use `MAJOR.MINOR.PATCH`. A duplicate name is a failure because later evidence must not shadow an earlier result.
 
 [fixtures/release-ready.json](fixtures/release-ready.json) demonstrates the accepted schema. [fixtures/release-incomplete.json](fixtures/release-incomplete.json) demonstrates a failed security check and missing package evidence. The CLI does not contact a registry, execute the evidence strings, or infer that a cited command really ran.
 
@@ -58,7 +58,7 @@ npm run verify
 npm run package:check
 ```
 
-The package gate checks both JavaScript files with `node --check`, then builds an npm manifest without downloading dependencies or publishing an artifact. Its negative test injects invalid JavaScript into a temporary copy and requires a nonzero exit. This proves the syntax boundary, not execution of the packed CLI. The [Dockerfile](Dockerfile) supplies an additional deployable form. Building it may require the `node:22-alpine` base image from a registry, so a passing Node.js test run does not prove the image builds or runs on another host.
+The package gate checks both JavaScript files with `node --check`, then builds an npm manifest without downloading dependencies or publishing an artifact. The named [package-check test](test/package-check.test.mjs) injects invalid JavaScript into a temporary copy and requires a nonzero exit. This proves the syntax boundary, not execution of the packed CLI. The [Dockerfile](Dockerfile) supplies an additional deployable form. Building it may require the `node:22-alpine` base image from a registry, so a passing Node.js test run does not prove the image builds or runs on another host.
 
 The repository's [TESTING.md proof-log template](../claude-md/TESTING.md) explains the full evidence format. This example keeps a filled, project-specific [proof log](evidence/PROOF-LOG.md). For higher-cost choices, follow the [Best-of-N workflow](../../guide/workflows/best-of-n.md) and preserve rejected candidates as well as the selected one.
 

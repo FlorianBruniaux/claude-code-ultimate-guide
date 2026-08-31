@@ -5,7 +5,7 @@
     {
       "name": "tests",
       "status": "pass",
-      "evidence": "node --test: 10 passed"
+      "evidence": "node --test: 11 passed"
     },
     {
       "name": "security",

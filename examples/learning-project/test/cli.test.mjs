@@ -1,5 +1,8 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { test } from "node:test";
 
 const projectRoot = new URL("../", import.meta.url);
@@ -23,7 +26,7 @@ test("verify exits successfully for a release with complete evidence", () => {
   assert.match(result.stdout, /"ready": true/);
 });
 
-test("verify reports every missing or failed required check", () => {
+test("verify reports missing checks and rejects unverified evidence markers", () => {
   const result = runVerify(incompleteFixture);
 
   assert.equal(result.status, 1, result.stderr);
@@ -38,6 +41,33 @@ test("verify reports every missing or failed required check", () => {
       "package: missing required check",
     ],
   });
+
+  const temporaryRoot = mkdtempSync(join(tmpdir(), "proofpack-evidence-"));
+  try {
+    const readyCandidate = JSON.parse(readFileSync(readyFixture, "utf8"));
+    for (const marker of [
+      "UNKNOWN",
+      "failed",
+      "not executed",
+      "unverified",
+      "NOT RUN",
+      "no retained output",
+    ]) {
+      const candidate = structuredClone(readyCandidate);
+      candidate.checks[0].evidence = `test command: ${marker}`;
+      const fixturePath = join(temporaryRoot, `${marker.replaceAll(" ", "-")}.json`);
+      writeFileSync(fixturePath, JSON.stringify(candidate));
+      const markerResult = runVerify(new URL(`file://${fixturePath}`));
+      assert.equal(markerResult.status, 1, marker);
+      assert.match(
+        markerResult.stdout,
+        /tests: evidence does not describe a retained result/,
+        marker,
+      );
+    }
+  } finally {
+    rmSync(temporaryRoot, { recursive: true, force: true });
+  }
 });
 
 test("verify rejects malformed JSON with a distinct input error", () => {

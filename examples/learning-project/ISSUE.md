@@ -12,7 +12,7 @@ This reference solution resolves the issue. A learner can use the acceptance con
 - A valid but incomplete candidate exits `1`, reports `ready: false`, and lists every observed problem.
 - Malformed JSON exits `2` and writes the parse error to standard error.
 - Duplicate check names fail even if one duplicate contains passing evidence.
-- `NOT RUN` and `no retained output` fail because they do not identify a retained result.
+- The case-insensitive markers `UNKNOWN`, `failed`, `not executed`, `unverified`, `NOT RUN`, and `no retained output` fail because they do not identify a retained result.
 - The tests run through `node:test` without third-party packages or network access.
 
 ## Exclusions
