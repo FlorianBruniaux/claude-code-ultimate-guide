@@ -14,12 +14,13 @@ import { registerOfficialDocs } from './tools/official-docs.js';
 import { registerResources } from './resources/index.js';
 import { registerPrompts } from './prompts/index.js';
 import { loadReference, loadReleases, isDevMode } from './lib/content.js';
+import { PACKAGE_VERSION } from './lib/package-metadata.js';
 
 export function createServer(): McpServer {
   const server = new McpServer(
     {
       name: 'claude-code-ultimate-guide',
-      version: '1.3.0',
+      version: PACKAGE_VERSION,
     },
     {
       instructions: [

@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- MCP runtime metadata now derives from the package version. Build-time injection keeps the MCP handshake, cache namespace, and HTTP User-Agent synchronized with `package.json`.
+
 ### Added
 
 - **Public guide changelog and curated navigation contract** (`README.md`, plus the landing `/changelog/`, `/guide/`, `/sitemap/`, header, footer, Cmd+K, RSS, and XML sitemap): exposed the repository's `CHANGELOG.md` as a dedicated public page instead of redirecting readers to Claude Code CLI releases. The guide portal and readable sitemap now share one curated topic model that surfaces agent engineering, context and economics, security, operations, ecosystem, roles, and workflows without hard-coded documentation counts. `/releases/` remains exclusively about Claude Code versions and its inactive guide-changelog loader was removed.

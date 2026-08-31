@@ -2,8 +2,8 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync, statSync } from 'fs
 import { resolve, dirname } from 'path';
 import { homedir } from 'os';
 import { createHash } from 'crypto';
+import { PACKAGE_VERSION, USER_AGENT } from './package-metadata.js';
 
-const PACKAGE_VERSION = '1.0.0';
 const GITHUB_RAW_BASE =
   'https://raw.githubusercontent.com/FlorianBruniaux/claude-code-ultimate-guide/main';
 const CACHE_DIR = resolve(homedir(), '.cache', 'claude-code-guide', PACKAGE_VERSION);
@@ -36,7 +36,7 @@ export async function fetchFile(filePath: string): Promise<string | null> {
   const url = `${GITHUB_RAW_BASE}/${normalizedPath}`;
   try {
     const response = await fetch(url, {
-      headers: { 'User-Agent': 'claude-code-ultimate-guide-mcp/1.0.0' },
+      headers: { 'User-Agent': USER_AGENT },
       signal: AbortSignal.timeout(10_000),
     });
 
