@@ -1,0 +1,25 @@
+docs/resource-evaluations/best-of-n-verification-evidence.md
+  s_9cf259c16931e6::t_22eecad26d52b7 24-25
+examples/claude-md/TESTING.md
+  s_9cf259c16931e6::t_477023f787b9ff 33,38,46
+examples/skills/best-of-n/SKILL.md
+  s_9cf259c16931e6::t_773b2be6ef17fc 19,26-29,39,50-51
+guide/workflows/best-of-n.md
+  s_9cf259c16931e6::t_7ca2fd34874bf3 23,48,55,70,84
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "aab58bd2a6e2f224b32765c790c4d2cfff682190",
+  "prompts": {},
+  "sessions": {
+    "s_9cf259c16931e6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a03e6c-f9af-7811-b19d-91365bbf6d38",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
