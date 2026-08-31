@@ -84,7 +84,7 @@ The boundary is practical. If a product can only schedule or inspect Claude Code
 
 A product can span two layers without owning all four. [Liza](https://github.com/liza-mas/liza) installs behavioral contracts, skills, settings, and guardrails into a repository, then coordinates external coding-agent CLIs through worktrees, durable task state, leases, doer/reviewer roles, recovery, and merge gates. Claude Code, Codex, or another selected CLI still owns the inner tool loop. The [Landscape profile](../ecosystem/agent-harness-landscape.md#liza-a-repository-harness-and-control-plane-combined) records the pinned code evidence and security limits.
 
-A **harness optimizer** or **meta-harness** sits outside those four operating layers. It proposes changes to a target harness, evaluates candidates, and promotes or rejects versions. It does not replace the runtime loop or the fleet orchestrator. It improves them under an explicit search and evaluation protocol.
+The term **meta-harness** is overloaded. In the optimizer research covered by this page, a harness optimizer or meta-harness proposes changes to a target harness, evaluates candidates, and promotes or rejects versions. Some products and practitioner articles use *meta-harness* for a different role: a common client that dispatches tasks to Claude Code, Codex, Cursor, Pi, or another runtime. Under this guide's taxonomy, a system that selects or coordinates existing harnesses without modifying and evaluating them is an **orchestrator or control plane**, not a harness optimizer.
 
 ### Loop, graph, harness, and orchestrator are different views
 
@@ -520,6 +520,8 @@ The source list is selective. It includes videos that add a distinct mechanism, 
 ## 11. Harness Optimizers and Meta-Harnesses
 
 A runtime harness improves one agent run. A harness optimizer improves the code and configuration that govern future runs. The optimizer can edit prompts, context policies, tools, middleware, memory, control flow, verification, or routing, then use an external evaluator to decide which candidate survives.
+
+This section uses *meta-harness* in that research sense. Databricks and Omnigent use the same term for a unified developer surface that dispatches a task to one of several existing coding harnesses. That dispatcher can reduce switching friction and preserve tool-policy consistency, but it belongs to the orchestrator or control-plane layer unless it also searches, changes, and evaluates the target harness. Source and terminology review: [Databricks cost-management resource evaluation](../../docs/resource-evaluations/databricks-managing-ai-coding-costs-scale.md).
 
 | Work | Optimization surface | Reported evidence | Boundary |
 |---|---|---|---|

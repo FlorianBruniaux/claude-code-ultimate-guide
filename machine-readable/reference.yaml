@@ -189,6 +189,7 @@ deep_dive:
   agent_harness_digital_twin: "guide/core/agent-harness.md#5-digital-twin-testing"
   agent_harness_model_harness_pair: "guide/core/agent-harness.md#the-core-claim"
   agent_harness_optimizer: "guide/core/agent-harness.md#11-harness-optimizers-and-meta-harnesses"
+  agent_harness_meta_harness_overload: "guide/core/agent-harness.md#0-four-layers-four-responsibilities"  # research optimizer versus product dispatcher or orchestrator usage
   agent_harness_optimizer_landscape: "guide/ecosystem/agent-harness-landscape.md#harness-optimizers-and-meta-harnesses"
   agent_harness_evaluation_protocol: "guide/core/agent-harness.md#11-harness-optimizers-and-meta-harnesses"
   agent_harness_smallest_sufficient: "guide/core/agent-harness.md#7-test-distribution-and-component-stacking-anti-patterns"
@@ -482,8 +483,11 @@ deep_dive:
   practitioner_insights_credits: "guide/core/credits.md#ifttd-if-this-then-dev-podcast"
   # AI Unit Economics (guide/ops/ai-unit-economics.md) - Added 2026-07-07
   ai_unit_economics_guide: "guide/ops/ai-unit-economics.md"
-  ai_unit_economics_description: "Measurement framework for agentic AI cost per accepted task: per-attempt token and cache decomposition, retries, review, rework, infrastructure, repeated-run variance, cost levers, autonomous-agent break-even, and team budget governance. Separates illustrative arithmetic, benchmark evidence, and production traces."
+  ai_unit_economics_description: "Measurement framework for agentic AI cost per accepted task: per-attempt token and cache decomposition, retries, review, rework, request/task/delegation routing, infrastructure, repeated-run variance, progressive spend controls, autonomous-agent break-even, and team budget governance. Separates illustrative arithmetic, benchmark evidence, and production traces."
   ai_unit_economics_accepted_task: "guide/ops/ai-unit-economics.md#2-building-a-cost-per-accepted-task"  # attempt cost plus retries, review, rework, infrastructure, and explicit zero-acceptance handling
+  ai_unit_economics_routing_levels: "guide/ops/ai-unit-economics.md#route-by-complexity"  # request, task, and escalation or delegation boundaries with cache locality and accepted-task measurement
+  ai_unit_economics_progressive_spend_policy: "guide/ops/ai-unit-economics.md#5-budget-and-governance-per-team"  # interactive visibility, warning, approval, downshift, suspension versus hard terminal budgets for unattended workloads
+  ai_unit_economics_databricks_claim_review: "guide/ops/ai-unit-economics.md#6-how-to-read-a-vendors-cost-reduction-claim"  # internal 30% routing and nearly 50% token-cost results retained with missing-denominator and product-conflict boundaries
   ai_unit_economics_token_estimation: "guide/ops/ai-unit-economics.md#do-not-estimate-tokens-by-string-length"  # why chars/4 breaks: measured -35% on code, -23% on accented French, erring in the unsafe direction; wrong tokenizer for Claude; plus the count-the-wrong-string second-order bug
   ai_unit_economics_skill_injection_cost: "guide/ops/ai-unit-economics.md#audit-what-a-skill-or-tool-injects-not-just-what-it-costs-to-load"  # skill definition is cheap, injected result is the recurring cache-read cost; $5.33/208.9K-token skill call example; no measured break-even, governance call per skill via /usage per-category breakdown
   # Subscription Strategy at Team Scale (guide/ops/subscription-strategy.md) - Added 2026-08-29
@@ -495,8 +499,8 @@ deep_dive:
   subscription_strategy_bank_gate: "guide/ops/subscription-strategy.md#3-a-bank-buys-against-a-control-gap-not-a-plan-label"  # function criticality before headcount, then data, identity, evidence, retention, third-party risk, change, financial control, and DORA contract questions
   subscription_strategy_enterprise_limits: "guide/ops/subscription-strategy.md#what-enterprise-still-does-not-solve"  # DORA accountability, EU residency, continuity, service levels, exit, and approval remain customer controls
   subscription_strategy_benchmark: "guide/ops/subscription-strategy.md#4-the-13-per-active-day-figure-is-a-benchmark-with-missing-denominators"  # Anthropic fleet limits plus Back Market's 280-person active-user denominator, reported $191 average, tail, and oral-evidence caveats
-  subscription_strategy_model_quality: "guide/ops/subscription-strategy.md#5-optimize-cost-per-accepted-task-not-cost-per-token"  # model spend plus retries, review, and rework, gated by accepted outcomes
-  subscription_strategy_gateway: "guide/ops/subscription-strategy.md#6-workforce-plans-and-production-api-traffic-solve-different-problems"  # API-only attribution evidence from Shopify, Ramp, and Back Market, with provider-approval and accepted-outcome limits
+  subscription_strategy_model_quality: "guide/ops/subscription-strategy.md#5-optimize-cost-per-accepted-task-not-cost-per-token"  # efficiency frontier by validated task class, model-harness pair, cache behavior, retries, review, and rework
+  subscription_strategy_gateway: "guide/ops/subscription-strategy.md#6-workforce-plans-and-production-api-traffic-solve-different-problems"  # API-only attribution, progressive versus terminal spend controls, and provider-approval and accepted-outcome limits
   subscription_strategy_decision_gate: "guide/ops/subscription-strategy.md#7-decision-and-pilot-gate"  # criticality and required controls precede seat count and price
   subscription_strategy_personal_plan_gap: "guide/ops/subscription-strategy.md#8-boundaries"  # personal plans are not employer-managed workforce plans
   subscription_strategy_self_hosted_split: "guide/ops/subscription-strategy.md#8-boundaries"  # self-hosted inference remains a separate capacity and operations decision
@@ -1894,6 +1898,7 @@ deep_dive:
   api_gateway_guide: "guide/ops/api-gateway.md"
   api_gateway_litellm: "guide/ops/api-gateway.md#2-litellm-gateway"
   api_gateway_virtual_keys: "guide/ops/api-gateway.md#3-virtual-keys-and-team-budgets"
+  api_gateway_progressive_spend_policy: "guide/ops/api-gateway.md#31-progressive-spend-policy-for-interactive-users"
   api_gateway_model_allowlists: "guide/ops/api-gateway.md#4-model-allowlists"
   api_gateway_portkey: "guide/ops/api-gateway.md#8-portkey-as-a-managed-alternative"
   api_gateway_limits: "guide/ops/api-gateway.md#9-what-the-gateway-does-not-cover"

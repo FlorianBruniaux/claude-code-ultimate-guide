@@ -1,6 +1,6 @@
 ---
 title: "AI Unit Economics"
-description: "How to model the real cost per accepted task in agentic AI development: attempts, retries, review, rework, token decomposition, and autonomous-agent break-even"
+description: "How to model the real cost per accepted task in agentic AI development: attempts, retries, review, rework, routing, progressive spend controls, and autonomous-agent break-even"
 tags: [cost, ops, guide]
 ---
 
@@ -147,13 +147,25 @@ If you already log truncation events, that is where the answer lives. A counter 
 
 ## 3. The real cost-reduction levers
 
-Four levers move the per-task cost meaningfully. None of them require a pricing negotiation. They are engineering decisions.
+Five levers move the per-task cost meaningfully. None of them require a pricing negotiation. They are engineering decisions.
 
 ### Route by complexity
 
-Not every task needs the most capable model. A prompt that formats a file, renames a symbol, or answers a lookup does not need Opus-level reasoning. Routing simple prompts to a cheaper model and reserving the expensive one for genuinely ambiguous work cuts the bill without cutting quality where quality matters.
+Not every task needs the most capable model. A prompt that formats a file, renames a symbol, or answers a lookup may not need Opus-level reasoning. Routing simple prompts to a cheaper model can reduce the bill when the cheaper model-harness pair passes the same acceptance gate without adding retries, review, or rework.
 
-One production account put a number on it: routing prompts by complexity to cheaper models cut the production cost by roughly half in the observed case (*Antonio Goncalves, [IFTTD ep 357](https://www.ifttd.io/)*). Half is that team's result, not a universal constant, but the direction generalizes. The gap between Haiku, Sonnet, and Opus output rates is large enough that moving even a third of your traffic down a tier changes the monthly total.
+"Routing" covers three different control boundaries:
+
+| Routing level | Decision boundary | Economic advantage | Main risk |
+|---|---|---|---|
+| **Request level** | A gateway selects a model for each inference request inside a session | Can choose the cheapest model for an individual step | Model switches can lose cache locality or change behavior inside one task |
+| **Task level** | A dispatcher selects the model-harness pair before the task starts | Keeps one task on a stable context and cache path | A wrong initial classification can leave the task underpowered |
+| **Escalation or delegation** | One model escalates difficult work or delegates bounded work to another | Pays for the stronger model only where its judgment is needed | Coordination, duplicated context, and sub-agent review add cost |
+
+Choose the routing level before comparing savings. A request router, a task dispatcher, and a two-model delegation pattern do not create the same token path or quality risk.
+
+Two production accounts put bounded numbers on routing. One practitioner reported that routing prompts by complexity to cheaper models cut production cost by roughly half in the observed case (*Antonio Goncalves, [IFTTD ep 357](https://www.ifttd.io/)*). Databricks reports that its internal Smart Router reduced average task cost by more than 30% while roughly matching the most expensive model's quality. Neither account publishes a paired task sample, acceptance protocol, or confidence interval. Treat both as operating results to reproduce on internal tasks, not as portable savings constants. Source: [Databricks, "Managing AI Coding Costs at Scale"](https://www.databricks.com/blog/managing-ai-coding-costs-scale), 2026-08-07.
+
+The "efficiency frontier" is a useful label for the candidate models that meet a task class's quality bar at the lowest cost. It is not a public leaderboard. Evaluate the model-harness pair on frozen representative tasks, repeated runs, the same acceptance gate, and total review and rework cost before moving traffic.
 
 ### Isolate heavy work in sub-agents
 
@@ -168,6 +180,8 @@ The most avoidable cost is a loop that does not converge. An agent that keeps tr
 ### Reuse cached context
 
 Because cache reads are priced far below fresh input, a stable context that the model reads repeatedly is much cheaper than one rebuilt from scratch each turn. Keeping the large, stable parts of the context (project instructions, reference files, schemas) in a form the cache can serve turns repeated reads from a full-price input into a fraction of it. This compounds over a long session.
+
+Routing policy participates in that cache design. Prefer a task-level decision before the session starts when the task can remain on one model-harness pair. If a request-level router may switch models mid-session, measure cache creation, cache reads, cold starts, and total accepted-task cost. A cheaper inference request can make the complete task more expensive when it invalidates a large reusable prefix.
 
 The same lever applies on the tool-output side of the equation. A `git status` or `find` call in a large repo can return thousands of tokens of noise the model never needed. Tools like [rtk](https://github.com/rtk-ai/rtk) filter that CLI output before it reaches the model, cutting input tokens on those calls by a reported 60 to 90% without changing what the agent can act on.
 
@@ -201,17 +215,29 @@ A practical way to reason about the threshold: estimate the fully loaded cost of
 
 Once you can compute cost per attempt and per accepted task, you can set budgets against them. The economic reasoning belongs here; the technical enforcement belongs in [api-gateway.md](./api-gateway.md).
 
-The reasoning: a per-team budget turns an unbounded variable cost into a bounded one. Size the cap from measured attempt volume, acceptance rate, cost distribution, and expected review load. When the cap is hit, further calls are refused rather than silently added to the invoice. That converts a surprise at invoice time into a signal during the month.
+The terminal policy depends on who or what is spending. An unattended agent, CI job, or service needs a hard terminal budget because no person is present to interpret a warning. Interactive developer traffic needs an earlier control sequence that can stop accidental spend without turning a legitimate high-value session into an unexplained outage.
 
-The mechanics of setting virtual keys, per-team budgets, model allowlists, and usage dashboards are covered in detail in [api-gateway.md](./api-gateway.md): virtual keys carry team metadata, a budget cap returns a `429` when exceeded, and a model allowlist stops a cheap-task team from calling the most expensive model by accident. This page stays on the reasoning; that page is the implementation.
+| Stage | Interactive developer policy | Unattended workload policy |
+|---|---|---|
+| **Visibility** | Show current spend, spend rate, model, and remaining headroom | Emit the same telemetry to the service owner |
+| **Warning** | Require a self-clearing acknowledgement when spend crosses an unusual threshold | Alert, but do not rely on acknowledgement |
+| **Approval** | Require a manager or budget-owner approval at a higher threshold | Require a pre-approved budget increase before the next run |
+| **Downshift** | Offer or enforce a lower-cost approved model when the task can continue safely | Use only when the fallback passed the same task acceptance gate |
+| **Suspension** | Temporarily stop usage as the terminal control | Stop deterministically at the hard budget |
 
-Budgets should be sized against measured cost per accepted task, not guessed from token averages alone. A cap set too low blocks legitimate work and pushes people to route around it. A cap with no acceptance, retry, or review denominator is an invoice limit, not an economic model. Measure first (§2), then set the cap.
+Databricks reports that the companies it interviewed generally treated hard user cutoffs as a last resort and used visibility plus increasing friction first. This is an informal multi-company observation, not proof that high spend implies high productivity. The control lesson is narrower: detect accidental spend early, preserve an explicit terminal limit, and choose the terminal action by workload identity. Source: [Databricks, "Managing AI Coding Costs at Scale"](https://www.databricks.com/blog/managing-ai-coding-costs-scale), 2026-08-07.
+
+Size every threshold from measured attempt volume, acceptance rate, spend distribution, and expected review load. The mechanics of virtual keys, per-team budgets, model allowlists, usage dashboards, and progressive spend policy are covered in [api-gateway.md](./api-gateway.md). A basic hard cap returns a `429` when exceeded. Warnings, approval gates, and downshifts require an explicit policy layer and tested client behavior; do not assume a gateway provides them because it exposes a budget field.
+
+Budgets should be sized against measured cost per accepted task, not guessed from token averages alone. A threshold set too low blocks legitimate work and pushes people to route around it. A policy with no acceptance, retry, review, or workload-identity denominator is an invoice limit, not an economic model. Measure first (§2), then set the visibility, warning, approval, downshift, and terminal thresholds.
 
 ---
 
 ## 6. How to read a vendor's cost-reduction claim
 
 Every vendor selling a cost-optimization tool eventually publishes a number: "cuts token costs by 50%," "twice as fast." The first question worth asking is not whether the number is true, but how the comparison was built.
+
+**Worked example: Databricks.** Databricks reports two internal outcomes: more than 30% lower average task cost from Smart Router while roughly matching the most expensive model's quality, and almost 50% fewer generated tokens and associated costs after harness and cache tuning with no observed developer-quality degradation. The article also says its summary savings are directional and based on an informal survey. It does not publish the sample, model mix, token-class decomposition, paired tasks, acceptance instrument, review cost, or uncertainty. The correct classification is *useful operating evidence with missing denominators*, not a transferable benchmark. Databricks also provides the gateway and meta-harness products discussed in the article, so the product conflict belongs beside the result. See the full [resource evaluation](../../docs/resource-evaluations/databricks-managing-ai-coding-costs-scale.md).
 
 **Paired beats unpaired.** The most common trap is comparing an average "before" cost across one set of tasks against an average "after" cost across a different set. If task difficulty spans orders of magnitude (a 50-token lookup next to a 50,000-token refactor), the composition of the sample dominates the result more than the tool does. A vendor can present two non-comparable samples without lying and still show an artificial gain. A paired design fixes this: measure the same task with and without the tool, and look at the per-task difference. Each task becomes its own control, which cancels out cross-task difficulty variance.
 
@@ -250,3 +276,4 @@ If you have measured attempts, acceptance decisions, retries, review time, and r
 - [api-gateway.md](./api-gateway.md) for the technical implementation of budgets, virtual keys, and per-team caps
 - [observability.md](./observability.md) for per-session cost estimation and the tools that read exact token counts
 - [practitioner-insights.md](../ecosystem/practitioner-insights.md) for the field reports referenced here in full context
+- [Databricks cost-management resource evaluation](../../docs/resource-evaluations/databricks-managing-ai-coding-costs-scale.md) for the routing, cache, and progressive-budget evidence boundaries

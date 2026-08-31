@@ -1,6 +1,6 @@
 ---
 title: "API Gateway for Enterprise Claude Code"
-description: "Centralize cost control, budget enforcement, model allowlists, and usage tracking across teams using Claude apps gateway or another Anthropic-compatible proxy"
+description: "Centralize cost control, progressive spend policy, terminal budgets, model allowlists, and usage tracking across teams using Claude apps gateway or another Anthropic-compatible proxy"
 tags: [enterprise, cost, observability, ops, guide]
 ---
 
@@ -20,7 +20,8 @@ The table and setup below describe the LiteLLM and Portkey examples in this page
 |---------|-----------------|
 | No per-team cost breakdown | Virtual keys with team metadata, aggregated in dashboards |
 | Developers can call any model | Model allowlists per key (unapproved calls return 403) |
-| Runaway costs from agents | Budget cap per key, monthly reset, returns 429 when hit |
+| Runaway costs from unattended agents | Terminal budget cap per key, monthly reset, returns 429 when hit |
+| Interactive developer spend spikes | Gateway telemetry can feed warnings, approvals, and model downshifts; a budget field alone does not implement that policy |
 | No common API telemetry | Routed requests attributed by key alias, team, model, and tokens; payload logging depends on configuration |
 
 **The third-party approach**: Set `ANTHROPIC_API_URL` on each developer machine to point to a compatible gateway instead of `api.anthropic.com`. The examples below forward requests, add configured logging and budget enforcement, and issue virtual keys so the provider key need not be present on developer machines.
@@ -184,6 +185,22 @@ curl http://localhost:4000/key/info?key=sk-litellm-team-backend-abc123 \
   -H "Authorization: Bearer $LITELLM_MASTER_KEY"
 ```
 
+### 3.1 Progressive spend policy for interactive users
+
+The LiteLLM example above demonstrates a terminal cap. It does not demonstrate progressive warnings, approval gates, or a quality-safe model downshift. Build those as an explicit policy layer, or verify that the selected gateway implements each stage on the intended client and traffic path.
+
+| Threshold stage | Required behavior | Evidence to retain |
+|---|---|---|
+| **Visibility** | Show current spend, spend rate, model, and remaining headroom without interrupting work | User, team, model, timestamp, routed traffic scope |
+| **Self-clearing warning** | Ask the developer to acknowledge an unusual spend rate | Threshold, acknowledgement, session or task identifier |
+| **Approval gate** | Require a budget owner to approve further premium-model spend | Approver, approved amount or duration, reason, expiry |
+| **Downshift** | Move future work to a lower-cost approved model only for task classes that passed the same quality gate | Previous and new model-harness pair, routing reason, cache effect, accepted outcome |
+| **Suspension** | Return a clear terminal error with reset or escalation instructions | Denial reason, reset time, owner, recovery path |
+
+Keep a hard terminal budget for unattended agents, CI, scheduled jobs, and services. No person is present to interpret a warning, and a silent downshift can change behavior inside an automated workflow. For interactive development, the stages above can prevent accidental spend before suspension. Databricks reports this progressive pattern from its own deployment and conversations with other companies; the report is informal and does not establish that higher spend means higher productivity. Source: [Databricks, "Managing AI Coding Costs at Scale"](https://www.databricks.com/blog/managing-ai-coding-costs-scale), 2026-08-07.
+
+A gateway can only apply these controls to traffic it sees. Subscription-authenticated clients and direct provider credentials remain outside this policy. Reconcile gateway events with workforce-plan controls and provider invoices before calling the organization-wide spend policy complete.
+
 ---
 
 ## 4. Model Allowlists
@@ -229,6 +246,8 @@ litellm_tokens_total{token_type, model, team_id}
 # Error rate by type (budget exceeded, model not allowed, upstream timeout)
 litellm_failed_requests_total{model, error_type}
 ```
+
+For a progressive spend policy, also record the configured threshold stage, warning acknowledgements, approval decisions, downshifts, suspensions, and the task outcome after each intervention. Raw spend and token counters cannot show whether a downshift increased retries, review time, or rejected work.
 
 LiteLLM also ships a basic UI at `/ui` (enable with `LITELLM_UI_USERNAME` and `LITELLM_UI_PASSWORD` env vars) for quick cost breakdown views without needing a full Grafana setup.
 
@@ -313,6 +332,7 @@ The gateway controls requests routed through it. It does not address:
 - What files Claude Code reads on the developer's machine (use `permissions.deny` in `settings.json`)
 - Which MCP servers are active locally (see [enterprise-governance.md §3](../security/enterprise-governance.md#3-mcp-governance-workflow))
 - Code quality of AI output (use PR review gates)
+- Whether a warning, approval, or model downshift preserves accepted-task quality
 - Session-level audit trails showing which files were modified (see [ai-traceability.md](./ai-traceability.md#pr-audit-trail))
 
 If gateway-only API routing is a policy requirement, remove direct provider credentials from developer machines and enforce provider egress separately. Reconcile gateway telemetry with workforce-plan and provider invoices; a gateway dashboard alone is not a complete organization-wide spend ledger.
@@ -326,6 +346,7 @@ If gateway-only API routing is a policy requirement, remove direct provider cred
 - [ai-traceability.md](./ai-traceability.md) for AI attribution in commits and PR audit trails
 - [Computer Use in Claude Code](../core/computer-use.md) for desktop control and its local permission boundary
 - [Plugin Distribution and Recommendation Hints](../ecosystem/plugin-distribution.md) for marketplace and CLI recommendation controls
+- [Databricks cost-management resource evaluation](../../docs/resource-evaluations/databricks-managing-ai-coding-costs-scale.md) for the evidence boundary behind progressive spend controls and routing claims
 - [Claude apps gateway](https://code.claude.com/docs/en/claude-apps-gateway) for Anthropic's current gateway reference
 - [LiteLLM proxy documentation](https://docs.litellm.ai/docs/proxy/quick_start)
 - [Portkey documentation](https://docs.portkey.ai)

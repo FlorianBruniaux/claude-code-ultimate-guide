@@ -37,6 +37,7 @@ Les documents de travail bruts (prompts Perplexity, audits clients) restent dans
 
 | Ressource | Score Initial | Score Final | Décision | Fichier |
 |-----------|---------------|-------------|----------|---------|
+| **Databricks: Managing AI Coding Costs at Scale** | 4/5 | **4/5** | ✅ Intégration sélective: routage à trois niveaux, budgets progressifs, cache et clarification meta-harness; chiffres internes non généralisés | [databricks-managing-ai-coding-costs-scale.md](./databricks-managing-ai-coding-costs-scale.md) |
 | **MLTUT + Awesome Claude Code learning corpus** | 4/5 | **4/5** | ✅ Lacunes ciblées, parcours et actifs de distribution intégrés | [mltut-learning-resources-comparative-audit.md](./mltut-learning-resources-comparative-audit.md) |
 | **Claude Code current product surface** | - | **5/5** | ✅ Intégré depuis la documentation officielle du 31 août 2026 | [claude-code-current-surface-2026-08.md](./claude-code-current-surface-2026-08.md) |
 | **Best-of-N and verification evidence** | - | **4/5** | ✅ Intégré avec protocole, skill et proof log | [best-of-n-verification-evidence.md](./best-of-n-verification-evidence.md) |
@@ -104,4 +105,4 @@ Ressources surveillées mais pas encore intégrées : [watch-list.md](./watch-li
 
 ---
 
-**Last updated**: 2026-08-30 (178 Markdown files on disk, 56 indexed above; the disk/index gap is a known backlog awaiting a dedicated audit pass)
+**Last updated**: 2026-08-31 (182 Markdown files on disk, 61 indexed above; the disk/index gap is a known backlog awaiting a dedicated audit pass)

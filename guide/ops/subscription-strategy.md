@@ -19,7 +19,7 @@ tags: [ops, cost, enterprise, multi-provider, mistral, guide]
 | The service supports a critical or important function under DORA, at any team size | Classify the function and run the [control gate](#7-decision-and-pilot-gate) before comparing seat counts | DORA does not mandate an Anthropic plan, but one required Enterprise-only control is enough to rule out Team for the assessed workflow |
 | 2 to 150 intended users, Team controls satisfy the risk assessment | Team, with standard and premium seats mixed | The seat includes usage subject to plan limits, SSO, central administration, Commercial Terms, and no training on inputs or outputs by default |
 | More than 150 intended users, or a documented need for an Enterprise-only control | Enterprise | The $20 seat fee buys organization access and controls; every token is then billed at API rates |
-| Shared CI jobs, services, Agent SDK workloads, or unattended agents | Claude Platform API behind a tested gateway cap | A human seat is the wrong identity and budget boundary for a production service |
+| Shared CI jobs, services, Agent SDK workloads, or unattended agents | Claude Platform API behind a tested spend policy and terminal cap | A human seat is the wrong identity and budget boundary for a production service |
 | Regulated organization with both workforce use and production automation | Team or Enterprise for people, Platform API for services | Identity governance and API traffic control are separate decisions |
 | Several coding assistants or providers under consideration | Run the [300-engineer portfolio exercise](#exercise-choose-a-provider-portfolio-for-300-engineers) | Claude, Codex, Copilot, Gemini, Cursor, and Mistral use different seat, credit, overage, and control boundaries |
 | Self-hosted inference under consideration | A separate capacity and operations business case | Seat prices do not include the hardware, reliability, security, and staffing boundaries needed for a valid comparison |
@@ -115,7 +115,7 @@ The purchasing file should answer these questions before it names Team or Enterp
 4. **Retention**: Does the use case require standard 30-day Claude Code retention, a custom product schedule, or ZDR? What must still be deleted from developer machines?
 5. **Third-party risk**: Do the contract and annexes cover subprocessors, processing locations, incident notification, access and audit rights, service continuity, and exit?
 6. **Change control**: Which model versions, Claude Code versions, connectors, MCP servers, and hosted surfaces are approved? How are updates tested and rolled back?
-7. **Financial control**: What caps apply per user, team, service, and organization, and what happens when a cap is reached?
+7. **Financial control**: What visibility, warning, approval, model-downshift, and terminal thresholds apply per user, team, service, and organization? Which stages apply to interactive people, and which workloads must stop deterministically?
 
 Approve Enterprise when a named requirement maps to an Enterprise-only feature and a product test proves that the feature covers the intended workflow. A certification badge, a generic reference to compliance, or a sales comparison table is not that proof.
 
@@ -177,12 +177,16 @@ When a trial produces no accepted task, the ratio is undefined. Report zero acce
 
 At current public API rates, Opus 5 costs $5 per million input tokens and $25 per million output tokens, Sonnet 5 costs $2 and $10, and Haiku 4.5 costs $1 and $5. The 2.5-fold Opus-to-Sonnet rate difference is meaningful only if both models clear the same quality gate. Source: [Claude model pricing](https://platform.claude.com/docs/en/about-claude/pricing), verified 2026-08-31.
 
+Databricks calls the set of models with the best price for a required quality level the *efficiency frontier*. Use the term as an evaluation discipline, not as a public ranking. A candidate belongs on the organization's frontier only for the task classes, model-harness pair, acceptance gate, and review-cost boundary that were actually tested. Databricks reports more than 30% lower average task cost from its internal Smart Router while roughly matching the most expensive model's quality, but publishes no task sample, paired protocol, or confidence interval. Source: [Databricks, "Managing AI Coding Costs at Scale"](https://www.databricks.com/blog/managing-ai-coding-costs-scale), 2026-08-07.
+
 Set routing rules from measured task outcomes:
 
 - Start ambiguous, cross-system, security-sensitive, or high-rework tasks on the strongest approved model.
 - Use a cheaper model for mechanical or well-specified work only after repeated trials show that it preserves the acceptance rate and does not increase review or retry cost.
 - Compare models on the same tasks, with more than one run per task. Record the full workflow through tests and human acceptance, not the first generated patch.
 - Route by validated task class. Do not assume that a model family or an automatic complexity classifier knows the organization's quality threshold.
+- Prefer a task-level model-harness decision before work starts when the task can remain on one stable cache path. If routing occurs per request, measure cache creation, cache reads, cold starts, and mid-task behavior changes.
+- Price escalation and delegation as separate attempts. A cheap controller that consults an expensive model can still be cheaper, but duplicated context and review belong in the accepted-task total.
 
 A failed cheaper-model comparison is valid evidence for the tasks that were tested. It is not evidence that every task requires Opus. The fleet decision needs the same comparison across representative work, with failure and rework priced into the result.
 
@@ -198,7 +202,7 @@ Those controls have limits. Haiku cannot be disabled. Claude Code CLI version 2.
 
 Use Team or Enterprise seats for named people. Use Claude Platform API identities for CI jobs, shared agents, scheduled workloads, and services that need their own budget, rate limit, and lifecycle.
 
-A gateway such as LiteLLM or Portkey can issue virtual keys, attach team or service metadata, restrict models, and reject routed API requests after a configured budget is exceeded. It cannot see or cap subscription-authenticated traffic sent directly to Anthropic. Enterprise already provides native user and organization spend controls for its metered workforce usage. Add a gateway when the organization needs one policy layer for Platform API traffic, multiple providers, or service identities. See [API Gateway for Claude Code at Scale](./api-gateway.md).
+A gateway such as LiteLLM or Portkey can issue virtual keys, attach team or service metadata, restrict models, and reject routed API requests after a configured budget is exceeded. A terminal cap does not by itself provide spend warnings, approvals, or quality-safe model downshifts; those require a policy layer and tested client behavior. The gateway cannot see or cap subscription-authenticated traffic sent directly to Anthropic. Enterprise already provides native user and organization spend controls for its metered workforce usage. Add a gateway when the organization needs one policy layer for Platform API traffic, multiple providers, or service identities. See [API Gateway for Claude Code at Scale](./api-gateway.md#31-progressive-spend-policy-for-interactive-users).
 
 Practitioner accounts support gateway attribution, not productivity measurement. Shopify reports attributing enterprise API costs by team and person through its internal proxy. Ramp reports tracing costs by team and product through a similar internal layer. Back Market says its BigQuery telemetry exposed Anthropic API calls from clients such as Cursor alongside an existing license cost. None of the three accounts publishes the underlying spend data, implementation cost, or cost per accepted task. Sources: [Shopify at 22:22](https://www.youtube.com/watch?v=u-3IILWQPRM&t=1342s), published 2025-07-02; [Ramp at 24:53](https://www.youtube.com/watch?v=NMs8C2_3M0w&t=1493s), published 2026-03-09; and [Back Market at 45:09](https://www.youtube.com/watch?v=kSrEZ57thMg&t=2709s), published 2026-04-03.
 
@@ -223,7 +227,7 @@ Choose **Team** when all three conditions hold: the intended user count stays wi
 
 Choose **Enterprise** when the user count or a signed control requirement forces it, and after the pilot validates the relevant feature on every intended surface. Accept that the $20 seat is an access charge and forecast token usage separately.
 
-Add **Claude Platform behind a gateway** when production automation needs service identities, hard budgets, cross-provider routing, or centralized API attribution. This can coexist with either workforce plan.
+Add **Claude Platform behind a gateway** when production automation needs service identities, terminal budgets, cross-provider routing, or centralized API attribution. For interactive API traffic, test progressive warnings, approvals, and downshifts before the terminal cap. This can coexist with either workforce plan.
 
 Those choices are the Anthropic branch of the decision. They do not establish that one provider should serve every developer or workload.
 
@@ -263,7 +267,7 @@ Do not start with 300 identical licenses. Complete this table from identity and 
 
 #### Step 3: run the same four-week pilot across candidates
 
-Use representative repository tasks and the same executable acceptance gates. Repeat tasks because one agentic run does not estimate the distribution. Record model and harness version, task class, input and output tokens or provider credits, cache behavior, tool failures, retries, review time, accepted outcome, latency, and any provider or gateway fallback. A seat that also includes chat or office features may create value outside coding, but record that value separately instead of attributing the whole seat to engineering tasks.
+Use representative repository tasks and the same executable acceptance gates. Repeat tasks because one agentic run does not estimate the distribution. Record model and harness version, task class, routing level, routing decision, input and output tokens or provider credits, cache creation and reads, cold starts, tool failures, retries, review time, accepted outcome, latency, and any provider or gateway fallback. Record every spend warning, approval, downshift, and suspension with its threshold and outcome. A seat that also includes chat or office features may create value outside coding, but record that value separately instead of attributing the whole seat to engineering tasks.
 
 For self-hosted candidates, replay the measured arrival pattern rather than translating 300 engineers into 300 concurrent requests. Capture GPU utilization, queue depth, TTFT, time per output token, cache eviction, outages, deployment work, and operator hours. Use the detailed method in [Sizing Self-Hosted Inference for a Team](../ecosystem/local-vs-cloud-inference.md#sizing-self-hosted-inference-for-a-team).
 
@@ -280,13 +284,13 @@ cost per accepted task    = (all model, infrastructure, review, and rework cost)
                             / accepted tasks
 ```
 
-Also report intended, assigned, activated, and active seats; median and upper-percentile spend; unused included credits; rejected requests after caps; and workflows with zero accepted tasks. Do not hide failed trials behind an undefined cost-per-accepted-task ratio.
+Also report intended, assigned, activated, and active seats; median and upper-percentile spend; unused included credits; warnings, approvals, downshifts, terminal rejections; and workflows with zero accepted tasks. Do not hide failed trials behind an undefined cost-per-accepted-task ratio.
 
 #### Step 5: choose a portfolio, then test the boundaries
 
 A valid result can assign different paths to different populations. For example, a managed workforce plan may cover interactive development, a gateway may own CI and shared agents, and a private Mistral or other open-weight deployment may cover a narrow sovereignty-sensitive workload. This is a hypothesis to test, not a recommended allocation.
 
-Reject a candidate when a required control or task-quality gate fails, even if its list price is lower. Before approval, test offboarding, spend-cap rejection, audit export, data location and subprocessors, model-version change, provider fallback, direct-traffic bypass, and exit or data-export behavior. Compare self-hosting only after the local model meets the same accepted-task and latency objectives as the managed candidates.
+Reject a candidate when a required control or task-quality gate fails, even if its list price is lower. Before approval, test offboarding, each configured spend-policy stage, terminal rejection, audit export, data location and subprocessors, model-version change, cache behavior under routing, provider fallback, direct-traffic bypass, and exit or data-export behavior. Compare self-hosting only after the local model meets the same accepted-task and latency objectives as the managed candidates.
 
 Before rollout, the decision owner should approve one evidence pack containing:
 
@@ -295,7 +299,7 @@ Before rollout, the decision owner should approve one evidence pack containing:
 3. a representative model evaluation with accepted-task quality and total workflow cost;
 4. a monthly forecast showing median and tail usage, not only an average per seat;
 5. an offboarding test, an audit or Compliance API coverage test, and a retention test;
-6. a cap and rejection-path test for every metered traffic path;
+6. a spend-policy test for every metered traffic path, including the terminal rejection path and any warning, approval, or downshift stages;
 7. the completed multi-provider exercise with dated source URLs, contract deviations, and the selected population for each path;
 8. a DORA and third-party-risk record where the organization determines those obligations apply.
 
@@ -324,7 +328,7 @@ Use this table after completing the pilot, not as a substitute for it. The decis
 | Gemini Code Assist Standard or Enterprise | Teams already governed through Google Cloud | Monthly or annual license-hour commitment | Code customization, agent limits, data controls, and portability justify the commitment |
 | Cursor Teams or Enterprise | Teams choosing an AI-native editor workflow | Active seats plus model usage or overage | Outcome gains cover model markup, background agents, migration, and exit cost |
 | Mistral Vibe Team or Enterprise | Managed Vibe workflows and European-provider procurement paths | Team seat with included usage and optional PAYG, or Enterprise contract | Vibe passes the task pilot and actual processing locations meet the sovereignty requirement |
-| Governed multi-provider API | CI, shared agents, services, and model routing | Provider tokens plus gateway, telemetry, and operator cost | Caps, attribution, fallback, and bypass controls work; direct subscriptions remain outside the gateway |
+| Governed multi-provider API | CI, shared agents, services, and model routing | Provider tokens plus gateway, telemetry, and operator cost | Routing, progressive or terminal spend controls, attribution, fallback, cache behavior, and bypass controls work; direct subscriptions remain outside the gateway |
 | Self-hosted open-weight inference, including Devstral | Stable, high-volume or privacy-sensitive workloads | Infrastructure, energy, monitoring, availability, and operator time | Quality and latency match the target; measured concurrency and loaded cost beat the API alternative |
 
 For 300 engineers, the defensible output is usually a portfolio assignment by population rather than one universal winner: a managed workforce path for interactive use, governed API identities for automation, and self-hosted inference only for workloads that pass the separate quality, capacity, and operations case. Record this as a measured decision, not a default allocation.
