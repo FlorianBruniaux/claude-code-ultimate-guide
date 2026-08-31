@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import { readFileSync } from 'node:fs'
 import { mkdtemp, rm } from 'node:fs/promises'
 import { spawnSync } from 'node:child_process'
 import { resolve } from 'node:path'
@@ -8,6 +9,20 @@ import { Client } from '@modelcontextprotocol/sdk/client/index.js'
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
 
 const packageRoot = resolve(import.meta.dirname, '..')
+const guideRoot = resolve(packageRoot, '..')
+const manifest = JSON.parse(readFileSync(resolve(guideRoot, 'machine-readable/mcp-product.json'), 'utf8'))
+
+function sortByName(values) {
+  return [...values].sort((left, right) => left.name.localeCompare(right.name))
+}
+
+function contractFromLists(tools, resources, prompts) {
+  return {
+    tools: sortByName(tools.map(({ name, description, inputSchema, annotations }) => ({ name, description, input_schema: inputSchema, ...(annotations === undefined ? {} : { annotations }) }))),
+    resources: sortByName(resources.map(({ name, uri, description, mimeType }) => ({ name, uri, description, mime_type: mimeType }))),
+    prompts: sortByName(prompts.map(({ name, description, arguments: args }) => ({ name, description, arguments: args ?? [] }))),
+  }
+}
 
 async function withClient(command, args, cwd, run) {
   const transport = new StdioClientTransport({ command, args, cwd, stderr: 'pipe' })
@@ -35,12 +50,19 @@ test('npm package excludes development files and preserves the MCP list contract
 
     const install = resolve(tempDirectory, 'install')
     const tarball = resolve(tempDirectory, archive.filename)
-    const installed = spawnSync('npm', ['install', '--prefix', install, '--ignore-scripts', '--no-audit', '--no-fund', tarball], { cwd: tempDirectory, encoding: 'utf8', env })
-    assert.equal(installed.status, 0, installed.stderr)
+    const installed = spawnSync('npm', ['install', '--prefix', install, '--ignore-scripts', '--no-audit', '--no-fund', tarball], {
+      cwd: tempDirectory, encoding: 'utf8', env, timeout: 30_000, maxBuffer: 1024 * 1024,
+    })
+    assert.equal(installed.status, 0, `npm install failed or timed out after 30s (signal: ${installed.signal ?? 'none'}).\nstdout:\n${installed.stdout}\nstderr:\n${installed.stderr}`)
     await withClient(resolve(install, 'node_modules/.bin/claude-code-ultimate-guide-mcp'), [], install, async (client) => {
-      assert.equal((await client.listTools()).tools.length, 17)
-      assert.equal((await client.listResources()).resources.length, 5)
-      assert.equal((await client.listPrompts()).prompts.length, 1)
+      const [tools, resources, prompts] = await Promise.all([client.listTools(), client.listResources(), client.listPrompts()])
+      assert.deepEqual(contractFromLists(tools.tools, resources.resources, prompts.prompts), manifest.runtime)
+      for (const resource of resources.resources) {
+        const result = await client.readResource({ uri: resource.uri })
+        assert.ok(result.contents[0].text.length > 0, `${resource.uri} must be readable`)
+        assert.equal(result.contents[0].mimeType, resource.mimeType)
+        if (resource.uri === 'claude-code-guide://translations') JSON.parse(result.contents[0].text)
+      }
     })
   } finally {
     await rm(tempDirectory, { recursive: true, force: true })

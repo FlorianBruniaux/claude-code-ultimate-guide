@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto'
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs'
-import { resolve, relative } from 'node:path'
+import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parse as parseYaml } from 'yaml'
 import { collectRuntimeSnapshot } from './runtime-snapshot.mjs'
@@ -11,17 +11,33 @@ const packageRoot = resolve(scriptDirectory, '..')
 const guideRoot = resolve(packageRoot, '..')
 const manifestPath = resolve(guideRoot, 'machine-readable/mcp-product.json')
 
+/** @typedef {{
+ * schema_version: 1,
+ * package: { name: string, version: string, registry_name: string },
+ * guide: { version: string, line_count: number, index_entries: number, claude_code_releases: number },
+ * runtime: {
+ *   tools: Array<{name: string, description: string, input_schema: object, annotations?: object}>,
+ *   resources: Array<{name: string, uri: string, description: string, mime_type: string}>,
+ *   prompts: Array<{name: string, description: string, arguments: object[]}>
+ * },
+ * companions: { slash_commands: string[] },
+ * source_digest: `sha256:${string}`
+ * }} ProductManifestV1 */
+
 function sortByName(values) { return [...values].sort((left, right) => left.name.localeCompare(right.name)) }
 
 function sourcePaths() {
   const commands = readdirSync(resolve(guideRoot, '.claude/commands/ccguide'))
     .filter((name) => name.endsWith('.md'))
     .map((name) => `.claude/commands/ccguide/${name}`)
+  const tools = readdirSync(resolve(packageRoot, 'src/tools'))
+    .filter((name) => name.endsWith('.ts'))
+    .map((name) => `mcp-server/src/tools/${name}`)
   return [
     'VERSION', 'guide/ultimate-guide.md', 'machine-readable/reference.yaml',
     'machine-readable/claude-code-releases.yaml', 'mcp-server/package.json',
     'mcp-server/src/server.ts', 'mcp-server/src/resources/index.ts', 'mcp-server/src/prompts/index.ts',
-    ...commands,
+    ...commands, ...tools,
   ].sort()
 }
 
