@@ -9,6 +9,8 @@ These assets turn one part of the Claude Code Ultimate Guide into a bounded teac
 
 The slides contain a `[Sources]` block in every slide's speaker notes. The video briefs name the guide page, observable check, attributed destination, and research source for each episode.
 
+For a live workshop or recording, the [Proofpack companion project](../../examples/learning-project/README.md) provides the continuous exercise behind the learning path.
+
 ## Before publication
 
 1. Rebuild or reopen the asset and inspect the final output.

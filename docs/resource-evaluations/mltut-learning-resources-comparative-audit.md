@@ -27,9 +27,10 @@ Les priorités A, B et le prototype principal de C sont maintenant livrés dans 
 | Surface officielle | [Computer Use](../../guide/core/computer-use.md), [distribution des plugins](../../guide/ecosystem/plugin-distribution.md), [Claude apps gateway](../../guide/ops/api-gateway.md), [évaluation officielle datée](./claude-code-current-surface-2026-08.md) | La documentation officielle ne remplace pas un test sur le compte, le plan et la politique d’une organisation donnée. |
 | Méthode Best-of-N | [Workflow](../../guide/workflows/best-of-n.md), [skill](../../examples/skills/best-of-n/SKILL.md), [journal `TESTING.md`](../../examples/claude-md/TESTING.md), [dossier de preuve](./best-of-n-verification-evidence.md) | La sélection reste limitée par la rubrique, le vérificateur et l’environnement enregistrés. |
 | Parcours exécutable | [Skill learning-path](../../examples/skills/learning-path/SKILL.md), quatre tracks, état local atomique, prérequis, preuves et revues planifiées | Le calendrier de revue est une politique configurable, pas un optimum démontré. |
+| Projet fil rouge | [Proofpack](../../examples/learning-project/README.md), CLI Node.js sans dépendance runtime, 11 tests, hook de publication, agent de revue, skill de vérification, preuve et packaging | Le build et l'exécution Docker restent `UNKNOWN` faute d'accès au daemon pendant l'audit. |
 | Actifs de distribution | [Slides](../distribution/claude-code-learning-path-slides.pptx), [briefs vidéo](../distribution/quick-win-video-series.md), [workflow](../workflows/guide-distribution.md), [registre machine-readable](../../machine-readable/distribution-channels.yaml) | Bilibili et HelloGitHub restent bloqués sans relecteur chinois et sans autorisation de publication. Les vidéos sont écrites, pas enregistrées. |
 
-Le projet fil rouge est traité comme un artefact séparé afin de garder la référence principale stable. Son lien doit rester visible depuis le parcours d’apprentissage et les exemples dès que ses tests passent.
+Le projet fil rouge reste séparé de la référence principale afin de garder celle-ci stable. Il est relié au parcours d’apprentissage, aux méthodes de preuve et au workflow de distribution.
 
 ## Ce que cet audit couvre réellement
 

@@ -156,6 +156,8 @@ Both guides serve different needs. Choose based on your priority.
 
 **Want persistent progress?** → Use the [**learning-path skill**](./examples/skills/learning-path/SKILL.md) to unlock modules, record evidence, and schedule reviews in your project.
 
+**Want one continuous exercise?** → Build the [**Proofpack companion project**](./examples/learning-project/README.md) across all seven modules, from issue to retained release evidence.
+
 **Comparing several solutions?** → Follow the [**Best-of-N workflow**](./guide/workflows/best-of-n.md) and keep its [verification record](./examples/claude-md/TESTING.md).
 
 **Quickest path**: [Cheat Sheet](./guide/cheatsheet.md), 1 printable page with daily essentials

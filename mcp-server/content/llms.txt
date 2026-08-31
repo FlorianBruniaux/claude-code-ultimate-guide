@@ -7,7 +7,7 @@ Guide version 3.43.0, tracking Claude Code up to v2.1.250 (August 2026).
 ## What is covered
 
 - Getting started: installation, CLAUDE.md setup, vocabulary, first session, 7-module learning path (8-11h)
-- Executable learning: installable learning-path skill with prerequisite gates, local evidence, and scheduled reviews
+- Executable learning: installable learning-path skill with prerequisite gates, local evidence, scheduled reviews, and a tested seven-module companion project
 - Context window management: 1M-token context on Sonnet 5 and Opus 5, context rot, /compact and /clear thresholds, auto-compact
 - Context engineering: managing what the model sees, when and in what shape; token audit workflow, compression tools, ejection discipline, maturity model
 - Memory systems: native stack (CLAUDE.md levels, auto memory, auto dream, agent frontmatter), cross-session tools (claude-mem, agentmemory, ICM, Kairn, OpenMemory), team sharing, file-based experience playbooks, memory poisoning risks
@@ -50,6 +50,7 @@ Guide version 3.43.0, tracking Claude Code up to v2.1.250 (August 2026).
 - Glossary: https://cc.bruniaux.com/guide/glossary/
 - Translations and language status: https://cc.bruniaux.com/guide/translations/
 - Learning path skill: https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/skills/learning-path
+- Learning companion project: https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/learning-project
 - Best-of-N workflow: https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/best-of-n.md
 - Releases tracking: https://cc.bruniaux.com/releases/
 - Whitepapers (PDF + EPUB, FR and EN): https://cc.bruniaux.com/whitepapers/

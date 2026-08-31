@@ -88,6 +88,8 @@ The [installable learning-path skill](../../examples/skills/learning-path/SKILL.
 
 Use the skill when the reading path spans several sessions or when another person must inspect what was completed. Its review schedule is 1, 3, 7, 14, 30, 60, and 90 days. Those intervals are project policy, not a claim that one schedule is optimal for every learner.
 
+The [Proofpack companion project](../../examples/learning-project/README.md) carries one issue through configuration, implementation, tests, a guarded release check, evidence review, packaging, and an optional Docker boundary. Use it when you want one continuous exercise across all seven modules.
+
 The [learning path slides](../../docs/distribution/claude-code-learning-path-slides.pptx) provide a short workshop version. The [video production briefs](../../docs/distribution/quick-win-video-series.md) connect individual exercises to observable checks.
 
 ### Current Product Surfaces
@@ -223,6 +225,7 @@ Choose where to go next:
 
 ### Practice
 Try one of the practice projects from `/self-assessment` results:
+- [Proofpack companion project](../../examples/learning-project/README.md): one tested release-verification CLI across all seven modules
 - Project 1: Your first automation workflow
 - Project 2: Team configuration
 - Project 3: Production-grade setup
