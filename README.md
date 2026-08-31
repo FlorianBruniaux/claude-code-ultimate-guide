@@ -58,7 +58,7 @@
 
 ## Languages and Translations
 
-English is the canonical edition. French is maintained in this repository. The Chinese and Ukrainian editions are independent community projects with their own update schedules.
+English is the canonical edition. French is maintained in this repository. Chinese, Ukrainian, and Latin American Spanish editions are independent community projects with their own update schedules.
 
 | Language | Status checked 2026-08-31 | Guide |
 |---|---|---|
@@ -66,8 +66,9 @@ English is the canonical edition. French is maintained in this repository. The C
 | Français | Maintained here, behind canonical | [Lire le guide français](guide/ultimate-guide.fr.md) |
 | 简体中文 | Community, unofficial, behind canonical | [Chinese community edition by JAYcodr](https://github.com/JAYcodr/claude-code-ultimate-guide-zh) |
 | Українська | Community, unofficial, behind canonical | [Ukrainian community edition by gerasimsergey](https://github.com/gerasimsergey/claude-code-ultimate-guide-ua) |
+| Español latinoamericano | Community, unofficial, behind canonical | [Spanish community edition by Richardls](https://github.com/Richardls/claude-code-ultimate-guide-es) |
 
-The [translation status page](guide/core/translations.md) records source versions, synchronization dates, coverage, and the distinction between maintained and community editions. Its machine-readable source is [`machine-readable/translations.json`](machine-readable/translations.json).
+The [translation status page](guide/core/translations.md) records source commits, measured lag, attribution, coverage, and the distinction between maintained and community editions. French maintenance is the priority before any new official locale, including Chinese. Its machine-readable source is [`machine-readable/translations.json`](machine-readable/translations.json).
 
 ---
 

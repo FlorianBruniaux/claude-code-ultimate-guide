@@ -19,6 +19,7 @@ DEFAULT_REGISTRY = REPO_ROOT / "machine-readable" / "translations.json"
 VERSION_RE = re.compile(r"^\*\*Version\*\*\s*:\s*([0-9]+\.[0-9]+\.[0-9]+)\s*$", re.MULTILINE)
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 PREFIX_RE = re.compile(r"^(\d{2})-")
+SHA_RE = re.compile(r"^[0-9a-f]{40}$")
 
 
 def sha256_file(path: Path) -> str:
@@ -68,6 +69,190 @@ def expected_sync_state(
             return "stale"
         return "current"
     return "version_match_unverified"
+
+
+def run_git(repo_root: Path, *args: str) -> str:
+    return subprocess.run(
+        ["git", *args],
+        cwd=repo_root,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+
+
+def sha256_bytes(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def compute_git_lag(
+    repo_root: Path,
+    source_commit: str,
+    source_path: str,
+    target_commit: str = "HEAD",
+) -> dict[str, int]:
+    return {
+        "canonical_guide_commits": int(
+            run_git(
+                repo_root,
+                "rev-list",
+                "--count",
+                f"{source_commit}..{target_commit}",
+                "--",
+                source_path,
+            )
+        ),
+        "canonical_repo_commits": int(
+            run_git(repo_root, "rev-list", "--count", f"{source_commit}..{target_commit}")
+        ),
+    }
+
+
+def validate_evidence_registry(registry: dict[str, Any], repo_root: Path) -> list[str]:
+    """Validate source commits, hashes, attribution fields, and pinned lag offline."""
+    errors: list[str] = []
+    measured_at = registry.get("measured_at_commit")
+    if not isinstance(measured_at, str) or not SHA_RE.fullmatch(measured_at):
+        return ["measured_at_commit must be a 40-character lowercase Git SHA"]
+
+    policy = registry.get("policy", {})
+    priorities = policy.get("official_translation_priority")
+    if policy.get("canonical_language") != "en":
+        errors.append("policy.canonical_language must be en")
+    if not isinstance(priorities, list) or not priorities or priorities[0] != "fr":
+        errors.append("French must be the first official translation priority")
+
+    try:
+        run_git(repo_root, "merge-base", "--is-ancestor", measured_at, "HEAD")
+    except subprocess.CalledProcessError:
+        errors.append("measured_at_commit is not an ancestor of HEAD")
+
+    canonical = registry.get("canonical", {})
+    canonical_path = canonical.get("path")
+    canonical_source = canonical.get("source", {})
+    canonical_lag = canonical.get("known_lag", {})
+    for field in ("language", "url", "maintainer", "status", "version", "coverage", "known_lag"):
+        if field not in canonical:
+            errors.append(f"canonical missing field {field}")
+    if canonical.get("status") != "official":
+        errors.append("canonical status must be official")
+    if not isinstance(canonical_source, dict) or not canonical_source.get("commit"):
+        errors.append("canonical source commit must be present")
+    elif isinstance(canonical_path, str):
+        latest_commit = run_git(repo_root, "log", "-1", "--format=%H", "--", canonical_path)
+        if canonical_source.get("commit") != latest_commit:
+            errors.append("canonical source commit is not the latest commit that changed the guide")
+        if canonical_source.get("sha256") != canonical.get("sha256"):
+            errors.append("canonical source hash differs from canonical sha256")
+    if canonical_lag.get("status") != "current" or any(
+        canonical_lag.get(key) != 0
+        for key in ("canonical_guide_commits", "canonical_repo_commits")
+    ):
+        errors.append("canonical known lag must be current with zero commit lag")
+
+    languages: set[str] = set()
+    for translation in registry.get("translations", []):
+        language = translation.get("language", "UNKNOWN")
+        if language in languages:
+            errors.append(f"duplicate translation language {language}")
+        languages.add(language)
+        for field in (
+            "url",
+            "maintainer",
+            "status",
+            "version",
+            "last_checked_at",
+            "coverage",
+            "known_lag",
+            "translated_from",
+        ):
+            if field not in translation:
+                errors.append(f"{language} missing field {field}")
+
+        kind = translation.get("kind")
+        if kind == "community" and (
+            translation.get("status") != "community" or translation.get("official") is not False
+        ):
+            errors.append(f"{language} community translation must remain unofficial")
+        if kind == "maintained" and translation.get("status") != "official":
+            errors.append(f"{language} maintained translation must have project status official")
+
+        source = translation.get("translated_from", {})
+        lag = translation.get("known_lag", {})
+        source_commit = source.get("commit") if isinstance(source, dict) else None
+        if source_commit is None:
+            if source.get("commit_evidence") != "not_declared":
+                errors.append(f"{language} unknown source commit must say not_declared")
+            if lag.get("status") != "unknown" or any(
+                lag.get(key) is not None
+                for key in ("canonical_guide_commits", "canonical_repo_commits")
+            ):
+                errors.append(f"{language} unknown source commit requires unknown numeric lag")
+            continue
+        if not isinstance(source_commit, str) or not SHA_RE.fullmatch(source_commit):
+            errors.append(f"{language} source commit must be a full lowercase Git SHA")
+            continue
+        try:
+            run_git(repo_root, "merge-base", "--is-ancestor", source_commit, measured_at)
+            source_bytes = subprocess.run(
+                ["git", "show", f"{source_commit}:{canonical_path}"],
+                cwd=repo_root,
+                check=True,
+                capture_output=True,
+            ).stdout
+            source_version = run_git(repo_root, "show", f"{source_commit}:VERSION")
+        except subprocess.CalledProcessError:
+            errors.append(f"{language} source commit or canonical source file is unavailable")
+            continue
+
+        observed_source_hash = sha256_bytes(source_bytes)
+        if source.get("sha256") != observed_source_hash:
+            errors.append(f"{language} recorded source hash drifted")
+        if source.get("version", translation.get("version")) != source_version:
+            errors.append(f"{language} source version differs from its source commit VERSION")
+        observed_lag = compute_git_lag(repo_root, source_commit, canonical_path, measured_at)
+        for key, value in observed_lag.items():
+            if lag.get(key) != value:
+                errors.append(
+                    f"{language} {key} drifted: recorded {lag.get(key)}, observed {value}"
+                )
+        expected_status = (
+            "current"
+            if observed_lag["canonical_guide_commits"] == 0
+            and observed_source_hash == canonical.get("sha256")
+            and source_version == canonical.get("version")
+            else "stale"
+        )
+        if lag.get("status") != expected_status:
+            errors.append(
+                f"{language} freshness drifted: recorded {lag.get('status')}, observed {expected_status}"
+            )
+
+        if kind == "maintained":
+            artifact = translation.get("artifact", {})
+            path = repo_root / translation["path"]
+            if artifact.get("sha256") != sha256_file(path):
+                errors.append(f"{language} artifact hash drifted")
+
+    if "fr" not in languages:
+        errors.append("the maintained French translation is missing")
+
+    for index, artifact in enumerate(registry.get("localized_artifacts", [])):
+        for field in (
+            "kind",
+            "languages",
+            "url",
+            "maintainer",
+            "status",
+            "version",
+            "source_commit",
+            "last_checked_at",
+            "coverage",
+            "known_lag",
+        ):
+            if field not in artifact:
+                errors.append(f"localized_artifacts[{index}] missing field {field}")
+    return errors
 
 
 def numbered_qmd_files(root: Path) -> dict[str, Path]:
@@ -121,14 +306,22 @@ def validate_publication_pairs(registry: dict[str, Any], repo_root: Path) -> tup
     fr_whitepapers = numbered_qmd_files(repo_root / whitepapers["roots"]["fr"])
     en_whitepapers = numbered_qmd_files(repo_root / whitepapers["roots"]["en"])
     expected_prefixes = set(whitepapers["public_prefixes"])
+    known_unpaired = whitepapers.get("known_unpaired_prefixes", {})
 
     for language, files in (("fr", fr_whitepapers), ("en", en_whitepapers)):
         missing = sorted(expected_prefixes - set(files))
-        extra = sorted(set(files) - expected_prefixes)
+        declared_unpaired = set(known_unpaired.get(language, []))
+        extra = sorted(set(files) - expected_prefixes - declared_unpaired)
+        absent_unpaired = sorted(declared_unpaired - set(files))
         if missing:
-            errors.append(f"Whitepapers {language}: missing public prefixes {', '.join(missing)}")
+            errors.append(f"Whitepapers {language}: missing paired source prefixes {', '.join(missing)}")
         if extra:
-            errors.append(f"Whitepapers {language}: undeclared public prefixes {', '.join(extra)}")
+            errors.append(f"Whitepapers {language}: undeclared source prefixes {', '.join(extra)}")
+        if absent_unpaired:
+            errors.append(
+                f"Whitepapers {language}: declared unpaired prefixes are absent "
+                f"{', '.join(absent_unpaired)}"
+            )
 
     for prefix in sorted(expected_prefixes & set(fr_whitepapers) & set(en_whitepapers)):
         errors.extend(
@@ -182,6 +375,8 @@ def validate_registry(
     errors: list[str] = []
     states: list[str] = []
     stale_languages: list[str] = []
+
+    errors.extend(validate_evidence_registry(registry, repo_root))
 
     root_version = (repo_root / "VERSION").read_text(encoding="utf-8").strip()
     canonical = registry["canonical"]
@@ -290,6 +485,18 @@ def update_local_registry(
     canonical["version"] = root_version
     canonical["sha256"] = canonical_hash
     registry["checked_at"] = today
+    measured_at = run_git(repo_root, "rev-parse", "HEAD")
+    registry["measured_at_commit"] = measured_at
+    canonical["source"] = {
+        "commit": run_git(repo_root, "log", "-1", "--format=%H", "--", canonical["path"]),
+        "sha256": canonical_hash,
+        "commit_evidence": "latest_commit_touching_canonical_guide",
+    }
+    canonical["known_lag"] = {
+        "status": "current",
+        "canonical_guide_commits": 0,
+        "canonical_repo_commits": 0,
+    }
 
     for translation in registry["translations"]:
         if translation["kind"] != "maintained":
@@ -304,6 +511,7 @@ def update_local_registry(
                 "sha256": canonical_hash,
             }
             translation["last_full_refresh_at"] = today
+            translation.setdefault("artifact", {})["sha256"] = sha256_file(translation_path)
         translation["sync_state"] = expected_sync_state(
             root_version,
             translation["version"],
@@ -311,6 +519,22 @@ def update_local_registry(
             translated_from_sha256=translation.get("translated_from", {}).get("sha256"),
             maintained=True,
         )
+    for translation in registry["translations"]:
+        source_commit = translation.get("translated_from", {}).get("commit")
+        if source_commit and source_commit != "working-tree":
+            observed_lag = compute_git_lag(
+                repo_root,
+                source_commit,
+                canonical["path"],
+                measured_at,
+            )
+            translation["known_lag"].update(observed_lag)
+            translation["known_lag"]["status"] = "current" if (
+                observed_lag["canonical_guide_commits"] == 0
+                and translation.get("translated_from", {}).get("sha256") == canonical_hash
+                and translation.get("translated_from", {}).get("version", translation["version"])
+                == root_version
+            ) else "stale"
 
     registry_path.write_text(json.dumps(registry, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     return registry

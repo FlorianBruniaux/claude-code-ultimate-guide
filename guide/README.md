@@ -31,7 +31,7 @@ Core documentation for mastering Claude Code, organized by topic.
 |------|-------------|------|
 | [ultimate-guide.md](./ultimate-guide.md) | Complete reference covering all Claude Code features | ~3 hours |
 | [ultimate-guide.fr.md](./ultimate-guide.fr.md) | French translation of the complete reference guide | ~3 hours |
-| [core/translations.md](./core/translations.md) | **Translations and Language Status**: canonical, maintained, and community editions with version and coverage dates | 5 min |
+| [core/translations.md](./core/translations.md) | **Translations and Language Governance**: verified attribution, source commits, measured lag, and official versus community status | 5 min |
 | [cowork.md](./cowork.md) | Claude Cowork: agentic desktop summary for non-technical knowledge workers | 10 min |
 | [cheatsheet.md](./cheatsheet.md) | 1-page printable quick reference | 5 min |
 | [core/architecture.md](./core/architecture.md) | How Claude Code works internally (master loop, tools, context) | 25 min |
