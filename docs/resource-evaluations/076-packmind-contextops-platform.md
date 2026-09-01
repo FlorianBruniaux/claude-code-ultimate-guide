@@ -1,6 +1,6 @@
-# Resource Evaluation #076 — Packmind: ContextOps Platform for AI Coding Agents
+# Resource Evaluation #076: Packmind: ContextOps Platform for AI Coding Agents
 
-**Source:** [GitHub — PackmindHub/packmind](https://github.com/PackmindHub/packmind) / [Demo use cases](https://github.com/PackmindHub/demo-use-case-skills)
+**Source:** [GitHub: PackmindHub/packmind](https://github.com/PackmindHub/packmind) / [Demo use cases](https://github.com/PackmindHub/demo-use-case-skills)
 **Type:** Open-source platform + SaaS layer — engineering standards distribution for AI coding agents
 **Evaluated:** 2026-03-17
 
@@ -10,11 +10,11 @@
 
 Packmind is a "ContextOps" platform (Packmind's own term) that captures engineering standards once and distributes them as AI-readable context across all AI coding agents a team uses.
 
-1. **Standards Distribution** — Single source of truth for coding rules, architecture patterns, naming conventions. Generates `CLAUDE.md` + slash commands + skills for Claude Code, `.cursor/rules/*.mdc` for Cursor, `.github/copilot-instructions.md` for Copilot, `AGENTS.md` for generic agents.
-2. **MCP Server** — Lets Claude Code (or any MCP-capable agent) create and manage playbook standards interactively during a session.
-3. **Continuous Learning Loop** — Claimed workflow: bug fixed → root cause + resolution captured via Skill+MCP → playbook update proposed → human validates → distributed across repos. (Claimed behavior, no reproducible benchmark found.)
-4. **Knowledge Ingestion from Team Tools** — Demo repo shows 6 ready-made use cases pulling context from GitHub PR comments, Slack, Jira, GitLab MRs, Confluence, Notion via their MCP servers.
-5. **Self-hostable** — Docker/Kubernetes, Apache-2.0 CLI. SaaS layer at packmind.com with unspecified pricing.
+1. **Standards Distribution**: Single source of truth for coding rules, architecture patterns, naming conventions. Generates `CLAUDE.md` + slash commands + skills for Claude Code, `.cursor/rules/*.mdc` for Cursor, `.github/copilot-instructions.md` for Copilot, `AGENTS.md` for generic agents.
+2. **MCP Server**: Lets Claude Code (or any MCP-capable agent) create and manage playbook standards interactively during a session.
+3. **Continuous Learning Loop**: Claimed workflow: bug fixed → root cause + resolution captured via Skill+MCP → playbook update proposed → human validates → distributed across repos. (Claimed behavior, no reproducible benchmark found.)
+4. **Knowledge Ingestion from Team Tools**: Demo repo shows 6 ready-made use cases pulling context from GitHub PR comments, Slack, Jira, GitLab MRs, Confluence, Notion via their MCP servers.
+5. **Self-hostable**: Docker/Kubernetes, Apache-2.0 CLI. SaaS layer at packmind.com with unspecified pricing.
 
 **Traction:** 245 GitHub stars (now 303 as of 2026-07-28), 22 CLI releases in 6 months (v0.19.0→v0.22.0), active commits as of March 16 2026, 29 open issues.
 
@@ -68,7 +68,7 @@ One-liner in the Orchestration or Documentation section: Packmind ships an MCP s
 
 ## 🔥 Challenge (technical-writer agent)
 
-Score **adjusted to 4/5** — initial estimate of 3/5 was too conservative.
+Score **adjusted to 4/5**: initial estimate of 3/5 was too conservative.
 
 **Points not in initial assessment:**
 - **Security surface**: Centralized CLAUDE.md distribution = shared prompt injection attack vector. Must be flagged when documenting.

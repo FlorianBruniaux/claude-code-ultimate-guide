@@ -4,7 +4,7 @@ description: "Keep brand-book.html and ui-kit.html at project root as permanent 
 tags: [design-system, frontend, web, ui, consistency, brand, color-palette, tailwind]
 ---
 
-# Design Reference File — CLAUDE.md Pattern
+# Design Reference File: CLAUDE.md Pattern
 
 Keep `brand-book.html` and `ui-kit.html` at the project root as permanent context files. Claude Code reads them before generating any UI — every new page inherits your design system automatically.
 

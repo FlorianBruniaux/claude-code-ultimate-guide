@@ -107,7 +107,7 @@ Agent challenged the evaluation from an architectural perspective:
 2. **Missing architectural pattern**: The article demonstrates the **eager loading vs lazy invocation** trade-off. The guide documents this factually (line 4074-4080 table) but never names the pattern or provides empirical evidence for it.
 3. **Plan under-specified**: Original "3-5 lines, 2 sections" is a placeholder. Correct plan: **3 lines, 3 specific locations** (lines 3527, 4082, 5641).
 4. **Missing compression technique**: The guide says "keep it concise" but never shows *how* to compress. The 5x compression (40KB → 8KB) with zero loss is actionable guidance the guide lacks.
-5. **Decision criteria gap**: The guide's loading table (line 4074) lacks a **criticality criterion** — if instructions are critical, use CLAUDE.md (eager, 100% loaded); if supplementary, skills suffice (lazy, 56% invocation acceptable).
+5. **Decision criteria gap**: The guide's loading table (line 4074) lacks a **criticality criterion**: if instructions are critical, use CLAUDE.md (eager, 100% loaded); if supplementary, skills suffice (lazy, 56% invocation acceptable).
 
 **Score adjustment**: None (3/5 confirmed), but integration plan upgraded to 3 precise locations.
 

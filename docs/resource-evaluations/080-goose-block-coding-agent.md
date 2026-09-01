@@ -1,4 +1,4 @@
-# Resource Evaluation #080 — Goose (Block): Open-Source AI Coding Agent
+# Resource Evaluation #080: Goose (Block): Open-Source AI Coding Agent
 
 **Source:** [block.github.io/goose](https://block.github.io/goose) / [github.com/block/goose](https://github.com/block/goose)
 **Type:** Open source tool (Apache 2.0) — on-machine AI coding agent

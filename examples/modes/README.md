@@ -78,5 +78,5 @@ SuperClaude also includes:
 
 ## See Also
 
-- [SuperClaude Behavioral Modes](../../guide/ultimate-guide.md#superclaude-behavioral-modes) — Full documentation
-- [SuperClaude Repository](https://github.com/SuperClaude-Org/SuperClaude_Framework) — Complete framework
+- [SuperClaude Behavioral Modes](../../guide/ultimate-guide.md#superclaude-behavioral-modes): Full documentation
+- [SuperClaude Repository](https://github.com/SuperClaude-Org/SuperClaude_Framework): Complete framework

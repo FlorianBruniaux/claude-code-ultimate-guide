@@ -54,7 +54,7 @@ Main differentiator: zero-dependency Rust binary lowers install friction for use
 
 ## Benchmarks
 
-All benchmarks below are **vendor-reported by rtk-ai** — not independently verified.
+All benchmarks below are **vendor-reported by rtk-ai**: not independently verified.
 
 **Storage performance (1000 ops, 384d embeddings)**:
 - Store (no embeddings): 34.2 µs/op

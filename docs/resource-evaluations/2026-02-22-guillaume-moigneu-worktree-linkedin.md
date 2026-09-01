@@ -109,7 +109,7 @@ no merge conflicts because each works in its own copy.
 ## 🎯 Décision finale
 
 - **Score final**: 3/5
-- **Action**: **Intégrer comme complément** — pas de section séparée, enrichit l'intégration de l'éval principale
+- **Action**: **Intégrer comme complément**: pas de section séparée, enrichit l'intégration de l'éval principale
 - **Nouveaux éléments à ajouter au guide**:
   1. `isolation: worktree` déclaratif dans agent defs (YAML example)
   2. `WorktreeCreate`/`WorktreeRemove` hooks → section hooks

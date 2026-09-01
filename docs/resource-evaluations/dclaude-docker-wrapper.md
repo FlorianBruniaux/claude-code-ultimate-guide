@@ -1,4 +1,4 @@
-# Resource Evaluation: dclaude — Dockerized Claude Code Wrapper
+# Resource Evaluation: dclaude: Dockerized Claude Code Wrapper
 
 | Field | Value |
 |-------|-------|

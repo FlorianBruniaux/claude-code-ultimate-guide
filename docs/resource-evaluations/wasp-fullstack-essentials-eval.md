@@ -58,11 +58,11 @@ Includes quotes from Chris McCord (Phoenix creator), Andrej Karpathy, and refere
 
 | Content | Status in Guide | Action |
 |---------|----------------|--------|
-| llms.txt concept/standard | File exists, ZERO conceptual docs | **HIGH PRIORITY** — Integrate concept (embarrassing gap) |
-| Background tasks workflow | Feature reference only (scattered) | **MEDIUM PRIORITY** — Add workflow strategy |
-| Chrome DevTools MCP | Zero coverage | **LOW PRIORITY** — Mention in ecosystem |
-| Convention-over-config for AI | Section 9.18 (AX framework) covers partially | **LOW PRIORITY** — Reinforce existing section |
-| Wasp framework specifics | Not covered | **EXCLUDED** — Promotional content |
+| llms.txt concept/standard | File exists, ZERO conceptual docs | **HIGH PRIORITY**: Integrate concept (embarrassing gap) |
+| Background tasks workflow | Feature reference only (scattered) | **MEDIUM PRIORITY**: Add workflow strategy |
+| Chrome DevTools MCP | Zero coverage | **LOW PRIORITY**: Mention in ecosystem |
+| Convention-over-config for AI | Section 9.18 (AX framework) covers partially | **LOW PRIORITY**: Reinforce existing section |
+| Wasp framework specifics | Not covered | **EXCLUDED**: Promotional content |
 
 ### Fact-Check
 

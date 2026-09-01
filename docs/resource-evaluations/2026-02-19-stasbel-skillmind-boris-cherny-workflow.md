@@ -1,11 +1,11 @@
-# Evaluation: SKILL.md / SKILLMIND — Boris Cherny Workflow Practices
+# Evaluation: SKILL.md / SKILLMIND: Boris Cherny Workflow Practices
 
 **Date:** 2026-02-19
 **Evaluator:** Claude (Sonnet 4.6)
 **Status:** Mention uniquement (voir conclusion)
 
 **Sources:**
-- LinkedIn: [Stanislav Beliaev — "This SKILL.md file will make you 10x engineer"](https://www.linkedin.com/posts/stasbel_this-%F0%9D%97%A6%F0%9D%97%9E%F0%9D%97%9C%F0%9D%97%9F%F0%9D%97%9F%F0%9D%97%BA%F0%9D%97%B1-file-will-make-you-10x-activity-7430215933832425472-MDvA)
+- LinkedIn: [Stanislav Beliaev: "This SKILL.md file will make you 10x engineer"](https://www.linkedin.com/posts/stasbel_this-%F0%9D%97%A6%F0%9D%97%9E%F0%9D%97%9C%F0%9D%97%9F%F0%9D%97%9F%F0%9D%97%BA%F0%9D%97%B1-file-will-make-you-10x-activity-7430215933832425472-MDvA)
 - X/Twitter: [bcherny/status/2017742741636321619](https://x.com/bcherny/status/2017742741636321619) (non fetchable — JS requis)
 
 ---
@@ -43,7 +43,7 @@ La majorité du contenu est déjà couverte dans le guide:
 - Ralph Loop avec PROGRESS.md → couvre le même besoin que tasks/lessons.md (ligne 1575-1595)
 - Simplicity / No Laziness / Minimal Impact → PRINCIPLES.md et CLAUDE.md best practices
 
-**Delta réel = tasks/lessons.md comme convention alternative** — un fichier runtime créé pendant le travail (vs CLAUDE.md qui est une config upfront). C'est une différence d'implémentation, pas un concept nouveau.
+**Delta réel = tasks/lessons.md comme convention alternative**: un fichier runtime créé pendant le travail (vs CLAUDE.md qui est une config upfront). C'est une différence d'implémentation, pas un concept nouveau.
 
 ---
 
@@ -117,8 +117,8 @@ Points du challenge:
 ## 🎯 Décision finale
 
 - **Score final: 2/5**
-- **Action: Mention uniquement** — Ajouter une ligne dans la section Ralph Loop/Fresh Context Pattern mentionnant la convention `tasks/lessons.md` comme alternative lightweight
+- **Action: Mention uniquement**: Ajouter une ligne dans la section Ralph Loop/Fresh Context Pattern mentionnant la convention `tasks/lessons.md` comme alternative lightweight
 - **Condition pour réévaluation**: Confirmation que le tweet @bcherny/status/2017742741636321619 contient du contenu inédit non déjà capturé via ses sources primaires existantes
-- **Confiance: Moyenne** — Contenu vérifié mais attribution primaire non confirmable
+- **Confiance: Moyenne**: Contenu vérifié mais attribution primaire non confirmable
 
 **Pas d'intégration majeure recommandée en l'état.**

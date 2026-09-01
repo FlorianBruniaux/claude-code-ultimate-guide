@@ -1,4 +1,4 @@
-# Evaluation: LinkedIn Post — "Prompt Engineering is dead. Context Engineering is king."
+# Evaluation: LinkedIn Post: "Prompt Engineering is dead. Context Engineering is king."
 
 **Date**: 2026-02-19
 **Evaluator**: Claude Sonnet 4.6
@@ -75,7 +75,7 @@ LinkedIn post using the "Context Engineering" framing to promote Augment Code's 
 
 ## Decision
 
-### Score: **2/5** — NOT recommended for integration
+### Score: **2/5**: NOT recommended for integration
 
 **Reasons**:
 1. "Context Engineering" concept already documented better in the guide (Anthropic blog, ArXiv, methodologies section)

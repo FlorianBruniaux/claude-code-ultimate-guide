@@ -5,7 +5,7 @@
 
 ---
 
-# Context — ICM (Infinite Context Memory) active in this session
+# Context: ICM (Infinite Context Memory) active in this session
 
 ICM is installed and configured on this machine. Use it to store and retrieve persistent
 memory across sessions, bypassing context window limits.

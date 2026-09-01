@@ -1,11 +1,11 @@
-# Resource Evaluation — Skillsight (Packmind)
+# Resource Evaluation: Skillsight (Packmind)
 
-**Source:** [GitHub — PackmindHub/skillsight](https://github.com/PackmindHub/skillsight)
+**Source:** [GitHub: PackmindHub/skillsight](https://github.com/PackmindHub/skillsight)
 **Type:** Open-source self-hosted dashboard — Claude Code skills usage analytics
 **Evaluated:** 2026-05-18
 **Method:** 4-agent parallel audit (Security/Opus, Architecture/Sonnet, Docs/Sonnet, Ops/Sonnet)
 **Version:** 0.2.1
-**Related eval:** [#076 — Packmind ContextOps Platform](076-packmind-contextops-platform.md)
+**Related eval:** [#076: Packmind ContextOps Platform](076-packmind-contextops-platform.md)
 
 ---
 

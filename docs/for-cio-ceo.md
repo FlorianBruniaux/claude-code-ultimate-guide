@@ -1,4 +1,4 @@
-# Claude Code — For CIOs & CEOs
+# Claude Code: For CIOs & CEOs
 
 > 3 minutes. What you need to know about Claude Code before your next meeting with your CTO or CIO.
 
@@ -36,11 +36,11 @@ This is not a chatbot. It's a production tool.
 
 ## 3 questions to ask your CTO
 
-1. **"Are our developers already using it?"** — The answer is probably yes. The real question is: with what configuration, what rules, and what level of traceability?
+1. **"Are our developers already using it?"**: The answer is probably yes. The real question is: with what configuration, what rules, and what level of traceability?
 
-2. **"Do we have a policy on what can be sent to the AI?"** — Config files, API keys, customer data: everything that goes into a prompt is sent to Anthropic's servers. This risk is manageable, but only if a policy exists.
+2. **"Do we have a policy on what can be sent to the AI?"**: Config files, API keys, customer data: everything that goes into a prompt is sent to Anthropic's servers. This risk is manageable, but only if a policy exists.
 
-3. **"Who is our internal champion?"** — The teams that succeed have a tech lead or senior engineer dedicated to structuring adoption. This doesn't require a new headcount — it takes 10-15% of someone already in place.
+3. **"Who is our internal champion?"**: The teams that succeed have a tech lead or senior engineer dedicated to structuring adoption. This doesn't require a new headcount — it takes 10-15% of someone already in place.
 
 ---
 
@@ -74,14 +74,14 @@ This is not a chatbot. It's a production tool.
 
 **Option 3 — You already have teams using it**: a configuration audit (half-day) identifies active risks and optimization opportunities.
 
-→ [Contact Florian Bruniaux](https://florian.bruniaux.com/) — availability and, depending on the mission, potentially pricing
+→ [Contact Florian Bruniaux](https://florian.bruniaux.com/): availability and, depending on the mission, potentially pricing
 
 ---
 
 ## Going further (if you want the details)
 
-- WP06 — Privacy & GDPR Compliance *(whitepaper, coming soon)* — what goes to Anthropic, how to control it
-- WP03 — Security in Production *(whitepaper, coming soon)* — CVE database, attack vectors, mitigation
-- WP05 — Deploying with a Team *(whitepaper, coming soon)* — adoption phases, governance, ROI
+- WP06: Privacy & GDPR Compliance *(whitepaper, coming soon)* — what goes to Anthropic, how to control it
+- WP03: Security in Production *(whitepaper, coming soon)* — CVE database, attack vectors, mitigation
+- WP05: Deploying with a Team *(whitepaper, coming soon)* — adoption phases, governance, ROI
 
 ← [Back to main README](../README.md)

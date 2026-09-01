@@ -1,4 +1,4 @@
-# Resource Evaluation #073 — Athena Flow: Hook-Based Workflow Runtime for Claude Code
+# Resource Evaluation #073: Athena Flow: Hook-Based Workflow Runtime for Claude Code
 
 **Source:** [athenaflow.in](https://athenaflow.in) / [github.com/lespaceman/athena-flow](https://github.com/lespaceman/athena-flow)
 **Type:** Open source tool (MIT) — workflow runtime wrapping Claude Code via hooks
@@ -18,7 +18,7 @@
 - **Claimed**: self-healing selectors at 94% success rate (~3s repair time) — unverified, no benchmark in repo
 - **Installation**: `npm install -g athena-flow-cli` (Node.js 20+)
 - **Roadmap**: visual regression, API testing, Codex support (agent-agnostic positioning)
-- **Comparable project discovered via Perplexity**: [Ruflo](https://github.com/ruvnet/ruflo) — multi-agent orchestration platform for Claude Code, a few weeks older and more mature
+- **Comparable project discovered via Perplexity**: [Ruflo](https://github.com/ruvnet/ruflo): multi-agent orchestration platform for Claude Code, a few weeks older and more mature
 
 ---
 

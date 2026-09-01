@@ -33,7 +33,7 @@ Workflow multi-agent de code review production-ready développé par Pat Cullen.
 | **Documentation** | 4/5 | Workflow complet mais mériterait exemples de output |
 | **Impact** | 5/5 | Transforme le `/review-pr` basique en système expert |
 
-**Score Final**: **5/5** — Critical, must integrate immediately
+**Score Final**: **5/5**: Critical, must integrate immediately
 
 ## Comparatif avec l'existant
 

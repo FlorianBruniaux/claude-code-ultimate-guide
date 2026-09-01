@@ -110,12 +110,12 @@ Paul Rayner (CEO Virtual Genius, EventStorming Handbook author, Explore DDD foun
 
 Despite feature being in releases (v2.1.32, v2.1.33), guide lacks:
 
-1. **Agent teams architecture** — Team lead + teammates + git coordination (not documented)
-2. **Setup instructions** — Feature flag, settings.json, multi-terminal workflow
-3. **Production use cases** — Zero concrete examples (only dry release notes)
-4. **Workflow impact** — Before/after comparison for teams vs single agent
-5. **Limitations** — Read-heavy vs write-heavy trade-offs (not documented)
-6. **Beads vs Teams guidance** — Decision framework absent
+1. **Agent teams architecture**: Team lead + teammates + git coordination (not documented)
+2. **Setup instructions**: Feature flag, settings.json, multi-terminal workflow
+3. **Production use cases**: Zero concrete examples (only dry release notes)
+4. **Workflow impact**: Before/after comparison for teams vs single agent
+5. **Limitations**: Read-heavy vs write-heavy trade-offs (not documented)
+6. **Beads vs Teams guidance**: Decision framework absent
 
 ---
 

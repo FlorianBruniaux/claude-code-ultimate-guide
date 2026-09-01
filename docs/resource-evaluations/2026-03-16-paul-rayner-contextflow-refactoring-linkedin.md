@@ -1,4 +1,4 @@
-# Resource Evaluation: Paul Rayner — "Will AI Kill Refactoring?" (LinkedIn)
+# Resource Evaluation: Paul Rayner: "Will AI Kill Refactoring?" (LinkedIn)
 
 **Date**: 2026-03-16
 **Evaluator**: Claude (automated via /eval-resource)
@@ -84,7 +84,7 @@ The agent pushed back on score (3/5 confirmed, not 4/5) for two reasons:
 Additional issues flagged:
 - No baseline comparison (are 21% refactoring commits high or low vs. non-AI projects?) — weakens the thesis
 - Git prompt underweighted in original plan — it's the highest-value artifact, needs explicit placement
-- Risk of not integrating: **Low to medium** — context window link is worth capturing, git prompt adds direct reader value, but nothing is irreplaceable given existing guide depth
+- Risk of not integrating: **Low to medium**: context window link is worth capturing, git prompt adds direct reader value, but nothing is irreplaceable given existing guide depth
 
 ---
 

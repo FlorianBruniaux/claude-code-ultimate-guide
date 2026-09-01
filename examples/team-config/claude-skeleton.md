@@ -1,4 +1,4 @@
-# AI Instructions — {{DEVELOPER_NAME}}
+# AI Instructions: {{DEVELOPER_NAME}}
 <!-- Generated: {{GENERATED_DATE}} | OS: {{OS}} | Tool: {{TOOL}} -->
 <!-- DO NOT EDIT MANUALLY — auto-generated from profile + modules -->
 <!-- To update: edit profiles/{{DEVELOPER_SLUG}}.yaml or modules/, then run: -->

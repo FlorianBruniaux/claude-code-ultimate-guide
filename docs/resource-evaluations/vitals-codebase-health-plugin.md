@@ -1,4 +1,4 @@
-# Resource Evaluation: Vitals — Codebase Health Plugin
+# Resource Evaluation: Vitals: Codebase Health Plugin
 
 **Date**: 2026-03-06
 **Evaluator**: Claude (Sonnet 4.6) via /eval-resource
@@ -52,7 +52,7 @@ Vitals is a Claude Code plugin (v0.1 alpha, MIT, Python stdlib + git) that ident
 - **Hotspot identification methodology**: `churn × complexity × coupling centrality` as a composite metric — not in guide
 - **Concrete tool** that maps the "AI code debt" problem to actionable file-level output
 - **Bus factor / knowledge risk** metric — unique angle not documented
-- **PostToolUse hook for AI provenance tracking** — interesting hook usage pattern
+- **PostToolUse hook for AI provenance tracking**: interesting hook usage pattern
 
 ---
 

@@ -1,4 +1,4 @@
-# Resource Evaluation #071 — Steven Ge: Claude Code for Technical Writing
+# Resource Evaluation #071: Steven Ge: Claude Code for Technical Writing
 
 **Source:** [LinkedIn Post](https://www.linkedin.com/posts/steven-ge-ab016947_i-started-using-claude-code-for-technical-activity-7432831185392816129-ARa8?utm_source=share&utm_medium=member_desktop&rcm=ACoAABGhhKgBLYdSS8KjqEyTSCUE4m21LrNR0_I)
 **Author:** Steven Ge (14.6K followers, academic/technical writer and educator)
@@ -71,10 +71,10 @@
 
 **Points manqués dans l'évaluation initiale:**
 
-1. **CLAUDE.md usage** — Élément clé ignoré initialement. L'auteur utilise CLAUDE.md pour définir project goals, scope, et writing specs. C'est une feature Claude Code CLI spécifique, pas remplaçable par Claude.ai
-2. **Sous-audience "devs qui écrivent"** — Les développeurs produisent régulièrement de la documentation technique (ADR, API docs, whitepapers, runbooks). Ce workflow leur est directement applicable
-3. **Git + Markdown alignment** — Le workflow s'aligne avec la philosophie du guide (Git workflows, version control, CLI-first)
-4. **Erreur de scoring comparative** — La distinction "academic writer ≠ cible du guide" est vraie pour 90% du contenu, mais le workflow Git + CLAUDE.md dépasse cette catégorisation
+1. **CLAUDE.md usage**: Élément clé ignoré initialement. L'auteur utilise CLAUDE.md pour définir project goals, scope, et writing specs. C'est une feature Claude Code CLI spécifique, pas remplaçable par Claude.ai
+2. **Sous-audience "devs qui écrivent"**: Les développeurs produisent régulièrement de la documentation technique (ADR, API docs, whitepapers, runbooks). Ce workflow leur est directement applicable
+3. **Git + Markdown alignment**: Le workflow s'aligne avec la philosophie du guide (Git workflows, version control, CLI-first)
+4. **Erreur de scoring comparative**: La distinction "academic writer ≠ cible du guide" est vraie pour 90% du contenu, mais le workflow Git + CLAUDE.md dépasse cette catégorisation
 
 **Risques de non-intégration:**
 - Le guide rate la sous-audience "tech documentation writers" (DevOps, Engineering leads, Architects)

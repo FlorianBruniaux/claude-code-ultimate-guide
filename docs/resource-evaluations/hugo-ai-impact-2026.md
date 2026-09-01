@@ -15,10 +15,10 @@ Opinion piece on AI's impact on software engineering practices in 2026, based on
 
 **Key arguments**:
 1. **Context Engineering** (Thoughtworks framework) — shift toward complete specifications with constraints before coding
-2. **Spec/Plan/Act workflow standardization** — industry consensus on 3-phase approach
-3. **Corporate AI governance** — organizational marketplaces to pool AI skills, agents, rules
-4. **QA via CI/CD** — traditional practices (linting, testing, review) essential for AI-generated code validation
-5. **HR disruption** — junior training, recruitment, career trajectories require restructuring
+2. **Spec/Plan/Act workflow standardization**: industry consensus on 3-phase approach
+3. **Corporate AI governance**: organizational marketplaces to pool AI skills, agents, rules
+4. **QA via CI/CD**: traditional practices (linting, testing, review) essential for AI-generated code validation
+5. **HR disruption**: junior training, recruitment, career trajectories require restructuring
 
 **Stats cited**:
 - Monthly costs: ~$20/dev (adoption), ~$200/dev (strong adoption), $200-1000+/dev (advanced multi-agent)

@@ -1,4 +1,4 @@
-# Resource Evaluation: Yagr — (Y)our (A)gent (G)rounded in (R)eality
+# Resource Evaluation: Yagr: (Y)our (A)gent (G)rounded in (R)eality
 
 **Date**: 2026-03-20
 **Source**: LinkedIn post by Etienne Lescot + GitHub README (https://github.com/EtienneLescot/yagr)
@@ -24,7 +24,7 @@ Core claim: "The workflow is the agent's durable memory and muscle."
 
 ## Scoring
 
-**Score: 2/5** — Marginal
+**Score: 2/5**: Marginal
 
 The architectural concept (grounding AI automation in deterministic, auditable workflows rather than disposable scripts) is genuinely interesting and directionally relevant. The tool itself has not yet demonstrated the adoption signals required for a guide mention.
 

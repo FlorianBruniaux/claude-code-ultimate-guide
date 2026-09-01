@@ -93,7 +93,7 @@ Title: `## 6.1 Google Antigravity (Agent-First IDE)`
 
 ### Priority
 
-**Medium** — Not urgent, but a real gap in ecosystem coverage.
+**Medium**: Not urgent, but a real gap in ecosystem coverage.
 
 ---
 

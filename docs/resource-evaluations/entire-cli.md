@@ -39,7 +39,7 @@ Entire CLI is an **agent-native platform** that captures AI agent sessions (Clau
 
 ### 1. Technical Accuracy (5/5)
 
-**Score: 5** — Verified through multiple sources
+**Score: 5**: Verified through multiple sources
 
 - ✅ Founder confirmed: Thomas Dohmke (ex-GitHub CEO) via Perplexity sources (Futurum Group, Silicon Angle)
 - ✅ Funding confirmed: $60M via multiple press releases (Feb 10-12, 2026)
@@ -53,7 +53,7 @@ Entire CLI is an **agent-native platform** that captures AI agent sessions (Clau
 
 ### 2. Practical Value (5/5)
 
-**Score: 5** — Solves 3 critical documented gaps
+**Score: 5**: Solves 3 critical documented gaps
 
 **Gaps filled:**
 1. **git-ai 404** (ai-traceability.md:299-358) → Production alternative
@@ -70,7 +70,7 @@ Entire CLI is an **agent-native platform** that captures AI agent sessions (Clau
 
 ### 3. Novelty (5/5)
 
-**Score: 5** — First-of-kind in Claude Code ecosystem
+**Score: 5**: First-of-kind in Claude Code ecosystem
 
 - **Only tool** providing session replay with rewindable checkpoints
 - **Only platform** with governance layer (approval gates, permissions)
@@ -87,7 +87,7 @@ Entire CLI is an **agent-native platform** that captures AI agent sessions (Clau
 
 ### 4. Integration Effort (3/5)
 
-**Score: 3** — Moderate setup, but clear ROI for target users
+**Score: 3**: Moderate setup, but clear ROI for target users
 
 **Setup complexity:**
 - ✅ Simple install: `entire init` + `entire capture`
@@ -105,7 +105,7 @@ Entire CLI is an **agent-native platform** that captures AI agent sessions (Clau
 
 ### 5. Community Validation (2/5)
 
-**Score: 2** — Too new for significant adoption data
+**Score: 2**: Too new for significant adoption data
 
 - ⚠️ Launched 2-3 days ago (Feb 10-12, 2026)
 - ⚠️ No GitHub stars/forks data available yet
@@ -117,7 +117,7 @@ Entire CLI is an **agent-native platform** that captures AI agent sessions (Clau
 
 ### 6. Guide Alignment (5/5)
 
-**Score: 5** — Perfect fit, critical correction
+**Score: 5**: Perfect fit, critical correction
 
 **Alignment:**
 - ✅ Corrects error: git-ai 404 documented as working tool

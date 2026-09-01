@@ -4,7 +4,7 @@ description: "Progressive code exploration using tree-sitter AST — structure f
 effort: low
 ---
 
-# Smart Explore — Progressive Code Exploration
+# Smart Explore: Progressive Code Exploration
 
 > **Skill**: Read code structure before reading code. Show Claude function signatures and types first, then let it drill into specific functions only when needed.
 
@@ -116,7 +116,7 @@ brew install tree-sitter
 tree-sitter --version
 ```
 
-**Extract signatures script** — save as `~/.claude/scripts/extract-signatures.py`:
+**Extract signatures script**: save as `~/.claude/scripts/extract-signatures.py`:
 
 ```python
 #!/usr/bin/env python3
@@ -496,11 +496,11 @@ python -m mcp_server_tree_sitter --help
 
 ## Resources
 
-- [Aider Repo Map Architecture](https://aider.chat/docs/repomap.html) — reference implementation (PageRank + tree-sitter)
-- [mcp-server-tree-sitter](https://github.com/wrale/mcp-server-tree-sitter) — pure MCP approach
-- [code-review-graph](https://github.com/tirth8205/code-review-graph) — PR review focus, MIT, ~2k stars
-- [jCodeMunch](https://github.com/jgravelle/jcodemunch-mcp) — symbol lookup MCP (free non-commercial)
-- [tree-sitter.github.io](https://tree-sitter.github.io/tree-sitter/) — official docs
+- [Aider Repo Map Architecture](https://aider.chat/docs/repomap.html): reference implementation (PageRank + tree-sitter)
+- [mcp-server-tree-sitter](https://github.com/wrale/mcp-server-tree-sitter): pure MCP approach
+- [code-review-graph](https://github.com/tirth8205/code-review-graph): PR review focus, MIT, ~2k stars
+- [jCodeMunch](https://github.com/jgravelle/jcodemunch-mcp): symbol lookup MCP (free non-commercial)
+- [tree-sitter.github.io](https://tree-sitter.github.io/tree-sitter/): official docs
 
 ---
 

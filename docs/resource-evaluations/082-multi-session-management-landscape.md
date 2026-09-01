@@ -1,4 +1,4 @@
-# Resource Evaluation: Multi-Session Claude Code Management — Landscape Overview
+# Resource Evaluation: Multi-Session Claude Code Management: Landscape Overview
 
 **Date**: 2026-03-19
 **Evaluator**: Claude (research session + structured synthesis)
@@ -140,6 +140,6 @@ No single tool covers all use cases. The space is fragmented, actively evolving 
 
 ## Related Evaluations
 
-- [078-claude-swarm-monitor.md](078-claude-swarm-monitor.md) — TUI for monitoring agents across worktrees (Rust, Linux)
-- [074-ruflo-multi-agent-orchestration.md](074-ruflo-multi-agent-orchestration.md) — Ruflo orchestration platform
-- [079-fabro-workflow-orchestration.md](079-fabro-workflow-orchestration.md) — Fabro workflow runtime
+- [078-claude-swarm-monitor.md](078-claude-swarm-monitor.md): TUI for monitoring agents across worktrees (Rust, Linux)
+- [074-ruflo-multi-agent-orchestration.md](074-ruflo-multi-agent-orchestration.md): Ruflo orchestration platform
+- [079-fabro-workflow-orchestration.md](079-fabro-workflow-orchestration.md): Fabro workflow runtime

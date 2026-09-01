@@ -1,4 +1,4 @@
-# ccboard Activity Module — Implementation Plan
+# ccboard Activity Module: Implementation Plan
 
 **Date**: 2026-02-21
 **Status**: Draft

@@ -6,12 +6,12 @@ This plugin bundles everything you need to secure your Claude Code setup: automa
 
 ## What's Included
 
-✓ **Security Auditor Agent** — Specialist for threat modeling and CVE analysis
-✓ **Quick Security Check** — 30-second configuration scan
-✓ **Full Security Audit** — 6-phase deep dive with score /100
-✓ **Pre-Commit Security Gates** — Block dangerous operations before execution
-✓ **Configuration Audits** — Verify agents, skills, commands quality
-✓ **Compliance Templates** — Automated checklists for governance
+✓ **Security Auditor Agent**: Specialist for threat modeling and CVE analysis
+✓ **Quick Security Check**: 30-second configuration scan
+✓ **Full Security Audit**: 6-phase deep dive with score /100
+✓ **Pre-Commit Security Gates**: Block dangerous operations before execution
+✓ **Configuration Audits**: Verify agents, skills, commands quality
+✓ **Compliance Templates**: Automated checklists for governance
 
 ## Quick Install
 
@@ -78,12 +78,12 @@ Security Check: 87/100 ✓ PASS
 ```
 
 **6 Phases:**
-1. **Configuration Audit** — Settings, permissions, secrets
-2. **Agent Security** — Tool restrictions, isolation, capabilities
-3. **Skill/Hook Analysis** — Code quality, dangerous patterns
-4. **MCP Vetting** — Server permissions, token handling
-5. **Supply Chain** — Dependency analysis, external integrations
-6. **Compliance Check** — Enterprise requirements, governance
+1. **Configuration Audit**: Settings, permissions, secrets
+2. **Agent Security**: Tool restrictions, isolation, capabilities
+3. **Skill/Hook Analysis**: Code quality, dangerous patterns
+4. **MCP Vetting**: Server permissions, token handling
+5. **Supply Chain**: Dependency analysis, external integrations
+6. **Compliance Check**: Enterprise requirements, governance
 
 **Output:**
 ```

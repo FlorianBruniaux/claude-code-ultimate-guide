@@ -1,4 +1,4 @@
-# Resource Evaluation: "How I use Claude Code" — Boris Tane
+# Resource Evaluation: "How I use Claude Code": Boris Tane
 
 **URL**: https://boristane.com/blog/how-i-use-claude-code/
 **Author**: Boris Tane, Engineering Lead @ Cloudflare
@@ -10,7 +10,7 @@
 
 ## Summary
 
-9-month practitioner account of using Claude Code in production at Cloudflare. Describes a structured plan-driven workflow with an original pattern — the **Annotation Cycle** — where human and agent iterate on a markdown plan file before any implementation begins.
+9-month practitioner account of using Claude Code in production at Cloudflare. Describes a structured plan-driven workflow with an original pattern — the **Annotation Cycle**: where human and agent iterate on a markdown plan file before any implementation begins.
 
 ---
 
@@ -24,7 +24,7 @@
 | **Accuracy** | 4/5 | Consistent with Claude Code behavior (verified) |
 | **Depth** | 4/5 | Practitioner insights, not surface-level tips |
 
-**Overall: 4/5** — High value. Integrate within 1 week.
+**Overall: 4/5**: High value. Integrate within 1 week.
 
 ---
 

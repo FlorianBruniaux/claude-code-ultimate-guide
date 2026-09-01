@@ -1,4 +1,4 @@
-# Claude Code — For CTOs & Decision Makers
+# Claude Code: For CTOs & Decision Makers
 
 > Your engineering team is probably already using AI coding tools. The question isn't whether to adopt Claude Code — it's whether to do it in a controlled, secure, measurable way or let it happen organically (which means inconsistently).
 
@@ -53,9 +53,9 @@ WP05 (Deploying with a Team, 25 min): [cc.bruniaux.com/whitepapers](https://cc.b
 
 | Document | Time | What you'll get |
 |----------|------|----------------|
-| WP06 — Privacy & GDPR | 20 min | Data flows, retention policy, compliance checklist |
-| WP03 — Security | 25 min | Threat model, CVE database, mitigation framework |
-| WP05 — Team Deployment | 25 min | Adoption phases, ROI, governance |
+| WP06: Privacy & GDPR | 20 min | Data flows, retention policy, compliance checklist |
+| WP03: Security | 25 min | Threat model, CVE database, mitigation framework |
+| WP05: Team Deployment | 25 min | Adoption phases, ROI, governance |
 
 ---
 
@@ -91,10 +91,10 @@ The real cost isn't the subscription — it's unstructured adoption creating sec
 
 If you want to accelerate adoption or get an independent assessment of your current setup:
 
-**Brown Bag Lunch, talk, or panel (1-3h, free)** — executive + team intro, live demo, Q&A, or speaker slot. I do these for the pleasure of it — getting challenged, sharing what I know, building network. No strings attached.
+**Brown Bag Lunch, talk, or panel (1-3h, free)**: executive + team intro, live demo, Q&A, or speaker slot. I do these for the pleasure of it — getting challenged, sharing what I know, building network. No strings attached.
 
-**Config audit (half-day)** — review your current setup against security and productivity standards.
-**Team formation (1-3 days)** — hands-on training, your codebase, your workflows, measurable outcomes. Not something I'm actively seeking right now, but I'm open to the right conversation.
+**Config audit (half-day)**: review your current setup against security and productivity standards.
+**Team formation (1-3 days)**: hands-on training, your codebase, your workflows, measurable outcomes. Not something I'm actively seeking right now, but I'm open to the right conversation.
 
 → [Contact Florian Bruniaux](https://florian.bruniaux.com/) for availability and, depending on the mission, pricing
 

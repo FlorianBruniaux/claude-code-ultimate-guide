@@ -1,4 +1,4 @@
-# Resource Evaluation #081 — Rippletide Code: Runtime Rule Enforcement for Claude Code
+# Resource Evaluation #081: Rippletide Code: Runtime Rule Enforcement for Claude Code
 
 **Source:** LinkedIn post (Patrick Joubert, CEO Rippletide) + [rippletide.com/dev](https://www.rippletide.com/dev)
 **Type:** Commercial tool — hook-native rule enforcement layer for Claude Code

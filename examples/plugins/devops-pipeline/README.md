@@ -10,9 +10,9 @@ bash install.sh
 
 ## Components
 
-- **devops-sre agent** — Infrastructure and deployment specialist
-- **/ship command** — Full deployment workflow
-- **GitHub Actions workflow** — Automated CI/CD in your repo
+- **devops-sre agent**: Infrastructure and deployment specialist
+- **/ship command**: Full deployment workflow
+- **GitHub Actions workflow**: Automated CI/CD in your repo
 
 ## Quick Start
 

@@ -101,7 +101,7 @@ ATDD is genuinely absent. Add a section explaining how ATDD extends TDD for agen
 ## 🔥 Challenge Verdict
 
 **Challenger (ac79d16) conclusions:**
-- **Score 3/5 confirmed** — "storytelling architecturel, pas case study validé"
+- **Score 3/5 confirmed**: "storytelling architecturel, pas case study validé"
 - **Most actionable content**: 6-dimension PRD checklist — treat as standalone checklist, not full pipeline
 - **Best integration path**: Existing files (`spec-first.md` + `methodologies.md`), not new file
 - **Key oversight in initial eval**: Article doesn't mention Claude Code specifically — the mapping is indirect
@@ -135,7 +135,7 @@ ATDD is genuinely absent. Add a section explaining how ATDD extends TDD for agen
 
 ## 🎯 Final Decision
 
-- **Score**: **3/5** — Pertinent, intégration ciblée
+- **Score**: **3/5**: Pertinent, intégration ciblée
 - **Action**: Intégrer 2 éléments spécifiques dans fichiers existants (PRD checklist + ATDD)
 - **Do NOT create**: New `agentic-pipeline.md` file
 - **Confidence**: High (full article read, challenge performed, fact-checked)

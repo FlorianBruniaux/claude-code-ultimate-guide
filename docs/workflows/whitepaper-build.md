@@ -127,7 +127,7 @@ cd whitepapers && quarto render guide-export-fr.qmd --to epub
 `whitepapers/en/_extensions/whitepaper/typst-template.typ` (used for EN rendering)
 `whitepapers/_extensions/whitepaper/typst-template.typ` (fallback/reference)
 
-**Quarto uses the `_extensions/` closest to the .qmd** — patching the root copy has no effect on fr/ or en/.
+**Quarto uses the `_extensions/` closest to the .qmd**: patching the root copy has no effect on fr/ or en/.
 
 ## PDF Deployment Checklist — 3 Files to Update
 
@@ -137,7 +137,7 @@ When pushing updated PDFs to the landing/portfolio, **3 files must always be upd
 |------|------|------|
 | `florian-portfolio/public/guides/` | portfolio | Physical PDF files (copy with new versioned filename) |
 | `landing/src/data/whitepapers-data.ts` | landing | Direct download buttons (`const V`, `hashedFileFr/En`) |
-| `florian-portfolio/api/guides.mjs` | portfolio | **Email links** — `GUIDE_MANIFEST` stable-ID → versioned filename |
+| `florian-portfolio/api/guides.mjs` | portfolio | **Email links**: `GUIDE_MANIFEST` stable-ID → versioned filename |
 
 **`guides.mjs` is the one that's easy to forget.** It controls what URL is sent by email when a user subscribes. Old links in emails redirect through `/api/guides?id=...`, so updating this file retroactively fixes all past email recipients too.
 

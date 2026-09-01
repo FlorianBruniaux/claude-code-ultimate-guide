@@ -44,7 +44,7 @@ Technical blog covering:
 | Skills loading | **COVERED** (ultimate-guide.md:5440-5498) | Narrative framing only |
 | Model comparisons | **PARTIAL** (deliberate exclusion) | Yes, but out of scope |
 | Context window sizes | **PARTIAL** (200K only) | 400K/1M data, but stale quickly |
-| Ctrl+R / prompt history | **Guide said "Retry"** (5 locations, now corrected) | ✅ **Blog correct** — identified guide error |
+| Ctrl+R / prompt history | **Guide said "Retry"** (5 locations, now corrected) | ✅ **Blog correct**: identified guide error |
 
 **Overlap**: ~85% of content already in guide, and guide is more precise on every shared topic.
 
@@ -86,7 +86,7 @@ The technical-writer agent evaluated the blog and confirmed the 2/5 score, notin
 
 ### Key Findings
 
-- **Ctrl+R claim**: ✅ **Blog was correct** — identified an error in our guide (now fixed)
+- **Ctrl+R claim**: ✅ **Blog was correct**: identified an error in our guide (now fixed)
 - **50-60% effective capacity**: Blog conflates two distinct concepts the guide handles separately
 - **Narrative format**: Does not clear the Practitioner Insights bar:
   - No production-scale validation
@@ -147,7 +147,7 @@ The blog isn't fundamentally misleading — most content aligns with known Claud
 
 **Action completed**: Tested Ctrl+R in Claude Code CLI and verified against official keybindings.
 
-**Result**: ✅ Blog was **correct** — Ctrl+R triggers `history:search` action (Global context) and `historySearch:next` (HistorySearch context).
+**Result**: ✅ Blog was **correct**: Ctrl+R triggers `history:search` action (Global context) and `historySearch:next` (HistorySearch context).
 
 **Guide corrections applied**:
 - `guide/cheatsheet.md:39` — Updated from "Retry last operation" to "Search command history"

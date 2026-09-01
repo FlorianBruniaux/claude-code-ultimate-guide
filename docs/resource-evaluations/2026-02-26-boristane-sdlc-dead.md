@@ -1,4 +1,4 @@
-# Évaluation: "The Software Development Lifecycle Is Dead" — Boris Tane
+# Évaluation: "The Software Development Lifecycle Is Dead": Boris Tane
 
 **Source**: https://boristane.com/blog/the-software-development-lifecycle-is-dead/
 **Type**: Blog post (conceptuel, opinion)

@@ -290,9 +290,9 @@ Pour les prochaines évaluations:
 ### Leçons apprises (mise à jour)
 
 1. ~~Red flags Reddit → rejet immédiat~~ → **Fact-checker d'abord**, commentaires Reddit peuvent être deleted/inaccessibles
-2. ✅ **Marketing hype ≠ invalid tech** — Remotion + Claude Code = réel, même si présenté avec enthousiasme excessif
-3. ✅ **Success stories vérifiables = strong signal** — $5M-8M ARR products prouvent valeur réelle
-4. ✅ **Score provisoire ok** — L'évaluation initiale a déclenché le fact-check approprié
+2. ✅ **Marketing hype ≠ invalid tech**: Remotion + Claude Code = réel, même si présenté avec enthousiasme excessif
+3. ✅ **Success stories vérifiables = strong signal**: $5M-8M ARR products prouvent valeur réelle
+4. ✅ **Score provisoire ok**: L'évaluation initiale a déclenché le fact-check approprié
 
 ---
 

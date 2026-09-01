@@ -133,7 +133,7 @@ Create `~/.claude-mem/config.json`:
 
 ### Automatic Capture (Default Behavior)
 
-**No commands needed** — claude-mem automatically:
+**No commands needed**: claude-mem automatically:
 
 1. **Captures** tool usage via lifecycle hooks
 2. **Compresses** observations with AI summaries

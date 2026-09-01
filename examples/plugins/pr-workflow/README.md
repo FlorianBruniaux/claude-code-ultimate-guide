@@ -10,10 +10,10 @@ bash install.sh
 
 ## Components
 
-- **code-reviewer agent** — Automated code quality and security checks
-- **/review-pr command** — Analyze PRs and provide detailed feedback
-- **/pr command** — Quick PR preparation workflow
-- **pre-pr-check hook** — Validate changes before PR creation
+- **code-reviewer agent**: Automated code quality and security checks
+- **/review-pr command**: Analyze PRs and provide detailed feedback
+- **/pr command**: Quick PR preparation workflow
+- **pre-pr-check hook**: Validate changes before PR creation
 
 ## Quick Start
 

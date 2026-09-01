@@ -88,14 +88,14 @@ Remote Control allows continuing a local Claude Code session from a phone, table
 
 ### Content to document
 
-1. **What is Remote Control** — definition, difference vs "Claude Code on the Web" and vs Teleportation
-2. **Setup** — requirements (Pro/Max, /login, workspace trust)
-3. **Two workflows** — `claude remote-control` (CLI) vs `/rc` (from session)
-4. **Connection** — QR code, URL, mobile app, session list
-5. **Config** — auto-enable via `/config`
-6. **Security** — outbound-only model, scoped credentials
-7. **Limitations** — 1 session, terminal open, 10min timeout, **slash commands don't work in remote UI**
-8. **Disclaimer** — Research Preview clearly noted
+1. **What is Remote Control**: definition, difference vs "Claude Code on the Web" and vs Teleportation
+2. **Setup**: requirements (Pro/Max, /login, workspace trust)
+3. **Two workflows**: `claude remote-control` (CLI) vs `/rc` (from session)
+4. **Connection**: QR code, URL, mobile app, session list
+5. **Config**: auto-enable via `/config`
+6. **Security**: outbound-only model, scoped credentials
+7. **Limitations**: 1 session, terminal open, 10min timeout, **slash commands don't work in remote UI**
+8. **Disclaimer**: Research Preview clearly noted
 
 ---
 

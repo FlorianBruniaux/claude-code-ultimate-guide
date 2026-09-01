@@ -13,7 +13,7 @@ sources:
 
 ## Summary
 
-Universal `CLAUDE.md` template (~15 rules) targeting Claude **output behavior** — not input context. Core
+Universal `CLAUDE.md` template (~15 rules) targeting Claude **output behavior**: not input context. Core
 rules: no sycophantic openers/closers, no em dashes or Unicode, no unsolicited suggestions, no scope creep,
 no speculation when uncertain. Three domain profiles included: `CLAUDE.coding.md`, `CLAUDE.agents.md`,
 `CLAUDE.analysis.md`.

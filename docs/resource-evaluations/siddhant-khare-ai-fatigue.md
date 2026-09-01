@@ -192,9 +192,9 @@ This checkpoint prevents compounding exhaustion from extended sessions with dimi
 - Khare, S. (2026, February 8). AI Fatigue is Real and Nobody Talks About It. Retrieved from https://siddhantkhare.com/writing/ai-fatigue-is-real
 
 **Guide sections referenced:**
-- [Learning with AI](../../guide/roles/learning-with-ai.md) — Primary integration location
-- [Adoption Approaches](../../guide/roles/adoption-approaches.md) — Considered but not used
+- [Learning with AI](../../guide/roles/learning-with-ai.md): Primary integration location
+- [Adoption Approaches](../../guide/roles/adoption-approaches.md): Considered but not used
 
 **Related evaluations:**
-- [Beyond Vibe Coding](./beyond-vibe-coding.md) — Complementary perspective on AI-assisted development
-- [Addy Osmani: 80% Problem](./024-addy-osmani-80-percent-problem.md) — Quality threshold discussion
+- [Beyond Vibe Coding](./beyond-vibe-coding.md): Complementary perspective on AI-assisted development
+- [Addy Osmani: 80% Problem](./024-addy-osmani-80-percent-problem.md): Quality threshold discussion
