@@ -13,11 +13,11 @@
     "record_counts": {
       "attack_techniques": 40,
       "campaigns": 17,
-      "cves": 114,
+      "cves": 116,
       "malicious_skill_records": 93
     },
-    "updated": "2026-08-17",
-    "version": "2.27.0"
+    "updated": "2026-09-01",
+    "version": "2.28.0"
   },
   "detectors": [
     {
@@ -97,11 +97,44 @@
     }
   ],
   "input_digests": {
-    "intelligence_sha256": "2a265ea1187481eb3ac08014eabd7f9b933ee2d2e86c72ff61f6b93f2ef9ccec",
-    "threat_database_sha256": "0bf835946fed9a2a0ddb014e72159831367eb898a890ddc33ac6db2b50a76acb"
+    "intelligence_sha256": "8a74884d5312e3543aa701e04fd2198830d508ce48cfaeb878e80ca5c0957840",
+    "threat_database_sha256": "2f3267ab9415154c4af149a5f98d9a2e0a7550121f9454a8e6d1a462ae46a746"
   },
   "intelligence": {
     "events": [
+      {
+        "confidence": "confirmed",
+        "date": "2026-08-25",
+        "date_kind": "disclosed",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "The vulnerable code runs inside the mcp/sdk PHP client library at runtime against a remote MCP server response stream. AgentSec scans a local repository's static files and configuration and does not execute or fuzz a project's PHP dependencies, so no repository-shaped detector applies; a version-floor check against mcp/sdk < 0.7.1 in a composer.lock is the closest future detector shape but does not exist today."
+        },
+        "ecosystems": [
+          "mcp",
+          "php",
+          "composer"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-08-mcp-php-sdk-sse-buffer-dos",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2026-53965"
+          ],
+          "technique_ids": [
+            "mcp.unbounded-buffer-dos"
+          ]
+        },
+        "source_ids": [
+          "github-ghsa-mcp-php-sdk-sse-2026",
+          "nvd-cve-2026-53965"
+        ],
+        "status": "confirmed",
+        "summary": "A GitHub security advisory and CVE-2026-53965 described an unbounded in-memory buffer in the HttpTransport component of the official Model Context Protocol PHP SDK (Composer package mcp/sdk). Versions 0.5.0 through 0.7.0 appended every incoming Server-Sent Events chunk to a buffer with no upper bound and only flushed it on the SSE event delimiter, so a malicious, compromised, or man-in-the-middle MCP server that withheld the delimiter could exhaust the client process's memory and deny service. Fixed in mcp/sdk 0.7.1.",
+        "title": "Official MCP PHP SDK unbounded SSE buffer denial-of-service disclosed and patched"
+      },
       {
         "confidence": "high",
         "date": "2026-08-18",
@@ -135,6 +168,39 @@
         "status": "confirmed",
         "summary": "Varonis Threat Labs disclosed CVE-2026-24301, a chain of three vulnerabilities in Microsoft Copilot Personal: an undocumented ?autorun=1 URL parameter that executes an attacker-supplied prompt on page load, exfiltration of data from connected OAuth apps through Copilot's own URL-fetch tool, and persistent memory poisoning via web summarization. Microsoft shipped a server-side fix the same day the issue was disclosed. Varonis reports no evidence of pre-patch exploitation.",
         "title": "CoSnitch one-click data exfiltration chain disclosed in Microsoft Copilot Personal"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-08-13",
+        "date_kind": "disclosed",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "The flaw lives inside the SiYuan desktop application's own MCP tool implementation, not in a scanned repository's configuration or dependency manifest. AgentSec scans a local repository and does not analyze third-party desktop application binaries or their bundled MCP tool code, so no repository-shaped detector applies."
+        },
+        "ecosystems": [
+          "mcp",
+          "siyuan"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-08-siyuan-mcp-asset-upload-path-traversal",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2026-82233"
+          ],
+          "technique_ids": [
+            "mcp.tool-path-traversal",
+            "prompt-injection"
+          ]
+        },
+        "source_ids": [
+          "ghsa-siyuan-asset-upload-2026",
+          "nvd-cve-2026-82233"
+        ],
+        "status": "confirmed",
+        "summary": "A repository security advisory and CVE-2026-82233 described a path traversal vulnerability in the asset.upload MCP tool shipped by the SiYuan note-taking application. Versions before 3.8.1 accepted arbitrary absolute file paths without a workspace boundary check, so a prompt-injected instruction to the built-in AI agent could copy files such as SSH keys or credentials from outside the workspace into the asset directory. Fixed in SiYuan 3.8.1.",
+        "title": "SiYuan MCP asset.upload path traversal disclosed and patched"
       },
       {
         "confidence": "review",
@@ -459,6 +525,16 @@
         "url": "https://github.com/anthropics/claude-code/security/advisories/GHSA-fg94-h982-f3mm"
       },
       {
+        "id": "ghsa-siyuan-asset-upload-2026",
+        "published_date": "2026-08-13",
+        "publisher": "siyuan-note (GitHub Security Advisory)",
+        "reviewed_date": "2026-09-01",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "SiYuan MCP asset.upload Reads Arbitrary Absolute File Paths (Workspace Boundary Bypass)",
+        "url": "https://github.com/siyuan-note/siyuan/security/advisories/GHSA-p23f-cm6q-2qp8"
+      },
+      {
         "id": "github-advisory-cve-2026-63118",
         "published_date": "2026-07-30",
         "publisher": "GitHub Advisory Database",
@@ -509,6 +585,15 @@
         "url": "https://github.com/advisories/CVE-2026-67432"
       },
       {
+        "id": "github-ghsa-mcp-php-sdk-sse-2026",
+        "publisher": "modelcontextprotocol/php-sdk (GitHub Security Advisory)",
+        "reviewed_date": "2026-09-01",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "DoS: client HttpTransport SSE buffer (sseBuffer .= chunk) grows unbounded when server withholds the event delimiter",
+        "url": "https://github.com/modelcontextprotocol/php-sdk/security/advisories/GHSA-7m52-jw36-44r3"
+      },
+      {
         "id": "hackernews-keyv-2026",
         "published_date": "2026-08-04",
         "publisher": "The Hacker News",
@@ -547,6 +632,26 @@
         "status": "active",
         "title": "CVE-2026-24301 Detail",
         "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-24301"
+      },
+      {
+        "id": "nvd-cve-2026-53965",
+        "published_date": "2026-08-25",
+        "publisher": "NIST NVD",
+        "reviewed_date": "2026-09-01",
+        "source_type": "database",
+        "status": "active",
+        "title": "CVE-2026-53965 Detail",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-53965"
+      },
+      {
+        "id": "nvd-cve-2026-82233",
+        "published_date": "2026-08-28",
+        "publisher": "NIST NVD",
+        "reviewed_date": "2026-09-01",
+        "source_type": "database",
+        "status": "active",
+        "title": "CVE-2026-82233 Detail",
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-82233"
       },
       {
         "id": "perplexity-numbat-2026",
@@ -637,7 +742,7 @@
         "url": "https://zenity.io/research/ai-total"
       }
     ],
-    "updated": "2026-08-24"
+    "updated": "2026-09-01"
   },
   "landing_metrics": {
     "critical_risk_skills": 534,
