@@ -386,11 +386,25 @@ Useful contribution routes:
 - Propose a focused guide or workflow with its sources, boundaries, and verification method.
 - Improve an example without weakening its existing security checks.
 
-## Maintainer and related projects
+## Maintainer
 
-Florian Bruniaux maintains this guide. His related projects include [RTK](https://github.com/rtk-ai/rtk), [ccboard](https://github.com/FlorianBruniaux/ccboard), [Claude Code Plugins](https://github.com/FlorianBruniaux/claude-code-plugins), [Claude Cowork Guide](https://github.com/FlorianBruniaux/claude-cowork-guide), and [cc-copilot-bridge](https://github.com/FlorianBruniaux/cc-copilot-bridge).
+Florian Bruniaux maintains this guide.
 
 [GitHub](https://github.com/FlorianBruniaux) · [LinkedIn](https://www.linkedin.com/in/florian-bruniaux-43408b83/) · [Portfolio](https://florian.bruniaux.com/)
+
+<!-- BEGIN GENERATED RELATED PROJECTS -->
+<!-- Source: https://github.com/FlorianBruniaux/FlorianBruniaux/blob/main/ecosystem/projects.json; project: claude-code-guide -->
+## Explore the ecosystem
+
+These projects extend the workflow without duplicating this tool:
+
+- **Install with [claude-code-plugins](https://github.com/FlorianBruniaux/claude-code-plugins)**: move from explanations to installable templates.
+- **Validate with [ctxharness](https://github.com/FlorianBruniaux/ctxharness)**: test whether documented context and instructions still match the repository.
+- **Secure with [agentsec-triage](https://github.com/FlorianBruniaux/agentsec-triage)**: connect security guidance to a versioned operational feed.
+- **Continue with [Claude Cowork Guide](https://github.com/FlorianBruniaux/claude-cowork-guide)**: switch to workflows designed for knowledge workers and non-developers.
+
+[Browse the complete open-source galaxy](https://github.com/FlorianBruniaux#open-source-galaxy)
+<!-- END GENERATED RELATED PROJECTS -->
 
 ## License
 

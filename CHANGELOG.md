@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- **Open-source galaxy navigation** (`README.md`): replaced the static maintainer project list with a generated, context-specific neighborhood sourced from the canonical profile manifest.
+
 - **AgentSec threat-intelligence sync** (v2.28.0): mirrored two new MCP-ecosystem CVE records from AgentSec Triage into `examples/commands/resources/threat-db.yaml`: CVE-2026-82233 (SiYuan `asset.upload` MCP tool path traversal, fixed 3.8.1) and CVE-2026-53965 (official MCP PHP SDK `HttpTransport` unbounded SSE buffer DoS, fixed 0.7.1). Both are documented-only in AgentSec (no detector; outside its local-repository scan surface), sourced from NVD and the upstream GitHub Security Advisories. `machine-readable/agentsec-security-feed.v1.json` resynced byte-for-byte from AgentSec canonical `exports/security-feed.v1.json` (verified via `scripts/sync_security_feed.py --check` and `scripts/check-agentsec-security-feed.py`). Canonical record lives in AgentSec Triage `data/intelligence/sources.yaml`, `data/intelligence/events.yaml`, and `data/threat-db.yaml`; that repository license-prose-inventory grew from 430 to 433 `UNKNOWN`/`UNREVIEWED` fields pending owner review, tracked in its own `LICENSE-DECISION.md` and `docs/LICENSE-*` files.
 
 - **Author profile and portfolio links** (`README.md`): added a compact profile block below the title with Florian Bruniaux's role, experience, blog, related projects, and professional links.
