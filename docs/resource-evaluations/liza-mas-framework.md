@@ -10,7 +10,7 @@
 
 ## Context: distinct from the earlier evaluation
 
-On 2026-06-10, an evaluation ([`liza-mas-token-saving-cli-tools.md`](./liza-mas-token-saving-cli-tools.md)) rejected the **satellite tools** from the liza-mas org (scip-search, mdtoc, functional-clusters, stacklit-cli), all at 0-2 stars, all coupled to the framework. This evaluation covers a different object: **Liza the multi-agent framework itself** (`liza-mas/liza`), the Go orchestrator that uses those satellites. Author: Tangi Vass.
+On 2026-06-10, an evaluation ([`liza-mas-token-saving-cli-tools.md`](./liza-mas-token-saving-cli-tools.md)) rejected four **satellite tools** from the liza-mas org (scip-search, mdtoc, functional-clusters, stacklit-cli), all at 0-2 stars. Liza can use them through [optional toolchain profiles](https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/support-docs/TOOLCHAIN.md), but does not require them: its [agent tool contract](https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/contracts/AGENT_TOOLS.md) falls back to `rg`, `ast-grep`, and direct reads when an index or tool is unavailable. The earlier scores concern their standalone value to this guide. This evaluation covers a different object: **Liza the multi-agent framework itself** (`liza-mas/liza`), the Go orchestrator that can use those satellites. Author: Tangi Vass.
 
 ---
 
@@ -71,9 +71,11 @@ An independent practitioner report was also found after the original evaluation.
 | 1. Deterministic gate vs LLM self-assessment | ✅ Go supervisors enforce state/merge/TDD | ⚠️ Automated merge but no code-enforced supervisor | ⚠️ Human review, no code gate |
 | 2. Stop-the-line (andon cord) | ✅ Explicit circuit breaker | ❌ Not documented | ❌ Not documented |
 | 3. Traceability / audit trail | ✅ Historized YAML blackboard | ⚠️ Cloud/Enterprise only | ✅ Merge audit trail |
-| 4. Spec stays authoritative | ⚠️ Front-loaded goal doc, no long-term sync | ❌ | ⚠️ Versioned specs |
+| 4. Spec stays authoritative | ⚠️ Human-driven Spec Evolution Protocol, audited but not code-enforced | ❌ | ⚠️ Versioned specs |
 
 It is the only one of the three OSS projects to document a circuit breaker (pillar 2), the point flagged as "few platforms document it explicitly" in spec-first.md.
+
+Liza's pinned [Spec Evolution Protocol](https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/specs/protocols/sprint-governance.md#spec-evolution-protocol) defines change triggers, blocks affected tasks, requires a spec changelog and `spec_updated` activity-log entry, assesses impact, then resumes the tasks. This is a procedural long-term synchronization mechanism. The repository does not show that these steps are code-enforced, and its [architectural issues ledger](https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/specs/architecture/architectural-issues.md#spec-corpus-lacks-lifecycle-management) still records missing automated lifecycle and staleness controls.
 
 ---
 
@@ -83,11 +85,11 @@ Liza ships a 660-line competitive survey at [`specs/architecture/competition-sur
 
 **Genuine analytical value.** The per-competitor breakdown (what it is, philosophy, trust model, where it falls short, what's worth adopting) is technically argued rather than dismissive, and the "Ideas worth adopting" sections show honest reading. The architectural critique of GSD is the strongest piece: GSD's orchestrators are themselves LLM agents, so there is no hard trust boundary between orchestrator and subagent (LLM-on-LLM), versus Liza's deterministic Go supervisors (Go-on-LLM). That distinction is real and reusable independently of Liza.
 
-**Two problems that disqualify it as a citable source.**
+**Three limitations that disqualify it as a citable source for competitive verdicts.**
 
 First, the taxonomy is built to produce a category of one. "Behavioral enforcement systems (Liza). One entry." and "Enterprise trust remains unsolved by everyone except Liza" are positioning claims, not survey findings. A classification whose seventh bucket contains only its author is a marketing artifact.
 
-Second, and more measurable: **the survey understates every competitor's traction, always in the same direction.** Verified via `gh api` on 2026-07-15:
+Second, the traction figures do not form one comparable snapshot. Every numeric competitor figure checked through `gh api` on 2026-07-15 was lower than the API count observed that day, but the survey assigns different as-of dates to its rows. Liza's own qualitative "Early" entry had also moved from 322 to 336 stars by 2026-07-28:
 
 | Framework | Survey figure | Actual (2026-07-15) | Actual (2026-07-28) | Gap |
 |-----------|---------------|---------------------|-----|-----|
@@ -100,9 +102,11 @@ Second, and more measurable: **the survey understates every competitor's tractio
 | Symphony ([openai/symphony](https://github.com/openai/symphony)) | "New" | 25,969 | 26,265 | n/a |
 | Liza | "Early" | 322 | 336 | n/a |
 
-Staleness explains part of it (the doc is dated March-May 2026 and was read on 2026-07-15), but not the uniform direction, and not the survey's own internal inconsistency: it dates gstack to 2026-05-22 while dating BMAD to 2026-04-20, comparing figures taken a month apart in a single matrix. The practical effect is that the "Stars: Liza = Early vs GSD = 37k" row understates the real gap, which is 322 against 64,742.
+Repository star counts are cumulative and usually rise, so a stale sample often falls below a later observation; counts can also fall. The uniform direction in this sample does not establish systematic bias or intent. The substantive defect is dating gstack to 2026-05-22 and BMAD to 2026-04-20, then comparing them in one matrix without a common as-of date. The practical effect is that the "Stars: Liza = Early vs GSD = 37k" row cannot serve as a current comparison. At the 2026-07-15 check, the corresponding counts were 322 and 64,742.
 
-**Consequence for the guide**: use the survey as a lead list of projects to investigate, never as a source of figures or of competitive verdicts. Every number in this evaluation and in the guide sections it fed was re-derived from the GitHub API. This reinforces the "Medium confidence" verdict below rather than changing the 3/5 score, since the score already rested on architecture rather than on the author's claims.
+Third, the survey's "Code Quality Evidence" section reports a Claude Code Opus 4.6 assessment generated and published by the project, including an A grade and six five-star subsystem ratings. This is internal qualitative feedback, not independent evidence or a reproducible benchmark. Its quantitative snapshot is also stale against the pinned review: 27,926 lines of production Go in the assessment versus 76,343 at `a22c123`. The project's own issues ledger separately records contract-effectiveness self-certification as an open concern. The section should be labelled as an internal self-assessment with its date, scope, and method, or replaced by independently reproducible measurements before supporting comparative code-quality claims.
+
+**Consequence for the guide**: use the survey as a lead list of projects to investigate, never as a source of figures or of competitive verdicts. Every number in this evaluation and in the guide sections it fed was re-derived from the GitHub API. This preserves the confidence boundaries below and does not change the 3/5 score, since the score already rested on architecture rather than on the author's claims.
 
 ---
 
@@ -122,9 +126,9 @@ Staleness explains part of it (the doc is dated March-May 2026 and was read on 2
 
 **Answer**: The score does not reward adoption (which is low) but architectural uniqueness and teaching value. Liza is the only OSS project identified that mechanically answers the first three governance questions from the talk as one coherent system, with 76,343 lines of non-test Go at the reviewed commit rather than a collection of prompts. It serves as an existence proof: "here is what mechanical governance looks like". Its satellites were rejected because they duplicated Serena/grepai, already covered; the framework has no equivalent in the guide. The mention is framed explicitly as "reference architecture, not a dependency to adopt".
 
-**Second objection (2026-07-15)**: "The survey's numbers are systematically self-serving. Does that not disqualify the whole project?"
+**Second objection (reassessed 2026-09-01)**: "The survey's dated comparisons are unreliable. Does that disqualify the whole project?"
 
-**Answer**: No, because the score never rested on the survey. The architectural claims that justify 3/5 (Go supervisors, circuit breaker, behavioral contract) were verified against the repo and the project docs, not against the competitive doc. Skewed competitive marketing is common and says little about code quality. It does say the author's self-reported comparisons need independent checking, which is what the fact-check table below already assumed.
+**Answer**: No, because the score never rested on the survey. The architectural claims that justify 3/5 (Go supervisors, circuit breaker, behavioral contract) were verified against the repo and the project docs, not against the competitive document. Mixed as-of dates and an internal LLM assessment make the comparisons unsuitable as independent evidence. They do not establish the author's intent or a systematic bias.
 
 **Risk of not integrating**: a reader looking for "a concrete OSS example of a circuit breaker / deterministic supervisor for coding agents" would find nothing, while Liza exists and documents it.
 
@@ -136,10 +140,10 @@ Staleness explains part of it (the doc is dated March-May 2026 and was read on 2
 |-------|----------|----------------|
 | liza-mas/liza: 363 stars, 49 forks, Apache-2.0 | ✅ | GitHub API, 2026-08-28; previous snapshots retained in the historical comparison above |
 | Created 2026-01-17, pushed 2026-07-15 | ✅ | Same, active project |
-| README: BMAD "~45.2k stars" | ❌ Understated | Actual: 50,631 on 2026-07-15, now 51,183 as of 2026-07-28 |
-| README: CrewAI "45k stars" | ❌ Understated | Actual: 55,565 on 2026-07-15, now 56,233 as of 2026-07-28 |
-| README: MetaGPT "64k stars" | ❌ Understated | Actual: 69,384 on 2026-07-15, now 69,538 as of 2026-07-28 |
-| Survey: gstack "~100.7k", GSD "37k", Paperclip "14k" | ❌ All understated | Actual: 122,026 / 64,742 / 73,770 on 2026-07-15; now 124,807 / 64,798 / 74,902 as of 2026-07-28 |
+| README: BMAD "~45.2k stars" | ⚠️ Lower than later snapshot | Actual: 50,631 on 2026-07-15, then 51,183 on 2026-07-28 |
+| README: CrewAI "45k stars" | ⚠️ Lower than later snapshot | Actual: 55,565 on 2026-07-15, then 56,233 on 2026-07-28 |
+| README: MetaGPT "64k stars" | ⚠️ Lower than later snapshot | Actual: 69,384 on 2026-07-15, then 69,538 on 2026-07-28 |
+| Survey: gstack "~100.7k", GSD "37k", Paperclip "14k" | ⚠️ Lower than later snapshot | Actual: 122,026 / 64,742 / 73,770 on 2026-07-15; then 124,807 / 64,798 / 74,902 on 2026-07-28 |
 | Survey: MetaGPT "no release since v0.8.1 (April 2024)" | ✅ | Confirmed: `gh api repos/FoundationAgents/MetaGPT/releases/latest` returns v0.8.1, 2024-04-22. Last commit January 2026. Stars: 69,384 then, 69,538 now as of 2026-07-28 |
 | Survey: Symphony "Apache 2.0 initially reported, some sources say MIT" | ✅ Apache-2.0 | `gh api`, 2026-07-15. The ambiguity is resolved, it is Apache-2.0. Stars: 25,969 then, 26,265 now as of 2026-07-28 |
 | "L4 Collaborative Agent Networks alongside BMAD and BEADS" | ❌ Not independent | The only support for this ranking is Liza's README. Attributed to **Soufiane Keli, VP Software Engineering at Octo Technology (Accenture)**, not IBM as an earlier search in this session suggested. A Perplexity deep-research (2026-07-12) independently confirms no formal L1-L5 model is published on the Octo blog or elsewhere by Keli; the L1-L5 frameworks actually published (metacto, nextagile, boye-co) are by other authors. This is a comment-level endorsement, not a benchmark. Do not cite as external validation. |
