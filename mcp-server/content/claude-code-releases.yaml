@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.250"
-updated: "2026-08-27"
+latest: "2.1.252"
+updated: "2026-08-31"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,21 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-August 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.252"
+    date: "2026-08-31"
+    highlights:
+      - "Fixed Bash commands failing with a task-output-swap error on some Macs"
+      - "Fixed 'always allow' not saving in a project with no `.claude/settings.local.json` yet"
+      - "Fixed Remote Control sessions hosted by Claude Desktop or VS Code stalling for minutes after a degraded claude.ai connection"
+
+  - version: "2.1.251"
+    date: "2026-08-28"
+    highlights:
+      - "⭐ Added `PreModelSwitch`/`PostModelSwitch` hook events and a `SendFeedback`-style spend-limit bar in `/usage`"
+      - "Added live streaming of a foreground subagent's tool calls to Remote Control clients"
+      - "⭐ Security fixes: symlink swap bypassing file-tool permission checks, plugin marketplace command paths escaping the plugin directory, sandboxed Bash output-file redirection"
+      - "Changed `CLAUDE_CODE_SUBAGENT_MODEL` to set a default rather than override agent-level `model:` and per-spawn overrides"
 
   - version: "2.1.250"
     date: "2026-08-27"

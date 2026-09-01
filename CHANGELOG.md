@@ -9,6 +9,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 
 - **Author profile and portfolio links** (`README.md`): added a compact profile block below the title with Florian Bruniaux's role, experience, blog, related projects, and professional links.
+- **Claude Code Releases**: Updated tracking to v2.1.252 (from v2.1.250)
+  - v2.1.251 (2026-08-28): `PreModelSwitch`/`PostModelSwitch` hook events, live streaming of a foreground subagent's tool calls to Remote Control clients, a spend-limit bar in `/usage`; three security fixes (a symlink swap bypassing file-tool permission checks after approval, a plugin marketplace path-traversal escape, sandboxed Bash output-file redirection); `CLAUDE_CODE_SUBAGENT_MODEL` now sets a default instead of overriding agent-level `model:` and per-spawn overrides
+  - v2.1.252 (2026-08-31): bug fixes (task-output-swap error on some Macs, "always allow" not saving without an existing `.claude/settings.local.json`, Remote Control stalling on a degraded claude.ai connection)
+
+  Files updated: `machine-readable/claude-code-releases.yaml`, `guide/core/claude-code-releases.md`, `mcp-server/content/claude-code-releases.yaml`, `mcp-server/package.json` (1.3.1 to 1.3.2, rebuilt), sibling landing repo `src/data/releases.ts`. Fixed 3 pre-existing vague link labels ("Learn more", "docs", "Docs") in `guide/core/claude-code-releases.md` that were blocking edits under the anti-AI editorial hook. No breaking changes in this range. No manual RSS entry: CC releases feed the landing RSS automatically from `releases.ts`; `rss-entries.ts` is guide-news-only (step 4.5 of this command is stale, see project memory).
 
 ### Fixed
 
