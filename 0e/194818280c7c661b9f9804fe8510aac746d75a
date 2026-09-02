@@ -1,0 +1,19 @@
+CHANGELOG.md
+  s_bdb2613b4f3398::t_271bc9497b5ceb 11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "0e194818280c7c661b9f9804fe8510aac746d75a",
+  "prompts": {},
+  "sessions": {
+    "s_bdb2613b4f3398": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05eba-a063-7eb2-8f50-a7bad8a04d04",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
