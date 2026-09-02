@@ -421,6 +421,22 @@ But also: maybe you don't need more complexity. Simple setups work for many team
 
 ---
 
+## Start / Build / Scale: A Practical Navigation Layer
+
+Start, Build, and Scale answer a different question from the L0-L5 scale below. L0-L5 describes increasing autonomy in the software delivery system. Start, Build, and Scale describe the next adoption decision for a person or team. One does not replace or calculate the other.
+
+| Path | Decision boundary | Observable exit condition | Frequent L0-L5 overlap, not a mapping |
+|------|-------------------|---------------------------|----------------------------------------|
+| **Start** | Use Claude Code on one real, isolated task while preserving human understanding and control. | The user can explain the change, run the relevant verification, and recover or revert safely. | Often L1-L2 |
+| **Build** | Turn individual practice into a repeatable workflow with maintained context and explicit verification. | Another person can run the workflow from versioned instructions and reach a defined terminal state. | Often L2-L3 |
+| **Scale** | Operate the workflow under team, volume, security, reliability, or cost constraints. | Shared controls define ownership, permissions, evidence, escalation, and measurable outcomes. | Often L3+, but a team can scale controls around lower-autonomy work |
+
+The overlap column is descriptive. It is not a promotion ladder or a maturity score. A team may need Scale controls for a tightly constrained L2 workflow because many people use it or because the repository is sensitive. A solo developer may operate an advanced L3 harness without facing an organizational Scale problem.
+
+**Perspectives is separate.** The portfolio's [AI Engineering Paths](https://www.florian.bruniaux.com/paths/) also includes Perspectives for changes in careers, organizations, infrastructure, markets, and society. Perspectives is an editorial lens, not a level above Scale.
+
+Use this layer to choose the next guide section. Use L0-L5 when you need to discuss system autonomy. Measure both with observable behavior rather than a self-assigned label.
+
 ## The L0-L5 Scale: Where Is Your Team?
 
 Dan Shapiro (CEO Glowforge) published this framework in January 2026, drawing an explicit parallel with the SAE autonomy levels for self-driving vehicles. The original publication is at [factorydark.com](https://factorydark.com). Simon Willison summarized it at [simonwillison.net/2026/Jan/28/the-five-levels](https://simonwillison.net/2026/Jan/28/the-five-levels/). The name "Five Levels" covers L0-L5 (six levels total).
