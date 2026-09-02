@@ -489,7 +489,7 @@ The repository labels dsh a developer preview. Treat that as an operational cons
 
 One external study, [arXiv:2608.16393](https://arxiv.org/abs/2608.16393), evaluated one DeepSeek Harness commit and configuration in 14,560 controlled indirect-prompt-injection tests. Its results are evidence about that tested configuration, not a universal security rating. The durable lesson is simpler: sandboxing alone does not prove that untrusted content cannot influence a tool-using agent. Keep provenance, independent authorization, and review gates on top of a sandbox.
 
-Official starting points: the [README](https://github.com/deepseek-ai/deepseek-harness), [architecture](https://github.com/deepseek-ai/deepseek-harness/blob/main/docs/architecture.md), [sandbox package](https://github.com/deepseek-ai/deepseek-harness/tree/main/packages/sandbox), and [permission presets](https://github.com/deepseek-ai/deepseek-harness/tree/main/packages/interaction/permission-presets). Snapshot checked 2026-08-27.
+Official starting points: the [README](https://github.com/deepseek-ai/deepseek-harness), [architecture](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md), [sandbox subsystem](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/sandbox.md), and [permission presets](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/permission-presets.md). Snapshot checked 2026-09-02.
 
 #### When to Choose DeepSeek Harness
 

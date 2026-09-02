@@ -1017,15 +1017,14 @@ caliber refresh
 
 ### context-evaluator
 
-An OSS tool by Packmind that evaluates CLAUDE.md and AGENTS.md quality using 17 specialized AI evaluators. Available as a zero-install web app, pre-compiled binary, or Bun source install.
+An OSS tool by Packmind that evaluates CLAUDE.md and AGENTS.md quality using 17 specialized AI evaluators. Available as a pre-compiled binary or Bun source install. The hosted web app documented by the project was unreachable during the 2026-09-02 check.
 
 | Attribute | Details |
 |-----------|---------|
-| **Website** | [context-evaluator.ai](https://context-evaluator.ai) |
 | **Source** | [GitHub: PackmindHub/context-evaluator](https://github.com/PackmindHub/context-evaluator) |
-| **Install** | Zero-install at context-evaluator.ai, or binary from GitHub Releases |
+| **Install** | Binary from GitHub Releases, or from source with Bun |
 | **Language** | TypeScript (Bun) + React frontend |
-| **License** | MIT |
+| **License** | Apache-2.0 |
 | **Status** | Active (Packmind experimental project, 2026) |
 
 **Key features**:
@@ -1047,7 +1046,7 @@ An OSS tool by Packmind that evaluates CLAUDE.md and AGENTS.md quality using 17 
 | LLM-based content review | No | Yes (17 evaluators) |
 | Cross-file contradiction detection | No | Yes (unified mode) |
 | Automated remediation (patch file) | No | Yes |
-| Zero-install web version | No | Yes (context-evaluator.ai) |
+| Hosted web version | No | Documented upstream, but unreachable during the 2026-09-02 check |
 
 **When to choose context-evaluator**:
 

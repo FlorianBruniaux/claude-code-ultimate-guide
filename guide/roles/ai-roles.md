@@ -174,7 +174,7 @@ See the [Context Engineering reference](../core/context-engineering.md) for the 
 
 > "Context Engineering is providing the right information and tools, in the right format, at the right time." (Philipp Schmid, Google)
 
-The article [Context engineering became a job title](https://florian.bruniaux.com/articles/context-engineering-the-new-roles/) documents early title adoption. Treat it as evidence of emergence, not proof of market volume.
+The article [Context engineering became a job title](https://www.florian.bruniaux.com/blog/articles/context-engineering-the-new-roles/) documents early title adoption. Treat it as evidence of emergence, not proof of market volume.
 
 ### Responsibilities
 
@@ -854,13 +854,13 @@ Application security, cloud security, security architecture, adversarial ML, IAM
 
 ## 23. AI Governance Engineer
 
-**Evidence label**: Role family, but less standardized than AI Security Engineer. Current postings at Swiss Re, State Street, Deeploy, and Dalio Family Office use the exact title or a combined analyst/engineer variant.
+**Evidence label**: Role family, but less standardized than AI Security Engineer. Current postings at State Street, Deeploy, and Dalio Family Office use the exact title or a combined analyst/engineer variant.
 
 ### What they do
 
 Turn AI policy, risk, and regulatory requirements into operational tooling and evidence. This is an engineering role when it builds catalogs, lineage, approval gates, policy checks, audit trails, and self-service controls. A governance analyst or policy lead may own interpretation and oversight without building those systems.
 
-[Swiss Re's AI Governance Engineer](https://corporatesolutions.swissre.com/careers/job/AI-Governance-Engineer/1397420433) develops governance tooling, model lineage, fairness audits, usage logging, catalogs, and compliance checks. [Deeploy](https://jobs.ashbyhq.com/deeploy/9b78c07e-9c45-4581-8969-719896f590d9/) uses the title for customer implementation, while [State Street](https://statestreet.wd1.myworkdayjobs.com/en-US/Global/job/AI-Governance-Engineer--VP_R-794568) places it closer to enterprise architecture. The common boundary is control implementation, not one reporting line.
+[Deeploy](https://jobs.ashbyhq.com/deeploy/9b78c07e-9c45-4581-8969-719896f590d9/) uses the title for customer implementation, while [State Street](https://statestreet.wd1.myworkdayjobs.com/en-US/Global/job/AI-Governance-Engineer--VP_R-794568) places it closer to enterprise architecture. The common boundary is control implementation, not one reporting line.
 
 ### Responsibilities
 
@@ -957,7 +957,7 @@ The following primary employer pages were live or indexed as current during the 
 | Applied AI Engineer | [OpenAI](https://openai.com/careers/applied-ai-engineer-enterprise-san-francisco/), [Cohere](https://jobs.ashbyhq.com/cohere/5e488a01-f015-48e8-8d25-a41cf19ab45a), [Cognition](https://jobs.ashbyhq.com/cognition/9dc5bcf6-469d-426d-a5ca-46062f4fa33b), [Console](https://jobs.ashbyhq.com/console/7d8114fa-4cbd-4c23-a6ba-5154b31c1d80) | Confirmed family; customer boundary varies |
 | AI Platform Engineer | [BlackRock](https://careers.blackrock.com/job/budapest/senior-ai-platform-engineer-vice-president-director/45831/99445872944), [Realtor.com](https://job-boards.greenhouse.io/rdccareers/jobs/7808378003?gh_jid=7808378003), [Absa](https://absa.wd3.myworkdayjobs.com/en-GB/ABSAcareersite/job/Senior-AI-Platform-Engineer--Cloud----KE_R-15989910), [Alcon](https://alcon.wd5.myworkdayjobs.com/en-US/careers_alcon/job/Senior-AI-Platform-Engineer_R-2026-47897) | Confirmed family; absorbs part of MLOps, security, eval, and agent operations |
 | AI Security Engineer | [Apple](https://jobs.apple.com/en-us/search?team=sicurezza-e-privacy-SFTWR-SEC), [Marvell](https://marvell.wd1.myworkdayjobs.com/en-US/MarvellCareers/job/AI-Security-Engineer_2603452), [Société Générale](https://careers.societegenerale.com/en/job-offers/lead-ai-security-engineer-aps-26000H78-en), [GuidePoint Security](https://job-boards.greenhouse.io/guidepointsecurity/jobs/6030474004?gh_jid=6030474004) | Confirmed technical security family |
-| AI Governance Engineer | [Swiss Re](https://corporatesolutions.swissre.com/careers/job/AI-Governance-Engineer/1397420433), [State Street](https://statestreet.wd1.myworkdayjobs.com/en-US/Global/job/AI-Governance-Engineer--VP_R-794568), [Deeploy](https://jobs.ashbyhq.com/deeploy/9b78c07e-9c45-4581-8969-719896f590d9/), [Dalio Family Office](https://job-boards.greenhouse.io/marinomanagementllc/jobs/6133372004) | Confirmed family; scope ranges from internal tooling to customer implementation and architecture |
+| AI Governance Engineer | [State Street](https://statestreet.wd1.myworkdayjobs.com/en-US/Global/job/AI-Governance-Engineer--VP_R-794568), [Deeploy](https://jobs.ashbyhq.com/deeploy/9b78c07e-9c45-4581-8969-719896f590d9/), [Dalio Family Office](https://job-boards.greenhouse.io/marinomanagementllc/jobs/6133372004) | Confirmed family; scope ranges from internal tooling to customer implementation and architecture |
 | AI Evaluation Engineer | [Anthropic careers](https://www.anthropic.com/careers/jobs), [OpenAI Backend Software Engineer (Evals)](https://openai.com/careers/backend-software-engineer-%28evals%29-san-francisco/), [Ellipsis Health](https://jobs.ashbyhq.com/ellipsis-health/60fb0284-8ba7-48a6-b66b-9bf4beb7b133) | Confirmed work family; no canonical title |
 | Forward-Deployed Engineer | [OpenAI](https://openai.com/careers/forward-deployed-engineer-%28fde%29-sf-san-francisco/), [Anthropic](https://www.anthropic.com/careers/jobs), [ServiceNow team description](https://careers.servicenow.com/teams/ai-engineering-product/) | Confirmed customer-deployment family |
 

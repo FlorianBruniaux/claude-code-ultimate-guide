@@ -10,7 +10,7 @@ tags: [context, configuration, architecture, team, advanced]
 >
 > **Last updated**: March 2026
 >
-> **Further reading**: [context engineering, the hidden variable](https://florian.bruniaux.com/articles/context-engineering-the-hidden-variable/), on why the same model produces opposite results depending on this.
+> **Further reading**: [context engineering, the hidden variable](https://www.florian.bruniaux.com/blog/articles/context-engineering-the-hidden-variable/), on why the same model produces opposite results depending on this.
 
 "Context engineering is the art of filling the context window with the right information at the right time." (Andrej Karpathy)
 

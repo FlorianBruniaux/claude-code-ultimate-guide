@@ -2156,7 +2156,7 @@ An **interactive comparison matrix** of 23 AI coding agents across 11 technical 
 
 - [Packmind](https://packmind.com): Context engineering & governance for AI coding agents
 - [Packmind OSS](https://github.com/PackmindHub/packmind): Framework for versioning AI coding context
-- [Context-Evaluator](https://context-evaluator.ai) ([GitHub](https://github.com/PackmindHub/context-evaluator)): Open-source scanner for CLAUDE.md / AGENTS.md / copilot-instructions.md: 17 evaluators (13 error detectors + 4 suggestion generators), supports Claude Code, Cursor, Copilot, OpenCode, Codex. CLI + web UI. Apache-2.0, v0.3.0 (Feb 2026).
+- [Context-Evaluator](https://github.com/PackmindHub/context-evaluator): Open-source scanner for CLAUDE.md / AGENTS.md / copilot-instructions.md: 17 evaluators (13 error detectors + 4 suggestion generators), supports Claude Code, Cursor, Copilot, OpenCode, Codex. CLI + local web UI. Apache-2.0. The separately hosted web app documented upstream was unreachable during the 2026-09-02 check.
 - [Claude Code Templates](https://github.com/davila7/claude-code-templates): 200+ templates for Claude Code (17k⭐)
 - [Awesome Claude Code](https://github.com/hesreallyhim/awesome-claude-code): Curated tool library
 

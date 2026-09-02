@@ -35,6 +35,9 @@ jobs:
             --exclude "^https://x\\.com"
             --exclude "^https://linkedin\\.com"
             --exclude "^https://www\\.linkedin\\.com"
+            # The Gemini web app rejects this headless checker, while Google's
+            # public product and support pages confirm the destination is live.
+            --exclude "^https://gemini\\.google\\.com/?$"
             --exclude "^https://localhost"
             --exclude "^http://localhost"
             --exclude "%7B"

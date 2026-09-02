@@ -241,7 +241,7 @@ A systematic approach to using AI without losing your edge.
 | **A** | Apply | Transform knowledge into skill through modification |
 | **L** | Learn | Capture insights for long-term retention |
 
-For the reasoning behind naming this a protocol rather than a habit, see [the UVAL protocol and the comprehension debt it prevents](https://florian.bruniaux.com/articles/uval-protocol-comprehension-debt/).
+For the reasoning behind naming this a protocol rather than a habit, see [the UVAL protocol and the comprehension debt it prevents](https://www.florian.bruniaux.com/blog/articles/uval-protocol-comprehension-debt/).
 
 ---
 
@@ -1139,7 +1139,7 @@ The reference dataset is still the Cisco case study run by Jason Cohen at SmartB
 
 Caveats worth stating: this is observational rather than randomized, one company, one language family, and it predates AI entirely. Its value is that the limits it found are cognitive rather than procedural, which is why they did not move when the tooling did.
 
-Neuroimaging work supports that reading. Siegmund et al. ([ICSE 2014](https://www.cs.cmu.edu/~ckaestne/pdf/icse14_fmri.pdf)) showed that comprehending even short snippets recruits working memory, attention, and language regions. Floyd et al. ([ICSE 2017](https://web.eecs.umich.edu/~weimerw/p/weimer-icse2017-preprint.pdf)) found that reviewing code has a neural signature distinct from reviewing prose, and that the signature shifts with expertise. Peitek et al. ([2021](https://web.eecs.umich.edu/~weimerw/2024-481F/readings/peitek2021-metrics.pdf)) found that plain structural properties, textual size and vocabulary size above all, predict measured cognitive load during comprehension.
+Neuroimaging work supports that reading. Siegmund et al. ([ICSE 2014](https://www.cs.cmu.edu/~ckaestne/pdf/icse14_fmri.pdf)) showed that comprehending even short snippets recruits working memory, attention, and language regions. Floyd et al. ([ICSE 2017](https://doi.org/10.1109/ICSE.2017.24)) found that reviewing code has a neural signature distinct from reviewing prose, and that the signature shifts with expertise. Peitek et al. ([2021](https://doi.org/10.1109/ICSE43902.2021.00056)) found that plain structural properties, textual size and vocabulary size above all, predict measured cognitive load during comprehension.
 
 **Operational consequence**: an agent will happily produce a 900-line diff. That single artifact sits four times past the size where human defect detection is known to degrade. Constrain the agent's output size rather than asking reviewers to absorb it.
 
@@ -1268,8 +1268,8 @@ Sources for [§14 The Attention Cost of the Review Shift](#the-attention-cost-of
 
 - **Cohen, "Best Kept Secrets of Peer Code Review" / Cisco case study (2006)** ([smartbear.co, PDF](https://static0.smartbear.co/support/media/resources/cc/book/code-review-cisco-case-study.pdf)): 10 months, ~50 developers on Cisco MeetingPlace, ~2,500 reviews over 3.2M LOC, instrumented via Code Collaborator. Defect density drops sharply past 200 LOC (no review over 250 lines exceeded 37 defects/kLOC), best detection under 300 LOC/hour, detection collapses past 60-90 minutes of sustained review. Observational, single company, pre-AI.
 - **Siegmund et al., "Understanding Understanding Source Code with fMRI" (ICSE 2014)** ([cs.cmu.edu, PDF](https://www.cs.cmu.edu/~ckaestne/pdf/icse14_fmri.pdf)): program comprehension recruits working memory, attention and language regions.
-- **Floyd, Santander & Weimer (ICSE 2017)** ([umich.edu, PDF](https://web.eecs.umich.edu/~weimerw/p/weimer-icse2017-preprint.pdf)): code review carries a neural signature distinct from prose review, modulated by expertise.
-- **Peitek et al., code complexity metrics vs measured cognitive load (2021)** ([umich.edu, PDF](https://web.eecs.umich.edu/~weimerw/2024-481F/readings/peitek2021-metrics.pdf)): textual size and vocabulary size predict neural and subjective cognitive load during comprehension.
+- **Floyd, Santander & Weimer (ICSE 2017)** ([DOI](https://doi.org/10.1109/ICSE.2017.24)): code review carries a neural signature distinct from prose review, modulated by expertise.
+- **Peitek et al., code complexity metrics vs measured cognitive load (2021)** ([DOI](https://doi.org/10.1109/ICSE43902.2021.00056)): textual size and vocabulary size predict neural and subjective cognitive load during comprehension.
 - **Parasuraman & Riley, "Humans and Automation: Use, Misuse, Disuse, Abuse" (Human Factors, 1997)** ([sagepub.com](https://journals.sagepub.com/doi/10.1518/001872097778543886)): foundational taxonomy of automation bias and complacency.
 - **Goddard, Roudsari & Wyatt, automation bias systematic review (2011)** ([PMC3240751](https://pmc.ncbi.nlm.nih.gov/articles/PMC3240751/)): erroneous decision-support advice raised incorrect-decision risk ~26% versus unaided decisions. Clinical domain, mechanism transfers to reviewing generated code.
 - **Lee, Sarkar et al., "The Impact of Generative AI on Critical Thinking" (CHI 2025)** ([microsoft.com](https://www.microsoft.com/en-us/research/publication/the-impact-of-generative-ai-on-critical-thinking-self-reported-reductions-in-cognitive-effort-and-confidence-effects-from-a-survey-of-knowledge-workers/)): Microsoft Research and Carnegie Mellon, 319 knowledge workers, 936 first-hand examples. Confidence in GenAI predicts less critical thinking, self-confidence predicts more. Critical thinking migrates to verification, integration, task stewardship.

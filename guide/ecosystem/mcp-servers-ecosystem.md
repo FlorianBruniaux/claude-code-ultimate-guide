@@ -845,7 +845,7 @@ Result: [VULNERABLE] SQL injection detected at line 2.
 
 **Resources**:
 - **GitHub**: https://github.com/semgrep/mcp
-- **Official Docs**: https://semgrep.dev/docs/mcp
+- **Official README**: https://github.com/semgrep/mcp#readme
 - **Rules Registry**: https://semgrep.dev/r
 - **Pricing**: https://semgrep.dev/pricing (free tier for MCP)
 
