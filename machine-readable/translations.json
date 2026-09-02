@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-09-14",
-  "measured_at_commit": "7c0f8a5a233e42f6fed992c85a41c4dbbf74b215",
+  "checked_at": "2026-09-15",
+  "measured_at_commit": "e4c279799284454a67fc40890c260244066c00e9",
   "official_scope": "Maintained by the Claude Code Ultimate Guide project; not official Anthropic documentation.",
   "policy": {
     "canonical_language": "en",
@@ -48,7 +48,7 @@
       "status": "official",
       "official": true,
       "version": "3.41.1",
-      "last_checked_at": "2026-09-14",
+      "last_checked_at": "2026-09-15",
       "last_full_refresh_at": "2026-07-09",
       "sync_state": "stale",
       "translated_from": {
@@ -69,7 +69,7 @@
       "known_lag": {
         "status": "stale",
         "canonical_guide_commits": 29,
-        "canonical_repo_commits": 286,
+        "canonical_repo_commits": 293,
         "version_delta": "3.41.1 to 3.43.0"
       }
     },
@@ -112,7 +112,7 @@
       "known_lag": {
         "status": "stale",
         "canonical_guide_commits": 43,
-        "canonical_repo_commits": 350,
+        "canonical_repo_commits": 357,
         "version_delta": "3.41.0 to 3.43.0"
       },
       "official": false
@@ -188,7 +188,7 @@
       "known_lag": {
         "status": "stale",
         "canonical_guide_commits": 127,
-        "canonical_repo_commits": 618,
+        "canonical_repo_commits": 625,
         "version_delta": "3.32.2 to 3.43.0"
       },
       "official": false

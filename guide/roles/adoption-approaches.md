@@ -446,8 +446,6 @@ Start, Build, and Scale answer a different question from the L0-L5 scale below. 
 
 The overlap column is descriptive. It is not a promotion ladder or a maturity score. A team may need Scale controls for a tightly constrained L2 workflow because many people use it or because the repository is sensitive. A solo developer may operate an advanced L3 harness without facing an organizational Scale problem.
 
-**Perspectives is separate.** The portfolio's [Adoption Path](https://www.florian.bruniaux.com/adoption/) also includes Perspectives for changes in careers, organizations, infrastructure, markets, and society. Perspectives is an editorial lens, not a level above Scale.
-
 Use this layer to choose the next guide section. Use L0-L5 when you need to discuss system autonomy. Measure both with observable behavior rather than a self-assigned label.
 
 ## The L0-L5 Scale: Where Is Your Team?
