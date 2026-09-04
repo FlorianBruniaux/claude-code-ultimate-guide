@@ -46,7 +46,7 @@
     "docs:product:check": "node scripts/render-product-docs.mjs --check",
     "registry:metadata": "node scripts/render-registry-metadata.mjs",
     "registry:metadata:check": "node scripts/render-registry-metadata.mjs --check",
-    "release:check": "npm ci --prefer-offline --no-audit --no-fund && npm test && npm run manifest:check && npm run docs:product:check && npm run registry:metadata:check && npm pack --dry-run --json",
+    "release:check": "node scripts/run-release-check.mjs",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {

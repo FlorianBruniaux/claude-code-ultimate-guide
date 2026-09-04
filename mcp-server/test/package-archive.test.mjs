@@ -7,6 +7,7 @@ import { tmpdir } from 'node:os'
 import test from 'node:test'
 import { Client } from '@modelcontextprotocol/sdk/client/index.js'
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
+import { npmReleaseEnvironment, RELEASE_NPM_CACHE_ENV } from '../scripts/npm-release-cache.mjs'
 
 const packageRoot = resolve(import.meta.dirname, '..')
 const guideRoot = resolve(packageRoot, '..')
@@ -40,7 +41,10 @@ async function withClient(command, args, cwd, run) {
 test('npm package excludes development files and preserves the MCP list contract', async () => {
   const tempDirectory = await mkdtemp(resolve(tmpdir(), 'ccguide-mcp-pack-'))
   try {
-    const pack = spawnSync('npm', ['pack', '--json', '--pack-destination', tempDirectory], { cwd: packageRoot, encoding: 'utf8' })
+    const providedCache = process.env[RELEASE_NPM_CACHE_ENV]
+    const cacheDirectory = providedCache ?? resolve(tempDirectory, 'npm-cache')
+    const env = npmReleaseEnvironment(cacheDirectory)
+    const pack = spawnSync('npm', ['pack', '--json', '--pack-destination', tempDirectory], { cwd: packageRoot, encoding: 'utf8', env })
     assert.equal(pack.status, 0, pack.stderr)
     const [archive] = JSON.parse(pack.stdout)
     assert.equal(archive.name, packageJson.name)
@@ -53,12 +57,16 @@ test('npm package excludes development files and preserves the MCP list contract
 
     const install = resolve(tempDirectory, 'install')
     const tarball = resolve(tempDirectory, archive.filename)
-    // The install prefix is isolated. Reusing the cache warmed by release:check's npm ci
-    // keeps this an archive test instead of making registry availability part of the contract.
-    const installed = spawnSync('npm', ['install', '--prefix', install, '--ignore-scripts', '--no-audit', '--no-fund', '--prefer-offline', tarball], {
-      cwd: tempDirectory, encoding: 'utf8', timeout: 60_000, maxBuffer: 1024 * 1024,
+    const cacheWarmInstall = resolve(tempDirectory, 'cache-warm-install')
+    const warm = spawnSync('npm', ['install', '--prefix', cacheWarmInstall, '--ignore-scripts', '--no-audit', '--no-fund', '--prefer-offline', tarball], {
+      cwd: tempDirectory, encoding: 'utf8', env, timeout: 60_000, maxBuffer: 1024 * 1024,
     })
-    assert.equal(installed.status, 0, `clean npm install of ${archive.filename} failed or timed out after 60s (signal: ${installed.signal ?? 'none'}). Check registry connectivity and npm cache permissions.\nstdout:\n${installed.stdout}\nstderr:\n${installed.stderr}`)
+    assert.equal(warm.status, 0, `isolated npm cache warm from ${archive.filename} failed or timed out after 60s (signal: ${warm.signal ?? 'none'}).\nstdout:\n${warm.stdout}\nstderr:\n${warm.stderr}`)
+
+    const installed = spawnSync('npm', ['install', '--prefix', install, '--ignore-scripts', '--no-audit', '--no-fund', '--offline', tarball], {
+      cwd: tempDirectory, encoding: 'utf8', env, timeout: 60_000, maxBuffer: 1024 * 1024,
+    })
+    assert.equal(installed.status, 0, `clean offline npm install of ${archive.filename} failed or timed out after 60s (signal: ${installed.signal ?? 'none'}). Check the explicit release cache warm.\nstdout:\n${installed.stdout}\nstderr:\n${installed.stderr}`)
     await withClient(resolve(install, 'node_modules/.bin', binaryName), [], install, async (client) => {
       const [tools, resources, prompts] = await Promise.all([client.listTools(), client.listResources(), client.listPrompts()])
       assert.deepEqual(contractFromLists(tools.tools, resources.resources, prompts.prompts), manifest.runtime)

@@ -196,7 +196,7 @@ test('expert prompt derives changing index and release facts from bundled conten
 test('release check is the CI package gate', () => {
   assert.equal(
     packageJson.scripts['release:check'],
-    'npm ci --prefer-offline --no-audit --no-fund && npm test && npm run manifest:check && npm run docs:product:check && npm run registry:metadata:check && npm pack --dry-run --json',
+    'node scripts/run-release-check.mjs',
   )
   const workflow = readFileSync(resolve(guideRoot, '.github/workflows/index-integrity.yml'), 'utf8')
   assert.match(workflow, /working-directory: mcp-server\s+run: npm run release:check/)
