@@ -85,6 +85,17 @@ def sha256_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def sha256_git_blob(repo_root: Path, commit: str, path: str) -> str:
+    """Hash the exact file bytes recorded at commit:path."""
+    source_bytes = subprocess.run(
+        ["git", "show", f"{commit}:{path}"],
+        cwd=repo_root,
+        check=True,
+        capture_output=True,
+    ).stdout
+    return sha256_bytes(source_bytes)
+
+
 def compute_git_lag(
     repo_root: Path,
     source_commit: str,
@@ -138,10 +149,22 @@ def validate_evidence_registry(registry: dict[str, Any], repo_root: Path) -> lis
         errors.append("canonical status must be official")
     if not isinstance(canonical_source, dict) or not canonical_source.get("commit"):
         errors.append("canonical source commit must be present")
+    elif not isinstance(canonical_source.get("commit"), str) or not SHA_RE.fullmatch(
+        canonical_source["commit"]
+    ):
+        errors.append("canonical source commit must be a full lowercase Git SHA")
     elif isinstance(canonical_path, str):
-        latest_commit = run_git(repo_root, "log", "-1", "--format=%H", "--", canonical_path)
-        if canonical_source.get("commit") != latest_commit:
-            errors.append("canonical source commit is not the latest commit that changed the guide")
+        source_commit = canonical_source.get("commit")
+        try:
+            committed_hash = sha256_git_blob(repo_root, source_commit, canonical_path)
+        except (OSError, subprocess.CalledProcessError):
+            errors.append("canonical source commit or canonical source file is unavailable")
+        else:
+            if canonical_source.get("sha256") != committed_hash:
+                errors.append("canonical source hash differs from source.commit:path")
+            latest_commit = run_git(repo_root, "log", "-1", "--format=%H", "--", canonical_path)
+            if source_commit != latest_commit:
+                errors.append("canonical source commit is not the latest commit that changed the guide")
         if canonical_source.get("sha256") != canonical.get("sha256"):
             errors.append("canonical source hash differs from canonical sha256")
     if canonical_lag.get("status") != "current" or any(
@@ -481,6 +504,20 @@ def update_local_registry(
     canonical = registry["canonical"]
     canonical_path = repo_root / canonical["path"]
     canonical_hash = sha256_file(canonical_path)
+    canonical_source_commit = run_git(
+        repo_root,
+        "log",
+        "-1",
+        "--format=%H",
+        "--",
+        canonical["path"],
+    )
+    committed_hash = sha256_git_blob(repo_root, canonical_source_commit, canonical["path"])
+    if committed_hash != canonical_hash:
+        raise ValueError(
+            "Canonical guide has uncommitted changes; commit the guide first, "
+            "then rerun --update-local so source.commit:path and source.sha256 agree"
+        )
 
     canonical["version"] = root_version
     canonical["sha256"] = canonical_hash
@@ -488,7 +525,7 @@ def update_local_registry(
     measured_at = run_git(repo_root, "rev-parse", "HEAD")
     registry["measured_at_commit"] = measured_at
     canonical["source"] = {
-        "commit": run_git(repo_root, "log", "-1", "--format=%H", "--", canonical["path"]),
+        "commit": canonical_source_commit,
         "sha256": canonical_hash,
         "commit_evidence": "latest_commit_touching_canonical_guide",
     }

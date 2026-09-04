@@ -6,6 +6,7 @@ import { resolve } from 'node:path'
 import test from 'node:test'
 import { Client } from '@modelcontextprotocol/sdk/client/index.js'
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
+import { parse } from 'yaml'
 
 const packageRoot = resolve(import.meta.dirname, '..')
 const guideRoot = resolve(packageRoot, '..')
@@ -163,6 +164,13 @@ test('canonical MCP guide is complete and reachable from every product index', (
   const llms = readFileSync(resolve(guideRoot, 'llms.txt'), 'utf8')
   assert.equal(llms, readFileSync(resolve(guideRoot, 'machine-readable/llms.txt'), 'utf8'))
   assert.equal(llms, readFileSync(resolve(packageRoot, 'content/llms.txt'), 'utf8'))
+
+  const canonicalReleases = readFileSync(resolve(guideRoot, 'machine-readable/claude-code-releases.yaml'), 'utf8')
+  assert.equal(canonicalReleases, readFileSync(resolve(packageRoot, 'content/claude-code-releases.yaml'), 'utf8'))
+  const releases = parse(canonicalReleases)
+  const announcedRelease = llms.match(/tracking Claude Code up to v([0-9]+(?:\.[0-9]+)*)\b/)
+  assert.ok(announcedRelease, 'llms.txt must announce the tracked Claude Code version')
+  assert.equal(announcedRelease[1], releases.latest, 'llms.txt must track the latest release registry version')
 })
 
 test('expert prompt derives changing index and release facts from bundled content', async () => {

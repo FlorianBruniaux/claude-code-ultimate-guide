@@ -22,7 +22,7 @@ Files optimized for LLM/AI consumption. Sizes below are measured, not targets.
 
 `reference.yaml` is a full index, not a summary. Loading it whole costs roughly 44K tokens, so prefer grepping it for the topic you need and following the resulting path or line number, rather than pasting the entire file into context.
 
-Root-level `llms.txt` and `llms-full.txt` cover the same AI-indexation role for crawlers. Keep `machine-readable/llms.txt` and the root `llms.txt` identical.
+Root-level `llms.txt` and `llms-full.txt` cover the same AI-indexation role for crawlers. Keep root `llms.txt`, `machine-readable/llms.txt`, and `mcp-server/content/llms.txt` byte-identical.
 
 ## Usage
 
@@ -77,7 +77,9 @@ python3 scripts/check-translations.py --check
 python3 scripts/check-translations.py --check --require-current-maintained
 ```
 
-The MCP package exposes the same registry as `claude-code-guide://translations`.
+The MCP package exposes its bundled registry as `claude-code-guide://translations`. The second commit in the refresh sequence below restores byte equality with the canonical registry.
+
+Canonical provenance is a two-commit operation. Commit `guide/ultimate-guide.md` and its related indexes first, then run `python3 scripts/check-translations.py --update-local`, mirror the result into `mcp-server/content/translations.json`, verify byte equality, and commit those two registries separately. The updater refuses a dirty canonical guide because an uncommitted file hash cannot be attributed to an older commit. See [Translation Status Workflow](../docs/workflows/translations.md#after-changing-the-english-full-guide).
 
 ### Distribution status
 
@@ -177,6 +179,14 @@ diff -q machine-readable/agent-harnesses-github.json mcp-server/content/agent-ha
 ## Maintenance
 
 `version` and `updated` at the top of `reference.yaml` must track the root `VERSION` file. Run `./scripts/sync-version.sh --check` before committing.
+
+`latest` in `claude-code-releases.yaml` also controls the Claude Code version sentence in all three `llms.txt` mirrors. A release update must change root `llms.txt`, `machine-readable/llms.txt`, and `mcp-server/content/llms.txt` together. The MCP documentation test enforces both byte equality and version parity:
+
+```bash
+(cd mcp-server && node --test --test-name-pattern='canonical MCP guide is complete' test/render-product-docs.test.mjs)
+```
+
+The same test runs inside `npm run release:check` in CI. It proves local registry-to-index consistency, not that the release registry matches Anthropic's current changelog.
 
 Anchors and line numbers drift when guide files are restructured. After a large edit to `guide/`, verify that every `path#anchor` in `reference.yaml` still resolves to a real heading, and that every `path:N` stays within its file.
 

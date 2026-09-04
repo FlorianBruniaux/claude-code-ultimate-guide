@@ -20718,182 +20718,122 @@ class UserManager {
 
 ---
 
-### 9.18.4 Documentation Formats for Agents (llms.txt)
+### 9.18.4 Machine-Readable Documentation Architecture
 
-**Problem**: Agents need to discover and consume project documentation efficiently. Traditional documentation (wikis, Confluence) is hard to find and parse. MCP doc servers require installation and configuration.
+This repository is moving from a hybrid machine-readable index toward stricter ownership boundaries. Today, `reference.yaml` mixes navigation with selected commands, templates, configuration values, counters, and operational facts. Dedicated release, Cowork, and distribution registries own some changing domains, but the separation is not complete. Coverage is also asymmetric: `reference.yaml` reaches every tracked file under `guide/`, while routes into `docs/` and `examples/` remain curated.
 
-**Solution**: Use the llms.txt standard for AI-optimized documentation indexing.
+#### Current Layout and Target Boundaries
 
-#### What is llms.txt?
+| Layer | Current contract | Target boundary |
+|-------|------------------|-----------------|
+| **Editorial source** | `guide/ultimate-guide.md` and focused Markdown guides hold explanations and recommendations | Prose owns interpretation; registries link to it instead of copying claims |
+| **Discovery index** | `llms.txt` lists primary entry points and the tracked Claude Code version | Discovery owns routes only; changing facts come from a validated registry |
+| **Reference index** | `machine-readable/reference.yaml` provides curated routes and still carries operational/configuration payloads used by existing consumers | Reference owns stable IDs and routes; domain facts move to dedicated registries after consumer migration |
+| **Operational registries** | Release, Cowork, and distribution YAML files already own their respective snapshots and states | Each changing domain has one source, one schema, one mirror rule, and one validator |
 
-llms.txt is a lightweight standard for making documentation discoverable to LLMs. It's like `robots.txt` for AI agents: a simple index file that tells agents where to find relevant documentation.
+The target dependency direction is:
 
-**Specification**: https://llmstxt.org/
+```text
+editorial Markdown
+  --> llms.txt                         discovery routes
+  --> machine-readable/reference.yaml precise routes
 
-**Format**: Plain text file at `/llms.txt` or `/machine-readable/llms.txt` containing:
-- Markdown content directly (inline docs)
-- Links to external documentation files
-- Structured sections for different topics
-
-**Example from this repo** (`machine-readable/llms.txt`):
-
-```
-# Claude Code Ultimate Guide
-
-Complete guide for Anthropic's Claude Code CLI (19,000+ lines, 120 templates)
-
-## Quick Start
-- Installation: guide/ultimate-guide.md#installation (line 450)
-- First Session: guide/cheatsheet.md#first-session
-- CLAUDE.md Setup: guide/ultimate-guide.md#31-claudemd-project-context (line 1850)
-
-## Core Concepts
-- Agents: guide/ultimate-guide.md#4-agents (line 4100)
-- Skills: guide/ultimate-guide.md#5-skills (line 5400)
-- Hooks: guide/ultimate-guide.md#62-hooks (line 7200)
-
-## Templates
-- Custom agents: examples/agents/
-- Slash commands: examples/commands/
-- Event hooks: examples/hooks/
+official release notes --> claude-code-releases.yaml --> llms.txt version claim
+Cowork canonical index --> cowork-reference.yaml
+publication evidence --> distribution-channels.yaml
 ```
 
-#### Why llms.txt Complements MCP Servers
+Machine-readable means parseable and addressable. It does not mean verified, current, exhaustive, or cleanly separated by domain. On 2026-09-04, `check-index-coverage.py` reached 104 of 104 tracked `guide/` files. No equivalent exhaustive gate covers every file under `docs/` or `examples/`; entries from those trees remain selected routes. Existing validators accept the hybrid `reference.yaml` contract and do not prove that every key belongs in its ideal target layer. Each validator below proves a narrower property.
 
-llms.txt and MCP doc servers solve **different problems**:
+#### File Contracts and Proof Boundaries
 
-| Aspect | llms.txt | Context7 MCP |
-|--------|----------|--------------|
-| **Purpose** | Static documentation index | Runtime library lookup |
-| **Setup** | Zero config (just a file) | Requires MCP server install |
-| **Content** | Project-specific docs | Official library docs |
-| **Token cost** | Low (index only, ~500 tokens) | Medium (full doc fetching) |
-| **Use case** | Project README, architecture | React API, Next.js patterns |
-| **Update frequency** | Manual (on doc changes) | Automatic (tracks library versions) |
+| File | Role | Source | Update trigger | Validator | Proof boundary |
+|------|------|--------|----------------|-----------|----------------|
+| `machine-readable/reference.yaml` | Curated topic, path, anchor, template, command, and decision lookup, with exhaustive file-level coverage limited to tracked `guide/` files | The main guide, focused guides, selected docs and examples, and root `VERSION` | A referenced heading or path changes; a new guide page or lookup concept lands; the guide version changes | `validate-reference-yaml.py --ci`, `resync-reference-yaml.py --check`, `check-index-coverage.py --check --max-missing 0`, plus the MCP mirror check | Proves YAML parsing, referenced path and anchor resolution, positional-reference alignment, and tracked `guide/` file coverage. It does not prove factual accuracy or exhaustive `docs/` and `examples/` coverage. |
+| `machine-readable/claude-code-releases.yaml` | Condensed, newest-first Claude Code release history | Anthropic's official Claude Code changelog, manually condensed | A reviewed Claude Code release is added | YAML parsing in `validate-reference-yaml.py --ci`; MCP mirror check; the MCP documentation test compares `latest` with the version announced by all three `llms.txt` mirrors | Proves local structure, mirror equality, and version coupling. It does not prove upstream freshness or that every upstream note was retained. |
+| `machine-readable/cowork-reference.yaml` | Local proxy index for the separate Claude Cowork guide | The Cowork guide's canonical `machine-readable/reference.yaml` | The canonical Cowork index is reviewed and its version or routes change | YAML parsing in `validate-reference-yaml.py --ci` | Proves that the local snapshot parses. It does not contact the Cowork repository or prove that the proxy matches its current remote state. |
+| `machine-readable/distribution-channels.yaml` | Dated state for assets, submissions, placements, attributed URLs, and outcome fields | Local distribution assets plus reviewed submission, placement, and measurement evidence | An asset or channel changes state, or a dated observation is collected | `test-check-distribution-channels.py` and `check-distribution-channels.py`, plus the MCP mirror check | Proves schema rules, allowed states and cross-field coherence, required dates, local ready-asset existence, and attribution fields. It does not prove external publication or replace missing outcomes with zero. |
+| `llms.txt` | Short discovery index for humans, crawlers, and agents | Curated routes into repository documentation; the tracked Claude Code version comes from `claude-code-releases.yaml` | A primary entry point changes or the release registry's `latest` value changes | `mcp-server/test/render-product-docs.test.mjs`, executed by `npm run release:check` in CI | Proves byte equality across root, `machine-readable/`, and the MCP bundle, plus release-version parity. It does not prove that every useful page is listed or that linked prose is current. |
 
-**Best practice**: Use **both**:
-- llms.txt for project-specific documentation (architecture, conventions, getting started)
-- Context7 MCP for official library documentation (React hooks, Express API)
+The repository keeps three byte-identical copies of `llms.txt`: root discovery, `machine-readable/` source, and the MCP package bundle. A release update is incomplete until all three announce the same `latest` value as `claude-code-releases.yaml`.
 
-#### Creating llms.txt for Your Project
+#### llms.txt as the Discovery Index
 
-**Minimal example**:
+The [llms.txt proposal](https://llmstxt.org/) defines a Markdown-formatted entry point for LLM-oriented documentation. Keep this file short enough to scan before loading detailed sources. Prefer stable heading anchors over line numbers because inserted prose moves line positions.
 
-```
-# MyProject
+```markdown
+# Project documentation
 
-Enterprise SaaS platform for event management
-
-## Getting Started
+## Start
 - Setup: docs/setup.md
-- Architecture: docs/architecture.md
-- API Reference: docs/api.md
+- Architecture: docs/architecture.md#request-flow
 
-## Development
+## Operate
 - Testing: docs/testing.md
 - Deployment: docs/deployment.md
 - Troubleshooting: docs/troubleshooting.md
 ```
 
-**Advanced example with line numbers**:
-
-```
-# MyProject
-
-## Architecture Decisions
-- Why microservices: docs/decisions/ADR-001.md (line 15)
-- Event-driven design: docs/architecture.md#event-bus (line 230)
-- Database strategy: docs/decisions/ADR-005.md (line 42)
-
-## Common Patterns
-- Authentication flow: src/services/auth-service.ts (line 78-125)
-- Error handling: CLAUDE.md#error-patterns (line 150)
-- Rate limiting: src/middleware/rate-limiter.ts (line 45)
-
-## Domain Knowledge
-- Event lifecycle: docs/domain/events.md
-- Payment processing: docs/domain/payments.md
-- Webhook handling: docs/domain/webhooks.md
-```
-
-**Line numbers** help agents jump directly to relevant sections without reading entire files.
-
-#### When to Update llms.txt
-
-Update llms.txt when:
-- Adding new major documentation files
-- Restructuring docs directory
-- Documenting new architectural patterns
-- Adding ADRs (Architecture Decision Records)
-- Creating domain-specific guides
-
-**Don't** update for:
-- Code changes (unless architecture shifts)
-- Minor doc tweaks
-- Dependency updates
-
-#### Integration with CLAUDE.md
-
-llms.txt and CLAUDE.md serve different purposes:
-
-| File | Purpose | Audience |
-|------|---------|----------|
-| **CLAUDE.md** | Active instructions, project context | Claude during this session |
-| **llms.txt** | Documentation index | Claude discovering resources |
-
-**Pattern**: Reference llms.txt from CLAUDE.md:
+`CLAUDE.md` has a different scope. It supplies active instructions and repository context to Claude Code. `llms.txt` routes a reader to documentation. A short instruction can point to the index without copying it:
 
 ```markdown
-# CLAUDE.md
+## Project documentation
 
-## Project Documentation
-
-Complete documentation is indexed in `machine-readable/llms.txt`.
-
-Key resources:
-- Architecture overview: docs/architecture.md
-- API reference: docs/api.md
-- Testing guide: docs/testing.md
-
-For domain-specific knowledge, consult llms.txt index.
+Start with `llms.txt`, then open only the source relevant to the task.
 ```
 
-#### Real-World Example: This Guide
+An MCP documentation server can expose the same sources through runtime search and resource APIs. That transport does not replace the static index, and the static index does not prove the server's runtime behavior.
 
-This guide uses both llms.txt and CLAUDE.md:
+#### Catalog Pattern: CATALOG.yaml, INDEX.md, TOPICS.md, and llms.txt
 
-**llms.txt** (`machine-readable/llms.txt`):
-- Indexes all major sections with line numbers
-- Points to templates in `examples/`
-- References workflows in `guide/workflows/`
+For a repository with many documents, split inventory from navigation. The following layout is an illustrative pattern, not a public artifact from this guide:
 
-**CLAUDE.md** (`CLAUDE.md`):
-- Active project context (repo structure, conventions)
-- Current focus (guide version, changelog)
-- Working instructions (version sync, landing sync)
+```text
+docs/
+  INDEX.md             human-readable inventory
+  TOPICS.md            curated routes by reader intent
+machine-readable/
+  CATALOG.yaml         structured record for every document
+llms.txt               short discovery entry point
+```
 
-**Result**: Agents can discover content via llms.txt, then consult CLAUDE.md for active context.
+| File | Owns | Must not own |
+|------|------|--------------|
+| `CATALOG.yaml` | Stable IDs, paths, titles, owners, status, and source dates | Long explanations copied from the documents |
+| `INDEX.md` | Browsable list of catalog records | Independent status values that can drift from the catalog |
+| `TOPICS.md` | Curated sequences such as start, build, operate, and troubleshoot | A second exhaustive inventory |
+| `llms.txt` | Top entry points and links to `INDEX.md` and `TOPICS.md` | The complete catalog or active agent instructions |
 
-#### Real-World: Anthropic's Official llms.txt
+Choose one authoring direction and enforce it. If `CATALOG.yaml` is canonical, generate or check `INDEX.md` from it and reject drift in CI. Keep `TOPICS.md` editorial because ordering by reader intent requires judgment. Build `llms.txt` from stable routes, then test every path and mirror.
 
-Anthropic publie deux variantes LLM-optimized pour Claude Code :
+```yaml
+# machine-readable/CATALOG.yaml, illustrative subset
+documents:
+  - id: architecture
+    path: docs/architecture.md
+    title: Architecture
+    status: maintained
+```
 
-| Fichier | URL | Taille | Tokens (approx) | Use case |
-|---------|-----|--------|-----------------|----------|
-| `llms.txt` | `code.claude.com/docs/llms.txt` | ~65 pages | ~15-20K | Index rapide, découverte de sections |
-| `llms-full.txt` | `code.claude.com/docs/llms-full.txt` | ~98 KB | ~25-30K | Fact-checking, doc complète, source de vérité |
+```markdown
+<!-- docs/INDEX.md -->
+- [Architecture](architecture.md) (`architecture`, maintained)
 
-**Pattern recommandé** : fetch `llms.txt` d'abord pour identifier la section pertinente, puis fetch la page spécifique (ou `llms-full.txt`) pour les détails. Évite de charger 98 KB quand seules 2 pages sont nécessaires.
+<!-- docs/TOPICS.md -->
+## Build
+- [Architecture](architecture.md)
 
-Ces URLs sont la source officielle à consulter en priorité quand un claim sur Claude Code semble incertain ou potentiellement obsolète.
+<!-- llms.txt -->
+## Documentation maps
+- Complete inventory: docs/INDEX.md
+- Topic routes: docs/TOPICS.md
+```
 
-#### Specification Resources
+A structural check can prove that IDs are unique, paths exist, generated files match, and declared dates parse. Editorial accuracy, ownership, freshness, and the usefulness of topic ordering still require review.
 
-- **Official spec**: https://llmstxt.org/
-- **Community examples**: https://github.com/topics/llms-txt
-- **This guide's implementation**: `machine-readable/llms.txt`
+#### Official Claude Code Machine-Readable Documentation
 
-**Not recommended source**: Framework-specific blog posts (often present llms.txt in opposition to MCP servers, when they're complementary).
+Anthropic publishes an [official documentation index](https://code.claude.com/docs/llms.txt) and an [official full documentation export](https://code.claude.com/docs/llms-full.txt). Use the index to locate the relevant source, then open the specific page or full export when the claim requires more context. These endpoints are upstream sources for Claude Code behavior, not validators for this repository's indexes.
 
 ---
 

@@ -32,13 +32,27 @@ python3 scripts/check-translations.py --check --require-current-maintained
 
 ## After changing the English full guide
 
-Refresh local facts without claiming that a translation was regenerated:
+Translation provenance must name a real Git object. Never bind the SHA-256 of an uncommitted working-tree guide to an older commit. Use two commits:
+
+1. Commit the canonical guide, reference indexes, and related documentation without changing either `translations.json` mirror.
+2. Run the canonical registry refresh against that commit:
+
+   ```bash
+   python3 scripts/check-translations.py --update-local
+   ```
+
+3. Copy the refreshed canonical registry to `mcp-server/content/translations.json` and verify byte equality.
+4. Commit only the two translation registry mirrors.
+
+`--update-local` refuses to write while `guide/ultimate-guide.md` differs from its latest committed version. A normal `--check` before the first commit is expected to report canonical working-tree SHA drift. That failure is evidence that provenance has not been recorded yet, not a reason to invent a commit or weaken the check.
+
+After the first commit, the refresh updates local facts without claiming that a translation was regenerated:
 
 ```bash
 python3 scripts/check-translations.py --update-local
 ```
 
-This updates the canonical version and checksum, reads the local French version, and recomputes its status. It does not alter `translated_from` or `last_full_refresh_at`.
+This updates the canonical version and checksum, records the committed `source.commit:path` checksum, reads the local French version, and recomputes its status. It does not alter `translated_from` or `last_full_refresh_at`. The validator recomputes the bytes at `source.commit:path` and requires that hash to equal `source.sha256`.
 
 ## After regenerating the French full guide
 

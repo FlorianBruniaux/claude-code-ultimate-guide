@@ -144,6 +144,49 @@ class TranslationStatusTests(unittest.TestCase):
         )
         self.assertIn("es-419", {item["language"] for item in registry["translations"]})
 
+    def test_canonical_source_hash_must_match_committed_file_bytes(self) -> None:
+        root = Path(__file__).resolve().parents[1]
+        registry = json.loads(
+            (root / "machine-readable/translations.json").read_text(encoding="utf-8")
+        )
+        modified = copy.deepcopy(registry)
+        impossible_hash = "0" * 64
+        modified["canonical"]["sha256"] = impossible_hash
+        modified["canonical"]["source"]["sha256"] = impossible_hash
+
+        errors = MODULE.validate_evidence_registry(modified, root)
+
+        self.assertIn("canonical source hash differs from source.commit:path", errors)
+
+    def test_update_local_rejects_uncommitted_canonical_guide(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self._git(root, "init")
+            self._git(root, "config", "user.email", "tests@example.invalid")
+            self._git(root, "config", "user.name", "Translation Tests")
+            (root / "guide").mkdir()
+            guide = root / "guide/ultimate-guide.md"
+            guide.write_text("# Guide\n\n**Version**: 1.0.0\n", encoding="utf-8")
+            (root / "VERSION").write_text("1.0.0\n", encoding="utf-8")
+            registry_path = root / "translations.json"
+            registry_path.write_text(
+                json.dumps(
+                    {
+                        "canonical": {"path": "guide/ultimate-guide.md"},
+                        "translations": [],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            self._git(root, "add", "VERSION", "guide/ultimate-guide.md")
+            self._git(root, "commit", "-m", "baseline")
+            guide.write_text("# Guide changed\n\n**Version**: 1.0.0\n", encoding="utf-8")
+            registry_before = registry_path.read_text(encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "commit the guide first"):
+                MODULE.update_local_registry(registry_path, root, False)
+            self.assertEqual(registry_before, registry_path.read_text(encoding="utf-8"))
+
     def test_community_translation_cannot_be_project_official(self) -> None:
         root = Path(__file__).resolve().parents[1]
         registry = json.loads(

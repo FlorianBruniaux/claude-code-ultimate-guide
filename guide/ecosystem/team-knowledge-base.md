@@ -3,7 +3,7 @@
 **Reading time**: 18 minutes
 **Skill level**: Month 1+ (team lead deploying both tools)
 
-> **Scope**: This section covers how to set up a shared company knowledge base (KB) that both Claude Code (developer CLI) and Claude Cowork (desktop app for non-developers, research preview) can read. It is the first infrastructure question most teams hit when they roll out both tools. If you only use Claude Code on a single codebase, the repo-as-KB pattern in [§9.25 Harness Engineering](#925-harness-engineering-at-agent-throughput) already covers your needs. This section is for the team-wide case: shared docs, live systems, and reusable workflows across developers and knowledge workers.
+> **Scope**: This section covers how to set up a shared company knowledge base (KB) that both Claude Code (developer CLI) and Claude Cowork (desktop app for non-developers, research preview) can read. It is the first infrastructure question most teams hit when they roll out both tools. If you only use Claude Code on a single codebase, the repo-as-KB pattern in [§9.25 Harness Engineering](../ultimate-guide.md#925-harness-engineering-at-agent-throughput) already covers your needs. This section is for the team-wide case: shared docs, live systems, and reusable workflows across developers and knowledge workers.
 
 ## The "One Tool for Three Needs" Trap
 
@@ -357,4 +357,4 @@ The mistake at the start of this section was reaching for one tool. The correcti
 
 The teams that succeed treat these as three separate problems with three separate tools, wired together through MCP and plugins, rather than one storage decision they have to get perfect upfront. Start with the Markdown vault, connect the live systems you actually query, and add scale and packaging as the need shows up.
 
-> **See also**: [§9.25 Harness Engineering](#925-harness-engineering-at-agent-throughput) for the single-repo version of the knowledge-as-files principle. [§9.18.4 Documentation Formats for Agents (llms.txt)](#9184-documentation-formats-for-agents-llmstxt) for making docs discoverable. The [MCP Servers Ecosystem](./mcp-servers-ecosystem.md) for the full connector catalog. The [Third-Party Tools guide](./third-party-tools.md) for the RAG platforms in context. For Cowork specifics, the [AI Ecosystem guide §9](./ai-ecosystem.md#9-claude-cowork-research-preview).
+> **See also**: [§9.25 Harness Engineering](../ultimate-guide.md#925-harness-engineering-at-agent-throughput) for the single-repo version of the knowledge-as-files principle. [§9.18.4 Machine-Readable Documentation Architecture](../ultimate-guide.md#9184-machine-readable-documentation-architecture) for making docs discoverable. The [MCP Servers Ecosystem](./mcp-servers-ecosystem.md) for the full connector catalog. The [Third-Party Tools guide](./third-party-tools.md) for the RAG platforms in context. For Cowork specifics, the [AI Ecosystem guide §9](./ai-ecosystem.md#9-claude-cowork-research-preview).

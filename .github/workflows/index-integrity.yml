@@ -5,6 +5,7 @@ on:
     paths:
       - "README.md"
       - "CHANGELOG.md"
+      - "llms.txt"
       - ".claude/commands/ccguide/**"
       - "guide/**"
       - "examples/**"
@@ -22,6 +23,7 @@ on:
     paths:
       - "README.md"
       - "CHANGELOG.md"
+      - "llms.txt"
       - ".claude/commands/ccguide/**"
       - "guide/**"
       - "examples/**"
