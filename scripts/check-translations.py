@@ -469,6 +469,32 @@ def validate_registry(
 
     publication_errors, stats = validate_publication_pairs(registry, repo_root)
     errors.extend(publication_errors)
+
+    whitepaper_artifact = next(
+        (
+            artifact
+            for artifact in registry.get("localized_artifacts", [])
+            if artifact.get("kind") == "whitepaper_series"
+        ),
+        None,
+    )
+    whitepaper_registry = registry["paired_publications"]["whitepapers"]
+    if whitepaper_artifact is not None:
+        coverage = whitepaper_artifact.get("coverage", {})
+        if coverage.get("paired_source_items_in_this_repository") != stats["whitepapers"]:
+            errors.append(
+                "whitepaper_series paired source count differs from validated source pairs"
+            )
+        if set(coverage.get("known_french_only_source_prefixes", [])) != set(
+            whitepaper_registry.get("known_unpaired_prefixes", {}).get("fr", [])
+        ):
+            errors.append(
+                "whitepaper_series French-only prefixes differ from the parity registry"
+            )
+        if coverage.get("paired_items") != whitepaper_registry.get("published_catalog_pairs"):
+            errors.append(
+                "whitepaper_series published pair count differs from the publication registry"
+            )
     return errors, states, stale_languages, stats
 
 

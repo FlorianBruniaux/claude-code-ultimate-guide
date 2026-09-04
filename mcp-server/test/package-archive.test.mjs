@@ -40,8 +40,7 @@ async function withClient(command, args, cwd, run) {
 test('npm package excludes development files and preserves the MCP list contract', async () => {
   const tempDirectory = await mkdtemp(resolve(tmpdir(), 'ccguide-mcp-pack-'))
   try {
-    const env = { ...process.env, npm_config_cache: resolve(tempDirectory, 'npm-cache') }
-    const pack = spawnSync('npm', ['pack', '--json', '--pack-destination', tempDirectory], { cwd: packageRoot, encoding: 'utf8', env })
+    const pack = spawnSync('npm', ['pack', '--json', '--pack-destination', tempDirectory], { cwd: packageRoot, encoding: 'utf8' })
     assert.equal(pack.status, 0, pack.stderr)
     const [archive] = JSON.parse(pack.stdout)
     assert.equal(archive.name, packageJson.name)
@@ -54,8 +53,10 @@ test('npm package excludes development files and preserves the MCP list contract
 
     const install = resolve(tempDirectory, 'install')
     const tarball = resolve(tempDirectory, archive.filename)
-    const installed = spawnSync('npm', ['install', '--prefix', install, '--ignore-scripts', '--no-audit', '--no-fund', tarball], {
-      cwd: tempDirectory, encoding: 'utf8', env, timeout: 60_000, maxBuffer: 1024 * 1024,
+    // The install prefix is isolated. Reusing the cache warmed by release:check's npm ci
+    // keeps this an archive test instead of making registry availability part of the contract.
+    const installed = spawnSync('npm', ['install', '--prefix', install, '--ignore-scripts', '--no-audit', '--no-fund', '--prefer-offline', tarball], {
+      cwd: tempDirectory, encoding: 'utf8', timeout: 60_000, maxBuffer: 1024 * 1024,
     })
     assert.equal(installed.status, 0, `clean npm install of ${archive.filename} failed or timed out after 60s (signal: ${installed.signal ?? 'none'}). Check registry connectivity and npm cache permissions.\nstdout:\n${installed.stdout}\nstderr:\n${installed.stderr}`)
     await withClient(resolve(install, 'node_modules/.bin', binaryName), [], install, async (client) => {

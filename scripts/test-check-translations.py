@@ -66,6 +66,7 @@ class TranslationStatusTests(unittest.TestCase):
             root = Path(tmp)
             write_qmd(root / "whitepapers/fr/00-introduction.qmd", "fr")
             write_qmd(root / "whitepapers/en/00-introduction-en.qmd", "en")
+            write_qmd(root / "whitepapers/fr/03-security.qmd", "fr")
             write_qmd(root / "cards/fr/c01-card.qmd", "fr")
             write_qmd(root / "cards/en/c01-card.qmd", "en")
             registry = {
@@ -73,6 +74,7 @@ class TranslationStatusTests(unittest.TestCase):
                     "whitepapers": {
                         "roots": {"fr": "whitepapers/fr", "en": "whitepapers/en"},
                         "public_prefixes": ["00"],
+                        "known_unpaired_prefixes": {"fr": ["03"], "en": []},
                     },
                     "recap_cards": {
                         "roots": {"fr": "cards/fr", "en": "cards/en"},
@@ -85,6 +87,26 @@ class TranslationStatusTests(unittest.TestCase):
                 stats,
                 {"whitepapers": 1, "whitepaper_revision_differences": 0, "recap_cards": 1},
             )
+
+    def test_registry_counts_must_match_validated_whitepaper_sources(self) -> None:
+        root = Path(__file__).resolve().parents[1]
+        registry = json.loads(
+            (root / "machine-readable/translations.json").read_text(encoding="utf-8")
+        )
+        modified = copy.deepcopy(registry)
+        whitepapers = next(
+            artifact
+            for artifact in modified["localized_artifacts"]
+            if artifact["kind"] == "whitepaper_series"
+        )
+        whitepapers["coverage"]["paired_source_items_in_this_repository"] += 1
+
+        errors, _, _, _ = MODULE.validate_registry(modified, root, False)
+
+        self.assertIn(
+            "whitepaper_series paired source count differs from validated source pairs",
+            errors,
+        )
 
     def test_publication_pairs_report_missing_recap_translation(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
