@@ -702,6 +702,28 @@ Stop criteria: checkpoint > 10 MB/session, push overhead > 5s, or hook conflicts
 
 ---
 
+### Swarmery
+
+A local-first control plane for Claude Code: one Go binary that indexes the session transcripts Claude Code already writes, adds an approvals queue for permission prompts, and dispatches board tasks to headless agents in git worktrees.
+
+| Attribute | Details |
+|-----------|---------|
+| **Source** | [GitHub: atretyak1985/swarmery](https://github.com/atretyak1985/swarmery) / [landing page](https://atretyak1985.github.io/swarmery/) |
+| **Install** | Download the release binary, or `cd tools/swarmery && make build`; dashboard on `http://localhost:7777` |
+| **Language** | Go (daemon) + React (embedded SPA) |
+| **License** | Apache-2.0 (plugin framework) / PolyForm Noncommercial 1.0.0 (control plane) |
+
+**Key features**:
+
+- Indexes `~/.claude/projects/` transcripts into local SQLite; live tool calls, cost and diffs per session
+- One approvals queue across terminals: permission prompts become work items instead of per-window interrupts
+- Board tasks dispatched to headless Claude Code agents in isolated git worktrees
+- Plugin marketplace in the same repo: `core` (13 agents, 36 skills, 8 commands) plus 11 opt-in domain packs
+
+**Limitations**: Single machine; no team or fleet view. Reads transcripts and hooks only — no OpenTelemetry export. Control plane is not open-source-licensed (PolyForm Noncommercial); the plugin framework is.
+
+---
+
 ## Configuration Management
 
 ### claude-code-config
