@@ -1,0 +1,21 @@
+machine-readable/translations.json
+  s_29abe1a98b476c::t_ae27308a64dcd6 3-4,24,26-27,51,71-72,114-115,190-191
+mcp-server/content/translations.json
+  s_29abe1a98b476c::t_6689e8d559f51f 3-4,24,26-27,51,71-72,114-115,190-191
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "b0aa56db64dc80c7942a2bbb3691dcf43787dd27",
+  "prompts": {},
+  "sessions": {
+    "s_29abe1a98b476c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a06830-fc8a-7512-9cb6-a879928c6f7e",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
