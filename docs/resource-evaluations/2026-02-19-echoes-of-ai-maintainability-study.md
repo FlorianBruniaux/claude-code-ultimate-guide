@@ -70,10 +70,10 @@ Two-phase controlled experiment investigating whether AI-assisted code creation 
 
 | Contribution | Value |
 |--------------|-------|
-| Empirical refutation of "AI code is unmaintainable" | **High** — directly debunks the most common objection |
-| 55.9% speedup for habitual users | **High** — validates learning curve section |
-| Blind review methodology | **Medium** — demonstrates scientific rigor of the finding |
-| Balance to METR 2025 results | **High** — METR = complex codebases, AI slower; this study = mixed tasks, AI faster → complete picture |
+| Empirical refutation of "AI code is unmaintainable" | **High**: directly debunks the most common objection |
+| 55.9% speedup for habitual users | **High**: validates learning curve section |
+| Blind review methodology | **Medium**: demonstrates scientific rigor of the finding |
+| Balance to METR 2025 results | **High**: METR = complex codebases, AI slower; this study = mixed tasks, AI faster → complete picture |
 
 ---
 
@@ -97,7 +97,7 @@ Two-phase controlled experiment investigating whether AI-assisted code creation 
 
 **Key points from challenge:**
 
-1. **Score justified** — but "peer-reviewed" was overstated. Corrected to "arXiv preprint."
+1. **Score justified**: but "peer-reviewed" was overstated. Corrected to "arXiv preprint."
 2. **Blind review design** (phase 2 reviewers don't know if code is AI-assisted) = most important methodological detail, absent from initial eval. Added.
 3. **55.9% habitual users** more actionable than 30.7% median — validates learning curve section.
 4. **Limitations not flagged by the post**: tâches bornées en labo ≠ 12-month production codebase drift; potential selection bias (volunteer participants likely pro-AI); knowledge debt not measured.

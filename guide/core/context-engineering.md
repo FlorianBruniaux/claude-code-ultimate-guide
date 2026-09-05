@@ -9,6 +9,8 @@ tags: [context, configuration, architecture, team, advanced]
 > **Confidence**: Tier 1, based on official documentation, measured production data, and community validation.
 >
 > **Last updated**: March 2026
+>
+> **Further reading**: [context engineering, the hidden variable](https://www.florian.bruniaux.com/blog/articles/context-engineering-the-hidden-variable/), on why the same model produces opposite results depending on this.
 
 "Context engineering is the art of filling the context window with the right information at the right time." (Andrej Karpathy)
 
@@ -133,6 +135,8 @@ As you move toward agent workflows, a second category appears: *dynamic context*
 | **Dynamic** | At runtime, from tools | Tool outputs, file reads, web fetches, MCP data |
 
 In practice, every Claude Code session uses both. The static context (your configuration) sets the behavioral envelope; the dynamic context (files Claude reads, tool results it processes) provides the specific information for each task. Context engineering covers both, but the failure modes differ: static context problems manifest as consistent convention violations; dynamic context problems manifest as Claude acting on stale or incomplete information mid-task.
+
+A centralized context layer can reduce fragmentation while increasing the blast radius of stale, poisoned, or incorrectly related data. Require provenance, freshness, scoped read permissions, and a revocation path before treating a shared context lake as authoritative. [Memory Systems](./memory-systems.md#71-memory-poisoning-via-prompt-injection) documents the corresponding poisoning, staleness, and multi-writer risks. Product demonstrations that show retrieval working do not measure those failure modes.
 
 For teams building automated pipelines and agents, Anthropic's September 2025 engineering post ["Effective context engineering for AI agents"](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) covers the dynamic side in depth.
 

@@ -136,7 +136,7 @@ Claude automatically detects the tech stack, directory structure, and existing c
 
 **The discoverability filter**: before adding any line, ask "Can the agent find this by reading the codebase?" If yes, don't add it. Tech stack and testing conventions are discoverable. What earns a line: tooling gotchas (`use uv, not pip`), operational landmines (`legacy/ is deprecated but imported by prod`), and conventions that conflict with standard patterns.
 
-**The anchoring risk**: every entry loads every session regardless of task. A stale entry referencing a deprecated library biases the agent toward it on every prompt. Treat periodic CLAUDE.md pruning as maintenance, not cleanup.
+**The anchoring risk**: every entry loads every session regardless of task. A stale entry referencing a deprecated library biases the agent toward it on every prompt. Treat periodic CLAUDE.md pruning as maintenance, not cleanup. Tools like [ctxharness](https://github.com/FlorianBruniaux/ctxharness) automate the detection half of that maintenance, scanning CLAUDE.md and AGENTS.md files for stale version references and broken paths so drift gets caught before it biases a session.
 
 > **Research note (Feb 2026)**: ETH Zürich evaluated agent context files across 138 benchmarks and 12 repositories. Developer-written files improve task success by ~4%, but LLM-generated files (`/init` output) reduce it by ~3%. Both add 20-23% inference cost. Mechanism: agents follow every instruction, including those irrelevant to the current task. Source: [Gloaguen et al., arXiv 2602.11988](https://arxiv.org/abs/2602.11988)
 
@@ -529,7 +529,7 @@ python -m mcp_memory_service.scripts.installation.install --quick
 
 ### 3.6 OpenMemory MCP
 
-**Repo**: github.com/mem0ai/mem0/tree/main/openmemory | **Dashboard**: http://localhost:3000
+**Repo**: github.com/mem0ai/mem0 | **Dashboard**: http://localhost:3000
 
 User-owned, local-first, private memory layer. Standardized 4-tool interface:
 
@@ -582,10 +582,13 @@ The retrieval side is where the query-shape lesson pays off. A separate BM25 eng
 | **codebase-memory-mcp** | 2.5K | AST tree-sitter graph, 155 languages, structural | Code structure only, not episodic |
 | **Pieces for Developers** | - | 9-month rolling capture, IDE + browser + terminal | Individual-only, commercial |
 | **claude-session-continuity-mcp** | - | 24 tools, auto error-to-solution pipeline | [UNVERIFIED: not confirmed by internal sources] |
+| **Supermemory** | [UNVERIFIED] | Free no-login MCP + self-hosted MIT binary; paid CC plugin | Self-host is single-tenant only; benchmarks self-reported |
 
 **Memori** (MemoriLabs) deserves special attention: 15,671 stars (2026-07-27, up from 14,730 in May), LLM-agnostic, converts execution history into structured persistent state via a graph + vector hybrid. Team-scoped "memory neighborhoods" are a design goal, not an afterthought. The gap is the CC adapter, `memori-mcp` is a separate repo with 2 stars and sparse documentation. Worth tracking.
 
 **codebase-memory-mcp** (DeusData) solves a different problem: not "what did we discuss" but "what is the structure of this codebase." Claims sub-millisecond queries. Can index the Linux kernel (~28M lines, 75K files) in ~3 minutes. Zero config Claude Code integration via MCP. The "99% fewer tokens" claim needs independent verification; the structural approach is sound.
+
+**Supermemory** (supermemoryai) ships three distinct surfaces that are easy to conflate: the generic `mcp.supermemory.ai/mcp` MCP server is free and requires no login; the `claude-supermemory` Claude Code plugin (commands `super-search`, `super-save`, tools `memory`/`recall`/`context`) requires a Supermemory Pro plan starting at $19/month; and the self-hosted "Supermemory local" binary (MIT license) runs the same engine offline with a local embedding model. The company raised $29M in seed funding in October 2025, which explains why readers will ask about it. The self-hosted binary is explicitly single-tenant, one API key, no built-in multi-user (see §4.7). Benchmark claims are addressed in §9.
 
 ---
 
@@ -599,6 +602,7 @@ The retrieval side is where the query-shape lesson pays off. A separate BM25 eng
 | **Kairn** | Knowledge graph | Full-text + semantic | No | No | Low |
 | **doobidoo** | SQLite-vec / CF D1 | Semantic | No | CF backend required | Low |
 | **OpenMemory MCP** | Local SQLite | Vector | No | No | Minimal |
+| **Supermemory** | Cloud API / self-host binary | Semantic (vector) | No (MCP tool calls only) | Container tags, cloud-only, no self-host multi-user | Free (MCP) or $19/mo+ (CC plugin) |
 | **Memori** | Graph + Vec hybrid | Graph + Vec | No | Design goal | - |
 | **codebase-memory-mcp** | AST graph | Structural | No | Filesystem share | Minimal |
 | **Pieces** | Local proprietary | ML | No | No (privacy-first) | Daemon overhead |
@@ -727,9 +731,9 @@ Section 10 documents the gap explicitly. The conventional read is "the market wi
 
 **Privacy and sharing can't coexist cheaply**: Privacy-first tools mean local SQLite, which means no sharing. Cloud-shared tools mean vendor data residency. End-to-end encrypted shared memory with client-side key management, the answer to both requirements, is not implemented by any tool here.
 
-**No team taxonomy standard**: Mem0 uses `user_id` with wildcards. Memlord uses workspaces. ICM has no team primitive. Zep has graph-scoped permissions. No interoperability is possible without a standard.
+**No team taxonomy standard**: Mem0 uses `user_id` with wildcards. Memlord uses workspaces. ICM has no team primitive. Zep has graph-scoped permissions. No interoperability is possible without a standard. Supermemory's container tags are a fourth, functionally similar primitive to Mem0's `user_id` scoping, with no documented merge or conflict-resolution semantics between personal and team memory.
 
-**No enterprise buyer yet**: Memory tools are bought by individuals at $0-25/month. Team memory needs SOC 2, SSO, audit logs, and an admin console. Only Zep cloud at $475/month is attempting this.
+**No enterprise buyer yet**: Memory tools are bought by individuals at $0-25/month. Team memory needs SOC 2, SSO, audit logs, and an admin console. Only Zep cloud at $475/month is attempting this. Supermemory's own compliance stack (SOC 2 Type II, HIPAA BAA) exists but is gated to Scale/Enterprise pricing, and its most Claude-Code-specific integration, the `claude-supermemory` plugin, is paywalled from an individual's first real use at $19/month, the same individual-buyer-first default this bullet describes.
 
 **Claude Code's multi-agent model is young**: Agent teams are a recent feature. Building shared memory on an evolving substrate has been correctly deferred by teams who could have done it.
 
@@ -1083,6 +1087,8 @@ Activate hook mode by adding `~/.claude/hooks/icm-post-tool.sh` to `PostToolUse`
 
 Numbers reported by tool vendors against these benchmarks should be read skeptically. Evaluation methodology varies. Ask for the corpus, adapter code, and reproduction steps.
 
+Supermemory illustrates this concretely: its own site publishes two different Recall@15 figures for the same benchmark (LongMemEval_s), 95% on its research page and 85.4% on a blog post comparing itself to Pinecone. Both are self-published, and neither has been reproduced by a third party.
+
 ### Representative Results (May 2026)
 
 | System | R@5 (LongMemEval-S) | Source | Reproducible? |
@@ -1142,7 +1148,7 @@ These gaps have no tooling answer as of May 2026:
 > - [doobidoo/mcp-memory-service GitHub](https://github.com/doobidoo/mcp-memory-service)
 > - [Zep/Graphiti GitHub](https://github.com/getzep/graphiti)
 > - [mem0ai/mem0 GitHub](https://github.com/mem0ai/mem0)
-> - [OpenMemory MCP](https://github.com/mem0ai/mem0/tree/main/openmemory)
+> - [OpenMemory MCP](https://github.com/mem0ai/mem0) (subproject path removed, mem0ai/openmemory now hosts an unrelated CLI tool)
 > - [Sleep-time Compute paper](https://arxiv.org/html/2504.13171v1) (arXiv:2504.13171, UC Berkeley + Letta, April 2025)
 > - [CLAUDE.md impact study](https://arxiv.org/abs/2602.11988) (Gloaguen et al., arXiv 2602.11988, Feb 2026)
 > - [Auto Dream system prompts](https://github.com/Piebald-AI/claude-code-system-prompts/blob/main/system-prompts/agent-prompt-dream-memory-consolidation.md)

@@ -10,10 +10,10 @@ bash install.sh
 
 ## Components
 
-- **refactoring-specialist agent** — Automated code improvement
-- **clean-code-reviewer agent** — Code quality standards enforcement
-- **/refactor command** — Safe refactoring with validation
-- **/optimize command** — Performance optimization
+- **refactoring-specialist agent**: Automated code improvement
+- **clean-code-reviewer agent**: Code quality standards enforcement
+- **/refactor command**: Safe refactoring with validation
+- **/optimize command**: Performance optimization
 
 ## Quick Start
 

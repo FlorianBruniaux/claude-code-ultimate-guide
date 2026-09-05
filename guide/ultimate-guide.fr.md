@@ -2164,7 +2164,7 @@ Le modèle par défaut dépend de votre abonnement : les abonnés **Max/Team Pre
 
 **Vérification de la réalité** : Une session typique d'une heure coûte **0,10 $ à 0,50 $** selon les habitudes d'utilisation.
 
-> **Retrait de modèle (avril 2026)** : `claude-3-haiku-20240307` (Claude 3 Haiku) a été retiré le **20 avril 2026**. Si votre CLAUDE.md, vos définitions d'agents ou vos scripts codent encore en dur cet identifiant de modèle, migrez immédiatement vers `claude-haiku-4-5-20251001` (Haiku 4.5). Source : [platform.claude.com/docs/en/release-notes/model-deprecations](https://platform.claude.com/docs/en/release-notes/model-deprecations)
+> **Retrait de modèle (avril 2026)** : `claude-3-haiku-20240307` (Claude 3 Haiku) a été retiré le **20 avril 2026**. Si votre CLAUDE.md, vos définitions d'agents ou vos scripts codent encore en dur cet identifiant de modèle, migrez immédiatement vers `claude-haiku-4-5-20251001` (Haiku 4.5). Source : [platform.claude.com/docs/en/about-claude/model-deprecations](https://platform.claude.com/docs/en/about-claude/model-deprecations)
 
 #### Contexte 200K vs 1M : performances, coûts et cas d'usage
 

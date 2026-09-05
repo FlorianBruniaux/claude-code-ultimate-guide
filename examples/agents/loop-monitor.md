@@ -65,7 +65,7 @@ If status is not OK, include:
 
 ## Behavior
 
-1. **Read the session log** — do not modify it
+1. **Read the session log**: do not modify it
 2. **Extract the last N entries** to assess recent activity
 3. **Compute status** using the detection rules above
 4. **Output status report** to stdout (piped to the watchdog or a notification hook)
@@ -106,8 +106,8 @@ done
 ## Anti-Patterns
 
 - **Don't interfere** with the primary agent — read-only access to logs only
-- **Don't alert on expected pauses** — long API calls or compilation steps are not stalls; tune `STALL_THRESHOLD` to your task's expected cadence
-- **Don't run this on interactive sessions** — overhead isn't justified when a human is watching
+- **Don't alert on expected pauses**: long API calls or compilation steps are not stalls; tune `STALL_THRESHOLD` to your task's expected cadence
+- **Don't run this on interactive sessions**: overhead isn't justified when a human is watching
 
 ## Model Rationale
 
@@ -116,6 +116,6 @@ Haiku is used here because monitoring is a high-frequency, low-complexity operat
 ---
 
 **See also**:
-- [Production Safety: Rule 6](../../guide/security/production-safety.md#rule-6-autonomous-loop-safety) — heartbeat dead-man switch (complementary)
-- [Agent Teams Workflow: Iterative Retrieval](../../guide/workflows/agent-teams.md#9-iterative-retrieval-for-sub-agents) — context patterns for sub-agents
-- [Hook Profile Gating](../../guide/ultimate-guide.md#76-hook-profiles) — `minimal` profile for autonomous sessions
+- [Production Safety: Rule 6](../../guide/security/production-safety.md#rule-6-autonomous-loop-safety): heartbeat dead-man switch (complementary)
+- [Agent Teams Workflow: Iterative Retrieval](../../guide/workflows/agent-teams.md#9-iterative-retrieval-for-sub-agents): context patterns for sub-agents
+- [Hook Profile Gating](../../guide/ultimate-guide.md#76-hook-profiles): `minimal` profile for autonomous sessions

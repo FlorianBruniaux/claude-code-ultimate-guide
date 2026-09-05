@@ -13,7 +13,7 @@
 
 Nick Tune (already cited 4 times in the guide for his earlier Medium article) presents a new pattern that treats Claude Code hooks as a **workflow enforcement engine** with a typed state machine, JSON persistence, and per-state context injection. The guide covers individual hook types in isolation and has a bash-based single-entry dispatcher (§7.5). This article adds a TypeScript state machine layer on top of hooks that the guide does not cover. The most immediately useful standalone pattern — identity re-injection after compaction — can be integrated now without the full state machine.
 
-**Recommendation**: **MODERATE (Score 3/5)** — Integrate the identity re-injection pattern immediately in §7.5. Stage the full state machine architecture as a Tier 3 workflow guide with explicit prerequisites. Re-evaluate the full integration at 4/5 in 60-90 days once community validation exists.
+**Recommendation**: **MODERATE (Score 3/5)**: Integrate the identity re-injection pattern immediately in §7.5. Stage the full state machine architecture as a Tier 3 workflow guide with explicit prerequisites. Re-evaluate the full integration at 4/5 in 60-90 days once community validation exists.
 
 ---
 
@@ -127,7 +127,7 @@ role. A hook can detect this and re-inject identity instructions.
 
 ### Tier 3 — New Workflow Guide (60-90 days, pending community validation)
 
-**`guide/workflows/hook-driven-workflows.md`** — Full state machine architecture, once the pattern has more community validation. Clear prerequisites header (agent teams flag, Opus 4.6, Node.js + TypeScript). Frame as experimental / advanced.
+**`guide/workflows/hook-driven-workflows.md`**: Full state machine architecture, once the pattern has more community validation. Clear prerequisites header (agent teams flag, Opus 4.6, Node.js + TypeScript). Frame as experimental / advanced.
 
 ### What NOT to Document
 

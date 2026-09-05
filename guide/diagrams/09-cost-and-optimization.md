@@ -12,7 +12,7 @@ How to get maximum value from Claude Code while controlling token consumption an
 
 ### Model Selection Decision Flow
 
-Not all tasks need the most powerful model. Using the right model for the right task cuts costs by 5-10x without sacrificing quality.
+Not all tasks need the most powerful model. A lower-cost model saves money only when it passes the same task acceptance gate without increasing retries, review, or rework.
 
 > **This diagram assumes an unconstrained budget (Max/API).** On tighter plans (Pro, Teams Standard), apply the budget modifier below.
 
@@ -21,14 +21,14 @@ flowchart TD
     A([Task to complete]) --> B{Task complexity?}
 
     B -->|Simple| C["Simple tasks:<br/>typo fixes, renames,<br/>formatting, translations"]
-    C --> D([Haiku 4.5<br/>💰 Cheapest, fastest<br/>~5x cheaper than Sonnet])
+    C --> D([Haiku 4.5<br/>💰 Lower public token rate<br/>~2x cheaper than Sonnet 5])
 
     B -->|Standard| E["Standard tasks:<br/>feature implementation,<br/>bug fixes, refactoring"]
-    E --> F([Sonnet 5<br/>💰💰 Balanced<br/>Best price/quality ratio])
+    E --> F([Sonnet 5<br/>💰💰 Balanced candidate<br/>Validate on your task set])
 
     B -->|Complex| G{Needs deep<br/>reasoning?}
     G -->|Yes| H["Complex tasks:<br/>architecture decisions,<br/>security review,<br/>multi-file analysis"]
-    H --> I([Opus 5: Maximum capability<br/>Opus 4.8: Deep analysis (prev. gen)<br/>💰💰💰 Most capable<br/>~5x more than Sonnet])
+    H --> I([Opus 5: Maximum capability<br/>Opus 4.8: Deep analysis (prev. gen)<br/>💰💰💰 Higher public token rate<br/>~2.5x Sonnet 5])
 
     G -->|No: just large| J["Large but clear tasks:<br/>big refactors,<br/>doc generation"]
     J --> F
@@ -56,7 +56,7 @@ flowchart TD
     click J href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#25-model-selection--thinking-guide" "Large but clear tasks"
 ```
 
-> **Pricing**: Relative costs shown. Check current rates at [anthropic.com/pricing](https://www.anthropic.com/pricing).
+> **Pricing**: Ratios use the public API token rates recorded in [AI Unit Economics](../ops/ai-unit-economics.md#2-building-a-cost-per-accepted-task), verified 2026-08-31. Recheck [Anthropic pricing](https://www.anthropic.com/pricing) before a purchasing decision.
 
 **Budget modifier** (on constrained plans, downgrade one tier per phase):
 
@@ -67,17 +67,17 @@ flowchart TD
 | **Pro / Teams Standard** | Sonnet | Haiku (mechanical tasks) |
 | **API tight budget** | Sonnet | Haiku |
 
-> *Community pattern (Teams Standard $25/mo): Sonnet for Plan → Haiku for Implementation. Same quality output on mechanical tasks at a fraction of the cost.*
+> *Community pattern (Teams Standard $25/mo): Sonnet for planning, then Haiku for mechanical implementation. Validate this split on repeated internal tasks before treating quality as equivalent.*
 
 <details>
 <summary>ASCII version</summary>
 
 ```
 Task complexity?
-├─ Simple (typos, format, rename) → Haiku 4.5     ($  ~5x cheaper than Sonnet)
-├─ Standard (features, bugs)      → Sonnet 5      ($$ best price/quality ratio)
+├─ Simple (typos, format, rename) → Haiku 4.5     ($  ~2x cheaper than Sonnet 5)
+├─ Standard (features, bugs)      → Sonnet 5      ($$ validate on your task set)
 └─ Complex (architecture, sec.)
-   ├─ Needs deep reasoning?        → Opus 5 (xhigh)  ($$$ ~5x more than Sonnet)
+   ├─ Needs deep reasoning?        → Opus 5 (xhigh)  ($$$ ~2.5x Sonnet 5)
    └─ Just large/clear?            → Sonnet 5         ($$ handles it)
 
 Budget modifier (downgrade one tier on constrained plans):
@@ -100,23 +100,23 @@ High token costs are usually fixable. This systematic tree identifies the root c
 flowchart TD
     A([High token costs?]) --> B{Context<br/>too large?}
     B -->|Yes| C(Use /compact<br/>or start fresh session)
-    C --> Z([Saves 40-60%<br/>per session])
+    C --> Z([Shrinks repeated<br/>conversation input])
 
     B -->|No| D{Verbose<br/>responses?}
     D -->|Yes| E(Add CLAUDE.md instruction:<br/>'Be concise, avoid explanations')
-    E --> Z2([Saves 20-30%])
+    E --> Z2([Reduces expensive<br/>output tokens])
 
     D -->|No| F{Re-explaining<br/>context repeatedly?}
     F -->|Yes| G(Move repeated context<br/>to CLAUDE.md)
-    G --> Z3([Saves 15-25%])
+    G --> Z3([Stabilizes reusable<br/>context])
 
     F -->|No| H{Using wrong<br/>model for task?}
     H -->|Yes| I(Use Haiku for simple tasks<br/>See model selection tree)
-    I --> Z4([Saves 50-90%<br/>on simple tasks])
+    I --> Z4([Cuts model rate only if<br/>the quality gate still passes])
 
     H -->|No| J{MCP server<br/>noisy output?}
     J -->|Yes| K(Review MCP verbosity<br/>Filter tool output)
-    K --> Z5([Saves 10-20%])
+    K --> Z5([Shrinks recurring<br/>tool context])
 
     J -->|No| L([Baseline cost<br/>acceptable])
 
@@ -145,11 +145,11 @@ flowchart TD
     click J href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#913-cost-optimization-strategies" "Noisy MCP output?"
     click K href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#913-cost-optimization-strategies" "Review MCP verbosity"
     click L href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#913-cost-optimization-strategies" "Baseline cost acceptable"
-    click Z href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#913-cost-optimization-strategies" "Saves 40-60%"
-    click Z2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#913-cost-optimization-strategies" "Saves 20-30%"
-    click Z3 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#913-cost-optimization-strategies" "Saves 15-25%"
-    click Z4 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#913-cost-optimization-strategies" "Saves 50-90%"
-    click Z5 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#913-cost-optimization-strategies" "Saves 10-20%"
+    click Z href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#913-cost-optimization-strategies" "Shrink repeated conversation input"
+    click Z2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#913-cost-optimization-strategies" "Reduce output tokens"
+    click Z3 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#913-cost-optimization-strategies" "Stabilize reusable context"
+    click Z4 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#913-cost-optimization-strategies" "Use a cheaper model after validation"
+    click Z5 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#913-cost-optimization-strategies" "Shrink recurring tool context"
 ```
 
 <details>
@@ -157,11 +157,11 @@ flowchart TD
 
 ```
 High costs?
-├─ Context too large?      → /compact or new session    (40-60% saving)
-├─ Verbose responses?      → CLAUDE.md: be concise      (20-30% saving)
-├─ Repeating context?      → Move to CLAUDE.md          (15-25% saving)
-├─ Wrong model?            → Use Haiku for simple tasks (50-90% saving)
-├─ Noisy MCP output?       → Filter tool output         (10-20% saving)
+├─ Context too large?      → /compact or new session    (less repeated input)
+├─ Verbose responses?      → CLAUDE.md: be concise      (less output)
+├─ Repeating context?      → Move to CLAUDE.md          (stable reusable prefix)
+├─ Wrong model?            → Test a cheaper model       (same acceptance gate)
+├─ Noisy MCP output?       → Filter tool output         (less recurring context)
 └─ None of the above?      → Baseline cost, acceptable
 ```
 
@@ -261,7 +261,7 @@ No CLI       Personal use     Parallel ✓       Analytics
 
 ### Token Reduction Strategies Pipeline
 
-Multiple strategies stack for cumulative token savings. Apply them in order from highest impact to lowest effort.
+Multiple strategies can reduce the same token classes, so their advertised percentages cannot be multiplied. Apply them one at a time, measure the interaction, and retain only the changes that reduce cost per accepted task.
 
 ```mermaid
 flowchart LR
@@ -270,7 +270,7 @@ flowchart LR
     subgraph RTK["Strategy 1: RTK Proxy"]
         R1[Raw CLI output<br/>→ filtered output]
         R2["git status, cargo test,<br/>pnpm list → compressed"]
-        R3[Saves 60-90%<br/>on CLI commands]
+        R3[Reported reduction on<br/>supported CLI output]
     end
 
     RTK --> COMP
@@ -278,7 +278,7 @@ flowchart LR
     subgraph COMP["Strategy 2: /compact"]
         C1[Long conversation<br/>→ summarized]
         C2[Keep decisions,<br/>drop verbose reasoning]
-        C3[Saves 40-60%<br/>at checkpoint]
+        C3[Reduces future<br/>history input]
     end
 
     COMP --> CLAUDE_MD
@@ -286,18 +286,18 @@ flowchart LR
     subgraph CLAUDE_MD["Strategy 3: CLAUDE.md"]
         CM1[Repeated context<br/>→ persistent instructions]
         CM2[No re-explaining<br/>project conventions]
-        CM3[Saves 15-25%<br/>per session]
+        CM3[Creates a stable<br/>reusable prefix]
     end
 
     CLAUDE_MD --> MODEL
 
     subgraph MODEL["Strategy 4: Model Selection"]
         MO1[Haiku for simple tasks<br/>instead of Sonnet]
-        MO2[Same quality output<br/>at fraction of cost]
-        MO3[Saves 50-90%<br/>on simple tasks]
+        MO2[Compare on the same<br/>acceptance gate]
+        MO3[Lower model rate<br/>after validation]
     end
 
-    MODEL --> RESULT([Optimized:<br/>10-20% of baseline<br/>for typical usage])
+    MODEL --> RESULT([Measure:<br/>cost per accepted task<br/>before and after])
 
     style BASE fill:#E85D5D,color:#fff
     style R3 fill:#7BC47F,color:#333
@@ -309,17 +309,17 @@ flowchart LR
     click BASE href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#913-cost-optimization-strategies" "Baseline: 100% tokens"
     click R1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#913-cost-optimization-strategies" "Raw CLI output filtered"
     click R2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#913-cost-optimization-strategies" "RTK commands"
-    click R3 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#913-cost-optimization-strategies" "Saves 60-90% on CLI"
+    click R3 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#913-cost-optimization-strategies" "Reported reduction on supported CLI output"
     click C1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#913-cost-optimization-strategies" "Long conversation summarized"
     click C2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#913-cost-optimization-strategies" "Keep decisions"
-    click C3 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#913-cost-optimization-strategies" "Saves 40-60% at checkpoint"
+    click C3 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#913-cost-optimization-strategies" "Reduce future history input"
     click CM1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#31-memory-files-claudemd" "Repeated context persistent"
     click CM2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#31-memory-files-claudemd" "No re-explaining conventions"
-    click CM3 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#913-cost-optimization-strategies" "Saves 15-25% per session"
+    click CM3 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#913-cost-optimization-strategies" "Create a stable reusable prefix"
     click MO1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#25-model-selection--thinking-guide" "Haiku for simple tasks"
-    click MO2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#25-model-selection--thinking-guide" "Same quality at lower cost"
-    click MO3 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#25-model-selection--thinking-guide" "Saves 50-90% on simple"
-    click RESULT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#913-cost-optimization-strategies" "Optimized: 10-20% of baseline"
+    click MO2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#25-model-selection--thinking-guide" "Compare on the same acceptance gate"
+    click MO3 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#25-model-selection--thinking-guide" "Lower model rate after validation"
+    click RESULT href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#913-cost-optimization-strategies" "Measure cost per accepted task"
 ```
 
 <details>
@@ -328,15 +328,15 @@ flowchart LR
 ```
 100% baseline
     │
-RTK proxy (CLI output compression)  → -60-90% on CLI ops
+RTK proxy (CLI output compression)  → smaller supported command output
     │
-/compact (conversation summarization) → -40-60% at checkpoint
+/compact (conversation summarization) → less history in later turns
     │
-CLAUDE.md (avoid repeated context)    → -15-25% per session
+CLAUDE.md (stable project context)    → reusable prompt prefix
     │
-Model selection (Haiku for simple)    → -50-90% on simple tasks
+Model selection (cheaper candidate)   → keep only if acceptance stays stable
     │
-~10-20% of baseline for typical usage
+Measure total cost per accepted task before and after
 ```
 
 </details>

@@ -1,4 +1,4 @@
-# Évaluation Ressource: The Great Transition — Unsupervised Learning Podcast
+# Évaluation Ressource: The Great Transition: Unsupervised Learning Podcast
 
 **Source**: https://omny.fm/shows/unsupervised-learning/the-great-transition
 **Type**: Podcast — framework conceptuel macro-tendances IA (84 min)
@@ -26,7 +26,7 @@ Les 3 autres transitions: Knowledge Private → Public (expertise absorbée par 
 
 ## 🎯 Score de pertinence
 
-**Score: 2/5** — Marginal (Watch list)
+**Score: 2/5**: Marginal (Watch list)
 
 ### Justification
 

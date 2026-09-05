@@ -212,10 +212,10 @@ Arguments clés du challenge :
 - **Primary (paywalled)**: [Lenny's Newsletter - Boris Cherny interview](https://www.lennysnewsletter.com/p/head-of-claude-code-what-happens) (19 fev 2026)
 - **Secondary used for evaluation**: NotebookLM transcript summary (Q: efficient tips)
 - **Verification (Perplexity)**:
-  - [Waydev — 8 insights from Boris Cherny](https://waydev.co/8-game-changing-insights-from-anthropic-claudecode-boris-cherny/) (24 fev 2026)
-  - [Business Insider — 3 principles Boris Cherny](https://www.businessinsider.com/claude-creator-three-principles-boris-cherny-2026-2) (23 fev 2026)
-  - [Business Insider — coding is solved](https://www.businessinsider.com/anthropic-claude-code-founder-ai-impacts-software-engineer-role-2026-2) (18 fev 2026)
-  - [Fortune — software engineers](https://fortune.com/2026/02/24/will-claude-destroy-software-engineer-coding-jobs-creator-says-printing-press/) (24 fev 2026)
+  - [Waydev: 8 insights from Boris Cherny](https://waydev.co/8-game-changing-insights-from-anthropic-claudecode-boris-cherny/) (24 fev 2026)
+  - [Business Insider: 3 principles Boris Cherny](https://www.businessinsider.com/claude-creator-three-principles-boris-cherny-2026-2) (23 fev 2026)
+  - [Business Insider: coding is solved](https://www.businessinsider.com/anthropic-claude-code-founder-ai-impacts-software-engineer-role-2026-2) (18 fev 2026)
+  - [Fortune: software engineers](https://fortune.com/2026/02/24/will-claude-destroy-software-engineer-coding-jobs-creator-says-printing-press/) (24 fev 2026)
 - **Related evaluations Boris Cherny** (déjà intégrées) :
   - `boris-cowork-video-eval.md` — YouTube interview Jan 2026 (Greg Isenberg)
   - `paddo-team-tips-eval.md` — paddo.dev blog synthesis (4/5, intégré)

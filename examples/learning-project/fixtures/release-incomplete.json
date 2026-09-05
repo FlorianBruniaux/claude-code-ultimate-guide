@@ -1,0 +1,16 @@
+{
+  "name": "proofpack",
+  "version": "1.0.0",
+  "checks": [
+    {
+      "name": "tests",
+      "status": "pass",
+      "evidence": "NOT RUN"
+    },
+    {
+      "name": "security",
+      "status": "fail",
+      "evidence": "no retained output"
+    }
+  ]
+}

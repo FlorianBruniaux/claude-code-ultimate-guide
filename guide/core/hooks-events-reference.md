@@ -10,6 +10,8 @@ Complete reference for all 30 Claude Code hook events: matcher fields, input sch
 
 For the audit skill, see `examples/skills/eval-hooks/SKILL.md`.
 
+See also: [Event-Driven Agent Automation](../workflows/event-driven-agents.md) for building hook-driven workflows, and [Security Hardening: Startup Hooks](../security/security-hardening.md#16-startup-hooks-code-execution-before-your-first-prompt) for the risks of executing code via hooks.
+
 ---
 
 ## Quick Reference

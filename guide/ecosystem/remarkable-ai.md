@@ -1,82 +1,84 @@
 ---
-title: "reMarkable 2 + AI : Hacks, Outils et Workflows"
-description: "Cartographie complète des intégrations AI pour reMarkable 2 : MCP server, OCR, pipelines Obsidian/Notion, et automatisations"
+title: "reMarkable 2 + AI: Hacks, Tools, and Workflows"
+description: "Complete mapping of AI integrations for reMarkable 2: MCP server, OCR, Obsidian/Notion pipelines, and automations"
 tags: [mcp, integration, hardware, workflow, remarkable]
 ---
 
-# reMarkable 2 + AI : Cartographie complète des hacks, outils et workflows
+# reMarkable 2 + AI: Complete Mapping of Hacks, Tools, and Workflows
 
 > **Last verified**: February 2026
 
-La reMarkable 2 est une tablette e-ink Linux full-root-access. Sa philosophie de distraction zéro en fait un outil de pensée, mais ses intégrations natives sont minimalistes. Cette page couvre tout ce qui existe pour l'augmenter avec l'AI, du plus simple au plus technique.
+The reMarkable 2 is a full-root-access Linux e-ink tablet. Its zero-distraction philosophy makes it a thinking tool, but its native integrations are minimal. This page covers everything that exists to augment it with AI, from the simplest to the most technical.
+
+See also: [AI Ecosystem](ai-ecosystem.md) for the broader mapping of the AI ecosystem (beyond hardware).
 
 ## Table of Contents
 
-1. [remarkable-mcp : accès MCP direct par SSH](#1-remarkable-mcp--accès-mcp-direct-par-ssh)
-2. [Ghostwriter : Interface Vision-LLM](#2-ghostwriter--interface-vision-llm)
+1. [remarkable-mcp: direct MCP access via SSH](#1-remarkable-mcp-direct-mcp-access-via-ssh)
+2. [Ghostwriter: Vision-LLM Interface](#2-ghostwriter-vision-llm-interface)
 3. [Sync reMarkable → Obsidian](#3-sync-remarkable--obsidian)
-4. [OCR + AI Pipeline custom](#4-ocr--ai-pipeline-custom)
-5. [Accès SSH et outils communautaires](#5-accès-ssh-et-outils-communautaires)
-6. [Features natives sous-exploitées](#6-features-natives-sous-exploitées)
-7. [API et Developer Portal officiel](#7-api-et-developer-portal-officiel)
-8. [Automatisation Zapier](#8-automatisation-zapier)
-9. [Read-it-later : Web → reMarkable](#9-read-it-later--web--remarkable)
+4. [OCR + Custom AI Pipeline](#4-ocr--custom-ai-pipeline)
+5. [SSH Access and Community Tools](#5-ssh-access-and-community-tools)
+6. [Underused Native Features](#6-underused-native-features)
+7. [Official API and Developer Portal](#7-official-api-and-developer-portal)
+8. [Zapier Automation](#8-zapier-automation)
+9. [Read-it-later: Web to reMarkable](#9-read-it-later-web-to-remarkable)
 10. [Meeting Notes → AI Summary](#10-meeting-notes--ai-summary)
-11. [Zotero → reMarkable (recherche)](#11-zotero--remarkable-recherche)
-12. [Screen sharing comme whiteboard AI-assisté](#12-screen-sharing-comme-whiteboard-ai-assisté)
-13. [Apps custom et hacks fun](#13-apps-custom-et-hacks-fun)
-14. [Workflows AI-augmentés à construire](#14-workflows-ai-augmentés-à-construire)
-15. [Par où commencer](#15-par-où-commencer)
+11. [Zotero to reMarkable (research)](#11-zotero-to-remarkable-research)
+12. [Screen sharing as an AI-assisted whiteboard](#12-screen-sharing-as-an-ai-assisted-whiteboard)
+13. [Custom apps and fun hacks](#13-custom-apps-and-fun-hacks)
+14. [AI-augmented workflows to build](#14-ai-augmented-workflows-to-build)
+15. [Where to start](#15-where-to-start)
 
 ---
 
-## 1. remarkable-mcp : accès MCP direct par SSH
+## 1. remarkable-mcp: direct MCP access via SSH
 
-**ROI : maximal | Effort : moyen | Connexion : SSH over USB (sans cloud)**
+**ROI: maximal | Effort: medium | Connection: SSH over USB (no cloud)**
 
-Sam Morrow a créé un **serveur MCP** qui connecte directement la reMarkable à Claude Code, VS Code Copilot, et tout assistant AI compatible MCP.
+Sam Morrow created an **MCP server** that connects the reMarkable directly to Claude Code, VS Code Copilot, and any MCP-compatible AI assistant.
 
-| Attribut | Détails |
+| Attribute | Details |
 |---------|---------|
 | **Repo** | https://github.com/SamMorrowDrums/remarkable-mcp |
 | **Blog** | https://sam-morrow.com/blog/building-an-mcp-server-for-remarkable |
-| **Connexion** | SSH over USB (pas de cloud, pas d'abonnement) |
-| **Langage** | Python (FastMCP) |
+| **Connection** | SSH over USB (no cloud, no subscription) |
+| **Language** | Python (FastMCP) |
 
-### Ce que ça fait
+### What it does
 
-- **Extraction native du texte tapé** (Type Folio / clavier virtuel), instant, sans OCR
-- **OCR handwriting** via Google Cloud Vision (1000 requêtes gratuites/mois)
-- **Recherche intelligente** dans toute ta bibliothèque
-- **Extraction de texte** depuis PDF et EPUB + annotations
-- **Traverse complète** des documents
+- **Native extraction of typed text** (Type Folio / virtual keyboard), instant, no OCR
+- **Handwriting OCR** via Google Cloud Vision (1000 free requests/month)
+- **Smart search** across your entire library
+- **Text extraction** from PDF and EPUB, plus annotations
+- **Full traversal** of documents
 
-### Pourquoi c'est le #1
+### Why it's #1
 
-Tu peux demander à Claude "qu'est-ce que j'ai noté sur X pendant la réunion du 15 janvier ?". Il va chercher dans tes notes manuscrites. La reMarkable devient un **second brain queryable**.
+You can ask Claude "what did I note about X during the January 15 meeting?" It will search through your handwritten notes. The reMarkable becomes a **queryable second brain**.
 
-### Stack technique
+### Technical stack
 
 ```
-FastMCP + rmscene (parsing .rm natif) + PyMuPDF (PDF)
+FastMCP + rmscene (native .rm parsing) + PyMuPDF (PDF)
 + Google Cloud Vision (OCR) + Paramiko (SSH)
 ```
 
-### Installation rapide
+### Quick installation
 
 ```bash
-# 1. Activer SSH sur la reMarkable
-# Settings → Help → Copyrights and licenses → IP + mot de passe root
+# 1. Enable SSH on the reMarkable
+# Settings → Help → Copyrights and licenses → IP + root password
 
-# 2. Cloner le repo
+# 2. Clone the repo
 git clone https://github.com/SamMorrowDrums/remarkable-mcp
 cd remarkable-mcp && pip install -e .
 
-# 3. Ajouter à Claude Code
-# Dans ~/.claude.json ou via "claude mcp add"
+# 3. Add to Claude Code
+# In ~/.claude.json or via "claude mcp add"
 ```
 
-### Configuration dans Claude Code
+### Configuration in Claude Code
 
 ```json
 {
@@ -95,411 +97,411 @@ cd remarkable-mcp && pip install -e .
 
 ---
 
-## 2. Ghostwriter : Interface Vision-LLM
+## 2. Ghostwriter: Vision-LLM Interface
 
-**ROI : expérimental | Effort : faible (un binary Rust à copier)**
+**ROI: experimental | Effort: low (a Rust binary to copy)**
 
-| Attribut | Détails |
+| Attribute | Details |
 |---------|---------|
 | **Repo** | https://github.com/awwaiid/ghostwriter |
-| **Modèle** | GPT-4o Vision |
+| **Model** | GPT-4o Vision |
 | **HN discussion** | https://news.ycombinator.com/item?id=42979986 |
 
 ### Concept
 
-Tu écris un prompt à la main sur la reMarkable. Un vision-LLM (GPT-4o) lit ton écriture + tes dessins et répond **directement sur la tablette**.
+You write a prompt by hand on the reMarkable. A vision-LLM (GPT-4o) reads your handwriting and drawings and responds **directly on the tablet**.
 
 ### Installation
 
 ```bash
-# 1. Télécharger le binary Rust compilé
+# 1. Download the compiled Rust binary
 scp ghostwriter root@10.11.99.1:/home/root/
 
-# 2. SSH + lancer
+# 2. SSH in and launch
 ssh root@10.11.99.1
 chmod +x ghostwriter && ./ghostwriter
 ```
 
-### Interactions supportées
+### Supported interactions
 
 - Handwriting recognition
-- Analyse de croquis (wireframes, schémas)
-- Petit langage iconographique
-- Gestes
+- Sketch analysis (wireframes, diagrams)
+- Small iconographic language
+- Gestures
 
-### Use case concret
+### Concrete use case
 
-Tu dessines un schéma d'architecture, tu écris "optimise ça". Le LLM analyse visuellement et répond. Prototype fascinant pour l'interaction humain-AI par le stylo.
+You draw an architecture diagram, you write "optimize this." The LLM analyzes it visually and responds. A fascinating prototype for pen-based human-AI interaction.
 
-**Limite honnête** : L'app native de dessin de la reMarkable est minimaliste (pas de placement libre de texte dans la réponse).
+**Honest limitation**: The reMarkable's native drawing app is minimal (no free text placement in the response).
 
 ---
 
 ## 3. Sync reMarkable → Obsidian
 
-**ROI : élevé si tu utilises Obsidian | Effort : faible à moyen**
+**ROI: high if you use Obsidian | Effort: low to medium**
 
-### Option A : Scrybble (le plus complet)
+### Option A: Scrybble (the most complete)
 
-| Attribut | Détails |
+| Attribute | Details |
 |---------|---------|
 | **Site** | scrybble.ink |
-| **Plugin Obsidian** | Plugin communautaire (vault settings) |
-| **Hébergement** | Self-hosted ou serveur Scrybble |
+| **Obsidian plugin** | Community plugin (vault settings) |
+| **Hosting** | Self-hosted or Scrybble server |
 | **Discussion** | https://forum.obsidian.md/t/scrybble-sync-plugin/103194 |
 
-**Ce que ça fait :**
+**What it does:**
 
-- Sync notebooks, PDFs, ePubs → vault Obsidian
-- Extraction highlights PDF/ePub en Markdown
-- Extraction du texte tapé en Markdown
-- Rendu complet des notebooks en PDF dans le vault
-- Organisation par page avec tags
+- Sync notebooks, PDFs, ePubs to Obsidian vault
+- Extract PDF/ePub highlights as Markdown
+- Extract typed text as Markdown
+- Full rendering of notebooks as PDF in the vault
+- Organization by page with tags
 
-**Use case** : Recherche académique, prise de notes en réunion avec recherche Obsidian derrière.
+**Use case**: Academic research, meeting note-taking with Obsidian search behind it.
 
-### Option B : Plugin custom Cloud Sync
+### Option B: Custom Cloud Sync plugin
 
-- **Démo** : https://www.youtube.com/watch?v=EsRdi8J9Cnc
-- Commande "remarkable insert" → pull fichiers depuis le cloud reMarkable
-- PDF dans dossier `rm/` → embed dans notes Obsidian
-- Re-fetch automatique quand tu modifies sur la tablette
+- **Demo**: https://www.youtube.com/watch?v=EsRdi8J9Cnc
+- "remarkable insert" command, pulls files from the reMarkable cloud
+- PDF in the `rm/` folder, embedded in Obsidian notes
+- Automatic re-fetch when you make changes on the tablet
 
 ---
 
-## 4. OCR + AI Pipeline custom
+## 4. OCR + Custom AI Pipeline
 
-**ROI : élevé pour un workflow sur-mesure | Effort : moyen-élevé**
+**ROI: high for a custom workflow | Effort: medium-high**
 
-### rmirror + Claude API (Pattern recommandé)
+### rmirror + Claude API (recommended pattern)
 
-Source : https://news.ycombinator.com/item?id=47110872 (février 2026)
+Source: https://news.ycombinator.com/item?id=47110872 (February 2026)
 
-**Concept** : Agent macOS background qui :
-1. Sync les notebooks depuis la reMarkable
-2. OCR via Claude API (meilleur que Tesseract pour le manuscrit avec contexte)
-3. Push les notes transcrites vers Notion comme pages searchables
+**Concept**: A macOS background agent that:
+1. Syncs notebooks from the reMarkable
+2. OCRs via Claude API (better than Tesseract for handwriting with context)
+3. Pushes the transcribed notes to Notion as searchable pages
 
-**Pourquoi Claude > Tesseract pour l'OCR** : Claude comprend le contexte, corrige les mots mal formés, structure les listes et tableaux automatiquement.
+**Why Claude beats Tesseract for OCR**: Claude understands context, corrects malformed words, and structures lists and tables automatically.
 
-### Pipeline DIY
+### DIY pipeline
 
 ```
 reMarkable → SSH/USB
   → extract .rm files
-  → rmscene parse (texte natif si Type Folio)
-  → Claude Vision API (screenshot des pages pour handwriting)
-  → texte structuré + tags auto
+  → rmscene parse (native text if Type Folio)
+  → Claude Vision API (page screenshots for handwriting)
+  → structured text + auto tags
   → Notion/Obsidian/GitHub via API
 ```
 
-### Outils de parsing
+### Parsing tools
 
-| Outil | Usage | Lien |
+| Tool | Usage | Link |
 |-------|-------|------|
-| **rmscene** | Parsing natif des fichiers .rm | https://github.com/ricklupton/rmscene |
-| **rmc** | Convertit .rm → SVG/PNG | https://github.com/ricklupton/rmc |
-| **rmapi** | Interface Cloud API en Go | https://github.com/juruen/rmapi |
+| **rmscene** | Native parsing of .rm files | https://github.com/ricklupton/rmscene |
+| **rmc** | Converts .rm to SVG/PNG | https://github.com/ricklupton/rmc |
+| **rmapi** | Cloud API interface in Go | https://github.com/juruen/rmapi |
 
 ---
 
-## 5. Accès SSH et outils communautaires
+## 5. SSH Access and Community Tools
 
-**Base indispensable pour tout le reste**
+**Essential foundation for everything else**
 
-### Activer SSH
+### Enable SSH
 
 ```bash
-# Via l'interface tablette :
+# Via the tablet interface:
 # Settings → Help → Copyrights and licenses
-# → Affiche : IP + mot de passe root
+# → Displays: IP + root password
 
-# USB (connexion directe)
+# USB (direct connection)
 ssh root@10.11.99.1
 
-# WiFi (après activation)
+# WiFi (after activation)
 rm-ssh-over-wlan on
-# ou via "Simply Customize It"
+# or via "Simply Customize It"
 ```
 
-### Outils essentiels
+### Essential tools
 
-| Outil | Usage | Lien |
+| Tool | Usage | Link |
 |-------|-------|------|
-| **RMHacks/xovi** | Framework de mods pour rM1/2/Paper Pro | https://www.nilorea.net/2025/08/11/latest-rmhacks-with-xovi-for-remarkable-1-2-paper-pro/ |
-| **Simply Customize It** | GUI pour toggler features (WLAN SSH, etc.) | App tierce |
-| **ReMy** | GUI pour browse/preview/exporter docs via SSH (sans cloud) | https://github.com/bordaigorl/remy |
-| **rmirro** | Sync PDFs bidirectionnel tablette ↔ dossier local | https://github.com/hersle/rmirro |
-| **reStream** | Stream l'écran de la reMarkable sur Mac/PC | https://github.com/rien/reStream |
-| **KOReader** | Reader alternatif (plus de formats, customisable) | Via SSH |
-| **reGitable** | Backup auto via git | awesome-reMarkable |
+| **RMHacks/xovi** | Mod framework for rM1/2/Paper Pro | https://www.nilorea.net/2025/08/11/latest-rmhacks-with-xovi-for-remarkable-1-2-paper-pro/ |
+| **Simply Customize It** | GUI to toggle features (WLAN SSH, etc.) | Third-party app |
+| **ReMy** | GUI to browse/preview/export docs via SSH (no cloud) | https://github.com/bordaigorl/remy |
+| **rmirro** | Bidirectional PDF sync, tablet ↔ local folder | https://github.com/hersle/rmirro |
+| **reStream** | Stream the reMarkable's screen to Mac/PC | https://github.com/rien/reStream |
+| **KOReader** | Alternative reader (more formats, customizable) | Via SSH |
+| **reGitable** | Automatic backup via git | awesome-reMarkable |
 
-### Templates custom
+### Custom templates
 
 ```bash
-# Créer un SVG template → copier via SSH
+# Create an SVG template, copy via SSH
 scp mon-template.svg root@10.11.99.1:/usr/share/remarkable/templates/
 
-# Editer templates.json pour l'enregistrer
+# Edit templates.json to register it
 ssh root@10.11.99.1 'vi /usr/share/remarkable/templates/templates.json'
 ```
 
-**Outils de génération** : ReCalendar.me, Remarkable Grid Generator, Remarkably Planner Builder
+**Generation tools**: ReCalendar.me, Remarkable Grid Generator, Remarkably Planner Builder
 
 ---
 
-## 6. Features natives sous-exploitées
+## 6. Underused Native Features
 
-**Effort : zéro | Inclus dans Connect (~6€/mois)**
+**Effort: zero | Included in Connect (~6 EUR/month)**
 
 | Feature | Usage |
 |---------|-------|
-| **Handwriting conversion** | Sélectionner → Convertir → Copier/Coller dans n'importe quelle app |
+| **Handwriting conversion** | Select, convert, copy/paste into any app |
 | **Cloud sync** | Google Drive, Dropbox, OneDrive |
-| **Send to Slack** | Partager des notes de réunion direct dans un channel |
-| **Handwriting search** (beta AI) | Recherche dans tes notes manuscrites passées |
-| **Screen sharing** | Partager l'écran sur PC (présentations, meetings) |
-| **Send to email** | Envoyer comme PDF ou PNG |
+| **Send to Slack** | Share meeting notes directly into a channel |
+| **Handwriting search** (beta AI) | Search through your past handwritten notes |
+| **Screen sharing** | Share the screen on a PC (presentations, meetings) |
+| **Send to email** | Send as PDF or PNG |
 
-**Astuce** : La conversion handwriting → texte fonctionne bien pour les mots isolés mais moins bien pour les phrases cursives denses. Privilégier l'impression pour la conversion.
+**Tip**: Handwriting-to-text conversion works well for isolated words but less well for dense cursive sentences. Prefer print handwriting for conversion.
 
 ---
 
-## 7. API et Developer Portal officiel
+## 7. Official API and Developer Portal
 
-| Ressource | Lien |
+| Resource | Link |
 |-----------|------|
 | **Developer Portal** | https://developer.remarkable.com |
 | **Cloud API docs** | https://github.com/splitbrain/ReMarkableAPI |
 | **Community guide** | https://remarkable.guide/ |
-| **rmfakecloud** | Self-hosted Cloud (sans abonnement Connect) |
+| **rmfakecloud** | Self-hosted Cloud (no Connect subscription) |
 
-**OS** : Linux (Codex), full SSH root access, GPL-compliant. Le cross-compiler toolchain permet de déployer des apps custom natives.
+**OS**: Linux (Codex), full SSH root access, GPL-compliant. The cross-compiler toolchain allows deploying custom native apps.
 
-**rmfakecloud** : Alternative open-source au cloud reMarkable pour self-héberger la sync et se passer de l'abonnement Connect.
+**rmfakecloud**: Open-source alternative to the reMarkable cloud, for self-hosting sync and skipping the Connect subscription.
 
 ---
 
-## 8. Automatisation Zapier
+## 8. Zapier Automation
 
-**ROI : moyen | Effort : faible | Aucun code nécessaire**
+**ROI: medium | Effort: low | No code required**
 
-**Mécanisme** : reMarkable → email (my@remarkable.com) → Zapier intercepte → action automatique
+**Mechanism**: reMarkable, then email (my@remarkable.com), then Zapier intercepts, then automatic action
 
-### Destinations possibles
+### Possible destinations
 
 Google Drive, Asana, ClickUp, Trello, Slack, WordPress, Evernote, Notion
 
-### Plan gratuit
+### Free plan
 
-- 100 tasks/mois
-- Zaps 2 étapes
-- Check toutes les 15 min
+- 100 tasks/month
+- 2-step Zaps
+- Check every 15 min
 
-### Workflows concrets
+### Concrete workflows
 
 ```
-Notes de réunion → PDF auto-uploadé dans Google Drive
-Croquis → Fichier envoyé dans un channel Slack
-Action items → Tâches créées dans Asana/ClickUp
+Meeting notes → PDF auto-uploaded to Google Drive
+Sketches → File sent to a Slack channel
+Action items → Tasks created in Asana/ClickUp
 ```
 
-**Source** : https://myremarkable.substack.com/p/integrating-remarkable
+**Source**: https://myremarkable.substack.com/p/integrating-remarkable
 
 ---
 
-## 9. Read-it-later : Web → reMarkable
+## 9. Read-it-later: Web to reMarkable
 
-**ROI : élevé pour la lecture | Effort : quasi nul**
+**ROI: high for reading | Effort: near zero**
 
-| Outil | Description |
+| Tool | Description |
 |-------|-------------|
-| **Extension Chrome "Read on reMarkable"** | Save n'importe quelle page web → EPUB/PDF sur la tablette (ads supprimées) |
-| **Goosepaper** | Flux RSS + news + Wikipedia quotidien → formaté e-ink |
-| **remarkable_news** | News/comics/images du jour comme écran de veille |
-| **Instapaper workaround** | Download articles en EPUB → import via app desktop |
+| **Chrome extension "Read on reMarkable"** | Save any web page as EPUB/PDF on the tablet (ads removed) |
+| **Goosepaper** | Daily RSS feed + news + Wikipedia, formatted for e-ink |
+| **remarkable_news** | Daily news/comics/images as a screensaver |
+| **Instapaper workaround** | Download articles as EPUB, import via desktop app |
 
-**Option PDF** : Clic droit sur l'extension → "Read on reMarkable as PDF" (marges ajustables pour annoter).
+**PDF option**: Right-click the extension, "Read on reMarkable as PDF" (adjustable margins for annotating).
 
 ---
 
 ## 10. Meeting Notes → AI Summary
 
-**ROI : élevé | Effort : très faible**
+**ROI: high | Effort: very low**
 
-### Workflow manuel (sans MCP)
-
-```
-1. Notes manuscrites pendant la réunion
-2. Screenshot via l'app mobile reMarkable (ou sync cloud)
-3. Upload l'image dans Claude/ChatGPT
-4. Prompt : "Résume ces notes, extrais les action items avec deadlines et responsables"
-```
-
-### Workflow MCP (avec remarkable-mcp installé)
+### Manual workflow (without MCP)
 
 ```
-Claude, résume mes notes de la réunion d'aujourd'hui
-→ Claude fetch les fichiers via SSH
-→ OCR si nécessaire
-→ Résumé structuré directement
+1. Handwritten notes during the meeting
+2. Screenshot via the reMarkable mobile app (or cloud sync)
+3. Upload the image to Claude/ChatGPT
+4. Prompt: "Summarize these notes, extract action items with deadlines and owners"
 ```
 
-**Avantage MCP** : Skip les étapes de screenshot et d'upload. Fonctionne même sans abonnement Connect.
+### MCP workflow (with remarkable-mcp installed)
 
-### Template recommandé
+```
+Claude, summarize my notes from today's meeting
+→ Claude fetches the files via SSH
+→ OCR if needed
+→ Structured summary, directly
+```
 
-Paper Pro Move Meeting Notebook : 60 meetings, 5 pages interlinked par meeting (overview + notes + action items + follow-up).
+**MCP advantage**: Skips the screenshot and upload steps. Works even without a Connect subscription.
+
+### Recommended template
+
+Paper Pro Move Meeting Notebook: 60 meetings, 5 interlinked pages per meeting (overview + notes + action items + follow-up).
 
 ---
 
-## 11. Zotero → reMarkable (recherche)
+## 11. Zotero to reMarkable (research)
 
-**ROI : élevé si tu lis des papers | Effort : moyen**
+**ROI: high if you read papers | Effort: medium**
 
-| Outil | Usage |
+| Tool | Usage |
 |-------|-------|
-| **Zotero2reMarkable Bridge** | Sync PDFs depuis Zotero avec support des highlights |
-| **KOReader + Toltec + plugin Zotero** | Meilleure lecture PDFs 2 colonnes, sync bidirectionnelle |
-| **sync_zotero_remarkable** | Alternative plus légère |
+| **Zotero2reMarkable Bridge** | Sync PDFs from Zotero with highlight support |
+| **KOReader + Toltec + Zotero plugin** | Better 2-column PDF reading, bidirectional sync |
+| **sync_zotero_remarkable** | Lighter alternative |
 
-**Limitation honnête** : reMarkable est un système fermé. L'intégration Zotero demande des workarounds. Pas aussi fluide qu'un Android e-reader avec Zotero natif. Fonctionnel mais avec friction.
-
----
-
-## 12. Screen sharing comme whiteboard AI-assisté
-
-**ROI : présentation/facilitation | Effort : nul (feature native Connect)**
-
-- **Screen Share** : Ton écriture live apparaît sur l'écran externe/meeting virtuel
-- **Laser pointer** : Stylo proche du haut de l'écran → active un pointeur laser
-- **Workflow combo** : Screen Share + un collègue qui envoie tes notes dans ChatGPT en temps réel = whiteboard augmenté
-
-**Prix** : Inclus dans Connect (~30$/an US, ~6€/mois EU).
+**Honest limitation**: reMarkable is a closed system. Zotero integration requires workarounds. Not as smooth as an Android e-reader with native Zotero. Functional but with friction.
 
 ---
 
-## 13. Apps custom et hacks fun
+## 12. Screen sharing as an AI-assisted whiteboard
+
+**ROI: presentation/facilitation | Effort: zero (native Connect feature)**
+
+- **Screen Share**: Your live handwriting appears on the external screen/virtual meeting
+- **Laser pointer**: Pen near the top of the screen activates a laser pointer
+- **Combo workflow**: Screen Share + a colleague feeding your notes into ChatGPT in real time = augmented whiteboard
+
+**Price**: Included in Connect (~$30/year US, ~6 EUR/month EU).
+
+---
+
+## 13. Custom apps and fun hacks
 
 | App/Hack | Description |
 |----------|-------------|
-| **Ephemeris** | Agenda quotidien généré depuis tes calendriers (Python) |
-| **Remarcal** | Sync Google/Outlook/Apple calendriers → reMarkable |
-| **reMarkable keywriter** | App de notes clavier distraction-free |
-| **remarkable-wikipedia** | Lecteur Wikipedia offline |
-| **whiteboard-hypercard** | Collaboration live, dessin partagé |
-| **NetSurf** | Navigateur web minimaliste (via SSH) |
-| **pdf2remarkable** | Upload PDFs au cloud depuis la ligne de commande |
-| **send-to-remarkable** | Upload docs par email (style send-to-Kindle) |
-| **libreMarkable** | Framework pour développer des apps natives |
-| **oxide/remux/draft** | Launchers pour multitasking |
-| **latex-yearly-planner** | Planner annuel généré en LaTeX |
+| **Ephemeris** | Daily agenda generated from your calendars (Python) |
+| **Remarcal** | Sync Google/Outlook/Apple calendars to reMarkable |
+| **reMarkable keywriter** | Distraction-free keyboard notes app |
+| **remarkable-wikipedia** | Offline Wikipedia reader |
+| **whiteboard-hypercard** | Live collaboration, shared drawing |
+| **NetSurf** | Minimal web browser (via SSH) |
+| **pdf2remarkable** | Upload PDFs to the cloud from the command line |
+| **send-to-remarkable** | Upload docs by email (send-to-Kindle style) |
+| **libreMarkable** | Framework for developing native apps |
+| **oxide/remux/draft** | Launchers for multitasking |
+| **latex-yearly-planner** | Annual planner generated in LaTeX |
 
-**Catalogue complet** : https://github.com/reHackable/awesome-reMarkable
+**Full catalog**: https://github.com/reHackable/awesome-reMarkable
 
 ---
 
-## 14. Workflows AI-augmentés à construire
+## 14. AI-augmented workflows to build
 
-Workflows pas encore packagés mais réalisables avec les briques disponibles.
+Workflows not yet packaged but achievable with the building blocks available.
 
-### A. Journal de bord AI-analysé
-
-```
-Chaque soir → écrire 1 page de réflexion sur la reMarkable
-→ remarkable-mcp + Claude → analyse hebdo des patterns, émotions, décisions
-→ Output : insights dans Obsidian avec graph de connexions
-```
-
-### B. Inbox processing assisté
+### A. AI-analyzed logbook
 
 ```
-Papiers/articles lus et annotés sur reMarkable
-→ OCR via Claude Vision → résumés structurés
-→ Tags automatiques + classement dans Obsidian/Notion
+Every evening → write 1 page of reflection on the reMarkable
+→ remarkable-mcp + Claude → weekly analysis of patterns, emotions, decisions
+→ Output: insights in Obsidian with a connection graph
+```
+
+### B. Assisted inbox processing
+
+```
+Papers/articles read and annotated on reMarkable
+→ OCR via Claude Vision → structured summaries
+→ Automatic tags + filing in Obsidian/Notion
 ```
 
 ### C. Sketch-to-code
 
 ```
-Dessiner un wireframe UI sur reMarkable
-→ Screenshot → Claude Vision → code HTML/React
+Draw a UI wireframe on reMarkable
+→ Screenshot → Claude Vision → HTML/React code
 ```
 
-### D. Flashcards automatiques
+### D. Automatic flashcards
 
 ```
-Notes de cours/lectures sur reMarkable
-→ remarkable-mcp → Claude extrait les concepts clés
-→ Génère des flashcards Anki automatiquement
+Course/reading notes on reMarkable
+→ remarkable-mcp → Claude extracts the key concepts
+→ Automatically generates Anki flashcards
 ```
 
-### E. Daily standup automatisé
+### E. Automated daily standup
 
 ```
-TODOs écrits chaque matin (template custom)
-→ OCR → Slack/email formaté automatiquement
-→ Fin de journée : cocher les items, diff envoyé
+TODOs written every morning (custom template)
+→ OCR → Slack/email automatically formatted
+→ End of day: check off items, diff sent
 ```
 
 ### F. Brainstorm capture → Mind map
 
 ```
-Idées griffonnées librement
-→ Claude Vision analyse le layout spatial + le texte
-→ Génère une mind map structurée (Mermaid/Markmap)
+Freely scribbled ideas
+→ Claude Vision analyzes the spatial layout + text
+→ Generates a structured mind map (Mermaid/Markmap)
 ```
 
 ---
 
-## 15. Par où commencer
+## 15. Where to start
 
-### Phase 1 : Ce week-end (2h)
+### Phase 1: This weekend (2h)
 
-1. Activer le SSH via Settings → Help → Copyrights and licenses
-2. Installer **remarkable-mcp** et le connecter à Claude Code
-3. Test : demander à Claude de chercher dans tes notes
+1. Enable SSH via Settings → Help → Copyrights and licenses
+2. Install **remarkable-mcp** and connect it to Claude Code
+3. Test: ask Claude to search through your notes
 
-### Phase 2 : Semaine suivante
+### Phase 2: The following week
 
-4. Si tu utilises Obsidian → installer Scrybble
-5. Tester **Ghostwriter** (10 min d'install, fun garanti)
+4. If you use Obsidian, install Scrybble
+5. Try **Ghostwriter** (10 min to install, fun guaranteed)
 
-### Phase 3 : Quand tu veux aller plus loin
+### Phase 3: When you want to go further
 
-6. Monter un pipeline OCR custom avec Claude Vision API
-7. Explorer rmfakecloud pour se passer de l'abonnement Connect
+6. Build a custom OCR pipeline with Claude Vision API
+7. Explore rmfakecloud to skip the Connect subscription
 
 ---
 
 ## Sources
 
-**Projets GitHub**
+**GitHub projects**
 
-- https://github.com/SamMorrowDrums/remarkable-mcp (MCP server, nov 2025)
+- https://github.com/SamMorrowDrums/remarkable-mcp (MCP server, Nov 2025)
 - https://github.com/awwaiid/ghostwriter (Vision-LLM interface)
-- https://github.com/reHackable/awesome-reMarkable (catalogue communautaire)
-- https://github.com/hersle/rmirro (sync sans cloud)
+- https://github.com/reHackable/awesome-reMarkable (community catalog)
+- https://github.com/hersle/rmirro (sync without cloud)
 - https://github.com/bordaigorl/remy (GUI SSH)
 - https://github.com/rien/reStream (screen streaming)
 - https://github.com/splitbrain/ReMarkableAPI (Cloud API docs)
-- https://github.com/ricklupton/rmscene (parsing .rm natif)
+- https://github.com/ricklupton/rmscene (native .rm parsing)
 
-**Articles et discussions**
+**Articles and discussions**
 
 - https://sam-morrow.com/blog/building-an-mcp-server-for-remarkable
-- https://news.ycombinator.com/item?id=47110872 (rmirror + Claude OCR, fév 2026)
+- https://news.ycombinator.com/item?id=47110872 (rmirror + Claude OCR, Feb 2026)
 - https://news.ycombinator.com/item?id=42979986 (Ghostwriter HN)
 - https://news.ycombinator.com/item?id=46099997 (Hacking reMarkable 2, HN 2025)
-- https://sgt.hootr.club/blog/hacking-on-the-remarkable-2/ (guide SSH hacking)
+- https://sgt.hootr.club/blog/hacking-on-the-remarkable-2/ (SSH hacking guide)
 - https://myremarkable.substack.com/p/integrating-remarkable (Zapier integration)
 
 **Obsidian**
 
 - https://forum.obsidian.md/t/scrybble-sync-plugin/103194
-- https://www.youtube.com/watch?v=EsRdi8J9Cnc (Cloud sync démo)
+- https://www.youtube.com/watch?v=EsRdi8J9Cnc (Cloud sync demo)
 
-**Officiel**
+**Official**
 
 - https://developer.remarkable.com (Developer Portal, SDK, API)
 - https://remarkable.guide/ (Community guide)

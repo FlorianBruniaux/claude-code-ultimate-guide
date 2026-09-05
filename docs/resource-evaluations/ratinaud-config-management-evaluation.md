@@ -8,7 +8,7 @@
 
 ## TL;DR
 
-**Score: 5/5 (CRITICAL)** — Addresses major undocumented gap in Claude Code ecosystem: version control and secrets management for ~/.claude configuration. Solution validated over 504 sessions by experienced developer. Community demand confirmed via GitHub issue #16204 and multiple third-party tools.
+**Score: 5/5 (CRITICAL)**: Addresses major undocumented gap in Claude Code ecosystem: version control and secrets management for ~/.claude configuration. Solution validated over 504 sessions by experienced developer. Community demand confirmed via GitHub issue #16204 and multiple third-party tools.
 
 **Action Taken**: Integrated into guide v3.21.0 with two new sections (3.2.1, 8.3.1) and three templates.
 
@@ -270,7 +270,7 @@ Created three templates:
 ## 📚 References
 
 1. **Original Resource**: [Martin Ratinaud LinkedIn Post](https://www.linkedin.com/posts/martinratinaud_claudecode-devtools-buildinpublic-activity-7424055660247629824-hBsL)
-2. **Community Example**: [brianlovin/claude-config](https://github.com/brianlovin/claude-config) — Public repo with sync.sh
+2. **Community Example**: [brianlovin/claude-config](https://github.com/brianlovin/claude-config): Public repo with sync.sh
 3. **GitHub Issue**: [#16204 - Proactive migration guidance for backup/restore workflows](https://github.com/anthropics/claude-code/issues/16204)
 4. **Third-Party Tool**: Claudebot (`claudebot backup --config`)
 5. **Perplexity Searches** (3× conducted 2026-02-02):

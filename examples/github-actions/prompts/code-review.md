@@ -133,7 +133,7 @@ Use `create_pending_pull_request_review` first, then add comments, then `submit_
 
 ## Constraints
 
-- **No nitpicking** — if it does not affect correctness, security, or team velocity, skip it
-- **No praise theater** — only mention strengths that are genuinely notable
-- **No invented issues** — verify → report, not report → verify
+- **No nitpicking**: if it does not affect correctness, security, or team velocity, skip it
+- **No praise theater**: only mention strengths that are genuinely notable
+- **No invented issues**: verify → report, not report → verify
 - If the PR is clean: say so clearly and approve

@@ -34,9 +34,9 @@ Synthesis of 10 tips from the Claude Code team (Boris Cherny and colleagues at A
 **Strengths**:
 - Primary authoritative source (the actual Claude Code team at Anthropic)
 - 3 genuinely novel patterns not covered in guide:
-  1. **Prompting as Provocation** — challenge-based prompting philosophy with concrete patterns
-  2. **Model-as-Security-Gate** — using Opus as hook-based permission screener
-  3. **Shell aliases for worktrees** — practical navigation optimization
+  1. **Prompting as Provocation**: challenge-based prompting philosophy with concrete patterns
+  2. **Model-as-Security-Gate**: using Opus as hook-based permission screener
+  3. **Shell aliases for worktrees**: practical navigation optimization
 - Enriches existing Boris Cherny case study with broader team context
 - Concrete, actionable examples (not abstract advice)
 
@@ -58,10 +58,10 @@ Synthesis of 10 tips from the Claude Code team (Boris Cherny and colleagues at A
 | 3. Claude writes its own rules | CLAUDE.md covered (section 3.2) | Added to team patterns |
 | 4. Skills as institutional knowledge | Skills covered (section 5.3) | Added team examples |
 | 5. Claude fixes its own bugs | Debugging covered (section 9.1) | No action |
-| 6. Prompting as Provocation | **NEW** — not in guide | **Integrated** as section 2.6.1 |
+| 6. Prompting as Provocation | **NEW**: not in guide | **Integrated** as section 2.6.1 |
 | 7. Terminal setup | Partially covered (Ghostty, statusline) | No action (marginal) |
-| 8. Subagents / Security gate | **NEW** — model-as-gate pattern | **Integrated** in hooks section |
-| 9. Claude replaces SQL | **NEW detail** — BigQuery skill example | Added to team patterns |
+| 8. Subagents / Security gate | **NEW**: model-as-gate pattern | **Integrated** in hooks section |
+| 9. Claude replaces SQL | **NEW detail**: BigQuery skill example | Added to team patterns |
 | 10. Learning with Claude | Learning guide exists | No action |
 
 ### Fact-Check

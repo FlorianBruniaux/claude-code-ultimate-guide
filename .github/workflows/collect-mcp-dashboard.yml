@@ -1,0 +1,80 @@
+name: Collect MCP monthly public dashboard
+
+on:
+  schedule:
+    - cron: "47 11 2 * *"
+  workflow_dispatch:
+
+concurrency:
+  group: collect-mcp-dashboard
+  cancel-in-progress: false
+
+jobs:
+  collect-public-only:
+    if: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER == '' || vars.GCP_METRICS_SERVICE_ACCOUNT == '' || vars.MCP_GSC_LANDING_SITE_URL == '' || vars.MCP_GSC_PORTFOLIO_SITE_URL == '' || vars.MCP_GA4_PORTFOLIO_PROPERTY_ID == '' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Verify dashboard contracts
+        run: python3 scripts/test-collect-mcp-dashboard.py
+
+      - name: Collect npm and explicit unavailable Google states
+        run: python3 scripts/collect-mcp-dashboard.py
+
+      - name: Commit changed dashboard
+        run: |
+          if git diff --quiet -- machine-readable/mcp-dashboard.json; then
+            echo "Monthly dashboard is unchanged."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- machine-readable/mcp-dashboard.json
+          git commit -m "chore(mcp): refresh monthly public dashboard"
+          git push
+
+  collect-with-google:
+    if: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER != '' && vars.GCP_METRICS_SERVICE_ACCOUNT != '' && vars.MCP_GSC_LANDING_SITE_URL != '' && vars.MCP_GSC_PORTFOLIO_SITE_URL != '' && vars.MCP_GA4_PORTFOLIO_PROPERTY_ID != '' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Authenticate to Google with GitHub OIDC
+        id: google-auth
+        uses: google-github-actions/auth@c200f3691d83b41bf9bbd8638997a462592937ed # v2
+        with:
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_METRICS_SERVICE_ACCOUNT }}
+          token_format: access_token
+          create_credentials_file: false
+
+      - name: Verify dashboard contracts
+        run: python3 scripts/test-collect-mcp-dashboard.py
+
+      - name: Collect scoped npm, GSC and GA4 aggregates
+        env:
+          GOOGLE_ACCESS_TOKEN: ${{ steps.google-auth.outputs.access_token }}
+          MCP_GSC_LANDING_SITE_URL: ${{ vars.MCP_GSC_LANDING_SITE_URL }}
+          MCP_GSC_PORTFOLIO_SITE_URL: ${{ vars.MCP_GSC_PORTFOLIO_SITE_URL }}
+          MCP_GA4_PORTFOLIO_PROPERTY_ID: ${{ vars.MCP_GA4_PORTFOLIO_PROPERTY_ID }}
+        run: python3 scripts/collect-mcp-dashboard.py
+
+      - name: Commit changed dashboard
+        run: |
+          if git diff --quiet -- machine-readable/mcp-dashboard.json; then
+            echo "Monthly dashboard is unchanged."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- machine-readable/mcp-dashboard.json
+          git commit -m "chore(mcp): refresh monthly public dashboard"
+          git push

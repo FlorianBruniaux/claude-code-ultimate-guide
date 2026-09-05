@@ -1,4 +1,4 @@
-# Resource Evaluation: Nick Tune — Workflow DSL: Domain-Driven Claude Code Workflows
+# Resource Evaluation: Nick Tune: Workflow DSL: Domain-Driven Claude Code Workflows
 
 **URL:** https://nick-tune.me/blog/2026-03-01-workflow-dsl-domain-driven-claude-code-workflows/
 **Author:** Nick Tune

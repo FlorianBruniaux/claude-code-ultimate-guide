@@ -5,7 +5,7 @@ effort: medium
 allowed-tools: Read Grep Glob Bash
 ---
 
-# /token-audit — Context Token Audit
+# /token-audit: Context Token Audit
 
 **Purpose**: Measure how many tokens your Claude Code configuration consumes before any user task begins. Identify the biggest sources of overhead. Produce a concrete action plan with savings estimates.
 

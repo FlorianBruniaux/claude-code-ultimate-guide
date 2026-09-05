@@ -1,4 +1,4 @@
-# Évaluation Ressource: Signaux communautaires Claude Code — Janvier–Février 2026
+# Évaluation Ressource: Signaux communautaires Claude Code: Janvier–Février 2026
 
 **Source type**: Texte copié — synthèse manuelle multi-sources (GitHub Issues API, Reddit, X/Twitter, HN, presse)
 **Période couverte**: 2026-01-29 → 2026-02-28
@@ -19,7 +19,7 @@
 
 ## Score de pertinence
 
-**Score: 4/5** — Très pertinent, amélioration significative
+**Score: 4/5**: Très pertinent, amélioration significative
 
 Trois pain points (500 errors, `.claude.json` corruption multi-instances, Remote Control) ont une couverture nulle ou quasi-nulle dans `guide/ultimate-guide.md` (confirmé par grepai). Score abaissé de 5 à 4 suite challenge du technical-writer : biais de sélection communautaire structurel + stats GitHub non re-vérifiées + CVEs suspects + recommandations sans stratégie de maintenance.
 
@@ -48,7 +48,7 @@ Trois pain points (500 errors, `.claude.json` corruption multi-instances, Remote
 **1. Troubleshooting 500 errors**
 - Fichier: `guide/ultimate-guide.md` (nouvelle sous-section "Troubleshooting" ou `guide/troubleshooting.md`)
 - Contenu: distinction erreur serveur vs config locale, lien `status.anthropic.com`, bonnes pratiques de reprise, fallback Bedrock/Vertex avec config minimale
-- **Marquer volatile** — sera périmé si Anthropic améliore la fiabilité backend
+- **Marquer volatile**: sera périmé si Anthropic améliore la fiabilité backend
 
 **2. `.claude.json` corruption et multi-instances**
 - Fichier: `guide/ultimate-guide.md` (section Configuration) + lien depuis `known-issues.md`
@@ -57,7 +57,7 @@ Trois pain points (500 errors, `.claude.json` corruption multi-instances, Remote
 **3. Remote Control — documentation + limitations**
 - Fichier: `guide/ultimate-guide.md` (section Remote/Mobile ou nouvelle section)
 - Contenu: tableau plans supportés, limitations UX connues (interruption, déconnexions), workaround Tailscale + Tmux pour power users
-- **Marquer beta** — feature active en développement au moment du rapport
+- **Marquer beta**: feature active en développement au moment du rapport
 
 ### À intégrer — compléments utiles (priorité moyenne)
 
@@ -85,7 +85,7 @@ Trois pain points (500 errors, `.claude.json` corruption multi-instances, Remote
 **Points critiques soulevés :**
 
 - **Biais de sélection structurel** : 977 issues sur-représentent les power users articulés. Le churn silencieux des utilisateurs qui abandonnent l'outil n'apparaît jamais dans GitHub Issues. Ne pas traiter ces signaux comme représentatifs de la base totale.
-- 4 recommandations sur 6 sont **défensives** — les quick wins (workarounds validés pour quotas, patterns anti-corruption `.claude.json`) ont plus de valeur immédiate que les runbooks.
+- 4 recommandations sur 6 sont **défensives**: les quick wins (workarounds validés pour quotas, patterns anti-corruption `.claude.json`) ont plus de valeur immédiate que les runbooks.
 - Le runbook 500 errors a **impact marginal faible** : les utilisateurs expérimentés savent utiliser `status.anthropic.com`. Prioriser `.claude.json` et Remote Control.
 - Remote Control "immature" est un jugement sans repère — documenter la date de GA de la feature pour contextualiser les limitations.
 - Recommandation "patterns GitHub/Discord/Slack officiels" → confond le rôle du guide avec l'animation communauté Anthropic.

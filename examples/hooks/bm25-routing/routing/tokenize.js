@@ -10,13 +10,13 @@
  *   4. strip apostrophes (straight and curly)
  *   5. non-alphanumeric to space (keeps / and digits)
  *   6. split on whitespace, underscores, hyphens
- *   7. negation detection — any negation token sets negated=true for the whole prompt
+ *   7. negation annotation for diagnostics only
  *   8. stopword removal (English + French)
  *   9. slash-command preservation: push raw /token AND stem(inner)
  *  10. light suffix stemmer (single pass, length > suffix+2 guard)
  *
- * Negation short-circuits routing entirely: negated prompts pass through
- * because "don't run /deploy" and "run /deploy" would otherwise score identically.
+ * The runtime does not short-circuit ordinary negation. It handles only explicit
+ * routing opt-outs, so requests such as "analyse without modifying" still route.
  */
 
 const STOP_WORDS = new Set([

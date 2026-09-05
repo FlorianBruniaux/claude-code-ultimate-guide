@@ -1,4 +1,4 @@
-# Evaluation: obra/superpowers — Agentic Skills Framework for Claude Code
+# Evaluation: obra/superpowers: Agentic Skills Framework for Claude Code
 
 **Resource Type**: GitHub Repository (Claude Code Plugin)
 **Author**: Jesse Vincent, Prime Radiant
@@ -37,10 +37,10 @@ Superpowers is a complete software development methodology packaged as a Claude 
 
 **Points forts**:
 - ✅ **95,299 GitHub stars** (verified via GitHub API, March 18, 2026), now 262,101 as of 2026-07-28, among the most-starred Claude Code resources in existence
-- ✅ **7,546 forks** — genuine adoption signal, not bot-inflated
-- ✅ **Available on the official Claude Code plugin marketplace** — `/plugin install superpowers@claude-plugins-official`
+- ✅ **7,546 forks**: genuine adoption signal, not bot-inflated
+- ✅ **Available on the official Claude Code plugin marketplace**: `/plugin install superpowers@claude-plugins-official`
 - ✅ **obra already in our guide** (line 8104, TDD skill at 721 skills.sh installs) — not mentioning the full suite is a credibility gap
-- ✅ **MIT license** — freely integrable, referentiable
+- ✅ **MIT license**: freely integrable, referentiable
 - ✅ **Multi-platform** (Claude Code, Cursor, Codex, OpenCode, Gemini CLI) — broad ecosystem relevance
 - ✅ **Structured workflow the guide lacks**: brainstorm → spec → plan → subagent TDD → review → close — no single page in the guide covers this end-to-end pipeline
 - ✅ **Created Oct 2025**, reached 95k stars in 5.5 months — clear community signal
@@ -136,7 +136,7 @@ Add: "Superpowers' `brainstorming` skill enforces spec-first as a mandatory gate
 
 ### Priority
 
-**High** — The obra credibility issue (guide mentions them at 721 installs, not the 95k-star suite) makes this time-sensitive. Fix the obra row first (5 min), then Plugin Ecosystem entry (15 min).
+**High**: The obra credibility issue (guide mentions them at 721 installs, not the 95k-star suite) makes this time-sensitive. Fix the obra row first (5 min), then Plugin Ecosystem entry (15 min).
 
 ---
 

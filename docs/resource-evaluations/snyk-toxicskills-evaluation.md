@@ -1,4 +1,4 @@
-# Resource Evaluation: Snyk ToxicSkills — Malicious AI Agent Skills Audit
+# Resource Evaluation: Snyk ToxicSkills: Malicious AI Agent Skills Audit
 
 | Field | Value |
 |-------|-------|
@@ -48,7 +48,7 @@ Snyk scanned **3,984 AI agent skills** across ClawHub and skills.sh marketplaces
 
 ## Score Justification
 
-**4/5 (High Value)** — not 5/5 because:
+**4/5 (High Value)**: not 5/5 because:
 
 - The guide already covers ~70% of the scope (security-hardening.md §1.1-1.4)
 - This is an enrichment (updated stats, new tool, new section), not a gap-from-scratch

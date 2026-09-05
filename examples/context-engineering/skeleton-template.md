@@ -1,4 +1,4 @@
-# CLAUDE.md — [Project Name]
+# CLAUDE.md: [Project Name]
 
 <!--
 HOW TO USE THIS SKELETON

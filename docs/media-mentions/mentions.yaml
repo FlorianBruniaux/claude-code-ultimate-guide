@@ -1,12 +1,12 @@
 meta:
-  last_updated: "2026-04-14"
-  total_mentions: 34
+  last_updated: "2026-08-31"
+  total_mentions: 49
   notes: >
     Source of truth for all external mentions of the Claude Code Ultimate Guide
     (GitHub + cc.bruniaux.com). Add new entries as you discover them.
     Sorted by platform type, then date descending within each type.
 
-# Platform types: article | reddit | linkedin-own | linkedin-other | twitter | directory | instagram | podcast | forum | video
+# Platform types: article | reddit | linkedin-own | linkedin-other | twitter | directory | instagram | podcast | forum | video | translation
 # Reach: low (<1K views/impr) | medium (1K-10K) | high (10K-100K) | viral (100K+) | unknown
 # Status: active | dead | paywall
 
@@ -448,3 +448,188 @@ mentions:
     notes: "French article. Links both cc.bruniaux.com AND github.com/FlorianBruniaux/claude-code-ultimate-guide. Strong practitioner endorsement — hooks cited by name."
     first_seen: "2026-04-14"
 
+  # Confirmed mentions added 2026-08-30
+
+  - id: "035"
+    platform: article
+    url: "https://www.tododeia.com/community/top-10-claude-abril-2026"
+    title: "Top Proyectos y Skills para Claude Code - Abril 2026"
+    author: "TodoDeIA"
+    date: null
+    angle: "Ranks the guide third among notable Claude Code projects and summarizes its templates, diagrams, quiz, security database, and methodology coverage."
+    reach: unknown
+    status: active
+    notes: "Spanish-language editorial selection. The article is explicitly labeled April 2026; individual day not published."
+    first_seen: "2026-08-30"
+
+  - id: "036"
+    platform: reddit
+    url: "https://www.reddit.com/r/ClaudeCode/comments/1sw3com/need_advices_on_where_to_start_with_claude_code/"
+    title: "Need advices on where to start with Claude Code"
+    author: "road_ahead (Reddit comment)"
+    date: null
+    angle: "A developer recommends the repository to a beginner after spending two hours with it and links both the repository and the full guide file."
+    reach: unknown
+    status: active
+    notes: "Organic recommendation in r/ClaudeCode comments."
+    first_seen: "2026-08-30"
+
+  - id: "037"
+    platform: linkedin-other
+    url: "https://www.linkedin.com/posts/digital-stoic_a-friend-put-together-the-best-compendium-activity-7431819563757043713-l4sR"
+    title: "The best compendium of guides and tools about Claude Code"
+    author: "Mathieu François-Barseghian"
+    date: null
+    angle: "Calls the guide both in-depth and practical, recommends it explicitly, and credits Florian Bruniaux."
+    reach: unknown
+    status: active
+    notes: "Organic recommendation with a direct testimonial."
+    first_seen: "2026-08-30"
+
+  - id: "038"
+    platform: linkedin-other
+    url: "https://www.linkedin.com/posts/liamdarmody_i-learned-claude-code-the-slow-way-someone-activity-7433499972593037312-Xloi"
+    title: "Someone wrote the Claude Code guide I needed"
+    author: "Liam Darmody"
+    date: null
+    angle: "Presents the open-source guide as a structured path from setup to advanced patterns and recommends it beyond an engineering-only audience."
+    reach: high
+    status: active
+    notes: "Organic recommendation from an account with more than 40,000 followers when verified."
+    first_seen: "2026-08-30"
+
+  - id: "039"
+    platform: translation
+    url: "https://github.com/JAYcodr/claude-code-ultimate-guide-zh"
+    title: "Claude Code Ultimate Guide: Chinese translation"
+    author: "JAYcodr"
+    date: null
+    angle: "Chinese translation of the repository that explicitly credits FlorianBruniaux/claude-code-ultimate-guide as the original source."
+    reach: unknown
+    status: active
+    notes: "Independent community adaptation, not an earned editorial mention or an official edition. Attribution is visible in the README. Reviewed 2026-08-31 at version 3.41.0: 23 of 26 priority groups reported complete, with quiz, resource evaluations, and machine-readable references still missing."
+    first_seen: "2026-08-30"
+
+  - id: "040"
+    platform: translation
+    url: "https://github.com/gerasimsergey/claude-code-ultimate-guide-ua"
+    title: "Claude Code Ultimate Guide: Ukrainian translation"
+    author: "gerasimsergey"
+    date: null
+    angle: "Ukrainian translation that links the original guide, repository assets, and CC BY-SA 4.0 license."
+    reach: unknown
+    status: active
+    notes: "Independent community adaptation, not an earned editorial mention or an official edition. Reviewed 2026-08-31 at version 3.40.0; the repository reports its last upstream synchronization in May 2026."
+    first_seen: "2026-08-30"
+
+  # Automated indexes added 2026-08-30
+
+  - id: "041"
+    platform: directory
+    url: "https://deepwiki.com/FlorianBruniaux/claude-code-ultimate-guide/1.1-about-this-guide-repository"
+    title: "About This Guide Repository"
+    author: "DeepWiki"
+    date: null
+    angle: "Automatically generated documentation index for the canonical repository."
+    reach: unknown
+    status: active
+    notes: "Automated directory. Count separately from organic recommendations."
+    first_seen: "2026-08-30"
+
+  - id: "042"
+    platform: directory
+    url: "https://context7.com/florianbruniaux/claude-code-ultimate-guide"
+    title: "Claude Code Ultimate Guide"
+    author: "Context7"
+    date: null
+    angle: "Indexes the canonical repository for documentation retrieval."
+    reach: unknown
+    status: active
+    notes: "Automated directory. Count separately from organic recommendations."
+    first_seen: "2026-08-30"
+
+  - id: "043"
+    platform: directory
+    url: "https://repodepot.quetzals.ai/repo/FlorianBruniaux/claude-code-ultimate-guide"
+    title: "FlorianBruniaux/claude-code-ultimate-guide: MCP Server"
+    author: "RepoDepot"
+    date: null
+    angle: "Catalogs the repository and its bundled MCP server."
+    reach: unknown
+    status: active
+    notes: "Automated directory. Count separately from organic recommendations."
+    first_seen: "2026-08-30"
+
+  - id: "044"
+    platform: directory
+    url: "https://mcpserver.space/mcp/claude-code-ultimate-guide/"
+    title: "Claude Code Ultimate Guide"
+    author: "MCP Server Space"
+    date: null
+    angle: "Catalogs the repository as an MCP server and summarizes its coverage."
+    reach: unknown
+    status: active
+    notes: "Automated directory. Its 430K-line claim is incorrect and requires correction."
+    first_seen: "2026-08-30"
+
+  - id: "045"
+    platform: directory
+    url: "https://mcpbridge.org/mcp-server/claude-code-ultimate-guide/"
+    title: "Claude Code Ultimate Guide MCP Server"
+    author: "MCP Bridge"
+    date: null
+    angle: "Generated MCP directory page based on the repository metadata."
+    reach: unknown
+    status: active
+    notes: "Automated directory with incorrect package name, install command, generic tool schemas, and a false 430K-line claim. Correction required."
+    first_seen: "2026-08-30"
+
+  - id: "046"
+    platform: directory
+    url: "https://aiagbox.com/zh/project/FlorianBruniaux~1claude-code-ultimate-guide/"
+    title: "claude-code-ultimate-guide"
+    author: "AIAGBox"
+    date: null
+    angle: "Chinese automated catalog entry for the GitHub repository."
+    reach: unknown
+    status: active
+    notes: "Automated directory with an incorrect 430K-line claim. Correction required."
+    first_seen: "2026-08-30"
+
+  # Confirmed mentions added 2026-08-31
+
+  - id: "047"
+    platform: article
+    url: "https://camnangai.com/en/for/developers/github-repos-claude-code"
+    title: "The GitHub Repos and Websites That Help You Master Claude Code"
+    author: "Tuan Tran Van"
+    date: "2026-06-28"
+    angle: "Profiles the guide as a maintained community reference for Claude Code workflows, hooks, skills, MCP servers, templates, assessment, and security advisories."
+    reach: unknown
+    status: active
+    notes: "Independent editorial selection. Updated 2026-08-02. Its approximate GitHub star count is a dated snapshot, not an audience metric for the article."
+    first_seen: "2026-08-31"
+
+  - id: "048"
+    platform: directory
+    url: "https://shyft.ai/skills/claude-code-ultimate-guide"
+    title: "claude-code-ultimate-guide"
+    author: "Shyft"
+    date: null
+    angle: "Automatically generated skill listing that links the canonical repository and presents the guide as a Claude Code learning and operations resource."
+    reach: unknown
+    status: active
+    notes: "Automated directory. Its content volumes are stale, its internal counters are not verified reach metrics, and some generated usage instructions do not match the guide. Correction required."
+    first_seen: "2026-08-31"
+
+  - id: "049"
+    platform: twitter
+    url: "https://x.com/VaibhavSisinty/status/2061423653162824072"
+    title: "Everything you need to master Claude Code is free"
+    author: "Vaibhav Sisinty"
+    date: "2026-05-31"
+    angle: "Recommends the Claude Code Ultimate Guide in a public resource thread and links the canonical repository."
+    reach: unknown
+    status: active
+    notes: "Confirmed from an indexed public snippet because the X page did not expose readable content during verification. Engagement metrics remain unknown."
+    first_seen: "2026-08-31"

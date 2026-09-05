@@ -3,23 +3,37 @@ name: Index Integrity
 on:
   pull_request:
     paths:
+      - "README.md"
+      - "CHANGELOG.md"
+      - ".claude/commands/ccguide/**"
       - "guide/**"
       - "examples/**"
       - "machine-readable/**"
+      - "mcp-server/**"
       # The gates themselves live here. Without this the workflow could not fire
       # on a change that breaks a gate, only later on an unrelated content edit.
       - "scripts/**"
       - ".github/workflows/index-integrity.yml"
+      - ".github/workflows/collect-agent-harnesses-github.yml"
+      - ".github/workflows/collect-mcp-stats.yml"
+      - ".github/workflows/collect-mcp-dashboard.yml"
   push:
     branches: ["main"]
     paths:
+      - "README.md"
+      - "CHANGELOG.md"
+      - ".claude/commands/ccguide/**"
       - "guide/**"
       - "examples/**"
       - "machine-readable/**"
+      - "mcp-server/**"
       # The gates themselves live here. Without this the workflow could not fire
       # on a change that breaks a gate, only later on an unrelated content edit.
       - "scripts/**"
       - ".github/workflows/index-integrity.yml"
+      - ".github/workflows/collect-agent-harnesses-github.yml"
+      - ".github/workflows/collect-mcp-stats.yml"
+      - ".github/workflows/collect-mcp-dashboard.yml"
 
 jobs:
   check:
@@ -82,13 +96,24 @@ jobs:
           # this pass the moment reference.yaml was repaired. Same failure class as
           # the reference rot itself: a copy nobody verifies.
           fail=0
-          for f in reference.yaml claude-code-releases.yaml llms.txt; do
+          for f in reference.yaml claude-code-releases.yaml llms.txt agent-harnesses.json translations.json distribution-channels.yaml; do
             if ! diff -q "mcp-server/content/$f" "machine-readable/$f" >/dev/null; then
               echo "DRIFTED: mcp-server/content/$f differs from machine-readable/$f"
               echo "  fix with: cp machine-readable/$f mcp-server/content/$f"
               fail=1
             fi
           done
+          # The volatile GitHub sidecar is deliberately absent until the first
+          # complete API collection is reviewed and promoted. Once present, it
+          # must be mirrored exactly or the MCP package would serve stale facts.
+          github_sidecar="agent-harnesses-github.json"
+          if [[ -e "machine-readable/$github_sidecar" || -e "mcp-server/content/$github_sidecar" ]]; then
+            if ! diff -q "mcp-server/content/$github_sidecar" "machine-readable/$github_sidecar" >/dev/null; then
+              echo "DRIFTED: mcp-server/content/$github_sidecar differs from machine-readable/$github_sidecar"
+              echo "  fix with: cp machine-readable/$github_sidecar mcp-server/content/$github_sidecar"
+              fail=1
+            fi
+          fi
           exit $fail
 
       - name: Check examples-data.ts is in sync with examples/
@@ -99,5 +124,39 @@ jobs:
           python3 scripts/test-check-agentsec-security-feed.py
           python3 scripts/check-agentsec-security-feed.py
 
+      - name: Check the Agent Harness catalog and page renderer
+        run: |
+          python3 -m pip install --disable-pip-version-check jsonschema==4.25.1
+          python3 scripts/test-agent-harnesses.py
+          python3 scripts/test-agent-harness-page.py
+          python3 scripts/build-agent-harness-page.py \
+            --catalog machine-readable/agent-harnesses.json \
+            --page guide/ecosystem/agent-harness-landscape.md \
+            --check
+
       - name: Check VERSION is in sync across docs
         run: ./scripts/sync-version.sh --check
+
+      - name: Check MCP public statistics snapshot
+        run: |
+          python3 scripts/test-collect-mcp-stats.py
+          python3 scripts/collect-mcp-stats.py --validate-file machine-readable/mcp-stats.json
+
+      - name: Check MCP monthly dashboard snapshot
+        run: |
+          python3 scripts/test-collect-mcp-dashboard.py
+          python3 scripts/collect-mcp-dashboard.py --validate-file machine-readable/mcp-dashboard.json
+
+      - name: Check MCP product release contract
+        working-directory: mcp-server
+        run: npm run release:check
+
+      - name: Check translation provenance and bilingual publication parity
+        run: |
+          python3 scripts/test-check-translations.py
+          python3 scripts/check-translations.py --check
+
+      - name: Check distribution channel registry
+        run: |
+          python3 scripts/test-check-distribution-channels.py
+          python3 scripts/check-distribution-channels.py

@@ -63,7 +63,7 @@ Quick-reference for Claude Code community patterns, workflow terms, and AI engin
 | Ctrl+B | Keyboard shortcut to background a running task, keeping it alive while you continue other work in the session. | Claude Code | Shortcuts |
 | dangerouslyDisableSandbox | Flag that bypasses Claude Code's native OS-level sandboxing. Should only be used in already-isolated environments. | Security | Configuration |
 | Default Mode | Base permission mode requiring explicit user approval for all file edits, shell commands, and commits. | Claude Code | Permissions |
-| Desloppify | Community tool ([@peteromaller](https://github.com/peteromaller), Feb 2026) that installs a workflow skill into Claude Code and runs a scan-fix-score loop to raise code quality. [github.com/peteromaller/desloppify](https://github.com/peteromaller/desloppify) | Ecosystem | Tools |
+| Desloppify | Community tool ([@peteromallet](https://github.com/peteromallet), Feb 2026) that installs a workflow skill into Claude Code and runs a scan-fix-score loop to raise code quality. [github.com/peteromallet/desloppify](https://github.com/peteromallet/desloppify) | Ecosystem | Tools |
 | Diff review | The practice of reading Claude's proposed file changes before accepting or rejecting. One of the Five Golden Rules. | Claude Code | Workflow |
 | disallowedTools | Settings key that blocks specific tools from being invoked in a session or globally. | Claude Code | Configuration |
 | Docker sandbox | Container-based isolation for running Claude Code with strict resource and filesystem limits. See [security/sandbox-isolation.md](../security/sandbox-isolation.md). | Security | Sandbox |

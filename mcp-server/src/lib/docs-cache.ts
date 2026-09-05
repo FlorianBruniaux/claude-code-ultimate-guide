@@ -2,6 +2,7 @@ import { createHash } from 'crypto';
 import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from 'fs';
 import { homedir } from 'os';
 import { resolve } from 'path';
+import { USER_AGENT } from './package-metadata.js';
 
 const ANTHROPIC_DOCS_URL = 'https://code.claude.com/docs/llms-full.txt';
 // Stable path — NOT versioned, survives package upgrades
@@ -51,7 +52,7 @@ function contentPath(type: SnapshotType): string {
 
 export async function fetchOfficialDocs(): Promise<string> {
   const response = await fetch(ANTHROPIC_DOCS_URL, {
-    headers: { 'User-Agent': 'claude-code-ultimate-guide-mcp/1.1.0' },
+    headers: { 'User-Agent': USER_AGENT },
     signal: AbortSignal.timeout(15_000),
   });
 

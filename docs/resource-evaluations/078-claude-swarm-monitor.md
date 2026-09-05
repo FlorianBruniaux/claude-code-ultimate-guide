@@ -66,7 +66,7 @@
 
 The challenge agent lowered the initial proposed score from 4 to 3, citing:
 
-- **Adoption signal is the weakest in the ecosystem section** — 10 stars vs multiclaude (383+), Ruflo (18.9k); even Athena Flow (explicitly marked "not recommended yet") has more external validation
+- **Adoption signal is the weakest in the ecosystem section**: 10 stars vs multiclaude (383+), Ruflo (18.9k); even Athena Flow (explicitly marked "not recommended yet") has more external validation
 - **Linux-only limitation is a real constraint** for the target audience (macOS-heavy multi-agent users)
 - **Security scope not addressed**: the tool reads `~/.claude/projects/` which contains full session history including sensitive context — consistent with guide's pattern of flagging data access scope (see Straude, Packmind entries)
 - **Sub-agent tracking claim unverified**: Task tool spawns are internal to Claude Code's process; it's unclear whether they write separate JSONL files

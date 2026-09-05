@@ -10,7 +10,7 @@ tags: [workflow, ci-cd, code-review, github-actions, coderabbit, greptile]
 
 Running two or three automated reviewers on the same PR without a plan produces the same finding three times in three different comment styles, which trains developers to skim past all of them. The fix is not picking one tool over the others, it's giving each tool a job the other two don't do, and writing that boundary down where every config file can see it.
 
-This page documents that architecture: Claude Code Action for deep semantic review and the only tool allowed to block merge, a deterministic linter-style tool (CodeRabbit or equivalent) for PASS/FAIL pre-merge checks, and a cross-file RAG tool (Greptile or equivalent) for invariants that span multiple files. It builds directly on the [GitHub Actions Workflows](./github-actions.md) patterns and the [ready-made templates](../../examples/github-actions/) in this repo; read those first if you're starting from zero.
+This page documents that architecture: Claude Code Action for deep semantic review and the only tool allowed to block merge, a deterministic linter-style tool (CodeRabbit or equivalent) for PASS/FAIL pre-merge checks, and a cross-file RAG tool (Greptile or equivalent) for invariants that span multiple files. It builds directly on the [GitHub Actions Workflows](./github-actions.md) patterns and the [ready-made templates](../../examples/github-actions/) in this repo; read those first if you're starting from zero. [Loop & Graph Engineering](../core/loop-graph-engineering.md#5-allocate-judgment-explicitly) explains how to assign acceptance authority and measure reviewer independence.
 
 ---
 

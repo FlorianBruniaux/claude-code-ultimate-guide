@@ -4,8 +4,8 @@ subtitle: "Complete synthesis + advanced workflows"
 author: "Florian BRUNIAUX"
 date: 2026-08-24
 date-format: "MMMM YYYY"
-version: "3.41.3"
-wp-version: "1.4.3"
+version: "3.42.0"
+wp-version: "1.4.4"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -2287,6 +2287,8 @@ These tools integrate with Claude Code via MCP or slash commands to extend its c
 
 For a broader survey of third-party tools in the ecosystem (session managers, observability, MCP servers), see `guide/ecosystem/agentic-tools.md`.
 
+To choose a portable harness, distinguish the runtime that owns the loop, the repository contract, and the orchestrator that coordinates sessions. The comparison and trial protocol are in the [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/); adjacent tooling is in [Agent Tools](https://cc.bruniaux.com/guide/agentic-tools/) and terms are defined in the [glossary](https://cc.bruniaux.com/guide/glossary/).
+
 ## Community
 
 - Discord Claude Code: https://discord.gg/anthropic
@@ -2297,7 +2299,7 @@ For a broader survey of third-party tools in the ecosystem (session managers, ob
 
 *This Reference Guide synthesizes the 7 whitepapers of the Claude Code Ultimate Guide series and adds original content on migration, IDE integration, Git, advanced patterns, and development methodologies.*
 
-*Version 3.41.3, August 2026 (updated: Sonnet 5 default model, Dynamic Workflows, sub-agent nesting depth 3, `/ultrareview`, `/fewer-permission-prompts`, read-only glob patterns skip permission prompts)*
+*Version 3.42.0, August 2026 (updated: Sonnet 5 default model, Dynamic Workflows, sub-agent nesting depth 3, `/ultrareview`, `/fewer-permission-prompts`, read-only glob patterns skip permission prompts)*
 
 ---
 

@@ -4,7 +4,7 @@ description: "CLAUDE.md snippet to make Claude automatically name sessions with 
 tags: [session, resume, productivity, workflow]
 ---
 
-# Session Auto-Rename — CLAUDE.md Snippet
+# Session Auto-Rename: CLAUDE.md Snippet
 
 Add this block to your global `~/.claude/CLAUDE.md` to make Claude automatically rename sessions with descriptive titles after 2-3 exchanges. Helps enormously when running parallel sessions (WebStorm, split terminals, multiple projects).
 

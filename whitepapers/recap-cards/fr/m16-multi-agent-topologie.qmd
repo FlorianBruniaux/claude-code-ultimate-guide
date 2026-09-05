@@ -4,9 +4,9 @@ subtitle: "Architecturer des équipes d'agents pour les tâches complexes"
 card-number: "M16"
 category: "Méthodologie"
 difficulty: "advanced"
-guide-version: "3.41.3"
+guide-version: "3.42.0"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
+version: "3.42.0"
 date: "2026-08-24"
 layout: "two-col"
 lang: fr
@@ -16,13 +16,14 @@ format:
 
 ## Quand passer en multi-agent
 
-Un seul agent reste optimal jusqu'à environ 10K lignes de code, où il tourne à ~30% de contexte. Au-delà de 50K lignes, la fenêtre de contexte se remplit à 80-90% simplement pour charger les fichiers pertinents, ce qui ne laisse presque plus de place au raisonnement. Répartir le travail entre plusieurs agents maintient chacun autour de 40% d'utilisation, avec suffisamment d'espace pour analyser et décider.
+Passer au multi-agent quand le travail se décompose en périmètres indépendants, que les sorties peuvent être vérifiées séparément et que la coordination apporte plus que son coût. La taille du dépôt, le taux de contexte et le nombre d'agents ne donnent pas de seuil universel.
 
-| Scope | Agent unique | Équipe |
-|-------|-------------|--------|
-| ~10K lignes | Confortable (~30%) | Inutile |
-| 50K lignes | Dégradé (80-90%) | Recommandé |
-| 100K+ lignes | Context overflow | Indispensable |
+| Signal | Agent unique | Équipe |
+|--------|--------------|--------|
+| Périmètre cohérent et séquentiel | Préférable | Surcoût inutile |
+| Recherches indépendantes et vérifiables | Possible | Peut réduire le délai |
+| Fichiers ou état partagés | Préférable | Risque de conflits |
+| Reprise et synthèse complexes | Possible | Un orchestrateur explicite peut aider |
 
 ## Topologie étoile (Star)
 
@@ -61,7 +62,7 @@ Condition d'applicabilité : les modules doivent avoir zéro état partagé. Si 
 
 ## Isolation et permissions par agent
 
-Chaque agent dispose de sa propre fenêtre de contexte (1M tokens avec Opus 5) et peut recevoir une whitelist d'outils distincte. Limiter un agent aux outils `Read`, `Glob`, `Grep` empêche toute modification accidentelle pendant la phase d'analyse.
+Chaque agent peut recevoir un contexte et une whitelist d'outils distincts. Limiter un agent aux outils `Read`, `Glob`, `Grep` empêche toute modification accidentelle pendant la phase d'analyse.
 
 | Agent | Outils autorisés |
 |-------|-----------------|
@@ -87,16 +88,8 @@ claude
 
 Prérequis : Claude Code v2.1.32+, modèle Opus 5 recommandé, Opus 4.6+ compatible (`/model opus`), dépôt git initialisé. Navigation entre agents via `Shift+Down` en mode in-process.
 
-## Guardrails (v3.38.0)
+## Contrôles de boucle
 
-Trois contrôles indispensables pour les équipes autonomes :
+Définir avant le lancement un budget, une condition d'arrêt, un état de reprise et le responsable de la synthèse. Ajouter un relecteur indépendant lorsque le changement est conséquent ou que le même agent ne peut pas produire et vérifier un résultat de manière crédible.
 
-**Boucles** : `MAX_ITERATIONS=8` et un prompt de réflexion obligatoire avant chaque cycle. Si l'agent atteint la limite, tuer ou réassigner plutôt que de laisser tourner.
-
-**Reviewer dédié** : 1 agent Opus 5 read-only (outils `Read/Grep/Glob`) auto-déclenché sur `TaskCompleted`, pour 3 à 4 agents workers. (Crédit : Addy Osmani)
-
-**Budget tokens par agent** : fixer une limite stricte de tokens par agent ; pause automatique à 85% pour vérification humaine avant de continuer.
-
-## Règle du >5 agents
-
-Démarrer avec 2 à 3 agents, puis augmenter progressivement. Au-delà de 5, le coût de coordination (messages mailbox, conflits git) dépasse généralement le gain de parallélisation. L'exception : modules physiquement indépendants sur une base de code de 100K+ lignes.
+Commencer avec le plus petit nombre d'agents qui couvre des périmètres réellement indépendants. Ajouter un participant seulement si les mesures de délai, de conflits, de corrections humaines et de coût par tâche acceptée justifient la coordination supplémentaire. Le [protocole d'essai](https://cc.bruniaux.com/guide/agent-harness-landscape/) permet de documenter cette décision.

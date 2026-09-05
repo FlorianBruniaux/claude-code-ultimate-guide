@@ -1,0 +1,245 @@
+name: Publish MCP package and registry metadata
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Exact package version to publish
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      archive_name: ${{ steps.pack.outputs.archive_name }}
+      archive_sha256: ${{ steps.pack.outputs.archive_sha256 }}
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - name: Check out candidate
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+
+      - name: Validate requested version
+        id: version
+        working-directory: mcp-server
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          node --input-type=module <<'NODE'
+          import { appendFileSync, readFileSync } from 'node:fs'
+
+          const packageJson = JSON.parse(readFileSync('package.json', 'utf8'))
+          const requested = process.env.RELEASE_VERSION ?? ''
+          const semver = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$/
+          if (!semver.test(requested)) throw new Error('version input must be an exact SemVer value')
+          if (requested !== packageJson.version) {
+            throw new Error(`requested version ${JSON.stringify(requested)} does not match package.json ${JSON.stringify(packageJson.version)}`)
+          }
+          appendFileSync(process.env.GITHUB_OUTPUT, `version=${packageJson.version}\n`)
+          NODE
+
+      - name: Run release checks
+        working-directory: mcp-server
+        run: npm run release:check
+
+      - name: Validate official registry metadata
+        run: |
+          set -euo pipefail
+          publisher_directory="$(mktemp -d)"
+          trap 'rm -rf "$publisher_directory"' EXIT
+          publisher_archive="$publisher_directory/mcp-publisher.tar.gz"
+          curl --fail --location --proto '=https' --tlsv1.2 \
+            'https://github.com/modelcontextprotocol/registry/releases/download/v1.8.1/mcp-publisher_linux_amd64.tar.gz' \
+            --output "$publisher_archive"
+          printf '%s  %s\n' \
+            'a06c9096dcb9727c13555b6be26c7effa707b01f06a4c561ba7a3635443cf2cc' \
+            "$publisher_archive" | sha256sum --check --strict -
+          tar -xzf "$publisher_archive" -C "$publisher_directory" mcp-publisher
+          chmod +x "$publisher_directory/mcp-publisher"
+          "$publisher_directory/mcp-publisher" validate mcp-server/server.json
+          mkdir -p "$RUNNER_TEMP/mcp-publisher"
+          cp "$publisher_archive" "$RUNNER_TEMP/mcp-publisher/mcp-publisher.tar.gz"
+
+      - name: Pack release archive
+        id: pack
+        working-directory: mcp-server
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/release"
+          pack_json="$(npm pack --json --pack-destination "$RUNNER_TEMP/release")"
+          PACK_JSON="$pack_json" node --input-type=module <<'NODE'
+          import { appendFileSync } from 'node:fs'
+          import { basename, resolve } from 'node:path'
+
+          const records = JSON.parse(process.env.PACK_JSON)
+          if (!Array.isArray(records) || records.length !== 1) throw new Error('npm pack must produce exactly one archive')
+          const archiveName = basename(records[0].filename)
+          if (!/^[A-Za-z0-9._-]+\.tgz$/.test(archiveName)) throw new Error(`unsafe archive name: ${JSON.stringify(archiveName)}`)
+          appendFileSync(process.env.GITHUB_OUTPUT, `archive_name=${archiveName}\n`)
+          console.log(`Archive: ${resolve(process.env.RUNNER_TEMP, 'release', archiveName)}`)
+          NODE
+          archive_name="$(PACK_JSON="$pack_json" node -e "const [record] = JSON.parse(process.env.PACK_JSON); process.stdout.write(require('node:path').basename(record.filename))")"
+          archive_path="$RUNNER_TEMP/release/$archive_name"
+          echo "Exact archive file list:"
+          tar -tzf "$archive_path" | LC_ALL=C sort
+          archive_sha256="$(sha256sum "$archive_path" | cut -d ' ' -f 1)"
+          printf '%s  %s\n' "$archive_sha256" "$archive_name"
+          printf 'archive_sha256=%s\n' "$archive_sha256" >> "$GITHUB_OUTPUT"
+
+      - name: Store release archive
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: mcp-release-archive
+          path: ${{ runner.temp }}/release/${{ steps.pack.outputs.archive_name }}
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: Store validated publisher
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: mcp-publisher-1.8.1-linux-amd64
+          path: ${{ runner.temp }}/mcp-publisher/mcp-publisher.tar.gz
+          if-no-files-found: error
+          retention-days: 1
+
+  publish:
+    needs: prepare
+    runs-on: ubuntu-latest
+    environment: mcp-production
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Check out approved candidate
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+
+      - name: Download release archive
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: mcp-release-archive
+          path: ${{ runner.temp }}/release
+
+      - name: Download validated publisher
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: mcp-publisher-1.8.1-linux-amd64
+          path: ${{ runner.temp }}/mcp-publisher
+
+      - name: Verify release archive
+        env:
+          EXPECTED_SHA256: ${{ needs.prepare.outputs.archive_sha256 }}
+          EXPECTED_VERSION: ${{ needs.prepare.outputs.version }}
+        run: |
+          set -euo pipefail
+          mapfile -t archives < <(find "$RUNNER_TEMP/release" -maxdepth 1 -type f -name '*.tgz' -print)
+          if [[ "${#archives[@]}" -ne 1 ]]; then
+            echo "expected one release archive, found ${#archives[@]}" >&2
+            exit 1
+          fi
+          archive_path="${archives[0]}"
+          printf '%s  %s\n' "$EXPECTED_SHA256" "$archive_path" | sha256sum --check --strict -
+          package_name="$(node --input-type=module -e "import packageJson from './mcp-server/package.json' with { type: 'json' }; process.stdout.write(packageJson.name)")"
+          package_version="$(node --input-type=module -e "import packageJson from './mcp-server/package.json' with { type: 'json' }; process.stdout.write(packageJson.version)")"
+          if [[ "$package_version" != "$EXPECTED_VERSION" ]]; then
+            echo "checked-out package version does not match prepared archive" >&2
+            exit 1
+          fi
+          printf 'ARCHIVE_PATH=%s\nPACKAGE_NAME=%s\nPACKAGE_VERSION=%s\n' "$archive_path" "$package_name" "$package_version" >> "$GITHUB_ENV"
+
+      - name: Check npm publication state
+        id: npm_status
+        run: |
+          set -euo pipefail
+          view_error="$(mktemp)"
+          trap 'rm -f "$view_error"' EXIT
+          set +e
+          published_integrity_json="$(npm view "${PACKAGE_NAME}@${PACKAGE_VERSION}" dist.integrity --json 2>"$view_error")"
+          view_status=$?
+          set -e
+          if [[ "$view_status" -eq 0 ]]; then
+            published_integrity="$(PUBLISHED_INTEGRITY_JSON="$published_integrity_json" node -e "const value = JSON.parse(process.env.PUBLISHED_INTEGRITY_JSON); if (typeof value !== 'string') process.exit(1); process.stdout.write(value)")"
+            archive_integrity="$(ARCHIVE_PATH="$ARCHIVE_PATH" node --input-type=module -e "import { createHash } from 'node:crypto'; import { readFileSync } from 'node:fs'; process.stdout.write('sha512-' + createHash('sha512').update(readFileSync(process.env.ARCHIVE_PATH)).digest('base64'))")"
+            if [[ "$published_integrity" != "$archive_integrity" ]]; then
+              echo "npm already contains ${PACKAGE_NAME}@${PACKAGE_VERSION}, but its integrity does not match the approved archive" >&2
+              exit 1
+            fi
+            echo 'published=true' >> "$GITHUB_OUTPUT"
+            echo "Verified existing npm publication ${PACKAGE_NAME}@${PACKAGE_VERSION} against the approved archive"
+          elif grep -q 'E404' "$view_error"; then
+            echo 'published=false' >> "$GITHUB_OUTPUT"
+            echo "npm version ${PACKAGE_NAME}@${PACKAGE_VERSION} is not published yet"
+          else
+            cat "$view_error" >&2
+            exit "$view_status"
+          fi
+
+      - name: Publish package to npm
+        if: steps.npm_status.outputs.published != 'true'
+        run: npm publish "$ARCHIVE_PATH" --provenance --access public
+
+      - name: Smoke test published package
+        env:
+          MANIFEST_PATH: machine-readable/mcp-product.json
+        run: |
+          set -euo pipefail
+          request_file="$(mktemp)"
+          response_file="$(mktemp)"
+          trap 'rm -f "$request_file" "$response_file"' EXIT
+          printf '%s\n' \
+            '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"release-smoke","version":"1"}}}' \
+            '{"jsonrpc":"2.0","method":"notifications/initialized","params":{}}' \
+            '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}' \
+            '{"jsonrpc":"2.0","id":3,"method":"resources/list","params":{}}' > "$request_file"
+          timeout 60s npx --yes "${PACKAGE_NAME}@${PACKAGE_VERSION}" < "$request_file" > "$response_file"
+          SMOKE_RESPONSE_PATH="$response_file" node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict'
+          import { readFileSync } from 'node:fs'
+
+          const responses = readFileSync(process.env.SMOKE_RESPONSE_PATH, 'utf8')
+            .split('\n')
+            .filter(Boolean)
+            .map((line) => JSON.parse(line))
+          const byId = new Map(responses.filter(({ id }) => id !== undefined).map((response) => [response.id, response]))
+          const manifest = JSON.parse(readFileSync(process.env.MANIFEST_PATH, 'utf8'))
+          assert.equal(byId.get(1)?.result?.serverInfo?.version, process.env.PACKAGE_VERSION)
+          assert.deepEqual(
+            byId.get(2)?.result?.tools?.map(({ name }) => name).sort(),
+            manifest.runtime.tools.map(({ name }) => name).sort(),
+          )
+          assert.deepEqual(
+            byId.get(3)?.result?.resources?.map(({ uri }) => uri).sort(),
+            manifest.runtime.resources.map(({ uri }) => uri).sort(),
+          )
+          NODE
+
+      - name: Publish server to MCP Registry
+        run: |
+          set -euo pipefail
+          publisher_directory="$(mktemp -d)"
+          trap 'rm -rf "$publisher_directory"' EXIT
+          export XDG_CONFIG_HOME="$publisher_directory/config"
+          publisher_archive="$RUNNER_TEMP/mcp-publisher/mcp-publisher.tar.gz"
+          printf '%s  %s\n' \
+            'a06c9096dcb9727c13555b6be26c7effa707b01f06a4c561ba7a3635443cf2cc' \
+            "$publisher_archive" | sha256sum --check --strict -
+          tar -xzf "$publisher_archive" -C "$publisher_directory" mcp-publisher
+          chmod +x "$publisher_directory/mcp-publisher"
+          "$publisher_directory/mcp-publisher" login github-oidc
+          "$publisher_directory/mcp-publisher" publish mcp-server/server.json

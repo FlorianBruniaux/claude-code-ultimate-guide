@@ -111,6 +111,17 @@ check_file "machine-readable/reference.yaml"
 # Update README date (version and date in badge + footer)
 update_readme_date
 
+# Keep translation provenance truthful. A declared stale translation is valid
+# in the default gate; missing pairs, wrong hashes, and contradictory status are not.
+if $CHECK_ONLY; then
+  if ! python3 scripts/check-translations.py --check; then
+    ERRORS=$((ERRORS + 1))
+  fi
+else
+  python3 scripts/check-translations.py --update-local
+  python3 scripts/check-translations.py --check
+fi
+
 echo ""
 
 if $CHECK_ONLY && [[ $ERRORS -gt 0 ]]; then

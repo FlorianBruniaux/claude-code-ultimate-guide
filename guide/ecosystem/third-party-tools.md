@@ -10,6 +10,8 @@ This page catalogs community-built tools that extend Claude Code, organized by u
 
 This is not a list of AI tools that complement Claude Code generally. It covers only tools whose primary purpose is extending the Claude Code CLI itself. For broader AI ecosystem coverage, see [AI Ecosystem](./ai-ecosystem.md). For MCP server recommendations, see [MCP Servers Ecosystem](./mcp-servers-ecosystem.md).
 
+These extensions may observe, configure, or coordinate Claude Code, but they do not necessarily own an agent loop. Use the [Agent Harness Map](./agent-harness-landscape.md) for the strict runtime comparison and a wider sourced directory, [Agent Harness Engineering](../core/agent-harness.md) for the layer boundaries, and [Agent Tools: Beyond Claude Code](./agentic-tools.md) for runtime-adjacent frameworks and control planes. Evaluate, observe, and secure an added tool through [Agent Evaluation](../roles/agent-evaluation.md), [Session Observability](../ops/observability.md), and [Security Hardening](../security/security-hardening.md). The [glossary](../core/glossary.md) defines the distinctions.
+
 > **Last verified**: June 2026. 40+ tools across 17 categories.
 
 ## Table of Contents
@@ -1015,15 +1017,14 @@ caliber refresh
 
 ### context-evaluator
 
-An OSS tool by Packmind that evaluates CLAUDE.md and AGENTS.md quality using 17 specialized AI evaluators. Available as a zero-install web app, pre-compiled binary, or Bun source install.
+An OSS tool by Packmind that evaluates CLAUDE.md and AGENTS.md quality using 17 specialized AI evaluators. Available as a pre-compiled binary or Bun source install. The hosted web app documented by the project was unreachable during the 2026-09-02 check.
 
 | Attribute | Details |
 |-----------|---------|
-| **Website** | [context-evaluator.ai](https://context-evaluator.ai) |
 | **Source** | [GitHub: PackmindHub/context-evaluator](https://github.com/PackmindHub/context-evaluator) |
-| **Install** | Zero-install at context-evaluator.ai, or binary from GitHub Releases |
+| **Install** | Binary from GitHub Releases, or from source with Bun |
 | **Language** | TypeScript (Bun) + React frontend |
-| **License** | MIT |
+| **License** | Apache-2.0 |
 | **Status** | Active (Packmind experimental project, 2026) |
 
 **Key features**:
@@ -1045,7 +1046,7 @@ An OSS tool by Packmind that evaluates CLAUDE.md and AGENTS.md quality using 17 
 | LLM-based content review | No | Yes (17 evaluators) |
 | Cross-file contradiction detection | No | Yes (unified mode) |
 | Automated remediation (patch file) | No | Yes |
-| Zero-install web version | No | Yes (context-evaluator.ai) |
+| Hosted web version | No | Documented upstream, but unreachable during the 2026-09-02 check |
 
 **When to choose context-evaluator**:
 
@@ -1841,7 +1842,7 @@ Claude Code's plugin system supports community-built extensions. For detailed do
 
 **Notable skill packs**:
 - **[Superpowers](https://github.com/obra/superpowers)**: Complete software development methodology suite (262K stars, 23.4K forks as of 2026-07-27, up from 95K+ stars / 7.5K forks earlier; MIT). 7 context-aware skills covering the full development arc: spec elicitation through Socratic brainstorming, detailed implementation planning (2-5 min tasks with exact file paths), subagent-driven development with two-stage review (spec compliance then code quality), mandatory TDD enforcement (code written before a test gets deleted), code review, git worktree management, and branch lifecycle completion (merge/PR/discard decision). Skills trigger automatically based on context: no manual invocation needed. Install: `/plugin install superpowers@claude-plugins-official`. Created by Jesse Vincent (Prime Radiant), MIT. Also supports Cursor, Codex, OpenCode, and Gemini CLI.
-- **[gstack](https://github.com/garrytan/gstack)**: 6-skill workflow suite covering the full ship cycle: strategic product gate (`/plan-ceo-review`), architecture review (`/plan-eng-review`), paranoid code review (`/review`), automated release (`/ship`), native browser QA (`/browse`), and retrospective (`/retro`). Created by Garry Tan (Y Combinator CEO). See [Cognitive Mode Switching](../workflows/gstack-workflow.md) for the workflow pattern and adoption guide.
+- **[gstack](https://github.com/garrytan/gstack)**: 6-skill workflow suite covering the full ship cycle: strategic product gate (`/plan-ceo-review`), architecture review (`/plan-eng-review`), paranoid code review (`/review`), automated release (`/ship`), native browser QA (`/browse`), and retrospective (`/retro`). Created by Garry Tan (Y Combinator CEO). See [Cognitive Mode Switching](../workflows/gstack-workflow.md) for the workflow pattern and adoption guide. Despite the `/plan-ceo-review` command name, this is a software engineering tool, not a business persona: for AI agents that actually simulate named executive roles (CFO, CMO, board of directors), see [AI Executive Agents](./ai-executive-agents.md).
 - **[Ponytail](https://github.com/DietrichGebert/ponytail)**: "Lazy senior dev" mode for AI agents. Before writing code, the agent stops at the first rung that holds: does this need to exist? → stdlib? → native platform feature? → installed dependency? → one line? → only then the minimum that works. Benchmarked at 80-94% less code, 47-77% lower cost, and 3-6x faster than an unconstrained agent across Haiku, Sonnet, and Opus (median of 10 runs, 5 tasks). Three intensity levels: `lite` (suggest the lazier path, let the user pick), `full` (enforce the ladder, default), `ultra` (YAGNI extremist, challenges the requirement in the same response). Deliberate shortcuts are marked with a `ponytail:` comment naming the ceiling and upgrade path; `/ponytail-debt` harvests them into a ledger so "later" stays visible. Four commands: `/ponytail [lite|full|ultra|off]`, `/ponytail-review` (over-engineering review of current diff), `/ponytail-audit` (whole-repo scan), `/ponytail-debt` (shortcut ledger). Install: `/plugin install ponytail@ponytail`. MIT. Supports 13 agents: Claude Code, Codex, GitHub Copilot CLI, Gemini CLI, Antigravity CLI, OpenCode, pi, OpenClaw, Cursor, Windsurf, Cline, Kiro, and VS Code with the Codex extension.
 - **[fable-mode](https://github.com/mrtooher/fable-mode)**: Execution discipline skill for complex tasks, structured as a 4-step loop: (1) write a numbered stage map with expected outputs before touching anything, (2) delegate independent stages to parallel subagents where the runtime allows, (3) verify each stage with a check that can actually fail (tests, diffs, sources read, not self-assessment), (4) self-critique as a skeptical reviewer before delivery. Named after the Claude Fable model but works on any model; honest that it shapes procedure, not capability ceiling. Three variants: `fable-mode` (inline on current model), `fable-sonnet` (pins a Sonnet subagent), `fable-haiku` (pins a Haiku subagent for cost-sensitive work). Includes 4 worked examples across domains (API null-path bug, mis-attributed research claim, SQL nulls silently dropped from an AVG, multi-session refactor with no done criteria), each showing exactly where the failable check catches what one-shot misses. Two operational rules worth noting: surface accumulated warnings at threshold 3 rather than one by one; anchor sed replacements on word boundaries to avoid corrupting compound words. Install: copy the skill directory to wherever your Claude environment loads skills from (no plugin registry entry yet). No license. 802 stars, 86 forks as of 2026-07-27 (was 477 stars, 54 forks at 5 days post-launch in June 2026).
 
@@ -1863,6 +1864,7 @@ As of February 2026, the community tooling ecosystem has notable gaps:
 | **Per-MCP-server profiler** | No way to measure token cost attributable to each MCP server individually |
 | **Cross-platform config sync** | No tool syncs Claude Code config across machines (must manual copy `~/.claude/`) |
 | **Programmatic sandboxed orchestration** | Watch: [Sandcastle](https://github.com/mattpocock/sandcastle) (`@ai-hero/sandcastle`, Matt Pocock): TypeScript API for running agents in Docker/Podman/Vercel containers with branch strategy management and prompt templating. Unique niche but not guide-ready at v0.5.x (active bugs, TypeScript-only, requires separate `ANTHROPIC_API_KEY`, Docker/Podman hard dependency). Revisit at v1.0. |
+| **Cross-platform agent-human chat bridge with governance** | Watch: [Switch](https://github.com/sandbox-quantum/switch) (Flint AI / SandboxAQ): Matrix-based bus connecting heterogeneous agents (Claude Code, Codex, OpenCode, anything speaking its protocol) and humans in the same room, relayed bidirectionally into Slack, Microsoft Teams, Discord, Telegram, and Mattermost, with a centralized owner-inheritance authorization model. No comparable multi-platform, multi-framework bridge exists elsewhere in this list; agent-chat above is the closest name match but is a read-only local dashboard, not a live external bridge. Pre-1.0 (`0.21.0`), 252 stars at 6 weeks, bus factor close to 1. Evaluation: [switch-agent-human-chat-bridge.md](../../docs/resource-evaluations/switch-agent-human-chat-bridge.md). |
 
 ---
 

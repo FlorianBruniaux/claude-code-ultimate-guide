@@ -9,7 +9,7 @@ decision: "Minimal — add 2-sentence historical arc intro to mcp-vs-cli.md only
 tags: [mcp, cli, tokens, architecture, decision, community]
 ---
 
-# Evaluation: Arnaud Gaches — "MCP vs CLI" Community Synthesis
+# Evaluation: Arnaud Gaches: "MCP vs CLI" Community Synthesis
 
 **Source**: LinkedIn post dated March 20, 2026. Summary of discussions from the Dev with IA community (devw.ai). Names of contributors used first names only.
 
@@ -74,7 +74,7 @@ One genuinely missing element: the three-phase historical framing (browser 2022-
 
 ### Integrate (minimal)
 
-**Three-phase historical arc** — add 2 sentences to the intro of `guide/ecosystem/mcp-vs-cli.md` (after line 13):
+**Three-phase historical arc**: add 2 sentences to the intro of `guide/ecosystem/mcp-vs-cli.md` (after line 13):
 
 > "The debate emerged from a rapid succession of interface paradigms: browser-based AI (2022-23), then AI in the IDE with MCP connecting agents to external services (2024-25), then full CLI agents that execute commands and write files without an intermediary layer (2025-26). That progression explains why the question exists at all."
 

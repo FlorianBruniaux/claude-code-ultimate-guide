@@ -1,4 +1,4 @@
-# Resource Evaluation: Karl MAZIER — LinkedIn post on CLAUDE.md structure + reizam/claude-md-templates
+# Resource Evaluation: Karl MAZIER: LinkedIn post on CLAUDE.md structure + reizam/claude-md-templates
 
 **Source**: LinkedIn post (Karl MAZIER) + https://github.com/reizam/claude-md-templates
 **Author**: Karl MAZIER (co-founder, Open Source & SaaS, YC)

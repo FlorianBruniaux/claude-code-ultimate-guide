@@ -811,6 +811,8 @@ See full template: [examples/config/PULL_REQUEST_TEMPLATE-ai.md](../../examples/
 
 For regulated environments and compliance-conscious orgs, capturing a snapshot of AI activity at PR creation gives you a structured artifact that answers the question "what did Claude do during this change?" without relying on session memory.
 
+If you'd rather query history that already exists than instrument new logging, tools like [cc-sessions](https://github.com/FlorianBruniaux/cc-sessions) search and analyze Claude Code's own session transcripts directly, useful when the question comes up after the fact and no PR-time hook was in place.
+
 ### What to Capture
 
 A minimal PR audit artifact contains four things:
@@ -929,7 +931,7 @@ echo "Report saved: $REPORT_FILE"
 
 ### What This Does Not Cover
 
-The session logger captures tool calls at the Claude Code level. It does not record what the tool actually produced (the file content after an edit, the output of a bash command). For that level of detail, the LiteLLM Gateway approach in [api-gateway.md](./api-gateway.md) captures full request/response pairs at the API level, at the cost of including all prompt content in your logs. Choose based on your compliance requirements and data classification rules.
+The session logger captures tool calls at the Claude Code level. It does not record what the tool actually produced, such as the file content after an edit or the output of a shell command. A third-party gateway such as the LiteLLM example in [api-gateway.md](./api-gateway.md) can add model-level request metadata and, when deliberately configured, payload logging. That covers only routed API traffic, can place sensitive prompt or completion content in another system, and does not prove which file state resulted from a request. Choose the evidence sources and logging fields from the compliance requirement and data classification rules.
 
 ---
 

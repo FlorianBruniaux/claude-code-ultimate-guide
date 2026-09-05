@@ -190,6 +190,6 @@ Then invoke with: `@sre investigate this pod crash`
 
 ## See Also
 
-- [DevOps & SRE Guide](../../guide/ops/devops-sre.md) — Complete FIRE framework documentation
-- [DevOps Agent](../agents/devops-sre.md) — Agent persona for infrastructure tasks
-- [Security Hardening](../../guide/security/security-hardening.md) — Security best practices
+- [DevOps & SRE Guide](../../guide/ops/devops-sre.md): Complete FIRE framework documentation
+- [DevOps Agent](../agents/devops-sre.md): Agent persona for infrastructure tasks
+- [Security Hardening](../../guide/security/security-hardening.md): Security best practices

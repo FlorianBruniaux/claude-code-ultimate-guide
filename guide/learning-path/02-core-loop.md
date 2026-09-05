@@ -2,6 +2,8 @@
 
 **Time**: 45 minutes | **Complexity**: ⭐ Beginner
 
+**Previous:** [Module 01: Installation & Setup](01-installation.md)
+
 ## Goal
 
 Understand how Claude Code actually works: the decision loop, context, and how to structure requests effectively.
@@ -331,4 +333,4 @@ This will teach you how to make Claude Code remember your style and preferences.
 
 ---
 
-**Completed Module 02?** → Ready for Module 03: Memory & Config
+**Completed Module 02?** → Ready for [Module 03: Memory & Config](03-memory.md)

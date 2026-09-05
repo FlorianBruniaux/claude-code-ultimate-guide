@@ -59,12 +59,12 @@ The article covers two areas the guide does not address substantively: the "job 
    - Team composition for AI-native work
    - Flow management
 
-2. **`guide/ultimate-guide.md`** — Adoption section (wherever team workflows are discussed, around line ~4700):
+2. **`guide/ultimate-guide.md`**: Adoption section (wherever team workflows are discussed, around line ~4700):
    - "Job is now the spec" framing as a mindset shift
    - Multi-model plan review as a team practice
    - `docs/` folder as decision history for agents
 
-3. **Anti-patterns** — add to existing anti-patterns section or methodology red flags:
+3. **Anti-patterns**: add to existing anti-patterns section or methodology red flags:
    - Never dispatch multiple parallel implementation subagents
    - Never let agent read plan files — provide full text instead
 
@@ -76,11 +76,11 @@ The article covers two areas the guide does not address substantively: the "job 
 
 ## Challenge (technical-writer agent)
 
-**Score adjusted to 4/5** — the preliminary 3/5 undersells the value.
+**Score adjusted to 4/5**: the preliminary 3/5 undersells the value.
 
 Key points from challenge:
 
-- The "job is now the spec" reframing and team structure (Producer roles, small in-office teams, treating teammates as artists) **do not exist in the guide in any substantive form** — real differentiation
+- The "job is now the spec" reframing and team structure (Producer roles, small in-office teams, treating teammates as artists) **do not exist in the guide in any substantive form**: real differentiation
 - Anti-patterns section is operationally dense: "never parallel implementation subagents" and "never let agent read plan files" are specific constraints teams need before scaling agent use
 - The guide currently treats "AI-native team" as an implicit individual workflow concern — this article pushes into **organizational design territory**
 - Risk of NOT integrating: guide stays a developer tool reference rather than a team adoption playbook

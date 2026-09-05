@@ -1,4 +1,4 @@
-# Resource Evaluation: Mathieu Eveillard — "Génération LLM : sale temps pour les juniors"
+# Resource Evaluation: Mathieu Eveillard: "Génération LLM : sale temps pour les juniors"
 
 **Date**: 2026-03-04
 **Source**: LinkedIn post + https://www.mathieueveillard.com/blog/generation-llm

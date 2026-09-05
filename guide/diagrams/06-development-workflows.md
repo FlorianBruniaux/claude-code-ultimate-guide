@@ -89,11 +89,14 @@ Write failing test (RED)
 
 ### Spec-First Development Pipeline
 
-Write the specification before the code. Claude uses the spec as the single source of truth, preventing drift between what was planned and what was built.
+Write the specification before the code. Claude uses the spec as the single source of truth, preventing drift between what was planned and what was built. The loop closes on `Maintain`: a monitoring threshold crossed in production drafts a new `intent.md` automatically, a pattern Anthropic's [AI-native SDLC playbook](https://claude.com/blog/the-ai-native-sdlc-playbook) (2026) documents as the boundary between a one-shot pipeline and a continuous one.
 
 ```mermaid
 flowchart LR
-    A([Idea / Requirement]) --> B(Write spec.md<br/>in natural language)
+    A([Idea / Requirement]) --> A1(Write intent.md<br/>problem + author + constraints)
+    A1 --> A2{Intent approved<br/>by PM?}
+    A2 -->|No: unclear problem| A1
+    A2 -->|Yes| B(Write spec.md<br/>in natural language)
     B --> C(Claude reviews spec<br/>for clarity + completeness)
     C --> D{Spec approved<br/> by human?}
     D -->|No: gaps found| E(Refine spec<br/>address gaps)
@@ -108,16 +111,26 @@ flowchart LR
     K --> L{Matches<br/>spec?}
     L -->|No| M(Update spec<br/>or implementation)
     M --> K
-    L -->|Yes| N([Merge ✓])
+    L -->|Yes| N(Merge ✓)
+    N --> O(Maintain:<br/>monitor production)
+    O --> P{Anomaly threshold<br/>crossed?}
+    P -->|Yes: draft new intent.md| A1
+    P -->|No| O
 
     style A fill:#F5E6D3,color:#333
+    style A1 fill:#6DB3F2,color:#fff
+    style A2 fill:#E87E2F,color:#fff
     style B fill:#6DB3F2,color:#fff
     style D fill:#E87E2F,color:#fff
     style I fill:#E87E2F,color:#fff
     style L fill:#E87E2F,color:#fff
     style N fill:#7BC47F,color:#333
+    style O fill:#F5E6D3,color:#333
+    style P fill:#E87E2F,color:#fff
 
     click A href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "Idea / Requirement"
+    click A1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md#with-intentmd-upstream-problem-statement" "Write intent.md"
+    click A2 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md#with-intentmd-upstream-problem-statement" "Intent approved by PM?"
     click B href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "Write spec.md"
     click C href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "Claude reviews spec"
     click D href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "Spec approved by human?"
@@ -131,13 +144,17 @@ flowchart LR
     click L href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "Matches spec?"
     click M href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "Update spec or implementation"
     click N href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "Merge ✓"
+    click O href "https://claude.com/blog/the-ai-native-sdlc-playbook" "Maintain: monitor production"
+    click P href "https://claude.com/blog/the-ai-native-sdlc-playbook" "Anomaly threshold crossed?"
 ```
 
 <details>
 <summary>ASCII version</summary>
 
 ```
-Idea → Write spec.md → Claude reviews
+Idea → Write intent.md → Approved by PM? ─No→ Refine intent
+                             │ Yes
+                       Write spec.md → Claude reviews
                              │
                        Approved? ─No→ Refine spec
                              │ Yes
@@ -150,11 +167,17 @@ Idea → Write spec.md → Claude reviews
                        Human review → Matches spec? ─No→ Fix
                              │ Yes
                            Merge ✓
+                             │
+                       Maintain: monitor production
+                             │
+                       Anomaly threshold crossed? ─Yes→ draft new intent.md (loop to top)
+                             │ No
+                       keep monitoring
 ```
 
 </details>
 
-> **Source**: [Spec-First Development](../workflows/spec-first.md)
+> **Source**: [Spec-First Development](../workflows/spec-first.md); closed-loop `Maintain → Plan` pattern: [Anthropic AI-native SDLC playbook](https://claude.com/blog/the-ai-native-sdlc-playbook) (2026)
 
 ---
 

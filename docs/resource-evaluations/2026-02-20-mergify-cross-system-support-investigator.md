@@ -1,4 +1,4 @@
-# Resource Evaluation: Mergify — Cross-System Support Investigator
+# Resource Evaluation: Mergify: Cross-System Support Investigator
 
 **Date**: 2026-02-20
 **Evaluator**: Claude (eval-resource skill)

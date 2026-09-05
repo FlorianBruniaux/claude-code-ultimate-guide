@@ -1,0 +1,6 @@
+{
+  "year_to_date": {"start": "2026-01-01", "end": "2026-01-31", "package": "claude-code-ultimate-guide-mcp", "downloads": 168},
+  "since_launch": {"start": "2026-01-10", "end": "2026-01-31", "package": "claude-code-ultimate-guide-mcp", "downloads": 136},
+  "last_30_days": {"start": "2026-01-02", "end": "2026-01-31", "package": "claude-code-ultimate-guide-mcp", "downloads": 168},
+  "last_7_days": {"start": "2026-01-25", "end": "2026-01-31", "package": "claude-code-ultimate-guide-mcp", "downloads": 75}
+}

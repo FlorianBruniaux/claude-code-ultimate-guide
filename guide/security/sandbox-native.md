@@ -9,7 +9,7 @@ tags: [security, sandbox, guide]
 > **Confidence**: Tier 1, official Anthropic documentation
 > **Reading time**: ~15 minutes
 > **Scope**: Understanding and configuring native process-level sandboxing in Claude Code
-> **Last updated**: 2026-02-02
+> **Last updated**: 2026-08-31
 
 ---
 
@@ -567,11 +567,11 @@ Taken together with the two traps above, `excludedCommands` has three independen
 
 ### Unix Sockets Privilege Escalation
 
-**Risk**: `allowUnixSockets` configuration can grant access to powerful system services.
+**Risk**: Unix-socket exceptions can grant a sandboxed command access to powerful system services.
 
 **Attack scenario**:
 
-1. User allows `/tmp/*.sock` (thinking it's safe)
+1. On macOS, a user allows a broad socket path such as `/tmp/*.sock`; on Linux or WSL2, the user enables `allowAllUnixSockets`
 2. Compromised agent connects to `/tmp/supervisor.sock` (process manager)
 3. Agent spawns privileged process outside sandbox
 4. Full system compromise
@@ -585,9 +585,17 @@ Taken together with the two traps above, `excludedCommands` has three independen
 
 **Mitigation**:
 
-- ❌ **Never allow broad patterns**: `/tmp/*.sock`, `/var/run/*.sock`
-- ✅ **Whitelist specific sockets** after auditing: `/run/postgresql/.s.PGSQL.5432` (PostgreSQL)
-- ✅ **Default**: Unix sockets **blocked** unless explicitly allowed
+- **macOS**: use [`sandbox.network.allowUnixSockets`](../core/settings-reference.md#sandboxnetworkallowunixsockets) only for specific, audited paths or the narrowest pattern the workflow requires. Avoid broad patterns such as `/tmp/*.sock` or `/var/run/*.sock`.
+- **Linux and WSL2**: `allowUnixSockets` is ignored because the seccomp filter cannot inspect socket paths. [`sandbox.network.allowAllUnixSockets: true`](../core/settings-reference.md#sandboxnetworkallowallunixsockets) is the only exception, and it permits every Unix-socket connection the process can reach.
+- **Every platform**: leave Unix sockets blocked unless the workflow requires one and the service behind it is understood. Never expose Docker or containerd sockets to untrusted code.
+
+### Cross-session inbox sockets
+
+Cross-session messaging uses a per-session Unix socket on macOS, Linux, and WSL2. Normal `ListAgents` and `SendMessage` calls do not require a sandbox exception because Claude Code performs them outside the sandboxed Bash subprocess. Enabling `/sandbox` neither disables the feature nor confines the receiving session.
+
+The socket setting matters only when a Bash child connects directly to its own session's `CLAUDE_CODE_MESSAGING_SOCKET`, for example to post a long-running command's result back into the conversation. On macOS, scope `sandbox.network.allowUnixSockets` to the narrowest audited path or pattern that covers the inbox. On Linux and WSL2, the only available switch is `allowAllUnixSockets`; enabling it removes the AF_UNIX seccomp boundary for every reachable socket, not just the Claude Code inbox. Do not enable it for ordinary peer messaging, which already works through `SendMessage`.
+
+Socket access changes whether the Bash child can reach the inbox. Claude Code still applies the [cross-session inbound controls and own-child rules](../workflows/cross-session-messaging.md#the-sessions-inbox-socket) to the resulting message. The sandbox also does not validate the message or constrain built-in `Read`, `Edit`, and `Write` tools. Use the [cross-session threat model](./security-hardening.md#cross-session-messaging-threat-model) for sender trust and inbound policy, and the [Agent Harness creator-verifier pattern](../core/agent-harness.md#8-creator-verifier-pattern) for current-commit evidence and independent review.
 
 ### Filesystem Permission Escalation
 
@@ -717,7 +725,7 @@ flowchart TD
 ### Strict Security (Denylist Mode)
 
 ```json
-// settings.json — sandbox settings
+// settings.json: sandbox settings
 {
   "sandbox": {
     "autoAllowBashIfSandboxed": true,
@@ -970,6 +978,8 @@ which bubblewrap socat
 
 ## 14. See Also
 
+- [Cross-Session Messaging](../workflows/cross-session-messaging.md) - peer discovery, transport, inbound controls, and correlated-drift safeguards
+- [Cross-Session Messaging Threat Model](./security-hardening.md#cross-session-messaging-threat-model) - sender trust, cross-machine exposure, permissions, and execution boundaries
 - [Sandbox Isolation (Docker, Cloud)](./sandbox-isolation.md) - microVM-based sandboxing for maximum isolation
 - [Architecture: Permission Model](../core/architecture.md#5-permission--security-model) - How permissions and sandboxing interact
 - [Official Docs: Sandboxing](https://code.claude.com/docs/en/sandboxing) - Anthropic's official reference

@@ -1,4 +1,4 @@
-# Resource Evaluation: Sandcastle — Programmatic Agent Orchestration Library
+# Resource Evaluation: Sandcastle: Programmatic Agent Orchestration Library
 
 **Date**: 2026-05-03
 **Evaluator**: Claude (Sonnet 4.6)
@@ -64,11 +64,11 @@ TypeScript library for orchestrating AI coding agents in isolated sandboxes. Pro
 
 Challenge agent (Sonnet) recommended **downgrade to 3/5** based on:
 
-1. **TypeScript-only barrier** — requires `npx tsx` setup; excludes Python/shell-first users; no other tool in the section imposes this
-2. **Sandbox hard dependency** — Docker Desktop or Podman must be running; Vercel provider is separately billable; real blocker for corporate/CI environments
-3. **API key model mismatch** — uses `ANTHROPIC_API_KEY` directly, not Claude Code's subscription session; costs run outside Max plan billing
-4. **Architectural misclassification** — not an "orchestration framework" in the Ruflo sense; drives `claude` binary as subprocess inside a container (closer to CI agent runner)
-5. **Active breaking changes** — v0.5.x with known bug: Sequential Reviewer template doesn't create branch correctly
+1. **TypeScript-only barrier**: requires `npx tsx` setup; excludes Python/shell-first users; no other tool in the section imposes this
+2. **Sandbox hard dependency**: Docker Desktop or Podman must be running; Vercel provider is separately billable; real blocker for corporate/CI environments
+3. **API key model mismatch**: uses `ANTHROPIC_API_KEY` directly, not Claude Code's subscription session; costs run outside Max plan billing
+4. **Architectural misclassification**: not an "orchestration framework" in the Ruflo sense; drives `claude` binary as subprocess inside a container (closer to CI agent runner)
+5. **Active breaking changes**: v0.5.x with known bug: Sequential Reviewer template doesn't create branch correctly
 
 **Recommendation**: Watch entry only. Full documentation would mislead readers evaluating production tooling.
 

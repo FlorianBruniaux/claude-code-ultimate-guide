@@ -457,7 +457,7 @@ When `true`, only `allowedMcpServers` from managed settings are respected. Users
 **Scope:** managed only
 **Default:** `false`
 
-Allow channels for Team and Enterprise users. When unset or `false`, channel message delivery is blocked regardless of what users pass to `--channels`.
+Allow channels for claude.ai Team and Enterprise users. When unset or `false`, channel message delivery is blocked regardless of what users pass to `--channels`. Console API-key deployments use Console defaults and managed controls instead; do not infer their policy from this Team/Enterprise-only setting.
 
 #### `allowedChannelPlugins`
 **Type:** array
@@ -465,6 +465,8 @@ Allow channels for Team and Enterprise users. When unset or `false`, channel mes
 **Default:** none (uses default Anthropic allowlist)
 
 Allowlist of channel plugins that may push messages. Replaces the default Anthropic allowlist when set. Requires `channelsEnabled: true`. Empty array blocks all channel plugins.
+
+> **Security boundary**: this allowlist controls which Channel plugins may deliver messages. It does not grant a delivered message, its sender, or the plugin any Bash, filesystem, GitHub, or other tool permission. Gate senders and treat Channel content as untrusted input, including when a plugin can relay a permission prompt.
 
 ---
 
@@ -541,14 +543,14 @@ Enable a weaker sandbox for unprivileged Docker environments (Linux and WSL2 onl
 **Scope:** all
 **Default:** `[]`
 
-Specific Unix socket paths accessible in the sandbox (for SSH agents, Docker, etc.).
+Specific Unix socket paths accessible in the sandbox on macOS (for SSH agents, local databases, etc.). Ignored on Linux and WSL2, where the seccomp filter cannot inspect socket paths; use `allowAllUnixSockets` only after accepting its broader boundary. The [cross-session inbox case](../security/sandbox-native.md#cross-session-inbox-sockets) does not require this exception for normal `SendMessage` calls.
 
 #### `sandbox.network.allowAllUnixSockets`
 **Type:** boolean
 **Scope:** all
 **Default:** `false`
 
-Allow all Unix socket connections in the sandbox. Overrides `allowUnixSockets`.
+Allow all Unix socket connections in the sandbox. Overrides `allowUnixSockets`. On Linux and WSL2, this is the only way to permit Unix sockets because it skips the seccomp filter that otherwise blocks `socket(AF_UNIX, ...)` calls.
 
 #### `sandbox.network.allowLocalBinding`
 **Type:** boolean
@@ -741,16 +743,19 @@ When `true`, only `allowRead` paths from managed settings are respected. `allowR
     },
     "network": {
       "allowedDomains": ["github.com", "*.npmjs.org"],
-      "allowUnixSockets": ["/var/run/docker.sock"],
       "allowLocalBinding": true
     }
   }
 }
 ```
 
+Unix-socket exceptions are intentionally absent from this baseline. Granting `/var/run/docker.sock` would give sandboxed code control of the Docker daemon and an effective path to the host.
+
 ---
 
 ### Plugins and Marketplaces
+
+For marketplace publication and the `<claude-code-hint />` recommendation boundary, see [Plugin Distribution and Recommendation Hints](../ecosystem/plugin-distribution.md). The settings below govern local and managed marketplace controls.
 
 #### `enabledPlugins`
 **Type:** object
@@ -1550,8 +1555,7 @@ These appear in community sources or older documentation but are not confirmed i
       "denyRead": ["~/.aws/credentials"]
     },
     "network": {
-      "allowedDomains": ["github.com", "*.npmjs.org"],
-      "allowUnixSockets": ["/var/run/docker.sock"]
+      "allowedDomains": ["github.com", "*.npmjs.org"]
     }
   },
 

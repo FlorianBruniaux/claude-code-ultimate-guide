@@ -324,6 +324,7 @@ From a production team (5 developers, 3 tools, 2 OS):
 
 ## Related
 
+- [Memory Systems](../core/memory-systems.md): how Claude Code loads and merges CLAUDE.md across sessions
 - [Section 3.5 Team Configuration at Scale](#35-team-configuration-at-scale): concept overview and measured results
 - [Section 3.4 Precedence Rules](#34-precedence-rules): how Claude reads multiple CLAUDE.md files
 - [profile-template.yaml](../../examples/team-config/profile-template.yaml): profile template

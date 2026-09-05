@@ -11,8 +11,10 @@ Why a separate top-level block and not more deep_dive keys:
   with zero landing impact.
 """
 import glob, importlib.util, os, sys
+from pathlib import Path
 
-os.chdir('/Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide')
+REPO_ROOT = Path(__file__).resolve().parents[1]
+os.chdir(REPO_ROOT)
 REF = 'machine-readable/reference.yaml'
 APPLY = '--apply' in sys.argv
 

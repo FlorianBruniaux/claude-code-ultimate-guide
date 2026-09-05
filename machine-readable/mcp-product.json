@@ -1,0 +1,489 @@
+{
+  "schema_version": 1,
+  "package": {
+    "name": "claude-code-ultimate-guide",
+    "version": "1.3.1",
+    "registry_name": "claude-code-ultimate-guide-mcp",
+    "mcp_registry_name": "io.github.FlorianBruniaux/claude-code-guide",
+    "node_engine": ">=18.14.1",
+    "dependencies": {
+      "model_context_protocol_sdk": "1.30.0"
+    }
+  },
+  "guide": {
+    "version": "3.43.0",
+    "line_count": 26649,
+    "index_entries": 1798,
+    "claude_code_releases": 228
+  },
+  "runtime": {
+    "tools": [
+      {
+        "name": "compare_versions",
+        "description": "Show what changed between two Claude Code CLI versions. Lists all releases in range with aggregated highlights and breaking changes.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "from": {
+              "type": "string",
+              "description": "Starting version (older), e.g. \"2.1.50\""
+            },
+            "to": {
+              "description": "Ending version (newer). Omit to use the latest.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "from"
+          ],
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "diff_official_docs",
+        "description": "Compare the baseline and current official Anthropic Claude Code docs snapshots. Shows added, removed, and modified pages. No network call — reads local files only. Run init_official_docs() first, then refresh_official_docs() when you want to update the current snapshot.",
+        "input_schema": {
+          "type": "object",
+          "properties": {},
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "get_changelog",
+        "description": "Return the last N entries from the Claude Code Ultimate Guide CHANGELOG. Shows what changed in the guide itself (not Claude Code CLI releases — use get_release() for that).",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "count": {
+              "default": 5,
+              "description": "Number of recent changelog entries to return (default 5)",
+              "type": "number",
+              "minimum": 1,
+              "maximum": 20
+            }
+          },
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "get_cheatsheet",
+        "description": "Return the Claude Code cheatsheet — a compact 1-page reference covering the most important commands, shortcuts, config options, and workflows.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "section": {
+              "description": "Optional: filter to a specific section (e.g. \"installation\", \"hooks\", \"agents\", \"mcp\")",
+              "type": "string"
+            }
+          },
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "get_digest",
+        "description": "Return a digest of guide and Claude Code CLI changes for a given period. Combines guide CHANGELOG entries + official Claude Code releases in the time window.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "period": {
+              "type": "string",
+              "enum": [
+                "day",
+                "week",
+                "month"
+              ],
+              "description": "Time window: \"day\" (24h), \"week\" (7 days), \"month\" (30 days)"
+            }
+          },
+          "required": [
+            "period"
+          ],
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "get_example",
+        "description": "Fetch a production-ready template or example from the guide (agents, skills, commands, hooks, scripts). Pass a partial name to search for matching examples.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Example name or partial match (e.g. \"code-reviewer\", \"pre-commit hook\", \"custom agent\")"
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "get_release",
+        "description": "Get details about Claude Code CLI official releases. Pass a version to get a specific release, or omit to get the latest and recent history.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "version": {
+              "description": "Specific version (e.g. \"2.1.59\"). Omit for latest + recent 5.",
+              "type": "string"
+            },
+            "count": {
+              "default": 5,
+              "description": "Number of recent releases to show when no version specified (default 5)",
+              "type": "number",
+              "minimum": 1,
+              "maximum": 30
+            }
+          },
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "get_threat",
+        "description": "Look up a specific threat by ID from the security threat database. Supports CVE IDs (e.g. \"CVE-2025-53109\") and technique IDs (e.g. \"T001\").",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Threat ID: a CVE identifier (e.g. \"CVE-2025-53109\") or attack technique ID (e.g. \"T001\")"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "init_official_docs",
+        "description": "Fetch the official Anthropic Claude Code docs (llms-full.txt) and store a local snapshot as the diff baseline. Run this first. Safe to re-run — overwrites previous baseline AND current. Takes ~5s (fetches ~1.2MB from Anthropic).",
+        "input_schema": {
+          "type": "object",
+          "properties": {},
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": true
+        }
+      },
+      {
+        "name": "list_examples",
+        "description": "List all production-ready templates in the guide by category (agents, commands, hooks, skills, scripts). Use get_example(name) to fetch the content of any specific template.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "description": "Filter by category: agents | commands | hooks | skills | scripts. Omit for all.",
+              "type": "string",
+              "enum": [
+                "agents",
+                "commands",
+                "hooks",
+                "skills",
+                "scripts"
+              ]
+            }
+          },
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "list_threats",
+        "description": "Browse the security threat database. Without a category, returns a summary with counts. With a category, returns the full list for that section.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "description": "Section to list: cves | authors | skills | techniques | mitigations | sources. Omit for a global summary.",
+              "type": "string",
+              "enum": [
+                "cves",
+                "authors",
+                "skills",
+                "techniques",
+                "mitigations",
+                "sources"
+              ]
+            }
+          },
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "list_topics",
+        "description": "List all top-level topics and categories in the Claude Code Ultimate Guide. Useful for exploring what the guide covers before searching.",
+        "input_schema": {
+          "type": "object",
+          "properties": {},
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "read_section",
+        "description": "Read a section from a guide file (markdown, YAML, examples). Supports pagination via offset, or a \"#heading-slug\" anchor to jump straight to a section (as returned by search_guide()). Use after search_guide() to fetch the full content at a specific location.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "Relative path from repo root, optionally with a \"#heading-slug\" anchor (e.g. \"guide/ultimate-guide.md\", \"guide/core/memory-systems.md#1-tldr-three-track-model\")"
+            },
+            "offset": {
+              "default": 1,
+              "description": "Line number to start reading from (1-based, default 1). Ignored when path has a \"#\" anchor.",
+              "type": "number",
+              "minimum": 1
+            },
+            "limit": {
+              "default": 500,
+              "description": "Max lines to return (default 500, max 500)",
+              "type": "number",
+              "minimum": 1,
+              "maximum": 500
+            }
+          },
+          "required": [
+            "path"
+          ],
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "refresh_official_docs",
+        "description": "Re-fetch the official Anthropic Claude Code docs and update the \"current\" snapshot without touching the baseline. Run this to update the comparison target before diffing. Takes ~5s (fetches ~1.2MB from Anthropic).",
+        "input_schema": {
+          "type": "object",
+          "properties": {},
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": true
+        }
+      },
+      {
+        "name": "search_examples",
+        "description": "Semantic search across all production-ready templates by intent (e.g. \"hook lint\", \"agent code review\"). Different from get_example (exact name) and list_examples (category browse).",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "Search query describing the template you need, e.g. \"hook lint\", \"agent code review\", \"pre-commit typescript\""
+            },
+            "limit": {
+              "default": 10,
+              "description": "Max results to return (default 10, max 20)",
+              "type": "number",
+              "minimum": 1,
+              "maximum": 20
+            }
+          },
+          "required": [
+            "query"
+          ],
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "search_guide",
+        "description": "Search the Claude Code Ultimate Guide by topic, keyword, or question. Covers features, hooks, agents, MCP, skills, commands, and best practices. Use this FIRST for any Claude Code question instead of web search.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "Search query — topic, question, or keyword (e.g. \"hooks\", \"custom agents\", \"cost optimization\")"
+            },
+            "limit": {
+              "default": 10,
+              "description": "Max results to return (default 10, max 20)",
+              "type": "number",
+              "minimum": 1,
+              "maximum": 20
+            }
+          },
+          "required": [
+            "query"
+          ],
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "search_official_docs",
+        "description": "Search the official Anthropic Claude Code documentation by keyword or topic. Uses the local current snapshot — no network call. Run init_official_docs() first.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "Search term or topic (e.g. \"hooks\", \"MCP authentication\", \"cost limits\")"
+            },
+            "limit": {
+              "default": 5,
+              "description": "Max sections to return (default 5)",
+              "type": "number",
+              "minimum": 1,
+              "maximum": 10
+            }
+          },
+          "required": [
+            "query"
+          ],
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        }
+      }
+    ],
+    "resources": [
+      {
+        "name": "agent-harnesses",
+        "uri": "claude-code-guide://agent-harnesses",
+        "description": "Evidence-backed Agent Harness Map dataset. Separates the broad source catalog, guide supplements, strict runtime map, and adjacent control planes. Unknown evidence is preserved as unknown.",
+        "mime_type": "application/json"
+      },
+      {
+        "name": "distribution-channels",
+        "uri": "claude-code-guide://distribution-channels",
+        "description": "Publication channels, attributed URLs, asset states, dates, and 30-day outcome fields for the guide.",
+        "mime_type": "text/yaml"
+      },
+      {
+        "name": "llms",
+        "uri": "claude-code-guide://llms",
+        "description": "llms.txt — machine-readable identity and navigation file for the Claude Code Ultimate Guide.",
+        "mime_type": "text/plain"
+      },
+      {
+        "name": "reference",
+        "uri": "claude-code-guide://reference",
+        "description": "Complete structured index of the Claude Code Ultimate Guide. Use as fallback when search_guide() results are insufficient.",
+        "mime_type": "text/yaml"
+      },
+      {
+        "name": "releases",
+        "uri": "claude-code-guide://releases",
+        "description": "Claude Code official releases history — condensed highlights and breaking changes for each version.",
+        "mime_type": "text/yaml"
+      },
+      {
+        "name": "translations",
+        "uri": "claude-code-guide://translations",
+        "description": "Version, provenance, freshness, and coverage status for maintained and community translations of the guide.",
+        "mime_type": "application/json"
+      }
+    ],
+    "prompts": [
+      {
+        "name": "claude-code-expert",
+        "description": "Activate Claude Code expert mode with the optimal workflow for answering questions using the Ultimate Guide.",
+        "arguments": [
+          {
+            "name": "question",
+            "description": "Optional question to answer immediately",
+            "required": false
+          }
+        ]
+      }
+    ]
+  },
+  "companions": {
+    "slash_commands": [
+      "daily",
+      "diff-docs",
+      "init-docs",
+      "refresh-docs",
+      "search-docs"
+    ]
+  },
+  "security": {
+    "audit_as_of": "2026-08-31",
+    "production_vulnerabilities": 0,
+    "development_only_vulnerabilities": {
+      "low": 1,
+      "packages": [
+        "esbuild"
+      ]
+    }
+  },
+  "source_digest": "sha256:924ca4a074f7d9c272cc1d5646ceb1446d1781817b9aa36835d2c1b48c693b19"
+}

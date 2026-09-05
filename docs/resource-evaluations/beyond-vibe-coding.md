@@ -19,12 +19,12 @@
 Comprehensive book guiding developers from "vibe coding" (rapid AI-assisted prototyping without deep understanding) to professional AI-aided engineering practices. Published by O'Reilly, covers multiple AI coding tools (Claude Code, Cursor, GitHub Copilot, Gemini CLI) with practical strategies for production-ready development.
 
 **Six-chapter structure**:
-1. **Intro & Spectrum** — Defining vibe coding vs AI-assisted engineering
-2. **Principles & Best Practices** — Context, trust, planning, documentation
-3. **Advanced Techniques** — Prompt engineering, context engineering, MCP
-4. **CLI Agents & Orchestrators** — Terminal-based tools and multi-agent systems
-5. **Production-Ready Development** — Security, testing, SDLC integration
-6. **Future Trends** — Autonomous agents, visual development, reasoning models
+1. **Intro & Spectrum**: Defining vibe coding vs AI-assisted engineering
+2. **Principles & Best Practices**: Context, trust, planning, documentation
+3. **Advanced Techniques**: Prompt engineering, context engineering, MCP
+4. **CLI Agents & Orchestrators**: Terminal-based tools and multi-agent systems
+5. **Production-Ready Development**: Security, testing, SDLC integration
+6. **Future Trends**: Autonomous agents, visual development, reasoning models
 
 **Key frameworks**:
 - **The 70% Problem**: AI accelerates 70% of development, final 30% requires engineering rigor
@@ -171,20 +171,20 @@ Comprehensive book guiding developers from "vibe coding" (rapid AI-assisted prot
 
 ### Why NOT Full Integration
 
-1. **Paid resource** — Guide is open-source, privilege free/open-access sources
-2. **90% overlap** — 10/14 topics already covered 100% with primary sources
+1. **Paid resource**: Guide is open-source, privilege free/open-access sources
+2. **90% overlap**: 10/14 topics already covered 100% with primary sources
 3. **2 Osmani articles already integrated**:
    - Spec-First (4/5, 180 lines added)
    - 80% Problem (3/5, 30 lines added)
-4. **Guide already more comprehensive** — 11K lines vs book's generalist approach (multi-tool coverage)
-5. **Book = consolidation** — Synthesis of existing articles + moderate expansion, not fundamentally new research
+4. **Guide already more comprehensive**: 11K lines vs book's generalist approach (multi-tool coverage)
+5. **Book = consolidation**: Synthesis of existing articles + moderate expansion, not fundamentally new research
 
 ### Why Tracking Mention IS Valuable
 
-1. **External validation** — O'Reilly publication = practitioner credibility for guide's patterns
-2. **Cross-reference utility** — Users familiar with book can map to guide sections
-3. **Ecosystem awareness** — Documents major resources in AI-assisted dev space
-4. **Pedagogical framing** — "Context as RAM", "MCP as USB-C" = memorable metaphors (note-worthy even if concepts covered)
+1. **External validation**: O'Reilly publication = practitioner credibility for guide's patterns
+2. **Cross-reference utility**: Users familiar with book can map to guide sections
+3. **Ecosystem awareness**: Documents major resources in AI-assisted dev space
+4. **Pedagogical framing**: "Context as RAM", "MCP as USB-C" = memorable metaphors (note-worthy even if concepts covered)
 
 ---
 

@@ -37,6 +37,10 @@ Les documents de travail bruts (prompts Perplexity, audits clients) restent dans
 
 | Ressource | Score Initial | Score Final | Décision | Fichier |
 |-----------|---------------|-------------|----------|---------|
+| **Databricks: Managing AI Coding Costs at Scale** | 4/5 | **4/5** | ✅ Intégration sélective: routage à trois niveaux, budgets progressifs, cache et clarification meta-harness; chiffres internes non généralisés | [databricks-managing-ai-coding-costs-scale.md](./databricks-managing-ai-coding-costs-scale.md) |
+| **MLTUT + Awesome Claude Code learning corpus** | 4/5 | **4/5** | ✅ Lacunes ciblées, parcours et actifs de distribution intégrés | [mltut-learning-resources-comparative-audit.md](./mltut-learning-resources-comparative-audit.md) |
+| **Claude Code current product surface** | - | **5/5** | ✅ Intégré depuis la documentation officielle du 31 août 2026 | [claude-code-current-surface-2026-08.md](./claude-code-current-surface-2026-08.md) |
+| **Best-of-N and verification evidence** | - | **4/5** | ✅ Intégré avec protocole, skill et proof log | [best-of-n-verification-evidence.md](./best-of-n-verification-evidence.md) |
 | **Anthropic Releases** (Jan 16-23, 2026) | - | - | ✅ Suivi régulier | [anthropic-releases-jan16-23-2026.md](./anthropic-releases-jan16-23-2026.md) |
 | **Caliber** (rely-ai-org/caliber) | 3/5 | 3/5 | ✅ Intégré: Configuration Quality | [caliber-config-quality-tool.md](./caliber-config-quality-tool.md) |
 | **AST-grep** (Flavien Métivier) | 3/5 | **4/5** | ✅ Intégrer workflow | [astgrep-flavien-metivier.md](./astgrep-flavien-metivier.md) |
@@ -91,6 +95,9 @@ Les documents de travail bruts (prompts Perplexity, audits clients) restent dans
 | **Rippletide** ("The Harness is the Agent") | 2/5 | **2/5** | ❌ Reject, no new content vs. agent-harness.md, third Rippletide submission | [084-rippletide-harness-is-the-agent.md](./084-rippletide-harness-is-the-agent.md) |
 | **just-bash** (vercel-labs, simulated bash for agents) | 4/5 | **4/5** | ✅ Integrated: sandbox-isolation.md §5 ("simulate, don't isolate" counterpart to agentOS); bus factor 1 (84.7%), no LICENSE file despite Apache-2.0 claim | [just-bash-simulated-shell.md](./just-bash-simulated-shell.md) |
 | **Multi-Project Agent Network** (M. Grenier, CTO Easystrat) | 3/5 | **3/5** | ✅ Partial: 2 patterns into agent-teams.md §Advanced (steering rule, single-writer); novelty claim rejected (contradicted by agent-teams mailbox, Gas Town, Hermes GEPA). ⚠️ Author is NOT the same person as `grenier-agent-skill-quality.md` | [grenier-multi-project-agent-network.md](./grenier-multi-project-agent-network.md) |
+| **Supermemory** (supermemoryai/supermemory, memory API + context engine) | 3/5 | **3/5** | ✅ Integrated: memory-systems.md §3.8/§3.9 (entry), §4.7 (team-gap evidence), §9 (95%/85.4% benchmark inconsistency); paid Claude Code plugin ($19/mo min.) vs free generic MCP | [supermemory-memory-context-engine.md](./supermemory-memory-context-engine.md) |
+| **Pavan Belagatti 2026 corpus** (62 YouTube transcripts) | 3/5 | **3/5** | ✅ Selective integration: execution versus governance, software-factory operating model, evidence boundaries; Port tutorials not treated as independent validation | [pavan-belagatti-agentic-engineering-2026.md](./pavan-belagatti-agentic-engineering-2026.md) |
+| **Switch** (Flint AI / SandboxAQ, agent-human chat bridge) | 3/5 | **3/5** | ✅ Known Gaps line only: third-party-tools.md (cross-platform agent-human chat bridge with governance, no comparable peer found); watch-list, pre-1.0 (0.21.0), 252 stars/6 weeks, bus factor close to 1 (80%) | [switch-agent-human-chat-bridge.md](./switch-agent-human-chat-bridge.md) |
 
 ## Watch List
 
@@ -98,4 +105,4 @@ Ressources surveillées mais pas encore intégrées : [watch-list.md](./watch-li
 
 ---
 
-**Last updated**: 2026-08-16 (171 evaluation files on disk, 54 indexed above; counts re-measured this pass, the previous "171 / 52" line was already off by one in each direction. The gap is a known backlog awaiting a dedicated audit pass)
+**Last updated**: 2026-08-31 (182 Markdown files on disk, 61 indexed above; the disk/index gap is a known backlog awaiting a dedicated audit pass)

@@ -16,7 +16,7 @@ tags: [guide, reference, workflows, agents, hooks, mcp, security]
 
 **Last updated**: January 2026
 
-**Version**: 3.41.3
+**Version**: 3.43.0
 
 ---
 
@@ -219,9 +219,10 @@ If you only have time for 5 sections:
   - [9.22 Remote Control (Mobile Access)](#922-remote-control-mobile-access)
   - [9.23 Configuration Lifecycle & The Update Loop](#923-configuration-lifecycle--the-update-loop)
   - [9.24 Instinct-Based Continuous Learning](#924-instinct-based-continuous-learning)
-  - [9.25 Harness Engineering](#925-harness-engineering)
+  - [9.25 Repository Harness Engineering](#925-harness-engineering)
   - [9.26 Review-Driven Context Optimization](#926-review-driven-context-optimization)
   - [9.27 Cross-Session Messaging (Peer Coordination)](#927-cross-session-messaging-peer-coordination)
+  - [9.28 Event Ingestion and Safe Delegation](#928-event-ingestion-and-safe-delegation)
 - [10. Reference](#10-reference) `🟢 All levels` `⏱ As needed`
   - [10.1 Commands Table](#101-commands-table)
   - [10.2 Keyboard Shortcuts](#102-keyboard-shortcuts)
@@ -2274,7 +2275,7 @@ The default model depends on your subscription: **Max/Team Premium** subscribers
 
 **Reality check**: A typical 1-hour session costs **$0.10 - $0.50** depending on usage patterns.
 
-> **Model retirement (April 2026)**: `claude-3-haiku-20240307` (Claude 3 Haiku) was retired on **April 20, 2026**. If your CLAUDE.md, agent definitions, or scripts still hardcode this model ID, migrate to `claude-haiku-4-5-20251001` (Haiku 4.5) immediately. Source: [platform.claude.com/docs/en/release-notes/model-deprecations](https://platform.claude.com/docs/en/release-notes/model-deprecations)
+> **Model retirement (April 2026)**: `claude-3-haiku-20240307` (Claude 3 Haiku) was retired on **April 20, 2026**. If your CLAUDE.md, agent definitions, or scripts still hardcode this model ID, migrate to `claude-haiku-4-5-20251001` (Haiku 4.5) immediately. Source: [platform.claude.com/docs/en/about-claude/model-deprecations](https://platform.claude.com/docs/en/about-claude/model-deprecations)
 
 #### 200K vs 1M Context: Performance, Cost & Use Cases
 
@@ -5766,7 +5767,7 @@ The `.claude/` folder is your project's Claude Code directory for memory, settin
 | Personal preferences | `CLAUDE.md` | ❌ Gitignore |
 | Personal permissions | `settings.local.json` | ❌ Gitignore |
 
-### 3.41.3 Version Control & Backup
+### 3.43.0 Version Control & Backup
 
 **Problem**: Without version control, losing your Claude Code configuration means hours of manual reconfiguration across agents, skills, hooks, and MCP servers.
 
@@ -9610,9 +9611,11 @@ Claude Code provides three distinct mechanisms for running recurring tasks. They
 
 #### Routines (Cloud Automation)
 
-Routines run on Anthropic's infrastructure; your machine can be completely off. Each run clones a fresh copy of your GitHub repository. Three trigger types can be combined on a single routine.
+Routines run on Anthropic-managed cloud infrastructure or an organization's self-hosted environment; your machine can be completely off. Each run clones a fresh copy of your GitHub repository. Three trigger types can be combined on a single routine.
 
 > **Research preview**: behavior, limits, and API surface may change.
+
+> **Event boundary**: Routines run as separate persistent sessions. They are not local Monitors; for a GitHub event relay, WebSocket Monitor, Channels, and gated Codex handoff, see [Event Ingestion and Safe Delegation](#928-event-ingestion-and-safe-delegation).
 
 **Access**: Pro, Max, Team, and Enterprise plans.
 
@@ -13118,15 +13121,19 @@ export GITHUB_PERSONAL_ACCESS_TOKEN=ghp_xxx
 
 ---
 
-### 📖 This Guide as an MCP Server
+### This Guide as an MCP Server
 
-The Claude Code Ultimate Guide ships its own MCP server (`claude-code-ultimate-guide-mcp`) so you can query the guide directly from any Claude Code session without cloning the repo.
-
-**What it gives you**: 9 tools covering search, content reading, templates, digests, cheatsheet, and release notes. The structured index (882 entries) is bundled in the package (~130KB); markdown files are fetched from GitHub on demand with 24h local cache.
+<!-- mcp-product:start -->
+The Claude Code Ultimate Guide ships a stdio MCP server so coding clients can search the bundled reference, read source sections, inspect releases, and retrieve templates.
 
 #### Installation
 
-Add to `~/.claude.json`:
+```bash
+claude mcp add --scope user claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.1
+codex mcp add claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.1
+```
+
+For project-scoped Claude Code use, add the server to `.mcp.json`:
 
 ```json
 {
@@ -13134,89 +13141,64 @@ Add to `~/.claude.json`:
     "claude-code-guide": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "claude-code-ultimate-guide-mcp"]
+      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.1"]
     }
   }
 }
 ```
 
-Or with a local clone (dev mode, reads files directly from disk):
+#### Generated capabilities
 
-```json
-{
-  "mcpServers": {
-    "claude-code-guide": {
-      "type": "stdio",
-      "command": "node",
-      "args": ["/path/to/claude-code-ultimate-guide/mcp-server/dist/index.js"],
-      "env": {
-        "GUIDE_ROOT": "/path/to/claude-code-ultimate-guide"
-      }
-    }
-  }
-}
-```
+| Capability | Count | Names |
+| --- | ---: | --- |
+| Tools | 17 | `compare_versions`, `diff_official_docs`, `get_changelog`, `get_cheatsheet`, `get_digest`, `get_example`, `get_release`, `get_threat`, `init_official_docs`, `list_examples`, `list_threats`, `list_topics`, `read_section`, `refresh_official_docs`, `search_examples`, `search_guide`, `search_official_docs` |
+| Resources | 6 | `claude-code-guide://agent-harnesses`, `claude-code-guide://distribution-channels`, `claude-code-guide://llms`, `claude-code-guide://reference`, `claude-code-guide://releases`, `claude-code-guide://translations` |
+| Prompts | 1 | `claude-code-expert` |
+| Companion commands | 5 | `/ccguide:daily`, `/ccguide:diff-docs`, `/ccguide:init-docs`, `/ccguide:refresh-docs`, `/ccguide:search-docs` |
 
-#### Available tools
+| Tool | Description |
+| --- | --- |
+| `compare_versions` | Show what changed between two Claude Code CLI versions. Lists all releases in range with aggregated highlights and breaking changes. |
+| `diff_official_docs` | Compare the baseline and current official Anthropic Claude Code docs snapshots. Shows added, removed, and modified pages. No network call - reads local files only. Run init_official_docs() first, then refresh_official_docs() when you want to update the current snapshot. |
+| `get_changelog` | Return the last N entries from the Claude Code Ultimate Guide CHANGELOG. Shows what changed in the guide itself (not Claude Code CLI releases - use get_release() for that). |
+| `get_cheatsheet` | Return the Claude Code cheatsheet - a compact 1-page reference covering the most important commands, shortcuts, config options, and workflows. |
+| `get_digest` | Return a digest of guide and Claude Code CLI changes for a given period. Combines guide CHANGELOG entries + official Claude Code releases in the time window. |
+| `get_example` | Fetch a production-ready template or example from the guide (agents, skills, commands, hooks, scripts). Pass a partial name to search for matching examples. |
+| `get_release` | Get details about Claude Code CLI official releases. Pass a version to get a specific release, or omit to get the latest and recent history. |
+| `get_threat` | Look up a specific threat by ID from the security threat database. Supports CVE IDs (e.g. "CVE-2025-53109") and technique IDs (e.g. "T001"). |
+| `init_official_docs` | Fetch the official Anthropic Claude Code docs (llms-full.txt) and store a local snapshot as the diff baseline. Run this first. Safe to re-run - overwrites previous baseline AND current. Takes ~5s (fetches ~1.2MB from Anthropic). |
+| `list_examples` | List all production-ready templates in the guide by category (agents, commands, hooks, skills, scripts). Use get_example(name) to fetch the content of any specific template. |
+| `list_threats` | Browse the security threat database. Without a category, returns a summary with counts. With a category, returns the full list for that section. |
+| `list_topics` | List all top-level topics and categories in the Claude Code Ultimate Guide. Useful for exploring what the guide covers before searching. |
+| `read_section` | Read a section from a guide file (markdown, YAML, examples). Supports pagination via offset, or a "#heading-slug" anchor to jump straight to a section (as returned by search_guide()). Use after search_guide() to fetch the full content at a specific location. |
+| `refresh_official_docs` | Re-fetch the official Anthropic Claude Code docs and update the "current" snapshot without touching the baseline. Run this to update the comparison target before diffing. Takes ~5s (fetches ~1.2MB from Anthropic). |
+| `search_examples` | Semantic search across all production-ready templates by intent (e.g. "hook lint", "agent code review"). Different from get_example (exact name) and list_examples (category browse). |
+| `search_guide` | Search the Claude Code Ultimate Guide by topic, keyword, or question. Covers features, hooks, agents, MCP, skills, commands, and best practices. Use this FIRST for any Claude Code question instead of web search. |
+| `search_official_docs` | Search the official Anthropic Claude Code documentation by keyword or topic. Uses the local current snapshot - no network call. Run init_official_docs() first. |
 
-| Tool | Signature | Description |
-|------|-----------|-------------|
-| `search_guide` | `(query, limit?)` | Search 882 indexed entries by keyword or question |
-| `read_section` | `(path, offset?, limit?)` | Read any guide file with pagination (500 lines max) |
-| `list_topics` | `()` | Browse all 25 topic categories |
-| `get_example` | `(name)` | Fetch a production-ready template by name |
-| `list_examples` | `(category?)` | List all templates — `agents`, `commands`, `hooks`, `skills`, `scripts` |
-| `get_changelog` | `(count?)` | Last N guide CHANGELOG entries (default 5) |
-| `get_digest` | `(period)` | Combined digest of guide + CC releases: `day`, `week`, `month` |
-| `get_release` | `(version?)` | Claude Code CLI release details |
-| `get_cheatsheet` | `(section?)` | Full cheatsheet or filtered by section |
+| Resource URI | MIME type | Description |
+| --- | --- | --- |
+| `claude-code-guide://agent-harnesses` | `application/json` | Evidence-backed Agent Harness Map dataset. Separates the broad source catalog, guide supplements, strict runtime map, and adjacent control planes. Unknown evidence is preserved as unknown. |
+| `claude-code-guide://distribution-channels` | `text/yaml` | Publication channels, attributed URLs, asset states, dates, and 30-day outcome fields for the guide. |
+| `claude-code-guide://llms` | `text/plain` | llms.txt - machine-readable identity and navigation file for the Claude Code Ultimate Guide. |
+| `claude-code-guide://reference` | `text/yaml` | Complete structured index of the Claude Code Ultimate Guide. Use as fallback when search_guide() results are insufficient. |
+| `claude-code-guide://releases` | `text/yaml` | Claude Code official releases history - condensed highlights and breaking changes for each version. |
+| `claude-code-guide://translations` | `application/json` | Version, provenance, freshness, and coverage status for maintained and community translations of the guide. |
 
-**Resources**: `claude-code-guide://reference` (full 94KB YAML index), `claude-code-guide://releases`, `claude-code-guide://llms`
+| Companion command | Description |
+| --- | --- |
+| `/ccguide:daily` | Daily update check - official Anthropic docs diff + guide/CC releases digest |
+| `/ccguide:diff-docs` | Compare official Anthropic docs baseline vs current snapshot (no network - instant) |
+| `/ccguide:init-docs` | Fetch official Anthropic Claude Code docs and store as local baseline snapshot |
+| `/ccguide:refresh-docs` | Re-fetch official Anthropic Claude Code docs and update current snapshot (baseline unchanged) |
+| `/ccguide:search-docs` | Search official Anthropic Claude Code docs by keyword |
 
-**Prompt**: `claude-code-expert`, activates expert mode with optimal search workflow
+#### Data and network boundary
 
-#### Slash command shortcuts
+List operations and the search index use bundled package content. Section, example, cheatsheet, changelog, digest (`get_digest`), and threat tools may fetch GitHub content and write a 24-hour local cache. The official-doc initialization and refresh tools fetch Anthropic documentation and write separate local snapshots. The server is therefore not fully offline or purely read-only.
 
-Install the companion slash commands for one-keystroke access (stored in `~/.claude/commands/ccguide/`):
-
-```bash
-# These commands are included in the guide repo under .claude/commands/ccguide/
-# Copy or symlink to ~/.claude/commands/ccguide/ to install globally
-```
-
-**Guide commands:**
-
-| Command | Example | Description |
-|---------|---------|-------------|
-| `/ccguide:search` | `/ccguide:search hooks` | Search by keyword |
-| `/ccguide:cheatsheet` | `/ccguide:cheatsheet hooks` | Cheatsheet (full or section) |
-| `/ccguide:digest` | `/ccguide:digest week` | What changed this week (guide + CC releases) |
-| `/ccguide:example` | `/ccguide:example code-reviewer` | Fetch a template |
-| `/ccguide:examples` | `/ccguide:examples agents` | List templates by category |
-| `/ccguide:release` | `/ccguide:release 2.1.59` | Release details |
-| `/ccguide:changelog` | `/ccguide:changelog 10` | Recent guide CHANGELOG |
-| `/ccguide:topics` | `/ccguide:topics` | Browse all categories |
-
-**Official Anthropic docs tracker** (MCP v1.1.0+):
-
-| Command | Description |
-|---------|-------------|
-| `/ccguide:init-docs` | Fetch official docs + store as local baseline (run once) |
-| `/ccguide:refresh-docs` | Re-fetch latest docs, update current snapshot (baseline unchanged) |
-| `/ccguide:diff-docs` | Compare baseline vs current — added/removed/modified pages, 0 network |
-| `/ccguide:search-docs <query>` | Search official Anthropic docs from local cache |
-| `/ccguide:daily` | **Daily briefing**: refresh + diff official docs + guide/CC digest |
-
-Typical workflow:
-```bash
-/ccguide:init-docs          # once — stores baseline + current in ~/.cache/claude-code-guide/
-# days later...
-/ccguide:daily              # every day — refresh + diff + digest in one shot
-```
-
-#### Custom agent
-
-A `claude-code-guide` agent is included in `.claude/agents/claude-code-guide.md`. It uses Haiku (fast, cheap) and automatically searches the guide before answering any Claude Code question.
+See the [canonical technical guide](ecosystem/claude-code-guide-mcp.md) for the published-versus-candidate boundary, Cursor and VS Code configuration, privacy, offline behavior, limitations, diagnostics, and dated statistics. The [package README](../mcp-server/README.md) remains the package-level quick reference.
+<!-- mcp-product:end -->
 
 ---
 
@@ -19183,6 +19165,8 @@ claude --teleport
 
 **TL;DR**: Multi-instance orchestration = advanced pattern for teams managing 10+ concurrent features. Requires modular architecture + budget + monitoring. **95% of users don't need this.** Sequential workflows with 1-2 instances are more efficient for most contexts.
 
+Before adding another process manager, identify the layer that owns each responsibility. The model generates text; the runtime harness owns a session's model-and-tool loop; the repository harness supplies instructions and delivery gates; the orchestrator coordinates sessions. [Agent Harness Engineering](./core/agent-harness.md) explains the boundaries. The [Agent Harness Map](./ecosystem/agent-harness-landscape.md) compares strict runtime harnesses and keeps its wider sourced directory separate from the runtime table. [Agent Tools: Beyond Claude Code](./ecosystem/agentic-tools.md) covers frameworks and control planes; the [glossary](./core/glossary.md) defines the terms.
+
 ---
 
 ### Agent View: Native Session Management (v2.1.139+)
@@ -23664,16 +23648,20 @@ The promotion step stays manual by design: you decide what gets encoded. The pip
 
 ---
 
-## 9.25 Harness Engineering
+<a id="925-harness-engineering"></a>
+
+## 9.25 Repository Harness Engineering
 
 **Reading time**: 10 minutes
 **Skill level**: Month 2+
 
-> **The core insight**: model capability and execution reliability are orthogonal. The same model produces fundamentally different outcomes depending on the infrastructure around it, not the model's quality. That infrastructure is the harness.
+> **The core insight**: model capability and execution reliability are orthogonal. The same model produces fundamentally different outcomes depending on the infrastructure around it, not the model's quality. In this section, that infrastructure is the **repository harness**: the project environment a runtime such as Claude Code operates inside.
 
-### What Is a Harness?
+The vocabulary is deliberately layered: the **model** generates text; the **runtime harness** runs its tool loop, context, permissions, and sessions; this **repository harness** supplies project instructions, setup, state, and feedback; an **orchestrator** coordinates multiple runtime sessions. See [Agent Harness Engineering](./core/agent-harness.md#0-four-layers-four-responsibilities) for the full distinction and the [Agent Harness Landscape](./ecosystem/agent-harness-landscape.md) for the product landscape.
 
-The harness is everything in the engineering environment around the agent: the instruction files, initialization scripts, state tracking, verification commands, and feedback loops. It is not a prompt file and not a list of guidelines. The harness is the workbench the agent operates inside.
+### What Is a Repository Harness?
+
+The repository harness is everything in the engineering environment around the agent: the instruction files, initialization scripts, state tracking, verification commands, and feedback loops. It is not a prompt file and not a list of guidelines. It is the workbench the runtime operates inside.
 
 Five subsystems make up a complete harness:
 
@@ -24184,6 +24172,19 @@ Each session controls what it accepts from peers via `crossSessionInbound` (`acc
 Coordinate sessions you already have open and steer yourself: hand a finding from one worktree to a sibling worktree, tell the backend session when the database migration finished, push a documentation session the answer that just unblocked the frontend one. No `TeamCreate`, no team lead, no shared task list, just two (or more) independent sessions cutting the human out of the relay.
 
 > **Full reference**: [Cross-Session Messaging](./workflows/cross-session-messaging.md) covers the discovery rows in detail, the inbox socket mechanism, the full `crossSessionInbound` precedence rules, message size and burst limits, and the version timeline. Diagram: [Cross-Session Messaging: Discovery & Delivery](./diagrams/07-multi-agent-patterns.md#cross-session-messaging-discovery--delivery).
+
+---
+
+## 9.28 Event Ingestion and Safe Delegation
+
+**Reading time**: 3 minutes (overview) | [Full guide →](./workflows/monitor-event-delegation.md) (~12 min, sources, boundaries, and Codex workflow)
+**Skill level**: Advanced
+
+Claude Code offers several ways to observe an event, but none turn incoming text into authority: Monitor command source (v2.1.98+), native WebSocket source (v2.1.195+), plugin monitors (v2.1.105+), and MCP Channels (v2.1.80+, research preview). Routines run as separate sessions on Anthropic-managed cloud infrastructure or an organization's self-hosted environment, triggered by schedules, APIs, or GitHub events.
+
+The safe shape is narrow and deliberate: verify the GitHub webhook signature, repository, event type, schema, and delivery ID; relay only typed metadata over an approved WebSocket; classify with read-only `codex exec`; then require an explicit human or policy gate before a separate isolated task can use `--sandbox workspace-write`. Raw comments, issue bodies, logs, and WebSocket frames remain data, never instructions or permission grants.
+
+> **Full reference**: [Monitor, Channels and Safe Delegation to Codex](./workflows/monitor-event-delegation.md) covers Monitor input limits, plugin and Channel trust boundaries, GitHub delivery handling, and a split-job `openai/codex-action@v1` pattern for GitHub Actions.
 
 ---
 
@@ -26645,4 +26646,4 @@ We'll evaluate and add it to this section if it meets quality criteria.
 
 **Contributions**: Issues and PRs welcome.
 
-**Last updated**: January 2026 | **Version**: 3.41.3
+**Last updated**: January 2026 | **Version**: 3.43.0

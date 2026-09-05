@@ -1,7 +1,7 @@
 ---
 title: "Agent Tools: Beyond Claude Code"
-description: "Comparative guide to terminal coding agents, autonomous coders, multi-agent frameworks, and agent orchestrators. Covers Hermes Agent, Codex CLI, Aider, Devin, SWE-agent, CrewAI, LangGraph, AutoGen, MetaGPT, Symphony, and Paperclip with a decision framework."
-tags: [agents, hermes, codex-cli, aider, devin, swe-agent, crewai, langgraph, autogen, metagpt, symphony, paperclip, opencode, gemini-cli, crush, comparison]
+description: "Comparative guide to terminal coding agents, autonomous coders, multi-agent frameworks, orchestrators, and adjacent harness optimizers, with evidence-aware selection guidance."
+tags: [agents, hermes, codex-cli, aider, deepseek-harness, devin, swe-agent, crewai, langgraph, autogen, metagpt, symphony, paperclip, opencode, gemini-cli, crush, comparison]
 ---
 
 # Agent Tools: Beyond Claude Code
@@ -12,7 +12,7 @@ Claude Code is one tool in a field that has expanded dramatically since 2024. Do
 
 **What it does not cover**: GUI-based AI coding IDEs (Cursor, Windsurf, Cline), which are covered in [AI Ecosystem §6](./ai-ecosystem.md#section-6). Multi-Claude orchestration tools (Gas Town, multiclaude, Conductor desktop app) are in [Third-Party Tools: Multi-Agent Orchestration](./third-party-tools.md#multi-agent-orchestration).
 
-For the full field across CLI, IDE, and cloud agents in one table, see [Agent Harness Comparison](./agent-harness-landscape.md).
+For the full field across CLI, IDE, and cloud agents, use the [Agent Harness Landscape](./agent-harness-landscape.md). For the loop, context, tools, permissions, recovery, observability, and automated harness optimization, read [Agent Harness Engineering](../core/agent-harness.md). For explicit feedback loops, workflow graphs, stopping rules, and responsibility boundaries, read [Loop & Graph Engineering](../core/loop-graph-engineering.md). The [glossary](../core/glossary.md) separates runtime harnesses from repository harnesses, evaluation harnesses, orchestrators, and meta-harnesses.
 
 ---
 
@@ -41,6 +41,8 @@ Agent orchestrator (manage a fleet)
 **Autonomous agents**: you assign a task and come back to a result. Best for well-specified, bounded tasks: fix this bug, implement this spec, review this PR. The quality of the task description determines the quality of the output more than the agent choice.
 
 **Multi-agent frameworks**: libraries for building custom agent systems. Not coding tools themselves. You use LangGraph to build an agent, not to write code.
+
+**Harness optimizers and meta-harnesses**: systems that modify a target harness and compare candidate versions. They are not another terminal coding-agent category. [ADAS](https://proceedings.iclr.cc/paper_files/paper/2025/hash/36b7acf6f6010652b3f2a433774a66fe-Abstract-Conference.html), [AFlow](https://arxiv.org/abs/2410.10762), [Meta-Harness](https://arxiv.org/abs/2603.28052), and [Agentic Harness Engineering](https://arxiv.org/abs/2604.25850) operate at this outer loop. Compare them through the [Landscape research layer](./agent-harness-landscape.md#harness-optimizers-and-meta-harnesses), not by placing them beside Claude Code or Codex in a runtime feature table.
 
 ---
 
@@ -339,6 +341,8 @@ The strongest case is provider flexibility: a team that wants to route between C
 
 The honest weak point is depth of integration per provider. Being multi-provider by design means no single model gets the first-party polish Claude Code gives Claude models specifically (prompt caching behavior, skills, hooks tuned to one vendor's tool-use format). Star count also is not a proxy for stability here: the project moved stewards once already (SST to Anomaly), and a team betting on long-term API surface stability should read the migration history before standardizing on it.
 
+Provider breadth also does not remove operational approval or version risk. A practitioner talk about an AI code reviewer built for a stated 200-engineer scope described using OpenRouter to prototype quickly through one API, then moving to Vertex AI and Gemini for stronger monitoring, logs, budgets, and security controls. After a later model update reduced the reviewer's measured satisfaction, the team rolled back to the previous model and observed recovery. The talk reports neither active-user count, migration cost, nor satisfaction values. Treat provider allowlists, pinned model versions, quality telemetry, and rollback as acceptance criteria for a multi-provider harness. Source: ["How We Built an AI Code Reviewer for 200 Engineers", 17:19](https://www.youtube.com/watch?v=dTye2zVfSco&t=1039s) and [21:44](https://www.youtube.com/watch?v=dTye2zVfSco&t=1304s), AI DevCon, published 2026-05-29.
+
 #### Quick Start
 
 ```bash
@@ -347,6 +351,12 @@ opencode
 ```
 
 Full provider list and configuration at [opencode.ai/docs/providers](https://opencode.ai/docs/providers/); server architecture at [opencode.ai/docs/server](https://opencode.ai/docs/server/).
+
+#### opencode Go: the subscription tier, and why it does not scale to a team
+
+Beyond bring-your-own-provider-key usage, opencode offers a subscription called Go for $10/month. The current catalog includes Grok 4.6 and GPT 5.6 Luna alongside DeepSeek, Qwen, GLM, Kimi, and other models, so this is a curated coding-model subscription rather than an open-weight-only tier. Usage is limited in dollar-value terms rather than fixed request counts: $12 per 5-hour window, $30 per week, and $60 per month. The official estimates currently range from 110 to 45,300 requests per 5-hour window, but those estimates assume model-specific request profiles with large cached-input volumes and are not request guarantees. Source: [opencode.ai/docs/go](https://opencode.ai/docs/go/), verified 2026-08-30.
+
+The plan is explicitly single-seat: only one member per workspace can subscribe to Go. The usage limits are also not necessarily a hard financial stop. If the subscriber enables **Use balance**, Go falls back to the workspace's OpenCode Zen balance after a limit is reached instead of blocking requests. Go can serve an individual evaluation, but it is not a documented way to provision or govern a team. Source: [opencode.ai/docs/go](https://opencode.ai/docs/go/), verified 2026-08-30. For team-scale subscription comparisons across providers, see [Subscription Strategy at Team Scale](../ops/subscription-strategy.md).
 
 ---
 
@@ -446,6 +456,47 @@ License text and the two-year MIT conversion terms at [charmbracelet/crush LICEN
 
 ---
 
+### 1.8 DeepSeek Harness (dsh)
+
+DeepSeek's official agent runtime. It is technically ambitious, explicitly experimental, and should not be confused with a safe-by-default production sandbox.
+
+| Attribute | Details |
+|-----------|---------|
+| **GitHub** | [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) |
+| **Interface** | Local web UI and headless CLI |
+| **License** | MIT |
+| **Status** | Developer preview; compatibility-breaking changes are expected |
+| **Architecture** | Cordis plugin tree: models, tools, skills, sessions, sandbox, storage, approvals, and UI are composable plugins |
+
+#### What Is DeepSeek Harness?
+
+DeepSeek Harness, exposed as `dsh`, is a local-first runtime that composes a profile from plugins rather than shipping one fixed agent surface. Its official architecture documents profiles and bundles for the agent loop, model adapters, tools, MCP, skills, subagents, workflows, sandboxing, permissions, storage, and UI. That makes it an interesting reference for builders: the seams are visible instead of being hidden behind a single CLI command.
+
+Start from the official package rather than a similarly named community project:
+
+```bash
+npx @deepseek-ai/dsh web
+
+# Inspect the fully composed profile before trusting it
+npx @deepseek-ai/dsh --profile web --dump-config
+```
+
+The project documents Standard, PTC/Code Mode, Minimal, and Creation-oriented profiles. Its session event log can record messages, tool calls, and approval decisions for replay. That helps debugging, but it also raises a data-handling question: inspect telemetry and export settings before putting proprietary code or secrets through a local run.
+
+#### Security and Operational Limits
+
+The repository labels dsh a developer preview. Treat that as an operational constraint, not modest wording. A local-first agent can still read hostile repository content, call a powerful tool, and write to a workspace. Use an isolated VM or container for untrusted code, start with the least-privileged profile, and make consequential actions reviewable outside the model's own reasoning loop. Do not enable a `danger-full-access` preset on a primary machine.
+
+One external study, [arXiv:2608.16393](https://arxiv.org/abs/2608.16393), evaluated one DeepSeek Harness commit and configuration in 14,560 controlled indirect-prompt-injection tests. Its results are evidence about that tested configuration, not a universal security rating. The durable lesson is simpler: sandboxing alone does not prove that untrusted content cannot influence a tool-using agent. Keep provenance, independent authorization, and review gates on top of a sandbox.
+
+Official starting points: the [README](https://github.com/deepseek-ai/deepseek-harness), [architecture](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md), [sandbox subsystem](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/sandbox.md), and [permission presets](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/permission-presets.md). Snapshot checked 2026-09-02.
+
+#### When to Choose DeepSeek Harness
+
+Choose dsh to study or extend a plugin-first runtime, or to experiment in an isolated environment with its explicit composition model. Do not standardize on it for a production team merely because it is local or open source. Claude Code remains the better default in this guide for a stable, documented coding workflow; dsh is a fast-moving alternative worth evaluating behind clear security and maintenance gates.
+
+---
+
 ## Section 2: Autonomous Coding Agents
 
 These tools run without you watching. You give them a task description (a GitHub issue, a spec, a bug report), and they produce a pull request. The interaction model is fundamentally different from terminal agents: less iterative, more like assigning work to a colleague.
@@ -513,7 +564,7 @@ An academic agent designed specifically for resolving GitHub issues from an issu
 
 An agent pipeline that takes a GitHub issue URL and a model, then attempts to reproduce the bug, write a fix, and produce a patch. Its architecture uses an Agent-Computer Interface (ACI) layer that abstracts terminal, file editing, and test running into a consistent set of commands regardless of the underlying environment. This ACI design is the main academic contribution: it shows that agent performance correlates strongly with how well the environment exposes information, not just with the model's raw capability.
 
-SWE-agent + Claude 3.7 holds state-of-the-art on SWE-Bench Full (open-weights). The benchmark is the key context: SWE-Bench measures the percentage of real GitHub issues an agent can resolve end-to-end, and SWE-agent was designed with that benchmark as its optimization target.
+The peer-reviewed NeurIPS 2024 evaluation did not test Claude 3.7 or an open-weight model in its principal SWE-bench result. On the full SWE-bench test set, SWE-agent resolved 12.47% of issues with GPT-4 Turbo and 10.46% with Claude 3 Opus. Table 1 reports average API inference costs of $1.59 and $2.59, respectively, averaged only over successfully resolved instances, with a $4 cap per run. These figures describe the paper's 2024 benchmark configuration, not current state of the art. Source: [Yang et al., SWE-agent](https://proceedings.neurips.cc/paper_files/paper/2024/file/5a7c947568c1b1328ccc5230172e1e7c-Paper-Conference.pdf), PDF pp. 5-6, Table 1.
 
 #### When to Choose SWE-agent
 
@@ -946,6 +997,44 @@ Every session lands on a searchable kanban board linked to the files it touched.
 
 ---
 
+### 4.8 Liza
+
+Liza is a code-enforced multi-agent control plane for coding work. It launches provider CLIs as workers, assigns each task to a doer/reviewer pair, isolates their branches in git worktrees, and persists coordination state outside model context.
+
+| Attribute | Details |
+|-----------|---------|
+| **GitHub** | [liza-mas/liza](https://github.com/liza-mas/liza) |
+| **Stars** | 363 (2026-08-28), 49 forks |
+| **License** | Apache-2.0 |
+| **Language** | Go supervisors, Python support utilities |
+| **Latest release** | [v0.8.0](https://github.com/liza-mas/liza/releases/tag/v0.8.0), 2026-06-03 |
+| **Adapter catalog** | Claude Code, Codex, OpenCode, Kimi, Gemini, Qwen, Mistral, Devin; some disabled by default |
+| **Evidence snapshot** | [`a22c123`](https://github.com/liza-mas/liza/commit/a22c12381c5d884d2586a48aaaa517bca184f9cf), 2026-08-27 |
+
+#### What the Code Enforces
+
+Liza's [supervision model](https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/specs/architecture/supervision-model.md) separates semantic work from deterministic lifecycle control. Agents propose task transitions; Go supervisors validate ownership, state, leases, review verdicts, and merge eligibility. The YAML blackboard survives model context loss, while lease generations fence stale workers after recovery. Each doer works in an isolated worktree, and a separate reviewer can reject the submission before the supervisor allows integration.
+
+This makes Liza a useful example of two layers combined. Its `liza init` path installs repository-harness assets such as behavioral contracts, skills, settings, and guardrails. MAS mode adds an orchestrator above the selected runtime. The [provider catalog](https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/provider-catalog.yaml) confirms that Claude Code, Codex, and the other CLIs still own their inner tool loops.
+
+The reviewed commit contained 296 Go test files and passed the project's Ubuntu and macOS CI jobs. This review did not execute the suite locally because Go was unavailable on the review host. Upstream CI is useful maintenance evidence, but it does not establish task quality, recovery success under production load, or security against an untrusted repository.
+
+#### Where It Stops
+
+Liza's isolation boundary is git, not the operating system. Several provider adapters enable broad approval modes, including OpenCode's `--dangerously-skip-permissions` and Devin's `--permission-mode dangerous`. Agents still inherit whatever filesystem, environment, credentials, and network access the underlying process receives. Put an OS or container sandbox and scoped credentials below Liza before unattended use.
+
+The project also publishes an unusually candid [architectural issues ledger](https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/specs/architecture/architectural-issues.md). It records reliance on one orchestrator for semantic interpretation, one supervisor as the correctness gate, incomplete cross-pair review, specification-quality feedback gaps, and context pressure from the behavioral contract. Those limits make Liza suitable for an isolated 8-to-12-ticket pilot, not a default production dependency based on feature count alone.
+
+Read Liza as both a loop system and a domain-specific graph. The frozen [pipeline configuration](https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/internal/embedded/pipeline.yaml) defines the stable organization graph: roles, role pairs, state vocabularies, quorums, and transitions. Runtime tasks and dependencies form the changing work graph. The model does semantic work inside nodes; deterministic Go code validates parts of the transition protocol. Liza is not a general graph runtime, because its transition type is intentionally narrow and its node programs are fixed to the coding lifecycle.
+
+The responsibility boundary is more important than the graph label. Illegal transitions, stale claims, and unmet quorums are mechanically rejectable. Whether a plan is sufficient or a patch is correct still depends on evidence and reviewer judgment. The pinned ledger explicitly identifies unmeasured reviewer accuracy, consequential cross-pair decomposition decisions, provider diversity that is preferred rather than guaranteed, and human checkpoints that constrain throughput. Evaluate workflow correctness and task correctness separately. See [Agent Evaluation](../roles/agent-evaluation.md#evaluate-judgment-allocation-and-reviewer-independence) for the test protocol.
+
+One independent practitioner report now exists. Hippolyte Durix's [Ippon write-up](https://blog.ippon.fr/2026/04/29/premier-rex-multi-agent-liza/) describes a small Spring Boot, Vue.js, and PostgreSQL catalog run: roughly 30 tasks over 5 automated sprints, 35 review verdicts, 3 rejections corrected and resubmitted, and 3 to 4 hours of human time. The author also reports massive token consumption, required human validation of planning stages, and no test of cross-provider review. This is useful operational evidence from a real user, but not a production benchmark: the project was deliberately simple, the figures are self-reported, and no comparable artifact-level baseline is published.
+
+Liza's maintainer also publishes the separate [bash-policy](https://github.com/liza-mas/bash-policy) project. It parses compound shell payloads into command units, evaluates project policy, and produces `allow`, `manual`, or `deny` decisions. The checked repository had no tagged release and no adoption evidence, so treat it as an inspectable policy experiment rather than a mature security dependency. Its boundary is still useful: command policy can constrain and audit what an agent asks to run, but it does not provide filesystem, credential, process, or network isolation. Pair it with the runtime's native policy engine and an OS-level sandbox.
+
+---
+
 ## Section 5: Decision Framework
 
 ### Full Comparison Matrix
@@ -957,6 +1046,7 @@ Every session lands on a searchable kanban board linked to the files it touched.
 | **Hermes Agent** | Yes (MIT) | 170K | 200+ providers | Interactive + cron + messaging | Python | Pay-per-LLM-call |
 | **Aider** | Yes | 45K | 50+ providers | Interactive | Python | Pay-per-LLM-call |
 | **Goose** | Yes | 46K | 15+ providers | Interactive + subagents | Rust | Pay-per-LLM-call |
+| **DeepSeek Harness** | Yes (MIT) | 200K | DeepSeek + multi-provider | Local web UI + headless | TypeScript | Free + per-LLM-call |
 | **Devin** | No | N/A | Proprietary | Fully autonomous | Proprietary | $20-$500/mo |
 | **SWE-agent** | Yes (MIT) | 19K | Any (Claude, GPT...) | Autonomous (issue → PR) | Python | Pay-per-LLM-call |
 | **CrewAI** | Yes (MIT) | 55K | 50+ providers | Framework (build your own) | Python | Framework is free |
@@ -965,8 +1055,9 @@ Every session lands on a searchable kanban board linked to the files it touched.
 | **MetaGPT** | Yes (MIT) | 69K | Any | Framework (SOP pipeline) | Python | Framework is free |
 | **Symphony** | Yes (Apache 2.0) | 26K | Codex (reference impl) | Orchestrator (issue → run) | Elixir | Free + per-agent LLM cost |
 | **Paperclip** | Yes (MIT) | 74K | Any (heartbeat protocol) | Orchestrator (goal → org) | TypeScript | Free + per-agent LLM cost |
+| **Liza** | Yes (Apache 2.0) | 363 | External coding-agent CLIs | Orchestrator + repository harness | Go | Free + per-agent LLM cost |
 
-Star counts read July 15, 2026 via the GitHub API. Two rows carry a caveat the number hides: MetaGPT's 69K sits on a repo whose last release was April 2024, and Symphony's 26K sits on an explicit engineering preview. Stars measure reach, not maintenance.
+Star counts read July 15, 2026 via the GitHub API, except DeepSeek Harness, checked August 27, 2026 and rounded from 199,777, and Liza, checked August 28, 2026. Three rows carry a caveat the number hides: DeepSeek Harness is a developer preview, MetaGPT's 69K sits on a repo whose last release was April 2024, and Symphony's 26K sits on an explicit engineering preview. Stars measure reach, not maintenance.
 
 ### Situation to Tool Guide
 
@@ -988,6 +1079,7 @@ Star counts read July 15, 2026 via the GitHub API. Two rows carry a caveat the n
 | Dispatch a tracker board to agents, one workspace per issue | Symphony spec (§4.4) |
 | Coordinate mixed agent runtimes under budgets and approvals | Paperclip |
 | Review Claude Code/Codex edits visually instead of reading diffs in a terminal | Nimbalyst (§4.7) |
+| Run spec-driven doer/reviewer pairs with worktrees, recovery, and merge gates | Liza (§4.8) |
 | Enforce how work gets done inside an agent session | None of the above (see [spec-first.md](../workflows/spec-first.md)) |
 
 ### The Model Lock-In Question
@@ -1008,6 +1100,8 @@ Claude Code headless (`claude -p`) and SWE-agent give you controlled autonomy: y
 
 Interactive agents (Claude Code terminal, Hermes, Aider, Goose) give you real-time control. You watch the agent think, redirect it when it goes wrong, and approve destructive actions. For exploratory work where requirements shift mid-session, interactive is faster than autonomous despite appearing more manual.
 
+Agentless is a counterexample to treating autonomy or candidate volume as a quality proxy. Its FSE 2025 evaluation used a bounded three-phase workflow with GPT-4o on SWE-bench Lite and resolved 96 of 300 issues, or 32%, at an average reported inference cost of $0.70 per issue. Repair performance plateaued around 40 candidate patches. The result comes from one benchmark with 2024 API pricing and excludes test infrastructure and human review, so it is not a production forecast. It supports testing a bounded localization, repair, and validation workflow before adding more agent loops or candidates. Source: [Xia et al., Demystifying LLM-Based Software Engineering Agents](https://lingming.cs.illinois.edu/publications/fse2025.pdf), DOI [10.1145/3715754](https://doi.org/10.1145/3715754), PDF pp. 10-15, Table 1 and Figure 6.
+
 ---
 
 ## Cross-References
@@ -1019,5 +1113,7 @@ Interactive agents (Claude Code terminal, Hermes, Aider, Goose) give you real-ti
 - **Claude Code's own agent team patterns**: [workflows/agent-teams.md](../workflows/agent-teams.md)
 - **Event-driven autonomous patterns**: [workflows/event-driven-agents.md](../workflows/event-driven-agents.md)
 - **Programmatic billing (Hermes, Codex CLI, third-party harnesses)**: [Ultimate Guide: Billing Split](../ultimate-guide.md#the-interactiveprogrammatic-billing-split-effective-june-15-2026)
-- **Agent harness engineering (theoretical framework)**: [core/agent-harness.md](../core/agent-harness.md)
+- **Agent harness engineering** (architecture, controls, and Claude Code implementation): [core/agent-harness.md](../core/agent-harness.md)
+- **Agent harness landscape** (dated catalog, evidence, and test-drive protocol): [ecosystem/agent-harness-landscape.md](./agent-harness-landscape.md)
+- **Shared harness terminology**: [core/glossary.md](../core/glossary.md)
 - **Coding agents comparison matrix** (23 tools, 11 criteria): [coding-agents-matrix.dev](https://coding-agents-matrix.dev)

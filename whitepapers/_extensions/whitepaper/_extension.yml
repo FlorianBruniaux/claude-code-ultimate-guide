@@ -1,0 +1,24 @@
+title: Whitepaper
+author: Florian BRUNIAUX
+version: "1.0.0"
+quarto-required: ">=1.4.0"
+contributes:
+  formats:
+    typst:
+      template-partials:
+        - typst-template.typ
+        - typst-show.typ
+      toc: true
+      number-sections: true
+    cheatsheet-typst:
+      template-partials:
+        - cheatsheet-template.typ
+        - cheatsheet-show.typ
+      toc: false
+      number-sections: false
+    recap-card-typst:
+      template-partials:
+        - recap-card-template.typ
+        - recap-card-show.typ
+      toc: false
+      number-sections: false

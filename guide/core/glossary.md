@@ -19,6 +19,10 @@ Multiple independent Claude Code sessions coordinated by a team lead, with a sha
 
 The cycle Claude works through for every task: gather context, take action, verify results, repeat until done. Each tool use returns information that informs the next step. Most extension points (hooks, skills, MCP) plug into specific phases of this loop. See [§1 How Claude Code Works](../ultimate-guide.md#1-how-claude-code-works).
 
+### Agent-computer interface
+
+The commands, observations, feedback format, and interaction rules through which a model acts on a computer. A better interface can improve an agent without changing the model. [SWE-agent](https://arxiv.org/abs/2405.15793) uses this term for its repository-oriented command and feedback design. The interface is one component of a runtime harness, not only its visual UI.
+
 ### Auto memory
 
 Notes Claude writes for itself based on your corrections and preferences, stored per git repository under `~/.claude/projects/`. The first 200 lines or 25 KB of `MEMORY.md` loads at session start. All worktrees of the same repository share one auto memory directory. See [§3 Memory](../ultimate-guide.md#3-configuration--memory).
@@ -85,11 +89,55 @@ Visible step-by-step reasoning the model performs before responding. You can cap
 
 ---
 
+## G
+
+### Graph engineering
+
+The design of an agent workflow as an explicit executable graph with versioned state, nodes, edges, routing conditions, joins, checkpoints, and recovery behavior. A graph can contain loops, but the two terms are not synonyms: a loop describes repeated feedback, while a graph describes the topology that routes work and state. The label is emerging rather than standardized. See [Loop & Graph Engineering](./loop-graph-engineering.md).
+
+---
+
 ## H
+
+### Agent harness
+
+The runtime around a model that executes an agent loop: it assembles context, exposes tools, applies permissions, preserves or restores state, and feeds tool results back to the model. Claude Code is a runtime harness; Claude is the model it runs. Do not confuse it with the repository harness, which is the project-specific layer of instructions, setup, state, and verification gates. See [Agent Harness Engineering](./agent-harness.md), the [Agent Harness Landscape](../ecosystem/agent-harness-landscape.md), and [§9.25 Repository Harness Engineering](../ultimate-guide.md#925-harness-engineering).
+
+### Evaluation harness
+
+A repeatable setup that runs an agent or model against defined tasks and records outcomes, costs, traces, or scores. An evaluation harness measures a system; it does not need to own the system's interactive tool loop or act on a repository. SWE-bench tooling is an evaluation harness, while SWE-agent is a coding runtime that can be evaluated with one. See [Agent Evaluation](../roles/agent-evaluation.md).
+
+### Harness-model pair
+
+The exact combination of model, runtime harness, configuration, tool set, repository environment, and budget used for a run. Evaluate this pair as one unit: changing the harness can change accuracy, cost, and failure modes even when the model stays fixed. [The Scaffold Effect](https://arxiv.org/abs/2607.22585) provides controlled evidence for this effect across two models and three coding harnesses. See [Agent Harness Engineering](./agent-harness.md#the-core-claim) and the [Agent Harness Landscape](../ecosystem/agent-harness-landscape.md).
+
+### Harnessability
+
+A working evaluation dimension for how reliably a model follows a particular harness under realistic pressure: required checks, policy boundaries, recovery protocol, state transitions, and escalation rules. It is not a standardized scalar or an intrinsic property of the model. Report observed rates and failure modes for a specific model-harness pair instead of publishing a single universal score. See [Evaluate Judgment Allocation and Reviewer Independence](../roles/agent-evaluation.md#evaluate-judgment-allocation-and-reviewer-independence).
+
+### Harness optimizer
+
+An outer-loop system that proposes changes to a target harness, evaluates candidate versions, and retains or rejects those changes against defined metrics. Its search target may include prompts, context rules, tools, control flow, verification, or memory policy. A harness optimizer does not replace the runtime loop it evaluates. See [Harness Optimizers and Meta-Harnesses](./agent-harness.md#11-harness-optimizers-and-meta-harnesses).
 
 ### Hook
 
 A user-defined handler that executes automatically at a specific point in Claude Code's lifecycle, such as before a tool runs, after a file edit, or at session start. A hook configuration has three levels: the hook event (which lifecycle point), the matcher (which events fire it), and the hook handler (what runs). Handlers can be a shell command, HTTP endpoint, MCP tool, LLM prompt, or subagent. Hooks are deterministic: they fire at fixed lifecycle points, not at the model's discretion. See [§7 Hooks](../ultimate-guide.md#7-hooks).
+
+---
+
+## J
+
+### Judgment allocation
+
+The explicit assignment of decisions across humans, models, deterministic checks, policy engines, and external authorities. It answers who sets the quality bar, what evidence is admissible, who decides that evidence is sufficient, and who handles exceptions. Automating execution can relocate human judgment to loop design, policy, escalation, or release approval without eliminating it. See [Allocate judgment explicitly](./loop-graph-engineering.md#5-allocate-judgment-explicitly).
+
+---
+
+## L
+
+### Loop engineering
+
+The design of a repeated feedback process that finds or receives work, invokes an agent, observes results, verifies progress, and chooses the next action until a stopping rule fires. The term is useful practitioner vocabulary, not a formal standard. A loop may be encoded inside a graph and bounded by a harness. See [Loop & Graph Engineering](./loop-graph-engineering.md).
 
 ---
 
@@ -98,6 +146,10 @@ A user-defined handler that executes automatically at a specific point in Claude
 ### Managed settings
 
 A settings file enforced org-wide by IT or DevOps, placed at an OS-level path outside `~/.claude`. Users cannot override or exclude managed settings. Use this for security policies, compliance requirements, or standardized tooling across a fleet. See [§3.3 Settings](../ultimate-guide.md#33-settings--permissions).
+
+### Meta-harness
+
+An overloaded term with two current uses. In optimizer research, it is a system around one or more target harnesses that generates or modifies candidate harnesses, runs evaluations, and uses the results to guide another optimization step. [Meta-Harness](https://arxiv.org/abs/2603.28052) and [Agentic Harness Engineering](https://arxiv.org/abs/2604.25850) are current preprint examples. Some products use *meta-harness* for a common client that dispatches tasks to existing runtime harnesses. This guide classifies that second role as an orchestrator or control plane unless the system also changes and evaluates the harness itself. See [Agent Harness Engineering](./agent-harness.md#0-four-layers-four-responsibilities).
 
 ### MCP (Model Context Protocol)
 
@@ -118,6 +170,10 @@ A mode that executes a single prompt and exits without a conversational session,
 ---
 
 ## O
+
+### Orchestrator
+
+A system that coordinates runs, workspaces, queues, budgets, handoffs, or human approvals across one or more agents. An orchestrator may call a separate runtime harness without owning the model-tool-observation loop itself. See [Orchestrators: Products Above the Runtime](../ecosystem/agent-harness-landscape.md#orchestrators-products-above-the-runtime).
 
 ### Output style
 
@@ -155,6 +211,10 @@ Hostile instructions embedded in a file, web page, or tool result that attempt t
 
 ## R
 
+### Repository harness
+
+The project-specific layer that makes an agent run repeatably inside a repository: instructions, environment setup, durable state, test commands, verification gates, and recovery conventions. It grounds and checks a runtime harness but does not replace the runtime's model-tool loop. See [§9.25 Repository Harness Engineering](../ultimate-guide.md#925-harness-engineering) and [Four Layers, Four Responsibilities](./agent-harness.md#0-four-layers-four-responsibilities).
+
 ### Remote Control
 
 A way to continue a local Claude Code session from your phone or browser via claude.ai. Your code stays on your machine; only the UI is remote. Different from Claude Code on the web, which runs in a cloud sandbox. See [§9.22 Remote Control](../ultimate-guide.md#922-remote-control-mobile-access).
@@ -170,6 +230,10 @@ Modular instruction files in `.claude/rules/` that load alongside CLAUDE.md. A r
 ### Sandboxing
 
 OS-level filesystem and network isolation for the Bash tool. Commands run inside a boundary you define upfront, so Claude can work freely within it without per-command approval prompts. Sandboxing is a separate layer from permission rules. See [§10 Security](../ultimate-guide.md#10-security).
+
+### Scaffold effect
+
+The variation in outcome, token use, and failure mode caused by the surrounding agent scaffold or harness while the model is held fixed. In one controlled coding study, harness choice changed token use per solved task by up to 40 times while pass-rate differences stayed between 0 and 8 percentage points and were mostly not statistically significant. Treat this as evidence from a bounded experiment, not a universal ranking. See [The Scaffold Effect](https://arxiv.org/abs/2607.22585).
 
 ### Session
 

@@ -40,4 +40,4 @@ Adapted into `guide/roles/learning-with-ai.md` as a "Where Are You on the Agent 
 
 ## Decision
 
-**Integrated** — adapted content added to `learning-with-ai.md`. Not a verbatim reproduction; the framework was restructured and extended for the guide's English-speaking, already-technical audience.
+**Integrated**: adapted content added to `learning-with-ai.md`. Not a verbatim reproduction; the framework was restructured and extended for the guide's English-speaking, already-technical audience.

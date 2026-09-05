@@ -28,7 +28,7 @@
 
 Found something wrong or have a suggestion?
 
-1. **Search existing issues** — Someone may have reported it
+1. **Search existing issues**: Someone may have reported it
 2. **Open a new issue** with:
    - Clear description
    - Location (file, section, line)
@@ -180,8 +180,8 @@ The maintainer works on macOS. If you're a Windows user:
 
 Contributors are recognized through:
 
-- **Git history** — Your commits are permanently attributed
-- **GitHub contributors** — Visible on repository page
+- **Git history**: Your commits are permanently attributed
+- **GitHub contributors**: Visible on repository page
 
 Significant contributions may be highlighted in release notes.
 

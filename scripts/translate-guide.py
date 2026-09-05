@@ -7,6 +7,9 @@ Resume : .translation-cache/ (chunk files, auto-cleaned on success)
 Model  : claude-sonnet-5
 """
 
+import hashlib
+import json
+import subprocess
 import sys
 import time
 import traceback
@@ -22,6 +25,7 @@ SOURCE = Path("guide/ultimate-guide.md")
 OUTPUT = Path("guide/ultimate-guide.fr.md")
 CACHE  = Path(".translation-cache")
 MODEL  = "claude-sonnet-5"
+CACHE_MANIFEST = CACHE / "manifest.json"
 
 # Max lines before forcing a split at the next heading
 MAX_LINES_H2  = 200
@@ -77,6 +81,47 @@ def make_chunks(text: str) -> list[str]:
     return chunks
 
 
+def source_sha256(text: str) -> str:
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def expected_cache_manifest(content: str, chunks: list[str]) -> dict[str, object]:
+    return {
+        "schema_version": 1,
+        "source": SOURCE.as_posix(),
+        "source_sha256": source_sha256(content),
+        "model": MODEL,
+        "chunk_count": len(chunks),
+        "max_lines_h2": MAX_LINES_H2,
+        "max_lines_h3": MAX_LINES_H3,
+    }
+
+
+def prepare_cache(expected: dict[str, object]) -> None:
+    CACHE.mkdir(exist_ok=True)
+    chunk_files = sorted(CACHE.glob("chunk_*.md"))
+
+    if CACHE_MANIFEST.exists():
+        actual = json.loads(CACHE_MANIFEST.read_text(encoding="utf-8"))
+        if actual != expected:
+            raise RuntimeError(
+                "Translation cache belongs to another source, model, or chunking configuration. "
+                "Move or remove .translation-cache before starting a new translation."
+            )
+        return
+
+    if chunk_files:
+        raise RuntimeError(
+            "Translation cache contains chunks but no manifest. "
+            "Move or remove .translation-cache before resuming."
+        )
+
+    CACHE_MANIFEST.write_text(
+        json.dumps(expected, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+
+
 # ── Translation ───────────────────────────────────────────────────────────────
 
 def translate_chunk(
@@ -130,13 +175,19 @@ def translate_chunk(
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main() -> int:
-    CACHE.mkdir(exist_ok=True)
-    client = anthropic.Anthropic()
-
     print(f"Reading {SOURCE} …")
     content     = SOURCE.read_text(encoding="utf-8")
     total_words = len(content.split())
     chunks      = make_chunks(content)
+    expected_manifest = expected_cache_manifest(content, chunks)
+
+    try:
+        prepare_cache(expected_manifest)
+    except (OSError, ValueError, RuntimeError, json.JSONDecodeError) as exc:
+        print(f"Cache error: {exc}")
+        return 1
+
+    client = anthropic.Anthropic()
 
     cost_est = (total_words * 1.3 / 1e6 * 3) + (total_words * 1.3 * 1.1 / 1e6 * 15)
     print(f"  {total_words:,} words  |  {len(chunks)} chunks  |  ~${cost_est:.2f} est.")
@@ -180,9 +231,25 @@ def main() -> int:
     total_sec = time.time() - t_start
     print(f"Done! {out_words:,} words | {total_sec:.0f}s total")
 
+    try:
+        subprocess.run(
+            [
+                sys.executable,
+                "scripts/check-translations.py",
+                "--update-local",
+                "--record-french-refresh",
+            ],
+            check=True,
+        )
+    except subprocess.CalledProcessError as exc:
+        print(f"Translation completed, but status recording failed with exit code {exc.returncode}.")
+        print("The cache was kept so the output can be inspected before retrying the status update.")
+        return 1
+
     # Clean up cache
     for f in cached:
         f.unlink()
+    CACHE_MANIFEST.unlink()
     CACHE.rmdir()
 
     return 0

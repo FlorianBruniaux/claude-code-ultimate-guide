@@ -24,7 +24,7 @@
 - **Annonce officielle**: `claude --worktree` / `-w` flag désormais disponible en CLI (existait en Desktop, maintenant porté en CLI)
 - **Modèle concurrent natif**: Chaque agent obtient son propre worktree isolé, pas d'interférence entre sessions parallèles
 - **Patterns communautaires validés**: Per-worktree port management (scripts, docker-compose override, ports aléatoires), per-worktree `.claude/settings.json` tuning, "main worktree as integration branch"
-- **Ressource externe identifiée**: [claude-worktree-hooks](https://github.com/tfriedel/claude-worktree-hooks) — port isolation automatique pour `claude --worktree`
+- **Ressource externe identifiée**: [claude-worktree-hooks](https://github.com/tfriedel/claude-worktree-hooks): port isolation automatique pour `claude --worktree`
 - **Débat worktrees vs multi-clone**: Worktrees partagent le même objet git (branches, commits, moins de disk), mais multi-clone reste valide pour équipes non-familières
 
 ---

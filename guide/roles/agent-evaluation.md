@@ -30,6 +30,40 @@ When you create custom agents in `.claude/agents/`, you're encoding specialized 
 
 ---
 
+## Evaluate the Layer That Owns the Behavior
+
+An evaluation must identify what it is scoring. A runtime harness owns the model-and-tool loop, so measure task completion, interventions, recovery, cost, and wall time there. A repository harness owns instructions and delivery gates, so measure whether setup and deterministic checks detect covered regressions and block delivery when a gate fails. An orchestrator owns routing and coordination, so measure handoffs, queueing, duplicate work, and escalation.
+
+Use the [Agent Harness Map](../ecosystem/agent-harness-landscape.md) to determine whether a candidate owns a runtime loop or is an adjacent framework, control plane, or support tool. Its test-drive protocol is for comparing shortlisted products. [Agent Harness Engineering](../core/agent-harness.md) defines the runtime boundary; [Loop & Graph Engineering](../core/loop-graph-engineering.md) defines loop, route, state, stopping, and judgment contracts; [Session Observability](../ops/observability.md) covers collection and inspection; [Security Hardening](../security/security-hardening.md) covers the controls that evaluation must not bypass. See the [glossary](../core/glossary.md) for the shared vocabulary.
+
+### Evaluate the Model-Harness Pair
+
+Record the model, harness version, repository state, tool set, permissions, context policy, and budget for every comparison. A model-only label is not reproducible evidence. In [The Scaffold Effect](https://arxiv.org/abs/2607.22585), two models were each tested through three coding harnesses across 50 tasks. Harness choice changed token use per solved task by up to 40 times, while pass-rate differences stayed between 0 and 8 percentage points and were mostly not statistically significant.
+
+For optimizer or meta-harness experiments, split development and held-out tasks, cap search and execution budgets, retain every candidate version, and evaluate the selected candidate in a fresh environment. [HarnessOpt-Bench](https://arxiv.org/abs/2608.06301) applies these controls across 5 optimizer models, 4 tasks, and 111 scored runs. The [benchmark construction checklist](https://arxiv.org/abs/2507.02825) explains why task diversity, contamination checks, and independent scoring belong in the evaluation contract.
+
+For a multi-agent control plane, separate workflow correctness from task correctness. [Liza](https://github.com/liza-mas/liza) provides concrete orchestration signals such as lease recovery, forbidden state transitions, reviewer verdicts, worktree cleanup, and merge eligibility. Those tests show whether the control plane followed its contract. They do not show that the final patch satisfies the user's requirements, so pair them with repository tests, requirement-level review, intervention counts, recovery drills, and repeated real-ticket outcomes. The [Liza profile](../ecosystem/agentic-tools.md#48-liza) records the pinned evidence boundary.
+
+### Evaluate Judgment Allocation and Reviewer Independence
+
+An evaluation should identify not only what ran, but who was allowed to decide. Record the owner of the quality bar, decomposition, tool permissions, acceptance verdict, exceptions, and release decision. A system that automates task execution while silently moving every ambiguous verdict to one human has improved execution capacity, not necessarily end-to-end throughput.
+
+Do not reduce **harnessability** to one score or multiply it by model capability as if both were calibrated quantities. Use it as a working label for observable compliance with the harness under realistic pressure:
+
+- required-check completion rate, including checks the agent attempted to skip;
+- policy violation and permission-escalation rate;
+- recovery rate after tool, context, lease, or environment failure;
+- protocol adherence when no human is watching the run;
+- false accept and false reject rates at reviewer gates;
+- human intervention count, wait time, and reason;
+- cost and wall time per accepted task across repeated runs.
+
+Reviewer separation also needs its own experimental design. Compare at least same-context self-review, fresh-context same-model review, different-model or provider review, deterministic checks, and human adjudication on a sampled set. Hold requirements, repository state, and budget constant. Report rescued failures, missed failures, false alarms, and disagreements by defect class. [Self-Refine](https://arxiv.org/abs/2303.17651), [intrinsic self-correction research](https://arxiv.org/abs/2310.01798), [multi-agent debate](https://arxiv.org/abs/2305.14325), and [scalable oversight experiments](https://arxiv.org/abs/2407.04622) produce mixed, task-dependent results. A fresh reviewer is a treatment to evaluate, not proof of independence.
+
+For graph-based systems, add graph-level measures: graph and policy version, node and edge chosen, routing reason, state before and after, join wait, retry, interruption, resume point, reviewer provenance, human checkpoint latency, and verdict overturn. These fields let you distinguish a bad node result from a bad route, stale state, missing join, or incorrect acceptance decision.
+
+---
+
 ## Metrics to Track
 
 ### 1. Response Quality Metrics
@@ -390,6 +424,8 @@ jq -s 'group_by(.safety) | map({safety: .[0].safety, count: length})' \
 **Agents directory**: `.claude/agents/` for custom agent definitions (see `guide/ultimate-guide.md` Section 4)
 
 **MCP observability**: Use MCP servers for advanced logging and metrics aggregation
+
+**Retrospective session analysis**: tools like [cc-sessions](https://github.com/FlorianBruniaux/cc-sessions) search past Claude Code session history directly, useful for scoring agent performance after the fact on real sessions rather than only on synthetic A/B tests set up in advance
 
 ---
 

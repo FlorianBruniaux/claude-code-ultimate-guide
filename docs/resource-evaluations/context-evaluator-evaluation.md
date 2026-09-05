@@ -77,7 +77,7 @@ export function canUseUnifiedMode(
 
 ### Pattern 3: Technical Inventory Injection (`context-identifier.ts`)
 
-CLOC + folder structure + `ls -la` analysis are collected first, then injected as structured context into all 17 evaluator prompts. Similar to Shared Ground Truth Injection (already documented in v3.39.0 `skill-design-patterns.md`). **No new documentation needed** — this is a variant of a pattern already covered.
+CLOC + folder structure + `ls -la` analysis are collected first, then injected as structured context into all 17 evaluator prompts. Similar to Shared Ground Truth Injection (already documented in v3.39.0 `skill-design-patterns.md`). **No new documentation needed**: this is a variant of a pattern already covered.
 
 ### Pattern 4: Multi-layer deduplication
 

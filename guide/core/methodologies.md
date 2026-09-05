@@ -14,6 +14,14 @@ This is a quick reference for 15 structured development methodologies that have 
 
 ---
 
+## Methodology Is Not Harness Ownership
+
+Methodologies define how work is planned, checked, and improved. They do not determine whether a product owns the agent loop. Keep the four layers separate: the model generates tokens, the runtime harness executes the loop, the repository harness supplies project-specific feedback, and an orchestrator coordinates multiple runs.
+
+Use [Agent Harness Engineering](./agent-harness.md) for that model and the [Agent Harness Map](../ecosystem/agent-harness-landscape.md) to compare strict runtime harnesses without confusing them with the broader directory of frameworks and control planes. [Agent Tools: Beyond Claude Code](../ecosystem/agentic-tools.md) covers those adjacent tools. For a production method, pair the workflow with [Agent Evaluation](../roles/agent-evaluation.md), [Session Observability](../ops/observability.md), and [Security Hardening](../security/security-hardening.md). Shared terms are in the [glossary](./glossary.md).
+
+---
+
 ## Table of Contents
 
 1. [Decision Tree](#decision-tree-what-do-you-need)

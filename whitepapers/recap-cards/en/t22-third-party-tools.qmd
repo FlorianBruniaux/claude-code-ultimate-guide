@@ -4,10 +4,10 @@ subtitle: "The essential complementary tools in the ecosystem"
 card-number: "T22"
 category: "Technical"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.42.0"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "August 2026"
+version: "3.42.0"
+date: "2026-08-28"
 layout: "two-col"
 lang: en
 format:
@@ -15,6 +15,8 @@ format:
 ---
 
 ## Cost Tracking
+
+The tools in this card are adjacent layers: they observe, configure, or coordinate sessions. They do not replace the runtime that owns the agent loop. Use the [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/) to choose a runtime or orchestrator.
 
 **ccusage**: the community reference tool for tracking API spending. Parses local JSONL files, zero data sent externally.
 
@@ -87,3 +89,5 @@ Typical flow: create one workspace per feature from a GitHub or Linear issue, le
 ## Known Gaps
 
 No visual editor for `.claude/skills/` skill files. No unified dashboard combining config, sessions, costs, and MCP. A dedicated TUI exists for MCP servers (`claude-code-config`, `pip install claude-code-config`), but it stays limited to the `~/.claude.json` scope: no `settings.json`, hooks, or commands.
+
+These projects evolve independently from Claude Code. Check the repository, permissions, and targeted release before installation; the [glossary](https://cc.bruniaux.com/guide/glossary/) distinguishes a runtime, orchestrator, protocol, and adjacent tool.

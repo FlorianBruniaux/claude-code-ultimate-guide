@@ -13,6 +13,8 @@ keywords:
 
 > Track Claude Code usage, estimate costs, and identify patterns across your development sessions.
 
+For systems with explicit loops or workflow graphs, instrument the decision layer as well as the model and tools. [Loop & Graph Engineering](../core/loop-graph-engineering.md#7-observe-and-evaluate-the-system) defines the minimum evidence for routes, state transitions, checkpoints, verdicts, and human overrides.
+
 ## Table of Contents
 
 1. [Why Monitor Sessions](#why-monitor-sessions)
@@ -37,6 +39,36 @@ Claude Code usage can accumulate quickly, especially in active development. Moni
 - **Optimize workflow**: Find inefficiencies (e.g., repeatedly reading the same large file)
 - **Track projects**: Compare usage across different codebases
 - **Team visibility**: Aggregate usage for team budgeting (when combining logs)
+
+---
+
+## Observability by Harness Layer
+
+Capture evidence at the layer that made the decision. A runtime harness needs traces of model calls, tool calls, permissions, context, and recovery. A repository harness needs the setup command, changed artifact, and verification result. An orchestrator needs dispatch, handoff, retry, queue, and human-escalation events. A dashboard that reports only tokens cannot establish whether the loop or its delivery gates behaved correctly.
+
+The [Agent Harness Map](../ecosystem/agent-harness-landscape.md) separates loop-owning runtimes from the broader directory of frameworks and control-plane-adjacent projects. [Agent Harness Engineering](../core/agent-harness.md) explains those layers, while [Agent Evaluation](../roles/agent-evaluation.md) defines the measures to score them. Apply [Security Hardening](../security/security-hardening.md) before exporting traces or granting a monitoring tool access. The [glossary](../core/glossary.md) keeps the terms consistent.
+
+Use stable event names and version every harness field that can change behavior. The [OpenTelemetry generative AI attribute registry](https://opentelemetry.io/docs/specs/semconv/registry/attributes/gen-ai/) defines attributes for agent, model, provider, operation, request, response, token, and tool data. Treat prompt text, tool arguments, tool results, file paths, and user identifiers as sensitive payloads: redact or hash them before export, and document which fields were dropped.
+
+An optimizer needs a second trace level. Link each candidate harness version to its parent, mutation, evaluation tasks, budget, scores, and promotion decision. Without that lineage, a higher final score cannot establish which change caused it or whether the candidate consumed more search and execution budget.
+
+### Graph-Level Observability
+
+A graph-based workflow needs more than model and tool spans. The trace must reconstruct why work moved, waited, repeated, or stopped.
+
+| Field | Question it answers |
+|-------|---------------------|
+| `graph.version`, `policy.version` | Which executable topology and control policy governed the run? |
+| `node.id`, `edge.id`, `route.reason` | Which branch ran, and why was it selected? |
+| `state.before`, `state.after` | What changed at the transition boundary? |
+| `join.expected`, `join.received`, `join.wait_ms` | Was parallel work complete, missing, or blocked? |
+| `retry.count`, `interrupt.reason`, `resume.from` | Did recovery repeat work or resume from a checkpoint? |
+| `reviewer.model`, `reviewer.provider`, `evidence.refs` | How independent and evidence-backed was the verdict? |
+| `human.checkpoint`, `human.wait_ms`, `verdict.overturned` | Where did judgment return to a person, and with what effect? |
+
+The official [LangGraph Graph API](https://docs.langchain.com/oss/python/langgraph/graph-api) exposes state, nodes, edges, conditional routing, parallel super-steps, and runtime metadata. Its [persistence model](https://docs.langchain.com/oss/python/langgraph/persistence) adds checkpoints, replay, human-in-the-loop interruption, and fault recovery. Those are traceable events, not merely implementation details.
+
+Liza illustrates the same need in a coding control plane. Its pinned [architectural issues ledger](https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/specs/architecture/architectural-issues.md) identifies manual checkpoint latency, cross-pair review, provider-diversity gaps, and unmeasured reviewer accuracy as open concerns. Tokens and task status alone cannot expose those failure modes. Record routing, quorum composition, review evidence, wait time, and verdict outcomes separately.
 
 ---
 
@@ -995,11 +1027,11 @@ For a full governance setup with automatic audit trail logging, see [Enterprise 
 
 The sections above cover individual developer monitoring. For a team of 10+ developers, you need logs flowing into a central store to track total spend, flag unusual patterns, and answer compliance questions.
 
-### Option A: Route Through LiteLLM Gateway (Recommended)
+### Option A: Route Configured API Traffic Through LiteLLM
 
-The [API Gateway guide](./api-gateway.md) captures usage at the network level with zero client-side setup: every request is logged server-side with the team's virtual key alias, model, and token counts. Each developer connects to the same gateway with a team-scoped virtual key. No per-machine cron jobs.
+The [API Gateway guide](./api-gateway.md) describes server-side telemetry for clients configured with the gateway URL and a team-scoped virtual key. After that client configuration, the team does not need per-machine cron jobs to collect routed request metadata. The gateway still observes only traffic sent through it. Subscription-authenticated Claude usage and clients that retain direct provider credentials remain outside this dataset.
 
-This is the lower-friction path for most teams. The session JSONL approach below is useful when you need file-level detail (which files were read and written) rather than just token usage.
+For routed API traffic, this avoids synchronizing local usage logs. The session JSONL approach below remains necessary when you need file-level detail, such as which files were read and written, rather than model and token telemetry alone.
 
 ### Option B: Ship Session JSONL to a Central Store
 

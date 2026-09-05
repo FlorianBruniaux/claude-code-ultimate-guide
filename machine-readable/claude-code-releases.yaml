@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.241"
-updated: "2026-08-22"
+latest: "2.1.252"
+updated: "2026-08-31"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,63 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-August 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.252"
+    date: "2026-08-31"
+    highlights:
+      - "Fixed Bash commands failing with a task-output-swap error on some Macs"
+      - "Fixed 'always allow' not saving in a project with no `.claude/settings.local.json` yet"
+      - "Fixed Remote Control sessions hosted by Claude Desktop or VS Code stalling for minutes after a degraded claude.ai connection"
+
+  - version: "2.1.251"
+    date: "2026-08-28"
+    highlights:
+      - "⭐ Added `PreModelSwitch`/`PostModelSwitch` hook events and a `SendFeedback`-style spend-limit bar in `/usage`"
+      - "Added live streaming of a foreground subagent's tool calls to Remote Control clients"
+      - "⭐ Security fixes: symlink swap bypassing file-tool permission checks, plugin marketplace command paths escaping the plugin directory, sandboxed Bash output-file redirection"
+      - "Changed `CLAUDE_CODE_SUBAGENT_MODEL` to set a default rather than override agent-level `model:` and per-spawn overrides"
+
+  - version: "2.1.250"
+    date: "2026-08-27"
+    highlights:
+      - "Bug fixes and reliability improvements"
+
+  - version: "2.1.248"
+    date: "2026-08-27"
+    highlights:
+      - "⭐ Added `--restricted` (or `CLAUDE_CODE_RESTRICTED=1`): removes tools that run commands or code and `WebFetch`, keeps file tools inside the working directory, refuses `bypassPermissions`, ignores user/project/local settings"
+      - "Added cross-session messaging (`SendMessage`/`ListAgents`) between sessions on the same machine on Bedrock, Vertex, and Foundry, and when telemetry is disabled"
+      - "Fixed a prompt-cache miss (and lost extended-thinking context) roughly once an hour in long sessions, caused by tool definitions re-rendering after an OAuth token refresh"
+      - "Added `experimental.cacheTtl` (`\"5m\"` or `\"1h\"`) to agent frontmatter for a per-agent prompt cache TTL"
+
+  - version: "2.1.247"
+    date: "2026-08-26"
+    highlights:
+      - "Added the `SendFeedback` tool: Claude can draft a feedback report for you to review and send from `/feedback`"
+      - "Changed Sonnet 5's default auto-compact window to its full 1M context, auto-compacting at ~967K tokens instead of ~934K"
+      - "Added `/claude-api cost-optimize` to profile a project's Claude API spend and work through cost levers"
+      - "Fixed sub-agents dying on a first-call model 404: they now use the session's fallback model chain"
+
+  - version: "2.1.246"
+    date: "2026-08-25"
+    highlights:
+      - "Added a startup warning for Bash allow rules with a wildcard before the subcommand (e.g. `Bash(git * main)`), since they also match options inserted before the subcommand"
+      - "Added an Auto mode tab to `/permissions` for viewing and editing auto mode classifier rules"
+      - "Fixed the Write tool reporting \"Out of memory\" or freezing for a long time after overwriting a very large existing file, even though the file had been written"
+      - "Improved non-interactive sessions (`-p`, SDK, cloud sessions) to automatically continue a response cut off mid-stream by a server error, connection loss, or stall"
+
+  - version: "2.1.245"
+    date: "2026-08-25"
+    highlights:
+      - "Fixed a crash on startup on Linux distributions that ship glibc 2.44 (for example Arch Linux, CachyOS, Fedora Rawhide)"
+
+  - version: "2.1.243"
+    date: "2026-08-24"
+    highlights:
+      - "Added a Loops breakdown to `/usage`: per-loop run count, total tokens, tokens per run, and last run"
+      - "Added `modelPicker` setting to curate the `/model` picker with an ordered, labeled list of models"
+      - "Added `promptCacheTtl` and `subagentPromptCacheTtl` settings so API-key and cloud-provider users can keep a 1-hour prompt cache on the main conversation while subagents stay at 5 minutes"
+      - "Added a keyless sign-in under `/login` → Anthropic Console for organizations that don't allow API keys"
 
   - version: "2.1.241"
     date: "2026-08-22"

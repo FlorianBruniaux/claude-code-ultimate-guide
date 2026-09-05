@@ -1,255 +1,348 @@
 #!/usr/bin/env node
 'use strict';
 
-/**
- * Build the BM25 routing index from skill corpora.
- *
- * Usage:
- *   node routing/build-index.js            # build index.json, thresholds.json, manifest.json
- *   node routing/build-index.js --dry-run  # report without writing any files
- *
- * Reads all evals/scenarios.json files found under BM25_SKILLS_ROOT.
- * Writes output files to BM25_DATA_DIR (or .claude/hooks/routing/data).
- *
- * Calibration:
- *   - Leave-one-out cross-scoring: each positive scored against the rest of its skill's positives
- *   - Threshold candidates: midpoints between observed positive and negative scores
- *   - Picks tau maximizing F-beta with beta^2=4 (recall-favoring over precision)
- *   - Status: 'ok' (F1>=0.60), 'conflict' (F1<0.60), 'excluded' (corpus too small)
- *
- * Tune MIN_POS and MIN_NEG to match your corpus size.
- * Larger corpora (15+ positive, 5+ negative) produce more reliable thresholds.
- */
-
-const fs = require('fs');
-const path = require('path');
-const crypto = require('crypto');
+const crypto = require('node:crypto');
+const fs = require('node:fs');
+const path = require('node:path');
 const { tokenize } = require('./tokenize');
-const { buildIndex, scoreDoc } = require('./bm25');
-const { skillsRoot, dataDir, findScenariosFiles } = require('./paths');
+const { buildIndex, scoreDoc, scoreSkills } = require('./bm25');
+const { discoverCorpora, discoverSkills } = require('./discovery');
+const { overlayRoots, resolveContext } = require('./paths');
+const {
+  ALGORITHM_VERSION,
+  acquireBuildLock,
+  fingerprintFiles,
+  fingerprintStats,
+  writeJsonAtomic,
+} = require('./cache');
 
-// Minimum corpus size for a skill to receive a calibrated threshold.
-// Skills below either limit receive status: 'excluded' and are never suggested.
-const MIN_POS = 8;  // minimum positive scenarios
-const MIN_NEG = 2;  // minimum negative scenarios
+const MIN_POS = 8;
+const MIN_NEG = 2;
+const MIN_F1 = 0.60;
+const MIN_EVAL_F1 = 0.55;
+const MIN_GLOBAL_F1 = 0.70;
 
-function tryReadJson(p) {
-  try { return JSON.parse(fs.readFileSync(p, 'utf8')); } catch { return null; }
-}
-
-function loadScenarios() {
-  const files = findScenariosFiles(skillsRoot());
-  const out = [];
-  for (const f of files) {
-    const data = tryReadJson(f);
-    if (!data || typeof data.skill !== 'string' || !Array.isArray(data.positive)) continue;
-    const mtime = fs.statSync(f).mtimeMs;
-    for (const p of data.positive) {
-      if (typeof p !== 'string') continue;
-      out.push({ skill: data.skill, prompt: p, polarity: 'pos', _source: f, _mtime: mtime });
+function tokenizeScenarios(corpora) {
+  const scenarios = [];
+  for (const corpus of corpora) {
+    for (const prompt of corpus.positive) {
+      scenarios.push({ skill: corpus.skill, prompt, polarity: 'pos', tokens: tokenize(prompt).tokens });
     }
-    for (const n of (data.negative || [])) {
-      if (typeof n !== 'string') continue;
-      out.push({ skill: data.skill, prompt: n, polarity: 'neg', _source: f, _mtime: mtime });
+    for (const prompt of corpus.negative) {
+      scenarios.push({ skill: corpus.skill, prompt, polarity: 'neg', tokens: tokenize(prompt).tokens });
     }
-  }
-  return out;
-}
-
-function tokenizeAll(scenarios) {
-  for (const s of scenarios) {
-    const tok = tokenize(s.prompt);
-    s.tokens = tok.tokens;
-    s.negated = tok.negated;
   }
   return scenarios;
 }
 
-// Score probe `p` against every other positive in the same skill (leave-one-out).
-function scorePositiveAgainstSkill(p, skillPositives, idf, avgdl) {
+function maxScoreAgainstPositives(probe, positives, index, excluded) {
   let best = 0;
-  for (const doc of skillPositives) {
-    if (doc === p) continue;
-    const s = scoreDoc(p.tokens, doc, idf, avgdl);
-    if (s > best) best = s;
+  for (const document of positives) {
+    if (document === excluded) continue;
+    best = Math.max(best, scoreDoc(probe.tokens, document, index.idf, index.avgdl));
   }
   return best;
 }
 
-function f1AtThreshold(posScores, negScores, tau) {
-  const TP = posScores.filter(s => s >= tau).length;
+function metricsAt(posScores, negScores, tau) {
+  const TP = posScores.filter((score) => score >= tau).length;
+  const FP = negScores.filter((score) => score >= tau).length;
   const FN = posScores.length - TP;
-  const FP = negScores.filter(s => s >= tau).length;
-  const precision = TP + FP === 0 ? 0 : TP / (TP + FP);
-  const recall = TP + FN === 0 ? 0 : TP / (TP + FN);
-  const f1 = precision + recall === 0 ? 0 : 2 * precision * recall / (precision + recall);
-  // beta^2 = 4 (beta=2): recall weighted 4x more than precision.
-  // We prefer to suggest and occasionally be wrong rather than stay silent when relevant.
+  const precision = TP + FP ? TP / (TP + FP) : 0;
+  const recall = TP + FN ? TP / (TP + FN) : 0;
+  const f1 = precision + recall ? (2 * precision * recall) / (precision + recall) : 0;
   const beta2 = 4;
-  const fbeta2 = beta2 * precision + recall === 0
-    ? 0
-    : (1 + beta2) * precision * recall / (beta2 * precision + recall);
+  const fbeta2 = beta2 * precision + recall
+    ? ((1 + beta2) * precision * recall) / (beta2 * precision + recall)
+    : 0;
   return { TP, FP, FN, precision, recall, f1, fbeta2 };
 }
 
 function calibrateThresholds(scenarios, index) {
-  const skills = [...new Set(scenarios.map(s => s.skill))];
   const thresholds = {};
-  for (const skillId of skills) {
-    const positives = scenarios.filter(s => s.skill === skillId && s.polarity === 'pos');
-    const negatives = scenarios.filter(s => s.skill === skillId && s.polarity === 'neg');
+  for (const skill of [...new Set(scenarios.map((scenario) => scenario.skill))].sort()) {
+    const positives = scenarios.filter((scenario) => scenario.skill === skill && scenario.polarity === 'pos');
+    const negatives = scenarios.filter((scenario) => scenario.skill === skill && scenario.polarity === 'neg');
     if (positives.length < MIN_POS || negatives.length < MIN_NEG) {
-      thresholds[skillId] = {
-        tau: null, f1: null,
+      thresholds[skill] = {
+        status: 'excluded', tau: null, f1: null,
         n_pos: positives.length, n_neg: negatives.length,
-        status: 'excluded',
       };
       continue;
     }
-    const posScores = positives.map(p =>
-      scorePositiveAgainstSkill(p, positives, index.idf, index.avgdl));
-    const negScores = negatives.map(n =>
-      scorePositiveAgainstSkill(n, positives, index.idf, index.avgdl));
-
-    const candidates = [...new Set([...posScores, ...negScores])]
-      .filter(c => c > 0).sort((a, b) => a - b);
-    if (candidates.length === 0) {
-      thresholds[skillId] = {
-        tau: null, f1: 0, recall: 0, precision: 0,
-        n_pos: positives.length, n_neg: negatives.length, status: 'conflict',
+    const posScores = positives.map((probe) => maxScoreAgainstPositives(probe, positives, index, probe));
+    const negScores = negatives.map((probe) => maxScoreAgainstPositives(probe, positives, index));
+    const observed = [...new Set([...posScores, ...negScores].filter((score) => score > 0))].sort((a, b) => a - b);
+    if (!observed.length) {
+      thresholds[skill] = {
+        status: 'conflict', tau: null, f1: 0,
+        n_pos: positives.length, n_neg: negatives.length,
       };
       continue;
     }
-    let bestFbeta = -1, bestTau = 0, bestMetrics = null;
-    for (let i = 0; i < candidates.length; i++) {
-      const tau = i === 0 ? candidates[0] - 0.001 : (candidates[i - 1] + candidates[i]) / 2;
-      if (tau <= 0) continue;
-      const m = f1AtThreshold(posScores, negScores, tau);
-      if (m.fbeta2 > bestFbeta) {
-        bestFbeta = m.fbeta2; bestTau = tau; bestMetrics = m;
+    const candidates = observed.map((score, indexValue) => (
+      indexValue === 0 ? Math.max(Number.EPSILON, score - 0.001) : (observed[indexValue - 1] + score) / 2
+    ));
+    let best = null;
+    for (const tau of candidates) {
+      const metrics = metricsAt(posScores, negScores, tau);
+      if (!best || metrics.fbeta2 > best.fbeta2 || (metrics.fbeta2 === best.fbeta2 && metrics.f1 > best.f1)) {
+        best = { tau, ...metrics };
       }
     }
-    // Note: tau is chosen to maximize fbeta2 (recall-favoring), but the
-    // status classification uses plain F1 >= 0.60. A skill can have acceptable
-    // fbeta2 yet still be 'conflict' if F1 is below that threshold.
-    thresholds[skillId] = {
-      tau: bestTau,
-      f1: bestMetrics.f1,
-      fbeta2: bestMetrics.fbeta2,
-      precision: bestMetrics.precision,
-      recall: bestMetrics.recall,
-      TP: bestMetrics.TP, FP: bestMetrics.FP, FN: bestMetrics.FN,
-      n_pos: positives.length, n_neg: negatives.length,
-      status: bestMetrics.f1 >= 0.60 ? 'ok' : 'conflict',
+    thresholds[skill] = {
+      ...best,
+      n_pos: positives.length,
+      n_neg: negatives.length,
+      status: best.f1 >= MIN_F1 ? 'ok' : 'conflict',
     };
   }
   return thresholds;
 }
 
-function buildHash(scenarios, index) {
-  const h = crypto.createHash('sha256');
-  const sorted = [...scenarios].sort((a, b) =>
-    (a.skill + a.prompt).localeCompare(b.skill + b.prompt));
-  for (const s of sorted) h.update(`${s.skill}|${s.prompt}|${s.polarity}\n`);
-  h.update(JSON.stringify({ K1: index.K1, B: index.B }));
-  return h.digest('hex');
+function candidateMatches(probe, scenarios, index, thresholds, allowedSkills) {
+  return scoreSkills(probe.tokens, scenarios.filter((scenario) => scenario !== probe), index)
+    .filter((candidate) => {
+      const threshold = thresholds[candidate.skill];
+      if (!threshold || threshold.status !== 'ok' || !Number.isFinite(threshold.tau)) return false;
+      if (allowedSkills && !allowedSkills.has(candidate.skill)) return false;
+      if (candidate.score < threshold.tau) return false;
+      return !Number.isFinite(candidate.negativeScore) || candidate.negativeScore < candidate.score;
+    })
+    .slice(0, 3)
+    .map((candidate) => candidate.skill);
 }
 
-// Cache key: SHA-256 over file paths + mtimes. If unchanged, skip full rebuild.
-function cacheKey(scenarios) {
-  const h = crypto.createHash('sha256');
-  const sources = [...new Set(scenarios.map(s => s._source).filter(Boolean))].sort();
-  for (const src of sources) {
-    try {
-      const stat = fs.statSync(src);
-      h.update(`${src}|${stat.mtimeMs}\n`);
-    } catch { h.update(`${src}|0\n`); }
+function crossSkillEvaluation(scenarios, index, thresholds, allowedSkills = null) {
+  const perSkill = {};
+  for (const skill of Object.keys(thresholds)) {
+    perSkill[skill] = { TP: 0, FP: 0, FN: 0, TN: 0, n_pos: 0, n_neg: 0 };
   }
-  return h.digest('hex');
+  for (const probe of scenarios) {
+    const matches = new Set(candidateMatches(probe, scenarios, index, thresholds, allowedSkills));
+    const owner = perSkill[probe.skill];
+    if (!owner) continue;
+    if (probe.polarity === 'pos') {
+      owner.n_pos += 1;
+      if (matches.has(probe.skill)) owner.TP += 1;
+      else owner.FN += 1;
+      for (const match of matches) if (match !== probe.skill && perSkill[match]) perSkill[match].FP += 1;
+    } else {
+      owner.n_neg += 1;
+      if (matches.has(probe.skill)) owner.FP += 1;
+      else owner.TN += 1;
+    }
+  }
+  let TP = 0;
+  let FP = 0;
+  let FN = 0;
+  for (const [skill, metrics] of Object.entries(perSkill)) {
+    const precision = metrics.TP + metrics.FP ? metrics.TP / (metrics.TP + metrics.FP) : 0;
+    const recall = metrics.TP + metrics.FN ? metrics.TP / (metrics.TP + metrics.FN) : 0;
+    const f1 = precision + recall ? (2 * precision * recall) / (precision + recall) : 0;
+    perSkill[skill] = { ...metrics, precision, recall, f1 };
+    if (!allowedSkills || allowedSkills.has(skill)) {
+      TP += metrics.TP;
+      FP += metrics.FP;
+      FN += metrics.FN;
+    }
+  }
+  const precision = TP + FP ? TP / (TP + FP) : 0;
+  const recall = TP + FN ? TP / (TP + FN) : 0;
+  const f1 = precision + recall ? (2 * precision * recall) / (precision + recall) : 0;
+  return { perSkill, global: { TP, FP, FN, precision, recall, f1 } };
+}
+
+function selectEligibleSkills(scenarios, index, thresholds, protectedSkills = new Set()) {
+  const initial = crossSkillEvaluation(scenarios, index, thresholds);
+  const eligible = new Set(Object.entries(initial.perSkill)
+    .filter(([skill, metrics]) => thresholds[skill].status === 'ok' && metrics.f1 >= MIN_EVAL_F1)
+    .map(([skill]) => skill));
+  const removedForGlobalGate = [];
+  let final = crossSkillEvaluation(scenarios, index, thresholds, eligible);
+  while (eligible.size && final.global.f1 < MIN_GLOBAL_F1) {
+    const removable = [...eligible].filter((skill) => !protectedSkills.has(skill));
+    if (!removable.length) break;
+    const worst = removable.sort((left, right) => {
+      const difference = final.perSkill[left].f1 - final.perSkill[right].f1;
+      return difference || left.localeCompare(right);
+    })[0];
+    eligible.delete(worst);
+    removedForGlobalGate.push(worst);
+    final = crossSkillEvaluation(scenarios, index, thresholds, eligible);
+  }
+  for (const [skill, threshold] of Object.entries(thresholds)) {
+    threshold.eligible = eligible.has(skill);
+    threshold.evaluation = initial.perSkill[skill];
+  }
+  return {
+    initial,
+    final,
+    eligible: [...eligible].sort(),
+    protected: [...protectedSkills].filter((skill) => eligible.has(skill)).sort(),
+    removedForGlobalGate,
+    globalGatePassed: final.global.f1 >= MIN_GLOBAL_F1,
+  };
+}
+
+function buildHash(scenarios, index) {
+  const hash = crypto.createHash('sha256');
+  hash.update(`algorithm=${ALGORITHM_VERSION}\n`);
+  for (const scenario of [...scenarios].sort((a, b) => `${a.skill}|${a.prompt}`.localeCompare(`${b.skill}|${b.prompt}`))) {
+    hash.update(`${scenario.skill}|${scenario.polarity}|${scenario.prompt}\n`);
+  }
+  hash.update(JSON.stringify({ K1: index.K1, B: index.B }));
+  return hash.digest('hex');
+}
+
+function serializableSkills(skills, thresholds, coveredSkills) {
+  return Object.fromEntries([...skills.entries()].map(([name, skill]) => [name, {
+    description: skill.description,
+    skillMd: skill.skillMd,
+    scope: skill.scope,
+    root: skill.root,
+    precedence: skill.precedence,
+    scenarioStatus: coveredSkills.has(name) && thresholds[name].eligible ? 'ok' : 'native-only',
+  }]));
+}
+
+function build(options = {}) {
+  const dryRun = options.dryRun || process.argv.includes('--dry-run');
+  const context = resolveContext(options.cwd || process.env.SKILL_ROUTER_CWD || process.cwd());
+  const discovered = discoverSkills(context.roots);
+  const corpora = discoverCorpora({ skills: discovered.skills, overlayRoots: overlayRoots() });
+  const sourceFiles = [
+    ...[...discovered.skills.values()].map((skill) => skill.skillMd),
+    ...corpora.sources.map((source) => source.path),
+  ];
+  const sourceFingerprint = fingerprintFiles(sourceFiles);
+  const watchPaths = [
+    ...context.roots.map((root) => root.path),
+    ...overlayRoots(),
+    ...[...discovered.skills.values()].flatMap((skill) => [skill.directory, path.join(skill.directory, 'evals')]),
+    ...corpora.sources.map((source) => path.dirname(source.path)),
+  ];
+  let ancestor = context.cwd;
+  const boundary = context.repoRoot || path.parse(context.cwd).root;
+  while (true) {
+    watchPaths.push(path.join(ancestor, '.agents', 'skills'));
+    if (ancestor === boundary) break;
+    const parent = path.dirname(ancestor);
+    if (parent === ancestor) break;
+    ancestor = parent;
+  }
+  const statFingerprint = fingerprintStats([...sourceFiles, ...watchPaths]);
+  const scenarios = tokenizeScenarios(corpora.sources);
+  const index = buildIndex(scenarios);
+  const thresholds = calibrateThresholds(scenarios, index);
+  const overlaySkills = new Set(corpora.sources.filter((source) => source.kind === 'overlay').map((source) => source.skill));
+  const quality = selectEligibleSkills(scenarios, index, thresholds, overlaySkills);
+  const hash = buildHash(scenarios, index);
+  const coveredSkills = new Set(corpora.sources.map((source) => source.skill));
+  const coverage = {
+    active: discovered.skills.size,
+    covered: coveredSkills.size,
+    uncovered: discovered.skills.size - coveredSkills.size,
+    eligible: quality.eligible.length,
+    uncovered_skills: [...discovered.skills.keys()].filter((name) => !coveredSkills.has(name)).sort(),
+  };
+  const result = {
+    context,
+    index: {
+      version: 2,
+      algorithm_version: ALGORITHM_VERSION,
+      build_hash: hash,
+      K1: index.K1,
+      B: index.B,
+      avgdl: index.avgdl,
+      idf: index.idf,
+      scenarios,
+    },
+    thresholds,
+    metrics: quality,
+    manifest: {
+      version: 2,
+      algorithm_version: ALGORITHM_VERSION,
+      build_hash: hash,
+      source_fingerprint: sourceFingerprint,
+      stat_fingerprint: statFingerprint,
+      source_files: [...new Set(sourceFiles)].sort(),
+      watch_paths: [...new Set(watchPaths)].sort(),
+      scope_key: context.scopeKey,
+      cwd: context.cwd,
+      repo_root: context.repoRoot,
+      roots: context.roots,
+      active_skills: serializableSkills(discovered.skills, thresholds, coveredSkills),
+      coverage,
+      scenarios_count: scenarios.length,
+      positive_count: scenarios.filter((scenario) => scenario.polarity === 'pos').length,
+      negative_count: scenarios.filter((scenario) => scenario.polarity === 'neg').length,
+      problems: [...discovered.problems, ...corpora.problems],
+      built_at: new Date().toISOString(),
+    },
+  };
+  if (dryRun) return result;
+
+  const lock = acquireBuildLock(path.join(context.cacheDir, 'build.lock'));
+  if (!lock.acquired) return { ...result, skipped: 'locked' };
+  try {
+    let current;
+    try { current = JSON.parse(fs.readFileSync(path.join(context.cacheDir, 'manifest.json'), 'utf8')); } catch { current = null; }
+    if (current && current.source_fingerprint === sourceFingerprint && current.algorithm_version === ALGORITHM_VERSION) {
+      writeJsonAtomic(path.join(context.cacheDir, 'manifest.json'), {
+        ...current,
+        stat_fingerprint: statFingerprint,
+        source_files: result.manifest.source_files,
+        watch_paths: result.manifest.watch_paths,
+      });
+      writeJsonAtomic(path.join(context.cacheDir, 'verified.json'), { checked_at: new Date().toISOString() });
+      return { ...result, skipped: 'cache-hit' };
+    }
+    writeJsonAtomic(path.join(context.cacheDir, 'index.json'), result.index);
+    writeJsonAtomic(path.join(context.cacheDir, 'thresholds.json'), thresholds);
+    writeJsonAtomic(path.join(context.cacheDir, 'manifest.json'), result.manifest);
+    writeJsonAtomic(path.join(context.cacheDir, 'coverage.json'), coverage);
+    writeJsonAtomic(path.join(context.cacheDir, 'metrics.json'), quality);
+    writeJsonAtomic(path.join(context.cacheDir, 'verified.json'), { checked_at: new Date().toISOString() });
+  } finally {
+    lock.release();
+  }
+  return result;
 }
 
 function main() {
-  const dryRun = process.argv.includes('--dry-run');
-  const outDir = dataDir();
-
-  const scenarios = tokenizeAll(loadScenarios());
-  if (scenarios.length === 0) {
-    console.error('[build-index] no scenarios found.');
-    console.error('[build-index] Add evals/scenarios.json files under your skills directory.');
-    console.error(`[build-index] Skills root: ${skillsRoot()}`);
-    process.exit(1);
+  try {
+    const result = build();
+    const summary = {
+      scope: result.context.scopeKey,
+      scenarios: result.manifest.scenarios_count,
+      skills: result.manifest.coverage.active,
+      covered: result.manifest.coverage.covered,
+      eligible: result.manifest.coverage.eligible,
+      conflicts: Object.values(result.thresholds).filter((threshold) => threshold.status === 'conflict').length,
+      excluded: Object.values(result.thresholds).filter((threshold) => threshold.status === 'excluded').length,
+      skipped: result.skipped || null,
+    };
+    process.stdout.write(`${JSON.stringify(summary)}\n`);
+  } finally {
+    if (process.env.SKILL_ROUTER_REQUEST_FILE) {
+      try { fs.unlinkSync(process.env.SKILL_ROUTER_REQUEST_FILE); } catch { /* request expired or already cleared */ }
+    }
   }
-
-  const ckey = cacheKey(scenarios);
-  const manifestPath = path.join(outDir, 'manifest.json');
-  const existing = tryReadJson(manifestPath);
-  if (existing && existing.cache_key === ckey && !dryRun) {
-    // Corpus unchanged — just bump built_at to record the check time.
-    try {
-      const tmp = manifestPath + '.tmp.' + process.pid;
-      fs.writeFileSync(tmp, JSON.stringify(
-        { ...existing, built_at: new Date().toISOString() }, null, 2));
-      fs.renameSync(tmp, manifestPath);
-    } catch { /* ignore */ }
-    console.log(`[build-index] cache hit (key=${ckey.slice(0, 12)}), skip rebuild`);
-    return;
-  }
-
-  const index = buildIndex(scenarios);
-  const thresholds = calibrateThresholds(scenarios, index);
-  const hash = buildHash(scenarios, index);
-
-  if (dryRun) {
-    console.log(`[build-index] dry-run scenarios=${scenarios.length} skills=${Object.keys(thresholds).length} cache_key=${ckey.slice(0, 12)}`);
-    return;
-  }
-
-  fs.mkdirSync(outDir, { recursive: true });
-
-  // Atomic writes: write to .tmp.<pid> then rename to avoid partial reads.
-  const writeAtomic = (file, content) => {
-    const tmp = file + '.tmp.' + process.pid;
-    fs.writeFileSync(tmp, content);
-    fs.renameSync(tmp, file);
-  };
-
-  writeAtomic(path.join(outDir, 'index.json'), JSON.stringify({
-    version: 1,
-    build_hash: hash,
-    params: { K1: index.K1, B: index.B },
-    avgdl: index.avgdl,
-    idf: index.idf,
-    scenarios: scenarios.map(s => ({
-      skill: s.skill, prompt: s.prompt,
-      tokens: s.tokens, polarity: s.polarity,
-    })),
-  }, null, 2));
-
-  writeAtomic(path.join(outDir, 'thresholds.json'),
-    JSON.stringify(thresholds, null, 2));
-
-  writeAtomic(path.join(outDir, 'manifest.json'), JSON.stringify({
-    version: 1,
-    build_hash: hash,
-    cache_key: ckey,
-    params: { K1: index.K1, B: index.B },
-    scenarios_count: scenarios.length,
-    positives: scenarios.filter(s => s.polarity === 'pos').length,
-    negatives: scenarios.filter(s => s.polarity === 'neg').length,
-    skills: Object.keys(thresholds).length,
-    excluded_skills: Object.entries(thresholds)
-      .filter(([, t]) => t.status === 'excluded').map(([k]) => k),
-    conflict_skills: Object.entries(thresholds)
-      .filter(([, t]) => t.status === 'conflict').map(([k]) => k),
-    built_at: new Date().toISOString(),
-  }, null, 2));
-
-  console.log(`[build-index] built scenarios=${scenarios.length} skills=${Object.keys(thresholds).length} hash=${hash.slice(0, 12)}`);
-  console.log(`[build-index] out=${outDir}`);
-  const conflicts = Object.entries(thresholds).filter(([, t]) => t.status === 'conflict');
-  if (conflicts.length) console.log(`[build-index] conflicts: ${conflicts.map(([k]) => k).join(', ')}`);
-  const excluded = Object.entries(thresholds).filter(([, t]) => t.status === 'excluded');
-  if (excluded.length) console.log(`[build-index] excluded: ${excluded.length} skills`);
 }
 
-main();
+if (require.main === module) {
+  try { main(); } catch (error) {
+    process.stderr.write(`[build-index] ${error.message}\n`);
+    process.exitCode = 1;
+  }
+}
+
+module.exports = {
+  build,
+  calibrateThresholds,
+  crossSkillEvaluation,
+  metricsAt,
+  selectEligibleSkills,
+  tokenizeScenarios,
+};

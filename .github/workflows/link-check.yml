@@ -21,6 +21,10 @@ jobs:
         id: lychee
         uses: lycheeverse/lychee-action@v2
         with:
+          # The Gemini web app rejects this headless checker, while Google's
+          # public product and support pages confirm the destination is live.
+          # Schneider Digital intermittently times out from GitHub's runner;
+          # keep it under direct HTTP verification instead of opening noise issues.
           args: >
             --verbose
             --no-progress
@@ -35,6 +39,8 @@ jobs:
             --exclude "^https://x\\.com"
             --exclude "^https://linkedin\\.com"
             --exclude "^https://www\\.linkedin\\.com"
+            --exclude "^https://gemini\\.google\\.com/?$"
+            --exclude "^https://shop\\.schneider-digital\\.com/en/graphics-cards/nvidia/rtx-pro-blackwell-series/nvidia-rtx-pro-6000-blackwell-workstation-edition-96gb-pcie-5\\.0-x16/?$"
             --exclude "^https://localhost"
             --exclude "^http://localhost"
             --exclude "%7B"

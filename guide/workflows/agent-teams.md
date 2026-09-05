@@ -19,6 +19,14 @@ tags: [workflow, agents, architecture]
 
 ---
 
+## Team Coordination Is Not the Runtime Loop
+
+Agent Teams coordinates several Claude Code sessions. Claude Code remains the runtime harness that owns each session's model-and-tool loop; the repository harness owns shared instructions, setup, task state, and verification. Treat a team manager, dashboard, or queue as an orchestrator unless it itself runs the loop.
+
+Use the [Agent Harness Map](../ecosystem/agent-harness-landscape.md) to compare loop-owning runtimes with the separate orchestration layer. [Agent Harness Engineering](../core/agent-harness.md) defines the four layers, and [Agent Tools: Beyond Claude Code](../ecosystem/agentic-tools.md) covers additional frameworks and control planes. Evaluate handoffs and recovery with [Agent Evaluation](../roles/agent-evaluation.md), observe team execution with [Session Observability](../ops/observability.md), and apply [Security Hardening](../security/security-hardening.md) before connecting agents to sensitive systems. Definitions are in the [glossary](../core/glossary.md).
+
+---
+
 ## Table of Contents
 
 1. [Overview](#1-overview)
@@ -382,6 +390,8 @@ claude
 | **Autonomous C compiler** | Anthropic Research | Project completion | Complex multi-phase projects |
 | **Job search app** | Paul Rayner (LinkedIn) | "Pretty impressive" | Design research + bug fixing |
 | **Business ops automation** | Paul Rayner (LinkedIn) | N/A | Operating system + conference planning |
+
+For a case study outside these vendor-reported figures, [orchestrating 20+ agents on a production migration](https://florian.bruniaux.com/guides/plan-execute-migrations/) walks through a plan-execute setup at that scale, including where coordination broke down.
 
 ### 4.1 Multi-Layer Code Review (Fountain)
 

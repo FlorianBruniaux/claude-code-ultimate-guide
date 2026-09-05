@@ -1,0 +1,11 @@
+Proofpack source fingerprint
+
+Algorithm: SHA-256 over the staged `git ls-files -s` records, sorted by Git,
+for examples/learning-project. PROOF-LOG.md and this file are excluded to avoid
+a self-reference.
+
+Digest: 17584d76f561a8f9153fc60c8e2340563de6a716e6fd57706dd1937cf3f3ece6
+
+Reproduce from the commit that contains this file:
+
+git ls-files -s examples/learning-project | rg -v 'examples/learning-project/evidence/(PROOF-LOG\.md|SOURCE-FINGERPRINT\.txt)$' | shasum -a 256

@@ -1,0 +1,286 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-08-31",
+  "measured_at_commit": "f1cacb44a2582a98cf080d978c7aa92a19714aaf",
+  "official_scope": "Maintained by the Claude Code Ultimate Guide project; not official Anthropic documentation.",
+  "policy": {
+    "canonical_language": "en",
+    "official_translation_priority": [
+      "fr"
+    ],
+    "new_official_locale_gate": "Do not start another official locale, including Chinese, until the maintained French full guide has zero recorded source drift and a documented review pass.",
+    "community_status": "Linked community adaptations remain unofficial and independently maintained.",
+    "hreflang": "Publish hreflang only for equivalent, indexable, bidirectionally linked pages under coordinated maintenance. No community adaptation currently meets this gate."
+  },
+  "canonical": {
+    "language": "en",
+    "label": "English",
+    "kind": "canonical",
+    "path": "guide/ultimate-guide.md",
+    "url": "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md",
+    "maintainer": "Florian Bruniaux",
+    "status": "official",
+    "version": "3.43.0",
+    "sha256": "d8169669946d489fbb103793fef812d6be13bb2fe5ba25824e5d10b128aedddb",
+    "source": {
+      "commit": "f1cacb44a2582a98cf080d978c7aa92a19714aaf",
+      "sha256": "d8169669946d489fbb103793fef812d6be13bb2fe5ba25824e5d10b128aedddb",
+      "commit_evidence": "latest_commit_touching_canonical_guide"
+    },
+    "coverage": {
+      "status": "complete",
+      "unit": "canonical full guide"
+    },
+    "known_lag": {
+      "status": "current",
+      "canonical_guide_commits": 0,
+      "canonical_repo_commits": 0
+    }
+  },
+  "translations": [
+    {
+      "language": "fr",
+      "label": "Français",
+      "kind": "maintained",
+      "path": "guide/ultimate-guide.fr.md",
+      "url": "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.fr.md",
+      "maintainer": "Florian Bruniaux",
+      "status": "official",
+      "official": true,
+      "version": "3.41.1",
+      "last_checked_at": "2026-08-31",
+      "last_full_refresh_at": "2026-07-09",
+      "sync_state": "stale",
+      "translated_from": {
+        "version": "3.41.1",
+        "commit": "d05a95c6c58cc1bcdb4b5db9aa76ad5a119baec6",
+        "sha256": "7b88e19f61709014a63b4d397e91ca9e394c7657aae51ac64a592217e88dafb3"
+      },
+      "artifact": {
+        "sha256": "3cc89bb3d5d41f481012c9f2d8d76a62f2f71962a5c7d5aae58e3b16da21aa9c",
+        "last_change_commit": "815d8b188eaf02f213531c6f81bd97e1e0f67bae"
+      },
+      "coverage": {
+        "type": "full_guide",
+        "status": "complete_at_recorded_source",
+        "note": "The file is complete for its recorded source baseline. English additions after 3.41.1 are not yet translated.",
+        "semantic_review": "not_verified_by_automation"
+      },
+      "known_lag": {
+        "status": "stale",
+        "canonical_guide_commits": 21,
+        "canonical_repo_commits": 229,
+        "version_delta": "3.41.1 to 3.43.0"
+      }
+    },
+    {
+      "language": "zh-CN",
+      "label": "简体中文",
+      "kind": "community",
+      "repository": "https://github.com/JAYcodr/claude-code-ultimate-guide-zh",
+      "url": "https://github.com/JAYcodr/claude-code-ultimate-guide-zh",
+      "maintainer": "JAYcodr",
+      "status": "community",
+      "version": "3.41.0",
+      "last_checked_at": "2026-08-31",
+      "last_upstream_sync_at": "2026-05-23",
+      "sync_state": "stale",
+      "head_commit": "241ce641e6a2063b59343f035d73b1b3f96afd4e",
+      "translated_from": {
+        "version": "3.41.0",
+        "commit": "7b43b9c10b241f8e196e27651e3fea6079a48d26",
+        "sha256": "9b895bae9b49ce5eac13f08eb989c9ba695587633426cb31843e1d35abac3938",
+        "commit_evidence": "parent_of_first_translation_commit; repository status file incorrectly labels its own dbeb30c commit as upstream"
+      },
+      "attribution": {
+        "status": "verified",
+        "evidence": "README identifies the Chinese translation and credits Florian Bruniaux with an original-repository link."
+      },
+      "coverage": {
+        "type": "community_adaptation",
+        "status": "partial",
+        "completed_priority_groups": 23,
+        "total_priority_groups": 26,
+        "audited_markdown_files": 520,
+        "audited_files_with_han_characters": 154,
+        "missing": [
+          "quiz",
+          "resource evaluations",
+          "machine-readable references"
+        ]
+      },
+      "known_lag": {
+        "status": "stale",
+        "canonical_guide_commits": 35,
+        "canonical_repo_commits": 293,
+        "version_delta": "3.41.0 to 3.43.0"
+      },
+      "official": false
+    },
+    {
+      "language": "uk",
+      "label": "Українська",
+      "kind": "community",
+      "repository": "https://github.com/gerasimsergey/claude-code-ultimate-guide-ua",
+      "url": "https://github.com/gerasimsergey/claude-code-ultimate-guide-ua",
+      "maintainer": "gerasimsergey",
+      "status": "community",
+      "version": "3.40.0",
+      "last_checked_at": "2026-08-31",
+      "last_upstream_sync_at": "2026-05-19",
+      "sync_state": "stale",
+      "head_commit": "7a48d5f603d7ff1c9c2208c95b2a51af8e6bd5da",
+      "translated_from": {
+        "commit": null,
+        "sha256": null,
+        "commit_evidence": "not_declared"
+      },
+      "attribution": {
+        "status": "present_but_source_commit_unknown",
+        "evidence": "README preserves the original author and repository links; no exact upstream commit was found."
+      },
+      "coverage": {
+        "type": "community_adaptation",
+        "status": "partial",
+        "audited_markdown_files": 559,
+        "audited_ukrainian_sidecars": 92,
+        "audited_files_with_cyrillic": 110,
+        "note": "The repository reports a May 2026 synchronization. Its current version is behind the canonical guide."
+      },
+      "known_lag": {
+        "status": "unknown",
+        "canonical_guide_commits": null,
+        "canonical_repo_commits": null,
+        "version_delta": "3.40.0 to 3.43.0; exact commit lag unknown"
+      },
+      "official": false
+    },
+    {
+      "language": "es-419",
+      "label": "Español latinoamericano",
+      "kind": "community",
+      "repository": "https://github.com/Richardls/claude-code-ultimate-guide-es",
+      "url": "https://github.com/Richardls/claude-code-ultimate-guide-es",
+      "maintainer": "Richardls",
+      "status": "community",
+      "version": "3.32.2",
+      "last_checked_at": "2026-08-31",
+      "last_upstream_sync_at": "2026-04-07",
+      "sync_state": "stale",
+      "head_commit": "45c9a4c112f562e1c155751aaa6f76edb47be021",
+      "translated_from": {
+        "version": "3.32.2",
+        "commit": "11dadc28156112cb17cf2935244b3f9d6ccf01ee",
+        "sha256": "5bed04f641861d899d369927ceef2ae3e6da97a4843069df1e79382ad7df5757",
+        "commit_evidence": "parent_of_full_translation_commit"
+      },
+      "attribution": {
+        "status": "verified",
+        "evidence": "Repository description identifies the Latin American Spanish translation; README preserves the original author and repository links."
+      },
+      "coverage": {
+        "type": "community_adaptation",
+        "status": "partial_repository_adaptation",
+        "audited_markdown_files": 335,
+        "audited_files_with_spanish_diacritics": 330,
+        "translation_commit_claim": "about 360 translated files"
+      },
+      "known_lag": {
+        "status": "stale",
+        "canonical_guide_commits": 119,
+        "canonical_repo_commits": 561,
+        "version_delta": "3.32.2 to 3.43.0"
+      },
+      "official": false
+    }
+  ],
+  "localized_artifacts": [
+    {
+      "kind": "whitepaper_series",
+      "languages": [
+        "fr",
+        "en"
+      ],
+      "status": "official",
+      "url": "https://cc.bruniaux.com/whitepapers/",
+      "maintainer": "Florian Bruniaux",
+      "version": "mixed: v3.41.3 and v3.43.0",
+      "source_commit": null,
+      "last_checked_at": "2026-08-31",
+      "coverage": {
+        "status": "paired_publication_catalog",
+        "paired_items": 13,
+        "paired_source_items_in_this_repository": 13,
+        "known_french_only_source_prefixes": [],
+        "content_freshness": "not_measured_against_the_full_guide"
+      },
+      "known_lag": {
+        "status": "unknown",
+        "reason": "These are adaptations, not line-equivalent translations of the canonical full guide."
+      }
+    },
+    {
+      "kind": "recap_card_series",
+      "languages": [
+        "fr",
+        "en"
+      ],
+      "status": "official",
+      "url": "https://cc.bruniaux.com/cheatsheets/",
+      "maintainer": "Florian Bruniaux",
+      "version": "v1.0.0 catalog with four unversioned direct-path files",
+      "source_commit": null,
+      "last_checked_at": "2026-08-31",
+      "coverage": {
+        "status": "paired_publication_catalog",
+        "paired_items": 58,
+        "french_manifest_items": 58,
+        "english_manifest_items": 58,
+        "content_freshness": "not_measured_against_the_full_guide"
+      },
+      "known_lag": {
+        "status": "unknown",
+        "reason": "These are summaries, not line-equivalent translations of the canonical full guide."
+      }
+    }
+  ],
+  "discovery": {
+    "method": "GitHub repository-name and README attribution search, followed by shallow-clone inspection",
+    "scope_limit": "Public, indexed repositories found on 2026-08-31. Private, renamed, unindexed, and non-GitHub adaptations remain unknown.",
+    "false_positive_rule": "Mirrors or forks without a declared target-language adaptation are not registered as translations."
+  },
+  "paired_publications": {
+    "whitepapers": {
+      "roots": {
+        "fr": "whitepapers/fr",
+        "en": "whitepapers/en"
+      },
+      "public_prefixes": [
+        "00",
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08",
+        "09",
+        "10",
+        "11",
+        "12"
+      ],
+      "known_unpaired_prefixes": {
+        "fr": [],
+        "en": []
+      },
+      "published_catalog_pairs": 13
+    },
+    "recap_cards": {
+      "roots": {
+        "fr": "whitepapers/recap-cards/fr",
+        "en": "whitepapers/recap-cards/en"
+      }
+    }
+  }
+}

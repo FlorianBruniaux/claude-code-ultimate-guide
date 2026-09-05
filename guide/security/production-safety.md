@@ -424,6 +424,8 @@ Adding dependencies without team approval:
 - Installed `lodash` when project uses `ramda`
 - Added GPL library → license violation for proprietary codebase
 
+Dependency approval gates only work if someone actually triages what a new package pulls in. [A supply-chain triage walkthrough against a real compromised dependency](https://florian.bruniaux.com/guides/claude-code-attack-surface/) shows what that looks like in practice.
+
 ### The Rule
 
 **No new dependencies without explicit approval.**

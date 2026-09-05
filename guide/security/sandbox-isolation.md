@@ -9,6 +9,7 @@ tags: [security, sandbox, devops, guide]
 > **Confidence**: Tier 2 (Official Docker docs + verified vendor documentation)
 > **Reading time**: ~10 minutes
 > **Scope**: Running Claude Code safely in isolated environments
+> **Further reading**: [why isolation, not permissions, is the real security boundary](https://florian.bruniaux.com/guides/claude-code-attack-surface/) digs deeper into this exact tradeoff.
 
 ---
 

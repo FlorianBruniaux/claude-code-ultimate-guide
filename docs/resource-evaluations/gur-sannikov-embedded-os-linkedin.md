@@ -145,7 +145,7 @@ LinkedIn post proposing "embedded OS" metaphor for Claude Code architecture, lis
 
 ### Unverifiable (Qualitative)
 
-- **"80% coverage with 20% setup"** — Qualitative claim, not fact-checkable
+- **"80% coverage with 20% setup"**: Qualitative claim, not fact-checkable
 
 **Conclusion**: Core technical claims verified. External product stats not critical for evaluation.
 
@@ -156,8 +156,8 @@ LinkedIn post proposing "embedded OS" metaphor for Claude Code architecture, lis
 ### Initial Score: 3/5 → **Adjusted: 4/5**
 
 **Biases Detected**:
-1. **Familiarity Bias** — "Already documented → not relevant" (missed checklist format value)
-2. **Niche Bias** — "Embedded engineering → low priority" (ADR pattern is universal)
+1. **Familiarity Bias**: "Already documented → not relevant" (missed checklist format value)
+2. **Niche Bias**: "Embedded engineering → low priority" (ADR pattern is universal)
 
 **Aspects Initially Missed**:
 - Friction-free model switching (dynamic mid-session workflow)

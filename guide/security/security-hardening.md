@@ -13,6 +13,8 @@ keywords:
 > **Confidence**: Tier 2, based on CVE disclosures, security research (2024-2026), and community validation
 >
 > **Scope**: Active threats (attacks, injection, CVE). For data retention and privacy, see [data-privacy.md](./data-privacy.md)
+>
+> **Further reading**: [the attack surface nobody audits](https://florian.bruniaux.com/guides/claude-code-attack-surface/) walks through sandbox, hooks, MCP, and supply chain in one pass.
 
 ---
 
@@ -28,6 +30,22 @@ keywords:
 
 > **NEVER**: Approve MCPs from unknown sources without version pinning.
 > **NEVER**: Run database MCPs on production without read-only credentials.
+
+---
+
+## Apply Controls at the Owning Layer
+
+Security review starts by identifying who owns the loop and who can act on its output. A runtime harness mediates tool use, permissions, context, and sandboxing. A repository harness supplies the instructions, dependency setup, and deterministic verification gates. An orchestrator can create additional identities, workspaces, handoffs, and unattended execution, so it needs separate credentials, budgets, stop conditions, and audit trails.
+
+The [Agent Harness Map](../ecosystem/agent-harness-landscape.md) distinguishes runtime harnesses from the wider directory of plugins, frameworks, observability tools, and control planes. Use [Agent Harness Engineering](../core/agent-harness.md) to understand runtime boundaries, [Agent Tools: Beyond Claude Code](../ecosystem/agentic-tools.md) to assess adjacent products, and [Session Observability](../ops/observability.md) to retain evidence without expanding access. Definitions live in the [glossary](../core/glossary.md).
+
+Benchmark security separately from task completion. [AgentDojo](https://arxiv.org/abs/2406.13352) includes 97 realistic tasks and 629 prompt-injection security test cases, which makes utility and attack resistance visible as separate outcomes. [CaMeL](https://arxiv.org/abs/2503.18813) reports 77% task completion under its capability-based control design versus 84% for the undefended reference configuration. These studies do not prove that one control fits every harness, but they show why a single success score hides the security trade-off.
+
+Harness optimizers expand the attack surface because they can modify prompts, tool exposure, control flow, or verification policy. Freeze non-negotiable security invariants outside the optimizer's mutation space. Reject candidates that weaken permission boundaries, leak evaluation data, suppress audit events, or improve task score by skipping a required check.
+
+Worktree isolation is not process isolation. [Liza's pinned provider catalog](https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/provider-catalog.yaml), for example, launches external coding-agent CLIs and includes modes such as `--approve-all`, `--dangerously-skip-permissions`, and `--permission-mode dangerous`. Its worktrees reduce edit collisions and its supervisor constrains workflow transitions, but the launched process can still inherit host files, credentials, and network access. Review the generated global configuration, constrain writable roots, inject task-scoped credentials, and put an OS or container sandbox below the orchestrator before unattended execution. See the [Liza profile](../ecosystem/agentic-tools.md#48-liza) for the code and CI evidence behind this classification.
+
+Command policy is another distinct layer. Codex's official [`execpolicy`](https://github.com/openai/codex/blob/main/codex-rs/execpolicy/README.md) matches token prefixes and returns `allow`, `prompt`, or `forbidden`, with positive and negative examples that validate rules at load time. Liza maintainer Tangi Vass's experimental [bash-policy](https://github.com/liza-mas/bash-policy) instead parses compound Bash payloads into command units before returning `allow`, `manual`, or `deny`. The latter had no tagged release at the checked 2026-08-29 snapshot, so evaluate it as source code rather than as a mature dependency. Neither mechanism is a sandbox. Policy decides whether a command shape may run; sandboxing constrains what an allowed or bypassed process can reach.
 
 ---
 
@@ -173,6 +191,8 @@ Before adding any MCP server, complete this checklist:
 ### 1.2 Agent Skills Supply Chain Risks
 
 Third-party Agent Skills (installed via `npx add-skill` or plugin marketplaces) introduce supply chain risks similar to npm packages.
+
+For the current official distinction between marketplace distribution and CLI recommendation hints, see [Plugin Distribution and Recommendation Hints](../ecosystem/plugin-distribution.md). That protocol requires an eligible official-marketplace target and user confirmation, but it does not replace the component review in this section.
 
 **Snyk ToxicSkills** (Feb 2026) scanned **3,984 skills** across ClawHub and skills.sh:
 
@@ -1054,15 +1074,15 @@ Use the security-auditor agent for the analysis.
 For high-stakes PRs (auth changes, payment flows, data access), run in sequence:
 
 ```
-Step 1 — Threat surface scan:
+Step 1: Threat surface scan:
 "Use the security-auditor agent to analyze all changed files in this diff.
  Report CRITICAL and HIGH findings only. No fixes."
 
-Step 2 — Data flow trace:
+Step 2: Data flow trace:
 "For each CRITICAL finding from the audit, trace the full data flow:
  where does user input enter? where does it reach? what sanitization exists?"
 
-Step 3 — Patch (if findings):
+Step 3: Patch (if findings):
 "Use the security-patcher agent with the findings report above.
  Propose patches for CRITICAL findings only. Do not apply without my review."
 ```
@@ -1090,7 +1110,7 @@ CHANGED=$(git diff origin/main...HEAD --name-only)
 if echo "$CHANGED" | grep -qE "(auth|payment|token|session|password|crypt)"; then
     echo "⚠️  Security-sensitive files changed. Run /security-audit before pushing."
     echo "   Files: $(echo "$CHANGED" | grep -E '(auth|payment|token|session)')"
-    # Warning only — does not block push
+    # Warning only; does not block push
 fi
 exit 0
 ```
@@ -1188,7 +1208,7 @@ Local terminal ──HTTPS outbound──► Anthropic relay ──► Mobile/Br
 ### Best Practices
 
 ```bash
-# 1. Don't auto-enable — activate only when needed
+# 1. Don't auto-enable; activate only when needed
 #    Avoid: /config → auto-enable remote-control
 
 # 2. Use on a dedicated, hardened workstation
@@ -1242,18 +1262,24 @@ Each session registers itself in on-disk files and binds an inbox socket restric
 
 ### Threat Model
 
-The core risk is **cross-session prompt injection**: a compromised, misconfigured, or simply overzealous peer session sends text designed to get the receiving session to act outside what its own user authorized.
+The principal security risk is **cross-session prompt injection**: a compromised, misconfigured, or simply overzealous peer session sends text designed to get the receiving session to act outside what its own user authorized. A separate correctness risk appears when sessions propagate a false premise and converge on the same wrong result.
 
 | Threat | Risk | Mitigation |
 |--------|------|------------|
-| **Peer suggests a destructive or risky action** | A compromised peer session tries to get another session to run a command, touch a file, or approve something it shouldn't | Text-only channel: a message can never approve a permission prompt or change configuration. The receiving session's own permission rules still apply to anything it's asked to do. |
+| **Peer suggests a destructive or risky action** | A compromised peer session tries to get another session to run a command, touch a file, or approve something it shouldn't | Text-only channel: a message can never approve a permission prompt or change configuration. The receiving session's own permission rules still apply. [Native sandboxing](./sandbox-native.md#cross-session-inbox-sockets) can limit Bash-command effects, but built-in file tools remain under the permission system. |
 | **Command injection via message text** | A message body contains something that looks like a slash command or shell instruction | Claude Code never executes text arriving in a message; it is delivered as plain text, same as any other prompt content. |
 | **Socket spoofing / stale endpoint** | A reply is routed to the wrong process because a socket path was replaced or a session restarted | `SendMessage` verifies the endpoint before delivering and refuses on a symlinked target, an unexpected connected process, or an endpoint whose identity can't be read, rather than sending blind. |
 | **Unsolicited flood from a peer** | A misbehaving or looping peer sends messages faster than the recipient can process | Burst refusal at the sender once a same-machine inbox's capacity is reached; at the recipient, repeated messages from one sender are rate-limited, identical repeats within a short window are dropped, and at most 50 accepted messages queue for Claude to read. |
 | **Cross-machine exposure via Remote Control** | Messages to another of your machines or the web pass through Anthropic's infrastructure rather than staying local | Same-machine traffic never leaves the box; cross-machine traffic is HTTPS through the same relay Remote Control already uses. Set `isolatePeerMachines: true` to require explicit approval before anything crosses a machine boundary. |
-| **Silent acceptance of untrusted peers** | A session with permissive defaults accepts messages from any session that can reach it | `crossSessionInbound: "refuse"` drops all inbound peer messages; `"hold"` requires a per-message **Approve**; the receiving session's permission-mode class sets the default when nothing else applies (a session that bypasses prompts holds by default, one that prompts delivers by default). |
+| **Silent acceptance of untrusted peers** | A session with permissive defaults accepts messages from any session that can reach it | `crossSessionInbound: "refuse"` drops all inbound peer messages. An explicit `"hold"` retains messages until an applicable `accept` releases them; when no setting applies, the receiving session's permission-mode class can instead open a per-message approval dialog. |
+| **Correlated drift / false consensus** | One session's stale or incorrect conclusion becomes shared context, so another session repeats the mistake or validates it against the same incomplete evidence | Treat a peer message as a claim, not proof. Bind handoffs to a branch or worktree and commit SHA, include reproducible evidence and uncertainty, then use deterministic gates plus the [Agent Harness creator-verifier pattern](../core/agent-harness.md#8-creator-verifier-pattern). |
+| **Shared-working-tree race** | Two sessions coordinate in text but concurrently edit the same checkout, invalidating each other's reads or overwriting changes | Use one worktree per concurrent writer and explicit ownership. Cross-session messages do not provide file locks or transactional writes. |
 
 The design constraint that makes this tractable: a cross-session message is informational only. It is never treated as user consent, and the receiving session is explicitly instructed never to change its own permission settings, `CLAUDE.md`, or other configuration because a peer asked.
+
+The [native sandbox boundary](./sandbox-native.md#cross-session-inbox-sockets) reduces the filesystem and network impact of Bash commands and their children after delivery. It does not govern built-in `Read`, `Edit`, or `Write` tools, validate the peer's claim, or isolate two sessions that share a checkout.
+
+That authority boundary does not validate correctness. The [cross-session coordination protocol](../workflows/cross-session-messaging.md#coordination-safety-correlated-drift-and-false-consensus) defines the message provenance contract and current-SHA gate; [Agent Harness: Creator-Verifier](../core/agent-harness.md#8-creator-verifier-pattern) defines the independence and proof boundary.
 
 ### Best Practices
 
@@ -1272,6 +1298,9 @@ The design constraint that makes this tractable: a cross-session message is info
 # 4. Don't assume a quiet /status means the feature is off
 #    A refusing session shows no visible change in its own /status or in peers' /list-agents.
 #    Confirm via the settings files that apply, not by observing behavior.
+
+# 5. Keep concurrent writers in separate worktrees
+#    A peer message is coordination text, not a file lock or verification result.
 ```
 
 ### Enterprise Considerations

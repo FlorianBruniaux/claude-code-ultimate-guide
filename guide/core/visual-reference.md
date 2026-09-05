@@ -15,6 +15,12 @@ For detailed docs → [Ultimate Guide](../ultimate-guide.md) | [Cheatsheet](../c
 
 ---
 
+## Harness Map Reading Guide
+
+These ASCII diagrams cover selected Claude Code concepts. For the harness taxonomy, use the three figures on the [Agent Harness Map](../ecosystem/agent-harness-landscape.md): strict and broad scope, the four layers, and the selection funnel. [Agent Harness Engineering](./agent-harness.md) explains the model, runtime harness, repository harness, and orchestrator. [Agent Tools: Beyond Claude Code](../ecosystem/agentic-tools.md) covers frameworks and control planes. Use [Agent Evaluation](../roles/agent-evaluation.md), [Session Observability](../ops/observability.md), and [Security Hardening](../security/security-hardening.md) to test, inspect, and constrain the chosen design. Definitions are in the [glossary](./glossary.md).
+
+---
+
 ## Table of Contents
 
 **New diagrams:**

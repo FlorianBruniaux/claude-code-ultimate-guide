@@ -3,8 +3,8 @@
 # Source: guide/ultimate-guide.md
 # Purpose: Condensed index for LLMs to quickly answer user questions about Claude Code
 
-version: "3.41.3"
-updated: "2026-07-28"
+version: "3.43.0"
+updated: "2026-08-31"
 
 # ════════════════════════════════════════════════════════════════
 # DEEP DIVE - Line numbers in guide/ultimate-guide.md
@@ -12,6 +12,22 @@ updated: "2026-07-28"
 # For architecture internals, see guide/core/architecture.md
 # ════════════════════════════════════════════════════════════════
 deep_dive:
+  # Learning and distribution routes added after the 2026-08-31 comparative audit
+  computer_use_guide: "guide/core/computer-use.md"
+  plugin_distribution_guide: "guide/ecosystem/plugin-distribution.md"
+  claude_apps_gateway_guide: "guide/ops/api-gateway.md#current-first-party-surface-claude-apps-gateway"
+  current_product_surface_evaluation: "docs/resource-evaluations/claude-code-current-surface-2026-08.md"
+  best_of_n_workflow: "guide/workflows/best-of-n.md"
+  best_of_n_skill: "examples/skills/best-of-n/SKILL.md"
+  testing_proof_log_template: "examples/claude-md/TESTING.md"
+  best_of_n_evidence: "docs/resource-evaluations/best-of-n-verification-evidence.md"
+  learning_path_skill: "examples/skills/learning-path/SKILL.md"
+  learning_path_progress_engine: "examples/skills/learning-path/scripts/progress.py"
+  learning_companion_project: "examples/learning-project/README.md"
+  guide_distribution_workflow: "docs/workflows/guide-distribution.md"
+  distribution_channels_registry: "machine-readable/distribution-channels.yaml"
+  learning_path_slides: "docs/distribution/claude-code-learning-path-slides.pptx"
+  quick_win_video_briefs: "docs/distribution/quick-win-video-series.md"
   # Visual Diagrams Series (41 Mermaid diagrams)
   mermaid_diagrams:
     path: "guide/diagrams/"
@@ -24,6 +40,7 @@ deep_dive:
   diagram_configuration_system: "guide/diagrams/03-configuration-system.md#hooks-event-pipeline"
   diagram_architecture_internals: "guide/diagrams/04-architecture-internals.md"
   diagram_mcp_ecosystem: "guide/diagrams/05-mcp-ecosystem.md#mcp-server-ecosystem-map"
+  claude_code_guide_mcp: "guide/ecosystem/claude-code-guide-mcp.md"
   diagram_development_workflows: "guide/diagrams/06-development-workflows.md"
   diagram_multi_agent_patterns: "guide/diagrams/07-multi-agent-patterns.md"
   diagram_security_and_production: "guide/diagrams/08-security-and-production.md"
@@ -36,7 +53,7 @@ deep_dive:
   script_generation: "guide/workflows/iterative-refinement.md#script-generation-workflow"
   anti_anchoring_prompts: "examples/semantic-anchors/anchor-catalog.md#anti-anchoring-techniques"
   session_limits: "guide/core/architecture.md#session-degradation-limits"
-  claudemd_sizing: 5442  # anchor: claudemd-best-practices
+  claudemd_sizing: 5468  # anchor: claudemd-best-practices
   scope_success_rates: "guide/roles/adoption-approaches.md#what-we-do-know-empirical-data"
   # Claude Code Releases
   claude_code_releases: "guide/core/claude-code-releases.md"
@@ -94,6 +111,8 @@ deep_dive:
   # Glossary (alphabetical term reference)
   glossary: "guide/core/glossary.md"
   glossary_description: "120+ terms: Claude Code-specific, community-coined patterns, AI engineering concepts. Alphabetical table with Category + Subcategory. Excludes standard CS/DevOps terms."
+  translation_status_guide: "guide/core/translations.md"
+  translation_registry: "machine-readable/translations.json"
   # Context Engineering (consolidated reference)
   context_engineering_guide: "guide/core/context-engineering.md"
   context_engineering_what_is: "guide/core/context-engineering.md#1-what-is-context-engineering"
@@ -143,15 +162,46 @@ deep_dive:
   permissions_audit_phases: ["blanket_execution_grants", "rule_population_health", "deny_ask_coverage", "sandbox_posture", "scope_hygiene", "mode_interaction"]
   permissions_audit_killer_finding: "Bash(bash *) / Bash(node:*) / Bash(python3 *) in allow — matcher treats `bash -c '<anything>'` as a bash command, never as the inner one, so Read(**/.env*) deny is defeated by `bash -c 'cat .env'`"
   permissions_audit_time: "3-5 min per repo | 30s for the fleet sweep"
-  # Agent Harness Engineering (new May 2026)
+  # Agent Harness Engineering and landscape routing
   agent_harness_guide: "guide/core/agent-harness.md"
+  loop_graph_engineering_guide: "guide/core/loop-graph-engineering.md"
+  loop_graph_smallest_structure: "guide/core/loop-graph-engineering.md#1-choose-the-smallest-control-structure"
+  loop_graph_loop_contract: "guide/core/loop-graph-engineering.md#2-write-a-loop-contract"
+  loop_graph_feedback_horizons: "guide/core/loop-graph-engineering.md#apply-the-feedback-horizons"
+  loop_graph_graph_contract: "guide/core/loop-graph-engineering.md#3-write-a-graph-contract"
+  loop_graph_static_dynamic: "guide/core/loop-graph-engineering.md#4-static-and-dynamic-graphs"
+  loop_graph_judgment: "guide/core/loop-graph-engineering.md#5-allocate-judgment-explicitly"
+  loop_graph_execution_governance: "guide/core/loop-graph-engineering.md#separate-execution-from-governance"
+  loop_graph_durable_execution: "guide/core/loop-graph-engineering.md#6-make-execution-durable"
+  loop_graph_observability: "guide/core/loop-graph-engineering.md#7-observe-and-evaluate-the-system"
+  loop_graph_cases: "guide/core/loop-graph-engineering.md#8-three-implementation-cases"
+  loop_graph_antipatterns: "guide/core/loop-graph-engineering.md#9-anti-patterns"
+  loop_graph_selection: "guide/core/loop-graph-engineering.md#10-selection-checklist"
+  agent_harness_definition: "guide/core/agent-harness.md#the-core-claim"
+  agent_harness_entry_points: "guide/core/agent-harness.md#choose-the-right-entry-point"
+  agent_harness_four_layers: "guide/core/agent-harness.md#0-four-layers-four-responsibilities"
   agent_harness_nine_components: "guide/core/agent-harness.md#2-the-nine-components"
+  agent_harness_claude_code_checkpoint: "guide/core/agent-harness.md#claude-code-implementation-checkpoint"
   agent_harness_lethal_trifecta: "guide/core/agent-harness.md#3-the-lethal-trifecta-security-model"
   agent_harness_cicd: "guide/core/agent-harness.md#4-cicd-agentic-patterns"
   agent_harness_observability: "guide/core/agent-harness.md#6-observability-stack"
   agent_harness_creator_verifier: "guide/core/agent-harness.md#8-creator-verifier-pattern"
   agent_harness_three_properties: "guide/core/agent-harness.md#1-three-foundational-properties"
   agent_harness_digital_twin: "guide/core/agent-harness.md#5-digital-twin-testing"
+  agent_harness_model_harness_pair: "guide/core/agent-harness.md#the-core-claim"
+  agent_harness_optimizer: "guide/core/agent-harness.md#11-harness-optimizers-and-meta-harnesses"
+  agent_harness_meta_harness_overload: "guide/core/agent-harness.md#0-four-layers-four-responsibilities"  # research optimizer versus product dispatcher or orchestrator usage
+  agent_harness_optimizer_landscape: "guide/ecosystem/agent-harness-landscape.md#harness-optimizers-and-meta-harnesses"
+  agent_harness_evaluation_protocol: "guide/core/agent-harness.md#11-harness-optimizers-and-meta-harnesses"
+  agent_harness_smallest_sufficient: "guide/core/agent-harness.md#7-test-distribution-and-component-stacking-anti-patterns"
+  agent_harness_glossary: "guide/core/glossary.md#agent-harness"
+  agent_harness_release_data: "machine-readable/claude-code-releases.yaml"
+  agent_harness_reference_data: "machine-readable/README.md#agent-harness-landscape"
+  agent_harness_repository_guide: "guide/ultimate-guide.md#925-repository-harness-engineering"
+  agent_harness_tools_guide: "guide/ecosystem/agentic-tools.md"
+  agent_harness_evaluation_guide: "guide/roles/agent-evaluation.md"
+  agent_harness_observability_guide: "guide/ops/observability.md"
+  agent_harness_security_guide: "guide/security/security-hardening.md"
   context_engineering_examples: "examples/context-engineering/"
   context_engineering_assembler: "examples/context-engineering/assembler.ts"
   context_engineering_profile_template: "examples/context-engineering/profile-template.yaml"
@@ -197,6 +247,9 @@ deep_dive:
   memory_systems_decision_flowchart: "guide/core/memory-systems.md#81-decision-flowchart"
   memory_systems_benchmarks: "guide/core/memory-systems.md#9-benchmarks-and-evaluation"
   memory_systems_open_problems: "guide/core/memory-systems.md#10-open-problems"
+  memory_systems_supermemory: "guide/core/memory-systems.md#38-other-notable-tools"  # Added 2026-08-27: free MCP + paid CC plugin + self-hosted MIT binary, three distinct surfaces
+  memory_systems_supermemory_team_gap: "guide/core/memory-systems.md#47-why-the-team-gap-is-structural"  # Added 2026-08-27: container tags as evidence for "no team taxonomy standard" and "no enterprise buyer yet"
+  memory_systems_supermemory_benchmark_inconsistency: "guide/core/memory-systems.md#9-benchmarks-and-evaluation"  # Added 2026-08-27: 95% vs 85.4% Recall@15 self-published on two different vendor pages, same benchmark
   # Team Configuration at Scale (Profile-Based Module Assembly)
   team_ai_instructions_section: "guide/ultimate-guide.md#35-team-configuration-at-scale"
   team_ai_instructions_workflow: "guide/workflows/team-ai-instructions.md"
@@ -283,6 +336,17 @@ deep_dive:
   routines_research_preview: "true — behavior, limits, API surface may change"
   routines_discover_command: "examples/skills/routines-discover/SKILL.md"
   routines_use_case_angles: "scheduled maintenance / event-driven reactions / alert response / cross-system sync / release automation"
+  monitor_event_delegation: "guide/workflows/monitor-event-delegation.md"
+  monitor_command_source: "guide/core/tools-reference.md#monitor-v2198"
+  monitor_websocket_source: "guide/workflows/monitor-event-delegation.md#websocket-source"
+  monitor_websocket_constraints: "command and ws mutually exclusive; text frame event; binary placeholder; >1 MiB frame or socket close stops monitor; ASCII ws/wss URL without credentials/whitespace; approval and private/link-local/metadata deny"
+  plugin_monitors: "guide/workflows/monitor-event-delegation.md#plugin-monitors-and-channels"
+  plugin_monitors_scope: "experimental, interactive CLI only, persistent unsandboxed command trusted like a hook; default monitors/monitors.json or plugin.json experimental.monitors inline/path; when always or on-skill-invoke:<skill-name>"
+  channels_mcp: "guide/workflows/monitor-event-delegation.md#plugin-monitors-and-channels"
+  channels_security: "MCP stdio notifications/claude/channel; one-way or two-way; preview; sender gating required; claude.ai Team/Enterprise policy differs from Console API-key defaults and managed controls; delivery allowlist does not grant tool permissions"
+  codex_safe_event_delegation: "guide/workflows/monitor-event-delegation.md#github-to-monitor-to-codex-a-safe-pipeline"
+  codex_safe_event_delegation_contract: "verified GitHub webhook -> atomic delivery outbox (received/enqueued/processed) -> narrow WebSocket metadata -> local Monitor -> read-only codex exec -> human/policy gate with approved absolute linked worktree and SHA -> isolated workspace-write task/PR"
+  codex_noninteractive_docs: "https://learn.chatgpt.com/docs/non-interactive-mode"
   scheduled_tasks_desktop: "guide/ultimate-guide.md#desktop-scheduled-tasks"
   scheduled_tasks_desktop_interval: "1 minute minimum"
   scheduled_tasks_loop_command: "guide/ultimate-guide.md#the-loop-command"
@@ -317,7 +381,7 @@ deep_dive:
   edgee_compressor_v2_guide: "guide/ecosystem/context-engineering-tools.md:419"
   edgee_compressor_v2_source: "https://www.edgee.ai/blog/posts/introducing-compressor-v2-three-compression-layers-measured-end-to-end-for-a-50-cost-reduction"
   edgee_rtk_lineage: "Edgee's tool-result-trimming layer explicitly credits RTK as its inspiration; TSR and brevity are the two layers RTK cannot cover"
-  vendor_claims_checklist: "guide/ops/ai-unit-economics.md:159 (How to read a vendor's cost-reduction claim: paired design, sign test ceiling at small n, bootstrap CI width, median vs aggregate)"
+  vendor_claims_checklist: "guide/ops/ai-unit-economics.md#6-how-to-read-a-vendors-cost-reduction-claim"  # paired design, sign test ceiling at small n, bootstrap CI width, median vs aggregate
   # Google Antigravity (Agent-First IDE)
   antigravity_guide: "guide/ecosystem/ai-ecosystem.md:1370"
   antigravity_evaluation: "docs/resource-evaluations/google-antigravity-evaluation.md"
@@ -354,6 +418,14 @@ deep_dive:
   gstack_upstream: "https://github.com/garrytan/gstack"
   gstack_purpose: "6-skill workflow suite: strategic gate + architecture + paranoid review + release + browser QA + retro"
   third_party_tools_skill_packs: "guide/ecosystem/third-party-tools.md#plugin-ecosystem"  # Notable skill packs (gstack)
+  # AI Executive Agents (Added 2026-08-27)
+  ai_executive_agents: "guide/ecosystem/ai-executive-agents.md"
+  ai_executive_agents_openexecutive: "guide/ecosystem/ai-executive-agents.md#openexecutive-reference-architecture"  # OpenExecutive deep dive: 8-agent architecture, prompt caching, eval gate
+  ai_executive_agents_gstack_disambiguation: "guide/ecosystem/ai-executive-agents.md#gstack-is-not-this-category"  # Clarifies Gstack is a dev-workflow suite, not a business-persona tool
+  ai_executive_agents_oss_alternatives: "guide/ecosystem/ai-executive-agents.md#open-source-alternatives-to-openexecutive"  # Become CEO, OneManCompany, AI CFO Agent, Quorum Virtual Board, crewAI, verified GitHub stats
+  ai_executive_agents_routing_table: "guide/ecosystem/ai-executive-agents.md#routing-table-which-project-for-which-role"  # Role sought -> open source / commercial project
+  ai_executive_agents_governance: "guide/ecosystem/ai-executive-agents.md#augmentation-not-replacement-so-far"  # Synthetic Director concept, EU AI Act, augmentation vs replacement stance
+  ai_executive_agents_upstream: "https://github.com/SenteLabsAI/OpenExecutive"
   # Talk Preparation Pipeline (6-stage: extract → research → concepts → position → script → revision)
   talk_pipeline_workflow: "guide/workflows/talk-pipeline.md"
   talk_pipeline_skills: "examples/skills/talk-pipeline/"
@@ -373,15 +445,15 @@ deep_dive:
   talk_pipeline_kimi: "kimi.com (free) — copy-paste Stage 5 prompt for AI slide generation"
   # reMarkable 2 + AI (guide/ecosystem/remarkable-ai.md)
   remarkable_ai_guide: "guide/ecosystem/remarkable-ai.md"
-  remarkable_mcp_server: "guide/ecosystem/remarkable-ai.md#1-remarkable-mcp--accès-mcp-direct-par-ssh"
+  remarkable_mcp_server: "guide/ecosystem/remarkable-ai.md#1-remarkable-mcp-direct-mcp-access-via-ssh"
   remarkable_mcp_repo: "https://github.com/SamMorrowDrums/remarkable-mcp"
-  remarkable_ghostwriter: "guide/ecosystem/remarkable-ai.md#2-ghostwriter--interface-vision-llm"
+  remarkable_ghostwriter: "guide/ecosystem/remarkable-ai.md#2-ghostwriter-vision-llm-interface"
   remarkable_obsidian_sync: "guide/ecosystem/remarkable-ai.md#3-sync-remarkable--obsidian"
-  remarkable_ocr_pipeline: "guide/ecosystem/remarkable-ai.md#4-ocr--ai-pipeline-custom"
-  remarkable_ssh_tools: "guide/ecosystem/remarkable-ai.md#5-accès-ssh-et-outils-communautaires"
+  remarkable_ocr_pipeline: "guide/ecosystem/remarkable-ai.md#4-ocr--custom-ai-pipeline"
+  remarkable_ssh_tools: "guide/ecosystem/remarkable-ai.md#5-ssh-access-and-community-tools"
   remarkable_meeting_workflow: "guide/ecosystem/remarkable-ai.md#10-meeting-notes--ai-summary"
-  remarkable_workflows_to_build: "guide/ecosystem/remarkable-ai.md#14-workflows-ai-augmentés-à-construire"
-  remarkable_getting_started: "guide/ecosystem/remarkable-ai.md#15-par-où-commencer"
+  remarkable_workflows_to_build: "guide/ecosystem/remarkable-ai.md#14-ai-augmented-workflows-to-build"
+  remarkable_getting_started: "guide/ecosystem/remarkable-ai.md#15-where-to-start"
   remarkable_community: "https://github.com/reHackable/awesome-reMarkable"
   # Whitepapers (FR + EN), 13 focused whitepapers on Claude Code
   whitepapers_url: "https://cc.bruniaux.com/whitepapers/"
@@ -393,26 +465,48 @@ deep_dive:
   recap_cards_fr: "whitepapers/recap-cards/fr/"
   recap_cards_en: "whitepapers/recap-cards/en/"
   recap_cards_count: "57"
-  # Practitioner Insights (IFTTD podcast episodes 290-361, plus Devoxx, Dev With AI Meetup, ByteByteGo, Stanford Online) - Added 2026-06-21, expanded 2026-07-07
+  # Practitioner Insights (IFTTD episodes 290-361, Devoxx, Dev With AI Meetup, ByteByteGo, Stanford Online, Pavan Belagatti 2026) - Added 2026-06-21, expanded 2026-08-30
   practitioner_insights_guide: "guide/ecosystem/practitioner-insights.md"
-  practitioner_insights_description: "Paraphrased field insights from IFTTD (episodes 290-361), Devoxx, Dev With AI Meetup, ByteByteGo, and Stanford Online, 5 themes: context engineering, agentic patterns, LLM evaluation, agent security, DevX and adoption. 65 attributed insights, English only, no direct quotes."
+  practitioner_insights_description: "Paraphrased field insights from IFTTD (episodes 290-361), Devoxx, Dev With AI Meetup, ByteByteGo, Stanford Online, and 62 Pavan Belagatti videos from 2026. Five themes: context engineering, agentic patterns, LLM evaluation, agent security, DevX and adoption. 69 attributed insights, English only, no direct quotes."
   practitioner_insights_context_engineering: "guide/ecosystem/practitioner-insights.md#context-engineering"
   practitioner_insights_agentic_patterns: "guide/ecosystem/practitioner-insights.md#agentic-patterns--orchestration"
   practitioner_insights_llm_evaluation: "guide/ecosystem/practitioner-insights.md#llm-evaluation"
   practitioner_insights_agent_security: "guide/ecosystem/practitioner-insights.md#agent-security"
   practitioner_insights_devx: "guide/ecosystem/practitioner-insights.md#devx--adoption"
-  practitioner_insights_source: "ifttd.io, Bruno Soulez, 360+ episodes, 2020-2026; plus Devoxx, Dev With AI Meetup, ByteByteGo, and Stanford Online conference and course talks"
+  practitioner_insights_source: "IFTTD, Devoxx, Dev With AI Meetup, ByteByteGo, Stanford Online, and 62 Pavan Belagatti YouTube transcripts published in 2026"
   practitioner_insights_episodes: "IFTTD ep 311 (Lastmann), 326 (Bendhiba), 329 (Barthelet), 338 (Pinsard), 341 (Adam), 346 (N'takpe), 349 (Deleuze), 351 (Lepine), 357, 360 (Lours), 361 (Laforge)"
   practitioner_insights_devoxx: "guide/ecosystem/practitioner-insights.md#devoxx"
   practitioner_insights_devwithai: "guide/ecosystem/practitioner-insights.md#dev-with-ai-meetup"
   practitioner_insights_bytebytego: "guide/ecosystem/practitioner-insights.md#bytebytego"
   practitioner_insights_stanford: "guide/ecosystem/practitioner-insights.md#stanford-online"
+  practitioner_insights_pavan_belagatti: "guide/ecosystem/practitioner-insights.md#pavan-belagatti-youtube-corpus"
+  practitioner_insights_pavan_evaluation: "docs/resource-evaluations/pavan-belagatti-agentic-engineering-2026.md"
   practitioner_insights_credits: "guide/core/credits.md#ifttd-if-this-then-dev-podcast"
   # AI Unit Economics (guide/ops/ai-unit-economics.md) - Added 2026-07-07
   ai_unit_economics_guide: "guide/ops/ai-unit-economics.md"
-  ai_unit_economics_description: "Original synthesis on the unit economics of agentic AI usage: per-task cost decomposition, real cost levers (complexity routing, sub-agent isolation, exit criteria), the break-even point of an autonomous agent, and team budget governance. Flagged explicitly as original analysis, not a practitioner-sourced compilation."
+  ai_unit_economics_description: "Measurement framework for agentic AI cost per accepted task: per-attempt token and cache decomposition, retries, review, rework, request/task/delegation routing, infrastructure, repeated-run variance, progressive spend controls, autonomous-agent break-even, and team budget governance. Separates illustrative arithmetic, benchmark evidence, and production traces."
+  ai_unit_economics_accepted_task: "guide/ops/ai-unit-economics.md#2-building-a-cost-per-accepted-task"  # attempt cost plus retries, review, rework, infrastructure, and explicit zero-acceptance handling
+  ai_unit_economics_routing_levels: "guide/ops/ai-unit-economics.md#route-by-complexity"  # request, task, and escalation or delegation boundaries with cache locality and accepted-task measurement
+  ai_unit_economics_progressive_spend_policy: "guide/ops/ai-unit-economics.md#5-budget-and-governance-per-team"  # interactive visibility, warning, approval, downshift, suspension versus hard terminal budgets for unattended workloads
+  ai_unit_economics_databricks_claim_review: "guide/ops/ai-unit-economics.md#6-how-to-read-a-vendors-cost-reduction-claim"  # internal 30% routing and nearly 50% token-cost results retained with missing-denominator and product-conflict boundaries
   ai_unit_economics_token_estimation: "guide/ops/ai-unit-economics.md#do-not-estimate-tokens-by-string-length"  # why chars/4 breaks: measured -35% on code, -23% on accented French, erring in the unsafe direction; wrong tokenizer for Claude; plus the count-the-wrong-string second-order bug
   ai_unit_economics_skill_injection_cost: "guide/ops/ai-unit-economics.md#audit-what-a-skill-or-tool-injects-not-just-what-it-costs-to-load"  # skill definition is cheap, injected result is the recurring cache-read cost; $5.33/208.9K-token skill call example; no measured break-even, governance call per skill via /usage per-category breakdown
+  # Subscription Strategy at Team Scale (guide/ops/subscription-strategy.md) - Added 2026-08-29
+  subscription_strategy_guide: "guide/ops/subscription-strategy.md"
+  subscription_strategy_billing: "guide/ops/subscription-strategy.md#1-the-20-enterprise-seat-does-not-include-usage"  # Team included capacity vs the Enterprise access fee plus metered usage, verified 2026-08-31
+  subscription_strategy_controls: "guide/ops/subscription-strategy.md#2-team-covers-the-baseline-enterprise-adds-specific-controls"  # shared commercial baseline vs supplier assurance, SCIM, audit, retention, model and effort policy, custom roles, network, and spend controls
+  subscription_strategy_supplier_assurance: "guide/ops/subscription-strategy.md#provider-certifications-are-supplier-evidence-not-a-plan-control"  # SOC 2 and ISO artifacts are supplier evidence shared across commercial products, not an Enterprise plan differentiator or a substitute for bank review
+  subscription_strategy_compliance_api_risk: "guide/ops/subscription-strategy.md#compliance-api-evidence-has-its-own-risk-boundary"  # chats, files, sessions, six-year retention boundaries, key access, exports, and downstream copies
+  subscription_strategy_bank_gate: "guide/ops/subscription-strategy.md#3-a-bank-buys-against-a-control-gap-not-a-plan-label"  # function criticality before headcount, then data, identity, evidence, retention, third-party risk, change, financial control, and DORA contract questions
+  subscription_strategy_enterprise_limits: "guide/ops/subscription-strategy.md#what-enterprise-still-does-not-solve"  # DORA accountability, EU residency, continuity, service levels, exit, and approval remain customer controls
+  subscription_strategy_benchmark: "guide/ops/subscription-strategy.md#4-the-13-per-active-day-figure-is-a-benchmark-with-missing-denominators"  # Anthropic fleet limits plus Back Market's 280-person active-user denominator, reported $191 average, tail, and oral-evidence caveats
+  subscription_strategy_model_quality: "guide/ops/subscription-strategy.md#5-optimize-cost-per-accepted-task-not-cost-per-token"  # efficiency frontier by validated task class, model-harness pair, cache behavior, retries, review, and rework
+  subscription_strategy_gateway: "guide/ops/subscription-strategy.md#6-workforce-plans-and-production-api-traffic-solve-different-problems"  # API-only attribution, progressive versus terminal spend controls, and provider-approval and accepted-outcome limits
+  subscription_strategy_decision_gate: "guide/ops/subscription-strategy.md#7-decision-and-pilot-gate"  # criticality and required controls precede seat count and price
+  subscription_strategy_personal_plan_gap: "guide/ops/subscription-strategy.md#8-boundaries"  # personal plans are not employer-managed workforce plans
+  subscription_strategy_self_hosted_split: "guide/ops/subscription-strategy.md#8-boundaries"  # self-hosted inference remains a separate capacity and operations decision
+  opencode_go_plan: "guide/ecosystem/agentic-tools.md#opencode-go-the-subscription-tier-and-why-it-does-not-scale-to-a-team"  # $10/mo, $12/5h + $30/wk + $60/mo caps, single-seat gate, optional Zen balance fallback, verified 2026-08-30
+  local_vs_cloud_team_sizing: "guide/ecosystem/local-vs-cloud-inference.md#sizing-self-hosted-inference-for-a-team"  # workload-specific concurrency, API-price sensitivity, observed coding-agent traces, serving evidence, and ops cost
   # Learning with AI (guide/roles/learning-with-ai.md)
   learning_quick_check: "guide/roles/learning-with-ai.md#quick-self-check-start-here"
   learning_uval_protocol: "guide/roles/learning-with-ai.md#the-uval-protocol"
@@ -431,11 +525,20 @@ deep_dive:
   learning_review_shift_unknowns: "guide/roles/learning-with-ai.md#what-is-not-established"  # explicit list of what the evidence does NOT support, to prevent over-reading the section
   # AI Roles (guide/roles/ai-roles.md)
   ai_roles_guide: "guide/roles/ai-roles.md"
-  ai_roles_spec_engineer: "guide/roles/ai-roles.md#17-spec-engineer"
-  ai_roles_agent_identity_architect: "guide/roles/ai-roles.md#18-agent-identity-architect"
-  ai_roles_eval_engineer: "guide/roles/ai-roles.md#19-ai-eval-engineer"
-  ai_roles_harness_engineer: "guide/roles/ai-roles.md#10-harness-engineer"
-  ai_roles_career_matrix: "guide/roles/ai-roles.md#20-career-decision-matrix"
+  ai_roles_team_convergence: "guide/roles/ai-roles.md#role-titles-multiply-while-team-boundaries-compress"  # Gartner July 2026 forecast, three team shapes, capability-retention gates, and evidence limits
+  ai_roles_applied_ai_engineer: "guide/roles/ai-roles.md#5-applied-ai-engineer"
+  ai_roles_ai_platform_engineer: "guide/roles/ai-roles.md#10-ai-platform-engineer"
+  ai_roles_harness_engineer: "guide/roles/ai-roles.md#11-harness-engineer"
+  ai_roles_spec_engineer: "guide/roles/ai-roles.md#18-spec-engineer"
+  ai_roles_agent_identity_architect: "guide/roles/ai-roles.md#19-agent-identity-architect"
+  ai_roles_evaluation_engineer: "guide/roles/ai-roles.md#20-ai-evaluation-engineer"
+  ai_roles_forward_deployed_engineer: "guide/roles/ai-roles.md#21-forward-deployed-engineer-fde"
+  ai_roles_security_engineer: "guide/roles/ai-roles.md#22-ai-security-engineer"
+  ai_roles_governance_engineer: "guide/roles/ai-roles.md#23-ai-governance-engineer"
+  ai_roles_career_matrix: "guide/roles/ai-roles.md#24-career-decision-matrix"
+  ai_roles_compensation_evidence: "guide/roles/ai-roles.md#25-compensation-evidence"
+  ai_roles_capabilities: "guide/roles/ai-roles.md#26-capabilities-and-title-qualifiers"
+  ai_roles_evidence_snapshot: "guide/roles/ai-roles.md#27-evidence-snapshot"
   # Adoption & L0-L5 (guide/roles/adoption-approaches.md)
   adoption_guide: "guide/roles/adoption-approaches.md"
   adoption_l0_l5_shapiro: "guide/roles/adoption-approaches.md#the-l0-l5-scale-where-is-your-team"
@@ -509,6 +612,9 @@ deep_dive:
   sandbox_native_modes: "guide/security/sandbox-native.md:7"  # Auto-allow vs Regular
   sandbox_native_escape_hatch: "guide/security/sandbox-native.md#6-escape-hatch"  # dangerouslyDisableSandbox
   sandbox_native_security_limits: "guide/security/sandbox-native.md#7-security-limitations"  # Domain fronting, Unix sockets
+  sandbox_native_cross_session_socket: "guide/security/sandbox-native.md#cross-session-inbox-sockets"  # SendMessage bypasses the Bash sandbox; direct child callbacks need platform-specific Unix-socket policy
+  sandbox_network_allow_unix_sockets: "guide/core/settings-reference.md#sandboxnetworkallowunixsockets"  # macOS exact paths; ignored on Linux and WSL2
+  sandbox_network_allow_all_unix_sockets: "guide/core/settings-reference.md#sandboxnetworkallowallunixsockets"  # only Linux/WSL2 exception; skips the AF_UNIX seccomp filter
   sandbox_native_opensource: "guide/security/sandbox-native.md#8-open-source-runtime"  # Open-source runtime
   sandbox_native_platforms: "guide/security/sandbox-native.md#9-platform-support"  # Platform support
   sandbox_native_decision_tree: "guide/security/sandbox-native.md#10-decision-tree-native-vs-docker-sandboxes"  # Native vs Docker
@@ -640,6 +746,10 @@ deep_dive:
   third_party_agent_orchestrator_guide: "guide/ecosystem/third-party-tools.md:1381"
   third_party_agent_orchestrator_purpose: "OSS cross-platform equivalent to Conductor: 23 agent CLIs supported vs 2, git worktree isolation, automatic CI/review/conflict feedback loop. PostHog telemetry on by default."
   third_party_agent_orchestrator_evaluation: "docs/resource-evaluations/agent-orchestrator-composio.md"
+  third_party_switch: "https://github.com/sandbox-quantum/switch"
+  third_party_switch_guide: "guide/ecosystem/third-party-tools.md#known-gaps"
+  third_party_switch_purpose: "Matrix-based bus bridging heterogeneous agents (Claude Code, Codex, OpenCode) and humans into Slack/Teams/Discord/Telegram/Mattermost, with owner-inheritance authz. Known Gaps entry, not integrated: pre-1.0 (0.21.0), 252 stars/6 weeks, bus factor close to 1."
+  third_party_switch_evaluation: "docs/resource-evaluations/switch-agent-human-chat-bridge.md"
   # Project Context Bootstrapping (Added 2026-04-08)
   third_party_tools_context_bootstrap: "guide/ecosystem/third-party-tools.md:1039"
   third_party_codesight: "https://github.com/Houseofmvps/codesight"
@@ -765,16 +875,16 @@ deep_dive:
   essential_commands: 47
   trust_calibration: "guide/ultimate-guide.md#17-trust-calibration-when-and-how-much-to-verify" # was line 1460
   working_with_images: "guide/ultimate-guide.md#working-with-images-and-screenshots" # was line 527
-  wireframing_tools: 596
-  figma_mcp: 645
-  image_optimization: 710
+  wireframing_tools: 598
+  figma_mcp: 647
+  image_optimization: 712
   permission_modes: "guide/ultimate-guide.md#14-permission-modes" # was line 1035
   interaction_loop: "guide/ultimate-guide.md#21-the-interaction-loop" # was line 1742
   context_management: 64
   context_triage: "guide/ultimate-guide.md#context-triage-what-to-keep-vs-evacuate" # was line 1932
   session_vs_memory: "guide/ultimate-guide.md#session-vs-persistent-memory"  # was 1553, drifted
   fresh_context_pattern: "guide/ultimate-guide.md#fresh-context-pattern-ralph-loop" # was line 2044
-  subscription_limits: 2632
+  subscription_limits: 2658
   subscription_token_budgets: 2632
   subscription_opus_ratio: 2632
   subscription_monitoring: 2632
@@ -791,13 +901,33 @@ deep_dive:
   symphony_tool: "guide/ecosystem/agentic-tools.md#44-symphony-openai"  # OpenAI, Elixir, Apache-2.0; Linear board -> per-issue workspace -> Codex agent; engineering preview, spec-as-product
   paperclip_tool: "guide/ecosystem/agentic-tools.md#45-paperclip"  # org chart/budgets/approvals for agent fleets; runtime-agnostic; 74K stars; governs who+how much, not how work is done
   nimbalyst_tool: "guide/ecosystem/agentic-tools.md#47-nimbalyst"  # visual workspace, Claude Code + Codex side by side, worktree-per-session, inline diff review on markdown/mockups/diagrams, kanban, MIT, 1.5K stars
+  liza_tool: "guide/ecosystem/agentic-tools.md#48-liza"  # code-enforced control plane over external coding-agent CLIs; doer/reviewer pairs, YAML blackboard, worktrees, leases, recovery, merge gates
   opencode_tool: "guide/ecosystem/agentic-tools.md#15-opencode-anomaly-formerly-sst"  # Anomaly (fka SST), MIT, 199K+ stars (highest in category); 75+ providers, client/server split
   gemini_cli_tool: "guide/ecosystem/agentic-tools.md#16-gemini-cli-google"  # Google, Apache-2.0, 106K+ stars; Gemini-first, free tier is the reason to pick it (60 req/min, 1000/day)
   crush_tool: "guide/ecosystem/agentic-tools.md#17-crush-charm"  # Charm, FSL-1.1-MIT (converts to MIT 2yr after each release), 27.5K+ stars; multi-provider, polished TUI
-  agent_harness_comparison_page: "guide/ecosystem/agent-harness-landscape.md"  # 25-harness comparison table spanning CLI/IDE/cloud, open source through proprietary; complements agentic-tools.md (CLI deep profiles) and ai-ecosystem.md §6 (IDE workflow)
-  agent_harness_definition: "guide/ecosystem/agent-harness-landscape.md#agent-harness-comparison"  # what "agent harness" means: tools, context, permissions, action loop, memory, crash recovery; cites Simon Willison + SWE-agent's agent-computer interface
-  agent_harness_boundary_table: "guide/ecosystem/agent-harness-landscape.md#whats-not-a-full-harness"  # frameworks/SDKs/sandboxes/memory layers/observability/protocols/models that are not themselves a harness
-  deepseek_harness_tool: "guide/ecosystem/agent-harness-landscape.md#core-coding-harnesses"  # deepseek-ai/deepseek-harness, MIT, developer preview; Cordis "everything is a plugin" architecture; Tencent arXiv 2608.16393 prompt-injection study (~5.3-5.6% success rate)
+  agent_harness_engineering_page: "guide/core/agent-harness.md"
+  agent_harness_loop_graph_distinction: "guide/core/loop-graph-engineering.md#1-choose-the-smallest-control-structure"
+  agent_harness_loop_horizons: "guide/core/agent-harness.md#three-loop-horizons"
+  agent_harness_judgment_allocation: "guide/core/loop-graph-engineering.md#5-allocate-judgment-explicitly"
+  agent_harness_reviewer_independence: "guide/roles/agent-evaluation.md#evaluate-judgment-allocation-and-reviewer-independence"
+  agent_harness_graph_observability: "guide/ops/observability.md#graph-level-observability"
+  agent_harness_video_evidence: "guide/core/agent-harness.md#10-practitioner-video-evidence"
+  agent_harness_optimizer_research: "guide/core/agent-harness.md#11-harness-optimizers-and-meta-harnesses"
+  agent_harness_scaffold_effect: "guide/core/agent-harness.md#the-core-claim"
+  agent_harness_reliability_metrics: "guide/core/agent-harness.md#operational-measures-beyond-telemetry"
+  agent_harness_landscape_page: "guide/ecosystem/agent-harness-landscape.md"  # 160-project pinned upstream snapshot plus 32 guide supplements; separates 42 strict runtimes from 15 adjacent control planes
+  agent_harness_landscape_entry_points: "guide/ecosystem/agent-harness-landscape.md#choose-the-right-entry-point"
+  agent_harness_catalog_boundary: "guide/ecosystem/agent-harness-landscape.md#160-projects-does-not-mean-160-runtime-harnesses"
+  agent_harness_strict_runtime_map: "guide/ecosystem/agent-harness-landscape.md#core-coding-harnesses"
+  agent_harness_orchestrators: "guide/ecosystem/agent-harness-landscape.md#orchestrators-products-above-the-runtime"
+  agent_harness_liza_profile: "guide/ecosystem/agent-harness-landscape.md#liza-a-repository-harness-and-control-plane-combined"
+  agent_harness_liza_practitioner_report: "https://blog.ippon.fr/2026/04/29/premier-rex-multi-agent-liza/"
+  agent_harness_category_map: "guide/ecosystem/agent-harness-landscape.md#the-twelve-category-map"
+  agent_harness_complete_directory: "guide/ecosystem/agent-harness-landscape.md#complete-project-directory"
+  agent_harness_selection_guide: "guide/ecosystem/agent-harness-landscape.md#how-to-pick-a-harness"
+  agent_harness_test_drive: "guide/ecosystem/agent-harness-landscape.md#how-to-test-drive-the-shortlist"
+  agent_harness_machine_data: "machine-readable/agent-harnesses.json"
+  deepseek_harness_tool: "guide/ecosystem/agentic-tools.md#18-deepseek-harness-dsh"  # deepseek-ai/deepseek-harness, MIT, developer preview; Cordis plugin architecture, operational limits, and external prompt-injection study
   programmatic_billing_unaffected: "Claude Code terminal (interactive), IDE integrations, web/desktop/mobile chat, human-in-the-loop workflows"
   programmatic_billing_credits: "Pro $20/mo | Max 5x $100/mo | Max 20x $200/mo — no rollover, not automatic (requires email activation)"
   programmatic_billing_overage_sonnet: "$3/MTok input, $15/MTok output (standard API rates)"
@@ -830,11 +960,11 @@ deep_dive:
   # Fast Mode (v2.1.36+) - Added 2026-02-09
   fast_mode_command: "guide/ultimate-guide.md#model-effort-and-permission-modes"  # was bare int 797, inside a code fence (comment/example text happened to share the key's words)
   fast_mode_api: "guide/ultimate-guide.md#api-breaking-changes-opus-46"  # was bare int 797, inside a code fence (comment/example text happened to share the key's words)
-  fast_mode_pricing: 2226  # Pricing table
+  fast_mode_pricing: 2252  # Pricing table
   fast_mode_behavior: "2.5x faster, 2x price; Opus 5 model since v2.1.219 (dropped Opus 4.7), /fast covers Opus 5 and Opus 4.8"
   # Sonnet 4.6 + 1M Context (Feb 2026) - Added 2026-02-18
   sonnet_5_default: "guide/ultimate-guide.md#pricing-model-as-of-july-2026"  # was bare int 2352, inside a code fence (comment/example text happened to share the key's words)
-  context_200k_vs_1m: 2254  # Decision guide: 200K vs 1M context window
+  context_200k_vs_1m: 2280  # Decision guide: 200K vs 1M context window
   context_200k_vs_1m_perf: "Opus 4.6: 93% @ 256K, 76% @ 1M (MRCR v2). Sonnet 4.6 scores not yet published."
   context_200k_vs_1m_cost: "Sonnet 4.6: ~$0.23 bug fix, ~$0.75 module refactor, ~$2.25 full 1M session"
   context_1m_beta_requirement: "API only, requires anthropic-beta header. Opus: pricing doubles >200K."
@@ -845,10 +975,10 @@ deep_dive:
   model_selection_guide: 3491  # Section 2.5 — canonical table, effort levels, agent patterns
   model_selection_anchor: "#25-model-selection--thinking-guide"
   # Configuration Decision Guide (Section 2.7) - Added 2026-02-22
-  configuration_decision_guide: 6331  # anchor: memory-loading-comparison | Section 2.7 — mechanism comparison, decision tree, 56% warning
+  configuration_decision_guide: 6357  # anchor: memory-loading-comparison | Section 2.7 (mechanism comparison, decision tree, 56% warning)
   configuration_decision_guide_anchor: "#memory-loading-comparison"  # was "#27-configuration-decision-guide"; section 2.7 no longer exists, the mechanism comparison table and the 56% warning both live under Memory Loading Comparison
-  mechanism_comparison_table: 6331  # anchor: memory-loading-comparison | Semantic roles + mechanism comparison tables (was wrongly auto-repaired to L9681, an unrelated Scheduled Tasks comparison table, by the token-overlap heuristic matching "comparison table" generically; corrected by hand and declared to prevent recurrence)
-  fifty_six_percent_warning: 6331  # anchor: memory-loading-comparison | Section 2.7 Configuration Decision Guide
+  mechanism_comparison_table: 6357  # anchor: memory-loading-comparison | Semantic roles + mechanism comparison tables (was wrongly auto-repaired to L9681, an unrelated Scheduled Tasks comparison table, by the token-overlap heuristic matching "comparison table" generically; corrected by hand and declared to prevent recurrence)
+  fifty_six_percent_warning: 6357  # anchor: memory-loading-comparison | Section 2.7 Configuration Decision Guide
   planner_agent: "examples/agents/planner.md"
   implementer_agent: "examples/agents/implementer.md"
   architecture_reviewer_agent: "examples/agents/architecture-reviewer.md"
@@ -857,17 +987,17 @@ deep_dive:
   opus_4_6_effort_parameter: 14824
   opus_4_6_pricing: 2226
   opus_4_6_api_breaking_changes: "guide/ultimate-guide.md#api-breaking-changes-opus-46" # was line 14920
-  opus_4_6_assistant_prefill_removed: 14809  # anchor: api-breaking-changes-opus-46
+  opus_4_6_assistant_prefill_removed: 14816  # anchor: api-breaking-changes-opus-46
   # Summarize from Here (v2.1.32+) - Added 2026-02-09
-  summarize_from_here: 1901  # anchor: context-recovery-strategies | Context Recovery Strategies section
+  summarize_from_here: 1927  # anchor: context-recovery-strategies | Context Recovery Strategies section
   # Agent Teams Hook Events (v2.1.32+) - Added 2026-02-09
-  hook_teammate_idle: 10101  # anchor: event-types
+  hook_teammate_idle: 10129  # anchor: event-types
   hook_task_completed: "guide/ultimate-guide.md#event-types"  # was bare int 23701, inside a code fence (comment/example text happened to share the key's words)
   # Agent Memory Field (v2.1.32+) - Added 2026-02-09
   agent_memory_frontmatter: 6892  # Agent Template section (memory field in frontmatter)
   # Xcode Integration (Feb 2026) - Added 2026-02-09
   xcode_integration: "guide/ultimate-guide.md#xcode-integration-feb-2026" # was line 12556
-  claude_agent_sdk: 15792  # anchor: xcode-integration-feb-2026
+  claude_agent_sdk: 15799  # anchor: xcode-integration-feb-2026
   # Task Management System (v2.1.16+) - Added 2026-01-26
   task_management_system: "guide/ultimate-guide.md#task-management-system" # was line 4808
   task_management_comparison: "guide/ultimate-guide.md#task-management-system" # was line 4808
@@ -885,10 +1015,10 @@ deep_dive:
   todowrite_when_to_use: 4919
   todowrite_migration_flag: 4919
   task_best_practices: 4944
-  task_hierarchy_design: 4834  # anchor: best-practices | ambiguous slug (4x in guide), stored line manually verified against the right one
+  task_hierarchy_design: 4860  # anchor: best-practices | ambiguous slug (4x in guide), stored line manually verified against the right one
   task_dependency_management: "guide/ultimate-guide.md#task-management-system" # was line 4808
-  task_status_transitions: 4834  # anchor: best-practices | ambiguous slug (4x in guide), stored line manually verified against the right one
-  task_metadata_conventions: 4834  # anchor: best-practices | ambiguous slug (4x in guide), stored line manually verified against the right one
+  task_status_transitions: 4860  # anchor: best-practices | ambiguous slug (4x in guide), stored line manually verified against the right one
+  task_metadata_conventions: 4860  # anchor: best-practices | ambiguous slug (4x in guide), stored line manually verified against the right one
   task_complete_workflow: "guide/ultimate-guide.md#complete-workflow" # was line 5030
   task_sources: 4807
   # Task Management Workflow (guide/workflows/task-management.md)
@@ -911,7 +1041,7 @@ deep_dive:
   agent_examples: "guide/ultimate-guide.md#46-agent-examples" # was line 3056
   skills: "guide/ultimate-guide.md#5-skills"  # was bare int 6026, inside a code fence (comment/example text happened to share the key's words)
   skills_taxonomy: 7704
-  skills_evals: 8033
+  skills_evals: 7949
   skill_template: "guide/ultimate-guide.md#53-skill-template" # was line 8095
   skill_examples: "guide/ultimate-guide.md#54-skill-examples" # was line 3555
   design_patterns_skill: "guide/ultimate-guide.md#example-3-design-patterns-analyzer-skill" # was line 8335
@@ -985,8 +1115,8 @@ deep_dive:
   skills_marketplace_status: "Community (Vercel Labs), launched Jan 21, 2026"
   skills_marketplace_changelog: "https://vercel.com/changelog/introducing-skills-the-open-agent-skills-ecosystem"
   # Plugin System & Community Marketplaces (updated 2026-03-06)
-  plugins_system: 14002
-  plugins_commands: 14016
+  plugins_system: 13899
+  plugins_commands: 13913
   plugins_marketplace: 14043
   plugins_community_marketplaces: 14345
   plugins_featured_community: "guide/ultimate-guide.md#featured-community-plugins" # Vitals + SE-CoVe comparison section
@@ -1028,7 +1158,7 @@ deep_dive:
     - "Linear MCP: ~9.5k installs (issue tracking)"
   plugins_awesome_list: "https://github.com/hesreallyhim/awesome-claude-code"
   plugins_awesome_list_stars: "20k+"
-  chain_of_verification: "guide/ultimate-guide.md#se-cove--chain-of-verification"
+  chain_of_verification: "guide/ultimate-guide.md#se-cove-chain-of-verification"
   chain_of_verification_paper: "https://arxiv.org/abs/2309.11495"
   chain_of_verification_acl: "https://aclanthology.org/2024.findings-acl.212/"
   # Verification Loops & Eval Harness (added 2026-01-23)
@@ -1060,21 +1190,27 @@ deep_dive:
   ai_software_factories_maleus: "https://maleus.ai (Adrien Maret, Paris): natural-language intent to specs to owned app on customer infra"
   ai_software_factories_liza_oss: "guide/workflows/spec-first.md#full-cycle-ai-software-factories"  # Liza = OSS reference architecture answering governance Q1-3 mechanically
   liza_framework_upstream: "https://github.com/liza-mas/liza"
-  liza_framework_stars: "320, Apache-2.0, single-author (verified via gh api, 2026-07-12)"
+  liza_framework_stars: "363 stars, 49 forks, Apache-2.0 (verified via GitHub API, 2026-08-28)"
   liza_framework_governance: "Go supervisors enforce state/merge/TDD gates + adversarial doer/reviewer pairs + YAML blackboard audit trail + circuit breaker (explicit stop-the-line) + 55+ failure-mode behavioral contract"
   liza_framework_evaluation: "docs/resource-evaluations/liza-mas-framework.md"
   liza_satellite_tools_rejected: "docs/resource-evaluations/liza-mas-token-saving-cli-tools.md (scip-search/mdtoc/functional-clusters/stacklit-cli rejected 2026-06-10; framework itself is a separate, higher-scored object)"
+  # Anthropic AI-native SDLC playbook: intent.md upstream document + closed Maintain-to-Plan loop (added 2026-08-26)
+  ai_native_sdlc_playbook_source: "https://claude.com/blog/the-ai-native-sdlc-playbook"
+  ai_native_sdlc_playbook_evaluation: "docs/resource-evaluations/2026-08-26-anthropic-ai-native-sdlc-playbook.md"
+  intent_md_pattern: "guide/workflows/spec-first.md#with-intentmd-upstream-problem-statement"  # intent.md -> spec.md -> plan.md, 3-document chain with separate human gates
+  intent_md_diagram: "guide/diagrams/06-development-workflows.md#spec-first-development-pipeline"  # updated with intent.md upstream node + Maintain-to-Plan closed loop
   # Agentic Software Factories orientation page (added 2026-07-15)
   agentic_software_factories_hub: "guide/workflows/agentic-software-factories.md"  # single entry point: spectrum, decision tree, file map, governance checklist, velocity-trap case study
+  agentic_software_factories_operating_model: "guide/workflows/agentic-software-factories.md#a-software-factory-is-an-operating-model"
   agentic_software_factories_spectrum: "guide/workflows/agentic-software-factories.md#1-the-spectrum-six-levels-six-costs"  # 6 levels: single session -> /batch -> Agent Teams -> dynamic-workflows -> plan-pipeline -> third-party orchestrator -> closed factory
   agentic_software_factories_decision_tree: "guide/workflows/agentic-software-factories.md#2-the-missing-decision-tree-when-does-a-closed-software-factory-actually-win"  # closed platform vs native stack, branches on team size/budget/compliance
   agentic_software_factories_governance_5th_question: "guide/workflows/agentic-software-factories.md#4-five-governance-questions-before-you-adopt-anything"  # extends spec-first.md's 4 questions with: is the advertised verification feature actually wired
   agentic_software_factories_fusion_case_study: "docs/resource-evaluations/fusion-multi-agent-orchestrator.md"  # 727K lines/4 months, bus factor 1, verification module built but never wired into production
   # Resource Evaluations (added 2026-01-26, updated 2026-02-07, synced 2026-07-08)
   resource_evaluations_directory: "docs/resource-evaluations/"
-  resource_evaluations_count: 171
-  resource_evaluations_indexed: 52
-  resource_evaluations_count_note: "Two different numbers, both real. 171 is the count of .md files in docs/resource-evaluations/; 52 is how many the README index table actually lists. Most older evaluations were never added to the index. Figures verified 2026-08-04 against the folder and against the README's own 'Last updated' line, after adding the just-bash evaluation."
+  resource_evaluations_count: 181
+  resource_evaluations_indexed: 60
+  resource_evaluations_count_note: "Two different numbers, both real. 181 is the count of Markdown files in docs/resource-evaluations/; 60 are listed in the README index table. Most older evaluations were never added to the index. Figures verified 2026-08-31 after the learning-resource, current-surface, and Best-of-N evaluations."
   resource_evaluations_methodology: "docs/resource-evaluations/README.md"
   resource_evaluations_watchlist: "docs/resource-evaluations/watch-list.md"
   resource_evaluations_appendix: "guide/ultimate-guide.md#appendix-c-resource-evaluation-process"
@@ -1101,7 +1237,7 @@ deep_dive:
   practitioner_dave_van_veen: "guide/ecosystem/ai-ecosystem.md#dave-van-veen-stanford-phd-hoppr"
   practitioner_matteo_collina: "guide/ecosystem/ai-ecosystem.md#matteo-collina-nodejs-tsc-chair"
   # Outcome Engineering (o16g) - Emerging manifesto (2026-02-13)
-  outcome_engineering_o16g: "guide/ecosystem/ai-ecosystem.md#outcome-engineering--o16g-manifesto-cory-ondrejka"
+  outcome_engineering_o16g: "guide/ecosystem/ai-ecosystem.md#outcome-engineering-o16g-manifesto-cory-ondrejka"
   outcome_engineering_url: "https://o16g.com/"
   outcome_engineering_author: "Cory Ondrejka (CTO Onebrief, co-creator Second Life, ex-VP Google/Meta)"
   outcome_engineering_status: "Emerging - on watch list for community adoption"
@@ -1150,12 +1286,12 @@ deep_dive:
   mcp_memory_stack_patterns: "guide/ultimate-guide.md#mcp-memory-stack-complementarity-patterns" # was line 13011
   mcp_config: "guide/ultimate-guide.md#mcp-configuration-location"  # was bare int 794, inside a code fence (comment/example text happened to share the key's words)
   mcp_security: "guide/ultimate-guide.md#86-mcp-security" # was line 14568
-  cicd: 14916  # anchor: 93-cicd-integration
+  cicd: 14923  # anchor: 93-cicd-integration
   ide_integration: "guide/ultimate-guide.md#94-ide-integration" # was line 15881
   feedback_loops: "guide/ultimate-guide.md#95-tight-feedback-loops" # was line 15966
   batch_operations: "guide/ultimate-guide.md#99-batch-operations-pattern" # was line 16671
   pitfalls: 16836
-  git_best_practices: 17302
+  git_best_practices: 17199
   cost_optimization: 2220
   session_teleportation: "guide/ultimate-guide.md#916-session-teleportation" # was line 19161
   remote_control: 23219
@@ -1230,7 +1366,7 @@ deep_dive:
   headless_pm_framework: 20107
   multi_instance_implementation: "guide/ultimate-guide.md#implementation-guide-progressive-scaling"  # was 19268, drifted
   multi_instance_monitoring: "guide/ultimate-guide.md#monitoring--observability"  # was 19268, drifted
-  multi_instance_decision_matrix: 20220  # anchor: decision-matrix | ambiguous slug (2x in guide), stored line manually verified against the right one
+  multi_instance_decision_matrix: 20229  # anchor: decision-matrix | ambiguous slug (2x in guide), stored line manually verified against the right one
   # External orchestration systems
   external_orchestrators:
     gas_town:
@@ -1272,7 +1408,7 @@ deep_dive:
       published: "2026-01-21"
       guide_section: "README.md:338"
   # Section 9.18 - Codebase Design for Agent Productivity
-  codebase_design_agents: 20378
+  codebase_design_agents: 20275
   codebase_design_source: "https://marmelab.com/blog/2026/01/21/agent-experience.html"
   codebase_design_author: "François Zaninotto (Marmelab)"
   codebase_design_llms_txt: 20864  # llms.txt standard for AI-optimized documentation
@@ -1315,6 +1451,9 @@ deep_dive:
   cross_session_messaging_cross_machine: "guide/workflows/cross-session-messaging.md#4-same-machine-vs-cross-machine-delivery"
   cross_session_messaging_inbox_socket: "guide/workflows/cross-session-messaging.md#5-the-sessions-inbox-socket"
   cross_session_messaging_security: "guide/workflows/cross-session-messaging.md#6-security-model"
+  cross_session_messaging_sandbox_boundary: "guide/workflows/cross-session-messaging.md#where-native-sandboxing-fits"
+  cross_session_messaging_native_sandbox: "guide/security/sandbox-native.md#cross-session-inbox-sockets"
+  cross_session_messaging_correlated_drift: "guide/workflows/cross-session-messaging.md#coordination-safety-correlated-drift-and-false-consensus"
   cross_session_messaging_limitations: "guide/workflows/cross-session-messaging.md#7-limitations"
   cross_session_messaging_availability: "guide/workflows/cross-session-messaging.md#8-availability"
   cross_session_messaging_version_timeline: "guide/workflows/cross-session-messaging.md#10-version-timeline"
@@ -1365,7 +1504,7 @@ deep_dive:
   ai_fluency_authors: "Swanson, Bent, Huang, Ludwig, Dakan, Feller (Anthropic)"
   ai_fluency_published: "2026-02-23"
   ai_fluency_future: "Claude Code platform analysis (mentioned in paper's future directions)"
-  ai_fluency_diagram: "guide/diagrams/06-development-workflows.md#ai-fluency--high-vs-low-fluency-paths"
+  ai_fluency_diagram: "guide/diagrams/06-development-workflows.md#ai-fluency-high-vs-low-fluency-paths"
   ai_fluency_diagram_type: "flowchart — Artifact Paradox: 70% vs 30% user paths, behavioral drop data, iteration outcomes"
   # Advanced Plan Mode Patterns
   rev_the_engine: "guide/ultimate-guide.md#rev-the-engine" # was line 3144
@@ -1417,7 +1556,7 @@ deep_dive:
   daily_workflow: 25233
   # AI Ecosystem (Section 11, ~line 10525)
   ai_ecosystem: 13308
-  ai_ecosystem_complementarity: 25499
+  ai_ecosystem_complementarity: 25454
   ai_ecosystem_tool_matrix: 25540
   ai_ecosystem_workflows: 25675
   ai_ecosystem_integration: 25803
@@ -1488,6 +1627,23 @@ deep_dive:
   team_knowledge_decision_table: "guide/ecosystem/team-knowledge-base.md#decision-table"
   team_knowledge_problem: "Company KB accessible from both Claude Code (CLI) and Cowork (desktop, no API/no code exec)"
   team_knowledge_threshold: "Static <100 docs: direct read | 100-1000: judgment call | >1000: RAG required"
+  # Local vs Cloud LLM Inference Economics (guide/ecosystem/local-vs-cloud-inference.md) - Added 2026-08-25
+  local_vs_cloud_guide: "guide/ecosystem/local-vs-cloud-inference.md"
+  local_vs_cloud_llmfit: "guide/ecosystem/local-vs-cloud-inference.md#sizing-local-hardware-with-llmfit"  # llmfit CLI, --memory vs --ram, backend-lock caveat
+  local_vs_cloud_hardware_configs: "guide/ecosystem/local-vs-cloud-inference.md#fourteen-comparable-hardware-configurations"  # 14 complete systems, sorted by price, incl. Mac mini M6/M5 Pro and RTX 5060 Ti 16GB entry tier
+  local_vs_cloud_named_models: "guide/ecosystem/local-vs-cloud-inference.md#what-actually-fits-named-models"  # Llama/Qwen/Mixtral/DeepSeek fit by memory budget
+  local_vs_cloud_which_machine: "guide/ecosystem/local-vs-cloud-inference.md#which-local-machine-for-which-usage"  # usage-to-hardware table + Mermaid decision tree
+  local_vs_cloud_vllm_tuning: "guide/ecosystem/local-vs-cloud-inference.md#serving-engine-tuning-vllm-in-production"  # vLLM O0-O3, prefix caching, chunked prefill, KV cache preemption, TP/PP/DP/EP, NUMA scope, multimodal cache flags
+  local_vs_cloud_mlx_coding_agent: "guide/ecosystem/local-vs-cloud-inference.md#coding-agent-setup-apple-silicon-with-mlx"  # Qwen3.6-35B-A3B + Qwen3.8-27B, MLX vs llama.cpp Metal vs LM Studio vs Ollama, mlx_lm.server + launchd service
+  local_vs_cloud_gpu_rental: "guide/ecosystem/local-vs-cloud-inference.md#cloud-gpu-rental-pricing"  # OVH, AWS, Lambda, RunPod hourly rates
+  local_vs_cloud_tco: "guide/ecosystem/local-vs-cloud-inference.md#one-year-cost-projections"  # 4h/8h/24-7 usage vs local purchase price
+  local_vs_cloud_power: "guide/ecosystem/local-vs-cloud-inference.md#power-consumption-watts-watt-hours-joules-per-token"  # TDP specs, measured wattage, ML.Energy J/token, Neuralwatt Wh/req, TokenPowerBench
+  local_vs_cloud_model_efficiency: "guide/ecosystem/local-vs-cloud-inference.md#energy-efficiency-by-model-architecture"  # Llama 4 CO2e disclosure, MoE active-param energy, FP8 batch-size-dependent gains
+  local_vs_cloud_throughput: "guide/ecosystem/local-vs-cloud-inference.md#cloud-api-throughput-claude-vs-gpt-56"  # Claude Opus 5/Sonnet 5 vs GPT-5.6 Sol/Terra/Luna
+  local_vs_cloud_not_comparable: "guide/ecosystem/local-vs-cloud-inference.md#why-cloud-and-local-tokenssec-are-not-comparable"  # queueing, TTFT reasoning tokens, model size mismatch
+  local_vs_cloud_diagram: "guide/ecosystem/local-vs-cloud-inference.md#decision-diagram"  # Mermaid flowchart: license vs local vs cloud rental
+  local_vs_cloud_decision: "guide/ecosystem/local-vs-cloud-inference.md#decision-framework"
+  local_vs_cloud_cli_bridge: "guide/ecosystem/local-vs-cloud-inference.md#switching-providers-at-the-cli-level"  # cc-copilot-bridge, ccd/ccc/cco backend routing
   # Experimental Features
   teammatetool: "guide/ultimate-guide.md#teammatetool-experimental" # was line 5071
   teammatetool_status: "Experimental, progressive rollout, feature-flagged"
@@ -1499,7 +1655,7 @@ deep_dive:
   # Appendix
   appendix_a_file_locations: "guide/ultimate-guide.md#appendix-a-file-locations-reference" # was line 26179
   appendix_b_faq: "guide/ultimate-guide.md#appendix-b-faq" # was line 26357
-  faq_clawdbot_vs_claudecode: 26358
+  faq_clawdbot_vs_claudecode: 26313
   faq_product_managers: "guide/ultimate-guide.md#can-product-managers-use-claude-code" # was line 26428
   appendix_c_resource_evaluation: "guide/ultimate-guide.md#appendix-c-resource-evaluation-process" # was line 26493
   appendix_d_myths_vs_reality: "guide/ultimate-guide.md#appendix-d-myths-vs-reality" # was line 26536
@@ -1748,6 +1904,7 @@ deep_dive:
   api_gateway_guide: "guide/ops/api-gateway.md"
   api_gateway_litellm: "guide/ops/api-gateway.md#2-litellm-gateway"
   api_gateway_virtual_keys: "guide/ops/api-gateway.md#3-virtual-keys-and-team-budgets"
+  api_gateway_progressive_spend_policy: "guide/ops/api-gateway.md#31-progressive-spend-policy-for-interactive-users"
   api_gateway_model_allowlists: "guide/ops/api-gateway.md#4-model-allowlists"
   api_gateway_portkey: "guide/ops/api-gateway.md#8-portkey-as-a-managed-alternative"
   api_gateway_limits: "guide/ops/api-gateway.md#9-what-the-gateway-does-not-cover"
@@ -2228,7 +2385,7 @@ skill_frontmatter_fields:
   disable-model-invocation: "true = user-invocable only (replaces .claude/commands/ pattern)"
   context: "fork = run skill in isolated subagent; fork ignored when called via Skill tool"
   hooks: "lifecycle hooks active during this skill's session (same format as settings.json hooks)"
-skill_frontmatter_guide_line: 7857  # Frontmatter table in §5.2
+skill_frontmatter_guide_line: 7773  # Frontmatter table in §5.2
 
 # ════════════════════════════════════════════════════════════════
 # HOOK EVENTS - see deep_dive.hooks
@@ -2275,8 +2432,8 @@ hook_events:
   # Total: 30 events (updated 2026-06-03, source: official hooks reference)
 
 # Hook Execution Model (v2.1.0+)
-hooks_execution_model: 10324  # Section in ultimate-guide.md
-hooks_session_scoped: 10489  # Session-scoped hooks (ephemeral, no settings.json, skills use this)
+hooks_execution_model: 10242  # Section in ultimate-guide.md
+hooks_session_scoped: 10407  # Session-scoped hooks (ephemeral, no settings.json, skills use this)
 hooks_async_support: "v2.1.0+ - add 'async: true' for non-blocking execution; 'asyncRewake: true' for background with exit-2 wakeup"
 hooks_async_use_cases: "logging, notifications, formatting, metrics (no feedback needed)"
 hooks_sync_use_cases: "validation, type checking, security (feedback required)"
@@ -2304,11 +2461,14 @@ ecosystem:
     unique: ["architecture docs", "TDD/SDD methodologies", "334-question quiz", "YAML index", "MCP server"]
   mcp_server:
     npm: "claude-code-ultimate-guide-mcp"
-    install: "npx -y claude-code-ultimate-guide-mcp"
-    guide_section: "guide/ultimate-guide.md#-this-guide-as-an-mcp-server"
+    public_version: "1.2.10"
+    candidate_version: "1.3.0"
+    public_contract_checked: "2026-08-31"
+    install: "npx -y claude-code-ultimate-guide-mcp@1.2.10"
+    guide_section: "guide/ecosystem/claude-code-guide-mcp.md"
     readme: "mcp-server/README.md"
     tools:
-      - "search_guide(query, limit?) — search 882 indexed entries"
+      - "search_guide(query, limit?) — search 1755 indexed entries in the 1.3.0 candidate"
       - "read_section(path, offset?, limit?) — read any guide file paginated"
       - "list_topics() — browse 25 topic categories"
       - "get_example(name) — fetch production templates"
@@ -2326,16 +2486,19 @@ ecosystem:
       - "diff_official_docs() — compare baseline vs current at section level, zero network calls"
       - "search_official_docs(query) — search official docs, loads only matching sections"
     resources:
-      - "claude-code-guide://reference — 94KB YAML index (~900 entries)"
+      - "claude-code-guide://reference — structured guide index"
       - "claude-code-guide://releases — CC releases history"
       - "claude-code-guide://llms — llms.txt"
+      - "claude-code-guide://agent-harnesses — Agent Harness Map dataset (1.3.0 candidate)"
+      - "claude-code-guide://translations — translation provenance and coverage (1.3.0 candidate)"
     prompt: "claude-code-expert — activates expert mode with optimal search workflow"
     slash_commands:
       location: "~/.claude/commands/ccguide/"
-      commands: ["/ccguide:search", "/ccguide:cheatsheet", "/ccguide:digest", "/ccguide:example", "/ccguide:examples", "/ccguide:release", "/ccguide:changelog", "/ccguide:topics", "/ccguide:init-docs", "/ccguide:refresh-docs", "/ccguide:diff-docs", "/ccguide:search-docs", "/ccguide:daily"]
+      commands: ["/ccguide:daily", "/ccguide:diff-docs", "/ccguide:init-docs", "/ccguide:refresh-docs", "/ccguide:search-docs"]
+      package_boundary: "repository companion files, not installed by the npm package"
     agent: ".claude/agents/claude-code-guide.md — Haiku, read-only, searches before answering"
-    bundle_size: "132KB compressed (YAML indexes bundled, markdown lazy-fetched)"
     cache: "~/.cache/claude-code-guide/{version}/ — 24h TTL"
+    privacy: "no first-party telemetry in the 1.3.0 candidate; network-capable tools contact GitHub or Anthropic only when invoked"
   complementary:
     claude_code_templates:
       url: "github.com/davila7/claude-code-templates"
@@ -2443,7 +2606,7 @@ ecosystem:
       - "Cross-links modified → Update all 4 repos"
     history:
       - date: "2026-01-20"
-        event: "Code Landing sync v3.41.3, 66 templates, cross-links"
+        event: "Code Landing sync v3.43.0, 66 templates, cross-links"
         commit: "5b5ce62"
       - date: "2026-01-20"
         event: "Cowork Landing fix (paths, README, UI badges)"
@@ -2455,7 +2618,7 @@ ecosystem:
 onboarding_matrix_meta:
   version: "2.1.0"
   last_updated: "2026-03-09"
-  aligned_with_guide: "3.41.3"
+  aligned_with_guide: "3.43.0"
   changelog:
     - version: "2.1.0"
       date: "2026-03-09"
@@ -2486,7 +2649,7 @@ onboarding_matrix:
       core: [rules, sandbox_native_guide, commands]
       time_budget: "5 min"
       topics_max: 3
-      note: "SECURITY FIRST - sandbox before commands (v3.41.3 critical fix)"
+      note: "SECURITY FIRST - sandbox before commands (v3.43.0 critical fix)"
 
     beginner_15min:
       core: [rules, sandbox_native_guide, workflow, essential_commands]
@@ -2575,7 +2738,7 @@ onboarding_matrix:
         - default: agent_validation_checklist
       time_budget: "60 min"
       topics_max: 6
-      note: "Dual-instance pattern for quality workflows (v3.41.3)"
+      note: "Dual-instance pattern for quality workflows (v3.43.0)"
 
   learn_security:
     intermediate_30min:
@@ -2586,7 +2749,7 @@ onboarding_matrix:
         - default: permission_modes
       time_budget: "30 min"
       topics_max: 4
-      note: "NEW goal (v3.41.3) - Security-focused learning path"
+      note: "NEW goal (v3.43.0) - Security-focused learning path"
 
     power_60min:
       core: [sandbox_native_guide, mcp_secrets_management, security_hardening]
@@ -2611,7 +2774,7 @@ onboarding_matrix:
       core: [rules, sandbox_native_guide, workflow, essential_commands, context_management, plan_mode]
       time_budget: "60 min"
       topics_max: 6
-      note: "Security foundation + core workflow (v3.41.3 sandbox added)"
+      note: "Security foundation + core workflow (v3.43.0 sandbox added)"
 
     intermediate_120min:
       core: [plan_mode, agents, skills, config_hierarchy, git_mcp_guide, hooks, mcp_servers]
@@ -2710,6 +2873,7 @@ section_maps:
     - "typical-workflow"
     - "context-management-critical"
     - "under-the-hood-quick-facts"
+    - "harness-choice-in-four-layers"
     - "plan-mode--thinking"
     - "mcp-servers"
     - "creating-custom-components"
@@ -2719,7 +2883,7 @@ section_maps:
     - "key-cli-subcommands"
     - "debug-commands"
     - "cicd-mode-headless"
-    - "remote-control--mobile-access-v2151-research-preview"
+    - "remote-control-mobile-access-v2151-research-preview"
     - "task-management-v2116"
     - "the-golden-rules"
     - "quick-decision-tree"
@@ -2729,17 +2893,21 @@ section_maps:
     - "search-tools-quick-reference"
   "guide/core/agent-harness.md":
     - "the-core-claim"
+    - "0-four-layers-four-responsibilities"
     - "1-three-foundational-properties"
     - "2-the-nine-components"
     - "3-the-lethal-trifecta-security-model"
     - "4-cicd-agentic-patterns"
     - "5-digital-twin-testing"
     - "6-observability-stack"
-    - "7-test-distribution-anti-pattern"
+    - "7-test-distribution-and-component-stacking-anti-patterns"
     - "8-creator-verifier-pattern"
     - "9-reference-architecture"
+    - "10-practitioner-video-evidence"
+    - "11-harness-optimizers-and-meta-harnesses"
   "guide/core/architecture.md":
     - "source-transparency"
+    - "where-claude-code-sits-in-the-harness-stack"
     - "tldr---5-bullet-summary"
     - "visual-overview"
     - "1-the-master-loop"
@@ -2764,6 +2932,13 @@ section_maps:
     - "breaking-changes-summary"
     - "milestone-features"
     - "updating-this-document"
+  "guide/core/computer-use.md":
+    - "enable-the-built-in-server"
+    - "what-claude-can-control"
+    - "data-exposure-and-safety-boundary"
+    - "operate-and-stop-safely"
+    - "failure-modes-and-verification"
+    - "related-pages"
   "guide/core/context-engineering.md":
     - "1-what-is-context-engineering"
     - "2-the-context-budget"
@@ -2803,7 +2978,10 @@ section_maps:
     - "c"
     - "d"
     - "e"
+    - "g"
     - "h"
+    - "j"
+    - "l"
     - "m"
     - "n"
     - "o"
@@ -2831,6 +3009,18 @@ section_maps:
     - "-issue-statistics-as-of-jan-28-2026"
     - "-how-to-track-issues"
     - "-contributing-to-this-document"
+  "guide/core/loop-graph-engineering.md":
+    - "contents"
+    - "1-choose-the-smallest-control-structure"
+    - "2-write-a-loop-contract"
+    - "3-write-a-graph-contract"
+    - "4-static-and-dynamic-graphs"
+    - "5-allocate-judgment-explicitly"
+    - "6-make-execution-durable"
+    - "7-observe-and-evaluate-the-system"
+    - "8-three-implementation-cases"
+    - "9-anti-patterns"
+    - "10-selection-checklist"
   "guide/core/memory-systems.md":
     - "1-tldr-three-track-model"
     - "2-native-claude-code-memory-stack"
@@ -2843,6 +3033,7 @@ section_maps:
     - "9-benchmarks-and-evaluation"
     - "10-open-problems"
   "guide/core/methodologies.md":
+    - "methodology-is-not-harness-ownership"
     - "decision-tree-what-do-you-need"
     - "methodology-map"
     - "the-15-methodologies"
@@ -2873,7 +3064,16 @@ section_maps:
     - "per-tool-behaviors"
     - "advanced-tools-how-to-trigger-them"
     - "provider-availability"
+  "guide/core/translations.md":
+    - "read-an-edition"
+    - "verified-inventory"
+    - "chinese-attribution-and-source-correction"
+    - "official-translation-priority"
+    - "official-and-community-labels"
+    - "language-navigation-and-seo"
+    - "evidence-boundary"
   "guide/core/visual-reference.md":
+    - "harness-map-reading-guide"
     - "1-context-management-zones"
     - "2-permission-modes-cycle"
     - "3-workflow-pipeline-9-steps"
@@ -2900,6 +3100,19 @@ section_maps:
     - "use-cases"
     - "security-summary"
     - "documentation"
+  "guide/ecosystem/agent-harness-landscape.md":
+    - "160-projects-does-not-mean-160-runtime-harnesses"
+    - "the-twelve-category-map"
+    - "core-coding-harnesses"
+    - "orchestrators-products-above-the-runtime"
+    - "harness-optimizers-and-meta-harnesses"
+    - "four-layers-four-responsibilities"
+    - "complete-project-directory"
+    - "how-to-pick-a-harness"
+    - "how-to-test-drive-the-shortlist"
+    - "machine-readable-access"
+    - "related-reading"
+    - "limits-of-this-map"
   "guide/ecosystem/agentic-tools.md":
     - "the-spectrum"
     - "section-1-terminal-coding-agents"
@@ -2909,6 +3122,7 @@ section_maps:
     - "section-5-decision-framework"
     - "cross-references"
   "guide/ecosystem/ai-ecosystem.md":
+    - "choose-the-layer-before-choosing-a-product"
     - "introduction"
     - "1-perplexity-ai-research--sourcing"
     - "2-google-gemini-visual-understanding"
@@ -2941,6 +3155,29 @@ section_maps:
     - "14-claude-managed-agents-cloud-hosted-platform"
     - "15-project-glasswing--claude-mythos-preview-defensive-security"
     - "16-step-by-token-how-llms-work-interactive-guide"
+  "guide/ecosystem/ai-executive-agents.md":
+    - "tldr"
+    - "gstack-is-not-this-category"
+    - "openexecutive-reference-architecture"
+    - "open-source-alternatives-to-openexecutive"
+    - "routing-table-which-project-for-which-role"
+    - "augmentation-not-replacement-so-far"
+    - "when-to-actually-use-one-of-these"
+  "guide/ecosystem/claude-code-guide-mcp.md":
+    - "tldr"
+    - "what-the-server-solves"
+    - "install-by-client"
+    - "first-useful-query"
+    - "architecture-and-data-flow"
+    - "tools-resources-and-prompt"
+    - "bundled-content-github-fetch-and-cache"
+    - "network-and-privacy-boundary"
+    - "offline-behavior"
+    - "compatibility"
+    - "limitations"
+    - "troubleshooting"
+    - "version-and-dated-npm-statistics"
+    - "changelog-and-source"
   "guide/ecosystem/context-engineering-tools.md":
     - "1-the-mental-model"
     - "2-core-concepts"
@@ -2953,6 +3190,25 @@ section_maps:
     - "9-llmops--observability"
     - "10-tool-selection-by-use-case"
     - "11-research-landscape"
+  "guide/ecosystem/local-vs-cloud-inference.md":
+    - "data-snapshot-date"
+    - "sizing-local-hardware-with-llmfit"
+    - "benchmark-protocol-before-you-buy"
+    - "fourteen-comparable-hardware-configurations"
+    - "what-actually-fits-named-models"
+    - "which-local-machine-for-which-usage"
+    - "serving-engine-tuning-vllm-in-production"
+    - "coding-agent-setup-apple-silicon-with-mlx"
+    - "cloud-gpu-rental-pricing"
+    - "one-year-cost-projections"
+    - "power-consumption-watts-watt-hours-joules-per-token"
+    - "energy-efficiency-by-model-architecture"
+    - "cloud-api-throughput-claude-vs-gpt-56"
+    - "why-cloud-and-local-tokenssec-are-not-comparable"
+    - "decision-diagram"
+    - "decision-framework"
+    - "sizing-self-hosted-inference-for-a-team"
+    - "switching-providers-at-the-cli-level"
   "guide/ecosystem/mcp-servers-ecosystem.md":
     - "official-vs-community-servers"
     - "evaluation-framework"
@@ -2977,6 +3233,13 @@ section_maps:
     - "tooling-in-this-space"
     - "mcp-vs-skills"
     - "what-practitioners-say"
+  "guide/ecosystem/plugin-distribution.md":
+    - "distribute-through-a-marketplace"
+    - "the-claude-code-hint--recommendation-channel"
+    - "user-control-and-prompt-limits"
+    - "guidance-for-cli-and-sdk-maintainers"
+    - "distribution-security-boundary"
+    - "related-pages"
   "guide/ecosystem/practitioner-insights.md":
     - "context-engineering"
     - "agentic-patterns--orchestration"
@@ -2984,21 +3247,21 @@ section_maps:
     - "agent-security"
     - "devx--adoption"
   "guide/ecosystem/remarkable-ai.md":
-    - "1-remarkable-mcp--accès-mcp-direct-par-ssh"
-    - "2-ghostwriter--interface-vision-llm"
+    - "1-remarkable-mcp-direct-mcp-access-via-ssh"
+    - "2-ghostwriter-vision-llm-interface"
     - "3-sync-remarkable--obsidian"
-    - "4-ocr--ai-pipeline-custom"
-    - "5-accès-ssh-et-outils-communautaires"
-    - "6-features-natives-sous-exploitées"
-    - "7-api-et-developer-portal-officiel"
-    - "8-automatisation-zapier"
-    - "9-read-it-later--web--remarkable"
+    - "4-ocr--custom-ai-pipeline"
+    - "5-ssh-access-and-community-tools"
+    - "6-underused-native-features"
+    - "7-official-api-and-developer-portal"
+    - "8-zapier-automation"
+    - "9-read-it-later-web-to-remarkable"
     - "10-meeting-notes--ai-summary"
-    - "11-zotero--remarkable-recherche"
-    - "12-screen-sharing-comme-whiteboard-ai-assisté"
-    - "13-apps-custom-et-hacks-fun"
-    - "14-workflows-ai-augmentés-à-construire"
-    - "15-par-où-commencer"
+    - "11-zotero-to-remarkable-research"
+    - "12-screen-sharing-as-an-ai-assisted-whiteboard"
+    - "13-custom-apps-and-fun-hacks"
+    - "14-ai-augmented-workflows-to-build"
+    - "15-where-to-start"
   "guide/ecosystem/team-knowledge-base.md":
     - "the-one-tool-for-three-needs-trap"
     - "tier-1-versioned-markdown-vault-static-docs"
@@ -3099,17 +3362,16 @@ section_maps:
     - "whats-next"
   "guide/learning-path/06-hooks.md":
     - "goal"
-    - "what-youll-learn"
-    - "what-are-hooks"
-    - "creating-your-first-hook"
-    - "hook-patterns"
-    - "registering-hooks"
-    - "best-practices-for-safe-hooks"
-    - "safe-hook-template"
+    - "what-you-will-learn"
+    - "the-hook-boundary"
+    - "register-a-pretooluse-hook"
+    - "build-the-decision-script"
+    - "test-three-fixtures"
+    - "exit-codes"
+    - "safe-design-rules"
     - "exercise-create-a-validation-hook"
-    - "debugging-hooks"
-    - "validation-youre-ready-if"
-    - "whats-next"
+    - "you-are-ready-when"
+    - "what-comes-next"
   "guide/learning-path/07-advanced.md":
     - "goal"
     - "what-youll-learn"
@@ -3135,14 +3397,16 @@ section_maps:
   "guide/ops/ai-unit-economics.md":
     - "a-note-on-what-this-page-is"
     - "1-why-agentic-cost-is-not-saas-cost"
-    - "2-building-a-cost-per-task"
+    - "2-building-a-cost-per-accepted-task"
     - "3-the-real-cost-reduction-levers"
     - "4-the-break-even-point-of-an-autonomous-agent"
     - "5-budget-and-governance-per-team"
     - "6-how-to-read-a-vendors-cost-reduction-claim"
     - "7-what-this-page-does-not-cover-yet"
   "guide/ops/api-gateway.md":
-    - "tldr"
+    - "tldr-third-party-gateway-examples"
+    - "current-first-party-surface-claude-apps-gateway"
+    - "third-party-implementation-examples"
     - "1-why-a-gateway-layer"
     - "2-litellm-gateway"
     - "3-virtual-keys-and-team-budgets"
@@ -3174,6 +3438,7 @@ section_maps:
     - "external-resources"
   "guide/ops/observability.md":
     - "why-monitor-sessions"
+    - "observability-by-harness-layer"
     - "session-search--resume"
     - "setting-up-session-logging"
     - "analyzing-session-data"
@@ -3185,6 +3450,16 @@ section_maps:
     - "limitations"
     - "manager-audit-checklist"
     - "10-team-level-log-aggregation"
+  "guide/ops/subscription-strategy.md":
+    - "tldr"
+    - "1-the-20-enterprise-seat-does-not-include-usage"
+    - "2-team-covers-the-baseline-enterprise-adds-specific-controls"
+    - "3-a-bank-buys-against-a-control-gap-not-a-plan-label"
+    - "4-the-13-per-active-day-figure-is-a-benchmark-with-missing-denominators"
+    - "5-optimize-cost-per-accepted-task-not-cost-per-token"
+    - "6-workforce-plans-and-production-api-traffic-solve-different-problems"
+    - "7-decision-and-pilot-gate"
+    - "8-boundaries"
   "guide/ops/team-metrics.md":
     - "the-measurement-problem"
     - "the-dora-foundation"
@@ -3215,6 +3490,7 @@ section_maps:
     - "quick-reference"
   "guide/roles/agent-evaluation.md":
     - "why-evaluate-agents"
+    - "evaluate-the-layer-that-owns-the-behavior"
     - "metrics-to-track"
     - "implementation-patterns"
     - "example-agent-with-evaluation"
@@ -3226,25 +3502,30 @@ section_maps:
     - "2-prompt-engineer"
     - "3-context-engineer"
     - "4-ai-engineer"
-    - "5-llm-engineer"
-    - "6-ai-agent-engineer"
-    - "7-founding-ai-engineer"
-    - "8-ai-architect"
-    - "9-platform-engineer-ai-context"
-    - "10-harness-engineer"
-    - "11-ai-product-manager"
-    - "12-ai-safety--eval-engineer"
-    - "13-ml-engineer"
-    - "14-mlops-engineer"
-    - "15-ai-developer-advocate"
-    - "16-ai-orchestration-engineer"
-    - "17-spec-engineer"
-    - "18-agent-identity-architect"
-    - "19-ai-eval-engineer"
-    - "20-career-decision-matrix"
-    - "21-salary-benchmarks-2025-2026"
-    - "22-whats-not-a-role-yet"
-    - "23-job-listings"
+    - "5-applied-ai-engineer"
+    - "6-llm-engineer"
+    - "7-ai-agent-engineer"
+    - "8-founding-ai-engineer"
+    - "9-ai-architect"
+    - "10-ai-platform-engineer"
+    - "11-harness-engineer"
+    - "12-ai-product-manager"
+    - "13-ai-safety-engineer"
+    - "14-ml-engineer"
+    - "15-mlops-engineer"
+    - "16-ai-developer-advocate"
+    - "17-ai-orchestration-engineer"
+    - "18-spec-engineer"
+    - "19-agent-identity-architect"
+    - "20-ai-evaluation-engineer"
+    - "21-forward-deployed-engineer-fde"
+    - "22-ai-security-engineer"
+    - "23-ai-governance-engineer"
+    - "24-career-decision-matrix"
+    - "25-compensation-evidence"
+    - "26-capabilities-and-title-qualifiers"
+    - "27-evidence-snapshot"
+    - "28-job-listings"
   "guide/roles/learning-with-ai.md":
     - "quick-self-check-start-here"
     - "the-problem-in-60-seconds"
@@ -3325,6 +3606,7 @@ section_maps:
     - "14-see-also"
   "guide/security/security-hardening.md":
     - "tldr---decision-matrix"
+    - "apply-controls-at-the-owning-layer"
     - "part-1-prevention-before-you-start"
     - "part-2-detection-while-you-work"
     - "part-3-response-when-things-go-wrong"
@@ -3332,6 +3614,7 @@ section_maps:
     - "part-4-integration-in-your-daily-workflow"
     - "claude-code-as-security-scanner-research-preview"
     - "remote-control-security"
+    - "cross-session-messaging-threat-model"
   "guide/workflows/agent-teams-quick-start.md":
     - "what-is-this"
     - "1-5-minute-setup"
@@ -3343,6 +3626,7 @@ section_maps:
     - "summary-quick-reference"
     - "next-steps"
   "guide/workflows/agent-teams.md":
+    - "team-coordination-is-not-the-runtime-loop"
     - "1-overview"
     - "-industry-adoption-data-anthropic-2026"
     - "2-architecture-deep-dive"
@@ -3358,11 +3642,20 @@ section_maps:
     - "feedback--contributions"
     - "advanced-orchestration-patterns"
   "guide/workflows/agentic-software-factories.md":
+    - "read-the-map-before-adding-a-control-plane"
     - "1-the-spectrum-six-levels-six-costs"
     - "2-the-missing-decision-tree-when-does-a-closed-software-factory-actually-win"
     - "3-the-map-of-six-files"
     - "4-five-governance-questions-before-you-adopt-anything"
     - "5-the-unbounded-velocity-trap"
+  "guide/workflows/best-of-n.md":
+    - "decision-rule"
+    - "the-six-operations-are-different"
+    - "protocol"
+    - "worked-code-change-pattern"
+    - "evidence-boundary"
+    - "failure-modes"
+    - "reusable-skill-and-evidence-record"
   "guide/workflows/changelog-fragments.md":
     - "the-problem"
     - "the-3-layer-architecture"
@@ -3378,6 +3671,18 @@ section_maps:
     - "pricing"
     - "cross-reference"
     - "known-limitations-research-preview"
+  "guide/workflows/cross-session-messaging.md":
+    - "1-what-it-solves-and-what-it-isnt"
+    - "2-discovery-listagents"
+    - "3-delivery-sendmessage"
+    - "4-same-machine-vs-cross-machine-delivery"
+    - "5-the-sessions-inbox-socket"
+    - "6-security-model"
+    - "7-limitations"
+    - "8-availability"
+    - "9-get-a-notice-when-another-session-goes-idle-v21236"
+    - "10-version-timeline"
+    - "11-practical-patterns"
   "guide/workflows/design-to-code.md":
     - "tldr"
     - "documented-impact"
@@ -3467,6 +3772,13 @@ section_maps:
     - "review-auto-correction-loop"
     - "example-session"
     - "community-patterns--known-limitations"
+  "guide/workflows/monitor-event-delegation.md":
+    - "choose-the-delivery-mechanism"
+    - "monitor-sources"
+    - "plugin-monitors-and-channels"
+    - "github-to-monitor-to-codex-a-safe-pipeline"
+    - "github-actions-is-a-separate-path"
+    - "routines-useful-but-not-a-local-monitor"
   "guide/workflows/multi-provider-code-review.md":
     - "why-three-providers-not-one"
     - "role-separation"
@@ -3559,16 +3871,17 @@ section_maps:
     - "common-pitfalls"
     - "related-workflows"
   "guide/workflows/smart-suggest-routing.md":
-    - "why-this-exists"
-    - "regex-vs-bm25-when-each-fires"
-    - "architecture"
-    - "the-corpus-format"
-    - "building-the-index"
-    - "the-bm25-scoring"
-    - "auto-calibration"
-    - "wiring-into-settingsjson"
-    - "adapting-to-your-project"
-    - "common-pitfalls"
+    - "pick-the-right-engine"
+    - "codex-architecture"
+    - "claude-code-architecture"
+    - "corpus-format"
+    - "discovery-and-security-boundaries"
+    - "index-and-calibration"
+    - "cache-behavior"
+    - "output-contract"
+    - "installation"
+    - "evaluation"
+    - "failure-modes-to-test"
     - "related-workflows"
   "guide/workflows/spec-first.md":
     - "tldr"

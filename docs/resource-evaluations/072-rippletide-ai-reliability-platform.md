@@ -1,4 +1,4 @@
-# Resource Evaluation #072 — Rippletide: AI Reliability Platform
+# Resource Evaluation #072: Rippletide: AI Reliability Platform
 
 **Source:** [Rippletide Documentation](https://rippletide.com) / [llms-full.txt](https://rippletide.com/llms-full.txt)
 **Type:** Documentation officielle — plateforme SaaS (eval, mémoire persistante, raisonnement déterministe)
@@ -10,9 +10,9 @@
 
 Rippletide est une plateforme de fiabilité IA articulée autour de trois piliers:
 
-1. **Eval** — Détection d'hallucinations, CLI installable via `npx rippletide`, intégration CI/CD, knowledge sources (fichiers locaux, Pinecone, PostgreSQL)
-2. **Context Graph** — Mémoire persistante cross-session exposée via MCP server (7 outils, 4 ressources), compatible Claude Code, Claude Desktop, Cursor et VS Code
-3. **Decision Runtime** — Raisonnement déterministe via hypergraph (Q&A structurés, tags, actions, state predicates), claim interne: "<1% d'hallucinations"
+1. **Eval**: Détection d'hallucinations, CLI installable via `npx rippletide`, intégration CI/CD, knowledge sources (fichiers locaux, Pinecone, PostgreSQL)
+2. **Context Graph**: Mémoire persistante cross-session exposée via MCP server (7 outils, 4 ressources), compatible Claude Code, Claude Desktop, Cursor et VS Code
+3. **Decision Runtime**: Raisonnement déterministe via hypergraph (Q&A structurés, tags, actions, state predicates), claim interne: "<1% d'hallucinations"
 
 **Points d'intégration avec Claude Code:**
 - Config `.mcp.json` documentée pour brancher le MCP server Rippletide
@@ -72,9 +72,9 @@ Rippletide est une plateforme de fiabilité IA articulée autour de trois pilier
 
 **Arguments pour augmenter le score:**
 
-1. **MCP server natif** — Rippletide expose un vrai MCP server avec 7 outils documentés, compatible Claude Code. C'est concret, pas juste marketing
-2. **Eval CLI unique** — `npx rippletide` pour détecter les hallucinations en CI/CD est un use case absent du guide. Gap réel
-3. **llms.txt exemplaire** — Documentation structurée pour LLM consumption, valeur pour la section machine-readable
+1. **MCP server natif**: Rippletide expose un vrai MCP server avec 7 outils documentés, compatible Claude Code. C'est concret, pas juste marketing
+2. **Eval CLI unique**: `npx rippletide` pour détecter les hallucinations en CI/CD est un use case absent du guide. Gap réel
+3. **llms.txt exemplaire**: Documentation structurée pour LLM consumption, valeur pour la section machine-readable
 
 **Pourquoi le score reste 2/5:**
 

@@ -10,10 +10,10 @@ bash install.sh
 
 ## Components
 
-- **/release command** — Semantic version bumping and tagging
-- **/changelog command** — Generate release notes from commits
-- **release-notes-generator skill** — Automated release documentation
-- **version-sync hook** — Keep version consistent across files
+- **/release command**: Semantic version bumping and tagging
+- **/changelog command**: Generate release notes from commits
+- **release-notes-generator skill**: Automated release documentation
+- **version-sync hook**: Keep version consistent across files
 
 ## Quick Start
 

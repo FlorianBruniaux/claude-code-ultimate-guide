@@ -4,8 +4,8 @@ subtitle: "Pas de RAG, pas de magie noire - juste une boucle"
 author: "Florian BRUNIAUX"
 date: 2026-08-24
 date-format: "MMMM YYYY"
-version: "3.41.3"
-wp-version: "1.4.1"
+version: "3.42.0"
+wp-version: "1.5.0"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -952,6 +952,19 @@ Le choix d'un coding agent dépend du workflow dominant dans votre équipe. Clau
 | Standardisation équipe | Bon (CLAUDE.md) | Variable |
 | Intégration IDE | Limité | Cursor/Copilot |
 
+## Quatre couches, quatre responsabilités
+
+Comparer deux produits uniquement par leur modèle ou leur interface masque la responsabilité qui compte: qui décide de l'action suivante. Le [guide de sélection des harnesses](https://cc.bruniaux.com/guide/agent-harness-landscape/) sépare quatre couches.
+
+| Couche | Responsabilité | Ce qu'elle ne décide pas |
+|--------|----------------|--------------------------|
+| Modèle | Propose du texte et des appels d'outils | L'autorisation ou la reprise d'une tâche |
+| Runtime harness | Exécute la boucle, appelle les outils, observe et choisit le tour suivant | Les conventions propres au dépôt |
+| Repository harness | Fournit instructions, état de tâche et vérifications du projet | La boucle d'inférence du runtime |
+| Orchestrateur | Répartit le travail entre plusieurs runtimes ou sessions | Le comportement détaillé de chaque runtime |
+
+Un orchestrateur peut lancer plusieurs harnesses sans devenir leur runtime. Inversement, un dépôt peut renforcer ses instructions et ses contrôles sans changer de runtime. Cette distinction permet de localiser une défaillance: boucle et permissions côté runtime, contrat de changement côté dépôt, coordination côté orchestrateur. Voir aussi [Agent Harness Engineering](https://cc.bruniaux.com/guide/agent-harness/) et le [glossaire](https://cc.bruniaux.com/guide/glossary/).
+
 {{< pagebreak >}}
 
 # Ressources
@@ -1013,7 +1026,7 @@ Chaque whitepaper de la série est autonome, mais ils se complètent mutuellemen
 
 **Repository** : [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)
 
-*Version 3.41.3 | Août 2026*
+*Version 3.42.0 | Août 2026*
 
 
 ---

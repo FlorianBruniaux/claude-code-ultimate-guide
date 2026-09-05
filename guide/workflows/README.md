@@ -59,6 +59,14 @@ Improve code through multiple refinement cycles.
 
 **When to use**: Quality improvements, performance optimization, code cleanup
 
+### [Best-of-N: Generate, Select, and Verify](./best-of-n.md)
+
+Generate a declared set of independent candidates, score every candidate against a frozen rubric, verify the selected result outside its generation context, and preserve the proof log.
+
+**When to use**: Several plausible solutions with material trade-offs and a reviewer or executable check that can distinguish them
+
+**Reusable assets**: [Best-of-N skill](../../examples/skills/best-of-n/SKILL.md) and [TESTING.md proof record](../../examples/claude-md/TESTING.md)
+
 ### [Skeleton Projects](./skeleton-projects.md) ⭐ NEW
 
 Use existing battle-tested repositories as scaffolding for new projects.
@@ -261,6 +269,7 @@ Multi-session task tracking with TodoWrite, tasks API, and context persistence a
 | **New to codebase** | [Exploration Workflow](./exploration-workflow.md) + [Search Tools Mastery](./search-tools-mastery.md) |
 | **Complex feature** | [Plan-Driven](./plan-driven.md) or [Spec-First](./spec-first.md) |
 | **Need reliability** | [TDD with Claude](./tdd-with-claude.md) |
+| **Several plausible solutions with a stable rubric** | [Best-of-N](./best-of-n.md) |
 | **Large refactoring** | [Search Tools Mastery](./search-tools-mastery.md) |
 | **UI implementation** | [Design to Code](./design-to-code.md) |
 | **Code quality** | [Iterative Refinement](./iterative-refinement.md) |
@@ -272,6 +281,7 @@ Multi-session task tracking with TodoWrite, tasks API, and context persistence a
 | **Documentation** | [PDF Generation](./pdf-generation.md) |
 | **Social previews** | [OG Image Generation](./og-image-generation.md) |
 | **Conference talk from raw material** | [Talk Preparation Pipeline](./talk-pipeline.md) |
+| **Distribute a guide asset with attribution** | [Guide Distribution](../../docs/workflows/guide-distribution.md) |
 | **Audio feedback** | [TTS Setup](./tts-setup.md) |
 | **Deterministic multi-agent orchestration** | [Dynamic Workflows](./dynamic-workflows.md) |
 | **Multi-agent tasks** | [Agent Teams](./agent-teams.md) |

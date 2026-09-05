@@ -1,4 +1,4 @@
-# Greptile Review Rules — Template
+# Greptile Review Rules: Template
 
 <!--
   Copy to .greptile/rules.md at repo root, then replace every placeholder section

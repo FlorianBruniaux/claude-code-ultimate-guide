@@ -1,4 +1,4 @@
-# Evaluation: Kairn — Knowledge Graph Memory MCP
+# Evaluation: Kairn: Knowledge Graph Memory MCP
 
 **Date**: 2026-02-25
 **Evaluator**: Claude (eval-resource skill)
@@ -8,9 +8,9 @@
 
 ## Sources évaluées
 
-1. **LinkedIn post** — Robin Lorenz, "Context Engineering for Claude Code", 24 fév. 2026
+1. **LinkedIn post**: Robin Lorenz, "Context Engineering for Claude Code", 24 fév. 2026
    - Score: 2/5 — Watch list (claims invérifiables, pas de code source)
-2. **GitHub repo** — [kairn-ai/kairn](https://github.com/kairn-ai/kairn) (MIT, Python 100%)
+2. **GitHub repo**: [kairn-ai/kairn](https://github.com/kairn-ai/kairn) (MIT, Python 100%)
    - Score: 4/5 — **Intégré**
 
 ---
@@ -40,7 +40,7 @@ MCP server Python offrant une mémoire organisée en knowledge graph avec 18 out
 
 ## Watch list — LinkedIn Lorenz
 
-**Score: 2/5** — Réévaluer si un repo/article technique accompagne le post.
+**Score: 2/5**: Réévaluer si un repo/article technique accompagne le post.
 
 Raison du rejet : post LinkedIn sans code source, stats non vérifiables (93% réduction tokens), Perplexity n'a trouvé aucune trace indépendante. La philosophie "infrastructure outlives prompts" est déjà couverte dans `guide/core/methodologies.md`.
 

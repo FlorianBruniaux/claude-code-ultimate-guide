@@ -49,10 +49,10 @@ LinkedIn post by Addy Osmani summarizing Anthropic research on AI-assisted devel
 
 ### What's New
 
-- **"Thinking partner vs code vending machine"** — Memorable pedagogical framing (vocabulary only, concept covered)
-- **246K reach** — Mainstream diffusion milestone (timeline awareness)
-- **Feb 1, 2026 publication** — Temporal marker for community awareness
-- **References "Beyond Vibe Coding"** — Pointer to book resource (evaluated separately)
+- **"Thinking partner vs code vending machine"**: Memorable pedagogical framing (vocabulary only, concept covered)
+- **246K reach**: Mainstream diffusion milestone (timeline awareness)
+- **Feb 1, 2026 publication**: Temporal marker for community awareness
+- **References "Beyond Vibe Coding"**: Pointer to book resource (evaluated separately)
 
 ---
 

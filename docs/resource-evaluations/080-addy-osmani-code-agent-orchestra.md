@@ -122,11 +122,11 @@ Add a disambiguation note to prevent reader confusion.
 
 Challenge review (technical-writer agent) raised these points, all validated:
 
-1. **Ralph Loop naming conflict** — confirmed via Grep. Guide has the Geoffrey Huntley pattern at UG:1899; Osmani uses the same term for a different pattern. Disambiguation required.
-2. **AGENTS.md stats duplication risk** — Gloaguen et al. is already cited in guide (UG:16924) for cost data; success rate stats (-3%/+4%) are missing. Partial integration appropriate.
-3. **8-level framework redundancy** — Guide already integrates Martignole's 6-level agent maturity framework. Osmani's 8-level framework overlaps conceptually. Do not add as a competing framework.
-4. **Tool landscape instability** — Confirmed: several tools listed are pre-release or have uncertain roadmaps. Designated "monitor only."
-5. **Conflict of interest flag** — Osmani is a Google Cloud AI executive. His framing of the Claude Code ecosystem is not neutral. Content is factual but should not be positioned as Anthropic-recommended architecture without corroboration.
+1. **Ralph Loop naming conflict**: confirmed via Grep. Guide has the Geoffrey Huntley pattern at UG:1899; Osmani uses the same term for a different pattern. Disambiguation required.
+2. **AGENTS.md stats duplication risk**: Gloaguen et al. is already cited in guide (UG:16924) for cost data; success rate stats (-3%/+4%) are missing. Partial integration appropriate.
+3. **8-level framework redundancy**: Guide already integrates Martignole's 6-level agent maturity framework. Osmani's 8-level framework overlaps conceptually. Do not add as a competing framework.
+4. **Tool landscape instability**: Confirmed: several tools listed are pre-release or have uncertain roadmaps. Designated "monitor only."
+5. **Conflict of interest flag**: Osmani is a Google Cloud AI executive. His framing of the Claude Code ecosystem is not neutral. Content is factual but should not be positioned as Anthropic-recommended architecture without corroboration.
 
 ---
 

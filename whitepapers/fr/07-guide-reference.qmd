@@ -4,8 +4,8 @@ subtitle: "Synthèse complète + workflows avancés"
 author: "Florian BRUNIAUX"
 date: 2026-08-24
 date-format: "MMMM YYYY"
-version: "3.41.3"
-wp-version: "1.4.3"
+version: "3.42.0"
+wp-version: "1.4.4"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -2223,6 +2223,8 @@ Sept pages du guide principal détaillent des sujets condensés dans ce livre bl
 | `guide/ecosystem/practitioner-insights.md` | 22 insights terrain issus de 11 épisodes IFTTD |
 | `guide/ecosystem/agentic-tools.md` | Comparatif Codex CLI, Hermes Agent, Aider, Devin, SWE-agent, CrewAI, LangGraph, AutoGen + matrice de décision |
 
+Pour choisir un harness portable, distinguer le runtime qui possède la boucle, le contrat du dépôt et l'orchestrateur qui coordonne des sessions. La comparaison et le protocole d'essai sont dans [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/); les outils adjacents sont dans [Agent Tools](https://cc.bruniaux.com/guide/agentic-tools/) et les termes dans le [glossaire](https://cc.bruniaux.com/guide/glossary/).
+
 ## Outils Complémentaires
 
 Ces outils s'intègrent avec Claude Code via MCP ou slash commands pour étendre ses capacités dans des domaines spécifiques : spécifications, contrats API, et documentation.
@@ -2251,7 +2253,7 @@ Le Discord officiel Anthropic est le canal le plus rapide pour obtenir de l'aide
 
 *Ce Guide de Référence synthétise les 7 whitepapers de la série Claude Code Ultimate Guide et ajoute du contenu inédit sur la migration, l'intégration IDE, Git, les patterns avancés et les méthodologies de développement.*
 
-*Version 3.41.3, Août 2026 (mis à jour : Claude Sonnet 5 modèle par défaut, sub-agents profondeur 3, Dynamic Workflows `ultracode`)*
+*Version 3.42.0, Août 2026 (mis à jour : Claude Sonnet 5 modèle par défaut, sub-agents profondeur 3, Dynamic Workflows `ultracode`)*
 
 ---
 

@@ -1,4 +1,4 @@
-# Evaluation: Addy Osmani — Stop Using /init for AGENTS.md
+# Evaluation: Addy Osmani: Stop Using /init for AGENTS.md
 
 **Resource Type**: Blog Article (Research Synthesis + Practitioner Guidance)
 **Author**: Addy Osmani (Director, Google Cloud AI)
@@ -124,7 +124,7 @@ The 3-layer dynamic routing architecture (protocol file + persona/skill files + 
 
 ### Priority
 
-**High** — the `/init` usage is common, the anti-pattern is quantified, and the guide already gives the right advice without the evidence to back it. Adding the data strengthens the guide's credibility.
+**High**: the `/init` usage is common, the anti-pattern is quantified, and the guide already gives the right advice without the evidence to back it. Adding the data strengthens the guide's credibility.
 
 ---
 
@@ -162,9 +162,9 @@ The challenger **downgraded the score to 3/5** with substantive reasoning.
 | ETH Zurich: developer-written files +4% success | ✅ | Same source — confirmed |
 | 100% of auto-gen files contained codebase overviews | ✅ | Consistent with ETH Zurich paper findings |
 | `uv`: 1.6 uses/task when mentioned vs <0.01 without | ⚠️ | Plausible ETH Zurich finding, specific numbers not independently verified |
-| **Lulla et al. (ICSE JAWs 2026)**: -28.64% wall-clock, -16.58% tokens, 124 PRs | ❌ | **NOT FOUND** — no arXiv, no DOI, no academic search hit via Perplexity. Specific precision of these numbers is a red flag. Paper may not exist or may not be publicly available yet. |
-| **ACE framework (ICLR 2026)**: +12.3% vs static approach | ❌ | **NOT FOUND** — no paper matching "Agentic Context Engineering" from ICLR 2026 found in academic search. |
-| **Arize AI**: +5.19% cross-repo, +10.87% in-repo accuracy | ⚠️ | **Partially verified** — Arize blog post exists (arize.com/blog/optimizing-coding-agent-rules..., Oct 2025, updated Mar 2026) and confirms automated optimization yields "10-15% improvement." The specific split numbers (+5.19% / +10.87%) do not appear in Perplexity results — may be Osmani's own restatement of the blog data. |
+| **Lulla et al. (ICSE JAWs 2026)**: -28.64% wall-clock, -16.58% tokens, 124 PRs | ❌ | **NOT FOUND**: no arXiv, no DOI, no academic search hit via Perplexity. Specific precision of these numbers is a red flag. Paper may not exist or may not be publicly available yet. |
+| **ACE framework (ICLR 2026)**: +12.3% vs static approach | ❌ | **NOT FOUND**: no paper matching "Agentic Context Engineering" from ICLR 2026 found in academic search. |
+| **Arize AI**: +5.19% cross-repo, +10.87% in-repo accuracy | ⚠️ | **Partially verified**: Arize blog post exists (arize.com/blog/optimizing-coding-agent-rules..., Oct 2025, updated Mar 2026) and confirms automated optimization yields "10-15% improvement." The specific split numbers (+5.19% / +10.87%) do not appear in Perplexity results — may be Osmani's own restatement of the blog data. |
 | Addy Osmani role as Director, Google Cloud AI | ✅ | LinkedIn profile |
 | Article date: February 23, 2026 | ✅ | Article header |
 

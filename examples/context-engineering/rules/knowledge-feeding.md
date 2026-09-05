@@ -64,7 +64,7 @@ Claude should output discoveries in this structure:
 
 After receiving the knowledge feed:
 
-1. **Review before adding** — not all patterns generalize. Ask: "Would a new team member need to know this, or is it context-specific to this session?"
+1. **Review before adding**: not all patterns generalize. Ask: "Would a new team member need to know this, or is it context-specific to this session?"
 2. **Copy relevant rules** into the appropriate section of `CLAUDE.md`
 3. **Remove any rules** Claude flagged as stale
 4. **Commit the update** with a meaningful message:

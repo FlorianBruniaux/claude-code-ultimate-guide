@@ -342,3 +342,4 @@ Run tests after each change to ensure they stay green.
 - [Anthropic Best Practices](https://www.anthropic.com/engineering/claude-code-best-practices)
 - [task-management.md](./task-management.md): track TDD cycles across sessions with Tasks API
 - [Superpowers](https://github.com/obra/superpowers): plugin suite that enforces TDD as a mandatory gate, code written before a failing test exists gets deleted and redone from scratch. Stricter enforcement than manual prompting.
+- [TDD avec Claude Code](https://florian.bruniaux.com/guides/tdd-avec-claude-code/): a separate hands-on guide to the same workflow, in French

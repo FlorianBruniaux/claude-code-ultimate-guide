@@ -1,4 +1,4 @@
-# Resource Evaluation: ManoMano "Project Aegis" — Serena MCP Benchmarking
+# Resource Evaluation: ManoMano "Project Aegis": Serena MCP Benchmarking
 
 **Date**: 2026-03-19
 **Evaluator**: Claude Sonnet 4.6

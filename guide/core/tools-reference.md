@@ -2,7 +2,7 @@
 
 Claude Code ships with a set of built-in tools it uses to read, modify, and execute things in your environment. You do not install or configure them; they are always present.
 
-Tool names are the exact strings you use in permission rules (`allow`/`deny`), subagent `tools` and `disallowedTools` frontmatter, hook `matcher` fields, and the CLI flags `--allowedTools`/`--disallowedTools`. To add custom tools, connect an [MCP server](../ecosystem/mcp-servers-ecosystem.md). To build reusable prompt-driven workflows, write a [skill](../../examples/skills/); they run through the existing `Skill` tool rather than adding a new tool entry.
+Tool names are the exact strings you use in permission rules (`allow`/`deny`), subagent `tools` and `disallowedTools` frontmatter, hook `matcher` fields, and the CLI flags `--allowedTools`/`--disallowedTools`. To add custom tools, connect an [MCP server](../ecosystem/mcp-servers-ecosystem.md). To build reusable prompt-driven workflows, write a [skill](../../examples/skills/); they run through the existing `Skill` tool rather than adding a new tool entry. [Computer Use](./computer-use.md) is a separate built-in MCP server with a macOS desktop permission boundary.
 
 ---
 
@@ -145,6 +145,10 @@ Inactive until you install a code intelligence plugin for your language. After e
 
 Lets Claude watch something in the background and react when it changes. Claude writes a watch script, runs it in the background, and receives each output line as it arrives. Useful for tailing logs, polling CI status, watching a directory for file changes, or tracking long-running script output. Uses the same permission rules as Bash. Not available on Amazon Bedrock, Google Vertex AI, or Microsoft Foundry, and not available when `DISABLE_TELEMETRY` or `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC` is set.
 
+The command source accepts `timeout_ms` and `persistent`; stop an active monitor with `TaskStop`. Since v2.1.195, a Monitor can instead use a native WebSocket source: `ws.url` plus optional `ws.protocols`. `command` and `ws` are mutually exclusive. Text frames become events; binary frames become a placeholder; a frame over 1 MiB or a closed socket stops the monitor. The URL must be ASCII `ws://` or `wss://`, with no credentials or whitespace. WebSocket monitors require their own approval and refuse private, link-local, and metadata-service destinations.
+
+An event is not authorization. Treat text from either source as untrusted data, never as a shell command or a permission grant. See [Monitor, Channels and Safe Delegation to Codex](../workflows/monitor-event-delegation.md) for a GitHub-to-WebSocket boundary and a least-privilege Codex workflow.
+
 ```text
 # Ask Claude to set up a monitor like this:
 "Tail /var/log/app.log and alert me when you see any ERROR line."
@@ -221,7 +225,7 @@ Experimental feature behind `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`. `TeamCreat
 
 ### Cross-session messaging: ListAgents / SendMessage
 
-Distinct from Agent Teams above: this is messaging between sessions that were never spawned by each other, each already running independently, on the same machine or reachable through your account. `ListAgents` (`/list-agents`, alias `/peers`) lists every reachable session with its name; two Claude Code sessions running locally at the same time see each other automatically, no setup required. `SendMessage({to: "session-name"})` delivers text into the target session's own conversation under the sender's name; the receiving session replies the same way, no ID tracking needed. A message from a peer never carries authority: it cannot approve a permission prompt or change configuration on the receiving session's behalf, and the receiving session's own permission rules still apply to anything it asks for. Requires v2.1.224+ (macOS/Linux/WSL2) or v2.1.234+ (native Windows); not available on Bedrock, Vertex AI, or Foundry. See the dedicated [Cross-Session Messaging guide](../workflows/cross-session-messaging.md) for discovery mechanics, the `crossSessionInbound`/`isolatePeerMachines` security controls, and coordination patterns.
+Distinct from Agent Teams above: this is messaging between sessions that were never spawned by each other, each already running independently, on the same machine or reachable through your account. `ListAgents` (`/list-agents`, alias `/peers`) lists every reachable session with its name; two Claude Code sessions running locally at the same time see each other automatically, no setup required. `SendMessage({to: "session-name"})` delivers text into the target session's own conversation under the sender's name; the receiving session replies the same way, no ID tracking needed. A message from a peer never carries authority: it cannot approve a permission prompt or change configuration on the receiving session's behalf, and the receiving session's own permission rules still apply to anything it asks for. Requires v2.1.224+ (macOS/Linux/WSL2) or v2.1.234+ (native Windows). Since v2.1.248, same-machine messaging also works on Bedrock, Claude Platform on AWS, Google Cloud's Agent Platform, Foundry, and with feature-flag fetching disabled; sessions beyond this machine still require a claude.ai sign-in and Remote Control. See the dedicated [Cross-Session Messaging guide](../workflows/cross-session-messaging.md) for discovery mechanics, the `crossSessionInbound`/`isolatePeerMachines` security controls, correlated-drift defenses, and coordination patterns.
 
 ### Tasks API: TaskCreate through TaskStop
 
@@ -259,6 +263,7 @@ Some tools are only available when Claude Code connects through Anthropic's own 
 - [Permission Rule Syntax](./settings-reference.md#permission-rule-syntax): full `allow`/`deny` rule format with all specifier forms
 - [Sub-agents](../ultimate-guide.md#sub-agents): how `Agent` spawns work, tool inheritance, foreground vs background
 - [Cross-Session Messaging](../workflows/cross-session-messaging.md): full `ListAgents`/`SendMessage` mechanics between independent sessions
+- [Monitor, Channels and Safe Delegation to Codex](../workflows/monitor-event-delegation.md): WebSocket sources, plugin monitors, Channels, Routines, and event-driven least privilege
 - [Skills](../ultimate-guide.md#skills): how to build reusable prompt workflows using the `Skill` tool
 - [MCP servers](../ecosystem/mcp-servers-ecosystem.md): how to add custom tools via MCP
 - [Hooks](../ultimate-guide.md#hooks): run commands before or after tool execution

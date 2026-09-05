@@ -1,4 +1,4 @@
-# Évaluation Ressource: Veille hebdomadaire Anthropic/Claude Code — Semaine W09 2026
+# Évaluation Ressource: Veille hebdomadaire Anthropic/Claude Code: Semaine W09 2026
 
 **Source**: Texte copié (rapport de veille interne)
 **Type**: Rapport de veille structuré — 6 sujets, sources multi-canaux
@@ -25,7 +25,7 @@
 
 **Score initial préliminaire**: 4/5
 **Score challenge agent**: 3/5 (report complet), 5/5 (v2.1.63 isolé)
-**Score final retenu**: **4/5** — le rapport contient 2 éléments haute valeur + 1 urgence deadline
+**Score final retenu**: **4/5**: le rapport contient 2 éléments haute valeur + 1 urgence deadline
 
 **Justification**: Le rapport agrège des infos de valeurs très différentes. Si on exclut les 50% hors scope (Cowork, DoW, Opus 3 Substack), les items techniques restants justifient une intégration active:
 - HTTP hooks = **gap réel** dans le guide (section hooks ne couvre que shell scripts)

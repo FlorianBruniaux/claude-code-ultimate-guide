@@ -145,11 +145,11 @@ If the user responds "no" or "skip": log as "DEFERRED" and move to next finding.
 
 ## Safety Rules
 
-1. **Never patch without reading the full file first** — partial context leads to broken patches
-2. **Never patch test files' assertions** — only fix actual vulnerable code
-3. **One patch per finding** — do not opportunistically fix adjacent issues
-4. **Preserve git blame** — only change the exact lines needed
-5. **Log every decision** — applied, deferred, or unverifiable
+1. **Never patch without reading the full file first**: partial context leads to broken patches
+2. **Never patch test files' assertions**: only fix actual vulnerable code
+3. **One patch per finding**: do not opportunistically fix adjacent issues
+4. **Preserve git blame**: only change the exact lines needed
+5. **Log every decision**: applied, deferred, or unverifiable
 
 ---
 

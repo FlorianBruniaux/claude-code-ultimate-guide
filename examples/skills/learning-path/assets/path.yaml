@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "review_intervals_days": [1, 3, 7, 14, 30, 60, 90],
+  "tracks": {
+    "Beginner": {
+      "description": "Reach a safe, useful first daily workflow.",
+      "modules": ["module-01", "module-02", "module-03"]
+    },
+    "Practitioner": {
+      "description": "Build reusable project-level workflows.",
+      "modules": ["module-01", "module-02", "module-03", "module-04", "module-05"]
+    },
+    "Production": {
+      "description": "Add automation, verification, and operational controls.",
+      "modules": ["module-01", "module-02", "module-03", "module-04", "module-05", "module-06", "module-07"]
+    },
+    "Maintainer": {
+      "description": "Maintain a shared Claude Code practice and its safeguards.",
+      "modules": ["module-01", "module-02", "module-03", "module-04", "module-05", "module-06", "module-07"]
+    }
+  },
+  "modules": [
+    {
+      "id": "module-01",
+      "title": "Installation and setup",
+      "guide": "guide/learning-path/01-installation.md",
+      "exercise": "guide/learning-path/01-installation.md#exercise-1-view-available-commands",
+      "prerequisites": []
+    },
+    {
+      "id": "module-02",
+      "title": "Core loop",
+      "guide": "guide/learning-path/02-core-loop.md",
+      "exercise": "guide/learning-path/02-core-loop.md#exercise-the-complete-loop",
+      "related": ["guide/core/computer-use.md"],
+      "prerequisites": ["module-01"]
+    },
+    {
+      "id": "module-03",
+      "title": "Memory and configuration",
+      "guide": "guide/learning-path/03-memory.md",
+      "exercise": "guide/learning-path/03-memory.md#exercise-create-your-claudemd",
+      "prerequisites": ["module-02"]
+    },
+    {
+      "id": "module-04",
+      "title": "Agents and specialization",
+      "guide": "guide/learning-path/04-agents.md",
+      "exercise": "guide/learning-path/04-agents.md#exercise-create-a-test-writer-agent",
+      "prerequisites": ["module-03"]
+    },
+    {
+      "id": "module-05",
+      "title": "Skills and automation",
+      "guide": "guide/learning-path/05-skills.md",
+      "exercise": "guide/learning-path/05-skills.md#exercise-create-a-domain-skill",
+      "related": ["guide/ecosystem/plugin-distribution.md"],
+      "prerequisites": ["module-04"]
+    },
+    {
+      "id": "module-06",
+      "title": "Hooks and events",
+      "guide": "guide/learning-path/06-hooks.md",
+      "exercise": "guide/learning-path/06-hooks.md#exercise-create-a-validation-hook",
+      "prerequisites": ["module-05"]
+    },
+    {
+      "id": "module-07",
+      "title": "Advanced patterns",
+      "guide": "guide/learning-path/07-advanced.md",
+      "exercise": "guide/learning-path/07-advanced.md#exercise-build-your-first-multi-agent-workflow",
+      "related": ["guide/ops/api-gateway.md#current-first-party-surface-claude-apps-gateway"],
+      "prerequisites": ["module-06"]
+    }
+  ]
+}

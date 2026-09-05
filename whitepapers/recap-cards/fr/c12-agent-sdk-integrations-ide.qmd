@@ -4,70 +4,51 @@ subtitle: "Intégrer Claude Code dans Xcode, VS Code et d'autres environnements"
 card-number: "C12"
 category: "Conception"
 difficulty: "advanced"
-guide-version: "3.41.3"
+guide-version: "3.42.0"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "Août 2026"
+version: "3.42.0"
+date: "2026-08-28"
 layout: "two-col"
 lang: fr
 format:
   recap-card-typst: default
 ---
 
-## Deux produits distincts, un framework commun
+## Deux produits, des surfaces à vérifier séparément
 
-**Claude Code CLI** est l'outil en ligne de commande pour les développeurs. **Claude Agent SDK** est le framework d'Anthropic pour construire des outils de développement propulsés par Claude dans d'autres environnements. Ce sont deux produits séparés qui partagent le même moteur d'exécution d'agents.
+**Claude Code** est un produit de développement interactif. **Claude Agent SDK** permet de construire des intégrations ou des applications qui appellent Claude. Leur relation exacte dépend de la version et de la surface publiée par Anthropic; ne pas déduire une architecture commune à partir d'une interface similaire.
 
-L'implication architecturale : les intégrations IDE (VS Code, Xcode, JetBrains) ne sont pas des ports de Claude Code CLI. Elles utilisent le même Agent SDK que Claude Code, mais exposent les capacités via l'interface native de l'IDE.
+| Surface | Vérification avant décision |
+|---------|-----------------------------|
+| Extension IDE | Documentation de l'éditeur et page officielle du produit |
+| SDK | Référence API, versions supportées et modèle de permissions |
+| MCP | Serveur, outils exposés, transport et permissions demandées |
 
-## Intégrations IDE disponibles
+## MCP et intégration IDE
 
-**VS Code :** extension disponible dans le marketplace. S'active via `Ctrl+Shift+P > Claude Code: Start Session` ou en sélectionnant du code pour `Ask Claude`.
-
-**JetBrains (IntelliJ, WebStorm, PyCharm) :** plugin installable via Settings > Plugins. Fenêtre persistante accessible via `Ctrl+Shift+A > Claude Code`.
-
-**Xcode (Feb 2026) :** l'intégration la plus récente. Xcode 26.3 RC+ inclut un support natif du Claude Agent SDK, exposant les mêmes capacités que le CLI directement dans l'IDE Apple. Configuration via Xcode > Preferences > Claude.
-
-## Pattern d'intégration IDE via MCP
-
-La règle architecturale : les intégrations IDE passent par un MCP server local, pas par l'Agent SDK directement. Un MCP server expose les capacités de l'IDE (contexte de fichier ouvert, sélection, diagnostics) à Claude, qui peut alors les utiliser comme outils.
+MCP est un protocole d'outillage. Une intégration peut utiliser MCP, un SDK, une extension native ou plusieurs de ces mécanismes. Il ne faut pas présenter l'un comme une condition nécessaire de l'autre.
 
 ```
-IDE ──→ MCP Server local ──→ Claude Agent SDK
-       (expose: fichier actif,  (raisonne, génère,
-        sélection, diagnostics)  modifie)
+IDE ou service local ↔ intégration publiée ↔ outils autorisés
 ```
 
-Ce pattern garantit que les intégrations IDE suivent les mêmes conventions de permissions et de sécurité que les MCPs classiques.
+La décision de sécurité reste la même: identifier les outils réellement exposés, leur portée et le chemin d'exécution avant d'accorder une permission.
 
-## MCPs les plus utilisés (jan. 2026)
-
-| MCP | Installs | Usage |
-|-----|----------|-------|
-| Context7 | ~72k | Documentation de librairies |
-| Ralph Wiggum | ~57k | Code review automatisé |
-| Figma MCP | ~18k | Design-to-code depuis Figma |
-| Linear MCP | ~9.5k | Tickets Linear dans le contexte |
-
-**Figma MCP :** Claude accède aux designs Figma directement, génère des composants qui correspondent visuellement aux mockups sans capture d'écran intermédiaire. Utile pour réduire le gap design/implémentation.
-
-**Linear MCP :** les tickets et leur contexte sont accessibles dans Claude sans copier-coller manuellement les specs. Claude peut référencer un ticket dans son raisonnement.
-
-## Règles de vetting MCP avant installation
+## Vetting MCP avant installation
 
 ```bash
-# 1. Vérifier la source (stars, activité récente)
+# 1. Vérifier le mainteneur, le dépôt et la release ciblée
 gh repo view <mcp-repo>
 
 # 2. Vérifier la version (ne jamais utiliser "latest")
 # Toujours épingler : @1.2.3 pas @latest
 
-# 3. Scanner si disponible
+# 3. Lire les outils et permissions, puis scanner si disponible
 npx mcp-scan ./skill-directory
 ```
 
-Ne jamais approuver un MCP d'une source inconnue sans vérification. Une fois approuvé, les mises à jour s'exécutent sans re-consentement (le vecteur "rug pull" documenté dans security-hardening.md).
+Ne pas utiliser les étoiles ou un classement comme preuve de sécurité. Ne jamais approuver un MCP d'une source inconnue sans vérifier les outils, les permissions, la version et le mécanisme de mise à jour.
 
 ## Cas d'usage Agent SDK custom
 
-L'Agent SDK permet de construire des intégrations au-delà des IDEs standards : outils CI/CD qui font appel à Claude pour l'analyse de PR, dashboards de qualité code, systèmes de review automatisés. La documentation officielle est disponible à `code.claude.com/docs`.
+L'Agent SDK peut servir à construire des intégrations au-delà des IDEs standards: CI, analyses de PR, tableaux de bord ou systèmes de revue. Vérifier l'API et les limites actuelles dans la documentation officielle avant de concevoir l'intégration. Voir aussi [Agent Tools](https://cc.bruniaux.com/guide/agentic-tools/) et le [glossaire](https://cc.bruniaux.com/guide/glossary/).

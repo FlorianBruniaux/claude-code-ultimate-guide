@@ -1,4 +1,4 @@
-# Resource Evaluation: Boris Paillard — "Son site custom en 2h avec Claude Code"
+# Resource Evaluation: Boris Paillard: "Son site custom en 2h avec Claude Code"
 
 **Date**: 2026-03-05
 **Source**: [LinkedIn Pulse](https://www.linkedin.com/pulse/son-site-custom-en-2h-avec-claude-code-m%C3%A9thodes-et-prompts-paillard-7q8je/)
@@ -13,9 +13,9 @@
 Workflow for building a custom website in ~2h using Claude Code, centered on a "design-first" approach. Core thesis: Claude Code executes your design taste — it doesn't replace it. You must define a design system before prompting, or every generated page drifts.
 
 Four-step method with concrete prompts published in the article:
-1. **brand-book.html** — color palette with semantic roles, fonts, CSS variables
-2. **ui-kit.html** — base components documented with Tailwind CSS
-3. **Full site development** — scroll animations, sticky images, statement footers
+1. **brand-book.html**: color palette with semantic roles, fonts, CSS variables
+2. **ui-kit.html**: base components documented with Tailwind CSS
+3. **Full site development**: scroll animations, sticky images, statement footers
 4. **Conditional forms** (bonus) — JSON-driven multi-step forms with Google Apps Script
 
 Concrete project: mixt.care (personalized dermatology). Stack: Tailwind CSS + vanilla JS (Intersection Observer).

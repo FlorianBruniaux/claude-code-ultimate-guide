@@ -127,7 +127,7 @@ Pipeline multi-agents open-source entièrement construit sur Claude Code, qui tr
 ## Sources
 
 **Primary**:
-- [GitHub — spec-to-code-factory](https://github.com/SylvainChabaud/spec-to-code-factory)
+- [GitHub: spec-to-code-factory](https://github.com/SylvainChabaud/spec-to-code-factory)
 - [LinkedIn post](https://www.linkedin.com/posts/sylvain-chabaud-831415aa_ia-claudecode-ai-activity-7430257228928163840-jOxD)
 
 **Internal verification**:

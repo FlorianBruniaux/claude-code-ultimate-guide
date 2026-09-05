@@ -1,4 +1,4 @@
-# Resource Evaluation: fp.dev — Agent-Native Issue Tracking
+# Resource Evaluation: fp.dev: Agent-Native Issue Tracking
 
 **Evaluated**: 2026-02-22
 **Evaluator**: Claude Sonnet 4.6 + technical-writer agent challenge
