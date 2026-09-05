@@ -1,0 +1,81 @@
+CHANGELOG.md
+  s_9ffd1c8a7da3f2::t_ac47490e16b61a 11-12,32-35,50
+README.md
+  s_9ffd1c8a7da3f2::t_44f2ad9fff086e 21,260-261,272,417
+guide/core/context-engineering.md
+  s_36482441db36e6::t_79b390e9627d68 1803-1805,1813
+guide/diagrams/11-context-engineering.md
+  s_9ffd1c8a7da3f2::t_31923a4a67b7cb 230-234,238
+guide/ecosystem/ai-ecosystem.md
+  s_9ffd1c8a7da3f2::t_631159c01db0c3 2598,2602-2605,2608,2610,2612-2614
+guide/ecosystem/local-vs-cloud-inference.md
+  s_36482441db36e6::t_e35c57a556171c 513-517
+guide/learning-path/05-skills.md
+  s_36482441db36e6::t_81097c493b58bd 3,14,20-26,32-34,38,41-44,46,48-51,54-69,71,73-82,88-98,105-107,112,114-115,117,119-121,123,125,128-129,132,134,136,138-143,146,148,150-152,155-158,160,162,164,166-168,170,173-185,188,194-196,201,204-209,217-218,223-226,229,233-235,238-243,246,248,250,252,254,258-263,266,268,270-274,282,284,287-292,295-298,303,305,307,309-312,314,316-317,320,322,324-327,329,331,333,335,337-338,340,342,344,346,348,350-356,358,360,362,364,366,368-374,376,378-383,387,389,391,393,395,397,399,401,403-409,416,420
+guide/security/security-hardening.md
+  s_9ffd1c8a7da3f2::t_df238989e64537 193
+guide/ultimate-guide.md
+  s_36482441db36e6::t_317010d3ae1f09 7608,7622,7646,7670-7672,7674,7676,7685,7734,7736,7742-7765,7770-7773,7890,7893,7896,7899,7903,7937,7941,7967-7971,7979,7981,7997,8005,8007,8021-8022,8025-8026,8032-8034,8811,8814-8816,8820,8837,8839-8841,8871,8873-8874,8886,8924-8928,9062-9065,9070,9072,9074,9076,9078,9101-9103,9112,9114,9124-9127,9131,9133-9134,9136-9137,9139,9215,13144-13145,13156,24361
+guide/workflows/dynamic-workflows.md
+  s_36482441db36e6::t_1bd5c5baeb50c7 39,43,45,47,56
+llms.txt
+  s_36482441db36e6::t_db59c69dba441f 5,17
+machine-readable/llms.txt
+  s_36482441db36e6::t_bf989e2019fd13 5,17
+machine-readable/mcp-product.json
+  s_36482441db36e6::t_532bc3e0fdbcf2 5,15-17,488
+machine-readable/reference.yaml
+  s_36482441db36e6::t_22944b65222e77 992,996,1002,1045-1053,1067,1071-1072,1074,1098,1117-1118,1122,1293,1298,1373,1415,1563,1663,1848,1867,2062,2395,2442-2443,3360,3362-3363,3365,3367,3369,3371
+machine-readable/translations.json
+  s_9ffd1c8a7da3f2::t_ba8fce75d61864 3-4,24,27,51,72,115,191
+mcp-server/README.md
+  s_36482441db36e6::t_10023833a01eaf 15,26,35,48,64,78,142,162
+mcp-server/content/llms.txt
+  s_36482441db36e6::t_41270509174e8a 5,17
+mcp-server/content/reference.yaml
+  s_36482441db36e6::t_2a3382ad88a848 992,996,1002,1045-1053,1067,1071-1072,1074,1098,1117-1118,1122,1293,1298,1373,1415,1563,1663,1848,1867,2062,2395,2442-2443,3360,3362-3363,3365,3367,3369,3371
+scripts/sync-version.sh
+  s_04110d8a5488bb::t_408c6ade8d1910 98-99
+scripts/validate-onboarding.sh
+  s_6100a4209e8ae7::t_78bb59cb349817 111,137,139-143,184,253,297
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "63d839ff19280564f0c87a0a1f466b53748e8f5d",
+  "prompts": {},
+  "sessions": {
+    "s_04110d8a5488bb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a89c0b92-e2c2-4207-9727-daaab474929b",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_36482441db36e6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "54be1b84-5858-4dba-85e6-97c0fa3aadf0",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_6100a4209e8ae7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a07195-28ff-7691-94f9-08b361f0f6a0",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_9ffd1c8a7da3f2": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a07196-7513-74d3-8fb2-be05c582cb87",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
