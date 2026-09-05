@@ -2595,21 +2595,23 @@ For discovering and distributing agent skills beyond local creation:
 
 **URL**: [skills.sh](https://skills.sh/) | **GitHub**: [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills) | **Launched**: January 21, 2026
 
-**What it is**: Centralized marketplace for agent skills with one-command installation. Provides leaderboard, trending view, and 200+ skills from Vercel, Anthropic, Supabase, and community contributors.
+**What it is**: Centralized directory for discovering and installing agent skills. Its leaderboard and install counts change continuously and do not establish quality, compatibility, or maintenance.
 
 **Installation**:
 ```bash
-npx add-skill vercel-labs/agent-skills  # React/Next.js (35K+ installs)
-npx add-skill supabase/agent-skills     # Postgres patterns
-npx add-skill anthropics/skills         # Frontend design + skill-creator
-npx add-skill anthropics/claude-plugins-official  # CLAUDE.md auditor + plugin dev tools
+npx skills add vercel-labs/agent-skills
+npx skills add supabase/agent-skills
+npx skills add anthropics/skills
+npx skills add anthropics/claude-plugins-official
 ```
 
-**Supported agents**: 20+ including Claude Code, Cursor, GitHub Copilot, Windsurf, Cline, Goose
+**Supported agents**: the current catalog lists Claude Code, Cursor, Codex, GitHub Copilot, Windsurf, Gemini, Cline, and other clients.
 
-**Status**: Community project (Vercel Labs), very recent (Jan 2026), rapid adoption but early stage
+**Status**: Community project by Vercel Labs, launched in January 2026.
 
-**Format**: 100% compatible with Claude Code's `.claude/skills/` structure (SKILL.md + YAML frontmatter)
+**Format**: Agent Skills directory format with `SKILL.md` and YAML frontmatter. Claude Code-specific fields are not guaranteed to behave the same way in another client.
+
+Use the catalog for pattern discovery even when you install nothing. Installation is not a maintenance contract: inspect the selected source, scripts, tool grants, and version, then consume, fork, specialize, or reject it based on local evaluation. See [Ownership and Reuse Governance](../ultimate-guide.md#ownership-and-reuse-governance).
 
 ### claude-code-templates (GitHub)
 

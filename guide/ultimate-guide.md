@@ -7605,7 +7605,7 @@ _Each run appends findings here. Future invocations start informed._
 
 # 5. Skills
 
-_Quick jump:_ [Two Kinds of Skills](#50-two-kinds-of-skills) · [Understanding Skills](#51-understanding-skills) · [Creating Skills](#52-creating-skills) · [Skill Lifecycle](#5x-skill-lifecycle--retirement) · [Skill Evals](#5y-skill-evals) · [Skill Template](#53-skill-template) · [Skill Examples](#54-skill-examples)
+_Quick jump:_ [Two Kinds of Skills](#50-two-kinds-of-skills) · [Understanding Skills](#51-understanding-skills) · [Ownership and Reuse](#ownership-and-reuse-governance) · [Creating Skills](#52-creating-skills) · [Skill Lifecycle](#5x-skill-lifecycle--retirement) · [Skill Evals](#5y-skill-evals) · [Skill Template](#53-skill-template) · [Skill Examples](#54-skill-examples)
 
 ---
 
@@ -7619,7 +7619,7 @@ _Quick jump:_ [Two Kinds of Skills](#50-two-kinds-of-skills) · [Understanding S
 
 ## 5.0 Two Kinds of Skills
 
-> **New in March 2026**: Anthropic's Skill Creator update formalizes a taxonomy that changes how you design, test, and eventually retire skills. Sources: ainews.com, mexc.co, claudecode.jp (not yet reflected in the official `llms-full.txt`).
+This taxonomy is a design aid, not an official platform classification. It separates skills that compensate for a model limitation from skills that encode a durable local choice. The distinction changes the baseline and retirement test.
 
 Not all skills age the same way. The type you're building determines how you write it, how you test it, and when to retire it.
 
@@ -7643,7 +7643,7 @@ Skills are knowledge packages that agents can inherit.
 
 ### Skills vs Agents
 
-> **Commands are deprecated.** The `.claude/commands/` directory no longer exists as a separate concept. Everything is now a skill in `.claude/skills/`. User-invocable workflows that previously lived in `.claude/commands/` are now skills with `disable-model-invocation: true`. If you have existing commands, move them to `.claude/skills/` and add that frontmatter field.
+> **Custom commands have merged into skills, but existing files still work.** A file at `.claude/commands/deploy.md` and a skill at `.claude/skills/deploy/SKILL.md` both create `/deploy`. New reusable content should use the skill directory format, which supports supporting files and invocation controls. Use `disable-model-invocation: true` for manual-only workflows with side effects.
 
 | Concept | Purpose | Invocation |
 |---------|---------|------------|
@@ -7667,13 +7667,13 @@ Skills are knowledge packages that agents can inherit.
 #### Decision Tree: Which to Use?
 
 ```
-Is this a repeatable workflow with steps?
-├─ Yes → Use a SKILL (user-invocable, disable-model-invocation: true)
-│        Example: /commit, /release-notes, /ship
+Does correctness require guaranteed ordering, retries, a required artifact, or a hard stop?
+├─ Yes → Use a HOOK, SCRIPT, CI JOB, or DYNAMIC WORKFLOW
+│        Keep judgment in a skill only when the model must interpret a case.
 │
-└─ No → Is this specialized knowledge multiple agents need?
+└─ No → Is this reusable knowledge or an adaptable procedure?
         ├─ Yes → Use a SKILL
-        │        Example: TDD methodology, security checklist
+        │        Manual-only if timing or side effects require user control.
         │
         └─ No → Does this need isolated context or parallel work?
                 ├─ Yes → Use an AGENT
@@ -7682,7 +7682,7 @@ Is this a repeatable workflow with steps?
                 └─ No → Just write it in CLAUDE.md as instructions
 ```
 
-> **The 20% rule**: if an instruction applies to more than 20% of your conversations, put it in `CLAUDE.md` (always loaded). If it applies to fewer than 20%, make it a skill (loaded on demand). The difference matters for token efficiency: a skill's system prompt is injected only when Claude invokes it, while CLAUDE.md content counts against every request's context window.
+> **Starting heuristic, not a platform rule**: content relevant to most sessions belongs in `CLAUDE.md`; procedures and references used occasionally belong in skills. Measure your own session mix before using a numeric threshold. Skill descriptions still consume context while visible, and the full body enters the conversation when invoked.
 
 > **See also**: [Memory Loading Comparison](#memory-loading-comparison) for a broader decision tree covering all seven mechanisms (including Hooks, MCP, and CLAUDE.md vs rules). To automate detection of what belongs in each category, use [`cc-sessions discover`](#session-pattern-discovery), which applies this 20% threshold to your actual session history.
 
@@ -7731,22 +7731,46 @@ Agent B: Has security knowledge (duplicated)
 Agent C: Has security knowledge (duplicated)
 ```
 
-With skills:
+With a project-owned skill:
 ```
-security-guardian skill: Single source of security knowledge
+security-guardian skill: Shared source inside this repository and team scope
 Agent A: inherits security-guardian
 Agent B: inherits security-guardian
 Agent C: inherits security-guardian
 ```
 
+This removes duplication only inside an ownership boundary that has a maintainer, review path, and shared assumptions. A public skill does not automatically create that contract.
+
+### Ownership and Reuse Governance
+
+Frédéric Camblor's [Un Skill n'est pas une librairie](https://devx.writizzy.blog/p/un-skill-nest-pas-une-lib) makes a useful distinction: sharing an idea or implementation is not the same as agreeing to co-maintain one generic artifact. Skills often encode context that is expensive to reconstruct and can regress without a build failure.
+
+Choose the scope before choosing the distribution channel:
+
+| Sphere | Typical channel | Default expectation |
+|--------|-----------------|---------------------|
+| **Personal** | `~/.claude/skills/` | Optimize for one person's habits; no compatibility promise |
+| **Project or team** | `.claude/skills/` committed with the project | Shared local contract with a named owner and review path |
+| **Tool or vendor** | Plugin or maintained repository | Versioned support for users of that tool |
+| **Marketplace or global** | Registry or public repository | Discovery and inspiration; adoption requires local review and evaluation |
+
+Public sharing has several valid outcomes: consume unchanged, fork and specialize, extract a pattern, or reject. Do not assume that duplication is waste when the alternative is a generic skill full of branches for incompatible contexts.
+
+Two rules apply at the same time:
+
+- **Security boundary**: treat a downloaded skill like executable code. Review its instructions, scripts, dependencies, and tool grants before invocation.
+- **Ownership boundary**: treat a skill like situated context. Record its scope, owner, assumptions, baseline, and retirement signal.
+
+A catalog is therefore useful even when you install nothing. It exposes workflows, guardrails, and design patterns that can inform a smaller local skill.
+
 ### What Makes a Good Skill?
 
 | Good Skill | Bad Skill | Expected Lifespan |
 |------------|-----------|-------------------|
-| Reusable across agents | Single-agent specific | — |
-| Domain-focused | Too broad | — |
-| Contains reference material | Just instructions | — |
-| Includes checklists | Missing verification | — |
+| Reusable inside its declared scope | Claims universal reuse without evidence | n/a |
+| Domain-focused and context-aware | Generic branches dilute the common case | n/a |
+| Records owner and assumptions | No maintenance contract | n/a |
+| Includes observable verification | Relies on self-assessment alone | n/a |
 | Has evals defined | "Seems to work" validation | Capability Uplift: monitor regularly; Encoded Preference: stable |
 | Clear retirement criteria | No lifecycle plan | Capability Uplift: short-medium; Encoded Preference: long |
 
@@ -7863,20 +7887,20 @@ ${end}
 
 This lets one skill serve both quick-scan (low/medium) and thorough (high/xhigh) use cases without maintaining two separate skills.
 
-**`allowed-tools` wildcard scoping** limits a skill to specific command namespaces rather than opening full Bash access:
+**`allowed-tools` wildcard scoping** pre-approves matching commands for the turn that invokes the skill:
 
 ```yaml
-# Scope to a specific CLI tool only — no other Bash commands allowed
+# Pre-approve one CLI command namespace for this invocation
 allowed-tools: Bash(agent-browser:*)
 
-# Scope to npm scripts only
+# Pre-approve npm scripts
 allowed-tools: Bash(npm run *)
 
-# Read-only + scoped writes
+# Pre-approve reads and edits under docs
 allowed-tools: Read Grep Glob Edit(/docs/**)
 ```
 
-This is more secure than granting broad `Bash` access: the skill can only run commands matching the pattern. Ideal for skills wrapping a specific CLI tool.
+This is narrower than pre-approving broad `Bash` access, but it is not a sandbox or tool allowlist. Other tools remain callable under the session's permission settings. Use `disallowed-tools` for turn-scoped removal and project permission deny rules for a persistent restriction. Review project skill grants before opening Claude Code in an untrusted repository.
 
 > **Open standard**: Agent Skills follow the [agentskills.io specification](https://agentskills.io), created by Anthropic and supported by 35+ platforms (Cursor, VS Code, GitHub Copilot, Codex, Gemini CLI, Goose, Roo Code, OpenHands, Amp, Letta, Junie, etc.). Skills you create for Claude Code are portable. The `disable-model-invocation` field is a Claude Code extension.
 
@@ -7910,11 +7934,11 @@ Before publishing or committing a skill, run through this content checklist. `/a
 - [ ] **Single responsibility**: one skill, one domain, not a catch-all that dispatches to sub-skills
 - [ ] **Description is a trigger sentence**: the `description` field should tell Claude when to activate this skill, not what it does internally
 
-A skill that passes these 9 gates is ready for production use or sharing via the agentskills.io registry.
+Passing these nine gates proves structural and editorial readiness only. Before production use or sharing, test trigger correctness and output quality on representative prompts in fresh sessions, including a no-skill baseline. Record the model, Claude Code version, prompt set, assertions, run count, pass count, token cost, and observed variance.
 
 ## 5.X Skill Lifecycle & Retirement
 
-Skills have a lifecycle. Treating them like permanent artifacts leads to skill rot: dead code in `.claude/skills/` that consumes tokens and provides no value.
+Skills have a lifecycle. Treating them like permanent artifacts leads to skill rot: every visible name and description adds context cost, while invoked stale content can steer work in the wrong direction.
 
 Two patterns govern when to act:
 
@@ -7940,7 +7964,11 @@ Fix or Retire
 - [ ] **Run eval without the skill**: does Claude pass on its own?
 - [ ] **Check last activation date**: when did this skill last fire in practice?
 - [ ] **Check workflow accuracy**: for Encoded Preference skills, has the underlying process changed?
-- [ ] **Archive before deleting**: move to `.claude/skills/archive/` with a dated note explaining why it was retired
+- [ ] **Inspect usage and context cost**: run `/skill-doctor` in the terminal; treat its unused flag as a review signal, not an automatic deletion order
+- [ ] **Disable before deleting**: use `/skills` or `skillOverrides` to turn off a candidate and compare representative sessions
+- [ ] **Archive outside discovery paths**: preserve the skill in Git history or move it outside `.claude/skills/`; nested discovery can keep an in-tree archive visible
+
+`/skill-doctor` reports visible skills that have never been invoked and their context cost. The current official documentation requires Claude Code v2.1.252 or later. The report excludes bundled and enterprise skills, depends on feature-flag fetching, and is unavailable through Remote Control.
 
 > **See also**: [§5.Y Skill Evals](#5y-skill-evals), for how to run evals to inform retirement decisions.
 
@@ -7948,9 +7976,9 @@ Fix or Retire
 
 ## 5.Y Skill Evals
 
-Skill evals move quality from "seems to work" to "know it works." They're the testing layer that makes skills production-grade.
+Skill evals replace an unsupported impression with reproducible evidence. They do not prove universal correctness, eliminate model variance, or make a skill production-ready by themselves.
 
-> **Available via**: Skill Creator plugin (Anthropic GitHub) for Claude Code users. Live on Claude.ai and Cowork as of March 2026. Sources: ainews.com, mexc.co. Not yet in official `llms-full.txt`.
+> **Available via**: install the official `skill-creator` plugin with `/plugin install skill-creator@claude-plugins-official`. See the current [Claude Code skills documentation](https://code.claude.com/docs/en/skills#run-evals-with-skill-creator).
 
 ### How It Works
 
@@ -7966,7 +7994,7 @@ Skill → Test Prompts + Files
      Improve skill → Re-run
 ```
 
-You define three things: test prompts (realistic inputs that trigger the skill), expected outputs (description of what "good" looks like, not exact string matching), and a pass rate threshold. Claude executes the skill against each test case and judges the output.
+You define realistic prompts, optional input files, and explicit assertions. Run each case in an isolated context with the skill enabled and disabled. The baseline shows whether the skill adds value instead of merely producing an acceptable answer.
 
 Results report: pass rate, elapsed time, token usage per test case.
 
@@ -7974,9 +8002,9 @@ Results report: pass rate, elapsed time, token usage per test case.
 
 **Benchmark Mode**: tracks pass rates, elapsed time, and token usage across model updates. Runs tests in parallel with clean, isolated contexts (no cross-contamination between cases). Use this to detect regressions automatically when Claude updates.
 
-**A/B Testing (Comparator Agents)**: blind head-to-head comparison between two versions of a skill. Version A vs. Version B, judged without knowing which is which. Removes confirmation bias from skill improvement decisions.
+**A/B Testing (Comparator Agents)**: blind head-to-head comparison between two versions of a skill. Version A vs. Version B is judged without revealing which is which. This reduces confirmation bias but does not make an LLM judge independent evidence.
 
-**Trigger Tuning (Description Optimizer)**: analyzes your skill's `description` field and suggests improvements to reduce false positives (skill fires when it shouldn't) and false negatives (skill doesn't fire when it should). Anthropic's internal test: 5 of 6 document-creation skills showed improved triggering accuracy after optimization. [Source: claudecode.jp, directional, not independently verified]
+**Trigger Tuning (Description Optimizer)**: analyzes your skill's `description` field and suggests improvements to reduce false positives (skill fires when it should not) and false negatives (skill does not fire when it should).
 
 ### Two Uses of Evals
 
@@ -7990,18 +8018,20 @@ Results report: pass rate, elapsed time, token usage per test case.
 ```
 .claude/skills/my-skill/
 ├── SKILL.md
-└── tests/                      ← Eval directory
-    ├── test-01-basic.md        # Prompt + expected output description
-    ├── test-02-edge-case.md    # Edge case coverage
-    └── benchmark-config.md     # Pass rate threshold, token budget
+└── evals/
+    └── evals.json              # Prompts, input files, and assertions
 ```
+
+The plugin writes per-run grading evidence to `grading.json` and aggregates with-skill versus without-skill results in `benchmark.json`. Generated reports are evidence artifacts, not part of the portable Agent Skills specification.
 
 ### Eval Design Principles
 
 - **One behavior per test**: don't combine multiple assertions, or failures become ambiguous
 - **Include edge cases**: test the inputs that made the skill necessary in the first place
 - **Define "good" precisely**: vague expected outputs make eval judgments unreliable
-- **Set a pass rate threshold**: 80% is a reasonable starting point; adjust for criticality
+- **Set a risk-based acceptance rule**: include the denominator, variance, and severity of each failed assertion instead of applying one universal percentage
+- **Separate routing from output**: a correctly invoked skill can still produce the wrong result
+- **Use independent checks where possible**: deterministic validators and qualified human review strengthen LLM grading
 
 > **See also**: [§5.2 Skill Quality Gates](#52-creating-skills) for pre-publish checklist | [§5.X Skill Lifecycle](#5x-skill-lifecycle--retirement) for retirement workflow
 
@@ -8778,14 +8808,16 @@ This skill demonstrates the **skill-that-creates-skills** pattern, a meta-approa
 ### Automatic Skill Improvement: Claude Reflect System
 
 **Repository**: [claude-reflect-system](https://github.com/haddock-development/claude-reflect-system)
-**Author**: Haddock Development | **Status**: Production-ready (2026)
+**Author**: Haddock Development | **Status**: Third-party project; current behavior and maintenance status require verification
 **Marketplace**: [Agent Skills Index](https://agent-skills.md/skills/haddock-development/claude-reflect-system/reflect)
 
-While Claudeception creates new skills from discovered patterns, **Claude Reflect System** automatically improves existing skills by analyzing Claude's feedback and detected corrections during sessions.
+While Claudeception creates new skills from discovered patterns, **Claude Reflect System** is designed to propose edits to existing skills from feedback and corrections observed in sessions.
+
+> **Evidence boundary**: session reflection can generate useful candidates, but it cannot validate its own edits. Before installation, inspect the repository at a pinned revision and verify its hook contract, commands, writes, and rollback path. Before accepting a proposed skill change, re-run independent evals or deterministic checks against the previous version.
 
 #### How It Works
 
-Claude Reflect operates in two modes:
+The project documents two modes:
 
 **Manual Mode** (`/reflect [skill-name]`):
 ```bash
@@ -8802,9 +8834,11 @@ Claude Reflect operates in two modes:
 7. **Applies** changes with validation (YAML syntax, markdown structure)
 8. **Commits** with descriptive message
 
-#### Safety Features
+#### Documented Safety Features
 
-| Feature | Purpose | Implementation |
+The following controls are project claims until verified against the installed revision and a real session:
+
+| Feature | Purpose | Documented implementation |
 |---------|---------|----------------|
 | **User Review Gate** | Prevent automatic unwanted changes | All proposals require explicit approval before application |
 | **Git Backups** | Enable rollback of bad improvements | Auto-commits before each modification with descriptive messages |
@@ -8834,10 +8868,10 @@ See the [repository README](https://github.com/haddock-development/claude-reflec
 
 **Problem**: You use a `terraform-validation` skill that doesn't catch a specific security misconfiguration. During the session, Claude detects and corrects the issue manually.
 
-**Reflect System detects**:
+**Illustrative proposal flow**:
 - Claude corrected a pattern not covered by the skill
-- Correction was verified (tests passed)
-- High confidence (clear improvement)
+- A correction appeared alongside passing tests
+- The system labels the candidate high confidence
 
 **Proposal**:
 ```yaml
@@ -8849,7 +8883,7 @@ Diff:
   + - Reject: Encryption not set or using AES256 instead of aws:kms
 ```
 
-**User reviews** → approves → **skill updated** → future sessions automatically catch this issue.
+**User reviews** → evaluates against the previous version → accepts or rejects the candidate. A successful edit does not prove that future sessions will always catch the issue.
 
 #### ⚠️ Security Warnings
 
@@ -8861,10 +8895,6 @@ Self-improving systems introduce specific security risks. Claude Reflect System 
 | **Memory Poisoning** | Malicious edits to learned patterns accumulate | Git backups, syntax validation | Periodically audit skill history via Git log |
 | **Prompt Injection** | Embedded instructions in session transcripts | Input sanitization, proposal isolation | Never approve proposals with executable commands |
 | **Skill Bloat** | Unbounded growth without curation | Manual `/reflect [skill]` mode, curate regularly | Archive or merge redundant improvements quarterly |
-
-**Academic sources**:
-- [Anthropic Memory Cookbook](https://github.com/anthropics/anthropic-cookbook/blob/main/skills/memory/guide.md) (official guidance on agent memory systems)
-- Research on adversarial attacks against AI learning systems
 
 #### Activation and Control
 
@@ -8891,23 +8921,16 @@ Default: **Disabled** (opt-in for safety)
 
 #### Recommended Combined Workflow
 
-1. **Bootstrap** (Claudeception): Let Claude generate skills from discovered patterns during initial project work
-2. **Iterate** (Use skills): Apply generated skills in subsequent sessions
-3. **Refine** (Reflect System): Enable `/reflect-on` to capture improvements as skills evolve with usage
-4. **Curate** (Manual): Quarterly review via `/reflect status` and Git history to archive or merge redundant patterns
-
-**Example timeline**:
-- Week 1-2: Claudeception generates `api-error-handling` skill from debugging sessions
-- Week 3-6: Skill used in 20+ sessions, catches 80% of error cases
-- Week 7: Reflect detects 3 missed edge cases, proposes HIGH confidence additions
-- Week 8: User approves, skill now catches 95% of cases automatically
+1. **Bootstrap**: generate a candidate skill from repeated, observed friction.
+2. **Baseline**: capture representative prompts and assertions before changing it.
+3. **Reflect**: use session feedback to propose a focused edit.
+4. **Compare**: run old and new versions in fresh contexts, including a no-skill baseline.
+5. **Curate**: accept only evidence-backed changes; merge duplicates and retire stale skills.
 
 #### Resources
 
 - **GitHub Repository**: [haddock-development/claude-reflect-system](https://github.com/haddock-development/claude-reflect-system)
 - **Marketplace**: [Agent Skills Index](https://agent-skills.md/skills/haddock-development/claude-reflect-system/reflect)
-- **Video Tutorial**: [YouTube walkthrough](https://www.youtube.com/watch?v=...) (check repo for latest)
-- **Academic Foundation**: [Anthropic Memory Cookbook](https://github.com/anthropics/anthropic-cookbook/blob/main/skills/memory/guide.md)
 
 ### Design Intelligence: UI UX Pro Max
 
@@ -9036,36 +9059,23 @@ For comprehensive DevOps/SRE workflows, see **[DevOps & SRE Guide](./ops/devops-
 Skills.sh (Vercel Labs) provides a centralized marketplace for discovering and installing agent skills with one-command installation:
 
 ```bash
-npx add-skill vercel-labs/agent-skills  # React/Next.js best practices (35K+ installs)
-npx add-skill supabase/agent-skills     # Postgres optimization patterns
-npx add-skill anthropics/skills         # Frontend design + skill-creator
-npx add-skill anthropics/claude-plugins-official  # CLAUDE.md auditor + automation recommender
+npx skills add vercel-labs/agent-skills
+npx skills add supabase/agent-skills
+npx skills add anthropics/skills
+npx skills add anthropics/claude-plugins-official
 ```
 
 #### How It Works
 
-**Installation**: Skills are copied to `~/.claude/skills/` (same format as this guide)
+**Installation**: the CLI copies selected skills into the agent and scope you choose. Confirm the destination and inspect the copied files before invocation.
 
-**Supported agents**: 20+ including Claude Code, Cursor, GitHub Copilot, Windsurf, Cline, Goose, and others
+**Supported agents**: the current catalog lists Claude Code, Cursor, Codex, GitHub Copilot, Windsurf, Gemini, Cline, and other clients.
 
-**Format**: Standard SKILL.md with YAML frontmatter (100% compatible with Section 5.2-5.3)
+**Format**: standard `SKILL.md` with YAML frontmatter. Claude Code-specific fields are not guaranteed to behave the same way in another client.
 
-#### Top Skills by Category (January 2026)
+#### Catalog and Popularity Data
 
-| Category | Top Skills | Installs | Creator |
-|----------|-----------|----------|---------|
-| **Frontend** | vercel-react-best-practices | 35K+ | vercel-labs |
-| | web-design-guidelines | 26.6K | vercel-labs |
-| | frontend-design | 5.6K | anthropics |
-| **Database** | supabase-postgres-best-practices | 1K+ | supabase |
-| **Auth** | better-auth-best-practices | 2K+ | better-auth |
-| **Testing** | test-driven-development | 721 | obra ([Superpowers](https://github.com/obra/superpowers)) |
-| **Media** | remotion-best-practices | New | remotion-dev |
-| **Meta** | skill-creator | 3.2K | anthropics |
-| **Tooling** | claude-md-improver | 472 | anthropics |
-| | claude-automation-recommender | 333 | anthropics |
-
-Full catalog: [skills.sh leaderboard](https://skills.sh/)
+The leaderboard and install counts change continuously and do not establish quality, compatibility, or maintenance. Consult the [live skills.sh catalog](https://skills.sh/) for discovery, then inspect the selected repository and evaluate the skill in your own scope before adoption.
 
 #### Security Audits (February 2026)
 
@@ -9088,7 +9098,9 @@ Vercel launched automated security scanning on every skills.sh skill ([announcem
 
 **Continuous monitoring**: skills are re-evaluated as detection improves. If a repository becomes malicious after install, its rating updates automatically.
 
-> **Mental model**: treat a skill like a Docker image; it's an executable dependency, not a prompt. Verify the rating before installing in production.
+> **Security model**: treat a downloaded skill like executable code because it can contain tool grants, scripts, dependencies, and instructions. A marketplace rating is one input, not a substitute for reviewing the version you install.
+>
+> **Ownership model**: installation does not create a shared maintenance contract. Consume, fork, extract a pattern, or reject based on your context and evaluation evidence.
 
 #### Status & Trade-offs
 
@@ -9097,9 +9109,9 @@ Vercel launched automated security scanning on every skills.sh skill ([announcem
 **Governance**: Community project by Vercel Labs (not official Anthropic). Skills contributed by Vercel, Anthropic, Supabase, and community members.
 
 **Trade-offs**:
-- ✅ Centralized discovery + leaderboard (200+ skills)
+- ✅ Centralized discovery and a live leaderboard
 - ✅ One-command install (vs manual GitHub clone)
-- ✅ Format 100% compatible with this guide
+- ✅ Uses the Agent Skills directory format
 - ✅ Automated 3-layer security audit before installation
 - ✅ Continuous monitoring post-install
 - ⚠️ Multi-agent focus (not Claude Code specific)
@@ -9109,24 +9121,23 @@ Vercel launched automated security scanning on every skills.sh skill ([announcem
 
 | Use Case | Recommendation |
 |----------|----------------|
-| **Discover popular patterns** | skills.sh (leaderboard, trending) |
-| **Install official framework skills** | skills.sh (Vercel React, Supabase, etc.) |
-| **Team-specific/internal skills** | GitHub repos (like [claude-code-templates](https://github.com/davila7/claude-code-templates), 17K⭐) |
-| **Custom enterprise skills** | Local `.claude/skills/` (Section 5.2-5.3) |
+| **Discover patterns** | Browse skills.sh; installation is optional |
+| **Adopt a maintained tool skill** | Review source, permissions, scripts, version, and vendor support promise |
+| **Team-specific skill** | Fork or write a project skill with a named owner and local evals |
+| **Organization-managed skill** | Use the managed distribution path with explicit review and retirement policy |
 
 #### Installation Examples
 
-**Standard installation** (global, all Claude Code sessions):
+**Interactive CLI installation**:
 ```bash
-# Install Vercel bundle (3 skills: react + web-design + deploy)
-npx add-skill vercel-labs/agent-skills
+# Select skills, target agents, and scope in the installer
+npx skills add vercel-labs/agent-skills
 
-# Install Supabase Postgres patterns
-npx add-skill supabase/agent-skills
+# Add another repository
+npx skills add supabase/agent-skills
 
-# Verify installation
+# Example verification when you selected Claude Code personal scope
 ls ~/.claude/skills/
-# Output: react-best-practices/ web-design-guidelines/ vercel-deploy/
 ```
 
 **Manual installation** (project-specific):
@@ -9201,6 +9212,7 @@ Claude Code ships with roughly 100 built-in commands. The full categorized list 
 | `/insights` | Generate usage analytics report |
 | `/btw [question]` | Side question via ephemeral overlay: read-only, no tools, single response, doesn't pollute main history |
 | `/doctor` (`/checkup`) | Full setup checkup: install health, settings, hooks, `CLAUDE.md` bloat, unused skills and MCP servers |
+| `/skill-doctor` | Terminal-only skill usage report: visible skill context cost and never-invoked skills; excludes bundled and enterprise skills, unavailable through Remote Control (v2.1.252+) |
 | `/release-notes` | Browse Claude Code changelog interactively |
 | `/fewer-permission-prompts` | Scan transcripts and propose a read-only tool allowlist (shipped as `/less-permission-prompts` in v2.1.111) |
 | `/team-onboarding` | Generate a teammate ramp-up guide from 30 days of session history |
@@ -13129,8 +13141,8 @@ The Claude Code Ultimate Guide ships a stdio MCP server so coding clients can se
 #### Installation
 
 ```bash
-claude mcp add --scope user claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.1
-codex mcp add claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.1
+claude mcp add --scope user claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.3
+codex mcp add claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.3
 ```
 
 For project-scoped Claude Code use, add the server to `.mcp.json`:
@@ -13141,7 +13153,7 @@ For project-scoped Claude Code use, add the server to `.mcp.json`:
     "claude-code-guide": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.1"]
+      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.3"]
     }
   }
 }
@@ -24346,6 +24358,7 @@ Notation: `<arg>` is required, `[arg]` is optional, aliases follow the command i
 | Command | Action |
 |---------|--------|
 | `/doctor` (`/checkup`) | Full setup checkup: install health, `PATH`, unparseable settings, unused skills and MCP servers versus their context cost, slow hooks, `CLAUDE.md` bloat, version drift. Reports first, asks before changing anything (v2.1.205+) |
+| `/skill-doctor` | Report visible skill context cost and never-invoked skills. Excludes bundled and enterprise skills, requires feature-flag fetching, and is unavailable through Remote Control. Run it in the terminal (v2.1.252+) |
 | `/debug [description]` | Turn on debug logging for the session and troubleshoot from the debug log |
 | `/heapdump` | Write a heap snapshot and memory breakdown to `~/Desktop` for diagnosing high memory use. ⚠️ contains the full conversation and credentials, never share it |
 | `/status` | Settings interface on the Status tab: version, model, account, connectivity. Works while Claude is responding |

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-09-01",
-  "measured_at_commit": "8d8f97b26604cc4d12305ec68d2c9e2519ba8f07",
+  "checked_at": "2026-09-05",
+  "measured_at_commit": "45d798cb3f12d806173173bd8f57752e9ec9ed0c",
   "official_scope": "Maintained by the Claude Code Ultimate Guide project; not official Anthropic documentation.",
   "policy": {
     "canonical_language": "en",
@@ -21,10 +21,10 @@
     "maintainer": "Florian Bruniaux",
     "status": "official",
     "version": "3.43.0",
-    "sha256": "fd30cf2ebf260ef865455b61a6c7b2a4c0d33ab00a34750bceae706b97ead8c6",
+    "sha256": "a6a79ad01b20d1375e256eeb655521130c96e97a22372937d0369af71958ae20",
     "source": {
       "commit": "8d8f97b26604cc4d12305ec68d2c9e2519ba8f07",
-      "sha256": "fd30cf2ebf260ef865455b61a6c7b2a4c0d33ab00a34750bceae706b97ead8c6",
+      "sha256": "a6a79ad01b20d1375e256eeb655521130c96e97a22372937d0369af71958ae20",
       "commit_evidence": "latest_commit_touching_canonical_guide"
     },
     "coverage": {
@@ -48,7 +48,7 @@
       "status": "official",
       "official": true,
       "version": "3.41.1",
-      "last_checked_at": "2026-09-01",
+      "last_checked_at": "2026-09-05",
       "last_full_refresh_at": "2026-07-09",
       "sync_state": "stale",
       "translated_from": {
@@ -69,7 +69,7 @@
       "known_lag": {
         "status": "stale",
         "canonical_guide_commits": 22,
-        "canonical_repo_commits": 235,
+        "canonical_repo_commits": 254,
         "version_delta": "3.41.1 to 3.43.0"
       }
     },
@@ -112,7 +112,7 @@
       "known_lag": {
         "status": "stale",
         "canonical_guide_commits": 36,
-        "canonical_repo_commits": 299,
+        "canonical_repo_commits": 318,
         "version_delta": "3.41.0 to 3.43.0"
       },
       "official": false
@@ -188,7 +188,7 @@
       "known_lag": {
         "status": "stale",
         "canonical_guide_commits": 120,
-        "canonical_repo_commits": 567,
+        "canonical_repo_commits": 586,
         "version_delta": "3.32.2 to 3.43.0"
       },
       "official": false

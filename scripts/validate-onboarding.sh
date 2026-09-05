@@ -108,7 +108,7 @@ else:
     print(f"OK: All {len(referenced_keys)} keys exist")
     sys.exit(0)
 EOF
-"$REFERENCE_YAML")
+)
 
     local exit_code=$?
     if [ $exit_code -eq 0 ]; then
@@ -134,13 +134,13 @@ with open(os.environ['REFERENCE_YAML']) as f:
 
 matrix = data.get('onboarding_matrix', {})
 
-# Time budget rules (min per topic)
+# Minimum estimated minutes per topic. The five-minute route uses compact summaries.
 MIN_PER_TOPIC = {
-    '5min': 2,
-    '15min': 4,
-    '30min': 6,
-    '60min': 8,
-    '120min': 10
+    '5': 1.5,
+    '15': 4,
+    '30': 6,
+    '60': 8,
+    '120': 10
 }
 
 violations = []
@@ -181,7 +181,7 @@ else:
     print(f"OK: {checks} profiles checked, all time budgets respected")
     sys.exit(0)
 EOF
-"$REFERENCE_YAML")
+)
 
     local exit_code=$?
     if [ $exit_code -eq 0 ]; then
@@ -250,7 +250,7 @@ else:
     print(f"OK: {checks} profiles checked")
     sys.exit(0)
 EOF
-"$REFERENCE_YAML")
+)
 
     local exit_code=$?
     if [ $exit_code -eq 0 ]; then
@@ -294,7 +294,7 @@ else:
     print(f"OK: All {len(matrix_goals)} goals present")
     sys.exit(0)
 EOF
-"$REFERENCE_YAML")
+)
 
     local exit_code=$?
     if [ $exit_code -eq 0 ]; then

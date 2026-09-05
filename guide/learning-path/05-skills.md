@@ -1,6 +1,6 @@
 ---
 title: "Module 05: Skills & Automation"
-description: "Learning Path Module 05: build reusable Claude Code skills with SKILL.md, from frontmatter and metadata to auto-invocation, and package them into a shared knowledge base. 1.5 hours, intermediate."
+description: "Learning Path Module 05: build scoped Claude Code skills with SKILL.md, progressive disclosure, invocation controls, evals, and retirement criteria. 1.5 hours, intermediate."
 ---
 
 # Module 05: Skills & Automation
@@ -11,222 +11,202 @@ description: "Learning Path Module 05: build reusable Claude Code skills with SK
 
 ## Goal
 
-Create reusable skills that give Claude domain-specific knowledge. Package solutions for repeated problems.
+Create a project skill that gives Claude relevant knowledge or a reusable procedure without loading its full content into every session.
 
 ---
 
 ## What You'll Learn
 
-- What skills are and why they're powerful
-- Creating skills with SKILL.md
-- Skill frontmatter and metadata
-- Auto-invoking skills
-- Building a knowledge base
-- Bundling skills with your projects
+- What skills load, and when
+- How to create a valid `SKILL.md`
+- How `description` controls model discovery
+- How to control user and model invocation
+- How to choose an ownership scope
+- How to separate judgment from guaranteed orchestration
+- How to evaluate, maintain, and retire a skill
 
 ---
 
 ## What Are Skills?
 
-A **skill** is a reusable knowledge module. It teaches Claude how to do something specific.
+A **skill** is a directory containing a `SKILL.md` file and optional supporting files. Its description is advertised to Claude. The full instructions load only when you or Claude invoke the skill.
+
+This makes skills useful for repeated procedures, checklists, and reference material that would be too costly or distracting in an always-loaded `CLAUDE.md`.
 
 ### Example: Testing Skill
 
-Instead of explaining your testing approach every session, you create a skill:
+Instead of explaining your testing approach in each session, create a project skill whose description says when it applies:
 
 ```markdown
-# Testing Best Practices for Our Project
+---
+name: testing-standards
+description: Apply this project's Jest and Testing Library conventions when creating, reviewing, or debugging tests.
+---
 
-## Framework: Jest
+# Testing Standards
 
-## Style
-- Descriptive names: "should validate email with + symbols"
-- Arrange-Act-Assert pattern
-- Mock external dependencies
-- Test behavior, not implementation
-
-## Coverage Target
-Minimum 80%
+- Use descriptive test names.
+- Follow Arrange, Act, Assert.
+- Mock external boundaries, not implementation details.
+- Run the relevant test file before the full suite.
 ```
 
-Now, whenever Claude helps with testing, it reads this skill and follows your approach.
+Claude sees the name and description during the session. It loads the body when the current request matches the description, or when you type `/testing-standards`.
 
-### Skills vs Agents
+### Skills vs CLAUDE.md vs Agents vs Workflows
 
-| Aspect | Skill | Agent |
-|--------|-------|-------|
-| Purpose | Teach knowledge | Execute tasks |
-| Scope | Domain knowledge | Specialized workflow |
-| Persistence | Remembered each session | Called explicitly |
-| Auto-invoke | Yes (optional) | Manual only |
-| Example | "How we test code" | "The test-writer agent" |
+| Mechanism | Best for | Loading or execution |
+|-----------|----------|----------------------|
+| `CLAUDE.md` | Short facts and rules relevant to most sessions | Loaded at session start |
+| Skill | Reusable knowledge, judgment, or an adaptable procedure | Description advertised; body loaded on invocation |
+| Agent | Isolated context, specialized tools, or parallel work | Runs in a separate context |
+| Hook or scripted workflow | Preconditions, ordering, retries, stop rules, and checks that must be enforced | Executed by code or the harness |
+
+Numbered steps are not automatically a reason to leave the skill format. Move an operation into a hook, script, or workflow when correctness depends on guaranteed ordering, a required artifact, a retry policy, or a hard stop. Keep judgment in the skill, such as assessing ambiguity or choosing between acceptable trade-offs.
+
+---
+
+## Choose the Ownership Scope First
+
+Sharing a skill does not require co-maintaining one universal copy. Frédéric Camblor's article [Un Skill n'est pas une librairie](https://devx.writizzy.blog/p/un-skill-nest-pas-une-lib) provides a useful warning: appropriation, local context, and silent behavioral drift can cost more than copying the file and specializing it.
+
+Use one of four scopes:
+
+| Scope | Location or channel | Maintenance contract |
+|-------|---------------------|----------------------|
+| Personal | `~/.claude/skills/` | Optimized for one person's habits; no compatibility promise |
+| Project or team | `.claude/skills/` in Git | Shared conventions with a named owner and review path |
+| Tool or vendor | Plugin or maintained repository | Versioned support for the tool's users |
+| Marketplace or global | Registry or public repository | Discovery source by default; adopt only after review and local evaluation |
+
+For security, treat any downloaded skill as an executable dependency because it can contain tool permissions, scripts, and instructions. For ownership, treat it as situated context: record its scope, owner, assumptions, and retirement signal. These are complementary rules.
 
 ---
 
 ## Creating Your First Skill
 
-Skills are markdown files in `.claude/skills/`.
+Skills live in directories named `.claude/skills/{skill-name}/`. The required file is `SKILL.md`.
+
+### File Location
+
+```text
+my-project/
+└── .claude/
+    └── skills/
+        └── testing-standards/
+            └── SKILL.md
+```
 
 ### Basic Structure
 
 ```markdown
 ---
 name: testing-standards
-description: Our project's testing practices and conventions
-triggers: [test, testing, jest, spec]
-auto_invoke: false
-keywords: [jest, unit-test, integration-test, mocking]
-version: 1.0.0
+description: Apply this project's Jest and Testing Library conventions when creating, reviewing, or debugging tests.
+metadata:
+  version: 1.0.0
 ---
 
 # Testing Standards
 
-## Framework
-Jest with @testing-library/react
+## When to apply
 
-## File Organization
-- Tests live next to source code
-- Naming: `[Component].test.tsx`
-- Fixtures in `__fixtures__/`
-- Mocks in `__mocks__/`
+Use for unit tests, component tests, mocks, fixtures, or coverage changes.
+Do not use for end-to-end tests maintained by the QA repository.
 
-## Test Structure (AAA)
-1. **Arrange**: Set up test data
-2. **Act**: Call the function/component
-3. **Assert**: Check results
+## Test structure
 
-## Example
+1. Arrange the smallest realistic input.
+2. Act through the public interface.
+3. Assert behavior and user-visible effects.
 
-```typescript
-describe('validateEmail', () => {
-  it('should accept valid email addresses', () => {
-    // Arrange
-    const email = 'user@example.com';
-    
-    // Act
-    const result = validateEmail(email);
-    
-    // Assert
-    expect(result).toBe(true);
-  });
-});
+## Verification
+
+Run the changed test file, then the relevant package suite.
 ```
 
-## Coverage Requirements
-- Target: 80% minimum
-- Critical paths: 100%
-- Types of coverage: line, branch, function
-
-## Mocking Strategy
-- External APIs: use jest.mock()
-- Database: use test fixtures
-- Timers: use jest.useFakeTimers()
-
-## Running Tests
-```bash
-npm test                 # Run all tests
-npm test -- --coverage   # With coverage report
-npm test -- --watch      # Watch mode
-```
-```
-
-### File Location
-
-```
-my-project/
-└── .claude/
-    └── skills/
-        └── testing-standards.md
-```
+`name` and `description` are the core discovery fields. Custom metadata such as a version belongs under `metadata`. Fields such as `triggers`, `auto_invoke`, and `keywords` are not Claude Code skill frontmatter.
 
 ---
 
-## Skill Features
+## Skill Discovery and Invocation
 
-### Triggers
+### Write the Description as a Routing Rule
 
-Automatically invoke the skill when Claude sees certain keywords:
+Claude uses `description` to decide whether the skill is relevant. Include:
 
-```markdown
----
-triggers: [test, jest, spec, coverage, mock]
----
+- What the skill does
+- The situations where it should be used
+- Important anti-triggers when adjacent tasks belong elsewhere
+
+```yaml
+description: Review PostgreSQL schema and query changes for indexes, locking, and migration safety. Use for SQL migrations and slow-query investigations; do not use for application-level API design.
 ```
 
-If Claude sees "add tests to this function", it automatically reads the testing skill.
+### Control Who Can Invoke It
 
-### Auto-Invoke
+By default, both you and Claude can invoke a skill.
 
-```markdown
----
-auto_invoke: true
----
+```yaml
+# Manual only. Appropriate for deploy, commit, or message-sending workflows.
+disable-model-invocation: true
 ```
 
-When `true`, Claude loads the skill at session start (without you asking). Use for critical rules.
-
-### Keywords
-
-Help Claude's search find the skill:
-
-```markdown
----
-keywords: [testing, jest, unit-test, mocking, assertions]
----
+```yaml
+# Model only. Appropriate for background knowledge with no useful slash command.
+user-invocable: false
 ```
 
-### Version
+There is no `auto_invoke: true` session-start mode. In a regular session, Claude receives available skill descriptions and loads a skill body only when invoked. An invoked body remains in the conversation; tool grants from `allowed-tools` last only for the invoking turn.
 
-Track skill versions:
+### Keep Tool Grants Narrow
 
-```markdown
----
-version: 1.0.0
----
+`allowed-tools` pre-approves matching tools for the turn that invokes the skill. It does not remove other tools from Claude's toolset.
+
+```yaml
+allowed-tools: Read Grep Glob Bash(npm test *)
 ```
 
-Update when the skill changes significantly.
+Review this field before using a third-party skill. A broad Bash grant can materially change its risk.
+
+---
+
+## Progressive Disclosure
+
+Keep `SKILL.md` focused and move detailed material into supporting files:
+
+```text
+testing-standards/
+├── SKILL.md
+├── references/
+│   ├── mocking.md
+│   └── integration-tests.md
+└── scripts/
+    └── select-tests.sh
+```
+
+Link each supporting file from `SKILL.md` and say when to open or execute it. The official guidance recommends keeping `SKILL.md` under 500 lines.
 
 ---
 
 ## Common Skill Patterns
 
-### Pattern 1: Coding Standards
+### Pattern 1: Project Conventions
+
+Use a project skill when the advice depends on repository architecture, team decisions, or local tooling.
 
 ```markdown
 ---
 name: python-standards
-triggers: [python, flask, django]
+description: Apply this repository's Python typing, import, packaging, and pytest conventions when editing Python code.
 ---
 
-# Python Coding Standards
+# Python Standards
 
-## Style
-- PEP 8 compliance (max 100 chars)
-- Type hints on all functions
-- Docstrings in Google format
-
-## Testing
-- pytest for unit tests
-- 80% minimum coverage
-- Mock external dependencies
-
-## File Organization
-src/
-├── models/
-├── services/
-├── controllers/
-└── tests/
-
-## Imports
-```python
-# ✅ Good: specific imports
-from models import User
-from services.auth import authenticate
-
-# ❌ Bad: wildcard imports
-from models import *
-```
+- Use type hints on public functions.
+- Keep tests next to their package under `tests/`.
+- Follow the repository's configured formatter and linter.
+- Verify with the narrowest relevant pytest target first.
 ```
 
 ### Pattern 2: Domain Knowledge
@@ -234,102 +214,64 @@ from models import *
 ```markdown
 ---
 name: payment-processing
-description: Payment system rules and edge cases
-auto_invoke: true
+description: Apply this product's payment state machine, idempotency, and audit rules when changing checkout or refund flows.
+user-invocable: false
 ---
 
 # Payment Processing Rules
 
-## PCI Compliance
-- Never log card numbers
-- Use tokenization (Stripe)
-- Encrypt sensitive data
-- Audit all transactions
-
-## Common Issues
-1. Partial charges: Retry with exponential backoff
-2. Currency conversion: Always round to 2 decimals
-3. Timezone handling: Store all times in UTC
-
-## Edge Cases
-- Declined cards: Provide clear error message
-- Expired cards: Suggest updating payment method
-- 3D Secure: Handle verification flow
+- Never log card data or payment secrets.
+- Reuse the existing idempotency key at retry boundaries.
+- Treat provider callbacks as untrusted and potentially duplicated.
+- Verify state transitions against the canonical state machine.
 ```
 
-### Pattern 3: Process Documentation
+### Pattern 3: Manual Workflow
 
 ```markdown
 ---
-name: code-review-checklist
-triggers: [review, pull request, pr]
+name: release-check
+description: Prepare and verify a release candidate for this repository.
+disable-model-invocation: true
 ---
 
-# Code Review Checklist
+# Release Check
 
-## Before Requesting Review
-- [ ] Tests pass locally
-- [ ] No console.log statements
-- [ ] No secrets in code
-- [ ] Commit messages are clear
-
-## Security Checks
-- [ ] No SQL injection vulnerabilities
-- [ ] No XSS vulnerabilities
-- [ ] No exposed API keys
-- [ ] Input is validated
-
-## Performance
-- [ ] No N+1 queries
-- [ ] No infinite loops
-- [ ] Load times acceptable
-
-## Testing
-- [ ] Unit tests added
-- [ ] Integration tests updated
-- [ ] Coverage >80%
+1. Read the repository release instructions.
+2. Verify the version and working tree.
+3. Run the required checks.
+4. Report blockers without publishing.
 ```
+
+The model can adapt these steps. If publishing must never happen before a specific gate, enforce that gate in a script, hook, CI job, or workflow rather than relying on prose alone.
 
 ---
 
-## Bundling Skills
+## Bundling and Sharing Skills
 
-You can package multiple related skills together.
+Project skills can be committed with the repository:
 
-### Project Skill Bundle
-
-```
+```text
 my-project/
 └── .claude/
     └── skills/
-        ├── testing-standards.md
-        ├── api-design.md
-        ├── database-patterns.md
-        └── security-checklist.md
+        ├── testing-standards/
+        │   └── SKILL.md
+        ├── api-design/
+        │   └── SKILL.md
+        └── security-checklist/
+            └── SKILL.md
 ```
 
-In CLAUDE.md, reference them:
+Teammates receive the files through Git, but discovery does not prove correct activation or output. Record the owner and assumptions in each skill, then run representative cases in fresh sessions.
 
-```markdown
-## Available Skills
-Our custom skills are loaded automatically:
-- **testing-standards**: How we write tests
-- **api-design**: REST API conventions
-- **database-patterns**: Common queries and migrations
-- **security-checklist**: Security review process
-```
+Use public catalogs to discover patterns. Before adopting a third-party skill:
 
-### Distributing Skills
-
-To share skills with your team, version control them in git:
-
-```bash
-git add .claude/skills/
-git commit -m "Add testing and API design skills"
-git push
-```
-
-Teammates checkout the project and get the skills automatically.
+1. Read its full instructions, scripts, and tool grants.
+2. Decide whether to consume it unchanged, fork it, or extract only the useful pattern.
+3. State the local owner and support expectation.
+4. Compare representative prompts with and without the skill.
+5. Pin or record the reviewed version when updates could change behavior.
 
 ---
 
@@ -337,162 +279,145 @@ Teammates checkout the project and get the skills automatically.
 
 ### Scenario
 
-You're building an e-commerce site. You want Claude to understand your product data model.
+You are building an e-commerce site. Claude needs the project's product model when changing catalog and inventory code.
 
-### Step 1: Create the Skill
+### Step 1: Create the Directory
 
 ```bash
-cat > .claude/skills/product-data-model.md << 'EOF'
+mkdir -p .claude/skills/product-data-model
+```
+
+Save the following as `.claude/skills/product-data-model/SKILL.md`:
+
+```markdown
 ---
 name: product-data-model
-description: E-commerce product data structure and rules
-triggers: [product, catalog, sku, price, inventory]
-auto_invoke: false
-version: 1.0.0
+description: Apply the product, SKU, price, and inventory model when changing catalog queries or stock behavior in this repository.
+metadata:
+  owner: commerce-team
+  version: 1.0.0
 ---
 
 # Product Data Model
 
-## Core Entities
+## When to apply
 
-### Product
-```
-{
-  id: UUID,
-  name: string,
-  slug: string,  // URL-friendly
-  description: string,
-  category_id: UUID,
-  created_at: timestamp,
-  updated_at: timestamp
-}
-```
+Use for catalog, SKU, pricing, and inventory changes.
 
-### SKU (Stock Keeping Unit)
-```
-{
-  id: UUID,
-  product_id: UUID,
-  sku: string,  // e.g., "BLUE-XL-001"
-  price: decimal,  // Always 2 decimals
-  cost: decimal,
-  inventory: integer,
-  weight: float,  // In kg
-}
+## Core rules
+
+- A Product owns one or more SKUs.
+- Price and inventory belong to the SKU, not Product.
+- Inventory cannot become negative.
+- Store monetary values using the repository's decimal type.
+
+## Verification
+
+- Check the schema and existing migrations before proposing SQL.
+- Exercise out-of-stock and concurrent-order cases.
 ```
 
-### Inventory Rules
-- Decrement on order placement
-- Increment on return
-- Low stock alert: <5 units
-- Reorder level: Set per product
+### Step 2: Test Discovery and Output Separately
 
-## Common Queries
+Open fresh sessions for each case:
 
-### Get product with all SKUs
-```sql
-SELECT p.*, s.* 
-FROM products p 
-JOIN skus s ON p.id = s.product_id 
-WHERE p.slug = ?
-```
+| Prompt | Expected routing |
+|--------|------------------|
+| "Add a query for products with fewer than five units" | Skill should invoke |
+| "Change the marketing page headline" | Skill should not invoke |
 
-### Check inventory
-```sql
-SELECT sum(inventory) FROM skus WHERE product_id = ?
-```
-
-## Edge Cases
-1. Out of stock: Return 404 or "unavailable"
-2. Variant selection: Show price per SKU
-3. Price changes: Update in SKU, not Product
-EOF
-```
-
-### Step 2: Reference in CLAUDE.md
-
-```markdown
-## Skills
-- **product-data-model**: Understanding our product structure
-```
-
-### Step 3: Use It
-
-In a session:
-
-```
-Add a query to find all products with low inventory (< 5 units)
-```
-
-Claude will:
-1. Read the product-data-model skill
-2. Understand your schema
-3. Write the correct SQL
+For the positive case, inspect the result too: the skill should route correctly and the proposed change should follow the actual repository schema. Triggering alone is not success.
 
 ---
 
-## Best Practices
+## Evaluation and Iteration
 
-### DO
+Test two independent properties:
 
-✅ Create skills for things you repeat
+1. **Trigger correctness**: does Claude invoke the skill on relevant prompts and avoid it on irrelevant prompts?
+2. **Output quality**: when invoked, does the result satisfy explicit assertions?
 
-✅ Keep skills focused (one domain per skill)
+Run each prompt in a fresh session with the skill enabled and disabled. The no-skill run is the baseline. Record the model, Claude Code version, prompt set, number of runs, assertions, pass counts, token use, and variance. A structural validator proves format, not behavioral quality.
 
-✅ Version control your skills
+The official `skill-creator` plugin can store cases in `evals/evals.json`, run isolated comparisons, produce grading evidence, benchmark with-skill against without-skill, compare versions blindly, and tune descriptions. LLM grading and self-critique remain evidence generators, not independent proof. Review important outputs with deterministic checks or a qualified human.
 
-✅ Include examples in skills
-
-✅ Update skills when requirements change
-
-✅ Share skills with your team
-
-### DON'T
-
-❌ Create skills for one-time knowledge (use CLAUDE.md instead)
-
-❌ Make skills too long (>500 lines = break into multiple skills)
-
-❌ Use skills for temporary instructions (use CLAUDE.md or AGENT.md)
-
-❌ Assume skills are comprehensive documentation
+Choose acceptance thresholds from the risk and failure cost of the specific skill. A universal pass-rate target hides the denominator, variance, and severity of individual failures.
 
 ---
 
 ## Skill Lifecycle
 
-1. **Create**: Identify repeated pattern or domain knowledge
-2. **Document**: Write the skill with examples
-3. **Test**: Use it in a session and verify Claude follows it
-4. **Refine**: Update based on feedback
-5. **Share**: Commit to git for team access
-6. **Maintain**: Update as your practices evolve
+1. **Scope**: choose personal, project/team, tool/vendor, or marketplace/global ownership.
+2. **Baseline**: collect representative prompts before adding the skill.
+3. **Create**: write the smallest useful `SKILL.md` and supporting files.
+4. **Evaluate**: test routing and output quality in fresh sessions.
+5. **Observe**: capture real misses, guesses, and wrong-context activations.
+6. **Review**: propose changes, then re-run the baseline before accepting them.
+7. **Retire**: turn off or remove skills that are unused, stale, redundant, or harmful.
+
+Run `/skill-doctor` in the terminal to inspect context cost and unused skills. Its report excludes bundled and enterprise skills, is unavailable through Remote Control, and requires feature-flag fetching. Treat an unused flag as a review signal, not an automatic deletion order.
+
+Do not archive a retired skill under `.claude/skills/`, because nested discovery can keep it visible. Preserve it in Git history or move it outside discovered skill directories with a dated retirement note.
+
+---
+
+## Best Practices
+
+### Do
+
+- Keep one clear responsibility per skill.
+- Write the description as a routing rule.
+- Record scope, owner, assumptions, and retirement criteria.
+- Keep the main file short and link supporting material.
+- Review third-party instructions, scripts, and permissions before use.
+- Compare with and without the skill in fresh sessions.
+- Put guaranteed gates in code, hooks, CI, or workflows.
+
+### Don't
+
+- Put temporary or one-time instructions in `CLAUDE.md`; use the current prompt.
+- Treat a marketplace install as a maintenance contract.
+- Infer output quality from successful invocation.
+- Accept self-critique as validation without external checks.
+- Keep dormant skills in discovered directories.
+- Add generic branches that dilute the project's common case.
 
 ---
 
 ## Validation: You're Ready If...
 
-✓ You've created at least one custom skill
+✓ Your skill is stored at `.claude/skills/{name}/SKILL.md`
 
-✓ You understand triggers and auto-invoke
+✓ Its `description` covers triggers and important anti-triggers
 
-✓ You know the difference between skills and agents
+✓ You can explain its ownership scope and maintenance contract
 
-✓ You can explain when to use a skill vs CLAUDE.md
+✓ You tested relevant and irrelevant prompts in fresh sessions
 
-✓ Your skill has been tested in a real session
+✓ You compared output with and without the skill
+
+✓ You know which guarantees belong in a hook, script, CI job, or workflow
+
+✓ You defined how to review and retire the skill
+
+---
+
+## Sources
+
+- [Claude Code: Extend Claude with skills](https://code.claude.com/docs/en/skills)
+- [Agent Skills open standard](https://agentskills.io/)
+- [Frédéric Camblor: Un Skill n'est pas une librairie](https://devx.writizzy.blog/p/un-skill-nest-pas-une-lib)
 
 ---
 
 ## What's Next?
 
 **Module 06: Hooks & Events** covers:
+
 - Automating responses to system events
 - Pre-commit validation
 - Post-action notifications
-- Building safe automation
-
-This teaches you how to automate repetitive tasks without manual intervention.
+- Building enforceable automation
 
 ---
 

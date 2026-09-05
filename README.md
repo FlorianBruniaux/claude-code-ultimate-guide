@@ -18,7 +18,7 @@
 
 <p align="center">
   <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Guide-v3.43.0-brightgreen?style=flat-square" alt="Guide version 3.43.0" /></a>
-  <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Updated-Sep_1,_2026_·_v3.43.0-brightgreen?style=flat-square" alt="Updated Sep 1, 2026, guide version 3.43.0" /></a>
+  <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Updated-Sep_5,_2026_·_v3.43.0-brightgreen?style=flat-square" alt="Updated Sep 5, 2026, guide version 3.43.0" /></a>
   <a href="https://creativecommons.org/licenses/by-sa/4.0/"><img src="https://img.shields.io/badge/Guide-CC_BY--SA_4.0-blue?style=flat-square" alt="Guide license: CC BY-SA 4.0" /></a>
   <a href="https://cc.bruniaux.com/mcp/"><img src="https://img.shields.io/badge/MCP-npx_ready-blueviolet?style=flat-square" alt="MCP server available through npx" /></a>
 </p>
@@ -257,8 +257,8 @@ The economics pages separate observed costs from estimates and scenarios. Recalc
 Install the guide as a stdio MCP server and query it from Claude Code, Codex, Cursor, VS Code, or another MCP client.
 
 ```bash
-claude mcp add --scope user claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.1
-codex mcp add claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.1
+claude mcp add --scope user claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.3
+codex mcp add claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.3
 ```
 
 Project-scoped Claude Code configuration belongs in `.mcp.json`:
@@ -269,7 +269,7 @@ Project-scoped Claude Code configuration belongs in `.mcp.json`:
     "claude-code-guide": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.1"]
+      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.3"]
     }
   }
 }
@@ -414,4 +414,4 @@ Watch [GitHub Releases](https://github.com/FlorianBruniaux/claude-code-ultimate-
 
 ---
 
-*Version 3.43.0 | Updated daily · Sep 1, 2026*
+*Version 3.43.0 | Updated daily · Sep 5, 2026*

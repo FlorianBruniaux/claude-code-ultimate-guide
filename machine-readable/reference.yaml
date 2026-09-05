@@ -989,17 +989,17 @@ deep_dive:
   opus_4_6_effort_parameter: 14824
   opus_4_6_pricing: 2226
   opus_4_6_api_breaking_changes: "guide/ultimate-guide.md#api-breaking-changes-opus-46" # was line 14920
-  opus_4_6_assistant_prefill_removed: 14816  # anchor: api-breaking-changes-opus-46
+  opus_4_6_assistant_prefill_removed: 14828  # anchor: api-breaking-changes-opus-46
   # Summarize from Here (v2.1.32+) - Added 2026-02-09
   summarize_from_here: 1927  # anchor: context-recovery-strategies | Context Recovery Strategies section
   # Agent Teams Hook Events (v2.1.32+) - Added 2026-02-09
-  hook_teammate_idle: 10129  # anchor: event-types
+  hook_teammate_idle: 10141  # anchor: event-types
   hook_task_completed: "guide/ultimate-guide.md#event-types"  # was bare int 23701, inside a code fence (comment/example text happened to share the key's words)
   # Agent Memory Field (v2.1.32+) - Added 2026-02-09
   agent_memory_frontmatter: 6892  # Agent Template section (memory field in frontmatter)
   # Xcode Integration (Feb 2026) - Added 2026-02-09
   xcode_integration: "guide/ultimate-guide.md#xcode-integration-feb-2026" # was line 12556
-  claude_agent_sdk: 15799  # anchor: xcode-integration-feb-2026
+  claude_agent_sdk: 15811  # anchor: xcode-integration-feb-2026
   # Task Management System (v2.1.16+) - Added 2026-01-26
   task_management_system: "guide/ultimate-guide.md#task-management-system" # was line 4808
   task_management_comparison: "guide/ultimate-guide.md#task-management-system" # was line 4808
@@ -1042,8 +1042,15 @@ deep_dive:
   agent_template: "guide/ultimate-guide.md#43-agent-template" # was line 6932
   agent_examples: "guide/ultimate-guide.md#46-agent-examples" # was line 3056
   skills: "guide/ultimate-guide.md#5-skills"  # was bare int 6026, inside a code fence (comment/example text happened to share the key's words)
-  skills_taxonomy: 7704
-  skills_evals: 7949
+  skills_taxonomy: "guide/ultimate-guide.md#50-two-kinds-of-skills"
+  skills_reuse_governance: "guide/ultimate-guide.md#ownership-and-reuse-governance"
+  skills_reuse_spheres: "personal | project-or-team | tool-or-vendor | marketplace-or-global"
+  skills_security_boundary: "Treat downloaded skills as executable code: review instructions, scripts, dependencies, and tool grants"
+  skills_ownership_boundary: "Treat skills as situated context: record scope, owner, assumptions, baseline, and retirement signal"
+  skills_sharing_outcomes: "consume unchanged | fork and specialize | extract a pattern | reject"
+  skills_evals: "guide/ultimate-guide.md#5y-skill-evals"
+  skills_evidence_boundary: "Format validation proves structure only; test trigger correctness and output quality separately in fresh sessions with a no-skill baseline"
+  skills_prompt_vs_harness: "Keep judgment in skills; put guaranteed ordering, preconditions, retries, stop rules, and artifact checks in code or the harness"
   skill_template: "guide/ultimate-guide.md#53-skill-template" # was line 8095
   skill_examples: "guide/ultimate-guide.md#54-skill-examples" # was line 3555
   design_patterns_skill: "guide/ultimate-guide.md#example-3-design-patterns-analyzer-skill" # was line 8335
@@ -1057,14 +1064,14 @@ deep_dive:
   claudeception: "https://github.com/blader/Claudeception"
   claudeception_guide: 8819
   # Skill Lifecycle: Automatic improvement (added 2026-01-24)
-  skill_lifecycle: 7999
+  skill_lifecycle: "guide/ultimate-guide.md#5x-skill-lifecycle--retirement"
   claude_reflect_system: "guide/ultimate-guide.md#automatic-skill-improvement-claude-reflect-system" # was line 8863
   claude_reflect_system_repo: "https://github.com/haddock-development/claude-reflect-system"
   claude_reflect_system_agent_skills: "https://agent-skills.md/skills/haddock-development/claude-reflect-system/reflect"
-  skill_improvement_pattern: 8862
-  skill_improvement_how_it_works: 8870
+  skill_improvement_pattern: "Session reflection generates candidate edits; independent evals or deterministic checks decide whether to accept them"
+  skill_improvement_how_it_works: "guide/ultimate-guide.md#automatic-skill-improvement-claude-reflect-system"
   skill_improvement_safety: "guide/ultimate-guide.md#automatic-skill-improvement-claude-reflect-system" # was line 8863
-  skill_improvement_security_warnings: 8938
+  skill_improvement_security_warnings: "guide/ultimate-guide.md#automatic-skill-improvement-claude-reflect-system"
   skill_improvement_comparison: "guide/ultimate-guide.md#automatic-skill-improvement-claude-reflect-system" # was line 8863
   skill_improvement_workflow: "guide/ultimate-guide.md#automatic-skill-improvement-claude-reflect-system" # was line 8863
   # Design Intelligence Skill (added 2026-02-23)
@@ -1088,7 +1095,7 @@ deep_dive:
   anthropics_plugins_official_repo: "https://github.com/anthropics/claude-plugins-official"
   anthropics_plugins_official_installs: "3.1K"
   anthropics_plugins_official_skills: "claude-md-improver, claude-automation-recommender, playground, plugin dev meta-skills"
-  anthropics_plugins_official_install: "npx add-skill anthropics/claude-plugins-official"
+  anthropics_plugins_official_install: "/plugin marketplace add anthropics/claude-plugins-official; install a named plugin from that marketplace"
   agentskills_threat_model: "https://safedep.io/agent-skills-threat-model"
   agentskills_threat_model_finding: "8-14% of public skills have vulnerabilities (prompt injection, data exfiltration, privilege escalation)"
   agentskills_blog: "https://anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills"
@@ -1107,17 +1114,12 @@ deep_dive:
   skills_marketplace: "guide/ultimate-guide.md#skills-marketplace-skillssh" # was line 9117
   skills_marketplace_url: "https://skills.sh/"
   skills_marketplace_github: "https://github.com/vercel-labs/agent-skills"
-  skills_marketplace_install: "npx add-skill <owner/repo>"
-  skills_marketplace_top_skills:
-    - "vercel-react-best-practices: 35K+ installs"
-    - "web-design-guidelines: 26.6K installs"
-    - "supabase-postgres-best-practices: 1K+ installs"
-    - "better-auth-best-practices: 2K+ installs"
-    - "test-driven-development: 721 installs"
+  skills_marketplace_install: "npx skills add <owner/repo>"
+  skills_marketplace_top_skills: "Live leaderboard only; install counts change continuously and do not establish quality, compatibility, or maintenance"
   skills_marketplace_status: "Community (Vercel Labs), launched Jan 21, 2026"
   skills_marketplace_changelog: "https://vercel.com/changelog/introducing-skills-the-open-agent-skills-ecosystem"
   # Plugin System & Community Marketplaces (updated 2026-03-06)
-  plugins_system: 13899
+  plugins_system: 13911
   plugins_commands: 13913
   plugins_marketplace: 14043
   plugins_community_marketplaces: 14345
@@ -1288,12 +1290,12 @@ deep_dive:
   mcp_memory_stack_patterns: "guide/ultimate-guide.md#mcp-memory-stack-complementarity-patterns" # was line 13011
   mcp_config: "guide/ultimate-guide.md#mcp-configuration-location"  # was bare int 794, inside a code fence (comment/example text happened to share the key's words)
   mcp_security: "guide/ultimate-guide.md#86-mcp-security" # was line 14568
-  cicd: 14923  # anchor: 93-cicd-integration
+  cicd: 14935  # anchor: 93-cicd-integration
   ide_integration: "guide/ultimate-guide.md#94-ide-integration" # was line 15881
   feedback_loops: "guide/ultimate-guide.md#95-tight-feedback-loops" # was line 15966
   batch_operations: "guide/ultimate-guide.md#99-batch-operations-pattern" # was line 16671
   pitfalls: 16836
-  git_best_practices: 17199
+  git_best_practices: 17211
   cost_optimization: 2220
   session_teleportation: "guide/ultimate-guide.md#916-session-teleportation" # was line 19161
   remote_control: 23219
@@ -1368,7 +1370,7 @@ deep_dive:
   headless_pm_framework: 20107
   multi_instance_implementation: "guide/ultimate-guide.md#implementation-guide-progressive-scaling"  # was 19268, drifted
   multi_instance_monitoring: "guide/ultimate-guide.md#monitoring--observability"  # was 19268, drifted
-  multi_instance_decision_matrix: 20229  # anchor: decision-matrix | ambiguous slug (2x in guide), stored line manually verified against the right one
+  multi_instance_decision_matrix: "guide/ultimate-guide.md:20241"
   # External orchestration systems
   external_orchestrators:
     gas_town:
@@ -1410,7 +1412,7 @@ deep_dive:
       published: "2026-01-21"
       guide_section: "README.md:338"
   # Section 9.18 - Codebase Design for Agent Productivity
-  codebase_design_agents: 20275
+  codebase_design_agents: 20287
   codebase_design_source: "https://marmelab.com/blog/2026/01/21/agent-experience.html"
   codebase_design_author: "François Zaninotto (Marmelab)"
   codebase_design_llms_txt: 20864  # llms.txt standard for AI-optimized documentation
@@ -1558,7 +1560,7 @@ deep_dive:
   daily_workflow: 25233
   # AI Ecosystem (Section 11, ~line 10525)
   ai_ecosystem: 13308
-  ai_ecosystem_complementarity: 25454
+  ai_ecosystem_complementarity: 25467
   ai_ecosystem_tool_matrix: 25540
   ai_ecosystem_workflows: 25675
   ai_ecosystem_integration: 25803
@@ -1658,7 +1660,7 @@ deep_dive:
   # Appendix
   appendix_a_file_locations: "guide/ultimate-guide.md#appendix-a-file-locations-reference" # was line 26179
   appendix_b_faq: "guide/ultimate-guide.md#appendix-b-faq" # was line 26357
-  faq_clawdbot_vs_claudecode: 26313
+  faq_clawdbot_vs_claudecode: 26326
   faq_product_managers: "guide/ultimate-guide.md#can-product-managers-use-claude-code" # was line 26428
   appendix_c_resource_evaluation: "guide/ultimate-guide.md#appendix-c-resource-evaluation-process" # was line 26493
   appendix_d_myths_vs_reality: "guide/ultimate-guide.md#appendix-d-myths-vs-reality" # was line 26536
@@ -1843,7 +1845,7 @@ deep_dive:
   learning_path_core_loop: "guide/learning-path/02-core-loop.md"            # 45 min, how the agent loop actually works
   learning_path_memory: "guide/learning-path/03-memory.md"                  # CLAUDE.md levels, auto memory, cross-session tools
   learning_path_agents: "guide/learning-path/04-agents.md"                  # subagents, frontmatter, delegation
-  learning_path_skills: "guide/learning-path/05-skills.md"                  # skill authoring, triggers, progressive disclosure
+  learning_path_skills: "guide/learning-path/05-skills.md"                  # current frontmatter, ownership, progressive disclosure, evals, retirement
   learning_path_hooks: "guide/learning-path/06-hooks.md"                    # hook events, blocking vs non-blocking
   learning_path_advanced: "guide/learning-path/07-advanced.md"              # MCP, orchestration, production patterns
   # ── Hooks Events Reference (guide/core/hooks-events-reference.md) — all 30 events
@@ -1862,6 +1864,7 @@ deep_dive:
   dynamic_workflows_when: "guide/workflows/dynamic-workflows.md#1-when-to-use-workflows-vs-agent-tool-vs-skills"
   dynamic_workflows_primitives: "guide/workflows/dynamic-workflows.md#2-primitive-reference"   # agent, parallel, pipeline, phase
   dynamic_workflows_pipeline_vs_parallel: "guide/workflows/dynamic-workflows.md#4-pipeline-vs-parallel-when-and-why"
+  dynamic_workflows_judgment_boundary: "Keep interpretation and trade-off judgment in prompts or skills; put guaranteed ordering, preconditions, retries, stop rules, and artifact checks in the harness"
   dynamic_workflows_patterns: "guide/workflows/dynamic-workflows.md#6-common-patterns"
   dynamic_workflows_antipatterns: "guide/workflows/dynamic-workflows.md#8-when-not-to-use-workflows"
   dynamic_workflows_cost: "guide/workflows/dynamic-workflows.md#9-cost-and-performance-notes"
@@ -2056,6 +2059,7 @@ commands:
 
   # diagnostics and support
   /doctor: "full setup checkup: install health, PATH, settings parse, unused skills/MCP vs context cost, slow hooks, CLAUDE.md bloat, version drift; alias /checkup (v2.1.205+)"
+  /skill-doctor: "terminal-only report of visible skill context cost and never-invoked skills; excludes bundled and enterprise skills, requires feature-flag fetching, unavailable through Remote Control (v2.1.252+)"
   /debug: "enable debug logging for the session and troubleshoot from the debug log"
   /heapdump: "heap snapshot + memory breakdown to ~/Desktop; contains full conversation AND credentials, never share"
   /usage: "session cost, plan limits, activity stats; paid plans break down by skill/subagent/plugin/MCP (v2.1.118)"
@@ -2388,7 +2392,7 @@ skill_frontmatter_fields:
   disable-model-invocation: "true = user-invocable only (replaces .claude/commands/ pattern)"
   context: "fork = run skill in isolated subagent; fork ignored when called via Skill tool"
   hooks: "lifecycle hooks active during this skill's session (same format as settings.json hooks)"
-skill_frontmatter_guide_line: 7773  # Frontmatter table in §5.2
+skill_frontmatter_guide_line: 7797  # Frontmatter table in §5.2
 
 # ════════════════════════════════════════════════════════════════
 # HOOK EVENTS - see deep_dive.hooks
@@ -2435,8 +2439,8 @@ hook_events:
   # Total: 30 events (updated 2026-06-03, source: official hooks reference)
 
 # Hook Execution Model (v2.1.0+)
-hooks_execution_model: 10242  # Section in ultimate-guide.md
-hooks_session_scoped: 10407  # Session-scoped hooks (ephemeral, no settings.json, skills use this)
+hooks_execution_model: 10254  # Section in ultimate-guide.md
+hooks_session_scoped: 10419  # Session-scoped hooks (ephemeral, no settings.json, skills use this)
 hooks_async_support: "v2.1.0+ - add 'async: true' for non-blocking execution; 'asyncRewake: true' for background with exit-2 wakeup"
 hooks_async_use_cases: "logging, notifications, formatting, metrics (no feedback needed)"
 hooks_sync_use_cases: "validation, type checking, security (feedback required)"
@@ -3353,17 +3357,18 @@ section_maps:
     - "goal"
     - "what-youll-learn"
     - "what-are-skills"
+    - "choose-the-ownership-scope-first"
     - "creating-your-first-skill"
-    - "coverage-requirements"
-    - "mocking-strategy"
-    - "running-tests"
+    - "skill-discovery-and-invocation"
+    - "progressive-disclosure"
     - "common-skill-patterns"
-    - "bundling-skills"
+    - "bundling-and-sharing-skills"
     - "exercise-create-a-domain-skill"
-    - "edge-cases"
-    - "best-practices"
+    - "evaluation-and-iteration"
     - "skill-lifecycle"
+    - "best-practices"
     - "validation-youre-ready-if"
+    - "sources"
     - "whats-next"
   "guide/learning-path/06-hooks.md":
     - "goal"

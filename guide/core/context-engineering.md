@@ -1800,7 +1800,9 @@ Context debt accumulates through addition. A rule written for a sprint six month
 
 Three metrics drive ejection candidates:
 
-**Activation threshold**: rules that have not fired in the past N months are likely dead weight. The signal: if the pattern they prevent hasn't appeared in the friction log, either the rule is working perfectly or nobody writes code that triggers it. Both cases suggest dormancy. Default: 3 months for skills, 6 months for rules.
+**Activation threshold**: rules or skills that have not fired during a representative review window are candidates, not proven dead weight. Absence can mean dormancy, successful prevention, missing telemetry, or a rare but critical use case. Define the window from your own task frequency and risk profile rather than applying a universal three- or six-month cutoff.
+
+For Claude Code skills, run `/skill-doctor` in the terminal to inspect visible skill context cost and never-invoked skills. The report requires v2.1.252 or later, excludes bundled and enterprise skills, depends on feature-flag fetching, and is unavailable through Remote Control. Combine it with session evidence and the skill's risk before changing visibility.
 
 **ROI tracking**: skills where the friction they produce (from overly strict enforcement, wrong-context triggers) exceeds the friction they prevent. The signal: the skill appears in `active_skills` fields of friction events more often than it appears in "resolved" events. Negative ROI over 4+ weeks is an ejection candidate.
 
@@ -1808,7 +1810,7 @@ Three metrics drive ejection candidates:
 
 ### Ejection vs. Archive
 
-Ejection does not mean deletion. The Archive Pattern (Section 8) established the institutional memory reason for keeping retired rules with a retirement note. Ejection is the *automated detection* of what should be archived. The Curator flags candidates; a human makes the final call and moves the rule to `CLAUDE-archive.md` with a date and reason.
+Ejection does not mean deletion. The Archive Pattern (Section 8) established the institutional memory reason for keeping retired rules with a retirement note. Ejection is candidate detection, not an automatic decision. The Curator flags candidates; a human makes the final call. Move a retired rule to `CLAUDE-archive.md` with a date and reason. Preserve a retired skill in Git history or outside discovered skill directories; placing it under `.claude/skills/archive/` can keep it visible through nested discovery.
 
 No commercial observability tool (Braintrust, Langfuse, Helicone, LangSmith) implements this pattern. They track what happened; they do not track what your configuration contains nor suggest removing the parts of it that are causing harm. The ejection mechanism is the discipline that commercial tools skip because it requires knowing your config schema, not just your prompt history.
 

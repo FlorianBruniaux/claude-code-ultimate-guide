@@ -95,8 +95,8 @@ update_readme_date() {
     # Update badge date pattern: Updated-XXX-brightgreen
     sed -i '' "s|Updated-[^-]*-brightgreen|Updated-${badge_date}_·_v${VERSION}-brightgreen|g" "$file"
 
-    # Update footer date pattern: Updated daily · DATE (preserve space before |)
-    sed -i '' "s|Updated daily · [^|]*|Updated daily · ${current_date} |g" "$file"
+    # Update footer date pattern and preserve the closing Markdown asterisk.
+    sed -i '' "s|Updated daily · [^*]*|Updated daily · ${current_date}|g" "$file"
 
     echo "✅ $file: date updated (→ $current_date)"
   fi

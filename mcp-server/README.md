@@ -12,7 +12,7 @@ Search the Claude Code Ultimate Guide, open exact source sections, inspect relea
 Install for the current user:
 
 ```bash
-claude mcp add --scope user claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.1
+claude mcp add --scope user claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.3
 ```
 
 For a project-scoped configuration, add this to `.mcp.json` at the repository root:
@@ -23,7 +23,7 @@ For a project-scoped configuration, add this to `.mcp.json` at the repository ro
     "claude-code-guide": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.1"]
+      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.3"]
     }
   }
 }
@@ -32,7 +32,7 @@ For a project-scoped configuration, add this to `.mcp.json` at the repository ro
 ### Codex
 
 ```bash
-codex mcp add claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.1
+codex mcp add claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.3
 ```
 
 ### Cursor
@@ -45,7 +45,7 @@ Add this server entry to `.cursor/mcp.json`:
     "claude-code-guide": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.1"]
+      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.3"]
     }
   }
 }
@@ -61,7 +61,7 @@ Add this to `.vscode/mcp.json`:
     "claude-code-guide": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.1"]
+      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.3"]
     }
   }
 }
@@ -75,7 +75,7 @@ Add this to `.vscode/mcp.json`:
 
 ## Generated capabilities
 
-This section is rendered from `machine-readable/mcp-product.json` for package 1.3.1 and guide 3.43.0.
+This section is rendered from `machine-readable/mcp-product.json` for package 1.3.3 and guide 3.43.0.
 
 | Capability | Count | Names |
 | --- | ---: | --- |
@@ -139,7 +139,7 @@ The repository contains these command files. They are not installed by the npm p
 
 The package bundles the reference index, release history, guide navigation, Agent Harness Map, and translation metadata. Initialization and list operations use bundled content and do not require the network.
 
-`read_section`, `get_example`, `get_cheatsheet`, `get_changelog`, `get_digest`, and threat lookups can fetch files from GitHub when content is not available locally. Successful responses are written to `~/.cache/claude-code-guide/1.3.1/` for 24 hours; stale cached content is used when the network is unavailable. With `GUIDE_ROOT` set to a local guide checkout, these tools read that checkout instead.
+`read_section`, `get_example`, `get_cheatsheet`, `get_changelog`, `get_digest`, and threat lookups can fetch files from GitHub when content is not available locally. Successful responses are written to `~/.cache/claude-code-guide/1.3.3/` for 24 hours; stale cached content is used when the network is unavailable. With `GUIDE_ROOT` set to a local guide checkout, these tools read that checkout instead.
 
 `init_official_docs` and `refresh_official_docs` fetch Anthropic's official documentation and write a separate local snapshot under `~/.cache/claude-code-guide/`. `diff_official_docs` and `search_official_docs` read those snapshots.
 
@@ -159,7 +159,7 @@ The server has no first-party telemetry. MCP protocol messages use standard inpu
 Verify the package binary and JSON-RPC surface with the MCP Inspector:
 
 ```bash
-npx -y @modelcontextprotocol/inspector npx -y claude-code-ultimate-guide-mcp@1.3.1
+npx -y @modelcontextprotocol/inspector npx -y claude-code-ultimate-guide-mcp@1.3.3
 ```
 
 For local development:

@@ -227,14 +227,15 @@ flowchart TD
     B -->|No| D{Specific to\ncertain files\nor subsystems?}
     D -->|Yes| E([Path-scoped module<br/>e.g. src/api/CLAUDE-api.md])
 
-    D -->|No| F{Procedural<br/>step-by-step\nworkflow?}
-    F -->|Yes: how to do something| G([Skill file<br/>.claude/skills/task-name.md<br/>Loaded on demand, not always-on])
-
-    F -->|No: constraint or standard| H{Applies to<br/>whole project?}
+    D -->|No| F{Requires guaranteed<br/>ordering, retries,<br/>or a hard stop?}
+    F -->|Yes| G([Hook, script, CI job,<br/>or dynamic workflow])
+    F -->|No| K{Reusable procedure,<br/>reference, or judgment?}
+    K -->|Yes| L([Skill directory<br/>.claude/skills/task-name/SKILL.md<br/>Body loaded when invoked])
+    K -->|No: constraint or standard| H{Applies to<br/>whole project?}
     H -->|Yes| I([Project CLAUDE.md root<br/>./CLAUDE.md])
     H -->|No: one task only| J([Session inline instruction<br/>Tell Claude directly this session])
 
-    RULE["Rule of thumb:<br/>If you write it more than once<br/>it belongs in a permanent layer"] -.-> J
+    RULE["Rule of thumb:<br/>Repeated and stable content<br/>is a candidate for a durable layer"] -.-> J
 
     style A fill:#F5E6D3,color:#333
     style B fill:#E87E2F,color:#fff

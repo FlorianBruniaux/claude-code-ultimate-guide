@@ -36,15 +36,15 @@ This page documents one Claude Code implementation surface. [Loop & Graph Engine
 
 ## 1. When to use workflows (vs Agent tool vs Skills)
 
-Three tools in Claude Code can spawn subagents: the Agent tool, Skills, and dynamic workflows. Picking the wrong one adds overhead without benefit, so the choice matters.
+Claude Code offers three related surfaces for delegation and reusable procedures: the Agent tool, Skills, and dynamic workflows. Picking the wrong one adds overhead or leaves an intended guarantee unenforced.
 
 **Use the Agent tool directly** when the task is a single subagent doing one thing. The Agent tool is the building block. Wrapping a single `agent()` call in a workflow file adds a round-trip and a script to maintain for no gain.
 
-**Use a Skill** when the procedure is reusable across projects and Claude should choose the steps dynamically based on context. Skills are prompt-driven and load into the conversation. They do not provide parallelism, resume, or structured handoffs between stages.
+**Use a Skill** when knowledge or a procedure is reusable inside its declared ownership scope and Claude should adapt its judgment to the context. Skills are prompt-driven and load into the conversation. They do not guarantee ordering, retries, required artifacts, resume, or structured handoffs between stages.
 
-**Use a dynamic workflow** when three or more of these conditions hold: the task has multiple stages that feed into each other, some stages can run in parallel, the job is long enough that resume-on-interruption matters, you want reproducible output (the same inputs always produce the same orchestration path), or you need structured JSON schemas to reliably pass data between stages.
+**Use a dynamic workflow** when three or more of these conditions hold: the task has multiple stages that feed into each other, some stages can run in parallel, the job is long enough that resume-on-interruption matters, you need a reproducible orchestration path, or you need structured JSON schemas to pass data between stages. A deterministic path does not make model output deterministic.
 
-The official guidance distills to: single subagent, one task, use the Agent tool; reusable procedure where Claude picks steps, use a Skill; multi-stage, parallelizable, reproducible, or long-running, use a Workflow.
+The decision boundary is: keep interpretation, ambiguity, and trade-off judgment in prompts or skills. Put required ordering, preconditions, retries, stop rules, and artifact checks in the harness. Numbered steps alone do not require code; a guarantee does.
 
 | Criterion | Agent tool | Skill | Dynamic Workflow |
 |-----------|-----------|-------|-----------------|
@@ -53,7 +53,7 @@ The official guidance distills to: single subagent, one task, use the Agent tool
 | Structured data handoff | Manual | Manual | Built-in (schema validation) |
 | Orchestrator token cost | Moderate | Moderate | Zero |
 | Setup overhead | None | Low | One JS file |
-| Reusable across projects | No | Yes | Via workflow() nesting |
+| Reuse boundary | One call | Declared personal, project, tool, or public scope | Via `workflow()` nesting |
 
 ---
 

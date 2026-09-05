@@ -190,7 +190,7 @@ Before adding any MCP server, complete this checklist:
 
 ### 1.2 Agent Skills Supply Chain Risks
 
-Third-party Agent Skills (installed via `npx add-skill` or plugin marketplaces) introduce supply chain risks similar to npm packages.
+Third-party Agent Skills (installed via `npx skills add` or plugin marketplaces) can contain instructions, scripts, dependencies, and tool grants. Treat the reviewed version as executable code even when the skill looks like documentation. A marketplace rating is one input, not a substitute for source review and local permission boundaries.
 
 For the current official distinction between marketplace distribution and CLI recommendation hints, see [Plugin Distribution and Recommendation Hints](../ecosystem/plugin-distribution.md). That protocol requires an eligible official-marketplace target and user confirmation, but it does not replace the component review in this section.
 
