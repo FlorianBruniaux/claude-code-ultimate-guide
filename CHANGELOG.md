@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Documentation
+
+- Claude Code Releases: updated tracking from v2.1.252 to v2.1.261. Highlights: Claude Fable 5.1 becomes the default Fable model with 1M context (v2.1.257); a Containment Escape auto mode rule against cloud metadata credential fetches, egress evasion, and cross tenant reach (v2.1.257); a `/diff` panel for live uncommitted change review plus permission rule security fixes for paths with parentheses and uncompilable patterns (v2.1.260); a `managedMcpServers` org wide MCP setting, `--permission-prompts none`, and a fix for concurrent sessions corrupting each other's `~/.claude.json` (v2.1.259); `/skill-doctor` to audit unused loaded skills and their context cost (v2.1.261). Files updated: `machine-readable/claude-code-releases.yaml`, `guide/core/claude-code-releases.md`, `mcp-server/content/claude-code-releases.yaml`, `mcp-server/package.json` (1.3.2 to 1.3.3). No manual RSS entry added, `releases.ts` in the landing repo auto-generates the feed.
+
 ### Added
 
 - **Open-source galaxy navigation** (`README.md`): replaced the static maintainer project list with a generated, context-specific neighborhood sourced from the canonical profile manifest.

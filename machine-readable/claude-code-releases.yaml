@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.252"
-updated: "2026-08-31"
+latest: "2.1.261"
+updated: "2026-09-04"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,44 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-August 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.261"
+    date: "2026-09-04"
+    highlights:
+      - "Added `/skill-doctor` to show which loaded skills go unused and what they cost in context"
+      - "Added `bashOutputMaxChars`/`taskOutputMaxChars` settings to raise inline command/background-task output limits up to 128K characters"
+      - "Fixed resuming a session losing hook output and other context around parallel tool calls, which changed the resumed request"
+      - "Improved the dangerous-`rm` safety prompt to also catch `rm -rf` on positional parameters and inside quoted `sh -c` scripts"
+
+  - version: "2.1.260"
+    date: "2026-09-03"
+    highlights:
+      - "⭐ Added a `/diff` panel showing uncommitted changes beside the conversation in fullscreen mode as Claude edits"
+      - "⭐ Security fixes: `Edit`/`Write`/`Read` permission rules with parentheses in the path were silently dropped (leaving 'read-only' folders writable); one uncompilable permission pattern broke every file edit repo-wide"
+      - "Added a likely-cause hint for prompt-cache misses to `/cost` and the status line's `prompt_cache` field"
+      - "Fixed `model: fable` agents ignoring the `[1m]` tag on `ANTHROPIC_DEFAULT_FABLE_MODEL`, silently running with a 200K context window instead of 1M"
+
+  - version: "2.1.259"
+    date: "2026-09-02"
+    highlights:
+      - "Added `managedMcpServers` managed setting: organizations can provide HTTP/SSE MCP servers to every user"
+      - "Added `--permission-prompts none` for unattended headless hosts: anything that would prompt is denied automatically"
+      - "⭐ Fixed concurrent sessions silently reverting each other's `~/.claude.json` changes, resetting workspace trust and losing MCP/project state"
+      - "Fixed Bash `Read()` deny rules not covering files passed as option values (`--ignore-revs-file=.env`) or `git diff`/`git grep` operands"
+
+  - version: "2.1.258"
+    date: "2026-09-01"
+    highlights:
+      - "Fixed Claude Code failing to launch on macOS 12 (Monterey), a regression introduced in 2.1.255"
+      - "Fixed remote and scheduled sessions failing with a 'user messages must have non-empty content' error after a re-sent permission approval"
+
+  - version: "2.1.257"
+    date: "2026-09-01"
+    highlights:
+      - "⭐ Added Claude Fable 5.1 (`claude-fable-5-1`), now the default Fable model: 1M context, $10/$50 per Mtok, $0.25/Mtok cache reads"
+      - "⭐ Security: added a Containment Escape rule to auto mode against cloud metadata-credential fetches, egress evasion, and cross-tenant reach"
+      - "Added a one-time auto-mode prompt before the first file read outside the working directories (`permissions.blockReadsOutsideWorkingDirectories`)"
+      - "Changed `defaultMode: \"bypassPermissions\"` in project/local settings to be ignored, like `\"auto\"`; set it in user or managed settings instead"
 
   - version: "2.1.252"
     date: "2026-08-31"
@@ -1921,6 +1959,7 @@ breaking_summary:
     - "Reverted the v2.1.232 Bash permission changes for Cygwin-style symlinks on Windows and for input redirections (`< file`); a narrower version returns later (v2.1.233)"
     - "Removed the \"Default teammate model\" setting from `/config`; agent-team teammates use the leader's model unless the spawn names one (v2.1.234)"
     - "Claude Code continues a session automatically when a claude.ai usage limit resets; turn it off in `/config` (v2.1.234)"
+    - "`defaultMode: \"bypassPermissions\"` in `.claude/settings.json` or `.claude/settings.local.json` is now ignored, like `\"auto\"`; set it in user or managed settings, or pass `--permission-mode` (v2.1.257)"
   syntax:
     - "Indexed argument syntax changed: $ARGUMENTS.0 → $ARGUMENTS[0] (v2.1.19)"
     - "`Write(path)`, `NotebookEdit(path)`, and `Glob(path)` permission rules now warn at startup — use `Edit(path)` or `Read(path)` (v2.1.210)"
@@ -1937,6 +1976,8 @@ breaking_summary:
 # MILESTONE FEATURES (quick reference)
 # ════════════════════════════════════════════════════════════════
 milestones:
+  "2.1.260": "/diff panel shows uncommitted changes beside the conversation in fullscreen mode, prompt-cache-miss cause hint in /cost and status line, permission-rule paths with parentheses no longer silently dropped"
+  "2.1.257": "Claude Fable 5.1 becomes the default Fable model (1M context, $10/$50 per Mtok), Containment Escape auto-mode rule against cloud metadata/egress/cross-tenant reach, permissions.blockReadsOutsideWorkingDirectories"
   "2.1.234": "NT-namespace path rejection closes the remaining NTLM credential-leak surface, GitLab MR badge in footer/statusline, sessions auto-continue when a claude.ai usage limit resets, claude-api skill context cost cut from ~200K to ~25K tokens"
   "2.1.232": "Subagent forking on by default (fork inherits conversation + prompt cache), @-mention another session by name, GitLab plugin marketplaces and token redaction"
   "2.1.224": "Self-hosted environments (claude self-hosted-runner) for Team/Enterprise, cross-session SendMessage across your machines, archive plugin source over HTTPS"

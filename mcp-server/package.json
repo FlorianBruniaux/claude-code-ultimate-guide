@@ -1,6 +1,6 @@
 {
   "name": "claude-code-ultimate-guide-mcp",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "Search the Claude Code Ultimate Guide, official Anthropic documentation, releases, examples, security references, agent harness data, and translations from any MCP-compatible client.",
   "keywords": [
     "mcp",
