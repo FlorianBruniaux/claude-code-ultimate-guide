@@ -212,6 +212,9 @@ class AgentHarnessPageTests(unittest.TestCase):
         self.assertEqual(marker, self.builder.humanize(""))
         self.assertEqual(marker, self.builder.humanize("unknown"))
         self.assertEqual("N/A", self.builder.humanize("not_applicable"))
+        self.assertEqual("CLI", self.builder.humanize("cli"))
+        self.assertEqual("IDE", self.builder.humanize("ide"))
+        self.assertEqual("TUI", self.builder.humanize("tui"))
 
         for fragment in (
             self.builder.render_strict_runtime_map(self.catalog),
@@ -225,6 +228,11 @@ class AgentHarnessPageTests(unittest.TestCase):
         self.assertIn("**Legend:**", rendered)
         self.assertIn("not established from the pinned sources", rendered)
         self.assertIn("N/A = does not apply", rendered)
+
+    def test_strict_runtime_map_omits_unsubstantiated_provider_strategy(self):
+        rendered = self.builder.render_strict_runtime_map(self.catalog)
+        self.assertNotIn("Provider strategy", rendered)
+        self.assertNotIn("provider_strategy", rendered)
 
     def test_guide_profile_anchors_exist(self):
         profile_page = (ROOT / "guide/ecosystem/agentic-tools.md").read_text(encoding="utf-8")

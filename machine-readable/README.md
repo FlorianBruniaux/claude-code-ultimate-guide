@@ -113,6 +113,8 @@ The file keeps four sets separate:
 - `strict_runtime_map`: projects whose evidence says they own an agent loop;
 - `adjacent_control_planes`: wrappers, fleet managers, task controllers, and execution layers that call another runtime.
 
+The `interfaces` field uses six values: `cli`, `tui`, `ide`, `desktop`, `web`, and `chat`. Upstream `cli`, `tui`, `ide`, and `browser` tags map deterministically to this vocabulary. Curated exceptions require an official, commit-pinned source in `agent-harnesses-overrides.json`. Interface does not encode execution location or loop ownership.
+
 Evidence uses `confirmed`, `claimed`, `unknown`, or `not_applicable`. `unknown` does not mean the feature is absent. `owns_loop` uses `confirmed`, `claimed`, `unknown`, or `no`. The extractor never launches an agent or sends README text to a model. It emits deterministic `unknown` proposals for manual review. External proposals remain review input and are never published automatically.
 
 Each extraction proposal binds its input to the canonical GitHub repository URL, the repository-relative README path, and the SHA-256 of the bytes actually read. Raw README content and local filesystem paths are not copied into the proposal.

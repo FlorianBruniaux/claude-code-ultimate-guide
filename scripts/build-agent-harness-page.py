@@ -48,6 +48,7 @@ GUIDE_PROFILES = {
     "openhands": "./agentic-tools.md#24-openhands-all-hands-ai",
     "opencode": "./agentic-tools.md#15-opencode-anomaly-formerly-sst",
     "swe-agent": "./agentic-tools.md#22-swe-agent-princeton",
+    "warp-agent": "./agentic-tools.md#19-warp-agent-cli",
 }
 
 UNKNOWN_MARKER = '<abbr title="Not established from the pinned sources">?</abbr>'
@@ -78,6 +79,8 @@ def humanize(value: Any) -> str:
         return UNKNOWN_MARKER
     if text == "not_applicable":
         return "N/A"
+    if text in {"cli", "ide", "tui"}:
+        return text.upper()
     return text.replace("_", " ").strip().capitalize()
 
 
@@ -247,16 +250,15 @@ def render_strict_runtime_map(catalog: dict[str, Any]) -> str:
         f"**Legend:** {UNKNOWN_MARKER} = not established from the pinned sources; "
         "N/A = does not apply.",
         "",
-        "| Harness | Interface | Provider strategy | Loop evidence | Licence | Role |",
-        "|---|---|---|---|---|---|",
+        "| Harness | Interface | Loop evidence | Licence | Role |",
+        "|---|---|---|---|---|",
     ]
     for mapping in catalog["sets"]["strict_runtime_map"]:
         record = records[mapping["project_ref"]]
         interfaces = ", ".join(humanize(item) for item in record.get("interfaces", [])) or UNKNOWN_MARKER
         role = markdown_escape(concise_summary(record)) + _render_profile(mapping["id"])
         lines.append(
-            f"| {render_project_cell(record)} | {interfaces} | {humanize(record['provider_strategy'])} | "
-            f"{humanize(mapping['evidence_status'])} | "
+            f"| {render_project_cell(record)} | {interfaces} | {humanize(mapping['evidence_status'])} | "
             f"{markdown_escape(humanize(record['license_signal']))} | {role} |"
         )
     return "\n".join(lines)

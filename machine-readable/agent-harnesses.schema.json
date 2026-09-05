@@ -234,7 +234,11 @@
         "license_signal": {"type": "string", "minLength": 1},
         "archived": {"oneOf": [{"type": "boolean"}, {"const": "unknown"}]},
         "language": {"type": "string", "minLength": 1},
-        "interfaces": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "interfaces": {
+          "type": "array",
+          "items": {"enum": ["chat", "cli", "desktop", "ide", "tui", "web"]},
+          "uniqueItems": true
+        },
         "provider_strategy": {"type": "string", "minLength": 1},
         "tags": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
         "adoption_surface": {"enum": ["super_simple", "mostly_simple", "slightly_complex", "complex", "unknown"]},

@@ -1,7 +1,7 @@
 ---
 title: "Agent Tools: Beyond Claude Code"
 description: "Comparative guide to terminal coding agents, autonomous coders, multi-agent frameworks, orchestrators, and adjacent harness optimizers, with evidence-aware selection guidance."
-tags: [agents, hermes, codex-cli, aider, deepseek-harness, devin, swe-agent, crewai, langgraph, autogen, metagpt, symphony, paperclip, opencode, gemini-cli, crush, comparison]
+tags: [agents, hermes, codex-cli, aider, deepseek-harness, warp-agent, devin, swe-agent, crewai, langgraph, autogen, metagpt, symphony, paperclip, opencode, gemini-cli, crush, comparison]
 ---
 
 # Agent Tools: Beyond Claude Code
@@ -10,7 +10,7 @@ Claude Code is one tool in a field that has expanded dramatically since 2024. Do
 
 **What this page covers**: terminal coding agents, autonomous coders, multi-agent orchestration frameworks, and agent orchestration tooling. Claude Code's own multi-agent capabilities (agent teams, event-driven workflows, programmatic usage) are documented separately, linked throughout.
 
-**What it does not cover**: GUI-based AI coding IDEs (Cursor, Windsurf, Cline), which are covered in [AI Ecosystem §6](./ai-ecosystem.md#section-6). Multi-Claude orchestration tools (Gas Town, multiclaude, Conductor desktop app) are in [Third-Party Tools: Multi-Agent Orchestration](./third-party-tools.md#multi-agent-orchestration).
+**What it does not cover**: editor-only comparisons. IDEs, ADEs, and products that combine several interfaces are covered in [AI Ecosystem §6](./ai-ecosystem.md#6-ide-ade-and-hybrid-coding-environments). A hybrid product appears here only when its coding agent is also usable as a terminal runtime. Multi-Claude orchestration tools (Gas Town, multiclaude, Conductor desktop app) are in [Third-Party Tools: Multi-Agent Orchestration](./third-party-tools.md#multi-agent-orchestration).
 
 For the full field across CLI, IDE, and cloud agents, use the [Agent Harness Landscape](./agent-harness-landscape.md). For the loop, context, tools, permissions, recovery, observability, and automated harness optimization, read [Agent Harness Engineering](../core/agent-harness.md). For explicit feedback loops, workflow graphs, stopping rules, and responsibility boundaries, read [Loop & Graph Engineering](../core/loop-graph-engineering.md). The [glossary](../core/glossary.md) separates runtime harnesses from repository harnesses, evaluation harnesses, orchestrators, and meta-harnesses.
 
@@ -494,6 +494,35 @@ Official starting points: the [README](https://github.com/deepseek-ai/deepseek-h
 #### When to Choose DeepSeek Harness
 
 Choose dsh to study or extend a plugin-first runtime, or to experiment in an isolated environment with its explicit composition model. Do not standardize on it for a production team merely because it is local or open source. Claude Code remains the better default in this guide for a stable, documented coding workflow; dsh is a fast-moving alternative worth evaluating behind clear security and maintenance gates.
+
+---
+
+### 1.9 Warp Agent CLI
+
+Warp Agent is a proprietary coding agent whose standalone CLI runs in third-party terminals as well as Warp. This matters for classification: Warp is no longer only a terminal application with an embedded assistant. The vendor now presents the agent as a terminal runtime with its own interactive surface, multi-agent coordination, and optional cloud continuation.
+
+| Attribute | Details |
+|-----------|---------|
+| **Official source** | [Introducing Warp Agent](https://www.warp.dev/blog/introducing-the-warp-agent-cli-coding-agent) |
+| **Interfaces** | CLI, interactive terminal UI, and web monitoring for cloud runs |
+| **Terminal support** | Standalone use in terminals including Ghostty, iTerm2, VS Code terminals, and Windows terminals |
+| **Execution model** | Local terminal work with optional handoff to Warp cloud agents |
+| **Model strategy** | Vendor-managed routing plus configurable model routing |
+| **License** | Proprietary |
+
+#### What Distinguishes It?
+
+Warp emphasizes terminal fidelity. Its agent can multiplex pseudo-terminals and interact with full-screen applications such as debuggers, editors, and database clients instead of treating every command as a one-shot subprocess. The same product surface can coordinate several agents and delegate work to external coding agents, including Claude Code and Codex, according to Warp's launch article.
+
+The cloud handoff is the second differentiator. A task can begin in a local terminal and continue remotely, with progress visible from Warp's cloud surface. That is a hybrid execution model, not evidence that every command stays local. Teams should decide which repositories, credentials, and command outputs may cross that boundary before enabling remote runs.
+
+#### Evidence Boundary
+
+The capabilities above come from Warp's launch article dated August 4, 2026. This guide did not independently test terminal compatibility, model routing quality, cloud isolation, or multi-agent reliability. Treat the profile as a sourced product map, then verify the exact client version, data path, permission model, and pricing against a representative repository before adoption.
+
+#### When to Choose Warp Agent
+
+Shortlist it when interactive terminal programs are central to the task, when developers want the same agent in several terminal applications, or when local-to-cloud handoff is a real workflow requirement. Prefer an open-source terminal agent when inspectability or self-hosting is non-negotiable. Prefer a simpler CLI when remote continuation and terminal multiplexing do not justify another proprietary control surface.
 
 ---
 
@@ -1047,6 +1076,7 @@ Liza's maintainer also publishes the separate [bash-policy](https://github.com/l
 | **Aider** | Yes | 45K | 50+ providers | Interactive | Python | Pay-per-LLM-call |
 | **Goose** | Yes | 46K | 15+ providers | Interactive + subagents | Rust | Pay-per-LLM-call |
 | **DeepSeek Harness** | Yes (MIT) | 200K | DeepSeek + multi-provider | Local web UI + headless | TypeScript | Free + per-LLM-call |
+| **Warp Agent** | No | N/A | Vendor routing + configurable routing | Interactive terminal + cloud handoff | Proprietary | See current Warp pricing |
 | **Devin** | No | N/A | Proprietary | Fully autonomous | Proprietary | $20-$500/mo |
 | **SWE-agent** | Yes (MIT) | 19K | Any (Claude, GPT...) | Autonomous (issue → PR) | Python | Pay-per-LLM-call |
 | **CrewAI** | Yes (MIT) | 55K | 50+ providers | Framework (build your own) | Python | Framework is free |
@@ -1067,6 +1097,7 @@ Star counts read July 15, 2026 via the GitHub API, except DeepSeek Harness, chec
 | Daily coding, already on ChatGPT Pro | Codex CLI |
 | Daily coding, want any model | Hermes Agent or Aider |
 | Daily coding, general-purpose agent | Goose |
+| Run interactive terminal applications and optionally hand work to a cloud agent | Warp Agent |
 | Assign a task, come back to a PR | Devin ($500/mo) or `claude -p` in CI |
 | Fix GitHub issues autonomously, research/benchmark | SWE-agent |
 | Orchestrate multiple Claude Code instances | Gas Town, multiclaude, Ruflo (see [Third-Party Tools](./third-party-tools.md#multi-agent-orchestration)) |

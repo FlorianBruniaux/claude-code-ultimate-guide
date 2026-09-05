@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "dataset_sha256": "5a84027b6770d612864fe456276c05fe0dbe094e1f5b67f7f70aec75a61d8138",
-    "generated_at": "2026-08-28T00:00:00Z",
+    "dataset_sha256": "8cf4c55d5ee43e74fa6a43b28c2cc61d1260a3b338bbee5d2c25a22a8b0fe472",
+    "generated_at": "2026-09-05T00:00:00Z",
     "license": "CC-BY-SA-4.0 for upstream-derived records; project metadata retains its source terms",
     "provenance": {
       "methodology": "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/docs/superpowers/specs/2026-08-27-agent-harness-landscape-enrichment-design.md",
@@ -281,12 +281,15 @@
         "category": "coding-agent-products",
         "features": {},
         "freshness": {
-          "checked_at": "2026-08-28",
+          "checked_at": "2026-09-05",
           "source_commit": "85c54682a209ca7c3fc8b1ab2e820b6724dc3028"
         },
         "homepage_url": null,
         "id": "AgentBoardTT/openharness",
-        "interfaces": [],
+        "interfaces": [
+          "cli",
+          "tui"
+        ],
         "language": "Python",
         "license_signal": "unknown",
         "name": "OpenHarness",
@@ -294,7 +297,7 @@
         "project_url": "https://github.com/AgentBoardTT/openharness",
         "provenance": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "readme",
             "status": "confirmed",
             "url": "https://github.com/AgentBoardTT/openharness/blob/85c54682a209ca7c3fc8b1ab2e820b6724dc3028/README.md"
@@ -417,23 +420,27 @@
         "category": "coding-agent-products",
         "features": {},
         "freshness": {
-          "checked_at": "2026-08-28",
+          "checked_at": "2026-09-05",
           "source_commit": null
         },
         "homepage_url": null,
         "id": "amp",
-        "interfaces": [],
+        "interfaces": [
+          "cli",
+          "desktop",
+          "web"
+        ],
         "language": "unknown",
         "license_signal": "proprietary",
         "name": "Amp",
         "owns_loop": "claimed",
-        "project_url": "https://ampcode.com/",
+        "project_url": "https://ampcode.com/docs",
         "provenance": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "official_documentation",
             "status": "claimed",
-            "url": "https://ampcode.com/"
+            "url": "https://ampcode.com/docs"
           }
         ],
         "provider_strategy": "unknown",
@@ -451,12 +458,15 @@
         "category": "coding-agent-products",
         "features": {},
         "freshness": {
-          "checked_at": "2026-08-28",
+          "checked_at": "2026-09-05",
           "source_commit": "f7b5ce0266fcb1d97640b40d24ad045ef168bc59"
         },
         "homepage_url": null,
         "id": "Aploide/spettro",
-        "interfaces": [],
+        "interfaces": [
+          "cli",
+          "tui"
+        ],
         "language": "Go",
         "license_signal": "unknown",
         "name": "Spettro",
@@ -464,7 +474,7 @@
         "project_url": "https://github.com/Aploide/spettro",
         "provenance": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "readme",
             "status": "confirmed",
             "url": "https://github.com/Aploide/spettro/blob/f7b5ce0266fcb1d97640b40d24ad045ef168bc59/README.md"
@@ -521,12 +531,15 @@
         "category": "coding-agent-products",
         "features": {},
         "freshness": {
-          "checked_at": "2026-08-28",
+          "checked_at": "2026-09-05",
           "source_commit": null
         },
         "homepage_url": null,
         "id": "augment-code",
-        "interfaces": [],
+        "interfaces": [
+          "cli",
+          "ide"
+        ],
         "language": "unknown",
         "license_signal": "proprietary",
         "name": "Augment Code",
@@ -534,10 +547,10 @@
         "project_url": "https://www.augmentcode.com/",
         "provenance": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "official_documentation",
             "status": "claimed",
-            "url": "https://www.augmentcode.com/"
+            "url": "https://docs.augmentcode.com/quickstart"
           }
         ],
         "provider_strategy": "unknown",
@@ -589,12 +602,17 @@
         "category": "coding-agent-products",
         "features": {},
         "freshness": {
-          "checked_at": "2026-08-28",
+          "checked_at": "2026-09-05",
           "source_commit": null
         },
         "homepage_url": null,
         "id": "claude-code",
-        "interfaces": [],
+        "interfaces": [
+          "cli",
+          "desktop",
+          "ide",
+          "web"
+        ],
         "language": "unknown",
         "license_signal": "proprietary",
         "name": "Claude Code",
@@ -602,7 +620,7 @@
         "project_url": "https://code.claude.com/docs/en/overview",
         "provenance": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "official_documentation",
             "status": "claimed",
             "url": "https://code.claude.com/docs/en/overview"
@@ -623,12 +641,14 @@
         "category": "coding-agent-products",
         "features": {},
         "freshness": {
-          "checked_at": "2026-08-28",
+          "checked_at": "2026-09-05",
           "source_commit": "78e47d7b1bda08415dc144c00a3730d61395ff58"
         },
         "homepage_url": null,
         "id": "codejunkie99/agentic-harness",
-        "interfaces": [],
+        "interfaces": [
+          "cli"
+        ],
         "language": "Rust",
         "license_signal": "unknown",
         "name": "agentic-harness",
@@ -636,7 +656,7 @@
         "project_url": "https://github.com/codejunkie99/agentic-harness",
         "provenance": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "readme",
             "status": "confirmed",
             "url": "https://github.com/codejunkie99/agentic-harness/blob/78e47d7b1bda08415dc144c00a3730d61395ff58/README.md"
@@ -657,12 +677,18 @@
         "category": "coding-agent-products",
         "features": {},
         "freshness": {
-          "checked_at": "2026-08-28",
+          "checked_at": "2026-09-05",
           "source_commit": null
         },
         "homepage_url": null,
         "id": "cursor-agent",
-        "interfaces": [],
+        "interfaces": [
+          "chat",
+          "cli",
+          "desktop",
+          "ide",
+          "web"
+        ],
         "language": "unknown",
         "license_signal": "proprietary",
         "name": "Cursor Agent",
@@ -670,10 +696,10 @@
         "project_url": "https://cursor.com/agents",
         "provenance": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "official_documentation",
             "status": "claimed",
-            "url": "https://cursor.com/agents"
+            "url": "https://cursor.com/docs/agent/overview"
           }
         ],
         "provider_strategy": "unknown",
@@ -691,12 +717,15 @@
         "category": "coding-agent-products",
         "features": {},
         "freshness": {
-          "checked_at": "2026-08-28",
+          "checked_at": "2026-09-05",
           "source_commit": "cd5ef8148158c3a752a658978873241fdf8e2bbc"
         },
         "homepage_url": null,
         "id": "deepseek-ai/deepseek-harness",
-        "interfaces": [],
+        "interfaces": [
+          "cli",
+          "web"
+        ],
         "language": "TypeScript",
         "license_signal": "MIT",
         "name": "DeepSeek Harness",
@@ -704,7 +733,7 @@
         "project_url": "https://github.com/deepseek-ai/deepseek-harness",
         "provenance": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "readme",
             "status": "claimed",
             "url": "https://github.com/deepseek-ai/deepseek-harness/blob/cd5ef8148158c3a752a658978873241fdf8e2bbc/README.md"
@@ -725,12 +754,15 @@
         "category": "coding-agent-products",
         "features": {},
         "freshness": {
-          "checked_at": "2026-08-28",
+          "checked_at": "2026-09-05",
           "source_commit": null
         },
         "homepage_url": null,
         "id": "devin",
-        "interfaces": [],
+        "interfaces": [
+          "chat",
+          "web"
+        ],
         "language": "unknown",
         "license_signal": "proprietary",
         "name": "Devin",
@@ -738,7 +770,7 @@
         "project_url": "https://devin.ai/",
         "provenance": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "official_documentation",
             "status": "claimed",
             "url": "https://devin.ai/"
@@ -759,23 +791,65 @@
         "category": "coding-agent-products",
         "features": {},
         "freshness": {
-          "checked_at": "2026-08-28",
+          "checked_at": "2026-09-05",
+          "source_commit": null
+        },
+        "homepage_url": null,
+        "id": "devin-desktop",
+        "interfaces": [
+          "desktop",
+          "ide"
+        ],
+        "language": "unknown",
+        "license_signal": "proprietary",
+        "name": "Devin Desktop",
+        "owns_loop": "claimed",
+        "project_url": "https://devin.ai/desktop",
+        "provenance": [
+          {
+            "checked_at": "2026-09-05",
+            "source_type": "official_documentation",
+            "status": "claimed",
+            "url": "https://devin.ai/desktop"
+          }
+        ],
+        "provider_strategy": "unknown",
+        "recovery": "unknown",
+        "repository_url": null,
+        "stars": null,
+        "stars_captured_at": null,
+        "summary": "Devin Desktop, formerly Windsurf, combines an IDE with local and cloud coding agents.",
+        "tags": []
+      },
+      {
+        "adoption_surface": "unknown",
+        "archived": "unknown",
+        "autonomy": "unknown",
+        "category": "coding-agent-products",
+        "features": {},
+        "freshness": {
+          "checked_at": "2026-09-05",
           "source_commit": null
         },
         "homepage_url": null,
         "id": "factory-droid",
-        "interfaces": [],
+        "interfaces": [
+          "cli",
+          "desktop",
+          "ide",
+          "web"
+        ],
         "language": "unknown",
         "license_signal": "proprietary",
         "name": "Factory Droid",
         "owns_loop": "claimed",
-        "project_url": "https://www.factory.ai/",
+        "project_url": "https://docs.factory.ai/",
         "provenance": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "official_documentation",
             "status": "claimed",
-            "url": "https://www.factory.ai/"
+            "url": "https://docs.factory.ai/"
           }
         ],
         "provider_strategy": "unknown",
@@ -793,12 +867,15 @@
         "category": "coding-agent-products",
         "features": {},
         "freshness": {
-          "checked_at": "2026-08-28",
+          "checked_at": "2026-09-05",
           "source_commit": "7edcae9cc025867a9603de92ded89da4ce54639f"
         },
         "homepage_url": null,
         "id": "GantisStorm/autonomous-coding-harness",
-        "interfaces": [],
+        "interfaces": [
+          "cli",
+          "tui"
+        ],
         "language": "Python",
         "license_signal": "unknown",
         "name": "Autonomous Coding Harness",
@@ -806,7 +883,7 @@
         "project_url": "https://github.com/GantisStorm/autonomous-coding-harness",
         "provenance": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "readme",
             "status": "claimed",
             "url": "https://github.com/GantisStorm/autonomous-coding-harness/blob/7edcae9cc025867a9603de92ded89da4ce54639f/README.md"
@@ -827,12 +904,14 @@
         "category": "coding-agent-products",
         "features": {},
         "freshness": {
-          "checked_at": "2026-08-28",
+          "checked_at": "2026-09-05",
           "source_commit": null
         },
         "homepage_url": null,
         "id": "github-copilot-cli",
-        "interfaces": [],
+        "interfaces": [
+          "cli"
+        ],
         "language": "unknown",
         "license_signal": "proprietary",
         "name": "GitHub Copilot CLI",
@@ -840,10 +919,10 @@
         "project_url": "https://github.com/features/copilot/cli",
         "provenance": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "official_documentation",
             "status": "claimed",
-            "url": "https://docs.github.com/en/copilot/concepts/agents/about-copilot-cli"
+            "url": "https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-copilot-cli"
           }
         ],
         "provider_strategy": "unknown",
@@ -895,12 +974,14 @@
         "category": "coding-agent-products",
         "features": {},
         "freshness": {
-          "checked_at": "2026-08-28",
+          "checked_at": "2026-09-05",
           "source_commit": null
         },
         "homepage_url": null,
         "id": "jules",
-        "interfaces": [],
+        "interfaces": [
+          "web"
+        ],
         "language": "unknown",
         "license_signal": "proprietary",
         "name": "Jules",
@@ -908,7 +989,7 @@
         "project_url": "https://jules.google/",
         "provenance": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "official_documentation",
             "status": "claimed",
             "url": "https://jules.google/"
@@ -929,23 +1010,27 @@
         "category": "coding-agent-products",
         "features": {},
         "freshness": {
-          "checked_at": "2026-08-28",
+          "checked_at": "2026-09-05",
           "source_commit": null
         },
         "homepage_url": null,
         "id": "junie",
-        "interfaces": [],
+        "interfaces": [
+          "cli",
+          "ide",
+          "tui"
+        ],
         "language": "unknown",
         "license_signal": "proprietary",
         "name": "Junie",
         "owns_loop": "claimed",
-        "project_url": "https://www.jetbrains.com/junie/",
+        "project_url": "https://junie.jetbrains.com/docs/",
         "provenance": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "official_documentation",
             "status": "claimed",
-            "url": "https://www.jetbrains.com/junie/"
+            "url": "https://junie.jetbrains.com/docs/"
           }
         ],
         "provider_strategy": "unknown",
@@ -963,12 +1048,17 @@
         "category": "coding-agent-products",
         "features": {},
         "freshness": {
-          "checked_at": "2026-08-28",
+          "checked_at": "2026-09-05",
           "source_commit": null
         },
         "homepage_url": null,
         "id": "kiro",
-        "interfaces": [],
+        "interfaces": [
+          "cli",
+          "desktop",
+          "ide",
+          "web"
+        ],
         "language": "unknown",
         "license_signal": "proprietary",
         "name": "Kiro",
@@ -976,7 +1066,7 @@
         "project_url": "https://kiro.dev/",
         "provenance": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "official_documentation",
             "status": "claimed",
             "url": "https://kiro.dev/"
@@ -997,12 +1087,15 @@
         "category": "coding-agent-products",
         "features": {},
         "freshness": {
-          "checked_at": "2026-08-28",
+          "checked_at": "2026-09-05",
           "source_commit": "4388627d0d0f356f559ca89700806de685bbc1e3"
         },
         "homepage_url": null,
         "id": "langchain-ai/open-swe",
-        "interfaces": [],
+        "interfaces": [
+          "chat",
+          "web"
+        ],
         "language": "Python",
         "license_signal": "MIT",
         "name": "Open SWE",
@@ -1010,7 +1103,7 @@
         "project_url": "https://github.com/langchain-ai/open-swe",
         "provenance": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "readme",
             "status": "claimed",
             "url": "https://github.com/langchain-ai/open-swe/blob/4388627d0d0f356f559ca89700806de685bbc1e3/README.md"
@@ -1073,12 +1166,15 @@
         "category": "coding-agent-products",
         "features": {},
         "freshness": {
-          "checked_at": "2026-08-28",
+          "checked_at": "2026-09-05",
           "source_commit": "3f513b36b8cd5f7c4c3303506dcbdec949f9e23c"
         },
         "homepage_url": null,
         "id": "MohitGoyal09/AgentForge",
-        "interfaces": [],
+        "interfaces": [
+          "cli",
+          "tui"
+        ],
         "language": "Python",
         "license_signal": "unknown",
         "name": "AgentForge",
@@ -1086,7 +1182,7 @@
         "project_url": "https://github.com/MohitGoyal09/AgentForge",
         "provenance": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "readme",
             "status": "confirmed",
             "url": "https://github.com/MohitGoyal09/AgentForge/blob/3f513b36b8cd5f7c4c3303506dcbdec949f9e23c/README.MD"
@@ -1107,12 +1203,16 @@
         "category": "coding-agent-products",
         "features": {},
         "freshness": {
-          "checked_at": "2026-08-28",
+          "checked_at": "2026-09-05",
           "source_commit": "efce74e435eb0df55d432a9c1c48e5f03fc86b13"
         },
         "homepage_url": null,
         "id": "MoonshotAI/kimi-code",
-        "interfaces": [],
+        "interfaces": [
+          "cli",
+          "ide",
+          "tui"
+        ],
         "language": "TypeScript",
         "license_signal": "MIT",
         "name": "Kimi Code CLI",
@@ -1120,7 +1220,7 @@
         "project_url": "https://github.com/MoonshotAI/kimi-code",
         "provenance": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "readme",
             "status": "claimed",
             "url": "https://github.com/MoonshotAI/kimi-code/blob/efce74e435eb0df55d432a9c1c48e5f03fc86b13/README.md"
@@ -1175,23 +1275,25 @@
         "category": "coding-agent-products",
         "features": {},
         "freshness": {
-          "checked_at": "2026-08-28",
+          "checked_at": "2026-09-05",
           "source_commit": null
         },
         "homepage_url": null,
         "id": "replit-agent",
-        "interfaces": [],
+        "interfaces": [
+          "web"
+        ],
         "language": "unknown",
         "license_signal": "proprietary",
         "name": "Replit Agent",
         "owns_loop": "claimed",
-        "project_url": "https://replit.com/ai",
+        "project_url": "https://replit.com/products/agent",
         "provenance": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "official_documentation",
             "status": "claimed",
-            "url": "https://replit.com/ai"
+            "url": "https://replit.com/products/agent"
           }
         ],
         "provider_strategy": "unknown",
@@ -1209,12 +1311,16 @@
         "category": "coding-agent-products",
         "features": {},
         "freshness": {
-          "checked_at": "2026-08-28",
+          "checked_at": "2026-09-05",
           "source_commit": "b4ba96a1093562f1022176feb33a2315f633169c"
         },
         "homepage_url": null,
         "id": "samarailly51-pixel/opencode-harness",
-        "interfaces": [],
+        "interfaces": [
+          "cli",
+          "tui",
+          "web"
+        ],
         "language": "Python",
         "license_signal": "unknown",
         "name": "OpenCode Harness",
@@ -1222,7 +1328,7 @@
         "project_url": "https://github.com/samarailly51-pixel/opencode-harness",
         "provenance": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "readme",
             "status": "confirmed",
             "url": "https://github.com/samarailly51-pixel/opencode-harness/blob/b4ba96a1093562f1022176feb33a2315f633169c/README.md"
@@ -1277,23 +1383,27 @@
         "category": "coding-agent-products",
         "features": {},
         "freshness": {
-          "checked_at": "2026-08-28",
+          "checked_at": "2026-09-05",
           "source_commit": null
         },
         "homepage_url": null,
-        "id": "warp-agent-mode",
-        "interfaces": [],
+        "id": "warp-agent",
+        "interfaces": [
+          "cli",
+          "tui",
+          "web"
+        ],
         "language": "unknown",
         "license_signal": "proprietary",
-        "name": "Warp Agent Mode",
+        "name": "Warp Agent",
         "owns_loop": "claimed",
-        "project_url": "https://www.warp.dev/warp-ai",
+        "project_url": "https://www.warp.dev/blog/introducing-the-warp-agent-cli-coding-agent",
         "provenance": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "official_documentation",
             "status": "claimed",
-            "url": "https://www.warp.dev/warp-ai"
+            "url": "https://www.warp.dev/blog/introducing-the-warp-agent-cli-coding-agent"
           }
         ],
         "provider_strategy": "unknown",
@@ -1301,41 +1411,7 @@
         "repository_url": null,
         "stars": null,
         "stars_captured_at": null,
-        "summary": "Warp presents its AI surface as an agentic development environment in the terminal.",
-        "tags": []
-      },
-      {
-        "adoption_surface": "unknown",
-        "archived": "unknown",
-        "autonomy": "unknown",
-        "category": "coding-agent-products",
-        "features": {},
-        "freshness": {
-          "checked_at": "2026-08-28",
-          "source_commit": null
-        },
-        "homepage_url": null,
-        "id": "windsurf-cascade",
-        "interfaces": [],
-        "language": "unknown",
-        "license_signal": "proprietary",
-        "name": "Windsurf Cascade",
-        "owns_loop": "claimed",
-        "project_url": "https://windsurf.com/cascade",
-        "provenance": [
-          {
-            "checked_at": "2026-08-28",
-            "source_type": "official_documentation",
-            "status": "claimed",
-            "url": "https://windsurf.com/cascade"
-          }
-        ],
-        "provider_strategy": "unknown",
-        "recovery": "unknown",
-        "repository_url": null,
-        "stars": null,
-        "stars_captured_at": null,
-        "summary": "Windsurf presents Cascade as its agentic coding assistant.",
+        "summary": "Warp Agent is a standalone terminal coding agent with interactive PTY support and optional cloud handoff.",
         "tags": []
       }
     ],
@@ -1388,10 +1464,10 @@
       {
         "evidence": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "official_documentation",
             "status": "claimed",
-            "url": "https://ampcode.com/"
+            "url": "https://ampcode.com/docs"
           }
         ],
         "evidence_status": "claimed",
@@ -1403,10 +1479,10 @@
       {
         "evidence": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "official_documentation",
             "status": "claimed",
-            "url": "https://www.augmentcode.com/"
+            "url": "https://docs.augmentcode.com/quickstart"
           }
         ],
         "evidence_status": "claimed",
@@ -1508,10 +1584,10 @@
       {
         "evidence": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "official_documentation",
             "status": "claimed",
-            "url": "https://cursor.com/agents"
+            "url": "https://cursor.com/docs/agent/overview"
           }
         ],
         "evidence_status": "claimed",
@@ -1568,10 +1644,25 @@
       {
         "evidence": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "official_documentation",
             "status": "claimed",
-            "url": "https://www.factory.ai/"
+            "url": "https://devin.ai/desktop"
+          }
+        ],
+        "evidence_status": "claimed",
+        "id": "devin-desktop",
+        "owns_loop": "claimed",
+        "project_ref": "devin-desktop",
+        "source_set": "guide_supplement"
+      },
+      {
+        "evidence": [
+          {
+            "checked_at": "2026-09-05",
+            "source_type": "official_documentation",
+            "status": "claimed",
+            "url": "https://docs.factory.ai/"
           }
         ],
         "evidence_status": "claimed",
@@ -1598,10 +1689,10 @@
       {
         "evidence": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "official_documentation",
             "status": "claimed",
-            "url": "https://docs.github.com/en/copilot/concepts/agents/about-copilot-cli"
+            "url": "https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-copilot-cli"
           }
         ],
         "evidence_status": "claimed",
@@ -1673,10 +1764,10 @@
       {
         "evidence": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "official_documentation",
             "status": "claimed",
-            "url": "https://www.jetbrains.com/junie/"
+            "url": "https://junie.jetbrains.com/docs/"
           }
         ],
         "evidence_status": "claimed",
@@ -1883,10 +1974,10 @@
       {
         "evidence": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "official_documentation",
             "status": "claimed",
-            "url": "https://replit.com/ai"
+            "url": "https://replit.com/products/agent"
           }
         ],
         "evidence_status": "claimed",
@@ -1943,31 +2034,16 @@
       {
         "evidence": [
           {
-            "checked_at": "2026-08-28",
+            "checked_at": "2026-09-05",
             "source_type": "official_documentation",
             "status": "claimed",
-            "url": "https://www.warp.dev/warp-ai"
+            "url": "https://www.warp.dev/blog/introducing-the-warp-agent-cli-coding-agent"
           }
         ],
         "evidence_status": "claimed",
-        "id": "warp-agent-mode",
+        "id": "warp-agent",
         "owns_loop": "claimed",
-        "project_ref": "warp-agent-mode",
-        "source_set": "guide_supplement"
-      },
-      {
-        "evidence": [
-          {
-            "checked_at": "2026-08-28",
-            "source_type": "official_documentation",
-            "status": "claimed",
-            "url": "https://windsurf.com/cascade"
-          }
-        ],
-        "evidence_status": "claimed",
-        "id": "windsurf-cascade",
-        "owns_loop": "claimed",
-        "project_ref": "windsurf-cascade",
+        "project_ref": "warp-agent",
         "source_set": "guide_supplement"
       }
     ],
@@ -2061,7 +2137,9 @@
           },
           "homepage_url": null,
           "id": "1jehuang/jcode",
-          "interfaces": [],
+          "interfaces": [
+            "cli"
+          ],
           "language": "unknown",
           "license_signal": "unknown",
           "name": "jcode",
@@ -2254,12 +2332,15 @@
             }
           },
           "freshness": {
-            "checked_at": "2026-08-23",
-            "source_commit": "ece314654d2c23fe7bd69fc6ef7088f093207e49"
+            "checked_at": "2026-09-05",
+            "source_commit": "5e90925962f05acf8e255032de44d16c4a7768a2"
           },
           "homepage_url": null,
           "id": "aaif-goose/goose",
-          "interfaces": [],
+          "interfaces": [
+            "cli",
+            "desktop"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "goose",
@@ -2271,6 +2352,12 @@
               "source_type": "upstream_catalog",
               "status": "claimed",
               "url": "https://github.com/RyanAlberts/best-of-Agent-Harnesses/blob/ece314654d2c23fe7bd69fc6ef7088f093207e49/harnesses.json"
+            },
+            {
+              "checked_at": "2026-09-05",
+              "source_type": "readme",
+              "status": "confirmed",
+              "url": "https://github.com/aaif-goose/goose/blob/5e90925962f05acf8e255032de44d16c4a7768a2/README.md"
             }
           ],
           "provider_strategy": "unknown",
@@ -2296,7 +2383,9 @@
           },
           "homepage_url": null,
           "id": "addyosmani/agent-skills",
-          "interfaces": [],
+          "interfaces": [
+            "ide"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "addyosmani/agent-skills",
@@ -2529,7 +2618,9 @@
           },
           "homepage_url": null,
           "id": "agent0ai/agent-zero",
-          "interfaces": [],
+          "interfaces": [
+            "web"
+          ],
           "language": "unknown",
           "license_signal": "unknown",
           "name": "Agent Zero",
@@ -2630,7 +2721,9 @@
           },
           "homepage_url": null,
           "id": "agentsmd/agents.md",
-          "interfaces": [],
+          "interfaces": [
+            "ide"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "agents.md",
@@ -2861,7 +2954,9 @@
           },
           "homepage_url": null,
           "id": "Aider-AI/aider",
-          "interfaces": [],
+          "interfaces": [
+            "cli"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "aider",
@@ -3170,7 +3265,10 @@
           },
           "homepage_url": null,
           "id": "anomalyco/opencode",
-          "interfaces": [],
+          "interfaces": [
+            "cli",
+            "tui"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "opencode",
@@ -4035,7 +4133,9 @@
           },
           "homepage_url": null,
           "id": "browser-use/browser-use",
-          "interfaces": [],
+          "interfaces": [
+            "web"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "browser-use",
@@ -4072,7 +4172,9 @@
           },
           "homepage_url": null,
           "id": "browserbase/stagehand",
-          "interfaces": [],
+          "interfaces": [
+            "web"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "Stagehand",
@@ -4209,7 +4311,11 @@
           },
           "homepage_url": null,
           "id": "can1357/oh-my-pi",
-          "interfaces": [],
+          "interfaces": [
+            "cli",
+            "ide",
+            "web"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "oh-my-pi",
@@ -4311,7 +4417,10 @@
           },
           "homepage_url": null,
           "id": "charmbracelet/crush",
-          "interfaces": [],
+          "interfaces": [
+            "cli",
+            "tui"
+          ],
           "language": "unknown",
           "license_signal": "restricted (FSL-1.1-MIT)",
           "name": "crush",
@@ -4349,7 +4458,9 @@
           },
           "homepage_url": null,
           "id": "ChromeDevTools/chrome-devtools-mcp",
-          "interfaces": [],
+          "interfaces": [
+            "web"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "chrome-devtools-mcp",
@@ -4448,7 +4559,9 @@
           },
           "homepage_url": null,
           "id": "cline/cline",
-          "interfaces": [],
+          "interfaces": [
+            "ide"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "Cline",
@@ -4522,7 +4635,9 @@
           },
           "homepage_url": null,
           "id": "cocoindex-io/cocoindex-code",
-          "interfaces": [],
+          "interfaces": [
+            "cli"
+          ],
           "language": "unknown",
           "license_signal": "unknown",
           "name": "cocoindex-code",
@@ -4635,7 +4750,9 @@
           },
           "homepage_url": null,
           "id": "continuedev/continue",
-          "interfaces": [],
+          "interfaces": [
+            "ide"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "continue",
@@ -4843,7 +4960,9 @@
           },
           "homepage_url": null,
           "id": "docker/mcp-gateway",
-          "interfaces": [],
+          "interfaces": [
+            "cli"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "Docker MCP Gateway",
@@ -4942,7 +5061,9 @@
           },
           "homepage_url": null,
           "id": "dylanneve1/talon",
-          "interfaces": [],
+          "interfaces": [
+            "cli"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "Talon",
@@ -5079,7 +5200,9 @@
           },
           "homepage_url": null,
           "id": "earendil-works/pi",
-          "interfaces": [],
+          "interfaces": [
+            "tui"
+          ],
           "language": "unknown",
           "license_signal": "unknown",
           "name": "pi",
@@ -5253,7 +5376,10 @@
           },
           "homepage_url": null,
           "id": "esengine/DeepSeek-Reasonix",
-          "interfaces": [],
+          "interfaces": [
+            "cli",
+            "tui"
+          ],
           "language": "unknown",
           "license_signal": "unknown",
           "name": "DeepSeek-Reasonix",
@@ -5856,7 +5982,9 @@
           },
           "homepage_url": null,
           "id": "google-gemini/gemini-cli",
-          "interfaces": [],
+          "interfaces": [
+            "cli"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "Gemini CLI",
@@ -6054,7 +6182,9 @@
           },
           "homepage_url": null,
           "id": "google/agents-cli",
-          "interfaces": [],
+          "interfaces": [
+            "cli"
+          ],
           "language": "unknown",
           "license_signal": "unknown",
           "name": "agents-cli",
@@ -6091,7 +6221,9 @@
           },
           "homepage_url": null,
           "id": "harbor-framework/terminal-bench",
-          "interfaces": [],
+          "interfaces": [
+            "cli"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "Terminal-Bench",
@@ -6185,12 +6317,15 @@
             }
           },
           "freshness": {
-            "checked_at": "2026-08-23",
-            "source_commit": "ece314654d2c23fe7bd69fc6ef7088f093207e49"
+            "checked_at": "2026-09-05",
+            "source_commit": "167571da895b2a1a9e36ecfae2876984cef65e0d"
           },
           "homepage_url": null,
           "id": "HarnessLab/claw-code-agent",
-          "interfaces": [],
+          "interfaces": [
+            "cli",
+            "web"
+          ],
           "language": "unknown",
           "license_signal": "unknown",
           "name": "claw-code-agent",
@@ -6202,6 +6337,12 @@
               "source_type": "upstream_catalog",
               "status": "claimed",
               "url": "https://github.com/RyanAlberts/best-of-Agent-Harnesses/blob/ece314654d2c23fe7bd69fc6ef7088f093207e49/harnesses.json"
+            },
+            {
+              "checked_at": "2026-09-05",
+              "source_type": "readme",
+              "status": "confirmed",
+              "url": "https://github.com/HarnessLab/claw-code-agent/blob/167571da895b2a1a9e36ecfae2876984cef65e0d/README.md"
             }
           ],
           "provider_strategy": "unknown",
@@ -6456,12 +6597,16 @@
             }
           },
           "freshness": {
-            "checked_at": "2026-08-23",
-            "source_commit": "ece314654d2c23fe7bd69fc6ef7088f093207e49"
+            "checked_at": "2026-09-05",
+            "source_commit": "9b2efd795c6aa09f88b0c257d269a9e518da6ae7"
           },
           "homepage_url": null,
           "id": "HKUDS/OpenHarness",
-          "interfaces": [],
+          "interfaces": [
+            "chat",
+            "cli",
+            "tui"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "OpenHarness (HKUDS)",
@@ -6473,6 +6618,12 @@
               "source_type": "upstream_catalog",
               "status": "claimed",
               "url": "https://github.com/RyanAlberts/best-of-Agent-Harnesses/blob/ece314654d2c23fe7bd69fc6ef7088f093207e49/harnesses.json"
+            },
+            {
+              "checked_at": "2026-09-05",
+              "source_type": "readme",
+              "status": "confirmed",
+              "url": "https://github.com/HKUDS/OpenHarness/blob/9b2efd795c6aa09f88b0c257d269a9e518da6ae7/README.md"
             }
           ],
           "provider_strategy": "unknown",
@@ -6830,7 +6981,10 @@
           },
           "homepage_url": null,
           "id": "iflytek/skillhub",
-          "interfaces": [],
+          "interfaces": [
+            "cli",
+            "ide"
+          ],
           "language": "unknown",
           "license_signal": "unknown",
           "name": "skillhub",
@@ -7060,7 +7214,10 @@
           },
           "homepage_url": null,
           "id": "Kilo-Org/kilocode",
-          "interfaces": [],
+          "interfaces": [
+            "cli",
+            "ide"
+          ],
           "language": "unknown",
           "license_signal": "unknown",
           "name": "Kilo Code",
@@ -8671,7 +8828,9 @@
           },
           "homepage_url": null,
           "id": "microsoft/playwright-mcp",
-          "interfaces": [],
+          "interfaces": [
+            "web"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "Playwright MCP",
@@ -9492,12 +9651,16 @@
             }
           },
           "freshness": {
-            "checked_at": "2026-08-23",
-            "source_commit": "ece314654d2c23fe7bd69fc6ef7088f093207e49"
+            "checked_at": "2026-09-05",
+            "source_commit": "deaebd9b1713745e35164f8673bd2d4c38d99e5f"
           },
           "homepage_url": null,
           "id": "NousResearch/hermes-agent",
-          "interfaces": [],
+          "interfaces": [
+            "chat",
+            "cli",
+            "tui"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "Hermes",
@@ -9509,6 +9672,12 @@
               "source_type": "upstream_catalog",
               "status": "claimed",
               "url": "https://github.com/RyanAlberts/best-of-Agent-Harnesses/blob/ece314654d2c23fe7bd69fc6ef7088f093207e49/harnesses.json"
+            },
+            {
+              "checked_at": "2026-09-05",
+              "source_type": "readme",
+              "status": "confirmed",
+              "url": "https://github.com/NousResearch/hermes-agent/blob/deaebd9b1713745e35164f8673bd2d4c38d99e5f/README.md"
             }
           ],
           "provider_strategy": "unknown",
@@ -9596,7 +9765,10 @@
           },
           "homepage_url": null,
           "id": "obra/superpowers",
-          "interfaces": [],
+          "interfaces": [
+            "cli",
+            "ide"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "superpowers",
@@ -9634,7 +9806,9 @@
           },
           "homepage_url": null,
           "id": "omnigent-ai/omnigent",
-          "interfaces": [],
+          "interfaces": [
+            "ide"
+          ],
           "language": "unknown",
           "license_signal": "unknown",
           "name": "omnigent",
@@ -9733,7 +9907,9 @@
           },
           "homepage_url": null,
           "id": "open-gsd/gsd-core",
-          "interfaces": [],
+          "interfaces": [
+            "cli"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "get-shit-done",
@@ -9926,7 +10102,9 @@
           },
           "homepage_url": null,
           "id": "openai/codex",
-          "interfaces": [],
+          "interfaces": [
+            "cli"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "Codex",
@@ -10550,7 +10728,9 @@
           },
           "homepage_url": null,
           "id": "OpenHands/OpenHands",
-          "interfaces": [],
+          "interfaces": [
+            "web"
+          ],
           "language": "unknown",
           "license_signal": "restricted ((multi-license))",
           "name": "OpenHands",
@@ -10650,7 +10830,9 @@
           },
           "homepage_url": null,
           "id": "openinterpreter/openinterpreter",
-          "interfaces": [],
+          "interfaces": [
+            "cli"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "Open Interpreter",
@@ -10784,7 +10966,9 @@
           },
           "homepage_url": null,
           "id": "PatrickJS/awesome-cursorrules",
-          "interfaces": [],
+          "interfaces": [
+            "ide"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "awesome-cursorrules",
@@ -10915,7 +11099,9 @@
           },
           "homepage_url": null,
           "id": "proliferate-ai/proliferate",
-          "interfaces": [],
+          "interfaces": [
+            "ide"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "Proliferate",
@@ -11152,7 +11338,9 @@
           },
           "homepage_url": null,
           "id": "QwenLM/qwen-code",
-          "interfaces": [],
+          "interfaces": [
+            "cli"
+          ],
           "language": "unknown",
           "license_signal": "unknown",
           "name": "qwen-code",
@@ -11447,7 +11635,9 @@
           },
           "homepage_url": null,
           "id": "RooCodeInc/Roo-Code",
-          "interfaces": [],
+          "interfaces": [
+            "ide"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "Roo Code",
@@ -11584,7 +11774,9 @@
           },
           "homepage_url": null,
           "id": "RyanAlberts/agentlog",
-          "interfaces": [],
+          "interfaces": [
+            "cli"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "agentlog",
@@ -11952,7 +12144,9 @@
           },
           "homepage_url": null,
           "id": "steel-dev/steel-browser",
-          "interfaces": [],
+          "interfaces": [
+            "web"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "Steel",
@@ -12183,12 +12377,14 @@
             }
           },
           "freshness": {
-            "checked_at": "2026-08-23",
-            "source_commit": "ece314654d2c23fe7bd69fc6ef7088f093207e49"
+            "checked_at": "2026-09-05",
+            "source_commit": "3ea751c087f32b16e039a2233dd6eefecef325d5"
           },
           "homepage_url": null,
           "id": "SWE-agent/SWE-agent",
-          "interfaces": [],
+          "interfaces": [
+            "cli"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "SWE-agent",
@@ -12200,6 +12396,12 @@
               "source_type": "upstream_catalog",
               "status": "claimed",
               "url": "https://github.com/RyanAlberts/best-of-Agent-Harnesses/blob/ece314654d2c23fe7bd69fc6ef7088f093207e49/harnesses.json"
+            },
+            {
+              "checked_at": "2026-09-05",
+              "source_type": "readme",
+              "status": "confirmed",
+              "url": "https://github.com/SWE-agent/SWE-agent/blob/3ea751c087f32b16e039a2233dd6eefecef325d5/README.md"
             }
           ],
           "provider_strategy": "unknown",
@@ -12919,7 +13121,9 @@
           },
           "homepage_url": null,
           "id": "vostride/agent-qa",
-          "interfaces": [],
+          "interfaces": [
+            "cli"
+          ],
           "language": "unknown",
           "license_signal": "restricted (FSL-1.1-ALv2)",
           "name": "agent-qa",
@@ -12995,7 +13199,9 @@
           },
           "homepage_url": null,
           "id": "withLinda/puppeteer-real-browser-mcp-server",
-          "interfaces": [],
+          "interfaces": [
+            "web"
+          ],
           "language": "unknown",
           "license_signal": "unknown",
           "name": "puppeteer-real-browser-mcp",
@@ -13094,7 +13300,10 @@
           },
           "homepage_url": null,
           "id": "wshobson/agents",
-          "interfaces": [],
+          "interfaces": [
+            "cli",
+            "ide"
+          ],
           "language": "unknown",
           "license_signal": "open_source",
           "name": "wshobson/agents",

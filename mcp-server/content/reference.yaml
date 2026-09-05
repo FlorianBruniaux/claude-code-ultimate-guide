@@ -905,6 +905,7 @@ deep_dive:
   opencode_tool: "guide/ecosystem/agentic-tools.md#15-opencode-anomaly-formerly-sst"  # Anomaly (fka SST), MIT, 199K+ stars (highest in category); 75+ providers, client/server split
   gemini_cli_tool: "guide/ecosystem/agentic-tools.md#16-gemini-cli-google"  # Google, Apache-2.0, 106K+ stars; Gemini-first, free tier is the reason to pick it (60 req/min, 1000/day)
   crush_tool: "guide/ecosystem/agentic-tools.md#17-crush-charm"  # Charm, FSL-1.1-MIT (converts to MIT 2yr after each release), 27.5K+ stars; multi-provider, polished TUI
+  warp_agent_cli: "guide/ecosystem/agentic-tools.md#19-warp-agent-cli"
   agent_harness_engineering_page: "guide/core/agent-harness.md"
   agent_harness_loop_graph_distinction: "guide/core/loop-graph-engineering.md#1-choose-the-smallest-control-structure"
   agent_harness_loop_horizons: "guide/core/agent-harness.md#three-loop-horizons"
@@ -917,6 +918,7 @@ deep_dive:
   agent_harness_reliability_metrics: "guide/core/agent-harness.md#operational-measures-beyond-telemetry"
   agent_harness_landscape_page: "guide/ecosystem/agent-harness-landscape.md"  # 160-project pinned upstream snapshot plus 32 guide supplements; separates 42 strict runtimes from 15 adjacent control planes
   agent_harness_landscape_entry_points: "guide/ecosystem/agent-harness-landscape.md#choose-the-right-entry-point"
+  coding_agent_interfaces: "guide/ecosystem/agent-harness-landscape.md#interface-execution-and-loop-ownership-are-separate"
   agent_harness_catalog_boundary: "guide/ecosystem/agent-harness-landscape.md#160-projects-does-not-mean-160-runtime-harnesses"
   agent_harness_strict_runtime_map: "guide/ecosystem/agent-harness-landscape.md#core-coding-harnesses"
   agent_harness_orchestrators: "guide/ecosystem/agent-harness-landscape.md#orchestrators-products-above-the-runtime"
@@ -1561,6 +1563,7 @@ deep_dive:
   ai_ecosystem_workflows: 25675
   ai_ecosystem_integration: 25803
   ai_ecosystem_detailed: "guide/ecosystem/ai-ecosystem.md"
+  ai_ecosystem_coding_environments: "guide/ecosystem/ai-ecosystem.md#6-ide-ade-and-hybrid-coding-environments"
   ai_ecosystem_goose: "guide/ecosystem/ai-ecosystem.md#111-goose-open-source-alternative-block"
   ai_ecosystem_goose_comparison: "guide/ecosystem/ai-ecosystem.md#claude-code-vs-goose-key-differences"
   ai_ecosystem_context_packing: "guide/ecosystem/ai-ecosystem.md#12-context-packing-tools"
@@ -3101,6 +3104,7 @@ section_maps:
     - "security-summary"
     - "documentation"
   "guide/ecosystem/agent-harness-landscape.md":
+    - "interface-execution-and-loop-ownership-are-separate"
     - "160-projects-does-not-mean-160-runtime-harnesses"
     - "the-twelve-category-map"
     - "core-coding-harnesses"
@@ -3116,6 +3120,7 @@ section_maps:
   "guide/ecosystem/agentic-tools.md":
     - "the-spectrum"
     - "section-1-terminal-coding-agents"
+    - "19-warp-agent-cli"
     - "section-2-autonomous-coding-agents"
     - "section-3-multi-agent-frameworks"
     - "section-4-agent-orchestration-tools"
@@ -3135,7 +3140,7 @@ section_maps:
     - "45-library-management-best-practices"
     - "5-voice-to-text-tools-wispr-flow-superwhisper"
     - "51-text-to-speech-tools-agent-vibes"
-    - "6-ide-based-tools-cursor-windsurf-cline"
+    - "6-ide-ade-and-hybrid-coding-environments"
     - "61-google-antigravity-agent-first-ide"
     - "7-ui-prototypers-v0-bolt-lovable"
     - "71-generative-ui-agent-driven-interactive-output-formats"

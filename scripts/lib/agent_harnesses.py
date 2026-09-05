@@ -26,6 +26,13 @@ AUTONOMY_VALUES = {
     "not_applicable",
 }
 RECOVERY_VALUES = {"none", "retry", "resumable", "durable", "unknown", "not_applicable"}
+INTERFACE_VALUES = {"chat", "cli", "desktop", "ide", "tui", "web"}
+INTERFACE_TAG_MAP = {
+    "browser": "web",
+    "cli": "cli",
+    "ide": "ide",
+    "tui": "tui",
+}
 PINNED_GITHUB_RE = re.compile(r"^https://github\.com/[^/]+/[^/]+/(?:blob|commit)/[0-9a-fA-F]{40}(?:/|$)")
 PINNED_RAW_GITHUB_RE = re.compile(
     r"^https://raw\.githubusercontent\.com/[^/]+/[^/]+/[0-9a-fA-F]{40}/"
@@ -217,6 +224,18 @@ def validate_record(record: Any) -> list[str]:
         errors.append("autonomy status is invalid")
     if record.get("recovery") not in RECOVERY_VALUES:
         errors.append("recovery status is invalid")
+    interfaces = record.get("interfaces")
+    if not isinstance(interfaces, list):
+        errors.append("interfaces must be an array")
+    else:
+        unsupported = sorted(
+            (str(value) for value in interfaces if not isinstance(value, str) or value not in INTERFACE_VALUES),
+            key=str.casefold,
+        )
+        if unsupported:
+            errors.append(f"interfaces contain unsupported values: {', '.join(unsupported)}")
+        if not unsupported and interfaces != sorted(set(interfaces)):
+            errors.append("interfaces must be unique and deterministically sorted")
     if record.get("archived") not in {True, False, "unknown"}:
         errors.append("archived must be true, false, or unknown")
     features = record.get("features")
@@ -336,6 +355,11 @@ def validate_catalog(data: Any) -> list[str]:
     for index, record in enumerate(supplements):
         errors.extend(f"guide supplement {index}: {error}" for error in validate_record(record))
     known_refs = set(ids) | set(supplement_ids)
+    projects_by_id = {
+        record["id"]: record
+        for record in [*projects, *supplements]
+        if isinstance(record, dict) and isinstance(record.get("id"), str)
+    }
     map_project_refs: dict[str, set[str]] = {}
     for label in ("strict_runtime_map", "adjacent_control_planes"):
         records = sets[label]
@@ -366,6 +390,9 @@ def validate_catalog(data: Any) -> list[str]:
                 if reference in set(supplement_ids) and declared_set != "guide_supplement":
                     errors.append(f"{label} source_set does not match guide supplement {reference}")
                 if label == "strict_runtime_map":
+                    referenced_project = projects_by_id.get(reference)
+                    if referenced_project is not None and not referenced_project.get("interfaces"):
+                        errors.append("strict_runtime_map requires at least one project interface")
                     if record.get("owns_loop") == "no":
                         errors.append("strict_runtime_map cannot contain owns_loop=no")
                     elif record.get("owns_loop") not in {"confirmed", "claimed"}:
@@ -535,6 +562,7 @@ def _normalize_map_entry(entry: dict[str, Any]) -> dict[str, Any]:
 
 
 def _normalize_upstream_project(project: dict[str, Any], captured_at: str) -> dict[str, Any]:
+    tags = sorted(set(project.get("tags", [])))
     return {
         "id": project["github_id"],
         "name": project["name"],
@@ -549,9 +577,9 @@ def _normalize_upstream_project(project: dict[str, Any], captured_at: str) -> di
         "license_signal": _normalize_license(project["license_signal"]),
         "archived": "unknown",
         "language": "unknown",
-        "interfaces": [],
+        "interfaces": sorted({INTERFACE_TAG_MAP[tag] for tag in tags if tag in INTERFACE_TAG_MAP}),
         "provider_strategy": "unknown",
-        "tags": sorted(set(project.get("tags", []))),
+        "tags": tags,
         "adoption_surface": _normalize_tier(project["tier"]),
         "autonomy": _normalize_runtime_value(project["autonomy"]),
         "recovery": _normalize_runtime_value(project["recovery"]),
@@ -562,6 +590,32 @@ def _normalize_upstream_project(project: dict[str, Any], captured_at: str) -> di
         },
         "provenance": [_upstream_evidence()],
     }
+
+
+def _apply_upstream_project_override(
+    record: dict[str, Any], override: dict[str, Any]
+) -> dict[str, Any]:
+    allowed = {"id", "interfaces", "source_commit", "source_type", "evidence_url", "checked_at"}
+    extra = sorted(set(override) - allowed)
+    if extra:
+        raise ValueError(f"upstream project override has unknown fields: {', '.join(extra)}")
+    if override.get("id") != record["id"]:
+        raise ValueError("upstream project override id mismatch")
+    interfaces = override.get("interfaces")
+    if not isinstance(interfaces, list) or not interfaces:
+        raise ValueError("upstream project override interfaces must be a non-empty array")
+    record["interfaces"] = sorted(set(interfaces))
+    record["freshness"] = {
+        "source_commit": override["source_commit"],
+        "checked_at": override["checked_at"],
+    }
+    record["provenance"].append({
+        "source_type": override.get("source_type", "readme"),
+        "status": "confirmed",
+        "url": override["evidence_url"],
+        "checked_at": override["checked_at"],
+    })
+    return record
 
 
 def build_catalog(source: dict[str, Any], overrides: dict[str, Any]) -> dict[str, Any]:
@@ -581,6 +635,25 @@ def build_catalog(source: dict[str, Any], overrides: dict[str, Any]) -> dict[str
         (_normalize_upstream_project(project, captured_at) for project in projects),
         key=lambda project: project["id"].casefold(),
     )
+    upstream_overrides = overrides.get("upstream_project_overrides", [])
+    if not isinstance(upstream_overrides, list):
+        raise ValueError("upstream_project_overrides must be an array")
+    overrides_by_id = {item["id"]: item for item in upstream_overrides}
+    if len(overrides_by_id) != len(upstream_overrides):
+        raise ValueError("upstream_project_overrides ids must be unique")
+    known_upstream_ids = {project["id"] for project in normalized_projects}
+    unknown_override_ids = sorted(set(overrides_by_id) - known_upstream_ids)
+    if unknown_override_ids:
+        raise ValueError(
+            "upstream_project_overrides reference unknown projects: "
+            + ", ".join(unknown_override_ids)
+        )
+    normalized_projects = [
+        _apply_upstream_project_override(project, overrides_by_id[project["id"]])
+        if project["id"] in overrides_by_id
+        else project
+        for project in normalized_projects
+    ]
     counts: dict[str, int] = {}
     for project in normalized_projects:
         counts[project["category"]] = counts.get(project["category"], 0) + 1

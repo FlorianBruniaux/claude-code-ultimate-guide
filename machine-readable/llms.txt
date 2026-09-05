@@ -49,6 +49,7 @@ Guide version 3.43.0, tracking Claude Code up to v2.1.250 (August 2026).
 - Loop & Graph Engineering: https://cc.bruniaux.com/guide/loop-graph-engineering/
 - Agent Harness Map: https://cc.bruniaux.com/guide/agent-harness-landscape/
 - Agent Tools: https://cc.bruniaux.com/guide/agentic-tools/
+- AI Ecosystem: https://cc.bruniaux.com/guide/ai-ecosystem/
 - Glossary: https://cc.bruniaux.com/guide/glossary/
 - Translations and language status: https://cc.bruniaux.com/guide/translations/
 - Learning path skill: https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/skills/learning-path

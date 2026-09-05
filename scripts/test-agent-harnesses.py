@@ -117,6 +117,11 @@ class ValidationTests(unittest.TestCase):
         )
         self.assertIn("non-GitHub project stars must be null", validate_record(record))
 
+    def test_interfaces_use_the_controlled_taxonomy(self):
+        record = project()
+        record["interfaces"] = ["terminal"]
+        self.assertIn("interfaces contain unsupported values: terminal", validate_record(record))
+
     def test_confirmed_or_claimed_feature_requires_evidence(self):
         for status in ("confirmed", "claimed"):
             with self.subTest(status=status):
@@ -757,6 +762,21 @@ class CatalogTests(unittest.TestCase):
     def test_catalog_validates(self):
         self.assertEqual([], validate_catalog(self.catalog))
 
+    def test_every_strict_runtime_has_a_supported_interface(self):
+        projects = {
+            record["id"]: record
+            for record in (
+                self.catalog["sets"]["upstream_snapshot"]["projects"]
+                + self.catalog["sets"]["guide_supplement"]
+            )
+        }
+        supported = {"chat", "cli", "desktop", "ide", "tui", "web"}
+        for mapping in self.catalog["sets"]["strict_runtime_map"]:
+            interfaces = projects[mapping["project_ref"]]["interfaces"]
+            with self.subTest(project_ref=mapping["project_ref"]):
+                self.assertTrue(interfaces)
+                self.assertTrue(set(interfaces).issubset(supported))
+
     def test_supplement_count_is_fixed_even_with_recomputed_checksum(self):
         broken = copy.deepcopy(self.catalog)
         broken["sets"]["guide_supplement"].pop()
@@ -778,6 +798,20 @@ class CatalogTests(unittest.TestCase):
         broken["sets"]["strict_runtime_map"][0]["owns_loop"] = "no"
         recompute_internal_checksum(broken)
         self.assertIn("strict_runtime_map cannot contain owns_loop=no", validate_catalog(broken))
+
+    def test_strict_map_requires_a_project_interface(self):
+        broken = copy.deepcopy(self.catalog)
+        entry = broken["sets"]["strict_runtime_map"][0]
+        projects = (
+            broken["sets"]["upstream_snapshot"]["projects"]
+            + broken["sets"]["guide_supplement"]
+        )
+        next(record for record in projects if record["id"] == entry["project_ref"])["interfaces"] = []
+        recompute_internal_checksum(broken)
+        self.assertIn(
+            "strict_runtime_map requires at least one project interface",
+            validate_catalog(broken),
+        )
 
     def test_strict_map_rejects_unknown_loop_ownership(self):
         broken = copy.deepcopy(self.catalog)
