@@ -1,34 +1,34 @@
 {
   "schema_version": 1,
-  "snapshot_at": "2026-09-05T13:30:44Z",
+  "snapshot_at": "2026-09-06T13:46:33Z",
   "package": "claude-code-ultimate-guide-mcp",
-  "public_version": "1.3.1",
+  "public_version": "1.3.3",
   "package_created_at": "2026-02-28T20:06:29.210Z",
-  "version_published_at": "2026-08-31T22:38:40.363Z",
+  "version_published_at": "2026-09-05T19:51:17.232Z",
   "downloads": {
     "year_to_date": {
       "start": "2026-01-01",
-      "end": "2026-09-04",
-      "count": 9182
+      "end": "2026-09-05",
+      "count": 9411
     },
     "since_launch": {
       "start": "2026-02-28",
-      "end": "2026-09-04",
-      "count": 9182
+      "end": "2026-09-05",
+      "count": 9411
     },
     "last_30_days": {
-      "start": "2026-08-06",
-      "end": "2026-09-04",
-      "count": 5757
+      "start": "2026-08-07",
+      "end": "2026-09-05",
+      "count": 5740
     },
     "last_7_days": {
-      "start": "2026-08-29",
-      "end": "2026-09-04",
-      "count": 607
+      "start": "2026-08-30",
+      "end": "2026-09-05",
+      "count": 821
     },
     "distribution_period": "last_30_days",
     "daily_median": 71.5,
-    "daily_mean": 191.9,
+    "daily_mean": 191.3,
     "daily_max": 727,
     "daily_mad": 71.5,
     "anomaly_threshold_mad": 6.0,
@@ -1273,6 +1273,11 @@
       {
         "day": "2026-09-04",
         "downloads": 34,
+        "anomaly": false
+      },
+      {
+        "day": "2026-09-05",
+        "downloads": 229,
         "anomaly": false
       }
     ]
