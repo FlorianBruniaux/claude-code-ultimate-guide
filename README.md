@@ -314,6 +314,7 @@ No single repository needs to cover learning, installation, curation, reference 
 | Browse installable templates | [claude-code-templates](https://github.com/davila7/claude-code-templates) | Template catalog and CLI distribution |
 | Start from official skill examples | [anthropics/skills](https://github.com/anthropics/skills) | Anthropic-maintained skill examples |
 | Browse the skills marketplace | [skills.sh](https://skills.sh/) | Search and installation routes for published skills |
+| Curate Claude Code hooks | [awesome-claude-code-hooks](https://github.com/loqimean/awesome-claude-code-hooks) | Curated list of Claude Code hooks |
 | Work outside software development | [Claude Cowork Guide](https://github.com/FlorianBruniaux/claude-cowork-guide) | Workflows for knowledge workers |
 | Compare coding-agent capabilities | [AI Coding Agents Matrix](https://coding-agents-matrix.dev) | Cross-agent feature comparison |
 
