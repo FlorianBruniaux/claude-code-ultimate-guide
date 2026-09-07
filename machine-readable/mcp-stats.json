@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "snapshot_at": "2026-09-06T13:46:33Z",
+  "snapshot_at": "2026-09-07T16:00:53Z",
   "package": "claude-code-ultimate-guide-mcp",
   "public_version": "1.3.3",
   "package_created_at": "2026-02-28T20:06:29.210Z",
@@ -8,35 +8,32 @@
   "downloads": {
     "year_to_date": {
       "start": "2026-01-01",
-      "end": "2026-09-05",
-      "count": 9411
+      "end": "2026-09-06",
+      "count": 9527
     },
     "since_launch": {
       "start": "2026-02-28",
-      "end": "2026-09-05",
-      "count": 9411
+      "end": "2026-09-06",
+      "count": 9527
     },
     "last_30_days": {
-      "start": "2026-08-07",
-      "end": "2026-09-05",
-      "count": 5740
+      "start": "2026-08-08",
+      "end": "2026-09-06",
+      "count": 5856
     },
     "last_7_days": {
-      "start": "2026-08-30",
-      "end": "2026-09-05",
-      "count": 821
+      "start": "2026-08-31",
+      "end": "2026-09-06",
+      "count": 926
     },
     "distribution_period": "last_30_days",
-    "daily_median": 71.5,
-    "daily_mean": 191.3,
+    "daily_median": 97.5,
+    "daily_mean": 195.2,
     "daily_max": 727,
-    "daily_mad": 71.5,
+    "daily_mad": 88.5,
     "anomaly_threshold_mad": 6.0,
     "anomaly_dates": [
-      "2026-08-15",
-      "2026-08-17",
-      "2026-08-20",
-      "2026-08-21"
+      "2026-08-17"
     ],
     "daily_period": "year_to_date",
     "daily": [
@@ -1173,7 +1170,7 @@
       {
         "day": "2026-08-15",
         "downloads": 566,
-        "anomaly": true
+        "anomaly": false
       },
       {
         "day": "2026-08-16",
@@ -1198,12 +1195,12 @@
       {
         "day": "2026-08-20",
         "downloads": 552,
-        "anomaly": true
+        "anomaly": false
       },
       {
         "day": "2026-08-21",
         "downloads": 616,
-        "anomaly": true
+        "anomaly": false
       },
       {
         "day": "2026-08-22",
@@ -1278,6 +1275,11 @@
       {
         "day": "2026-09-05",
         "downloads": 229,
+        "anomaly": false
+      },
+      {
+        "day": "2026-09-06",
+        "downloads": 116,
         "anomaly": false
       }
     ]
