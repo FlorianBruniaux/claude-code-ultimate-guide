@@ -33,7 +33,6 @@ This guide is part of a 6-repo ecosystem separating audiences (devs vs knowledge
 | Aspect | Details |
 |--------|---------|
 | **GitHub** | https://github.com/FlorianBruniaux/claude-code-ultimate-guide |
-| **Local** | `/Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide/` |
 | **Content** | Guide ~25K lines, 268 templates, workflows, architecture |
 | **Audience** | Developers, DevOps, tech leads |
 
@@ -44,7 +43,6 @@ This guide is part of a 6-repo ecosystem separating audiences (devs vs knowledge
 | Aspect | Details |
 |--------|---------|
 | **GitHub** | https://github.com/FlorianBruniaux/claude-cowork-guide |
-| **Local** | `/Users/florianbruniaux/Sites/perso/claude-cowork-guide/` |
 | **Content** | 6 guides, 67 prompts, 5 workflows, cheatsheet, FAQ |
 | **Audience** | Non-devs, assistants, managers, knowledge workers |
 
@@ -56,7 +54,6 @@ This guide is part of a 6-repo ecosystem separating audiences (devs vs knowledge
 
 | Aspect | Details |
 |--------|---------|
-| **Local** | `/Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide-landing/` |
 | **Content** | Marketing page, badges, FAQ, quiz (473 questions) |
 | **Syncs with** | Main guide (version, templates, guide lines) |
 
@@ -67,7 +64,6 @@ This guide is part of a 6-repo ecosystem separating audiences (devs vs knowledge
 | Aspect | Details |
 |--------|---------|
 | **GitHub** | https://github.com/FlorianBruniaux/claude-code-plugins |
-| **Local** | `/Users/florianbruniaux/Sites/perso/claude-code-plugins/` |
 | **Content** | 8 plugins, 181 templates migrated from `examples/` |
 | **Audience** | All Claude Code users |
 
@@ -88,7 +84,6 @@ claude plugin install security-suite   # or any of the 8 plugins
 | Aspect | Details |
 |--------|---------|
 | **Public** | https://florian.bruniaux.com/blog |
-| **Local** | `/Users/florianbruniaux/Sites/perso/florian-portfolio/` |
 | **Content** | 17 published articles, 6 long-form guides, ~20 drafts, all Astro content collections |
 | **Audience** | Practitioners and decision-makers, deeper and more opinionated than the guide |
 
@@ -111,7 +106,6 @@ claude plugin install security-suite   # or any of the 8 plugins
 
 | Aspect | Details |
 |--------|---------|
-| **Local** | `/Users/florianbruniaux/Sites/perso/claude-cowork-guide-landing/` |
 | **Content** | Cowork marketing page, prompts showcase |
 | **Syncs with** | Cowork guide (version, prompts count) |
 

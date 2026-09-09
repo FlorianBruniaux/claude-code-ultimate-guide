@@ -2604,13 +2604,13 @@ ecosystem:
     description: "Marketing sites for guide discovery and navigation"
     architecture: "4-repo ecosystem: 2 sources (docs) + 2 landings (vitrine)"
     code_landing:
-      local: "/Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide-landing/"
+      repository: "https://github.com/FlorianBruniaux/claude-code-ultimate-guide-landing"
       purpose: "Marketing site for Claude Code guide"
       audience: "Developers discovering the guide"
       features: ["badges (version, templates, lines)", "quiz (334 questions)", "FAQ", "cross-links to Cowork"]
       sync_with: "Guide Code (version, templates count, guide lines)"
     cowork_landing:
-      local: "/Users/florianbruniaux/Sites/perso/claude-cowork-guide-landing/"
+      repository: "https://github.com/FlorianBruniaux/claude-cowork-guide-landing"
       purpose: "Marketing site for Cowork guide"
       audience: "Knowledge workers discovering Cowork"
       features: ["prompts showcase", "workflows preview", "cross-links to Code"]

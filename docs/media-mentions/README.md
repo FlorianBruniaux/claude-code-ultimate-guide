@@ -4,7 +4,7 @@ Tracks all external sources that mention the Claude Code Ultimate Guide (GitHub 
 
 This file remains guide-specific. The public cross-project catalog, including Cowork, StarMapper,
 CCBoard, CC-Copilot Bridge, ctxharness, Dep Scope, flow-lean, GSC MCP, and Claude Code Plugins, lives in
-`~/Sites/perso/florian-portfolio/src/data/mentions.json` and is published at
+`src/data/mentions.json` in the portfolio repository and is published at
 `https://www.florian.bruniaux.com/mentions/`. RTK is outside that catalog by design.
 
 ## Source of truth

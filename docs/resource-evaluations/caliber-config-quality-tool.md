@@ -43,7 +43,7 @@
 
 ## 🔬 Analyse technique (post-audit complet du code source)
 
-Full source code audit conducted on `/Users/florianbruniaux/Sites/ai-setup` (local clone). Key findings:
+Full source code audit conducted on a clone of [Caliber](https://github.com/rely-ai-org/caliber). Key findings:
 
 ### Scoring system
 

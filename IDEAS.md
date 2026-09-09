@@ -114,7 +114,7 @@ CLAUDE.md configuration examples by framework:
 
 a### prompt-caching MCP Plugin
 
-MCP plugin that automates `cache_control` placement for developers building apps on the Anthropic SDK. Installed locally at `/Users/florianbruniaux/Sites/prompt-caching` and connected to Claude Code via `~/.claude.json`.
+MCP plugin that automates `cache_control` placement for developers building apps on the Anthropic SDK. Evaluated through a local installation connected to Claude Code.
 
 **Status:** Testing in progress. Real usage data required before any documentation decision.
 

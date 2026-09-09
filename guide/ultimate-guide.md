@@ -8412,7 +8412,7 @@ When reviewing architecture:
 
 This skill is now installed in the Méthode Aristote repository at:
 ```
-/Users/florianbruniaux/Sites/MethodeAristote/app/.claude/skills/design-patterns/
+.claude/skills/design-patterns/
 ```
 
 **Usage**:

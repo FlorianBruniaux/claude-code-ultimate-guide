@@ -5,7 +5,7 @@
 **Evaluation date**: 2026-07-29
 **Evaluator**: Claude Code Ultimate Guide Team
 **Guide version**: 3.41.1
-**Method**: source analysis of a local clone at `~/Sites/divers-test/executor`, commit `2f09b13e0` (2026-07-28), full `git log` history, file-count concept mapping between `vision.md` and shipped source. No install, no build, no live MCP session was run against it.
+**Method**: source analysis of a repository clone, commit `2f09b13e0` (2026-07-28), full `git log` history, file-count concept mapping between `vision.md` and shipped source. No install, no build, no live MCP session was run against it.
 
 ---
 

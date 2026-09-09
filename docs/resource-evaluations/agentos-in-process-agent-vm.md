@@ -5,7 +5,7 @@
 **Evaluation date**: 2026-07-29
 **Evaluator**: Claude Code Ultimate Guide Team
 **Guide version**: 3.41.1
-**Method**: source analysis of a local clone at `~/Sites/divers-test/agentos`, commit `c4e61aa24` (2026-07-29), full `git log` history, code-size counts by language. No install, no build, no benchmark reproduction was run.
+**Method**: source analysis of a repository clone, commit `c4e61aa24` (2026-07-29), full `git log` history, code-size counts by language. No install, no build, no benchmark reproduction was run.
 
 ---
 
@@ -87,4 +87,4 @@ Frame every benchmark figure as vendor-reported, dated, and single-machine, per 
 
 ## Sources
 
-All paths relative to a clone at commit `c4e61aa24` (2026-07-29): repository root listing (`crates/`, `packages/`, `software/`), `crates/kernel/`, `crates/vfs/`, `crates/execution/`, `benchmarks/` (figures only, methodology not independently reproduced), `LICENSE`. Git history via `git log --format` and `git shortlog -sn` on the full clone. Cross-reference: `/Users/florianbruniaux/Sites/perso/yt-insights/output/aidevcon/insights/20251121 - Rene Brandel - How we hacked YC Spring 2025 batch's AI agents ｜ DevCon Fall 2025 [o_bVqT_5yGM].en.md`.
+All paths relative to a clone at commit `c4e61aa24` (2026-07-29): repository root listing (`crates/`, `packages/`, `software/`), `crates/kernel/`, `crates/vfs/`, `crates/execution/`, `benchmarks/` (figures only, methodology not independently reproduced), `LICENSE`. Git history via `git log --format` and `git shortlog -sn` on the full clone. Cross-reference: [Rene Brandel, DevCon Fall 2025](https://www.youtube.com/watch?v=o_bVqT_5yGM).

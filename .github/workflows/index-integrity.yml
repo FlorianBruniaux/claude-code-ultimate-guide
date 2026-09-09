@@ -43,6 +43,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Check public content for workstation paths
+        run: |
+          python3 scripts/check-public-paths.py --self-test
+          python3 scripts/check-public-paths.py
+
       - name: Check reference.yaml structural integrity
         run: |
           # Hard gate, currently at zero. Covers what the ratchet below cannot:

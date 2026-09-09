@@ -7470,7 +7470,7 @@ When reviewing architecture:
 
 Ce skill est désormais installé dans le dépôt Méthode Aristote à l'emplacement :
 ```
-/Users/florianbruniaux/Sites/MethodeAristote/app/.claude/skills/design-patterns/
+.claude/skills/design-patterns/
 ```
 
 **Utilisation** :

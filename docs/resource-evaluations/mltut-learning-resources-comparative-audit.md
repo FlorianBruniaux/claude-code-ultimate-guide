@@ -65,7 +65,7 @@ Avant de lire les pages éditoriales, l’audit a cherché `llms.txt`, `llms-ful
 | Claude Code Repos Index | `docs/llms.txt`, JSON, sitemaps | Présent mais incohérent : 232 dépôts annoncés, 241 entrées taguées, 62 dans une statistique source |
 | `claude-howto` | JSON de configuration et index générés | Navigation structurée, mais pas de `llms.txt` |
 
-Vingt-huit dépôts ont été clonés sous `/Users/florianbruniaux/Sites/divers tests/`. Leurs révisions exactes sont conservées dans le dossier de preuve privé associé à cet audit.
+Vingt-huit dépôts ont été analysés à partir de clones locaux. Leurs révisions exactes sont conservées dans le dossier de preuve privé associé à cet audit.
 
 ## Audit de l’annuaire MLTUT
 

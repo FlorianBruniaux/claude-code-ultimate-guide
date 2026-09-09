@@ -1,7 +1,7 @@
 # Resource Evaluation: MDMA (MobileReality)
 
 **URL (trigger)**: https://github.com/MobileReality/mdma
-**Primary Sources**: MDMA GitHub repository (README, docs, evals), local audit of the source tree at `/Users/florianbruniaux/Sites/divers-test/mdma`
+**Primary Sources**: [MDMA source repository](https://github.com/MobileReality/mdma), including its README, documentation, evaluations, and implementation
 **Type**: Open-source library / DSL for agent-generated interactive UI
 **Evaluated**: 2026-07-07
 **Score**: 3/5 (MODERATE, integrate when time available)
@@ -20,9 +20,9 @@ MDMA is an open-source project that defines a Markdown-with-embedded-YAML dialec
 
 ### Key Facts (Verified)
 
-1. **Deterministic validator/fixer pipeline**: single pass, no additional LLM call, regex-based extraction tolerant of malformed markdown, 22 rule files under `/Users/florianbruniaux/Sites/divers-test/mdma/packages/validator/src/rules` (19 documented in the README, 22 counted in the source at audit time), ordered fixers for field-type inference, YAML key typo correction, and binding repair.
+1. **Deterministic validator/fixer pipeline**: single pass, no additional LLM call, regex-based extraction tolerant of malformed markdown, 22 rule files under `packages/validator/src/rules` (19 documented in the README, 22 counted in the source at audit time), ordered fixers for field-type inference, YAML key typo correction, and binding repair.
 2. **Standard parsing**: built on remark/unified as a proper plugin, with explicit handling of streaming state (distinguishes a block still generating from one that's genuinely malformed).
-3. **Eval methodology**: uses promptfoo with custom assertions, documented with a "not 100%, observations not conclusions" framing in `/Users/florianbruniaux/Sites/divers-test/mdma/evals/own-model/README.md`. Measured result: 41% success with a bare prompt versus 90.5% with the DSL and validator combined, on their own fine-tuned model served via Modal/Hugging Face.
+3. **Eval methodology**: uses promptfoo with custom assertions, documented with a "not 100%, observations not conclusions" framing in `evals/own-model/README.md`. Measured result: 41% success with a bare prompt versus 90.5% with the DSL and validator combined, on their own fine-tuned model served via Modal/Hugging Face.
 4. **"Runs anywhere" for core packages**: `spec`, `parser`, `validator`, and `runtime` packages contain zero Node-specific imports (`fs`, `path`, `crypto`), confirmed by grep across all four package source trees.
 5. **CI hygiene**: GitHub Actions pinned by commit SHA in `.github/workflows/ci.yml` and `release.yml` (e.g. `actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6`), changesets-based per-package versioning, a `turbo run test` test suite spanning all packages.
 6. **Package structure**: 10 packages (`spec`, `parser`, `validator`, `runtime`, `attachables-core`, `renderer-react`, `cli`, `mcp`, `agui`, `prompt-pack`), each independently versioned and published under the `@mobile-reality` npm org.
@@ -48,11 +48,11 @@ MDMA is an open-source project that defines a Markdown-with-embedded-YAML dialec
 
 This is the most consequential finding, because it contradicts the project's own documentation rather than a marketing tagline.
 
-- `FormRenderer.tsx` wraps every field in a plain `<div className="mdma-form">`, not a `<form>` element (`/Users/florianbruniaux/Sites/divers-test/mdma/packages/renderer-react/src/components/FormRenderer.tsx`, line 152).
+- `FormRenderer.tsx` wraps every field in a plain `<div className="mdma-form">`, not a `<form>` element (`packages/renderer-react/src/components/FormRenderer.tsx`, line 152).
 - The submit control is `<button type="button">` with an `onClick` that dispatches an `ACTION_TRIGGERED` action directly, bypassing any form submit event (same file, lines 119-125 and 247-258).
 - Native HTML5 constraint validation (the `required` attribute passed down to each input) only fires on an actual form submission event. Since there is no `<form>` and no `type="submit"` button, it never fires.
-- The field-level `validation` object (`pattern`, `min`, `max`, `message`) is defined in the schema at `/Users/florianbruniaux/Sites/divers-test/mdma/packages/spec/src/schemas/components/form.ts` (line 18) and is read nowhere in the renderer or the attachables-core form handler (`/Users/florianbruniaux/Sites/divers-test/mdma/packages/attachables-core/src/form/form-handler.ts`).
-- `/Users/florianbruniaux/Sites/divers-test/mdma/docs/reference/component-catalog.md` documents this exact `validation` object with a worked example (a `pattern` matching a company email domain, lines 71-72), and the same construct appears in the repo's own `examples/approval-workflow/document.md`.
+- The field-level `validation` object (`pattern`, `min`, `max`, `message`) is defined in the schema at `packages/spec/src/schemas/components/form.ts` (line 18) and is read nowhere in the renderer or the attachables-core form handler (`packages/attachables-core/src/form/form-handler.ts`).
+- `docs/reference/component-catalog.md` documents this exact `validation` object with a worked example (a `pattern` matching a company email domain, lines 71-72), and the same construct appears in the repo's own `examples/approval-workflow/document.md`.
 
 **Net effect**: a field marked `required: true` with a `pattern` constraint can be submitted empty or non-conforming, with no error shown to the user, despite the documentation presenting this as working behavior with concrete examples pulled from the repo itself. This is different in kind from the webhook gap, which is honestly listed as future work in the project's own roadmap. The validation gap is not disclosed anywhere.
 
@@ -118,6 +118,5 @@ This is the most consequential finding, because it contradicts the project's own
 ## Resources
 
 - **Repository**: https://github.com/MobileReality/mdma
-- **Local source audited**: `/Users/florianbruniaux/Sites/divers-test/mdma`
-- **Eval README**: `/Users/florianbruniaux/Sites/divers-test/mdma/evals/own-model/README.md`
-- **Component catalog (documents the unenforced validation)**: `/Users/florianbruniaux/Sites/divers-test/mdma/docs/reference/component-catalog.md`
+- **Eval README**: [Evaluation methodology](https://github.com/MobileReality/mdma/blob/main/evals/own-model/README.md)
+- **Component catalog (documents the unenforced validation)**: [Component reference](https://github.com/MobileReality/mdma/blob/main/docs/reference/component-catalog.md)

@@ -21,7 +21,6 @@
 ## Deep Dive: everything-claude-code
 
 **Repository**: https://github.com/affaan-m/everything-claude-code
-**Local Path**: `/Users/florianbruniaux/Sites/claude-tools-guides/everything-claude-code/`
 
 ### 1. Positioning & Credibility
 
@@ -212,7 +211,6 @@
 ## Deep Dive: awesome-claude-code
 
 **Repository**: https://github.com/hesreallyhim/awesome-claude-code
-**Local Path**: `/Users/florianbruniaux/Sites/claude-tools-guides/awesome-claude-code/`
 
 ### 1. Positioning & Credibility
 
@@ -272,7 +270,6 @@
 ## Deep Dive: Claude-Code-Everything-You-Need-to-Know
 
 **Repository**: https://github.com/wesammustafa/Claude-Code-Everything-You-Need-to-Know
-**Local Path**: `/Users/florianbruniaux/Sites/claude-tools-guides/Claude-Code-Everything-You-Need-to-Know/`
 
 ### 1. Positioning & Credibility
 
@@ -339,7 +336,6 @@
 ## Deep Dive: claude-code-studio
 
 **Repository**: https://github.com/arnaldo-delisio/claude-code-studio
-**Local Path**: `/Users/florianbruniaux/Sites/claude-tools-guides/claude-code-studio/`
 
 ### 1. Positioning & Credibility
 
