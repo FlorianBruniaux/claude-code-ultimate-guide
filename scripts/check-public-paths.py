@@ -4,6 +4,7 @@ import argparse
 import html
 from pathlib import Path
 import re
+import subprocess
 from urllib.parse import unquote
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -38,9 +39,14 @@ def main():
             assert not has_workstation_path(value), value
         print('Public-path detector self-test passed.')
         return 0
-    paths = {ROOT / name for name in PUBLIC_FILES if (ROOT / name).is_file()}
-    for name in PUBLIC_DIRS:
-        paths.update(p for p in (ROOT / name).rglob('*') if p.is_file() and p.suffix in TEXT_TYPES)
+    # Ignored working notes and stale local exports are not published sources.
+    names = subprocess.check_output(
+        ['git', 'ls-files', '-z', '--cached', '--others', '--exclude-standard'],
+        cwd=ROOT, text=True,
+    ).split('\0')
+    paths = {ROOT / name for name in names
+             if (name in PUBLIC_FILES or any(name.startswith(d + '/') for d in PUBLIC_DIRS))
+             and (ROOT / name).is_file() and Path(name).suffix in TEXT_TYPES}
     if args.dist:
         if not args.dist.is_dir():
             parser.error('--dist must name an existing build directory')
