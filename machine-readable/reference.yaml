@@ -63,7 +63,7 @@ deep_dive:
   skills_commands_merger_date: "2026-01-11"
   skills_commands_merger_summary: ".claude/commands/ merged into .claude/skills/. Add disable-model-invocation: true for user-only skills."
   skills_commands_merger_docs: "https://code.claude.com/docs/en/skills"
-  skills_commands_merger_guide: "guide/ultimate-guide.md:8902"
+  skills_commands_merger_guide: "guide/ultimate-guide.md#6-commands-user-invocable-skills"
   # Code Review Automation (Pat Cullen, Jan 2026)
   review_pr_advanced: "examples/skills/review-pr/SKILL.md"
   review_pr_advanced_note: "Since CC 2.1.3: equivalent skill uses disable-model-invocation: true in .claude/skills/"
@@ -295,7 +295,7 @@ deep_dive:
   # Template Installation
   install_templates_script: "scripts/install-templates.sh"
   # Session management
-  session_search: "guide/ops/observability.md:43"
+  session_search: "guide/ops/observability.md#session-search--resume"
   session_search_script: "examples/scripts/session-search.sh"
   cc_sessions_script: "examples/scripts/cc-sessions.py"  # 1225-line full version with discover subcommand
   cc_sessions_github: "https://github.com/FlorianBruniaux/cc-sessions"
@@ -383,7 +383,7 @@ deep_dive:
   edgee_rtk_lineage: "Edgee's tool-result-trimming layer explicitly credits RTK as its inspiration; TSR and brevity are the two layers RTK cannot cover"
   vendor_claims_checklist: "guide/ops/ai-unit-economics.md#6-how-to-read-a-vendors-cost-reduction-claim"  # paired design, sign test ceiling at small n, bootstrap CI width, median vs aggregate
   # Google Antigravity (Agent-First IDE)
-  antigravity_guide: "guide/ecosystem/ai-ecosystem.md:1370"
+  antigravity_guide: "guide/ecosystem/ai-ecosystem.md#61-google-antigravity-agent-first-ide"
   antigravity_evaluation: "docs/resource-evaluations/google-antigravity-evaluation.md"
   antigravity_proxy: "https://www.npmjs.com/package/antigravity-claude-proxy"
   antigravity_codelabs: "https://codelabs.developers.google.com/getting-started-google-antigravity"
@@ -551,7 +551,7 @@ deep_dive:
   productivity_maintainability_empirical: "guide/roles/learning-with-ai.md#productivity-research"  # Empirical data on "AI code is unmaintainable" claim — blind RCT shows no significant difference
   trust_calibration_maintainability_nuance: "guide/ultimate-guide.md#17-trust-calibration-when-and-how-much-to-verify"  # Nuance: defect rates ≠ maintenance burden (Borg et al. 2025)
   session_naming_template: "examples/claude-md/session-naming.md"
-  session_naming_guide: "guide/ultimate-guide.md:970"
+  session_naming_guide: "guide/ultimate-guide.md#session-auto-rename"
   session_auto_rename: "guide/ultimate-guide.md#session-auto-rename" # was line 960
   learning_mode_template: "examples/claude-md/learning-mode.md"
   learn_quiz_command: "examples/skills/learn-quiz/SKILL.md"
@@ -592,7 +592,7 @@ deep_dive:
   sandbox_isolation_guide: "guide/security/sandbox-isolation.md"
   sandbox_isolation_decision_tree: "guide/security/sandbox-isolation.md:7"
   sandbox_docker_sandboxes: "guide/security/sandbox-isolation.md#3-docker-sandboxes"
-  sandbox_docker_network: "guide/security/sandbox-isolation.md:127"  # anchor: network-policies
+  sandbox_docker_network: "guide/security/sandbox-isolation.md#network-policies"  # anchor: network-policies
   sandbox_docker_templates: "guide/security/sandbox-isolation.md#custom-templates"
   sandbox_docker_docs: "https://docs.docker.com/ai/sandboxes/"
   sandbox_docker_claude_config: "https://docs.docker.com/ai/sandboxes/claude-code/"
@@ -725,16 +725,16 @@ deep_dive:
   data_privacy_description: "Data flow, retention TL;DR (5y/30d/ZDR), 6 CLI-specific risks (/bug command, .env exposure, MCP DB, native messaging hosts), protective measures, 7-point quick audit checklist"
   # Third-Party Tools (guide/ecosystem/third-party-tools.md) - Added 2026-02-01
   third_party_tools_guide: "guide/ecosystem/third-party-tools.md"
-  third_party_tools_cost_tracking: "guide/ecosystem/third-party-tools.md:48"
+  third_party_tools_cost_tracking: "guide/ecosystem/third-party-tools.md#token--cost-tracking"
   third_party_tools_rtk: "guide/ecosystem/third-party-tools.md#rtk-rust-token-killer"
   third_party_tools_session_mgmt: "guide/ecosystem/third-party-tools.md#session-management"
   third_party_tools_config_mgmt: "guide/ecosystem/third-party-tools.md#configuration-management"
-  third_party_tools_hook_utilities: "guide/ecosystem/third-party-tools.md:1197"
-  third_party_gitdiff_watcher: "guide/ecosystem/third-party-tools.md:1201"
+  third_party_tools_hook_utilities: "guide/ecosystem/third-party-tools.md#hook-utilities"
+  third_party_gitdiff_watcher: "guide/ecosystem/third-party-tools.md#gitdiff-watcher"
   third_party_gitdiff_watcher_upstream: "https://github.com/fcamblor/gitdiff-watcher"
   third_party_gitdiff_watcher_purpose: "Stop hook utility — enforces build/test quality gates before handoff, fires only when matching files changed"
-  third_party_tools_alternative_uis: "guide/ecosystem/third-party-tools.md:1276"
-  third_party_tools_known_gaps: "guide/ecosystem/third-party-tools.md:1822"
+  third_party_tools_alternative_uis: "guide/ecosystem/third-party-tools.md#alternative-uis"
+  third_party_tools_known_gaps: "guide/ecosystem/third-party-tools.md#known-gaps"
   third_party_tools_recommendations: "guide/ecosystem/third-party-tools.md#recommendations-by-persona"
   third_party_ccusage: "https://www.npmjs.com/package/ccusage"
   third_party_ccusage_site: "https://ccusage.com"
@@ -751,7 +751,7 @@ deep_dive:
   third_party_toad: "https://github.com/batrachianai/toad"
   third_party_conductor: "https://docs.conductor.build"
   third_party_agent_orchestrator: "https://github.com/AgentWrapper/agent-orchestrator"
-  third_party_agent_orchestrator_guide: "guide/ecosystem/third-party-tools.md:1381"
+  third_party_agent_orchestrator_guide: "guide/ecosystem/third-party-tools.md#agent-orchestrator-ao"
   third_party_agent_orchestrator_purpose: "OSS cross-platform equivalent to Conductor: 23 agent CLIs supported vs 2, git worktree isolation, automatic CI/review/conflict feedback loop. PostHog telemetry on by default."
   third_party_agent_orchestrator_evaluation: "docs/resource-evaluations/agent-orchestrator-composio.md"
   third_party_switch: "https://github.com/sandbox-quantum/switch"
@@ -759,7 +759,7 @@ deep_dive:
   third_party_switch_purpose: "Matrix-based bus bridging heterogeneous agents (Claude Code, Codex, OpenCode) and humans into Slack/Teams/Discord/Telegram/Mattermost, with owner-inheritance authz. Known Gaps entry, not integrated: pre-1.0 (0.21.0), 252 stars/6 weeks, bus factor close to 1."
   third_party_switch_evaluation: "docs/resource-evaluations/switch-agent-human-chat-bridge.md"
   # Project Context Bootstrapping (Added 2026-04-08)
-  third_party_tools_context_bootstrap: "guide/ecosystem/third-party-tools.md:1039"
+  third_party_tools_context_bootstrap: "guide/ecosystem/third-party-tools.md#project-context-bootstrapping"
   third_party_codesight: "https://github.com/Houseofmvps/codesight"
   third_party_codesight_guide: "guide/ecosystem/third-party-tools.md#codesight"
   third_party_codesight_purpose: "Zero-dep CLI: AST-based codebase context map (routes, schema, hot files) + wiki articles + 11 MCP tools. 7-12x token savings on base scan."
@@ -812,13 +812,13 @@ deep_dive:
   mcp_vs_skills_oauth_boundary: "guide/ecosystem/mcp-vs-cli.md#the-oauth-boundary"
   mcp_vs_skills_note: "Skills (markdown workflows) and MCP (execution/auth) address different layers — not alternatives. OAuth 2.1 is MCP's structural advantage: skills cannot hold refresh tokens or complete PKCE flows."
   # Configuration Management & Backup (Added 2026-02-02)
-  config_management_guide: "guide/ultimate-guide.md:18326"  # Section 3.1 Memory Files
+  config_management_guide: "guide/ultimate-guide.md#31-memory-files-claudemd"  # Section 3.1 Memory Files
   config_hierarchy: "guide/ultimate-guide.md#configuration-hierarchy"  # Global → Project → Local precedence
   config_git_strategy_project: "guide/ultimate-guide.md#git-strategy-for-project-configuration"  # What Goes Where
   config_git_strategy_global: "guide/ultimate-guide.md#git-strategy-for-project-configuration"  # Version control ~/.claude/
   config_backup_strategies: "guide/ultimate-guide.md#backup-strategies"  # Git, cloud sync, cron
   config_multi_machine_sync: "guide/ultimate-guide.md#multi-machine-sync"  # Laptop + desktop workflows
-  config_security_considerations: "guide/ultimate-guide.md:6033"  # CLAUDE.md Injection warning
+  config_security_considerations: "guide/ultimate-guide.md#security-warning-claudemd-injection"  # CLAUDE.md Injection warning
   config_disaster_recovery: "guide/ultimate-guide.md#disaster-recovery"  # Restore from backup
   config_community_solutions: "guide/ultimate-guide.md#community-solutions"  # brianlovin + Ratinaud
   config_github_issue: "https://github.com/anthropics/claude-code/issues/16204"  # Migration guidance request
@@ -850,7 +850,7 @@ deep_dive:
   # Visual Reference (ASCII diagrams)
   visual_reference: "guide/core/visual-reference.md"
   # Architecture internals (guide/core/architecture.md)
-  architecture_visual_overview: "guide/core/architecture.md:51"
+  architecture_visual_overview: "guide/core/architecture.md#visual-overview"
   architecture_visual_source: "https://www.linkedin.com/posts/mohamed-ali-ben-salem-2b777b9a_en-ce-moment-je-vois-passer-des-posts-du-activity-7420592149110362112-eY5a"
   architecture_master_loop: "guide/core/architecture.md#1-the-master-loop"
   architecture_tools: "guide/core/architecture.md#2-the-tool-arsenal"
@@ -878,7 +878,7 @@ deep_dive:
   mcp_apps_announcement_date: "2026-01-26"
   mcp_apps_cli_relevance: "Indirect (ecosystem understanding, MCP server dev, hybrid workflows)"
   # Main guide (guide/ultimate-guide.md) - Updated 2026-01-27
-  installation: 257
+  installation: 259  # anchor: 11-installation
   first_workflow: "guide/ultimate-guide.md#12-first-workflow" # was line 381
   essential_commands: 47
   trust_calibration: "guide/ultimate-guide.md#17-trust-calibration-when-and-how-much-to-verify" # was line 1460
@@ -893,9 +893,9 @@ deep_dive:
   session_vs_memory: "guide/ultimate-guide.md#session-vs-persistent-memory"  # was 1553, drifted
   fresh_context_pattern: "guide/ultimate-guide.md#fresh-context-pattern-ralph-loop" # was line 2044
   subscription_limits: 2658
-  subscription_token_budgets: 2632
+  subscription_token_budgets: 2658  # anchor: subscription-plans--limits
   subscription_opus_ratio: 2632
-  subscription_monitoring: 2632
+  subscription_monitoring: 2658  # anchor: subscription-plans--limits
   # Programmatic Billing Change (announced 2026-05-13, effective 2026-06-15)
   programmatic_billing_change: "guide/ultimate-guide.md#the-interactiveprogrammatic-billing-split-effective-june-15-2026"
   programmatic_billing_effective: "2026-06-15"
@@ -982,7 +982,7 @@ deep_dive:
   debug_command: 47  # Essential Commands table
   debug_purpose: "Systematic troubleshooting and error investigation"
   # Model Selection & Thinking Guide (Section 2.5) - Added 2026-02-21
-  model_selection_guide: 3491  # Section 2.5 — canonical table, effort levels, agent patterns
+  model_selection_guide: 3407  # anchor: 25-model-selection--thinking-guide | Section 2.5 — canonical table, effort levels, agent patterns
   model_selection_anchor: "#25-model-selection--thinking-guide"
   # Configuration Decision Guide (Section 2.7) - Added 2026-02-22
   configuration_decision_guide: 6357  # anchor: memory-loading-comparison | Section 2.7 (mechanism comparison, decision tree, 56% warning)
@@ -993,9 +993,9 @@ deep_dive:
   implementer_agent: "examples/agents/implementer.md"
   architecture_reviewer_agent: "examples/agents/architecture-reviewer.md"
   # Opus 4.6 Features (Feb 2026) - Added 2026-02-09, line numbers updated 2026-02-21
-  opus_4_6_adaptive_thinking: 14809
-  opus_4_6_effort_parameter: 14824
-  opus_4_6_pricing: 2226
+  opus_4_6_adaptive_thinking: 14733  # anchor: adaptive-thinking-opus-46-including-opus-48
+  opus_4_6_effort_parameter: 3447  # anchor: effort-levels
+  opus_4_6_pricing: 2252  # anchor: pricing-model-as-of-july-2026
   opus_4_6_api_breaking_changes: "guide/ultimate-guide.md#api-breaking-changes-opus-46" # was line 14920
   opus_4_6_assistant_prefill_removed: 14828  # anchor: api-breaking-changes-opus-46
   # Summarize from Here (v2.1.32+) - Added 2026-02-09
@@ -1004,7 +1004,7 @@ deep_dive:
   hook_teammate_idle: 10141  # anchor: event-types
   hook_task_completed: "guide/ultimate-guide.md#event-types"  # was bare int 23701, inside a code fence (comment/example text happened to share the key's words)
   # Agent Memory Field (v2.1.32+) - Added 2026-02-09
-  agent_memory_frontmatter: 6892  # Agent Template section (memory field in frontmatter)
+  agent_memory_frontmatter: 6808  # anchor: frontmatter-fields | Agent Template section (memory field in frontmatter)
   # Xcode Integration (Feb 2026) - Added 2026-02-09
   xcode_integration: "guide/ultimate-guide.md#xcode-integration-feb-2026" # was line 12556
   claude_agent_sdk: 15811  # anchor: xcode-integration-feb-2026
@@ -1012,25 +1012,25 @@ deep_dive:
   task_management_system: "guide/ultimate-guide.md#task-management-system" # was line 4808
   task_management_comparison: "guide/ultimate-guide.md#task-management-system" # was line 4808
   tasks_api_overview: "guide/ultimate-guide.md#tasks-api-v2116"  # was bare int 1336, inside a code fence (comment/example text happened to share the key's words)
-  tasks_api_tools: 4825
-  tasks_api_capabilities: 4825
-  tasks_api_configuration: 4825
-  tasks_api_schema: 4825
-  tasks_api_when_to_use: 4825
-  tasks_api_limitations: 4825
+  tasks_api_tools: 4741  # anchor: tasks-api-v2116
+  tasks_api_capabilities: 4741  # anchor: tasks-api-v2116
+  tasks_api_configuration: 4741  # anchor: tasks-api-v2116
+  tasks_api_schema: 4741  # anchor: tasks-api-v2116
+  tasks_api_when_to_use: 4741  # anchor: tasks-api-v2116
+  tasks_api_limitations: 4741  # anchor: tasks-api-v2116
   tasks_api_field_visibility: "TaskList: id/subject/status/owner/blockedBy only. TaskGet: all fields."
   tasks_api_cost_overhead: "Reviewing N task descriptions = 1 + N API calls"
-  tasks_api_workarounds: 4825
+  tasks_api_workarounds: 4741  # anchor: tasks-api-v2116
   todowrite_legacy: "guide/ultimate-guide.md#todowrite-legacy" # was line 4920
-  todowrite_when_to_use: 4919
-  todowrite_migration_flag: 4919
-  task_best_practices: 4944
+  todowrite_when_to_use: 4835  # anchor: todowrite-legacy
+  todowrite_migration_flag: 4835  # anchor: todowrite-legacy
+  task_best_practices: 4860  # anchor: best-practices
   task_hierarchy_design: 4860  # anchor: best-practices | ambiguous slug (4x in guide), stored line manually verified against the right one
   task_dependency_management: "guide/ultimate-guide.md#task-management-system" # was line 4808
   task_status_transitions: 4860  # anchor: best-practices | ambiguous slug (4x in guide), stored line manually verified against the right one
   task_metadata_conventions: 4860  # anchor: best-practices | ambiguous slug (4x in guide), stored line manually verified against the right one
   task_complete_workflow: "guide/ultimate-guide.md#complete-workflow" # was line 5030
-  task_sources: 4807
+  task_sources: 4955  # anchor: sources
   # Task Management Workflow (guide/workflows/task-management.md)
   workflows_task_management: "guide/workflows/task-management.md"
   task_workflow_overview: "guide/workflows/task-management.md:15"
@@ -1044,7 +1044,7 @@ deep_dive:
   task_workflow_troubleshooting: "guide/workflows/task-management.md:667"
   task_workflow_advanced: "guide/workflows/task-management.md:741"
   claude_folder: "guide/ultimate-guide.md#32-the-claude-folder-structure" # was line 5804
-  settings: 5267
+  settings: 6005  # anchor: 33-settings--permissions
   precedence_rules: "guide/ultimate-guide.md#34-precedence-rules" # was line 6379
   agents: "guide/ultimate-guide.md#4-agents"  # was bare int 3056, inside a code fence (comment/example text happened to share the key's words)
   agent_template: "guide/ultimate-guide.md#43-agent-template" # was line 6932
@@ -1070,7 +1070,7 @@ deep_dive:
   community_skills_iac: "guide/ultimate-guide.md#infrastructure-as-code-skills"  # was 8558, drifted
   # Automatic skill generation (meta-skill)
   claudeception: "https://github.com/blader/Claudeception"
-  claudeception_guide: 8819
+  claudeception_guide: 8765  # anchor: automatic-skill-generation-claudeception
   # Skill Lifecycle: Automatic improvement (added 2026-01-24)
   skill_lifecycle: "guide/ultimate-guide.md#5x-skill-lifecycle--retirement"
   claude_reflect_system: "guide/ultimate-guide.md#automatic-skill-improvement-claude-reflect-system" # was line 8863
@@ -1129,8 +1129,8 @@ deep_dive:
   # Plugin System & Community Marketplaces (updated 2026-03-06)
   plugins_system: 13911
   plugins_commands: 13913
-  plugins_marketplace: 14043
-  plugins_community_marketplaces: 14345
+  plugins_marketplace: 13952  # anchor: marketplace-management
+  plugins_community_marketplaces: 14254  # anchor: community-marketplaces
   plugins_featured_community: "guide/ultimate-guide.md#featured-community-plugins" # Vitals + SE-CoVe comparison section
   plugins_recommended: "examples/plugins/"
   plugins_se_cove: "examples/plugins/se-cove.md"
@@ -1289,12 +1289,12 @@ deep_dive:
   hooks: "guide/ultimate-guide.md#7-hooks"  # was bare int 3469, inside a code fence (comment/example text happened to share the key's words)
   hook_templates: "guide/ultimate-guide.md#73-hook-templates" # was line 25386
   security_hooks: "guide/ultimate-guide.md#74-security-hooks" # was line 10794
-  security_gate_hook_line: 11137
+  security_gate_hook_line: 11059  # anchor: advanced-pattern-model-as-security-gate
   security_gate_hook_source: "https://paddo.dev/blog/claude-code-team-tips/"
-  mcp_servers: 12055
+  mcp_servers: 11985  # anchor: 8-mcp-servers
   serena_indexation: 12212
   serena_mcp: "guide/ultimate-guide.md#serena-semantic-code-analysis"  # was bare int 794, inside a code fence (comment/example text happened to share the key's words)
-  doobidoo_memory_mcp: 12945
+  doobidoo_memory_mcp: 12875  # anchor: doobidoo-memory-service-semantic-memory
   mcp_memory_stack_patterns: "guide/ultimate-guide.md#mcp-memory-stack-complementarity-patterns" # was line 13011
   mcp_config: "guide/ultimate-guide.md#mcp-configuration-location"  # was bare int 794, inside a code fence (comment/example text happened to share the key's words)
   mcp_security: "guide/ultimate-guide.md#86-mcp-security" # was line 14568
@@ -1302,18 +1302,18 @@ deep_dive:
   ide_integration: "guide/ultimate-guide.md#94-ide-integration" # was line 15881
   feedback_loops: "guide/ultimate-guide.md#95-tight-feedback-loops" # was line 15966
   batch_operations: "guide/ultimate-guide.md#99-batch-operations-pattern" # was line 16671
-  pitfalls: 16836
+  pitfalls: 16745  # anchor: 911-common-pitfalls--best-practices
   git_best_practices: 17211
-  cost_optimization: 2220
+  cost_optimization: 2246  # anchor: cost-awareness--optimization
   session_teleportation: "guide/ultimate-guide.md#916-session-teleportation" # was line 19161
-  remote_control: 23219
+  remote_control: 23128  # anchor: 922-remote-control-mobile-access
   multi_instance_workflows: "guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" # was line 19268
   boris_cherny_case_study: "guide/ultimate-guide.md#real-world-case-boris-cherny-interval" # was line 19421
   boris_cherny_team_patterns: "guide/ultimate-guide.md#boris-chernys-3-principles-for-ai-teams" # was line 6779
   # Dual-Instance Planning Pattern (Jon Williams, Feb 2026)
   dual_instance_planning: "guide/ultimate-guide.md#alternative-pattern-dual-instance-planning-vertical-separation" # was line 19474
   dual_instance_workflow: "guide/workflows/dual-instance-planning.md"
-  dual_instance_overview: 19473
+  dual_instance_overview: 19382  # anchor: alternative-pattern-dual-instance-planning-vertical-separation
   dual_instance_setup: "guide/workflows/dual-instance-planning.md#dual-instance-planning-workflow"
   dual_instance_complete_workflow: "guide/workflows/dual-instance-planning.md#dual-instance-planning-workflow"
   dual_instance_plan_template: "guide/workflows/dual-instance-planning.md#dual-instance-planning-workflow"
@@ -1357,7 +1357,7 @@ deep_dive:
   team_tips_paddo_source: "Boris Cherny thread (x.com/bcherny/status/2017742741636321619)"
   team_tips_paddo_evaluation: "docs/resource-evaluations/paddo-team-tips-eval.md"
   team_tips_paddo_score: "4/5"
-  anthropic_study_metrics: 20010
+  anthropic_study_metrics: 19919  # anchor: anthropic-internal-study-august-2025
   # Contribution Metrics (Jan 2026 - platform feature, not CLI release)
   contribution_metrics: "guide/ultimate-guide.md#contribution-metrics-january-2026" # was line 20045
   contribution_metrics_source: "https://claude.com/blog/contribution-metrics"
@@ -1369,13 +1369,13 @@ deep_dive:
   git_worktree_status_command: "examples/skills/git-worktree-status/SKILL.md"
   git_worktree_remove_command: "examples/skills/git-worktree-remove/SKILL.md"
   git_worktree_clean_command: "examples/skills/git-worktree-clean/SKILL.md"
-  git_worktrees_multi_instance: 17486
+  git_worktrees_multi_instance: 17395  # anchor: git-worktrees-for-parallel-development
   advanced_worktree_tooling: "guide/ultimate-guide.md#advanced-tooling-for-worktree-management-optional" # was line 19838
-  worktree_tooling_self_assessment: 19851
-  anthropic_internal_study: 14730
+  worktree_tooling_self_assessment: 19760  # anchor: do-i-need-worktrunk-self-assessment
+  anthropic_internal_study: 14639  # anchor: -research-insights-anthropic-internal-study
   multi_instance_costs: "guide/ultimate-guide.md#cost-benefit-analysis"  # was 19268, drifted
   orchestration_frameworks: "guide/ultimate-guide.md#orchestration-frameworks" # was line 20104
-  headless_pm_framework: 20107
+  headless_pm_framework: 20016  # anchor: headless-pm-open-source
   multi_instance_implementation: "guide/ultimate-guide.md#implementation-guide-progressive-scaling"  # was 19268, drifted
   multi_instance_monitoring: "guide/ultimate-guide.md#monitoring--observability"  # was 19268, drifted
   multi_instance_decision_matrix: "guide/ultimate-guide.md:20241"
@@ -1423,7 +1423,7 @@ deep_dive:
   codebase_design_agents: 20287
   codebase_design_source: "https://marmelab.com/blog/2026/01/21/agent-experience.html"
   codebase_design_author: "François Zaninotto (Marmelab)"
-  codebase_design_llms_txt: 20864  # llms.txt standard for AI-optimized documentation
+  codebase_design_llms_txt: 20773  # anchor: 9184-documentation-formats-for-agents-llmstxt | llms.txt standard for AI-optimized documentation
   codebase_design_llms_txt_spec: "https://llmstxt.org/"
   codebase_design_llms_txt_example: "machine-readable/llms.txt"
   # Section 9.19 - Permutation Frameworks
@@ -1434,7 +1434,7 @@ deep_dive:
   # Section 9.20 - Agent Teams (v2.1.32+ experimental)
   agent_teams: "guide/workflows/agent-teams.md"
   agent_teams_quick_start: "guide/workflows/agent-teams-quick-start.md"  # Practical 8-10 min guide with copy-paste patterns
-  agent_teams_overview: 22764  # Section 9.20 in ultimate-guide.md
+  agent_teams_overview: 22673  # anchor: 920-agent-teams-multi-agent-coordination | Section 9.20 in ultimate-guide.md
   agent_teams_architecture: "guide/workflows/agent-teams.md#2-architecture-deep-dive"
   agent_teams_setup: "guide/workflows/agent-teams.md#3-setup--configuration"
   agent_teams_use_cases: "guide/workflows/agent-teams.md#4-production-use-cases"
@@ -1562,16 +1562,16 @@ deep_dive:
   harness_throughput_merge: "guide/ultimate-guide.md#9255-enforcing-architecture-and-taste"  # High-throughput merge philosophy: fixes cheap, waiting expensive
   openai_harness_engineering: "docs/resource-evaluations/2026-02-11-openai-harness-engineering.md"  # Score 5/5: OpenAI Codex team, 1M lines, 5 months, 3 engineers, no manual code
   commands_table: "guide/ultimate-guide.md#101-commands-table" # was line 47
-  shortcuts_table: 444
-  troubleshooting: 14314
+  shortcuts_table: 24412  # anchor: 102-keyboard-shortcuts
+  troubleshooting: 24741  # anchor: 104-troubleshooting
   cheatsheet: "guide/ultimate-guide.md#105-cheatsheet" # was line 25158
-  daily_workflow: 25233
+  daily_workflow: 25201  # anchor: 106-daily-workflow--checklists
   # AI Ecosystem (Section 11, ~line 10525)
-  ai_ecosystem: 13308
+  ai_ecosystem: 25467  # anchor: 11-ai-ecosystem-complementary-tools
   ai_ecosystem_complementarity: 25467
-  ai_ecosystem_tool_matrix: 25540
-  ai_ecosystem_workflows: 25675
-  ai_ecosystem_integration: 25803
+  ai_ecosystem_tool_matrix: 25508  # anchor: 112-tool-matrix
+  ai_ecosystem_workflows: 25643  # anchor: 113-practical-workflows
+  ai_ecosystem_integration: 25771  # anchor: 114-integration-patterns
   ai_ecosystem_detailed: "guide/ecosystem/ai-ecosystem.md"
   ai_ecosystem_coding_environments: "guide/ecosystem/ai-ecosystem.md#6-ide-ade-and-hybrid-coding-environments"
   ai_ecosystem_goose: "guide/ecosystem/ai-ecosystem.md#111-goose-open-source-alternative-block"
@@ -1620,7 +1620,7 @@ deep_dive:
   cowork_prompts: "https://github.com/FlorianBruniaux/claude-cowork-guide/tree/main/prompts"
   cowork_workflows: "https://github.com/FlorianBruniaux/claude-cowork-guide/tree/main/workflows"
   cowork_section: "guide/ecosystem/ai-ecosystem.md#10-claude-cowork-research-preview"
-  cowork_ultimate_guide: 25857
+  cowork_ultimate_guide: 25825  # anchor: for-non-developers-claude-cowork
   # Team Knowledge Infrastructure (guide/ecosystem/team-knowledge-base.md) - Added 2026-06-23
   team_knowledge_guide: "guide/ecosystem/team-knowledge-base.md"
   team_knowledge_three_way: "guide/ecosystem/team-knowledge-base.md#the-one-tool-for-three-needs-trap"  # static docs vs live systems vs team workflows
@@ -1675,7 +1675,7 @@ deep_dive:
   myths_hidden_features: "guide/ultimate-guide.md#-myth-claude-code-has-hidden-features-you-can-unlock-with-secret-flags" # was line 26540
   myths_tasks_api_autonomous: "guide/ultimate-guide.md#-myth-tasks-api-allows-fully-autonomous-parallel-agents" # was line 26572
   myths_100x_faster: "guide/ultimate-guide.md#-myth-claude-code-is-100x-faster-than-other-ai-coding-tools" # was line 26604
-  myths_reliable_sources: 26535
+  myths_reliable_sources: 26614  # anchor: how-to-spot-reliable-information
   # Quiz System (473 questions, 17 categories) — verified 2026-07-28
   quiz_overview: "quiz/README.md"
   quiz_bank: "quiz/questions/"        # one YAML file per category; there is no quiz/questions.json
@@ -1692,12 +1692,12 @@ deep_dive:
   # Onboarding matrix required keys (added for v2.0.0 adaptive architecture)
   rules: "guide/ultimate-guide.md#the-golden-rules"  # was bare int 89, a blank line; drifted 1 line from the real heading
   workflow: "guide/ultimate-guide.md#the-workflow"  # was bare int 58, a blank line; drifted 1 line from the real heading
-  fix: 15153  # UNVERIFIED: stored line sits inside a JSON example under "Unix Piping Workflows", not any Troubleshooting section. Four "Troubleshooting" headings exist in the guide (L14315, L19242, L23364, "## 10.4 Troubleshooting" L24774), same duplicate-slug name, and nothing here says which one this key meant. Needs a human decision, not a guess.
+  fix: 24741  # anchor: 104-troubleshooting | Section 10.4 Troubleshooting in the Reference section, not the 8.5 / 9.16 / 9.22 subsections that share the slug
   architecture: "guide/core/architecture.md"  # was bare int 1280 into ultimate-guide.md, inside a code fence; the comment ("Architecture internals") and its siblings on this line (production_safety, security_hardening) are all plain paths to the dedicated file
   production_safety: "guide/security/production-safety.md"  # Production safety rules
   security_hardening: "guide/security/security-hardening.md"  # Security best practices
   security_cve_summary: "guide/security/security-hardening.md#cve-summary-2025-2026"  # Decision Matrix + CVEs
-  security_supply_chain_stats: "guide/security/security-hardening.md:170"  # anchor: 12-agent-skills-supply-chain-risks
+  security_supply_chain_stats: "guide/security/security-hardening.md#12-agent-skills-supply-chain-risks"  # anchor: 12-agent-skills-supply-chain-risks
   security_skill_delayed_payload: "guide/security/security-hardening.md#the-delayed-payload-why-review-skillmd-is-not-enough"  # §1.2: secondary-file payload hiding, immutable pins, update review, and dynamic detonation for the Paperclip / Browser Use campaign
   security_mcp_scan_tool: "guide/security/security-hardening.md#11-mcp-vetting-workflow"  # MCP Vetting Workflow
   security_malicious_extensions: "guide/security/security-hardening.md#15-malicious-extensions-claude-attack-surface"  # .claude/ attack surface (§1.5)
@@ -2193,7 +2193,7 @@ permissions:
   auto_accept: "editing=auto, execution=ask"
   plan_mode: "editing=blocked, execution=blocked"
   switch: "Shift+Tab"
-  bypass_safety_invariant: 1156  # Paths always prompted even in bypassPermissions (git/, .claude/, shell configs)
+  bypass_safety_invariant: 1182  # anchor: bypass-permissions-mode-bypasspermissions | Paths always prompted even in bypassPermissions (git/, .claude/, shell configs)
   bypass_safe_paths: ".git/, .claude/ (except worktrees), .bashrc, .zshrc, .bash_profile, .gitconfig, .mcp.json, .claude.json"
   bypass_note: "Content-specific ask rules (e.g. Bash(npm publish:*)) also survive bypassPermissions"
 
@@ -2381,7 +2381,7 @@ agent_frontmatter_memory_scopes:
   user: "~/.claude/memory/<agent-name>.md — cross-project"
   project: ".claude/memory/<agent-name>.md — shared with team"
   local: ".claude/memory/<agent-name>.local.md — gitignored"
-agent_frontmatter_guide_line: 6892  # Official fields table in ultimate-guide.md
+agent_frontmatter_guide_line: 6808  # anchor: frontmatter-fields | Official fields table in ultimate-guide.md
 
 # Skill frontmatter — all fields (agentskills.io spec + Claude Code extensions)
 # Note: .claude/commands/ was merged into .claude/skills/ in CC 2.1.3 — use disable-model-invocation instead
@@ -2452,7 +2452,7 @@ hooks_session_scoped: 10419  # Session-scoped hooks (ephemeral, no settings.json
 hooks_async_support: "v2.1.0+ - add 'async: true' for non-blocking execution; 'asyncRewake: true' for background with exit-2 wakeup"
 hooks_async_use_cases: "logging, notifications, formatting, metrics (no feedback needed)"
 hooks_sync_use_cases: "validation, type checking, security (feedback required)"
-hooks_decision_matrix: 10369  # Decision matrix table
+hooks_decision_matrix: 10299  # anchor: decision-matrix | Decision matrix table
 hooks_async_limitations: "no exit code feedback for blocking (exit 2 ignored), no real-time systemMessage, no guaranteed execution order. Note: additionalContext IS delivered on the next conversation turn after the background process exits."
 hooks_async_bug_fix: "v2.1.23 - fixed cancellation in headless streaming"
 
