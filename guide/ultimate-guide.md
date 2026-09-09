@@ -20104,6 +20104,7 @@ Don't jump to 10 instances. Scale progressively with validation gates.
 # - Headless PM (manual coordination)
 # - Gas Town (parallel task execution)
 # - multiclaude (self-hosted, tmux-based)
+# - Multica (issue/chat control plane with local daemon execution)
 # - Entire CLI (governance + sequential handoffs)
 
 # 2. Define roles
@@ -20125,7 +20126,10 @@ Don't jump to 10 instances. Scale progressively with validation gates.
 | **Manual (worktrees)** | No framework | 2-3 instances, full control |
 | **Gas Town** | Parallel coordination | 5+ instances, complex parallel tasks |
 | **multiclaude** | Self-hosted spawner | Teams needing on-prem/airgap |
+| **Multica** | Issue-driven multi-provider control plane | Teams coordinating local agent CLIs through a server/daemon split |
 | **Entire CLI** | Governance + handoffs | Sequential workflows with compliance |
+
+> **Multica** keeps issues, chat, agent configuration, schedules, and run records in its coordination tier while connected computers execute Claude Code, Codex, and other CLIs through a local daemon. See the [evidence-pinned Multica profile](./ecosystem/agentic-tools.md#49-multica) for deployment, data, security, Git, and licence boundaries.
 
 > **Entire CLI** (Feb 2026): Alternative to parallel orchestration, focuses on **sequential agent handoffs** with governance layer (approval gates, audit trails). Useful for compliance-critical workflows (SOC2, HIPAA) or multi-agent handoffs (Claude → Gemini). See [AI Ecosystem Guide](./ecosystem/ai-ecosystem.md#entire-cli-governance-first-orchestration) for details.
 

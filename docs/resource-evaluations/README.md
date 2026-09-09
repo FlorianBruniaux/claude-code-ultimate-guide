@@ -99,6 +99,7 @@ Les documents de travail bruts (prompts Perplexity, audits clients) restent dans
 | **Supermemory** (supermemoryai/supermemory, memory API + context engine) | 3/5 | **3/5** | ✅ Integrated: memory-systems.md §3.8/§3.9 (entry), §4.7 (team-gap evidence), §9 (95%/85.4% benchmark inconsistency); paid Claude Code plugin ($19/mo min.) vs free generic MCP | [supermemory-memory-context-engine.md](./supermemory-memory-context-engine.md) |
 | **Pavan Belagatti 2026 corpus** (62 YouTube transcripts) | 3/5 | **3/5** | ✅ Selective integration: execution versus governance, software-factory operating model, evidence boundaries; Port tutorials not treated as independent validation | [pavan-belagatti-agentic-engineering-2026.md](./pavan-belagatti-agentic-engineering-2026.md) |
 | **Switch** (Flint AI / SandboxAQ, agent-human chat bridge) | 3/5 | **3/5** | ✅ Known Gaps line only: third-party-tools.md (cross-platform agent-human chat bridge with governance, no comparable peer found); watch-list, pre-1.0 (0.21.0), 252 stars/6 weeks, bus factor close to 1 (80%) | [switch-agent-human-chat-bridge.md](./switch-agent-human-chat-bridge.md) |
+| **Multica** (multica-ai/multica) | 3/5 | **3/5** | ✅ Integrated as an adjacent control plane with deployment, data, permission, Git, licence, and runtime-evidence boundaries | [2026-09-05-multica.md](./2026-09-05-multica.md) |
 
 ## Watch List
 
@@ -106,4 +107,4 @@ Ressources surveillées mais pas encore intégrées : [watch-list.md](./watch-li
 
 ---
 
-**Last updated**: 2026-08-31 (182 Markdown files on disk, 61 indexed above; the disk/index gap is a known backlog awaiting a dedicated audit pass)
+**Last updated**: 2026-09-09 (184 Markdown files on disk, 62 indexed above; the disk/index gap is a known backlog awaiting a dedicated audit pass)

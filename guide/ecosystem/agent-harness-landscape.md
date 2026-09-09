@@ -8,7 +8,7 @@ tags: [agents, harness, comparison, runtimes, orchestrators, agent-tools, deepse
 
 Use this map to separate four questions that product lists often merge: which model generates, which runtime owns the tool loop, which repository configuration controls local behavior, and which orchestrator coordinates multiple runs. A project can be valuable without being a runtime harness.
 
-The broad directory below normalizes the 160 projects and 12 categories in [Best of Agent Harnesses](https://ryanalberts.github.io/best-of-Agent-Harnesses/), then adds 32 guide supplements discovered through direct project research. It uses the upstream snapshot at commit [`ece3146`](https://github.com/RyanAlberts/best-of-Agent-Harnesses/tree/ece314654d2c23fe7bd69fc6ef7088f093207e49), dated 2026-08-23. The strict map applies an additional test: does the product own the cycle that plans, acts through tools, observes results, and decides what happens next?
+The broad directory below normalizes the 160 projects and 12 categories in [Best of Agent Harnesses](https://ryanalberts.github.io/best-of-Agent-Harnesses/), then adds 33 guide supplements discovered through direct project research. It uses the upstream snapshot at commit [`ece3146`](https://github.com/RyanAlberts/best-of-Agent-Harnesses/tree/ece314654d2c23fe7bd69fc6ef7088f093207e49), dated 2026-08-23. The strict map applies an additional test: does the product own the cycle that plans, acts through tools, observes results, and decides what happens next?
 
 An **agent harness** is the runtime around a model that assembles context, exposes tools, applies permissions, executes the action loop, records state, and handles failure. Simon Willison's concise definition, ["models using tools in a loop"](https://simonwillison.net/2025/May/22/tools-in-a-loop/), identifies the behavioral boundary. The 2026 [Agent System and Harness Design survey](https://arxiv.org/abs/2606.20683) expands that runtime into six responsibilities: observation, context, control, action, state, and verification. The [SWE-agent paper](https://papers.neurips.cc/paper_files/paper/2024/file/5a7c947568c1b1328ccc5230172e1e7c-Paper-Conference.pdf) names the coding-specific interface between the model and computer the **agent-computer interface**.
 
@@ -81,7 +81,7 @@ The category names come from the pinned upstream snapshot. `Usually`, `Sometimes
 The strict map contains 42 runtimes. Every name links to its official product page or canonical repository. Open-source rows include GitHub stars when a canonical repository was available. Stars are a dated popularity signal, not a quality score. Entries with detailed coverage in this guide keep that internal profile in the role cell.
 
 <!-- BEGIN GENERATED: strict-runtime-map -->
-**Snapshot:** 2026-09-05. GitHub stars are captured on the date shown in each project cell.
+**Snapshot:** 2026-09-09. GitHub stars are captured on the date shown in each project cell.
 
 **Legend:** <abbr title="Not established from the pinned sources">?</abbr> = not established from the pinned sources; N/A = does not apply.
 
@@ -160,6 +160,7 @@ The runtime/control-plane distinction also appears in Dax Raad's [May 2026 OpenC
 | [Agent Harness](https://github.com/0xenzyme/agent-harness)<br><small>★ 7 · 2026-08-28</small> | The README explicitly describes an adapter-driven control plane that delegates scheduling to the Codex runtime. | No; evidence confirmed | <abbr title="Not established from the pinned sources">?</abbr> |
 | [Harness CLI](https://github.com/hyspacex/harness-cli)<br><small>★ 15 · 2026-08-28</small> | The README describes an orchestration and repair layer over Claude Agent SDK or Codex App Server runtimes. | No; evidence confirmed | <abbr title="Not established from the pinned sources">?</abbr> |
 | [Liza](https://github.com/liza-mas/liza)<br><small>★ 363 · 2026-08-28</small> | The source implements a control plane over external coding-agent CLIs, with a persistent YAML blackboard, isolated git worktrees, doer/reviewer roles, leases, recovery... | No; evidence confirmed | Apache-2.0 |
+| [Multica](https://github.com/multica-ai/multica)<br><small>★ 49,348 · 2026-09-09</small> | Human-agent work control plane that queues issue, chat, mention, and scheduled runs for external coding-agent CLIs through a daemon on a connected computer. | No; evidence confirmed | Restricted (multica license) |
 | [OpenAgents](https://github.com/openagents-org/openagents)<br><small>★ 4,005 · 2026-08-28</small> | The official repository describes OpenAgents as a network for persistent agents and shared workspaces. | No; evidence claimed | Apache-2.0 |
 | [Proliferate](https://github.com/proliferate-ai/proliferate)<br><small>★ 310 · 2026-08-23</small> | Open-source AI IDE for Claude Code, Codex, OpenCode, and more. | No; evidence claimed | Open source |
 | [Symphony](https://github.com/openai/symphony)<br><small>★ 26,812 · 2026-08-23</small> | OpenAI's harness for fanning a task out into many isolated, autonomous coding-agent implementation runs and surfacing the ones that pass, so a team manages outcomes instead of... | No; evidence claimed | <abbr title="Not established from the pinned sources">?</abbr> |
@@ -225,7 +226,7 @@ The term *meta-harness* has two incompatible uses. Optimizer research uses it fo
 
 ## Complete Project Directory
 
-The directory preserves every upstream project and lists the 32 guide supplements separately. <abbr title="Not established from the pinned sources">?</abbr> means the pinned source did not support a conclusion. `N/A` means the field does not apply to that category. Archived projects remain visible and marked, because removal would hide the history behind current comparisons.
+The directory preserves every upstream project and lists the 33 guide supplements separately. <abbr title="Not established from the pinned sources">?</abbr> means the pinned source did not support a conclusion. `N/A` means the field does not apply to that category. Archived projects remain visible and marked, because removal would hide the history behind current comparisons.
 
 <!-- BEGIN GENERATED: project-catalog -->
 <!-- BEGIN UPSTREAM PROJECT DIRECTORY -->
@@ -475,7 +476,7 @@ The directory preserves every upstream project and lists the 32 guide supplement
 
 <!-- END UPSTREAM PROJECT DIRECTORY -->
 
-### Guide supplements (32)
+### Guide supplements (33)
 
 These official products and researched candidates are absent from the pinned upstream snapshot. Their inclusion does not change the upstream 160-project count.
 
@@ -505,6 +506,7 @@ These official products and researched candidates are absent from the pinned ups
 | [Kimi Code CLI](https://github.com/MoonshotAI/kimi-code)<br><small>★ 7,126 · 2026-08-28</small> | The official repository describes Kimi Code CLI as an agentic coding tool for terminals and IDEs. | <abbr title="Not established from the pinned sources">?</abbr> | <abbr title="Not established from the pinned sources">?</abbr> | <abbr title="Not established from the pinned sources">?</abbr> / <abbr title="Not established from the pinned sources">?</abbr> | Mit |
 | [Kiro](https://kiro.dev/) | Kiro presents its product as an agentic development environment. | <abbr title="Not established from the pinned sources">?</abbr> | <abbr title="Not established from the pinned sources">?</abbr> | <abbr title="Not established from the pinned sources">?</abbr> / <abbr title="Not established from the pinned sources">?</abbr> | Proprietary |
 | [Liza](https://github.com/liza-mas/liza)<br><small>★ 363 · 2026-08-28</small> | The source implements a control plane over external coding-agent CLIs, with a persistent YAML blackboard, isolated git worktrees, doer/reviewer roles, leases, recovery... | Adversarial-review, Crash-recovery, Multi-agent, Worktrees | Complex | Checkpoint gated / Durable | Apache-2.0 |
+| [Multica](https://github.com/multica-ai/multica)<br><small>★ 49,348 · 2026-09-09</small> | Human-agent work control plane that queues issue, chat, mention, and scheduled runs for external coding-agent CLIs through a daemon on a connected computer. | Issue-tracking, Local-daemon, Multi-agent, Worktrees | Complex | Bounded / Resumable | Restricted (multica license) |
 | [Open SWE](https://github.com/langchain-ai/open-swe)<br><small>★ 10,624 · 2026-08-28</small> | The official repository describes Open SWE as an asynchronous coding agent for repository tasks. | <abbr title="Not established from the pinned sources">?</abbr> | <abbr title="Not established from the pinned sources">?</abbr> | <abbr title="Not established from the pinned sources">?</abbr> / <abbr title="Not established from the pinned sources">?</abbr> | Mit |
 | [OpenAgents](https://github.com/openagents-org/openagents)<br><small>★ 4,005 · 2026-08-28</small> | The official repository describes OpenAgents as a network for persistent agents and shared workspaces. | <abbr title="Not established from the pinned sources">?</abbr> | <abbr title="Not established from the pinned sources">?</abbr> | <abbr title="Not established from the pinned sources">?</abbr> / <abbr title="Not established from the pinned sources">?</abbr> | Apache-2.0 |
 | [OpenCode Harness](https://github.com/samarailly51-pixel/opencode-harness)<br><small>★ 148 · 2026-08-28</small> | The README documents a coding-agent loop with tools, permissions, traces, evaluation, and repair feedback. | <abbr title="Not established from the pinned sources">?</abbr> | <abbr title="Not established from the pinned sources">?</abbr> | <abbr title="Not established from the pinned sources">?</abbr> / <abbr title="Not established from the pinned sources">?</abbr> | <abbr title="Not established from the pinned sources">?</abbr> |

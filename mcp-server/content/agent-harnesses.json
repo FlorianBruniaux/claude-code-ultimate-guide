@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "dataset_sha256": "8cf4c55d5ee43e74fa6a43b28c2cc61d1260a3b338bbee5d2c25a22a8b0fe472",
-    "generated_at": "2026-09-05T00:00:00Z",
+    "dataset_sha256": "2397a6c1cb2058946313758ae1ba773bf1f6e5e45b1232e4948979b9d980db0f",
+    "generated_at": "2026-09-09T00:00:00Z",
     "license": "CC-BY-SA-4.0 for upstream-derived records; project metadata retains its source terms",
     "provenance": {
       "methodology": "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/docs/superpowers/specs/2026-08-27-agent-harness-landscape-enrichment-design.md",
@@ -146,6 +146,21 @@
         "id": "liza",
         "owns_loop": "no",
         "project_ref": "liza-mas/liza",
+        "source_set": "guide_supplement"
+      },
+      {
+        "evidence": [
+          {
+            "checked_at": "2026-08-28",
+            "source_type": "source_code_review",
+            "status": "confirmed",
+            "url": "https://github.com/multica-ai/multica/blob/7a438bd5b8bf39afd54259a7eb0971390e50a8ef/apps/docs/content/docs/how-multica-works.mdx"
+          }
+        ],
+        "evidence_status": "confirmed",
+        "id": "multica",
+        "owns_loop": "no",
+        "project_ref": "multica-ai/multica",
         "source_set": "guide_supplement"
       },
       {
@@ -1233,6 +1248,50 @@
         "stars_captured_at": "2026-08-28",
         "summary": "The official repository describes Kimi Code CLI as an agentic coding tool for terminals and IDEs.",
         "tags": []
+      },
+      {
+        "adoption_surface": "complex",
+        "archived": false,
+        "autonomy": "bounded",
+        "category": "multi-agent",
+        "features": {},
+        "freshness": {
+          "checked_at": "2026-08-28",
+          "source_commit": "7a438bd5b8bf39afd54259a7eb0971390e50a8ef"
+        },
+        "homepage_url": null,
+        "id": "multica-ai/multica",
+        "interfaces": [
+          "chat",
+          "cli",
+          "desktop",
+          "web"
+        ],
+        "language": "Go, TypeScript",
+        "license_signal": "Restricted (Multica License)",
+        "name": "Multica",
+        "owns_loop": "no",
+        "project_url": "https://github.com/multica-ai/multica",
+        "provenance": [
+          {
+            "checked_at": "2026-08-28",
+            "source_type": "source_code_review",
+            "status": "confirmed",
+            "url": "https://github.com/multica-ai/multica/blob/7a438bd5b8bf39afd54259a7eb0971390e50a8ef/apps/docs/content/docs/how-multica-works.mdx"
+          }
+        ],
+        "provider_strategy": "multi_provider",
+        "recovery": "resumable",
+        "repository_url": "https://github.com/multica-ai/multica",
+        "stars": 49348,
+        "stars_captured_at": "2026-09-09",
+        "summary": "Human-agent work control plane that queues issue, chat, mention, and scheduled runs for external coding-agent CLIs through a daemon on a connected computer.",
+        "tags": [
+          "issue-tracking",
+          "local-daemon",
+          "multi-agent",
+          "worktrees"
+        ]
       },
       {
         "adoption_surface": "unknown",
@@ -13469,11 +13528,11 @@
     }
   },
   "stats": {
-    "adjacent_control_plane_count": 15,
+    "adjacent_control_plane_count": 16,
     "autonomy_not_applicable_count": 65,
     "deep_dive_count": 86,
     "durable_count": 8,
-    "guide_supplement_count": 32,
+    "guide_supplement_count": 33,
     "headless_count": 46,
     "open_source_count": 118,
     "recovery_not_applicable_count": 64,

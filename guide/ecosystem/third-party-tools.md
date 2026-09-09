@@ -1489,6 +1489,7 @@ This section covers tools for running **multiple Claude Code instances in parall
 | [Gas Town](https://github.com/steveyegge/gastown) | Multi-agent workspace | Steve Yegge's agent-first workspace manager |
 | [multiclaude](https://github.com/dlorenc/multiclaude) | Multi-agent spawner | tmux + git worktrees (559 stars, 2026-07-27) |
 | [agent-chat](https://github.com/justinabrahms/agent-chat) | Monitoring UI | Real-time SSE monitoring for Gas Town/multiclaude |
+| [Multica](./agentic-tools.md#49-multica) | Issue-driven control plane | Server-side coordination with local daemon execution across 26 agent CLI integrations |
 | [abtop](https://github.com/graykode/abtop) | Fleet TUI monitor | htop-style: tokens, context %, rate limits, ports, subagent tree (3,393 stars, 2026-07-27) |
 | [Conductor](#conductor) | Desktop app | macOS parallel agents (also listed above) |
 | [Piebald](#piebald) | Desktop/web app | Multi-provider + Windows + hooks compat (also listed above) |

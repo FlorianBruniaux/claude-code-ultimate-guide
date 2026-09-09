@@ -10,8 +10,8 @@
 
 - Title: Claude Code Ultimate Guide
 - Author: Florian Bruniaux (Founding Engineer @ Méthode Aristote)
-- Version: 3.42.0
-- Last Updated: August 26, 2026
+- Version: 3.43.0
+- Last Updated: September 9, 2026
 - License: CC BY-SA 4.0
 - Repository: https://github.com/FlorianBruniaux/claude-code-ultimate-guide
 - Landing: https://cc.bruniaux.com
@@ -66,11 +66,16 @@ This guide is the most comprehensive community resource for Claude Code. It cove
 - No curl/wget blocklist exists; a missing domain hangs to timeout rather than erroring
 - Writes to Claude Code's own settings.json are denied at every scope, so a sandboxed script cannot widen its own policy
 
+**Agent Harnesses and Orchestration** (`guide/core/agent-harness.md`, `guide/ecosystem/agent-harness-landscape.md`, `guide/ecosystem/agentic-tools.md`):
+- The catalog separates 42 strict runtimes from 16 adjacent control planes.
+- Multica is classified as an adjacent control plane: its server coordinates issue, chat, and scheduled runs while a daemon on a connected computer executes external coding-agent CLIs.
+- Its profile documents the server/local execution split, server-stored run data, daemon-user permission boundary, Git enforcement boundary, restricted licence, and untested runtime status.
+
 ---
 
 ## Full Cheatsheet
 
-**Version**: 3.42.0 | **Last Updated**: August 2026
+**Version**: 3.43.0 | **Last Updated**: September 2026
 
 ---
 

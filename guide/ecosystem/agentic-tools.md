@@ -1064,6 +1064,67 @@ Liza's maintainer also publishes the separate [bash-policy](https://github.com/l
 
 ---
 
+### 4.9 Multica
+
+Multica is an issue-driven control plane for people and coding agents. It keeps workspaces, issues, chat, agent configuration, schedules, and run history in one application, then delegates execution to existing coding-agent CLIs. Claude Code, Codex, Cursor, OpenCode, and the other tools still own their inner model-and-tool loops.
+
+| Attribute | Details |
+|-----------|---------|
+| **GitHub** | [multica-ai/multica](https://github.com/multica-ai/multica) |
+| **Repository snapshot** | 49,348 stars and 6,375 forks on 2026-09-09 |
+| **License** | [Multica License](https://github.com/multica-ai/multica/blob/7a438bd5b8bf39afd54259a7eb0971390e50a8ef/LICENSE): Apache 2.0 text plus hosted-service, embedding, branding, and attribution conditions |
+| **Stack** | Go server and daemon, PostgreSQL, Next.js web app, Electron desktop app, Expo/React Native mobile app |
+| **Surfaces** | Web, desktop, mobile, CLI, API, and team chat channels |
+| **Latest release observed** | [v0.4.41](https://github.com/multica-ai/multica/releases/tag/v0.4.41), 2026-09-07 |
+| **Runtime catalog** | 26 advertised agent CLI integrations; the audited code contains 25 protocol families plus the OMP runtime identity |
+| **Evidence snapshot** | [`7a438bd`](https://github.com/multica-ai/multica/commit/7a438bd5b8bf39afd54259a7eb0971390e50a8ef), 2026-09-05 |
+
+#### What It Actually Does
+
+An issue assignment, direct chat, mention, or scheduled Autopilot creates a run in the server queue. A daemon on a connected computer claims that run, prepares a working directory or git worktree, invokes the configured local CLI, and streams progress, tool activity, errors, token usage, and the final result back to the issue.
+
+```text
+issue / chat / mention / Autopilot
+              |
+              v
+Multica server + PostgreSQL
+              |
+       queued run over WebSocket
+              |
+              v
+daemon on a connected computer
+              |
+      worktree + local agent CLI
+              |
+              v
+progress, logs, cost, result -> server timeline
+```
+
+The deployment mode changes where the coordination tier runs, not this execution split:
+
+| Mode | Coordination tier | Execution tier |
+|---|---|---|
+| Multica Cloud | Multica hosts the web app, API, and database | Your computer or cloud machine runs the daemon, repository, credentials, and agent CLIs |
+| Self-hosted | You run the web app, API, and PostgreSQL with Docker Compose or Helm | One or more connected machines run the daemon and agent CLIs |
+
+If a daemon is offline, new runs stay queued. Runs that were already executing can fail and become eligible for retry; the daemon re-registers runtimes and attempts recovery when it returns. This makes Multica more than a visual session launcher, while still leaving task reasoning and tool execution to the selected CLI.
+
+#### Data and Security Boundary
+
+Local repositories and tool credentials are not automatically uploaded in full. The server does retain issues, comments, agent configuration, run context, execution records, and results. Agent `custom_env` values and MCP configuration are stored server-side and passed to the runtime, so local execution does not mean every secret or task artifact stays on the execution machine.
+
+The [documented security model](https://github.com/multica-ai/multica/blob/7a438bd5b8bf39afd54259a7eb0971390e50a8ef/apps/docs/content/docs/security-model.mdx) makes the operating-system account running the daemon the effective boundary. Runs can read and write what that account can reach, use its credentials, and access the network. The audited default paths launch Claude Code with `bypassPermissions` and Codex with `danger-full-access`, except when the documented Windows Codex sandbox opt-in applies. Use a dedicated OS account, container, or VM with scoped Git and cloud credentials before unattended execution.
+
+The `in_review` state records workflow status inside Multica. It does not configure branch protection or replace Git-host review and merge rules. Agents can use credentials available on the execution machine to push branches or open pull requests, so repository policy remains the enforcement point.
+
+#### Where It Stops
+
+The source review covered the pinned commit, documentation, daemon paths, agent adapters, database queries, licence, and successful upstream CI for that commit. The application was not started and no real agent run was executed. This establishes the architecture and declared controls, not end-to-end reliability, task quality, recovery under load, or protection against a hostile repository.
+
+The repository describes itself as open source, but its licence adds restrictions beyond Apache 2.0. Call it source-available unless legal review establishes a narrower usage conclusion. A team evaluating Multica should pilot the exact cloud or self-hosted topology with non-production credentials, branch protection, one recoverable repository, and an exercised daemon-disconnect scenario.
+
+---
+
 ## Section 5: Decision Framework
 
 ### Full Comparison Matrix
@@ -1086,8 +1147,9 @@ Liza's maintainer also publishes the separate [bash-policy](https://github.com/l
 | **Symphony** | Yes (Apache 2.0) | 26K | Codex (reference impl) | Orchestrator (issue → run) | Elixir | Free + per-agent LLM cost |
 | **Paperclip** | Yes (MIT) | 74K | Any (heartbeat protocol) | Orchestrator (goal → org) | TypeScript | Free + per-agent LLM cost |
 | **Liza** | Yes (Apache 2.0) | 363 | External coding-agent CLIs | Orchestrator + repository harness | Go | Free + per-agent LLM cost |
+| **Multica** | No (restricted source) | 49K | 26 agent CLI integrations | Control plane (issue/chat to local run) | Go/TypeScript | Self-host or current cloud plan + agent costs |
 
-Star counts read July 15, 2026 via the GitHub API, except DeepSeek Harness, checked August 27, 2026 and rounded from 199,777, and Liza, checked August 28, 2026. Three rows carry a caveat the number hides: DeepSeek Harness is a developer preview, MetaGPT's 69K sits on a repo whose last release was April 2024, and Symphony's 26K sits on an explicit engineering preview. Stars measure reach, not maintenance.
+Star counts read July 15, 2026 via the GitHub API, except DeepSeek Harness, checked August 27, 2026 and rounded from 199,777, Liza, checked August 28, 2026, and Multica, checked September 9, 2026 and rounded from 49,348. Four rows carry a caveat the number hides: DeepSeek Harness is a developer preview, MetaGPT's 69K sits on a repo whose last release was April 2024, Symphony's 26K sits on an explicit engineering preview, and Multica uses a restricted source-available licence. Stars measure reach, not maintenance.
 
 ### Situation to Tool Guide
 
@@ -1111,6 +1173,7 @@ Star counts read July 15, 2026 via the GitHub API, except DeepSeek Harness, chec
 | Coordinate mixed agent runtimes under budgets and approvals | Paperclip |
 | Review Claude Code/Codex edits visually instead of reading diffs in a terminal | Nimbalyst (§4.7) |
 | Run spec-driven doer/reviewer pairs with worktrees, recovery, and merge gates | Liza (§4.8) |
+| Coordinate issue, chat, and scheduled work across local coding-agent CLIs | Multica (§4.9) |
 | Enforce how work gets done inside an agent session | None of the above (see [spec-first.md](../workflows/spec-first.md)) |
 
 ### The Model Lock-In Question
