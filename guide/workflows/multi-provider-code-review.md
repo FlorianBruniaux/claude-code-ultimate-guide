@@ -50,6 +50,14 @@ Adjust the "job" column to your stack, not the principle. If your deterministic-
 
 ---
 
+### Separate discovery from verification evidence
+
+In [Using LLMs to Secure Source Code, at 12:19](https://www.youtube.com/watch?v=imFedndyXYQ&t=739s), Eugene Yan describes a verifier that does not receive the discovery agent's reasoning trace and tries to refute candidate vulnerabilities. Applied to review, this means giving the verifier the claim, relevant source and reproducible evidence while avoiding a persuasive author narrative as its only input.
+
+This is a practitioner method, not proof that a second model makes a finding correct. Preserve the verifier's attempts, counterexamples and unresolved questions, and adjudicate against the requirement. Different provider names alone do not establish independent evidence.
+
+---
+
 ## The Non-Duplication Rule
 
 Write the boundary into every config file, not just into a wiki page nobody reads mid-review-setup. Concretely:

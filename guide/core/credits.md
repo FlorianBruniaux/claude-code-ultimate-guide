@@ -119,12 +119,12 @@ DiffMem is documented as a case study in [memory-systems.md §3.7](memory-system
 **Host**: Bruno Soulez
 **License**: Editorial citation (no code)
 
-IFTTD is a French tech podcast (360+ episodes, 2020-2026) covering practical software engineering. Transcripts from episodes 290 to 361 were analyzed and their practitioner insights paraphrased into the guide. No direct quotes appear in the guide; all material is reformulated in English and attributed by episode.
+IFTTD is a French tech podcast (360+ episodes, 2020-2026) covering practical software engineering. Selected transcripts informed the guide, with six public-transcript additions checked on September 9, 2026: episodes 362, 363, 364, 371, 372 and 373. The [2025-2026 season synthesis](https://bilan.ifttd.io/) helped identify these additions. Practitioner Insights uses English paraphrases attributed by episode; the synthesis and its underlying episodes are not independent evidence.
 
 ### Sections drawing on IFTTD
 
 **Guide section**: [Practitioner Insights](../ecosystem/practitioner-insights.md)
-**Source episodes**: 311, 326, 329, 338, 341, 346, 349, 351, 357, 360, 361
+**Source episodes**: 311, 326, 329, 338, 341, 346, 349, 351, 357, 360, 361, 362, 363, 364, 371, 372, 373
 Consolidated digest of paraphrased insights organized by theme (context engineering, agentic patterns, LLM evaluation, agent security, DevX and adoption).
 
 **Guide section**: [§6 RAG Optimization: Query-Side Indexing](../ecosystem/context-engineering-tools.md#query-side-indexing-semantic-chunking-and-synthetic-questions)
@@ -299,6 +299,10 @@ AI ownership by domain experts over a centralized innovation cell.
 The "tokens into ROI" framing used to introduce the stakes of unit economics.
 
 ---
+
+## AI Engineer and Pragmatic Engineer interviews
+
+Selected 2026 transcript passages informed the verification and attention updates: [Dex Horthy on review capacity](https://www.youtube.com/watch?v=Ib5GBkD555M&t=380s), [Clare Liguori on continuous agent supervision](https://www.youtube.com/watch?v=pqlWNihgdjI&t=948s), [Eugene Yan on separating discovery from verification](https://www.youtube.com/watch?v=imFedndyXYQ&t=739s), and [Nicole Forsgren on developer experience](https://www.youtube.com/watch?v=DfrAaDgFgjc&t=444s). These are attributed practitioner accounts, not a joint study of productivity or burnout. The proposed worksheets do not claim measured gains from these talks.
 
 ## Adding to This File
 

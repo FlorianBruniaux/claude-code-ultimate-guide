@@ -29,6 +29,7 @@ Guide version 3.43.0, tracking Claude Code up to v2.1.261 (September 2026).
 - Adoption: L0-L5 maturity scale, the J-curve, empirical data (METR RCT, DeputyDev cohort), roles in AI-assisted teams
 - Practitioner insights: condensed findings from IFTTD podcast episodes, Devoxx, ByteByteGo, Stanford Online, plus 150+ scored external resource evaluations
 - Production templates: ready-to-use CLAUDE.md, rules, hooks, agents, skills, commands, quizzes, GitHub Actions workflows
+- AI-assisted open source contributions: project policy, reproduction, author comprehension, evidence packets and follow-up; shared review-capacity admission and learning worksheets
 
 - Agentic pentesting: guide/security/agentic-pentesting.md compares DarkMoon and Strix, exploit evidence, model data exposure, and evaluation requirements; source inspection and bounded local checks, no shared performance benchmark
 

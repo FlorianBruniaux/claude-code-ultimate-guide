@@ -225,6 +225,14 @@ Use stable event names and redact sensitive prompt text, tool arguments, tool re
 
 Evaluate the exact model-harness pair, repository revision, permission set, graph version, tool set, budget, and task distribution. A green graph test shows that the control flow followed its contract. It does not prove that the delivered patch meets the requirement. Pair workflow tests with requirement-level verification, recovery drills, and repeated representative tasks. [Agent Evaluation](../roles/agent-evaluation.md#evaluate-judgment-allocation-and-reviewer-independence) defines useful graph-level and reviewer-independence measures.
 
+### Limit admission to verification capacity
+
+Bound the shared queue as well as each agent run. A task with a finite retry budget can still add work faster than reviewers can accept it. In [IFTTD episode 362](https://www.ifttd.io/episodes/le-lean-a-l-ere-de-l-ia), Yacine Hmito describes this as a flow problem: faster implementation moves pressure to quality control, and recurring defects should change the upstream production process. Bruno Soulez's [season conclusion](https://bilan.ifttd.io/conclusion/) goes further by proposing validation before expanding generation; that ordering is his interpretation, not a demonstrated universal sequence.
+
+Before dispatch, reserve capacity for the change's required verification. Pause new authoring when the owner-approved queue or age limit is reached, a required reviewer is unavailable, or queue telemetry is stale. Allow in-flight reviews and agreed corrections to finish. Resume below a distinct threshold with fresh telemetry and available capacity; otherwise the scheduler can oscillate between pause and resume.
+
+The [review admission worksheet](../../examples/workflows/review-admission.md) defines ownership, atomic reservations, exceptions, and a tabletop exercise. Its illustrative thresholds are not production defaults. Use [queue measurements](../ops/team-metrics.md#measure-the-shared-verification-queue) to calibrate them. This complements the per-feature WIP limit in [Spec-First Development](../workflows/spec-first.md); it does not grant merge or deployment authority.
+
 ## 8. Three implementation cases
 
 ### Claude Code: inner loop plus repository harness

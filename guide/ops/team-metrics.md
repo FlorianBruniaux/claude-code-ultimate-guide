@@ -218,6 +218,24 @@ Increasing time-to-understand suggests that code is growing more complex or less
 
 ---
 
+## Measure the shared verification queue
+
+Measure one service and comparable change classes before increasing agent concurrency. [Dex Horthy's practitioner account](https://www.youtube.com/watch?v=Ib5GBkD555M&t=380s) describes review remaining a bottleneck despite faster automation. [Yacine Hmito's Lean discussion](https://www.ifttd.io/episodes/le-lean-a-l-ere-de-l-ia) motivates correcting recurring defects upstream. Neither supplies a universal queue limit.
+
+| Signal | Definition and interpretation |
+|---|---|
+| New arrivals | Unique changes first declared ready during the observation window; corrections remain associated with the original change |
+| Accepted changes | Unique changes accepted under the stated policy at the assessed revision; closed or canceled changes are separate |
+| Backlog and oldest age | Unaccepted changes and time since first readiness; report review, rework and CI waiting separately |
+| Reserved capacity | Authoring tasks already admitted but not yet ready; include them when deciding whether another agent may start |
+| Human effort and quality | Active review time, confirmed defects, rework, and later escaped defects with a defined attribution window |
+
+**Illustrative arithmetic:** starting with two queued changes, eight arrivals and five acceptances leaves five queued changes if there are no cancellations or other exits. This is a count balance, not a productivity measurement; changes can have very different review costs. Report counts alongside task mix and active review effort.
+
+Use the [admission worksheet](../../examples/workflows/review-admission.md) to define pause and resume conditions from a local baseline. Improving the acceptance count by weakening review is not evidence of improvement. Keep the quality policy fixed during a comparison and disclose changes in reviewers, tools or workload.
+
+---
+
 ## Agentic Metrics: What DORA Doesn't Measure
 
 DORA and SPACE were designed for deterministic software systems. Agents introduce non-determinism, probabilistic quality, and failure modes that fall through every existing metric category. Three groups of metrics fill that gap.

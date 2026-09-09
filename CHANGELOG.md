@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- Integrated the IFTTD 2025-2026 synthesis with six checked public episode transcripts and selected AI Engineer, Product Crew and Pragmatic Engineer passages. Expanded Practitioner Insights from 69 to 75 entries, corrected its source chronology and preserved testimony, prediction and measurement boundaries.
+- Added an AI-assisted open-source contribution workflow, contribution packet, review-admission worksheet and comprehension exercise. Connected shared verification capacity, contribution authority, field adoption, access continuity and independent review evidence to the existing guide pages.
+- Updated twelve portfolio articles and guides while preserving draft status and prior local work; corrected unsupported fixed review thresholds and an exclusive-hosting claim. Refreshed navigation and machine-readable discovery for the new material, including the companion landing reader, search, examples and RSS entry.
+
 - Added Tokenade to the token-optimization comparison with proprietary-licence and vendor-benchmark boundaries; clarified RTK output estimates and corrected its installation commands.
 
 - Scope the public-path check to publishable sources and the complete site build, excluding ignored private working notes.

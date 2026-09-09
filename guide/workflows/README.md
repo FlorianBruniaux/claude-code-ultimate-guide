@@ -41,6 +41,12 @@ Structure complex tasks with planning mode before execution.
 
 **When to use**: Multi-step features, architectural changes, uncertainty about approach
 
+### [AI-Assisted Open Source Contributions](./ai-assisted-open-source-contributions.md)
+
+Prepare a contribution with a reproduced problem, author explanation, verification evidence and responsibility for maintainer feedback. Includes a reusable contribution packet.
+
+**When to use**: Claude Code helps prepare a patch for another project's maintainers.
+
 ### [TDD with Claude](./tdd-with-claude.md)
 
 Test-Driven Development workflow: write tests first, implement after.

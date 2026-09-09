@@ -820,6 +820,14 @@ Senior software engineer with customer-facing delivery experience, solutions arc
 
 ---
 
+### Field example: a useful system needs an adopted interaction
+
+In [IFTTD episode 373](https://www.ifttd.io/episodes/forward-deployed-engineer), Léa Buendé, an FDE at Adobe, recounts a field engagement with engineers accustomed to paper manuals. Her proposed chatbot did not match their habits; they used it like a search box, and the interaction did not supply the context it needed. The account spans her career and does not establish that this engagement occurred at Adobe.
+
+The delivery lesson is to observe representative users completing their actual task before treating a working integration as successful adoption. Record whether they find the answer, what help they need and whether the interaction fits the work setting. This is a practitioner case, not a comparison proving that chat or search is generally superior.
+
+---
+
 ## 22. AI Security Engineer
 
 **Evidence label**: Role family. Cisco, Apple, GuidePoint Security, Marvell, Prologis, Société Générale, and other employers use the exact title or a seniority-qualified variant in current official postings.

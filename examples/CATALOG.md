@@ -6,25 +6,26 @@ Auto-generated template index with complexity, time, and domain filters.
 
 ---
 
-**Total Templates**: 238
+**Total Templates**: 242
 
 - **Agents**: 23
 - **Commands**: 52
-- **Skills**: 118
+- **Skills**: 121
 - **Hooks**: 39
-- **Workflows**: 4
+- **Workflows**: 5
 - **Scripts**: 2
 
 ## Filter by Complexity
 
 - **Beginner**: 0 templates
-- **Intermediate**: 238 templates
+- **Intermediate**: 242 templates
 - **Advanced**: 0 templates
 
 ## Filter by Time
 
 - **15 min**: 1 templates
-- **30 min**: 237 templates
+- **30 min**: 240 templates
+- **varies**: 1 templates
 
 ---
 
@@ -261,7 +262,7 @@ Auto-generated template index with complexity, time, and domain filters.
   This command was migrated to a skill in Claude Code 2.1.3. See: [`examples/skills/validate-changes/S
 
 
-### Skills (118)
+### Skills (121)
 
 - **[ast-grep-patterns](skills/ast-grep-patterns.md)** *intermediate* • 30 min
   Skill teaching Claude when and how to use ast-grep for structural code searches
@@ -280,6 +281,9 @@ Auto-generated template index with complexity, time, and domain filters.
 
 - **[behavioral](skills/design-patterns/reference/behavioral.md)** *intermediate* • 30 min
   Reference for Observer, Strategy, Command, Chain of Responsibility and other behavior patterns
+
+- **[best-of-n](skills/best-of-n/SKILL.md)** *intermediate* • 30 min
+  Generate bounded independent candidates, score them against a frozen rubric, and verify the selected result with a proof log.
 
 - **[canary](skills/canary/SKILL.md)** *intermediate* • 30 min
   Post-deploy monitoring: watch production after a deploy and alert on regressions
@@ -422,6 +426,9 @@ Auto-generated template index with complexity, time, and domain filters.
 - **[learn-teach](skills/learn-teach/SKILL.md)** *intermediate* • 30 min
   Step-by-step explanation of a concept with progressive depth
 
+- **[learning-path](skills/learning-path/SKILL.md)** *intermediate* • 30 min
+  Run the local Claude Code learning path, record evidence, and schedule evidence-based reviews.
+
 - **[linkedin-template](skills/guide-recap/assets/linkedin-template.md)** *intermediate* • 30 min
   Target: ~1300 characters. Structure: hook + context + bullets + CTA + hashtags.
 
@@ -473,12 +480,6 @@ Auto-generated template index with complexity, time, and domain filters.
 - **[qa](skills/qa/SKILL.md)** *intermediate* • 30 min
   Systematic QA testing of a web application: diff-aware, tiered, with fix-and-verify loop
 
-- **[README](skills/ccboard/README.md)** *intermediate* • 30 min
-  > Comprehensive TUI/Web dashboard for monitoring and managing Claude Code
-
-- **[README](skills/talk-pipeline/README.md)** *intermediate* • 30 min
-  6-stage skill pipeline that transforms raw material (article, transcript, notes) into a complete con
-
 - **[README](skills/release-notes-generator/references/README.md)** *intermediate* • 30 min
   This directory contains documentation that will be loaded contextually during skill execution.
 
@@ -487,6 +488,15 @@ Auto-generated template index with complexity, time, and domain filters.
 
 - **[README](skills/release-notes-generator/assets/README.md)** *intermediate* • 30 min
   This directory contains templates, images, and boilerplate code.
+
+- **[README](skills/learning-path/README.md)** *intermediate* • 30 min
+  This dependency-free prototype turns the existing [seven-module learning path](../../../guide/learni
+
+- **[README](skills/ccboard/README.md)** *intermediate* • 30 min
+  > Comprehensive TUI/Web dashboard for monitoring and managing Claude Code
+
+- **[README](skills/talk-pipeline/README.md)** *intermediate* • 30 min
+  6-stage skill pipeline that transforms raw material (article, transcript, notes) into a complete con
 
 - **[recipe-template](skills/recipe-template/SKILL.md)** *intermediate* • 30 min
   Template for commands that implement a structured recipe: validate preconditions, then execute numbered steps. Fork this and replace the placeholder content. The 'Context Validation Checkpoints' section is the key pattern, forcing Claude to verify preconditions before starting.
@@ -552,11 +562,11 @@ Auto-generated template index with complexity, time, and domain filters.
 - **[skill-creator](skills/skill-creator/SKILL.md)** *intermediate* • 30 min
   Scaffold a new Claude Code skill with SKILL.md, frontmatter, and bundled resources. Use when creating a custom skill, standardizing skill structure across a team, or packaging a skill for distribution.
 
-- **[slack-template](skills/guide-recap/assets/slack-template.md)** *intermediate* • 30 min
-  Compact, scannable, emoji-rich. Ready to paste.
-
 - **[slack-template](skills/release-notes-generator/assets/slack-template.md)** *intermediate* • 30 min
   Use this template for generating product-focused Slack messages.
+
+- **[slack-template](skills/guide-recap/assets/slack-template.md)** *intermediate* • 30 min
+  Compact, scannable, emoji-rich. Ready to paste.
 
 - **[smart-explore](skills/smart-explore.md)** *intermediate* • 30 min
   Progressive code exploration using tree-sitter AST: structure first, drill second. Reduces code reading from 10-15k tokens per file to 200-500 tokens.
@@ -739,7 +749,7 @@ Auto-generated template index with complexity, time, and domain filters.
   set -euo pipefail
 
 
-### Workflows (4)
+### Workflows (5)
 
 - **[bounded-loop-contract](workflows/bounded-loop-contract.md)** *intermediate* • 15 min • architecture
   Reference contract for a bounded agent loop with a separate verifier interface, evidence, and escalation
@@ -753,6 +763,9 @@ Auto-generated template index with complexity, time, and domain filters.
 
 - **[remotion-quickstart](workflows/remotion-quickstart.md)** *intermediate* • 30 min
   15-minute quickstart to create programmatic videos with Remotion and Claude Code
+
+- **[review-admission](workflows/review-admission.md)** *intermediate* • varies • testing • ⚠️ experimental
+  Define shared review capacity, pause and resume rules, and a tabletop exercise
 
 
 ### Scripts (2)
@@ -772,8 +785,9 @@ Auto-generated template index with complexity, time, and domain filters.
 
 - **bounded-loop-contract** (intermediate, 15 min)
 
-### General (237)
+### General (240)
 
+- **README** (intermediate, 30 min)
 - **README** (intermediate, 30 min)
 - **README** (intermediate, 30 min)
 - **README** (intermediate, 30 min)
@@ -803,6 +817,7 @@ Auto-generated template index with complexity, time, and domain filters.
 - **autoresearch** (intermediate, 30 min)
 - **before-after** (intermediate, 30 min)
 - **behavioral** (intermediate, 30 min)
+- **best-of-n** (intermediate, 30 min)
 - **canary** (intermediate, 30 min)
 - **canary** (intermediate, 30 min)
 - **catchup** (intermediate, 30 min)
@@ -875,6 +890,7 @@ Auto-generated template index with complexity, time, and domain filters.
 - **learn-quiz** (intermediate, 30 min)
 - **learn-teach** (intermediate, 30 min)
 - **learning-capture** (intermediate, 30 min)
+- **learning-path** (intermediate, 30 min)
 - **linkedin-template** (intermediate, 30 min)
 - **log-ingestor** (intermediate, 30 min)
 - **loop-monitor** (intermediate, 30 min)
@@ -1011,6 +1027,10 @@ Auto-generated template index with complexity, time, and domain filters.
 - **version-output** (intermediate, 30 min)
 - **voice-refine** (intermediate, 30 min)
 - **week-output** (intermediate, 30 min)
+
+### Testing (1)
+
+- **review-admission** (intermediate, varies)
 
 ---
 

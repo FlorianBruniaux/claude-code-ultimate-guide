@@ -461,6 +461,15 @@ Since Claude Code 2.1.3, `.claude/commands/` merged into `.claude/skills/`; ever
 
 ---
 
+## Contribution and verification workflows
+
+- `guide/workflows/ai-assisted-open-source-contributions.md`: prepare a contribution with project policy, reproduction, author understanding and verification evidence.
+- `examples/templates/ai-assisted-contribution.md`: reusable contribution packet.
+- `examples/workflows/review-admission.md`: proposed pause/resume policy for a shared verification queue, with illustrative tabletop cases.
+- `examples/learning-project/review-comprehension-exercise.md`: proposed comprehension assessment, distinct from delivery metrics.
+
+The 2025-2026 IFTTD additions extend Practitioner Insights to 75 attributed observations, including six public transcripts checked through episode 373. Field accounts and proposed procedures do not establish measured throughput or learning improvements.
+
 ## FAQ
 
 **Q: What is the Claude Code Ultimate Guide?**
