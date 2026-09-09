@@ -37,6 +37,7 @@ Les documents de travail bruts (prompts Perplexity, audits clients) restent dans
 
 | Ressource | Score Initial | Score Final | Décision | Fichier |
 |-----------|---------------|-------------|----------|---------|
+| **DarkMoon and Strix** (agentic pentesting) | 3/5 | **3/5** | Documented comparison and evidence requirements; no performance ranking or production endorsement | [darkmoon-strix-agentic-pentesting.md](./darkmoon-strix-agentic-pentesting.md) |
 | **Databricks: Managing AI Coding Costs at Scale** | 4/5 | **4/5** | ✅ Intégration sélective: routage à trois niveaux, budgets progressifs, cache et clarification meta-harness; chiffres internes non généralisés | [databricks-managing-ai-coding-costs-scale.md](./databricks-managing-ai-coding-costs-scale.md) |
 | **MLTUT + Awesome Claude Code learning corpus** | 4/5 | **4/5** | ✅ Lacunes ciblées, parcours et actifs de distribution intégrés | [mltut-learning-resources-comparative-audit.md](./mltut-learning-resources-comparative-audit.md) |
 | **Claude Code current product surface** | - | **5/5** | ✅ Intégré depuis la documentation officielle du 31 août 2026 | [claude-code-current-surface-2026-08.md](./claude-code-current-surface-2026-08.md) |

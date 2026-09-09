@@ -855,6 +855,10 @@ The agent checks:
 - Configuration security (exposed secrets, weak permissions)
 - MCP server risk assessment
 
+**Active penetration testing (running applications)**
+
+An agentic pentest sends requests to a running target and attempts to validate exploitability. Its scope and evidence requirements differ from configuration scanning and source review. Use an explicitly authorized lab target and review both the execution permissions and the data sent to model providers. The [agentic pentesting guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/security/agentic-pentesting.md) compares DarkMoon and Strix, distinguishes reported findings from demonstrated impact, and defines the evidence needed for a reproducible evaluation.
+
 ### 3.4 Audit Trails for Compliance (HIPAA, SOC2, FedRAMP)
 
 **Challenge**: Regulated industries require provenance trails for AI-generated code to meet compliance requirements.

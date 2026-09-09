@@ -85,6 +85,7 @@ Core documentation for mastering Claude Code, organized by topic.
 | [security/sandbox-native.md](./security/sandbox-native.md) | Native Claude Code sandbox: configuration and security model | 10 min |
 | [security/production-safety.md](./security/production-safety.md) | Production safety: guardrails, review gates, rollback strategies | 15 min |
 | [security/data-privacy.md](./security/data-privacy.md) | Data retention and privacy guide | 10 min |
+| [security/agentic-pentesting.md](./security/agentic-pentesting.md) | DarkMoon and Strix: execution scope, exploit evidence, model data exposure, and evaluation protocol | Reference |
 | [security/enterprise-governance.md](./security/enterprise-governance.md) | **Org-level governance**: usage charters, MCP approval workflow, guardrail tiers (Starter/Standard/Strict/Regulated), compliance | 25 min |
 
 ---

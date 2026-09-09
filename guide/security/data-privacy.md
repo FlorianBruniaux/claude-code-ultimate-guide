@@ -317,6 +317,14 @@ export DISABLE_BUG_COMMAND=1
 | **Create minimal test datasets** | Less data = less risk |
 | **Audit MCP server sources** | Third-party MCPs may have vulnerabilities |
 
+### Reversible Tokenization at the Model Boundary
+
+A privacy gateway can replace recognized values with placeholders before a model request and restore them locally when a tool needs the original value. For example, a synthetic target `10.42.1.5` might become `IP_PRIVATE_001` in a model-visible tool result. The local mapping remains sensitive because it can reverse the transformation.
+
+Coverage depends on the detector, input format, and integration path. A filter that masks a credential assignment in plain text may miss the same value inside a JSON object. Error handling also matters: returning the original payload after a sanitization exception exposes that payload to the next consumer. A fail-closed launch hook does not establish that every later tool result fails closed.
+
+The [DarkMoon case study and Strix comparison](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/security/agentic-pentesting.md) explain these boundaries. Treat reversible tokenization as a reduction in exposure. To assess a particular run, inspect the actual outbound model requests with synthetic canary values, including tool outputs, retries, and error paths. Tokenization logs alone do not establish what crossed the provider boundary.
+
 ### For Teams
 
 | Environment | Recommendation |

@@ -699,6 +699,14 @@ deep_dive:
   enterprise_governance_audience: "Tech leads, engineering managers, security officers"
   enterprise_governance_scope: "Org-level policy (vs security-hardening.md = individual dev security)"
   enterprise_governance_executor_watch: "guide/security/enterprise-governance.md#35-watch-executor-the-registry-pattern-as-a-product"  # Added 2026-07-29
+  # Agentic pentesting: source inspection and bounded local checks
+  agentic_pentesting: "guide/security/agentic-pentesting.md"
+  darkmoon_strix_comparison: "guide/security/agentic-pentesting.md#compare-the-inspected-implementations"
+  darkmoon_privacy_gateway: "guide/security/agentic-pentesting.md#follow-the-data-through-a-privacy-gateway"
+  agentic_pentesting_evidence: "guide/security/agentic-pentesting.md#read-findings-as-claims-to-verify"
+  agentic_pentesting_lab_protocol: "guide/security/agentic-pentesting.md#evaluate-on-the-same-laboratory"
+  agentic_pentesting_evaluation: "docs/resource-evaluations/darkmoon-strix-agentic-pentesting.md"
+  data_privacy_reversible_tokenization: "guide/security/data-privacy.md#reversible-tokenization-at-the-model-boundary"
   # Data Privacy & Retention (guide/security/data-privacy.md) - Added 2026-06-10
   data_privacy_guide: "guide/security/data-privacy.md"
   data_privacy_retention_summary: "guide/security/data-privacy.md#tldr---retention-summary"
@@ -3554,6 +3562,14 @@ section_maps:
     - "red-flags-checklist"
     - "sources--research"
     - "quick-reference-card"
+  "guide/security/agentic-pentesting.md":
+    - "choose-the-security-task"
+    - "compare-the-inspected-implementations"
+    - "follow-the-data-through-a-privacy-gateway"
+    - "read-findings-as-claims-to-verify"
+    - "evaluate-on-the-same-laboratory"
+    - "evidence-and-adoption-limits"
+    - "related-reading"
   "guide/security/data-privacy.md":
     - "tldr---retention-summary"
     - "1-understanding-the-data-flow"

@@ -206,6 +206,7 @@ Use the [MCP or CLI decision guide](./guide/ecosystem/mcp-vs-cli.md) and the [tr
 | Isolation of untrusted execution | [Sandbox Isolation](./guide/security/sandbox-isolation.md) | [Native Sandbox](./guide/security/sandbox-native.md) |
 | Production changes and rollback | [Production Safety](./guide/security/production-safety.md) | [Production Reliability](./guide/workflows/production-reliability.md) |
 | Sensitive data and retention | [Data Privacy](./guide/security/data-privacy.md) | [Enterprise Governance](./guide/security/enterprise-governance.md) |
+| Active testing of authorized applications | [Agentic Pentesting](./guide/security/agentic-pentesting.md) | [DarkMoon and Strix Evaluation](./docs/resource-evaluations/darkmoon-strix-agentic-pentesting.md) |
 | MCP and extension supply chain | [MCP Ecosystem](./guide/ecosystem/mcp-servers-ecosystem.md) | [Threat Database](./examples/commands/resources/threat-db.yaml) |
 | Delegation readiness | [Specification Completeness Audit](./tools/spec-completeness-audit.md) | [Agent Evaluation](./guide/roles/agent-evaluation.md) |
 

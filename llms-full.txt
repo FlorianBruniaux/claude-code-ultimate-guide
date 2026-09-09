@@ -498,6 +498,8 @@ A: With proper hardening, yes. Key steps: never use `bypassPermissions` in produ
 
 ## Privacy & Data
 
+Agentic pentesting: `guide/security/agentic-pentesting.md` compares DarkMoon and Strix, separates configuration scans, source review, and active testing, and explains exploit evidence, model data exposure, and reproducible evaluation. `guide/security/data-privacy.md` covers reversible tokenization and error-path limits. The comparison records source inspection and bounded local checks; it does not establish a performance winner or production readiness.
+
 Claude Code sends to Anthropic servers: your prompts, file contents you reference, MCP tool results.
 - Default retention: 5 years (training enabled)
 - Opt-out: 30 days retention, https://claude.ai/settings/data-privacy-controls
