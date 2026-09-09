@@ -1,0 +1,29 @@
+machine-readable/translations.json
+  s_21d5b25e000ec4::t_d785171965d5f5 4,24,26-27,71-72,114-115,190-191
+mcp-server/content/translations.json
+  s_4ba5307cc00a1e::t_08c458f86f8103 4,24,26-27,71-72,114-115,190-191
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "4ba9fd5407b3d7cb6b0fa0efb783dd501eb2e135",
+  "prompts": {},
+  "sessions": {
+    "s_21d5b25e000ec4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e9b769b8-f058-4d56-b619-d7921979c226",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_4ba5307cc00a1e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a071cf-c02a-7fc2-8310-13b337a70c1a",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
