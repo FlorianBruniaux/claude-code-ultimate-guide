@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- Refreshed the observed public MCP runtime snapshot from npm to resolve the version mismatch blocking the guide landing deployment.
+
 - Documented agentic pentesting through a DarkMoon/Strix comparison and a sourced resource evaluation, with explicit boundaries for exploit evidence, reversible tokenization, local checks, and unverified runtime behavior. Added security/privacy entry points and navigation, and synchronized machine-readable discovery and MCP mirrors.
 
 ### Documentation
