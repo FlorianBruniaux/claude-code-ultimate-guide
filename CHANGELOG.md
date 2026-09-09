@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- Added Tokenade to the token-optimization comparison with proprietary-licence and vendor-benchmark boundaries; clarified RTK output estimates and corrected its installation commands.
+
 - Scope the public-path check to publishable sources and the complete site build, excluding ignored private working notes.
 
 - Removed workstation-specific paths from public guides, evaluations, examples, and indexes. Removed displayed revision hashes and local-source columns from the DarkMoon/Strix pages; kept usable public source links and made the synthetic check relative to the cloned repository. Added a public-content path check.

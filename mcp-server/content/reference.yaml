@@ -365,6 +365,9 @@ deep_dive:
   batch_api_cost_lever: "guide/core/architecture.md#message-batches-api"
   batch_api_savings: "50% cheaper, async, 24h window, up to 100 requests per batch"
   routellm_citation: "arXiv:2406.18665 (ICLR 2025) — 85% cost reduction on MT-Bench vs always-strong routing, 95% GPT-4 performance"
+  tokenade_guide: "guide/ecosystem/third-party-tools.md#tokenade"
+  tokenade_license: "Proprietary engine; public installer; FAQ MIT claim contradicted by LICENSE (2026-09-08)"
+  tokenade_evidence: "THOL vendor campaign CC 2.1.206: ratio 0.768 vs control; no independent reproduction in this guide"
   rtk_upstream: "https://github.com/rtk-ai/rtk"
   rtk_website: "https://www.rtk-ai.app/"
   rtk_evaluation: "docs/resource-evaluations/rtk-evaluation.md"
@@ -376,7 +379,7 @@ deep_dive:
   rtk_purpose: "Command output filtering before LLM context (60-90% avg reduction)"
   rtk_version_tested: "v0.28.0"
   rtk_score: "5/5"
-  rtk_installation: "cargo install rtk or brew install rtk-ai/tap/rtk"
+  rtk_installation: "brew install rtk or cargo install --git https://github.com/rtk-ai/rtk"
   # Edgee Compressor V2 (2026-07-02) - documented + cross-referenced with RTK
   edgee_compressor_v2_guide: "guide/ecosystem/context-engineering-tools.md:419"
   edgee_compressor_v2_source: "https://www.edgee.ai/blog/posts/introducing-compressor-v2-three-compression-layers-measured-end-to-end-for-a-50-cost-reduction"
@@ -1428,7 +1431,7 @@ deep_dive:
       published: "2026-01-21"
       guide_section: "README.md:338"
   # Section 9.18 - Codebase Design for Agent Productivity
-  codebase_design_agents: 20287
+  codebase_design_agents: 20293
   codebase_design_source: "https://marmelab.com/blog/2026/01/21/agent-experience.html"
   codebase_design_author: "François Zaninotto (Marmelab)"
   codebase_design_llms_txt: 20864  # llms.txt standard for AI-optimized documentation
@@ -1576,7 +1579,7 @@ deep_dive:
   daily_workflow: 25233
   # AI Ecosystem (Section 11, ~line 10525)
   ai_ecosystem: 13308
-  ai_ecosystem_complementarity: 25467
+  ai_ecosystem_complementarity: 25473
   ai_ecosystem_tool_matrix: 25540
   ai_ecosystem_workflows: 25675
   ai_ecosystem_integration: 25803
@@ -1676,7 +1679,7 @@ deep_dive:
   # Appendix
   appendix_a_file_locations: "guide/ultimate-guide.md#appendix-a-file-locations-reference" # was line 26179
   appendix_b_faq: "guide/ultimate-guide.md#appendix-b-faq" # was line 26357
-  faq_clawdbot_vs_claudecode: 26326
+  faq_clawdbot_vs_claudecode: 26332
   faq_product_managers: "guide/ultimate-guide.md#can-product-managers-use-claude-code" # was line 26428
   appendix_c_resource_evaluation: "guide/ultimate-guide.md#appendix-c-resource-evaluation-process" # was line 26493
   appendix_d_myths_vs_reality: "guide/ultimate-guide.md#appendix-d-myths-vs-reality" # was line 26536

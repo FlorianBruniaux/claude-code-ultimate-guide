@@ -214,7 +214,7 @@ A CLI proxy that filters command outputs **before** they reach Claude's context.
 |-----------|---------|
 | **Source** | [GitHub: rtk-ai/rtk](https://github.com/rtk-ai/rtk) |
 | **Website** | [rtk-ai.app](https://www.rtk-ai.app/) |
-| **Install** | `brew install rtk-ai/tap/rtk` or `cargo install rtk` |
+| **Install** | `brew install rtk` or `cargo install --git https://github.com/rtk-ai/rtk` |
 | **Language** | Rust (standalone binary) |
 | **Version** | v0.28.0 |
 
@@ -332,6 +332,26 @@ All four tools above (Claude Code Usage Monitor, claude-spend, cc-statistics, cl
 ## Context Compression
 
 Tools that reduce tokens entering LLM context through compression, lazy-loading, or intelligent filtering, complementary to the tracking tools above.
+
+### Tokenade
+
+Tokenade combines local output filtering, code navigation, MCP proxying, deduplication and concise-output instructions. Coverage depends on the agent integration; Codex CLI and Codex desktop are separate entries in the vendor's compatibility table.
+
+| Attribute | Evidence reviewed on 2026-09-08 |
+|---|---|
+| Distribution | [Public npm launcher/installer](https://github.com/pi-infected/tokenade-npm), separately distributed engine |
+| Licence | [Proprietary commercial licence](https://github.com/pi-infected/tokenade-npm/blob/main/LICENSE); the FAQ's MIT claim conflicts with this file |
+| Activation | Account required; free quota and paid plans. Verify current pricing before purchase |
+| Integration | Hooks, CLI and MCP proxy; features vary by client |
+| Evaluation status | Documentation, licence, benchmark manifests and published results inspected; no local runtime test or independent replication |
+
+**Compared with RTK:** Tokenade changes more than shell output. Its [THOL manifest](https://github.com/pi-infected/token-harness-optimizer-leaderboard/blob/main/competitors/tokenade/manifest.json) also changes instructions and context settings. RTK supports compact file reads through its CLI, including signatures-only output; its Claude Code Bash hook does not intercept native Read/Grep calls. Do not repeat the vendor comparison's blanket exclusion of RTK file compression or native Windows support.
+
+**Benchmark boundary:** The vendor-maintained [THOL campaign data](https://github.com/pi-infected/token-harness-optimizer-leaderboard/blob/main/docs/data/results.json) for Claude Code 2.1.206 reports a Tokenade 0.8.13 cost ratio of 0.768 versus control (95% interval 0.647–0.900), and RTK 0.42.3 at 1.052 (0.913–1.190). Each arm has 170 successful runs across 17 tasks. These are geometric means of per-task ratios. The experiment favours the full Tokenade configuration within that campaign; it does not isolate the contribution of each mechanism or prove equivalence for RTK. Include licence, setup, recovery and quality when evaluating your own workload.
+
+Inspect overlapping hooks before combining optimizers. A public installer is not evidence that the proprietary engine preserves every detail or transmits only the declared telemetry.
+
+---
 
 ### lean-ctx
 

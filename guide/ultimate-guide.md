@@ -18149,21 +18149,23 @@ Also auto-triggers on phrases like "be brief" or "less tokens please." Auto-disa
 
 ### Command Output Optimization with RTK
 
-**RTK (Rust Token Killer)** filters bash command outputs **before** they reach Claude's context, achieving 60-90% token reduction across git, testing, and development workflows. 73,531 stars, 4,597 forks as of 2026-07-27 (was 446 stars, 38 forks), 700+ upvotes on r/ClaudeAI.
+**RTK (Rust Token Killer)** filters command output before it reaches the model. Its reported reductions concern processed shell output, not the whole session or invoice. `rtk gain` uses local token estimates; count retries and task outcomes separately.
 
 **Repository:** [rtk-ai/rtk](https://github.com/rtk-ai/rtk) | **Website:** [rtk-ai.app](https://www.rtk-ai.app/)
+
+For broader hooks, code navigation and MCP interception, see the [Tokenade comparison and evidence boundary](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ecosystem/third-party-tools.md#tokenade). It covers a proprietary alternative with vendor-maintained benchmark results, not a universal replacement recommendation.
 
 **Installation:**
 
 ```bash
 # Option 1: Homebrew (macOS/Linux)
-brew install rtk-ai/tap/rtk
+brew install rtk
 
 # Option 2: Cargo (all platforms)
-cargo install rtk
+cargo install --git https://github.com/rtk-ai/rtk
 
 # Option 3: Install script
-curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/master/install.sh | bash
 
 # Verify installation
 rtk --version  # v0.28.0+
