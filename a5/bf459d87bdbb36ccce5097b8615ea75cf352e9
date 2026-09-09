@@ -1,0 +1,51 @@
+CHANGELOG.md
+  s_b75681c86b5534::t_7793fcb560ba3c 9-10
+llms.txt
+  s_b75681c86b5534::t_9ed1c0e7977651 33-34
+machine-readable/llms.txt
+  s_b75681c86b5534::t_fcdb7301ca261e 33-34
+mcp-server/content/llms.txt
+  s_b75681c86b5534::t_5ae7364c859bf3 33-34
+mcp-server/content/reference.yaml
+  s_b75681c86b5534::t_587c20b036019a 702-709,3565-3572
+README.md
+  s_a9da11c3793263::t_7b208465b5f903 209
+docs/resource-evaluations/README.md
+  s_a9da11c3793263::t_1587179d4ca04f 40
+guide/README.md
+  s_a9da11c3793263::t_bea94cafc243f3 88
+guide/security/agentic-pentesting.md
+  s_b75681c86b5534::t_ecd7c1ec2f3e19 1-106
+guide/security/data-privacy.md
+  s_b75681c86b5534::t_d34dc66d3e70a6 320-327
+guide/security/security-hardening.md
+  s_b75681c86b5534::t_d2ad02f4c7b6b5 858-861
+llms-full.txt
+  s_a9da11c3793263::t_b14a27d0db23b0 501-502
+machine-readable/reference.yaml
+  s_a9da11c3793263::t_e1e1fd9d375e42 702-709,3565-3572
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "a5bf459d87bdbb36ccce5097b8615ea75cf352e9",
+  "prompts": {},
+  "sessions": {
+    "s_a9da11c3793263": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a06ae1-8792-7e60-83fb-6d0a140d2d38",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_b75681c86b5534": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08528-8a68-7b00-beb6-4e1a263caf75",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
