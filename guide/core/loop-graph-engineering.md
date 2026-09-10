@@ -239,6 +239,28 @@ The [review admission worksheet](../../examples/workflows/review-admission.md) d
 
 Claude Code owns the interactive model-and-tool loop. The repository harness provides the project contract through `CLAUDE.md`, optionally importing or symlinking an existing `AGENTS.md`, plus setup, task state, tests, hooks, and delivery gates. A practical Claude Code design should make the stop rule explicit: for example, a targeted test passes, the change is reviewed against the requirement, and no policy or budget exit has fired. Do not infer a general explicit graph runtime from subagents, teams, or hooks alone. See [Agent Harness Engineering](./agent-harness.md) for the runtime boundary, [the official explanation of the Claude Code agentic loop](https://code.claude.com/docs/en/how-claude-code-works) for product behavior, and [the `AGENTS.md` compatibility section](https://code.claude.com/docs/en/memory#agentsmd) for the supported instruction-file pattern.
 
+#### Compose recurring triage with bounded work
+
+A scheduled check discovers work; admission decides whether a candidate may start. A bounded task then pursues a finish condition, while the review policy decides whether the resulting change is acceptable. [Practical Loop Engineering](https://addyo.substack.com/p/practical-loop-engineering) describes this combination from Addy Osmani's practice. Treat it as a workflow proposal, not evidence that a nested command runs successfully.
+
+| Stage | Required evidence or decision |
+|---|---|
+| Detect | Identify an eligible issue and the repository revision being examined |
+| Admit | Check whether the same issue, repository revision and criteria version are already handled or owned by an active run; reserve verification capacity |
+| Work | Freeze the task, allowed changes, acceptance criteria and total attempt budget |
+| Verify | Reproduce the defect before the fix and retain the relevant checks on the candidate revision |
+| Accept or stop | Record the review decision, or the failure, exhausted-budget or escalation reason |
+
+For an illustrative issue-triage run, admit one reproducible bug, keep its identifier across scheduled checks, and produce a candidate patch with test evidence. A later check must not create a second worker for that same active task or reset its consumed budget. Reserve queue capacity before dispatch; the [bounded loop contract](../../examples/workflows/bounded-loop-contract.md) owns per-task execution. This scenario has not been executed as a Claude Code integration test.
+
+Use [the goal reference](../ultimate-guide.md#goal-autonomous-completion-mode-v21139) for completion behavior and [the scheduling reference](../ultimate-guide.md#the-loop-command) for triggers. Scheduled prompts do not execute built-in commands merely because their names appear in the text. Therefore an example saying “use /goal” inside `/loop` still needs an explicit, tested invocation boundary. Do not present it as copy-ready orchestration.
+
+#### Distinguish requested limits from enforced budgets
+
+A limit written into a `/goal` condition is judged by the evaluator from the conversation. A controller-enforced budget checks a counter before dispatching another action. The [runnable bounded-loop example](../../examples/workflows/bounded-loop-example.py) demonstrates the latter with synthetic actions and a verifier; it does not establish Claude Code behavior. For work that spans sessions, keep total consumption outside the session counters, which reset when an active goal resumes according to the [goal documentation](https://code.claude.com/docs/en/goal).
+
+Completion evaluation also has a narrower role than review. Claude Code's goal evaluator reads evidence already surfaced in the conversation; it does not independently inspect the patch or rerun commands. A separate reviewer still needs the original requirement, the candidate revision and access to the checks. Passing those checks does not decide whether the change is worth its product cost; that decision belongs to the named acceptance authority.
+
 ### LangGraph: explicit workflow runtime
 
 LangGraph is appropriate when state, routing, conditional branches, parallel work, interrupts, or persistence must be first-class artifacts. Its official graph API represents state, nodes, and edges explicitly, and its persistence API supplies checkpoints and stores. The engineering work remains in the contracts: state reducers, route conditions, side-effect idempotency, checkpoint selection, and observability.

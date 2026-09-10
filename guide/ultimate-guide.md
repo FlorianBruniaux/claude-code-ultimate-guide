@@ -9613,7 +9613,7 @@ Claude Code provides three distinct mechanisms for running recurring tasks. They
 | Runs on | Anthropic cloud | Local machine | Local machine |
 | Machine must be on | No | Yes | Yes |
 | Session must be open | No | No | Yes |
-| Persists between restarts | Yes | Yes | No |
+| Persists between restarts | Yes | Yes | Restored on session resume if unexpired |
 | Local file access | No (fresh repo clone) | Yes | Yes |
 | Trigger types | Schedule / API / GitHub events | Schedule only | In-session only |
 | MCP servers | Configured connectors per task | Config files + connectors | Inherited from session |
@@ -9750,7 +9750,7 @@ This approach runs entirely offline without any Anthropic infrastructure and has
 
 #### The /loop Command
 
-`/loop [interval] [prompt]` runs a prompt or slash command on a recurring interval within your current session. It stops when you press `Ctrl+C` or send any new message.
+`/loop [interval] [prompt]` schedules recurring work within the current session. With an interval, it uses a fixed schedule. Without one, Claude chooses the delay between iterations. An interval triggers another run; it is not a completion condition.
 
 ```bash
 /loop 5m check the deploy
@@ -9758,7 +9758,11 @@ This approach runs entirely offline without any Anthropic infrastructure and has
 /loop 1h /pr-pruner
 ```
 
-**How it works**: Claude executes the prompt, waits for the interval, executes again, repeat. Each execution is timestamped in the transcript. You can reference a slash command (like `/loop 30m /review-pr`) or write a free-form prompt directly.
+**How it works**: Scheduled prompts run between turns while Claude is idle. A fixed interval becomes a cron schedule with one-minute granularity; timing can include jitter. Without an interval, Claude chooses a delay between one minute and one hour based on the observed work. A bare `/loop` uses the built-in maintenance prompt, or `.claude/loop.md` when present, falling back to `~/.claude/loop.md` for a user-level default. On third-party providers or with feature-flag fetching disabled, dynamic intervals and the default prompt require v2.1.248 or later; older versions in those configurations use a fixed ten-minute default when a prompt has no interval.
+
+**Invocation boundary**: A scheduled prompt can invoke a skill that Claude is allowed to call, such as a configured `/review-pr` skill. Built-in commands and skills with `disable-model-invocation: true` arrive as plain text instead of executing. Do not assume that nesting `/goal` inside a `/loop` prompt activates a goal. See the [bounded triage design](./core/loop-graph-engineering.md#compose-recurring-triage-with-bounded-work) for the distinction between a workflow design and tested command composition.
+
+**Stop and resume**: Ask Claude to list or cancel scheduled tasks; the underlying tools are `CronList` and `CronDelete`. For a self-paced loop waiting for its next iteration, `Esc` clears its pending wakeup; Claude can also stop that loop when the task is complete. Fixed-interval tasks continue until cancelled or expired. Starting a new conversation stops tasks from the previous conversation, while `--resume` or `--continue` restores unexpired tasks. Closing the process prevents further runs until it is resumed.
 
 **Use cases from Boris Cherny (Claude Code creator):**
 
@@ -9768,7 +9772,7 @@ This approach runs entirely offline without any Anthropic infrastructure and has
 | `/loop 30m /slack-feedback` | Post PRs for team feedback every 30 min |
 | `/loop 1h /pr-pruner` | Clean up stale PRs on a schedule |
 
-**Constraints**: Session-scoped only. Max 3 days runtime, minimum 1 minute interval, maximum 50 tasks per session.
+**Constraints**: Recurring tasks expire seven days after creation, including time spent outside the session. A session can hold up to 50 scheduled tasks. Use Routines or Desktop scheduled tasks when scheduling must survive independently of a conversation. Source: [Run prompts on a schedule](https://code.claude.com/docs/en/scheduled-tasks), checked September 10, 2026.
 
 > `/loop` added in v2.1.71. Timestamp markers in loop transcripts added in v2.1.86. Cloud and Desktop Scheduled Tasks launched March 9, 2026. Source: [code.claude.com/docs/en/whats-new](https://code.claude.com/docs/en/whats-new)
 
@@ -19217,7 +19221,7 @@ Before setting up tmux grids or third-party orchestrators, try Agent View, Claud
 
 ### /goal: Autonomous Completion Mode (v2.1.139)
 
-`/goal <condition>` sets a completion contract for the current session. Claude keeps working across turns until a separate evaluator model verifies the condition is met. No need to send "continue" after each step.
+`/goal <condition>` sets a completion condition for the current session. A separate evaluator can continue the work, mark the condition met, or judge it impossible. Some unrecoverable errors also clear the goal. A completed goal is evidence about the stated condition; acceptance of the change still follows the project's review policy.
 
 ```bash
 /goal all unit tests pass and no TypeScript errors
@@ -19235,7 +19239,7 @@ A live overlay tracks elapsed time, turn count, and token consumption throughout
 |---------|--------|
 | `/goal <condition>` | Set or replace the current goal |
 | `/goal clear` | Cancel the active goal |
-| `/goal status` | Show condition and evaluator's last reason |
+| `/goal` | Show condition, progress and evaluator's last reason |
 
 **Three elements of an effective condition**:
 
@@ -19245,11 +19249,16 @@ A live overlay tracks elapsed time, turn count, and token consumption throughout
 
 Full example: `/goal all tests in test/auth pass, verified by npm test auth exit 0, no files outside src/services/auth modified`
 
+**Bound the run**: Include an explicit limit, for example `or stop after 5 turns`. The evaluator judges that clause from the conversation; it is not a deterministic execution counter. If exceeding a budget is unacceptable, enforce it in the controller outside the model. The [bounded-loop example](../examples/workflows/bounded-loop-example.py) demonstrates a program-enforced attempt limit without invoking a model. Its test does not validate Claude Code's runtime.
+
+**Resume and failure**: An active goal is restored when the session resumes, but its turn count, timer and token-spend baseline reset. Keep a durable total budget outside those session counters when work spans resumes. The evaluator can clear an impossible goal; unrecoverable credit, context or model errors can clear it too. Inspect the recorded reason rather than treating every cleared goal as success.
+
 **`/goal` vs `/loop`**:
 
 | | `/goal` | `/loop` |
 |--|---------|---------|
-| Terminates when | Condition verified by evaluator | Time interval elapses |
+| Next turn starts when | Previous turn finishes and goal remains unmet; background work can defer evaluation | Scheduled interval elapses and the session can run it |
+| Stops when | Condition met, judged impossible, cleared manually, or cleared after an unrecoverable error | Cancelled or expired; a self-paced loop can also finish its task |
 | Evaluator | Separate model (Haiku default) | Primary model self-assesses |
 | Best for | Task with a clear, measurable finish line | Ongoing monitoring without a defined end |
 | Example | "Migrate all API calls, tests pass" | "Check the deploy every 5 minutes" |
@@ -19262,14 +19271,14 @@ Full example: `/goal all tests in test/auth pass, verified by npm test auth exit
 
 **Permissions**: `/goal` does not expand the session's permission boundary. If the session requires confirmation before executing shell commands, those confirmations still fire inside a goal loop. Configure permission mode deliberately before activating a goal.
 
-**Context rot on long tasks**: Accuracy can degrade after roughly 20 turns as context fills. For tasks requiring many iterations, the "Orchestrator + `claude -p`" pattern keeps each iteration in a clean context:
+**Context on long tasks**: Track progress and retained evidence instead of assuming a universal turn threshold for degradation. An orchestrator can start a fresh non-interactive session for each bounded subtask, but must supply the requirements, current artifact and previous results explicitly:
 
 ```bash
 # Each call runs in a fresh session — no context accumulation
 claude -p "Step N of migration: [specific sub-task with explicit context]"
 ```
 
-> Introduced in v2.1.139 (May 12, 2026). Evaluator edge-case fixes (background process detection, `disableAllHooks` handling) in v2.1.143 (May 16, 2026). Official docs: [code.claude.com/docs/en/goal](https://code.claude.com/docs/en/goal)
+> Introduced in v2.1.139 (May 12, 2026). Current status, evaluation and resume behavior checked September 10, 2026 against [Keep Claude working toward a goal](https://code.claude.com/docs/en/goal).
 
 ---
 

@@ -111,6 +111,18 @@ Better. One more thing:
 
 Claude can self-iterate with clear completion criteria.
 
+### Choose what starts the next iteration
+
+| Need | Mechanism | Finish evidence |
+|---|---|---|
+| Clarify a requirement or judge a design | Manual feedback | A person accepts the result against the stated requirement |
+| Pursue a bounded, verifiable task across turns | `/goal` | The evaluator judges the condition from evidence in the conversation |
+| Recheck an external state periodically | `/loop` | Each check records its observation; cancellation and expiry are separate from task acceptance |
+
+For an illustrative bug fix, first identify a check that fails because of the reported defect. Specify that the same check must pass after correction, name the permitted files and require the relevant regression checks. Set a turn limit and a no-progress exit, retaining the final evidence if either fires. The limit is a policy example, not a measured optimum or proof that the evaluator enforces a hard counter.
+
+The [goal reference](../ultimate-guide.md#goal-autonomous-completion-mode-v21139) explains evaluator and resume limits. The [loop and graph guide](../core/loop-graph-engineering.md#compose-recurring-triage-with-bounded-work) describes admission from a recurring trigger. Start with one of these mechanisms; a recurring prompt containing a built-in command is not, by itself, verified orchestration.
+
 ### The Ralph Wiggum Pattern
 
 Named after the self-improvement loop pattern:
@@ -622,7 +634,7 @@ The goal is never to silently drop work. Every failure either gets resolved, esc
 
 Being honest about what doesn't work yet, so you don't waste time reinventing solutions that don't exist.
 
-**No built-in retry/verify/resume** (GitHub issue #28489): Headless automation in Claude Code lacks native support for retry logic, verification gates, and session resumption. Every team implementing autonomous loops builds their own version of this. State files, hook-based verification, and escalation scripts are all community workarounds for a gap in the platform.
+**Separate native continuation from delivery controls**: `/goal` supports non-interactive execution and restores active goals on session resume. Its evaluator reads the conversation rather than running an independent verification. Retry classification, durable total budgets, acceptance authority and safe replay of external effects still need an explicit contract. Consult the [current goal documentation](https://code.claude.com/docs/en/goal) instead of treating historical issue reports as a blanket absence of retry, verification or resume support.
 
 **Agent iterations can be lost** (GitHub issue #28843): In multi-day workflows, agent iterations and their accumulated context can be destroyed. If you're running a workflow that spans multiple sessions or days, save explicit state files every N iterations. Do not rely on Claude's conversation memory as your only source of truth.
 

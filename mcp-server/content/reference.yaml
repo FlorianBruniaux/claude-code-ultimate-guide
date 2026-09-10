@@ -352,6 +352,14 @@ deep_dive:
   scheduled_tasks_loop_command: "guide/ultimate-guide.md#the-loop-command"
   scheduled_tasks_loop_interval: "1 minute minimum"
   scheduled_tasks_loop_max_per_session: 50
+  scheduled_tasks_loop_expiry: "7 days after creation; unexpired tasks restored on session resume"
+  scheduled_tasks_loop_invocation: "Scheduled prompts invoke allowed skills; built-in commands are passed as text"
+  goal_completion: "guide/ultimate-guide.md#goal-autonomous-completion-mode-v21139"
+  goal_evaluator_boundary: "Transcript-only evaluation; does not independently run commands or read files"
+  goal_budget_boundary: "Turn/time clauses are model-evaluated; resumed goal counters reset; enforce total budgets outside session counters"
+  loop_recurring_admission: "guide/core/loop-graph-engineering.md#compose-recurring-triage-with-bounded-work"
+  loop_enforced_budgets: "guide/core/loop-graph-engineering.md#distinguish-requested-limits-from-enforced-budgets"
+  loop_mechanism_selection: "guide/workflows/iterative-refinement.md#choose-what-starts-the-next-iteration"
   scheduled_tasks_loop_added: "v2.1.71"
   scheduled_tasks_comparison_table: "guide/ultimate-guide.md#comparison-table"
   # Cost optimization - Local execution bridge
@@ -824,7 +832,7 @@ deep_dive:
   mcp_vs_skills_oauth_boundary: "guide/ecosystem/mcp-vs-cli.md#the-oauth-boundary"
   mcp_vs_skills_note: "Skills (markdown workflows) and MCP (execution/auth) address different layers — not alternatives. OAuth 2.1 is MCP's structural advantage: skills cannot hold refresh tokens or complete PKCE flows."
   # Configuration Management & Backup (Added 2026-02-02)
-  config_management_guide: "guide/ultimate-guide.md:18326"  # Section 3.1 Memory Files
+  config_management_guide: "guide/ultimate-guide.md:18330"  # Section 3.1 Memory Files
   config_hierarchy: "guide/ultimate-guide.md#configuration-hierarchy"  # Global → Project → Local precedence
   config_git_strategy_project: "guide/ultimate-guide.md#git-strategy-for-project-configuration"  # What Goes Where
   config_git_strategy_global: "guide/ultimate-guide.md#git-strategy-for-project-configuration"  # Version control ~/.claude/
@@ -1007,21 +1015,21 @@ deep_dive:
   implementer_agent: "examples/agents/implementer.md"
   architecture_reviewer_agent: "examples/agents/architecture-reviewer.md"
   # Opus 4.6 Features (Feb 2026) - Added 2026-02-09, line numbers updated 2026-02-21
-  opus_4_6_adaptive_thinking: 14809
-  opus_4_6_effort_parameter: 14824
+  opus_4_6_adaptive_thinking: 14813
+  opus_4_6_effort_parameter: 14828
   opus_4_6_pricing: 2226
   opus_4_6_api_breaking_changes: "guide/ultimate-guide.md#api-breaking-changes-opus-46" # was line 14920
-  opus_4_6_assistant_prefill_removed: 14828  # anchor: api-breaking-changes-opus-46
+  opus_4_6_assistant_prefill_removed: 14832  # anchor: api-breaking-changes-opus-46
   # Summarize from Here (v2.1.32+) - Added 2026-02-09
   summarize_from_here: 1927  # anchor: context-recovery-strategies | Context Recovery Strategies section
   # Agent Teams Hook Events (v2.1.32+) - Added 2026-02-09
-  hook_teammate_idle: 10141  # anchor: event-types
+  hook_teammate_idle: 10145  # anchor: event-types
   hook_task_completed: "guide/ultimate-guide.md#event-types"  # was bare int 23701, inside a code fence (comment/example text happened to share the key's words)
   # Agent Memory Field (v2.1.32+) - Added 2026-02-09
   agent_memory_frontmatter: 6892  # Agent Template section (memory field in frontmatter)
   # Xcode Integration (Feb 2026) - Added 2026-02-09
   xcode_integration: "guide/ultimate-guide.md#xcode-integration-feb-2026" # was line 12556
-  claude_agent_sdk: 15811  # anchor: xcode-integration-feb-2026
+  claude_agent_sdk: 15815  # anchor: xcode-integration-feb-2026
   # Task Management System (v2.1.16+) - Added 2026-01-26
   task_management_system: "guide/ultimate-guide.md#task-management-system" # was line 4808
   task_management_comparison: "guide/ultimate-guide.md#task-management-system" # was line 4808
@@ -1141,10 +1149,10 @@ deep_dive:
   skills_marketplace_status: "Community (Vercel Labs), launched Jan 21, 2026"
   skills_marketplace_changelog: "https://vercel.com/changelog/introducing-skills-the-open-agent-skills-ecosystem"
   # Plugin System & Community Marketplaces (updated 2026-03-06)
-  plugins_system: 13911
-  plugins_commands: 13913
-  plugins_marketplace: 14043
-  plugins_community_marketplaces: 14345
+  plugins_system: 13915
+  plugins_commands: 13917
+  plugins_marketplace: 14047
+  plugins_community_marketplaces: 14349
   plugins_featured_community: "guide/ultimate-guide.md#featured-community-plugins" # Vitals + SE-CoVe comparison section
   plugins_recommended: "examples/plugins/"
   plugins_se_cove: "examples/plugins/se-cove.md"
@@ -1304,31 +1312,31 @@ deep_dive:
   hooks: "guide/ultimate-guide.md#7-hooks"  # was bare int 3469, inside a code fence (comment/example text happened to share the key's words)
   hook_templates: "guide/ultimate-guide.md#73-hook-templates" # was line 25386
   security_hooks: "guide/ultimate-guide.md#74-security-hooks" # was line 10794
-  security_gate_hook_line: 11137
+  security_gate_hook_line: 11141
   security_gate_hook_source: "https://paddo.dev/blog/claude-code-team-tips/"
-  mcp_servers: 12055
-  serena_indexation: 12212
+  mcp_servers: 12059
+  serena_indexation: 12216
   serena_mcp: "guide/ultimate-guide.md#serena-semantic-code-analysis"  # was bare int 794, inside a code fence (comment/example text happened to share the key's words)
-  doobidoo_memory_mcp: 12945
+  doobidoo_memory_mcp: 12949
   mcp_memory_stack_patterns: "guide/ultimate-guide.md#mcp-memory-stack-complementarity-patterns" # was line 13011
   mcp_config: "guide/ultimate-guide.md#mcp-configuration-location"  # was bare int 794, inside a code fence (comment/example text happened to share the key's words)
   mcp_security: "guide/ultimate-guide.md#86-mcp-security" # was line 14568
-  cicd: 14935  # anchor: 93-cicd-integration
+  cicd: 14939  # anchor: 93-cicd-integration
   ide_integration: "guide/ultimate-guide.md#94-ide-integration" # was line 15881
   feedback_loops: "guide/ultimate-guide.md#95-tight-feedback-loops" # was line 15966
   batch_operations: "guide/ultimate-guide.md#99-batch-operations-pattern" # was line 16671
-  pitfalls: 16836
-  git_best_practices: 17211
+  pitfalls: 16840
+  git_best_practices: 17215
   cost_optimization: 2220
   session_teleportation: "guide/ultimate-guide.md#916-session-teleportation" # was line 19161
-  remote_control: 23219
+  remote_control: 23228
   multi_instance_workflows: "guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" # was line 19268
   boris_cherny_case_study: "guide/ultimate-guide.md#real-world-case-boris-cherny-interval" # was line 19421
   boris_cherny_team_patterns: "guide/ultimate-guide.md#boris-chernys-3-principles-for-ai-teams" # was line 6779
   # Dual-Instance Planning Pattern (Jon Williams, Feb 2026)
   dual_instance_planning: "guide/ultimate-guide.md#alternative-pattern-dual-instance-planning-vertical-separation" # was line 19474
   dual_instance_workflow: "guide/workflows/dual-instance-planning.md"
-  dual_instance_overview: 19473
+  dual_instance_overview: 19482
   dual_instance_setup: "guide/workflows/dual-instance-planning.md#dual-instance-planning-workflow"
   dual_instance_complete_workflow: "guide/workflows/dual-instance-planning.md#dual-instance-planning-workflow"
   dual_instance_plan_template: "guide/workflows/dual-instance-planning.md#dual-instance-planning-workflow"
@@ -1372,7 +1380,7 @@ deep_dive:
   team_tips_paddo_source: "Boris Cherny thread (x.com/bcherny/status/2017742741636321619)"
   team_tips_paddo_evaluation: "docs/resource-evaluations/paddo-team-tips-eval.md"
   team_tips_paddo_score: "4/5"
-  anthropic_study_metrics: 20010
+  anthropic_study_metrics: 20019
   # Contribution Metrics (Jan 2026 - platform feature, not CLI release)
   contribution_metrics: "guide/ultimate-guide.md#contribution-metrics-january-2026" # was line 20045
   contribution_metrics_source: "https://claude.com/blog/contribution-metrics"
@@ -1384,16 +1392,16 @@ deep_dive:
   git_worktree_status_command: "examples/skills/git-worktree-status/SKILL.md"
   git_worktree_remove_command: "examples/skills/git-worktree-remove/SKILL.md"
   git_worktree_clean_command: "examples/skills/git-worktree-clean/SKILL.md"
-  git_worktrees_multi_instance: 17486
+  git_worktrees_multi_instance: 17490
   advanced_worktree_tooling: "guide/ultimate-guide.md#advanced-tooling-for-worktree-management-optional" # was line 19838
-  worktree_tooling_self_assessment: 19851
-  anthropic_internal_study: 14730
+  worktree_tooling_self_assessment: 19860
+  anthropic_internal_study: 14734
   multi_instance_costs: "guide/ultimate-guide.md#cost-benefit-analysis"  # was 19268, drifted
   orchestration_frameworks: "guide/ultimate-guide.md#orchestration-frameworks" # was line 20104
-  headless_pm_framework: 20107
+  headless_pm_framework: 20116
   multi_instance_implementation: "guide/ultimate-guide.md#implementation-guide-progressive-scaling"  # was 19268, drifted
   multi_instance_monitoring: "guide/ultimate-guide.md#monitoring--observability"  # was 19268, drifted
-  multi_instance_decision_matrix: "guide/ultimate-guide.md:20241"
+  multi_instance_decision_matrix: "guide/ultimate-guide.md:20250"
   # External orchestration systems
   external_orchestrators:
     gas_town:
@@ -1440,10 +1448,10 @@ deep_dive:
       published: "2026-01-21"
       guide_section: "README.md:338"
   # Section 9.18 - Codebase Design for Agent Productivity
-  codebase_design_agents: 20293
+  codebase_design_agents: 20302
   codebase_design_source: "https://marmelab.com/blog/2026/01/21/agent-experience.html"
   codebase_design_author: "François Zaninotto (Marmelab)"
-  codebase_design_llms_txt: 20864  # llms.txt standard for AI-optimized documentation
+  codebase_design_llms_txt: 20873  # llms.txt standard for AI-optimized documentation
   codebase_design_llms_txt_spec: "https://llmstxt.org/"
   codebase_design_llms_txt_example: "machine-readable/llms.txt"
   # Section 9.19 - Permutation Frameworks
@@ -1454,7 +1462,7 @@ deep_dive:
   # Section 9.20 - Agent Teams (v2.1.32+ experimental)
   agent_teams: "guide/workflows/agent-teams.md"
   agent_teams_quick_start: "guide/workflows/agent-teams-quick-start.md"  # Practical 8-10 min guide with copy-paste patterns
-  agent_teams_overview: 22764  # Section 9.20 in ultimate-guide.md
+  agent_teams_overview: 22773  # Section 9.20 in ultimate-guide.md
   agent_teams_architecture: "guide/workflows/agent-teams.md#2-architecture-deep-dive"
   agent_teams_setup: "guide/workflows/agent-teams.md#3-setup--configuration"
   agent_teams_use_cases: "guide/workflows/agent-teams.md#4-production-use-cases"
@@ -1583,15 +1591,15 @@ deep_dive:
   openai_harness_engineering: "docs/resource-evaluations/2026-02-11-openai-harness-engineering.md"  # Score 5/5: OpenAI Codex team, 1M lines, 5 months, 3 engineers, no manual code
   commands_table: "guide/ultimate-guide.md#101-commands-table" # was line 47
   shortcuts_table: 444
-  troubleshooting: 14314
+  troubleshooting: 14318
   cheatsheet: "guide/ultimate-guide.md#105-cheatsheet" # was line 25158
-  daily_workflow: 25233
+  daily_workflow: 25242
   # AI Ecosystem (Section 11, ~line 10525)
-  ai_ecosystem: 13308
-  ai_ecosystem_complementarity: 25473
-  ai_ecosystem_tool_matrix: 25540
-  ai_ecosystem_workflows: 25675
-  ai_ecosystem_integration: 25803
+  ai_ecosystem: 13312
+  ai_ecosystem_complementarity: 25482
+  ai_ecosystem_tool_matrix: 25549
+  ai_ecosystem_workflows: 25684
+  ai_ecosystem_integration: 25812
   ai_ecosystem_detailed: "guide/ecosystem/ai-ecosystem.md"
   ai_ecosystem_coding_environments: "guide/ecosystem/ai-ecosystem.md#6-ide-ade-and-hybrid-coding-environments"
   ai_ecosystem_goose: "guide/ecosystem/ai-ecosystem.md#111-goose-open-source-alternative-block"
@@ -1640,7 +1648,7 @@ deep_dive:
   cowork_prompts: "https://github.com/FlorianBruniaux/claude-cowork-guide/tree/main/prompts"
   cowork_workflows: "https://github.com/FlorianBruniaux/claude-cowork-guide/tree/main/workflows"
   cowork_section: "guide/ecosystem/ai-ecosystem.md#10-claude-cowork-research-preview"
-  cowork_ultimate_guide: 25857
+  cowork_ultimate_guide: 25866
   # Team Knowledge Infrastructure (guide/ecosystem/team-knowledge-base.md) - Added 2026-06-23
   team_knowledge_guide: "guide/ecosystem/team-knowledge-base.md"
   team_knowledge_three_way: "guide/ecosystem/team-knowledge-base.md#the-one-tool-for-three-needs-trap"  # static docs vs live systems vs team workflows
@@ -1688,14 +1696,14 @@ deep_dive:
   # Appendix
   appendix_a_file_locations: "guide/ultimate-guide.md#appendix-a-file-locations-reference" # was line 26179
   appendix_b_faq: "guide/ultimate-guide.md#appendix-b-faq" # was line 26357
-  faq_clawdbot_vs_claudecode: 26332
+  faq_clawdbot_vs_claudecode: 26341
   faq_product_managers: "guide/ultimate-guide.md#can-product-managers-use-claude-code" # was line 26428
   appendix_c_resource_evaluation: "guide/ultimate-guide.md#appendix-c-resource-evaluation-process" # was line 26493
   appendix_d_myths_vs_reality: "guide/ultimate-guide.md#appendix-d-myths-vs-reality" # was line 26536
   myths_hidden_features: "guide/ultimate-guide.md#-myth-claude-code-has-hidden-features-you-can-unlock-with-secret-flags" # was line 26540
   myths_tasks_api_autonomous: "guide/ultimate-guide.md#-myth-tasks-api-allows-fully-autonomous-parallel-agents" # was line 26572
   myths_100x_faster: "guide/ultimate-guide.md#-myth-claude-code-is-100x-faster-than-other-ai-coding-tools" # was line 26604
-  myths_reliable_sources: 26535
+  myths_reliable_sources: 26544
   # Quiz System (473 questions, 17 categories) — verified 2026-07-28
   quiz_overview: "quiz/README.md"
   quiz_bank: "quiz/questions/"        # one YAML file per category; there is no quiz/questions.json
@@ -1712,7 +1720,7 @@ deep_dive:
   # Onboarding matrix required keys (added for v2.0.0 adaptive architecture)
   rules: "guide/ultimate-guide.md#the-golden-rules"  # was bare int 89, a blank line; drifted 1 line from the real heading
   workflow: "guide/ultimate-guide.md#the-workflow"  # was bare int 58, a blank line; drifted 1 line from the real heading
-  fix: 15153  # UNVERIFIED: stored line sits inside a JSON example under "Unix Piping Workflows", not any Troubleshooting section. Four "Troubleshooting" headings exist in the guide (L14315, L19242, L23364, "## 10.4 Troubleshooting" L24774), same duplicate-slug name, and nothing here says which one this key meant. Needs a human decision, not a guess.
+  fix: 15157  # UNVERIFIED: stored line sits inside a JSON example under "Unix Piping Workflows", not any Troubleshooting section. Four "Troubleshooting" headings exist in the guide (L14315, L19242, L23364, "## 10.4 Troubleshooting" L24774), same duplicate-slug name, and nothing here says which one this key meant. Needs a human decision, not a guess.
   architecture: "guide/core/architecture.md"  # was bare int 1280 into ultimate-guide.md, inside a code fence; the comment ("Architecture internals") and its siblings on this line (production_safety, security_hardening) are all plain paths to the dedicated file
   production_safety: "guide/security/production-safety.md"  # Production safety rules
   security_hardening: "guide/security/security-hardening.md"  # Security best practices
@@ -2025,7 +2033,7 @@ commands:
   /effort: "low|medium|high|xhigh|max|ultracode; max and ultracode are session-only; 'auto' resets to model default"
   /fast: "toggle fast mode (same model, faster output, higher price)"
   /plan: "read-only mode (safe exploration); exit by approving the plan or Shift+Tab"
-  /goal: "set completion condition; Claude works autonomously until met; live overlay shows elapsed time, turns, token usage (v2.1.139)"
+  /goal: "set completion condition; separate evaluator continues, accepts or judges impossible; bare /goal shows status, /goal clear cancels; unrecoverable errors may clear it (v2.1.139+)"
   /advisor: "second model consulted for guidance at key moments; opus|sonnet|model-id|off (Fable 5 rejected)"
   /permissions: "manage allow/ask/deny rules, working dirs, recent auto-mode denials; alias /allowed-tools"
   /fewer-permission-prompts: "scan transcripts, propose read-only allowlist for .claude/settings.json (shipped as /less-permission-prompts in v2.1.111, renamed since)"
@@ -2467,12 +2475,12 @@ hook_events:
   # Total: 30 events (updated 2026-06-03, source: official hooks reference)
 
 # Hook Execution Model (v2.1.0+)
-hooks_execution_model: 10254  # Section in ultimate-guide.md
-hooks_session_scoped: 10419  # Session-scoped hooks (ephemeral, no settings.json, skills use this)
+hooks_execution_model: 10258  # Section in ultimate-guide.md
+hooks_session_scoped: 10423  # Session-scoped hooks (ephemeral, no settings.json, skills use this)
 hooks_async_support: "v2.1.0+ - add 'async: true' for non-blocking execution; 'asyncRewake: true' for background with exit-2 wakeup"
 hooks_async_use_cases: "logging, notifications, formatting, metrics (no feedback needed)"
 hooks_sync_use_cases: "validation, type checking, security (feedback required)"
-hooks_decision_matrix: 10369  # Decision matrix table
+hooks_decision_matrix: 10373  # Decision matrix table
 hooks_async_limitations: "no exit code feedback for blocking (exit 2 ignored), no real-time systemMessage, no guaranteed execution order. Note: additionalContext IS delivered on the next conversation turn after the background process exits."
 hooks_async_bug_fix: "v2.1.23 - fixed cancellation in headless streaming"
 

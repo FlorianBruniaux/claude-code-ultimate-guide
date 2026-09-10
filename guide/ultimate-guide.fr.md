@@ -8645,7 +8645,7 @@ Claude Code propose trois mécanismes distincts pour exécuter des tâches récu
 | S'exécute sur | Cloud Anthropic | Machine locale | Machine locale |
 | La machine doit être allumée | Non | Oui | Oui |
 | La session doit être ouverte | Non | Non | Oui |
-| Persiste entre les redémarrages | Oui | Oui | Non |
+| Persiste entre les redémarrages | Oui | Oui | Restauré à la reprise de la session si non expiré |
 | Accès aux fichiers locaux | Non (clone frais du dépôt) | Oui | Oui |
 | Types de déclencheurs | Planification / API / Événements GitHub | Planification uniquement | En session uniquement |
 | Serveurs MCP | Connecteurs configurés par tâche | Fichiers de configuration + connecteurs | Hérités de la session |
@@ -8780,7 +8780,7 @@ Cette approche s'exécute entièrement sans aucune infrastructure Anthropic et n
 
 #### La commande /loop
 
-`/loop [intervalle] [prompt]` exécute un prompt ou une slash command sur un intervalle récurrent dans votre session actuelle. Elle s'arrête quand vous appuyez sur `Ctrl+C` ou envoyez un nouveau message.
+`/loop [intervalle] [prompt]` planifie un travail récurrent dans la session courante. Avec un intervalle, la cadence est fixe. Sans intervalle, Claude choisit le délai entre les itérations. L'intervalle déclenche une exécution ; il ne constitue pas une condition de fin.
 
 ```bash
 /loop 5m check the deploy
@@ -8788,7 +8788,11 @@ Cette approche s'exécute entièrement sans aucune infrastructure Anthropic et n
 /loop 1h /pr-pruner
 ```
 
-**Fonctionnement** : Claude exécute le prompt, attend l'intervalle, exécute à nouveau, et ainsi de suite. Chaque exécution est horodatée dans le transcript. Vous pouvez référencer une slash command (comme `/loop 30m /review-pr`) ou écrire un prompt libre directement.
+**Fonctionnement** : Les prompts planifiés s'exécutent entre les tours, lorsque Claude est disponible. Un intervalle fixe devient une planification cron à la minute, avec un décalage possible. Sans intervalle, Claude choisit un délai entre une minute et une heure selon le travail observé. `/loop` seul utilise le prompt de maintenance intégré, ou `.claude/loop.md` s'il existe, puis `~/.claude/loop.md` comme défaut utilisateur. Sur les fournisseurs tiers ou lorsque la récupération des feature flags est désactivée, les intervalles dynamiques et le prompt par défaut nécessitent la v2.1.248 ou ultérieure ; les anciennes versions dans ces configurations utilisent dix minutes lorsqu'un prompt n'a pas d'intervalle.
+
+**Frontière d'invocation** : Un prompt planifié peut appeler un skill que Claude est autorisé à invoquer, par exemple un skill `/review-pr` configuré. Les commandes intégrées et les skills avec `disable-model-invocation: true` sont transmis comme texte sans être exécutés. Ne supposez pas qu'imbriquer `/goal` dans un prompt `/loop` active un objectif. La [conception du triage borné](./core/loop-graph-engineering.md#compose-recurring-triage-with-bounded-work) distingue le workflow proposé d'une composition de commandes testée.
+
+**Arrêt et reprise** : Demandez à Claude de lister ou d'annuler les tâches ; les outils sous-jacents sont `CronList` et `CronDelete`. Pour une boucle à cadence dynamique en attente, `Esc` annule le prochain réveil ; Claude peut aussi arrêter cette boucle lorsque la tâche est terminée. Les tâches à intervalle fixe continuent jusqu'à annulation ou expiration. Une nouvelle conversation arrête les tâches de la précédente ; `--resume` ou `--continue` restaure les tâches non expirées. Fermer le processus empêche les exécutions jusqu'à sa reprise.
 
 **Cas d'usage de Boris Cherny (créateur de Claude Code) :**
 
@@ -8798,7 +8802,7 @@ Cette approche s'exécute entièrement sans aucune infrastructure Anthropic et n
 | `/loop 30m /slack-feedback` | Poste des PR pour les retours de l'équipe toutes les 30 min |
 | `/loop 1h /pr-pruner` | Nettoie les PR obsolètes selon un calendrier |
 
-**Contraintes** : Limité à la session uniquement. Durée maximale de 3 jours, intervalle minimum de 1 minute, maximum de 50 tâches par session.
+**Contraintes** : Les tâches récurrentes expirent sept jours après leur création, y compris le temps passé hors de la session. Une session peut contenir jusqu'à 50 tâches planifiées. Utilisez les Routines ou les tâches Desktop pour une planification indépendante d'une conversation. Source : [Run prompts on a schedule](https://code.claude.com/docs/en/scheduled-tasks), vérifiée le 10 septembre 2026.
 
 > `/loop` ajouté dans la v2.1.71. Marqueurs d'horodatage dans les transcripts de boucle ajoutés dans la v2.1.86. Les tâches planifiées Cloud et Desktop ont été lancées le 9 mars 2026. Source : [code.claude.com/docs/en/whats-new](https://code.claude.com/docs/en/whats-new)
 
@@ -18476,7 +18480,7 @@ Avant de configurer des grilles tmux ou des orchestrateurs tiers, essayez la vue
 
 ### /goal : Mode de complétion autonome (v2.1.139)
 
-`/goal <condition>` définit un contrat de complétion pour la session courante. Claude continue à travailler à travers les tours jusqu'à ce qu'un modèle évaluateur distinct vérifie que la condition est remplie, plus besoin d'envoyer « continue » après chaque étape.
+`/goal <condition>` définit une condition de complétion pour la session courante. Un évaluateur distinct peut poursuivre le travail, déclarer la condition remplie ou la juger impossible. Certaines erreurs irrécupérables effacent aussi l'objectif. Un objectif atteint renseigne sur la condition spécifiée ; l'acceptation du changement reste soumise à la politique de revue du projet.
 
 ```bash
 /goal all unit tests pass and no TypeScript errors
@@ -18494,7 +18498,7 @@ Un affichage en temps réel suit le temps écoulé, le nombre de tours et la con
 |---------|--------|
 | `/goal <condition>` | Définir ou remplacer l'objectif courant |
 | `/goal clear` | Annuler l'objectif actif |
-| `/goal status` | Afficher la condition et la dernière raison de l'évaluateur |
+| `/goal` | Afficher la condition, la progression et la dernière raison de l'évaluateur |
 
 **Trois éléments d'une condition efficace** :
 
@@ -18504,11 +18508,16 @@ Un affichage en temps réel suit le temps écoulé, le nombre de tours et la con
 
 Exemple complet : `/goal all tests in test/auth pass, verified by npm test auth exit 0, no files outside src/services/auth modified`
 
+**Borner l'exécution** : Incluez une limite explicite, par exemple `or stop after 5 turns`. L'évaluateur juge cette clause à partir de la conversation ; ce n'est pas un compteur d'exécution déterministe. Si dépasser un budget est inacceptable, imposez-le dans le contrôleur externe au modèle. L'[exemple de boucle bornée](../examples/workflows/bounded-loop-example.py) applique une limite de tentatives dans le programme sans invoquer de modèle. Son test ne valide pas le runtime de Claude Code.
+
+**Reprise et échec** : Un objectif actif est restauré à la reprise de la session, mais le nombre de tours, le chronomètre et la base de consommation des tokens sont remis à zéro. Conservez un budget total durable hors de ces compteurs pour le travail qui traverse des reprises. L'évaluateur peut effacer un objectif impossible ; des erreurs irrécupérables de crédit, de contexte ou de modèle peuvent aussi l'effacer. Consultez la raison enregistrée au lieu d'interpréter tout objectif effacé comme une réussite.
+
 **`/goal` vs `/loop`** :
 
 | | `/goal` | `/loop` |
 |--|---------|---------|
-| Se termine quand | La condition est vérifiée par l'évaluateur | L'intervalle de temps s'écoule |
+| Le prochain tour démarre quand | Le tour précédent finit et l'objectif reste non atteint ; le travail en arrière-plan peut différer l'évaluation | L'intervalle prévu s'écoule et la session peut exécuter la tâche |
+| S'arrête quand | Condition remplie, jugée impossible, effacée manuellement ou après une erreur irrécupérable | Annulation ou expiration ; une boucle à cadence dynamique peut aussi terminer sa tâche |
 | Évaluateur | Modèle distinct (Haiku par défaut) | Le modèle principal s'auto-évalue |
 | Idéal pour | Une tâche avec une ligne d'arrivée claire et mesurable | Surveillance continue sans fin définie |
 | Exemple | « Migrer tous les appels API, tests réussis » | « Vérifier le déploiement toutes les 5 minutes » |
@@ -18521,14 +18530,14 @@ Exemple complet : `/goal all tests in test/auth pass, verified by npm test auth 
 
 **Permissions** : `/goal` n'étend pas la frontière de permissions de la session. Si la session nécessite une confirmation avant d'exécuter des commandes shell, ces confirmations se déclenchent toujours dans une boucle d'objectif. Configurez le mode de permission délibérément avant d'activer un objectif.
 
-**Dégradation du contexte sur les longues tâches** : La précision peut se dégrader après environ 20 tours lorsque le contexte se remplit. Pour les tâches nécessitant de nombreuses itérations, le modèle « Orchestrateur + `claude -p` » maintient chaque itération dans un contexte propre :
+**Contexte des longues tâches** : Suivez la progression et les preuves conservées sans supposer un seuil universel de dégradation en nombre de tours. Un orchestrateur peut lancer une nouvelle session non interactive pour chaque sous-tâche bornée, mais doit fournir explicitement les exigences, l'artefact courant et les résultats précédents :
 
 ```bash
 # Chaque appel s'exécute dans une session fraîche — pas d'accumulation de contexte
 claude -p "Step N of migration: [specific sub-task with explicit context]"
 ```
 
-> Introduit dans la v2.1.139 (12 mai 2026). Corrections des cas limites de l'évaluateur (détection de processus en arrière-plan, gestion de `disableAllHooks`) dans la v2.1.143 (16 mai 2026). Documentation officielle : [code.claude.com/docs/en/goal](https://code.claude.com/docs/en/goal)
+> Introduit dans la v2.1.139 (12 mai 2026). Comportement actuel du statut, de l'évaluation et de la reprise vérifié le 10 septembre 2026 dans [Keep Claude working toward a goal](https://code.claude.com/docs/en/goal).
 
 ---
 

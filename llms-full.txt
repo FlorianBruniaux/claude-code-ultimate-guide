@@ -106,7 +106,8 @@ Source of truth for the complete set: https://code.claude.com/docs/en/commands (
 | `/mobile` | Get Claude mobile app download links |
 | `/fast` | Toggle fast mode (2.5x speed, 6x cost) |
 | `/voice` | Toggle voice dictation (hold Space to speak, release to send) |
-| `/loop [interval] [prompt]` | Run a prompt on repeat (ex: `/loop 5m check the deploy`, default 10m) |
+| `/loop [interval] [prompt]` | Repeat on a fixed interval, or let Claude choose the interval when omitted; recurring tasks expire after 7 days (see scheduling reference) |
+| `/goal [condition\|clear]` | Pursue a verifiable condition across turns; bare `/goal` shows status. Evaluator reads transcript evidence; completion does not authorize release. |
 | `/usage` | Token + cost usage per model, plan limits (v2.1.118, replaces /cost and /stats) |
 | `/cost` | Alias for /usage (v2.1.118+) |
 | `/stats` | Alias for /usage, opens on the Stats tab (v2.1.118+) |

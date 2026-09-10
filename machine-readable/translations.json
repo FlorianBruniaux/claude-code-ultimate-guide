@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-09-09",
-  "measured_at_commit": "a4f18817da55fc6813cb722e92e68ce10c0192e1",
+  "checked_at": "2026-09-10",
+  "measured_at_commit": "1751a40b3a8bf9c7e2132b973fc046c1f346bee5",
   "official_scope": "Maintained by the Claude Code Ultimate Guide project; not official Anthropic documentation.",
   "policy": {
     "canonical_language": "en",
@@ -21,10 +21,10 @@
     "maintainer": "Florian Bruniaux",
     "status": "official",
     "version": "3.43.0",
-    "sha256": "d3a8215319840e8555c4289463990bd84c31fa525001a79d0bc8217aad657717",
+    "sha256": "4d290b0171bbaaffd149d5d2e4da964392cb212d7357408df40d8f346f952dbc",
     "source": {
       "commit": "a4f18817da55fc6813cb722e92e68ce10c0192e1",
-      "sha256": "d3a8215319840e8555c4289463990bd84c31fa525001a79d0bc8217aad657717",
+      "sha256": "4d290b0171bbaaffd149d5d2e4da964392cb212d7357408df40d8f346f952dbc",
       "commit_evidence": "latest_commit_touching_canonical_guide"
     },
     "coverage": {
@@ -48,7 +48,7 @@
       "status": "official",
       "official": true,
       "version": "3.41.1",
-      "last_checked_at": "2026-09-09",
+      "last_checked_at": "2026-09-10",
       "last_full_refresh_at": "2026-07-09",
       "sync_state": "stale",
       "translated_from": {
@@ -57,19 +57,19 @@
         "sha256": "7b88e19f61709014a63b4d397e91ca9e394c7657aae51ac64a592217e88dafb3"
       },
       "artifact": {
-        "sha256": "080a7e46a27ec77d0787248be93bc86c8e09f24486de2d52c43f94c29f974c9c",
+        "sha256": "567fea8efaae01c7887ca9cc8600079a4e7405105a051887cebc5b253b24d676",
         "last_change_commit": "815d8b188eaf02f213531c6f81bd97e1e0f67bae"
       },
       "coverage": {
         "type": "full_guide",
         "status": "complete_at_recorded_source",
-        "note": "The file is complete for its recorded source baseline. English additions after 3.41.1 are not yet translated.",
+        "note": "The file is complete for its recorded source baseline. English additions after 3.41.1 are not yet translated. Loop and goal sections received scoped corrections on 2026-09-10; this is not a full refresh.",
         "semantic_review": "not_verified_by_automation"
       },
       "known_lag": {
         "status": "stale",
         "canonical_guide_commits": 26,
-        "canonical_repo_commits": 267,
+        "canonical_repo_commits": 270,
         "version_delta": "3.41.1 to 3.43.0"
       }
     },
@@ -112,7 +112,7 @@
       "known_lag": {
         "status": "stale",
         "canonical_guide_commits": 40,
-        "canonical_repo_commits": 331,
+        "canonical_repo_commits": 334,
         "version_delta": "3.41.0 to 3.43.0"
       },
       "official": false
@@ -188,7 +188,7 @@
       "known_lag": {
         "status": "stale",
         "canonical_guide_commits": 124,
-        "canonical_repo_commits": 599,
+        "canonical_repo_commits": 602,
         "version_delta": "3.32.2 to 3.43.0"
       },
       "official": false
