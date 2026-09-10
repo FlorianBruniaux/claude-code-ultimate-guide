@@ -1,0 +1,43 @@
+CHANGELOG.md
+  s_b8bb3229c97243::t_caf98499e2ac98 11-12
+README.md
+  s_e7d07887caee4e::t_2dc3805f1fa760 11-13,81,97,99,126,188-189,221,229,300,344,628,645,803,826,939,947
+quiz/README.md
+  s_e7d07887caee4e::t_253e2d1043de62 27-28
+quiz/questions/16-agent-harness-context.yaml
+  s_0c5f534390aca5::t_782ff188506266 1-684
+quiz/questions/17-team-metrics.yaml
+  s_0c5f534390aca5::t_58b919befe32a8 2,6,23,40,57,74,91,108,125,142,159,176,193
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "6dd9cabdbdc217f5701df31fb7543f7df946a2fe",
+  "prompts": {},
+  "sessions": {
+    "s_0c5f534390aca5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "06fa168d-7a1b-4d6e-b0b2-1300ee8b75dd",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_b8bb3229c97243": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "05598b23-8e36-485a-979a-585b59bc80f7",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_e7d07887caee4e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "597930ff-68cd-499b-98d0-9a5d7f2c607d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

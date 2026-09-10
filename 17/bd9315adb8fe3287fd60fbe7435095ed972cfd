@@ -1,0 +1,31 @@
+README.md
+  s_b300c6b453e28d::t_f1068c24441eeb 24-30
+guide/ecosystem/context-engineering-tools.md
+  s_91e616e7526bf6::t_776501bed05bde 433-435
+guide/ecosystem/mcp-vs-cli.md
+  s_91e616e7526bf6::t_c375ca43b1451a 237-238
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "17bd9315adb8fe3287fd60fbe7435095ed972cfd",
+  "prompts": {},
+  "sessions": {
+    "s_91e616e7526bf6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bd3e8621-8fcc-45d7-a61b-13335a4240d1",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_b300c6b453e28d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bc65c768-be3c-4bef-849a-105c06a52c8f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

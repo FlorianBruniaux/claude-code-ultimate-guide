@@ -1,0 +1,107 @@
+docs/workflows/whitepaper-build.md
+  s_a76087f74be2bb::t_56b0968202a9a4 61,63
+whitepapers/en/04-architecture.qmd
+  s_d812a5cba40e21::t_2d7a9d053b736a 958-970
+whitepapers/en/07-reference-guide.qmd
+  s_a76087f74be2bb::t_7b8c87df585424 2290-2291
+whitepapers/en/08-agent-teams.qmd
+  s_d812a5cba40e21::t_226f011f80ee05 1-2287
+whitepapers/en/11-team-metrics.qmd
+  s_e212f7e9f7a0c8::t_f5e662b3be7ce5 261-276
+whitepapers/en/12-agent-engineering.qmd
+  s_d812a5cba40e21::t_3c74bdb423fb35 1-359
+whitepapers/fr/04-architecture.qmd
+  s_d812a5cba40e21::t_cf2e5e1796c641 955-967
+whitepapers/fr/08-agent-teams.qmd
+  s_d812a5cba40e21::t_3798b869cead9b 1-1280
+whitepapers/fr/11-team-metrics.qmd
+  s_a76087f74be2bb::t_1c69d75e8530a0 261-276
+whitepapers/fr/12-agent-engineering.qmd
+  s_d812a5cba40e21::t_c29a2d517c6c7d 1-505
+whitepapers/recap-cards/en/c12-agent-sdk-integrations-ide.qmd
+  s_a76087f74be2bb::t_98da6716cb4370 17,19,21-25,27,29,32,35,37,40,46,50,54
+whitepapers/recap-cards/en/m16-multi-agent-topologie.qmd
+  s_e212f7e9f7a0c8::t_2e26102f8490b4 19,21-26,65,91,93,95
+whitepapers/recap-cards/en/t22-third-party-tools.qmd
+  s_a76087f74be2bb::t_9335b196ee8702 19-20,92-93
+whitepapers/recap-cards/fr/c12-agent-sdk-integrations-ide.qmd
+  s_a76087f74be2bb::t_d47b4284e84c84 17,19,21-25,27,29,32,35,37,40,46,50,54
+whitepapers/recap-cards/fr/m16-multi-agent-topologie.qmd
+  s_e212f7e9f7a0c8::t_44025e62e6054e 19,21-26,65,91,93,95
+whitepapers/recap-cards/fr/t22-third-party-tools.qmd
+  s_a76087f74be2bb::t_b3069e312b2a74 19-20,92-93
+guide/cheatsheet.md
+  s_53732aba520f82::t_60abb7826fbe54 249-261
+whitepapers/CHANGELOG.md
+  s_d7df80c9e5143c::t_aa27225eab95a4 14-29
+whitepapers/README.md
+  s_53732aba520f82::t_096eccc1747b2b 1-629
+whitepapers/en/cheatsheet.qmd
+  s_53732aba520f82::t_221aab98fc1aaf 308-318
+whitepapers/fr/07-guide-reference.qmd
+  s_53732aba520f82::t_c64cf162c99183 2226-2227
+whitepapers/fr/cheatsheet.qmd
+  s_53732aba520f82::t_e799ebdbb8a896 308-318
+whitepapers/recap-cards/README.md
+  s_53732aba520f82::t_014b46cda43a0b 1-167
+whitepapers/recap-cards/en/c14-agent-harness-map.qmd
+  s_998a79fbfea34b::t_3ec97b352fcca4 1-48
+whitepapers/recap-cards/fr/c14-agent-harness-map.qmd
+  s_998a79fbfea34b::t_e923f938cac62a 1-48
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "c1b27494232d9702a127fdcdd01b0ef2e3afe361",
+  "prompts": {},
+  "sessions": {
+    "s_53732aba520f82": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04767-47c6-79c2-a142-aa860d8f52f9",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_998a79fbfea34b": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0476d-cea7-7df3-9718-64778583e847",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_a76087f74be2bb": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a01f2a-b167-78f0-a126-7450029bd920",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_d7df80c9e5143c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04767-471c-7a12-a96d-d68d236950b5",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_d812a5cba40e21": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a033c4-cc98-74d2-adf5-63f175b8463b",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_e212f7e9f7a0c8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c1b54276-ca30-4705-966e-5c55586fab00",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

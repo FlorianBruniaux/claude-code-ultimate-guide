@@ -1,0 +1,19 @@
+mcp-server/test/package-metadata.test.mjs
+  s_22da54dcd2d04c::t_68aeeadad73036 56-61
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "8587e9f9ef372b2237b5ad4be2a5cc23665cbb68",
+  "prompts": {},
+  "sessions": {
+    "s_22da54dcd2d04c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05405-09d5-7f43-9f5f-775fec594dcd",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

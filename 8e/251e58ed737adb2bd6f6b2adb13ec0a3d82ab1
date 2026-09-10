@@ -1,0 +1,33 @@
+examples/skills/learning-path/tests/test_progress.py
+  s_95392a6b844626::t_167ef6fdf51f2a 6,14,45-62
+examples/skills/learning-path/README.md
+  s_f95f10a0a17469::t_b1e7feb1624077 65-66,98
+examples/skills/learning-path/SKILL.md
+  s_f95f10a0a17469::t_dcb75ba04d372b 19-20,69
+examples/skills/learning-path/scripts/progress.py
+  s_f95f10a0a17469::t_fb42f4add12e38 120-141
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "8e251e58ed737adb2bd6f6b2adb13ec0a3d82ab1",
+  "prompts": {},
+  "sessions": {
+    "s_95392a6b844626": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04821-7023-7112-aeb8-f4aa59348ce9",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_f95f10a0a17469": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a056b3-782f-7573-9ea0-d2ad07d98c21",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

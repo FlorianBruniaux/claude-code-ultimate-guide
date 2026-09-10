@@ -1,0 +1,47 @@
+whitepapers/fr/03-securite.qmd
+  s_4cca2409e9c109::t_2c086780c0444c 5,1258
+  s_4cca2409e9c109::t_4c63e35bbcb525 684-685,690
+  s_0ec24d9d120f29::t_929856fdae93b7 629-630
+  s_4cca2409e9c109::t_530b9440d33422 625
+  s_0ec24d9d120f29::t_f91bf2a55f9b56 8
+  s_4cca2409e9c109::t_df19361e3abd38 425
+  s_4cca2409e9c109::t_86f4ae5718aa4f 655-661
+  s_4cca2409e9c109::t_ab0de73a7948d9 3,7
+  s_4cca2409e9c109::t_ac46c9989c7d74 708-713
+  s_4cca2409e9c109::t_167f85d4df65d3 1180
+  s_4cca2409e9c109::t_233441fe0cd7b2 686-689
+  s_4cca2409e9c109::t_1b373171e1ac00 39,226,228-233,283,319,374,395,458,571,783,936,946,1012,1028,1092,1102
+  s_a4d2224bdc73f3::t_0a98c0fa13a1f8 1-2,4,6,9-38,40-225,227,234-282,284-318,320-373,375-394,396-424,426-457,459-570,572-624,626-628,631-654,662-683,691-707,714-782,784-935,937-945,947-1011,1013-1027,1029-1091,1093-1101,1103-1179,1181-1257,1259-1284
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.9",
+  "base_commit_sha": "159746abdc96326383e673bf751bdebe2d208084",
+  "prompts": {},
+  "sessions": {
+    "s_0ec24d9d120f29": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2137dcb5-7587-4b76-8bd4-c0bf85573fea",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_4cca2409e9c109": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ac85cfe4-9c8f-4e55-89b1-dfc7d682dc10",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_a4d2224bdc73f3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "136f1ee6-2449-4c4b-a089-e106f09467ed",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

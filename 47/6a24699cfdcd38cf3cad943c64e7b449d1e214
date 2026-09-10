@@ -1,0 +1,19 @@
+machine-readable/mcp-product.json
+  s_29abe1a98b476c::t_060dd8c008b363 488
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "476a24699cfdcd38cf3cad943c64e7b449d1e214",
+  "prompts": {},
+  "sessions": {
+    "s_29abe1a98b476c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a06830-fc8a-7512-9cb6-a879928c6f7e",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

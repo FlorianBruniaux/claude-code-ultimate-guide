@@ -1,0 +1,19 @@
+examples/commands/resources/threat-db.yaml
+  s_a6272ac9eeea28::t_acdfa58d50196b 5,611-634,1086-1208,2412-2414,2476-2487,2495-2498,2508-2517,2981-3068,3495-3520
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "64e41bd9e2accc78197d0a0bee9872a8a913b731",
+  "prompts": {},
+  "sessions": {
+    "s_a6272ac9eeea28": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c67912ad-4ff6-4340-b106-34a9a2e26546",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

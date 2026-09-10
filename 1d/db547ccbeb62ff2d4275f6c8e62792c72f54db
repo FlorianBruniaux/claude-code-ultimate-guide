@@ -1,0 +1,19 @@
+README.md
+  s_de692bb179c40a::t_d1b302cfe1aca2 13,80,96,99,108,123,125,186,188,210,221,284,347,487,522,631,648,752,787,806
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "1ddb547ccbeb62ff2d4275f6c8e62792c72f54db",
+  "prompts": {},
+  "sessions": {
+    "s_de692bb179c40a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4f4ae5d4-c465-46f2-9e32-fbaf8b9f2b3a",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

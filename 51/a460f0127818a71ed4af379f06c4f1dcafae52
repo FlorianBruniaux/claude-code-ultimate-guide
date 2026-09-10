@@ -1,0 +1,19 @@
+docs/visual-prompts/agent-harness-landscape.md
+  s_82b1dfd6d82459::t_0787375de03231 1-74
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "51a460f0127818a71ed4af379f06c4f1dcafae52",
+  "prompts": {},
+  "sessions": {
+    "s_82b1dfd6d82459": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a042ba-4c40-7b70-b6f5-dc6c31383da3",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

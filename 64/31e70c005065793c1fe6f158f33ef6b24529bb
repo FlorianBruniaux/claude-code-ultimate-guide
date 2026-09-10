@@ -1,0 +1,221 @@
+CHANGELOG.md
+  s_feddec137b3b17::t_f1269f45c0d1b2 22
+CONTRIBUTING.md
+  s_feddec137b3b17::t_7029196bbbd163 31,183-184
+docs/for-cio-ceo.md
+  s_feddec137b3b17::t_532be52fffe3e1 1,39,41,43,77,83-85
+docs/for-cto.md
+  s_feddec137b3b17::t_1285f4391f4630 1,56-58,94,96-97
+docs/for-product-managers.md
+  s_feddec137b3b17::t_e0226efccc1073 1,21,23,25,29,37-41,46-47,51,53,64,72,74,80-83
+docs/for-tech-leads.md
+  s_feddec137b3b17::t_9bf131f6008e6a 1,19-20,22-24,32,38,63,72-74,76,84-86,94-98
+docs/resource-evaluations/017-pat-cullen-final-review.md
+  s_feddec137b3b17::t_8611b7dc85eb37 36
+docs/resource-evaluations/025-community-signals-feb2026.md
+  s_feddec137b3b17::t_9bcd046ac780a4 1,22,51,60,88
+docs/resource-evaluations/025-vercel-agents-md-vs-skills-eval.md
+  s_feddec137b3b17::t_7d9a401fd1c531 110
+docs/resource-evaluations/071-steven-ge-technical-writing-workflow.md
+  s_feddec137b3b17::t_4085833fca86b8 1,74-77
+docs/resource-evaluations/072-rippletide-ai-reliability-platform.md
+  s_feddec137b3b17::t_58da77ce9fde89 1,13-15,75-77
+docs/resource-evaluations/073-athena-flow-workflow-runtime.md
+  s_feddec137b3b17::t_1e29e6e0f6cc09 1,21
+docs/resource-evaluations/075-paillard-design-system-first-website.md
+  s_feddec137b3b17::t_f51b637f1b5402 1,16-18
+docs/resource-evaluations/076-addy-osmani-agents-md-init-antipattern.md
+  s_feddec137b3b17::t_c0f0b57276ba05 1,127,165-167
+docs/resource-evaluations/076-packmind-contextops-platform.md
+  s_feddec137b3b17::t_839fc423d7cdde 1,3,13-17,71
+docs/resource-evaluations/078-claude-swarm-monitor.md
+  s_feddec137b3b17::t_b7a4a8fa4fa9b7 69
+docs/resource-evaluations/080-addy-osmani-code-agent-orchestra.md
+  s_feddec137b3b17::t_1af8184c07c8b7 125-129
+docs/resource-evaluations/080-goose-block-coding-agent.md
+  s_feddec137b3b17::t_54cda048864fbd 1
+docs/resource-evaluations/081-rippletide-code-rule-enforcement.md
+  s_feddec137b3b17::t_dea1e366eebb51 1
+docs/resource-evaluations/082-multi-session-management-landscape.md
+  s_feddec137b3b17::t_e559539381aa5f 1,143-145
+docs/resource-evaluations/083-sandcastle-agent-orchestration.md
+  s_feddec137b3b17::t_0e39e78e3cf0ac 1,67-71
+docs/resource-evaluations/2026-02-07-paul-rayner-agent-teams-linkedin.md
+  s_feddec137b3b17::t_a5b2a844bbebe2 113-118
+docs/resource-evaluations/2026-02-19-allanhillgeek-decomposition-agentic-dev.md
+  s_feddec137b3b17::t_491ad931d8d132 104,138
+docs/resource-evaluations/2026-02-19-echoes-of-ai-maintainability-study.md
+  s_feddec137b3b17::t_0df687ffc3c332 73-76,100
+docs/resource-evaluations/2026-02-19-linkedin-context-engineering-augment.md
+  s_feddec137b3b17::t_c2adb3811ea550 1,78
+docs/resource-evaluations/2026-02-19-stasbel-skillmind-boris-cherny-workflow.md
+  s_feddec137b3b17::t_31154ff0801f5e 1,8,46,120,122
+docs/resource-evaluations/2026-02-20-mergify-cross-system-support-investigator.md
+  s_feddec137b3b17::t_d766cf42f0a47b 1
+docs/resource-evaluations/2026-02-22-boris-cherny-worktree-tips-reddit.md
+  s_feddec137b3b17::t_45acbbc01bbb57 27
+docs/resource-evaluations/2026-02-22-fp-dev-issue-tracker.md
+  s_feddec137b3b17::t_ef32d08551e3f3 1
+docs/resource-evaluations/2026-02-22-guillaume-moigneu-worktree-linkedin.md
+  s_feddec137b3b17::t_ae94346d07f93a 112
+docs/resource-evaluations/2026-02-23-agentsview-session-analytics.md
+  s_feddec137b3b17::t_b6a3d9cb2f8b1b 1,101,144,146
+docs/resource-evaluations/2026-02-23-veille-cc-releases-2144-2150.md
+  s_feddec137b3b17::t_9f62ada8b66a38 53,73,76,81,88,99
+docs/resource-evaluations/2026-02-25-boris-cherny-lenny-newsletter-podcast.md
+  s_feddec137b3b17::t_5999787f7f05d9 215-218
+docs/resource-evaluations/2026-02-25-claude-code-remote-control.md
+  s_feddec137b3b17::t_bd4a3c8b3d1266 91-98
+docs/resource-evaluations/2026-02-25-kairn-memory-mcp.md
+  s_feddec137b3b17::t_276eb4944d35ac 1,11,13,43
+docs/resource-evaluations/2026-02-26-boristane-sdlc-dead.md
+  s_feddec137b3b17::t_3354c03ec2ad5e 1
+docs/resource-evaluations/2026-03-04-eveillard-generation-llm.md
+  s_feddec137b3b17::t_b5fc2bf6370801 1
+docs/resource-evaluations/2026-03-16-karl-mazier-claudemd-templates-linkedin.md
+  s_feddec137b3b17::t_2a14e09119a86c 1
+docs/resource-evaluations/2026-03-16-nick-tune-hook-driven-workflows.md
+  s_feddec137b3b17::t_d2543c8afc36d9 16,130
+docs/resource-evaluations/2026-03-16-nick-tune-workflow-dsl-ddd.md
+  s_feddec137b3b17::t_6c28b5e1f504af 1
+docs/resource-evaluations/2026-03-16-paul-rayner-contextflow-refactoring-linkedin.md
+  s_feddec137b3b17::t_e1c46e3f0dbf5d 1,87
+docs/resource-evaluations/2026-03-17-martignole-agent-maturity-levels.md
+  s_feddec137b3b17::t_33f6c1d0a824d6 43
+docs/resource-evaluations/2026-03-19-manomano-project-aegis-serena.md
+  s_feddec137b3b17::t_befbdcfb3b9eda 1
+docs/resource-evaluations/2026-03-20-yagr-etienne-lescot.md
+  s_feddec137b3b17::t_8fed4593ea38e1 1,27
+docs/resource-evaluations/2026-03-31-drona23-claude-token-efficient.md
+  s_feddec137b3b17::t_2f0ebe7af6d2ef 16
+docs/resource-evaluations/2026-05-18-skillsight-packmind.md
+  s_feddec137b3b17::t_6cc60616b00041 1,3,8
+docs/resource-evaluations/addy-osmani-linkedin-anthropic-study.md
+  s_feddec137b3b17::t_1498c66879318f 52-55
+docs/resource-evaluations/aristote-ai-instructions-patterns.md
+  s_feddec137b3b17::t_6ab0fa41e925f8 1
+docs/resource-evaluations/arnaud-gaches-mcp-vs-cli-devwithia.md
+  s_feddec137b3b17::t_11e81c68b82538 12,77
+docs/resource-evaluations/beyond-vibe-coding.md
+  s_feddec137b3b17::t_3abd4f8057e996 22-27,174-175,179-180,184-187
+docs/resource-evaluations/boris-tane-how-i-use-claude-code.md
+  s_feddec137b3b17::t_fceb7f19a6bf3e 1,13,27
+docs/resource-evaluations/ccboard-activity-module-plan.md
+  s_feddec137b3b17::t_535fbe77e52cd9 1
+docs/resource-evaluations/context-evaluator-evaluation.md
+  s_feddec137b3b17::t_d181ff08f68aab 80
+docs/resource-evaluations/daniel-miessler-the-great-transition.md
+  s_feddec137b3b17::t_84ec12a8364606 1,29
+docs/resource-evaluations/dclaude-docker-wrapper.md
+  s_feddec137b3b17::t_385fa8ce15d2cc 1
+docs/resource-evaluations/entire-cli.md
+  s_feddec137b3b17::t_4577b7c11cdf58 42,56,73,90,108,120
+docs/resource-evaluations/google-antigravity-evaluation.md
+  s_feddec137b3b17::t_9164108e7acecb 96
+docs/resource-evaluations/gur-sannikov-embedded-os-linkedin.md
+  s_feddec137b3b17::t_15a3faab91ec10 148,159-160
+docs/resource-evaluations/hugo-ai-impact-2026.md
+  s_feddec137b3b17::t_b7692b61d9803b 18-21
+docs/resource-evaluations/icm-infinite-context-memory.md
+  s_feddec137b3b17::t_212825782c168d 57
+docs/resource-evaluations/larridin-ai-native-teams-kanitkar.md
+  s_feddec137b3b17::t_5d5a02bedf5671 62,67,79,83
+docs/resource-evaluations/obra-superpowers-evaluation.md
+  s_feddec137b3b17::t_6b8570b9368d7a 1,40-41,43,139
+docs/resource-evaluations/paddo-team-tips-eval.md
+  s_feddec137b3b17::t_da4131a09a34a0 37-39,61,63-64
+docs/resource-evaluations/ratinaud-config-management-evaluation.md
+  s_feddec137b3b17::t_21ecea95505851 11,273
+docs/resource-evaluations/remotion-claude-code-video.md
+  s_feddec137b3b17::t_de4dc9e3d44b62 293-295
+docs/resource-evaluations/sankalp-claude-code-experience.md
+  s_feddec137b3b17::t_5832c302d00aad 47,89,150
+docs/resource-evaluations/siddhant-khare-ai-fatigue.md
+  s_feddec137b3b17::t_aa508a43c35793 195-196,199-200
+docs/resource-evaluations/snyk-toxicskills-evaluation.md
+  s_feddec137b3b17::t_393f3c347fa9c0 1,51
+docs/resource-evaluations/sylvain-chabaud-spec-to-code-factory.md
+  s_feddec137b3b17::t_dc2cd8f8691925 130
+docs/resource-evaluations/vitals-codebase-health-plugin.md
+  s_feddec137b3b17::t_ea23d1ecd829ac 1,55
+docs/resource-evaluations/wasp-fullstack-essentials-eval.md
+  s_feddec137b3b17::t_ca0f84f345f049 61-65
+docs/resource-evaluations/watch-list.md
+  s_feddec137b3b17::t_bc960fab6fea12 23
+docs/resource-evaluations/weekly-intel-2026-W09.md
+  s_feddec137b3b17::t_f95070ffa429c0 1,28
+docs/workflows/whitepaper-build.md
+  s_feddec137b3b17::t_99e86228186a3a 130,140
+examples/agents/loop-monitor.md
+  s_feddec137b3b17::t_0ddd46e754659c 68,109-110,119-121
+examples/agents/security-patcher.md
+  s_feddec137b3b17::t_84a53029df9a94 148-152
+examples/claude-md/design-reference-file.md
+  s_feddec137b3b17::t_323601faa52d6c 7
+examples/claude-md/devops-sre.md
+  s_feddec137b3b17::t_c7f151fe5eec89 193-195
+examples/claude-md/learning-mode.md
+  s_feddec137b3b17::t_6ce6d22d0c2914 174-178
+examples/claude-md/product-designer.md
+  s_feddec137b3b17::t_c18ebce79285e9 405-407
+examples/claude-md/session-naming.md
+  s_feddec137b3b17::t_17a6572b0f190f 7
+examples/context-engineering/rules/knowledge-feeding.md
+  s_feddec137b3b17::t_cbf0343685de0a 67
+examples/context-engineering/skeleton-template.md
+  s_feddec137b3b17::t_516db93f4107ed 1
+examples/github-actions/.greptile/rules.md
+  s_feddec137b3b17::t_fecf36cc01925c 1
+examples/github-actions/prompts/code-review.md
+  s_feddec137b3b17::t_be92df58fa8b22 136-138
+examples/memory/icm-session-starter.md
+  s_feddec137b3b17::t_d850042a1f75ec 8
+examples/modes/README.md
+  s_feddec137b3b17::t_d23c065678cacc 81-82
+examples/plugins/claude-mem.md
+  s_feddec137b3b17::t_d896e042c728bb 136
+examples/plugins/code-quality/README.md
+  s_feddec137b3b17::t_a0d409ef715009 13-16
+examples/plugins/devops-pipeline/README.md
+  s_feddec137b3b17::t_c6f601948f7e3d 13-15
+examples/plugins/pr-workflow/README.md
+  s_feddec137b3b17::t_31695860bb1dd6 13-16
+examples/plugins/release-automation/README.md
+  s_feddec137b3b17::t_91e4989f07d68e 13-16
+examples/plugins/security-suite/README.md
+  s_feddec137b3b17::t_17e532f4861b79 9-14,81-86
+examples/skills/smart-explore.md
+  s_feddec137b3b17::t_b87428a3007ade 7,119,499-503
+examples/skills/token-audit/skill.md
+  s_feddec137b3b17::t_8f9985fa6527f0 8
+examples/team-config/claude-skeleton.md
+  s_feddec137b3b17::t_b56ab9ee0adfaa 1
+scripts/clean_trivial_prose.py
+  s_8752eb26b0ac7f::t_8aef7fc8c35d0e 1-171
+scripts/test-clean-trivial-prose.py
+  s_feddec137b3b17::t_86df14c5283021 1-181
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "6431e70c005065793c1fe6f158f33ef6b24529bb",
+  "prompts": {},
+  "sessions": {
+    "s_8752eb26b0ac7f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05c63-a82f-7f42-8e96-fdc824c5f897",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_feddec137b3b17": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a059ef-8fba-7d51-9b43-c29b76027d5c",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

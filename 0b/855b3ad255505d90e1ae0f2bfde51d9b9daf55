@@ -1,0 +1,21 @@
+machine-readable/reference.yaml
+  s_22da54dcd2d04c::t_57d5d5c846aaac 26
+mcp-server/content/reference.yaml
+  s_22da54dcd2d04c::t_b722e22925e700 26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "0b855b3ad255505d90e1ae0f2bfde51d9b9daf55",
+  "prompts": {},
+  "sessions": {
+    "s_22da54dcd2d04c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05405-09d5-7f43-9f5f-775fec594dcd",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

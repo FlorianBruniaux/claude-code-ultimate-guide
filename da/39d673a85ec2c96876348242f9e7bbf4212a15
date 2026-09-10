@@ -1,0 +1,29 @@
+CHANGELOG.md
+  s_d4f030609e9388::t_0c697c443d0bbb 9-12
+README.md
+  s_d00f706886252a::t_0ad895075139e7 3-14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "da39d673a85ec2c96876348242f9e7bbf4212a15",
+  "prompts": {},
+  "sessions": {
+    "s_d00f706886252a": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05978-0217-70e3-9f15-f91549dba1ca",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_d4f030609e9388": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05a1b-1ee5-7be1-95df-9bb5078a588d",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

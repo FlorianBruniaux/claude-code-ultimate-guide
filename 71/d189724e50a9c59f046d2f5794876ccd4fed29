@@ -1,0 +1,31 @@
+CHANGELOG.md
+  s_d60909e31ccde3::t_87712db7b79865 15
+docs/resource-evaluations/README.md
+  s_678d026c6fc78a::t_9c26ab35cc4b12 86,94
+docs/resource-evaluations/orf-open-reasoning-format.md
+  s_678d026c6fc78a::t_cefb12b35cd3ad 12,14-16,48-54,62,67,73,75,106-110,112,118-119,121-123
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "71d189724e50a9c59f046d2f5794876ccd4fed29",
+  "prompts": {},
+  "sessions": {
+    "s_678d026c6fc78a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48ae19de-ed31-4ddb-992b-17432937c2fe",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_d60909e31ccde3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9caec40b-5230-4d77-816f-dfd4de36c4e0",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

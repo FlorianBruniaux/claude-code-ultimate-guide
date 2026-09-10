@@ -1,0 +1,19 @@
+guide/roles/adoption-approaches.md
+  s_e26cf8335924d8::t_d4ef8fad6505bd 424-439
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "4379ea3b9cf59569f7cd2069b1ec32d5ca47620a",
+  "prompts": {},
+  "sessions": {
+    "s_e26cf8335924d8": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05ddd-36ab-7880-92f3-aa30519a06ac",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

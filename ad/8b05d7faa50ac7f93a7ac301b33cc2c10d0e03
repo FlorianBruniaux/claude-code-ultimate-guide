@@ -1,0 +1,70 @@
+guide/README.md
+  s_a35e80f9b927b1::t_edb05247ce77c8 114
+README.md
+  s_a35e80f9b927b1::t_0f09eeb18f68c8 11,940
+guide/workflows/support-csm-agent.md
+  s_a35e80f9b927b1::t_b1c58ce846b1cd 9,13,15,38,40,46,48,50,54,56,58,60,62,64,66,68,72,74,76,101,107,114,116,132,141-142,148-149,152,158-161,168,181,184-185,194-197,201-202,208-211
+  s_a35e80f9b927b1::t_896d39ba6beb2c 1-8,10-12,14,16-37,39,41-45,47,49,51-53,55,57,59,61,63,65,67,69-71,73,75,77-100,102-106,108-113,115,117-131,133-140,143-147,150-151,153-157,162-167,169-180,182-183,186-193,198-200,203-207
+machine-readable/reference.yaml
+  s_a35e80f9b927b1::t_196d786a9a9a88 7
+  s_a35e80f9b927b1::t_935feb03039cd1 66
+CHANGELOG.md
+  s_a35e80f9b927b1::t_fe14987fb6504d 19-20
+  s_4cca2409e9c109::t_c436ec10ce9e84 11
+guide/ecosystem/mcp-servers-ecosystem.md
+  s_a35e80f9b927b1::t_df36a97feba42d 1181-1234
+  s_a35e80f9b927b1::t_96fb537f669015 9
+  s_a35e80f9b927b1::t_5d5138a503587c 1967,1973
+  s_a35e80f9b927b1::t_83fe3fb44a4361 1977-1978
+  s_a35e80f9b927b1::t_4690143a5d6b9c 27
+whitepapers/fr/04-architecture.qmd
+  s_4cca2409e9c109::t_3fa229c175e027 1015
+  s_4cca2409e9c109::t_2c90bac05c90fe 112-119
+  s_4cca2409e9c109::t_e3181e1d9f1514 356-359
+  s_4cca2409e9c109::t_abece73f8cd106 331
+  s_4cca2409e9c109::t_c36ee47dbf5ad6 1032
+  s_4cca2409e9c109::t_ee67baa5003f57 5,7-8
+  s_4cca2409e9c109::t_9b0ea26a4ae01c 529-536,539,541,543,545-550
+  s_4cca2409e9c109::t_fed69a7a55caa8 974-976
+  s_4cca2409e9c109::t_526b2e4463f44a 313
+  s_4cca2409e9c109::t_90cf3f9e44eff3 933-935
+whitepapers/fr/07-guide-reference.qmd
+  s_4cca2409e9c109::t_779f59ba365b41 2253
+  s_4cca2409e9c109::t_12a4207b5ee606 1371,1377,1392-1393
+  s_4cca2409e9c109::t_8a978666d1f90f 2008,2014
+  s_4cca2409e9c109::t_ac966ad7b89921 2277,2291
+  s_4cca2409e9c109::t_a7ab55298a3dee 7-8
+  s_4cca2409e9c109::t_9a541f0f3a585a 1982-1987
+  s_4cca2409e9c109::t_461c2ede4aae02 1717
+  s_4cca2409e9c109::t_bc587d76476f93 2211-2224
+  s_4cca2409e9c109::t_8ede5f0ccb17f5 515-516
+  s_4cca2409e9c109::t_0c5b23e709e06e 1546-1547
+  s_4cca2409e9c109::t_d014e0cc37e1aa 1753-1762
+  s_4cca2409e9c109::t_0b1d652d2e945e 2015
+whitepapers/fr/02-personnalisation.qmd
+  s_4cca2409e9c109::t_8be39aa20e3fd2 7-8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "ad8b05d7faa50ac7f93a7ac301b33cc2c10d0e03",
+  "prompts": {},
+  "sessions": {
+    "s_4cca2409e9c109": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ac85cfe4-9c8f-4e55-89b1-dfc7d682dc10",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_a35e80f9b927b1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3fbab194-b474-4120-b88d-e4f4a9c6ac37",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

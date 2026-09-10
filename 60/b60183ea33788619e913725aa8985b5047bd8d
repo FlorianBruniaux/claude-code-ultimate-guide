@@ -1,0 +1,79 @@
+.github/workflows/index-integrity.yml
+  s_b75681c86b5534::t_d4fe5f02590323 46-50
+CHANGELOG.md
+  s_b75681c86b5534::t_84f71bf576b699 9-10,82,317
+IDEAS.md
+  s_1b5008099987d2::t_3ce0ad936d7458 117
+docs/media-mentions/README.md
+  s_1b5008099987d2::t_4c829f90aa50c5 7
+docs/resource-evaluations/070-claude-code-best-practice-dot-claude-eval.md
+  s_1b5008099987d2::t_ac673cf329b280 6
+docs/resource-evaluations/2026-03-16-karl-mazier-claudemd-templates-linkedin.md
+  s_1b5008099987d2::t_348cd926fb0a66 103
+docs/resource-evaluations/agentos-in-process-agent-vm.md
+  s_1b5008099987d2::t_c831acf7142ccf 8,90
+docs/resource-evaluations/aristote-ai-instructions-patterns.md
+  s_1b5008099987d2::t_9b3fd8a46dd3ea 3
+docs/resource-evaluations/best-of-n-verification-evidence.md
+  s_1b5008099987d2::t_ffe30195309250 25
+docs/resource-evaluations/caliber-config-quality-tool.md
+  s_1b5008099987d2::t_b97c8379f16c07 46
+docs/resource-evaluations/darkmoon-strix-agentic-pentesting.md
+  s_1b5008099987d2::t_ad72b90da6f8ef 11,15,17,38,41,75,98
+docs/resource-evaluations/diffmem-git-native-memory.md
+  s_1b5008099987d2::t_73adaf64068c36 5
+docs/resource-evaluations/executor-integration-governance-layer.md
+  s_1b5008099987d2::t_011632bb57f14a 8
+docs/resource-evaluations/just-bash-simulated-shell.md
+  s_1b5008099987d2::t_460169ed1f712e 8
+docs/resource-evaluations/mdma-evaluation.md
+  s_b75681c86b5534::t_3b75572d03b324 4,23,25,51,54-55,121-122
+docs/resource-evaluations/mltut-learning-resources-comparative-audit.md
+  s_1b5008099987d2::t_dfc1780c85fa6c 68
+docs/resource-evaluations/pavan-belagatti-agentic-engineering-2026.md
+  s_1b5008099987d2::t_48c4e4ba33dc40 8
+docs/resource-evaluations/supermemory-memory-context-engine.md
+  s_1b5008099987d2::t_4a86a356593db2 74
+docs/resource-evaluations/switch-agent-human-chat-bridge.md
+  s_1b5008099987d2::t_5e9a509e9bb7ba 8
+docs/workflows/landing-sync.md
+  s_1b5008099987d2::t_946cfcd26e83f1 5
+guide/ecosystem/ai-ecosystem.md
+  s_1b5008099987d2::t_df9ec5e9a568c9 1510,1515-1517,1519,1521,1523
+guide/security/agentic-pentesting.md
+  s_1b5008099987d2::t_4a89b53a14f072 11
+guide/ultimate-guide.fr.md
+  s_1b5008099987d2::t_86f4203a8d2eec 7473
+guide/ultimate-guide.md
+  s_1b5008099987d2::t_213cf7f658c98d 8415
+guide/workflows/agent-teams-quick-start.md
+  s_1b5008099987d2::t_1737a2d0255934 176,416
+machine-readable/reference.yaml
+  s_1b5008099987d2::t_6c782c215f3bbf 2607,2613
+mcp-server/content/reference.yaml
+  s_1b5008099987d2::t_66668bae05b1c3 2607,2613
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "60b60183ea33788619e913725aa8985b5047bd8d",
+  "prompts": {},
+  "sessions": {
+    "s_1b5008099987d2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fc271144-098a-4469-ace6-be051749d402",
+        "model": "claude-fable-5-1"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_b75681c86b5534": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08528-8a68-7b00-beb6-4e1a263caf75",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+CHANGELOG.md
+  s_a35e80f9b927b1::t_e152f753c6f56a 11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "595f20d4480907aecd380f3060c40ad64d84c5f2",
+  "prompts": {},
+  "sessions": {
+    "s_a35e80f9b927b1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3fbab194-b474-4120-b88d-e4f4a9c6ac37",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

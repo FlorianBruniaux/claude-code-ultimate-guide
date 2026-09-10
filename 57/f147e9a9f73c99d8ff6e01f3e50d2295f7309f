@@ -1,0 +1,19 @@
+scripts/check-landing-sync.sh
+  s_0c5f534390aca5::t_daeca723913df1 86-87,93
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "57f147e9a9f73c99d8ff6e01f3e50d2295f7309f",
+  "prompts": {},
+  "sessions": {
+    "s_0c5f534390aca5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "06fa168d-7a1b-4d6e-b0b2-1300ee8b75dd",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

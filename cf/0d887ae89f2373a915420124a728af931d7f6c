@@ -1,0 +1,19 @@
+README.md
+  s_cfe4a4b76696b1::t_578e2ef03284ba 936-937
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "cf0d887ae89f2373a915420124a728af931d7f6c",
+  "prompts": {},
+  "sessions": {
+    "s_cfe4a4b76696b1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5a7e15ef-b512-4333-b158-4b5bbfc20f9a",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

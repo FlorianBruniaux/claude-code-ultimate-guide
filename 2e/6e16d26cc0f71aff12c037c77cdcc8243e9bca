@@ -1,0 +1,28 @@
+CHANGELOG.md
+  h_07916ece6468dd 9-12
+mcp-server/package.json
+  h_07916ece6468dd 34-35
+mcp-server/src/lib/docs-cache.ts
+  h_07916ece6468dd 5,55
+mcp-server/src/lib/fetcher.ts
+  h_07916ece6468dd 5,39
+mcp-server/src/lib/package-metadata.ts
+  h_07916ece6468dd 1-5
+mcp-server/src/server.ts
+  h_07916ece6468dd 17,23
+mcp-server/test/package-metadata.test.mjs
+  h_07916ece6468dd 1-14
+mcp-server/tsup.config.ts
+  h_07916ece6468dd 1,4-8,12,18-21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "2e6e16d26cc0f71aff12c037c77cdcc8243e9bca",
+  "prompts": {},
+  "humans": {
+    "h_07916ece6468dd": {
+      "author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

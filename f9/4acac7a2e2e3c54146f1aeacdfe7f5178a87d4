@@ -1,0 +1,40 @@
+CHANGELOG.md
+  s_40ef24a2b1b4bd::t_d7d3f0d8e78cb7 9-16
+  s_0dda567a5b96e4::t_dc08cc7c934b5c 23-25
+guide/security/sandbox-isolation.md
+  s_40ef24a2b1b4bd::t_a341d51e4163fc 548
+  s_40ef24a2b1b4bd::t_b471e1189adb0d 546-547,549-583
+guide/ops/api-gateway.md
+  s_40ef24a2b1b4bd::t_08aededdb46275 1-278
+guide/ops/ai-traceability.md
+  s_40ef24a2b1b4bd::t_5db3b0a9df00fc 810-935
+guide/ops/observability.md
+  s_40ef24a2b1b4bd::t_227b2ecf1ff4b2 979-1062
+guide/security/enterprise-governance.md
+  s_40ef24a2b1b4bd::t_2db9523c341b58 209-250
+  s_40ef24a2b1b4bd::t_5ae8a99da55b82 408-411
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.5",
+  "base_commit_sha": "f94acac7a2e2e3c54146f1aeacdfe7f5178a87d4",
+  "prompts": {},
+  "sessions": {
+    "s_0dda567a5b96e4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f89ce4e1-7c47-42db-ad0d-32ea0c6b474a",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_40ef24a2b1b4bd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "19aa85df-f3cf-4426-9681-7ebef748d0a3",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

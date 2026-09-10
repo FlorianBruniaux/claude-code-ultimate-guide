@@ -1,0 +1,35 @@
+CHANGELOG.md
+  s_1bef9cd6a4c857::t_1f820f0bf691ea 25-26
+docs/resource-evaluations/ia-qa-cli-llm-testing.md
+  s_1bef9cd6a4c857::t_bccc4cd95445e0 19,118-125,157-159,161-162,164,166
+guide/ops/ai-unit-economics.md
+  s_44d586a9075e5e::t_8447566c945d8e 105-134
+guide/security/data-privacy.md
+  s_44d586a9075e5e::t_5c84bc2a16cd39 198-229
+machine-readable/reference.yaml
+  s_1bef9cd6a4c857::t_fffe73704f9ba6 392,534
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "39f95f9f5e32f2e599d75532a5af39b868966861",
+  "prompts": {},
+  "sessions": {
+    "s_1bef9cd6a4c857": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3825a6f0-4721-4780-92e4-ccb050d1fea7",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_44d586a9075e5e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3a5cd187-9fad-47ff-a92f-93e751818501",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

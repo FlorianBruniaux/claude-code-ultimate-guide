@@ -1,0 +1,29 @@
+CHANGELOG.md
+  s_443e02288114a8::t_6359c2591ee1d0 11-12
+guide/roles/ai-roles.md
+  s_95392a6b844626::t_585f6df13f1201 13,100-127
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "2a86ee6c38e3900372ad80cf6bb7323bf5c66e5c",
+  "prompts": {},
+  "sessions": {
+    "s_443e02288114a8": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a056ed-560a-7f51-ab57-eb258c1b6f80",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_95392a6b844626": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04821-7023-7112-aeb8-f4aa59348ce9",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

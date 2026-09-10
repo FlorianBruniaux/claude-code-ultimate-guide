@@ -1,0 +1,14 @@
+.github/workflows/link-check.yml
+  h_07916ece6468dd 26-27,43
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "7bb5b789351b9d9d12092092fc4e352da265d268",
+  "prompts": {},
+  "humans": {
+    "h_07916ece6468dd": {
+      "author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+guide/ops/subscription-strategy.md
+  s_d812a5cba40e21::t_b17ca4a670ee67 57-59
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "360b37173d73967c19759010c2196e306496c1b1",
+  "prompts": {},
+  "sessions": {
+    "s_d812a5cba40e21": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a033c4-cc98-74d2-adf5-63f175b8463b",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

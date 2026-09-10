@@ -1,0 +1,21 @@
+guide/core/agent-harness.md
+  s_4cfc66dd88763e::t_523463bd7c4811 2-3
+guide/core/hooks-events-reference.md
+  s_4cfc66dd88763e::t_15515ffa6cef6c 1-6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.9",
+  "base_commit_sha": "5e9bc78e0a182935009dfdee5992f0d7936dee4a",
+  "prompts": {},
+  "sessions": {
+    "s_4cfc66dd88763e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5cde7870-b066-4031-89db-3bf27b1f8162",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

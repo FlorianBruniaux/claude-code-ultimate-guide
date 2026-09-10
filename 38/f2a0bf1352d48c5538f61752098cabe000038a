@@ -1,0 +1,29 @@
+machine-readable/agentsec-security-feed.v1.json
+  s_59aee4ab612299::t_efd95be8735dd2 67,72-105,508-517,576-585,607
+CHANGELOG.md
+  s_0df90997879182::t_76c6ba2cf83f00 9-12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "38f2a0bf1352d48c5538f61752098cabe000038a",
+  "prompts": {},
+  "sessions": {
+    "s_0df90997879182": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fd73a-588d-7f03-ab50-494ca0e95848",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_59aee4ab612299": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1a29682d-9283-4a7a-ad39-bee10380f07c",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

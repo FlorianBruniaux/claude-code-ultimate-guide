@@ -1,0 +1,19 @@
+guide/ops/api-gateway.md
+  s_487430dec5264f::t_39f05ae1bad8c2 11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "df2c036411d1b4faca77453c7e061fb1b23ec02f",
+  "prompts": {},
+  "sessions": {
+    "s_487430dec5264f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a056ba-44a6-7303-86cd-d53a5ceb45ca",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

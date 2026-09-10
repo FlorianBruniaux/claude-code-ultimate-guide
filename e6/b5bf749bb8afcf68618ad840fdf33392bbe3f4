@@ -1,0 +1,31 @@
+.github/workflows/publish-mcp.yml
+  s_9cf259c16931e6::t_c65db1cb24af03 166-192,194
+CHANGELOG.md
+  s_853dc82c7e37cc::t_03c02d8786f837 9-12
+mcp-server/test/registry-metadata.test.mjs
+  s_9cf259c16931e6::t_fabe94a3946ca4 192,196-204,207
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "e6b5bf749bb8afcf68618ad840fdf33392bbe3f4",
+  "prompts": {},
+  "sessions": {
+    "s_853dc82c7e37cc": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0594f-09de-75a1-b540-e1e13a8196d1",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_9cf259c16931e6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a03e6c-f9af-7811-b19d-91365bbf6d38",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

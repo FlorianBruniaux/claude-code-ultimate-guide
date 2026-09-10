@@ -1,0 +1,19 @@
+.claude/commands/update-infos-release.md
+  s_dd914174d66bf8::t_8ed04a3dd8f5f8 121-135
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "f76ce4c6a44a938b3373f730bed0a22768e9090c",
+  "prompts": {},
+  "sessions": {
+    "s_dd914174d66bf8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "35a09f3c-07ba-4b88-816b-946af42e3ecc",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

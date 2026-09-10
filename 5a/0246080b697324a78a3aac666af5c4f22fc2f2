@@ -1,0 +1,31 @@
+machine-readable/mcp-product.json
+  s_2efec322df84ae::t_83cbc1d4a1b9c1 1-468
+mcp-server/package-lock.json
+  s_2efec322df84ae::t_f49616ab8d7736 13-14
+mcp-server/test/product-manifest.test.mjs
+  s_3196d2c8c02668::t_b3e355b8dffb89 1-42
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "5a0246080b697324a78a3aac666af5c4f22fc2f2",
+  "prompts": {},
+  "sessions": {
+    "s_2efec322df84ae": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a056aa-68dc-76c1-95fa-3e383c196e6d",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_3196d2c8c02668": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05713-a85c-76d1-b7c5-74d5d4caca7e",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

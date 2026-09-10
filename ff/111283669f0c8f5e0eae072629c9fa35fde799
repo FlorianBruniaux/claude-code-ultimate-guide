@@ -1,0 +1,177 @@
+.agents/skills/source-command-track-mentions/evals/scenarios.json
+  s_aeebbf2fc2680c::t_8fd9586959fa9b 1-38
+CHANGELOG.md
+  s_2efec322df84ae::t_a09542d42c6c31 11-16,22-23
+docs/distribution/quick-win-video-series.md
+  s_2efec322df84ae::t_f8c63565a2aad6 1-92
+docs/media-mentions/README.md
+  s_95392a6b844626::t_31878536bb9e66 5-9,12-13,19,35,39,41,45,48,50-51,53,55-61,67,69,71-73,78-87
+docs/media-mentions/mentions.yaml
+  s_95392a6b844626::t_c556fab7988fa7 2-3,9,451-635
+docs/media-mentions/review-queue.yaml
+  s_95392a6b844626::t_fa727c2e2ffc23 1-22
+docs/resource-evaluations/README.md
+  s_95392a6b844626::t_79f095c2d2195b 40-42
+docs/resource-evaluations/mltut-learning-resources-comparative-audit.md
+  s_9cf259c16931e6::t_60d48511efa72d 1-380
+docs/workflows/guide-distribution.md
+  s_2efec322df84ae::t_53d208bbe75497 1-144
+examples/skills/learning-path/assets/path.yaml
+  s_fbbcc8612e3f26::t_50e7c99babb4d5 35,57,72
+guide/learning-path/06-hooks.md
+  s_a76087f74be2bb::t_1b497449fa285e 1,3,5,9,11,13,15-20,22,24,26,28,30-40,43,45,47,52-64,69,71,73,75-79,82-89,92-96,98-100,102-105,107-113,115-118,121,123,125,128-129,131-132,134-135,138,140-144,146,148,150,152-156,158,160,162-169,171,173,175-181,183,185,187-192,194,196
+guide/learning-path/README.md
+  s_fbbcc8612e3f26::t_1d23e936cfe8ad 85-102,183
+guide/ops/subscription-strategy.md
+  s_8931b0443833dc::t_ea5f9b5d52e9a3 3,9,11,17-26,30-35,37,39,41,43-48,52-79,81,83,85-95,99,101,103,105,107,109-115,117,119,121,123,125-129,131,135-145,147,149,151-157,161-175,177,179-182,184-190,194-198,200,202,204-211,215-221,223-237,239,241,243
+machine-readable/README.md
+  s_0a442347250965::t_479112dd24ff56 17-18,46-47,50-71
+machine-readable/distribution-channels.yaml
+  s_0a442347250965::t_50e70271ebd084 1-107
+machine-readable/reference.yaml
+  s_22da54dcd2d04c::t_f94b200727e74a 7,15-29,112-113,381,484-485,490-501,860-862,869,945,949,1026,1100-1101,1193-1195,1393,1538,1637,2366,2413-2414,2907-2913,3039-3044,3191-3197,3320-3326,3328-3329,3355,3362-3364,3410-3417,3601-3608
+machine-readable/translations.json
+  s_a76087f74be2bb::t_b8cf968f1e5747 1-105
+mcp-server/content/distribution-channels.yaml
+  s_22da54dcd2d04c::t_56de3acbde82f8 1-107
+mcp-server/content/llms.txt
+  s_22da54dcd2d04c::t_1149bddc02445f 5,10,18,20,25-26,39-40,47,51-53
+mcp-server/content/reference.yaml
+  s_22da54dcd2d04c::t_5a747782168ae8 7,15-29,112-113,381,484-485,490-501,860-862,869,945,949,1026,1100-1101,1193-1195,1393,1538,1637,2366,2413-2414,2907-2913,3039-3044,3191-3197,3320-3326,3328-3329,3355,3362-3364,3410-3417,3601-3608
+mcp-server/src/lib/content.ts
+  s_95392a6b844626::t_918ba528bc2377 177-186,201
+mcp-server/src/resources/index.ts
+  s_95392a6b844626::t_b063bf2cb1d23e 4,7,99-140
+scripts/check-distribution-channels.py
+  s_aeebbf2fc2680c::t_8756899d2d412a 1-252
+scripts/check-media-mentions.py
+  s_6a650b076cec18::t_fbd08044a7552e 1-164
+scripts/test-check-distribution-channels.py
+  s_aeebbf2fc2680c::t_2ad625a05a767c 1-186
+scripts/test-check-media-mentions.py
+  s_6a650b076cec18::t_11f92956dfe794 1-82
+.agents/skills/source-command-track-mentions/SKILL.md
+  s_a76087f74be2bb::t_274c329f1cefcd 3,14-16,23-26,29-31,34,37-45,49-51,55-57,60-67,71,74-76,82-85,89-107,113-116,125-127,130-142,144,146-152,181-194,197-198,205-206
+.github/workflows/index-integrity.yml
+  s_22da54dcd2d04c::t_ee3cf1324edd74 87,127-136
+README.md
+  s_22da54dcd2d04c::t_cf965aae5fee35 11,59-73,157-160,168,613,630-631,633,635,641,979
+docs/distribution/README.md
+  s_22da54dcd2d04c::t_f8c4f5a8d4b59b 1-21
+docs/media-mentions/perplexity-scheduled-search.md
+  s_a76087f74be2bb::t_724c6787444263 1-53
+docs/resource-evaluations/best-of-n-verification-evidence.md
+  s_22da54dcd2d04c::t_a30e30223f647a 28-30,32-35,37
+docs/workflows/translations.md
+  s_a76087f74be2bb::t_0f06d778e25fb7 1-69
+guide/README.md
+  s_22da54dcd2d04c::t_ec2072c52ff9cd 34,38,97,129,147
+guide/core/translations.md
+  s_a76087f74be2bb::t_b348e5f40b987b 1-67
+guide/ops/ai-unit-economics.md
+  s_22da54dcd2d04c::t_ce8f3ccde73b0e 3,9,17,19,29,39,41,52,75,78-79,81,84,91,98-105,108-111,202,204,208,242,244
+guide/workflows/README.md
+  s_22da54dcd2d04c::t_e9b3435be0b892 62-69,272,284
+llms.txt
+  s_22da54dcd2d04c::t_5cede3ea522264 10,18,25,39-40,51-53
+machine-readable/llms.txt
+  s_22da54dcd2d04c::t_1879c0953f5e2a 10,18,25,39-40,51-53
+mcp-server/content/translations.json
+  s_a76087f74be2bb::t_77d25da866e924 1-105
+scripts/check-translations.py
+  s_a76087f74be2bb::t_a9ee88b029bf1b 1-387
+scripts/sync-version.sh
+  s_a76087f74be2bb::t_d33152a330b3d9 114-124
+scripts/test-check-translations.py
+  s_a76087f74be2bb::t_06dc9f49e3d3be 1-109
+scripts/translate-guide.py
+  s_a76087f74be2bb::t_c86ba3f6c9c67f 10-12,28,84-124,182-190,234-248,252
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "ff111283669f0c8f5e0eae072629c9fa35fde799",
+  "prompts": {},
+  "sessions": {
+    "s_0a442347250965": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04233-7990-7c82-96d1-1418fd7722e9",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_22da54dcd2d04c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05405-09d5-7f43-9f5f-775fec594dcd",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_2efec322df84ae": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a056aa-68dc-76c1-95fa-3e383c196e6d",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_6a650b076cec18": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05667-935d-7c22-86fd-282e66ab41cf",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_8931b0443833dc": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a056d1-eeb6-7f32-b67e-96f3a746caf2",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_95392a6b844626": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04821-7023-7112-aeb8-f4aa59348ce9",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_9cf259c16931e6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a03e6c-f9af-7811-b19d-91365bbf6d38",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_a76087f74be2bb": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a01f2a-b167-78f0-a126-7450029bd920",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_aeebbf2fc2680c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a03e20-0cfd-78b0-b1fa-bfb10ef6a72f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_fbbcc8612e3f26": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0532f-a38f-7602-a304-365803771ad5",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

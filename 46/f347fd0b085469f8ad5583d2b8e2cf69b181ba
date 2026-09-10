@@ -1,0 +1,113 @@
+CHANGELOG.md
+  s_d812a5cba40e21::t_8029ab392e0469 17-20
+README.md
+  s_e8d43ee83cdf95::t_106f2a853b612c 264-265
+guide/README.md
+  s_0a442347250965::t_32a19ddd767681 37,96
+guide/cheatsheet.md
+  s_d812a5cba40e21::t_e6c85219fddc8a 258
+guide/core/agent-harness.md
+  s_ace304c1533c64::t_4e6abf7a1d6731 3,10-11,17,19,25,27,29,58,61-62,79-80,105-120,131-144,179-180,199-200,228-229,318,320,322,331-347,360,366,370-373,390-391,394-403,446-501,516
+guide/core/glossary.md
+  s_aeebbf2fc2680c::t_5573cd0e3778ad 22-25,102-109,122-125,146-149,186-189,206-209
+guide/ecosystem/agent-harness-landscape.md
+  s_95392a6b844626::t_03614df016b3ff 13-15,28,118-126,131-132,152-167,181-182,491,493,504-509,511,529,547-548
+guide/ecosystem/agentic-tools.md
+  s_ace304c1533c64::t_de9ab32a394574 3,15,45-46
+llms.txt
+  s_a76087f74be2bb::t_a7b77561acc876 18
+machine-readable/README.md
+  s_0a442347250965::t_80a830d44d9d19 13,50-51
+machine-readable/llms.txt
+  s_0a442347250965::t_4f88178ebbda17 18
+machine-readable/reference.yaml
+  s_ace304c1533c64::t_75a996e37a3f52 159-164,840-845,2818
+mcp-server/content/llms.txt
+  s_a76087f74be2bb::t_3b78d397992b08 18
+mcp-server/content/reference.yaml
+  s_a76087f74be2bb::t_0aee4266e82517 159-164,840-845,2818
+whitepapers/CHANGELOG.md
+  s_d812a5cba40e21::t_e084fba33fc8d2 18,23-24
+whitepapers/en/12-agent-engineering.qmd
+  s_d812a5cba40e21::t_7eb49943d428e9 8,80,82,84-86,202,210,214-221
+whitepapers/en/cheatsheet.qmd
+  s_d812a5cba40e21::t_9cc2e6da8eadbe 317
+whitepapers/fr/12-agent-engineering.qmd
+  s_d812a5cba40e21::t_733b5d4862ab43 8,100,102,104-106,258,266,270-277
+whitepapers/fr/cheatsheet.qmd
+  s_aeebbf2fc2680c::t_164e4a234becdf 317
+whitepapers/recap-cards/en/c14-agent-harness-map.qmd
+  s_d812a5cba40e21::t_d67f600bca8ebf 28-29,37,45,49
+whitepapers/recap-cards/fr/c14-agent-harness-map.qmd
+  s_d812a5cba40e21::t_82565de517d983 28-29,37,45,49
+guide/ops/observability.md
+  s_a76087f74be2bb::t_ea278056444a9b 49-52
+guide/roles/agent-evaluation.md
+  s_a76087f74be2bb::t_f336a076a2c590 39-44
+guide/security/security-hardening.md
+  s_a76087f74be2bb::t_e3e07403240fc1 42-45
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "46f347fd0b085469f8ad5583d2b8e2cf69b181ba",
+  "prompts": {},
+  "sessions": {
+    "s_0a442347250965": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04233-7990-7c82-96d1-1418fd7722e9",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_95392a6b844626": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a04821-7023-7112-aeb8-f4aa59348ce9",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_a76087f74be2bb": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a01f2a-b167-78f0-a126-7450029bd920",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_ace304c1533c64": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "76d2e928-42ad-4207-a483-8ac592582528",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_aeebbf2fc2680c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a03e20-0cfd-78b0-b1fa-bfb10ef6a72f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_d812a5cba40e21": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a033c4-cc98-74d2-adf5-63f175b8463b",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_e8d43ee83cdf95": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a049b3-e0f7-7682-ac4a-ce8a2dbabcac",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

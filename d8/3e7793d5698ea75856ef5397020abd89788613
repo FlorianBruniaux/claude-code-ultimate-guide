@@ -1,0 +1,45 @@
+.github/workflows/link-check.yml
+  s_9aa7e0edfec4d3::t_5d6b8d8c598e47 38-40
+guide/core/context-engineering.md
+  s_b8d401e679ccdd::t_1bec10ef4db676 13
+guide/ecosystem/agent-harness-landscape.md
+  s_b8d401e679ccdd::t_4c050c7625551e 76,471
+guide/ecosystem/agentic-tools.md
+  s_b8d401e679ccdd::t_bbbbe0441b769d 492
+guide/ecosystem/ai-ecosystem.md
+  s_b8d401e679ccdd::t_4fddb770dddfbb 2159
+guide/ecosystem/context-engineering-tools.md
+  s_b8d401e679ccdd::t_c07d149a85e6f8 11,546
+guide/ecosystem/mcp-servers-ecosystem.md
+  s_b8d401e679ccdd::t_ca4700fe1dd2b1 848,2006
+guide/ecosystem/third-party-tools.md
+  s_b8d401e679ccdd::t_0f6bf4b379769e 1020,1025,1027,1049
+guide/roles/ai-roles.md
+  s_b8d401e679ccdd::t_88650df033a085 177,857,863,960
+guide/roles/learning-with-ai.md
+  s_b8d401e679ccdd::t_e0dc4380b03de5 244,1142,1271-1272
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "d83e7793d5698ea75856ef5397020abd89788613",
+  "prompts": {},
+  "sessions": {
+    "s_9aa7e0edfec4d3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a063c2-e32e-7b63-9b04-3c60880ea89c",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_b8d401e679ccdd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e4bb4293-083a-49c5-a3d5-082b6bbdbc2d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+README.md
+  s_9cf259c16931e6::t_02cd1231faacaa 159-160
+docs/distribution/README.md
+  s_9cf259c16931e6::t_1374c2895e12c3 12-13
+docs/resource-evaluations/mltut-learning-resources-comparative-audit.md
+  s_9cf259c16931e6::t_af7777eb7aeebd 30,33
+guide/learning-path/README.md
+  s_9cf259c16931e6::t_6b917d3d0d178e 91-92,228
+llms.txt
+  s_22da54dcd2d04c::t_d280bf9ef55e2b 10,53
+machine-readable/llms.txt
+  s_9cf259c16931e6::t_b8ab387187c720 10,53
+mcp-server/content/llms.txt
+  s_22da54dcd2d04c::t_4f5bcd14fdf59f 10,53
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "eefb629dbd41c9e01e4430b10e15ec98a7071bdc",
+  "prompts": {},
+  "sessions": {
+    "s_22da54dcd2d04c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05405-09d5-7f43-9f5f-775fec594dcd",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_9cf259c16931e6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a03e6c-f9af-7811-b19d-91365bbf6d38",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

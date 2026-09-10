@@ -1,0 +1,39 @@
+docs/ecosystem.md
+  s_eaa7b024c41dd5::t_98e01e74c2b272 1,3,84-107,128-129
+guide/core/context-engineering.md
+  s_a6272ac9eeea28::t_b9ee1841bae1e6 460-461
+CHANGELOG.md
+  s_0254a6faf17cc3::t_ba0a217d4e2f80 9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "180ebe3c7bba22a7b9e9efa279318952911dd49f",
+  "prompts": {},
+  "sessions": {
+    "s_0254a6faf17cc3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-ac80516bf52f36026",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_a6272ac9eeea28": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c67912ad-4ff6-4340-b106-34a9a2e26546",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_eaa7b024c41dd5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a48d0498-cb25-4b2d-ae23-61afb07f378f",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}

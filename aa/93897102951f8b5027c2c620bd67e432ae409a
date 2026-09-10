@@ -1,0 +1,25 @@
+mcp-server/content/reference.yaml
+  s_a344663771d926::t_db5c7ce477bace 1502,2979
+CHANGELOG.md
+  s_a344663771d926::t_ef1f712bba8ad7 29-32,35
+guide/ecosystem/local-vs-cloud-inference.md
+  s_a344663771d926::t_7cf6fffb154ec0 9,27,63-74,86,90-91,93-94,135-142,148,150,152,154,164-168,170,188,254,256,258,261-266
+machine-readable/reference.yaml
+  s_a344663771d926::t_a7210736f1a56b 1502,2979
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "aa93897102951f8b5027c2c620bd67e432ae409a",
+  "prompts": {},
+  "sessions": {
+    "s_a344663771d926": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6bf12911-8795-4088-b8a4-c648c238a31e",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
