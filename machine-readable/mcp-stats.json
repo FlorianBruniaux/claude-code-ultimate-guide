@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "snapshot_at": "2026-09-11T14:35:03Z",
+  "snapshot_at": "2026-09-12T13:42:36Z",
   "package": "claude-code-ultimate-guide-mcp",
   "public_version": "1.3.3",
   "package_created_at": "2026-02-28T20:06:29.210Z",
@@ -8,35 +8,39 @@
   "downloads": {
     "year_to_date": {
       "start": "2026-01-01",
-      "end": "2026-09-10",
-      "count": 9640
+      "end": "2026-09-11",
+      "count": 9671
     },
     "since_launch": {
       "start": "2026-02-28",
-      "end": "2026-09-10",
-      "count": 9640
+      "end": "2026-09-11",
+      "count": 9671
     },
     "last_30_days": {
-      "start": "2026-08-12",
-      "end": "2026-09-10",
-      "count": 4940
+      "start": "2026-08-13",
+      "end": "2026-09-11",
+      "count": 4825
     },
     "last_7_days": {
-      "start": "2026-09-04",
-      "end": "2026-09-10",
-      "count": 492
+      "start": "2026-09-05",
+      "end": "2026-09-11",
+      "count": 489
     },
     "distribution_period": "last_30_days",
-    "daily_median": 56.0,
-    "daily_mean": 164.7,
+    "daily_median": 42.0,
+    "daily_mean": 160.8,
     "daily_max": 727,
-    "daily_mad": 56.0,
+    "daily_mad": 39.5,
     "anomaly_threshold_mad": 6.0,
     "anomaly_dates": [
+      "2026-08-13",
       "2026-08-15",
       "2026-08-17",
+      "2026-08-18",
+      "2026-08-19",
       "2026-08-20",
-      "2026-08-21"
+      "2026-08-21",
+      "2026-08-31"
     ],
     "daily_period": "year_to_date",
     "daily": [
@@ -1163,7 +1167,7 @@
       {
         "day": "2026-08-13",
         "downloads": 363,
-        "anomaly": false
+        "anomaly": true
       },
       {
         "day": "2026-08-14",
@@ -1188,12 +1192,12 @@
       {
         "day": "2026-08-18",
         "downloads": 297,
-        "anomaly": false
+        "anomaly": true
       },
       {
         "day": "2026-08-19",
         "downloads": 360,
-        "anomaly": false
+        "anomaly": true
       },
       {
         "day": "2026-08-20",
@@ -1253,7 +1257,7 @@
       {
         "day": "2026-08-31",
         "downloads": 299,
-        "anomaly": false
+        "anomaly": true
       },
       {
         "day": "2026-09-01",
@@ -1303,6 +1307,11 @@
       {
         "day": "2026-09-10",
         "downloads": 65,
+        "anomaly": false
+      },
+      {
+        "day": "2026-09-11",
+        "downloads": 31,
         "anomaly": false
       }
     ]
