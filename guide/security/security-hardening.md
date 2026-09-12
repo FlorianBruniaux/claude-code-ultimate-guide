@@ -33,6 +33,35 @@ keywords:
 
 ---
 
+## September 2026 review
+
+**Reviewed September 12, 2026.** Update Claude Code to 2.1.269 for the reviewed
+permission and plugin fixes, and VS Code to 1.136.2 for the September advisories.
+These version floors cover the cited fixes, not every possible vulnerability.
+See the [Claude Code release notes](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md)
+and [Microsoft security advisories](https://github.com/microsoft/vscode/security/advisories).
+
+[GitSpawn research](https://www.manifold.security/blog/ai-coding-agents-git-hijack)
+describes execution during agent context collection when a delivered folder
+preserves attacker-controlled `.git/config`. Ordinary clone, fetch and pull do
+not copy that configuration. Review archives and shared folders before opening
+them with an agent. The researcher's September 1 unresolved-variant snapshot
+remains under review; the Claude release notes do not establish that every
+variant is fixed.
+
+For MCP deployments, check the actual component and transport:
+
+- [DynamoDB MCP](https://aws.amazon.com/security/security-bulletins/2026-097-aws/):
+  2.1.6 fixes code injection in generated CDK applications.
+- [MySQL MCP](https://github.com/designcomputer/mysql_mcp_server/security/advisories/GHSA-rqfv-2mw9-78g2):
+  0.4.2 fixes the recorded SSE exposure; default stdio is unaffected.
+- [FrontMCP](https://github.com/agentfront/frontmcp/security/advisories/GHSA-65h7-9wrw-629c):
+  use FrontMCP/adapters 1.5.0 and mcp-from-openapi 2.5.0 for the external-reference SSRF bypass.
+
+AgentSec records these findings as `not_detected`: its current scanner has no
+dedicated check for these vulnerabilities. A scan result cannot verify that a
+running editor or MCP deployment has applied these fixes.
+
 ## Apply Controls at the Owning Layer
 
 Security review starts by identifying who owns the loop and who can act on its output. A runtime harness mediates tool use, permissions, context, and sandboxing. A repository harness supplies the instructions, dependency setup, and deterministic verification gates. An orchestrator can create additional identities, workspaces, handoffs, and unattended execution, so it needs separate credentials, budgets, stop conditions, and audit trails.

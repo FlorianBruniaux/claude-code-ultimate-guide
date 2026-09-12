@@ -1,0 +1,27 @@
+{
+  "skill": "update-threat-db",
+  "positive": [
+    "Mets a jour la base de menaces AgentSec avec les nouveaux avis de securite MCP.",
+    "Actualise threat-db.yaml et synchronise le security feed du guide.",
+    "Update the AgentSec threat database from recent primary security advisories.",
+    "Refresh threat intelligence for coding agents and MCP servers.",
+    "Research new CVEs for the threat database and update the dated intelligence records.",
+    "Lance update-threat-db pour rafraichir les menaces connues du guide.",
+    "Recherche les nouvelles vulnerabilites pour la base de menaces puis synchronise la landing.",
+    "Update threat intelligence sources and events without claiming detector coverage.",
+    "Une nouvelle CVE MCP est publiee, verifie la source et ajoute une fiche AgentSec.",
+    "Refresh the AgentSec security feed after reviewing new coding-agent vulnerabilities.",
+    "Mets a jour les threat dans la base AgentSec et utilise la commande Claude existante.",
+    "Add a sourced correction to an existing AgentSec threat intelligence record."
+  ],
+  "negative": [
+    "Scan this repository with security-check for known threats.",
+    "Run a full security audit of my Claude configuration.",
+    "Mets a jour les releases Claude Code et le badge de version.",
+    "Explain prompt injection without changing the threat database.",
+    "Installe un serveur MCP PostgreSQL.",
+    "Update the application database schema for user accounts.",
+    "Affiche le changelog du guide.",
+    "Audit the quality of my skills and agents."
+  ]
+}

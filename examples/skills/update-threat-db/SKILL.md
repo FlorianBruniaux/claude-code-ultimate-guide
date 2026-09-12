@@ -17,7 +17,10 @@ delegator and does not carry a private copy of the threat database.
    inside an isolated AgentSec worktree.
 4. Synchronize `exports/security-feed.v1.json` to the guide and landing only
    after AgentSec passes locally.
-5. Run the guide and landing mirror checks, then report each repository's
+5. Follow the guide's `.claude/commands/update-threat-db.md` for compatibility
+   database updates and the landing's searchable catalogue sync/check command.
+   A current feed badge does not prove the catalogue contains the new records.
+6. Run the guide and landing mirror checks, then report each repository's
    status separately.
 
 Do not treat the guide's compatibility database as canonical. Do not publish,
