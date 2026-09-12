@@ -3,10 +3,11 @@
 # Usage: ./scripts/check-landing-sync.sh
 #
 # Verifies: Version, Templates count, Quiz questions, Guide lines, Claude Code version, MCP vs CLI page
-# Note: GitHub stars are fetched live client-side by HeroBanner.astro — no static value to sync.
+# Note: HeroBanner.astro fetches GitHub stars live; no static value needs syncing.
 
-GUIDE_DIR="/Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide"
-LANDING_DIR="/Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide-landing"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+GUIDE_DIR="$(dirname "$SCRIPT_DIR")"
+LANDING_DIR="$(dirname "$GUIDE_DIR")/claude-code-ultimate-guide-landing"
 
 # Colors
 RED='\033[0;31m'
@@ -30,15 +31,15 @@ fi
 # 1. VERSION CHECK (Guide version, not Claude Code version)
 # ===================
 GUIDE_VERSION=$(tr -d '\n' < "$GUIDE_DIR/VERSION")
-# Guide version is displayed in the announcement banner (badge + link)
-BANNER_FILE="$LANDING_DIR/src/components/global/AnnouncementBanner.astro"
-LANDING_VERSION=$(grep -oE 'v[0-9]+\.[0-9]+\.[0-9]+' "$BANNER_FILE" 2>/dev/null | head -1 | sed 's/^v//')
+# The cheatsheet displays the guide version; the announcement banner rotates topics.
+VERSION_FILE="$LANDING_DIR/src/pages/cheatsheet/index.astro"
+LANDING_VERSION=$(grep -oE 'Version [0-9]+\.[0-9]+\.[0-9]+' "$VERSION_FILE" 2>/dev/null | head -1 | sed 's/^Version //')
 
 echo -e "${BLUE}1. Version${NC}"
 echo "   Guide:   $GUIDE_VERSION"
 echo "   Landing: ${LANDING_VERSION:-not found}"
 if [ "$GUIDE_VERSION" != "$LANDING_VERSION" ]; then
-    echo -e "   ${RED}MISMATCH${NC} → Update src/components/global/AnnouncementBanner.astro"
+    echo -e "   ${RED}MISMATCH${NC} → Update src/pages/cheatsheet/index.astro"
     ISSUES=$((ISSUES + 1))
 else
     echo -e "   ${GREEN}OK${NC}"
@@ -186,7 +187,7 @@ else
     echo "   Landing <tr> rows: $LANDING_TR"
 
     if [ "$LANDING_TR" -lt 5 ]; then
-        echo -e "   ${RED}ERROR${NC}: Landing page has too few table rows — may be out of sync"
+        echo -e "   ${RED}ERROR${NC}: Landing page has too few table rows; check synchronization"
         ISSUES=$((ISSUES + 1))
     else
         echo -e "   ${GREEN}OK${NC} (landing page exists, has table content)"
@@ -205,7 +206,7 @@ else
     echo -e "${RED}$ISSUES issue(s) found${NC}"
     echo ""
     echo "Files to check (Astro landing):"
-    echo "  - src/components/global/AnnouncementBanner.astro (guide version)"
+    echo "  - src/pages/cheatsheet/index.astro (guide version)"
     echo "  - src/components/landing/HeroBanner.astro (badges: templates, quiz)"
     echo "  - src/pages/index.astro (meta description: lines, quiz)"
     echo "  - src/pages/quiz/index.astro (numberOfQuestions schema)"

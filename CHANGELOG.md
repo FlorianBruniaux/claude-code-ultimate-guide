@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- **Claude Code releases**: updated tracking from v2.1.261 to v2.1.269 with six documented releases, UTC npm publication dates, plugin evaluations, output-style switching, effort caps, prompt-cache fixes and security corrections. Recorded the Artifact permission-rule and managed-gateway behavior changes, and synchronized the bundled MCP release data. Guide version remains 3.43.0.
+
 - Corrected `/loop` scheduling, seven-day expiry, resume and invocation boundaries, plus `/goal` status and termination behavior in English and French. Added recurring-work admission and model-evaluated versus controller-enforced budget distinctions to the loop guides; refreshed compact references and machine-readable mirrors. Completed three existing portfolio drafts with admission, evaluator/reviewer separation and an attributed product-judgment example from Addy Osmani. No scheduler integration or runtime outcome is claimed.
 
 - Integrated the IFTTD 2025-2026 synthesis with six checked public episode transcripts and selected AI Engineer, Product Crew and Pragmatic Engineer passages. Expanded Practitioner Insights from 69 to 75 entries, corrected its source chronology and preserved testimony, prediction and measurement boundaries.

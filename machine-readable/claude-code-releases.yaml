@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.261"
-updated: "2026-09-04"
+latest: "2.1.269"
+updated: "2026-09-12"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,52 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-August 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.269"
+    date: "2026-09-11"
+    highlights:
+      - "⭐ Added `claude plugin eval` for plugin evaluation suites, with scores and JSON/HTML reports"
+      - "Added `/output-style [name]` for listing and switching styles in terminal, Remote Control, cloud and headless sessions"
+      - "Fixed prompt-cache invalidation after interrupted or output-limited turns and `/goal` runs stalling after errors or limits"
+      - "Security fixes cover plugin archive permissions, Bash `tee` write destinations and negated permission rules crossing settings sources"
+
+  - version: "2.1.268"
+    date: "2026-09-10"
+    highlights:
+      - "Fixed HTTP 400 errors on third-party Anthropic-compatible endpoints introduced in v2.1.265"
+      - "Added a 300-second WebFetch deadline; `CLAUDE_CODE_WEBFETCH_DEADLINE_MS` overrides it (0 disables it)"
+      - "⭐ Security fixes cover symlinked-path permission rules, untrusted teammate definitions and secrets shown in MCP/plugin diagnostics"
+      - "Improved prompt-cache stability on Bedrock, Vertex and Foundry; `/plugin` changes now apply when its menu closes"
+    breaking:
+      - "Plain `WebFetch` deny/ask rules no longer gate Artifact reads or updates; use `Artifact` or `WebFetch(domain:claude.ai)`."
+
+  - version: "2.1.267"
+    date: "2026-09-09"
+    highlights:
+      - "Added `maxEffortLevel` globally or under `modelSettings` to cap effort across providers while allowing lower user choices"
+      - "Added `--system-prompt-snapshot off` to render the system prompt anew for each request during prompt iteration"
+      - "Fixed prompt-cache and thinking losses from reconnecting tools, model switches and session/subagent resumes"
+      - "Security fixes reject unreadable managed hook/channel allowlists and close a marketplace backslash containment bypass"
+
+  - version: "2.1.266"
+    date: "2026-09-08"
+    highlights:
+      - "Fixed v2.1.265 forcing Cloud-gateway sign-in when `CLAUDE_CODE_USE_GATEWAY` was set with alternative authentication; no configuration change is needed"
+
+  - version: "2.1.265"
+    date: "2026-09-08"
+    highlights:
+      - "Added `--plugin-dir` support for a parent folder of plugins, including child plugins added or removed during the session"
+      - "Added a 1 GB limit for tool results saved to disk, with truncation disclosed in the conversation preview"
+      - "Fixed resumed subagent prompt-cache reuse and preserved interrupted tool calls after a process crash"
+      - "Security fixes close plugin backslash containment bypasses and prevent nested-repository git clean filters running during status/diff probes"
+    breaking:
+      - "Managed `forceLoginGatewayUrl` now selects gateway authentication at startup; leftover claude.ai credentials or API keys are not used."
+
+  - version: "2.1.263"
+    date: "2026-09-06"
+    highlights:
+      - "Bug fixes and reliability improvements; upstream provides no further detail"
 
   - version: "2.1.261"
     date: "2026-09-04"
@@ -1927,6 +1973,7 @@ breaking_summary:
     - "Removed # shortcut for quick memory (v2.0.70)"
     - "`modelPicker:setAsDefault` keybinding renamed to `modelPicker:thisSessionOnly` (v2.1.153)"
   security:
+    - "Plugin archive access and Bash tee destination checks corrected (v2.1.269); symlinked-path rules and MCP/plugin secret redaction corrected (v2.1.268); unreadable managed allowlists fail closed (v2.1.267)"
     - "Windows NT-namespace (`\\??\\`) paths bypassing UNC path validation, an NTLM credential-leak vector, rejected in Bash paths (v2.1.233) then across remote reads, session restore, CLAUDE.md includes, workflow scripts, and uploads (v2.1.234)"
     - "Plugin shell-form command injection via `${user_config.*}` fixed, now rejected (v2.1.207)"
     - "Command injection fix in bash processing (v2.1.2)"
@@ -1941,6 +1988,8 @@ breaking_summary:
     - "Opus 4 and Opus 4.1 removed from Claude Code first-party API — auto-migrated to Opus 4.6 (v2.1.68)"
     - "Opus 4.7 removed from fast mode; `/fast` applies to Opus 5 and Opus 4.8 only (v2.1.219)"
   behavior:
+    - "Plain `WebFetch` deny/ask rules no longer gate Artifact reads or updates; use `Artifact` or `WebFetch(domain:claude.ai)`. (v2.1.268)"
+    - "Managed `forceLoginGatewayUrl` now selects gateway authentication at startup; leftover claude.ai credentials or API keys are not used. (v2.1.265)"
     - "ultrathink/think keywords now cosmetic only — thinking default with Opus 4.5 (v2.0.67)"
     - "ultrathink keyword re-introduced — now enables high effort for next turn (v2.1.68)"
     - "Dynamic workflow trigger keyword renamed `workflow` → `ultracode` (v2.1.160)"
@@ -1976,6 +2025,7 @@ breaking_summary:
 # MILESTONE FEATURES (quick reference)
 # ════════════════════════════════════════════════════════════════
 milestones:
+  "2.1.269": "claude plugin eval produces scored JSON/HTML reports; /output-style works in remote and headless sessions; VS Code agent map and hook/permission dialogs"
   "2.1.260": "/diff panel shows uncommitted changes beside the conversation in fullscreen mode, prompt-cache-miss cause hint in /cost and status line, permission-rule paths with parentheses no longer silently dropped"
   "2.1.257": "Claude Fable 5.1 becomes the default Fable model (1M context, $10/$50 per Mtok), Containment Escape auto-mode rule against cloud metadata/egress/cross-tenant reach, permissions.blockReadsOutsideWorkingDirectories"
   "2.1.234": "NT-namespace path rejection closes the remaining NTLM credential-leak surface, GitLab MR badge in footer/statusline, sessions auto-continue when a claude.ai usage limit resets, claude-api skill context cost cut from ~200K to ~25K tokens"
