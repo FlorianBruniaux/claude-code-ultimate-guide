@@ -1488,71 +1488,27 @@ AI-generated code requires **proportional verification** based on risk level. Bl
 
 ### The Problem: Verification Debt
 
-Research consistently shows AI code has higher defect rates than human-written code:
-
-| Metric | AI vs Human | Source |
-|--------|-------------|--------|
-| Logic errors | 1.75× more | [ACM study, 2025](https://dl.acm.org/doi/10.1145/3716848) |
-| Security flaws | 45% contain vulnerabilities | [Veracode GenAI Report, 2025](https://veracode.com/blog/genai-code-security-report) |
-| XSS vulnerabilities | 2.74× more | [CodeRabbit study, 2025](https://coderabbit.ai/blog/state-of-ai-vs-human-code-generation-report) |
-| PR size increase | +18% | [Jellyfish, 2025](https://jellyfish.co) |
-| Incidents per PR | +24% | [Cortex.io, 2026](https://cortex.io) |
-| Change failure rate | +30% | [Cortex.io, 2026](https://cortex.io) |
-
-**Key insight**: AI produces code faster but verification becomes the bottleneck. The question isn't "does it work?" but "how do I know it works?"
-
-> **Nuance on downstream maintainability**: A 2-phase blind RCT (Borg et al., 2025, n=151 professional developers) found no significant difference in the time needed for downstream developers to evolve AI-generated vs. human-generated code. The defect rates above are real, but they do not systematically translate into higher maintenance burden for the next developer. The risk is more narrowly scoped than commonly assumed. ([arXiv:2507.00788](https://arxiv.org/abs/2507.00788))
+Generation can outpace verification. Reports on generated-code defects, review findings and delivery incidents examine different populations and outcomes; their percentages cannot be combined into a universal defect rate or a promised review recall. Measure confirmed findings, escaped defects, review effort and recovery on your own changes with explicit denominators and a comparable baseline.
 
 ### The Verification Spectrum
 
-Not all code needs the same scrutiny. Match verification effort to risk:
+Classify consequences and interactions before choosing review depth. A configuration change can alter permissions, and a utility can sit on a critical path.
 
-| Code Type | Verification Level | Time Investment | Techniques |
-|-----------|-------------------|-----------------|------------|
-| **Boilerplate** (configs, imports) | Light skim | 10-30 sec | Glance, trust structure |
-| **Utility functions** (formatters, helpers) | Quick test | 1-2 min | One happy path test |
-| **Business logic** | Deep review + tests | 5-15 min | Line-by-line, edge cases |
-| **Security-critical** (auth, crypto, input validation) | Maximum + tools | 15-30 min | Static analysis, fuzzing, peer review |
-| **External integrations** (APIs, databases) | Integration tests | 10-20 min | Mock + real endpoint test |
+| Change risk | Verification and authority |
+|-------------|----------------------------|
+| Bounded, reversible behavior with established checks | Automated first pass, relevant behavior tests and sampled human review under an explicit policy |
+| Business rules or incomplete requirements | Domain review of intent and edge cases; version newly discovered criteria and re-run affected checks |
+| Authentication, authorization, cryptography or sensitive data | Designated owner sign-off plus appropriate static, behavior and adversarial checks |
+| External integrations or persistent data changes | Integration and failure-path tests, compatibility assessment and an exercised restoration or compensation plan |
+| Interacting PRs or a changed base | Reclassify the combined change and verify the candidate integration revision |
 
 ### Solo vs Team Verification
 
-**Solo Developer Strategy:**
+**Solo developer strategy:** use a reviewer separated from the authoring context, inspect unexpected changes, and run meaningful behavior checks. Coverage percentages and a happy-path test do not establish sufficiency. Retain responsibility for intent, sensitive behavior and recovery; seek domain review when the consequence exceeds your current evidence. Size scrutiny by risk, not line count.
 
-Without peer reviewers, compensate with:
+**Team strategy:** agents can find and verify defects in a first pass. Measure their performance rather than assuming they catch a fixed percentage. Assign human owners to sensitive paths and domain decisions. A clean automated pass can reduce deep human review for an established low-risk class under policy; it does not authorize bypassing required approvals.
 
-1. **High test coverage (>70%)**: Your safety net
-2. **Vibe Review**: An intermediate layer between "accept blindly" and "review every line":
-   - Read the commit message / summary
-   - Skim the diff for unexpected file changes
-   - Run the tests
-   - Quick sanity check in the app
-   - Ship if green
-3. **Static analysis tools**: ESLint, SonarQube, Semgrep catch what you miss
-4. **Time-boxing**: Don't spend 30 min reviewing a 10-line utility
-
-```
-Solo workflow:
-Generate → Vibe Review → Tests pass? → Ship
-                ↓
-        Tests fail? → Deep review → Fix
-```
-
-**Team Strategy:**
-
-With multiple developers:
-
-1. **AI first-pass review**: Let Claude or Copilot review first (catches 70-80% of issues)
-2. **Human sign-off required**: AI review ≠ approval
-3. **Domain experts for critical paths**: Security code → security-trained reviewer
-4. **Rotate reviewers**: Prevent blind spots from forming
-
-```
-Team workflow:
-Generate → AI Review → Human Review → Merge
-              ↓              ↓
-         Flag issues    Final approval
-```
+In either setting, record the reviewed head, base, criteria and tested integration state. If a requirement or combined change alters the risk, re-run affected verification. A binding agent verdict establishes workflow authority, not the truth of its judgment.
 
 ### The "Prove It Works" Checklist
 
@@ -1582,9 +1538,9 @@ Before shipping AI-generated code, verify:
 
 | Anti-Pattern | Problem | Better Approach |
 |--------------|---------|-----------------|
-| **"It compiles, ship it"** | Syntax ≠ correctness | Run at least one test |
+| **"It compiles, ship it"** | Syntax ≠ correctness | Verify the required behavior and failure cases |
 | **"AI wrote it, must be secure"** | AI optimizes for plausible, not safe | Always review security-critical code manually |
-| **"Tests pass, done"** | Tests might not cover the change | Check test coverage of modified lines |
+| **"Tests pass, done"** | Tests might not cover the change | Check assertions against intent, boundaries and failure cases |
 | **"Same as last time"** | Context changes, AI may generate different code | Each generation is independent |
 | **"Senior dev wrote the prompt"** | Seniority doesn't guarantee output quality | Review output, not input |
 | **"It's just boilerplate"** | Even boilerplate can hide issues | At minimum, skim for surprises |
@@ -1596,50 +1552,25 @@ Your verification strategy should evolve:
 1. **Start cautious**: Review everything when new to Claude Code
 2. **Track failure patterns**: Where do bugs slip through?
 3. **Tighten critical paths**: Double-down on areas with past incidents
-4. **Relax low-risk areas**: Trust AI more for stable, tested code types
+4. **Relax low-risk areas**: Use observed outcomes and exercised recovery to adjust the policy for a defined change class
 5. **Periodic audits**: Spot-check "trusted" code occasionally
 
 **Mental model**: Think of AI as a capable junior developer. You wouldn't deploy their code unreviewed, but you also wouldn't rewrite everything they produce.
 
 ### Putting It Together
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                 TRUST CALIBRATION FLOW                  │
-├─────────────────────────────────────────────────────────┤
-│                                                         │
-│  AI generates code                                      │
-│         │                                               │
-│         ▼                                               │
-│  ┌──────────────┐                                       │
-│  │ What type?   │                                       │
-│  └──────────────┘                                       │
-│    │    │    │                                          │
-│    ▼    ▼    ▼                                          │
-│  Boiler Business Security                               │
-│  -plate  logic   critical                               │
-│    │      │        │                                    │
-│    ▼      ▼        ▼                                    │
-│  Skim   Test +   Full review                            │
-│  only   review   + tools                                │
-│    │      │        │                                    │
-│    └──────┴────────┘                                    │
-│            │                                            │
-│            ▼                                            │
-│    Tests pass? ──No──► Debug & fix                      │
-│            │                                            │
-│           Yes                                           │
-│            │                                            │
-│            ▼                                            │
-│        Ship it                                          │
-│                                                         │
-└─────────────────────────────────────────────────────────┘
+```text
+Generate → classify consequences and combined changes → required verification
+  → accepted evidence on the current integration state + required sign-offs
+  → eligible to merge under repository policy
+
+Missing evidence, unresolved findings or changed criteria → revise or escalate
+Incorrect acceptance detected later → contain, restore or compensate, evaluate
 ```
 
-> "AI lets you code faster, but make sure you're not also failing faster."
-> *Adapted from Addy Osmani*
+Task resumption, reviewer configuration rollback, application rollback and data recovery are separate operations. Exercise the recovery relevant to the product before using reversibility to justify less human review. See [Loop & Graph Engineering](core/loop-graph-engineering.md#5-allocate-judgment-explicitly) for allocation of judgment and [multi-provider review](workflows/multi-provider-code-review.md) for evidence and gate boundaries.
 
-**Attribution**: This section draws from Addy Osmani's ["AI Code Review"](https://addyosmani.com/blog/code-review-ai/) (Jan 2026), research from ACM, Veracode, CodeRabbit, and Cortex.io.
+**Attribution**: the selective-review framing draws on Addy Osmani's [AI Code Review](https://addyosmani.com/blog/code-review-ai/). The verification policy here is a method to evaluate locally, not a measured performance claim.
 
 ## 1.8 Eight Beginner Mistakes (and How to Avoid Them)
 
@@ -16251,12 +16182,14 @@ Explanatory and Learning produce longer responses by design, increasing output t
 
 ### Custom Styles
 
-Since December 2025, you can define your own styles in `.claude/styles/`. Create a Markdown file and reference it by filename (without extension) as the `outputStyle` value.
+Custom output styles are Markdown files. Store project styles in `.claude/output-styles/` or user-wide styles in `~/.claude/output-styles/`, then reference the filename without its extension as the `outputStyle` value.
 
 ```
-.claude/styles/
+.claude/output-styles/
 └── strict-reviewer.md    # Custom style definition
 ```
+
+By default, a custom style omits the built-in Claude Code software engineering instructions. For a coding-oriented style, preserve them with `keep-coding-instructions: true` in the file YAML frontmatter. Output-style changes take effect after `/clear` or a new session.
 
 ```json
 {
@@ -21878,26 +21811,11 @@ Agents must pass CI before PR approval. Never disable CI checks.
 
 #### PR Reviews: Human-in-the-Loop
 
-**Even with CI, require human review**:
+**Enforce required human approval through repository policy on the paths that need it.** Counting entries in `reviews` does not establish approval: entries can be comments, change requests, stale decisions or automation output.
 
-```yaml
-# .github/workflows/pr-rules.yml
-name: PR Rules
+Use [native protected-branch review settings](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches): require approving reviews and designated code owners for sensitive paths. Configure stale-approval handling or approval of the latest reviewable push. Inspect eligible reviewer identities, dismissal rights and bypass permissions; a review count alone cannot prove that a human owner approved.
 
-on: [pull_request]
-
-jobs:
-  require-review:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check for approval
-        run: |
-          APPROVALS=$(gh pr view ${{ github.event.pull_request.number }} --json reviews --jq '.reviews | length')
-          if [ "$APPROVALS" -lt 1 ]; then
-            echo "PR requires at least 1 human review"
-            exit 1
-          fi
-```
+Verify the effective policy with an unapproved PR, a change request, a new push after approval and an authorized approval. Keep required checks and integration-state validation alongside that policy. These are configuration and verification instructions, not a workflow that has been installed or exercised in your repository.
 
 **Why human review matters**:
 - Agents miss context (business requirements not in code)

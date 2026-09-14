@@ -1037,7 +1037,7 @@ Liza is a code-enforced multi-agent control plane for coding work. It launches p
 | **License** | Apache-2.0 |
 | **Language** | Go supervisors, Python support utilities |
 | **Latest release** | [v0.8.0](https://github.com/liza-mas/liza/releases/tag/v0.8.0), 2026-06-03 |
-| **Adapter catalog** | Claude Code, Codex, OpenCode, Kimi, Gemini, Qwen, Mistral, Devin; some disabled by default |
+| **Adapter catalog** | Claude Code, Codex, OpenCode, Kimi, Gemini, Qwen, Mistral, Devin, Cursor; Gemini and Mistral disabled in the pinned catalog |
 | **Evidence snapshot** | [`a22c123`](https://github.com/liza-mas/liza/commit/a22c12381c5d884d2586a48aaaa517bca184f9cf), 2026-08-27 |
 
 #### What the Code Enforces

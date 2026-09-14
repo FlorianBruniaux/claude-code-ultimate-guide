@@ -18,6 +18,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Added Tokenade to the token-optimization comparison with proprietary-licence and vendor-benchmark boundaries; clarified RTK output estimates and corrected its installation commands.
 
+- **Verification and acceptance guidance recalibrated** (`guide/ultimate-guide.md`, French translation, `guide/workflows/{iterative-refinement,multi-provider-code-review}.md`, `guide/core/loop-graph-engineering.md`): replaced the uncited AI-versus-human defect table, fixed review-time tiers and the "catches 70-80%" first-pass claim with a risk table tied to consequences, owners and integration state. Bounded review loops now stop as ACCEPTED, EXHAUSTED or NO_PROGRESS with recorded evidence, and loop recovery separates process resumption from product recovery. Added Cursor to the pinned Liza adapter catalog in `guide/ecosystem/agentic-tools.md`. Resynchronized positional references and translation provenance.
+
+- Replaced the conflicting absolute-path instruction in AGENTS.md and CLAUDE.md with public-content rules: portable paths, accessible source links, no workstation metadata, and the publication path check.
+
 - Scope the public-path check to publishable sources and the complete site build, excluding ignored private working notes.
 
 - Removed workstation-specific paths from public guides, evaluations, examples, and indexes. Removed displayed revision hashes and local-source columns from the DarkMoon/Strix pages; kept usable public source links and made the synthetic check relative to the cloned repository. Added a public-content path check.
@@ -50,6 +54,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   Files updated: `machine-readable/claude-code-releases.yaml`, `guide/core/claude-code-releases.md`, `mcp-server/content/claude-code-releases.yaml`, `mcp-server/package.json` (1.3.1 to 1.3.2, rebuilt), sibling landing repo `src/data/releases.ts`. Fixed 3 pre-existing vague link labels ("Learn more", "docs", "Docs") in `guide/core/claude-code-releases.md` that were blocking edits under the anti-AI editorial hook. No breaking changes in this range. No manual RSS entry: CC releases feed the landing RSS automatically from `releases.ts`; `rss-entries.ts` is guide-news-only (step 4.5 of this command is stale, see project memory).
 
 ### Fixed
+
+- **Claude Code output-style paths and coding-instruction semantics corrected** (`guide/ultimate-guide.md`, French translation, settings reference, cheatsheet, custom template, and machine-readable mirrors): replaced the obsolete `.claude/styles/` path with `.claude/output-styles/` and `~/.claude/output-styles/`; corrected the false claim that `keep-coding-instructions` does not exist; documented its default omission behavior and the `/clear` or new-session reload boundary.
+
+- **Claude Code system-prompt flags corrected** (`guide/cheatsheet.md`): corrected `--system-prompt` from append to full replacement semantics and added the distinct `--append-system-prompt` flag for additions that preserve the default prompt.
 
 - **Version-sync footer update is now idempotent** (`scripts/sync-version.sh`, `README.md`): corrected the date replacement pattern so it stops before and preserves the closing Markdown asterisk. Repeated synchronization no longer leaves a trailing space or breaks footer emphasis.
 

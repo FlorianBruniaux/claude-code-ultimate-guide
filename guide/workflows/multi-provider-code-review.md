@@ -6,11 +6,11 @@ tags: [workflow, ci-cd, code-review, github-actions, coderabbit, greptile]
 
 # Multi-Provider Code Review: Non-Redundant Automated PR Review
 
-> **Confidence**: Tier 2. Pattern derived from a production codebase that has run this exact three-provider setup for an extended period. The architecture principle (distinct, non-overlapping roles per tool) generalizes; the specific severity thresholds, domain names, and file-count cutoffs in the examples are illustrative starting points, not universal defaults.
+> **Evidence boundary**: this is a design pattern informed by project configuration, not a validated end-to-end deployment contract. Inspect effective provider execution, permissions, output handling and branch policy in your repository. Severity thresholds, domain names and file-count cutoffs are illustrative starting points; the gate example has unresolved limits documented below.
 
 Running two or three automated reviewers on the same PR without a plan produces the same finding three times in three different comment styles, which trains developers to skim past all of them. The fix is not picking one tool over the others, it's giving each tool a job the other two don't do, and writing that boundary down where every config file can see it.
 
-This page documents that architecture: Claude Code Action for deep semantic review and the only tool allowed to block merge, a deterministic linter-style tool (CodeRabbit or equivalent) for PASS/FAIL pre-merge checks, and a cross-file RAG tool (Greptile or equivalent) for invariants that span multiple files. It builds directly on the [GitHub Actions Workflows](./github-actions.md) patterns and the [ready-made templates](../../examples/github-actions/) in this repo; read those first if you're starting from zero. [Loop & Graph Engineering](../core/loop-graph-engineering.md#5-allocate-judgment-explicitly) explains how to assign acceptance authority and measure reviewer independence.
+This page separates semantic review, executable checks and cross-file investigation. Claude Code Action, CodeRabbit and Greptile can contribute to these roles, but a provider name does not establish deterministic behavior or merge authority. Assign required checks through repository policy. The [GitHub Actions Workflows](./github-actions.md) and [templates](../../examples/github-actions/) provide implementation examples with limits described below. [Loop & Graph Engineering](../core/loop-graph-engineering.md#5-allocate-judgment-explicitly) explains acceptance authority and reviewer independence.
 
 ---
 
@@ -32,9 +32,9 @@ This page documents that architecture: Claude Code Action for deep semantic revi
 
 ## Why Three Providers, Not One
 
-A single review pass, no matter how good the model, misses things a differently-shaped tool catches. Claude Code Action reasons deeply about a diff in the context of the full codebase but reviews one PR at a time. A dedicated RAG-based tool like Greptile indexes the whole repo up front and can answer "does this new query respect the scoping rule enforced everywhere else," a question that requires searching dozens of unrelated files, not just the diff. A deterministic linter-style tool like CodeRabbit's custom checks can enforce a PASS/FAIL rule (no `console.log` in production code, financial totals stay symmetric) with zero false-negative risk, something an LLM-based reviewer will occasionally miss under time or context pressure.
+A different tool can expose a blind spot, but additional coverage must be measured. Repository search can help investigate callers outside the diff. Executable lint rules and tests provide repeatable checks for specified properties; they can still miss cases outside their model, scope or implementation. An AI reviewer emitting PASS/FAIL is not thereby deterministic. In particular, do not assume that CodeRabbit custom checks have the same guarantees as a compiler or a tested lint rule.
 
-The failure mode to avoid is stacking three tools that all try to do the first job. That triples review noise for zero coverage gain, and it's the default outcome if you install three code-review bots without deciding who owns what.
+Stacking overlapping tools can increase duplicate findings without enough additional validated defects to justify the cost. Measure unique confirmed findings, false alerts and adjudication effort before expanding the fleet.
 
 ---
 
@@ -43,7 +43,8 @@ The failure mode to avoid is stacking three tools that all try to do the first j
 | Provider | Job | Can it block merge? | Why this job fits this tool |
 |----------|-----|---------------------|------------------------------|
 | **Claude Code Action** | Deep semantic review: logic errors, security (IDOR, auth, injection), architecture violations, data integrity | Yes, via the [CI gate](#blocking-merge-the-ci-gate) | Full codebase context per PR, reasons about intent, not just pattern-matches |
-| **CodeRabbit** (or equivalent) | PR summaries, auto-labelling, deterministic PASS/FAIL pre-merge checks | Optional, only for checks with a hard binary criterion | Cheap, fast, no false-negative risk on rules with a clear yes/no answer |
+| **CodeRabbit** (or equivalent) | PR summaries and configured review checks | Only through an explicit required-check policy with verified execution and output handling | Evaluate each check's actual mechanism and error behavior; binary output is not a reliability guarantee |
+| **Executable lint rules and tests** | Specified syntax, type and behavior constraints | Yes, where repository policy requires them | Repeatable within their inputs and environment; coverage and test quality limit detection |
 | **Greptile** (or equivalent) | Cross-file invariants: dependency chains, "does every caller of X respect rule Y," patterns that repeat across distant files | No | RAG-indexed search across the whole repo, not scoped to the diff |
 
 Adjust the "job" column to your stack, not the principle. If your deterministic-check tool is something else (a custom lint rule, a separate CI job, Semgrep), the role still belongs in that column, not duplicated into the LLM reviewer's prompt.
@@ -66,20 +67,25 @@ Write the boundary into every config file, not just into a wiki page nobody read
 - `.coderabbit.yaml` (or equivalent): a comment at the top stating it should not duplicate the LLM reviewer or the RAG tool. See the [template in this repo](../../examples/github-actions/.coderabbit.yaml).
 - `.greptile/rules.md` (or equivalent): same non-duplication note, explicit about which invariants live here because they require cross-file search, not because they were easiest to write down. See the [template](../../examples/github-actions/.greptile/rules.md).
 
-When a rule accidentally ends up in two configs, don't leave it, pick whichever tool has the actual vantage point for that check and remove it from the other. A rule about SQL injection in one specific router belongs in the LLM prompt (it needs to read the surrounding code to judge intent). A rule that a given Redis key must always be scoped by tenant ID everywhere in the codebase belongs in the RAG tool's rulebook (it needs to search every caller, not just the diff).
+Assign an owner to each rule and distinguish intentional defense in depth from duplicate comments. SQL injection may need both executable analysis and contextual review. Tenant scoping may need repository search plus tests across callers. Deduplicate the reported finding after independent checks; do not remove a useful control merely because another tool examines the same risk.
 
 ---
 
 ## Blocking Merge: the CI Gate
 
-Automated review comments are advisory by default, nothing stops a merge unless a required CI check fails. The pattern that makes Claude's findings block bad merges: post the review as structured markdown with a parseable severity count, then run a small script that reads that count and fails the job if it's non-zero.
+An automated comment does not establish merge authority. A required check or required approving review must be part of the effective repository policy. Parsing a severity count is one input to a check; it is not a sufficient acceptance contract.
 
-The [`gate` job](../../examples/github-actions/claude-code-review.yml) in this repo's template does exactly this: it fetches the review Claude just posted, regex-matches `### 🔴 Must Fix (n)` from the summary table, and calls `core.setFailed()` if `n > 0`. Add that job's name to your branch protection's required status checks, and a 🔴 finding now genuinely blocks the merge button, not just guilt-trips the author in a comment thread.
+**Template limitation:** the [`gate` example](../../examples/github-actions/claude-code-review.yml) selects the last returned review without establishing its provider, current commit or run identity, and treats an absent severity match as zero. It also skips the gate after an unsuccessful review job. Do not use that example as a required acceptance gate without replacing these behaviors and testing failure cases. A passing or skipped job can otherwise conceal missing review evidence.
 
-Two things this depends on:
+An acceptance gate needs:
 
-1. The reviewer's prompt must emit a **parseable** severity count in a stable format. If you change the heading text in your prompt file, update the gate script's regex to match.
-2. Severity calibration must reflect actual business risk, not pattern frequency. A permission-check bug on a path handling sensitive data should be 🔴 regardless of how common that pattern is elsewhere in the codebase; a purely internal admin-tool bug can reasonably cap at 🟡. Write that calibration into the prompt file explicitly, don't leave it to the model's default judgment.
+1. A versioned output schema tied to the expected provider, repository, run, current revision and covered scope. Missing, malformed, stale, partial or failed evidence must not become a clear outcome. Test those cases explicitly.
+2. Severity calibration based on consequences, including data access and external effects. An internal admin tool can still be critical. Record the owner, permitted deferrals and recovery requirements.
+3. Effective required checks, expected check publishers, approving identities and bypass rules. Verify the policy, not just the workflow file. See [GitHub protected branches](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches).
+
+Record the base, merge base, tested integration revision and exact PR revisions combined. A new base or merge group invalidates the previous integration result. [Merge queues](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-a-merge-queue) need checks that run on the group, not only the individual PR. Two low-risk changes can interact in a high-impact way.
+
+Human deep review can be selective under a documented policy, with sensitive paths assigned to an owner. Before relying on recoverability, exercise detection, containment and restoration after an incorrectly accepted change. Resuming the reviewer process does not restore application data or compensate external effects.
 
 ---
 
@@ -96,6 +102,8 @@ This keeps the same prompt file (`code-review.md`) as the source of truth for re
 Re-reviewing the entire diff on every push to a long-lived PR burns tokens re-checking code Claude already approved on the previous push. A delta-review step compares the SHA embedded in the previous review (post it as an HTML comment, `<!-- reviewed-sha: abc123 -->`, inside the review body) against the current push's SHA, and scopes the new review to only the files touched since.
 
 This repo does not ship a ready-made delta-review template, because the right implementation depends on how a given project already tracks review state (a marker comment, a label, a separate check run keyed by commit SHA). The mechanics are the same regardless: read the last marker, run `git diff <last-sha>..HEAD --name-only`, and pass that file list into the prompt the same way the batched workflow scopes a matrix job by domain.
+
+A marker is only a locator, not authenticated evidence. Validate its publisher and run, and invalidate affected review when requirements, dependencies, base, provider configuration or combined changes differ. Include impacted callers and consumers even when their files did not change. An unchanged filename list does not establish unchanged risk.
 
 ---
 
@@ -123,9 +131,9 @@ Everything above runs unattended in CI. A separate, complementary layer is a han
 
 1. Copy `claude-code-review.yml` + `prompts/code-review.md` (see [GitHub Actions Workflows](./github-actions.md) for the base setup)
 2. Fill in the prompt's stack context and a severity calibration table matched to your product's actual risk profile, not a generic OWASP list
-3. Add the `gate` job's name to branch protection's required status checks
+3. Replace the illustrative gate's evidence handling, exercise stale/missing/malformed/failed results, then configure and inspect the effective required-check policy
 4. If your PRs regularly exceed ~50-75 files, add `claude-code-review-batched.yml` and tune the domain globs
-5. If you have budget for a deterministic pre-merge checker, add it (CodeRabbit or equivalent) with an explicit non-duplication header and PASS/FAIL-only custom checks
+5. Assign repeatable invariants to executable lint rules or tests; evaluate AI review checks separately and document which results can block
 6. If you have budget for a cross-file RAG reviewer, add it (Greptile or equivalent) and scope its rulebook to invariants that genuinely need repo-wide search
 7. Schedule a periodic pass comparing all provider configs against each other for rule drift
 

@@ -356,7 +356,7 @@ Next: add Redis backend."
 
 ## Review Auto-Correction Loop
 
-Specialized iterative pattern for code review where Claude reviews → fixes → re-reviews until convergence.
+Specialized iterative pattern where Claude reviews, fixes and re-reviews within a fixed budget. Acceptance requires evidence; stopping the loop does not establish success.
 
 ### Pattern
 
@@ -370,9 +370,9 @@ Specialized iterative pattern for code review where Claude reviews → fixes →
 │        ↓                                 │
 │   Re-Review (verify fixes)               │
 │        ↓                                 │
-│   Converge (minimal changes) → Done      │
+│   Verify acceptance → Accepted          │
 │        ↑                                 │
-│        └──── Repeat (max iterations)     │
+│        └──── Budget left? Repeat / Stop  │
 └─────────────────────────────────────────┘
 ```
 
@@ -385,10 +385,15 @@ Review this PR with auto-correction:
 3. Re-review to verify fixes didn't introduce new issues
 4. Fix all 🟡 Should Fix issues
 5. Re-review one final time
-6. Stop when only 🟢 Can Skip remain
+6. Accept only when all blocking findings are resolved with evidence,
+   required behavior checks pass on the current revision, and the
+   designated reviewer accepts the result under the recorded criteria.
 
 Max iterations: 3
-Stop early if iteration produces <5 lines changed
+Stop as EXHAUSTED when the budget is consumed without acceptance.
+Stop as NO_PROGRESS after two passes resolve no blocking finding and
+produce no new verification evidence. A small diff is not acceptance.
+Keep FAILED, TIMEOUT, ABORTED and UNKNOWN distinct from acceptance.
 ```
 
 ### Safeguards
@@ -396,12 +401,14 @@ Stop early if iteration produces <5 lines changed
 | Safeguard | Purpose | Implementation |
 |-----------|---------|----------------|
 | **Max iterations** | Prevent infinite loops | Hard limit: 3 iterations |
-| **Quality gates** | Ensure fixes are valid | Run `tsc && lint` before each iteration |
+| **Quality gates** | Verify specified properties | Run project type, lint and relevant behavior tests after each fix; record the revision and results |
 | **Protected files** | Prevent risky changes | Skip auto-fix for: package.json, migrations, .env |
-| **Change threshold** | Stop when converged | Exit if iteration changes <5 lines |
-| **Rollback capability** | Recover from bad fixes | Git commit before each iteration |
+| **Progress check** | Bound unproductive work | Track resolved blocking findings and new verification evidence; no progress is a stop reason, not acceptance |
+| **Recovery capability** | Preserve a recoverable state | Record a checkpoint before fixes; code rollback does not restore mutated data or external effects |
 
 ### Example Session
+
+Illustrative transcript, not a measured review result. Each resolution claim needs a linked check or adjudication in an actual run.
 
 **Iteration 1: Initial Review**
 ```
@@ -425,31 +432,32 @@ Re-review: All 🟡 resolved. No new issues.
 Remaining: 1 🟢 Can Skip (optional improvement)
 ```
 
-**Convergence**
+**Acceptance**
 ```
-Claude: Converged. Only optional improvements remain.
-Changes this iteration: 2 lines (below threshold).
-Review complete. ✅
+Claude: Required behavior checks pass on the recorded current revision.
+Blocking findings have verified resolutions; the designated reviewer accepts.
+Only explicitly deferred optional improvements remain.
+Outcome: ACCEPTED within the stated criteria and evidence boundary.
 ```
 
 ### Comparison: One-Pass vs Convergence Loop
 
 | Aspect | One-Pass Review | Convergence Loop |
 |--------|-----------------|------------------|
-| **Detection** | Find all issues once | Find issues → fix → verify → repeat |
+| **Detection** | One opportunity to find issues | Find issues → fix → verify → repeat; either approach can miss defects |
 | **Follow-up awareness** | Check git log for "Co-Authored-By: Claude" | Each iteration is aware of previous |
 | **False positives** | Can suggest fixes for already-fixed code | Re-review catches this |
 | **Confidence** | Single validation | Multiple validation passes |
 | **Time cost** | Fastest (1 review) | Slower (3+ reviews) |
-| **Quality** | Good for experienced devs | Better for critical code |
+| **Quality** | Requires outcome evaluation | Requires outcome evaluation; more passes alone do not prove improvement |
 
 **When to use**:
 - **One-pass**: Simple PRs, experienced team, time-sensitive
-- **Convergence loop**: Security-critical code, junior team, high-stakes production
+- **Bounded loop**: Changes needing several correction passes; sensitive paths still follow their owner and sign-off policy
 
 ### Integration with Multi-Agent Review
 
-Combine convergence loop with multi-agent review for maximum quality:
+Assign reviewers distinct scopes and evaluate their findings; adding agents alone does not establish independence or quality:
 
 ```
 Each iteration:
@@ -463,25 +471,27 @@ Each iteration:
      ↓
   Verify fixes + check for new issues
      ↓
-  Repeat until convergence
+  Accept with evidence, or repeat within budget and stop with an explicit reason
 ```
 
 ### Convergence Criteria
 
-Stop iterating when ANY of these is true:
+Record acceptance separately from execution and stop reason:
 
-1. **No issues remaining** (ideal outcome)
-2. **Max iterations reached** (3 iterations default)
-3. **Change threshold** (iteration changed <5 lines)
-4. **Quality gate failure** (tsc/lint fails after fix)
-5. **Manual stop** (user requests halt)
+1. **Accepted**: required checks pass on the recorded revision, blocking findings have verified dispositions, and the authorized reviewer accepts against the current criteria. This does not prove the criteria are complete.
+2. **Exhausted or no progress**: preserve unresolved findings and checkpoints; do not report completion.
+3. **Failed or timed out**: retain the failed stage and available evidence; missing results are not a clear review.
+4. **Aborted**: preserve state after an authorized stop.
+5. **Unknown**: ownership, coverage or result cannot be established; require the policy's recovery or escalation path.
+
+If review uncovers an incomplete requirement, version the criteria with the reason and authorized decision, then re-run affected verification. Do not silently weaken a criterion to reach green. See [allocation of judgment](../core/loop-graph-engineering.md#5-allocate-judgment-explicitly).
 
 ### Anti-Patterns in Review Loops
 
 | Anti-Pattern | Problem | Solution |
 |--------------|---------|----------|
-| **Infinite loop** | No convergence criteria | Set max iterations + change threshold |
-| **Scope creep** | Each iteration adds new requirements | Lock scope before starting loop |
+| **Infinite loop** | No bounded stop conditions | Set budgets and progress checks independently of acceptance |
+| **Scope creep** | Each iteration silently changes requirements | Version discoveries through the designated authority; invalidate affected acceptance |
 | **Breaking fixes** | Fix introduces new bugs | Re-review after each fix + quality gates |
 | **Protected file changes** | Modifies package.json, migrations | Explicit skip list for protected files |
 | **Context loss** | Forgets original issues after iteration 3 | Maintain issue tracker across iterations |

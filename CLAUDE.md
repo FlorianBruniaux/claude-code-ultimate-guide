@@ -149,8 +149,17 @@ After any file modification or feature implementation, update `CHANGELOG.md` und
 ### Be exhaustive on first pass
 When asked to analyze, audit, or review anything, read every relevant file. Do not do a superficial scan. If unsure of scope, ask rather than delivering shallow results. This applies to resource evaluations, doc audits, and codebase reviews.
 
-### Use absolute paths
-When referencing files in documentation, reports, or resource evaluations, always use full absolute paths. Never relative paths.
+### Public content must be portable
+
+Apply this rule to guides, evaluations, examples, changelogs, indexes, exports, and landing content, including code blocks, tables, captions, and link targets.
+
+1. Use repository-relative paths for files distributed with the project and verified public URLs for external sources. Give commands a clear starting directory, such as the cloned repository root.
+2. Never publish personal home directories, temporary checkout paths, private workspace locations, local file URLs, or private notes and correspondence as reader-accessible evidence. Check copied logs and generated content too. If no public source exists, state the evidence limitation or omit the reference; never invent a replacement URL.
+3. Omit audit bookkeeping such as "Local source" columns and standalone revision-hash tables. Use public source permalinks when provenance matters. Display a version or hash only when readers need it to reproduce a command or understand version-specific behavior.
+4. Use generic placeholders such as `/path/to/project` when an absolute path is necessary for an example. Preserve real system paths when they are the subject of the explanation.
+5. Reserve absolute workstation paths for private task reports and clickable local-file references to the user. They do not belong in committed public content.
+
+Before publishing, run `python3 scripts/check-public-paths.py`. Include the built landing using the script's dist option when applicable. The detector covers path patterns; manually review source accessibility and unnecessary revision metadata.
 
 ### Closing checklist
 After completing all requested tasks, always confirm unprompted:

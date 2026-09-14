@@ -909,7 +909,7 @@ Controls how Claude communicates throughout the session. Equivalent to selecting
 - `"Explanatory"`: adds reasoning blocks explaining design choices, trade-offs, and codebase patterns
 - `"Learning"`: pauses at key steps, inserts `TODO(human)` markers, asks you to write the meaningful pieces (pair-programming mode)
 
-**Custom styles:** reference any filename (without `.md`) from `.claude/styles/`.
+**Custom styles:** reference any filename (without `.md`) from `.claude/output-styles/` for a project or `~/.claude/output-styles/` for a user-wide style. Custom styles omit the built-in Claude Code software engineering instructions unless their YAML frontmatter sets `keep-coding-instructions: true`. Changes take effect after `/clear` or a new session.
 
 ```json
 { "outputStyle": "Explanatory" }

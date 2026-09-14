@@ -194,6 +194,12 @@ For Liza specifically, its deterministic supervisor can reject illegal workflow 
 
 ## 6. Make execution durable
 
+### Distinguish process recovery from product recovery
+
+Resuming an interrupted task establishes continuity of execution. It does not show that the delivered result was sufficient or that its effects can be reversed. After a false acceptance, the product needs detection, containment, an owner and an exercised restoration or compensation path. Application rollback may leave data mutations and external effects untouched.
+
+Record the base, reviewed heads and candidate integration revision for combined changes. Two individually bounded PRs can interact outside their separate tests. When the base or group changes, invalidate the integration result and re-evaluate affected review evidence. See [multi-provider review](../workflows/multi-provider-code-review.md#blocking-merge-the-ci-gate) for the acceptance boundary.
+
 Durable execution means that an interruption does not silently lose, duplicate, or invent work. It is not merely saving chat history.
 
 | Requirement | Design question |

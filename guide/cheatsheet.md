@@ -116,7 +116,7 @@ The ~35 below are the daily drivers. Claude Code ships about 100 built-in comman
 | **Cloud Scheduled Tasks** | 2026 | Machine-off scheduling via `/schedule` or `claude.ai/code/scheduled`. Runs on Anthropic infra, clones repo fresh each run, min 1h interval. Pro/Max/Team/Enterprise |
 | **Desktop Scheduled Tasks** | 2026 | Local machine scheduling via Desktop app. Min 1 min, full local file access, no session required |
 | **Skill Evals** | Mar 2026 | Two skill types: Capability Uplift (fills model gap, fades) / Encoded Preference (encodes workflow, stays). Benchmark Mode, A/B testing, Trigger Tuning. |
-| **Output Styles** | v2.1.108 | `/config` → "Preferred output style": **Default** (concise), **Explanatory** (adds design rationale), **Learning** (pair-programming, `TODO(human)` markers). Custom styles via `.claude/styles/`. |
+| **Output Styles** | v2.1.108 | `/config` → "Preferred output style": **Default** (concise), **Explanatory** (adds design rationale), **Learning** (pair-programming, `TODO(human)` markers). Custom styles via `.claude/output-styles/`; use `keep-coding-instructions: true` for coding-oriented styles. |
 
 **Activate LSP**: Add to `~/.claude/settings.json` → `{ "env": { "ENABLE_LSP_TOOL": "1" } }` (requires LSP server installed for your language: `tsserver`, `pylsp`, `gopls`, `rust-analyzer`, `sourcekit-lsp`...)
 
@@ -487,7 +487,8 @@ VERIFY: Empty email shows error, invalid format shows error
 | `--permission-mode plan` | Plan mode |
 | `--tools "Tool1,Tool2"` | Enable specific tools for session |
 | `--max-budget-usd 5.00` | Max API spend limit (print mode) |
-| `--system-prompt "..."` | Append custom system prompt |
+| `--system-prompt "..."` | Replace the entire default system prompt |
+| `--append-system-prompt "..."` | Append text to the default system prompt |
 | `--worktree` / `-w` | Run in isolated git worktree |
 | `--dangerously-skip-permissions` | Auto-accept (use carefully) |
 | `--debug` | Debug output |

@@ -1379,72 +1379,27 @@ Le code généré par l'IA nécessite une **vérification proportionnelle** au n
 
 ### Le problème : la dette de vérification
 
-Les recherches montrent systématiquement que le code produit par l'IA présente un taux de défauts plus élevé que le code écrit par des humains :
-
-| Métrique | IA vs humain | Source |
-|----------|-------------|--------|
-| Erreurs logiques | 1,75× plus | [Étude ACM, 2025](https://dl.acm.org/doi/10.1145/3716848) |
-| Failles de sécurité | 45 % contiennent des vulnérabilités | [Rapport Veracode GenAI, 2025](https://veracode.com/blog/genai-code-security-report) |
-| Vulnérabilités XSS | 2,74× plus | [Étude CodeRabbit, 2025](https://coderabbit.ai/blog/state-of-ai-vs-human-code-generation-report) |
-| Taille des PR | +18 % | [Jellyfish, 2025](https://jellyfish.co) |
-| Incidents par PR | +24 % | [Cortex.io, 2026](https://cortex.io) |
-| Taux d'échec des changements | +30 % | [Cortex.io, 2026](https://cortex.io) |
-
-**Observation clé** : l'IA produit du code plus vite, mais la vérification devient le goulot d'étranglement. La question n'est pas « est-ce que ça fonctionne ? » mais « comment puis-je savoir que ça fonctionne ? »
-
-> **Nuance sur la maintenabilité à long terme** : un essai contrôlé randomisé en aveugle en 2 phases (Borg et al., 2025, n=151 développeurs professionnels) n'a trouvé aucune différence significative dans le temps nécessaire aux développeurs suivants pour faire évoluer du code généré par l'IA par rapport à du code écrit par des humains. Les taux de défauts mentionnés ci-dessus sont réels, mais ils ne se traduisent pas systématiquement par une charge de maintenance plus lourde pour le développeur suivant. Le risque est plus étroitement circonscrit qu'on ne le suppose généralement. ([arXiv:2507.00788](https://arxiv.org/abs/2507.00788))
+La génération peut dépasser la capacité de vérification. Les rapports sur les défauts du code généré, les findings de review et les incidents de livraison étudient des populations et des résultats différents. Leurs pourcentages ne constituent ni un taux universel de défauts ni une promesse de détection. Mesurez les défauts confirmés, les défauts échappés, l'effort de revue et la récupération sur vos changements, avec des dénominateurs explicites et une référence comparable.
 
 ### Le spectre de vérification
 
-Tout le code n'exige pas le même niveau d'examen. Adaptez l'effort de vérification au risque :
+Classez les conséquences et les interactions avant de choisir la profondeur de revue. Une configuration peut modifier des permissions ; un utilitaire peut appartenir à un chemin critique.
 
-| Type de code | Niveau de vérification | Investissement en temps | Techniques |
-|--------------|----------------------|------------------------|-----------|
-| **Code générique** (configs, imports) | Survol rapide | 10-30 sec | Coup d'œil, faire confiance à la structure |
-| **Fonctions utilitaires** (formateurs, helpers) | Test rapide | 1-2 min | Un test sur le chemin nominal |
-| **Logique métier** | Revue approfondie + tests | 5-15 min | Ligne par ligne, cas limites |
-| **Code critique pour la sécurité** (auth, crypto, validation des entrées) | Maximum + outils | 15-30 min | Analyse statique, fuzzing, revue par les pairs |
-| **Intégrations externes** (APIs, bases de données) | Tests d'intégration | 10-20 min | Test avec mock + test sur endpoint réel |
+| Risque du changement | Vérification et autorité |
+|----------------------|-------------------------|
+| Comportement borné et réversible, contrôles éprouvés | Première passe automatisée, tests de comportement pertinents et échantillonnage humain selon une politique explicite |
+| Règles métier ou exigences incomplètes | Revue de l'intention et des cas limites ; versionner les critères découverts et relancer les contrôles concernés |
+| Authentification, autorisations, cryptographie ou données sensibles | Validation du responsable désigné et contrôles statiques, comportementaux et adversariaux adaptés |
+| Intégrations externes ou données persistantes | Tests d'intégration et d'échec, compatibilité et exercice de restauration ou de compensation |
+| PR qui interagissent ou nouvelle base | Reclasser le changement combiné et vérifier la révision candidate à l'intégration |
 
 ### Vérification en solo vs en équipe
 
-**Stratégie pour le développeur solo :**
+**En solo :** utilisez un reviewer séparé du contexte de rédaction, inspectez les changements inattendus et exécutez des contrôles comportementaux pertinents. Un pourcentage de couverture et un test nominal ne prouvent pas que le résultat suffit. Gardez la responsabilité de l'intention, des comportements sensibles et de la récupération. Sollicitez une revue de domaine lorsque les conséquences dépassent vos preuves actuelles. Dimensionnez l'examen selon le risque, pas le nombre de lignes.
 
-Sans relecteurs, compensez avec :
+**En équipe :** les agents peuvent détecter et vérifier des défauts en première passe. Mesurez leurs résultats sans supposer un pourcentage fixe de détection. Affectez un responsable humain aux chemins sensibles et aux décisions métier. Une passe automatisée propre peut réduire la revue humaine approfondie pour une classe de changements dont le faible risque est établi, selon la politique retenue. Elle n'autorise pas à contourner les approbations requises.
 
-1. **Une couverture de tests élevée (>70 %)** : votre filet de sécurité
-2. **Vibe Review** : une couche intermédiaire entre « accepter aveuglément » et « relire chaque ligne » :
-   - Lire le message de commit / le résumé
-   - Parcourir le diff pour repérer les modifications de fichiers inattendues
-   - Lancer les tests
-   - Vérification rapide dans l'application
-   - Livrer si tout est vert
-3. **Outils d'analyse statique** : ESLint, SonarQube, Semgrep détectent ce que vous manquez
-4. **Limiter le temps consacré** : ne pas passer 30 min à relire un utilitaire de 10 lignes
-
-```
-Flux de travail solo :
-Générer → Vibe Review → Tests OK ? → Livrer
-                ↓
-        Tests KO ? → Revue approfondie → Corriger
-```
-
-**Stratégie en équipe :**
-
-Avec plusieurs développeurs :
-
-1. **Revue initiale par l'IA** : laisser Claude ou Copilot faire la première passe (détecte 70-80 % des problèmes)
-2. **Validation humaine obligatoire** : revue par l'IA ≠ approbation
-3. **Experts du domaine pour les chemins critiques** : code de sécurité → relecteur formé à la sécurité
-4. **Rotation des relecteurs** : éviter la formation de points aveugles
-
-```
-Flux de travail en équipe :
-Générer → Revue IA → Revue humaine → Fusionner
-              ↓              ↓
-         Signaler      Approbation
-         les problèmes   finale
-```
+Dans les deux cas, enregistrez le head, la base, les critères et l'état d'intégration testé. Si une exigence ou un changement combiné modifie le risque, relancez les vérifications concernées. Un verdict d'agent contraignant établit une autorité dans le workflow, pas l'exactitude du jugement.
 
 ### La checklist « Prouver que ça fonctionne »
 
@@ -1474,9 +1429,9 @@ Avant de livrer du code généré par l'IA, vérifiez :
 
 | Anti-pattern | Problème | Meilleure approche |
 |--------------|---------|-------------------|
-| **« Ça compile, on livre »** | La syntaxe ≠ la correction | Lancez au moins un test |
+| **« Ça compile, on livre »** | La syntaxe ≠ la correction | Vérifiez le comportement requis et les cas d'échec |
 | **« L'IA l'a écrit, c'est forcément sécurisé »** | L'IA optimise pour le plausible, pas pour le sûr | Toujours relire manuellement le code critique pour la sécurité |
-| **« Les tests passent, c'est bon »** | Les tests ne couvrent peut-être pas le changement | Vérifier la couverture de tests des lignes modifiées |
+| **« Les tests passent, c'est bon »** | Les tests ne couvrent peut-être pas le changement | Vérifier les assertions contre l'intention, les limites et les échecs |
 | **« C'est pareil qu'avant »** | Le contexte change, l'IA peut générer du code différent | Chaque génération est indépendante |
 | **« C'est un senior qui a rédigé le prompt »** | L'ancienneté ne garantit pas la qualité de la production | Relire la production, pas l'entrée |
 | **« C'est juste du boilerplate »** | Même le boilerplate peut cacher des problèmes | Au minimum, le parcourir pour repérer les surprises |
@@ -1488,50 +1443,25 @@ Votre stratégie de vérification doit évoluer :
 1. **Commencer prudemment** : tout relire quand vous débutez avec Claude Code
 2. **Suivre les patterns d'échec** : où les bugs passent-ils entre les mailles ?
 3. **Renforcer les chemins critiques** : redoubler d'attention sur les zones ayant connu des incidents
-4. **Assouplir les zones à faible risque** : faire davantage confiance à l'IA pour les types de code stables et testés
+4. **Assouplir les zones à faible risque** : ajuster la politique d'une classe de changements selon les résultats observés et la récupération exercée
 5. **Audits périodiques** : vérifier ponctuellement le code « de confiance »
 
 **Modèle mental** : considérez l'IA comme un développeur junior compétent. Vous ne déployeriez pas son code sans relecture, mais vous ne réécririez pas non plus tout ce qu'il produit.
 
 ### Vue d'ensemble
 
-```
-┌─────────────────────────────────────────────────────────┐
-│            FLUX DE CALIBRATION DE LA CONFIANCE          │
-├─────────────────────────────────────────────────────────┤
-│                                                         │
-│  L'IA génère du code                                    │
-│         │                                               │
-│         ▼                                               │
-│  ┌──────────────┐                                       │
-│  │ Quel type ?  │                                       │
-│  └──────────────┘                                       │
-│    │    │    │                                          │
-│    ▼    ▼    ▼                                          │
-│  Boiler Logique Sécurité                                │
-│  -plate métier  critique                                │
-│    │      │        │                                    │
-│    ▼      ▼        ▼                                    │
-│  Survol Test +  Revue complète                          │
-│  seul.  revue   + outils                                │
-│    │      │        │                                    │
-│    └──────┴────────┘                                    │
-│            │                                            │
-│            ▼                                            │
-│    Tests OK ? ──Non──► Déboguer & corriger              │
-│            │                                            │
-│           Oui                                           │
-│            │                                            │
-│            ▼                                            │
-│          Livrer                                         │
-│                                                         │
-└─────────────────────────────────────────────────────────┘
+```text
+Générer → classer conséquences et interactions → vérifications requises
+  → preuves acceptées sur l'état d'intégration actuel + validations requises
+  → fusion éligible selon la politique du dépôt
+
+Preuves manquantes, défauts non résolus ou nouveaux critères → réviser ou escalader
+Erreur acceptée puis détectée → contenir, restaurer ou compenser, évaluer
 ```
 
-> « L'IA vous permet de coder plus vite. Assurez-vous de ne pas échouer plus vite aussi. »
-> — Adapté d'Addy Osmani
+La reprise d'une tâche, le rollback de la configuration du reviewer, celui de l'application et la récupération des données sont des opérations distinctes. Exercez la récupération du produit avant d'invoquer la réversibilité pour réduire la revue humaine. Voir [Loop & Graph Engineering](core/loop-graph-engineering.md#5-allocate-judgment-explicitly) et la [review multi-provider](workflows/multi-provider-code-review.md).
 
-**Attribution** : cette section s'appuie sur l'article d'Addy Osmani [« AI Code Review »](https://addyosmani.com/blog/code-review-ai/) (jan. 2026), ainsi que sur des recherches d'ACM, Veracode, CodeRabbit et Cortex.io.
+**Attribution** : le cadrage de la revue sélective s'appuie sur [AI Code Review d'Addy Osmani](https://addyosmani.com/blog/code-review-ai/). La politique proposée ici est une méthode à évaluer localement, pas un résultat de performance mesuré.
 
 ## 1.8 Huit erreurs de débutant (et comment les éviter)
 
@@ -15285,12 +15215,14 @@ Explanatory et Learning produisent des réponses plus longues par conception, ce
 
 ### Styles Personnalisés
 
-Depuis décembre 2025, vous pouvez définir vos propres styles dans `.claude/styles/`. Créez un fichier Markdown et référencez-le par son nom de fichier (sans l'extension) comme valeur `outputStyle`.
+Les styles de sortie personnalisés sont des fichiers Markdown. Placez les styles du projet dans `.claude/output-styles/` ou les styles utilisateur dans `~/.claude/output-styles/`, puis référencez le nom du fichier sans extension comme valeur `outputStyle`.
 
 ```
-.claude/styles/
+.claude/output-styles/
 └── strict-reviewer.md    # Définition du style personnalisé
 ```
+
+Par défaut, un style personnalisé omet les instructions de génie logiciel intégrées à Claude Code. Pour un style destiné au code, conservez-les avec `keep-coding-instructions: true` dans le frontmatter YAML du fichier. Les changements de style prennent effet après `/clear` ou au démarrage d'une nouvelle session.
 
 ```json
 {
@@ -21138,26 +21070,12 @@ Agents must pass CI before PR approval. Never disable CI checks.
 
 #### Revues de PR : l'humain dans la boucle
 
-**Même avec la CI, exigez une revue humaine** :
+**Faites appliquer les approbations humaines requises par la politique du dépôt sur les chemins concernés.** Compter les entrées de `reviews` ne prouve pas une approbation : elles peuvent contenir des commentaires, des demandes de changement, des décisions périmées ou des sorties automatisées.
 
-```yaml
-# .github/workflows/pr-rules.yml
-name: PR Rules
+Utilisez les [réglages natifs des branches protégées](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches) : approbations requises, code owners sur les chemins sensibles, gestion des approbations périmées ou approbation du dernier push révisable. Inspectez les identités éligibles, les droits de révocation et les contournements. Un simple compteur ne prouve pas la validation d'un responsable humain.
 
-on: [pull_request]
+Vérifiez la politique effective avec une PR non approuvée, une demande de changement, un nouveau push après approbation et une approbation autorisée. Conservez les contrôles requis et la validation de l'état d'intégration. Ces instructions ne prouvent pas que la configuration est installée ou exercée dans votre dépôt.
 
-jobs:
-  require-review:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check for approval
-        run: |
-          APPROVALS=$(gh pr view ${{ github.event.pull_request.number }} --json reviews --jq '.reviews | length')
-          if [ "$APPROVALS" -lt 1 ]; then
-            echo "PR requires at least 1 human review"
-            exit 1
-          fi
-```
 
 **Pourquoi la revue humaine est importante** :
 - Les agents manquent de contexte (exigences métier absentes du code)

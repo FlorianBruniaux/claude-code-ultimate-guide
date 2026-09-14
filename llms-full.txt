@@ -307,7 +307,8 @@ VERIFY: Empty email shows error, invalid format shows error
 | `--permission-mode plan` | Plan mode |
 | `--tools "Tool1,Tool2"` | Enable specific tools for session |
 | `--max-budget-usd 5.00` | Max API spend limit |
-| `--system-prompt "..."` | Append custom system prompt |
+| `--system-prompt "..."` | Replace the entire default system prompt |
+| `--append-system-prompt "..."` | Append text to the default system prompt |
 | `--worktree` / `-w` | Run in isolated git worktree |
 | `--dangerously-skip-permissions` | Auto-accept (use carefully) |
 | `--debug` | Debug output |
@@ -316,7 +317,7 @@ VERIFY: Empty email shows error, invalid format shows error
 
 ### The Golden Rules
 
-1. **Always review diffs** before accepting
+1. **Verify proportionately**: automated first pass under a risk policy; owner sign-off on sensitive paths, current integration evidence and exercised recovery
 2. **Use `/compact`** before context gets critical (>70%)
 3. **Be specific** in requests (WHAT, WHERE, HOW, VERIFY)
 4. **Plan Mode first** for complex/risky tasks
