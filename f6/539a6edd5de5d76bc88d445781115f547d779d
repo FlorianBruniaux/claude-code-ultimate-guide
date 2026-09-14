@@ -1,0 +1,21 @@
+.github/workflows/index-integrity.yml
+  s_814c80431996d6::t_9fd0adc845b785 47-51
+CHANGELOG.md
+  s_814c80431996d6::t_b4e19eab595882 21-22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "f6539a6edd5de5d76bc88d445781115f547d779d",
+  "prompts": {},
+  "sessions": {
+    "s_814c80431996d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3e937e35-c0e0-4f42-b4e4-9c5cb10b5535",
+        "model": "unknown"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
