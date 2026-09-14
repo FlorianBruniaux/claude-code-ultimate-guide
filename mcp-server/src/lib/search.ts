@@ -35,7 +35,7 @@ const SYNONYMS: Record<string, string[]> = {
   test: ['testing', 'tdd', 'bdd', 'spec', 'specs'],
   workflow: ['workflows', 'process', 'flow'],
   template: ['templates', 'example', 'examples', 'boilerplate'],
-  model: ['claude', 'opus', 'sonnet', 'haiku', 'llm'],
+  model: ['claude', 'opus', 'sonnet', 'haiku', 'llm', 'minimax', 'minimax-m3', 'minimax-m2.7'],
   key: ['keyboard', 'shortcut', 'keybinding', 'keybindings'],
 };
 
