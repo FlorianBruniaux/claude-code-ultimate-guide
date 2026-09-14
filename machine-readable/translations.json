@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "checked_at": "2026-09-15",
-  "measured_at_commit": "e4c279799284454a67fc40890c260244066c00e9",
+  "measured_at_commit": "c9c3831395c30e7132db438c914bc1aab927a3f3",
   "official_scope": "Maintained by the Claude Code Ultimate Guide project; not official Anthropic documentation.",
   "policy": {
     "canonical_language": "en",
