@@ -1,0 +1,345 @@
+/* ============================================================
+   EPUB Styles — Claude Code Ultimate Guide
+   Bold Guy Palette (Warm Beige + Orange Brûlé)
+   Fonts: Inter (body) + JetBrains Mono (code) — embedded
+   ============================================================ */
+
+/* --- Embedded Fonts --- */
+@font-face {
+  font-family: "Inter";
+  src: url("fonts/Inter-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("fonts/Inter-Italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("fonts/Inter-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("fonts/Inter-MediumItalic.woff2") format("woff2");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("fonts/Inter-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("fonts/Inter-BoldItalic.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("fonts/JetBrainsMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("fonts/JetBrainsMono-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --- Global --- */
+body {
+  font-family: "Inter", "Helvetica Neue", "Arial", sans-serif;
+  font-size: 0.95em;
+  line-height: 1.75;
+  color: #1a1207;
+  background-color: #ffffff;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 2em 2.5em;
+}
+
+/* --- Headings --- */
+h1, h2, h3, h4, h5, h6 {
+  color: #1a1207;
+  line-height: 1.25;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 1.8em;
+  letter-spacing: -0.02em;
+  border-bottom: 3px solid #d4520a;
+  padding-bottom: 0.25em;
+}
+
+h2 {
+  font-size: 1.4em;
+  color: #d4520a;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: 1.15em;
+  color: #4a3f31;
+}
+
+h4, h5, h6 {
+  font-size: 1em;
+  color: #4a3f31;
+}
+
+/* --- Links --- */
+a {
+  color: #d4520a;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* --- Paragraphs --- */
+p {
+  margin: 0.75em 0;
+}
+
+/* --- Code (inline) --- */
+code {
+  font-family: "JetBrains Mono", "Menlo", "Courier New", monospace;
+  font-size: 0.87em;
+  background-color: #f5f0eb;
+  color: #1a1207;
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+
+/* --- Code blocks --- */
+pre {
+  font-family: "JetBrains Mono", "Menlo", "Courier New", monospace;
+  font-size: 0.85em;
+  background-color: #f5f0eb;
+  color: #1a1207;
+  padding: 1em 1.25em;
+  border-left: 4px solid #d4520a;
+  border-radius: 0 4px 4px 0;
+  margin: 1em 0;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+/* --- Tables --- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.25em 0;
+  font-size: 0.9em;
+}
+
+thead th {
+  background-color: #1a1207;
+  color: #f5f0eb;
+  padding: 0.6em 0.85em;
+  text-align: left;
+  font-weight: 600;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #f5f0eb;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+tbody td {
+  padding: 0.5em 0.85em;
+  border-bottom: 1px solid #d4cdc5;
+  vertical-align: top;
+}
+
+/* --- Blockquotes --- */
+blockquote {
+  border-left: 4px solid #d4520a;
+  background-color: #f5f0eb;
+  margin: 1em 0;
+  padding: 0.75em 1em;
+  color: #4a3f31;
+  font-style: italic;
+}
+
+blockquote p {
+  margin: 0;
+}
+
+/* --- Horizontal Rule --- */
+hr {
+  border: none;
+  border-top: 2px solid #d4520a;
+  margin: 2em auto;
+  width: 40%;
+}
+
+/* --- Lists --- */
+ul, ol {
+  padding-left: 1.75em;
+  margin: 0.5em 0;
+}
+
+li {
+  margin: 0.25em 0;
+}
+
+/* ============================================================
+   QUARTO CALLOUTS
+   ::: {.callout-note}   → bleu  (info)
+   ::: {.callout-tip}    → vert  (success)
+   ::: {.callout-warning}→ jaune (warning)
+   ::: {.callout-important} → rouge (danger)
+   ::: {.callout-caution}   → orange (caution)
+   ============================================================ */
+
+/* Base callout */
+.callout {
+  border-radius: 4px;
+  margin: 1.25em 0;
+  padding: 0.85em 1em;
+  border-left: 5px solid;
+}
+
+.callout-title {
+  font-weight: 700;
+  margin-bottom: 0.4em;
+  font-size: 0.95em;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* Note / Info — bleu */
+.callout-note {
+  background-color: #e0f2fe;
+  border-color: #0284c7;
+  color: #0c4a6e;
+}
+
+.callout-note .callout-title {
+  color: #0284c7;
+}
+
+/* Tip / Success — vert */
+.callout-tip {
+  background-color: #dcfce7;
+  border-color: #16a34a;
+  color: #14532d;
+}
+
+.callout-tip .callout-title {
+  color: #16a34a;
+}
+
+/* Warning — jaune */
+.callout-warning {
+  background-color: #fef3c7;
+  border-color: #d97706;
+  color: #78350f;
+}
+
+.callout-warning .callout-title {
+  color: #d97706;
+}
+
+/* Important / Danger — rouge */
+.callout-important {
+  background-color: #fee2e2;
+  border-color: #dc2626;
+  color: #7f1d1d;
+}
+
+.callout-important .callout-title {
+  color: #dc2626;
+}
+
+/* Caution — orange brûlé */
+.callout-caution {
+  background-color: #fff7ed;
+  border-color: #d4520a;
+  color: #431407;
+}
+
+.callout-caution .callout-title {
+  color: #d4520a;
+}
+
+/* ============================================================
+   EPUB-SPECIFIC: Cover page, TOC, Navigation
+   ============================================================ */
+
+/* TOC */
+nav[epub|type="toc"] ol {
+  list-style: none;
+  padding-left: 0;
+}
+
+nav[epub|type="toc"] li {
+  margin: 0.4em 0;
+  border-bottom: 1px dotted #d4cdc5;
+  padding-bottom: 0.3em;
+}
+
+nav[epub|type="toc"] a {
+  color: #1a1207;
+  font-weight: 500;
+}
+
+nav[epub|type="toc"] li li {
+  padding-left: 1.5em;
+  font-size: 0.9em;
+  font-weight: 400;
+}
+
+/* Chapter breaks */
+section[epub|type="chapter"] {
+  page-break-before: always;
+}
+
+/* Strong / Bold */
+strong, b {
+  color: #1a1207;
+  font-weight: 700;
+}
+
+/* Emphasis */
+em, i {
+  color: #4a3f31;
+}

@@ -18,6 +18,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Added Tokenade to the token-optimization comparison with proprietary-licence and vendor-benchmark boundaries; clarified RTK output estimates and corrected its installation commands.
 
+- **Guide export workflow inputs tracked** (`.gitignore`, `whitepapers/guide-export.qmd`, `whitepapers/{nocite,fix-lists}.lua`, `whitepapers/epub-styles.css`): the daily PDF and EPUB rebuild failed with "No valid input files passed to render" because its Quarto entry point and filters were excluded by the `whitepapers/*` rule. Whitelisted the four inputs, aligned the export metadata with guide version 3.43.0, and ignored the generated skill-router cache. Verified by rendering both formats from a clean `git archive` of HEAD.
+
 - **Verification and acceptance guidance recalibrated** (`guide/ultimate-guide.md`, French translation, `guide/workflows/{iterative-refinement,multi-provider-code-review}.md`, `guide/core/loop-graph-engineering.md`): replaced the uncited AI-versus-human defect table, fixed review-time tiers and the "catches 70-80%" first-pass claim with a risk table tied to consequences, owners and integration state. Bounded review loops now stop as ACCEPTED, EXHAUSTED or NO_PROGRESS with recorded evidence, and loop recovery separates process resumption from product recovery. Added Cursor to the pinned Liza adapter catalog in `guide/ecosystem/agentic-tools.md`. Resynchronized positional references and translation provenance.
 
 - Replaced the conflicting absolute-path instruction in AGENTS.md and CLAUDE.md with public-content rules: portable paths, accessible source links, no workstation metadata, and the publication path check.

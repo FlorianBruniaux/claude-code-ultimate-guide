@@ -46,11 +46,18 @@ __pycache__/
 to-ignore/
 docs/drafts/
 .grepai/
+# Generated BM25 skill-router cache (rebuilt locally from skill scenarios)
+.claude/hooks/routing/data/
 whitepapers/
 !whitepapers/
 whitepapers/*
 !whitepapers/_extensions/
 !whitepapers/_extensions/**
+# Inputs of .github/workflows/rebuild-guide-exports.yml: CI renders from a clean checkout.
+!whitepapers/guide-export.qmd
+!whitepapers/nocite.lua
+!whitepapers/fix-lists.lua
+!whitepapers/epub-styles.css
 !whitepapers/fr/
 whitepapers/fr/*
 !whitepapers/fr/_extensions/
