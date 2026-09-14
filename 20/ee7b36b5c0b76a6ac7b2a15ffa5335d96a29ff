@@ -1,0 +1,23 @@
+README.md
+  s_814c80431996d6::t_fc40e36d929364 21,419
+machine-readable/translations.json
+  s_814c80431996d6::t_442485e9b45b3f 4,72,115,191
+mcp-server/content/translations.json
+  s_814c80431996d6::t_6c6be1f87a296a 4,72,115,191
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "20ee7b36b5c0b76a6ac7b2a15ffa5335d96a29ff",
+  "prompts": {},
+  "sessions": {
+    "s_814c80431996d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3e937e35-c0e0-4f42-b4e4-9c5cb10b5535",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
