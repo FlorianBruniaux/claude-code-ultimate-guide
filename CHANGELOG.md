@@ -57,9 +57,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
+- **Positional references in the index repaired to zero backlog** (`machine-readable/reference.yaml`, `mcp-server/content/reference.yaml`): resolved all 66 broken references reported by `scripts/resync-reference-yaml.py --check`, which the auto-fixer could not repair (0 of 66 met its confidence and margin gates). Migrated 16 `path:line` references to the drift-proof `path#anchor` form, and repaired 50 bare integers in place, each now declaring `# anchor: <slug>` so the stored line is machine-checked on every run and auto-repairable by `--apply` once it drifts. Bare integers were deliberately not converted to `guide/` strings, which would add ~50 Cmd+K entries pointing into a 26K-line file and change the landing's search UX. The two protected quantities are untouched. `troubleshooting` and `fix` now resolve to `## 10.4 Troubleshooting` (unique slug `104-troubleshooting`) instead of the `8.5 Plugin System` subsection that shares the bare `troubleshooting` slug, which the `hint_line` escape hatch would have accepted silently. The MCP bundled mirror is resynced in the same pass, since the Index Integrity job diffs it and nothing regenerates it.
+
 - **Claude Code output-style paths and coding-instruction semantics corrected** (`guide/ultimate-guide.md`, French translation, settings reference, cheatsheet, custom template, and machine-readable mirrors): replaced the obsolete `.claude/styles/` path with `.claude/output-styles/` and `~/.claude/output-styles/`; corrected the false claim that `keep-coding-instructions` does not exist; documented its default omission behavior and the `/clear` or new-session reload boundary.
 
 - **Claude Code system-prompt flags corrected** (`guide/cheatsheet.md`): corrected `--system-prompt` from append to full replacement semantics and added the distinct `--append-system-prompt` flag for additions that preserve the default prompt.
+
 
 - **Version-sync footer update is now idempotent** (`scripts/sync-version.sh`, `README.md`): corrected the date replacement pattern so it stops before and preserves the closing Markdown asterisk. Repeated synchronization no longer leaves a trailing space or breaks footer emphasis.
 
