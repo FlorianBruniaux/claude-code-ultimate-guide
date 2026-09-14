@@ -838,7 +838,7 @@ deep_dive:
   config_git_strategy_global: "guide/ultimate-guide.md#git-strategy-for-project-configuration"  # Version control ~/.claude/
   config_backup_strategies: "guide/ultimate-guide.md#backup-strategies"  # Git, cloud sync, cron
   config_multi_machine_sync: "guide/ultimate-guide.md#multi-machine-sync"  # Laptop + desktop workflows
-  config_security_considerations: "guide/ultimate-guide.md:5949"  # Duplicate heading slug; exact current line in §3.2
+  config_security_considerations: "guide/ultimate-guide.md:5880"  # Duplicate heading slug; exact current line in §3.2
   config_disaster_recovery: "guide/ultimate-guide.md#disaster-recovery"  # Restore from backup
   config_community_solutions: "guide/ultimate-guide.md#community-solutions"  # brianlovin + Ratinaud
   config_github_issue: "https://github.com/anthropics/claude-code/issues/16204"  # Migration guidance request
@@ -914,7 +914,7 @@ deep_dive:
   fresh_context_pattern: "guide/ultimate-guide.md#fresh-context-pattern-ralph-loop" # was line 2044
   subscription_limits: 2589
   subscription_token_budgets: 2589  # anchor: subscription-plans--limits
-  subscription_opus_ratio: 2632
+  subscription_opus_ratio: 2602  # Model weighting row in Subscription Plans & Limits
   subscription_monitoring: 2589  # anchor: subscription-plans--limits
   # Programmatic Billing Change (announced 2026-05-13, effective 2026-06-15)
   programmatic_billing_change: "guide/ultimate-guide.md#the-interactiveprogrammatic-billing-split-effective-june-15-2026"
@@ -1046,13 +1046,13 @@ deep_dive:
   todowrite_legacy: "guide/ultimate-guide.md#todowrite-legacy" # was line 4920
   todowrite_when_to_use: 4766  # anchor: todowrite-legacy
   todowrite_migration_flag: 4766  # anchor: todowrite-legacy
-  task_best_practices: 4860  # Duplicate heading slug; exact current line in Tasks API
-  task_hierarchy_design: 4860  # anchor: best-practices | ambiguous slug (4x in guide), stored line manually verified against the right one
+  task_best_practices: 4791  # Duplicate heading slug; exact current line in Tasks API
+  task_hierarchy_design: 4791  # anchor: best-practices | ambiguous slug (4x in guide), stored line manually verified against the right one
   task_dependency_management: "guide/ultimate-guide.md#task-management-system" # was line 4808
   task_status_transitions: 4791  # anchor: best-practices | ambiguous slug (4x in guide), stored line manually verified against the right one
   task_metadata_conventions: 4791  # anchor: best-practices | ambiguous slug (4x in guide), stored line manually verified against the right one
   task_complete_workflow: "guide/ultimate-guide.md#complete-workflow" # was line 5030
-  task_sources: 4955  # Duplicate heading slug; exact current line in Tasks API
+  task_sources: 4886  # Duplicate heading slug; exact current line in Tasks API
   # Task Management Workflow (guide/workflows/task-management.md)
   workflows_task_management: "guide/workflows/task-management.md"
   task_workflow_overview: "guide/workflows/task-management.md:15"
@@ -1092,7 +1092,7 @@ deep_dive:
   community_skills_iac: "guide/ultimate-guide.md#infrastructure-as-code-skills"  # was 8558, drifted
   # Automatic skill generation (meta-skill)
   claudeception: "https://github.com/blader/Claudeception"
-  claudeception_guide: 8750
+  claudeception_guide: 8696  # anchor: automatic-skill-generation-claudeception
   # Skill Lifecycle: Automatic improvement (added 2026-01-24)
   skill_lifecycle: "guide/ultimate-guide.md#5x-skill-lifecycle--retirement"
   claude_reflect_system: "guide/ultimate-guide.md#automatic-skill-improvement-claude-reflect-system" # was line 8863
@@ -1317,7 +1317,7 @@ deep_dive:
   mcp_servers: 11920  # anchor: 8-mcp-servers
   serena_indexation: 12077  # anchor: serena-semantic-code-analysis
   serena_mcp: "guide/ultimate-guide.md#serena-semantic-code-analysis"  # was bare int 794, inside a code fence (comment/example text happened to share the key's words)
-  doobidoo_memory_mcp: 12949
+  doobidoo_memory_mcp: 12810  # anchor: doobidoo-memory-service-semantic-memory
   mcp_memory_stack_patterns: "guide/ultimate-guide.md#mcp-memory-stack-complementarity-patterns" # was line 13011
   mcp_config: "guide/ultimate-guide.md#mcp-configuration-location"  # was bare int 794, inside a code fence (comment/example text happened to share the key's words)
   mcp_security: "guide/ultimate-guide.md#86-mcp-security" # was line 14568
@@ -1401,7 +1401,7 @@ deep_dive:
   headless_pm_framework: 19960  # anchor: headless-pm-open-source
   multi_instance_implementation: "guide/ultimate-guide.md#implementation-guide-progressive-scaling"  # was 19268, drifted
   multi_instance_monitoring: "guide/ultimate-guide.md#monitoring--observability"  # was 19268, drifted
-  multi_instance_decision_matrix: "guide/ultimate-guide.md:20250"
+  multi_instance_decision_matrix: "guide/ultimate-guide.md:20189"
   # External orchestration systems
   external_orchestrators:
     gas_town:
@@ -1703,7 +1703,7 @@ deep_dive:
   myths_hidden_features: "guide/ultimate-guide.md#-myth-claude-code-has-hidden-features-you-can-unlock-with-secret-flags" # was line 26540
   myths_tasks_api_autonomous: "guide/ultimate-guide.md#-myth-tasks-api-allows-fully-autonomous-parallel-agents" # was line 26572
   myths_100x_faster: "guide/ultimate-guide.md#-myth-claude-code-is-100x-faster-than-other-ai-coding-tools" # was line 26604
-  myths_reliable_sources: 26541  # anchor: how-to-spot-reliable-information
+  myths_reliable_sources: 26487  # anchor: how-to-spot-reliable-information
   # Quiz System (473 questions, 17 categories) — verified 2026-07-28
   quiz_overview: "quiz/README.md"
   quiz_bank: "quiz/questions/"        # one YAML file per category; there is no quiz/questions.json
@@ -2481,7 +2481,7 @@ hooks_session_scoped: 10354  # Session-scoped hooks (ephemeral, no settings.json
 hooks_async_support: "v2.1.0+ - add 'async: true' for non-blocking execution; 'asyncRewake: true' for background with exit-2 wakeup"
 hooks_async_use_cases: "logging, notifications, formatting, metrics (no feedback needed)"
 hooks_sync_use_cases: "validation, type checking, security (feedback required)"
-hooks_decision_matrix: 10287  # Duplicate heading slug; exact current line in Hook Execution Model
+hooks_decision_matrix: 10234  # Duplicate heading slug; exact current line in Hook Execution Model
 hooks_async_limitations: "no exit code feedback for blocking (exit 2 ignored), no real-time systemMessage, no guaranteed execution order. Note: additionalContext IS delivered on the next conversation turn after the background process exits."
 hooks_async_bug_fix: "v2.1.23 - fixed cancellation in headless streaming"
 
