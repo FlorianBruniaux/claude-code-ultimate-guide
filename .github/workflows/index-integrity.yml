@@ -44,6 +44,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # check-translations.py reads recorded provenance blobs with
+          # `git show <commit>:<path>`, so the default single-commit
+          # checkout makes every declared source commit unavailable.
+          fetch-depth: 0
 
       - name: Check public content for workstation paths
         run: |
