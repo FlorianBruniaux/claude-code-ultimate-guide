@@ -22,7 +22,7 @@ The protocol therefore requires a fixed rubric, an explicit stop rule, executabl
 ## Local YouTube practitioner-evidence check
 
 **Date:** 2026-08-31
-**Tool:** `/Users/florianbruniaux/Sites/perso/yt-insights/.venv/bin/yt-insights`
+**Tool:** `yt-insights`
 **Mode:** read-only local search only. No discovery, subtitle download, indexing, model inference, or network acquisition was requested.
 
 The inspected FTS5 index contained 3,332 documents and 184,636 timestamped passages. Searches used no language or channel filter. Both `best of n` and `verification loop` returned eight results, exactly the requested limit, so additional matches are unknown. `circular verification` returned two results, below the limit, so that response was not truncated. The corpus is broad but not exhaustive. A missing match means only that no indexed passage matched the query.

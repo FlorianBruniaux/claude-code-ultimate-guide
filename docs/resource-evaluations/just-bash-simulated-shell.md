@@ -5,7 +5,7 @@
 **Evaluation date**: 2026-08-04
 **Evaluator**: Claude Code Ultimate Guide Team
 **Guide version**: 3.41.1
-**Method**: source analysis of a local clone at `~/Sites/divers-test/just-bash`, commit `1e06ce6` (2026-07-26), full `git log` history, `api.github.com` metadata, and a grounded web comparison against seven other agent-sandbox products via Perplexity search (2026-08-04). No install, no build, no benchmark reproduction was run.
+**Method**: source analysis of a repository clone, commit `1e06ce6` (2026-07-26), full `git log` history, `api.github.com` metadata, and a grounded web comparison against seven other agent-sandbox products via Perplexity search (2026-08-04). No install, no build, no benchmark reproduction was run.
 
 ---
 

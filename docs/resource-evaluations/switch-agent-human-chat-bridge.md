@@ -5,7 +5,7 @@
 **Evaluation date**: 2026-08-27
 **Evaluator**: Claude Code Ultimate Guide Team
 **Guide version**: 3.42.0
-**Method**: source analysis of a local clone at `~/Sites/divers-tests/switch`, `main` branch (pushed 2026-08-26), plus `gh api repos/sandbox-quantum/switch` for repository metadata. No install, no server deployment, no live Matrix room was run against it.
+**Method**: source analysis of a repository clone, `main` branch (pushed 2026-08-26), plus `gh api repos/sandbox-quantum/switch` for repository metadata. No install, no server deployment, no live Matrix room was run against it.
 
 ---
 

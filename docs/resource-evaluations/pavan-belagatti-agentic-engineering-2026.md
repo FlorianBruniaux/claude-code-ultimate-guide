@@ -5,7 +5,7 @@
 **Evaluation date**: 2026-08-30
 **Evaluator**: Claude Code Ultimate Guide Team
 **Guide version**: 3.43.0
-**Local evidence**: 62 English WebVTT transcripts under `/Users/florianbruniaux/Sites/perso/yt-insights/output/pavanbelagatti`
+**Evidence reviewed**: 62 English WebVTT transcripts retained in the research corpus; public video links are listed below.
 
 ---
 

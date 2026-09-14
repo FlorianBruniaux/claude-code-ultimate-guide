@@ -194,6 +194,12 @@ For Liza specifically, its deterministic supervisor can reject illegal workflow 
 
 ## 6. Make execution durable
 
+### Distinguish process recovery from product recovery
+
+Resuming an interrupted task establishes continuity of execution. It does not show that the delivered result was sufficient or that its effects can be reversed. After a false acceptance, the product needs detection, containment, an owner and an exercised restoration or compensation path. Application rollback may leave data mutations and external effects untouched.
+
+Record the base, reviewed heads and candidate integration revision for combined changes. Two individually bounded PRs can interact outside their separate tests. When the base or group changes, invalidate the integration result and re-evaluate affected review evidence. See [multi-provider review](../workflows/multi-provider-code-review.md#blocking-merge-the-ci-gate) for the acceptance boundary.
+
 Durable execution means that an interruption does not silently lose, duplicate, or invent work. It is not merely saving chat history.
 
 | Requirement | Design question |
@@ -225,11 +231,41 @@ Use stable event names and redact sensitive prompt text, tool arguments, tool re
 
 Evaluate the exact model-harness pair, repository revision, permission set, graph version, tool set, budget, and task distribution. A green graph test shows that the control flow followed its contract. It does not prove that the delivered patch meets the requirement. Pair workflow tests with requirement-level verification, recovery drills, and repeated representative tasks. [Agent Evaluation](../roles/agent-evaluation.md#evaluate-judgment-allocation-and-reviewer-independence) defines useful graph-level and reviewer-independence measures.
 
+### Limit admission to verification capacity
+
+Bound the shared queue as well as each agent run. A task with a finite retry budget can still add work faster than reviewers can accept it. In [IFTTD episode 362](https://www.ifttd.io/episodes/le-lean-a-l-ere-de-l-ia), Yacine Hmito describes this as a flow problem: faster implementation moves pressure to quality control, and recurring defects should change the upstream production process. Bruno Soulez's [season conclusion](https://bilan.ifttd.io/conclusion/) goes further by proposing validation before expanding generation; that ordering is his interpretation, not a demonstrated universal sequence.
+
+Before dispatch, reserve capacity for the change's required verification. Pause new authoring when the owner-approved queue or age limit is reached, a required reviewer is unavailable, or queue telemetry is stale. Allow in-flight reviews and agreed corrections to finish. Resume below a distinct threshold with fresh telemetry and available capacity; otherwise the scheduler can oscillate between pause and resume.
+
+The [review admission worksheet](../../examples/workflows/review-admission.md) defines ownership, atomic reservations, exceptions, and a tabletop exercise. Its illustrative thresholds are not production defaults. Use [queue measurements](../ops/team-metrics.md#measure-the-shared-verification-queue) to calibrate them. This complements the per-feature WIP limit in [Spec-First Development](../workflows/spec-first.md); it does not grant merge or deployment authority.
+
 ## 8. Three implementation cases
 
 ### Claude Code: inner loop plus repository harness
 
 Claude Code owns the interactive model-and-tool loop. The repository harness provides the project contract through `CLAUDE.md`, optionally importing or symlinking an existing `AGENTS.md`, plus setup, task state, tests, hooks, and delivery gates. A practical Claude Code design should make the stop rule explicit: for example, a targeted test passes, the change is reviewed against the requirement, and no policy or budget exit has fired. Do not infer a general explicit graph runtime from subagents, teams, or hooks alone. See [Agent Harness Engineering](./agent-harness.md) for the runtime boundary, [the official explanation of the Claude Code agentic loop](https://code.claude.com/docs/en/how-claude-code-works) for product behavior, and [the `AGENTS.md` compatibility section](https://code.claude.com/docs/en/memory#agentsmd) for the supported instruction-file pattern.
+
+#### Compose recurring triage with bounded work
+
+A scheduled check discovers work; admission decides whether a candidate may start. A bounded task then pursues a finish condition, while the review policy decides whether the resulting change is acceptable. [Practical Loop Engineering](https://addyo.substack.com/p/practical-loop-engineering) describes this combination from Addy Osmani's practice. Treat it as a workflow proposal, not evidence that a nested command runs successfully.
+
+| Stage | Required evidence or decision |
+|---|---|
+| Detect | Identify an eligible issue and the repository revision being examined |
+| Admit | Check whether the same issue, repository revision and criteria version are already handled or owned by an active run; reserve verification capacity |
+| Work | Freeze the task, allowed changes, acceptance criteria and total attempt budget |
+| Verify | Reproduce the defect before the fix and retain the relevant checks on the candidate revision |
+| Accept or stop | Record the review decision, or the failure, exhausted-budget or escalation reason |
+
+For an illustrative issue-triage run, admit one reproducible bug, keep its identifier across scheduled checks, and produce a candidate patch with test evidence. A later check must not create a second worker for that same active task or reset its consumed budget. Reserve queue capacity before dispatch; the [bounded loop contract](../../examples/workflows/bounded-loop-contract.md) owns per-task execution. This scenario has not been executed as a Claude Code integration test.
+
+Use [the goal reference](../ultimate-guide.md#goal-autonomous-completion-mode-v21139) for completion behavior and [the scheduling reference](../ultimate-guide.md#the-loop-command) for triggers. Scheduled prompts do not execute built-in commands merely because their names appear in the text. Therefore an example saying “use /goal” inside `/loop` still needs an explicit, tested invocation boundary. Do not present it as copy-ready orchestration.
+
+#### Distinguish requested limits from enforced budgets
+
+A limit written into a `/goal` condition is judged by the evaluator from the conversation. A controller-enforced budget checks a counter before dispatching another action. The [runnable bounded-loop example](../../examples/workflows/bounded-loop-example.py) demonstrates the latter with synthetic actions and a verifier; it does not establish Claude Code behavior. For work that spans sessions, keep total consumption outside the session counters, which reset when an active goal resumes according to the [goal documentation](https://code.claude.com/docs/en/goal).
+
+Completion evaluation also has a narrower role than review. Claude Code's goal evaluator reads evidence already surfaced in the conversation; it does not independently inspect the patch or rerun commands. A separate reviewer still needs the original requirement, the candidate revision and access to the checks. Passing those checks does not decide whether the change is worth its product cost; that decision belongs to the named acceptance authority.
 
 ### LangGraph: explicit workflow runtime
 

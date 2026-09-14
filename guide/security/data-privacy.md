@@ -317,6 +317,14 @@ export DISABLE_BUG_COMMAND=1
 | **Create minimal test datasets** | Less data = less risk |
 | **Audit MCP server sources** | Third-party MCPs may have vulnerabilities |
 
+### Reversible Tokenization at the Model Boundary
+
+A privacy gateway can replace recognized values with placeholders before a model request and restore them locally when a tool needs the original value. For example, a synthetic target `10.42.1.5` might become `IP_PRIVATE_001` in a model-visible tool result. The local mapping remains sensitive because it can reverse the transformation.
+
+Coverage depends on the detector, input format, and integration path. A filter that masks a credential assignment in plain text may miss the same value inside a JSON object. Error handling also matters: returning the original payload after a sanitization exception exposes that payload to the next consumer. A fail-closed launch hook does not establish that every later tool result fails closed.
+
+The [DarkMoon case study and Strix comparison](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/security/agentic-pentesting.md) explain these boundaries. Treat reversible tokenization as a reduction in exposure. To assess a particular run, inspect the actual outbound model requests with synthetic canary values, including tool outputs, retries, and error paths. Tokenization logs alone do not establish what crossed the provider boundary.
+
 ### For Teams
 
 | Environment | Recommendation |
@@ -357,6 +365,16 @@ export DISABLE_BUG_COMMAND=1
 - [ ] Team trained on privacy controls
 - [ ] Incident response plan for potential data exposure
 - [ ] Legal/compliance review completed
+
+---
+
+### Test access continuity as well as data location
+
+The [IFTTD sovereignty chapter](https://bilan.ifttd.io/apprentissage-4/?niveau=2) distinguishes hosting location from the ability to access data when needed. Treat that as an operational question: a locally stored export can still depend on a remote identity provider, unavailable keys, a proprietary format or an external service. Data residency alone does not establish continuity or legal compliance.
+
+Run a scoped drill with synthetic data and a disposable environment. Inventory authentication, model access, export format, decryption and tool dependencies. Simulate the chosen provider being unavailable without changing production access. Attempt to open the exported data and complete one representative task through the approved fallback. Record what worked, what degraded, what required the unavailable provider, and who owns recovery.
+
+An alternate endpoint using the same model may diversify hosting without removing model-provider dependence. Validate data handling and task behavior on the fallback before allowing real confidential data. A successful drill establishes only the tested task and outage scenario; do not infer general sovereignty from it.
 
 ---
 

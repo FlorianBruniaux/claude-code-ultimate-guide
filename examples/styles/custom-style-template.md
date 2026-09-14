@@ -1,6 +1,12 @@
+---
+name: Strict reviewer
+description: Review code directly and flag decisions that need human attention
+keep-coding-instructions: true
+---
+
 # Custom Output Style Template
 
-> Save as `.claude/styles/<your-style-name>.md` and reference via `outputStyle` in `settings.json` or `/config`.
+> Save as `.claude/output-styles/<your-style-name>.md` for a project or `~/.claude/output-styles/<your-style-name>.md` for user-wide use, then reference it via `outputStyle` in `settings.json` or `/config`.
 
 ---
 
@@ -33,7 +39,7 @@ Direct and precise. No preamble, no trailing summaries. Use tables for compariso
 <!-- Remove this comment block in your actual style file.
 
 HOW TO USE:
-1. Copy this file to `.claude/styles/strict-reviewer.md` (rename as needed)
+1. Copy this file to `.claude/output-styles/strict-reviewer.md` (rename as needed)
 2. Edit the Instructions, Tone, and Format sections to match your workflow
 3. Activate:
    - Interactive: /config -> "Preferred output style" -> type your style name
@@ -41,7 +47,8 @@ HOW TO USE:
 
 NOTES:
 - Style name = filename without .md extension (case-sensitive)
-- keep-coding-instructions is NOT a real parameter — ignore any documentation claiming otherwise
+- `keep-coding-instructions: true` preserves the built-in Claude Code software engineering instructions; without it, a custom style omits them
+- Changes take effect after `/clear` or a new session
 - Built-in styles (Default, Explanatory, Learning) take precedence if you use those exact names
 - Official docs: https://code.claude.com/docs/en/output-styles
 

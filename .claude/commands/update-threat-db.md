@@ -1,5 +1,9 @@
 # Delegate Threat Database Updates to AgentSec
 
+The native `update-threat-db` skill on Claude and Codex reads this delegation
+contract. Its source is `.claude/skills/update-threat-db/SKILL.md`; run
+`python3 scripts/sync-threat-skill.py --check` to check the Codex projection.
+
 AgentSec Triage is the canonical technical source for threat evidence, dated
 fiches, detector inputs, and the public security feed. Do not research or edit
 the guide database first.
@@ -38,6 +42,20 @@ python3 scripts/check-agentsec-security-feed.py \
 The guide keeps `examples/commands/resources/threat-db.yaml` temporarily because
 `/security-check` and `/security-audit` still consume it. It is a compatibility
 consumer, not the place to start a new intelligence update.
+
+After updating that compatibility database, refresh the landing's searchable
+catalogue as well as its feed. From the landing root, pass the actual guide
+checkout path (especially when validating isolated checkouts):
+
+```bash
+node scripts/sync-security-catalog.mjs --write --guide-root /path/to/claude-code-ultimate-guide
+node scripts/sync-security-catalog.mjs --check --guide-root /path/to/claude-code-ultimate-guide
+node --test src/data/agentsec-security-feed.test.ts src/data/agentsec-feed-sync.test.ts
+```
+
+The catalogue retains historical guide records that may not yet be in AgentSec.
+Report its count separately from the canonical feed count. Do not promote those
+historical entries into AgentSec without a source review.
 
 ## Guide follow-up
 

@@ -18,7 +18,7 @@
 
 <p align="center">
   <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Guide-v3.43.0-brightgreen?style=flat-square" alt="Guide version 3.43.0" /></a>
-  <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Updated-Sep_5,_2026_·_v3.43.0-brightgreen?style=flat-square" alt="Updated Sep 5, 2026, guide version 3.43.0" /></a>
+  <a href="./CHANGELOG.md"><img src="https://img.shields.io/badge/Updated-Sep_12,_2026_·_v3.43.0-brightgreen?style=flat-square" alt="Updated Sep 12, 2026, guide version 3.43.0" /></a>
   <a href="https://creativecommons.org/licenses/by-sa/4.0/"><img src="https://img.shields.io/badge/Guide-CC_BY--SA_4.0-blue?style=flat-square" alt="Guide license: CC BY-SA 4.0" /></a>
   <a href="https://cc.bruniaux.com/mcp/"><img src="https://img.shields.io/badge/MCP-npx_ready-blueviolet?style=flat-square" alt="MCP server available through npx" /></a>
 </p>
@@ -177,6 +177,7 @@ Context quality affects every tool call and decision. Start with project instruc
 | Coordinate several agents | [Agent Teams](./guide/workflows/agent-teams.md) |
 | Build bounded autonomous loops | [Agentic Software Factories](./guide/workflows/agentic-software-factories.md) |
 | Review code systematically | [Code Review](./guide/workflows/code-review.md) |
+| Prepare a contribution another team can review | [AI-Assisted Open Source Contributions](./guide/workflows/ai-assisted-open-source-contributions.md) |
 | Diagnose unfamiliar repositories | [Exploration Workflow](./guide/workflows/exploration-workflow.md) |
 
 [Browse every workflow](./guide/workflows/) for task management, GitHub Actions, production reliability, event-driven agents, design-to-code, PDF generation, search, and team instructions.
@@ -206,6 +207,7 @@ Use the [MCP or CLI decision guide](./guide/ecosystem/mcp-vs-cli.md) and the [tr
 | Isolation of untrusted execution | [Sandbox Isolation](./guide/security/sandbox-isolation.md) | [Native Sandbox](./guide/security/sandbox-native.md) |
 | Production changes and rollback | [Production Safety](./guide/security/production-safety.md) | [Production Reliability](./guide/workflows/production-reliability.md) |
 | Sensitive data and retention | [Data Privacy](./guide/security/data-privacy.md) | [Enterprise Governance](./guide/security/enterprise-governance.md) |
+| Active testing of authorized applications | [Agentic Pentesting](./guide/security/agentic-pentesting.md) | [DarkMoon and Strix Evaluation](./docs/resource-evaluations/darkmoon-strix-agentic-pentesting.md) |
 | MCP and extension supply chain | [MCP Ecosystem](./guide/ecosystem/mcp-servers-ecosystem.md) | [Threat Database](./examples/commands/resources/threat-db.yaml) |
 | Delegation readiness | [Specification Completeness Audit](./tools/spec-completeness-audit.md) | [Agent Evaluation](./guide/roles/agent-evaluation.md) |
 
@@ -414,4 +416,4 @@ Watch [GitHub Releases](https://github.com/FlorianBruniaux/claude-code-ultimate-
 
 ---
 
-*Version 3.43.0 | Updated daily · Sep 5, 2026*
+*Version 3.43.0 | Updated daily · Sep 12, 2026*

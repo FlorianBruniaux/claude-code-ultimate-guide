@@ -2,7 +2,7 @@
 
 **Resource**: DiffMem, a git-native / file-based memory backend for AI agents
 **Source**: [github.com/Growth-Kinetics/DiffMem](https://github.com/Growth-Kinetics/DiffMem)
-**Local clone analyzed**: `/Users/florianbruniaux/Sites/divers-test/DiffMem`, HEAD `9d24d0c`
+**Source analyzed**: [DiffMem](https://github.com/Growth-Kinetics/DiffMem/tree/9d24d0c)
 **Author**: Alex / Growth Kinetics (powers the "Annabelle AI" product)
 **License**: claimed MIT (pyproject classifier) but no LICENSE file exists, GitHub detects none
 **Evaluated**: 2026-07-25 (code + health + docs, each by a dedicated agent)

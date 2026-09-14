@@ -13,11 +13,11 @@
     "record_counts": {
       "attack_techniques": 40,
       "campaigns": 17,
-      "cves": 116,
+      "cves": 131,
       "malicious_skill_records": 93
     },
-    "updated": "2026-09-01",
-    "version": "2.28.0"
+    "updated": "2026-09-12",
+    "version": "2.29.0"
   },
   "detectors": [
     {
@@ -97,11 +97,476 @@
     }
   ],
   "input_digests": {
-    "intelligence_sha256": "8a74884d5312e3543aa701e04fd2198830d508ce48cfaeb878e80ca5c0957840",
-    "threat_database_sha256": "2f3267ab9415154c4af149a5f98d9a2e0a7550121f9454a8e6d1a462ae46a746"
+    "intelligence_sha256": "13af3c8c436b4a945d270e8028bb6738b710a1fd9af28614f317b2c12614b1a0",
+    "threat_database_sha256": "1d75e7c66fdd891036a41efa8a0bbeb4d5ae96201e9127f08f88d4cb32c34699"
   },
   "intelligence": {
     "events": [
+      {
+        "confidence": "confirmed",
+        "date": "2026-09-12",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Documented intelligence only. AgentSec has no tested detector for this vulnerability or affected version range."
+        },
+        "ecosystems": [
+          "VS Code",
+          "coding-agents"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-09-vscode-81383",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2026-81383"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "microsoft-ghsa-x5qc-gqm7-93qp"
+        ],
+        "status": "confirmed",
+        "summary": "A webview using non-file resource schemes can exploit inconsistent separator handling to read content outside the extension's allowed resource roots.",
+        "title": "VS Code: Webview resource root escape"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-09-12",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Documented intelligence only. AgentSec has no tested detector for this vulnerability or affected version range."
+        },
+        "ecosystems": [
+          "VS Code",
+          "coding-agents"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-09-vscode-81381",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2026-81381"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "microsoft-ghsa-rvgr-2w56-2j67"
+        ],
+        "status": "confirmed",
+        "summary": "Repository settings can redirect authenticated Azure DevOps Code Search requests to an attacker endpoint and expose the user's token.",
+        "title": "VS Code: Copilot Chat ADO token endpoint override"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-09-12",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Documented intelligence only. AgentSec has no tested detector for this vulnerability or affected version range."
+        },
+        "ecosystems": [
+          "VS Code",
+          "coding-agents"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-09-vscode-81380",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2026-81380"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "microsoft-ghsa-vww8-mqc2-4x8v"
+        ],
+        "status": "confirmed",
+        "summary": "Rendering agent-provided remote media can initiate a request before the chat policy removes the element, potentially leaking data encoded in its URL, including on history restoration.",
+        "title": "VS Code: Chat remote media request before filtering"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-09-12",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Documented intelligence only. AgentSec has no tested detector for this vulnerability or affected version range."
+        },
+        "ecosystems": [
+          "VS Code",
+          "coding-agents"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-09-vscode-81379",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2026-81379"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "microsoft-ghsa-hr37-8jwr-q8p8"
+        ],
+        "status": "confirmed",
+        "summary": "Agent web and browser tools can bypass denied destinations through inconsistent URL parsing or ignored valid administrator patterns when network filtering is enabled.",
+        "title": "VS Code: Agent URL authority and domain policy bypass"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-09-12",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Documented intelligence only. AgentSec has no tested detector for this vulnerability or affected version range."
+        },
+        "ecosystems": [
+          "VS Code",
+          "coding-agents"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-09-vscode-81378",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2026-81378"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "microsoft-ghsa-4gv7-q2x8-32p8"
+        ],
+        "status": "confirmed",
+        "summary": "With agent filtering and browser chat tools enabled, URL separator interpretation differs between policy validation and browser navigation, permitting requests to restricted hosts.",
+        "title": "VS Code: Browser URL separator network bypass"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-09-12",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Documented intelligence only. AgentSec has no tested detector for this vulnerability or affected version range."
+        },
+        "ecosystems": [
+          "VS Code",
+          "coding-agents"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-09-vscode-81377",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2026-81377"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "microsoft-ghsa-g6p5-6xp8-5jwg"
+        ],
+        "status": "confirmed",
+        "summary": "Installing or updating attacker-controlled MCP gallery metadata can write beyond per-server storage; uninstalling the entry can delete an unintended directory.",
+        "title": "VS Code: MCP gallery metadata path traversal"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-09-12",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Documented intelligence only. AgentSec has no tested detector for this vulnerability or affected version range."
+        },
+        "ecosystems": [
+          "VS Code",
+          "coding-agents"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-09-vscode-81376",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2026-81376"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "microsoft-ghsa-r2gr-w3c8-wvqv"
+        ],
+        "status": "confirmed",
+        "summary": "An untrusted workspace can connect to attacker-controlled services and bypass restrictions without the user granting workspace trust.",
+        "title": "VS Code: Workspace Trust service bypass"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-09-12",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Documented intelligence only. AgentSec has no tested detector for this vulnerability or affected version range."
+        },
+        "ecosystems": [
+          "VS Code",
+          "coding-agents"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-09-vscode-81357",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2026-81357"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "microsoft-ghsa-4xcg-6mm5-hj26"
+        ],
+        "status": "confirmed",
+        "summary": "With agent filtering enabled, an IPv4 deny entry and an empty allow list, an equivalent mapped IPv6 address can bypass the denied destination.",
+        "title": "VS Code: Mapped IPv6 deny-only policy bypass"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-09-12",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Documented intelligence only. AgentSec has no tested detector for this vulnerability or affected version range."
+        },
+        "ecosystems": [
+          "VS Code",
+          "coding-agents"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-09-vscode-78462",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2026-78462"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "microsoft-ghsa-2cmq-rv52-5rf6"
+        ],
+        "status": "confirmed",
+        "summary": "Workspace settings can choose a remote agent host and grant it local-file access, enabling data access or code execution when the crafted repository is opened.",
+        "title": "VS Code: Workspace remote agent host permissions"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-09-12",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Documented intelligence only. AgentSec has no tested detector for this vulnerability or affected version range."
+        },
+        "ecosystems": [
+          "VS Code",
+          "coding-agents"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-09-vscode-70334",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2026-70334"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "microsoft-ghsa-q2f8-hh8x-wpc2"
+        ],
+        "status": "confirmed",
+        "summary": "Restricted workspace settings expressed as nested objects can take effect without workspace trust, allowing settings intended to remain blocked.",
+        "title": "VS Code: Nested configuration Restricted Mode bypass"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-09-12",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Documented intelligence only. AgentSec has no tested detector for this vulnerability or affected version range."
+        },
+        "ecosystems": [
+          "MCP",
+          "Python"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-09-mysql-mcp-sse",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2026-59971"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "mysql-mcp-ghsa-rqfv-2mw9-78g2",
+          "github-db-mysql-cve-2026-59971"
+        ],
+        "status": "confirmed",
+        "summary": "The September CVE publication records an earlier maintainer disclosure. SSE deployments are affected; default stdio is excluded.",
+        "title": "MySQL MCP SSE exposure enters CVE tracking"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-09-12",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Documented intelligence only. AgentSec has no tested detector for this vulnerability or affected version range."
+        },
+        "ecosystems": [
+          "Goose",
+          "Git"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-09-goose-gitspawn-backfill",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2026-72718"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "goose-ghsa-r5pp-p5r8-466r"
+        ],
+        "status": "confirmed",
+        "summary": "The September GitSpawn review adds the July Goose advisory to AgentSec. Exposure requires attacker-controlled Git configuration already present on disk.",
+        "title": "Goose review GitSpawn advisory backfill"
+      },
+      {
+        "confidence": "review",
+        "date": "2026-09-12",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Documented intelligence only. AgentSec has no tested detector for this vulnerability or affected version range."
+        },
+        "ecosystems": [
+          "coding-agents",
+          "Git"
+        ],
+        "event_type": "disclosure",
+        "id": "evt-2026-09-gitspawn-monitoring",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2026-72718"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "manifold-gitspawn-2026-09",
+          "goose-ghsa-r5pp-p5r8-466r"
+        ],
+        "status": "monitoring",
+        "summary": "Manifold reports Git configuration execution during agent context collection. The September 1 patch-status snapshot needs vendor follow-up; no current fixed floor is inferred for its unresolved variants.",
+        "title": "GitSpawn cross-agent disclosure"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-09-12",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Documented intelligence only. AgentSec has no tested detector for this vulnerability or affected version range."
+        },
+        "ecosystems": [
+          "MCP",
+          "npm"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-09-frontmcp-ssrf-bypass",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2026-59973"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "frontmcp-ghsa-65h7-9wrw-629c",
+          "github-db-frontmcp-cve-2026-59973"
+        ],
+        "status": "confirmed",
+        "summary": "September database publication adds package ranges for a June advisory. It concerns a bypass of an earlier external-reference SSRF fix.",
+        "title": "FrontMCP SSRF bypass enters CVE tracking"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-09-12",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Documented intelligence only. AgentSec has no tested detector for this vulnerability or affected version range."
+        },
+        "ecosystems": [
+          "MCP",
+          "Python",
+          "AWS"
+        ],
+        "event_type": "vulnerability",
+        "id": "evt-2026-09-dynamodb-cdk-injection",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [
+            "CVE-2026-85654"
+          ],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "aws-2026-097-dynamodb-cdk"
+        ],
+        "status": "confirmed",
+        "summary": "AWS disclosed a generator defect triggered by untrusted data-model names. Exposure requires generating and deploying the resulting application.",
+        "title": "DynamoDB MCP CDK template injection"
+      },
+      {
+        "confidence": "confirmed",
+        "date": "2026-09-12",
+        "date_kind": "updated",
+        "detector_coverage": {
+          "detector_ids": [],
+          "status": "not_detected",
+          "summary": "Documented intelligence only. AgentSec has no tested detector for this vulnerability or affected version range."
+        },
+        "ecosystems": [
+          "Claude Code"
+        ],
+        "event_type": "remediation",
+        "id": "evt-2026-09-claude-permission-fixes",
+        "related": {
+          "campaign_ids": [],
+          "cve_ids": [],
+          "technique_ids": []
+        },
+        "source_ids": [
+          "anthropic-changelog-september-2026"
+        ],
+        "status": "confirmed",
+        "summary": "Anthropic documents additional security fixes through 2.1.269. This release-note review does not establish remediation of the withheld GitSpawn variant.",
+        "title": "Claude Code permission and plugin remediation"
+      },
       {
         "confidence": "confirmed",
         "date": "2026-08-25",
@@ -515,6 +980,16 @@
         "url": "https://www.aikido.dev/blog/keyv-and-friends-compromised-in-npm-supply-chain-attack"
       },
       {
+        "id": "anthropic-changelog-september-2026",
+        "published_date": "2026-09-11",
+        "publisher": "Anthropic",
+        "reviewed_date": "2026-09-12",
+        "source_type": "maintainer",
+        "status": "active",
+        "title": "Claude Code September permission and plugin fixes",
+        "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
+      },
+      {
         "id": "anthropic-ghsa-fg94-h982-f3mm",
         "published_date": "2026-06-13",
         "publisher": "Anthropic",
@@ -523,6 +998,26 @@
         "status": "active",
         "title": "Out-of-Band Data Exfiltration via Pre-Approved HuggingFace Domain in WebFetch",
         "url": "https://github.com/anthropics/claude-code/security/advisories/GHSA-fg94-h982-f3mm"
+      },
+      {
+        "id": "aws-2026-097-dynamodb-cdk",
+        "published_date": "2026-09-04",
+        "publisher": "Amazon Web Services",
+        "reviewed_date": "2026-09-12",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "DynamoDB MCP CDK template injection",
+        "url": "https://aws.amazon.com/security/security-bulletins/2026-097-aws/"
+      },
+      {
+        "id": "frontmcp-ghsa-65h7-9wrw-629c",
+        "published_date": "2026-06-22",
+        "publisher": "FrontMCP maintainers",
+        "reviewed_date": "2026-09-12",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "FrontMCP external reference SSRF fix bypass",
+        "url": "https://github.com/agentfront/frontmcp/security/advisories/GHSA-65h7-9wrw-629c"
       },
       {
         "id": "ghsa-siyuan-asset-upload-2026",
@@ -585,6 +1080,26 @@
         "url": "https://github.com/advisories/CVE-2026-67432"
       },
       {
+        "id": "github-db-frontmcp-cve-2026-59973",
+        "published_date": "2026-09-11",
+        "publisher": "GitHub Advisory Database",
+        "reviewed_date": "2026-09-12",
+        "source_type": "database",
+        "status": "active",
+        "title": "FrontMCP CVE package ranges",
+        "url": "https://github.com/advisories/GHSA-65h7-9wrw-629c"
+      },
+      {
+        "id": "github-db-mysql-cve-2026-59971",
+        "published_date": "2026-09-11",
+        "publisher": "GitHub Advisory Database",
+        "reviewed_date": "2026-09-12",
+        "source_type": "database",
+        "status": "active",
+        "title": "MySQL MCP CVE publication",
+        "url": "https://github.com/advisories/GHSA-rqfv-2mw9-78g2"
+      },
+      {
         "id": "github-ghsa-mcp-php-sdk-sse-2026",
         "publisher": "modelcontextprotocol/php-sdk (GitHub Security Advisory)",
         "reviewed_date": "2026-09-01",
@@ -592,6 +1107,16 @@
         "status": "active",
         "title": "DoS: client HttpTransport SSE buffer (sseBuffer .= chunk) grows unbounded when server withholds the event delimiter",
         "url": "https://github.com/modelcontextprotocol/php-sdk/security/advisories/GHSA-7m52-jw36-44r3"
+      },
+      {
+        "id": "goose-ghsa-r5pp-p5r8-466r",
+        "published_date": "2026-07-24",
+        "publisher": "Goose maintainers",
+        "reviewed_date": "2026-09-12",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "Goose review Git configuration execution",
+        "url": "https://github.com/aaif-goose/goose/security/advisories/GHSA-r5pp-p5r8-466r"
       },
       {
         "id": "hackernews-keyv-2026",
@@ -612,6 +1137,126 @@
         "status": "active",
         "title": "Major Shai-Hulud campaign strikes npm again, affecting keyv and 400+ packages",
         "url": "https://research.jfrog.com/post/shai-hulud-is-back-august/"
+      },
+      {
+        "id": "manifold-gitspawn-2026-09",
+        "published_date": "2026-09-01",
+        "publisher": "Manifold Security",
+        "reviewed_date": "2026-09-12",
+        "source_type": "research",
+        "status": "active",
+        "title": "GitSpawn repository configuration research",
+        "url": "https://www.manifold.security/blog/ai-coding-agents-git-hijack"
+      },
+      {
+        "id": "microsoft-ghsa-2cmq-rv52-5rf6",
+        "published_date": "2026-09-08",
+        "publisher": "Microsoft",
+        "reviewed_date": "2026-09-12",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "VS Code: Workspace remote agent host permissions",
+        "url": "https://github.com/microsoft/vscode/security/advisories/GHSA-2cmq-rv52-5rf6"
+      },
+      {
+        "id": "microsoft-ghsa-4gv7-q2x8-32p8",
+        "published_date": "2026-09-08",
+        "publisher": "Microsoft",
+        "reviewed_date": "2026-09-12",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "VS Code: Browser URL separator network bypass",
+        "url": "https://github.com/microsoft/vscode/security/advisories/GHSA-4gv7-q2x8-32p8"
+      },
+      {
+        "id": "microsoft-ghsa-4xcg-6mm5-hj26",
+        "published_date": "2026-09-08",
+        "publisher": "Microsoft",
+        "reviewed_date": "2026-09-12",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "VS Code: Mapped IPv6 deny-only policy bypass",
+        "url": "https://github.com/microsoft/vscode/security/advisories/GHSA-4xcg-6mm5-hj26"
+      },
+      {
+        "id": "microsoft-ghsa-g6p5-6xp8-5jwg",
+        "published_date": "2026-09-08",
+        "publisher": "Microsoft",
+        "reviewed_date": "2026-09-12",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "VS Code: MCP gallery metadata path traversal",
+        "url": "https://github.com/microsoft/vscode/security/advisories/GHSA-g6p5-6xp8-5jwg"
+      },
+      {
+        "id": "microsoft-ghsa-hr37-8jwr-q8p8",
+        "published_date": "2026-09-08",
+        "publisher": "Microsoft",
+        "reviewed_date": "2026-09-12",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "VS Code: Agent URL authority and domain policy bypass",
+        "url": "https://github.com/microsoft/vscode/security/advisories/GHSA-hr37-8jwr-q8p8"
+      },
+      {
+        "id": "microsoft-ghsa-q2f8-hh8x-wpc2",
+        "published_date": "2026-09-08",
+        "publisher": "Microsoft",
+        "reviewed_date": "2026-09-12",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "VS Code: Nested configuration Restricted Mode bypass",
+        "url": "https://github.com/microsoft/vscode/security/advisories/GHSA-q2f8-hh8x-wpc2"
+      },
+      {
+        "id": "microsoft-ghsa-r2gr-w3c8-wvqv",
+        "published_date": "2026-09-08",
+        "publisher": "Microsoft",
+        "reviewed_date": "2026-09-12",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "VS Code: Workspace Trust service bypass",
+        "url": "https://github.com/microsoft/vscode/security/advisories/GHSA-r2gr-w3c8-wvqv"
+      },
+      {
+        "id": "microsoft-ghsa-rvgr-2w56-2j67",
+        "published_date": "2026-09-08",
+        "publisher": "Microsoft",
+        "reviewed_date": "2026-09-12",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "VS Code: Copilot Chat ADO token endpoint override",
+        "url": "https://github.com/microsoft/vscode/security/advisories/GHSA-rvgr-2w56-2j67"
+      },
+      {
+        "id": "microsoft-ghsa-vww8-mqc2-4x8v",
+        "published_date": "2026-09-08",
+        "publisher": "Microsoft",
+        "reviewed_date": "2026-09-12",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "VS Code: Chat remote media request before filtering",
+        "url": "https://github.com/microsoft/vscode/security/advisories/GHSA-vww8-mqc2-4x8v"
+      },
+      {
+        "id": "microsoft-ghsa-x5qc-gqm7-93qp",
+        "published_date": "2026-09-08",
+        "publisher": "Microsoft",
+        "reviewed_date": "2026-09-12",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "VS Code: Webview resource root escape",
+        "url": "https://github.com/microsoft/vscode/security/advisories/GHSA-x5qc-gqm7-93qp"
+      },
+      {
+        "id": "mysql-mcp-ghsa-rqfv-2mw9-78g2",
+        "published_date": "2026-06-21",
+        "publisher": "MySQL MCP Server maintainers",
+        "reviewed_date": "2026-09-12",
+        "source_type": "advisory",
+        "status": "active",
+        "title": "MySQL MCP SSE origin validation",
+        "url": "https://github.com/designcomputer/mysql_mcp_server/security/advisories/GHSA-rqfv-2mw9-78g2"
       },
       {
         "id": "nvd-cve-2026-12537",
@@ -742,7 +1387,7 @@
         "url": "https://zenity.io/research/ai-total"
       }
     ],
-    "updated": "2026-09-01"
+    "updated": "2026-09-12"
   },
   "landing_metrics": {
     "critical_risk_skills": 534,

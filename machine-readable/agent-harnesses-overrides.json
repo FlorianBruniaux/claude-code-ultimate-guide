@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-05T00:00:00Z",
+  "generated_at": "2026-09-09T00:00:00Z",
   "notes": [
     "Manual records cover guide-curated products absent from the pinned upstream snapshot.",
     "A claimed loop status means an official project or vendor source describes an agent product, but this build did not independently execute the loop.",
@@ -566,6 +566,31 @@
       "source_type": "source_code_review",
       "evidence_url": "https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/specs/architecture/supervision-model.md",
       "override_reason": "Adjacent code-enforced multi-agent control plane absent from the upstream snapshot."
+    },
+    {
+      "id": "multica-ai/multica",
+      "name": "Multica",
+      "project_url": "https://github.com/multica-ai/multica",
+      "repository_url": "https://github.com/multica-ai/multica",
+      "category": "multi-agent",
+      "summary": "Human-agent work control plane that queues issue, chat, mention, and scheduled runs for external coding-agent CLIs through a daemon on a connected computer.",
+      "owns_loop": "no",
+      "stars": 49348,
+      "stars_captured_at": "2026-09-09",
+      "license_signal": "Restricted (Multica License)",
+      "archived": false,
+      "language": "Go, TypeScript",
+      "interfaces": ["chat", "cli", "desktop", "web"],
+      "provider_strategy": "multi_provider",
+      "tags": ["multi-agent", "issue-tracking", "local-daemon", "worktrees"],
+      "adoption_surface": "complex",
+      "autonomy": "bounded",
+      "recovery": "resumable",
+      "source_commit": "7a438bd5b8bf39afd54259a7eb0971390e50a8ef",
+      "evidence_status": "confirmed",
+      "source_type": "source_code_review",
+      "evidence_url": "https://github.com/multica-ai/multica/blob/7a438bd5b8bf39afd54259a7eb0971390e50a8ef/apps/docs/content/docs/how-multica-works.mdx",
+      "override_reason": "Adjacent issue-driven human-agent control plane absent from the upstream snapshot."
     }
   ],
   "map_defaults": {
@@ -633,7 +658,8 @@
     {"id": "agentsmesh", "project_ref": "AgentsMesh/AgentsMesh", "source_set": "guide_supplement", "owns_loop": "no", "evidence_status": "confirmed", "evidence_url": "https://github.com/AgentsMesh/AgentsMesh/blob/1f90b14194d03c353df4f281a05442afe93cae34/README.md", "source_type": "readme"},
     {"id": "autonomous-workstream", "project_ref": "AmoghReddy45/autonomous-workstream", "source_set": "guide_supplement", "owns_loop": "no", "evidence_status": "confirmed", "evidence_url": "https://github.com/AmoghReddy45/autonomous-workstream/blob/d256875782387c1d3f2997f5ed6d7794562df338/README.md", "source_type": "readme"},
     {"id": "enzyme-agent-harness", "project_ref": "0xenzyme/agent-harness", "source_set": "guide_supplement", "owns_loop": "no", "evidence_status": "confirmed", "evidence_url": "https://github.com/0xenzyme/agent-harness/blob/6e76553beabdd942842c8af635b07acc1ba5549f/README.md", "source_type": "readme"},
-    {"id": "liza", "project_ref": "liza-mas/liza", "source_set": "guide_supplement", "owns_loop": "no", "evidence_status": "confirmed", "evidence_url": "https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/specs/architecture/supervision-model.md", "source_type": "source_code_review"}
+    {"id": "liza", "project_ref": "liza-mas/liza", "source_set": "guide_supplement", "owns_loop": "no", "evidence_status": "confirmed", "evidence_url": "https://github.com/liza-mas/liza/blob/a22c12381c5d884d2586a48aaaa517bca184f9cf/specs/architecture/supervision-model.md", "source_type": "source_code_review"},
+    {"id": "multica", "project_ref": "multica-ai/multica", "source_set": "guide_supplement", "owns_loop": "no", "evidence_status": "confirmed", "evidence_url": "https://github.com/multica-ai/multica/blob/7a438bd5b8bf39afd54259a7eb0971390e50a8ef/apps/docs/content/docs/how-multica-works.mdx", "source_type": "source_code_review"}
   ],
   "excluded_candidates": [
     {

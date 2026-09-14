@@ -12,6 +12,10 @@
 !.claude/commands/
 !.claude/agents/
 !.claude/hooks/
+# Ship the AgentSec skill source while other personal skills stay ignored.
+!.claude/skills/
+.claude/skills/*
+!.claude/skills/update-threat-db/
 # Rules stay personal by default. index-sync.md is the exception: it documents a
 # repo convention enforced by a tracked hook and a tracked CI step, so it ships.
 !.claude/rules/
@@ -42,11 +46,18 @@ __pycache__/
 to-ignore/
 docs/drafts/
 .grepai/
+# Generated BM25 skill-router cache (rebuilt locally from skill scenarios)
+.claude/hooks/routing/data/
 whitepapers/
 !whitepapers/
 whitepapers/*
 !whitepapers/_extensions/
 !whitepapers/_extensions/**
+# Inputs of .github/workflows/rebuild-guide-exports.yml: CI renders from a clean checkout.
+!whitepapers/guide-export.qmd
+!whitepapers/nocite.lua
+!whitepapers/fix-lists.lua
+!whitepapers/epub-styles.css
 !whitepapers/fr/
 whitepapers/fr/*
 !whitepapers/fr/_extensions/

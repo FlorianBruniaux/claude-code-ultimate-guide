@@ -1,0 +1,29 @@
+---
+title: "Claude Code Ultimate Guide"
+subtitle: "From Zero to Power User — The Complete Reference"
+author: "Florian Bruniaux"
+date: today
+date-format: "MMMM YYYY"
+version: "3.43.0"
+series: "Claude Code Ultimate Guide"
+lang: en
+region: "US"
+format:
+  whitepaper-typst:
+    toc: true
+    toc-depth: 2
+    toc-title: "Table of Contents"
+    section-numbering: ""
+  epub:
+    toc: true
+    toc-depth: 2
+    number-sections: false
+    epub-cover-image: _extensions/whitepaper/assets/claude-code-ai-logo.jpg
+    css: epub-styles.css
+citeproc: false
+filters:
+  - nocite.lua
+  - fix-lists.lua
+---
+
+{{< include guide-content.md >}}

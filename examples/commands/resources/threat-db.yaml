@@ -2,9 +2,63 @@
 # For use with /security-check and /security-audit commands
 # Manually maintained — update after new security advisories
 
-version: "2.28.0"
-updated: "2026-09-01"
+version: "2.29.0"
+updated: "2026-09-12"
 sources:
+  - name: Anthropic - Claude Code September permission and plugin fixes
+    url: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
+    date: '2026-09-11'
+  - name: Manifold Security - GitSpawn repository configuration research
+    url: https://www.manifold.security/blog/ai-coding-agents-git-hijack
+    date: '2026-09-01'
+  - name: 'Microsoft - VS Code: Nested configuration Restricted Mode bypass'
+    url: https://github.com/microsoft/vscode/security/advisories/GHSA-q2f8-hh8x-wpc2
+    date: '2026-09-08'
+  - name: 'Microsoft - VS Code: Agent URL authority and domain policy bypass'
+    url: https://github.com/microsoft/vscode/security/advisories/GHSA-hr37-8jwr-q8p8
+    date: '2026-09-08'
+  - name: 'Microsoft - VS Code: Webview resource root escape'
+    url: https://github.com/microsoft/vscode/security/advisories/GHSA-x5qc-gqm7-93qp
+    date: '2026-09-08'
+  - name: 'Microsoft - VS Code: Copilot Chat ADO token endpoint override'
+    url: https://github.com/microsoft/vscode/security/advisories/GHSA-rvgr-2w56-2j67
+    date: '2026-09-08'
+  - name: 'Microsoft - VS Code: Chat remote media request before filtering'
+    url: https://github.com/microsoft/vscode/security/advisories/GHSA-vww8-mqc2-4x8v
+    date: '2026-09-08'
+  - name: 'Microsoft - VS Code: MCP gallery metadata path traversal'
+    url: https://github.com/microsoft/vscode/security/advisories/GHSA-g6p5-6xp8-5jwg
+    date: '2026-09-08'
+  - name: 'Microsoft - VS Code: Mapped IPv6 deny-only policy bypass'
+    url: https://github.com/microsoft/vscode/security/advisories/GHSA-4xcg-6mm5-hj26
+    date: '2026-09-08'
+  - name: 'Microsoft - VS Code: Browser URL separator network bypass'
+    url: https://github.com/microsoft/vscode/security/advisories/GHSA-4gv7-q2x8-32p8
+    date: '2026-09-08'
+  - name: 'Microsoft - VS Code: Workspace remote agent host permissions'
+    url: https://github.com/microsoft/vscode/security/advisories/GHSA-2cmq-rv52-5rf6
+    date: '2026-09-08'
+  - name: 'Microsoft - VS Code: Workspace Trust service bypass'
+    url: https://github.com/microsoft/vscode/security/advisories/GHSA-r2gr-w3c8-wvqv
+    date: '2026-09-08'
+  - name: Goose maintainers - Goose review Git configuration execution
+    url: https://github.com/aaif-goose/goose/security/advisories/GHSA-r5pp-p5r8-466r
+    date: '2026-07-24'
+  - name: FrontMCP maintainers - FrontMCP external reference SSRF fix bypass
+    url: https://github.com/agentfront/frontmcp/security/advisories/GHSA-65h7-9wrw-629c
+    date: '2026-06-22'
+  - name: GitHub Advisory Database - FrontMCP CVE package ranges
+    url: https://github.com/advisories/GHSA-65h7-9wrw-629c
+    date: '2026-09-11'
+  - name: MySQL MCP Server maintainers - MySQL MCP SSE origin validation
+    url: https://github.com/designcomputer/mysql_mcp_server/security/advisories/GHSA-rqfv-2mw9-78g2
+    date: '2026-06-21'
+  - name: GitHub Advisory Database - MySQL MCP CVE publication
+    url: https://github.com/advisories/GHSA-rqfv-2mw9-78g2
+    date: '2026-09-11'
+  - name: Amazon Web Services - DynamoDB MCP CDK template injection
+    url: https://aws.amazon.com/security/security-bulletins/2026-097-aws/
+    date: '2026-09-04'
   - name: "Zenity Labs - Attackers Target Agents via The Skill Supply Chain (Paperclip / Browser Use typosquats, 1.7M installs)"
     url: "https://labs.zenity.io/post/attackers-target-agents-via-the-skill-supply-chain"
     date: "2026-08-06"
@@ -1350,6 +1404,169 @@ malicious_skill_patterns:
 # CVE DATABASE (MCP servers & AI agent tools)
 # ═══════════════════════════════════════════════════════════════
 cve_database:
+  - id: ADVISORY-CC-2026-003
+    component: Claude Code (September permission and plugin fixes)
+    severity: high
+    description: September releases correct permission path checks, managed-policy failure handling,
+      plugin path containment, archive permissions and secret exposure in diagnostic output.
+    affected: Issue-specific ranges are not stated in release notes; fixes reviewed in 2.1.265
+      through 2.1.269
+    fixed_in: 2.1.269 includes the reviewed fixes
+    source: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
+    mitigation: Update to 2.1.269 or later and review permission rules and installed plugin provenance.
+    notes: Aggregate release-note advisory, not a CVE or a guarantee that all GitSpawn variants
+      are fixed. High is an AgentSec triage classification, not a vendor CVSS score.
+  - id: CVE-2026-70334
+    component: Visual Studio Code (Nested configuration Restricted Mode bypass)
+    severity: high
+    description: Restricted workspace settings expressed as nested objects can take effect without
+      workspace trust, allowing settings intended to remain blocked.
+    affected: Visual Studio Code < 1.136.2
+    fixed_in: 1.136.2
+    source: https://github.com/microsoft/vscode/security/advisories/GHSA-q2f8-hh8x-wpc2
+    mitigation: Update Visual Studio Code to 1.136.2 or later.
+    cwe: CWE-184
+  - id: CVE-2026-81379
+    component: Visual Studio Code (Agent URL authority and domain policy bypass)
+    severity: high
+    description: Agent web and browser tools can bypass denied destinations through inconsistent
+      URL parsing or ignored valid administrator patterns when network filtering is enabled.
+    affected: Visual Studio Code < 1.136.2
+    fixed_in: 1.136.2
+    source: https://github.com/microsoft/vscode/security/advisories/GHSA-hr37-8jwr-q8p8
+    mitigation: Update Visual Studio Code to 1.136.2 or later.
+    cvss: 8.2
+  - id: CVE-2026-81383
+    component: Visual Studio Code (Webview resource root escape)
+    severity: high
+    description: A webview using non-file resource schemes can exploit inconsistent separator
+      handling to read content outside the extension's allowed resource roots.
+    affected: Visual Studio Code < 1.136.2
+    fixed_in: 1.136.2
+    source: https://github.com/microsoft/vscode/security/advisories/GHSA-x5qc-gqm7-93qp
+    mitigation: Update Visual Studio Code to 1.136.2 or later.
+    cvss: 7.4
+    cwe: CWE-706
+  - id: CVE-2026-81381
+    component: Visual Studio Code (Copilot Chat ADO token endpoint override)
+    severity: medium
+    description: Repository settings can redirect authenticated Azure DevOps Code Search requests
+      to an attacker endpoint and expose the user's token.
+    affected: Visual Studio Code < 1.136.2
+    fixed_in: 1.136.2
+    source: https://github.com/microsoft/vscode/security/advisories/GHSA-rvgr-2w56-2j67
+    mitigation: Update Visual Studio Code to 1.136.2 or later.
+    cvss: 6.5
+    cwe: CWE-522
+  - id: CVE-2026-81380
+    component: Visual Studio Code (Chat remote media request before filtering)
+    severity: medium
+    description: Rendering agent-provided remote media can initiate a request before the chat
+      policy removes the element, potentially leaking data encoded in its URL, including on history
+      restoration.
+    affected: Visual Studio Code < 1.136.2
+    fixed_in: 1.136.2
+    source: https://github.com/microsoft/vscode/security/advisories/GHSA-vww8-mqc2-4x8v
+    mitigation: Update Visual Studio Code to 1.136.2 or later.
+    cvss: 5.3
+  - id: CVE-2026-81377
+    component: Visual Studio Code (MCP gallery metadata path traversal)
+    severity: medium
+    description: Installing or updating attacker-controlled MCP gallery metadata can write beyond
+      per-server storage; uninstalling the entry can delete an unintended directory.
+    affected: Visual Studio Code >= 1.0.0, < 1.136.2
+    fixed_in: 1.136.2
+    source: https://github.com/microsoft/vscode/security/advisories/GHSA-g6p5-6xp8-5jwg
+    mitigation: Update Visual Studio Code to 1.136.2 or later.
+    cvss: 6.5
+    cwe: CWE-22
+  - id: CVE-2026-81357
+    component: Visual Studio Code (Mapped IPv6 deny-only policy bypass)
+    severity: high
+    description: With agent filtering enabled, an IPv4 deny entry and an empty allow list, an
+      equivalent mapped IPv6 address can bypass the denied destination.
+    affected: Visual Studio Code < 1.136.2
+    fixed_in: 1.136.2
+    source: https://github.com/microsoft/vscode/security/advisories/GHSA-4xcg-6mm5-hj26
+    mitigation: Update Visual Studio Code to 1.136.2 or later.
+    cvss: 8.2
+  - id: CVE-2026-81378
+    component: Visual Studio Code (Browser URL separator network bypass)
+    severity: high
+    description: With agent filtering and browser chat tools enabled, URL separator interpretation
+      differs between policy validation and browser navigation, permitting requests to restricted
+      hosts.
+    affected: Visual Studio Code < 1.136.2
+    fixed_in: 1.136.2
+    source: https://github.com/microsoft/vscode/security/advisories/GHSA-4gv7-q2x8-32p8
+    mitigation: Update Visual Studio Code to 1.136.2 or later.
+    cvss: 8.2
+  - id: CVE-2026-78462
+    component: Visual Studio Code (Workspace remote agent host permissions)
+    severity: high
+    description: Workspace settings can choose a remote agent host and grant it local-file access,
+      enabling data access or code execution when the crafted repository is opened.
+    affected: Visual Studio Code < 1.136.2
+    fixed_in: 1.136.2
+    source: https://github.com/microsoft/vscode/security/advisories/GHSA-2cmq-rv52-5rf6
+    mitigation: Update Visual Studio Code to 1.136.2 or later.
+    cvss: 8.8
+    cwe: CWE-639
+  - id: CVE-2026-81376
+    component: Visual Studio Code (Workspace Trust service bypass)
+    severity: critical
+    description: An untrusted workspace can connect to attacker-controlled services and bypass
+      restrictions without the user granting workspace trust.
+    affected: Visual Studio Code < 1.136.2
+    fixed_in: 1.136.2
+    source: https://github.com/microsoft/vscode/security/advisories/GHSA-r2gr-w3c8-wvqv
+    mitigation: Update Visual Studio Code to 1.136.2 or later.
+    cvss: 9.6
+    cwe: CWE-693
+  - id: CVE-2026-72718
+    component: Goose CLI (goose review)
+    severity: high
+    cvss: 7.0
+    description: Review context collection invokes Git with repository-controlled fsmonitor configuration,
+      allowing host command execution before the model or tool approval flow runs.
+    affected: goose < 1.44.0
+    fixed_in: 1.44.0
+    source: https://github.com/aaif-goose/goose/security/advisories/GHSA-r5pp-p5r8-466r
+    mitigation: Upgrade to 1.44.0 or later; review the provenance of folders delivered with Git
+      metadata.
+  - id: CVE-2026-59973
+    component: FrontMCP, @frontmcp/adapters and mcp-from-openapi
+    severity: high
+    cvss: 8.5
+    description: Loading an untrusted OpenAPI specification can reach private endpoints through
+      external references that bypass the earlier SSRF fix. Deployment exposure depends on who
+      can supply adapter specifications.
+    affected: frontmcp and @frontmcp/adapters >= 1.2.1, < 1.5.0; mcp-from-openapi >= 2.3.0, <
+      2.5.0
+    fixed_in: frontmcp/@frontmcp/adapters 1.5.0; mcp-from-openapi 2.5.0
+    source: https://github.com/agentfront/frontmcp/security/advisories/GHSA-65h7-9wrw-629c
+    mitigation: Upgrade the affected packages; disable external references for untrusted specifications
+      where possible.
+  - id: CVE-2026-59971
+    component: mysql-mcp-server (SSE transport)
+    severity: critical
+    cvss: 10.0
+    description: SSE transport lacks Origin/Host validation and request authentication, permitting
+      SQL execution with the configured database account. Default stdio transport is unaffected.
+    affected: mysql-mcp-server < 0.4.2
+    fixed_in: 0.4.2
+    source: https://github.com/designcomputer/mysql_mcp_server/security/advisories/GHSA-rqfv-2mw9-78g2
+    mitigation: Upgrade to 0.4.2 or later; restrict network exposure and database privileges.
+  - id: CVE-2026-85654
+    component: awslabs.dynamodb-mcp-server (CDK generator)
+    severity: high
+    description: Crafted table, index or attribute names in an untrusted data model can inject
+      code into generated CDK output, executed by the host deploying the application.
+    affected: awslabs.dynamodb-mcp-server >= 2.0.10, <= 2.1.5
+    fixed_in: 2.1.6
+    source: https://aws.amazon.com/security/security-bulletins/2026-097-aws/
+    mitigation: Upgrade to 2.1.6 or later and review untrusted data models before generating or
+      deploying CDK output.
   # --- Anthropic Filesystem MCP ---
   - id: "CVE-2025-53109"
     component: "Filesystem MCP Server"
@@ -2625,6 +2842,13 @@ cve_database:
 # MINIMUM SAFE VERSIONS (quick reference for scanning)
 # ═══════════════════════════════════════════════════════════════
 minimum_safe_versions:
+  awslabs.dynamodb-mcp-server: 2.1.6
+  mysql-mcp-server: 0.4.2
+  frontmcp: 1.5.0
+  '@frontmcp/adapters': 1.5.0
+  mcp-from-openapi: 2.5.0
+  goose: 1.44.0
+  vscode: 1.136.2
   "nginx-ui": "2.3.4"
   "filesystem-mcp": "0.6.3"
   "mcp-inspector": "0.14.1"
@@ -2635,7 +2859,7 @@ minimum_safe_versions:
   "@playwright/mcp": "0.0.40"
   "mcp-package-docs": "0.1.28"
   "cursor": "3.0.0"
-  "claude-code": "2.1.163"   # CVE-2026-54316, Hugging Face WebFetch exfiltration oracle
+  "claude-code": "2.1.269"   # CVE-2026-54316, Hugging Face WebFetch exfiltration oracle
   "claude-code-action": "1.0.94"
   "rmcp": "1.4.0"
   "mcp-java-sdk": "1.0.0"

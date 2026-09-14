@@ -1,6 +1,6 @@
 # Resource Evaluation: Méthode Aristote: ai-instructions patterns
 
-**Source**: Internal project — `/Users/florianbruniaux/Sites/MethodeAristote/app/doc/guides/ai-instructions/`
+**Source**: Internal project documentation (not publicly accessible)
 **Author**: Florian Bruniaux (same author as this guide)
 **Date analyzed**: 2026-02-22
 **Score**: 4/5

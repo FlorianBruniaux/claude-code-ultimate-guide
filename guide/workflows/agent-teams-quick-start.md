@@ -173,7 +173,7 @@ Team: landing-sync (2 agents)
 ```
 > Validate guide/landing synchronization:
 > - Guide scanner: Extract version from VERSION file, template count (find examples/ -type f | wc -l), eval count (find docs/resource-evaluations/ -name "*.md" | wc -l), guide lines (wc -l guide/ultimate-guide.md), FAQ entries from README.md
-> - Landing scanner: Check /Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide-landing/index.html and examples.html for version in footer+FAQ, template count in badges, eval count, guide lines approximation (~9800+)
+> - Landing scanner: Check ../claude-code-ultimate-guide-landing/index.html and examples.html for version in footer+FAQ, template count in badges, eval count, guide lines approximation (~9800+)
 >
 > Report: Synced ✅ / Mismatches with line numbers
 ```
@@ -413,7 +413,7 @@ claude
 ```
 > Validate guide/landing synchronization:
 > - Guide scanner: Extract version from VERSION file, template count (find examples/ -type f | wc -l), eval count (find docs/resource-evaluations/ -name "*.md" | wc -l), guide lines (wc -l guide/ultimate-guide.md)
-> - Landing scanner: Check /Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide-landing/index.html and examples.html for version, counts, guide lines approximation
+> - Landing scanner: Check ../claude-code-ultimate-guide-landing/index.html and examples.html for version, counts, guide lines approximation
 ```
 
 ---

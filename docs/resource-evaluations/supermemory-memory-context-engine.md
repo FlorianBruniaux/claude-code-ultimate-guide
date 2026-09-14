@@ -71,7 +71,7 @@ Supermemory is a VC-backed ($29M seed, Oct 2025) memory API and context engine w
 |-------|--------|--------|-------|
 | $29M seed funding, Oct 2025 ($3M + $26M) | startupintros.com/orgs/supermemory | Externally anchored | Third-party profile, not a primary filing (no press release or SEC-equivalent source located) |
 | Founder Dhravya Shah, SF-based | Same source | Externally anchored | Started as an open-source side project before the seed rounds |
-| MIT license, main repo | LICENSE file, direct inspection of the cloned repo at `/Users/florianbruniaux/Sites/divers-test/supermemory` | Verified directly | Copyright 2025 supermemory |
+| MIT license, main repo | LICENSE file, direct inspection of the Supermemory repository clone | Verified directly | Copyright 2025 supermemory |
 | SOC 2 Type II, GDPR deletion workflow, HIPAA BAA | supermemory.ai/docs/overview/security | Company-stated | Gated to Scale/Enterprise plans, not Free/Pro; no independent audit report located |
 | claude-supermemory plugin requires Pro ($19/mo min.) | github.com/supermemoryai/claude-supermemory | Company-stated, structurally verifiable | Confirmed by the plugin's own stated requirement, not by testing a live signup |
 | Supermemory MCP is free, no login, separate from the plugin | github.com/supermemoryai/supermemory-mcp | Company-stated, structurally verifiable | Do not conflate the two integrations; they have different repos, different pricing |

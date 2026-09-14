@@ -969,6 +969,12 @@ If they struggle to answer two weeks in a row, that's your signal to slow down.
 
 ---
 
+### Assess explanation, diagnosis and escalation
+
+Use the [review comprehension exercise](../../examples/learning-project/review-comprehension-exercise.md) to observe what a learner can explain before assistance, predict after an assumption changes, diagnose in a failing example, and escalate outside their scope. Record mentor and agent interventions separately from the final answer.
+
+In [IFTTD episode 362](https://www.ifttd.io/episodes/le-lean-a-l-ere-de-l-ia), Yacine Hmito distinguishes giving an agent a skill from teaching its operator to judge the resulting work. His example of formalizing a good unit test makes the operator's tacit criteria inspectable. The exercise operationalizes that distinction; it is not evidence that review-based training equals learning by writing code. Repeat with a new task before claiming transfer, and keep comprehension results separate from merged-PR counts.
+
 ### Scalable Mentoring Models
 
 The 1:1 senior/junior compagnonnage model doesn't scale past teams of 5-10. These three approaches do:
@@ -1194,6 +1200,12 @@ Those three describe the market. The training mechanism is the part nobody has m
 | Keep one weekly block of manual writing | Individual | Preserves the cheap-cognition stretch and keeps the skill calibrated. Deleuze recommends alternating sessions deliberately (see [adoption-approaches.md](./adoption-approaches.md#what-we-do-know-empirical-data)) |
 | Cap daily AI development cycles even when tooling allows more | Individual, tech lead | Reported fatigue within weeks when practitioners ignored the cap (Lepine, IFTTD ep 351) |
 | Distinguish demand-driven from motivation-driven overwork before intervening | Tech lead | The Norwegian profile data shows the two look identical from outside and need opposite responses |
+
+### Observe attention alongside throughput
+
+[Clare Liguori's AWS account at 15:48](https://www.youtube.com/watch?v=pqlWNihgdjI&t=948s) describes the pressure of continuous agent work and multiple terminals. [Nicole Forsgren at 7:24](https://www.youtube.com/watch?v=DfrAaDgFgjc&t=444s) discusses flow, feedback and cognitive load as dimensions of developer experience. These interviews complement IFTTD's practitioner accounts; they do not establish a clinical burnout rate or a causal effect of agent concurrency.
+
+Record concurrent tasks, interruptions, context resumptions, review effort and self-reported difficulty stopping. Agree a concurrency limit to evaluate locally and compare equivalent work before and after the change. Do not convert a line-count heuristic or an individual report into a universal cognitive threshold.
 
 ### What Is Not Established
 

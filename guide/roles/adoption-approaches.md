@@ -10,6 +10,19 @@ tags: [guide, config, workflows]
 
 ---
 
+## Open contribution without granting unrestricted delivery
+
+In [IFTTD episode 371](https://www.ifttd.io/episodes/everyone-can-build), Alexandre Gerlic describes Alan's Everyone Can Build initiative: non-engineers initially worked on frontend changes, using the engineering environment, with backend and database changes outside that scope. Engineers reviewed the resulting pull requests, including typo fixes. His reported contribution volume is a field account, not a controlled measurement of collective productivity.
+
+| Responsibility | Make explicit before the first contribution |
+|---|---|
+| Contributor | Product intent, permitted change class, explanation and checks they can perform |
+| Engineering reviewer | Technical consequences, missing evidence and ownership after integration |
+| Agent | Allowed files, tools and effects, independently of the contributor's personal permissions |
+| Release authority | Who or which tested policy may merge and deploy this class of change |
+
+An [Alan Product Crew interview at 10:49](https://www.youtube.com/watch?v=2quWpI_VSDQ&t=649s) also describes engineering pairing and responsibility for merging. This is another account of the same organization, not an independent replication. Track review effort and assistance over subsequent changes before claiming durable team gains. Teaching a non-engineer a bounded contribution workflow is also different from training a junior engineer; use [Learning with AI](learning-with-ai.md) for the latter.
+
 ## What We Don't Know Yet
 
 Before diving in, here's what remains genuinely uncertain:

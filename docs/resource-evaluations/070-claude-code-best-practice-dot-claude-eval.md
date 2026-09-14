@@ -3,7 +3,7 @@
 **Date**: 2026-02-26
 **Evaluator**: Claude (Sonnet 4.6)
 **Source**: Repo cloné localement (analyse directe)
-**Path**: `/Users/florianbruniaux/Sites/perso/claude-code-best-practice/.claude/`
+**Path**: [Repository configuration](https://github.com/shanraisshan/claude-code-best-practice/tree/main/.claude)
 **Type**: Configuration de référence (agents, skills, commands, hooks, settings)
 
 ---

@@ -2,7 +2,7 @@
 
 Workflow for keeping `cc.bruniaux.com` in sync with the guide after significant changes.
 
-**Landing repo**: `/Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide-landing/`
+**Landing repo**: [claude-code-ultimate-guide-landing](https://github.com/FlorianBruniaux/claude-code-ultimate-guide-landing). Commands assume sibling guide and landing checkouts.
 
 ## Elements to Sync
 

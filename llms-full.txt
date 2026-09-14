@@ -10,8 +10,8 @@
 
 - Title: Claude Code Ultimate Guide
 - Author: Florian Bruniaux (Founding Engineer @ Méthode Aristote)
-- Version: 3.42.0
-- Last Updated: August 26, 2026
+- Version: 3.43.0
+- Last Updated: September 9, 2026
 - License: CC BY-SA 4.0
 - Repository: https://github.com/FlorianBruniaux/claude-code-ultimate-guide
 - Landing: https://cc.bruniaux.com
@@ -66,11 +66,16 @@ This guide is the most comprehensive community resource for Claude Code. It cove
 - No curl/wget blocklist exists; a missing domain hangs to timeout rather than erroring
 - Writes to Claude Code's own settings.json are denied at every scope, so a sandboxed script cannot widen its own policy
 
+**Agent Harnesses and Orchestration** (`guide/core/agent-harness.md`, `guide/ecosystem/agent-harness-landscape.md`, `guide/ecosystem/agentic-tools.md`):
+- The catalog separates 42 strict runtimes from 16 adjacent control planes.
+- Multica is classified as an adjacent control plane: its server coordinates issue, chat, and scheduled runs while a daemon on a connected computer executes external coding-agent CLIs.
+- Its profile documents the server/local execution split, server-stored run data, daemon-user permission boundary, Git enforcement boundary, restricted licence, and untested runtime status.
+
 ---
 
 ## Full Cheatsheet
 
-**Version**: 3.42.0 | **Last Updated**: August 2026
+**Version**: 3.43.0 | **Last Updated**: September 2026
 
 ---
 
@@ -101,7 +106,8 @@ Source of truth for the complete set: https://code.claude.com/docs/en/commands (
 | `/mobile` | Get Claude mobile app download links |
 | `/fast` | Toggle fast mode (2.5x speed, 6x cost) |
 | `/voice` | Toggle voice dictation (hold Space to speak, release to send) |
-| `/loop [interval] [prompt]` | Run a prompt on repeat (ex: `/loop 5m check the deploy`, default 10m) |
+| `/loop [interval] [prompt]` | Repeat on a fixed interval, or let Claude choose the interval when omitted; recurring tasks expire after 7 days (see scheduling reference) |
+| `/goal [condition\|clear]` | Pursue a verifiable condition across turns; bare `/goal` shows status. Evaluator reads transcript evidence; completion does not authorize release. |
 | `/usage` | Token + cost usage per model, plan limits (v2.1.118, replaces /cost and /stats) |
 | `/cost` | Alias for /usage (v2.1.118+) |
 | `/stats` | Alias for /usage, opens on the Stats tab (v2.1.118+) |
@@ -301,7 +307,8 @@ VERIFY: Empty email shows error, invalid format shows error
 | `--permission-mode plan` | Plan mode |
 | `--tools "Tool1,Tool2"` | Enable specific tools for session |
 | `--max-budget-usd 5.00` | Max API spend limit |
-| `--system-prompt "..."` | Append custom system prompt |
+| `--system-prompt "..."` | Replace the entire default system prompt |
+| `--append-system-prompt "..."` | Append text to the default system prompt |
 | `--worktree` / `-w` | Run in isolated git worktree |
 | `--dangerously-skip-permissions` | Auto-accept (use carefully) |
 | `--debug` | Debug output |
@@ -310,7 +317,7 @@ VERIFY: Empty email shows error, invalid format shows error
 
 ### The Golden Rules
 
-1. **Always review diffs** before accepting
+1. **Verify proportionately**: automated first pass under a risk policy; owner sign-off on sensitive paths, current integration evidence and exercised recovery
 2. **Use `/compact`** before context gets critical (>70%)
 3. **Be specific** in requests (WHAT, WHERE, HOW, VERIFY)
 4. **Plan Mode first** for complex/risky tasks
@@ -456,6 +463,15 @@ Since Claude Code 2.1.3, `.claude/commands/` merged into `.claude/skills/`; ever
 
 ---
 
+## Contribution and verification workflows
+
+- `guide/workflows/ai-assisted-open-source-contributions.md`: prepare a contribution with project policy, reproduction, author understanding and verification evidence.
+- `examples/templates/ai-assisted-contribution.md`: reusable contribution packet.
+- `examples/workflows/review-admission.md`: proposed pause/resume policy for a shared verification queue, with illustrative tabletop cases.
+- `examples/learning-project/review-comprehension-exercise.md`: proposed comprehension assessment, distinct from delivery metrics.
+
+The 2025-2026 IFTTD additions extend Practitioner Insights to 75 attributed observations, including six public transcripts checked through episode 373. Field accounts and proposed procedures do not establish measured throughput or learning improvements.
+
 ## FAQ
 
 **Q: What is the Claude Code Ultimate Guide?**
@@ -497,6 +513,8 @@ A: With proper hardening, yes. Key steps: never use `bypassPermissions` in produ
 ---
 
 ## Privacy & Data
+
+Agentic pentesting: `guide/security/agentic-pentesting.md` compares DarkMoon and Strix, separates configuration scans, source review, and active testing, and explains exploit evidence, model data exposure, and reproducible evaluation. `guide/security/data-privacy.md` covers reversible tokenization and error-path limits. The comparison records source inspection and bounded local checks; it does not establish a performance winner or production readiness.
 
 Claude Code sends to Anthropic servers: your prompts, file contents you reference, MCP tool results.
 - Default retention: 5 years (training enabled)

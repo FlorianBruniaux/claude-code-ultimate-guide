@@ -1488,71 +1488,27 @@ AI-generated code requires **proportional verification** based on risk level. Bl
 
 ### The Problem: Verification Debt
 
-Research consistently shows AI code has higher defect rates than human-written code:
-
-| Metric | AI vs Human | Source |
-|--------|-------------|--------|
-| Logic errors | 1.75× more | [ACM study, 2025](https://dl.acm.org/doi/10.1145/3716848) |
-| Security flaws | 45% contain vulnerabilities | [Veracode GenAI Report, 2025](https://veracode.com/blog/genai-code-security-report) |
-| XSS vulnerabilities | 2.74× more | [CodeRabbit study, 2025](https://coderabbit.ai/blog/state-of-ai-vs-human-code-generation-report) |
-| PR size increase | +18% | [Jellyfish, 2025](https://jellyfish.co) |
-| Incidents per PR | +24% | [Cortex.io, 2026](https://cortex.io) |
-| Change failure rate | +30% | [Cortex.io, 2026](https://cortex.io) |
-
-**Key insight**: AI produces code faster but verification becomes the bottleneck. The question isn't "does it work?" but "how do I know it works?"
-
-> **Nuance on downstream maintainability**: A 2-phase blind RCT (Borg et al., 2025, n=151 professional developers) found no significant difference in the time needed for downstream developers to evolve AI-generated vs. human-generated code. The defect rates above are real, but they do not systematically translate into higher maintenance burden for the next developer. The risk is more narrowly scoped than commonly assumed. ([arXiv:2507.00788](https://arxiv.org/abs/2507.00788))
+Generation can outpace verification. Reports on generated-code defects, review findings and delivery incidents examine different populations and outcomes; their percentages cannot be combined into a universal defect rate or a promised review recall. Measure confirmed findings, escaped defects, review effort and recovery on your own changes with explicit denominators and a comparable baseline.
 
 ### The Verification Spectrum
 
-Not all code needs the same scrutiny. Match verification effort to risk:
+Classify consequences and interactions before choosing review depth. A configuration change can alter permissions, and a utility can sit on a critical path.
 
-| Code Type | Verification Level | Time Investment | Techniques |
-|-----------|-------------------|-----------------|------------|
-| **Boilerplate** (configs, imports) | Light skim | 10-30 sec | Glance, trust structure |
-| **Utility functions** (formatters, helpers) | Quick test | 1-2 min | One happy path test |
-| **Business logic** | Deep review + tests | 5-15 min | Line-by-line, edge cases |
-| **Security-critical** (auth, crypto, input validation) | Maximum + tools | 15-30 min | Static analysis, fuzzing, peer review |
-| **External integrations** (APIs, databases) | Integration tests | 10-20 min | Mock + real endpoint test |
+| Change risk | Verification and authority |
+|-------------|----------------------------|
+| Bounded, reversible behavior with established checks | Automated first pass, relevant behavior tests and sampled human review under an explicit policy |
+| Business rules or incomplete requirements | Domain review of intent and edge cases; version newly discovered criteria and re-run affected checks |
+| Authentication, authorization, cryptography or sensitive data | Designated owner sign-off plus appropriate static, behavior and adversarial checks |
+| External integrations or persistent data changes | Integration and failure-path tests, compatibility assessment and an exercised restoration or compensation plan |
+| Interacting PRs or a changed base | Reclassify the combined change and verify the candidate integration revision |
 
 ### Solo vs Team Verification
 
-**Solo Developer Strategy:**
+**Solo developer strategy:** use a reviewer separated from the authoring context, inspect unexpected changes, and run meaningful behavior checks. Coverage percentages and a happy-path test do not establish sufficiency. Retain responsibility for intent, sensitive behavior and recovery; seek domain review when the consequence exceeds your current evidence. Size scrutiny by risk, not line count.
 
-Without peer reviewers, compensate with:
+**Team strategy:** agents can find and verify defects in a first pass. Measure their performance rather than assuming they catch a fixed percentage. Assign human owners to sensitive paths and domain decisions. A clean automated pass can reduce deep human review for an established low-risk class under policy; it does not authorize bypassing required approvals.
 
-1. **High test coverage (>70%)**: Your safety net
-2. **Vibe Review**: An intermediate layer between "accept blindly" and "review every line":
-   - Read the commit message / summary
-   - Skim the diff for unexpected file changes
-   - Run the tests
-   - Quick sanity check in the app
-   - Ship if green
-3. **Static analysis tools**: ESLint, SonarQube, Semgrep catch what you miss
-4. **Time-boxing**: Don't spend 30 min reviewing a 10-line utility
-
-```
-Solo workflow:
-Generate → Vibe Review → Tests pass? → Ship
-                ↓
-        Tests fail? → Deep review → Fix
-```
-
-**Team Strategy:**
-
-With multiple developers:
-
-1. **AI first-pass review**: Let Claude or Copilot review first (catches 70-80% of issues)
-2. **Human sign-off required**: AI review ≠ approval
-3. **Domain experts for critical paths**: Security code → security-trained reviewer
-4. **Rotate reviewers**: Prevent blind spots from forming
-
-```
-Team workflow:
-Generate → AI Review → Human Review → Merge
-              ↓              ↓
-         Flag issues    Final approval
-```
+In either setting, record the reviewed head, base, criteria and tested integration state. If a requirement or combined change alters the risk, re-run affected verification. A binding agent verdict establishes workflow authority, not the truth of its judgment.
 
 ### The "Prove It Works" Checklist
 
@@ -1582,9 +1538,9 @@ Before shipping AI-generated code, verify:
 
 | Anti-Pattern | Problem | Better Approach |
 |--------------|---------|-----------------|
-| **"It compiles, ship it"** | Syntax ≠ correctness | Run at least one test |
+| **"It compiles, ship it"** | Syntax ≠ correctness | Verify the required behavior and failure cases |
 | **"AI wrote it, must be secure"** | AI optimizes for plausible, not safe | Always review security-critical code manually |
-| **"Tests pass, done"** | Tests might not cover the change | Check test coverage of modified lines |
+| **"Tests pass, done"** | Tests might not cover the change | Check assertions against intent, boundaries and failure cases |
 | **"Same as last time"** | Context changes, AI may generate different code | Each generation is independent |
 | **"Senior dev wrote the prompt"** | Seniority doesn't guarantee output quality | Review output, not input |
 | **"It's just boilerplate"** | Even boilerplate can hide issues | At minimum, skim for surprises |
@@ -1596,50 +1552,25 @@ Your verification strategy should evolve:
 1. **Start cautious**: Review everything when new to Claude Code
 2. **Track failure patterns**: Where do bugs slip through?
 3. **Tighten critical paths**: Double-down on areas with past incidents
-4. **Relax low-risk areas**: Trust AI more for stable, tested code types
+4. **Relax low-risk areas**: Use observed outcomes and exercised recovery to adjust the policy for a defined change class
 5. **Periodic audits**: Spot-check "trusted" code occasionally
 
 **Mental model**: Think of AI as a capable junior developer. You wouldn't deploy their code unreviewed, but you also wouldn't rewrite everything they produce.
 
 ### Putting It Together
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                 TRUST CALIBRATION FLOW                  │
-├─────────────────────────────────────────────────────────┤
-│                                                         │
-│  AI generates code                                      │
-│         │                                               │
-│         ▼                                               │
-│  ┌──────────────┐                                       │
-│  │ What type?   │                                       │
-│  └──────────────┘                                       │
-│    │    │    │                                          │
-│    ▼    ▼    ▼                                          │
-│  Boiler Business Security                               │
-│  -plate  logic   critical                               │
-│    │      │        │                                    │
-│    ▼      ▼        ▼                                    │
-│  Skim   Test +   Full review                            │
-│  only   review   + tools                                │
-│    │      │        │                                    │
-│    └──────┴────────┘                                    │
-│            │                                            │
-│            ▼                                            │
-│    Tests pass? ──No──► Debug & fix                      │
-│            │                                            │
-│           Yes                                           │
-│            │                                            │
-│            ▼                                            │
-│        Ship it                                          │
-│                                                         │
-└─────────────────────────────────────────────────────────┘
+```text
+Generate → classify consequences and combined changes → required verification
+  → accepted evidence on the current integration state + required sign-offs
+  → eligible to merge under repository policy
+
+Missing evidence, unresolved findings or changed criteria → revise or escalate
+Incorrect acceptance detected later → contain, restore or compensate, evaluate
 ```
 
-> "AI lets you code faster, but make sure you're not also failing faster."
-> *Adapted from Addy Osmani*
+Task resumption, reviewer configuration rollback, application rollback and data recovery are separate operations. Exercise the recovery relevant to the product before using reversibility to justify less human review. See [Loop & Graph Engineering](core/loop-graph-engineering.md#5-allocate-judgment-explicitly) for allocation of judgment and [multi-provider review](workflows/multi-provider-code-review.md) for evidence and gate boundaries.
 
-**Attribution**: This section draws from Addy Osmani's ["AI Code Review"](https://addyosmani.com/blog/code-review-ai/) (Jan 2026), research from ACM, Veracode, CodeRabbit, and Cortex.io.
+**Attribution**: the selective-review framing draws on Addy Osmani's [AI Code Review](https://addyosmani.com/blog/code-review-ai/). The verification policy here is a method to evaluate locally, not a measured performance claim.
 
 ## 1.8 Eight Beginner Mistakes (and How to Avoid Them)
 
@@ -8412,7 +8343,7 @@ When reviewing architecture:
 
 This skill is now installed in the Méthode Aristote repository at:
 ```
-/Users/florianbruniaux/Sites/MethodeAristote/app/.claude/skills/design-patterns/
+.claude/skills/design-patterns/
 ```
 
 **Usage**:
@@ -9613,7 +9544,7 @@ Claude Code provides three distinct mechanisms for running recurring tasks. They
 | Runs on | Anthropic cloud | Local machine | Local machine |
 | Machine must be on | No | Yes | Yes |
 | Session must be open | No | No | Yes |
-| Persists between restarts | Yes | Yes | No |
+| Persists between restarts | Yes | Yes | Restored on session resume if unexpired |
 | Local file access | No (fresh repo clone) | Yes | Yes |
 | Trigger types | Schedule / API / GitHub events | Schedule only | In-session only |
 | MCP servers | Configured connectors per task | Config files + connectors | Inherited from session |
@@ -9750,7 +9681,7 @@ This approach runs entirely offline without any Anthropic infrastructure and has
 
 #### The /loop Command
 
-`/loop [interval] [prompt]` runs a prompt or slash command on a recurring interval within your current session. It stops when you press `Ctrl+C` or send any new message.
+`/loop [interval] [prompt]` schedules recurring work within the current session. With an interval, it uses a fixed schedule. Without one, Claude chooses the delay between iterations. An interval triggers another run; it is not a completion condition.
 
 ```bash
 /loop 5m check the deploy
@@ -9758,7 +9689,11 @@ This approach runs entirely offline without any Anthropic infrastructure and has
 /loop 1h /pr-pruner
 ```
 
-**How it works**: Claude executes the prompt, waits for the interval, executes again, repeat. Each execution is timestamped in the transcript. You can reference a slash command (like `/loop 30m /review-pr`) or write a free-form prompt directly.
+**How it works**: Scheduled prompts run between turns while Claude is idle. A fixed interval becomes a cron schedule with one-minute granularity; timing can include jitter. Without an interval, Claude chooses a delay between one minute and one hour based on the observed work. A bare `/loop` uses the built-in maintenance prompt, or `.claude/loop.md` when present, falling back to `~/.claude/loop.md` for a user-level default. On third-party providers or with feature-flag fetching disabled, dynamic intervals and the default prompt require v2.1.248 or later; older versions in those configurations use a fixed ten-minute default when a prompt has no interval.
+
+**Invocation boundary**: A scheduled prompt can invoke a skill that Claude is allowed to call, such as a configured `/review-pr` skill. Built-in commands and skills with `disable-model-invocation: true` arrive as plain text instead of executing. Do not assume that nesting `/goal` inside a `/loop` prompt activates a goal. See the [bounded triage design](./core/loop-graph-engineering.md#compose-recurring-triage-with-bounded-work) for the distinction between a workflow design and tested command composition.
+
+**Stop and resume**: Ask Claude to list or cancel scheduled tasks; the underlying tools are `CronList` and `CronDelete`. For a self-paced loop waiting for its next iteration, `Esc` clears its pending wakeup; Claude can also stop that loop when the task is complete. Fixed-interval tasks continue until cancelled or expired. Starting a new conversation stops tasks from the previous conversation, while `--resume` or `--continue` restores unexpired tasks. Closing the process prevents further runs until it is resumed.
 
 **Use cases from Boris Cherny (Claude Code creator):**
 
@@ -9768,7 +9703,7 @@ This approach runs entirely offline without any Anthropic infrastructure and has
 | `/loop 30m /slack-feedback` | Post PRs for team feedback every 30 min |
 | `/loop 1h /pr-pruner` | Clean up stale PRs on a schedule |
 
-**Constraints**: Session-scoped only. Max 3 days runtime, minimum 1 minute interval, maximum 50 tasks per session.
+**Constraints**: Recurring tasks expire seven days after creation, including time spent outside the session. A session can hold up to 50 scheduled tasks. Use Routines or Desktop scheduled tasks when scheduling must survive independently of a conversation. Source: [Run prompts on a schedule](https://code.claude.com/docs/en/scheduled-tasks), checked September 10, 2026.
 
 > `/loop` added in v2.1.71. Timestamp markers in loop transcripts added in v2.1.86. Cloud and Desktop Scheduled Tasks launched March 9, 2026. Source: [code.claude.com/docs/en/whats-new](https://code.claude.com/docs/en/whats-new)
 
@@ -16247,12 +16182,14 @@ Explanatory and Learning produce longer responses by design, increasing output t
 
 ### Custom Styles
 
-Since December 2025, you can define your own styles in `.claude/styles/`. Create a Markdown file and reference it by filename (without extension) as the `outputStyle` value.
+Custom output styles are Markdown files. Store project styles in `.claude/output-styles/` or user-wide styles in `~/.claude/output-styles/`, then reference the filename without its extension as the `outputStyle` value.
 
 ```
-.claude/styles/
+.claude/output-styles/
 └── strict-reviewer.md    # Custom style definition
 ```
+
+By default, a custom style omits the built-in Claude Code software engineering instructions. For a coding-oriented style, preserve them with `keep-coding-instructions: true` in the file YAML frontmatter. Output-style changes take effect after `/clear` or a new session.
 
 ```json
 {
@@ -18149,21 +18086,23 @@ Also auto-triggers on phrases like "be brief" or "less tokens please." Auto-disa
 
 ### Command Output Optimization with RTK
 
-**RTK (Rust Token Killer)** filters bash command outputs **before** they reach Claude's context, achieving 60-90% token reduction across git, testing, and development workflows. 73,531 stars, 4,597 forks as of 2026-07-27 (was 446 stars, 38 forks), 700+ upvotes on r/ClaudeAI.
+**RTK (Rust Token Killer)** filters command output before it reaches the model. Its reported reductions concern processed shell output, not the whole session or invoice. `rtk gain` uses local token estimates; count retries and task outcomes separately.
 
 **Repository:** [rtk-ai/rtk](https://github.com/rtk-ai/rtk) | **Website:** [rtk-ai.app](https://www.rtk-ai.app/)
+
+For broader hooks, code navigation and MCP interception, see the [Tokenade comparison and evidence boundary](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ecosystem/third-party-tools.md#tokenade). It covers a proprietary alternative with vendor-maintained benchmark results, not a universal replacement recommendation.
 
 **Installation:**
 
 ```bash
 # Option 1: Homebrew (macOS/Linux)
-brew install rtk-ai/tap/rtk
+brew install rtk
 
 # Option 2: Cargo (all platforms)
-cargo install rtk
+cargo install --git https://github.com/rtk-ai/rtk
 
 # Option 3: Install script
-curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/master/install.sh | bash
 
 # Verify installation
 rtk --version  # v0.28.0+
@@ -19215,7 +19154,7 @@ Before setting up tmux grids or third-party orchestrators, try Agent View, Claud
 
 ### /goal: Autonomous Completion Mode (v2.1.139)
 
-`/goal <condition>` sets a completion contract for the current session. Claude keeps working across turns until a separate evaluator model verifies the condition is met. No need to send "continue" after each step.
+`/goal <condition>` sets a completion condition for the current session. A separate evaluator can continue the work, mark the condition met, or judge it impossible. Some unrecoverable errors also clear the goal. A completed goal is evidence about the stated condition; acceptance of the change still follows the project's review policy.
 
 ```bash
 /goal all unit tests pass and no TypeScript errors
@@ -19233,7 +19172,7 @@ A live overlay tracks elapsed time, turn count, and token consumption throughout
 |---------|--------|
 | `/goal <condition>` | Set or replace the current goal |
 | `/goal clear` | Cancel the active goal |
-| `/goal status` | Show condition and evaluator's last reason |
+| `/goal` | Show condition, progress and evaluator's last reason |
 
 **Three elements of an effective condition**:
 
@@ -19243,11 +19182,16 @@ A live overlay tracks elapsed time, turn count, and token consumption throughout
 
 Full example: `/goal all tests in test/auth pass, verified by npm test auth exit 0, no files outside src/services/auth modified`
 
+**Bound the run**: Include an explicit limit, for example `or stop after 5 turns`. The evaluator judges that clause from the conversation; it is not a deterministic execution counter. If exceeding a budget is unacceptable, enforce it in the controller outside the model. The [bounded-loop example](../examples/workflows/bounded-loop-example.py) demonstrates a program-enforced attempt limit without invoking a model. Its test does not validate Claude Code's runtime.
+
+**Resume and failure**: An active goal is restored when the session resumes, but its turn count, timer and token-spend baseline reset. Keep a durable total budget outside those session counters when work spans resumes. The evaluator can clear an impossible goal; unrecoverable credit, context or model errors can clear it too. Inspect the recorded reason rather than treating every cleared goal as success.
+
 **`/goal` vs `/loop`**:
 
 | | `/goal` | `/loop` |
 |--|---------|---------|
-| Terminates when | Condition verified by evaluator | Time interval elapses |
+| Next turn starts when | Previous turn finishes and goal remains unmet; background work can defer evaluation | Scheduled interval elapses and the session can run it |
+| Stops when | Condition met, judged impossible, cleared manually, or cleared after an unrecoverable error | Cancelled or expired; a self-paced loop can also finish its task |
 | Evaluator | Separate model (Haiku default) | Primary model self-assesses |
 | Best for | Task with a clear, measurable finish line | Ongoing monitoring without a defined end |
 | Example | "Migrate all API calls, tests pass" | "Check the deploy every 5 minutes" |
@@ -19260,14 +19204,14 @@ Full example: `/goal all tests in test/auth pass, verified by npm test auth exit
 
 **Permissions**: `/goal` does not expand the session's permission boundary. If the session requires confirmation before executing shell commands, those confirmations still fire inside a goal loop. Configure permission mode deliberately before activating a goal.
 
-**Context rot on long tasks**: Accuracy can degrade after roughly 20 turns as context fills. For tasks requiring many iterations, the "Orchestrator + `claude -p`" pattern keeps each iteration in a clean context:
+**Context on long tasks**: Track progress and retained evidence instead of assuming a universal turn threshold for degradation. An orchestrator can start a fresh non-interactive session for each bounded subtask, but must supply the requirements, current artifact and previous results explicitly:
 
 ```bash
 # Each call runs in a fresh session — no context accumulation
 claude -p "Step N of migration: [specific sub-task with explicit context]"
 ```
 
-> Introduced in v2.1.139 (May 12, 2026). Evaluator edge-case fixes (background process detection, `disableAllHooks` handling) in v2.1.143 (May 16, 2026). Official docs: [code.claude.com/docs/en/goal](https://code.claude.com/docs/en/goal)
+> Introduced in v2.1.139 (May 12, 2026). Current status, evaluation and resume behavior checked September 10, 2026 against [Keep Claude working toward a goal](https://code.claude.com/docs/en/goal).
 
 ---
 
@@ -20104,6 +20048,7 @@ Don't jump to 10 instances. Scale progressively with validation gates.
 # - Headless PM (manual coordination)
 # - Gas Town (parallel task execution)
 # - multiclaude (self-hosted, tmux-based)
+# - Multica (issue/chat control plane with local daemon execution)
 # - Entire CLI (governance + sequential handoffs)
 
 # 2. Define roles
@@ -20125,7 +20070,10 @@ Don't jump to 10 instances. Scale progressively with validation gates.
 | **Manual (worktrees)** | No framework | 2-3 instances, full control |
 | **Gas Town** | Parallel coordination | 5+ instances, complex parallel tasks |
 | **multiclaude** | Self-hosted spawner | Teams needing on-prem/airgap |
+| **Multica** | Issue-driven multi-provider control plane | Teams coordinating local agent CLIs through a server/daemon split |
 | **Entire CLI** | Governance + handoffs | Sequential workflows with compliance |
+
+> **Multica** keeps issues, chat, agent configuration, schedules, and run records in its coordination tier while connected computers execute Claude Code, Codex, and other CLIs through a local daemon. See the [evidence-pinned Multica profile](./ecosystem/agentic-tools.md#49-multica) for deployment, data, security, Git, and licence boundaries.
 
 > **Entire CLI** (Feb 2026): Alternative to parallel orchestration, focuses on **sequential agent handoffs** with governance layer (approval gates, audit trails). Useful for compliance-critical workflows (SOC2, HIPAA) or multi-agent handoffs (Claude → Gemini). See [AI Ecosystem Guide](./ecosystem/ai-ecosystem.md#entire-cli-governance-first-orchestration) for details.
 
@@ -21863,26 +21811,11 @@ Agents must pass CI before PR approval. Never disable CI checks.
 
 #### PR Reviews: Human-in-the-Loop
 
-**Even with CI, require human review**:
+**Enforce required human approval through repository policy on the paths that need it.** Counting entries in `reviews` does not establish approval: entries can be comments, change requests, stale decisions or automation output.
 
-```yaml
-# .github/workflows/pr-rules.yml
-name: PR Rules
+Use [native protected-branch review settings](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches): require approving reviews and designated code owners for sensitive paths. Configure stale-approval handling or approval of the latest reviewable push. Inspect eligible reviewer identities, dismissal rights and bypass permissions; a review count alone cannot prove that a human owner approved.
 
-on: [pull_request]
-
-jobs:
-  require-review:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check for approval
-        run: |
-          APPROVALS=$(gh pr view ${{ github.event.pull_request.number }} --json reviews --jq '.reviews | length')
-          if [ "$APPROVALS" -lt 1 ]; then
-            echo "PR requires at least 1 human review"
-            exit 1
-          fi
-```
+Verify the effective policy with an unapproved PR, a change request, a new push after approval and an authorized approval. Keep required checks and integration-state validation alongside that policy. These are configuration and verification instructions, not a workflow that has been installed or exercised in your repository.
 
 **Why human review matters**:
 - Agents miss context (business requirements not in code)
