@@ -259,8 +259,8 @@ The economics pages separate observed costs from estimates and scenarios. Recalc
 Install the guide as a stdio MCP server and query it from Claude Code, Codex, Cursor, VS Code, or another MCP client.
 
 ```bash
-claude mcp add --scope user claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.3
-codex mcp add claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.3
+claude mcp add --scope user claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.4
+codex mcp add claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.4
 ```
 
 Project-scoped Claude Code configuration belongs in `.mcp.json`:
@@ -271,7 +271,7 @@ Project-scoped Claude Code configuration belongs in `.mcp.json`:
     "claude-code-guide": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.3"]
+      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.4"]
     }
   }
 }
