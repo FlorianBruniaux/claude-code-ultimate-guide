@@ -272,6 +272,16 @@ The defense that scales: structural isolation (makes certain actions impossible)
 
 Three platforms have productized agents as a CI/CD primitive. The choice between them is an architectural decision, not a feature comparison.
 
+### Test Selection as an Agent Primitive
+
+Before any of the three platforms below, one layer decides what those agents actually run: deterministic test selection, a service that picks which tests run on a given change based on past results and package relevance, instead of running the full suite on every PR. This is not specific to any platform; it is infrastructure the three CI/CD agent patterns below sit on top of.
+
+It matters specifically for agents, not just for CI cost. A human reviewer can look at a failing test and judge, from experience, whether it applies to their change. An agent needs that judgment made for it: a specific, current set of relevant tests is what lets it self-verify and iterate instead of drowning in irrelevant failures ([Agentic coding is straining CI](https://claude.com/blog/agentic-coding-is-straining-ci-heres-how-we-scaled-test-impact-analysis-at-anthropic), Anthropic engineering, September 2026; see [full evaluation](../../docs/resource-evaluations/2026-09-14-anthropic-ci-test-impact-analysis.md)).
+
+Anthropic's own service illustrates the failure mode to design around. Its v0 split a listener, which records test results from every CI run, from a selector, which reads that history to decide what runs on new PRs. Both ran as a single process, because a running per-test history needs a single writer, and that single-writer constraint is what blocked horizontal sharding. Under concurrent CI load the listener fell behind the PR queue: a bad merged change failed a test for everyone, a flaking dependency turned into flaky reds that blocked merges, and a newly fixed test simply didn't run until the listener caught up. Three sequential patches, a bigger machine, then sharding, then daily restarts, each bought less time than the last before the team rewrote the service around a stateless in-memory journal that any worker can append to, making it horizontally scalable at the cost of running more expensive infrastructure than the original singleton.
+
+The limits: no product is named in the source, no latency SLO is published, and the distributed design is explicitly more expensive to run in exchange for being easier to scale and to profile. Treat this as a pattern to plan for, not a specific tool to adopt.
+
 ### GitHub Agentic Workflows
 
 The central concept: `gh aw compile` takes an agent workflow definition in Markdown and produces a `.lock.yml`, a hardened GitHub Actions file that executes the workflow with enforced isolation. The compilation step is where security properties are baked in, not added later.

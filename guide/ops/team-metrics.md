@@ -110,6 +110,8 @@ Each DORA metric reacts differently when AI enters the development workflow. Und
 
 AI accelerates feature development, so your deployment cadence should increase, provided your pipeline can keep up. If deployment frequency stays flat after widespread AI adoption, the bottleneck is downstream: staging environments, manual QA gates, or review throughput, not coding speed. AI gives you more PRs to merge; it doesn't automatically improve the rest of the pipeline.
 
+Anthropic's own CI reports one shape of that downstream bottleneck: tests across its codebase grew 10x with only a nominal amount of engineers added, which translated into a 25x increase in CI jobs over six months ([Agentic coding is straining CI](https://claude.com/blog/agentic-coding-is-straining-ci-heres-how-we-scaled-test-impact-analysis-at-anthropic), September 2026; see [full evaluation](../../docs/resource-evaluations/2026-09-14-anthropic-ci-test-impact-analysis.md)). This is a single company's trajectory, not a published counting methodology or a benchmark, and the three figures don't multiply out because not every test runs on every PR. Their dimensioning heuristic still travels: assume your CI architecture will be at 25x its current load within two quarters, and budget allowing, design v0 for 10-20x the perceived scale rather than the observed scale.
+
 Watch for: deployment frequency climbing while change failure rate also climbs. That's AI-accelerated code that isn't being reviewed carefully.
 
 ### Change Lead Time
