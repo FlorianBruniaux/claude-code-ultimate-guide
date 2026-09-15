@@ -1,0 +1,29 @@
+CHANGELOG.md
+  s_ff9704cdc527ef::t_4d3afae0e64c2d 92
+README.md
+  s_ff9704cdc527ef::t_6b0c110db59de0 262-263,274
+guide/ultimate-guide.md
+  s_ff9704cdc527ef::t_21d3189d7475e6 13079-13080,13091
+machine-readable/mcp-product.json
+  s_ff9704cdc527ef::t_248d889bfa143e 5,16-17,488
+mcp-server/README.md
+  s_ff9704cdc527ef::t_965a5d33eedf0b 15,26,35,48,64,78,142,162
+mcp-server/server.json
+  s_ff9704cdc527ef::t_b61f7f3a5922ed 10,15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "aaaa22877b0996221a94e43ca7de9e02c3f70edf",
+  "prompts": {},
+  "sessions": {
+    "s_ff9704cdc527ef": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fcaa6d4b-11f4-4c1d-8631-03dd8c4a0124",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
