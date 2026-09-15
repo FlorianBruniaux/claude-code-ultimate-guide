@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.269"
-updated: "2026-09-12"
+latest: "2.1.272"
+updated: "2026-09-15"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,28 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-August 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.272"
+    date: "2026-09-14"
+    highlights:
+      - "Bug fixes and reliability improvements; upstream provides no further detail"
+
+  - version: "2.1.271"
+    date: "2026-09-14"
+    highlights:
+      - "⭐ Added per-command `allowed_domains` to Bash, PowerShell and Monitor in auto mode with sandboxing: the hosts a command needs are reviewed with it and opened for it alone"
+      - "Added `omitClaudeMd` to agent frontmatter and `--agents` JSON, letting custom and plugin subagents run without user, project and local CLAUDE.md files; managed policy files still load"
+      - "Added `--accept-command <sha256>` to `claude plugin install`/`update`, fast mode in Remote sessions, and mouse support in the `/config` panel"
+      - "Fixed an unreadable enterprise `managed-mcp.json` being ignored: it now keeps exclusive MCP control and warns at startup, alongside ~80 further fixes across MCP, resume, hooks and terminal rendering"
+    breaking:
+      - "Monitor watches always have a deadline (30 minutes maximum, 10 in single-prompt `-p` runs); the no-timeout `persistent` option is removed."
+      - "In auto mode, a skill's or slash command's inline `!` shell commands follow default-mode permission rules instead of the classifier."
+      - "Default dynamic workflow size is small on Pro plans, and the medium size guideline drops from 15 to 10 agents."
+
+  - version: "2.1.270"
+    date: "2026-09-12"
+    highlights:
+      - "Fixed read-only git commands in Bash unexpectedly asking for permission after a session had been running for a while (regression in v2.1.269)"
 
   - version: "2.1.269"
     date: "2026-09-11"
@@ -1973,7 +1995,7 @@ breaking_summary:
     - "Removed # shortcut for quick memory (v2.0.70)"
     - "`modelPicker:setAsDefault` keybinding renamed to `modelPicker:thisSessionOnly` (v2.1.153)"
   security:
-    - "Plugin archive access and Bash tee destination checks corrected (v2.1.269); symlinked-path rules and MCP/plugin secret redaction corrected (v2.1.268); unreadable managed allowlists fail closed (v2.1.267)"
+    - "Per-command `allowed_domains` scope host access to the reviewed command in auto mode with sandboxing (v2.1.271); plugin archive access and Bash tee destination checks corrected (v2.1.269); symlinked-path rules and MCP/plugin secret redaction corrected (v2.1.268); unreadable managed allowlists fail closed (v2.1.267)"
     - "Windows NT-namespace (`\\??\\`) paths bypassing UNC path validation, an NTLM credential-leak vector, rejected in Bash paths (v2.1.233) then across remote reads, session restore, CLAUDE.md includes, workflow scripts, and uploads (v2.1.234)"
     - "Plugin shell-form command injection via `${user_config.*}` fixed, now rejected (v2.1.207)"
     - "Command injection fix in bash processing (v2.1.2)"
@@ -2012,6 +2034,8 @@ breaking_summary:
   syntax:
     - "Indexed argument syntax changed: $ARGUMENTS.0 → $ARGUMENTS[0] (v2.1.19)"
     - "`Write(path)`, `NotebookEdit(path)`, and `Glob(path)` permission rules now warn at startup — use `Edit(path)` or `Read(path)` (v2.1.210)"
+    - "Monitor watches always have a deadline (30 min max, 10 in `-p` runs); the no-timeout `persistent` option is removed (v2.1.271)"
+    - "In auto mode, inline `!` shell commands in skills and slash commands follow default-mode permission rules instead of the classifier (v2.1.271)"
     - "Single-segment `dir/**` hook `if:` conditions match only `<cwd>/dir` — write `**/dir/**` for any-depth matching (`deny`/`ask` permission rules keep any-depth) (v2.1.214)"
     - "`file -m`/`--magic-file`/`-f`/`--files-from` and `docker` daemon-redirect flags (`--url`, `--connection`, `--identity`) now require permission (v2.1.214)"
   agents:
@@ -2025,6 +2049,7 @@ breaking_summary:
 # MILESTONE FEATURES (quick reference)
 # ════════════════════════════════════════════════════════════════
 milestones:
+  "2.1.271": "Per-command allowed_domains for Bash/PowerShell/Monitor in auto mode with sandboxing, omitClaudeMd agent frontmatter, --accept-command for plugin install/update, Monitor persistent watches replaced by bounded deadlines"
   "2.1.269": "claude plugin eval produces scored JSON/HTML reports; /output-style works in remote and headless sessions; VS Code agent map and hook/permission dialogs"
   "2.1.260": "/diff panel shows uncommitted changes beside the conversation in fullscreen mode, prompt-cache-miss cause hint in /cost and status line, permission-rule paths with parentheses no longer silently dropped"
   "2.1.257": "Claude Fable 5.1 becomes the default Fable model (1M context, $10/$50 per Mtok), Containment Escape auto-mode rule against cloud metadata/egress/cross-tenant reach, permissions.blockReadsOutsideWorkingDirectories"

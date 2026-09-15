@@ -17,12 +17,15 @@ keywords:
 > **Release dates**: UTC publication dates from the [official npm package metadata](https://registry.npmjs.org/@anthropic-ai%2Fclaude-code). Only versions with upstream changelog entries are included.
 > **Machine-readable**: [claude-code-releases.yaml](../../machine-readable/claude-code-releases.yaml)
 
-**Latest**: v2.1.269 | **Updated**: 2026-09-12
+**Latest**: v2.1.272 | **Updated**: 2026-09-15
 
 ---
 
 ## Quick Jump
 
+- [v2.1.272](#v21272-2026-09-14): maintenance release
+- [v2.1.271](#v21271-2026-09-14): per-command `allowed_domains` in auto mode, `omitClaudeMd` agents and bounded Monitor watches
+- [v2.1.270](#v21270-2026-09-12): read-only git permission-prompt regression fix
 - [v2.1.269](#v21269-2026-09-11): plugin evaluations, output-style switching and security fixes
 - [v2.1.268](#v21268-2026-09-10): compatible-endpoint fix, WebFetch deadline and Artifact permission changes
 - [v2.1.267](#v21267-2026-09-09): effort caps and prompt-cache fixes
@@ -36,6 +39,29 @@ keywords:
 ---
 
 ## 2.1.x Series (January-August 2026)
+
+### v2.1.272 (2026-09-14)
+
+- **Fixed**: Bug fixes and reliability improvements. Upstream provides no further detail.
+
+### v2.1.271 (2026-09-14)
+
+- **Added** (security): Auto mode with sandboxing accepts a per-command `allowed_domains` list on Bash, PowerShell and Monitor. The hosts a command needs are reviewed together with the command and opened for that command alone; every other host is refused.
+- **Added**: `omitClaudeMd` in agent frontmatter and in `--agents` JSON lets custom and plugin subagents run without user, project and local `CLAUDE.md` files. Managed policy files still load.
+- **Added**: `claude plugin install` and `claude plugin update` accept `--accept-command <sha256>`, which approves exactly the command a previous `--json` run displayed instead of blanket `-y`.
+- **Added**: Fast mode works in Claude Code Remote sessions where the organization allows it. The `/config` panel gains mouse support in fullscreen mode, and `modelPricing` accepts a `multiplier` above 1 (up to 10) for internal chargeback.
+- **Fixed**: An enterprise `managed-mcp.json` that cannot be read or parsed is no longer ignored. It keeps exclusive MCP control, so user, project and plugin servers do not load, and it warns at startup.
+- **Fixed**: Cached organization policy surviving an account, organization or API-key switch; org policy rejected through third-party local proxies set via `ANTHROPIC_UNIX_SOCKET`; cloud sessions rejecting every subagent tool call after a worker restart.
+- **Fixed**: Four Bash permission-check gaps around unrecognized option arguments, wildcard expansion inside patterns and option values, shell variable declaration flags, and double `cd`/subshell/`cd`+`git` chains under `permissions.blockReadsOutsideWorkingDirectories`.
+- **Fixed**: `/resume` and `/teleport` keeping the previous conversation's file-read tracking, `--resume` dropping the 1M context window on a model-family change, and Claude starting a second copy of a background command after compaction.
+- **Changed**: Monitor watches always carry a deadline, at most 30 minutes and 10 in single-prompt `-p` runs, and notify Claude to re-arm. The no-timeout `persistent` option is gone.
+- **Changed**: In auto mode, inline `!` shell commands inside a skill or slash command follow default-mode permission rules instead of the safety classifier, and a subagent reports back through a dedicated hand-back call that the classifier reviews.
+- **Changed**: Dynamic workflows default to the small size on Pro plans, and the medium guideline drops from 15 to 10 agents.
+- **Improved**: Terminal rendering on large diffs and long transcripts, hook feedback with elapsed time and Esc cancellation on `SessionStart`, artifact watching raised from 5 to 10 concurrent artifacts, and `claude mcp serve` progress updates every 30 seconds.
+
+### v2.1.270 (2026-09-12)
+
+- **Fixed**: Read-only git commands in Bash unexpectedly asking for permission after a session had been running for a while, a regression introduced in v2.1.269.
 
 ### v2.1.269 (2026-09-11)
 
@@ -3430,6 +3456,9 @@ keywords:
 
 | Version | Change |
 |---------|--------|
+| v2.1.271 | Monitor watches always have a deadline (30 minutes maximum, 10 in single-prompt `-p` runs); the no-timeout `persistent` option is removed. |
+| v2.1.271 | In auto mode, inline `!` shell commands in skills and slash commands follow default-mode permission rules instead of the classifier. |
+| v2.1.271 | Dynamic workflows default to the small size on Pro plans, and the medium size guideline drops from 15 to 10 agents. |
 | v2.1.268 | Plain `WebFetch` deny/ask rules no longer gate Artifact reads or updates; use `Artifact` or `WebFetch(domain:claude.ai)`. |
 | v2.1.265 | Managed `forceLoginGatewayUrl` now selects gateway authentication at startup; leftover claude.ai credentials or API keys are not used. |
 | v2.1.68 | Opus 4 and Opus 4.1 removed from the Claude Code first-party API, auto-migrated to Opus 4.6 |
@@ -3462,6 +3491,7 @@ keywords:
 
 | Version | Issue |
 |---------|-------|
+| v2.1.271 | Per-command `allowed_domains` scope host access to the reviewed command in auto mode with sandboxing; four Bash permission-check gaps closed |
 | v2.1.269 | Plugin archive access, Bash `tee` destination checks and negated permission-rule scope |
 | v2.1.268 | Symlinked-path deny/ask rules, untrusted teammate definitions and MCP/plugin secret redaction |
 | v2.1.267 | Unreadable managed hook/channel allowlists fail closed; marketplace backslash containment bypass closed |
@@ -3486,6 +3516,7 @@ keywords:
 
 | Version | Key Features |
 |---------|--------------|
+| **v2.1.271** | Per-command `allowed_domains` for Bash, PowerShell and Monitor in auto mode with sandboxing, `omitClaudeMd` agent frontmatter, `--accept-command` for plugin install and update, Monitor `persistent` watches replaced by bounded deadlines |
 | **v2.1.269** | `claude plugin eval` produces scored JSON/HTML reports; `/output-style` supports remote and headless sessions; VS Code gains an agent map and hook/permission dialogs |
 | **v2.1.232** | Subagent forking on by default (fork inherits conversation + prompt cache), `@`-mention another session by name, GitLab plugin marketplaces and token redaction |
 | **v2.1.224** | Self-hosted environments (`claude self-hosted-runner`) for Team and Enterprise, cross-session `SendMessage` across your machines, `archive` plugin source over HTTPS |
