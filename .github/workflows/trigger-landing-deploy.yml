@@ -7,20 +7,71 @@ on:
       - "guide/**"
       - "machine-readable/**"
       - "examples/**"
+  # Manual entry point. After rotating LANDING_DEPLOY_TOKEN the contract can be
+  # re-verified from the Actions tab without having to push to guide/ first.
+  workflow_dispatch:
+
+# The job never touches this repository: it only calls the landing repo's API
+# with LANDING_DEPLOY_TOKEN. Withholding GITHUB_TOKEN scopes entirely means a
+# compromised action in this job cannot write here.
+permissions: {}
 
 jobs:
   trigger:
     runs-on: ubuntu-latest
     steps:
+      # A missing or emptied secret and an expired one fail in very different
+      # places: the first sends an unauthenticated request that 401s exactly
+      # like a stale credential, which is what made run 33397436549 ambiguous.
+      # Separating them means the log says which of the two happened.
+      - name: Verify the dispatch credential is present
+        env:
+          LANDING_DEPLOY_TOKEN: ${{ secrets.LANDING_DEPLOY_TOKEN }}
+        run: |
+          if [ -z "${LANDING_DEPLOY_TOKEN}" ]; then
+            echo "::error title=LANDING_DEPLOY_TOKEN is not set::The secret is missing or empty in this repository. See docs/workflows/landing-sync.md, 'Landing rebuild dispatch credential', for who owns it and how to reissue it."
+            exit 1
+          fi
+          echo "LANDING_DEPLOY_TOKEN is present (length and value are not logged)."
+
       - name: Dispatch rebuild to landing site
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.LANDING_DEPLOY_TOKEN }}
           script: |
-            await github.rest.actions.createWorkflowDispatch({
-              owner: 'FlorianBruniaux',
-              repo: 'claude-code-ultimate-guide-landing',
-              workflow_id: 'deploy.yml',
-              ref: 'main',
-            })
-            console.log('Landing site rebuild triggered')
+            const owner = 'FlorianBruniaux'
+            const repo = 'claude-code-ultimate-guide-landing'
+            const workflow_id = 'deploy.yml'
+            const runbook = 'docs/workflows/landing-sync.md, "Landing rebuild dispatch credential"'
+
+            try {
+              await github.rest.actions.createWorkflowDispatch({
+                owner,
+                repo,
+                workflow_id,
+                ref: 'main',
+              })
+              core.info(`Dispatched ${workflow_id} on ${owner}/${repo}@main`)
+              core.info(`Landing runs: https://github.com/${owner}/${repo}/actions/workflows/${workflow_id}`)
+            } catch (error) {
+              // github-script rethrows HttpError with .status. Map the three
+              // failures that mean "fix the credential" to an actionable
+              // message; anything else is a real outage and should surface raw.
+              const status = error.status
+              if (status === 401) {
+                core.setFailed(
+                  `HTTP 401 Bad credentials: LANDING_DEPLOY_TOKEN is expired or revoked. ` +
+                  `Reissue it and update the secret. Runbook: ${runbook}`)
+              } else if (status === 403) {
+                core.setFailed(
+                  `HTTP 403 Forbidden: LANDING_DEPLOY_TOKEN is valid but lacks Actions: write on ` +
+                  `${owner}/${repo}, or the token owner has lost access. Runbook: ${runbook}`)
+              } else if (status === 404) {
+                core.setFailed(
+                  `HTTP 404: ${workflow_id} was not found on ${owner}/${repo}@main, or the token ` +
+                  `cannot see the repository. A fine-grained token returns 404 rather than 403 ` +
+                  `when the repository is outside its scope. Runbook: ${runbook}`)
+              } else {
+                throw error
+              }
+            }

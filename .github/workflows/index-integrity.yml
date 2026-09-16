@@ -18,6 +18,7 @@ on:
       - ".github/workflows/collect-agent-harnesses-github.yml"
       - ".github/workflows/collect-mcp-stats.yml"
       - ".github/workflows/collect-mcp-dashboard.yml"
+      - ".github/workflows/trigger-landing-deploy.yml"
   push:
     branches: ["main"]
     paths:
@@ -36,6 +37,7 @@ on:
       - ".github/workflows/collect-agent-harnesses-github.yml"
       - ".github/workflows/collect-mcp-stats.yml"
       - ".github/workflows/collect-mcp-dashboard.yml"
+      - ".github/workflows/trigger-landing-deploy.yml"
 
 jobs:
   check:
@@ -145,6 +147,9 @@ jobs:
             --catalog machine-readable/agent-harnesses.json \
             --page guide/ecosystem/agent-harness-landscape.md \
             --check
+
+      - name: Check the landing dispatch workflow contract
+        run: python3 scripts/test-trigger-landing-deploy.py
 
       - name: Check VERSION is in sync across docs
         run: ./scripts/sync-version.sh --check

@@ -23,6 +23,67 @@ After these modifications, **remember** to update the landing:
 3. **Golden Rules or FAQ modified** → Propagate to landing
 4. **Significant guide change** (>100 lines)
 
+## Landing rebuild dispatch credential
+
+`.github/workflows/trigger-landing-deploy.yml` calls the landing repo's API to run
+`deploy.yml` whenever `guide/`, `machine-readable/` or `examples/` changes on `main`.
+It authenticates with the `LANDING_DEPLOY_TOKEN` secret. This is the only
+cross-repository credential the guide holds.
+
+**Never record the token value here, in a commit, or in a run log.** The workflow reads
+it from an environment variable and prints neither the value nor its length; GitHub's
+secret masking is a backstop, not the control.
+
+| | |
+|---|---|
+| Secret name | `LANDING_DEPLOY_TOKEN` |
+| Stored in | This repo, Settings → Secrets and variables → Actions |
+| Owned by | The account with write access to `FlorianBruniaux/claude-code-ultimate-guide-landing` |
+| Grants | Dispatching `deploy.yml` on the landing repo, nothing else |
+| Rotate at | https://github.com/settings/personal-access-tokens |
+
+### Required scope
+
+Issue a **fine-grained** personal access token, not a classic one. A classic token with
+`repo` grants far more than dispatching a workflow.
+
+- Resource owner: `FlorianBruniaux`
+- Repository access: **only** `claude-code-ultimate-guide-landing`
+- Repository permissions: **Actions: Read and write**. Nothing else is needed.
+
+The job itself declares `permissions: {}`, so the run's own `GITHUB_TOKEN` gets no scopes
+on this repository. The only authority in play is the token's, on the landing repo.
+
+### Rotating
+
+1. Issue a replacement token with the scope above, and set an expiry you will act on.
+2. Update `LANDING_DEPLOY_TOKEN` in this repo's Actions secrets.
+3. Re-verify without waiting for a guide push: Actions → **Trigger landing site rebuild**
+   → **Run workflow**. The workflow accepts `workflow_dispatch` for exactly this.
+4. Confirm the run logs `Dispatched deploy.yml` and that a corresponding run appears at
+   `claude-code-ultimate-guide-landing/actions/workflows/deploy.yml`.
+5. Revoke the old token.
+
+### Reading a failure
+
+The workflow distinguishes the failure modes rather than surfacing a bare 401 — an absent
+secret and an expired one otherwise look identical, since an empty token sends an
+unauthenticated request.
+
+| Symptom | Meaning | Action |
+|---|---|---|
+| `LANDING_DEPLOY_TOKEN is not set` | Secret missing or emptied | Add it (step 2 above) |
+| `HTTP 401 Bad credentials` | Token expired or revoked | Rotate |
+| `HTTP 403 Forbidden` | Token lacks Actions: write, or owner lost repo access | Re-scope |
+| `HTTP 404` | Workflow absent, or repo outside the token's scope | Check the scope first; a fine-grained token reports out-of-scope repos as 404, not 403 |
+
+Any other status is rethrown unchanged: it is an API problem, not a credential one.
+
+**A failure here does not block the landing deploy.** Pushing directly to the landing repo
+still deploys it. What breaks is only the guide-to-landing automatic rebuild, so the site
+keeps serving the previous guide content until someone notices — which is why the job is
+set to fail loudly rather than pass quietly.
+
 ## Guide Reader Rebuild (every release)
 
 The landing exposes guide content at `cc.bruniaux.com/guide/`. Content is generated from this repo at build time — **never committed in the landing**.
