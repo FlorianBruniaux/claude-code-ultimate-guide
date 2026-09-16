@@ -659,3 +659,16 @@ A practitioner experiment shows why the pilot must replay the agent's exact mess
 ## Switching Providers at the CLI Level
 
 Everything above is about which hardware or API to run inference on. A separate, complementary problem is how to point Claude Code itself at whichever backend you picked without rewriting configuration every time. [cc-copilot-bridge](https://ccbridge.bruniaux.com/) is a routing layer for the Claude Code CLI that toggles between three backends with a three-character command: `ccd` for Anthropic direct (pay-per-token), `ccc` for a GitHub Copilot subscription, and `cco` for fully offline local inference via Ollama. It doesn't change any of the hardware-fit or cost math on this page, it changes which backend Claude Code talks to once you've decided. Current release is v1.5.3, with a v2 in progress. Worth flagging: the Copilot route relies on a reverse-engineered API, which the project's own documentation notes may violate GitHub Copilot's Terms of Service.
+
+### Where the rest of this question lives
+
+Choosing a backend other than Claude spans four pages, each answering a different question. Start from the one that matches yours.
+
+| Your question | Page |
+|---|---|
+| Which hardware, and what does a token cost me to serve? | This page |
+| How do I cap and attribute what developers spend? | [API Gateway for Claude Code at Scale](../ops/api-gateway.md) |
+| Seats, service identities, or both? | [Subscription Strategy](../ops/subscription-strategy.md) |
+| Is pointing Claude Code elsewhere legitimate at all? | [Pointing Claude Code at Another Backend](./ai-ecosystem.md#pointing-claude-code-at-another-backend) |
+
+Two constraints cut across all four, and neither is a hardware or pricing question. An aggregator gives you one commercial contract but not one liability perimeter: routing to ten providers still means ten data policies to verify. And a published account of a large migration attributes its savings to model substitution plus a per-developer budget introduced together, not to the gateway itself. Neither point changes the hardware-fit math on this page; both change what a saving actually proves.

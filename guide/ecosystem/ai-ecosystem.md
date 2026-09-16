@@ -45,7 +45,7 @@ Read the [Agent Harness Map](./agent-harness-landscape.md) for the strict runtim
 - [15. Project Glasswing & Claude Mythos Preview (Defensive Security)](#15-project-glasswing--claude-mythos-preview-defensive-security)
 - [16. Step by Token: How LLMs Work (Interactive Guide)](#16-step-by-token-how-llms-work-interactive-guide)
 - [Appendix: Ready-to-Use Prompts](#appendix-ready-to-use-prompts)
-- [Alternative Providers (Community Workarounds)](#alternative-providers-community-workarounds)
+- [Pointing Claude Code at Another Backend](#pointing-claude-code-at-another-backend)
 
 ---
 
@@ -2873,23 +2873,44 @@ The pattern is safe because of the git rollback guarantee. The agent never accum
 
 ---
 
-## Alternative Providers (Community Workarounds)
+## Pointing Claude Code at Another Backend
 
-> ⚠️ **Disclaimer**: This section documents techniques that exist in the community
-> for **completeness only**. These methods are:
+Two different things are often filed under the same heading, and they carry
+opposite risk profiles. Separate them before deciding.
+
+**Case 1: a commercial gateway under contract.** `ANTHROPIC_BASE_URL` is the
+supported enterprise mechanism, and routing Claude Code through a gateway such
+as LiteLLM, Portkey or OpenRouter is an established production pattern with
+budgets, model allowlists and cost attribution. Back Market reported running
+roughly 245 developers this way for two and a half months. This is documented
+in [API Gateway for Claude Code at Scale](../ops/api-gateway.md) and
+[Subscription Strategy](../ops/subscription-strategy.md), including the
+provider-allowlist and liability caveats that come with it. The trade-offs
+below on feature degradation still apply when you route to a non-Claude model.
+
+**Case 2: a reverse-engineered proxy.** Re-implementing a provider's private
+API to reach a subscription you are not licensed to consume that way is a
+different matter, and the warning below is unchanged for it.
+
+### Community Workarounds
+
+> ⚠️ **Disclaimer**: This subsection documents reverse-engineered techniques
+> that exist in the community for **completeness only**. These methods are:
 > - **Not tested** by the guide author
 > - **Not recommended** for production use
 > - **Not supported** by Anthropic
 > - Subject to **ToS restrictions** from various providers
 >
-> **Our recommendation**: Use Claude Code with Claude models as intended,
-> or use tools designed for multi-provider support (Aider, Continue.dev).
+> **Our recommendation**: use a gateway under contract (Case 1), use Claude
+> Code with Claude models as intended, or use tools designed for
+> multi-provider support (Aider, Continue.dev).
 
 ### What Exists
 
 Claude Code reads `ANTHROPIC_BASE_URL` from environment variables, following
-Anthropic SDK conventions. This is intended for enterprise gateways but can
-technically point to any Anthropic-compatible API proxy.
+Anthropic SDK conventions. This is the intended mechanism for enterprise
+gateways. It can also technically point to any Anthropic-compatible proxy,
+including a reverse-engineered one, which is what this subsection is about.
 
 ### Known Environment Variables
 
@@ -2899,7 +2920,10 @@ technically point to any Anthropic-compatible API proxy.
 | `ANTHROPIC_MODEL` | Default model name | Semi-documented |
 | `ANTHROPIC_AUTH_TOKEN` | API authentication | Official |
 
-### Why We Recommend Against This
+### Why We Recommend Against a Reverse-Engineered Proxy
+
+Points 1 and 5 apply to any non-Claude model, including through a gateway
+under contract. Points 2, 3 and 4 are specific to an unsanctioned proxy.
 
 1. **Feature degradation**: WebSearch, MCP, extended thinking modes are
    optimized for Claude and degrade with other models
