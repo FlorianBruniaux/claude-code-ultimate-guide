@@ -45,6 +45,7 @@ OpenAI's [Harness Engineering](https://openai.com/index/harness-engineering/) re
 3. [The map of six files](#3-the-map-of-six-files)
 4. [Five governance questions before you adopt anything](#4-five-governance-questions-before-you-adopt-anything)
 5. [The unbounded velocity trap](#5-the-unbounded-velocity-trap)
+6. [The half of the factory that runs after the merge](#6-the-half-of-the-factory-that-runs-after-the-merge)
 
 ---
 
@@ -157,3 +158,48 @@ The conclusion is uncomfortable. Fusion's double-checkout appears to be the clos
 None of this is a claim that agentic velocity is bad. It is a measurement of what happens when velocity outruns architecture: 727,000 lines shipped in sixteen weeks by one person is a real capability, not a myth. What that capability produces without a second reviewer, a bus factor above one, or a deliberate stop to consolidate the two storage backends into one, is documentation describing behavior that does not happen and a codebase that will cost more to untangle than it took to write. Scale up your own use of Level 3 through 6 above with that trade in view. The question is never whether agents can produce this much code. It is whether anyone, including the person who wrote the prompts, can still explain what all of it does a year later.
 
 The same trap shows up from the inside, not just in an audited codebase. Anthropic's own account of scaling its CI test-selection service ([Agentic coding is straining CI](https://claude.com/blog/agentic-coding-is-straining-ci-heres-how-we-scaled-test-impact-analysis-at-anthropic), September 2026; see [full evaluation](../../docs/resource-evaluations/2026-09-14-anthropic-ci-test-impact-analysis.md)) describes verification infrastructure, not code, buckling under agent-driven volume: a bigger machine bought 70 days, sharding bought 29 more, daily restarts bought less than a day, before a rewrite replaced a single-writer singleton with a stateless, horizontally scalable design. Anthropic is explicit that the individual scaling techniques are not the insight to take from that story. The insight is the same one Fusion demonstrates from the outside: velocity that outruns its own verification layer, whether that layer is adversarial testing or the CI pipeline deciding what to test, produces a system nobody can trust to tell them what actually broke.
+
+OpenAI reports the same wall from a separate codebase and toolchain: roughly a 10x load increase on some delivery systems in about six months, named across version control, CI/CD and production release, with the stated expectation of a new infrastructure scaling problem every month ([evaluation](../../docs/resource-evaluations/2026-09-15-openai-agentic-software-factory.md), and section 6 below). Neither account publishes a defect rate, an escape rate or a change failure rate alongside those throughput figures. Two frontier labs converging on the same bottleneck is worth weight; two frontier labs both measuring only the numerator is worth caution.
+
+---
+
+## 6. The half of the factory that runs after the merge
+
+Every level in section 1 stops at the same place: a merged pull request. That is not an accident of this page, it is where the native toolchain and every orchestrator compared above actually end. A factory that stops at the merge is a code-production line, not a factory, because nothing in it owns the part where software meets users.
+
+The first dated operator account of the other half comes from OpenAI, reported by Gergely Orosz in [Inside OpenAI's agentic software factory](https://newsletter.pragmaticengineer.com/p/openai-software-factory) (September 2026, paywalled after section 3; the pipeline description is in the free preview). Full evaluation with the fact-check table at [docs/resource-evaluations/2026-09-15-openai-agentic-software-factory.md](../../docs/resource-evaluations/2026-09-15-openai-agentic-software-factory.md). Read what follows as one company's running system described to a journalist, not as a validated reference architecture. Every figure in it is self-reported by OpenAI, and the article publishes no defect rate, no change failure rate and no rollback count anywhere.
+
+### 6.1 Four post-merge stages, and who holds each gate
+
+| Stage | What the agent does | Where the gate sits | Not published |
+|---|---|---|---|
+| Risk-tiered review | Several agents review in parallel, each configured for one domain (data, infra, cloud, security). The change is classified by risk | High-risk: more agent reviews, plus a mandated human after the agents finish. Low-risk: a codebase area can opt in to an agent that auto-approves | Whether auto-approved low-risk PRs have the same defect profile as human-reviewed ones |
+| Per-change deploy | One agent per change, instructed to handhold it until it is fully rolled out. For a feature flag it locates the flag, works out what the change does, decides which signals mean success or failure, and builds its own dashboard | A human approves the change for production before the agent takes it | What happens to the dashboards afterwards, and who reconciles them with the shared observability stack |
+| Perf Factory | Agents sift alerts and dashboards, de-duplicate signals, isolate real latency regressions, root-cause them and propose fixes that re-enter the pipeline at the coding stage | The proposed fix goes back through the normal review and deploy path | The false-positive rate on regression identification |
+| Sevbot (incidents) | Collects context on a detected incident, determines possible mitigations, answers engineers' questions in the Slack channel | The agent never executes a mitigation. An engineer tells it which one to apply | Whether anything closes the loop from incident to permanent fix |
+
+The stated long-term goal is a per-change autonomous SRE, and autonomous mitigation of routine outages so nobody is woken outside working hours. The article is explicit that neither exists today and that on-call duty still does.
+
+### 6.2 Three things worth taking, and what each costs
+
+**Risk classification as review routing, not as a label.** The interesting part is not that changes get a risk score, it is that the score picks the path: more reviewers, a mandated human, or nobody. This is the same question 1 from section 4 applied at the routing layer rather than the gate layer, and it is the only mechanism in the account that makes a human reviewer a scarce resource spent deliberately instead of a bottleneck applied uniformly. The cost is that your risk classifier becomes a security control. Misclassify a change as low-risk in an area that opted into auto-approval and it reaches production with no human having read it.
+
+**Per-change observability instead of per-service observability.** The reported shift is from engineers building dashboards per service to agents building them per deployed change, scoped to the signals that specific change should move. This is the same instinct as the ephemeral per-worktree observability stack in OpenAI's earlier [harness engineering account](../../docs/resource-evaluations/2026-02-11-openai-harness-engineering.md), pushed into production. The cost is sprawl, and the account does not address it. Per-change dashboards and steady-state service dashboards answer different questions and do not substitute for each other, so unless something garbage-collects the first category or promotes its findings into the second, an organization ends up unable to answer which dashboard to open during an incident. Ask for the retention policy before copying the pattern.
+
+**An incident agent that proposes and never executes.** Sevbot's constraint is the notable design choice, not its capability. It holds context, drafts mitigations and answers questions in the channel, and a human decides. That is the creator-verifier split from [agent-harness.md §8](../core/agent-harness.md#8-creator-verifier-pattern) applied at the worst possible moment to get it wrong, and the constraint is what makes the pattern adoptable during an outage rather than during a demo.
+
+### 6.3 The loop nobody closes
+
+The account contains exactly one automated feedback loop back into development: Perf Factory, which takes a latency regression it found in production and proposes a fix that re-enters at the coding stage. That loop is real and it is the architectural proof that the pipeline knows how to feed production back into code.
+
+Nothing equivalent exists for incidents. Sevbot mitigates; it does not remediate, and no stage described takes an incident and produces the durable fix that prevents recurrence. The standard post-incident discipline, where every incident owes a root cause and a planned change, has no agent and no named owner in this pipeline.
+
+Resist the easy conclusion that this is an oversight. Post-incident analysis is the highest-judgment work in the entire operating model: it is where causal reasoning, organizational context and the decision about what not to fix all land at once. An automated loop that takes an outage and proposes a permanent architectural change is the single place where a wrong answer compounds fastest. OpenAI automating the latency loop and not the incident loop is at least as defensible as a deliberate boundary as it is damning as a gap. What is fair to say is narrower and still useful: this is the one stage where the factory hands the work back to humans with nothing but context, and anyone copying the pipeline inherits that hole knowingly or not.
+
+### 6.4 What this changes about the levels in section 1
+
+Nothing, at the levels most readers occupy. Levels 1 through 4 remain the right answer for a small team, and none of the four stages above is reachable from a native Claude Code setup without building the deployment and observability integration yourself.
+
+What the account does change is the shape of the ceiling. The constraint at OpenAI is not model capability and not orchestration; it is that every delivery system downstream of code generation is absorbing load it was not built for, reported as roughly 10x on some systems in about six months. That is the same wall Anthropic hit in its own CI, documented in section 5, from an entirely separate codebase and toolchain. Two competing frontier labs independently reporting that their verification and delivery infrastructure, not their agents, became the binding constraint is the most transferable thing in either account.
+
+Read that alongside what neither account publishes. Both measure throughput in detail and neither publishes a defect rate, an escape rate or a change failure rate. Section 5's trap is not a hypothetical that applies to smaller teams with less rigor. It is visible in the reporting of the two organizations best placed to measure their way out of it.

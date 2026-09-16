@@ -1241,6 +1241,7 @@ deep_dive:
   agentic_software_factories_spectrum: "guide/workflows/agentic-software-factories.md#1-the-spectrum-six-levels-six-costs"  # 6 levels: single session -> /batch -> Agent Teams -> dynamic-workflows -> plan-pipeline -> third-party orchestrator -> closed factory
   agentic_software_factories_decision_tree: "guide/workflows/agentic-software-factories.md#2-the-missing-decision-tree-when-does-a-closed-software-factory-actually-win"  # closed platform vs native stack, branches on team size/budget/compliance
   agentic_software_factories_governance_5th_question: "guide/workflows/agentic-software-factories.md#4-five-governance-questions-before-you-adopt-anything"  # extends spec-first.md's 4 questions with: is the advertised verification feature actually wired
+  agentic_software_factories_post_merge: "guide/workflows/agentic-software-factories.md#6-the-half-of-the-factory-that-runs-after-the-merge"  # OpenAI Sep 2026 operator account: risk-tiered review routing, per-change deploy agent + own dashboard, Perf Factory regression loop, Sevbot proposes-never-executes; the incident-to-permanent-fix loop nobody closes
   agentic_software_factories_fusion_case_study: "docs/resource-evaluations/fusion-multi-agent-orchestrator.md"  # 727K lines/4 months, bus factor 1, verification module built but never wired into production
   # Resource Evaluations (added 2026-01-26, updated 2026-02-07, synced 2026-07-08)
   resource_evaluations_directory: "docs/resource-evaluations/"
@@ -1618,7 +1619,7 @@ deep_dive:
   llm_oop_research: "https://dl.acm.org/doi/10.1145/3639474.3640052"
   architecture_diagrams_source: "https://www.linkedin.com/posts/tigraff_uml-claude-wibecoding-activity-7420595633826258944-gGO5"
   ai_ecosystem_voice_to_text: "guide/ecosystem/ai-ecosystem.md#5-voice-to-text-tools-wispr-flow-superwhisper"
-  ai_ecosystem_alternative_providers: "guide/ecosystem/ai-ecosystem.md#alternative-providers-community-workarounds"
+  ai_ecosystem_alternative_providers: "guide/ecosystem/ai-ecosystem.md#pointing-claude-code-at-another-backend"
   voice_refine_skill: "examples/skills/voice-refine/SKILL.md"
   # PR Triage Skill (added 2026-03-05)
   pr_triage_skill: "examples/skills/pr-triage/SKILL.md"
@@ -3198,7 +3199,7 @@ section_maps:
     - "114-skills-distribution-platforms"
     - "12-context-packing-tools"
     - "13-autonomous-research-loops-autoresearch-pattern"
-    - "alternative-providers-community-workarounds"
+    - "pointing-claude-code-at-another-backend"
     - "14-claude-managed-agents-cloud-hosted-platform"
     - "15-project-glasswing--claude-mythos-preview-defensive-security"
     - "16-step-by-token-how-llms-work-interactive-guide"
@@ -3706,6 +3707,7 @@ section_maps:
     - "3-the-map-of-six-files"
     - "4-five-governance-questions-before-you-adopt-anything"
     - "5-the-unbounded-velocity-trap"
+    - "6-the-half-of-the-factory-that-runs-after-the-merge"
   "guide/workflows/ai-assisted-open-source-contributions.md":
     - "1-check-whether-the-project-wants-this-contribution"
     - "2-establish-the-problem-before-editing"
