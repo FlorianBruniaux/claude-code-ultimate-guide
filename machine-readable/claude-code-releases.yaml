@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.272"
-updated: "2026-09-15"
+latest: "2.1.274"
+updated: "2026-09-17"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,30 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-August 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.274"
+    date: "2026-09-16"
+    highlights:
+      - "Added a critical memory usage warning, `CLAUDE_CODE_MCP_STARTUP_WAIT_MS` to bound how long the first non-interactive turn waits for MCP servers, and a `claude_code.managed_settings_resolved` OTel event"
+      - "Fixed sessions endlessly retrying \"unexpected tool_use_id\" 400 errors (corrupted transcripts now self-heal or stop with a `/rewind` hint), and an active `/goal` being lost when resuming a compacted session"
+      - "Fixed Streamable HTTP MCP tool calls timing out after about 5 minutes despite a longer per-server `timeout`, and legacy HTTP+SSE servers configured as `http` failing to connect"
+      - "Security fixes cover secrets from `${VAR}` placeholders shown in MCP connection errors, Bash commands looping over or assigning special shell variables, and nested shell expansions in worktree-isolated sessions"
+    breaking:
+      - "`\"type\": \"sdk\"` MCP entries in `.mcp.json`, settings, plugins and agent files are skipped with a warning; only an SDK host application can register in-process servers."
+      - "Bedrock, Vertex, Foundry and telemetry-disabled installs use the v2 MCP client and MCP 2026-07-28 negotiation by default; opt out with `MCP_SDK_GENERATION=v1` or `MCP_PROTOCOL_NEGOTIATION=legacy`."
+      - "`/code-review` uses leaner inline review prompts for models without tuned settings instead of spawning many review subagents."
+      - "Plugin and marketplace clones leave Git LFS files as pointers; run `git lfs pull` in the checkout to fetch them."
+
+  - version: "2.1.273"
+    date: "2026-09-15"
+    highlights:
+      - "Added opt-in LLM gateway hint headers (`x-claude-code-request-class`, `x-claude-code-agent-type`, compaction and tool-duration headers) behind `CLAUDE_CODE_GATEWAY_HINT_HEADERS=1`"
+      - "Added a notification when an MCP server disconnects and reconnection gives up, and forking a Remote Control session from the Claude app into a local background session"
+      - "Security fixes: unanalyzable Bash commands skipping the prompt under `permissions.blockReadsOutsideWorkingDirectories`, a subshell hiding `rm` in bypass mode, and MDM or `managed-settings.json` MCP restrictions ignored when server-managed settings are present"
+      - "Fixed auto-compact firing at about half the real window when advisor-tool turns were counted twice, and `/login`, `/upgrade` and `/extra-usage` forcing a full prompt-cache rewrite"
+    breaking:
+      - "Reverted the v2.1.268 check of Read and Edit deny rules on unanalyzable Bash lines (`eval`, `env -C`); such commands prompt again instead of being denied."
+      - "Auto mode on Bedrock, Vertex and Foundry uses the local classifier by default; set `CLAUDE_CODE_AUTO_MODE_SERVER=1` for the platform's server-side classifier."
 
   - version: "2.1.272"
     date: "2026-09-14"
@@ -1995,6 +2019,7 @@ breaking_summary:
     - "Removed # shortcut for quick memory (v2.0.70)"
     - "`modelPicker:setAsDefault` keybinding renamed to `modelPicker:thisSessionOnly` (v2.1.153)"
   security:
+    - "Unanalyzable Bash commands no longer skip the prompt under `permissions.blockReadsOutsideWorkingDirectories`, and managed MCP restrictions apply alongside server-managed settings (v2.1.273); MCP-config secrets no longer shown in connection errors and worktree-isolated nested shell expansions refused (v2.1.274)"
     - "Per-command `allowed_domains` scope host access to the reviewed command in auto mode with sandboxing (v2.1.271); plugin archive access and Bash tee destination checks corrected (v2.1.269); symlinked-path rules and MCP/plugin secret redaction corrected (v2.1.268); unreadable managed allowlists fail closed (v2.1.267)"
     - "Windows NT-namespace (`\\??\\`) paths bypassing UNC path validation, an NTLM credential-leak vector, rejected in Bash paths (v2.1.233) then across remote reads, session restore, CLAUDE.md includes, workflow scripts, and uploads (v2.1.234)"
     - "Plugin shell-form command injection via `${user_config.*}` fixed, now rejected (v2.1.207)"
@@ -2010,6 +2035,12 @@ breaking_summary:
     - "Opus 4 and Opus 4.1 removed from Claude Code first-party API — auto-migrated to Opus 4.6 (v2.1.68)"
     - "Opus 4.7 removed from fast mode; `/fast` applies to Opus 5 and Opus 4.8 only (v2.1.219)"
   behavior:
+    - "`\"type\": \"sdk\"` MCP entries outside an SDK host application are skipped with a warning (v2.1.274)"
+    - "Bedrock, Vertex, Foundry and telemetry-disabled installs default to the v2 MCP client and MCP 2026-07-28 negotiation; opt out with `MCP_SDK_GENERATION=v1` or `MCP_PROTOCOL_NEGOTIATION=legacy` (v2.1.274)"
+    - "`/code-review` uses inline review prompts instead of many review subagents for models without tuned settings (v2.1.274)"
+    - "Plugin and marketplace clones leave Git LFS files as pointers; run `git lfs pull` (v2.1.274)"
+    - "Auto mode on Bedrock, Vertex and Foundry uses the local classifier by default; `CLAUDE_CODE_AUTO_MODE_SERVER=1` restores the server-side classifier (v2.1.273)"
+    - "Unanalyzable Bash lines (`eval`, `env -C`) prompt again instead of being denied by Read/Edit deny rules, reverting v2.1.268 (v2.1.273)"
     - "Plain `WebFetch` deny/ask rules no longer gate Artifact reads or updates; use `Artifact` or `WebFetch(domain:claude.ai)`. (v2.1.268)"
     - "Managed `forceLoginGatewayUrl` now selects gateway authentication at startup; leftover claude.ai credentials or API keys are not used. (v2.1.265)"
     - "ultrathink/think keywords now cosmetic only — thinking default with Opus 4.5 (v2.0.67)"

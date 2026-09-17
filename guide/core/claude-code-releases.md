@@ -17,12 +17,14 @@ keywords:
 > **Release dates**: UTC publication dates from the [official npm package metadata](https://registry.npmjs.org/@anthropic-ai%2Fclaude-code). Only versions with upstream changelog entries are included.
 > **Machine-readable**: [claude-code-releases.yaml](../../machine-readable/claude-code-releases.yaml)
 
-**Latest**: v2.1.272 | **Updated**: 2026-09-15
+**Latest**: v2.1.274 | **Updated**: 2026-09-17
 
 ---
 
 ## Quick Jump
 
+- [v2.1.274](#v21274-2026-09-16): MCP startup wait bound, tool_use_id retry-loop fix and `sdk` MCP entries skipped
+- [v2.1.273](#v21273-2026-09-15): gateway hint headers, managed MCP restriction fix and local auto-mode classifier on cloud providers
 - [v2.1.272](#v21272-2026-09-14): maintenance release
 - [v2.1.271](#v21271-2026-09-14): per-command `allowed_domains` in auto mode, `omitClaudeMd` agents and bounded Monitor watches
 - [v2.1.270](#v21270-2026-09-12): read-only git permission-prompt regression fix
@@ -39,6 +41,34 @@ keywords:
 ---
 
 ## 2.1.x Series (January-August 2026)
+
+### v2.1.274 (2026-09-16)
+
+- **Added**: A visible warning when memory usage is critical, with steps to free memory or restart safely. Background commands are now stopped only when memory is critically low, instead of after 30 idle minutes under mild pressure.
+- **Added**: `CLAUDE_CODE_MCP_STARTUP_WAIT_MS` bounds how long the first non-interactive turn waits for connecting MCP servers (`0` means don't wait). In `--input-format stream-json` sessions, deferred MCP servers no longer hold the first turn for up to 2 seconds.
+- **Added**: OpenTelemetry gains an `effort` attribute on the `claude_code.llm_request` span and a `claude_code.managed_settings_resolved` event describing managed-settings sources (redacted settings and digests with `OTEL_LOG_MANAGED_SETTINGS=1`). `OTEL_LOG_RAW_API_BODIES=file:<dir>` now writes an `index.jsonl` linking responses to request files.
+- **Fixed**: Sessions stuck endlessly retrying "unexpected tool_use_id" 400 errors. Corrupted transcripts self-heal where possible; otherwise a clear error with a `/rewind` hint ends the loop.
+- **Fixed**: An active `/goal` lost when resuming a compacted session, and hook-driven sessions ending with "Prompt is too long" instead of compacting after a second context overflow.
+- **Fixed**: MCP reliability: Streamable HTTP tool calls timing out after about 5 minutes despite a longer per-server `timeout`, legacy HTTP+SSE servers configured as `http` failing on a 4xx first response, list-changed notifications ignored without `listChanged`, and 403 `insufficient_scope` reported as an expired sign-in.
+- **Fixed** (security): MCP connection errors and the MCP login tool description no longer show secrets resolved from `${VAR}` placeholders. Bash commands that loop over or assign certain special shell variables now ask for permission, and worktree-isolated sessions refuse Bash commands with certain nested shell expansions.
+- **Fixed**: `claude agents` losing `--model`, `--effort`, `--permission-mode` and `--agent` after an auto-update relaunch, and subagents with `model: "opus"` on Bedrock, Vertex or Foundry leaving the session's model when its id has no recognizable family.
+- **Changed**: `"type": "sdk"` MCP entries in `.mcp.json`, settings, plugins and agent files are skipped with a warning; only an SDK host application can register in-process servers.
+- **Changed**: Bedrock, Vertex, Foundry and telemetry-disabled installs use the v2 MCP client and MCP 2026-07-28 negotiation with direct HTTP servers by default. Opt out with `MCP_SDK_GENERATION=v1` or `MCP_PROTOCOL_NEGOTIATION=legacy`.
+- **Changed**: `/code-review` uses leaner inline review prompts for every model without tuned settings instead of spawning many review subagents. Plugin and marketplace clones leave Git LFS files as pointers (`git lfs pull` fetches them).
+- **Improved**: The Claude apps gateway drains in-flight requests for up to 25 seconds on SIGTERM (`CLAUDE_GATEWAY_DRAIN_TIMEOUT_MS`), retries its first Postgres connection, and checks spend limits in one database round trip instead of four.
+
+### v2.1.273 (2026-09-15)
+
+- **Added**: Opt-in request headers for LLM gateways (`x-claude-code-request-class`, `x-claude-code-agent-type`, `x-claude-code-prev-tool-durations`, `x-claude-code-compaction`, `x-claude-code-context-compacted`) behind `CLAUDE_CODE_GATEWAY_HINT_HEADERS=1`.
+- **Added**: A notification when an MCP server disconnects mid-session and automatic reconnection gives up, pointing at `/mcp`. A session started with `claude --remote-control` or `/remote-control` can be forked from the Claude app into a background session on your computer.
+- **Fixed** (security): Bash commands the permission checker cannot fully analyze skipping the prompt under `permissions.blockReadsOutsideWorkingDirectories`, and a subshell hiding a dangerous `rm` in bypass mode. Under the same setting, a memory directory chosen by a repository's settings is no longer loaded, recalled or indexed.
+- **Fixed** (security): `allowManagedMcpServersOnly`, `deniedMcpServers` and `disableClaudeAiConnectors` set via MDM or `managed-settings.json` being ignored when server-managed settings are also present. Skills synced from claude.ai move to the recoverable trash when the organization turns Skills off.
+- **Fixed**: The context meter and auto-compact counting advisor-tool turns at about twice their real size, which made auto-compact fire at about half the real window. `/login`, `/upgrade` and `/extra-usage` no longer discard earlier thinking and force a full prompt-cache rewrite.
+- **Fixed**: Sub-agents and background agents reported as failed when the final streamed reply omitted token usage or a model id, and saved scheduled tasks running in the wrong session after `.claude/scheduled_tasks.json` was copied into another folder such as a new worktree.
+- **Changed**: Reverted the v2.1.268 check of Read and Edit deny rules on Bash lines the permission checker can't analyze (`eval`, `env -C`); commands like `time -p make build` prompt again instead of being denied.
+- **Changed**: Auto mode on Bedrock, Vertex and Foundry uses the local classifier by default; `CLAUDE_CODE_AUTO_MODE_SERVER=1` selects the platform's server-side classifier. `OTEL_LOG_TOOL_DETAILS=1` also adds real agent, skill, plugin and MCP server names to cost and token metrics.
+- **Changed**: Signing in with a Claude account also requests access to your claude.ai plugins. `/bug` and `/feedback` reports include only model-behavior parameters from the last API request, omitting request metadata and `CLAUDE_CODE_EXTRA_BODY` fields.
+- **Improved**: Long-session responsiveness (hook progress and sub-agent activity no longer re-process the whole conversation), plus clearer errors for SSL/proxy failures, expired MCP sign-ins, GitHub SAML or IP allow lists in cloud sessions, and `/autofix-pr`.
 
 ### v2.1.272 (2026-09-14)
 
@@ -3456,6 +3486,11 @@ keywords:
 
 | Version | Change |
 |---------|--------|
+| v2.1.274 | `"type": "sdk"` MCP entries outside an SDK host application are skipped with a warning. |
+| v2.1.274 | Bedrock, Vertex, Foundry and telemetry-disabled installs default to the v2 MCP client and MCP 2026-07-28 negotiation; opt out with `MCP_SDK_GENERATION=v1` or `MCP_PROTOCOL_NEGOTIATION=legacy`. |
+| v2.1.274 | `/code-review` uses inline review prompts instead of many review subagents for models without tuned settings; plugin and marketplace clones leave Git LFS files as pointers. |
+| v2.1.273 | Auto mode on Bedrock, Vertex and Foundry uses the local classifier by default; `CLAUDE_CODE_AUTO_MODE_SERVER=1` restores the server-side classifier. |
+| v2.1.273 | Unanalyzable Bash lines (`eval`, `env -C`) prompt again instead of being denied by Read/Edit deny rules, reverting v2.1.268. |
 | v2.1.271 | Monitor watches always have a deadline (30 minutes maximum, 10 in single-prompt `-p` runs); the no-timeout `persistent` option is removed. |
 | v2.1.271 | In auto mode, inline `!` shell commands in skills and slash commands follow default-mode permission rules instead of the classifier. |
 | v2.1.271 | Dynamic workflows default to the small size on Pro plans, and the medium size guideline drops from 15 to 10 agents. |
@@ -3491,6 +3526,8 @@ keywords:
 
 | Version | Issue |
 |---------|-------|
+| v2.1.274 | MCP-config secrets shown in connection errors; Bash special-variable permission checks; nested shell expansions in worktree-isolated sessions |
+| v2.1.273 | Unanalyzable Bash commands skipping the prompt under `blockReadsOutsideWorkingDirectories`; subshell-hidden `rm` in bypass mode; managed MCP restrictions ignored alongside server-managed settings |
 | v2.1.271 | Per-command `allowed_domains` scope host access to the reviewed command in auto mode with sandboxing; four Bash permission-check gaps closed |
 | v2.1.269 | Plugin archive access, Bash `tee` destination checks and negated permission-rule scope |
 | v2.1.268 | Symlinked-path deny/ask rules, untrusted teammate definitions and MCP/plugin secret redaction |
