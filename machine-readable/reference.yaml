@@ -313,7 +313,7 @@ deep_dive:
   activity_monitoring_queries: "guide/ops/observability.md#activity-monitoring"    # jq queries for audit
   activity_monitoring_alerts: "guide/ops/observability.md#activity-monitoring"     # Sensitive pattern detection
   external_monitoring_tools: "guide/ops/observability.md#external-monitoring-tools"      # ccusage, claude-code-otel, Akto, MLflow, ccboard
-  proxying_claude_code: "guide/ops/observability.md#proxying-claude-code"           # Proxyman, mitmproxy, ANTHROPIC_API_URL
+  proxying_claude_code: "guide/ops/observability.md#proxying-claude-code"           # Proxyman, mitmproxy, ANTHROPIC_BASE_URL
   ccboard_activity_plan: "docs/resource-evaluations/ccboard-activity-module-plan.md"
   # Output Styles (built-in behavior modes)
   output_styles: "guide/ultimate-guide.md#97-output-styles"

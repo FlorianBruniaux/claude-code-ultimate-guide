@@ -24,7 +24,7 @@ The table and setup below describe the LiteLLM and Portkey examples in this page
 | Interactive developer spend spikes | Gateway telemetry can feed warnings, approvals, and model downshifts; a budget field alone does not implement that policy |
 | No common API telemetry | Routed requests attributed by key alias, team, model, and tokens; payload logging depends on configuration |
 
-**The third-party approach**: Set `ANTHROPIC_API_URL` on each developer machine to point to a compatible gateway instead of `api.anthropic.com`. The examples below forward requests, add configured logging and budget enforcement, and issue virtual keys so the provider key need not be present on developer machines.
+**The third-party approach**: Set `ANTHROPIC_BASE_URL` on each developer machine to point to a compatible gateway instead of `api.anthropic.com`. The examples below forward requests, add configured logging and budget enforcement, and issue virtual keys so the provider key need not be present on developer machines.
 
 ---
 
@@ -136,13 +136,13 @@ Set these two environment variables on each developer machine (distribute via yo
 ```bash
 # Point Claude Code to your LiteLLM instance
 # Note the /anthropic path suffix, required for Anthropic Messages API format
-export ANTHROPIC_API_URL=http://your-litellm-host:4000/anthropic
+export ANTHROPIC_BASE_URL=http://your-litellm-host:4000/anthropic
 
 # Developer uses a virtual key, not the real Anthropic key
 export ANTHROPIC_API_KEY=sk-litellm-team-backend-abc123
 ```
 
-Claude Code does not require any other change. It reads `ANTHROPIC_API_URL` and uses it transparently. The `/anthropic` path suffix is required: LiteLLM exposes the Anthropic Messages API format at `/anthropic/v1/messages`, separate from its OpenAI-compatible endpoint at `/v1/chat/completions`.
+Claude Code does not require any other change. It reads `ANTHROPIC_BASE_URL` and uses it transparently. The `/anthropic` path suffix is required: LiteLLM exposes the Anthropic Messages API format at `/anthropic/v1/messages`, separate from its OpenAI-compatible endpoint at `/v1/chat/completions`.
 
 ---
 
@@ -320,7 +320,7 @@ For high availability, run two LiteLLM instances behind a load balancer. Both sh
 [Portkey](https://portkey.ai) offers the same gateway capabilities as a hosted service, with no infrastructure to manage. Free tier covers small teams (up to 10K requests/month).
 
 ```bash
-export ANTHROPIC_API_URL=https://api.portkey.ai/anthropic
+export ANTHROPIC_BASE_URL=https://api.portkey.ai/anthropic
 export ANTHROPIC_API_KEY=your-real-anthropic-key
 export PORTKEY_API_KEY=your-portkey-api-key
 ```

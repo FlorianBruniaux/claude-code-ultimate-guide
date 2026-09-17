@@ -810,12 +810,12 @@ Same approach works for Charles: `Help → SSL Proxying → Export Charles Root 
 - Some Claude Code versions use certificate pinning for `api.anthropic.com`; this may still fail
 - This approach requires a running Proxyman/Charles instance listening on the configured port
 
-### Option 2: Redirect API Traffic with ANTHROPIC_API_URL
+### Option 2: Redirect API Traffic with ANTHROPIC_BASE_URL
 
 Point Claude Code at a local interceptor instead of `api.anthropic.com`:
 
 ```bash
-export ANTHROPIC_API_URL="http://localhost:8080"
+export ANTHROPIC_BASE_URL="http://localhost:8080"
 claude
 ```
 
@@ -868,7 +868,7 @@ HTTPServer(("localhost", 8080), LoggingProxy).serve_forever()
 
 ```bash
 python3 proxy.py &
-export ANTHROPIC_API_URL="http://localhost:8080"
+export ANTHROPIC_BASE_URL="http://localhost:8080"
 claude
 ```
 
