@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- Merged two community contributions after independent verification: YYLO in the multi-agent orchestration section (`yylo-dev/yylo`, MIT, 60 stars, active) and awesome-claude-code-hooks in the complementary resources table (licence undeclared, so listed as a community resource rather than a recommendation). Removed the em dashes repository style forbids from the contributed section and refreshed its star count to the verification date.
+
 - **Gateway and proxy environment variable corrected** (`guide/ops/api-gateway.md`, `guide/ops/observability.md`, machine-readable index and MCP mirror): both pages told readers to set `ANTHROPIC_API_URL` to point Claude Code at a gateway or a local interceptor. Claude Code reads `ANTHROPIC_BASE_URL`, which the official documentation uses 141 times while never mentioning `ANTHROPIC_API_URL`, and which `guide/core/settings-reference.md` already documented correctly. Anyone following the LiteLLM, Portkey or mitmproxy instructions had their traffic go straight to the Anthropic API while believing it was routed, so no cost control, allowlist or capture applied.
 
 - Removed the `trigger-landing-deploy` workflow. It dispatched a landing rebuild through a cross-repository token, which expired on 2026-05-28 and left every push since reporting a failed run; the site stayed current because each sync pushes the landing repository directly. The landing now rebuilds on a daily schedule and clones this repository at build time, so guide-only changes reach the site without a shared secret.

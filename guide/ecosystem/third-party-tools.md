@@ -1513,7 +1513,7 @@ This section covers tools for running **multiple Claude Code instances in parall
 | [abtop](https://github.com/graykode/abtop) | Fleet TUI monitor | htop-style: tokens, context %, rate limits, ports, subagent tree (3,393 stars, 2026-07-27) |
 | [Conductor](#conductor) | Desktop app | macOS parallel agents (also listed above) |
 | [Piebald](#piebald) | Desktop/web app | Multi-provider + Windows + hooks compat (also listed above) |
-| [YYLO](#yylo) | Task and merge lifecycle CLI | Typed task → worktree → merge-gate boundaries for coding agents (59 stars, 2026-09-13) |
+| [YYLO](#yylo) | Task and merge lifecycle CLI | Typed task → worktree → merge-gate boundaries for coding agents (60 stars, 2026-09-17) |
 
 ---
 
@@ -1588,7 +1588,7 @@ A command-line orchestrator for coding agents that owns the delivery layer: type
 **Key features**:
 
 - `task start` freezes the protected target SHA, creates a dedicated branch/worktree per task, and completes configured dependency hydration before reporting `WORKING`
-- `task preflight` is read-only and catches closure defects before expensive gates; `task finish` requires a clean committed tip and queues the task — it does not merge
+- `task preflight` is read-only and catches closure defects before expensive gates; `task finish` requires a clean committed tip and queues the task; it does not merge
 - `merge land` composes exactly one immutable task source in a private detached candidate and lands it with Git expected-old ref protection; a moved target forces recomposition and renewed checks
 - Merge launches no models, chooses no reviewers, and schedules no suites: tests and semantic reviews stay explicit project checks outside the merge step
 - Receipt-backed machine output (`--format json|ndjson --raw`) for task, merge, and integration commands, with retained evidence
@@ -1603,7 +1603,7 @@ yy task preflight TASK_ID   # read-only closure checks before finishing
 yy merge status             # observe the queue
 ```
 
-**Limitations**: Early adoption — 59 stars and roughly 900 npm downloads per month as of September 2026. Merge composes and lands work; it does not review it, and there is no OS-level sandbox below the agent runtimes. English documentation only.
+**Limitations**: Early adoption, 60 stars and roughly 900 npm downloads per month as of September 2026. Merge composes and lands work; it does not review it, and there is no OS-level sandbox below the agent runtimes. English documentation only.
 
 > **When to use**: when several coding agents work in parallel on one repository and you want the typed task → worktree → merge-gate boundary that dispatch-first orchestrators leave to the operator. Symphony's spec states "if you want a review loop or a merge gate, you build that yourself"; YYLO is a ready-built merge-gate layer, while the review loop itself stays with your project's own checks.
 
