@@ -17,12 +17,16 @@ keywords:
 > **Release dates**: UTC publication dates from the [official npm package metadata](https://registry.npmjs.org/@anthropic-ai%2Fclaude-code). Only versions with upstream changelog entries are included.
 > **Machine-readable**: [claude-code-releases.yaml](../../machine-readable/claude-code-releases.yaml)
 
-**Latest**: v2.1.274 | **Updated**: 2026-09-17
+**Latest**: v2.1.278 | **Updated**: 2026-09-21
 
 ---
 
 ## Quick Jump
 
+- [v2.1.278](#v21278-2026-09-19): server-side auto mode classifier by default, with no classifier-overhead charge
+- [v2.1.277](#v21277-2026-09-18): AGENTS.md as project instructions, subagent results framed as subagent output and the TaskOutput tool removed
+- [v2.1.276](#v21276-2026-09-18): proxy and gateway 400 regression fix
+- [v2.1.275](#v21275-2026-09-17): claude.ai skill and plugin sync, send-now key and plugin URL credential redaction
 - [v2.1.274](#v21274-2026-09-16): MCP startup wait bound, tool_use_id retry-loop fix and `sdk` MCP entries skipped
 - [v2.1.273](#v21273-2026-09-15): gateway hint headers, managed MCP restriction fix and local auto-mode classifier on cloud providers
 - [v2.1.272](#v21272-2026-09-14): maintenance release
@@ -41,6 +45,39 @@ keywords:
 ---
 
 ## 2.1.x Series (January-August 2026)
+
+### v2.1.278 (2026-09-19)
+
+- **Changed**: Auto mode on the Claude API, for Enterprise users, and on Bedrock, Vertex, Foundry and gateways defaults to the server-side classifier, which does not charge for classifier overhead. `CLAUDE_CODE_AUTO_MODE_SERVER=0` opts out on Bedrock, Vertex, Foundry and gateways, and a session that falls back to a billed classifier now warns. See the [auto mode classifier billing documentation](https://code.claude.com/docs/en/auto-mode-classifier-billing).
+- **Added**: An `Auto mode server` row in `/status` showing whether this session's auto mode classifier runs on the server.
+
+### v2.1.277 (2026-09-18)
+
+> Reads `AGENTS.md` as project instructions when a project has no `CLAUDE.md`, marks subagent results as subagent output so their text cannot pass as session instructions, and removes the TaskOutput tool.
+
+- **Added**: AGENTS.md support. In a project with no `CLAUDE.md`, Claude Code reads `AGENTS.md` instead; the choice lives under "Project instructions" in `/config`. Not yet available on Bedrock, Vertex or Foundry.
+- **Added**: `CLAUDE_GATEWAY_PROXY_IS_EGRESS_BOUNDARY=1` for Claude apps gateways whose only egress is a forward proxy: every outbound request hands the proxy the hostname instead of resolving it locally. Gateway upstreams also accept an optional `headers:` map for static headers sent to a proxy you run in front of a provider.
+- **Changed** (security): Subagent results reach the main agent under a header marking them as subagent output, with the result indented, so text in a result cannot pass as the session's own instructions. Workflow scripts' computed `agent()` prompts on Bedrock, Vertex and Foundry reach the subagent framed as script-authored text.
+- **Fixed** (security): A `sandbox.excludedCommands` glob exempting an entire compound Bash command from the sandbox when only one part matched; every part must now match.
+- **Fixed**: `claude -p` and Agent SDK sessions hanging with no result after an internal error (they now report the error and exit with code 1), and conversations failing every request with "text content blocks must be non-empty" when an earlier assistant turn held an empty text block.
+- **Fixed**: Around fifty further crash, resume and rendering issues, including launch crashes on malformed `~/.claude.json` values (`theme`, `claudeAiMcpEverConnected`, `customApiKeyResponses`), resume failures on malformed saved history, Grep and Glob reporting no matches when the search could not start, and the Write tool silently ending the turn when the target path is an existing directory.
+- **Changed**: The TaskOutput tool is removed. Claude reads a background task's output file with Read instead, and the `taskOutputMaxChars` setting and `TASK_MAX_OUTPUT_LENGTH` no longer have any effect.
+- **Changed**: Fable always appears in `/model` on the Anthropic API, greyed out only when organization settings disable it. `/ultrareview` in non-interactive sessions refuses when the repository has no base branch or shared history.
+- **Improved**: Invisible Unicode formatting and tag characters in a prompt are removed, and the cleaned prompt is shown for review before it is sent. Claude reads claude.ai artifact links with the Artifact tool instead of WebFetch when that tool is available.
+
+### v2.1.276 (2026-09-18)
+
+- **Fixed**: Every request failing with `400 ... Input tag 'advisor_20260301'` when `ANTHROPIC_BASE_URL` points at a proxy or gateway, a regression introduced in v2.1.275.
+
+### v2.1.275 (2026-09-17)
+
+- **Added**: The skills and plugins enabled on your claude.ai account sync to terminal sessions signed in with it. Opt out with `syncClaudeAiSkills: false` or `syncClaudeAiPlugins: false`.
+- **Added**: A send-now key (ctrl+enter, or ctrl+x ctrl+s) that interrupts the current turn and sends all queued messages at once; sent and queued messages show in gray until the model receives them.
+- **Added**: `/plugin install <plugin> --marketplace <source>` offers to add the marketplace before installing. Claude apps gateway sign-in now names the signed-in account for confirmation before the credential is saved, and `/status` shows it. A startup warning appears when a configured `otelHeadersHelper` fails.
+- **Fixed** (security): Plugin and marketplace messages, logs and `claude plugin marketplace list` showing a password or token stored in a git, ssh or marketplace URL. `SubagentStop` hooks with a specific `matcher` fired for every stopping subagent whose agent type was empty. Sandboxed Bash commands could not write to project directories named `hooks/` or `config/`.
+- **Fixed**: Prompt-cache misses caused by a restored memory file's age note changing between requests after a compaction or resume, and by attachments recorded earlier in a conversation.
+- **Fixed**: Sandboxed Bash commands on Linux reporting exit code 0 for failed commands when the shell is zsh, and `--resume`, the resume picker preview and the transcript view failing on a session whose saved history contains a malformed task-reminder or @-file attachment entry.
+- **Fixed**: `claude plugin marketplace update` deleting a GitHub marketplace's local copy when the fetch failed, `/rewind` in a forked or background session restoring a zero-filled or truncated file, and Grep, Glob and @-file suggestions hanging on searches over the 20MB output cap.
 
 ### v2.1.274 (2026-09-16)
 
@@ -3486,6 +3523,9 @@ keywords:
 
 | Version | Change |
 |---------|--------|
+| v2.1.278 | Auto mode defaults to the server-side classifier on the Claude API, Enterprise, Bedrock, Vertex, Foundry and gateways; `CLAUDE_CODE_AUTO_MODE_SERVER=0` opts out on the cloud providers and gateways. |
+| v2.1.277 | TaskOutput tool removed; background task output is read with Read, and `taskOutputMaxChars` and `TASK_MAX_OUTPUT_LENGTH` no longer have any effect. |
+| v2.1.277 | A project with no `CLAUDE.md` loads `AGENTS.md` as its project instructions; change it under "Project instructions" in `/config`. |
 | v2.1.274 | `"type": "sdk"` MCP entries outside an SDK host application are skipped with a warning. |
 | v2.1.274 | Bedrock, Vertex, Foundry and telemetry-disabled installs default to the v2 MCP client and MCP 2026-07-28 negotiation; opt out with `MCP_SDK_GENERATION=v1` or `MCP_PROTOCOL_NEGOTIATION=legacy`. |
 | v2.1.274 | `/code-review` uses inline review prompts instead of many review subagents for models without tuned settings; plugin and marketplace clones leave Git LFS files as pointers. |
@@ -3526,6 +3566,8 @@ keywords:
 
 | Version | Issue |
 |---------|-------|
+| v2.1.277 | `sandbox.excludedCommands` glob exempting a whole compound Bash command when one part matched; subagent results now framed as subagent output |
+| v2.1.275 | Passwords and tokens shown in plugin and marketplace URLs; `SubagentStop` `matcher` firing for empty agent types; sandboxed Bash blocked from project folders named `hooks/` or `config/` |
 | v2.1.274 | MCP-config secrets shown in connection errors; Bash special-variable permission checks; nested shell expansions in worktree-isolated sessions |
 | v2.1.273 | Unanalyzable Bash commands skipping the prompt under `blockReadsOutsideWorkingDirectories`; subshell-hidden `rm` in bypass mode; managed MCP restrictions ignored alongside server-managed settings |
 | v2.1.271 | Per-command `allowed_domains` scope host access to the reviewed command in auto mode with sandboxing; four Bash permission-check gaps closed |
@@ -3553,6 +3595,8 @@ keywords:
 
 | Version | Key Features |
 |---------|--------------|
+| **v2.1.277** | `AGENTS.md` read as project instructions when no `CLAUDE.md` is present, subagent results framed as subagent output, TaskOutput tool removed, egress-boundary and static-header options for Claude apps gateways |
+| **v2.1.275** | claude.ai skills and plugins sync into terminal sessions, send-now key for queued messages, `/plugin install --marketplace` |
 | **v2.1.271** | Per-command `allowed_domains` for Bash, PowerShell and Monitor in auto mode with sandboxing, `omitClaudeMd` agent frontmatter, `--accept-command` for plugin install and update, Monitor `persistent` watches replaced by bounded deadlines |
 | **v2.1.269** | `claude plugin eval` produces scored JSON/HTML reports; `/output-style` supports remote and headless sessions; VS Code gains an agent map and hook/permission dialogs |
 | **v2.1.232** | Subagent forking on by default (fork inherits conversation + prompt cache), `@`-mention another session by name, GitLab plugin marketplaces and token redaction |
