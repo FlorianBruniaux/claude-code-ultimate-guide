@@ -1,0 +1,31 @@
+CHANGELOG.md
+  s_b2b060cd4154a7::t_b789c882a337b9 9-10
+guide/core/claude-code-releases.md
+  s_b2b060cd4154a7::t_d47cbf2e5fdd75 20,26-29,49-81,3526-3528,3569-3570,3598-3599
+llms.txt
+  s_b2b060cd4154a7::t_a30cbe9ba93350 5
+machine-readable/claude-code-releases.yaml
+  s_b2b060cd4154a7::t_d7daaae9f4c9c2 6-7,18-49,2054,2071-2072,2118-2119
+machine-readable/llms.txt
+  s_b2b060cd4154a7::t_12e66c6dabbfc1 5
+mcp-server/content/claude-code-releases.yaml
+  s_b2b060cd4154a7::t_f25dc98cedd6c7 6-7,18-49,2054,2071-2072,2118-2119
+mcp-server/content/llms.txt
+  s_b2b060cd4154a7::t_fb3c6836d4834f 5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "08178c78c44bd62bc318cffe329f90532e234fa3",
+  "prompts": {},
+  "sessions": {
+    "s_b2b060cd4154a7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f6ac16e5-847f-4840-a76a-ab7f7f102e3f",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
