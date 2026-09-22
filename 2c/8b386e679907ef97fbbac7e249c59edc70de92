@@ -1,0 +1,75 @@
+CHANGELOG.md
+  s_0f2d034e93f3f1::t_34128dfb152715 9-12,614-615,2322
+docs/resource-evaluations/kajan-siva-insights-command.md
+  s_0f2d034e93f3f1::t_a930fea08a3d6e 81,170,203,227
+docs/resource-evaluations/lorenz-session-handoffs-2026.md
+  s_0f2d034e93f3f1::t_94ab911db27f4d 6
+docs/resource-evaluations/orf-open-reasoning-format.md
+  s_0f2d034e93f3f1::t_b7bc6e2043c272 4
+docs/resource-evaluations/self-improve-skill.md
+  s_0f2d034e93f3f1::t_6119e1a0d5f3ef 133
+docs/resource-evaluations/weller-session-migration-skill.md
+  s_0f2d034e93f3f1::t_873a5d017ac190 22
+docs/resource-evaluations/zolkos-insights-deep-dive.md
+  s_0f2d034e93f3f1::t_0046596756b8cc 6,267,367
+examples/commands/resources/threat-db.yaml
+  s_0f2d034e93f3f1::t_81a605004ce65c 435,485-486,582,596-598,720,3428,3557
+examples/config/CONTRIBUTING-ai-disclosure.md
+  s_0f2d034e93f3f1::t_e53ffcefca4490 72
+examples/scripts/fresh-context-loop.sh
+  s_0f2d034e93f3f1::t_a214d31d2af263 10
+examples/skills/handoff-update/SKILL.md
+  s_0f2d034e93f3f1::t_b0fdb01e27d3bf 51
+examples/skills/recipe-template/SKILL.md
+  s_0f2d034e93f3f1::t_35239b1412e4ee 78
+examples/templates/session-handoff-lorenz.md
+  s_0f2d034e93f3f1::t_1306d665fdc0e0 9,162
+guide/core/architecture.md
+  s_0f2d034e93f3f1::t_641bd5dadf6e7e 522
+guide/core/credits.md
+  s_0f2d034e93f3f1::t_e4af522f4c56e6 15
+guide/core/known-issues.md
+  s_0f2d034e93f3f1::t_88b1edacdd60ce 128-129
+guide/core/skill-design-patterns.md
+  s_0f2d034e93f3f1::t_c81c334cda35a7 46,91,113,146,185,211,265
+guide/ecosystem/ai-executive-agents.md
+  s_0f2d034e93f3f1::t_572dfe4f383276 116
+guide/ecosystem/mcp-servers-ecosystem.md
+  s_0f2d034e93f3f1::t_1a28021cdf33a5 1198,1961
+guide/ops/ai-traceability.md
+  s_0f2d034e93f3f1::t_0bb965d9b204ff 203,263,948-949,951
+guide/ops/observability.md
+  s_0f2d034e93f3f1::t_4a53897b7897fc 238,625,642,644
+guide/security/data-privacy.md
+  s_0f2d034e93f3f1::t_2045ca6a745670 388
+guide/security/enterprise-governance.md
+  s_0f2d034e93f3f1::t_0f4fa1b48e3b6b 1167,1169-1170
+guide/ultimate-guide.fr.md
+  s_0f2d034e93f3f1::t_7c96d9fd6d3435 2016,7884,7928,8422,8889,21665,22053,22080,23158,25403
+guide/ultimate-guide.md
+  s_0f2d034e93f3f1::t_f414ec4b702dc2 2125,2822,9391,9860,22345,22733,22760,23900,26325
+guide/workflows/agent-teams.md
+  s_0f2d034e93f3f1::t_077da304fb87e6 962,1532
+guide/workflows/design-to-code.md
+  s_0f2d034e93f3f1::t_a171f0c8e3f371 801,803
+machine-readable/reference.yaml
+  s_0f2d034e93f3f1::t_6db4d9f3586bea 82-83,89,311,1272-1273
+mcp-server/content/reference.yaml
+  s_0f2d034e93f3f1::t_0492691a908122 82-83,89,311,1272-1273
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "2c8b386e679907ef97fbbac7e249c59edc70de92",
+  "prompts": {},
+  "sessions": {
+    "s_0f2d034e93f3f1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0caf8-d697-7641-91dd-a9ed69138569",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
