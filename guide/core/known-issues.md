@@ -125,8 +125,8 @@ Run a pass-through proxy on port 8080 that reads but does not modify requests/re
 Alternatively, inspect session JSONL files directly in `~/.claude/projects/`, and look for `cache_creation_input_tokens` and `cache_read_input_tokens` per turn.
 
 Community tools for monitoring:
-- [`cc-diag`](https://github.com/nicobailey/cc-diag): mitmproxy-based Claude Code traffic analysis
-- [`claude-code-router`](https://github.com/pathintegral-institute/claude-code-router): transparent proxy with logging
+- The previously listed `cc-diag` repository is unavailable. Use the JSONL inspection method above.
+- [`claude-code-router`](https://github.com/musistudio/claude-code-router): transparent proxy with logging
 
 Community patch (applies both Bug 1 and Bug 2 fixes):
 - [`cc-cache-fix`](https://github.com/Rangizingo/cc-cache-fix): community-developed patch + test toolkit

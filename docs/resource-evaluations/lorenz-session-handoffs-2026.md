@@ -3,7 +3,7 @@
 **Resource Type**: LinkedIn Post + Template
 **Author**: Robin Lorenz
 **Date**: February 5, 2026
-**URL**: https://www.linkedin.com/posts/robin-lorenz-54055412a_claudecode-contextengineering-aiengineering-activity-7425136701515251713
+**URL**: Original LinkedIn post unavailable (HTTP 404 when checked September 2026).
 
 ---
 

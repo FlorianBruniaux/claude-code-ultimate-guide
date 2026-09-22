@@ -75,4 +75,4 @@ If no argument was provided: [default behavior]
 
 > The "Context Validation Checkpoints" section is the key pattern from this template.
 > It forces Claude to verify preconditions explicitly rather than discovering failures mid-execution.
-> Inspired by recurring patterns in [Packmind commands](https://github.com/packmind/packmind) (Apache 2.0).
+> Inspired by recurring patterns in [Packmind commands](https://github.com/PackmindHub/packmind) (Apache 2.0).

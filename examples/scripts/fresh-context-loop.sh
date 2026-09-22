@@ -7,7 +7,7 @@
 # Usage: ./fresh-context-loop.sh [max_iterations] [task_file] [progress_file]
 #
 # Sources:
-# - Pattern: https://block.github.io/goose/docs/tutorials/ralph-loop/
+# - Pattern: https://goose-docs.ai/docs/tutorials/ralph-loop/
 # - Research: https://research.trychroma.com/context-rot
 
 set -euo pipefail

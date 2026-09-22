@@ -48,4 +48,4 @@ After saving, confirm:
 ---
 
 > This command implements the Handoff Triad pattern documented in this guide's Session Handoff Pattern section.
-> Template inspired by [Packmind's handoff commands](https://github.com/packmind/packmind) (Apache 2.0).
+> Template inspired by [Packmind's handoff commands](https://github.com/PackmindHub/packmind) (Apache 2.0).

@@ -385,7 +385,7 @@ An alternate endpoint using the same model may diversify hosting without removin
 | Resource | URL |
 |----------|-----|
 | Privacy settings | https://claude.ai/settings/data-privacy-controls |
-| Anthropic usage policy | https://www.anthropic.com/policies |
+| Anthropic usage policy | https://www.anthropic.com/legal/aup |
 | Enterprise information | https://www.anthropic.com/enterprise |
 | Terms of service | https://www.anthropic.com/legal/consumer-terms |
 

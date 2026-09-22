@@ -79,13 +79,14 @@ deep_dive:
   github_actions_code_review_tools: "Read, Glob, Grep + GitHub PR inspection (read-only)"
   github_actions_code_review_auth: "OAuth token (Claude Max plan, 0$ API) or ANTHROPIC_API_KEY"
   github_actions_cost_per_review: "0$ with OAuth/Max plan; ~0.05-0.15$ with API key (Sonnet, ~5K tokens diff)"
-  github_actions_code_review_gate_job: "examples/github-actions/claude-code-review.yml - illustrative only: lacks provider/run/current-SHA binding, defaults missing severity to zero, and skips after review failure; replace and exercise evidence handling before using as an acceptance gate"
+  github_actions_code_review_gate_job: "examples/github-actions/claude-code-review.yml"
+  github_actions_code_review_gate_limitations: "Illustrative only: lacks provider/run/current-SHA binding, defaults missing severity to zero, and skips after review failure; replace and exercise evidence handling before using as an acceptance gate"
   # Multi-Provider Code Review Architecture (Jul 2026)
   multi_provider_code_review_guide: "guide/workflows/multi-provider-code-review.md"
   multi_provider_code_review_summary: "Separate semantic review, executable invariants and cross-file investigation; binary AI output is not deterministic; bind acceptance to provider/run/revision/scope, integration state and effective policy; exercise recovery after incorrect acceptance"
   multi_provider_code_review_batched_workflow: "examples/github-actions/claude-code-review-batched.yml"
   multi_provider_code_review_batched_pattern: "check-size job counts changed files, above threshold splits diff into domain matrix (migrations/backend/api/frontend/tests), parallel review + final synthesis"
-  multi_provider_code_review_greptile_templates: "examples/github-actions/.greptile/ (config.json, rules.md, files.json)"
+  multi_provider_code_review_greptile_templates: "examples/github-actions/.greptile/" # config.json, rules.md, files.json
   # Rules Templates (auto-loaded .claude/rules/)
   rules_templates_directory: "examples/rules/"
   rules_architecture_review: "examples/rules/architecture-review.md"
@@ -307,7 +308,7 @@ deep_dive:
   session_migration_risks: "guide/ops/observability.md#️-migration-risks--caveats"
   session_migration_community_tool: "guide/ops/observability.md#community-automation-tool"
   session_migration_issue: "https://github.com/anthropics/claude-code/issues/1516"
-  session_migration_weller_skill: "https://github.com/jimweller/dotfiles/tree/main/dotfiles/claude-code/skills/claude-migrate-session"
+  session_migration_weller_skill: "https://github.com/jimweller/dotfiles/tree/7a1d306b15de0a89ea0a809ca42fff5ad5a16e43/dotfiles/claude-code/skills/claude-migrate-session"
   # Activity monitoring
   activity_monitoring: "guide/ops/observability.md#activity-monitoring"            # Tool call audit via JSONL
   activity_monitoring_queries: "guide/ops/observability.md#activity-monitoring"    # jq queries for audit
@@ -1268,7 +1269,8 @@ deep_dive:
   audit_agents_skills_modes: "Quick (top-5), Full (all 16), Comparative (vs templates)"
   audit_agents_skills_output: "Markdown + JSON for CI/CD integration"
   audit_agents_skills_industry_context: "29.5% deploy without evaluation (LangChain 2026), 18% cite agent bugs as top challenge"
-  audit_agents_skills_guide_refs: "guide/ultimate-guide.md:4951 (after Agent Validation Checklist), guide/ultimate-guide.md:5495 (after Skill Validation)"
+  audit_agents_skills_guide_refs: "guide/ultimate-guide.md#agent-validation-checklist"
+  audit_agents_skills_skill_validation: "guide/ultimate-guide.md#validating-skills"
   # Practitioner Insights (external validation)
   practitioner_insights: "guide/ecosystem/ai-ecosystem.md#112-practitioner-insights"
   practitioner_dave_van_veen: "guide/ecosystem/ai-ecosystem.md#dave-van-veen-stanford-phd-hoppr"

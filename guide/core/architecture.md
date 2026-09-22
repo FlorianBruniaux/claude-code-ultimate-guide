@@ -519,7 +519,7 @@ Recent research and practitioner observations confirm **quality degradation with
 
 **Community Consensus**: Manual `/compact` at logical breakpoints > waiting for auto-compact to trigger.
 
-**Recommended Strategy** ([Lorenz, 2026](https://www.linkedin.com/posts/robin-lorenz-54055412a_claudecode-contextengineering-aiengineering-activity-7425136701515251713)):
+**Recommended Strategy** (Lorenz, 2026 (original LinkedIn post unavailable)):
 
 | Context % | Action | Rationale |
 |-----------|--------|-----------|

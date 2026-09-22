@@ -130,7 +130,7 @@ Add new section to `guide/ultimate-guide.md`:
 
 1. **Claude Reflect System GitHub**: https://github.com/haddock-development/claude-reflect-system
 2. **Agent Skills Index**: https://agent-skills.md/skills/haddock-development/claude-reflect-system/reflect
-3. **Anthropic Memory Cookbook**: https://github.com/anthropics/anthropic-cookbook/blob/main/skills/memory/guide.md
+3. **Anthropic Memory Cookbook**: https://github.com/anthropics/claude-cookbooks/blob/main/tool_use/memory_cookbook.ipynb
 4. **Perplexity search**: "Claude Code self-improving skills feedback analysis" (2026-01-24)
 
 ---

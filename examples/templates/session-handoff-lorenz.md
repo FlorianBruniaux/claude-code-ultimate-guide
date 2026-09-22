@@ -6,7 +6,7 @@ tags: [template, memory, workflows]
 
 # Session Handoff Template
 
-**Inspired by**: [Robin Lorenz's Context Engineering approach](https://www.linkedin.com/posts/robin-lorenz-54055412a_claudecode-contextengineering-aiengineering-activity-7425136701515251713) (Feb 2026)
+**Inspired by**: Robin Lorenz's Context Engineering approach (original LinkedIn post unavailable) (Feb 2026)
 
 **Purpose**: Structured handoff to preserve intent when approaching context limits. Triggers at **85% context usage** to prevent auto-compact quality degradation.
 
@@ -159,7 +159,7 @@ claude
 - [Session Handoffs (Ultimate Guide)](../../guide/ultimate-guide.md#session-handoff-pattern)
 - [Auto-Compaction Research (Architecture)](../../guide/core/architecture.md#auto-compaction)
 - [Fresh Context Pattern (Ultimate Guide)](../../guide/ultimate-guide.md#fresh-context-pattern-ralph-loop)
-- [Lorenz's Original Post](https://www.linkedin.com/posts/robin-lorenz-54055412a_claudecode-contextengineering-aiengineering-activity-7425136701515251713)
+- Lorenz's Original Post (original LinkedIn post unavailable)
 
 ---
 

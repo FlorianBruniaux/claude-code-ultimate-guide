@@ -43,7 +43,7 @@ Orchestrator (Phase 2)
 
 **Implementation note**: The ground truth block should be a string, not a file reference. If you point agents to "read `docs.json`", each agent reads it independently. Compile it once in the orchestrator and paste it in.
 
-> Observed in the [Packmind doc-audit skill](https://github.com/packmind/packmind) (.claude/skills/doc-audit/SKILL.md, Phase 1). See [Credits](./credits.md).
+> Observed in the [Packmind doc-audit skill](https://github.com/PackmindHub/packmind) (.claude/skills/doc-audit/SKILL.md, Phase 1). See [Credits](./credits.md).
 
 ---
 
@@ -88,7 +88,7 @@ Orchestrator logic (plain steps):
 
 **When to add `paths:` frontmatter**: Any rule that has a clear file-type scope (test files, migration files, frontend components, API routes). Rules that are truly global use `alwaysApply: true` and skip the matching step.
 
-> Observed in the [Packmind qa-review skill](https://github.com/packmind/packmind) (.claude/skills/qa-review/SKILL.md, Phase 5). See [Credits](./credits.md).
+> Observed in the [Packmind qa-review skill](https://github.com/PackmindHub/packmind) (.claude/skills/qa-review/SKILL.md, Phase 5). See [Credits](./credits.md).
 
 ---
 
@@ -110,7 +110,7 @@ Then enforce it: no file writes, no edits, no git commits inside the skill. Outp
 
 **The practical value**: Detection-only skills are safe to run on main, in CI, and against production configs. A user can invoke one without fear of unintended changes, which makes them worth running more often and on more codebases.
 
-> Recurring pattern across qa-review, playbook-audit, and doc-audit in the [Packmind repo](https://github.com/packmind/packmind) (Apache 2.0). See [Credits](./credits.md).
+> Recurring pattern across qa-review, playbook-audit, and doc-audit in the [Packmind repo](https://github.com/PackmindHub/packmind) (Apache 2.0). See [Credits](./credits.md).
 
 ---
 
@@ -143,7 +143,7 @@ Each handler file contains the full parsing instructions for that input type, in
 
 **When to use it**: When input types require substantially different parsing logic (not just different field names). If two inputs differ by less than 5 steps, handle them inline. The pattern pays off when handlers would each exceed 100 lines.
 
-> Observed in the [Packmind create-em-spec skill](https://github.com/packmind/packmind) (.claude/skills/create-em-spec/inputs/). See [Credits](./credits.md).
+> Observed in the [Packmind create-em-spec skill](https://github.com/PackmindHub/packmind) (.claude/skills/create-em-spec/inputs/). See [Credits](./credits.md).
 
 ---
 
@@ -182,7 +182,7 @@ Run: `my-cli --version`
 
 **When to use it**: When a CLI tool you wrap has breaking changes between versions and you need to support multiple versions simultaneously. If you only need to support the latest version, just update the skill in place.
 
-> Observed in the [Packmind update-playbook skill](https://github.com/packmind/packmind) (.claude/skills/packmind-update-playbook/). See [Credits](./credits.md).
+> Observed in the [Packmind update-playbook skill](https://github.com/PackmindHub/packmind) (.claude/skills/packmind-update-playbook/). See [Credits](./credits.md).
 
 ---
 
@@ -208,7 +208,7 @@ The full canonical standard lives outside `.claude/rules/` so it does not auto-l
 
 **Maintenance**: When you update the canonical standard, update the summary too. The two-tier split creates a duplication risk. Mitigate it by keeping the summary to bullet-point rules only (no prose) so it changes infrequently.
 
-> Observed in the [Packmind rules configuration](https://github.com/packmind/packmind) (.claude/rules/packmind/). See [Credits](./credits.md).
+> Observed in the [Packmind rules configuration](https://github.com/PackmindHub/packmind) (.claude/rules/packmind/). See [Credits](./credits.md).
 
 ---
 
@@ -262,7 +262,7 @@ Both files are committed together and stay in the repo indefinitely.
 
 **When to use it**: Multi-session implementation tasks where continuity matters. Not worth the overhead for a single-session task that fits in one commit. The threshold is roughly: if the work spans more than one day or more than one Claude session, commit the plan.
 
-> Observed in the [Packmind .claude/plans/](https://github.com/packmind/packmind) convention (Apache 2.0). See [Credits](./credits.md).
+> Observed in the [Packmind .claude/plans/](https://github.com/PackmindHub/packmind) convention (Apache 2.0). See [Credits](./credits.md).
 
 ---
 

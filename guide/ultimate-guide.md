@@ -2122,7 +2122,7 @@ done
 
 `/compact` preserves conversation flow. Fresh context maximizes per-task attention at the cost of continuity.
 
-> **Sources**: [Chroma Research - Context Rot](https://research.trychroma.com/context-rot) | [Ralph Loop Origin](https://block.github.io/goose/docs/tutorials/ralph-loop/) | [METR - Long Task Capability](https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/) | [Anthropic - Context Engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)
+> **Sources**: [Chroma Research - Context Rot](https://research.trychroma.com/context-rot) | [Ralph Loop Origin](https://goose-docs.ai/docs/tutorials/ralph-loop/) | [METR - Long Task Capability](https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/) | [Anthropic - Context Engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)
 
 ### What Consumes Context?
 
@@ -2819,7 +2819,7 @@ The append-only Work Done section creates an audit trail across sessions. Even i
 
 Fork-ready templates at `examples/commands/handoff/` in this repo.
 
-> Pattern inspired by [Packmind's handoff command triad](https://github.com/packmind/packmind) (Apache 2.0). See [Credits](./core/credits.md).
+> Pattern inspired by [Packmind's handoff command triad](https://github.com/PackmindHub/packmind) (Apache 2.0). See [Credits](./core/credits.md).
 
 ## 2.3 Plan Mode
 
@@ -9388,7 +9388,7 @@ Understanding these categories helps interpret your report:
 
 **Performance optimization**: The caching system ensures subsequent runs only analyze new sessions (not previously classified ones), making regular monthly runs fast even with large session histories.
 
-> **Source**: Architecture details from [Zolkos Technical Deep Dive](https://www.zolkos.com/2026/02/04/deep-dive-how-claude-codes-insights-command-works.html) (2026-02-04)
+> **Source**: Architecture details from [Zolkos Technical Deep Dive](https://www.zolkos.com/2026/02/03/deep-dive-how-claude-codes-insights-command-works) (2026-02-03)
 
 #### Limitations
 
@@ -9857,7 +9857,7 @@ The checklist forces explicit precondition verification rather than letting Clau
 
 Fork-ready template at `examples/commands/recipe-template.md` in this repo.
 
-> Pattern from [Packmind command files](https://github.com/packmind/packmind) (Apache 2.0). See [Credits](./core/credits.md).
+> Pattern from [Packmind command files](https://github.com/PackmindHub/packmind) (Apache 2.0). See [Credits](./core/credits.md).
 
 ## 6.4 Command Examples
 
@@ -22342,7 +22342,7 @@ Business logic and domain operations. Services are framework-agnostic.
 - [Agent Experience Best Practices](https://marmelab.com/blog/2026/01/21/agent-experience.html) by François Zaninotto (Marmelab)
 
 **Related frameworks**:
-- [Netlify AX (Agent Experience) Research](https://www.netlify.com/blog/agent-experience/) (2025)
+- [Netlify AX (Agent Experience) Research](https://www.netlify.com/agent-experience/) (2025)
 - [Speakeasy API Developer Experience Guide](https://docs.speakeasy.com/) (includes agent-friendly patterns)
 
 **Academic research**:
@@ -22730,7 +22730,7 @@ Phase 3: Skeptical review (1 agent reviews all raw findings)
           └── Produces KEEP/REJECT log + final report
 ```
 
-The skeptical reviewer agent operates with explicit anti-hallucination rules. From the Packmind [playbook-audit implementation](https://github.com/packmind/packmind):
+The skeptical reviewer agent operates with explicit anti-hallucination rules. From the Packmind [playbook-audit implementation](https://github.com/PackmindHub/packmind):
 
 > "Be skeptical. Audit agents tend to over-report; your job is to filter. A 50%+ rejection rate is normal and healthy."
 
@@ -22757,7 +22757,7 @@ The skeptical reviewer agent operates with explicit anti-hallucination rules. Fr
 
 **Connection to Swarm Mode**: Swarm Mode (above) sends the same input to multiple reviewers in parallel for coverage. The Skeptical Reviewer pattern adds a synthesis layer that *filters* swarm output before surfacing it. They compose naturally: run the swarm, pipe its output through the skeptical reviewer.
 
-> Pattern source: [Packmind playbook-audit skill](https://github.com/packmind/packmind) (Apache 2.0, Cédric Teyton). See [Credits](./core/credits.md).
+> Pattern source: [Packmind playbook-audit skill](https://github.com/PackmindHub/packmind) (Apache 2.0, Cédric Teyton). See [Credits](./core/credits.md).
 
 ---
 
@@ -23897,7 +23897,7 @@ The reasoning: at genuine agent throughput levels, a broken test is fixed faster
 
 This philosophy only applies when throughput is genuinely high. At normal development throughput, blocking merges on failing tests is correct: the cost of a merge block is low, and the cost of merging broken code is high. The inversion happens only when the agent can produce a fix faster than a human can review and unblock the PR. Applying this philosophy prematurely, without the throughput to support it, produces a codebase with accumulated failures rather than one with efficient flow.
 
-> **Sources**: Session lifecycle, Verification Gap, WIP=1, feature_list.json, init.sh, and progress.md patterns from [Learn Harness Engineering](https://github.com/humanlayer/learn-harness-engineering) (HumanLayer, 2026). AGENTS.md-as-TOC, knowledge boundary principle, exec plans, docs/ structure, ephemeral observability stack, taste invariants, doc-gardening agent, anti-entropy model, layered domain architecture, and high-throughput merge philosophy from "Harness engineering: exploiting Codex in the agent era," Ryan Lopopolo, OpenAI Engineering blog, Feb 11, 2026 (https://openai.com/index/harness-engineering/).
+> **Sources**: Session lifecycle, Verification Gap, WIP=1, feature_list.json, init.sh, and progress.md patterns are presented here as guide recommendations. The earlier attribution to "Learn Harness Engineering" (HumanLayer, 2026) could not be verified. AGENTS.md-as-TOC, knowledge boundary principle, exec plans, docs/ structure, ephemeral observability stack, taste invariants, doc-gardening agent, anti-entropy model, layered domain architecture, and high-throughput merge philosophy from "Harness engineering: exploiting Codex in the agent era," Ryan Lopopolo, OpenAI Engineering blog, Feb 11, 2026 (https://openai.com/index/harness-engineering/).
 
 > **See also**: [§3.1 CLAUDE.md](#31-memory-files-claudemd): instruction files, the Instructions subsystem. [§9.5 Tight Feedback Loops](#95-tight-feedback-loops): automated feedback, the Feedback subsystem. [§9.24 Instinct-Based Continuous Learning](#924-instinct-based-continuous-learning): capturing session observations across sessions.
 
@@ -26322,7 +26322,7 @@ cd /path/to/target/project && claude --continue
 - MCP server configurations may differ between projects
 - \`.claudeignore\` rules are project-specific
 
-**Community automation**: The [claude-migrate-session](https://github.com/jimweller/dotfiles/tree/main/dotfiles/claude-code/skills/claude-migrate-session) skill by Jim Weller automates this process, but has limited testing (1 star as of 2026-07-27, was 0 in Feb 2026). Manual approach is safer.
+**Community automation**: The [claude-migrate-session](https://github.com/jimweller/dotfiles/tree/7a1d306b15de0a89ea0a809ca42fff5ad5a16e43/dotfiles/claude-code/skills/claude-migrate-session) skill by Jim Weller automates this process, but has limited testing (1 star as of 2026-07-27, was 0 in Feb 2026). Manual approach is safer.
 
 **Detailed guide**: See [Session Resume Limitations & Cross-Folder Migration](ops/observability.md#session-resume-limitations--cross-folder-migration) for complete workflow and edge cases.
 

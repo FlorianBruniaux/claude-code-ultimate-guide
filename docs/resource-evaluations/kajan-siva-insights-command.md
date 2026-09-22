@@ -78,7 +78,7 @@ Post LinkedIn court (~4 lignes) recommandant la commande `/insights` de Claude C
 
 **Mais**: Ce post LinkedIn ne comble PAS ce gap (pas de détails techniques).
 
-**Source de valeur réelle**: Le deep dive de Rob Zolkos (https://www.zolkos.com/2026/02/04/deep-dive-how-claude-codes-insights-command-works.html) qui documente:
+**Source de valeur réelle**: Le deep dive de Rob Zolkos (https://www.zolkos.com/2026/02/03/deep-dive-how-claude-codes-insights-command-works) qui documente:
 - Pipeline en 7 étapes
 - Architecture facets (12 friction types, 7 success types, 6 satisfaction levels)
 - Specs techniques (Haiku, 50 sessions max, 8192 tokens, `~/.claude/usage-data/`)
@@ -167,7 +167,7 @@ Le pattern: 2/5 = mention anecdotique sans profondeur technique. Cohérent.
 
 **À la place, faire**:
 1. **Évaluer le deep dive de Zolkos** (priorité haute)
-   - URL: https://www.zolkos.com/2026/02/04/deep-dive-how-claude-codes-insights-command-works.html
+   - URL: https://www.zolkos.com/2026/02/03/deep-dive-how-claude-codes-insights-command-works
    - Score estimé: 3-4/5 (contenu technique robuste)
 2. **Documenter `/insights` dans le guide** après évaluation Zolkos
    - Section: Slash Commands (ultimate-guide.md L1200-1400)
@@ -200,7 +200,7 @@ Analyze your recent Claude Code sessions to identify patterns, friction points, 
 **Example output**:
 [Screenshot or description of HTML report]
 
-**Source**: [Deep Dive by Rob Zolkos](https://www.zolkos.com/2026/02/04/deep-dive-how-claude-codes-insights-command-works.html)
+**Source**: [Deep Dive by Rob Zolkos](https://www.zolkos.com/2026/02/03/deep-dive-how-claude-codes-insights-command-works)
 ```
 
 ---
@@ -224,7 +224,7 @@ Analyze your recent Claude Code sessions to identify patterns, friction points, 
 
 **Next Actions**:
 1. ✅ Evaluation complete
-2. ⏳ Launch `/eval-resource https://www.zolkos.com/2026/02/04/deep-dive-how-claude-codes-insights-command-works.html`
+2. ⏳ Launch `/eval-resource https://www.zolkos.com/2026/02/03/deep-dive-how-claude-codes-insights-command-works`
 3. ⏳ Document `/insights` in guide (after Zolkos evaluation)
 4. ⏳ Identify Claude Code version that introduced `/insights`
 

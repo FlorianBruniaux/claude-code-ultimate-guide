@@ -3,7 +3,7 @@
 **Resource Type**: Blog Article (Technical Deep Dive)
 **Author**: Rob Zolkos (@zolkos)
 **Date**: 2026-02-04
-**URL**: https://www.zolkos.com/2026/02/04/deep-dive-how-claude-codes-insights-command-works.html
+**URL**: https://www.zolkos.com/2026/02/03/deep-dive-how-claude-codes-insights-command-works
 **Evaluation Date**: 2026-02-06
 **Evaluator**: Claude Sonnet 4.5
 
@@ -264,7 +264,7 @@ Understanding these categories helps interpret the report:
 - Low satisfaction on "Implement Feature" → Improve planning phase
 - "Early user stoppage" pattern → Check if requests too vague
 
-**Source**: [Zolkos Technical Deep Dive](https://www.zolkos.com/2026/02/04/deep-dive-how-claude-codes-insights-command-works.html)
+**Source**: [Zolkos Technical Deep Dive](https://www.zolkos.com/2026/02/03/deep-dive-how-claude-codes-insights-command-works)
 ```
 
 **Phase 2: Reference dans Troubleshooting (optionnel)**
@@ -364,4 +364,4 @@ Integration adds ~800 tokens to guide (facets tables + architecture overview).
 
 **Evaluation complete**: 2026-02-06
 
-**Attribution**: Rob Zolkos, [zolkos.com](https://www.zolkos.com/2026/02/04/deep-dive-how-claude-codes-insights-command-works.html)
+**Attribution**: Rob Zolkos, [zolkos.com](https://www.zolkos.com/2026/02/03/deep-dive-how-claude-codes-insights-command-works)

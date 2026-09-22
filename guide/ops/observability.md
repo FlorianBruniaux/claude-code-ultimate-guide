@@ -235,7 +235,7 @@ claude --continue
 
 **claude-migrate-session** by Jim Weller (inspired by Alexis Laporte) automates the manual process above:
 
-- **Repository**: [jimweller/dotfiles](https://github.com/jimweller/dotfiles/tree/main/dotfiles/claude-code/skills/claude-migrate-session)
+- **Historical source** (before the skill was renamed): [jimweller/dotfiles](https://github.com/jimweller/dotfiles/tree/7a1d306b15de0a89ea0a809ca42fff5ad5a16e43/dotfiles/claude-code/skills/claude-migrate-session)
 - **Features**: Global search with filtering, preserves `.jsonl` + subagents, uses ripgrep for performance
 - **Status**: Personal dotfiles (0 stars/forks as of Feb 2026), limited adoption
 - **Command**: `/claude-migrate-session <source> <target>`
@@ -622,7 +622,7 @@ Beyond the hook-based approach above, the community has built purpose-specific t
 
 ```
 Want cost numbers fast?          → ccusage (CLI, 0 config)
-Need enterprise audit trail?     → claude-code-otel + Grafana or Akto
+Need enterprise audit trail?     → native OpenTelemetry + Grafana or Akto
 Already using MLflow for ML?     → MLflow tracing integration (see below)
 Need agent regression detection? → MLflow tracing + LLM-as-judge
 Want a persistent TUI/Web UI?    → ccboard
@@ -639,16 +639,9 @@ ccusage --days 7 # Last 7 days
 
 Reads directly from `~/.claude/projects/**/*.jsonl`. No API keys, no data sent externally. Source: [github.com/ryoppippi/ccusage](https://github.com/ryoppippi/ccusage).
 
-### claude-code-otel
+### Native OpenTelemetry
 
-Exports Claude Code activity as OpenTelemetry spans:
-
-```bash
-npm i -g claude-code-otel
-claude-code-otel --collector http://localhost:4318
-```
-
-Spans include tool name, duration, token counts. Plug into any OTEL-compatible backend (Jaeger, Tempo, Datadog). Source: [github.com/badger-99/claude-code-otel](https://github.com/badger-99/claude-code-otel).
+The previously listed `claude-code-otel` repository is unavailable. Claude Code supports OpenTelemetry directly; follow the [official monitoring documentation](https://code.claude.com/docs/en/monitoring-usage) to configure metrics and event export to your collector.
 
 ### ccboard
 

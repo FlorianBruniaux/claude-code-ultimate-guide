@@ -798,9 +798,9 @@ Claude output:
 
 ### Official Documentation
 
-- **Figma MCP Server**: [@modelcontextprotocol/server-figma](https://github.com/modelcontextprotocol/servers/tree/main/src/figma) (GitHub)
+- **Figma MCP Server**: [Figma MCP server documentation](https://developers.figma.com/docs/figma-mcp-server/)
 - **Figma Developer Docs**: [figma.com/developers](https://www.figma.com/developers)
-- **Style Dictionary**: [amzn.github.io/style-dictionary](https://amzn.github.io/style-dictionary/)
+- **Style Dictionary**: [styledictionary.com](https://styledictionary.com/)
 - **Tokens Studio Plugin**: [tokens.studio](https://tokens.studio/)
 
 ### Case Studies & Tutorials

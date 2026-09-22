@@ -12,7 +12,7 @@ This guide documents patterns from the Claude Code community. Some sections are 
 
 ## Packmind Engineering Team
 
-**Repo**: [github.com/packmind/packmind](https://github.com/packmind/packmind)
+**Repo**: [github.com/packmind/packmind](https://github.com/PackmindHub/packmind)
 **Author**: Cédric Teyton (CTO, Packmind)
 **License**: Apache 2.0
 

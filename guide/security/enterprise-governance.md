@@ -1164,10 +1164,10 @@ find ~/.claude/projects/ -name "*.jsonl" -newer "$SINCE_WEEK" | \
 - [Liminal AI Enterprise Governance Guide](https://www.liminal.ai/blog/enterprise-ai-governance-guide): Practical implementation
 - [Databricks AI Governance Framework](https://www.databricks.com/blog/practical-ai-governance-framework-enterprises): Enterprise-scale framework
 - [Augmentcode AI Code Governance](https://www.augmentcode.com/guides/ai-code-governance-framework-for-enterprise-dev-teams): Dev team specific
-- [Partnership on AI: Six Governance Priorities 2026](https://partnershiponai.org/resource/six-governance-priorities/): Evaluation frameworks, accountability
+- [Partnership on AI: Six Governance Priorities 2026](https://partnershiponai.org/resource/six-ai-governance-priorities/): Evaluation frameworks, accountability
 - [EU AI Act](https://www.europarl.europa.eu/doceo/document/TA-9-2024-0138_EN.html): Kill switch requirements for high-risk AI systems
-- [NIST AI RMF](https://airc.nist.gov/RMF/Overview): Risk management framework
-- [SOC2 Trust Services Criteria](https://www.aicpa.org/resources/article/soc-2-trust-services-criteria): CC6.1, CC7.1, CC9.2
+- [NIST AI RMF](https://www.nist.gov/itl/ai-risk-management-framework): Risk management framework
+- [SOC2 Trust Services Criteria](https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022): CC6.1, CC7.1, CC9.2
 
 ---
 

@@ -200,7 +200,7 @@ Major projects have published AI policies. Use these as templates.
 
 ### 4.1 LLVM "Human-in-the-Loop" (January 2026)
 
-**Source:** [LLVM Developer Policy Update](https://discourse.llvm.org/t/update-to-the-developer-policy-on-ai-generated-code/84757)
+**Source:** [LLVM Developer Policy Update](https://llvm.org/docs/AIToolPolicy.html)
 
 **Core Principles:**
 
@@ -260,7 +260,7 @@ Reviewed-by: Human Developer <human@llvm.org>
 
 ### 4.3 Fedora Contributor Accountability (October 2025)
 
-**Source:** [Fedora AI Policy](https://docs.fedoraproject.org/en-US/project/ai-policy/)
+**Source:** [Fedora AI Policy](https://docs.fedoraproject.org/en-US/council/policy/ai-contribution-policy/)
 
 **Key Points:**
 
@@ -945,10 +945,10 @@ The session logger captures tool calls at the Claude Code level. It does not rec
 
 ### External Resources
 
-- [git-ai Repository](https://github.com/diggerhq/git-ai): checkpoint tracking tool
-- [LLVM AI Policy](https://discourse.llvm.org/t/update-to-the-developer-policy-on-ai-generated-code/84757): Assisted-by standard
+- [git-ai Repository](https://github.com/git-ai-project/git-ai): checkpoint tracking tool
+- [LLVM AI Policy](https://llvm.org/docs/AIToolPolicy.html): Assisted-by standard
 - [Ghostty CONTRIBUTING.md](https://github.com/ghostty-org/ghostty/blob/main/CONTRIBUTING.md): simple disclosure model
-- [Fedora AI Policy](https://docs.fedoraproject.org/en-US/project/ai-policy/): governance and accountability
+- [Fedora AI Policy](https://docs.fedoraproject.org/en-US/council/policy/ai-contribution-policy/): governance and accountability
 - [Vibe coding needs git blame](https://quesma.com/blog/vibe-code-git-blame/): original article inspiring this guide
 
 ---

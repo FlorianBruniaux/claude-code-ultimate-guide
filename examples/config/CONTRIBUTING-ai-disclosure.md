@@ -69,6 +69,6 @@ All code has been reviewed and understood by the author.
 Based on policies from:
 - [Ghostty](https://github.com/ghostty-org/ghostty/blob/main/CONTRIBUTING.md)
 - [LLVM](https://llvm.org/docs/DeveloperPolicy.html)
-- [Fedora](https://docs.fedoraproject.org/en-US/project/ai-policy/)
+- [Fedora](https://docs.fedoraproject.org/en-US/council/policy/ai-contribution-policy/)
 
 For more context, see [AI Traceability Guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/ai-traceability.md).

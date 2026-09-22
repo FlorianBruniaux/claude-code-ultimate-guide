@@ -959,7 +959,7 @@ Start
 > "I'm not sure about Claude's guidance on when to use beads versus agent team sessions."
 > Source: Paul Rayner, Feb 2026
 
-**Community feedback needed**: Anthropic has not published official guidance on this choice. Practitioners are invited to share experiences in [GitHub Discussions](https://github.com/anthropics/claude-code/discussions).
+**Community feedback needed**: Anthropic has not published official guidance on this choice. For reproducible bugs, use the [Claude Code issue tracker](https://github.com/anthropics/claude-code/issues).
 
 ---
 
@@ -1529,7 +1529,7 @@ The overhead is real (each cycle costs tokens and latency). Apply it to tasks wh
 
 **Experiencing issues?** Report to [Anthropic GitHub Issues](https://github.com/anthropics/claude-code/issues)
 
-**Production learnings?** Share in [GitHub Discussions](https://github.com/anthropics/claude-code/discussions)
+**Reporting a bug?** Use the [Claude Code issue tracker](https://github.com/anthropics/claude-code/issues).
 
 **Questions?** Ask in [Dev With AI Community](https://www.devw.ai/) (1500+ devs, Slack)
 

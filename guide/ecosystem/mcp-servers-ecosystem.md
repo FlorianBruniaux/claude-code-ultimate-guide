@@ -1195,7 +1195,7 @@ Result: Status changed
 **Resources**:
 - **GitHub**: https://github.com/tacticlaunch/mcp-linear
 - **Linear API**: https://developers.linear.app
-- **Docs**: https://jan.ai/docs/desktop/mcp-examples/productivity/linear
+- **Docs**: https://linear.app/docs/mcp
 
 ---
 
@@ -1958,7 +1958,7 @@ The template includes:
 - `references/sentry-mcp.md` with complete parameter docs, gotchas, query examples, and noise exclusion list
 - Instructions for adapting to any MCP server
 
-> Inspired by the Datadog MCP reference file from the [Packmind open-source repo](https://github.com/packmind/packmind) (Apache 2.0, Cédric Teyton). See [Credits](../core/credits.md) for full attribution.
+> Inspired by the Datadog MCP reference file from the [Packmind open-source repo](https://github.com/PackmindHub/packmind) (Apache 2.0, Cédric Teyton). See [Credits](../core/credits.md) for full attribution.
 
 ---
 

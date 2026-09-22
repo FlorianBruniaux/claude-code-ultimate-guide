@@ -2013,7 +2013,7 @@ done
 
 `/compact` préserve le fil de la conversation. Un contexte vierge maximise l'attention par tâche au détriment de la continuité.
 
-> **Sources** : [Chroma Research - Context Rot](https://research.trychroma.com/context-rot) | [Ralph Loop Origin](https://block.github.io/goose/docs/tutorials/ralph-loop/) | [METR - Long Task Capability](https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/) | [Anthropic - Context Engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)
+> **Sources** : [Chroma Research - Context Rot](https://research.trychroma.com/context-rot) | [Ralph Loop Origin](https://goose-docs.ai/docs/tutorials/ralph-loop/) | [METR - Long Task Capability](https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/) | [Anthropic - Context Engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)
 
 ### Qu'est-ce qui consomme du contexte ?
 
@@ -7881,7 +7881,7 @@ Les systèmes auto-améliorants introduisent des risques de sécurité spécifiq
 | **Gonflement des skills** | Croissance non contrôlée sans curation | Mode `/reflect [skill]` manuel, curation régulière | Archivez ou fusionnez les améliorations redondantes trimestriellement |
 
 **Sources académiques** :
-- [Anthropic Memory Cookbook](https://github.com/anthropics/anthropic-cookbook/blob/main/skills/memory/guide.md) (orientations officielles sur les systèmes de mémoire des agents)
+- [Anthropic Memory Cookbook](https://github.com/anthropics/claude-cookbooks/blob/main/tool_use/memory_cookbook.ipynb) (orientations officielles sur les systèmes de mémoire des agents)
 - Recherches sur les attaques adversariales contre les systèmes d'apprentissage IA
 
 #### Activation et contrôle
@@ -7925,7 +7925,7 @@ Par défaut : **Désactivé** (opt-in pour la sécurité)
 - **Dépôt GitHub** : [haddock-development/claude-reflect-system](https://github.com/haddock-development/claude-reflect-system)
 - **Marketplace** : [Agent Skills Index](https://agent-skills.md/skills/haddock-development/claude-reflect-system/reflect)
 - **Tutoriel vidéo** : [Présentation YouTube](https://www.youtube.com/watch?v=...) (consultez le dépôt pour la version la plus récente)
-- **Fondement académique** : [Anthropic Memory Cookbook](https://github.com/anthropics/anthropic-cookbook/blob/main/skills/memory/guide.md)
+- **Fondement académique** : [Anthropic Memory Cookbook](https://github.com/anthropics/claude-cookbooks/blob/main/tool_use/memory_cookbook.ipynb)
 
 ### Intelligence Design : UI UX Pro Max
 
@@ -8419,7 +8419,7 @@ Comprendre ces catégories aide à interpréter votre rapport :
 
 **Optimisation des performances** : Le système de mise en cache garantit que les exécutions suivantes n'analysent que les nouvelles sessions (pas celles déjà classifiées), rendant les exécutions mensuelles régulières rapides même avec un grand historique de sessions.
 
-> **Source** : Détails d'architecture tirés de [Zolkos Technical Deep Dive](https://www.zolkos.com/2026/02/04/deep-dive-how-claude-codes-insights-command-works.html) (2026-02-04)
+> **Source** : Détails d'architecture tirés de [Zolkos Technical Deep Dive](https://www.zolkos.com/2026/02/03/deep-dive-how-claude-codes-insights-command-works) (2026-02-03)
 
 #### Limitations
 
@@ -8886,7 +8886,7 @@ La liste de contrôle impose une vérification explicite des préconditions plut
 
 Modèle prêt à l'emploi disponible dans `examples/commands/recipe-template.md` de ce dépôt.
 
-> Modèle inspiré des [fichiers de commande Packmind](https://github.com/packmind/packmind) (Apache 2.0). Voir [Crédits](./core/credits.md).
+> Modèle inspiré des [fichiers de commande Packmind](https://github.com/PackmindHub/packmind) (Apache 2.0). Voir [Crédits](./core/credits.md).
 
 ## 6.4 Exemples de Commandes
 
@@ -21662,7 +21662,7 @@ Business logic and domain operations. Services are framework-agnostic.
 - [Agent Experience Best Practices](https://marmelab.com/blog/2026/01/21/agent-experience.html) par François Zaninotto (Marmelab)
 
 **Frameworks associés** :
-- [Netlify AX (Agent Experience) Research](https://www.netlify.com/blog/agent-experience/) (2025)
+- [Netlify AX (Agent Experience) Research](https://www.netlify.com/agent-experience/) (2025)
 - [Speakeasy API Developer Experience Guide](https://docs.speakeasy.com/) (inclut des patterns adaptés aux agents)
 
 **Recherche académique** :
@@ -22050,7 +22050,7 @@ Phase 3: Skeptical review (1 agent reviews all raw findings)
           └── Produces KEEP/REJECT log + final report
 ```
 
-L'agent relecteur sceptique opère avec des règles anti-hallucination explicites. Extrait de l'[implémentation playbook-audit de Packmind](https://github.com/packmind/packmind) :
+L'agent relecteur sceptique opère avec des règles anti-hallucination explicites. Extrait de l'[implémentation playbook-audit de Packmind](https://github.com/PackmindHub/packmind) :
 
 > « Soyez sceptique. Les agents d'audit ont tendance à sur-rapporter ; votre rôle est de filtrer. Un taux de rejet de 50 %+ est normal et sain. »
 
@@ -22077,7 +22077,7 @@ L'agent relecteur sceptique opère avec des règles anti-hallucination explicite
 
 **Lien avec le mode essaim** : Le mode essaim (ci-dessus) envoie la même entrée à plusieurs relecteurs en parallèle pour la couverture. Le pattern relecteur sceptique ajoute une couche de synthèse qui *filtre* la sortie de l'essaim avant de la présenter. Ils se composent naturellement : lancez l'essaim, faites passer sa sortie par le relecteur sceptique.
 
-> Source du pattern : [Packmind playbook-audit skill](https://github.com/packmind/packmind) (Apache 2.0, Cédric Teyton). Voir [Crédits](./core/credits.md).
+> Source du pattern : [Packmind playbook-audit skill](https://github.com/PackmindHub/packmind) (Apache 2.0, Cédric Teyton). Voir [Crédits](./core/credits.md).
 
 ---
 
@@ -23155,7 +23155,7 @@ Le raisonnement : à des niveaux de débit d'agent véritablement élevés, un t
 
 Cette philosophie ne s'applique que lorsque le débit est véritablement élevé. À un débit de développement normal, bloquer les fusions sur des tests défaillants est correct : le coût d'un blocage de fusion est faible, et le coût de la fusion de code défaillant est élevé. L'inversion se produit uniquement lorsque l'agent peut produire une correction plus rapidement qu'un humain ne peut réviser et débloquer la PR. Appliquer cette philosophie prématurément, sans le débit pour la soutenir, produit une base de code avec des défaillances accumulées plutôt qu'une avec un flux efficace.
 
-> **Sources** : Cycle de vie de session, écart de vérification, WIP=1, feature_list.json, init.sh et patrons progress.md issus de [Learn Harness Engineering](https://github.com/humanlayer/learn-harness-engineering) (HumanLayer, 2026). AGENTS.md-comme-table-des-matières, principe de frontière de connaissance, plans d'exécution, structure docs/, pile d'observabilité éphémère, invariants de style, agent de jardinage de documentation, modèle anti-entropie, architecture de domaine en couches et philosophie de fusion à haut débit issus de « Harness engineering: exploiting Codex in the agent era », Ryan Lopopolo, blog d'ingénierie OpenAI, 11 fév. 2026 (https://openai.com/index/harness-engineering/).
+> **Sources** : Cycle de vie de session, écart de vérification, WIP=1, feature_list.json, init.sh et patrons progress.md présentés ici comme recommandations du guide. L’attribution antérieure à « Learn Harness Engineering » (HumanLayer, 2026) n’a pas pu être vérifiée. AGENTS.md-comme-table-des-matières, principe de frontière de connaissance, plans d'exécution, structure docs/, pile d'observabilité éphémère, invariants de style, agent de jardinage de documentation, modèle anti-entropie, architecture de domaine en couches et philosophie de fusion à haut débit issus de « Harness engineering: exploiting Codex in the agent era », Ryan Lopopolo, blog d'ingénierie OpenAI, 11 fév. 2026 (https://openai.com/index/harness-engineering/).
 
 > **Voir aussi** : [§3.1 CLAUDE.md](#31-memory-files-claudemd) : fichiers d'instructions, le sous-système Instructions. [§9.5 Boucles de rétroaction rapprochées](#95-tight-feedback-loops) : rétroaction automatisée, le sous-système Rétroaction. [§9.24 Apprentissage continu basé sur l'instinct](#924-instinct-based-continuous-learning) : capture des observations de session entre les sessions.
 
@@ -25400,7 +25400,7 @@ cd /path/to/target/project && claude --continue
 - Les configurations de serveurs MCP peuvent différer entre les projets
 - Les règles `.claudeignore` sont spécifiques au projet
 
-**Automatisation communautaire** : Le skill [claude-migrate-session](https://github.com/jimweller/dotfiles/tree/main/dotfiles/claude-code/skills/claude-migrate-session) de Jim Weller automatise ce processus, mais dispose de tests limités (0 étoile/fork au février 2026). L'approche manuelle est plus sûre.
+**Automatisation communautaire** : Le skill [claude-migrate-session](https://github.com/jimweller/dotfiles/tree/7a1d306b15de0a89ea0a809ca42fff5ad5a16e43/dotfiles/claude-code/skills/claude-migrate-session) de Jim Weller automatise ce processus, mais dispose de tests limités (0 étoile/fork au février 2026). L'approche manuelle est plus sûre.
 
 **Guide détaillé** : Voir [Limitations de la reprise de session et migration entre dossiers](ops/observability.md#session-resume-limitations--cross-folder-migration) pour le flux complet et les cas particuliers.
 

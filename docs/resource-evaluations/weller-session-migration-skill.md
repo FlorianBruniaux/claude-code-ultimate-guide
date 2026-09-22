@@ -19,7 +19,7 @@ A bash skill that automates cross-folder session migration for Claude Code. Addr
 | Field | Value |
 |-------|-------|
 | **LinkedIn Post** | https://www.linkedin.com/posts/jwweller_claude-code-skill-that-clones-a-claude-session-activity-7426010179659309056-ZaUH |
-| **GitHub Repository** | https://github.com/jimweller/dotfiles/tree/main/dotfiles/claude-code/skills/claude-migrate-session |
+| **GitHub Repository** | https://github.com/jimweller/dotfiles/tree/7a1d306b15de0a89ea0a809ca42fff5ad5a16e43/dotfiles/claude-code/skills/claude-migrate-session |
 | **Publication Date** | February 2026 |
 | **Last Updated** | February 2026 |
 | **License** | Not specified (personal dotfiles) |

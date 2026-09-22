@@ -1,7 +1,7 @@
 # ORF (Open Reasoning Format) Evaluation
 
 **Resource**: Open Reasoning Format: file-based cross-session memory for AI coding agents
-**Source**: [Guillaume Laforge blog, "Open Reasoning Format"](https://glaforge.dev/posts/2026/07/21/open-reasoning-format/) (2026-07-21)
+**Source**: [Guillaume Laforge blog, "Open Reasoning Format"](https://glaforge.dev/posts/2026/07/21/open-reasoning-format-encoding-and-remembering-agentic-behavior/) (2026-07-21)
 **Repo**: github.com/glaforge (ORF spec + `manage-experience` skill + eval harness)
 **Author**: Guillaume Laforge: Developer Advocate, Google Cloud. Co-founder of Apache Groovy, Java Champion.
 **License**: open spec (Markdown + YAML), reference CLI in Python
