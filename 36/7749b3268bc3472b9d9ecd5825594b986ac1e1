@@ -1,0 +1,21 @@
+machine-readable/translations.json
+  s_03ba8b1a919c17::t_216027ced7bae9 3-4,24,26-27,51,60-61,66,71-72,114-115,190-191
+mcp-server/content/translations.json
+  s_03ba8b1a919c17::t_8d49625c78fb71 3-4,24,26-27,51,60-61,66,71-72,114-115,190-191
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "367749b3268bc3472b9d9ecd5825594b986ac1e1",
+  "prompts": {},
+  "sessions": {
+    "s_03ba8b1a919c17": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d374-0cc8-7963-b9d1-425a32259a25",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
