@@ -1,0 +1,33 @@
+CHANGELOG.md
+  s_03ba8b1a919c17::t_2b6ba9a7952633 9-12
+guide/core/claude-code-releases.md
+  s_03ba8b1a919c17::t_0adc66f799b8d1 20,26-27,51-74,3552-3559,3603-3604,3634
+llms.txt
+  s_03ba8b1a919c17::t_31cd276c07ee5a 5
+machine-readable/claude-code-releases.yaml
+  s_03ba8b1a919c17::t_32c043ada453f2 6-7,18-43,2080,2098-2105,2153
+machine-readable/llms.txt
+  s_03ba8b1a919c17::t_9b0bb0046caef6 5
+machine-readable/mcp-product.json
+  s_03ba8b1a919c17::t_fb5e4968389ca9 16-17,488
+mcp-server/content/claude-code-releases.yaml
+  s_03ba8b1a919c17::t_40014c3dc94122 6-7,18-43,2080,2098-2105,2153
+mcp-server/content/llms.txt
+  s_03ba8b1a919c17::t_9643114b0c12a6 5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "d14851dd82077ca34154d2a538d372975508b28b",
+  "prompts": {},
+  "sessions": {
+    "s_03ba8b1a919c17": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d374-0cc8-7963-b9d1-425a32259a25",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
