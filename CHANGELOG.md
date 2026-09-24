@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Documentation
+
+- **Claude Code releases**: updated tracking from v2.1.278 to v2.1.281 with the two documented releases v2.1.280 (September 22) and v2.1.281 (September 23), using UTC npm publication dates. Added Opus 5.5, MCP browser elicitation and validation, gateway Bedrock controls, and the change from Sonnet to Opus on Pro and Team Standard. Recorded settings compatibility, PermissionRequest hook restrictions, reserved marketplace names, effort and keyboard changes, server-side auto-mode review, dangerous-rm timeouts and self-hosted runner prompt-file requirements. Included symlink-write and workspace-trust fixes, synchronized MCP release data and discovery mirrors, and refreshed the MCP product manifest. The landing release data supplies the RSS entries automatically. Guide version remains 3.43.0.
+
 ### Fixed
 
 - Repair relocated public references and search index paths used by the landing. Preserve historical attribution for unavailable sources, replace obsolete monitoring installation advice with official OpenTelemetry documentation, and synchronize the threat catalogue references. Refresh translation provenance against the committed guide while preserving the declared stale status of existing translations.

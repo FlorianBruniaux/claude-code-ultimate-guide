@@ -3,8 +3,8 @@
 # Purpose: Track Claude Code product releases for documentation sync
 # Maintained: Manual updates when new releases are announced
 
-latest: "2.1.278"
-updated: "2026-09-21"
+latest: "2.1.281"
+updated: "2026-09-24"
 
 # ════════════════════════════════════════════════════════════════
 # RELEASES (newest first, condensed highlights only)
@@ -14,6 +14,32 @@ releases:
   # ─────────────────────────────────────────────────────────────
   # 2.1.x Series (January-August 2026)
   # ─────────────────────────────────────────────────────────────
+
+  - version: "2.1.281"
+    date: "2026-09-23"
+    highlights:
+      - "Added browser-based MCP elicitation on protocol 2026-07-28 connections and MCP configuration checks to `claude plugin validate`"
+      - "Added Bedrock role assumption and guardrails, telemetry labels and newer Desktop policy keys to Claude apps gateways"
+      - "Changed send-now to background running tools; added `\"attribution\": false` to hide commit and PR attribution"
+      - "Fixed resumed-session history and prompt-cache losses, duplicate tool execution from proxy stream events, background-session trust checks and permission-rule handling"
+    breaking:
+      - "Older CLI versions skip settings files containing `\"attribution\": false`; keep the object form in files shared across versions."
+      - "Server-side auto mode review now also gates read-only and sandboxed shell commands; `CLAUDE_CODE_AUTO_MODE_SERVER=0` also opts out on direct Anthropic API connections, where the local classifier counts toward usage."
+      - "Dangerous-rm prompts in auto and bypass modes deny after two unanswered minutes; `CLAUDE_CODE_DISABLE_DANGEROUS_RM_TIMEOUT=1` disables the timeout."
+      - "Self-hosted runner wrappers and command hooks that append system prompts must use `--system-prompt-file` or `--append-system-prompt-file`."
+
+  - version: "2.1.280"
+    date: "2026-09-22"
+    highlights:
+      - "⭐ Added Claude Opus 5.5 (`claude-opus-5-5`) as the default Opus model: 1M context, $4/$20 per Mtok and $0.20/Mtok cache reads"
+      - "Added `CLAUDE_CODE_MAX_MCP_DESCRIPTION_LENGTH` and VS Code dialogs for `/status`, `/sandbox`, `/chrome`, `/export` and `/skills`"
+      - "Fixed permission approval for symlinked writes landing outside the project and local skills being moved to `.trash` because of a skills-folder manifest"
+      - "Fixed auto-mode retry loops, malformed-history errors, resumed-subagent prompt-cache misses and lost background-agent messages or reports"
+    breaking:
+      - "Pro and Team Standard default to Opus instead of Sonnet; newly released models no longer inherit effort levels saved before effort became per-model."
+      - "`PermissionRequest` no longer runs agent-type hooks; use command or HTTP hooks."
+      - "Marketplaces with names imitating reserved marketplace names are refused and existing ones stop loading."
+      - "Dialog confirmation uses Enter/Esc instead of stray y/n keys; explicit confirm:yes/confirm:no bindings restore y/n. Fullscreen ctrl+l/cmd+k redraws instead of clearing the transcript."
 
   - version: "2.1.278"
     date: "2026-09-19"
@@ -2051,6 +2077,7 @@ breaking_summary:
     - "Removed # shortcut for quick memory (v2.0.70)"
     - "`modelPicker:setAsDefault` keybinding renamed to `modelPicker:thisSessionOnly` (v2.1.153)"
   security:
+    - "Symlinked writes are checked at their actual destination (v2.1.280); background sessions require workspace trust, child sessions inherit setting-source restrictions, NUL permission rules match nothing and command-substitution-only recursive rm prompts (v2.1.281)"
     - "A `sandbox.excludedCommands` glob no longer exempts a whole compound Bash command when one part matches, and subagent results reach the main agent under a header marking them as subagent output (v2.1.277); plugin and marketplace URLs no longer show passwords or tokens, and sandboxed Bash can write to project folders named `hooks/` or `config/` (v2.1.275)"
     - "Unanalyzable Bash commands no longer skip the prompt under `permissions.blockReadsOutsideWorkingDirectories`, and managed MCP restrictions apply alongside server-managed settings (v2.1.273); MCP-config secrets no longer shown in connection errors and worktree-isolated nested shell expansions refused (v2.1.274)"
     - "Per-command `allowed_domains` scope host access to the reviewed command in auto mode with sandboxing (v2.1.271); plugin archive access and Bash tee destination checks corrected (v2.1.269); symlinked-path rules and MCP/plugin secret redaction corrected (v2.1.268); unreadable managed allowlists fail closed (v2.1.267)"
@@ -2068,6 +2095,14 @@ breaking_summary:
     - "Opus 4 and Opus 4.1 removed from Claude Code first-party API — auto-migrated to Opus 4.6 (v2.1.68)"
     - "Opus 4.7 removed from fast mode; `/fast` applies to Opus 5 and Opus 4.8 only (v2.1.219)"
   behavior:
+    - "Older CLI versions skip settings files containing `\"attribution\": false`; keep the object form in files shared across versions. (v2.1.281)"
+    - "Server-side auto mode review now also gates read-only and sandboxed shell commands; `CLAUDE_CODE_AUTO_MODE_SERVER=0` also opts out on direct Anthropic API connections, where the local classifier counts toward usage. (v2.1.281)"
+    - "Dangerous-rm prompts in auto and bypass modes deny after two unanswered minutes; `CLAUDE_CODE_DISABLE_DANGEROUS_RM_TIMEOUT=1` disables the timeout. (v2.1.281)"
+    - "Self-hosted runner wrappers and command hooks that append system prompts must use `--system-prompt-file` or `--append-system-prompt-file`. (v2.1.281)"
+    - "Pro and Team Standard default to Opus instead of Sonnet; newly released models no longer inherit effort levels saved before effort became per-model. (v2.1.280)"
+    - "`PermissionRequest` no longer runs agent-type hooks; use command or HTTP hooks. (v2.1.280)"
+    - "Marketplaces with names imitating reserved marketplace names are refused and existing ones stop loading. (v2.1.280)"
+    - "Dialog confirmation uses Enter/Esc instead of stray y/n keys; explicit confirm:yes/confirm:no bindings restore y/n. Fullscreen ctrl+l/cmd+k redraws instead of clearing the transcript. (v2.1.280)"
     - "Auto mode defaults to the server-side classifier on the Claude API, Enterprise, Bedrock, Vertex, Foundry and gateways; `CLAUDE_CODE_AUTO_MODE_SERVER=0` opts out on the cloud providers and gateways (v2.1.278)"
     - "TaskOutput tool removed; background task output is read with Read, and `taskOutputMaxChars` and `TASK_MAX_OUTPUT_LENGTH` have no effect (v2.1.277)"
     - "`\"type\": \"sdk\"` MCP entries outside an SDK host application are skipped with a warning (v2.1.274)"
@@ -2115,6 +2150,7 @@ breaking_summary:
 # MILESTONE FEATURES (quick reference)
 # ════════════════════════════════════════════════════════════════
 milestones:
+  "2.1.280": "Opus 5.5 becomes the default Opus model with 1M context; Pro and Team Standard default to Opus; VS Code adds status, sandbox, Chrome, export and skills dialogs"
   "2.1.277": "AGENTS.md read as project instructions when no CLAUDE.md is present, subagent results framed as subagent output, TaskOutput tool removed, egress-boundary and static-header options for Claude apps gateways"
   "2.1.275": "claude.ai skills and plugins sync into terminal sessions, send-now key for queued messages, plugin install with --marketplace"
   "2.1.271": "Per-command allowed_domains for Bash/PowerShell/Monitor in auto mode with sandboxing, omitClaudeMd agent frontmatter, --accept-command for plugin install/update, Monitor persistent watches replaced by bounded deadlines"
