@@ -35,7 +35,7 @@ keywords:
 
 ## September 2026 review
 
-**Reviewed September 12, 2026.** Update Claude Code to 2.1.269 for the reviewed
+**Reviewed September 24, 2026.** Update Claude Code to 2.1.281 for the reviewed
 permission and plugin fixes, and VS Code to 1.136.2 for the September advisories.
 These version floors cover the cited fixes, not every possible vulnerability.
 See the [Claude Code release notes](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md)
@@ -51,12 +51,38 @@ variant is fixed.
 
 For MCP deployments, check the actual component and transport:
 
+- [MCP Atlassian](https://github.com/advisories/GHSA-wrhw-j3f9-8vc6):
+  0.22.0 is the recorded floor for the newly indexed authentication, attachment,
+  SSRF and filtering advisories. Several CVE records describe overlapping paths.
+- [GitLab MCP](https://github.com/advisories/GHSA-5648-rgj9-v224):
+  use `@zereight/mcp-gitlab` 2.1.30 or later and review transport authentication,
+  GraphQL permissions and project restrictions.
+- [NotebookLM MCP](https://github.com/advisories/GHSA-jjhp-8crj-mppq):
+  update `@roomi-fields/notebooklm-mcp` to 2.0.3 or later **and configure
+  `NOTEBOOKLM_VAULT_ROOT`**. Without that setting, unrestricted vault paths remain.
 - [DynamoDB MCP](https://aws.amazon.com/security/security-bulletins/2026-097-aws/):
   2.1.6 fixes code injection in generated CDK applications.
 - [MySQL MCP](https://github.com/designcomputer/mysql_mcp_server/security/advisories/GHSA-rqfv-2mw9-78g2):
   0.4.2 fixes the recorded SSE exposure; default stdio is unaffected.
 - [FrontMCP](https://github.com/agentfront/frontmcp/security/advisories/GHSA-65h7-9wrw-629c):
   use FrontMCP/adapters 1.5.0 and mcp-from-openapi 2.5.0 for the external-reference SSRF bypass.
+
+[Accomplish's Codex disclosure](https://www.accomplish.ai/blog/escaping-the-openai-codex-sandbox-twice/)
+reports separate fixes for Overpatch in CLI 0.149.0 and Heapjack in Desktop build
+26.818.21641. Check both installations when Desktop helpers are available to CLI
+sessions; updating one component does not establish the other's patch state.
+
+[AIR's Plugin4Shell research](https://www.air.security/blog-posts/plugin4shell)
+shows why plugin installers must verify the resolved commit after checkout.
+The SHA-shaped branch variant depends on the Git host accepting that branch
+name. AIR reports fixes in Claude Code 2.1.179 and Codex 0.146.0; this review does
+not establish a Copilot or Gemini patched version.
+
+[CERT/CC's Sentry Seer advisory](https://www.kb.cert.org/vuls/id/212479)
+describes fabricated telemetry reaching privileged coding agents through
+automatic remediation. The reviewed notice supplies no patched version.
+Pause affected automatic handoffs, restrict package installation and reduce
+repository credential privileges until remediation is verified.
 
 AgentSec records these findings as `not_detected`: its current scanner has no
 dedicated check for these vulnerabilities. A scan result cannot verify that a

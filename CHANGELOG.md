@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Documentation
 
+- **Jev / TypeSafe AI evaluation**: added a provisional 3/5 resource evaluation and its index entry, covering typed outputs, benchmark conditions, probability and confidence boundaries, independent reports, and criteria for a representative local experiment. No native Claude Code integration or production recommendation is established.
+
+- **Threat intelligence**: reviewed September 12 through September 24, 2026 and synchronized AgentSec database 2.30.0. Added 41 documented records covering MCP deployments, Sentry Seer, Codex sandbox escapes, Plugin4Shell and Claude Code permission fixes through 2.1.281. The canonical feed now has 172 CVE/advisory records, 82 sources and 69 events; the compatibility catalogue retains nine additional historical records. All additions remain outside executable detector coverage. Updated security guidance and the feed mirror, preserving conditional remediation and unknown patched versions.
+
 - **Claude Code releases**: updated tracking from v2.1.278 to v2.1.281 with the two documented releases v2.1.280 (September 22) and v2.1.281 (September 23), using UTC npm publication dates. Added Opus 5.5, MCP browser elicitation and validation, gateway Bedrock controls, and the change from Sonnet to Opus on Pro and Team Standard. Recorded settings compatibility, PermissionRequest hook restrictions, reserved marketplace names, effort and keyboard changes, server-side auto-mode review, dangerous-rm timeouts and self-hosted runner prompt-file requirements. Included symlink-write and workspace-trust fixes, synchronized MCP release data and discovery mirrors, and refreshed the MCP product manifest. The landing release data supplies the RSS entries automatically. Guide version remains 3.43.0.
 
 ### Fixed

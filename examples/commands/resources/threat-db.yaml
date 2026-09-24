@@ -2,9 +2,126 @@
 # For use with /security-check and /security-audit commands
 # Manually maintained — update after new security advisories
 
-version: "2.29.0"
-updated: "2026-09-12"
+version: "2.30.0"
+updated: "2026-09-24"
 sources:
+  - name: CERT/CC - Sentry Seer fabricated-event code execution
+    url: https://www.kb.cert.org/vuls/id/212479
+    date: '2026-09-16'
+  - name: AIR Security - Plugin4Shell plugin pin verification bypass
+    url: https://www.air.security/blog-posts/plugin4shell
+    date: '2026-09-17'
+  - name: Accomplish AI - Overpatch sandbox write-boundary escape
+    url: https://www.accomplish.ai/blog/escaping-the-openai-codex-sandbox-twice/
+    date: '2026-09-15'
+  - name: 'GitHub Advisory Database and upstream maintainers - GHSA-5648-rgj9-v224: @zereight/mcp-gitlab'
+    url: https://github.com/advisories/GHSA-5648-rgj9-v224
+    date: '2026-09-15'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-61568: @zereight/mcp-gitlab'
+    url: https://github.com/advisories/GHSA-vmp7-252j-cwp7
+    date: '2026-09-15'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-61559: @zereight/mcp-gitlab'
+    url: https://github.com/advisories/GHSA-2h44-8472-frjj
+    date: '2026-09-15'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-61560: @zereight/mcp-gitlab'
+    url: https://github.com/advisories/GHSA-cv3r-c5h8-f4g5
+    date: '2026-09-16'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-58197: github.com/stacklok/toolhive'
+    url: https://github.com/advisories/GHSA-qg2g-g9w3-m5h8
+    date: '2026-09-18'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-77339: github.com/f1bonacc1/process-compose'
+    url: https://github.com/advisories/GHSA-5gm3-9crp-6g3v
+    date: '2026-09-18'
+  - name: 'GitHub Advisory Database and upstream maintainers - GHSA-xwmw-prc4-v3cr: github.com/obot-platform/obot'
+    url: https://github.com/advisories/GHSA-xwmw-prc4-v3cr
+    date: '2026-09-18'
+  - name: 'GitHub Advisory Database and upstream maintainers - GHSA-pr6h-vr44-xq8j: github.com/obot-platform/obot'
+    url: https://github.com/advisories/GHSA-pr6h-vr44-xq8j
+    date: '2026-09-18'
+  - name: 'GitHub Advisory Database and upstream maintainers - GHSA-jgh3-fggc-mcpm: github.com/obot-platform/obot'
+    url: https://github.com/advisories/GHSA-jgh3-fggc-mcpm
+    date: '2026-09-18'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-61647: @roomi-fields/notebooklm-mcp'
+    url: https://github.com/advisories/GHSA-jjhp-8crj-mppq
+    date: '2026-09-22'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-61612: @aborruso/ckan-mcp-server'
+    url: https://github.com/advisories/GHSA-798p-78g2-v556
+    date: '2026-09-22'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-77248: mcp-atlassian'
+    url: https://github.com/advisories/GHSA-cc5h-2pwp-pvcc
+    date: '2026-09-22'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-77246: mcp-atlassian'
+    url: https://github.com/advisories/GHSA-wv8v-v4c5-v75j
+    date: '2026-09-22'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-77251: mcp-atlassian'
+    url: https://github.com/advisories/GHSA-w66g-j6c4-hcfc
+    date: '2026-09-22'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-77253: mcp-atlassian'
+    url: https://github.com/advisories/GHSA-vc25-24vv-fxxm
+    date: '2026-09-22'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-77255: mcp-atlassian'
+    url: https://github.com/advisories/GHSA-2xj6-xx86-cwwc
+    date: '2026-09-22'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-77243: mcp-atlassian'
+    url: https://github.com/advisories/GHSA-3r68-hf9h-887v
+    date: '2026-09-22'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-77257: mcp-atlassian'
+    url: https://github.com/advisories/GHSA-mrq8-fv7v-hhjg
+    date: '2026-09-22'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-77260: mcp-atlassian'
+    url: https://github.com/advisories/GHSA-f4p7-qx46-wc5j
+    date: '2026-09-22'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-77269: mcp-atlassian'
+    url: https://github.com/advisories/GHSA-h7wj-5v37-59r2
+    date: '2026-09-22'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-77266: mcp-atlassian'
+    url: https://github.com/advisories/GHSA-mfv2-4wvm-9pgp
+    date: '2026-09-22'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-77265: mcp-atlassian'
+    url: https://github.com/advisories/GHSA-49xv-9743-pw8w
+    date: '2026-09-22'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-77270: mcp-atlassian'
+    url: https://github.com/advisories/GHSA-f26r-j276-ggg4
+    date: '2026-09-22'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-77261: mcp-atlassian'
+    url: https://github.com/advisories/GHSA-6529-c226-h328
+    date: '2026-09-22'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-77259: mcp-atlassian'
+    url: https://github.com/advisories/GHSA-6cr4-ccf3-x7h4
+    date: '2026-09-22'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-77268: mcp-atlassian'
+    url: https://github.com/advisories/GHSA-4596-2p6p-28cv
+    date: '2026-09-22'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-77262: mcp-atlassian'
+    url: https://github.com/advisories/GHSA-p6hp-93wp-fh6p
+    date: '2026-09-22'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-77272: mcp-atlassian'
+    url: https://github.com/advisories/GHSA-g2r2-3j32-j27x
+    date: '2026-09-22'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-77267: mcp-atlassian'
+    url: https://github.com/advisories/GHSA-5wf4-jqxh-8gm3
+    date: '2026-09-22'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-77271: mcp-atlassian'
+    url: https://github.com/advisories/GHSA-6vmq-24h2-pj7j
+    date: '2026-09-22'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-77274: mcp-atlassian'
+    url: https://github.com/advisories/GHSA-hgcf-4mq8-5266
+    date: '2026-09-22'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-77244: mcp-atlassian'
+    url: https://github.com/advisories/GHSA-wrhw-j3f9-8vc6
+    date: '2026-09-22'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-77247: mcp-atlassian'
+    url: https://github.com/advisories/GHSA-f6pj-qv47-g96w
+    date: '2026-09-22'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-77249: mcp-atlassian'
+    url: https://github.com/advisories/GHSA-v9m3-wfh8-5646
+    date: '2026-09-22'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-77250: mcp-atlassian'
+    url: https://github.com/advisories/GHSA-g5xv-mhgm-v5f6
+    date: '2026-09-22'
+  - name: 'GitHub Advisory Database and upstream maintainers - CVE-2026-77258: mcp-atlassian'
+    url: https://github.com/advisories/GHSA-93xw-j965-9mx3
+    date: '2026-09-22'
   - name: Anthropic - Claude Code September permission and plugin fixes
     url: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
     date: '2026-09-11'
@@ -1404,6 +1521,603 @@ malicious_skill_patterns:
 # CVE DATABASE (MCP servers & AI agent tools)
 # ═══════════════════════════════════════════════════════════════
 cve_database:
+  - id: CVE-2026-90999
+    component: Sentry Seer autonomous coding-agent handoff
+    severity: high
+    description: CERT/CC describes untrusted public-DSN events becoming coding-agent instructions when
+      automatic remediation is enabled, leading to execution in the agent environment and access to
+      connected repositories.
+    affected: Automatic Seer handoff of attacker-controlled telemetry to a privileged coding agent;
+      no numeric range published
+    source: https://www.kb.cert.org/vuls/id/212479
+    mitigation: Pause automatic coding-agent handoff, restrict package installation and scope repository
+      credentials while awaiting vendor remediation.
+    notes: CERT/CC provides no vendor patch information as reviewed on 2026-09-24. No fixed version
+      or vendor response is inferred. High is AgentSec triage severity, not vendor CVSS.
+  - id: ADVISORY-PLUGIN4SHELL-2026-001
+    component: Claude Code, Codex, GitHub Copilot and Gemini CLI
+    severity: high
+    description: AIR reports plugin checkout can resolve an attacker-controlled default branch instead
+      of the reviewed commit. The SHA-shaped branch variant depends on Git host rules; Gemini uses
+      a FETCH_HEAD variant.
+    affected: Researcher-tested plugin installers; introduction versions not published
+    source: https://www.air.security/blog-posts/plugin4shell
+    mitigation: AIR reports fixes in Claude Code 2.1.179 and Codex 0.146.0. For other affected installers,
+      verify current vendor guidance or disable affected plugin updates.
+    notes: Researcher disclosure, not a CVE. High is AgentSec triage severity. No vendor-independent
+      confirmation of the claimed Gemini lifecycle decision or Copilot patch status is inferred.
+    fixed_in: Claude Code 2.1.179; Codex 0.146.0; no Copilot or Gemini floor established
+  - id: ADVISORY-CODEX-2026-002
+    component: Codex Desktop node_repl
+    severity: high
+    description: Accomplish reported that a Desktop-installed JavaScript helper exposed a privileged
+      trust token within shared memory, enabling host execution even in read-only mode. The researcher
+      identifies Desktop build 26.818.21641 as fixed.
+    affected: Codex Desktop builds before 26.818.21641 with the affected helper; introduction build
+      not stated
+    source: https://www.accomplish.ai/blog/escaping-the-openai-codex-sandbox-twice/
+    mitigation: Update Codex Desktop to build 26.818.21641 or later; a CLI-only update does not establish
+      that the Desktop helper is patched.
+    notes: Researcher disclosure, not a CVE or vendor advisory. High is AgentSec triage severity. Desktop-installed
+      helpers can also be used by CLI sessions.
+    fixed_in: 26.818.21641
+  - id: ADVISORY-CODEX-2026-001
+    component: Codex CLI
+    severity: high
+    description: Accomplish reported that attacker-controlled patch paths could expand write authorization
+      beyond the Codex workspace. The researcher identifies CLI 0.149.0 as fixed.
+    affected: Codex CLI before 0.149.0; introduction version not stated
+    source: https://www.accomplish.ai/blog/escaping-the-openai-codex-sandbox-twice/
+    mitigation: Update Codex CLI to 0.149.0 or later.
+    notes: Researcher disclosure, not a CVE or vendor advisory. High is AgentSec triage severity. CLI
+      and Desktop floors cover different components.
+    fixed_in: 0.149.0
+  - id: ADVISORY-CC-2026-004
+    component: Claude Code
+    severity: high
+    description: Releases through 2.1.281 correct symlink write checks, workspace trust before background
+      hooks, inherited setting restrictions, NUL permission rules and managed MCP handling.
+    affected: Issue-specific introduction versions are not stated; fixes reviewed in 2.1.271 through
+      2.1.281
+    source: https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md
+    mitigation: Update Claude Code to 2.1.281 or later and review trust, permission and managed MCP
+      settings.
+    notes: Aggregate release-note advisory, not a CVE. High is an AgentSec triage classification, not
+      vendor CVSS. It does not resolve the separate GitSpawn monitoring record.
+    fixed_in: 2.1.281 includes the reviewed fixes
+  - id: GHSA-5648-rgj9-v224
+    component: '@zereight/mcp-gitlab'
+    severity: high
+    description: GraphQL operations can bypass read-only and project filters. Other findings concern
+      deployment-dependent transport authentication, session exhaustion and untrusted CI logs.
+    affected: '@zereight/mcp-gitlab < 2.1.30'
+    fixed_in: 2.1.30
+    source: https://github.com/advisories/GHSA-5648-rgj9-v224
+    mitigation: Update @zereight/mcp-gitlab to 2.1.30 or later and review the deployment conditions
+      in the advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability.
+    aliases: []
+  - id: CVE-2026-61568
+    component: '@zereight/mcp-gitlab'
+    severity: critical
+    description: Streamable HTTP accepts attacker-origin browser traffic at initialization. In remote-authorization
+      mode, tool listing and GitLab calls still require a token; the advisory does not establish a
+      tokenless takeover in that mode.
+    affected: '@zereight/mcp-gitlab < 2.1.30'
+    fixed_in: 2.1.30
+    source: https://github.com/advisories/GHSA-vmp7-252j-cwp7
+    mitigation: Update @zereight/mcp-gitlab to 2.1.30 or later and review the deployment conditions
+      in the advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability.
+    aliases:
+    - GHSA-vmp7-252j-cwp7
+  - id: CVE-2026-61559
+    component: '@zereight/mcp-gitlab'
+    severity: critical
+    description: With ENABLE_DYNAMIC_API_URL=true, an HTTP caller can redirect credential-bearing GitLab
+      requests through X-GitLab-API-URL to an untrusted destination.
+    affected: '@zereight/mcp-gitlab >= 0.0.1, < 2.1.27'
+    fixed_in: 2.1.27
+    source: https://github.com/advisories/GHSA-2h44-8472-frjj
+    mitigation: Update @zereight/mcp-gitlab to 2.1.27 or later and review the deployment conditions
+      in the advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability. GitHub classifies the record critical; the original narrative
+      uses high. No single CVSS score is inferred.
+    aliases:
+    - GHSA-2h44-8472-frjj
+  - id: CVE-2026-61560
+    component: '@zereight/mcp-gitlab'
+    severity: critical
+    description: An exposed SSE transport and unrestricted upload_markdown path can disclose server-readable
+      files, including GitLab tokens, to a reachable GitLab project.
+    affected: '@zereight/mcp-gitlab < 2.1.27'
+    fixed_in: 2.1.27
+    source: https://github.com/advisories/GHSA-cv3r-c5h8-f4g5
+    mitigation: Update @zereight/mcp-gitlab to 2.1.27 or later and review the deployment conditions
+      in the advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability.
+    aliases:
+    - GHSA-cv3r-c5h8-f4g5
+  - id: CVE-2026-58197
+    component: github.com/stacklok/toolhive
+    severity: high
+    description: A compromised MCP container using the default permissive network profile can reach
+      host services and unauthenticated ToolHive control endpoints without escaping the container.
+    affected: ToolHive CLI < 0.30.1; ToolHive Studio < 0.38.0
+    fixed_in: CLI 0.30.1; Studio 0.38.0
+    source: https://github.com/advisories/GHSA-qg2g-g9w3-m5h8
+    mitigation: Update CLI to 0.30.1 or later and Studio to 0.38.0 or later; restrict MCP container
+      access to host services.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability.
+    aliases:
+    - GHSA-qg2g-g9w3-m5h8
+  - id: CVE-2026-77339
+    component: github.com/f1bonacc1/process-compose
+    severity: medium
+    description: When MCP SSE is enabled, browser DNS rebinding can reach Process Compose tools. The
+      separate REST API token middleware does not protect this MCP listener.
+    affected: github.com/f1bonacc1/process-compose < 1.120.0
+    fixed_in: 1.120.0
+    source: https://github.com/advisories/GHSA-5gm3-9crp-6g3v
+    mitigation: Update github.com/f1bonacc1/process-compose to 1.120.0 or later and review the deployment
+      conditions in the advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability. The maintainer lists tested affected versions through 1.116.0;
+      GitHub normalizes the affected range to < 1.120.0.
+    aliases:
+    - GHSA-5gm3-9crp-6g3v
+  - id: GHSA-xwmw-prc4-v3cr
+    component: github.com/obot-platform/obot
+    severity: high
+    description: A logged-in Obot user following an attacker authorization URL can issue an OAuth token
+      accepted beyond the requested MCP audience, without the intended consent boundary.
+    affected: github.com/obot-platform/obot < 0.23.0
+    fixed_in: 0.23.0
+    source: https://github.com/advisories/GHSA-xwmw-prc4-v3cr
+    mitigation: Update github.com/obot-platform/obot to 0.23.0 or later and review the deployment conditions
+      in the advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability.
+    aliases: []
+  - id: GHSA-pr6h-vr44-xq8j
+    component: github.com/obot-platform/obot
+    severity: medium
+    description: Obot registry endpoints remain anonymously readable when OBOT_SERVER_ENABLE_REGISTRY_AUTH=true.
+      The disclosed data is catalog metadata, not credential values or authenticated server access.
+    affected: github.com/obot-platform/obot < 0.23.0
+    fixed_in: 0.23.0
+    source: https://github.com/advisories/GHSA-pr6h-vr44-xq8j
+    mitigation: Update github.com/obot-platform/obot to 0.23.0 or later and review the deployment conditions
+      in the advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability.
+    aliases: []
+  - id: GHSA-jgh3-fggc-mcpm
+    component: github.com/obot-platform/obot
+    severity: high
+    description: Obot users with Power User or higher privileges can register a remote MCP URL that
+      causes server requests to internal destinations, including through OAuth metadata discovery.
+    affected: github.com/obot-platform/obot < 0.23.0
+    fixed_in: 0.23.0
+    source: https://github.com/advisories/GHSA-jgh3-fggc-mcpm
+    mitigation: Update github.com/obot-platform/obot to 0.23.0 or later and review the deployment conditions
+      in the advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability.
+    aliases: []
+  - id: CVE-2026-61647
+    component: '@roomi-fields/notebooklm-mcp'
+    severity: high
+    description: Vault batch output accepts paths outside the intended directory. Version 2.0.3 sanitizes
+      slug_prefix, but vault containment requires NOTEBOOKLM_VAULT_ROOT; leaving it unset preserves
+      unrestricted writes.
+    affected: '@roomi-fields/notebooklm-mcp >= 1.6.0, < 2.0.3'
+    fixed_in: 2.0.3
+    source: https://github.com/advisories/GHSA-jjhp-8crj-mppq
+    mitigation: Update to 2.0.3 or later AND set NOTEBOOKLM_VAULT_ROOT to the intended vault root;
+      restrict the process filesystem permissions.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability.
+    aliases:
+    - GHSA-jjhp-8crj-mppq
+  - id: CVE-2026-61612
+    component: '@aborruso/ckan-mcp-server'
+    severity: medium
+    description: CKAN server URL validation checks hostname text without validating the resolved address.
+      Unauthenticated self-hosted HTTP deployments can reach internal services; stdio requires control
+      of tool arguments.
+    affected: '@aborruso/ckan-mcp-server <= 0.4.107'
+    fixed_in: 0.4.108
+    source: https://github.com/advisories/GHSA-798p-78g2-v556
+    mitigation: Update @aborruso/ckan-mcp-server to 0.4.108 or later and review the deployment conditions
+      in the advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability.
+    aliases:
+    - GHSA-798p-78g2-v556
+  - id: CVE-2026-77248
+    component: mcp-atlassian
+    severity: high
+    description: Shared-credential HTTP deployments combine missing caller authentication with unrestricted
+      attachment reads, exposing host files through Atlassian uploads.
+    affected: mcp-atlassian < 0.22.0
+    fixed_in: 0.22.0
+    source: https://github.com/advisories/GHSA-cc5h-2pwp-pvcc
+    mitigation: Update mcp-atlassian to 0.22.0 or later and review the deployment conditions in the
+      advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability. This batch contains overlapping reports with distinct CVE
+      identifiers; record counts are not counts of independent root causes.
+    aliases:
+    - GHSA-cc5h-2pwp-pvcc
+  - id: CVE-2026-77246
+    component: mcp-atlassian
+    severity: high
+    description: HTTP callers can combine service headers pointing to a selected Atlassian endpoint
+      with unrestricted attachment paths to exfiltrate server-readable files.
+    affected: mcp-atlassian < 0.22.0
+    fixed_in: 0.22.0
+    source: https://github.com/advisories/GHSA-wv8v-v4c5-v75j
+    mitigation: Update mcp-atlassian to 0.22.0 or later and review the deployment conditions in the
+      advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability. This batch contains overlapping reports with distinct CVE
+      identifiers; record counts are not counts of independent root causes.
+    aliases:
+    - GHSA-wv8v-v4c5-v75j
+  - id: CVE-2026-77251
+    component: mcp-atlassian
+    severity: high
+    description: Jira project and Confluence space filters can be bypassed by query construction or
+      missing checks on agile endpoints, within the credentials available to the server.
+    affected: mcp-atlassian < 0.22.0
+    fixed_in: 0.22.0
+    source: https://github.com/advisories/GHSA-w66g-j6c4-hcfc
+    mitigation: Update mcp-atlassian to 0.22.0 or later and review the deployment conditions in the
+      advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability. This batch contains overlapping reports with distinct CVE
+      identifiers; record counts are not counts of independent root causes.
+    aliases:
+    - GHSA-w66g-j6c4-hcfc
+  - id: CVE-2026-77253
+    component: mcp-atlassian
+    severity: high
+    description: HTTP callers with upload access can submit server-local paths to attachment operations,
+      including the Jira issue-update attachment flow.
+    affected: mcp-atlassian < 0.22.0
+    fixed_in: 0.22.0
+    source: https://github.com/advisories/GHSA-vc25-24vv-fxxm
+    mitigation: Update mcp-atlassian to 0.22.0 or later and review the deployment conditions in the
+      advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability. This batch contains overlapping reports with distinct CVE
+      identifiers; record counts are not counts of independent root causes.
+    aliases:
+    - GHSA-vc25-24vv-fxxm
+  - id: CVE-2026-77255
+    component: mcp-atlassian
+    severity: high
+    description: Jira update_issue accepts attachment paths without a workspace boundary, allowing
+      the MCP process to disclose files using its own privileges.
+    affected: mcp-atlassian < 0.22.0
+    fixed_in: 0.22.0
+    source: https://github.com/advisories/GHSA-2xj6-xx86-cwwc
+    mitigation: Update mcp-atlassian to 0.22.0 or later and review the deployment conditions in the
+      advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability. This batch contains overlapping reports with distinct CVE
+      identifiers; record counts are not counts of independent root causes.
+    aliases:
+    - GHSA-2xj6-xx86-cwwc
+  - id: CVE-2026-77243
+    component: mcp-atlassian
+    severity: high
+    description: ENABLED_TOOLS and TOOLSETS filter tool listings but not direct tool calls. READ_ONLY_MODE
+      retains separate call-time enforcement.
+    affected: mcp-atlassian < 0.22.0
+    fixed_in: 0.22.0
+    source: https://github.com/advisories/GHSA-3r68-hf9h-887v
+    mitigation: Update mcp-atlassian to 0.22.0 or later and review the deployment conditions in the
+      advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability. This batch contains overlapping reports with distinct CVE
+      identifiers; record counts are not counts of independent root causes.
+    aliases:
+    - GHSA-3r68-hf9h-887v
+  - id: CVE-2026-77257
+    component: mcp-atlassian
+    severity: high
+    description: In HTTP or multi-user deployments, write-capable callers can upload server-readable
+      files to accessible Atlassian issues or pages. This primitive is file disclosure, not direct
+      execution.
+    affected: mcp-atlassian < 0.22.0
+    fixed_in: 0.22.0
+    source: https://github.com/advisories/GHSA-mrq8-fv7v-hhjg
+    mitigation: Update mcp-atlassian to 0.22.0 or later and review the deployment conditions in the
+      advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability. This batch contains overlapping reports with distinct CVE
+      identifiers; record counts are not counts of independent root causes.
+    aliases:
+    - GHSA-mrq8-fv7v-hhjg
+  - id: CVE-2026-77260
+    component: mcp-atlassian
+    severity: high
+    description: The attachment read direction remains unrestricted after the earlier download write
+      fix, including attachments passed through Jira update_issue.
+    affected: mcp-atlassian < 0.22.0
+    fixed_in: 0.22.0
+    source: https://github.com/advisories/GHSA-f4p7-qx46-wc5j
+    mitigation: Update mcp-atlassian to 0.22.0 or later and review the deployment conditions in the
+      advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability. This batch contains overlapping reports with distinct CVE
+      identifiers; record counts are not counts of independent root causes.
+    aliases:
+    - GHSA-f4p7-qx46-wc5j
+  - id: CVE-2026-77269
+    component: mcp-atlassian
+    severity: medium
+    description: Confluence upload tools lack path containment. The advisory distinguishes the similar
+      Jira upload mixin from a directly registered MCP tool.
+    affected: mcp-atlassian < 0.22.0
+    fixed_in: 0.22.0
+    source: https://github.com/advisories/GHSA-h7wj-5v37-59r2
+    mitigation: Update mcp-atlassian to 0.22.0 or later and review the deployment conditions in the
+      advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability. This batch contains overlapping reports with distinct CVE
+      identifiers; record counts are not counts of independent root causes.
+    aliases:
+    - GHSA-h7wj-5v37-59r2
+  - id: CVE-2026-77266
+    component: mcp-atlassian
+    severity: medium
+    description: Jira and Confluence upload implementations read caller-supplied paths without the
+      containment checks used in the download direction.
+    affected: mcp-atlassian < 0.22.0
+    fixed_in: 0.22.0
+    source: https://github.com/advisories/GHSA-mfv2-4wvm-9pgp
+    mitigation: Update mcp-atlassian to 0.22.0 or later and review the deployment conditions in the
+      advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability. This batch contains overlapping reports with distinct CVE
+      identifiers; record counts are not counts of independent root causes.
+    aliases:
+    - GHSA-mfv2-4wvm-9pgp
+  - id: CVE-2026-77265
+    component: mcp-atlassian
+    severity: medium
+    description: Header URL validation and connection establishment resolve DNS separately, leaving
+      a rebinding window before the initial outbound request.
+    affected: mcp-atlassian < 0.22.0
+    fixed_in: 0.22.0
+    source: https://github.com/advisories/GHSA-49xv-9743-pw8w
+    mitigation: Update mcp-atlassian to 0.22.0 or later and review the deployment conditions in the
+      advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability. This batch contains overlapping reports with distinct CVE
+      identifiers; record counts are not counts of independent root causes.
+    aliases:
+    - GHSA-49xv-9743-pw8w
+  - id: CVE-2026-77270
+    component: mcp-atlassian
+    severity: medium
+    description: Attachment upload methods do not apply the path restrictions used by downloads; a
+      permitted caller can disclose readable server files.
+    affected: mcp-atlassian < 0.22.0
+    fixed_in: 0.22.0
+    source: https://github.com/advisories/GHSA-f26r-j276-ggg4
+    mitigation: Update mcp-atlassian to 0.22.0 or later and review the deployment conditions in the
+      advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability. This batch contains overlapping reports with distinct CVE
+      identifiers; record counts are not counts of independent root causes.
+    aliases:
+    - GHSA-f26r-j276-ggg4
+  - id: CVE-2026-77261
+    component: mcp-atlassian
+    severity: high
+    description: SSRF redirect validation is attached to the header-PAT client but omitted from basic-auth
+      and OAuth clients.
+    affected: mcp-atlassian < 0.22.0
+    fixed_in: 0.22.0
+    source: https://github.com/advisories/GHSA-6529-c226-h328
+    mitigation: Update mcp-atlassian to 0.22.0 or later and review the deployment conditions in the
+      advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability. This batch contains overlapping reports with distinct CVE
+      identifiers; record counts are not counts of independent root causes.
+    aliases:
+    - GHSA-6529-c226-h328
+  - id: CVE-2026-77259
+    component: mcp-atlassian
+    severity: high
+    description: A caller with attachment write access to a Confluence page can exfiltrate server-readable
+      files through the unvalidated upload path.
+    affected: mcp-atlassian < 0.22.0
+    fixed_in: 0.22.0
+    source: https://github.com/advisories/GHSA-6cr4-ccf3-x7h4
+    mitigation: Update mcp-atlassian to 0.22.0 or later and review the deployment conditions in the
+      advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability. This batch contains overlapping reports with distinct CVE
+      identifiers; record counts are not counts of independent root causes.
+    aliases:
+    - GHSA-6cr4-ccf3-x7h4
+  - id: CVE-2026-77268
+    component: mcp-atlassian
+    severity: medium
+    description: OAuth token fallback files use default filesystem permissions rather than owner-only
+      permissions, exposing credentials on shared hosts.
+    affected: mcp-atlassian < 0.22.0
+    fixed_in: 0.22.0
+    source: https://github.com/advisories/GHSA-4596-2p6p-28cv
+    mitigation: Update mcp-atlassian to 0.22.0 or later and review the deployment conditions in the
+      advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability. This batch contains overlapping reports with distinct CVE
+      identifiers; record counts are not counts of independent root causes.
+    aliases:
+    - GHSA-4596-2p6p-28cv
+  - id: CVE-2026-77262
+    component: mcp-atlassian
+    severity: high
+    description: The Confluence upload path lacks the containment added to downloads, allowing tool
+      callers to upload readable server files to a selected Confluence endpoint.
+    affected: mcp-atlassian < 0.22.0
+    fixed_in: 0.22.0
+    source: https://github.com/advisories/GHSA-p6hp-93wp-fh6p
+    mitigation: Update mcp-atlassian to 0.22.0 or later and review the deployment conditions in the
+      advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability. This batch contains overlapping reports with distinct CVE
+      identifiers; record counts are not counts of independent root causes.
+    aliases:
+    - GHSA-p6hp-93wp-fh6p
+  - id: CVE-2026-77272
+    component: mcp-atlassian
+    severity: medium
+    description: The OAuth setup callback reflects an unescaped error parameter into HTML while the
+      setup server is running and reachable.
+    affected: mcp-atlassian < 0.22.0
+    fixed_in: 0.22.0
+    source: https://github.com/advisories/GHSA-g2r2-3j32-j27x
+    mitigation: Update mcp-atlassian to 0.22.0 or later and review the deployment conditions in the
+      advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability. This batch contains overlapping reports with distinct CVE
+      identifiers; record counts are not counts of independent root causes.
+    aliases:
+    - GHSA-g2r2-3j32-j27x
+  - id: CVE-2026-77267
+    component: mcp-atlassian
+    severity: high
+    description: Some header-derived Atlassian URLs reach API clients without the SSRF validation intended
+      by an earlier fix.
+    affected: mcp-atlassian < 0.22.0
+    fixed_in: 0.22.0
+    source: https://github.com/advisories/GHSA-5wf4-jqxh-8gm3
+    mitigation: Update mcp-atlassian to 0.22.0 or later and review the deployment conditions in the
+      advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability. This batch contains overlapping reports with distinct CVE
+      identifiers; record counts are not counts of independent root causes.
+    aliases:
+    - GHSA-5wf4-jqxh-8gm3
+  - id: CVE-2026-77271
+    component: mcp-atlassian
+    severity: high
+    description: Download containment defaults to the process working directory. When that directory
+      holds application modules, attachment downloads can overwrite executable code for a later restart.
+    affected: mcp-atlassian < 0.22.0
+    fixed_in: 0.22.0
+    source: https://github.com/advisories/GHSA-6vmq-24h2-pj7j
+    mitigation: Update mcp-atlassian to 0.22.0 or later and review the deployment conditions in the
+      advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability. This batch contains overlapping reports with distinct CVE
+      identifiers; record counts are not counts of independent root causes.
+    aliases:
+    - GHSA-6vmq-24h2-pj7j
+  - id: CVE-2026-77274
+    component: mcp-atlassian
+    severity: high
+    description: Header-based Atlassian URLs can pass one URL parser while the downstream HTTP client
+      resolves a different destination, bypassing SSRF restrictions.
+    affected: mcp-atlassian < 0.22.0
+    fixed_in: 0.22.0
+    source: https://github.com/advisories/GHSA-hgcf-4mq8-5266
+    mitigation: Update mcp-atlassian to 0.22.0 or later and review the deployment conditions in the
+      advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability. This batch contains overlapping reports with distinct CVE
+      identifiers; record counts are not counts of independent root causes. The report body labels
+      its test version 2.14.5, inconsistent with the package metadata; that test-version claim is not
+      adopted.
+    aliases:
+    - GHSA-hgcf-4mq8-5266
+  - id: CVE-2026-77244
+    component: mcp-atlassian
+    severity: critical
+    description: HTTP deployments using shared server credentials can accept unauthenticated callers
+      or arbitrary non-empty tokens and act with the operator credentials.
+    affected: mcp-atlassian < 0.22.0
+    fixed_in: 0.22.0
+    source: https://github.com/advisories/GHSA-wrhw-j3f9-8vc6
+    mitigation: Update mcp-atlassian to 0.22.0 or later and review the deployment conditions in the
+      advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability. This batch contains overlapping reports with distinct CVE
+      identifiers; record counts are not counts of independent root causes.
+    aliases:
+    - GHSA-wrhw-j3f9-8vc6
+  - id: CVE-2026-77247
+    component: mcp-atlassian
+    severity: high
+    description: Write-capable attachment callers can make Jira or Confluence read server-local files
+      and upload them using the configured Atlassian credentials.
+    affected: mcp-atlassian < 0.22.0
+    fixed_in: 0.22.0
+    source: https://github.com/advisories/GHSA-f6pj-qv47-g96w
+    mitigation: Update mcp-atlassian to 0.22.0 or later and review the deployment conditions in the
+      advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability. This batch contains overlapping reports with distinct CVE
+      identifiers; record counts are not counts of independent root causes.
+    aliases:
+    - GHSA-f6pj-qv47-g96w
+  - id: CVE-2026-77249
+    component: mcp-atlassian
+    severity: medium
+    description: The Jira user-permission lookup bypasses the guarded HTTP session, allowing an attacker-controlled
+      Atlassian endpoint to redirect requests to internal services.
+    affected: mcp-atlassian < 0.22.0
+    fixed_in: 0.22.0
+    source: https://github.com/advisories/GHSA-v9m3-wfh8-5646
+    mitigation: Update mcp-atlassian to 0.22.0 or later and review the deployment conditions in the
+      advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability. This batch contains overlapping reports with distinct CVE
+      identifiers; record counts are not counts of independent root causes.
+    aliases:
+    - GHSA-v9m3-wfh8-5646
+  - id: CVE-2026-77250
+    component: mcp-atlassian
+    severity: medium
+    description: OAuth fallback token files inherit the process umask, exposing plaintext access and
+      refresh tokens to other local users even when keyring storage succeeds.
+    affected: mcp-atlassian < 0.22.0
+    fixed_in: 0.22.0
+    source: https://github.com/advisories/GHSA-g5xv-mhgm-v5f6
+    mitigation: Update mcp-atlassian to 0.22.0 or later and review the deployment conditions in the
+      advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability. This batch contains overlapping reports with distinct CVE
+      identifiers; record counts are not counts of independent root causes.
+    aliases:
+    - GHSA-g5xv-mhgm-v5f6
+  - id: CVE-2026-77258
+    component: mcp-atlassian
+    severity: high
+    description: Confluence attachment upload omits path validation and can disclose files readable
+      by the MCP process to a caller-controlled page.
+    affected: mcp-atlassian < 0.22.0
+    fixed_in: 0.22.0
+    source: https://github.com/advisories/GHSA-93xw-j965-9mx3
+    mitigation: Update mcp-atlassian to 0.22.0 or later and review the deployment conditions in the
+      advisory.
+    notes: GitHub advisory metadata supplies the affected range and patched floor. Repository scanning
+      does not detect this vulnerability. This batch contains overlapping reports with distinct CVE
+      identifiers; record counts are not counts of independent root causes.
+    aliases:
+    - GHSA-93xw-j965-9mx3
   - id: ADVISORY-CC-2026-003
     component: Claude Code (September permission and plugin fixes)
     severity: high
@@ -2842,6 +3556,15 @@ cve_database:
 # MINIMUM SAFE VERSIONS (quick reference for scanning)
 # ═══════════════════════════════════════════════════════════════
 minimum_safe_versions:
+  toolhive-cli: 0.30.1
+  '@zereight/mcp-gitlab': 2.1.30
+  github.com/obot-platform/obot: 0.23.0
+  '@aborruso/ckan-mcp-server': 0.4.108
+  github.com/f1bonacc1/process-compose: 1.120.0
+  codex-desktop: 26.818.21641
+  codex-cli: 0.149.0
+  '@roomi-fields/notebooklm-mcp': 2.0.3
+  toolhive-studio: 0.38.0
   awslabs.dynamodb-mcp-server: 2.1.6
   mysql-mcp-server: 0.4.2
   frontmcp: 1.5.0
@@ -2859,7 +3582,7 @@ minimum_safe_versions:
   "@playwright/mcp": "0.0.40"
   "mcp-package-docs": "0.1.28"
   "cursor": "3.0.0"
-  "claude-code": "2.1.269"   # CVE-2026-54316, Hugging Face WebFetch exfiltration oracle
+  "claude-code": "2.1.281"
   "claude-code-action": "1.0.94"
   "rmcp": "1.4.0"
   "mcp-java-sdk": "1.0.0"
@@ -2873,7 +3596,7 @@ minimum_safe_versions:
   "fastmcp": "check upstream — CVE-2026-27124 patched version"
   "a11y-mcp": "1.0.6"
   "bun": "1.3.5"
-  "mcp-atlassian": "0.17.0"
+  "mcp-atlassian": "0.22.0"
   "aws-api-mcp-server": "1.4.0"
   "mcp-memory-service": "10.25.1"
   "mcp-ruby-sdk": "0.23.0"   # five advisories: CVE-2026-67431/67432/63118/63119/67430
