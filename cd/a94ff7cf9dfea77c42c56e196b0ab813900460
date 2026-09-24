@@ -1,0 +1,19 @@
+mcp-server/content/translations.json
+  s_03ba8b1a919c17::t_5138cfefaed1fd 3-4,24,26-27,51,60-61,71-72,114-115,190-191
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "cda94ff7cf9dfea77c42c56e196b0ab813900460",
+  "prompts": {},
+  "sessions": {
+    "s_03ba8b1a919c17": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d374-0cc8-7963-b9d1-425a32259a25",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
