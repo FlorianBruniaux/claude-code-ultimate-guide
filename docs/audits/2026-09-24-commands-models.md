@@ -55,10 +55,11 @@ Translation provenance must be refreshed from the committed English source. Upda
 
 - Positional index: 906 references checked, zero broken; all 793 linked anchors and 61 declared positional anchors resolve. All 106 tracked guide pages are indexed.
 - CLI quiz: all 17 categories match the canonical web bank; three CLI tests pass.
-- Landing: 258 tests pass, including the localhost HTTP fixtures.
+- Landing: 258 tests pass, including the localhost HTTP fixtures. The static build produces 462 pages; the link inventory checks 583 HTML documents and validates 1,782 local targets. External URLs are outside that offline result. Forty-six diagrams render as SVG; three retain their text fallback.
 - Fallback pricing: ten model cases pass; both changed shell scripts pass syntax checks. The session summary now reports peak input tokens without assuming every model has a 200K window.
 - Print exports: 22 PDFs regenerated. The twelve recap cards remain one page each; the two daily cheatsheets are five pages each. Eight affected whitepapers also have rebuilt EPUBs. Four series archives retain 22 cards each.
-- Public-content scan: zero workstation-path violations. Source and bundled MCP reference files are byte-identical.
+- MCP package: all 37 tests and the complete release check pass, including the regenerated product manifest, documentation, registry metadata, and package contents.
+- Public-content scan: zero workstation-path violations across 1,438 source and rendered files. Source and bundled MCP reference files are byte-identical.
 
 ## Changed guide files
 
@@ -102,9 +103,12 @@ The companion landing carries the corresponding web quiz, cheatsheet, reader/sea
 - `guide/workflows/plan-pipeline.md`
 - `llms.txt`
 - `machine-readable/llms.txt`
+- `machine-readable/mcp-product.json`
 - `machine-readable/reference.yaml`
+- `machine-readable/translations.json`
 - `mcp-server/content/llms.txt`
 - `mcp-server/content/reference.yaml`
+- `mcp-server/content/translations.json`
 - `quiz/questions/01-quick-start.yaml`
 - `quiz/questions/02-core-concepts.yaml`
 - `quiz/questions/03-memory-settings.yaml`
