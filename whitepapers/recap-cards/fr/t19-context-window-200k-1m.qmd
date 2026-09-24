@@ -4,76 +4,61 @@ subtitle: "Quand passer à la fenêtre de contexte étendue et à quel coût"
 card-number: "T19"
 category: "Technique"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "Août 2026"
+version: "3.43.0"
+date: "2026-09-24"
 layout: "two-col"
 lang: fr
 format:
   recap-card-typst: default
 ---
 
-## Les Deux Fenêtres
+## Le contexte dépend du modèle
 
-| Paramètre | 200K standard | 1M GA (Max/Team/Enterprise) |
-|-----------|--------------|---------|
-| Disponibilité | Tous les plans | GA pour les plans Claude Code Max, Team, Enterprise (v2.1.75, mars 2026) |
-| Header requis | Aucun | Aucun (plans CC) · Header API pour accès direct |
-| Prix (input Opus) | $5/MTok | $10/MTok (API directe) · Inclus dans les plans CC sans surcoût |
-| Max output | 128K tokens | 128K tokens |
+| Modèle sur l'API directe | Contexte | Sortie maximale |
+|-------------------------|----------|-----------------|
+| Haiku 4.5 | 200K | 64K |
+| Sonnet 5 | 1M natif | 128K |
+| Opus 5.5 | 1M natif | 128K |
+| Fable 5.1 | 1M natif | 128K |
 
-Au-dessus de 200K tokens en entrée, **tous les tokens du contexte** sont facturés au tarif premium, pas seulement l'excédent. C'est un palier de coût, pas une progression linéaire.
+Vérifié le 24 septembre 2026. Le fournisseur peut imposer d'autres limites. Consulter `/context` pour la session active.
 
-## Précision à l'Échelle (MRCR v2)
+## Pas de surcoût du 1M natif
 
-| Modèle | À 256K | À 1M |
-|--------|--------|------|
-| Opus 4.6 | 93% | 76% |
-| Sonnet 4.5 | n/a | 18.5% |
+Les modèles actuels à 1M natif gardent leurs tarifs standard au-delà de 200K tokens en entrée. L'ancien en-tête bêta n'est pas requis. Sonnet 5 n'a pas de variante 200K sur l'API directe.
 
-Ce sont les derniers scores MRCR publiés par Anthropic ; ceux d'Opus 4.8, Opus 5 et Sonnet 5 ne sont pas encore publiés. Opus reste la référence à 1M, mais la dégradation au-delà de 256K est mesurable. Sonnet s'effondre et n'est pas recommandé au-delà de 200K pour des tâches précises.
+Opus 4.6 et Sonnet 4.6 proposent des variantes `[1m]` avec des restrictions de forfait et de fournisseur. Ces règles ne décrivent pas les modèles actuels.
 
-## Coût par Session (Approximatif)
+## Chiffrer une requête complète
 
-| Type de session | Tokens in | Sonnet 5 | Opus 5 |
-|-----------------|-----------|-----------|---------|
-| PR review (≤200K) | 50K | ~$0.15 | ~$0.38 |
-| Refactorisation (≤200K) | 150K | ~$0.50 | ~$1.25 |
-| Analyse service (>200K) | 500K | ~$2.75 | ~$6.88 |
+Exemples en dollars, sans cache ni nouvelle tentative :
 
-## Quand Utiliser 1M
+| Entrée / sortie | Sonnet 5 | Opus 5.5 |
+|-----------------|----------|----------|
+| 50K / 5K | $0.15 | $0.30 |
+| 150K / 20K | $0.50 | $1.00 |
+| 500K / 50K | $1.50 | $3.00 |
 
-La règle de la communauté : 200K + RAG par défaut, 1M Opus réservé aux cas où charger tout d'un coup est réellement nécessaire. Pour l'API directe, le header reste requis (tier 4+) ; les plans CC Max/Team/Enterprise l'ont inclus sans action supplémentaire.
+Séparer entrée, sortie, lecture et écriture du cache. La taille du contexte est une capacité, pas un coût ni un score de précision.
 
-**Justifié :**
-- Audit complet d'un codebase entier en une seule passe
-- Analyse de documentation massive sans possibilité de chunking
-- Agent Teams sur une architecture multi-services complexe
-
-**Non justifié :**
-- Développement quotidien (même sur de gros projets)
-- Tâches avec feedback loop rapide (tests, debug)
-- Cas où /compact + sessions séquentielles fonctionnent
-
-## Activation (API)
-
-> **Plans Claude Code Max, Team et Enterprise** : le contexte 1M est activé automatiquement depuis v2.1.75, aucun header nécessaire. Sonnet 5 et Opus 5 embarquent nativement 1M ; ce header d'activation manuelle concerne Opus 4.8 (génération précédente) en accès API direct (appels Anthropic hors CLI Claude Code).
-
-```python
-response = client.messages.create(
-    model="claude-opus-4-8",
-    extra_headers={
-        "anthropic-beta": "context-1m-2025-08-07"
-    },
-    messages=[...]
-)
+```{=typst}
+#colbreak()
 ```
 
-Sans ce header (accès API direct, comptes tier 4+), les requêtes dépassant 200K tokens retournent une erreur.
+## Maîtriser l'accumulation
 
-## Pattern Recommandé
+`/context` détaille les tokens. `/compact` résume la conversation ; `/clear` repart de zéro. Enregistrer les décisions et les commandes de vérification avant de vider le contexte.
 
-Travailler à 200K avec `/compact` proactif (à 70% de contexte) plutôt que d'activer 1M par défaut. Ouvrir une nouvelle session vers 70-75% d'utilisation : la performance est meilleure et le coût reste prévisible.
+`/autocompact 500k` enregistre une fenêtre plus petite. `/autocompact auto` rétablit le défaut du modèle. Une session à 1M natif compacte normalement vers 967K.
 
-Pour la RAG sur gros documents, Gemini 1.5 Pro offre 2M de contexte à $3.50/$10.50 par MTok, soit 2-3x moins cher pour du retrieval pur sans besoin du raisonnement Opus.
+Charger les fichiers utiles plutôt que remplir la fenêtre. Séparer les tâches indépendantes quand cela facilite le travail. Aucun pourcentage fixe ne garantit le rappel des informations.
+
+## Évaluer la recherche d'information
+
+Les anciens scores MRCR d'Opus 4.6 ou Sonnet 4.5 restent propres à ces modèles et au protocole du benchmark. Ils ne mesurent pas Sonnet 5 ou Opus 5.5.
+
+Tester son corpus avec questions vérifiables, citations attendues et distracteurs. Mesurer aussi les éléments de preuve manqués.
+
+Sources : [Configuration](https://code.claude.com/docs/en/model-config), [spécifications](https://platform.claude.com/docs/en/models/overview), [tarifs](https://platform.claude.com/docs/en/about-claude/pricing).

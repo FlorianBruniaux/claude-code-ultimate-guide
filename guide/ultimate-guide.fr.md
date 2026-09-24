@@ -2071,75 +2071,69 @@ Exemple de sortie :
 
 Claude Code n'est pas gratuit : vous consommez des crédits API. Comprendre les coûts aide à optimiser l'utilisation.
 
-#### Modèle de tarification (en avril 2026)
+#### Modèle de tarification (vérifié le 24 septembre 2026)
 
-Le modèle par défaut dépend de votre abonnement : les abonnés **Max/Team Premium** obtiennent **Opus 4.8** par défaut, tandis que les abonnés **Pro/Team Standard** obtiennent **Sonnet 4.6**. Si l'utilisation d'Opus atteint le seuil du forfait, il bascule automatiquement sur Sonnet.
 
-> **Gamme de modèles (juin 2026)** : Claude Opus 4.8 (`claude-opus-4-8`) est l'Opus standard de production actuel. Claude Fable 5 (`claude-fable-5`, classe Mythos) est le modèle le plus capable disponible, dépassant tout modèle Anthropic précédemment en disponibilité générale ([annonce](https://www.anthropic.com/news/claude-fable-5-mythos-5)). Opus 4.7 et 4.6 sont des générations précédentes ; pour les workflows où l'empreinte en tokens réduite d'Opus 4.6 est intentionnelle, voir [Pinning Opus 4.6](#pinning-opus-46-community-hack) dans la section OpusPlan.
 
-| Modèle | Entrée (par 1M tokens) | Sortie (par 1M tokens) | Fenêtre de contexte | Remarques |
-|-------|----------------------|------------------------|----------------|-------|
-| **Fable 5** | Voir la documentation officielle | Voir la documentation officielle | Voir la documentation officielle | Classe Mythos, le plus capable ; [spécifications](https://www.anthropic.com/pricing) |
-| **Opus 4.8** | Voir la documentation officielle | Voir la documentation officielle | 200K tokens | Défaut actuel pour Max/Team Premium ; effort élevé par défaut |
-| Opus 4.8 (mode rapide) | Voir la documentation officielle | Voir la documentation officielle | 200K tokens | Mode rapide : 2,5× plus rapide, 2× le prix |
-| **Sonnet 4.6** | 3,00 $ | 15,00 $ | 200K tokens | Défaut (Pro/Team Standard) |
-| Sonnet 4.5 | 3,00 $ | 15,00 $ | 200K tokens | Héritage |
-| Opus 4.7 | 5,00 $ | 25,00 $ | 200K tokens | Génération précédente |
-| Opus 4.7 (1M de contexte) | 5,00 $ | 25,00 $ | 1M tokens | Génération précédente |
-| Opus 4.6 (standard) | 5,00 $ | 25,00 $ | 200K tokens | Génération précédente |
-| Opus 4.6 (1M de contexte) | 5,00 $ | 25,00 $ | 1M tokens | Génération précédente |
-| Haiku 4.5 | 0,80 $ | 4,00 $ | 200K tokens | Option économique |
 
-> **Note sur la tarification** : La tarification standard d'Opus 4.8 et de Fable 5 n'est pas encore publiée dans aucune source suivie. Consultez [anthropic.com/pricing](https://www.anthropic.com/pricing) pour les tarifs actuels. Le mode rapide sur Opus 4.8 fonctionne à 2,5× la vitesse au prix 2× standard (modifié par rapport au 6× d'Opus 4.6). Utilisez le paramètre `effort` pour contrôler les dépenses.
+Tarifs API standard vérifiés le 24 septembre 2026. Dollars par million de tokens en entrée/sortie, hors cache.
 
-**Vérification de la réalité** : Une session typique d'une heure coûte **0,10 $ à 0,50 $** selon les habitudes d'utilisation.
+| Modèle | Entrée / sortie | Contexte | Effort par défaut |
+|--------|-----------------|----------|-------------------|
+| Haiku 4.5 | $1 / $5 | 200K | Non pris en charge |
+| Sonnet 5 | $2 / $10 | 1M | high |
+| Opus 5.5 | $4 / $20 | 1M | medium |
+| Fable 5.1 | $10 / $50 | 1M | high |
 
-> **Retrait de modèle (avril 2026)** : `claude-3-haiku-20240307` (Claude 3 Haiku) a été retiré le **20 avril 2026**. Si votre CLAUDE.md, vos définitions d'agents ou vos scripts codent encore en dur cet identifiant de modèle, migrez immédiatement vers `claude-haiku-4-5-20251001` (Haiku 4.5). Source : [platform.claude.com/docs/en/about-claude/model-deprecations](https://platform.claude.com/docs/en/about-claude/model-deprecations)
+Le tarif publié de Sonnet reste $2/$10 après la promotion de lancement. Opus 5.5 est le défaut du service direct, sauf règle du compte. Le modèle seul ne détermine pas le coût d'une tâche.
 
-#### Contexte 200K vs 1M : performances, coûts et cas d'usage
 
-La fenêtre de contexte de 1M (en disponibilité générale pour les forfaits Max/Team/Enterprise ; le niveau 4 de l'API est toujours requis pour l'utilisation directe de l'API) représente un saut de capacité significatif, mais les retours de la communauté la présentent systématiquement comme un **outil premium de niche**, pas comme une valeur par défaut.
 
-**Précision de récupération à grande échelle (MRCR v2 variante 8-needle 1M)**
 
-| Modèle | Précision à 256K | Précision à 1M | Source |
-|-------|--------------|-------------|--------|
-| Opus 4.6 | 93 % | 76 % | Blog Anthropic + [analyse indépendante](https://www.youtube.com/watch?v=JKk77rzOL34) (fév. 2026) |
-| Sonnet 4.5 | — | 18,5 % | Blog Anthropic (fév. 2026) |
-| Sonnet 4.6 | Non encore publié | Non encore publié | — |
+##### Le contexte dépend du modèle
 
-Le benchmark est la « variante 8-needle 1M » : trouver 8 faits spécifiques dans un document de 1M de tokens. Opus 4.6 passe de 93 % à 76 % en passant de 256K à 1M ; Sonnet 4.5 s'effondre à 18,5 %. **Validation communautaire** : un développeur a chargé ~733K tokens (4 livres Harry Potter) et Opus 4.6 a récupéré 49/50 sorts documentés en une seule invite ([HN, fév. 2026](https://news.ycombinator.com/item?id=46905735)). Le MRCR de Sonnet 4.6 n'est pas encore publié, mais les retours de la communauté suggèrent qu'il « peine à suivre des instructions précises et à récupérer des informations précises » à pleine capacité de 1M de contexte.
+| Modèle sur l'API directe | Contexte | Sortie maximale |
+|-------------------------|----------|-----------------|
+| Haiku 4.5 | 200K | 64K |
+| Sonnet 5 | 1M natif | 128K |
+| Opus 5.5 | 1M natif | 128K |
+| Fable 5.1 | 1M natif | 128K |
 
-**Coût par session (approximatif)**
+Vérifié le 24 septembre 2026. Le fournisseur peut imposer d'autres limites. Consulter `/context` pour la session active.
 
-Au-delà de 200K tokens d'entrée sur l'API directe, **tous les tokens** de la requête sont facturés aux tarifs premium, pas seulement l'excédent. Remarque : sur les forfaits Claude Code Max/Team/Enterprise, Opus 4.6 1M est le modèle par défaut aux tarifs standard (sans supplément) depuis la v2.1.75 (mars 2026).
+##### Pas de surcoût du 1M natif
 
-| Type de session | ~Tokens en entrée | ~Tokens en sortie | Sonnet 4.6 | Opus 4.6 |
-|---|---|---|---|---|
-| Correction de bug / revue de PR (≤200K) | 50K | 5K | ~0,23 $ | ~0,38 $ |
-| Refactorisation de module (≤200K) | 150K | 20K | ~0,75 $ | ~1,25 $ |
-| Analyse complète de service (>200K, contexte 1M) | 500K | 50K | ~4,13 $ | ~6,88 $ |
+Les modèles actuels à 1M natif gardent leurs tarifs standard au-delà de 200K tokens en entrée. L'ancien en-tête bêta n'est pas requis. Sonnet 5 n'a pas de variante 200K sur l'API directe.
 
-À titre de comparaison : Gemini 1.5 Pro offre une fenêtre de contexte de 2M à 3,50 $/10,50 $/MTok, nettement moins cher pour le RAG sur documents volumineux. Conseil communautaire : utilisez Gemini pour le RAG sur grands documents, Claude pour la qualité de raisonnement et les workflows agentiques.
+Opus 4.6 et Sonnet 4.6 proposent des variantes `[1m]` avec des restrictions de forfait et de fournisseur. Ces règles ne décrivent pas les modèles actuels.
 
-**Quand utiliser lequel**
+##### Chiffrer une requête complète
 
-| Scénario | Recommandation |
-|----------|---------------|
-| Correction de bug, revue de PR, développement quotidien | Sonnet 4.6 @ 200K (rapide et économique) |
-| Audit complet de dépôt, chargement de toute la base de code | Opus 4.8 @ 1M (le coût en vaut la peine pour la précision) |
-| Refactorisation inter-modules | Sonnet 4.6 @ 1M (peser le coût par rapport au découpage + RAG) |
-| Analyse d'architecture, équipes d'agents | Opus 4.8 @ 1M (meilleure récupération à grande échelle) |
-| RAG sur grands documents (PDFs, juridique, livres) | Envisager Gemini 1.5 Pro (moins cher à cette échelle) |
+Exemples en dollars, sans cache ni nouvelle tentative :
 
-**Points clés**
-- Sortie maximale d'Opus 4.8 : **128K tokens** (identique aux générations Opus précédentes) ; sortie maximale de Sonnet 4.6 : **64K tokens**
-- 1M de contexte ≈ 30 000 lignes de code / 750 000 mots
-- Le contexte de 1M est **en disponibilité générale pour les forfaits Claude Code Max/Team/Enterprise** (v2.1.75, mars 2026), l'utilisation directe de l'API nécessite toujours le niveau 4 ou des limites de débit personnalisées
-- Utilisation directe de l'API au-delà de 200K tokens d'entrée : Sonnet 4.6 double à 6 $/22,50 $/MTok ; Opus 4.6 double à 10 $/37,50 $/MTok (tarif standard applicable pour les forfaits Claude Code Max/Team/Enterprise)
-- Si l'entrée reste ≤200K, les tarifs standard s'appliquent même avec l'option bêta activée
-- **Solution pratique** : vérifiez le contexte à ~70 % et ouvrez une nouvelle session plutôt que d'atteindre la compaction ([modèle HN](https://news.ycombinator.com/item?id=46902427))
-- Consensus communautaire : 200K + RAG est le défaut ; 1M Opus est réservé aux cas où charger tout en une fois est genuinement nécessaire
+| Entrée / sortie | Sonnet 5 | Opus 5.5 |
+|-----------------|----------|----------|
+| 50K / 5K | $0.15 | $0.30 |
+| 150K / 20K | $0.50 | $1.00 |
+| 500K / 50K | $1.50 | $3.00 |
+
+Séparer entrée, sortie, lecture et écriture du cache. La taille du contexte est une capacité, pas un coût ni un score de précision.
+
+##### Maîtriser l'accumulation
+
+`/context` détaille les tokens. `/compact` résume la conversation ; `/clear` repart de zéro. Enregistrer les décisions et les commandes de vérification avant de vider le contexte.
+
+`/autocompact 500k` enregistre une fenêtre plus petite. `/autocompact auto` rétablit le défaut du modèle. Une session à 1M natif compacte normalement vers 967K.
+
+Charger les fichiers utiles plutôt que remplir la fenêtre. Séparer les tâches indépendantes quand cela facilite le travail. Aucun pourcentage fixe ne garantit le rappel des informations.
+
+##### Évaluer la recherche d'information
+
+Les anciens scores MRCR d'Opus 4.6 ou Sonnet 4.5 restent propres à ces modèles et au protocole du benchmark. Ils ne mesurent pas Sonnet 5 ou Opus 5.5.
+
+Tester son corpus avec questions vérifiables, citations attendues et distracteurs. Mesurer aussi les éléments de preuve manqués.
+
+Sources : [Configuration](https://code.claude.com/docs/en/model-config), [spécifications](https://platform.claude.com/docs/en/models/overview), [tarifs](https://platform.claude.com/docs/en/about-claude/pricing).
 
 #### Qu'est-ce qui coûte le plus ?
 
@@ -2187,10 +2181,10 @@ Libère un espace de contexte significatif pour les messages suivants
 **Stratégie 3 : Choisir le bon modèle**
 
 ```bash
-# Utiliser Haiku pour les tâches simples (4× moins cher en entrée, 3,75× moins cher en sortie)
+# Évaluer Haiku pour les tâches simples ($1/$5 par MTok entrée/sortie)
 claude --model haiku "Fix this typo in README.md"
 
-# Utiliser Sonnet (défaut) pour le travail standard
+# Choisir Sonnet explicitement pour le travail standard
 claude "Refactor this module"
 
 # Utiliser Opus uniquement pour les tâches critiques/complexes
@@ -2419,27 +2413,7 @@ claude "Implement the plan we just created"
 
 ### Extend Thinking (ultrathink)
 
-Claude can allocate more reasoning tokens with special keywords:
-
-| Keyword | Thinking Budget |
-|---------|----------------|
-| `think` | ~1,000 tokens |
-| `think hard` | ~5,000 tokens |
-| `think harder` | ~10,000 tokens |
-| `ultrathink` | ~31,000 tokens |
-
-**When to Use Ultrathink**:
-- Complex architectural decisions
-- Security-sensitive implementations
-- Multi-system design problems
-
-```bash
-# Budget optimization
-claude "think about the tradeoffs" # cheap
-claude "ultrathink the security implications" # expensive but thorough
-```
-
-> **Note on streaming**: Claude Code streams thinking tokens progressively, so you see Claude's reasoning as it develops, not all at once at the end.
+`ultrathink` ajoute une consigne de réflexion sans changer l'effort envoyé à l'API. `think` et `think hard` sont du texte ordinaire. Utiliser `/effort` ou `--effort` pour un réglage explicite. Opus 5.5 démarre à `medium`, Sonnet 5 et Fable 5.1 à `high`. Haiku 4.5 ne prend pas en charge le paramètre effort.
 
 ### The OODA Loop Method
 
@@ -2516,7 +2490,7 @@ User: Implement the plan from round 3.
 
 ### Ultrareview (v2.1.114+)
 
-Révision de code multi-agents parallèle dans le cloud. Plusieurs agents Opus 5 lisent vos modifications simultanément et remontent les bugs et problèmes de conception qu'un réviseur attentif détecterait.
+Révision de code multi-agents parallèle dans le cloud. Plusieurs agents de revue lisent vos modifications simultanément et remontent les bugs et problèmes de conception qu'un réviseur attentif détecterait.
 
 **Activation** :
 
@@ -2723,58 +2697,45 @@ _Accès rapide :_ [Tableau de décision](#decision-table) · [Niveaux d'effort](
 
 ---
 
-### Tableau de décision
 
-| Tâche | Modèle | Effort | Coût estimé/tâche |
-|------|-------|--------|----------------|
-| Renommage, formatage, boilerplate | Haiku | low | ~$0,02 |
-| Génération de tests unitaires | Haiku | low | ~$0,03 |
-| Revue de PR CI/CD (volume) | Haiku | low | ~$0,02 |
-| Développement de fonctionnalités, débogage standard | Sonnet | medium | ~$0,23 |
-| Refactoring de module | Sonnet | high | ~$0,75 |
-| Architecture système | Opus | high | ~$1,25 |
-| Audit de sécurité critique | Opus | max | ~$2+ |
-| Orchestration multi-agents | Sonnet + Haiku | mixed | variable |
-| Tâches où Opus 4.8 à max est insuffisant | Fable 5 | max | Voir la documentation officielle |
+### Modèles actuels
 
-> **Note sur les coûts** : Estimations basées sur la tarification API (Haiku $0,80/$4,00 par MTok, Sonnet $3/$15, Opus $5/$25). Les abonnés Pro/Max paient un tarif fixe, privilégiez donc la qualité au coût. Tarification de Fable 5 non publiée ; consultez [anthropic.com/pricing](https://www.anthropic.com/pricing). Voir la [section 2.2](#cost-awareness--optimization) pour le détail complet de la tarification.
->
-> **Modificateur budgétaire** (Teams Standard/Pro) : rétrograder d'un niveau par phase (utiliser Sonnet là où le tableau indique Opus, Haiku là où il indique Sonnet pour les tâches d'implémentation mécanique). Modèle communautaire : *Sonnet pour la planification → Haiku pour l'implémentation* avec un plan Teams Standard à $25/mois.
+Tarifs API standard vérifiés le 24 septembre 2026. Dollars par million de tokens en entrée/sortie, hors cache.
 
-#### Passer à Fable 5
+| Modèle | Entrée / sortie | Contexte | Effort par défaut |
+|--------|-----------------|----------|-------------------|
+| Haiku 4.5 | $1 / $5 | 200K | Non pris en charge |
+| Sonnet 5 | $2 / $10 | 1M | high |
+| Opus 5.5 | $4 / $20 | 1M | medium |
+| Fable 5.1 | $10 / $50 | 1M | high |
 
-Claude Fable 5 (`claude-fable-5`, classe Mythos, disponible depuis Claude Code v2.1.170) dépasse les capacités de tout modèle Anthropic précédemment en disponibilité générale. En pratique, utilisez-le quand Opus 4.8 à effort `max` ne répond pas à votre niveau de qualité requis.
+Le tarif publié de Sonnet reste $2/$10 après la promotion de lancement. Opus 5.5 est le défaut du service direct, sauf règle du compte. Le modèle seul ne détermine pas le coût d'une tâche.
 
-Déclencheur de décision : vous avez exécuté la tâche sur Opus avec effort `max` et le résultat n'est pas suffisamment bon pour une décision critique ou irréversible. Fable 5 n'est pas un modèle par défaut. Le coût n'est pas publié ; consultez [anthropic.com/pricing](https://www.anthropic.com/pricing). Réservez-le aux tâches où la qualité du résultat compte plus que le budget.
+### Choisir et enregistrer
 
-Scénarios pratiques : audits de sécurité en production où les erreurs sont inacceptables, décisions d'architecture aux conséquences durables, ou travail agentique multi-étapes où Opus seul a montré ses limites.
+`/model` ouvre le sélecteur. **Entrée** enregistre le défaut ; **s** limite le choix à la session. `claude --model sonnet` s'applique à la session lancée. Les réglages du projet ou de l'organisation peuvent reprendre priorité au lancement suivant.
 
-**Accès** : `/model claude-fable-5` (v2.1.170+). [Annonce](https://www.anthropic.com/news/claude-fable-5-mythos-5)
+Les alias dépendent du fournisseur. `opus` sélectionne 5.5 chez la plupart, mais 4.6 sur Foundry. `sonnet` sélectionne 5 sur l'API directe, 4.6 sur Claude Platform on AWS, et 4.5 sur Bedrock, Google et Foundry.
 
----
+`fable` sélectionne 5.1 si disponible, ou 5 via la passerelle Claude apps. `best` choisit Fable si accessible, sinon Opus. Utiliser un identifiant complet pour fixer une version.
 
-### Niveaux d'effort
+### Thinking et effort
 
-Le paramètre `effort` (API Opus 4.6+) contrôle le budget computationnel global du modèle : pas seulement les tokens de réflexion, mais aussi les appels d'outils, la verbosité et la profondeur d'analyse. Effort faible = moins d'appels d'outils, pas de préambule. Effort élevé = plus d'explications, analyse détaillée.
+Opus 5.5, Sonnet 5 et Fable 5.1 utilisent le thinking adaptatif. Haiku 4.5 dispose du thinking étendu mais **pas du paramètre effort**.
 
-**Gradient calibré, un prompt réel par niveau :**
+Les modèles adaptatifs actuels acceptent `low`, `medium`, `high`, `xhigh` et `max`. Opus 4.6 et Sonnet 4.6 acceptent `max`, mais pas `xhigh`.
 
-- **`low`** : mécanique, aucune décision de conception requise
-  > `"Rename getUserById to findUserById across src/"` : portée de recherche-remplacement, aucun raisonnement requis.
+`/effort` enregistre les niveaux jusqu'à `xhigh` par modèle. **s** limite le choix à la session. `max` reste propre à la session ; `/effort auto` efface le choix enregistré pour le modèle actif.
 
-- **`medium`** : modèle clair, périmètre défini, une seule préoccupation
-  > `"Convert fetchUser() in api/users.ts from callbacks to async/await"` : le modèle est connu, le périmètre est borné.
+`Option+T` / `Alt+T` bascule le thinking si le modèle le permet. Ce raccourci n'a pas d'effet sur Opus 5.5 ou Fable, dont le thinking reste actif. Réduire plutôt l'effort pour une tâche bornée.
 
-- **`high`** : décisions de conception, cas limites, préoccupations multiples
-  > `"Redesign error handling in the payment module: add retry logic, partial failure recovery, and idempotency guarantees"` : choix architecturaux, pas seulement application de modèle.
+`ultrathink` ajoute une consigne de réflexion sans changer l'effort API. `think hard` est du texte ordinaire.
 
-- **`xhigh`** _(Opus 4.7+, v2.1.114+)_ : effort extra-élevé entre `high` et `max` ; valeur par défaut pour Claude Code (tous les plans) avec Opus 4.7
-  > `"Debug this race condition in the distributed job queue with concurrent writes and partial reads"` : profondeur de raisonnement supérieure à `high`, plus rapide que `max`.
+### Décider sur des résultats mesurés
 
-- **`max`** _(Opus 4.7+ uniquement, retourne une erreur sur les autres modèles)_ : raisonnement inter-systèmes, décisions irréversibles
-  > `"Analyze the microservices event pipeline for race conditions across order-service, inventory-service, and notification-service"` : tests d'hypothèses multi-services, raisonnement adversarial.
+Évaluer Haiku sur les tâches bornées, Sonnet sur le travail courant, Opus ou Fable sur les cas difficiles. Comparer résultats acceptés, reprises, latence et coût total sur les mêmes tâches. Les coéquipiers peuvent utiliser des modèles différents.
 
----
+Sources : [Configuration des modèles](https://code.claude.com/docs/en/model-config), [tarifs API](https://platform.claude.com/docs/en/about-claude/pricing).
 
 ### Allocation de l'effort par skill (v2.1.80+)
 
@@ -3855,7 +3816,7 @@ User: That's not right. I expected [X, Y, Z]—why are you doing [A, B, C] inste
 
 ### When Extended Thinking Helps
 
-Think of extended thinking as working memory. Claude can hold more in mind during `ultrathink`, but the benefits decay with task type:
+Le bénéfice du raisonnement étendu dépend de la tâche. Choisir un effort explicite et vérifier le résultat :
 
 | Task Type | Ultrathink Benefit | Example |
 |-----------|-------------------|---------|
@@ -3867,7 +3828,7 @@ Think of extended thinking as working memory. Claude can hold more in mind durin
 
 > **Source**: Anthropic Engineering, [Claude Code Best Practices](https://www.anthropic.com/engineering/claude-code-best-practices)
 
-**Using extended thinking**: Add `think`, `think hard`, or `ultrathink` to your prompt. Higher intensity triggers more extended reasoning tokens, proportionally slowing the response but improving reasoning quality on complex problems.
+**Réglage du raisonnement** : `/effort` sélectionne un niveau pris en charge par le modèle. `ultrathink` ajoute une consigne sans changer le niveau API. Aucun mot-clé ne garantit un budget fixe ni une meilleure qualité.
 
 > **Usage note**: Extended thinking consumes significantly more tokens. Reserve it for genuinely complex tasks where deeper reasoning is valuable.
 
@@ -5831,7 +5792,7 @@ Tous les champs officiels pris en charge par Claude Code ([source](https://code.
 |-------|--------|-------------|
 | `name` | ✅ | Identifiant en kebab-case |
 | `description` | ✅ | Quand activer cet agent (utilisez "PROACTIVELY" pour l'invocation automatique) |
-| `model` | ❌ | `sonnet` (par défaut), `opus`, `haiku`, ou `inherit` |
+| `model` | ❌ | `inherit` (par défaut), `sonnet`, `opus`, `haiku`, ou `inherit` |
 | `tools` | ❌ | Outils autorisés (séparés par des virgules). Supporte la syntaxe `Task(agent_type)` pour restreindre les sous-agents pouvant être créés |
 | `disallowedTools` | ❌ | Outils à interdire, retirés de la liste héritée ou spécifiée |
 | `permissionMode` | ❌ | `default`, `acceptEdits`, `dontAsk`, `bypassPermissions`, ou `plan` |
@@ -13686,131 +13647,23 @@ Le pattern Claude Code le plus puissant combine trois techniques :
 
 ### Extended Thinking (Opus 4.5+) & Adaptive Thinking (Opus 4.6+)
 
-> **⚠️ Changement majeur (Opus 4.6, fév. 2026)** : Opus 4.6 remplace la **pensée basée sur un budget** par l'**Adaptive Thinking**, qui décide automatiquement quand utiliser le raisonnement approfondi selon la complexité de la requête. Le paramètre `budget_tokens` est **déprécié** sur Opus 4.6+.
+#### Thinking et effort
 
-#### Chronologie d'évolution
+Opus 5.5, Sonnet 5 et Fable 5.1 utilisent le thinking adaptatif. Haiku 4.5 dispose du thinking étendu mais **pas du paramètre effort**.
 
-| Version | Approche de pensée | Méthode de contrôle |
-|---------|-------------------|---------------------|
-| **Opus 4.5** (avant v2.0.67) | Opt-in, déclenché par mots-clés (~4K/10K/32K tokens) | Mots-clés dans le prompt |
-| **Opus 4.5** (v2.0.67+) | Toujours activé au budget maximum | Bascule Alt+T, `/config` |
-| **Opus 4.6** (fév. 2026) | **Adaptive thinking** (profondeur dynamique) | Paramètre `effort` (API), Alt+T (CLI) |
-| **Opus 4.7** (avr. 2026) | **Adaptive thinking + xhigh** (nouveau niveau d'effort) | Paramètre `effort` (API), Alt+T (CLI) |
+Les modèles adaptatifs actuels acceptent `low`, `medium`, `high`, `xhigh` et `max`. Opus 4.6 et Sonnet 4.6 acceptent `max`, mais pas `xhigh`.
 
-#### Adaptive Thinking (Opus 4.6+, dont Opus 4.8)
+`/effort` enregistre les niveaux jusqu'à `xhigh` par modèle. **s** limite le choix à la session. `max` reste propre à la session ; `/effort auto` efface le choix enregistré pour le modèle actif.
 
-**Fonctionnement** : Le paramètre `effort` contrôle le **budget computationnel global** du modèle, pas seulement les tokens de pensée, mais l'intégralité de la réponse incluant la génération de texte et les appels d'outils. Le modèle alloue ce budget dynamiquement selon la complexité de la requête.
+`Option+T` / `Alt+T` bascule le thinking si le modèle le permet. Ce raccourci n'a pas d'effet sur Opus 5.5 ou Fable, dont le thinking reste actif. Réduire plutôt l'effort pour une tâche bornée.
 
-**Insight clé** : `effort` affecte tout, même quand la pensée est désactivée. Un effort faible = moins d'appels d'outils, texte plus concis. Un effort élevé = plus d'appels d'outils avec explications, analyse détaillée.
+`ultrathink` ajoute une consigne de réflexion sans changer l'effort API. `think hard` est du texte ordinaire.
 
-**Niveaux d'effort** (API uniquement, descriptions officielles) :
-- **`max`** : Capacité maximale, sans contraintes. **Opus 4.7+ uniquement** (renvoie une erreur sur les autres modèles). Raisonnement inter-systèmes, décisions irréversibles.
-  > Exemple : `"Analyze the microservices event pipeline for race conditions across order-service, inventory-service, and notification-service"`
-- **`xhigh`** _(Opus 4.7+, v2.1.114+)_ : Effort extra-élevé, entre `high` et `max`. **Par défaut dans Claude Code (tous les plans) avec Opus 4.7.** À utiliser quand vous souhaitez plus de profondeur de raisonnement sans la latence complète de `max`.
-  > Exemple : `"Debug the race condition in the distributed job queue with concurrent writes"`
-- **`high`** (par défaut pour l'API) : Raisonnement complexe, codage, tâches agentiques. Idéal pour les workflows de production nécessitant une analyse approfondie.
-  > Exemple : `"Redesign error handling in the payment module: add retry logic, partial failure recovery, and idempotency guarantees"`
-- **`medium`** : Équilibre entre vitesse, coût et performance. Adapté aux tâches agentiques de complexité modérée.
-  > Exemple : `"Convert fetchUser() in api/users.ts from callbacks to async/await"`
-- **`low`** : Le plus efficace. Idéal pour la classification, les recherches, les sous-agents, ou les tâches où la vitesse prime sur la profondeur.
-  > Exemple : `"Rename getUserById to findUserById across src/"`
+#### Décider sur des résultats mesurés
 
-> Consultez la [Section 2.5 Model Selection & Thinking Guide](#25-model-selection--thinking-guide) pour un tableau de décision complet avec l'effort, le modèle et les estimations de coût.
+Évaluer Haiku sur les tâches bornées, Sonnet sur le travail courant, Opus ou Fable sur les cas difficiles. Comparer résultats acceptés, reprises, latence et coût total sur les mêmes tâches. Les coéquipiers peuvent utiliser des modèles différents.
 
-**Syntaxe API** :
-```python
-response = client.messages.create(
-    model="claude-opus-4-8",
-    max_tokens=16000,
-    output_config={"effort": "xhigh"},  # low|medium|high|xhigh|max
-    messages=[{"role": "user", "content": "Analyze..."}]
-)
-```
-
-**Effort et utilisation des outils** :
-
-Le paramètre `effort` influence significativement la façon dont Claude utilise les outils :
-
-- **Effort `low`** : Combine les opérations pour minimiser les appels d'outils. Pas de préambule explicatif avant les actions. Plus rapide et plus efficace pour les tâches simples.
-- **Effort `high`** : Plus d'appels d'outils avec des explications détaillées. Décrit le plan avant l'exécution. Fournit des résumés complets après les opérations. Préférable pour les workflows complexes nécessitant de la transparence.
-
-**Exemple** : Avec un effort `low`, Claude peut lire 3 fichiers et les modifier en un seul flux. Avec un effort `high`, Claude explique pourquoi il lit ces fichiers, ce qu'il cherche, puis fournit un résumé détaillé des modifications effectuées.
-
-**Relation entre `effort` et la pensée** :
-
-- **Opus 4.6** : `effort` est le **contrôle recommandé** pour la profondeur de pensée. Le paramètre `budget_tokens` est **déprécié** sur 4.6 (bien que toujours fonctionnel pour la rétrocompatibilité).
-- **Opus 4.5** : `effort` fonctionne **en parallèle** avec `budget_tokens`. Les deux paramètres sont pris en charge et affectent différents aspects de la réponse.
-- **Sans pensée activée** : `effort` contrôle tout de même la génération de texte et les appels d'outils. Ce n'est pas un paramètre exclusif à la pensée.
-
-**Utilisation en CLI** : Trois méthodes pour contrôler le niveau d'effort dans Claude Code :
-1. **Commande `/model`** avec les touches fléchées gauche/droite pour ajuster le curseur d'effort (`low`, `medium`, `high`)
-2. **Variable d'environnement `CLAUDE_CODE_EFFORT_LEVEL`** (à définir avant de lancer Claude)
-3. **Champ `effortLevel`** dans settings.json (persistant entre les sessions)
-
-Alt+T bascule la pensée activée/désactivée de manière globale (indépendamment du niveau d'effort).
-
-#### Contrôler le mode de pensée
-
-| Méthode | Opus 4.5 | Opus 4.6 | Persistance |
-|---------|----------|----------|-------------|
-| **Alt+T** (Option+T sur macOS) | Activer/désactiver | Activer/désactiver | Session en cours |
-| **/config** → Mode de pensée | Activer/désactiver globalement | Activer/désactiver globalement | Entre les sessions |
-| **Curseur `/model`** (flèches gauche/droite) | `low\|medium\|high` | `low\|medium\|high` | Session en cours |
-| **Variable d'env `CLAUDE_CODE_EFFORT_LEVEL`** | `low\|medium\|high` | `low\|medium\|high` | Session shell |
-| **`effortLevel`** dans settings.json | `low\|medium\|high` | `low\|medium\|high` | Permanent |
-| **Ctrl+O** | Afficher les blocs de pensée | Afficher les blocs de pensée | Affichage uniquement |
-
-#### Implications sur les coûts
-
-Les tokens de pensée sont facturés. Avec l'adaptive thinking :
-- **Opus 4.6** : L'utilisation de la pensée varie dynamiquement (moins prévisible qu'un budget fixe)
-- **Tâches simples** : Envisagez Alt+T pour désactiver → réponses plus rapides, coût réduit
-- **Tâches complexes** : Laissez activé → meilleur raisonnement, profondeur adaptative
-- **Sonnet/Haiku** : Extended thinking non disponible (Opus 4.5/4.6 uniquement)
-
-#### Migration pour les utilisateurs existants
-
-**Avant** (plus nécessaire) :
-```bash
-claude -p "Ultrathink. Analyze this architecture."
-```
-
-**Après** (la pensée est déjà au maximum par défaut) :
-```bash
-claude -p "Analyze this architecture."
-```
-
-**Pour désactiver la pensée sur les tâches simples** : Appuyez sur Alt+T avant d'envoyer, ou utilisez Sonnet.
-
-#### Référence des mots-clés legacy
-
-> Ces mots-clés étaient fonctionnels avant v2.0.67. Ils sont désormais reconnus visuellement mais n'ont **aucun effet comportemental**.
-
-| Mot-clé | Effet précédent | Effet actuel |
-|---------|-----------------|--------------|
-| "Think" | ~4K tokens | Cosmétique uniquement |
-| "Think hard" | ~10K tokens | Cosmétique uniquement |
-| "Ultrathink" | ~32K tokens | Cosmétique uniquement |
-
-#### Changements majeurs de l'API (Opus 4.6)
-
-**Fonctionnalités supprimées** :
-- **`assistant-prefill`** : Déprécié sur Opus 4.6. Permettait auparavant de pré-remplir la réponse de Claude pour guider le format de sortie. Désormais non supporté, utilisez des prompts système ou des exemples à la place.
-
-**Nouvelles fonctionnalités** :
-- **API Fast mode** : Ajoutez `speed: "fast"` + l'en-tête beta `fast-mode-2026-02-01` pour des réponses 2,5x plus rapides (2x le coût sur Opus 4.8)
-  ```python
-  response = client.messages.create(
-      model="claude-opus-4-8",
-      speed="fast",  # 2.5x faster, 2x price
-      headers={"anthropic-beta": "fast-mode-2026-02-01"},
-      messages=[...]
-  )
-  ```
-
-**Migration** :
-- Si vous utilisez `assistant-prefill` : Remplacez par des instructions explicites dans le prompt système
-- Pour la vitesse : Utilisez l'API fast mode ou la commande `/fast` en CLI
+Sources : [Configuration des modèles](https://code.claude.com/docs/en/model-config), [tarifs API](https://platform.claude.com/docs/en/about-claude/pricing).
 
 ### Exemple : Utilisation de la Trinité
 
@@ -13818,7 +13671,7 @@ claude -p "Analyze this architecture."
 You: /plan
 
 Let's analyze this legacy authentication system before we touch anything.
-[Thinking mode is enabled by default with Opus 4.5 - no keyword needed]
+[Opus 5.5 utilise le thinking adaptatif ; choisir l’effort selon la tâche]
 
 [Claude enters Plan Mode and does deep analysis]
 
@@ -15183,11 +15036,13 @@ Contrôlez comment Claude répond pour correspondre à votre flux de travail et 
 
 ### Styles Intégrés
 
-Activez via `/config` → "Preferred output style", ou définissez `outputStyle` dans `settings.json`.
+Activez via `/output-style`, `/config` ou `outputStyle` dans `settings.json`.
 
 | Style | Ce que fait Claude | Idéal pour |
 |-------|--------------------|------------|
 | **Default** | Accomplit les tâches efficacement, réponses concises | Développeurs expérimentés, travail orienté performance |
+| **Proactive** | Prend davantage d’initiatives pour avancer dans la tâche | Travail délégué avec des limites explicites |
+| **Concise** | Répond brièvement | Interactions compactes |
 | **Explanatory** | Ajoute des blocs "Insights" expliquant les choix de conception, compromis et patterns de la base de code | Exploration de code inconnu, revue d'architecture, intégration |
 | **Learning** | Fait des pauses aux étapes clés, ajoute des marqueurs `TODO(human)`, vous demande d'écrire les parties importantes | Développeurs juniors, montée en compétences, pair programming |
 
@@ -15196,7 +15051,7 @@ Activez via `/config` → "Preferred output style", ou définissez `outputStyle`
 ```
 /config
 → "Preferred output style"
-→ Sélectionner Default / Explanatory / Learning
+→ Sélectionner Default / Proactive / Concise / Explanatory / Learning
 ```
 
 Ou de façon persistante via `settings.json` :
@@ -15211,7 +15066,7 @@ Le paramètre persiste entre les sessions. Si vous avez configuré une barre de 
 
 ### Impact sur les Tokens
 
-Explanatory et Learning produisent des réponses plus longues par conception, ce qui augmente les tokens de sortie. La mise en cache des prompts réduit ce coût après la première requête dans une session.
+Explanatory et Learning produisent des réponses plus longues par conception, ce qui augmente les tokens de sortie. La mise en cache peut réduire le coût des entrées répétées, mais ne réduit pas le prix des tokens générés.
 
 ### Styles Personnalisés
 
@@ -15222,7 +15077,7 @@ Les styles de sortie personnalisés sont des fichiers Markdown. Placez les style
 └── strict-reviewer.md    # Définition du style personnalisé
 ```
 
-Par défaut, un style personnalisé omet les instructions de génie logiciel intégrées à Claude Code. Pour un style destiné au code, conservez-les avec `keep-coding-instructions: true` dans le frontmatter YAML du fichier. Les changements de style prennent effet après `/clear` ou au démarrage d'une nouvelle session.
+Par défaut, un style personnalisé omet les instructions de génie logiciel intégrées à Claude Code. Pour un style destiné au code, conservez-les avec `keep-coding-instructions: true` dans le frontmatter YAML du fichier. Le style sélectionné s’applique au message suivant. Redémarrez pour découvrir de nouveaux fichiers de style.
 
 ```json
 {
@@ -15664,7 +15519,7 @@ User: Good. Create a fresh session handoff document,
 | Debugging loops | Failed attempts accumulate | /compact or fresh session after 3 fails |
 | Pasting logs (1000+ lines) | Log noise dominates | Extract just relevant lines |
 | Never /compact | Gradual degradation | /compact at 70% |
-| One session for everything | Context overflow | Session-per-feature |
+| **Plusieurs sessions** | Le mode serveur accepte `--spawn` et `--capacity` ; les limites dépendent de la configuration |
 
 ---
 
@@ -16009,8 +15864,8 @@ exit 0  # Allow
 - Utiliser `--add-dir` pour autoriser l'accès aux outils dans des répertoires en dehors du répertoire de travail actuel
 - Gérer le mode de réflexion pour l'efficacité des coûts :
   - Tâches simples : Alt+T pour désactiver la réflexion → plus rapide, moins cher
-  - Tâches complexes : Laisser la réflexion activée (par défaut dans Opus 4.8)
-  - Le mot-clé `ultrathink` force un effort élevé pour le prochain tour spécifiquement (réintroduit dans v2.1.68)
+  - Tâches complexes : choisir l’effort ; Opus 5.5 et Fable gardent le thinking actif
+  - Le mot-clé `ultrathink` ajoute une consigne sans changer l’effort API
 - Définir `cleanupPeriodDays` dans la configuration pour élaguer automatiquement les anciennes sessions
 - Réactiver les résumés de réflexion si nécessaire : ajouter `"showThinkingSummaries": true` dans settings.json (désactivé par défaut dans les sessions interactives depuis v2.1.89)
 - Utiliser `/compact` de manière proactive quand le contexte atteint 70%
@@ -18537,7 +18392,7 @@ Boris Cherny, créateur de Claude Code, a partagé son flux de travail orchestra
 - **5-10 instances** sur claude.ai/code (`--teleport` pour synchroniser avec le local)
 - **Git worktrees** pour l'isolation (chaque instance = checkout séparé)
 - **CLAUDE.md** : 2 500 tokens, partagé en équipe et versionné dans git
-- **Modèle** : Opus 4.8 (plus lent mais moins de corrections nécessaires, pensée adaptative)
+- **Modèle** : Opus 5.5 avec thinking adaptatif, à évaluer sur vos tâches
 - **Slash commands** : `/commit-push-pr` utilisé « des dizaines de fois par jour »
 
 **Résultats** (30 jours, janvier 2026) :
@@ -18559,7 +18414,7 @@ Boris Cherny, créateur de Claude Code, a partagé son flux de travail orchestra
 
 > **Sur les boucles de vérification** : « Je donne à Claude un moyen de vérifier le résultat (navigateur/tests) : la vérification pilote la qualité. »
 
-**Pourquoi Opus 4.8 avec la pensée adaptative** : Bien que plus coûteux par token que Sonnet, Opus nécessite moins d'itérations de correction grâce à la pensée adaptative. Résultat net : livraison plus rapide et coût total inférieur malgré un prix unitaire plus élevé.
+**Pourquoi évaluer Opus avec le thinking adaptatif** : comparer résultats acceptés, reprises, latence et coût total à Sonnet. Le prix par token ne suffit pas à déduire la qualité ni le coût par tâche acceptée.
 
 **Le modèle de supervision** : Boris décrit son rôle comme « gérer plusieurs agents » plutôt que « faire chaque clic soi-même ». Le flux de travail consiste à **piloter les résultats** à travers 5-10 sessions parallèles, débloquer quand nécessaire, plutôt qu'une exécution séquentielle.
 
@@ -21867,7 +21722,7 @@ I'll decide based on our team context.
 
 **Temps de lecture** : 5 minutes (vue d'ensemble) | [Démarrage rapide →](./workflows/agent-teams-quick-start.md) (8-10 min, pratique) | [Guide complet →](./workflows/agent-teams.md) (~30 min, théorie)
 **Niveau** : Mois 2+ (Avancé)
-**Statut** : ⚠️ Expérimental (v2.1.32+, Opus 4.8 recommandé, Opus 4.6+ compatible)
+**Statut** : ⚠️ Expérimental (v2.1.32+, modèle choisi par coéquipier)
 
 ### Qu'est-ce qu'une équipe d'agents ?
 
@@ -21884,8 +21739,8 @@ claude
 
 OR in ~/.claude/settings.json:
 {
-  "experimental": {
-    "agentTeams": true
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   }
 }
 ```
@@ -21893,7 +21748,7 @@ OR in ~/.claude/settings.json:
 ### Introduction et validation en production
 
 **Version** : v2.1.32 (2026-02-05) en préversion de recherche
-**Modèle requis** : Opus 4.8 recommandé (Opus 4.6+ compatible)
+**Modèle requis** : modèle accessible au compte, choisi par coéquipier
 
 **Métriques de production** (cas validés) :
 - **Fountain** (gestion de la main-d'œuvre) : 50 % plus rapide pour le screening, 2x de conversions
@@ -22344,9 +22199,9 @@ Pour activer le contrôle à distance par défaut sur chaque session :
 | **Le terminal doit rester ouvert** | Fermer le terminal local met fin à la session |
 | **Timeout réseau** | ~10 min avant expiration de la session lors d'une déconnexion |
 | **Les slash commands ne fonctionnent pas à distance** | `/new`, `/compact`, etc. sont traités comme du texte brut dans l'interface distante |
-| **Pro/Max uniquement** | Non disponible sur les plans Team, Enterprise ou les clés API |
+| **Forfaits** | Pro, Max, Team, Enterprise ; activation par le propriétaire sur Team/Enterprise. Clés API et passerelles cloud non prises en charge |
 
-> **⚠️ Limitation des slash commands** : Lorsque vous tapez `/new`, `/compact` ou toute slash command dans l'interface distante (application mobile ou navigateur), elles sont traitées comme des messages texte brut, et non transmises comme des commandes au CLI local. Utilisez les slash commands depuis votre terminal local à la place.
+> La prise en charge des commandes dépend de l’interface distante. Consulter la [référence Remote Control](https://code.claude.com/docs/en/remote-control) pour les restrictions actuelles.
 
 ### Patterns avancés (validés par la communauté)
 
@@ -22458,10 +22313,10 @@ Avant de passer à la Section 10 (Référence), vérifiez que vous comprenez :
 
 **Flux de travail avancés** :
 - [ ] **Téléportation de session** : Migrer des sessions entre environnements cloud et locaux
-- [ ] **Contrôle à distance** : Surveiller/contrôler des sessions locales depuis un mobile ou navigateur (Research Preview, Pro/Max)
+- [ ] **Contrôle à distance** : Surveiller/contrôler des sessions locales depuis un mobile ou navigateur (Pro/Max/Team/Enterprise)
 - [ ] **Tâches en arrière-plan** : Exécuter des tâches dans le cloud tout en travaillant localement (préfixe `%`)
 - [ ] **Mise à l'échelle multi-instances** : Comprendre quand/comment orchestrer des instances Claude parallèles (équipes avancées uniquement)
-- [ ] **Équipes d'agents** : Coordination multi-agents pour les tâches à forte lecture (expérimental, Opus 4.7+)
+- [ ] **Équipes d'agents** : Coordination multi-agents pour les tâches à forte lecture (expérimental, modèle choisi par coéquipier)
 - [ ] **Frameworks de permutation** : Tester systématiquement plusieurs approches avant de s'engager
 - [ ] **Modernisation legacy** : Flux de travail en 4 étapes (Discovery → Risk → Planning → Incremental) pour les grandes bases de code legacy
 
@@ -23311,6 +23166,8 @@ _Accès rapide :_ [Tableau des Commandes](#101-commands-table) · [Raccourcis Cl
 
 ## 10.1 Tableau des Commandes
 
+Sélection de commandes. La [référence complète anglaise](ultimate-guide.md#101-commands-table) et la [documentation officielle](https://code.claude.com/docs/en/commands) couvrent aussi les commandes récentes et leurs restrictions. `/autocompact` règle la fenêtre de compaction, `/output-style` est à nouveau disponible, et `/review` est un alias de `/code-review`.
+
 ### Commandes Intégrées
 
 | Commande | Action | Catégorie |
@@ -23321,7 +23178,7 @@ _Accès rapide :_ [Tableau des Commandes](#101-commands-table) · [Raccourcis Cl
 | `/status` | Afficher les informations de session (contexte, coût) | Info |
 | `/usage` | Vérifier les limites de débit et l'allocation de tokens | Info |
 | `/stats` | Afficher les statistiques d'utilisation avec des graphiques d'activité | Info |
-| `/output-style` | **Obsolète** (oct. 2025) : utiliser `/config` → « Preferred output style » à la place (Default / Explanatory / Learning) | Affichage |
+| `/output-style [style]` | Choisir Default, Proactive, Concise, Explanatory, Learning ou un style personnalisé (v2.1.269+) | Affichage |
 | `/feedback` | Signaler des bugs ou envoyer des retours à Anthropic | Support |
 | `/chrome` | Vérifier la connexion Chrome, gérer les permissions | Mode |
 | `/config` | Afficher et modifier les paramètres globaux | Config |
@@ -23330,7 +23187,7 @@ _Accès rapide :_ [Tableau des Commandes](#101-commands-table) · [Raccourcis Cl
 | `/doctor` | Lancer des diagnostics et vérifications de dépannage | Débogage |
 | `/execute` | **N'est pas une commande Claude Code.** Absente de la référence officielle et du CHANGELOG. Pour quitter le Plan Mode : approuver le plan, ou `Shift+Tab` | Mode |
 | `/exit` | Quitter Claude Code | Session |
-| `/fast` | Activer/désactiver le mode rapide (Opus 4.8, 2,5× plus rapide, 2× le prix) | Mode |
+| `/fast` | Opus 5.5 fast : $8/$40 par MTok entrée/sortie ; crédits d’usage sur abonnement | Mode |
 | `/hooks` | Configuration interactive des hooks | Config |
 | `/init` | Générer un CLAUDE.md de départ basé sur la structure du projet. ⚠️ La sortie est générée par LLM ; réviser et élaguer avant de valider (la recherche de l'ETH Zürich montre que les fichiers de contexte auto-générés réduisent le taux de réussite des tâches de l'agent d'environ 3 % et augmentent le coût d'inférence de plus de 20 %) | Config |
 | `/login` | Se connecter au compte Claude | Auth |
@@ -23343,7 +23200,7 @@ _Accès rapide :_ [Tableau des Commandes](#101-commands-table) · [Raccourcis Cl
 | `/permissions` | Configurer les listes d'autorisation de permissions | Config |
 | `/plan` | Entrer en Mode Plan | Mode |
 | `/plugin` | Parcourir et installer des plugins Claude Code | Config |
-| `/remote-control` (`/rc`) | Démarrer une session de contrôle à distance (Pro/Max uniquement) | Mode |
+| `/remote-control` (`/rc`) | Contrôler une session locale depuis le web/mobile ; activation par le propriétaire sur Team/Enterprise | Mode |
 | `/rename` | Donner un nom descriptif à la session actuelle | Session |
 | `/resume` | Reprendre une session précédente (depuis une session en cours) | Session |
 | `/rewind` | Ouvrir le menu rewind pour annuler les modifications récentes | Édition |
@@ -23383,7 +23240,7 @@ _Accès rapide :_ [Tableau des Commandes](#101-commands-table) · [Raccourcis Cl
 | `Ctrl+A` | Aller au début de la ligne |
 | `Ctrl+E` | Aller à la fin de la ligne |
 | `Ctrl+W` | Supprimer le mot précédent |
-| `Ctrl+G` | Ouvrir le plan dans un éditeur de texte externe pour modification |
+| `Ctrl+G` / `Ctrl+X Ctrl+E` | Éditer le prompt ou la réponse au dialogue dans un éditeur externe |
 | `Tab` | Autocomplétion des chemins de fichiers |
 | `↑` / `↓` | Naviguer dans l'historique des commandes |
 
@@ -23391,7 +23248,9 @@ _Accès rapide :_ [Tableau des Commandes](#101-commands-table) · [Raccourcis Cl
 
 | Raccourci | Action |
 |----------|--------|
-| `Alt+T` (`Option+T` sur macOS) | Activer/désactiver le mode thinking |
+| `Alt+T` (`Option+T` sur macOS) | Basculer le thinking si autorisé ; sans effet sur Opus 5.5/Fable |
+| `Ctrl+X Ctrl+K` | Arrêter les sous-agents en arrière-plan |
+| `Ctrl+Enter` / `Ctrl+X Ctrl+S` | Envoyer les messages en attente immédiatement |
 | `Ctrl+O` | Afficher les blocs de thinking |
 
 ### Saisie Vocale
@@ -23425,7 +23284,7 @@ Activez/désactivez la voix avec `/voice`. La liaison push-to-talk n'est active 
 |-------|---------|---------|
 | `-c -p "msg"` | Reprendre une session + prompt unique | `claude -c -p "run tests"` |
 | `-r <id> -p` | Reprendre une session spécifique + prompt | `claude -r abc123 -p "check status"` |
-| `-p -p` | Automatisation non interactive | `claude -p -p "lint fix" < errors.txt` |
+| `-p` | Automatisation non interactive | `claude -p "lint fix" < errors.txt` |
 
 > **Note** : Combinez les drapeaux de reprise avec `-p` pour les scripts et les flux de travail CI/CD.
 
@@ -23832,7 +23691,7 @@ claude mcp add fs -- npx -y @modelcontextprotocol/server-filesystem "C:\\Users\\
 **Activer le mode débogage :**
 ```bash
 # Déboguer toutes les connexions MCP
-claude --mcp-debug
+claude --debug='mcp'
 
 # Afficher le statut MCP dans Claude Code
 /mcp
@@ -23865,7 +23724,7 @@ npx -y @modelcontextprotocol/server-filesystem ~/Documents
 claude mcp list
 
 # Tester un serveur spécifique
-claude --mcp-debug -p "List available tools"
+claude --debug='mcp' -p "List available tools"
 
 # Supprimer et réenregistrer un serveur
 claude mcp remove my-server
@@ -24124,7 +23983,7 @@ Récupérer les scripts depuis :
 ║  ─────────────────────────────────────────               ║
 ║  Alt+T          Activer/désactiver  Session courante     ║
 ║  /config        Paramètre global    Persiste entre les sessions ║
-║  Note : les mots-clés "ultrathink" sont désormais cosmétiques uniquement ║
+║  ultrathink ajoute une consigne ; /effort règle l’effort API ║
 ║                                                          ║
 ║  SERVEURS MCP                                            ║
 ║  ────────────                                            ║

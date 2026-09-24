@@ -161,7 +161,7 @@ flowchart LR
 - Export as markdown → Feed to Claude Code
 
 **Model Selection**
-- Claude Sonnet 4: Best for technical prose and documentation
+- Claude Sonnet 5: Best for technical prose and documentation
 - GPT-4o: Good for code snippets
 - Sonar Pro: Fast factual lookups
 
@@ -3288,18 +3288,12 @@ Documented above. One coordinator, N specialists in parallel threads, one level 
 
 | Model | Input | Output | When to use |
 |-------|-------|--------|-------------|
-| Haiku 4.5 | ~$0.80/MTok | ~$4/MTok | Classification, routing, simple extraction |
-| Sonnet 5 | $2/MTok (promo through 2026-08-31) | $10/MTok (promo through 2026-08-31) | Most tasks, the current default |
-| Opus 4.8 | previous-gen top tier | previous-gen top tier | Complex reasoning, superseded by Opus 5 |
-| Opus 5 | fast mode $10/MTok | fast mode $50/MTok | Complex reasoning, multi-step ambiguous tasks only |
+| Haiku 4.5 | $1/MTok | $5/MTok | Bounded classification, routing, extraction |
+| Sonnet 5 | $2/MTok | $10/MTok | Routine development, subject to task evaluation |
+| Opus 5.5 | $4/MTok | $20/MTok | Default on the direct service; complex reasoning |
+| Fable 5.1 | $10/MTok | $50/MTok | Explicit escalation where account access permits |
 
-**Typical session cost** (Sonnet 5, with built-in caching):
-
-| Task complexity | Tokens consumed | Estimated cost |
-|----------------|----------------|----------------|
-| Simple (1-2 tool calls) | ~20-50K | ~$0.05-0.15 |
-| Medium (5-15 tool calls) | ~100-300K | ~$0.30-1.00 |
-| Complex (30+ tool calls, 1h+ runtime) | ~500K-2M | ~$1.50-8.00 |
+Standard API rates verified September 24, 2026. Opus 5.5 fast mode costs $8/$40 per MTok. These rates do not establish a typical session bill: measure input, output, cache tokens, and retries separately. [Official pricing](https://platform.claude.com/docs/en/about-claude/pricing).
 
 **Cost control patterns**:
 

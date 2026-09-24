@@ -122,7 +122,7 @@ Apply trigger rules against the agent pool (see [Dynamic Agent Pool](#dynamic-ag
 **Phase 4: Research & Plan Creation** *(dynamic team)*
 
 - Tier 0: inline research, no agents
-- Tier 1+: spawn approved agents in parallel (background), lead monitors via TaskOutput loop
+- Tier 1+: spawn approved agents in parallel (background), lead monitors by reading each agent’s reported output path
 - `planning-coordinator` (Opus) synthesizes all reports into final plan
 - Commit plan file, ADRs, and creation artifacts
 

@@ -11,6 +11,12 @@ Suivi des versions des ebooks, indépendamment de la version du guide.
 
 ---
 
+## [2026-09-24] Références commandes et modèles
+
+- Cheatsheets FR/EN et fiches T01, T18, T19, T21 : modèles actuels, prix, effort, raccourcis, contexte 1M et fast mode vérifiés sur les sources officielles.
+- WP02, WP04, WP07 et WP08 FR/EN, fiches M08 et M16 : héritage du modèle, raisonnement adaptatif et choix du modèle par coéquipier corrigés. Les chiffres de benchmarks datés restent attachés aux modèles réellement évalués.
+- Versions propres des ouvrages modifiés incrémentées ; sources alignées sur le guide 3.43.0. Les exports doivent être reconstruits à partir de ces sources avant publication.
+
 ## [2026-08-30] DORA 2026 et corpus Pavan Belagatti
 
 ### Fixed

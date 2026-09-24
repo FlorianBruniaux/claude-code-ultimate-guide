@@ -8,7 +8,7 @@ Tool names are the exact strings you use in permission rules (`allow`/`deny`), s
 
 ## All built-in tools
 
-The table below covers every built-in tool Claude Code ships with. "Permission Required" means a first-time prompt appears before the tool runs (in default and `acceptEdits` modes). Tools marked No run without prompting.
+The tables below cover built-in tools and explicitly marked removed tools. Availability varies by model and configuration. "Permission Required" means a first-time prompt appears before the tool runs (in default and `acceptEdits` modes). Tools marked No run without prompting.
 
 ### File operations
 
@@ -57,8 +57,8 @@ The table below covers every built-in tool Claude Code ships with. "Permission R
 | `TaskList` | List all tasks with their current status | No |
 | `TaskUpdate` | Update task status, dependencies, or details; can also delete tasks | No |
 | `TaskStop` | Kill a running background task by ID | No |
-| `TaskOutput` | Retrieve output from a background task (deprecated; prefer `Read` on the task output path) | No |
-| `TodoWrite` | Manage the session checklist (disabled by default since v2.1.142; set `CLAUDE_CODE_ENABLE_TASKS=0` to re-enable) | No |
+| `TaskOutput` | Removed in v2.1.278; use `Read` on the output path reported by the background task | No |
+| `TodoWrite` | Legacy checklist: opt in with `CLAUDE_CODE_ENABLE_TODO_TOOLS=1`, then select it with `CLAUDE_CODE_ENABLE_TASKS=0` | No |
 
 ### Scheduling
 

@@ -4,10 +4,10 @@ subtitle: "Create specialized sub-agents to delegate tasks"
 card-number: "M08"
 category: "Methodology"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "August 2026"
+version: "3.43.0"
+date: "2026-09-24"
 layout: "two-col"
 lang: en
 format:
@@ -36,13 +36,15 @@ The file body contains instructions in Markdown: role, methodology, examples, co
 |-------|----------|------|
 | `name` | Yes | kebab-case identifier |
 | `description` | Yes | Activation trigger (50-100 chars) |
-| `model` | No | `haiku`, `sonnet` (default), `opus`, `inherit` |
+| `model` | No | `haiku`, `sonnet`, `opus`, `inherit` |
 | `tools` | No | Whitelist of accessible tools |
 | `memory` | No | Persistent memory scope |
 | `maxTurns` | No | Agentic turn limit |
 | `permissionMode` | No | Permission control |
 | `isolation` | No | `worktree` for git isolation |
 | `color` | No | CLI color for visual distinction |
+
+Without `model`, a subagent inherits the parent model. `inherit` selects that behavior explicitly. Environment and organization overrides can still apply.
 
 ## The tools field: isolation by default
 

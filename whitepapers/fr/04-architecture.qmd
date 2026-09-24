@@ -2,10 +2,10 @@
 title: "L'Architecture Démystifiée"
 subtitle: "Pas de RAG, pas de magie noire - juste une boucle"
 author: "Florian BRUNIAUX"
-date: 2026-08-24
+date: "2026-09-24"
 date-format: "MMMM YYYY"
-version: "3.42.0"
-wp-version: "1.5.0"
+version: "3.43.0"
+wp-version: "1.5.1"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -86,53 +86,47 @@ Tout choix architectural a un prix. L'absence d'orchestrateur offre de la flexib
 | Moins de bugs | Les erreurs du modèle affectent tout |
 | Itération rapide | Nécessite un modèle de qualité |
 
-Ce compromis est au cœur de la philosophie Anthropic : plutôt que multiplier les couches de contrôle, investir dans la qualité du modèle lui-même. Chaque composant supprimé (classifieur, routeur, orchestrateur) est une surface de défaillance en moins et un vecteur de rigidité éliminé. Mais cela signifie aussi que la qualité de l'expérience dépend directement de la qualité du raisonnement du modèle, d'où l'importance d'Opus 4.8.
+Ce compromis est au cœur de la philosophie Anthropic : plutôt que multiplier les couches de contrôle, investir dans la qualité du modèle lui-même. Chaque composant supprimé (classifieur, routeur, orchestrateur) est une surface de défaillance en moins et un vecteur de rigidité éliminé. Mais cela signifie aussi que la qualité de l'expérience dépend directement de la qualité du raisonnement du modèle, ce qui impose d'évaluer le modèle avec le même harness.
 
-## Opus 4.8 : Thinking Auto-Adaptatif
 
-**Introduit** : Février 2026
+## Modèles actuels
 
-Claude Opus 4.8 ajuste automatiquement sa profondeur de raisonnement selon la complexité de la tâche :
+Tarifs API standard vérifiés le 24 septembre 2026. Dollars par million de tokens en entrée/sortie, hors cache.
 
-| Complexité Tâche | Thinking Tokens | Exemple |
-|------------------|-----------------|---------|
-| **Simple** | ~500 tokens | "Fix this typo" |
-| **Modérée** | ~2K tokens | "Refactor auth logic" |
-| **Complexe** | ~10K tokens | "Design microservices architecture" |
-| **Très complexe** | ~32K tokens | "Root cause: race condition in distributed system" |
+| Modèle | Entrée / sortie | Contexte | Effort par défaut |
+|--------|-----------------|----------|-------------------|
+| Haiku 4.5 | $1 / $5 | 200K | Non pris en charge |
+| Sonnet 5 | $2 / $10 | 1M | high |
+| Opus 5.5 | $4 / $20 | 1M | medium |
+| Fable 5.1 | $10 / $50 | 1M | high |
 
-**Impact architecture** :
+Le tarif publié de Sonnet reste $2/$10 après la promotion de lancement. Opus 5.5 est le défaut du service direct, sauf règle du compte. Le modèle seul ne détermine pas le coût d'une tâche.
 
-- Pas besoin de "planner" séparé : le modèle raisonne en interne
-- Qualité supérieure sur tasks complexes
-- Coût : ~$15/1M input, $75/1M output (thinking facturé au tarif output)
+## Choisir et enregistrer
 
-**Activation** : Automatique avec Opus 4.8 (`/model opus`)
+`/model` ouvre le sélecteur. **Entrée** enregistre le défaut ; **s** limite le choix à la session. `claude --model sonnet` s'applique à la session lancée. Les réglages du projet ou de l'organisation peuvent reprendre priorité au lancement suivant.
 
-## Fable 5 : L'Échelon Au-Dessus d'Opus
+Les alias dépendent du fournisseur. `opus` sélectionne 5.5 chez la plupart, mais 4.6 sur Foundry. `sonnet` sélectionne 5 sur l'API directe, 4.6 sur Claude Platform on AWS, et 4.5 sur Bedrock, Google et Foundry.
 
-**Introduit** : v2.1.170 (juin 2026)
+`fable` sélectionne 5.1 si disponible, ou 5 via la passerelle Claude apps. `best` choisit Fable si accessible, sinon Opus. Utiliser un identifiant complet pour fixer une version.
 
-Claude Fable 5 (`claude-fable-5`, classe Mythos) dépasse les capacités de tout modèle Anthropic disponible publiquement avant lui. Il ne remplace pas Opus 4.8 dans l'usage quotidien : ce n'est pas un modèle par défaut, et son tarif n'est pas publié à ce jour (consulter anthropic.com/pricing). Dans l'architecture du master loop, Fable 5 s'invoque exactement comme n'importe quel autre modèle, aucun changement structurel n'est nécessaire.
+## Thinking et effort
 
-Le déclencheur d'usage recommandé : une tâche déjà exécutée sur Opus 4.8 à l'effort `max`, dont la sortie reste insuffisante pour une décision critique ou irréversible. Activation via `/model claude-fable-5`.
+Opus 5.5, Sonnet 5 et Fable 5.1 utilisent le thinking adaptatif. Haiku 4.5 dispose du thinking étendu mais **pas du paramètre effort**.
 
-## Opus 4.7 : Niveau d'Effort `xhigh`
+Les modèles adaptatifs actuels acceptent `low`, `medium`, `high`, `xhigh` et `max`. Opus 4.6 et Sonnet 4.6 acceptent `max`, mais pas `xhigh`.
 
-**Introduit** : v2.1.114 (avril 2026)
+`/effort` enregistre les niveaux jusqu'à `xhigh` par modèle. **s** limite le choix à la session. `max` reste propre à la session ; `/effort auto` efface le choix enregistré pour le modèle actif.
 
-Opus 4.7 introduit un nouveau palier d'effort au-dessus de `high` : `xhigh`. C'est le niveau par défaut dans Claude Code pour Opus 4.7+, ce qui signifie que le modèle alloue davantage de tokens de thinking par défaut sur les tâches complexes.
+`Option+T` / `Alt+T` bascule le thinking si le modèle le permet. Ce raccourci n'a pas d'effet sur Opus 5.5 ou Fable, dont le thinking reste actif. Réduire plutôt l'effort pour une tâche bornée.
 
-| Niveau d'effort | Tokens thinking | Usage |
-|-----------------|-----------------|-------|
-| `low` | Minimal | Tâches triviales |
-| `medium` | Modéré | Usage quotidien |
-| `high` | Élevé | Ancien défaut |
-| `xhigh` | Maximum | Défaut Opus 4.7+ |
-| `max` | Au-delà de xhigh | Session-only, non persistant comme défaut |
-| `ultracode` | Le plus élevé de l'enum | Session-only, non persistant comme défaut |
+`ultrathink` ajoute une consigne de réflexion sans changer l'effort API. `think hard` est du texte ordinaire.
 
-Le passage du défaut de `high` à `xhigh` améliore la qualité sur les tâches d'analyse et de débogage complexes, au prix d'une latence légèrement accrue. Pour les équipes soucieuses du coût, il reste possible de forcer un niveau inférieur via la configuration.
+## Décider sur des résultats mesurés
+
+Évaluer Haiku sur les tâches bornées, Sonnet sur le travail courant, Opus ou Fable sur les cas difficiles. Comparer résultats acceptés, reprises, latence et coût total sur les mêmes tâches. Les coéquipiers peuvent utiliser des modèles différents.
+
+Sources : [Configuration des modèles](https://code.claude.com/docs/en/model-config), [tarifs API](https://platform.claude.com/docs/en/about-claude/pricing).
 
 ::: {.callout-warning title="Incident : Triple Harness Regression (mars-avril 2026)"}
 Entre mars et avril 2026, trois modifications indépendantes du harness ont dégradé simultanément la qualité de sortie de Claude Code, une régression de 6 semaines avant résolution complète :
@@ -311,7 +305,7 @@ Ces fonctionnalités sont disponibles via l'Agent SDK/API (pas le CLI directemen
 
 ## Budget Contexte (~200K tokens)
 
-> **Note** : 200K tokens (standard) ; Sonnet 5 offre nativement 1M tokens de fenêtre de contexte depuis la v2.1.197 (30 juin 2026), sans header ni tier particulier. Opus 4.8 reste sur la beta 1M à activation manuelle (usage tier 4 requis, header `context-1m-2025-08-07`). Voir ci-dessous la comparaison 200K vs 1M.
+> **Fenêtres actuelles** : Opus 5.5, Sonnet 5 et Fable 5.1 utilisent 1M natif ; Haiku 4.5 utilise 200K. Voir le tableau des modèles ci-dessous.
 
 ```
 [ CONTEXT BUDGET ~200K tokens ]
@@ -327,43 +321,51 @@ Ces fonctionnalités sont disponibles via l'Agent SDK/API (pas le CLI directemen
 
 Le budget contexte est une ressource finie et non extensible au sein d'une session. Chaque Read, chaque Bash, chaque Grep consomme de l'espace qui ne sera plus disponible pour le raisonnement. C'est pourquoi la stratégie de gestion du contexte conditionne directement la qualité des réponses en fin de session.
 
-### 200K vs 1M Context : Performance, Coût et Cas d'Usage
 
-La fenêtre 1M tokens a changé de statut le 30 juin 2026 (v2.1.197) : elle est désormais native par défaut sur Sonnet 5, sans activation particulière, avec un tarif promotionnel de $2/$10 par million de tokens (input/output) jusqu'au 31 août 2026. Sur Opus 4.8, le 1M reste une beta à activation manuelle (header `context-1m-2025-08-07`, usage tier 4 requis, tiers 1-3 non éligibles). Les implications de coût et de performance ci-dessous, mesurées avant ce changement, restent valables pour raisonner sur le compromis retrieval/coût, mais le calcul par défaut a changé : la majorité des sessions Claude Code tournent maintenant sur Sonnet 5 avec 1M natif, sans arbitrage à faire.
+## Le contexte dépend du modèle
 
-**Benchmark MRCR (Multi-Round Coreference Resolution)** :
+| Modèle sur l'API directe | Contexte | Sortie maximale |
+|-------------------------|----------|-----------------|
+| Haiku 4.5 | 200K | 64K |
+| Sonnet 5 | 1M natif | 128K |
+| Opus 5.5 | 1M natif | 128K |
+| Fable 5.1 | 1M natif | 128K |
 
-| Modèle | 128K | 256K | 512K | 1M |
-|--------|------|------|------|-----|
-| Opus 4.6 | 97% | 93% | ~85% | ~75% |
-| Sonnet 4.6 | 95% | 88% | ~78% | ~65% |
+Vérifié le 24 septembre 2026. Le fournisseur peut imposer d'autres limites. Consulter `/context` pour la session active.
 
-**Tarification premium au-dessus de 200K** : Au-delà de 200K tokens en input, un tarif majoré s'applique a tous les tokens de la requete (pas seulement l'excédent) :
+## Pas de surcoût du 1M natif
 
-| Modèle | Input standard | Input >200K | Output |
-|--------|---------------|-------------|--------|
-| Sonnet 4.6 | $3/1M | $6/1M | $15/1M |
-| Opus 4.6 | $15/1M | $22.50/1M | $75/1M |
+Les modèles actuels à 1M natif gardent leurs tarifs standard au-delà de 200K tokens en entrée. L'ancien en-tête bêta n'est pas requis. Sonnet 5 n'a pas de variante 200K sur l'API directe.
 
-**Estimation coût par session 1M** :
+Opus 4.6 et Sonnet 4.6 proposent des variantes `[1m]` avec des restrictions de forfait et de fournisseur. Ces règles ne décrivent pas les modèles actuels.
 
-| Modèle | Coût estimé session 1M |
-|--------|----------------------|
-| Sonnet 4.6 | ~$4.13 |
-| Opus 4.6 | ~$6.88 |
+## Chiffrer une requête complète
 
-**Guide de décision** :
+Exemples en dollars, sans cache ni nouvelle tentative :
 
-| Critère | 200K (usage courant) | 1M (contexte étendu) |
-|---------|-----------------------|------------------------|
-| Précision retrieval | Élevée (MRCR >90%) | Dégradée au-delà de 512K, quel que soit le modèle |
-| Coût | Tarif standard | Sur Sonnet 5 : natif, tarif promo $2/$10 par Mtok jusqu'au 31 août 2026 ; sur Opus 4.8 : premium x1.5-2 sur l'input |
-| Cas d'usage | Sessions courtes à moyennes | Codebases massives, analyse exhaustive |
-| Recommandation communauté | Session standard | Nouvelle session à ~70% contexte |
+| Entrée / sortie | Sonnet 5 | Opus 5.5 |
+|-----------------|----------|----------|
+| 50K / 5K | $0.15 | $0.30 |
+| 150K / 20K | $0.50 | $1.00 |
+| 500K / 50K | $1.50 | $3.00 |
 
-::: {.callout-note title="Validation communauté (HN)"}
-Opus 4.6 a démontré la capacité de retrouver 49/50 sorts dans le corpus Harry Potter (~733K tokens), confirmant une forte capacité de retrieval sur des contextes très longs, avec une dégradation progressive au-delà de 256K tokens.
-:::
+Séparer entrée, sortie, lecture et écriture du cache. La taille du contexte est une capacité, pas un coût ni un score de précision.
+
+## Maîtriser l'accumulation
+
+`/context` détaille les tokens. `/compact` résume la conversation ; `/clear` repart de zéro. Enregistrer les décisions et les commandes de vérification avant de vider le contexte.
+
+`/autocompact 500k` enregistre une fenêtre plus petite. `/autocompact auto` rétablit le défaut du modèle. Une session à 1M natif compacte normalement vers 967K.
+
+Charger les fichiers utiles plutôt que remplir la fenêtre. Séparer les tâches indépendantes quand cela facilite le travail. Aucun pourcentage fixe ne garantit le rappel des informations.
+
+## Évaluer la recherche d'information
+
+Les anciens scores MRCR d'Opus 4.6 ou Sonnet 4.5 restent propres à ces modèles et au protocole du benchmark. Ils ne mesurent pas Sonnet 5 ou Opus 5.5.
+
+Tester son corpus avec questions vérifiables, citations attendues et distracteurs. Mesurer aussi les éléments de preuve manqués.
+
+Sources : [Configuration](https://code.claude.com/docs/en/model-config), [spécifications](https://platform.claude.com/docs/en/models/overview), [tarifs](https://platform.claude.com/docs/en/about-claude/pricing).
 
 ## Auto-Compaction
 
@@ -576,7 +578,7 @@ Leïla debug un problème de performance sur l'API de paiement. Plutôt que lire
 
 # Agent Teams : Coordination Autonome
 
-**Status** : Expérimental (v2.1.32+, Opus 4.8 recommandé, Opus 4.6+ compatible)
+**Status** : Expérimental (v2.1.32+, modèles choisis par coéquipier)
 
 Les sub-agents résolvent le problème de l'isolation contexte, mais restent synchrones et limités à depth 3. Pour les tâches nécessitant une coordination réelle entre plusieurs agents autonomes (chacun avec son propre context window de 1M tokens), les Agent Teams représentent l'étape suivante.
 
@@ -593,7 +595,7 @@ Les sub-agents résolvent le problème de l'isolation contexte, mais restent syn
 
 **Capacités clés** :
 
-- Contexte isolé 1M tokens/agent (Opus 4.8)
+- Contexte isolé par agent, dimensionné selon le modèle
 - Communication peer-to-peer via mailbox (pas juste hiérarchique)
 - Coordination git-based (locks, merge automatique)
 - Débat solutions entre agents (challenge approches)
@@ -931,9 +933,9 @@ Les coding agents évoluent vite, mais les différences architecturales fondamen
 |-----------|-------------|--------------------------|--------|
 | **Architecture** | while(tool) loop | Cloud-based planning | Event-driven + cloud |
 | **Exécution** | Local terminal | Cloud sandbox | Local + cloud |
-| **Modèle** | Claude (Sonnet 5 par défaut, Opus 4.8, Fable 5 sur demande) | GPT-4o/o3-mini/Claude | Multiple (adaptive) |
+| **Modèle** | Claude (Opus 5.5 par défaut, Sonnet 5, Fable 5.1 sur demande) | GPT-4o/o3-mini/Claude | Multiple (adaptive) |
 | **Contexte** | 200K–1M tokens (1M natif sur Sonnet 5) | 128K–200K (selon modèle)^[GPT-4o : 128K, o3-mini et Claude via Copilot : 200K. Source : GitHub Copilot docs, nov. 2025. Vérifié fév. 2026.] | Non publié officiellement |
-| **Thinking** | Opus 4.8 (xhigh par défaut), Sonnet 5 et Opus 4.6+ (auto-depth) | Non | Non |
+| **Thinking** | Opus 5.5 (medium), Sonnet 5 / Fable 5.1 (high) | Non | Non |
 | **Agent Teams** | Oui (expérimental) | Non | Non |
 | **Transparence** | Élevée (visible reasoning) | Moyenne | Moyenne |
 | **Custom** | CLAUDE.md + hooks + agents | Limité | Plugins |
@@ -985,9 +987,9 @@ Malgré la transparence croissante d'Anthropic, plusieurs aspects internes de Cl
 
 | Modèle | Knowledge Cutoff |
 |--------|-----------------|
-| Sonnet 5 | Non publiée |
-| Opus 4.8 | Non publiée |
-| Fable 5 | Non publiée |
+| Sonnet 5 | Janvier 2026 |
+| Opus 5.5 | Juin 2026 |
+| Fable 5.1 | Juin 2026 |
 | Sonnet 4.6 | Août 2025 |
 | Opus 4.6 | Mai 2025 |
 | Haiku 4.5 | Février 2025 |

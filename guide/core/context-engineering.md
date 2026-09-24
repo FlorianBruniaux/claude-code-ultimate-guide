@@ -195,7 +195,7 @@ A concrete baseline for a mid-size project:
 | Imported skills / commands | 500 – 3,000 tokens |
 | **Total always-on context** | **~5,000 – 20,000 tokens** |
 
-Claude Sonnet 5 has a native 1M token context window. That means even a large always-on configuration budget (20K tokens) occupies about 2% of the window, leaving roughly 980K tokens for actual work: code files, conversation history, tool outputs. (Earlier models like Sonnet 4.6 topped out at 200K, where the same 20K budget cost about 10% of the window.)
+Claude Sonnet 5 has a native 1M token context window. That means even a large always-on configuration budget (20K tokens) occupies about 2% of the window, leaving roughly 980K tokens for actual work: code files, conversation history, tool outputs. (Earlier models like Sonnet 4.6 used a 200K standard window with a separate 1M variant, where the same 20K budget cost about 10% of the window.)
 
 The practical rule: **always-on context should stay below 5% of the context window.** Beyond that, you are displacing actual task content, which matters more per token than standing instructions.
 
@@ -2287,7 +2287,7 @@ def analyze_long_document(client, document: str, section_size: int = 8000) -> st
     
     for i, section in enumerate(sections):
         response = client.messages.create(
-            model="claude-opus-4-5",
+            model="claude-opus-5-5",
             max_tokens=1024,
             messages=[{
                 "role": "user",
@@ -2298,7 +2298,7 @@ def analyze_long_document(client, document: str, section_size: int = 8000) -> st
                 )
             }]
         )
-        section_analyses.append(response.content[0].text)
+        section_analyses.append(next(block.text for block in response.content if block.type == "text"))
     
     # Integration pass with all section summaries in scope
     integration_prompt = "\n\n".join([
@@ -2307,7 +2307,7 @@ def analyze_long_document(client, document: str, section_size: int = 8000) -> st
     ])
     
     final_response = client.messages.create(
-        model="claude-opus-4-5",
+        model="claude-opus-5-5",
         max_tokens=2048,
         messages=[{
             "role": "user",
@@ -2318,7 +2318,7 @@ def analyze_long_document(client, document: str, section_size: int = 8000) -> st
         }]
     )
     
-    return final_response.content[0].text
+    return next(block.text for block in final_response.content if block.type == "text")
 ```
 
 Each section analysis is short and keeps the relevant content in the primacy position. The integration pass works on summaries rather than the full document, keeping everything within high-attention range.
@@ -2451,7 +2451,7 @@ def maybe_summarize_history(
             }
         ]
     )
-    key_facts = facts_response.content[0].text
+    key_facts = next(block.text for block in facts_response.content if block.type == "text")
     
     summary_message = {
         "role": "assistant",

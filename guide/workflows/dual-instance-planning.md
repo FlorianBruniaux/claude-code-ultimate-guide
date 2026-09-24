@@ -628,7 +628,7 @@ If you encounter these scenarios during implementation:
 **Assumptions**:
 - 20 working days/month
 - 2 features per day (mix of simple + complex)
-- Opus 5 pricing (~$5/1M input, $25/1M output)
+- Historical Opus 5 pricing ($5/1M input, $25/1M output). These hypothetical amounts are not current Opus 5.5 costs; use $4/$20 and measured token counts for a new estimate.
 
 | Profile | Features/Month | Single Instance | Dual Instance | Savings |
 |---------|----------------|----------------|---------------|---------|

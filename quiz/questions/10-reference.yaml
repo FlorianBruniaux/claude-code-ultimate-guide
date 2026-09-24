@@ -165,7 +165,7 @@ questions:
     profiles:
       - senior
       - power
-    question: What does the --mcp-debug flag do?
+    question: What does the --debug='mcp' flag do?
     options:
       a: Disables MCP servers
       b: Debugs MCP server connections with verbose output
@@ -173,11 +173,11 @@ questions:
       d: Enables MCP auto-discovery
     correct: b
     explanation: |-
-      The `--mcp-debug` flag enables debug mode for MCP server connections.
+      The `--debug='mcp'` flag enables debug mode for MCP server connections.
 
       MCP debugging techniques:
       ```bash
-      claude --mcp-debug  # Debug all MCP connections
+      claude --debug='mcp'  # Debug all MCP connections
       /mcp               # View MCP status inside Claude Code
       ```
 
@@ -525,10 +525,10 @@ questions:
       - power
     question: What are the effort levels in Claude Code after the v2.1.72 simplification?
     options:
-      a: Four levels — low, medium, high, max — with icons ▲ △ ● ○
-      b: Three levels — quick, normal, deep — with symbols ○ ◐ ●
-      c: Three levels — low, medium, high — with symbols ○ ◐ ● (max was removed in v2.1.72)
-      d: Two levels — fast, thorough — toggled with Alt+T
+      a: Four levels (low, medium, high, max) with icons ▲ △ ● ○
+      b: Three levels (quick, normal, deep) with symbols ○ ◐ ●
+      c: Three levels (low, medium, high) with symbols ○ ◐ ● (max was removed in v2.1.72)
+      d: Two levels (fast, thorough) toggled with Alt+T
     correct: c
     explanation: |-
       v2.1.72 simplified effort to **three levels**: low (○), medium (◐), and high (●). The `max` level was removed at that point. Use `/model` with left/right arrow keys to adjust the effort slider, the `effortLevel` setting in `settings.json`, or the `CLAUDE_CODE_EFFORT_LEVEL` environment variable. The symbols provide quick visual reference in the UI. Use `/effort auto` to reset to the default adaptive behavior.
@@ -544,20 +544,18 @@ questions:
     profiles:
       - senior
       - power
-    question: What is "fast mode" for Opus 4.6 and what are its trade-offs?
+    question: What is fast mode on Opus 5.5 and what is its standard token-price tradeoff?
     options:
-      a: A mode that skips permission checks for 2.5x faster execution
-      b: Opus 4.6 running at 2.5x faster speed with 6x the price, enabled via /fast or speed:"fast" API parameter
-      c: A lightweight Haiku-based mode for simple tasks at reduced cost
-      d: Parallel tool execution mode that runs all tool calls simultaneously
+      a: It skips permission checks
+      b: Faster serving of the same model at twice its standard token rates
+      c: It switches the session to Haiku
+      d: It runs all tool calls in parallel
     correct: b
-    explanation: |-
-      Fast mode runs Opus 4.6 at **2.5x faster** speed but at **6x the price** ($30/$150 per 1M tokens vs $5/$25 standard). Enable it in Claude Code via `/fast`, or in the API by adding `speed: "fast"` and the `anthropic-beta: fast-mode-2026-02-01` header. It is the same Opus 4.6 model — same quality, same 1M context support — just optimized for speed at a significant cost premium. Best for time-critical tasks where latency matters more than cost.
-      ---
+    explanation: Fast mode serves Opus 5.5 at $8/$40 per million input/output tokens versus $4/$20 at standard speed. Anthropic advertises up to 2.5 times faster output, not a guaranteed end-to-end speedup. Use /fast in Claude Code; subscription usage is charged to usage credits. Sonnet and Haiku do not support fast mode.
     doc_reference:
       file: guide/ultimate-guide.md
-      section: Pricing Model (as of April 2026)
-      anchor: "#pricing-model-as-of-april-2026"
+      section: Pricing Model (verified September 24, 2026)
+      anchor: "#pricing-model-verified-september-24-2026"
   - id: 10-024
     difficulty: senior
     profiles:
@@ -571,7 +569,7 @@ questions:
       d: It was permanently removed in v2.1.72 and replaced by modelOverrides
     correct: a
     explanation: |-
-      The `model` parameter on the Agent tool (restored in v2.1.72) enables **per-invocation model overrides** — you can specify which model each sub-agent uses when spawning it via the Task tool. For example, an orchestrator on Opus 4.6 can spawn a code-review sub-agent on Sonnet for cost efficiency, or a security-audit sub-agent on Opus for thoroughness. This parameter was temporarily removed in a previous release and is now back with the same behavior as before.
+      The `model` parameter on the Agent tool (restored in v2.1.72) enables **per-invocation model overrides**. You can specify which model each sub-agent uses when spawning it via the Task tool. For example, an orchestrator on Opus 4.6 can spawn a code-review sub-agent on Sonnet for cost efficiency, or a security-audit sub-agent on Opus for thoroughness. This parameter was temporarily removed in a previous release and is now back with the same behavior as before.
       ---
     doc_reference:
       file: guide/core/claude-code-releases.md
@@ -586,7 +584,7 @@ questions:
     question: What actionable information does the updated `/context` command now provide (v2.1.74)?
     options:
       a: A list of all active MCP server connections with ping times
-      b: Actionable suggestions — context-heavy tools, memory bloat warnings, and optimization tips
+      b: "Actionable suggestions: context-heavy tools, memory bloat warnings, and optimization tips"
       c: The full session transcript compressed to a summary
       d: A breakdown of token usage by file type
     correct: b

@@ -474,7 +474,7 @@ questions:
 
       When tool definitions exceed this percentage of total context, Claude Code automatically activates lazy loading. Instead of loading all tools upfront, it provides a Tool Search tool for on-demand discovery, dramatically reducing baseline context usage.
 
-      **Example**: chrome-devtools MCP provides 26 tools consuming 17,000 tokens. With lazy loading, Claude only loads 3-5 relevant tools per query (~3K tokens)—a 91% reduction.
+      **Example**: chrome-devtools MCP provides 26 tools consuming 17,000 tokens. With lazy loading, Claude only loads 3-5 relevant tools per query (~3K tokens), a 91% reduction.
     doc_reference:
       file: guide/core/architecture.md
       section: MCP Tool Search (Lazy Loading)
@@ -510,7 +510,7 @@ questions:
       d: Git MCP works in CI/CD; GitHub MCP works only in interactive mode
     correct: c
     explanation: |-
-      `git-mcp` is the **official Anthropic Git server** — provides 12 local git tools (log, status, diff, commit, etc.) with no authentication required. It operates entirely on the local repository. `github-mcp` is the **official GitHub server** — connects to the remote GitHub platform and requires authentication. For remote mode (push, PR creation, issues), it requires a GitHub Copilot subscription. Choose `git-mcp` for local git operations and `github-mcp` for GitHub platform integration.
+      `git-mcp` is the **official Anthropic Git server**: it provides 12 local git tools (log, status, diff, commit, etc.) with no authentication required. It operates entirely on the local repository. `github-mcp` is the **official GitHub server**: it connects to the remote GitHub platform and requires authentication. For remote mode (push, PR creation, issues), it requires a GitHub Copilot subscription. Choose `git-mcp` for local git operations and `github-mcp` for GitHub platform integration.
       ---
     doc_reference:
       file: guide/diagrams/05-mcp-ecosystem.md

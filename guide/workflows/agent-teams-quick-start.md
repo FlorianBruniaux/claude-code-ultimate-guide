@@ -50,12 +50,12 @@ claude --version
 # Check model availability
 claude
 > /model opus
-# Should show: "Model changed to opus (claude-opus-5)"
+# Check the resolved model in /model; provider aliases can differ
 ```
 
 **Minimum requirements**:
 - Claude Code v2.1.32+
-- Opus 5 model (Opus 4.6+ compatible)
+- A model available to your account; Opus is optional and teammates may use different models
 - Git repository (agent teams use git for coordination)
 
 ### Step 2: Enable Feature

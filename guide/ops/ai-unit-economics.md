@@ -49,7 +49,7 @@ Measure each attempt first, then aggregate every attempt that contributed to an 
 | Tool calls | Each tool invocation adds its result to the next input | Number of Read, Bash, Grep, WebFetch calls |
 | Sub-agent runs | Each sub-agent is its own input plus output cost | Number and depth of delegated tasks |
 
-Output tokens can dominate the bill because output is priced several times higher than input. At Anthropic's public rates verified 2026-08-31, Sonnet 5 costs $2 per million input tokens and $10 per million output tokens, while Opus 5 costs $5 and $25. A task that generates a lot of code or long reasoning can therefore cost more on the output side even when its input is larger. Source: [Claude model pricing](https://platform.claude.com/docs/en/about-claude/pricing).
+Output tokens can dominate the bill because output is priced several times higher than input. At Anthropic's public rates verified 2026-09-24, Sonnet 5 costs $2 per million input tokens and $10 per million output tokens, while Opus 5.5 costs $4 and $20. A task that generates a lot of code or long reasoning can therefore cost more on the output side even when its input is larger. Source: [Claude model pricing](https://platform.claude.com/docs/en/about-claude/pricing).
 
 ### A concrete calculation
 
@@ -72,7 +72,7 @@ Output side:
   output subtotal        ~20,000 tokens
 ```
 
-At Sonnet 5 public rates verified 2026-08-31 ($2 input, $10 output per million):
+At Sonnet 5 public rates verified 2026-09-24 ($2 input, $10 output per million):
 
 ```
 input:  73,000 / 1,000,000 x $2   = $0.146
@@ -81,7 +81,7 @@ output: 20,000 / 1,000,000 x $10  = $0.200
                      attempt total ~ $0.35
 ```
 
-The same illustrative attempt on Opus 5 lands near $0.87, about 2.5 times more at public token rates. The token counts above are hypothetical and do not establish a typical PR cost. They show how to price one attempt before retries, review, rework, or acceptance.
+The same illustrative attempt on Opus 5.5 lands near $0.69, about 2 times more at public token rates. The token counts above are hypothetical and do not establish a typical PR cost. They show how to price one attempt before retries, review, rework, or acceptance.
 
 ### A minimal cost function
 

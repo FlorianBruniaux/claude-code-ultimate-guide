@@ -327,10 +327,10 @@ questions:
       - pm
     question: According to Snyk's ToxicSkills report, what percentage of scanned AI agent skills had security flaws?
     options:
-      a: 5.2% — a small fraction contained minor issues
-      b: 12.7% — about one in eight had moderate flaws
-      c: 36.82% — over a third of 3,984 skills had flaws, with 534 critical and 76 malicious payloads
-      d: 78.5% — the vast majority were compromised
+      a: "5.2%: a small fraction contained minor issues"
+      b: "12.7%: about one in eight had moderate flaws"
+      c: "36.82%: over a third of 3,984 skills had flaws, with 534 critical and 76 malicious payloads"
+      d: "78.5%: the vast majority were compromised"
     correct: c
     explanation: "Snyk's ToxicSkills report (Feb 2026) scanned 3,984 skills across ClawHub and skills.sh. Results: 1,467 flawed (36.82%), 534 critical risk (13.4%), 76 confirmed malicious payloads, 10.9% with hardcoded secrets, 17.7% fetching remote content, 2.9% with remote prompt execution. 8 malicious skills were still live at time of scan."
     doc_reference:
@@ -344,10 +344,10 @@ questions:
       - power
     question: Which malicious author published 40+ skills in a programmatic malware campaign with clawhub typosquats?
     options:
-      a: zaycv — programmatic malware campaign with clawhub/clawdhub1 typosquats
-      b: moonshine-100rze — DAN-style jailbreaking skills
-      c: pepe276 — Unicode-obfuscated instructions
-      d: Aslaep123 — typosquatted exchange tools
+      a: "zaycv: programmatic malware campaign with clawhub/clawdhub1 typosquats"
+      b: "moonshine-100rze: DAN-style jailbreaking skills"
+      c: "pepe276: Unicode-obfuscated instructions"
+      d: "Aslaep123: typosquatted exchange tools"
     correct: a
     explanation: zaycv is the most prolific malicious author identified by Snyk ToxicSkills, publishing 40+ malicious skills in a programmatic campaign. The skills use clawhub and clawdhub1 typosquats to impersonate the legitimate ClawHub CLI. Other confirmed malicious authors include Aslaep123 (crypto/trading skills), pepe276 (Unicode-obfuscated DAN jailbreaking), and moonshine-100rze (mixed prompt-injection + exfiltration).
     doc_reference:
@@ -418,7 +418,7 @@ questions:
       c: ">= 1.0.111 (fixes WebFetch SSRF only)"
       d: ">= 0.14.1 (fixes MCP Inspector RCE only)"
     correct: a
-    explanation: Claude Code >= 2.1.34 is the minimum safe version, fixing ADVISORY-CC-2026-001 — a sandbox bypass where commands excluded from sandboxing could bypass Bash permission enforcement. Earlier versions also have CVE-2025-66032 (8 blocklist bypasses, fixed 1.0.93) and CVE-2026-24052 (WebFetch SSRF, fixed 1.0.111). Always run the latest version for cumulative security fixes.
+    explanation: "Claude Code >= 2.1.34 is the minimum safe version, fixing ADVISORY-CC-2026-001: a sandbox bypass where commands excluded from sandboxing could bypass Bash permission enforcement. Earlier versions also have CVE-2025-66032 (8 blocklist bypasses, fixed 1.0.93) and CVE-2026-24052 (WebFetch SSRF, fixed 1.0.111). Always run the latest version for cumulative security fixes."
     doc_reference:
       file: guide/security/security-hardening.md
       section: CVE Summary (2025-2026)
@@ -432,10 +432,10 @@ questions:
       - pm
     question: Which CLI tool scans MCP server configurations for known vulnerabilities?
     options:
-      a: mcp-fortress — a runtime protection dashboard
-      b: mcp-scan (npx mcp-scan) — backed by Snyk with 90-100% recall on known malicious skills
-      c: skills-ref validate — a skill spec compliance checker
-      d: Garak — an LLM vulnerability scanner by NVIDIA
+      a: "mcp-fortress: a runtime protection dashboard"
+      b: "mcp-scan (npx mcp-scan): backed by Snyk with 90-100% recall on known malicious skills"
+      c: "skills-ref validate: a skill spec compliance checker"
+      d: "Garak: an LLM vulnerability scanner by NVIDIA"
     correct: b
     explanation: "mcp-scan (run via `npx mcp-scan`) is the primary CLI tool for scanning MCP configurations. Backed by Invariant/Snyk, it detects known vulnerable MCP servers, scans SKILL.md for prompt injection and malicious code, and supports Claude Desktop, Cursor, and Windsurf configs. It achieves 90-100% recall with 0% false positives on skills.sh top-100. Limitation: cannot detect runtime-only payloads."
     doc_reference:
@@ -467,10 +467,10 @@ questions:
       - pm
     question: Which directory in the .claude/ folder is considered most security-sensitive?
     options:
-      a: .claude/hooks/ — scripts run with full user privileges on every agent event
-      b: .claude/agents/ — agent definitions can override system prompts
-      c: .claude/commands/ — custom commands can execute arbitrary code
-      d: .claude/settings.json — contains all API keys and tokens
+      a: .claude/hooks/ (scripts run with full user privileges on every agent event)
+      b: .claude/agents/ (agent definitions can override system prompts)
+      c: .claude/commands/ (custom commands can execute arbitrary code)
+      d: .claude/settings.json (contains all API keys and tokens)
     correct: a
     explanation: "The .claude/hooks/ directory is the most security-sensitive because hook scripts execute automatically on agent events (SessionStart, PostToolUse, etc.) with the full privileges of the user running Claude Code. Unlike agents or commands which require explicit invocation, hooks fire automatically. Red flag patterns in hooks include: curl/wget (network calls), base64 (payload obfuscation), /dev/tcp (reverse shells), and eval/exec (dynamic code execution)."
     doc_reference:
@@ -486,10 +486,10 @@ questions:
     options:
       a: echo, printf, and tee commands for logging
       b: git, npm, and docker commands for CI/CD integration
-      c: curl/wget + base64 + /dev/tcp + eval — network calls, encoding, reverse shell, and dynamic execution
+      c: "curl/wget + base64 + /dev/tcp + eval: network calls, encoding, reverse shell, and dynamic execution"
       d: date, hostname, and whoami for audit logging
     correct: c
-    explanation: "Malicious hooks typically combine: curl/wget (data exfiltration), base64 (payload obfuscation used by ClawHavoc via glot.io), /dev/tcp or /dev/udp (bash reverse shells — no legitimate hook use case), and eval/exec (dynamic code execution). Additional red flags: access to .env/credentials/ssh keys, references to paste sites (glot.io, pastebin.com), and nc/ncat/netcat (netcat reverse shells — remove immediately)."
+    explanation: "Malicious hooks typically combine: curl/wget (data exfiltration), base64 (payload obfuscation used by ClawHavoc via glot.io), /dev/tcp or /dev/udp (bash reverse shells, no legitimate hook use case), and eval/exec (dynamic code execution). Additional red flags: access to .env/credentials/ssh keys, references to paste sites (glot.io, pastebin.com), and nc/ncat/netcat (netcat reverse shells, remove immediately)."
     doc_reference:
       file: guide/security/security-hardening.md
       section: 5-Minute .claude/ Audit Checklist
@@ -507,7 +507,7 @@ questions:
       c: Over 10,000 servers, all running outdated MCP versions
       d: Fewer than 10, all quickly patched after disclosure
     correct: b
-    explanation: Bitsight TRACE's continuous scanning found approximately 1,000 unauthenticated MCP servers exposed on the internet. These exposed servers provided access to Kubernetes clusters, CRM systems, WhatsApp messaging, and arbitrary shell execution — all without any authentication. This highlights the critical importance of never exposing MCP servers to the internet without proper authentication.
+    explanation: Bitsight TRACE's continuous scanning found approximately 1,000 unauthenticated MCP servers exposed on the internet. These exposed servers provided access to Kubernetes clusters, CRM systems, WhatsApp messaging, and arbitrary shell execution, all without any authentication. This highlights the critical importance of never exposing MCP servers to the internet without proper authentication.
     doc_reference:
       file: guide/security/security-hardening.md
       section: Defensive Resources
@@ -535,10 +535,10 @@ questions:
       - power
     question: What are the 4 pre-configured guardrail tiers in the enterprise governance guide?
     options:
-      a: Bronze, Silver, Gold, Platinum — scaling by team size only
-      b: Starter, Standard, Strict, Regulated — scaling by compliance requirements and production exposure
-      c: Basic, Advanced, Enterprise, Government — scaling by plan tier
-      d: Dev, Staging, Production, Compliance — mirroring deployment environments
+      a: "Bronze, Silver, Gold, Platinum: scaling by team size only"
+      b: "Starter, Standard, Strict, Regulated: scaling by compliance requirements and production exposure"
+      c: "Basic, Advanced, Enterprise, Government: scaling by plan tier"
+      d: "Dev, Staging, Production, Compliance: mirroring deployment environments"
     correct: b
     explanation: |-
       The 4 tiers are: **Starter** (small team <5, internal projects, 10-minute setup), **Standard** (team 5-20, production-adjacent code, adds MCP controls and workflow gates), **Strict** (production systems with real customer data, full approval workflow + audit log), and **Regulated** (HIPAA/SOC2/PCI/finance environments, all previous tiers + compliance audit trail). Each tier provides a ready-to-copy `settings.json` and CLAUDE.md additions. The tiers scale by compliance requirements and production exposure, not by headcount alone.
@@ -559,7 +559,7 @@ questions:
       d: An approval pipeline (request → review → approve → deploy) with a YAML registry tracking approved/pending/denied servers
     correct: d
     explanation: |-
-      The MCP governance workflow provides an **approval pipeline** for org-level MCP server control: request → review → approve → deploy. It includes a YAML registry format for tracking approved, pending, and denied servers with risk classification (LOW/MEDIUM/HIGH), data scope classification (PUBLIC/INTERNAL/CONFIDENTIAL/RESTRICTED), and expiry dates. A governance enforcement hook (`governance-enforcement-hook.sh`) validates active MCP configuration against the approved registry at session start — warning without blocking (governance-first, not friction-first). This is for teams that need auditability for SOC2/ISO27001 compliance.
+      The MCP governance workflow provides an **approval pipeline** for org-level MCP server control: request → review → approve → deploy. It includes a YAML registry format for tracking approved, pending, and denied servers with risk classification (LOW/MEDIUM/HIGH), data scope classification (PUBLIC/INTERNAL/CONFIDENTIAL/RESTRICTED), and expiry dates. A governance enforcement hook (`governance-enforcement-hook.sh`) validates active MCP configuration against the approved registry at session start, warning without blocking (governance-first, not friction-first). This is for teams that need auditability for SOC2/ISO27001 compliance.
       ---
     doc_reference:
       file: guide/security/enterprise-governance.md
@@ -578,7 +578,7 @@ questions:
       d: Both platforms use the same Docker-based sandbox, with optional native mode
     correct: c
     explanation: |-
-      On **macOS**, native sandboxing uses **Seatbelt** (the built-in `sandbox-exec` system) — no installation required, works out of the box from v2.1.0+. On **Linux/WSL2**, it uses **bubblewrap** + **socat**, which must be installed manually (`sudo apt-get install bubblewrap socat` on Ubuntu/Debian). Native sandboxing is not yet available on WSL1 or Windows (planned). The `dangerouslyDisableSandbox` parameter allows incompatible tools (like `docker` or `watchman`) to escape the sandbox on a per-command basis with user approval.
+      On **macOS**, native sandboxing uses **Seatbelt** (the built-in `sandbox-exec` system), no installation required, works out of the box from v2.1.0+. On **Linux/WSL2**, it uses **bubblewrap** + **socat**, which must be installed manually (`sudo apt-get install bubblewrap socat` on Ubuntu/Debian). Native sandboxing is not yet available on WSL1 or Windows (planned). The `dangerouslyDisableSandbox` parameter allows incompatible tools (like `docker` or `watchman`) to escape the sandbox on a per-command basis with user approval.
       ---
     doc_reference:
       file: guide/security/sandbox-native.md
@@ -597,7 +597,7 @@ questions:
       d: A managed policy setting that only admins can configure
     correct: b
     explanation: |-
-      `dangerouslyDisableSandbox` is a **per-command escape hatch** for tools incompatible with sandboxing (e.g., `docker`, `watchman`). When a command fails due to sandbox restrictions, Claude analyzes the failure and retries with this parameter set. The user receives a normal permission prompt, and if approved, the command runs outside the sandbox. To disable this escape hatch entirely for maximum security, set `"sandbox.allowUnsandboxedCommands": false` in `settings.json` — this forces all commands to run sandboxed or be explicitly listed in `excludedCommands`.
+      `dangerouslyDisableSandbox` is a **per-command escape hatch** for tools incompatible with sandboxing (e.g., `docker`, `watchman`). When a command fails due to sandbox restrictions, Claude analyzes the failure and retries with this parameter set. The user receives a normal permission prompt, and if approved, the command runs outside the sandbox. To disable this escape hatch entirely for maximum security, set `"sandbox.allowUnsandboxedCommands": false` in `settings.json`. This forces all commands to run sandboxed or be explicitly listed in `excludedCommands`.
       ---
     doc_reference:
       file: guide/security/sandbox-native.md

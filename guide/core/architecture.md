@@ -1695,7 +1695,7 @@ batch = client.messages.batches.create(
         {
             "custom_id": f"doc-{i}",
             "params": {
-                "model": "claude-opus-4-5",
+                "model": "claude-opus-5-5",
                 "max_tokens": 1024,
                 "messages": [
                     {"role": "user", "content": f"Classify this document: {doc}"}
@@ -1750,105 +1750,41 @@ Retrying individual failed items synchronously costs 2x the batch rate. If your 
 | `{"type": "tool", "name": "X"}` | Model must call tool `X` specifically |
 | `{"type": "none"}` | No tool calls allowed; model responds in prose |
 
-The `any` and specific-tool modes change `stop_reason` from `"end_turn"` to `"tool_use"`. This is reliable enough to use as a guard: if `stop_reason != "tool_use"`, the model disobeyed the constraint and you can retry.
+The `any` and specific-tool modes request a tool call where supported. Inspect `stop_reason` and the returned blocks; a refusal or output limit is not proof that the model ignored an instruction.
 
-**Forced structured output via tool:**
-
-Define the output schema as a tool's `input_schema`, then force its use. The model cannot respond with prose: it must populate your schema.
-
-```python
-response = client.messages.create(
-    model="claude-opus-4-5",
-    max_tokens=1024,
-    tools=[{
-        "name": "extract_invoice",
-        "description": "Extract structured fields from an invoice document",
-        "input_schema": {
-            "type": "object",
-            "properties": {
-                "vendor_name": {"type": ["string", "null"]},
-                "invoice_date": {
-                    "type": ["string", "null"],
-                    "description": "ISO 8601 date"
-                },
-                "total_amount": {"type": ["number", "null"]},
-                "line_items": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "description": {"type": "string"},
-                            "amount": {"type": "number"}
-                        },
-                        "required": ["description", "amount"]
-                    }
-                }
-            },
-            "required": ["vendor_name", "invoice_date", "total_amount", "line_items"]
-        }
-    }],
-    tool_choice={"type": "tool", "name": "extract_invoice"},
-    messages=[{"role": "user", "content": f"Extract fields from:\n\n{invoice_text}"}]
-)
-
-# result is always tool_use, never prose
-fields = response.content[0].input
-```
-
-This pattern works for any extraction, classification, or analysis task where you need machine-readable output. It does not require the beta header.
-
----
+**Forcing a tool is model-dependent.** Check thinking compatibility before using `any` or a named tool. Do not infer success from the requested choice alone: handle refusals, output limits, and the actual response blocks. For schema-constrained JSON, use the dedicated format below.
 
 ### Structured Outputs: strict Mode
 
-The `output-schema-2025-02-19` beta enables constrained decoding. The model generates tokens that, by construction, cannot violate the JSON schema. It never produces invalid JSON, never omits required fields, never uses the wrong type.
-
-**Activating strict mode:**
+Structured outputs are generally available. Use `output_config.format` for JSON responses, or `strict: true` at the tool-definition level for validated tool arguments. The old beta header and `output_format` examples are obsolete. [Official structured outputs documentation](https://platform.claude.com/docs/en/build-with-claude/structured-outputs).
 
 ```python
-client = anthropic.Anthropic()
+import json
 
-response = client.beta.messages.create(
-    model="claude-opus-4-5",
-    max_tokens=1024,
-    betas=["output-schema-2025-02-19"],
-    tools=[{
-        "name": "classify_document",
-        "description": "Classify a document into a category",
-        "input_schema": {
+response = client.messages.create(
+    model="claude-opus-5-5",
+    max_tokens=4096,
+    output_config={"format": {
+        "type": "json_schema",
+        "schema": {
             "type": "object",
-            "strict": True,
             "properties": {
-                "category": {
-                    "type": "string",
-                    "enum": ["invoice", "contract", "report", "memo", "other"]
-                },
-                "category_detail": {
-                    "type": ["string", "null"],
-                    "description": "Free-text clarification required when category is 'other'"
-                },
-                "confidence": {"type": "number"},
-                "summary": {"type": "string"}
+                "vendor_name": {"type": ["string", "null"]},
+                "total_amount": {"type": ["number", "null"]},
             },
-            "required": ["category", "category_detail", "confidence", "summary"]
-        }
-    }],
-    tool_choice={"type": "tool", "name": "classify_document"},
-    messages=[{"role": "user", "content": doc_text}]
+            "required": ["vendor_name", "total_amount"],
+            "additionalProperties": False,
+        },
+    }},
+    messages=[{"role": "user", "content": invoice_text}],
 )
+if response.stop_reason != "end_turn":
+    raise RuntimeError(f"Incomplete or refused extraction: {response.stop_reason}")
+text = next(block.text for block in response.content if block.type == "text")
+fields = json.loads(text)
 ```
 
-**What `strict: true` guarantees:**
-- Syntactically valid JSON
-- All `required` fields are present
-- Field types exactly match the schema
-- No additional properties beyond those declared
-
-**What `strict: true` does not guarantee:**
-- Semantic accuracy (the `confidence` field may be 0.99 for a wrong classification)
-- Truthful values (a `vendor_name` field will be populated, but may be wrong if the document is ambiguous)
-
-For semantic accuracy, pair strict mode with a validation retry loop.
+For tools, `strict` sits alongside `name`, `description`, and `input_schema`, not inside the schema. Schema conformance does not establish semantic accuracy. Validate extracted values against the document and handle refusals or truncated output before consuming the result.
 
 **Nullable fields prevent hallucination of defaults:**
 

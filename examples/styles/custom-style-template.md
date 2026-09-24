@@ -6,7 +6,7 @@ keep-coding-instructions: true
 
 # Custom Output Style Template
 
-> Save as `.claude/output-styles/<your-style-name>.md` for a project or `~/.claude/output-styles/<your-style-name>.md` for user-wide use, then reference it via `outputStyle` in `settings.json` or `/config`.
+> Save as `.claude/output-styles/<your-style-name>.md` for a project or `~/.claude/output-styles/<your-style-name>.md` for user-wide use, then reference it via `outputStyle` in `settings.json`, `/output-style`, or `/config`.
 
 ---
 

@@ -4,10 +4,10 @@ subtitle: "Créer des sous-agents spécialisés pour déléguer des tâches"
 card-number: "M08"
 category: "Méthodologie"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "Août 2026"
+version: "3.43.0"
+date: "2026-09-24"
 layout: "two-col"
 lang: fr
 format:
@@ -36,13 +36,15 @@ Le corps du fichier contient les instructions en Markdown : rôle, méthodologie
 |-------|-------------|------|
 | `name` | Oui | Identifiant kebab-case |
 | `description` | Oui | Déclencheur d'activation (50-100 chars) |
-| `model` | Non | `haiku`, `sonnet` (défaut), `opus`, `inherit` |
+| `model` | Non | `haiku`, `sonnet`, `opus`, `inherit` |
 | `tools` | Non | Whitelist des outils accessibles |
 | `memory` | Non | Portée de la mémoire persistante |
 | `maxTurns` | Non | Limite de tours agentic |
 | `permissionMode` | Non | Contrôle des permissions |
 | `isolation` | Non | `worktree` pour isolation git |
 | `color` | Non | Couleur CLI pour distinction visuelle |
+
+Sans `model`, le sous-agent hérite du modèle parent. `inherit` demande explicitement ce comportement. Les règles de l’organisation et de l’environnement restent applicables.
 
 ## Le champ tools : isolation par défaut
 

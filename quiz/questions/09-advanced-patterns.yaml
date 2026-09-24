@@ -31,29 +31,18 @@ questions:
     difficulty: power
     profiles:
       - power
-    question: How do you toggle thinking mode in Claude Code (Opus 4.5+)?
+    question: How do you toggle thinking on a model that allows it?
     options:
-      a: Use 'ultrathink' keyword in your prompt
-      b: Alt+T (or Option+T on macOS)
-      c: --think CLI flag
-      d: /thinking command
+      a: Use the ultrathink keyword
+      b: Alt+T, or Option+T on macOS
+      c: Use the --think CLI flag
+      d: Use the /thinking command
     correct: b
-    explanation: |-
-      With Opus 4.5 (v2.0.67+), thinking mode is enabled by default at maximum budget.
-
-      **Controlling Thinking Mode:**
-      | Method | Action | Persistence |
-      |--------|--------|-------------|
-      | **Alt+T** | Toggle on/off | Session |
-      | **/config** | Enable/disable globally | Permanent |
-
-      **Note**: Keywords like "ultrathink" are now cosmetic only - they no longer control thinking behavior.
-
-      Use Alt+T to disable thinking for simple tasks (faster, cheaper).
+    explanation: Alt+T (Option+T on macOS) toggles thinking where supported. Opus 5.5 and Fable always use thinking, so the toggle has no effect on those models. Choose a lower effort for bounded work instead. The ultrathink keyword adds a reasoning instruction without changing API effort; it is not a thinking toggle.
     doc_reference:
       file: guide/ultimate-guide.md
-      section: Extended Thinking (Opus 4.5+) & Adaptive Thinking (Opus 4.6+)
-      anchor: "#extended-thinking-opus-45-adaptive-thinking-opus-46"
+      section: Controlling Thinking Mode
+      anchor: "#controlling-thinking-mode"
   - id: 09-003
     difficulty: senior
     profiles:
@@ -730,7 +719,7 @@ questions:
       d: Claude Code enforces a hard 150-rule limit and refuses to load more
     correct: c
     explanation: |-
-      The 150-instruction ceiling refers to the approximate point at which transformer attention becomes unreliable for maintaining adherence to all instructions simultaneously. Research and community data (HumanLayer: 15-25% adherence on large instruction sets) show that once the number of always-on instructions exceeds roughly 150, Claude begins missing rules or applying them inconsistently. The fix is path-scoping — loading rules only when relevant files are in scope — to keep the effective instruction count well below the ceiling.
+      The 150-instruction ceiling refers to the approximate point at which transformer attention becomes unreliable for maintaining adherence to all instructions simultaneously. Research and community data (HumanLayer: 15-25% adherence on large instruction sets) show that once the number of always-on instructions exceeds roughly 150, Claude begins missing rules or applying them inconsistently. The fix is path-scoping (loading rules only when relevant files are in scope) to keep the effective instruction count well below the ceiling.
       ---
     doc_reference:
       file: guide/core/context-engineering.md
@@ -742,13 +731,13 @@ questions:
       - power
     question: What does the ACE pipeline stand for in context engineering?
     options:
-      a: Assemble → Check → Execute — build context, validate with canary tests, then run Claude
-      b: Audit → Compress → Evaluate — score context quality, remove bloat, then measure adherence
-      c: Agent → Context → Exit — spawn agents, inject context, then terminate on completion
-      d: Analyze → Configure → Embed — analyze codebase, configure rules, then embed in CLAUDE.md
+      a: "Assemble → Check → Execute: build context, validate with canary tests, then run Claude"
+      b: "Audit → Compress → Evaluate: score context quality, remove bloat, then measure adherence"
+      c: "Agent → Context → Exit: spawn agents, inject context, then terminate on completion"
+      d: "Analyze → Configure → Embed: analyze codebase, configure rules, then embed in CLAUDE.md"
     correct: a
     explanation: |-
-      ACE = **Assemble → Check → Execute**. Assemble builds context from the team profile and project modules, producing a CLAUDE.md specific to the developer and task. Check runs canary validation — 3-5 test prompts that verify key behaviors before the actual task. If canary checks fail, fix the context issue before proceeding. Execute runs Claude with the validated context on the actual task. The pipeline is structured for teams running Claude Code in automated or semi-automated workflows where context quality must be verified before each run.
+      ACE = **Assemble → Check → Execute**. Assemble builds context from the team profile and project modules, producing a CLAUDE.md specific to the developer and task. Check runs canary validation: 3-5 test prompts that verify key behaviors before the actual task. If canary checks fail, fix the context issue before proceeding. Execute runs Claude with the validated context on the actual task. The pipeline is structured for teams running Claude Code in automated or semi-automated workflows where context quality must be verified before each run.
       ---
     doc_reference:
       file: guide/core/context-engineering.md
@@ -766,7 +755,7 @@ questions:
       d: A git branching strategy with plan, staging, and production branches
     correct: b
     explanation: |-
-      The Plan-Validate-Execute pipeline runs in 3 explicit commands: `/plan-start` (5-phase planning with a dynamic research agent team + ADRs), `/plan-validate` (independent 2-layer review by specialist agents — no confirmation bias), `/plan-execute` (parallel worktree agents through to merged PR). The key differentiator from native `/plan` mode: research is done by specialized agents in parallel (not one agent sequentially), validation is independent from planning, and every significant decision generates an ADR that auto-resolves future decisions. Run `/clear` between commands to reset context.
+      The Plan-Validate-Execute pipeline runs in 3 explicit commands: `/plan-start` (5-phase planning with a dynamic research agent team + ADRs), `/plan-validate` (independent 2-layer review by specialist agents, no confirmation bias), `/plan-execute` (parallel worktree agents through to merged PR). The key differentiator from native `/plan` mode: research is done by specialized agents in parallel (not one agent sequentially), validation is independent from planning, and every significant decision generates an ADR that auto-resolves future decisions. Run `/clear` between commands to reset context.
       ---
     doc_reference:
       file: guide/workflows/plan-pipeline.md
@@ -821,7 +810,7 @@ questions:
       d: Failed canary checks trigger an auto-repair loop that modifies CLAUDE.md
     correct: c
     explanation: |-
-      When canary checks fail, the ACE pipeline **exits immediately** and prompts you to fix the context issue before retrying. The script design is explicit: if `CANARY_EXIT -ne 0`, print "Canary checks failed. Fix context issues before executing." and exit with code 1. This is intentional — running Claude with broken context causes downstream failures that are harder to debug. The canary set should be 3-5 test prompts that verify key behavioral requirements of your CLAUDE.md before each automated run.
+      When canary checks fail, the ACE pipeline **exits immediately** and prompts you to fix the context issue before retrying. The script design is explicit: if `CANARY_EXIT -ne 0`, print "Canary checks failed. Fix context issues before executing." and exit with code 1. This is intentional. Running Claude with broken context causes downstream failures that are harder to debug. The canary set should be 3-5 test prompts that verify key behavioral requirements of your CLAUDE.md before each automated run.
       ---
     doc_reference:
       file: guide/core/context-engineering.md
@@ -911,9 +900,9 @@ questions:
       Agent teams require experimental feature flag. Two methods:
 
       1. **Environment variable**: `export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
-      2. **Settings file**: Add `{"experimental": {"agentTeams": true}}` to ~/.claude/settings.json
+      2. **Settings file**: Add `{"env": {"CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"}}` to ~/.claude/settings.json
 
-      Also requires Opus 4.6 model minimum. Feature is experimental (research preview).
+      No Opus minimum is required. Select an available model per teammate; the feature remains experimental.
     doc_reference:
       file: guide/workflows/agent-teams.md
       section: Setup & Configuration
@@ -971,26 +960,18 @@ questions:
     profiles:
       - senior
       - power
-    question: What minimum Claude model is required for agent teams?
+    question: Which model rule applies to experimental Agent Teams?
     options:
-      a: Haiku
-      b: Sonnet 4.5
-      c: Opus 4.5
-      d: Opus 4.6
+      a: Every teammate must use Opus
+      b: Every teammate must use the same model as the lead
+      c: Haiku cannot be selected for a teammate
+      d: Teammates may use different models available to the account
     correct: d
-    explanation: |-
-      Agent teams require **Opus 4.6 minimum** (released Feb 2026 with v2.1.32).
-
-      This is because:
-      - Each agent needs 1M token context window
-      - Git-based coordination requires advanced reasoning
-      - Team lead must synthesize findings from multiple teammates
-
-      Lower models (Sonnet, Haiku) cannot spawn agent teams.
+    explanation: Agent Teams requires the experimental feature flag, not a minimum Opus version. Specify a model per teammate in the request or agent definition; otherwise the subagent-model setting or lead model supplies the default. Organization restrictions and forced environment overrides still apply. Each teammate has its own model-dependent context window.
     doc_reference:
       file: guide/workflows/agent-teams.md
-      section: Prerequisites
-      anchor: "#prerequisites"
+      section: When Large Teams ARE Justified
+      anchor: "#when-large-teams-are-justified"
   - id: 09-044
     difficulty: power
     profiles:
@@ -1069,27 +1050,18 @@ questions:
     profiles:
       - senior
       - power
-    question: You need to rename a function across 50 files. Which model and effort level is most appropriate?
+    question: Which model setting is valid for a bounded rename with a verified reference list?
     options:
-      a: "Opus, effort: max — renaming at scale requires deep reasoning"
-      b: "Sonnet, effort: high — large scope requires careful analysis"
-      c: "Haiku, effort: low — mechanical find-replace, no design decisions"
-      d: "Sonnet, effort: medium — safe default for any multi-file operation"
+      a: Haiku 4.5 with max effort
+      b: Haiku 4.5 with xhigh effort
+      c: Haiku 4.5 without an effort parameter, followed by tests and diff review
+      d: Every rename requires Fable
     correct: c
-    explanation: |-
-      **Haiku + low effort** is correct for mechanical tasks like renaming across files.
-
-      The key question: does this task require reasoning, design decisions, or judgment?
-      - Rename = find-replace. Pattern is known, approach is decided.
-      - No edge cases requiring analysis.
-      - Haiku is 60x cheaper than Opus on input tokens.
-
-      Using Opus here wastes tokens on reasoning that doesn't add value.
-      Save Opus for tasks where its depth changes the outcome.
+    explanation: Haiku 4.5 has no effort parameter. It is a candidate for bounded changes when the references and acceptance checks are clear. Verify the diff and tests; renames can still affect public APIs, dynamic references, or generated files. Standard input rates are $1/MTok for Haiku 4.5 versus $4/MTok for Opus 5.5, not a 60-fold difference.
     doc_reference:
       file: guide/ultimate-guide.md
-      section: 2.5 Model Selection & Thinking Guide
-      anchor: "#25-model-selection-thinking-guide"
+      section: Decision Table
+      anchor: "#decision-table"
   - id: 09-048
     difficulty: intermediate
     profiles:
@@ -1134,7 +1106,7 @@ questions:
       d: A quality gate that filters low-confidence outputs
     correct: b
     explanation: |-
-      `effort` controls the **overall computational budget** — not just thinking.
+      `effort` controls the **overall computational budget**, not just thinking.
 
       At `effort: low`:
       - Fewer tool calls (combines operations when possible)
@@ -1202,7 +1174,7 @@ questions:
       **Implementer: Haiku** — Mechanical execution.
       The approach is already decided by the planner.
       No design decisions = no need for deep reasoning.
-      Haiku is 60x cheaper than Opus on input tokens.
+      At standard rates, Haiku 4.5 input costs $1/MTok versus $4/MTok for Opus 5.5.
 
       **When Haiku isn't enough**: If the implementation requires judgment calls,
       the implementer should stop and report rather than decide — or you use Sonnet instead.
@@ -1216,10 +1188,10 @@ questions:
       - power
     question: What does MAX_ITERATIONS=8 control in agent team workflows, and what happens when the limit is reached?
     options:
-      a: Maximum files an agent can read — agent stops reading and proceeds with available context
-      b: Maximum retry attempts on any failing task — agent stops and reports to the team lead rather than continuing to retry
-      c: Maximum number of teammate agents — team lead stops spawning and works sequentially
-      d: Maximum token budget per agent — agent switches to low-effort mode to conserve tokens
+      a: Maximum files an agent can read (agent stops reading and proceeds with available context)
+      b: Maximum retry attempts on any failing task (agent stops and reports to the team lead rather than continuing to retry)
+      c: Maximum number of teammate agents (team lead stops spawning and works sequentially)
+      d: Maximum token budget per agent (agent switches to low-effort mode to conserve tokens)
     correct: b
     explanation: Loop Guardrails prevent agents from getting stuck in unproductive retry cycles. MAX_ITERATIONS sets a hard cap on retry attempts for any single failing task. When the limit is reached, the agent stops and reports to the team lead instead of retrying. A reflection prompt ("What specifically failed? What one change would fix it?") runs before each retry, forcing the agent to change approach rather than repeat the same failing action. Without iteration limits, agents can consume their entire token budget retrying a blocked task while the rest of the work queue stalls.
     doc_reference:
@@ -1232,10 +1204,10 @@ questions:
       - power
     question: In the Dedicated Reviewer Teammate pattern, what is the recommended ratio and why must the reviewer be read-only?
     options:
-      a: 1 reviewer per 10 builders — reviewer is a bottleneck at lower ratios; read-only prevents context overload
-      b: 1 reviewer per 3-4 builders — fewer builders makes reviewer a bottleneck, more causes queue backup; read-only prevents merge conflicts
-      c: 1 reviewer per builder — parity maximizes review coverage; read-only is optional
-      d: 2 reviewers per builder — double review catches more bugs; read-only is required by the API
+      a: 1 reviewer per 10 builders (reviewer is a bottleneck at lower ratios; read-only prevents context overload)
+      b: 1 reviewer per 3-4 builders (fewer builders makes reviewer a bottleneck, more causes queue backup; read-only prevents merge conflicts)
+      c: 1 reviewer per builder (parity maximizes review coverage; read-only is optional)
+      d: 2 reviewers per builder (double review catches more bugs; read-only is required by the API)
     correct: b
     explanation: "The Dedicated Reviewer Teammate adds a read-only agent that reviews on every TaskCompleted event. Ratio: 1 reviewer per 3-4 builders. Below this range the reviewer becomes a bottleneck. Above it, the review queue backs up and findings arrive too late to be acted on cleanly. Read-only is essential: a reviewer with write access will start fixing issues itself, creating merge conflicts and defeating the purpose of parallel isolation. The reviewer's job is to produce structured findings (blocking vs non-blocking), not to apply fixes."
     doc_reference:
@@ -1248,10 +1220,10 @@ questions:
       - power
     question: What is the WHY/WHAT structure in the Iterative Retrieval pattern for sub-agents, and what is the maximum number of retrieval cycles?
     options:
-      a: WHY = task description, WHAT = output format — maximum 5 cycles
-      b: WHY = the problem being solved, WHAT = the specific task — maximum 3 cycles
-      c: WHY = reason for spawning the agent, WHAT = files to read — maximum 2 cycles
-      d: WHY = business rationale, WHAT = architecture decision — maximum 1 cycle
+      a: WHY = task description, WHAT = output format (maximum 5 cycles)
+      b: WHY = the problem being solved, WHAT = the specific task (maximum 3 cycles)
+      c: WHY = reason for spawning the agent, WHAT = files to read (maximum 2 cycles)
+      d: WHY = business rationale, WHAT = architecture decision (maximum 1 cycle)
     correct: b
     explanation: "Iterative Retrieval gives sub-agents a bounded context budget. WHY = the problem being solved or constraint being met (gives the agent decision context). WHAT = the specific task to execute. An agent that only knows WHAT lacks the business constraints that prevent wrong choices. WHY steers implementation without additional correction cycles. Maximum 3 cycles: Cycle 1 uses initial context, Cycle 2 is a specific targeted request, Cycle 3 is a final targeted request where the agent must produce output regardless of remaining uncertainty."
     doc_reference:
@@ -1264,10 +1236,10 @@ questions:
       - power
     question: How does Claude Code structure its cache prefix hierarchy, and which layers are almost always cache hits?
     options:
-      a: messages > system > tools — messages layer is always a hit, tools layer is always a miss
-      b: system > tools > messages — only system prompt hits reliably
-      c: tools > system > messages — tools and system layers are almost always hits, messages layer varies
-      d: tools > messages > system — all three layers hit equally often
+      a: messages > system > tools (messages layer is always a hit, tools layer is always a miss)
+      b: system > tools > messages (only system prompt hits reliably)
+      c: tools > system > messages (tools and system layers are almost always hits, messages layer varies)
+      d: tools > messages > system (all three layers hit equally often)
     correct: c
     explanation: "Every API call structures content in a fixed order: tools then system then messages. Cache matching always starts from the beginning of this prefix. Tools (the tool list) and system (CLAUDE.md) are stable across most turns. This means the first two layers are almost always cache hits, and only new message turns require fresh computation. Placing the most stable content first maximizes the proportion of each request served from cache at 0.1x base cost."
     doc_reference:
@@ -1280,10 +1252,10 @@ questions:
       - power
     question: What is the 20-block lookback in prompt caching, what problem does it cause in long sessions, and what is the fix?
     options:
-      a: Claude reads only the last 20 user messages — older context is lost permanently; the fix is /save
-      b: Cache matching looks back approximately 20 message blocks — long sessions lose cache efficiency as early blocks fall outside the window; the fix is /compact
-      c: Cache is invalidated after 20 tool calls — agents must pause every 20 calls; the fix is to reduce tool usage
-      d: After 20 turns the session context is truncated — the fix is to start a new session
+      a: Claude reads only the last 20 user messages (older context is lost permanently; the fix is /save)
+      b: Cache matching looks back approximately 20 message blocks (long sessions lose cache efficiency as early blocks fall outside the window; the fix is /compact)
+      c: Cache is invalidated after 20 tool calls (agents must pause every 20 calls; the fix is to reduce tool usage)
+      d: After 20 turns the session context is truncated (the fix is to start a new session)
     correct: b
     explanation: "Cache matching uses a bounded lookback of approximately 20 blocks. In long sessions with many tool calls, blocks from early in the conversation fall outside this window and become cache misses even if their content hasn't changed. The practical consequence: very long sessions gradually lose cache efficiency at the message layer. The fix is /compact: it compresses conversation history into a single summary block, resetting the lookback window and restoring high cache hit rates for subsequent turns."
     doc_reference:
@@ -1296,10 +1268,10 @@ questions:
       - power
     question: In the RPI workflow (Research > Plan > Implement), what artifact does each phase produce, and what happens at Gate 1?
     options:
-      a: Research produces NOTES.md, Plan produces SPEC.md, Implement produces code — Gate 1 is a code review
-      b: Research produces RESEARCH.md, Plan produces PLAN.md, Implement produces code — Gate 1 is a GO/NO-GO decision by the human before any planning begins
-      c: Research produces a prompt, Plan produces a task list, Implement produces a diff — Gate 1 is an automated test pass
-      d: All phases share a PROGRESS.md — gates are enforced by Claude automatically
+      a: "Research produces NOTES.md, Plan produces SPEC.md, Implement produces code: Gate 1 is a code review"
+      b: "Research produces RESEARCH.md, Plan produces PLAN.md, Implement produces code: Gate 1 is a GO/NO-GO decision by the human before any planning begins"
+      c: "Research produces a prompt, Plan produces a task list, Implement produces a diff: Gate 1 is an automated test pass"
+      d: "All phases share a PROGRESS.md: gates are enforced by Claude automatically"
     correct: b
     explanation: "RPI structures feature development into three locked phases. Phase 1 (Research): produces RESEARCH.md covering feasibility, risks, decision points, and an effort estimate. Gate 1: the human marks GO or NO-GO. Phase 2 (Plan): produces PLAN.md with architecture decisions and sequential implementation steps. Gate 2: human approves before any code is written. Phase 3 (Implement): produces working code with per-step test gates. Gate 1 is the most important: a NO-GO saves the cost of a full implementation that would need to be discarded."
     doc_reference:
@@ -1312,10 +1284,10 @@ questions:
       - power
     question: What is the prompt caching minimum token threshold for Opus 4.6, and what is the practical implication for short CLAUDE.md files?
     options:
-      a: "Opus 4.6: 1,024 tokens — any CLAUDE.md over one paragraph is cached"
-      b: "Opus 4.6: 4,096 tokens — a CLAUDE.md under ~4,000 tokens is never cached on Opus 4.6"
-      c: "Opus 4.6: 2,048 tokens — Opus and Sonnet share the same minimum"
-      d: "Opus 4.6: 8,192 tokens — most CLAUDE.md files are too short to be cached"
+      a: "Opus 4.6: 1,024 tokens (any CLAUDE.md over one paragraph is cached)"
+      b: "Opus 4.6: 4,096 tokens (a CLAUDE.md under ~4,000 tokens is never cached on Opus 4.6)"
+      c: "Opus 4.6: 2,048 tokens (Opus and Sonnet share the same minimum)"
+      d: "Opus 4.6: 8,192 tokens (most CLAUDE.md files are too short to be cached)"
     correct: b
     explanation: Minimum token thresholds for prompt caching eligibility vary by model. Opus 4.6, Opus 4.5, and Haiku 4.5 require 4,096 tokens minimum. Sonnet 4.6 requires 2,048 tokens. Sonnet 4.5 and earlier require 1,024 tokens. Blocks smaller than the threshold are never cached regardless of stability. A short CLAUDE.md that doesn't cross the threshold for the target model provides zero caching benefit, which is relevant for teams optimizing session costs on Opus 4.6.
     doc_reference:

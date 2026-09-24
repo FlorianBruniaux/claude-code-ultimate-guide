@@ -3,12 +3,12 @@ title: "Commandes Essentielles"
 subtitle: "Raccourcis clavier & commandes slash indispensables"
 card-number: "T01"
 category: "Technique"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
 difficulty: "beginner"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-wp-version: "1.1.1"
-date: "2026-08-24"
+version: "3.43.0"
+wp-version: "1.1.2"
+date: "2026-09-24"
 layout: "two-col"
 lang: fr
 format:
@@ -20,16 +20,19 @@ format:
 | Raccourci | Action |
 |-----------|--------|
 | `Cmd+Esc` / `Ctrl+Esc` | Lancer Claude Code depuis le terminal intégré (VS Code, Cursor) |
-| `Shift+Tab` | Basculer mode auto-accept |
+| `Shift+Tab` | Parcourir les modes de permission |
 | `Shift+Enter` | Nouvelle ligne (multiline) |
 | `Ctrl+C` | Interrompre la génération |
 | `Ctrl+R` | Rechercher historique commandes |
 | `Ctrl+B` | Background tasks |
-| `Alt+T` | Toggle thinking |
+| `Alt+T` | Thinking si autorisé, sauf Opus 5.5/Fable |
 | `Esc` | Annuler l'action en cours |
 | `Esc` × 2 | Rewind (annuler dernier changement) |
 | `↑` / `↓` | Historique des messages |
 | `Tab` | Complétion de chemin |
+
+| `Ctrl+X Ctrl+K` | Arrêter les sous-agents en arrière-plan |
+| `Ctrl+Enter` / `Ctrl+X Ctrl+S` | Envoyer les messages en attente |
 
 ## Commandes Slash Core
 
@@ -38,7 +41,7 @@ format:
 /powerup        Leçons interactives animées (fonctionnalités CC)
 /clear          Vider le contexte (reset)
 /compact        Compresser l'historique
-/model          Changer de modèle
+/model          Choisir ; Entrée enregistre, s = session
 /status         Statut du contexte + coûts de session
 /usage          Consommation tokens par modèle (v2.1.118)
 /cost           alias de /usage (v2.1.118)
@@ -51,7 +54,7 @@ format:
 /rename [nom]   Nommer la session courante
 /loop [int] [prompt]  Scheduler récurrent (ex: /loop 5m check deploy)
 /voice          Activer saisie vocale
-/fast           Toggle Fast Mode (2.5× vitesse, 2× coût)
+/fast           Opus 5.5 fast : $8/$40 par MTok
 ```
 
 ## Modes de Permission
@@ -61,7 +64,7 @@ claude                    Mode interactif (défaut)
 claude --dangerously-skip-permissions
                           Bypass total (CI/CD)
 claude --allowedTools "Edit,Read,Bash"
-                          Whitelist d'outils
+                          Préautoriser les outils ; --tools limite leur disponibilité
 ```
 
 ## Démarrage Rapide

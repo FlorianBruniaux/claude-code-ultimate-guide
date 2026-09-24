@@ -71,7 +71,7 @@ Select agents by applying trigger rules to the plan content. No user input neede
 
 Spawn triggered agents in parallel (Task tool, run_in_background: true). Each agent receives: the plan file, relevant ADRs, and targeted questions based on its domain.
 
-Monitor via `Read` on `.claude/tasks/<id>/output.log` (TaskOutput is deprecated since v2.1.83). Report progress to user.
+Monitor via `Read` on the output path reported by the agent (TaskOutput was removed in v2.1.278). Report progress to user.
 
 Each agent must return structured findings:
 ```

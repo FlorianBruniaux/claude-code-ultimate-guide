@@ -28,7 +28,7 @@ flowchart TD
 
     B -->|Complex| G{Needs deep<br/>reasoning?}
     G -->|Yes| H["Complex tasks:<br/>architecture decisions,<br/>security review,<br/>multi-file analysis"]
-    H --> I([Opus 5: Maximum capability<br/>Opus 4.8: Deep analysis (prev. gen)<br/>💰💰💰 Higher public token rate<br/>~2.5x Sonnet 5])
+    H --> I([Opus 5.5: Deep reasoning<br/>Evaluate quality on your task<br/>💰💰💰 Higher public token rate<br/>2x Sonnet 5])
 
     G -->|No: just large| J["Large but clear tasks:<br/>big refactors,<br/>doc generation"]
     J --> F
@@ -52,7 +52,7 @@ flowchart TD
     click F href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#25-model-selection--thinking-guide" "Sonnet 5"
     click G href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#25-model-selection--thinking-guide" "Needs deep reasoning?"
     click H href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#25-model-selection--thinking-guide" "Complex tasks"
-    click I href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#25-model-selection--thinking-guide" "Opus 5 / Sonnet + --think-hard"
+    click I href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#25-model-selection--thinking-guide" "Opus 5.5 / Sonnet with explicit effort"
     click J href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#25-model-selection--thinking-guide" "Large but clear tasks"
 ```
 
@@ -62,8 +62,8 @@ flowchart TD
 
 | Plan | Planning phase | Implementation phase |
 |------|---------------|---------------------|
-| **Max / API unconstrained (xhigh)** | Opus 5 | Sonnet |
-| **Max / API unconstrained** | Opus 5 | Sonnet |
+| **Max / API unconstrained (xhigh)** | Opus 5.5 | Sonnet |
+| **Max / API unconstrained** | Opus 5.5 | Sonnet |
 | **Pro / Teams Standard** | Sonnet | Haiku (mechanical tasks) |
 | **API tight budget** | Sonnet | Haiku |
 
@@ -77,12 +77,12 @@ Task complexity?
 ├─ Simple (typos, format, rename) → Haiku 4.5     ($  ~2x cheaper than Sonnet 5)
 ├─ Standard (features, bugs)      → Sonnet 5      ($$ validate on your task set)
 └─ Complex (architecture, sec.)
-   ├─ Needs deep reasoning?        → Opus 5 (xhigh)  ($$$ ~2.5x Sonnet 5)
+   ├─ Needs deep reasoning?        → Opus 5.5 (xhigh)  ($$$ 2x Sonnet 5)
    └─ Just large/clear?            → Sonnet 5         ($$ handles it)
 
 Budget modifier (downgrade one tier on constrained plans):
-  Max/API (xhigh)  → Opus 5 plan, Sonnet impl
-  Max/API          → Opus 5 plan, Sonnet impl
+  Max/API (xhigh)  → Opus 5.5 plan, Sonnet impl
+  Max/API          → Opus 5.5 plan, Sonnet impl
   Pro/Teams        → Sonnet plan, Haiku impl (mechanical tasks)
 ```
 

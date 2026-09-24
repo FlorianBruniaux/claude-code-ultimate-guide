@@ -504,20 +504,20 @@ The logger estimates tokens using a simple heuristic: **~4 characters per token*
 
 ### Cost Rates
 
-Default rates are for Claude Sonnet. Adjust via environment variables:
+The logger defaults to Sonnet 5 standard API estimates. Rates below are dollars per 1,000 tokens, verified September 24, 2026; they exclude cache pricing and cannot accurately price a mixed-model session. [Official pricing](https://platform.claude.com/docs/en/about-claude/pricing).
 
 ```bash
-# Sonnet rates (default)
-export CLAUDE_RATE_INPUT=0.003   # $3/1M tokens
-export CLAUDE_RATE_OUTPUT=0.015  # $15/1M tokens
+# Sonnet 5 rates (logger default)
+export CLAUDE_RATE_INPUT=0.002
+export CLAUDE_RATE_OUTPUT=0.010
 
-# Opus rates (if using Opus)
-export CLAUDE_RATE_INPUT=0.015   # $15/1M tokens
-export CLAUDE_RATE_OUTPUT=0.075  # $75/1M tokens
+# Opus 5.5 standard rates
+export CLAUDE_RATE_INPUT=0.004
+export CLAUDE_RATE_OUTPUT=0.020
 
-# Haiku rates
-export CLAUDE_RATE_INPUT=0.00025 # $0.25/1M tokens
-export CLAUDE_RATE_OUTPUT=0.00125 # $1.25/1M tokens
+# Haiku 4.5 rates
+export CLAUDE_RATE_INPUT=0.001
+export CLAUDE_RATE_OUTPUT=0.005
 ```
 
 ### Budget Alerts (Manual Pattern)

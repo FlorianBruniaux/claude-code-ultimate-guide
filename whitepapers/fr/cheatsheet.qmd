@@ -2,13 +2,13 @@
 title: "Claude Code Cheatsheet"
 subtitle: "L'essentiel au quotidien pour une productivité maximale"
 author: "Florian BRUNIAUX"
-date: 2026-08-30
+date: "2026-09-24"
 date-format: "MMMM YYYY"
 version: "3.43.0"
-wp-version: "1.2.0"
+wp-version: "1.2.1"
 series: "Claude Code Ultimate Guide"
 format:
-  whitepaper-typst:
+  cheatsheet-typst:
     toc: false
   html:
     toc: true
@@ -42,20 +42,20 @@ which claude && claude --version
 | `/context` | Détail de la consommation de tokens |
 | `/plan` | Entrer en Plan Mode (aucune modification) |
 | Approuver le plan | Sortir du Plan Mode (`Shift+Tab` pour sortir sans valider) |
-| `/model` | Changer de modèle (sonnet/opus/opusplan) |
+| `/model` | Choisir le modèle ; Entrée enregistre, s limite à la session |
 | `/insights` | Analytique d'usage + rapport d'optimisation |
 | `/simplify` | Revue de nettoyage uniquement sur le code modifié : réutilisation, simplification, efficacité |
 | `/batch` | Refactors à grande échelle via 5 à 30 agents en worktrees parallèles |
 | `/teleport` | Téléporter une session depuis le web |
 | `/tasks` | Suivre les tâches en arrière-plan |
 | `/remote-env` | Configurer un environnement cloud |
-| `/rc` | Démarrer une session de contrôle à distance (Research Preview, Pro/Max) |
+| `/rc` | Démarrer une session de contrôle à distance (Pro/Max/Team/Enterprise) |
 | `/mobile` | Récupérer les liens de téléchargement de l'app mobile Claude |
-| `/fast` | Basculer le mode rapide (vitesse x2,5, coût x6) |
+| `/fast` | Basculer le mode rapide (Opus 5.5 : $8/$40 par MTok) |
 | `/voice` | Activer l'entrée vocale (maintenir Espace pour parler) |
 | `/recap` | Résumé de contexte de session au retour d'une pause |
 | `/effort [niveau]` | Profondeur de réflexion : low/medium/high/xhigh/max |
-| `/loop [intervalle] [prompt]` | Répète un prompt en boucle (10 min par défaut) |
+| `/loop [intervalle] [prompt]` | Répète un prompt en boucle (rythme autonome sans intervalle) |
 | `/goal [condition]` | Mode multi-tours autonome jusqu'à ce que la condition soit remplie |
 | `/rename [nom]` | Nommer ou renommer la session en cours |
 | `/debug` | Débogage systématique |
@@ -71,8 +71,8 @@ which claude && claude --version
 | `Ctrl+R` | Rechercher dans l'historique des commandes |
 | `Ctrl+L` | Effacer l'écran (garde le contexte) |
 | `Ctrl+B` | Tâches en arrière-plan |
-| `Ctrl+F` | Tuer tous les agents en arrière-plan (double appui) |
-| `Alt+T` | Activer/désactiver la réflexion |
+| `Ctrl+X Ctrl+K` | Tuer tous les agents en arrière-plan  |
+| `Alt+T` | Basculer la réflexion si le modèle le permet |
 | `Espace` (maintenu) | Entrée vocale (nécessite `/voice`) |
 | `Tab` | Autocomplétion |
 | `Shift+Enter` | Nouvelle ligne |
@@ -99,10 +99,10 @@ which claude && claude --version
 | **Session Forking** | Rewind + création d'une timeline parallèle |
 | **LSP Tool** | Intelligence de code (go-to-def, refs), ~50ms contre 45s avec grep |
 | **Mode vocal** | Entrée vocale native, transcription gratuite |
-| **Remote Control** | Contrôler une session locale depuis téléphone/navigateur (Research Preview, Pro/Max) |
+| **Remote Control** | Contrôler une session locale depuis téléphone/navigateur (Pro/Max/Team/Enterprise) |
 | **Tâches planifiées (Cloud/Desktop)** | Planification machine éteinte via `/schedule` ou l'app Desktop |
 | **Skill Evals** | Tests A/B et calibrage des déclencheurs pour les skills personnalisées |
-| **Output Styles** | `/config` → modes Default, Explanatory, Learning |
+| **Output Styles** | `/output-style` : Default, Proactive, Concise, Explanatory, Learning |
 | **Rules Templates** | Templates `.claude/rules/` prêts à l'emploi (arch/qualité/tests/perf) |
 
 **Astuce** : ce ne sont pas des "secrets", tout est dans le [CHANGELOG](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md). Lisez-le !
@@ -111,9 +111,9 @@ which claude && claude --version
 
 | Mode | Édition | Exécution |
 |------|---------|-----------|
-| Default | Demande | Demande |
+| Manual (`default`) | Demande | Demande |
 | acceptEdits | Auto | Demande |
-| Plan Mode | Aucune | Aucune |
+| Plan Mode | Aucune | Outils en lecture seule |
 | auto | Le classifieur décide | Le classifieur décide |
 | dontAsk | Uniquement si dans les règles autorisées | Uniquement si dans les règles autorisées |
 | bypassPermissions | Auto | Auto (CI/CD uniquement) |
@@ -181,16 +181,17 @@ which claude && claude --version
 | **Plan Mode** | `Shift+Tab × 2` ou `/plan` | Explorer sans modifier |
 | **OpusPlan** | `/model opusplan` | Opus pour planifier, Sonnet pour exécuter |
 
-**Opus 4.8** : l'effort par défaut est **xhigh**. Utilisez `ultrathink` pour forcer l'effort maximum sur le prochain tour.
+## Thinking et effort
 
-| Contrôle | Action | Persistance |
-|---------|--------|-------------|
-| **Alt+T** | Activer/désactiver la réflexion | Session |
-| **/config** | Activer/désactiver globalement | Permanent |
-| **Curseur `/effort`** | low/medium/high/xhigh/max | Session |
-| **Paramètre `effort`** | API uniquement, par requête | Par requête |
+Opus 5.5, Sonnet 5 et Fable 5.1 utilisent le thinking adaptatif. Haiku 4.5 dispose du thinking étendu mais **pas du paramètre effort**.
 
-**Astuce coût** : pour les tâches simples, Alt+T pour désactiver la réflexion, plus rapide et moins cher.
+Les modèles adaptatifs actuels acceptent `low`, `medium`, `high`, `xhigh` et `max`. Opus 4.6 et Sonnet 4.6 acceptent `max`, mais pas `xhigh`.
+
+`/effort` enregistre les niveaux jusqu'à `xhigh` par modèle. **s** limite le choix à la session. `max` reste propre à la session ; `/effort auto` efface le choix enregistré pour le modèle actif.
+
+`Option+T` / `Alt+T` bascule le thinking si le modèle le permet. Ce raccourci n'a pas d'effet sur Opus 5.5 ou Fable, dont le thinking reste actif. Réduire plutôt l'effort pour une tâche bornée.
+
+`ultrathink` ajoute une consigne de réflexion sans changer l'effort API. `think hard` est du texte ordinaire.
 
 # Workflow typique
 
@@ -265,7 +266,7 @@ Décision rapide : texte exact → `rg` | nom exact → `rg`/Serena | concept �
 | `--worktree` / `-w` | Lancer dans un git worktree isolé |
 | `--max-budget-usd 5.00` | Plafond de dépense API (mode print) |
 | `--dangerously-skip-permissions` | Auto-accepter (à manier avec précaution) |
-| `--mcp-debug` | Déboguer les serveurs MCP |
+| `--debug='mcp'` | Déboguer les serveurs MCP |
 | `--allowedTools "Edit,Read"` | Liste blanche d'outils |
 | `--debug` | Sortie de débogage |
 
@@ -291,6 +292,21 @@ Décision rapide : texte exact → `rg` | nom exact → `rg`/Serena | concept �
 ```
 
 # Optimisation des coûts
+
+## Modèles actuels
+
+Tarifs API standard vérifiés le 24 septembre 2026. Dollars par million de tokens en entrée/sortie, hors cache.
+
+| Modèle | Entrée / sortie | Contexte | Effort par défaut |
+|--------|-----------------|----------|-------------------|
+| Haiku 4.5 | $1 / $5 | 200K | Non pris en charge |
+| Sonnet 5 | $2 / $10 | 1M | high |
+| Opus 5.5 | $4 / $20 | 1M | medium |
+| Fable 5.1 | $10 / $50 | 1M | high |
+
+Le tarif publié de Sonnet reste $2/$10 après la promotion de lancement. Opus 5.5 est le défaut du service direct, sauf règle du compte. Le modèle seul ne détermine pas le coût d'une tâche.
+
+
 
 ```{=typst}
 #table(
@@ -357,4 +373,4 @@ Analyse profonde   → utiliser Opus (réflexion activée par défaut)
 
 **Auteur** : Florian BRUNIAUX | [Méthode Aristote](https://methode-aristote.fr) | Écrit avec Claude
 
-*Version 3.43.0 | Août 2026*
+*Version 3.43.0 | Septembre 2026*

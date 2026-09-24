@@ -2,10 +2,10 @@
 title: "Customizing Claude"
 subtitle: "CLAUDE.md, Agents, Skills: Your Tailor-Made Assistant"
 author: "Florian BRUNIAUX"
-date: 2026-08-24
+date: "2026-09-24"
 date-format: "MMMM YYYY"
-version: "3.41.3"
-wp-version: "1.5.2"
+version: "3.43.0"
+wp-version: "1.5.3"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -582,11 +582,13 @@ The YAML frontmatter is the agent's execution contract: it determines which tool
 |-------|----------|-------------|
 | `name` | Yes | kebab-case identifier |
 | `description` | Yes | When to activate this agent |
-| `model` | No | `haiku`, `sonnet` (default), `opus` |
+| `model` | No | `haiku`, `sonnet`, `opus` |
 | `tools` | No | Allowed tools (comma-separated) |
 | `skills` | No | Skills to inherit |
 | `disallowedTools` | No | Blocked tools |
 | `memory` | No | Persistent memory scope: `user`, `project`, or `local` (v2.1.32+) |
+
+Without `model`, a subagent inherits the parent model. `inherit` selects that behavior explicitly. Environment and organization overrides can still apply.
 
 **New (v2.1.32)**: The `memory` field points the agent at a persistent storage scope, not an inline pre-populated text block:
 
@@ -606,7 +608,7 @@ The model choice in the frontmatter determines the quality-to-cost ratio of each
 | Model | Usage | Speed | Cost |
 |-------|-------|-------|------|
 | `haiku` | Simple, fast tasks | Fast | Low |
-| `sonnet` | General development (default) | Balanced | Medium |
+| `sonnet` | General development (explicit choice) | Balanced | Medium |
 | `opus` | Complex reasoning, architecture | Slow | High |
 
 {{< pagebreak >}}

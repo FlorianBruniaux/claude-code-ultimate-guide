@@ -104,7 +104,7 @@ Wait for approval before Phase 4.
 - The relevant files/areas to investigate
 - The questions it needs to answer
 
-Monitor agents by reading their output files directly (TaskOutput is deprecated since v2.1.83; use `Read` on `.claude/tasks/<id>/output.log` instead). Report progress: "3/6 agents complete..."
+Monitor agents by reading their output files directly (TaskOutput was removed in v2.1.278; use `Read` on the output path reported by the agent instead). Report progress: "3/6 agents complete..."
 
 When all agents return: if `planning-coordinator` was spawned, send it all agent reports and have it synthesize the final plan. Otherwise, synthesize directly.
 

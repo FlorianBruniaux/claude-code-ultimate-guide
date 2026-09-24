@@ -4,87 +4,55 @@ subtitle: "Choisir le bon modèle et le bon niveau de réflexion"
 card-number: "T18"
 category: "Technique"
 difficulty: "beginner"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "Août 2026"
+version: "3.43.0"
+date: "2026-09-24"
 layout: "two-col"
 lang: fr
 format:
   recap-card-typst: default
 ---
 
-## Les Quatre Modèles
+## Modèles actuels
 
-| Modèle | Prix input/1M | Idéal pour |
-|--------|--------------|------------|
-| **Haiku 4.5** | $1.00 | Tâches mécaniques, CI/CD |
-| **Sonnet 5** | $2.00* | Développement quotidien (défaut) |
-| **Opus 5** | $5.00 | Architecture, sécurité, audit |
-| **Fable 5** | $10.00 | Tâches les plus complexes (Mythos-class) |
+Tarifs API standard vérifiés le 24 septembre 2026. Dollars par million de tokens en entrée/sortie, hors cache.
 
-*Prix promotionnel jusqu'au 31 août 2026, $3.00 ensuite.
+| Modèle | Entrée / sortie | Contexte | Effort par défaut |
+|--------|-----------------|----------|-------------------|
+| Haiku 4.5 | $1 / $5 | 200K | Non pris en charge |
+| Sonnet 5 | $2 / $10 | 1M | high |
+| Opus 5.5 | $4 / $20 | 1M | medium |
+| Fable 5.1 | $10 / $50 | 1M | high |
 
-Sonnet est le point de départ naturel, couvrant 80% des cas d'usage. Haiku réduit le coût par 3 (prix standard) sur les tâches répétitives (génération de tests, renommage massif). Opus entre en jeu uniquement quand le raisonnement profond change réellement la qualité du résultat.
+Le tarif publié de Sonnet reste $2/$10 après la promotion de lancement. Opus 5.5 est le défaut du service direct, sauf règle du compte. Le modèle seul ne détermine pas le coût d'une tâche.
 
-## Changer de Modèle
+## Choisir et enregistrer
 
-```bash
-# Via commande slash
-/model
+`/model` ouvre le sélecteur. **Entrée** enregistre le défaut ; **s** limite le choix à la session. `claude --model sonnet` s'applique à la session lancée. Les réglages du projet ou de l'organisation peuvent reprendre priorité au lancement suivant.
 
-# Via flag au démarrage
-claude --model haiku "Fix this typo in README.md"
-claude --model opus "Design the auth system"
+Les alias dépendent du fournisseur. `opus` sélectionne 5.5 chez la plupart, mais 4.6 sur Foundry. `sonnet` sélectionne 5 sur l'API directe, 4.6 sur Claude Platform on AWS, et 4.5 sur Bedrock, Google et Foundry.
+
+`fable` sélectionne 5.1 si disponible, ou 5 via la passerelle Claude apps. `best` choisit Fable si accessible, sinon Opus. Utiliser un identifiant complet pour fixer une version.
+
+```{=typst}
+#colbreak()
 ```
 
-## Table de Décision Rapide
+## Thinking et effort
 
-| Tâche | Modèle | Effort |
-|-------|--------|--------|
-| Renommage, formatage | Haiku | low |
-| Génération de tests | Haiku | low |
-| Feature standard | Sonnet | medium |
-| Refactorisation de module | Sonnet | high |
-| Architecture système | Opus | high |
-| Audit sécurité critique | Opus | max |
+Opus 5.5, Sonnet 5 et Fable 5.1 utilisent le thinking adaptatif. Haiku 4.5 dispose du thinking étendu mais **pas du paramètre effort**.
 
-## Thinking Modes (Opus 4.6+)
+Les modèles adaptatifs actuels acceptent `low`, `medium`, `high`, `xhigh` et `max`. Opus 4.6 et Sonnet 4.6 acceptent `max`, mais pas `xhigh`.
 
-Les modèles Opus (4.6 à 5) utilisent l'**Adaptive Thinking** : le modèle alloue dynamiquement son budget de calcul selon la complexité de la requête. Le paramètre `effort` contrôle cette profondeur. Sonnet et Haiku n'ont pas de thinking étendu.
+`/effort` enregistre les niveaux jusqu'à `xhigh` par modèle. **s** limite le choix à la session. `max` reste propre à la session ; `/effort auto` efface le choix enregistré pour le modèle actif.
 
-**Niveaux d'effort** :
+`Option+T` / `Alt+T` bascule le thinking si le modèle le permet. Ce raccourci n'a pas d'effet sur Opus 5.5 ou Fable, dont le thinking reste actif. Réduire plutôt l'effort pour une tâche bornée.
 
-- **low** : zéro preamble, opérations combinées, tâches mécaniques
-- **medium** : pattern défini, scope borné, une seule préoccupation
-- **high** : décisions de design, edge cases, multiple préoccupations (défaut)
-- **xhigh** : raisonnement approfondi entre high et max (Opus 4.7+)
-- **max** : raisonnement cross-système, décisions irréversibles (Opus 4.7+)
+`ultrathink` ajoute une consigne de réflexion sans changer l'effort API. `think hard` est du texte ordinaire.
 
-## Contrôler le Thinking
+## Décider sur des résultats mesurés
 
-```
-Alt+T          Activer/désactiver (session courante)
-/config        Persistant entre sessions
-/model + ←/→  Slider effort low|medium|high|xhigh|max (Opus 4.7+)
-```
+Évaluer Haiku sur les tâches bornées, Sonnet sur le travail courant, Opus ou Fable sur les cas difficiles. Comparer résultats acceptés, reprises, latence et coût total sur les mêmes tâches. Les coéquipiers peuvent utiliser des modèles différents.
 
-Les keywords `ultrathink`, `think hard` n'ont plus d'effet fonctionnel depuis v2.0.67. Le thinking adaptatif est actif par défaut sur les modèles Opus 4.6+, y compris Opus 5.
-
-## Règle d'Or
-
-**Commencer avec Sonnet.** Monter à Opus uniquement si la tâche implique des décisions irréversibles, du raisonnement multi-système, ou un audit critique. Descendre à Haiku pour tout ce qui est mécanique et prévisible. La plupart des sessions n'ont jamais besoin d'Opus.
-
-## Pattern Multi-Agent
-
-```yaml
-# planner.md — exploration, lecture seule
-model: opus
-tools: Read, Grep, Glob
-
-# implementer.md — exécution mécanique
-model: haiku
-tools: Write, Edit, Bash
-```
-
-Assigner les modèles selon le **rôle**, pas l'importance perçue.
+Sources : [Configuration des modèles](https://code.claude.com/docs/en/model-config), [tarifs API](https://platform.claude.com/docs/en/about-claude/pricing).

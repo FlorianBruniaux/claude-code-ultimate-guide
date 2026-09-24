@@ -6,19 +6,19 @@ tags: [cheatsheet, reference]
 
 # Claude Code Cheatsheet
 
-**1 printable page** - Daily essentials for maximum productivity
+**Daily reference**. For compact printable editions, use the [English and French cheatsheets](../whitepapers/README.md).
 
 **Author**: Florian BRUNIAUX | Founding Engineer [@Méthode Aristote](https://methode-aristote.fr)
 
 **Written with**: Claude (Anthropic)
 
-**Version**: 3.43.0 | **Last Updated**: Aug 30, 2026
+**Version**: 3.43.0 | **Last Updated**: Sep 24, 2026
 
 ---
 
 ## Essential Commands
 
-The ~35 below are the daily drivers. Claude Code ships about 100 built-in commands: the complete list is in [§10.1 of the guide](./ultimate-guide.md#101-commands-table), and the always-current official reference is [code.claude.com/docs/en/commands](https://code.claude.com/docs/en/commands).
+These are selected daily commands. Availability depends on your version, provider, and plan: the complete list is in [§10.1 of the guide](./ultimate-guide.md#101-commands-table), and the always-current official reference is [code.claude.com/docs/en/commands](https://code.claude.com/docs/en/commands).
 
 | Command | Action |
 |---------|--------|
@@ -29,19 +29,21 @@ The ~35 below are the daily drivers. Claude Code ships about 100 built-in comman
 | `/status` | Session state + context usage |
 | `/context` | Detailed token breakdown |
 | `/plan` | Enter Plan Mode (no changes). Exit by approving the plan or `Shift+Tab` |
-| `/model` | Switch model (sonnet/opus/opusplan) |
+| `/model` | Select model and save the default; press `s` in the picker for this session only |
+| `/autocompact [auto\|500k]` | Choose the auto-compaction window or restore the model default |
+| `/output-style [style]` | Select Default, Proactive, Concise, Explanatory, Learning, or a custom style |
 | `/insights` | Usage analytics + optimization report |
 | `/code-review [level]` | Review the diff for correctness bugs, `--fix` applies them, `ultra` runs it in the cloud |
-| `/simplify` | Cleanup-only review of changed code: reuse, simplification, efficiency (no bug hunting; runs `/code-review --fix` under the hood, v2.1.154+) |
+| `/simplify` | Cleanup-only review of changed code: reuse, simplification, efficiency (applies cleanup fixes; use `/code-review` for correctness bugs) |
 | `/security-review` | Scan the branch diff for injection, auth, and data-exposure risks |
 | `/batch` | Large-scale refactors via 5–30 parallel worktree agents |
 | `/subtask <task>` | Hand a side task to a forked subagent that reports back here (v2.1.212+) |
 | `/teleport` | Teleport session from web |
 | `/tasks` | Monitor background tasks |
 | `/remote-env` | Configure cloud environment |
-| `/remote-control` (`/rc`) | Start remote control session (Research Preview, Pro/Max) |
+| `/remote-control` (`/rc`) | Connect this local session to web/mobile; Team/Enterprise require owner enablement |
 | `/mobile` | Get Claude mobile app download links |
-| `/fast` | Toggle fast mode (2.5x speed, 6x cost) |
+| `/fast` | Toggle faster Opus output; Opus 5.5 costs $8/$40 per MTok in fast mode |
 | `/voice` | Toggle voice input (hold Space to speak, release to send) |
 | `/recap` | Session context summary on return to a break (v2.1.108) |
 | `/effort [level]` | Thinking depth: low/medium/high/xhigh/max/ultracode; no arg = interactive slider (v2.1.111) |
@@ -74,8 +76,9 @@ The ~35 below are the daily drivers. Claude Code ships about 100 built-in comman
 | `Tab` | Autocomplete |
 | `Shift+Enter` | New line |
 | `Ctrl+B` | Background tasks |
-| `Ctrl+F` | Kill all background agents (double press) |
-| `Alt+T` | Toggle thinking |
+| `Ctrl+X Ctrl+K` | Stop running background subagents |
+| `Ctrl+Enter` / `Ctrl+X Ctrl+S` | Send queued messages now, interrupting the current turn |
+| `Option+T` / `Alt+T` | Toggle thinking where supported; no effect on Opus 5.5 or Fable |
 | `Space` (hold) | Voice input (requires `/voice` enabled) |
 | `Ctrl+D` | Exit |
 
@@ -101,7 +104,7 @@ The ~35 below are the daily drivers. Claude Code ships about 100 built-in comman
 
 | Feature | Since | What It Does |
 |---------|-------|--------------|
-| **Tasks API** | v2.1.16 | Persistent task lists with dependencies |
+| **Tasks API** | v2.1.16 | Persistent task lists with dependencies; opt in on newer models with `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` |
 | **Background Agents** | v2.0.60 | Sub-agents work while you code. Since v2.1.232 forking is the default: a `subagent_type: "fork"` agent inherits the full conversation and prompt cache, and non-teammate spawns go background on their own |
 | **Agent Teams** | v2.1.32 | Multi-agent coordination (TeamCreate/SendMessage) |
 | **Cross-Session Messaging** | v2.1.224 | Sessions message each other across all your machines. `ListAgents` to discover, `SendMessage` to talk, `@name` to mention (v2.1.232). macOS, Linux, Windows (v2.1.234+). [Full guide →](./workflows/cross-session-messaging.md) |
@@ -110,13 +113,13 @@ The ~35 below are the daily drivers. Claude Code ships about 100 built-in comman
 | **Session Forking** | v2.1.19 | Rewind + create parallel timeline |
 | **LSP Tool** | v2.0.74 | IDE-like navigation: symbols, types, refs. ~50ms vs 45s with grep. 11 languages |
 | **Voice Mode** | v2.1.x | Native voice input, free transcription, no rate limit impact |
-| **Remote Control** | v2.1.51 | Control local session from phone/browser (Research Preview, Pro/Max) |
+| **Remote Control** | v2.1.51 | Control a local session from phone/browser; subscription required, with owner enablement on Team/Enterprise |
 | **`/loop`** | v2.1.71 | Session-scoped recurring scheduler: `/loop 5m check the deploy` (stops when session ends). Min 1 min, max 50 tasks/session |
-| **`/goal`** | v2.1.139 | Autonomous completion loop: set a condition, Claude works across turns until a separate evaluator (Haiku) verifies it's met. Live overlay shows elapsed time, turns, and tokens. Three-element formula: measurable end state + verification mechanism + constraints. |
+| **`/goal`** | v2.1.139 | Autonomous completion loop: set a condition, Claude works across turns until a separate evaluator (Haiku by default on the Claude API) judges the surfaced evidence. Live overlay shows elapsed time, turns, and tokens. Three-element formula: measurable end state + verification mechanism + constraints. |
 | **Cloud Scheduled Tasks** | 2026 | Machine-off scheduling via `/schedule` or `claude.ai/code/scheduled`. Runs on Anthropic infra, clones repo fresh each run, min 1h interval. Pro/Max/Team/Enterprise |
 | **Desktop Scheduled Tasks** | 2026 | Local machine scheduling via Desktop app. Min 1 min, full local file access, no session required |
 | **Skill Evals** | Mar 2026 | Two skill types: Capability Uplift (fills model gap, fades) / Encoded Preference (encodes workflow, stays). Benchmark Mode, A/B testing, Trigger Tuning. |
-| **Output Styles** | v2.1.108 | `/config` → "Preferred output style": **Default** (concise), **Explanatory** (adds design rationale), **Learning** (pair-programming, `TODO(human)` markers). Custom styles via `.claude/output-styles/`; use `keep-coding-instructions: true` for coding-oriented styles. |
+| **Output Styles** | v2.1.269 command | `/output-style` selects Default, Proactive, Concise, Explanatory, Learning, or a custom style. Coding-oriented custom styles need `keep-coding-instructions: true`. |
 
 **Activate LSP**: Add to `~/.claude/settings.json` → `{ "env": { "ENABLE_LSP_TOOL": "1" } }` (requires LSP server installed for your language: `tsserver`, `pylsp`, `gopls`, `rust-analyzer`, `sourcekit-lsp`...)
 
@@ -128,9 +131,9 @@ The ~35 below are the daily drivers. Claude Code ships about 100 built-in comman
 
 | Mode | Editing | Execution |
 |------|---------|-----------|
-| Default | Asks | Asks |
+| Manual (`default`) | Permission rules apply | Permission rules apply |
 | acceptEdits | Auto | Asks |
-| Plan Mode | ❌ | ❌ |
+| Plan Mode | No file changes | Read-only exploration tools allowed |
 | auto | Classifier decides | Classifier decides |
 | dontAsk | Only if in allow rules | Only if in allow rules |
 | bypassPermissions | Auto | Auto (CI/CD only) |
@@ -236,9 +239,9 @@ Model: Sonnet | Ctx: 89.5k | Cost: $2.11 | Ctx(u): 56.0%
 
 | Concept | Key Point |
 |---------|-----------|
-| **Master Loop** | Simple `while(tool_call)`: no DAGs, no classifiers |
-| **Tools** | 8 core: Bash, Read, Edit, Write, Grep, Glob, Agent, TodoWrite ([full 40-tool reference](./core/tools-reference.md)) |
-| **Context** | ~200K tokens, auto-compacts at 75-92% |
+| **Master Loop** | Model/tool loop; permissions and auto-mode review are separate controls |
+| **Tools** | Bash, Read, Edit, Write, Grep, Glob, Agent and more ([tool reference](./core/tools-reference.md)) |
+| **Context** | Model-dependent: native 1M on current Opus, Sonnet and Fable; 200K on Haiku 4.5. Inspect `/context` |
 | **Sub-agents** | Isolated context, max depth=1 |
 | **Philosophy** | "Less scaffolding, more model" (trust Claude's reasoning) |
 
@@ -268,18 +271,18 @@ Evaluate the exact model-harness pair for a bounded coding task. Introduce orche
 | **Plan Mode** | `Shift+Tab × 2` or `/plan` | Explore without modifying |
 | **OpusPlan** | `/model opusplan` | Opus for planning, Sonnet for execution |
 
-> **Opus 4.8** (v2.1.154+): Default effort in Claude Code = **high**, with a new `xhigh` level sitting between `high` and `max` for finer reasoning/latency control. **Opus 5** (default Opus since v2.1.219) carries this forward. Use `ultrathink` to force max effort for the next turn.
+> **Verified September 24, 2026**: Opus 5.5 defaults to `medium`; Sonnet 5 and Fable 5.1 default to `high`. Haiku 4.5 has no effort parameter. `ultrathink` adds a reasoning instruction for the turn without changing API effort.
 
 | Control | Action | Persistence |
 |---------|--------|-------------|
-| **Alt+T** | Toggle thinking on/off | Session |
-| **/config** | Enable/disable globally | Permanent |
-| **`/model` slider** | Left/right arrows: `low\|medium\|high\|xhigh` | Session |
-| **`CLAUDE_CODE_EFFORT_LEVEL`** | Env var: `low\|medium\|high\|xhigh\|max` | Shell session |
-| **`effortLevel` setting** | In settings.json: `low\|medium\|high\|xhigh\|max` | Permanent |
-| **`effort` in skill frontmatter** (v2.1.80+) | Per-skill override: `low\|medium\|high\|xhigh` | Per invocation |
+| **Option+T / Alt+T** | Toggle thinking on supported models; Opus 5.5 and Fable always think | Session |
+| **`/effort` or `/model` slider** | Choose a supported level; `Enter` saves per model, `s` applies once | Per model or session |
+| **`/effort max`** | Highest supported effort | Session |
+| **`CLAUDE_CODE_EFFORT_LEVEL`** | Override effort in the launching environment | Process environment |
+| **`modelSettings` / `effortLevel`** | Persist `low`, `medium`, `high`, or `xhigh`; not `max` | Settings |
+| **`effort` in skill frontmatter** | Override effort while the skill runs | Invocation |
 
-**Cost tip**: For simple tasks, Alt+T to disable thinking → faster & cheaper.
+**Cost tip**: try a lower supported effort for bounded tasks, then verify the result. On Opus 5.5, changing effort is the control; disabling thinking has no effect.
 
 **Per-skill effort**: add `effort: low` to mechanical skills (commit, sync, scaffold) and `effort: high` to analytical ones (security-audit, architecture-review). Overrides session setting automatically.
 
@@ -291,11 +294,11 @@ Evaluate the exact model-harness pair for a bounded coding task. Introduce orche
 
 | Task | Model | Effort |
 |------|-------|--------|
-| Rename, boilerplate, test gen | Haiku | low |
-| Feature dev, debug, refactor | Sonnet | medium–high |
-| Architecture, security audit | Opus | high–max |
+| Rename, boilerplate, test gen | Haiku 4.5 | Not supported |
+| Feature dev, debug, refactor | Sonnet 5 or Opus 5.5 | Start at the model default |
+| Architecture, security audit | Opus 5.5; evaluate Fable 5.1 if needed | Increase with evidence |
 
-> Full decision table with cost estimates: [Section 2.5 Model Selection & Thinking Guide](ultimate-guide.md#25-model-selection--thinking-guide)
+> Full decision table and pricing boundaries: [Section 2.5 Model Selection & Thinking Guide](ultimate-guide.md#25-model-selection--thinking-guide)
 
 ### Dynamic Model Switching (Mid-Session)
 
@@ -303,8 +306,8 @@ Evaluate the exact model-harness pair for a bounded coding task. Introduce orche
 
 **Workflow**:
 ```bash
-# Session start (default Sonnet)
-claude
+# Select Sonnet explicitly for this session
+claude --model sonnet
 
 # Complex feature encountered
 > "Implement OAuth2 flow with PKCE"
@@ -319,16 +322,20 @@ claude
 - ✅ Use Opus for: architecture decisions, complex debugging, security-critical code
 - ✅ Use Sonnet for: routine edits, refactoring, test writing
 - ✅ Use Haiku for: simple fixes, typos, validation checks
-- ❌ Don't swap mid-implementation (context loss)
+- Model switches keep conversation history but can invalidate prompt caches; switch at a useful task boundary.
 
-**Cost Impact**:
-| Model | Input | Output | Use Case |
-|-------|--------|--------|----------|
-| Opus 5 (fast mode) | $10/MTok | $50/MTok | Complex reasoning (10-20% of tasks) |
-| Sonnet 5 (promo through 2026-08-31) | $2/MTok | $10/MTok | Most development (70-80% of tasks) |
-| Haiku 4.5 | $0.80/MTok | $4/MTok | Simple validation (5-10% of tasks) |
+**Standard Anthropic API rates**, USD per million tokens, checked September 24, 2026:
 
-**Dynamic switching** optimizes cost while maintaining quality on complex tasks.
+| Model | Input | Output | Context |
+|-------|-------|--------|---------|
+| Opus 5.5 | $4 | $20 | 1M |
+| Sonnet 5 | $2 | $10 | 1M |
+| Haiku 4.5 | $1 | $5 | 200K |
+| Fable 5.1 | $10 | $50 | 1M |
+
+Opus 5.5 fast mode costs $8/$40. Subscription allowances, usage credits, cache tokens, and cloud-provider pricing are separate. [Official pricing](https://platform.claude.com/docs/en/about-claude/pricing).
+
+On the direct Anthropic service, the account default and `opus` select Opus 5.5; `sonnet` selects Sonnet 5. Provider aliases differ: check the [provider table](ultimate-guide.md#model-aliases). `fable` normally selects Fable 5.1, while Claude apps gateway sessions resolve it to Fable 5.
 
 **Source**: [Gur Sannikov embedded engineering workflow](https://www.linkedin.com/posts/gursannikov_claudecode-embeddedengineering-aiagents-activity-7423851983331328001-DrFb)
 
@@ -492,9 +499,12 @@ VERIFY: Empty email shows error, invalid format shows error
 | `--worktree` / `-w` | Run in isolated git worktree |
 | `--dangerously-skip-permissions` | Auto-accept (use carefully) |
 | `--debug` | Debug output |
-| `--allowedTools "Edit,Read"` | Whitelist tools |
+| `--allowedTools "Edit,Read"` | Allow these tools without prompting; use `--tools` to restrict availability |
+| `--effort medium` | Choose session effort on a supported model |
+| `--system-prompt-file ./prompt.txt` | Replace the prompt from a file |
+| `--append-system-prompt-file ./rules.txt` | Append prompt text from a file |
 
-> Full CLI reference (~45 flags): see [cli-reference on code.claude.com](https://docs.anthropic.com/en/docs/claude-code/cli-reference)
+> Use the [official CLI reference](https://code.claude.com/docs/en/cli-reference) for the full flag list. Self-hosted runners and command hooks must use the file-based system-prompt flags.
 
 ## Key CLI Subcommands
 
@@ -516,7 +526,7 @@ claude --version     # Version
 claude update        # Check/install updates
 claude doctor        # Diagnostic
 claude --debug       # Verbose mode
-claude --mcp-debug   # Debug MCPs
+claude --debug='mcp' # Debug MCP connections
 /mcp                 # MCP status (inside Claude)
 ```
 
@@ -540,44 +550,27 @@ claude -p "fix typos" --dangerously-skip-permissions
 
 ---
 
-## Remote Control: Mobile Access (v2.1.51+, Research Preview)
+## Remote Control: Mobile Access
 
-> **Pro/Max only**: not available on Team, Enterprise, or API keys
+Available with Pro, Max, Team, and Enterprise subscriptions. Team and Enterprise owners must enable it first. API keys and third-party provider connections are not supported.
 
 ```bash
-# Start from terminal (new session)
+# Start a server in the project directory
 claude remote-control
 
-# Or from inside an active session:
-/rc        # (or /remote-control)
+# Or connect an existing session
+/remote-control
 ```
 
-**Connect from phone/tablet/browser:**
-1. Scan the **QR code** (press spacebar after start)
-2. Or open **session URL** in browser / Claude mobile app
-3. Or: `/mobile` → shows App Store + Play Store links
+Open the displayed URL or scan the QR code from a browser or the Claude mobile app. The local process must keep running; the files and tools stay on your machine. Server mode can run multiple sessions with `--spawn worktree` and `--capacity`; `/remote-control` connects the current session. Available commands vary by client, so check the [current limitations](https://code.claude.com/docs/en/remote-control#limitations).
 
-| ⚠️ Known Limitation | Detail |
-|--------------------|--------|
-| 1 session at a time | Only one remote session active |
-| Slash commands broken | `/new`, `/compact` = plain text remotely → use from local terminal |
-| Terminal must stay open | Closing local terminal ends session |
-| Network timeout | ~10 min disconnect → session expires |
-
-**Advanced: tmux multi-session** (bypass 1-session limit)
-```bash
-tmux new-session -s dev
-# Each pane = its own claude session
-# Run /rc in the pane you want to control remotely
-```
-
-**Auto-enable:** `/config` → toggle "Remote Control: auto-enable"
-
-**Full doc**: [§9.22 Remote Control](ultimate-guide.md#922-remote-control-mobile-access) | [Security notes](security/security-hardening.md#remote-control-security)
+**Full doc**: [Remote Control](ultimate-guide.md#922-remote-control-mobile-access) | [Security notes](security/security-hardening.md#remote-control-security)
 
 ---
 
 ## Task Management (v2.1.16+)
+
+**Availability**: newer models, including Opus 5.5, Sonnet 5, and Fable, do not receive task-tracking tools by default. Start with `CLAUDE_CODE_ENABLE_TODO_TOOLS=1 claude` to opt in. `CLAUDE_CODE_ENABLE_TASKS=0` selects legacy TodoWrite only where task tools are enabled. [Official tool availability](https://code.claude.com/docs/en/tools-reference#task-tool-availability).
 
 **Two systems available:**
 
@@ -591,14 +584,14 @@ tmux new-session -s dev
 ```bash
 # Enable persistence across sessions
 export CLAUDE_CODE_TASK_LIST_ID="project-name"
-claude
+CLAUDE_CODE_ENABLE_TODO_TOOLS=1 claude
 
 # Inside Claude: Create task hierarchy
 > "Create tasks for auth system with dependencies"
 
 # Resume later (new session)
 export CLAUDE_CODE_TASK_LIST_ID="project-name"
-claude
+CLAUDE_CODE_ENABLE_TODO_TOOLS=1 claude
 > "TaskList to see current state"
 ```
 
@@ -606,7 +599,7 @@ claude
 - 📁 **Persistent**: Survives session end, context compaction
 - 🔗 **Dependencies**: Task A blocks Task B
 - 🔄 **Multi-session**: Broadcast state to multiple terminals
-- 📊 **Status**: pending → in_progress → completed/failed
+- 📊 **Status**: pending → in_progress → completed
 
 **⚠️ Limitation**: TaskList shows `id`, `subject`, `status`, `blockedBy` only.
 For `description`/`metadata` → use `TaskGet(taskId)` per task.
@@ -616,7 +609,7 @@ For `description`/`metadata` → use `TaskGet(taskId)` per task.
 **Migration flag** (v2.1.19+):
 ```bash
 # Revert to old TodoWrite system
-CLAUDE_CODE_ENABLE_TASKS=false claude
+CLAUDE_CODE_ENABLE_TODO_TOOLS=1 CLAUDE_CODE_ENABLE_TASKS=0 claude
 ```
 
 **→ Full workflow**: [guide/workflows/task-management.md](workflows/task-management.md)
@@ -728,4 +721,4 @@ Speed: `rg` (~20ms) → Serena (~100ms) → ast-grep (~200ms) → grepai (~500ms
 
 **Author**: Florian BRUNIAUX | [@Méthode Aristote](https://methode-aristote.fr) | Written with Claude
 
-*Last updated: Aug 30, 2026 | Version 3.43.0*
+*Last updated: Sep 24, 2026 | Version 3.43.0*

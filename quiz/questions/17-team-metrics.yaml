@@ -9,14 +9,14 @@ questions:
       - senior
       - power
       - pm
-    question: What are the four core DORA metrics?
+    question: What are the five current DORA software delivery metrics?
     options:
-      a: Commit Frequency, PR Count, Code Coverage, Deployment Speed
+      a: Change Lead Time, Deployment Frequency, Failed Deployment Recovery Time, Change Fail Rate, Deployment Rework Rate
       b: Deployment Frequency, Lead Time for Changes, Change Failure Rate, Mean Time to Recovery (MTTR)
       c: Sprint Velocity, Story Points, Bug Count, Test Coverage
       d: Lines of Code, NPS, Uptime, Developer Satisfaction
-    correct: b
-    explanation: "The four core DORA metrics measure delivery system health: (1) Deployment Frequency — how often you deploy to production. (2) Lead Time for Changes — time from commit to running in production. (3) Change Failure Rate — percentage of deployments causing incidents or rollbacks. (4) Mean Time to Recovery (MTTR) — time to restore service after a failure. These four are the most validated delivery health indicators in the field, backed by years of DORA research."
+    correct: a
+    explanation: The current DORA model has five software delivery metrics. Throughput uses Change Lead Time, Deployment Frequency, and Failed Deployment Recovery Time. Instability uses Change Fail Rate and Deployment Rework Rate. DORA narrowed the historical MTTR metric to recovery from a failed deployment in 2023 and added Deployment Rework Rate in 2024.
     doc_reference:
       file: guide/ops/team-metrics.md
       section: The DORA Foundation
@@ -34,11 +34,11 @@ questions:
       c: Replaced deployment frequency with feature flag rollout cadence
       d: Introduced AI-specific benchmarks that replace the original four metrics
     correct: b
-    explanation: 'The 2025 DORA report retired the 4-tier model (Elite/High/Medium/Low) and now identifies 7 organizational archetypes (e.g., "Thriving Achievers," "Struggling Strugglers," "Balanced Performers") measured across 8 dimensions: throughput, stability, team performance, product performance, individual effectiveness, time on valuable work, friction, and burnout. The implication: stop chasing "Elite" as an endpoint — it can coexist with burnout and high friction. Identify your archetype and improve weakest dimensions.'
+    explanation: 'The 2025 DORA report retired the 4-tier model (Elite/High/Medium/Low) and now identifies 7 organizational archetypes (e.g., "Thriving Achievers," "Struggling Strugglers," "Balanced Performers") measured across 8 dimensions: throughput, stability, team performance, product performance, individual effectiveness, time on valuable work, friction, and burnout. The implication: stop chasing "Elite" as an endpoint. It can coexist with burnout and high friction. Identify your archetype and improve weakest dimensions.'
     doc_reference:
       file: guide/ops/team-metrics.md
-      section: On the 2025 DORA Evolution
-      anchor: "#on-the-2025-dora-evolution"
+      section: From Four Keys to Five Metrics
+      anchor: "#from-four-keys-to-five-metrics"
   - id: 17-004
     difficulty: intermediate
     profiles:
@@ -52,7 +52,7 @@ questions:
       c: Security, Performance, Availability, Capacity, Experience
       d: Sprints, PRs, Automation, Code quality, Engineering debt
     correct: b
-    explanation: "SPACE (developed by GitHub, Microsoft, and University of Victoria, 2021) covers: (S) Satisfaction & Well-being — developer satisfaction and burnout signals. (P) Performance — quality and reliability of delivered work (CFR, Bug Escape Rate). (A) Activity — volume of work output (deployment frequency, throughput). (C) Communication & Collaboration — PR review latency, cross-team dependency resolution. (E) Efficiency & Flow — deep work capacity, context-switching frequency, friction. DORA measures the delivery system; SPACE measures the people inside it."
+    explanation: "SPACE (developed by GitHub, Microsoft, and University of Victoria, 2021) covers: (S) Satisfaction & Well-being: developer satisfaction and burnout signals. (P) Performance: quality and reliability of delivered work (CFR, Bug Escape Rate). (A) Activity: volume of work output (deployment frequency, throughput). (C) Communication & Collaboration: PR review latency, cross-team dependency resolution. (E) Efficiency & Flow: deep work capacity, context-switching frequency, friction. DORA measures the delivery system; SPACE measures the people inside it."
     doc_reference:
       file: guide/ops/team-metrics.md
       section: "Beyond DORA: The SPACE Framework"
@@ -67,7 +67,7 @@ questions:
     question: What is the 'Velocity Trap' in AI-augmented teams?
     options:
       a: Deploying too frequently and breaking production with each release
-      b: Hitting High DORA scores while simultaneously scoring poorly on satisfaction, well-being, and efficiency — more deployments but at the cost of developer health and quality
+      b: Hitting High DORA scores while simultaneously scoring poorly on satisfaction, well-being, and efficiency (more deployments but at the cost of developer health and quality)
       c: Using AI to generate velocity reports that overstate actual team performance
       d: Sprint velocity becoming meaningless when AI writes all the code
     correct: b
@@ -83,12 +83,12 @@ questions:
       - power
     question: What is the warning signal when AI PR review time is 30% faster than manual PR review time?
     options:
-      a: Normal and expected — AI code is simpler and faster to review
+      a: Normal and expected, AI code is simpler and faster to review
       b: A yellow flag indicating possible rubber-stamping; AI-generated code requires at least as much scrutiny as manually written code
       c: A positive sign that AI code quality is higher
       d: Acceptable only if Change Failure Rate is also lower
     correct: b
-    explanation: "If AI-generated PRs are getting merged 30%+ faster than manual ones, it's a yellow flag suggesting rubber-stamping. AI-generated code requires at least as much review scrutiny as manually written code — arguably more, because it can be confidently wrong in non-obvious ways. Track CFR separately for AI-generated vs manually written code: if AI-generated CFR is materially higher (more than 2-3 percentage points), your review discipline has dropped, not your AI tooling quality."
+    explanation: "If AI-generated PRs are getting merged 30%+ faster than manual ones, it's a yellow flag suggesting rubber-stamping. AI-generated code requires at least as much review scrutiny as manually written code, arguably more, because it can be confidently wrong in non-obvious ways. Track CFR separately for AI-generated vs manually written code: if AI-generated CFR is materially higher (more than 2-3 percentage points), your review discipline has dropped, not your AI tooling quality."
     doc_reference:
       file: guide/ops/team-metrics.md
       section: AI-Specific Metrics
@@ -106,7 +106,7 @@ questions:
       c: "bugs_in_prod / (bugs_before_prod + bugs_in_prod); threshold: >20%"
       d: "total_bugs / deployments; threshold: >1 per deploy"
     correct: c
-    explanation: "Bug Escape Rate = bugs_in_prod / (bugs_before_prod + bugs_in_prod). Example: 4 prod bugs + 16 pre-prod bugs = 20% escape rate. Threshold: >20% means QA and review processes are consistently failing to catch issues before users see them. With AI-assisted development, this metric is worth watching closely — faster code generation combined with looser review can push Bug Escape Rate up even when absolute bug count stays flat. Pair with CFR segmented by AI vs manual code origin."
+    explanation: "Bug Escape Rate = bugs_in_prod / (bugs_before_prod + bugs_in_prod). Example: 4 prod bugs + 16 pre-prod bugs = 20% escape rate. Threshold: >20% means QA and review processes are consistently failing to catch issues before users see them. With AI-assisted development, this metric is worth watching closely. Faster code generation combined with looser review can push Bug Escape Rate up even when absolute bug count stays flat. Pair with CFR segmented by AI vs manual code origin."
     doc_reference:
       file: guide/ops/team-metrics.md
       section: Product Metrics
@@ -120,9 +120,9 @@ questions:
       - pm
     question: Which metric should replace Sprint Velocity and why?
     options:
-      a: PR count — more objective than story points
-      b: Cycle Time + Deployment Frequency — velocity is gameable within 2 sprints by changing estimation practices, while cycle time is harder to fake
-      c: Lines of code — more measurable and consistent
+      a: "PR count: more objective than story points"
+      b: "Cycle Time + Deployment Frequency: velocity is gameable within 2 sprints by changing estimation practices, while cycle time is harder to fake"
+      c: "Lines of code: more measurable and consistent"
       d: Story points normalized by team size
     correct: b
     explanation: "Sprint velocity should be replaced by Cycle Time + Deployment Frequency. Velocity is gameable within 2 sprints by changing estimation practices (teams inflate point values to look faster). Cycle time (commit to prod) is harder to fake. The guide's vanity metrics to drop table: Sprint Velocity → Cycle Time + Deployment Frequency. Lines of Code → Bug Escape Rate. NPS alone → CSAT + Time-to-value. Commits/day → Lead Time for Changes. Story points → Throughput (features shipped). Code coverage % → Mutation testing score + Bug Escape Rate."
@@ -143,7 +143,7 @@ questions:
       c: Is it a DORA metric? Does it appear in the SPACE framework? Is it industry-standard? Does it require no custom code?
       d: Does it track individual performance? Is it available in GitHub? Is it exportable to CSV? Does it run daily?
     correct: b
-    explanation: "The 4-Question Test: (1) Can you act on it within 2 weeks? — if not, it's a reporting metric, not a steering metric. (2) Does it explain why, not just what? — if this number moves, do you know what to investigate? (3) Is it correlated to a business outcome? — deployment frequency correlates to revenue in SaaS; lines of code correlates to nothing. (4) Can it be measured automatically? — if collecting it requires manual work, it will be abandoned within 3 months. Rule: fewer than 3 \"yes\" answers, drop the metric."
+    explanation: "The 4-Question Test: (1) Can you act on it within 2 weeks? If not, it's a reporting metric, not a steering metric. (2) Does it explain why, not just what? If this number moves, do you know what to investigate? (3) Is it correlated to a business outcome? Deployment frequency correlates to revenue in SaaS; lines of code correlates to nothing. (4) Can it be measured automatically? If collecting it requires manual work, it will be abandoned within 3 months. Rule: fewer than 3 \"yes\" answers, drop the metric."
     doc_reference:
       file: guide/ops/team-metrics.md
       section: The 4-Question Test
@@ -157,12 +157,12 @@ questions:
       - pm
     question: What is the recommended metrics tooling difference between a 5-person team and a 25-person team?
     options:
-      a: Both should use LinearB — it scales from small to large teams
+      a: Both should use LinearB, since it scales from small to large teams
       b: "5-person: GitHub Insights + spreadsheet (no dedicated dashboard needed). 25-person: LinearB or Faros.ai for automated DORA, segmented per squad"
       c: "5-person: no metrics needed. 25-person: full SPACE + DORA + AI metrics dashboard"
       d: Both should use the same tools but with different refresh frequencies
     correct: b
-    explanation: '5-person team: GitHub Insights + a shared spreadsheet. No dedicated dashboard — overhead not worth it. Review metrics monthly. 25-person team: LinearB or Faros.ai for automated DORA (connects to GitHub + CI/CD), GitHub Analytics for AI contribution metrics, PostHog or Amplitude for product metrics. Critical at 25 people: track DORA per squad, not just per organization — global averages hide squad-level problems (a 3-squad team where 80% of incidents come from one squad will show "Medium" CFR overall and miss the signal).'
+    explanation: "5-person team: GitHub Insights + a shared spreadsheet. No dedicated dashboard, since the overhead isn't worth it. Review metrics monthly. 25-person team: LinearB or Faros.ai for automated DORA (connects to GitHub + CI/CD), GitHub Analytics for AI contribution metrics, PostHog or Amplitude for product metrics. Critical at 25 people: track DORA per squad, not just per organization, because global averages hide squad-level problems (a 3-squad team where 80% of incidents come from one squad will show \"Medium\" CFR overall and miss the signal)."
     doc_reference:
       file: guide/ops/team-metrics.md
       section: By Team Size
@@ -174,12 +174,12 @@ questions:
       - power
     question: What does the DORA metric most at risk from AI adoption without review discipline?
     options:
-      a: Deployment Frequency — AI generates too many deployments
-      b: MTTR — AI incident response makes recovery too slow
-      c: Change Failure Rate — AI generates syntactically correct but subtly wrong code; rubber-stamp reviews cause CFR to creep up over 6-12 months
-      d: Lead Time — AI slows down review queues by generating larger diffs
+      a: "Deployment Frequency: AI generates too many deployments"
+      b: "Failed Deployment Recovery Time: AI incident response makes recovery too slow"
+      c: "Change Failure Rate: AI generates syntactically correct but subtly wrong code; rubber-stamp reviews cause CFR to creep up over 6-12 months"
+      d: "Lead Time: AI slows down review queues by generating larger diffs"
     correct: c
-    explanation: Change Failure Rate is the metric most at risk when AI adoption outpaces review discipline. AI generates syntactically correct, structurally plausible code that can still have subtle behavioral errors. Teams that treat AI PRs as "lower risk" and rubber-stamp reviews see CFR creep up over 6-12 months. The failure is gradual — each individual AI PR looks fine, but cumulative reduced scrutiny shows up in production. Track CFR separately for AI-generated vs manually written code; if AI CFR is materially higher, reinforce the review process.
+    explanation: 'Change Failure Rate is the metric most at risk when AI adoption outpaces review discipline. AI generates syntactically correct, structurally plausible code that can still have subtle behavioral errors. Teams that treat AI PRs as "lower risk" and rubber-stamp reviews see CFR creep up over 6-12 months. The failure is gradual: each individual AI PR looks fine, but cumulative reduced scrutiny shows up in production. Track CFR separately for AI-generated vs manually written code; if AI CFR is materially higher, reinforce the review process.'
     doc_reference:
       file: guide/ops/team-metrics.md
       section: DORA in an AI-Augmented Context
@@ -197,7 +197,7 @@ questions:
       c: "Phase 1: Track everything. Phase 2: Remove what isn't useful. Phase 3: Automate the remainder."
       d: "Phase 1: SPACE survey. Phase 2: DORA instrumentation. Phase 3: AI contribution metrics."
     correct: b
-    explanation: "3-phase roadmap: Phase 1 (weeks 1-2) — connect CI/CD to metrics tool, get Deployment Frequency + Lead Time automated first (least manual config), establish live baseline. Phase 2 (weeks 3-4) — establish baseline from real data, set internal improvement targets (not industry benchmark comparisons yet), run first developer satisfaction pulse. Phase 3 (month 2+) — add product metrics (time-to-value, feature CSAT) and AI-specific signals (% AI code, CFR by origin). Review and prune quarterly: any metric that hasn't driven a decision in 3 months is a reporting metric, not a steering metric."
+    explanation: "3-phase roadmap: Phase 1 (weeks 1-2): connect CI/CD to metrics tool, get Deployment Frequency + Lead Time automated first (least manual config), establish live baseline. Phase 2 (weeks 3-4): establish baseline from real data, set internal improvement targets (not industry benchmark comparisons yet), run first developer satisfaction pulse. Phase 3 (month 2+): add product metrics (time-to-value, feature CSAT) and AI-specific signals (% AI code, CFR by origin). Review and prune quarterly: any metric that hasn't driven a decision in 3 months is a reporting metric, not a steering metric."
     doc_reference:
       file: guide/ops/team-metrics.md
       section: Implementation Roadmap

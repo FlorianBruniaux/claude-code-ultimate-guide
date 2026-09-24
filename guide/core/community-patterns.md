@@ -45,9 +45,9 @@ Quick-reference for Claude Code community patterns, workflow terms, and AI engin
 | Chain of Verification (CoVe) | Independent verifier pattern: a second agent re-checks the first agent's output to prevent confirmation bias. arXiv:2309.11495. | Workflow | Verification |
 | Checkpoint | A saved session state that can be restored via Esc x2 then /rewind. Created automatically before risky operations. | Claude Code | Session |
 | Claude Haiku 4.5 | Anthropic's fastest and cheapest model. Best for high-volume tasks, simple lookups, and cost-sensitive CI workflows. | Models | Tier |
-| Claude Opus 5 | Anthropic's current flagship Opus model, default since Claude Code v2.1.219. Supersedes Opus 4.8, still current on Bedrock/Vertex/Claude Platform on AWS. Best for deep reasoning, architecture decisions, and complex multi-step analysis. | Models | Tier |
-| Claude Fable 5 | Mythos-class model, exceeding any previously GA Anthropic model. See anthropic.com/pricing for specs. | Models | Tier |
-| Claude Sonnet 5 | Anthropic's balanced default model since v2.1.197, with a native 1M-token context window. Best mix of speed and capability for daily development work. | Models | Tier |
+| Claude Opus 5.5 | Current Opus alias on most providers, default from v2.1.280; native 1M context and medium effort. Foundry retains older defaults. | Models | Tier |
+| Claude Fable 5.1 | Explicit higher-cost selection, subject to account access; the Claude apps gateway alias still resolves to Fable 5. | Models | Tier |
+| Claude Sonnet 5 | Native 1M context, $2/$10 per MTok input/output, high effort by default. The sonnet alias depends on provider. | Models | Tier |
 | CLAUDE.md | Persistent memory file loaded automatically at session start. Contains project rules, conventions, and context. The foundation of Claude Code configuration. | Claude Code | Memory |
 | Co-Authored-By | Git trailer convention (`Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>`) for attributing AI-assisted commits. | Operations | Attribution |
 | Comprehension debt | The growing gap between code an AI produces and the developer's actual understanding of what it does and why. | AI Engineering | Risk |
@@ -59,7 +59,7 @@ Quick-reference for Claude Code community patterns, workflow terms, and AI engin
 | Context packing | Technique of densely encoding information (structured markdown, symbols, tables) to maximize useful signal per token. | AI Engineering | Context |
 | Context rot | The gradual degradation of Claude's situational awareness in long-running sessions as relevant context gets pushed out or buried. | AI Engineering | Context |
 | Context triage | The deliberate decision about what information is worth putting in context upfront vs. loading on demand via tools. | AI Engineering | Context |
-| Context window | Total amount of text (in tokens) Claude can process in a single session. Claude Sonnet 5 has a native 1M-token window; Sonnet 4.6 topped out at 200K (1M only via the extended API). | Models | Capacity |
+| Context window | Total amount of text (in tokens) Claude can process in a single session. Claude Sonnet 5 has a native 1M-token window; Sonnet 4.6 also has a 1M variant with plan/provider restrictions. | Models | Capacity |
 | Ctrl+B | Keyboard shortcut to background a running task, keeping it alive while you continue other work in the session. | Claude Code | Shortcuts |
 | dangerouslyDisableSandbox | Flag that bypasses Claude Code's native OS-level sandboxing. Should only be used in already-isolated environments. | Security | Configuration |
 | Default Mode | Base permission mode requiring explicit user approval for all file edits, shell commands, and commits. | Claude Code | Permissions |
@@ -74,7 +74,7 @@ Quick-reference for Claude Code community patterns, workflow terms, and AI engin
 | Eval harness | Testing framework for systematically measuring agent behavior, output quality, and skill effectiveness against defined criteria. | Methodology | Testing |
 | Event-driven agents | Pattern where external events (Linear tickets, GitHub PRs, Jira webhooks) automatically trigger Claude Code agent workflows. | Workflow | Architecture |
 | Extended thinking | Model feature enabling deeper reasoning via dedicated "thinking tokens" processed before the visible response. Activated with `--thinking`. | Models | Thinking |
-| Fast Mode | Mode (v2.1.36+) running 2.5x faster at 6x the token cost, on the same underlying model. Toggle with `/fast`. | Claude Code | Modes |
+| Fast Mode | Faster serving of supported Opus models. Opus 5.5 costs $8/$40 per MTok input/output, twice its standard rate. Toggle with `/fast`. | Claude Code | Modes |
 | FIRE framework | Find, Isolate, Remediate, Evaluate: a DevOps/SRE troubleshooting methodology for incident response with Claude Code. See [ops/devops-sre.md](../ops/devops-sre.md). | Methodology | Operations |
 | Fresh context pattern | Deliberately starting a new session when the current one has accumulated irrelevant context or its output quality has degraded. | Workflow | Context |
 | Gas Town | Steve Yegge's multi-agent workspace manager for running multiple coordinated Claude Code instances with a shared task queue. | Ecosystem | Orchestration |
@@ -92,11 +92,11 @@ Quick-reference for Claude Code community patterns, workflow terms, and AI engin
 | MCP (Model Context Protocol) | Open protocol developed by Anthropic for connecting AI models to external tools, databases, and APIs in a standardized way. | Architecture | Protocol |
 | Mechanic Stacking | Pattern of layering multiple Claude Code mechanisms (Plan Mode + extended thinking + MCP) for maximum reasoning on critical decisions. | Workflow | Pattern |
 | Memory hierarchy | Three-tier CLAUDE.md precedence: Local > Project > Global. Each level extends the one below and can override it for its own scope. | Claude Code | Memory |
-| Model aliases | Shorthand names that resolve to current model versions: `default`, `sonnet`, `opus`, `haiku`, `sonnet[1m]`, `opusplan`. | Models | Configuration |
+| Model aliases | Shorthand names that resolve to current model versions: `default`, `sonnet`, `opus`, `haiku`, `fable`, `best`, `sonnet[1m]`, `opus[1m]`, `opusplan`, `opusplan[1m]`. | Models | Configuration |
 | Modular context architecture | Pattern of splitting CLAUDE.md into focused modules loaded dynamically via path-scoped rules, reducing per-session token overhead. | AI Engineering | Context |
 | multiclaude | Community self-hosted multi-agent spawner using tmux + git worktrees. Runs N Claude Code instances in parallel. | Ecosystem | Orchestration |
 | Native sandbox | Claude Code's built-in OS-level sandboxing: Seatbelt on macOS, bubblewrap on Linux. Limits filesystem and network access. | Security | Sandbox |
-| OpusPlan | Hybrid mode: Opus 5 handles planning (with thinking), Sonnet executes. Activates with `/model opusplan`. | Models | Configuration |
+| OpusPlan | Hybrid mode: the provider’s `opus` alias handles planning, `sonnet` executes. Activates with `/model opusplan`. | Models | Configuration |
 | Packmind | Tool that distributes coding standards as `CLAUDE.md` files, slash commands, and skills across repositories and AI tools (Claude Code, Cursor, Copilot). | Ecosystem | Tools |
 | Permission modes | Five autonomy levels: Default, Auto-accept, Plan, Don't Ask, Bypass Permissions. Set per session or in `settings.json`. | Claude Code | Permissions |
 | Plan Mode | Read-only mode where Claude can analyze, search, and propose but cannot modify files. Activated with Shift+Tab or `/plan`. | Claude Code | Modes |

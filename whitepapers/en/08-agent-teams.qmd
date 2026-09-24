@@ -2,10 +2,10 @@
 title: "Whitepaper 08: Agent Teams"
 subtitle: "Multi-agent coordination for complex tasks"
 author: "Florian BRUNIAUX"
-date: 2026-08-24
+date: "2026-09-24"
 date-format: "MMMM YYYY"
-version: "3.42.0"
-wp-version: "1.6.0"
+version: "3.43.0"
+wp-version: "1.6.1"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -51,7 +51,7 @@ The core idea is simple: certain development tasks are naturally decomposable in
 ## Status and Maturity
 
 - **Status**: Experimental (v2.1.32+, research preview)
-- **Required model**: Opus 4.8 (recommended), Opus 4.6+ compatible
+- **Models**: Choose an available model per teammate; Opus is optional
 - **Activation**: `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
 - **Stability**: Research preview, breaking changes possible
 
@@ -129,7 +129,7 @@ The agent teams architecture relies on a hierarchical model with lateral communi
 **Source**: [Addy Osmani Research](https://addyosmani.com/blog/claude-code-agent-teams/), Feb 2026
 
 1. **Team lead**: Creates team, spawns teammates, coordinates work
-2. **Teammates**: Independent Claude Code instances with their own context --- **1M tokens each** (Opus 4.8, ~30K lines of code, approximately 1M tokens per context window). Each context window remains isolated; agents coordinate through explicit mailbox messages, not shared context.
+2. **Teammates**: Independent Claude Code instances with their own context --- a window sized by the selected model and provider. Each context window remains isolated; agents coordinate through explicit mailbox messages, not shared context.
 3. **Task list**: Shared work items with dependency tracking and auto-unblocking
 4. **Mailbox**: Inbox-based peer-to-peer messaging system enabling direct communication between agents (not a shared context, explicit messages only)
 
@@ -235,7 +235,7 @@ Coordination between agents goes through git, which is a pragmatic architecture 
 **Required**:
 
 - Claude Code v2.1.32 or later
-- Opus 4.8 model (`/model opus`), Opus 4.6+ also compatible
+- A model available to the account; the team may mix models
 - Git repository (for coordination)
 - 1M context per teammate is GA on Max/Team/Enterprise Claude Code plans (since v2.1.75); usage tier 4 or custom rate limits are only required for direct API use
 
@@ -270,8 +270,8 @@ source ~/.bashrc
 
 ```json
 {
-  "experimental": {
-    "agentTeams": true
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   }
 }
 ```
@@ -300,7 +300,7 @@ Claude should confirm:
 
 **Alternative verification** (check settings):
 ```bash
-cat ~/.claude/settings.json | grep agentTeams
+cat ~/.claude/settings.json | grep CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS
 ```
 
 # Production Use Cases
@@ -836,7 +836,7 @@ Adding a read-only reviewer agent improves output quality without overloading th
 
 **Recommended configuration** (source: Addy Osmani, O'Reilly AI CodeCon):
 
-- **Model**: Opus 4.8 (superior analysis capability)
+- **Model**: Opus 5.5 (explicit choice to evaluate)
 - **Access**: read-only (modifies no files)
 - **Trigger**: automatic on `TaskCompleted`
 - **Ratio**: 1 reviewer per 4 workers maximum
@@ -1044,7 +1044,7 @@ function processUser(user: User) {
 - Context loading per agent (total capacity: ~3M tokens across 3 agents --- see -> *Architecture: Per-Agent Context*)
 - Coordination overhead (team lead synthesis)
 
-**Budget impact example** (Opus 4.8 pricing):
+**Historical illustrative budget** (Opus 4.8 standard rates, $5/$25 per MTok; current Opus 5.5 rates are $4/$20):
 ```
 Single agent session:
 - Input: 50K tokens @ $15/M = $0.75
@@ -1431,7 +1431,7 @@ What type?
 ├─ Agents won't spawn → CONFIGURATION
 │   Flag enabled?
 │   ├─ No  → Enable CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
-│   └─ Yes → Opus 4.7 (or 4.6+) model?
+│   └─ Yes → Selected model available?
 │             ├─ No  → /model opus
 │             └─ Yes → Task too simple; Claude chose single agent.
 │                      Ask: "Spawn 3 agents for this task"
@@ -1465,7 +1465,7 @@ The most frequent problem, and usually the simplest to fix. Three possible cause
 echo $CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS  # Should output "1" or "true"
 
 # Check settings
-cat ~/.claude/settings.json | grep agentTeams  # Should be true
+cat ~/.claude/settings.json | grep CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS  # Should contain "1"
 
 # Force model
 /model opus
@@ -1578,7 +1578,7 @@ If agent teams regularly cost more than 5x single agent, that's a structural red
 ### Technical Prerequisites
 
 - [ ] Claude Code v2.1.32+ installed
-- [ ] Opus 4.8 model access verified (`/model opus` works), Opus 4.6+ also compatible
+- [ ] Selected model access verified for each teammate
 - [ ] Git repository initialized and working
 - [ ] Experimental flag enabled (`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`)
 - [ ] Navigation working (Shift+Up/Down to switch agents)

@@ -2,10 +2,10 @@
 title: "Architecture Demystified"
 subtitle: "No RAG, no black magic - just a loop"
 author: "Florian BRUNIAUX"
-date: 2026-08-24
+date: "2026-09-24"
 date-format: "MMMM YYYY"
-version: "3.42.0"
-wp-version: "1.5.0"
+version: "3.43.0"
+wp-version: "1.5.1"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -85,44 +85,47 @@ Every architectural choice has a price. The absence of an orchestrator provides 
 | Fewer bugs | Model errors affect everything |
 | Fast iteration | Requires a quality model |
 
-This trade-off is at the core of Anthropic's philosophy: rather than stacking control layers, invest in the model's quality itself. Every removed component (classifier, router, orchestrator) is one fewer failure surface and one fewer source of rigidity. But it also means experience quality depends directly on model reasoning quality, hence the importance of Opus 4.8.
+This trade-off is at the core of Anthropic's philosophy: rather than stacking control layers, invest in the model's quality itself. Every removed component (classifier, router, orchestrator) is one fewer failure surface and one fewer source of rigidity. But it also means experience quality depends directly on model reasoning quality, so model choice must be evaluated with the same harness.
 
-## Opus 4.8: Auto-Adaptive Thinking
 
-**Introduced**: February 2026
+## Current Models
 
-Claude Opus 4.8 automatically adjusts its reasoning depth based on task complexity:
+Standard API rates, verified September 24, 2026. USD per million input/output tokens, excluding caching.
 
-| Task Complexity | Thinking Tokens | Example |
-|-----------------|-----------------|---------|
-| **Simple** | ~500 tokens | "Fix this typo" |
-| **Moderate** | ~2K tokens | "Refactor auth logic" |
-| **Complex** | ~10K tokens | "Design microservices architecture" |
-| **Very complex** | ~32K tokens | "Root cause: race condition in distributed system" |
+| Model | Input / output | Context | Default effort |
+|-------|----------------|---------|----------------|
+| Haiku 4.5 | $1 / $5 | 200K | Unsupported |
+| Sonnet 5 | $2 / $10 | 1M | high |
+| Opus 5.5 | $4 / $20 | 1M | medium |
+| Fable 5.1 | $10 / $50 | 1M | high |
 
-**Architecture impact**:
-- No need for a separate "planner": model reasons internally
-- Superior quality on complex tasks
-- Cost: ~$15/1M input, $75/1M output (thinking billed at output rate)
+Sonnet's published rate remains $2/$10 after the launch promotion. Opus 5.5 is the direct-service default; account policy can override it. Model choice does not establish a typical task cost.
 
-**Activation**: Automatic with Opus 4.8 (`/model opus`)
+## Select and Save
 
-## Opus 4.7: The `xhigh` Effort Level
+`/model` opens the picker. **Enter** saves a default; **s** applies it to this session only. `claude --model sonnet` applies to the launched session. Project and managed settings can reapply at the next launch.
 
-**Introduced**: v2.1.114 (April 2026)
+Aliases depend on the provider. `opus` maps to 5.5 on most providers, but 4.6 on Foundry. `sonnet` maps to 5 on the direct API, 4.6 on Claude Platform on AWS, and 4.5 on Bedrock, Google, and Foundry.
 
-Opus 4.7 adds a new effort tier above `high`: `xhigh`. This is now the default in Claude Code for Opus 4.7+, meaning the model allocates more thinking tokens by default on complex tasks.
+`fable` selects 5.1 where available, or 5 through the Claude apps gateway. `best` selects Fable when available, otherwise Opus. Pin a supported full ID when version identity matters.
 
-| Effort level | Thinking tokens | Usage |
-|-------------|-----------------|-------|
-| `low` | Minimal | Trivial tasks |
-| `medium` | Moderate | Everyday use |
-| `high` | Elevated | Previous default |
-| `xhigh` | Maximum | Default on Opus 4.7+ |
-| `max` | Beyond xhigh | Session-only, not a persistent default |
-| `ultracode` | Highest in the enum | Session-only, not a persistent default |
+## Thinking and Effort
 
-Raising the default from `high` to `xhigh` improves quality on complex analysis and debugging tasks, at the cost of slightly increased latency. Teams concerned about cost can still force a lower level via configuration.
+Opus 5.5, Sonnet 5, and Fable 5.1 use adaptive thinking. Haiku 4.5 supports extended thinking but has **no effort parameter**.
+
+Current adaptive models support `low`, `medium`, `high`, `xhigh`, and `max`. Opus 4.6 and Sonnet 4.6 support `max` but not `xhigh`.
+
+`/effort` saves levels through `xhigh` per model. Use **s** for a session-only choice. `max` is session-only; `/effort auto` clears the active model's saved choice.
+
+`Option+T` / `Alt+T` toggles thinking where supported. It has no effect on Opus 5.5 or Fable, whose thinking is always enabled. Lower effort for bounded work instead.
+
+`ultrathink` adds a reasoning instruction without changing API effort. `think hard` is ordinary prompt text.
+
+## Choose by Measured Results
+
+Evaluate Haiku on bounded tasks, Sonnet on routine work, and Opus or Fable on harder tasks. Compare accepted outcomes, retries, latency, and total cost on the same task set. Teammates can use different models.
+
+Sources: [Model configuration](https://code.claude.com/docs/en/model-config), [API pricing](https://platform.claude.com/docs/en/about-claude/pricing).
 
 ::: {.callout-warning title="Incident: Triple Harness Regression (March-April 2026)"}
 Between March and April 2026, three independent harness changes simultaneously degraded Claude Code output quality, a 6-week regression before full resolution:
@@ -300,7 +303,7 @@ These features are available via the Agent SDK/API (not the CLI directly) and ap
 
 ## Context Budget (~200K tokens)
 
-> **Note**: 200K tokens (standard); Sonnet 5 natively offers a 1M-token context window since v2.1.197, with no header or tier required. Opus 4.8's 1M context remains a manual-activation beta (usage tier 4 required, header `context-1m-2025-08-07`). See below for the 200K vs 1M comparison.
+> **Current windows**: Opus 5.5, Sonnet 5, and Fable 5.1 use native 1M context; Haiku 4.5 uses 200K. See the model table below.
 
 ```
   CONTEXT BUDGET ~200K tokens
@@ -319,43 +322,51 @@ These features are available via the Agent SDK/API (not the CLI directly) and ap
 
 The context budget is a finite, non-extensible resource within a session. Every Read, every Bash, every Grep consumes space that will no longer be available for reasoning. This is why context management strategy directly conditions response quality toward the end of a session.
 
-### 200K vs 1M Context: Performance, Cost & Use Cases
 
-The 1M-token window changed status on June 30, 2026 (v2.1.197): it is now native by default on Sonnet 5, with no activation step, at a promotional rate of $2/$10 per million tokens (input/output) through August 31, 2026. On Opus 4.8, the 1M window remains a manual-activation beta (header `context-1m-2025-08-07`, usage tier 4 required, tiers 1-3 not eligible). The cost and performance implications below, measured before this change, still hold for reasoning about the retrieval/cost trade-off, but the default calculus has shifted: most Claude Code sessions now run on Sonnet 5 with native 1M, with no trade-off decision to make.
+## Context Is Model-Specific
 
-**MRCR Benchmark (Multi-Round Coreference Resolution)**:
+| Direct API model | Context | Maximum output |
+|------------------|---------|----------------|
+| Haiku 4.5 | 200K | 64K |
+| Sonnet 5 | 1M native | 128K |
+| Opus 5.5 | 1M native | 128K |
+| Fable 5.1 | 1M native | 128K |
 
-| Model | 128K | 256K | 512K | 1M |
-|-------|------|------|------|-----|
-| Opus 4.6 | 97% | 93% | ~85% | ~75% |
-| Sonnet 4.6 | 95% | 88% | ~78% | ~65% |
+Verified September 24, 2026. Provider settings can expose different limits. Inspect `/context` for the active session.
 
-**Premium pricing above 200K**: Beyond 200K input tokens, a premium rate applies to all tokens in the request (not just the excess):
+## No Native-1M Premium
 
-| Model | Standard input | Input >200K | Output |
-|-------|---------------|-------------|--------|
-| Sonnet 4.6 | $3/1M | $6/1M | $15/1M |
-| Opus 4.6 | $15/1M | $22.50/1M | $75/1M |
+Current native 1M models use standard rates beyond 200K input tokens. They do not need the old long-context beta header. Sonnet 5 has no 200K variant on the direct API.
 
-**Estimated cost per 1M session**:
+Older Opus 4.6 and Sonnet 4.6 have `[1m]` variants with plan/provider restrictions. Do not transfer their access rules to current models.
 
-| Model | Estimated 1M session cost |
-|-------|--------------------------|
-| Sonnet 4.6 | ~$4.13 |
-| Opus 4.6 | ~$6.88 |
+## Price a Complete Request
 
-**Decision guide**:
+Illustrative USD totals without caching or retries:
 
-| Criteria | 200K (standard) | 1M (extended context) |
-|----------|-----------------|------------------------|
-| Retrieval accuracy | High (MRCR >90%) | Degrades beyond 512K, regardless of model |
-| Cost | Standard rate | On Sonnet 5: native, promotional rate $2/$10 per Mtok through August 31, 2026; on Opus 4.8: premium x1.5-2 on input |
-| Use case | Short to medium sessions | Massive codebases, exhaustive analysis |
-| Community recommendation | Standard session | New session at ~70% context |
+| Input / output | Sonnet 5 | Opus 5.5 |
+|----------------|----------|----------|
+| 50K / 5K | $0.15 | $0.30 |
+| 150K / 20K | $0.50 | $1.00 |
+| 500K / 50K | $1.50 | $3.00 |
 
-::: {.callout-note title="Community validation (HN)"}
-Opus 4.6 demonstrated the ability to retrieve 49/50 spells from the Harry Potter corpus (~733K tokens), confirming strong retrieval capability on very long contexts, but with progressive degradation beyond 256K tokens.
-:::
+Use separate input, output, cache-read, and cache-write counts. A context-window size is capacity, not a bill or an accuracy score.
+
+## Control Accumulation
+
+`/context` shows the token breakdown. `/compact` summarizes the conversation; `/clear` starts fresh. Save decisions and verification commands before resetting context.
+
+`/autocompact 500k` saves a smaller compaction window. `/autocompact auto` restores the model default. Native 1M sessions normally compact around 967K.
+
+Load relevant files rather than filling the available window. Split independent tasks when separate contexts help. No fixed percentage guarantees reliable recall.
+
+## Evaluate Retrieval
+
+Older MRCR results for Opus 4.6 or Sonnet 4.5 remain results for those models and benchmark conditions. They do not establish retrieval quality for Sonnet 5 or Opus 5.5.
+
+Test on your own document set with answerable questions, expected citations, and distractors. Measure missed evidence as well as correct answers.
+
+Sources: [Model configuration](https://code.claude.com/docs/en/model-config), [model specifications](https://platform.claude.com/docs/en/models/overview), [pricing](https://platform.claude.com/docs/en/about-claude/pricing).
 
 ## Auto-Compaction
 
@@ -572,7 +583,7 @@ Leila is debugging a performance issue on the payment API. Rather than reading a
 
 # Agent Teams: Autonomous Coordination
 
-**Status**: Experimental (v2.1.32+, Opus 4.8 recommended, Opus 4.6+ compatible)
+**Status**: Experimental (v2.1.32+, models selected per teammate)
 
 Sub-agents solve the context isolation problem but remain synchronous, even with the 3-level depth cap. For tasks requiring real coordination between multiple autonomous agents (each with its own 1M-token context window), Agent Teams represent the next step.
 
@@ -595,7 +606,7 @@ Sub-agents solve the context isolation problem but remain synchronous, even with
 ```
 
 **Key capabilities**:
-- Isolated 1M token context/agent (Opus 4.8)
+- Isolated context per agent, sized by its model
 - Peer-to-peer communication via mailbox (not just hierarchical)
 - Git-based coordination (locks, automatic merge)
 - Solution debate between agents (challenge approaches)
@@ -934,9 +945,9 @@ Coding agents evolve fast, but fundamental architectural differences remain stab
 |-----------|-------------|--------------------------|--------|
 | **Architecture** | while(tool) loop | Cloud-based planning | Event-driven + cloud |
 | **Execution** | Local terminal | Cloud sandbox | Local + cloud |
-| **Model** | Claude (Sonnet 5 default, Opus 4.8, Fable 5) | GPT-4o/o3-mini/Claude | Multiple (adaptive) |
+| **Model** | Claude (Opus 5.5 default, Sonnet 5, Fable 5.1) | GPT-4o/o3-mini/Claude | Multiple (adaptive) |
 | **Context** | 200K–1M tokens | 128K–200K (model-dependent)^[GPT-4o: 128K, o3-mini and Claude via Copilot: 200K. Source: GitHub Copilot docs, Nov. 2025. Verified Feb. 2026.] | Not publicly disclosed |
-| **Thinking** | Opus 4.8 (xhigh default), Sonnet 5 and Opus 4.6+ (auto-depth) | No | No |
+| **Thinking** | Opus 5.5 (medium), Sonnet 5 / Fable 5.1 (high) | No | No |
 | **Agent Teams** | Yes (experimental) | No | No |
 | **Transparency** | High (visible reasoning) | Medium | Medium |
 | **Custom** | CLAUDE.md + hooks + agents | Limited | Plugins |
@@ -988,9 +999,9 @@ Despite Anthropic's growing transparency, several internal aspects of Claude Cod
 
 | Model | Knowledge Cutoff |
 |-------|-----------------|
-| Sonnet 5 | Not published |
-| Opus 4.8 | Not published |
-| Fable 5 | Not published |
+| Sonnet 5 | January 2026 |
+| Opus 5.5 | June 2026 |
+| Fable 5.1 | June 2026 |
 | Sonnet 4.6 | August 2025 |
 | Opus 4.6 | May 2025 |
 | Haiku 4.5 | February 2025 |

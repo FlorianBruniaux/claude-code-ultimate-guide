@@ -662,13 +662,13 @@ cat iam-policy.json | claude "Review this IAM policy:
 
 | Model | Input (1M tokens) | Output (1M tokens) |
 |-------|-------------------|-------------------|
-| Sonnet 4 | $3 | $15 |
-| Opus 4 | $15 | $75 |
+| Sonnet 5 | $2 | $10 |
+| Opus 5.5 | $4 | $20 |
 
-**Typical DevOps session**: 20K-50K tokens = $0.10-$0.50
+Standard API rates verified September 24, 2026. A session bill requires separate input, output, cache, and retry counts. [Official pricing](https://platform.claude.com/docs/en/about-claude/pricing).
 
 **Cost control strategies**:
-1. Use Sonnet for routine tasks (default)
+1. Evaluate Sonnet for routine tasks; this is a routing choice, not the account default
 2. Reserve Opus for complex multi-system analysis
 3. Use `/compact` to reduce context when conversation gets long
 4. Avoid pasting entire log files; grep relevant sections first

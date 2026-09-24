@@ -4,92 +4,59 @@ subtitle: "Fast mode and the major API changes you need to know"
 card-number: "T21"
 category: "Technical"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "August 2026"
+version: "3.43.0"
+date: "2026-09-24"
 layout: "two-col"
 lang: en
 format:
   recap-card-typst: default
 ---
 
-## Fast Mode
+## Fast Mode on Opus 5.5
 
-Fast Mode produces responses **2.5x faster** in exchange for a 2x higher cost. Available on Opus 5, the default Opus model since v2.1.219, and on Opus 4.8, the previous generation that stays the default on Bedrock/Vertex/Claude-Platform-on-AWS. The underlying model stays the same, Fast Mode does not switch to a different one. Opus 4.7 was dropped from Fast Mode as of v2.1.219.
+Fast mode uses faster serving of the same model. Anthropic advertises **up to 2.5 times faster output**, not a guarantee for every request. Claude Code selects Opus 5.5 for fast mode from v2.1.280.
 
-| Parameter | Standard | Fast Mode |
-|-----------|----------|-----------|
-| Model | Opus 5 | Opus 5 |
-| Speed | Reference | 2.5x faster |
-| Input price | $5.00/Mtok | $10.00/Mtok |
-| Output price | $25.00/Mtok | $50.00/Mtok |
+| Rate per million tokens | Standard | Fast |
+|-------------------------|----------|------|
+| Input | $4 | $8 |
+| Output | $20 | $40 |
 
-On Opus 4.8, Fast Mode applies the same ratio (2.5x faster, 2x standard price); exact pricing is not published, see the official docs.
+Opus 5 and Opus 4.8 also support fast mode at $10/$50. Sonnet and Haiku do not. Opus 4.7 is no longer supported in fast mode.
 
-**In CLI:** `/fast` activates the mode for the current session.
+## Activation and Billing
 
-## When to Use Fast Mode
+Use `/fast` or `Option+O` / `Alt+O`. The choice normally persists between sessions; organization settings and availability still apply. Subscription fast mode uses usage credits, not the included subscription allowance.
 
-Fast Mode is worthwhile when response time has direct business value: live demo, intensive pair programming, mechanical code generation in a tight loop. It is not a replacement for Sonnet on simple tasks: Sonnet remains 10x cheaper.
+Compare observed latency and cost on the same task. Faster output does not remove tool waits, retries, or review work. Sonnet 5 standard rates are $2/$10, four times lower than Opus 5.5 fast rates for the same token counts.
 
-**Relevant:**
-- Repetitive boilerplate generation in an interactive session
-- Reformatting or large-scale code conversion
-- Demo context where visible latency impacts the experience
+```{=typst}
+#colbreak()
+```
 
-**Not relevant:**
-- Background or asynchronous tasks (speed does not matter)
-- Simple tasks covered by Sonnet or Haiku
-- Tight API budgets
+## API Integration
 
-## Fast Mode via API (Opus 5)
+Use the current [API fast-mode instructions](https://platform.claude.com/docs/en/build-with-claude/fast-mode) for supported model IDs, headers, request fields, and fallback behavior. Do not copy an older beta example without checking SDK compatibility.
+
+For adaptive reasoning on current models:
 
 ```python
 response = client.messages.create(
-    model="claude-opus-5",
-    speed="fast",
-    extra_headers={
-        "anthropic-beta": "fast-mode-2026-02-01"
-    },
-    messages=[{"role": "user", "content": "..."}]
+    model="claude-opus-5-5",
+    max_tokens=16000,
+    thinking={"type": "adaptive"},
+    output_config={"effort": "high"},
+    messages=[{"role": "user", "content": "Review this design."}],
 )
 ```
 
-The beta header is mandatory. Without it, the `speed` parameter is silently ignored.
+This is a standard-speed example. Opus 5.5 defaults to medium effort in Claude Code; the example explicitly asks for high.
 
-## Breaking Change: `assistant-prefill` Removed
+## Migrating Older Examples
 
-Opus 4.6 removed support for **assistant prefill**: the technique that allowed pre-filling Claude's response to guide its output format.
+Opus 4.6 removed assistant prefill. For schema-constrained JSON, use `output_config.format`; for strict tool inputs, put `strict: true` on the tool definition. A system instruction alone does not guarantee valid JSON.
 
-```python
-# Before (no longer works on Opus 4.6)
-messages=[
-    {"role": "user", "content": "Respond in JSON"},
-    {"role": "assistant", "content": "{"}  # prefill
-]
+Current Opus, Sonnet 5, and Fable use adaptive thinking. Fixed `budget_tokens` examples belong to older models. Haiku 4.5 supports extended thinking but has no effort parameter.
 
-# After — use the system prompt
-system="Always respond with valid JSON only."
-```
-
-**Impact:** any API pipeline using `assistant-prefill` on Opus 4.6 must migrate to explicit instructions in the system prompt or few-shot examples.
-
-## The `effort` Parameter (API)
-
-The `effort` parameter replaces `budget_tokens` on Opus 4.6 for controlling reasoning depth.
-
-```python
-output_config={"effort": "medium"}  # low|medium|high|xhigh|max
-```
-
-`budget_tokens` remains functional on Opus 4.5 but is deprecated on 4.6. Migrate to `effort` for new pipelines.
-
-## Summary of Opus 4.6 Changes
-
-| Feature | Status |
-|---------|--------|
-| `assistant-prefill` | Removed |
-| `budget_tokens` | Deprecated (replaced by `effort`) |
-| Fast Mode | New (`speed: "fast"`) |
-| Adaptive Thinking | New (replaces opt-in thinking) |
+Verified September 24, 2026. Sources: [Claude Code fast mode](https://code.claude.com/docs/en/fast-mode), [structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs).

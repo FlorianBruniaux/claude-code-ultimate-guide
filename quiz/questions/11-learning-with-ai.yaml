@@ -72,7 +72,7 @@ questions:
     explanation: "The 15-minute rule is a specific protocol: (1) State the problem in ONE sentence (2 min), (2) Brainstorm 3 possible approaches (5 min), (3) Identify your knowledge gaps (3 min), (4) THEN ask AI with a much better question (5 min). This forces you to think before asking, resulting in better questions and faster learning."
     doc_reference:
       file: guide/roles/learning-with-ai.md
-      section: U — Understand First
+      section: "U: Understand First"
       anchor: "#u-understand-first-the-15-minute-rule"
   - id: 11-005
     difficulty: intermediate
@@ -90,7 +90,7 @@ questions:
     explanation: "The rule is simple: if you can't explain the code to a colleague, you don't understand it. This is the verification step - you must be able to articulate WHY the solution works, not just THAT it works. The guide recommends using a /explain-back slash command that asks YOU to explain AI-generated code."
     doc_reference:
       file: guide/roles/learning-with-ai.md
-      section: V — Verify
+      section: "V: Verify"
       anchor: "#v-verify-explain-it-back"
   - id: 11-006
     difficulty: intermediate
@@ -181,7 +181,7 @@ questions:
     explanation: The Apply step requires modification, not copy-paste. You must change at least one element (variable name, structure, edge case handling). Why? Modification forces understanding. Copying is passive; modifying requires you to engage with the code and understand how it works.
     doc_reference:
       file: guide/roles/learning-with-ai.md
-      section: A — Apply
+      section: "A: Apply"
       anchor: "#a-apply-transform-dont-copy"
   - id: 11-011
     difficulty: senior
@@ -216,7 +216,7 @@ questions:
     correct: c
     explanation: "The learning-capture.sh hook uses the Stop event (session end) to prompt: \"What's ONE thing you learned today?\" This logs to ~/claude-learnings.md automatically. It's lightweight (asks one question) so you'll actually use it, unlike verbose learning journals."
     doc_reference:
-      file: guide/roles/learning-with-ai.md
+      file: guide/learning-with-ai.md
       section: Hooks That Build Habits
       anchor: "#hooks-that-build-habits"
   - id: 11-013
@@ -235,7 +235,7 @@ questions:
     correct: b
     explanation: "The Dependent pattern's risk is becoming unemployable. Signs: copy-paste without understanding, can't debug AI code, anxiety without AI. In interviews: can't whiteboard basics, struggles with \"why this approach?\", asks to look up fundamentals. You ship code you can't explain - when it breaks, you're stuck."
     doc_reference:
-      file: guide/roles/learning-with-ai.md
+      file: guide/learning-with-ai.md
       section: "Pattern 1: Dependent"
       anchor: "#pattern-1-dependent"
   - id: 11-014
@@ -253,7 +253,7 @@ questions:
     correct: b
     explanation: "The key question is: \"Am I faster than last month? Am I smarter?\" If you're faster but NOT smarter, you're building dependency. Other weekly questions: What did I learn that I didn't know before? Could I have done this without AI? Did I understand everything I shipped?"
     doc_reference:
-      file: guide/roles/learning-with-ai.md
+      file: guide/learning-with-ai.md
       section: Weekly Self-Audit
       anchor: "#weekly-self-audit"
   - id: 11-015
@@ -336,7 +336,7 @@ questions:
       d: AI tools made experienced developers 19% slower on large codebases despite developers perceiving themselves as 20% faster
     correct: d
     explanation: |-
-      The METR RCT studied 16 experienced developers across 246 issues on large codebases (1M+ lines). The counterintuitive finding: AI tools made these experienced developers **19% slower** — yet developers **perceived themselves as 20% faster** (a 39-point perception gap). This is considered the strongest evidence for skill atrophy risk in experienced developers working on large, familiar codebases. The study highlights the difference between performance on isolated tasks (where AI helps) vs. navigating complex existing systems (where familiarity matters more).
+      The METR RCT studied 16 experienced developers across 246 issues on large codebases (1M+ lines). The counterintuitive finding: AI tools made these experienced developers **19% slower**, yet developers **perceived themselves as 20% faster** (a 39-point perception gap). This is considered the strongest evidence for skill atrophy risk in experienced developers working on large, familiar codebases. The study highlights the difference between performance on isolated tasks (where AI helps) vs. navigating complex existing systems (where familiarity matters more).
       ---
     doc_reference:
       file: guide/roles/learning-with-ai.md
@@ -355,7 +355,7 @@ questions:
       d: AI code was 30.7% harder to maintain compared to human-written code
     correct: b
     explanation: |-
-      The "Echoes of AI" study (151 participants, 95% professional developers) found AI users were **30.7% faster** (median), with habitual users reaching ~55.9% faster. Critically, Phase 2 tested maintainability: downstream developers evolving AI-generated code showed **no significant difference** in evolution time or code quality vs. human-generated code. This is the first RCT to explicitly target AI code maintainability. The study was co-authored by Dave Farley ("Continuous Delivery") — note it is an arXiv preprint, not yet published in peer-reviewed proceedings.
+      The "Echoes of AI" study (151 participants, 95% professional developers) found AI users were **30.7% faster** (median), with habitual users reaching ~55.9% faster. Critically, Phase 2 tested maintainability: downstream developers evolving AI-generated code showed **no significant difference** in evolution time or code quality vs. human-generated code. This is the first RCT to explicitly target AI code maintainability. The study was co-authored by Dave Farley ("Continuous Delivery"). It is an arXiv preprint, not yet published in peer-reviewed proceedings.
       ---
     doc_reference:
       file: guide/roles/learning-with-ai.md
@@ -374,7 +374,7 @@ questions:
       d: A leaderboard ranking developers by Claude Code usage within an organization
     correct: c
     explanation: |-
-      Contribution Metrics is a **Team and Enterprise plan feature** (public beta, Jan 2026) that tracks PRs merged and lines of code committed with/without Claude Code attribution. Access is for workspace admins and owners only. Setup: install the Claude GitHub App → enable GitHub Analytics in Admin settings → authenticate your GitHub organization. Anthropic's internal updated data shows **+67% PRs merged per engineer per day** and 70-90% of code now written with Claude Code assistance — though these are directional indicators, not rigorous benchmarks (no baseline period disclosed).
+      Contribution Metrics is a **Team and Enterprise plan feature** (public beta, Jan 2026) that tracks PRs merged and lines of code committed with/without Claude Code attribution. Access is for workspace admins and owners only. Setup: install the Claude GitHub App → enable GitHub Analytics in Admin settings → authenticate your GitHub organization. Anthropic's internal updated data shows **+67% PRs merged per engineer per day** and 70-90% of code now written with Claude Code assistance, though these are directional indicators, not rigorous benchmarks (no baseline period disclosed).
       ---
     doc_reference:
       file: guide/ultimate-guide.md
@@ -422,11 +422,11 @@ questions:
     question: What is the velocity trap in AI-augmented teams, and why is DORA 'High' on deployment frequency not sufficient evidence of health?
     options:
       a: Teams deploy too slowly because AI adds overhead
-      b: High deployment frequency can coexist with burnout, skill atrophy, and shallow reviews — DORA measures pace, not sustainability or quality
+      b: High deployment frequency can coexist with burnout, skill atrophy, and shallow reviews. DORA measures pace, not sustainability or quality
       c: DORA metrics are only valid for teams of 10 or more engineers
       d: Deployment frequency causes merge conflicts when AI generates too many branches
     correct: b
-    explanation: "The velocity trap: a team rated High on DORA deployment frequency can simultaneously experience burnout (engineers rubber-stamping AI output), skill atrophy (engineers losing the ability to reason about code independently), and shallow reviews (speed pressure discourages deep inspection). DORA measures pace of delivery, but not whether the team understands what it is shipping. This is why Level 2 metrics (CFR by code origin, review time) exist — to surface quality degradation that hides behind fast numbers."
+    explanation: "The velocity trap: a team rated High on DORA deployment frequency can simultaneously experience burnout (engineers rubber-stamping AI output), skill atrophy (engineers losing the ability to reason about code independently), and shallow reviews (speed pressure discourages deep inspection). DORA measures pace of delivery, but not whether the team understands what it is shipping. This is why Level 2 metrics (CFR by code origin, review time) exist: to surface quality degradation that hides behind fast numbers."
     doc_reference:
       file: guide/roles/learning-with-ai.md
       section: Team-Level Steering Metrics
@@ -444,7 +444,7 @@ questions:
       c: A weekly review of three steering metrics in under five minutes to catch drift early, before velocity-trap patterns solidify into team habits
       d: A tool that automatically generates weekly reports from git history
     correct: c
-    explanation: "The Monday ritual is a lightweight weekly habit for tech leads: spend five minutes reviewing three steering metrics (typically Deployment Frequency, CFR by code origin, and review time delta). The goal is early detection of drift. Velocity traps, skill atrophy, and review shortcuts develop gradually — weekly check-ins catch the signal before it becomes a cultural pattern that is hard to reverse. Five minutes is intentionally short: the ritual should have near-zero friction so it actually happens."
+    explanation: "The Monday ritual is a lightweight weekly habit for tech leads: spend five minutes reviewing three steering metrics (typically Deployment Frequency, CFR by code origin, and review time delta). The goal is early detection of drift. Velocity traps, skill atrophy, and review shortcuts develop gradually. Weekly check-ins catch the signal before it becomes a cultural pattern that is hard to reverse. Five minutes is intentionally short: the ritual should have near-zero friction so it actually happens."
     doc_reference:
       file: guide/roles/learning-with-ai.md
       section: Team-Level Steering Metrics

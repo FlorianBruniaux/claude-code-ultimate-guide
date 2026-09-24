@@ -2,10 +2,10 @@
 title: "Whitepaper 08 : Agent Teams"
 subtitle: "Coordination multi-agents pour tâches complexes"
 author: "Florian BRUNIAUX"
-date: 2026-08-24
+date: "2026-09-24"
 date-format: "MMMM YYYY"
-version: "3.42.0"
-wp-version: "1.6.0"
+version: "3.43.0"
+wp-version: "1.6.1"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -51,7 +51,7 @@ L'idée centrale est simple : certaines tâches de développement sont naturelle
 ## Statut et Maturité
 
 - **Statut** : Experimental (v2.1.32+, *research preview*)
-- **Modèle requis** : Opus 5 (recommandé/requis), Opus 4.6+ compatible
+- **Modèles** : choisir un modèle accessible par coéquipier ; Opus est facultatif
 - **Activation** : `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
 - **Stabilite** : *Research preview*, *breaking changes* possibles
 
@@ -135,7 +135,7 @@ Teammate 1 ←──── messages pair-à-pair ────→ Teammate 2
 **Source** : [Addy Osmani Research](https://addyosmani.com/blog/claude-code-agent-teams/), Fév 2026
 
 1. **Team lead** : Crée l'équipe, lance les *teammates*, coordonne le travail
-2. **Teammates** : Instances Claude Code indépendantes avec contexte propre --- **1M tokens chacun** (Opus 5, ~30K lignes de code, soit environ 1M tokens par fenêtre de contexte).
+2. **Teammates** : Instances Claude Code indépendantes avec contexte propre --- une fenêtre dimensionnée selon le modèle et le fournisseur.
 3. **Liste de tâches** : Éléments de travail partagés avec suivi des dépendances et déblocage automatique
 4. **Mailbox** : Système de messagerie pair-à-pair (*inbox-based*) permettant la communication directe entre agents (pas un contexte partagé, messages explicites uniquement)
 
@@ -269,7 +269,7 @@ La coordination entre agents passe par git, ce qui est un choix d'architecture p
 **Requis** :
 
 - Claude Code v2.1.32 ou ultérieur
-- Modèle Opus 5 (`/model opus`), Opus 4.6+ également compatible
+- Modèle accessible au compte, choisi par coéquipier
 - Dépôt git (pour la coordination)
 
 **Recommandé** :
@@ -303,8 +303,8 @@ source ~/.bashrc
 
 ```json
 {
-  "experimental": {
-    "agentTeams": true
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   }
 }
 ```
@@ -333,7 +333,7 @@ Claude devrait confirmer :
 
 **Vérification alternative** (vérifier les paramètres) :
 ```bash
-cat ~/.claude/settings.json | grep agentTeams
+cat ~/.claude/settings.json | grep CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS
 ```
 
 # Cas d'Usage en Production
@@ -585,7 +585,7 @@ Ajouter un agent reviewer à lecture seule améliore la qualité des sorties san
 
 **Configuration recommandée** (source : Addy Osmani, O'Reilly AI CodeCon) :
 
-- **Modèle** : Opus 5 (capacité d'analyse supérieure)
+- **Modèle** : Opus 5.5 (choix explicite à évaluer)
 - **Accès** : lecture seule (ne modifie aucun fichier)
 - **Déclencheur** : automatique sur `TaskCompleted`
 - **Ratio** : 1 reviewer pour 4 workers maximum
@@ -630,7 +630,7 @@ ton état au team lead avant de continuer.
 3. Agents Opus uniquement pour l'orchestration et la review critique
 
 ::: {.callout-warning title="Ce mixage de modèles n'est pas natif aux agent teams"}
-Dans une session agent teams native, tous les teammates tournent sur **le même modèle** (Opus 5, requis). La sélection de modèle par rôle --- lead en Opus, implémentation en Sonnet, tests en Haiku --- est une fonctionnalité demandée par la communauté, pas encore livrée. Le contournement actuel consiste à lancer des processus Claude Code séparés avec des flags `--model` explicites, ce qui fait perdre la coordination intégrée (mailbox, liste de tâches partagée). Les trois stratégies ci-dessus décrivent donc un objectif de répartition par rôle, atteignable uniquement en sortant du cadre agent teams natif.
+Les coéquipiers peuvent utiliser des modèles différents. Le modèle demandé à la création ou dans la définition de l’agent précède le modèle de sous-agent configuré ou celui du lead, sous réserve des réglages forcés et des restrictions de l’organisation. Ils héritent du réglage d’effort du lead. [Documentation officielle](https://code.claude.com/docs/en/agent-teams).
 :::
 
 # Patterns d'Orchestration Avancés
@@ -810,7 +810,7 @@ Dépendances strictes ?
 
 **Résolution automatique échoue** : même ligne modifiée par 2 agents, logique conflictuelle, dépendances circulaires. Dans ce cas : `git reset --hard` et redécomposer avec un agent unique.
 
-**Coût réel** (Opus 5) : 3 agents = ~3x le coût de base. La justification est simple : temps économisé > augmentation du coût. Agent teams non justifiées pour les tâches simples, les projets d'apprentissage, ou quand le budget est contraint.
+**Hypothèse de coût à mesurer** : 3 agents = ~3x le coût de base. La justification est simple : temps économisé > augmentation du coût. Agent teams non justifiées pour les tâches simples, les projets d'apprentissage, ou quand le budget est contraint.
 
 ## Statut Expérimental et Isolation
 
@@ -962,7 +962,7 @@ Problème détecté
 ├─ Agents ne se lancent pas → [CONFIGURATION]
 │   ├─ Flag activé ?
 │   │   ├─ Non → Activer CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
-│   │   └─ Oui → Modèle Opus 5 (ou 4.6+) ?
+│   │   └─ Oui → Modèle choisi accessible ?
 │   │             ├─ Non → /model opus
 │   │             └─ Oui → Tâche trop simple : Claude a décidé qu'un seul agent suffisait.
 │   │                       Demander explicitement : "Lance 3 agents pour cette tâche"
@@ -1009,7 +1009,7 @@ Problème détecté
 
 **Prérequis techniques** :
 
-- [ ] Claude Code v2.1.32+, modèle Opus 5 recommandé (`/model opus`), dépôt git initialisé
+- [ ] Claude Code v2.1.32+, modèle accessible au compte, dépôt git initialisé
 - [ ] Flag activé : `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
 - [ ] Navigation fonctionnelle : `Shift+Haut/Bas` entre agents
 

@@ -8,7 +8,7 @@ Guide version 3.43.0, tracking Claude Code up to v2.1.281 (September 2026).
 
 - Getting started: installation, CLAUDE.md setup, vocabulary, first session, 7-module learning path (8-11h)
 - Executable learning: installable learning-path skill with prerequisite gates, local evidence, scheduled reviews, and a tested seven-module companion project
-- Context window management: 1M-token context on Sonnet 5 and Opus 5, context rot, /compact and /clear thresholds, auto-compact
+- Context window management: 1M-token context on Sonnet 5, Opus 5.5, and Fable 5.1, context rot, /compact and /clear thresholds, auto-compact
 - Context engineering: managing what the model sees, when and in what shape; token audit workflow, compression tools, ejection discipline, maturity model
 - Memory systems: native stack (CLAUDE.md levels, auto memory, auto dream, agent frontmatter), cross-session tools (claude-mem, agentmemory, ICM, Kairn, OpenMemory), team sharing, file-based experience playbooks, memory poisoning risks
 - Hook system: all 30 hook events with matchers, input schemas, exit-code-2 behavior and decision-control formats; blocking vs non-blocking

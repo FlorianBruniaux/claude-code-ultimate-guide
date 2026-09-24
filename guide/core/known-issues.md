@@ -336,7 +336,7 @@ Three independent harness and system-prompt changes degraded Claude Code output 
 **Change**: Anthropic changed the default reasoning effort from `high` to `medium` for Sonnet 4.6 and Opus 4.6.
 **Impact**: Users who hadn't manually set `/effort high` silently got medium-quality reasoning. The in-product indicator still showed "high", masking the regression for over a month.
 **Affected**: Sonnet 4.6, Opus 4.6.
-**Resolution**: Reverted April 7. New defaults: xhigh for Opus 4.7, high for all other models. Proper UI iterations (thinking spinners, clearer `/effort` UX) shipped alongside.
+**Resolution**: Reverted April 7. Defaults at that time: xhigh for Opus 4.7, high for the other supported models. Current Opus 5.5 defaults to medium; see [model selection](../ultimate-guide.md#effort-levels). Proper UI iterations (thinking spinners, clearer `/effort` UX) shipped alongside.
 
 #### Incident 2: Thinking Tokens Cleared Per Turn After Idle (March 26, fixed April 10)
 

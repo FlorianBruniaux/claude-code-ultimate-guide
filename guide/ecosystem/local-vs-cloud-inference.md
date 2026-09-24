@@ -482,7 +482,7 @@ The hardware section above answers "how many watts does the GPU draw." A separat
 
 ## Cloud API Throughput: Claude vs GPT-5.6
 
-OpenAI's GPT-5.6 family (launched July 9, 2026) ships in three durable capability tiers named after celestial bodies: **Sol** (flagship), **Terra** (balanced mid-tier), **Luna** (fast, cheap). All three are available in ChatGPT, Codex, and the API, and generally available on Amazon Bedrock. Anthropic's current lineup for comparison: **Claude Opus 5** (flagship) and **Claude Sonnet 5** (mid-tier), both defaults in Claude Code.
+OpenAI's GPT-5.6 family (launched July 9, 2026) ships in three durable capability tiers named after celestial bodies: **Sol** (flagship), **Terra** (balanced mid-tier), **Luna** (fast, cheap). All three are available in ChatGPT, Codex, and the API, and generally available on Amazon Bedrock. The Claude measurements below concern **Opus 5** and **Sonnet 5**. They are historical model-specific results, not measurements of Opus 5.5 or Fable 5.1. For current aliases, defaults, and prices, see [model selection](../ultimate-guide.md#25-model-selection--thinking-guide).
 
 | Model | Typical throughput | Max-effort/benchmark throughput | Time to first token | Price ($/M tokens, in/out) |
 |---|---|---|---|---|

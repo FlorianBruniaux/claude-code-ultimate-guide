@@ -27,14 +27,14 @@ questions:
       - junior
       - senior
       - power
-    question: Where should skill files be stored?
+    question: How should storage reflect a skill's ownership scope?
     options:
-      a: .claude/commands/
-      b: .claude/skills/{skill-name}/
-      c: .claude/agents/
-      d: ~/.claude/skills/
+      a: Store every skill in ~/.claude/skills/ so all projects receive it
+      b: Use .claude/skills/{skill-name}/ for a project-owned skill and ~/.claude/skills/{skill-name}/ for a personal skill
+      c: Use .claude/agents/ for team skills and .claude/commands/ for personal skills
+      d: The location does not affect ownership or discovery
     correct: b
-    explanation: Skills live in `.claude/skills/{skill-name}/` directories within your project. Each skill has its own folder containing at minimum a SKILL.md file, with optional reference.md, checklists/, examples/, and scripts/ subdirectories. This organization keeps knowledge modular and reusable.
+    explanation: Store a project or team skill under `.claude/skills/{skill-name}/` so the repository can carry its owner, review path, and assumptions. Store a personal skill under `~/.claude/skills/{skill-name}/`. Both locations are valid, but they declare different ownership boundaries. Each directory requires a `SKILL.md` file.
     doc_reference:
       file: guide/ultimate-guide.md
       section: 5.2 Creating Skills
@@ -70,7 +70,7 @@ questions:
       d: Agents cannot use skills or commands
     correct: b
     explanation: |-
-      Since CC 2.1.3, the distinction is: Skills are knowledge modules that can be either user-invocable (formerly "commands") or auto-invoked by the model. Agents are specialized roles that Claude delegates tasks to (like a security reviewer). "Commands" are now simply user-invocable skills — skills with `disable-model-invocation: true` in their frontmatter — stored in `.claude/skills/` like all other skills.
+      Since CC 2.1.3, the distinction is: Skills are knowledge modules that can be either user-invocable (formerly "commands") or auto-invoked by the model. Agents are specialized roles that Claude delegates tasks to (like a security reviewer). "Commands" are now simply user-invocable skills (skills with `disable-model-invocation: true` in their frontmatter), stored in `.claude/skills/` like all other skills.
 
       In practice: Skills with `disable-model-invocation: true` behave like the old commands (triggered by `/name`). Skills without that flag auto-load when context matches. Agents inherit skills and have their own persistent memory. They can be combined: agents inherit model-invocable skills, and users invoke user-invocable skills via `/name`.
     doc_reference:
@@ -100,14 +100,14 @@ questions:
       - junior
       - senior
       - power
-    question: Why use skills instead of duplicating knowledge in multiple agents?
+    question: When does a shared skill provide a useful single source of truth?
     options:
-      a: Skills are faster
-      b: Skills provide single source of truth - update once, all agents benefit
-      c: Skills are required by Claude Code
-      d: Skills cost less
+      a: Publishing a skill automatically assigns a maintainer
+      b: A project-owned skill can remove duplication when its users share an owner, review path, and assumptions
+      c: Every agent receives every installed skill update automatically
+      d: Duplication is always worse than a generic shared skill
     correct: b
-    explanation: Skills follow DRY (Don't Repeat Yourself) principles. Without skills, you'd duplicate security knowledge in Agent A, B, and C. With skills, the security-guardian skill is the single source - all agents inherit it, and updates propagate everywhere. This ensures consistency and simplifies maintenance.
+    explanation: A project-owned skill can remove duplication when the repository defines who maintains it, how changes are reviewed, and which assumptions its consumers share. Publishing or installing a skill does not create that contract. A local fork or specialized copy may be safer than a generic artifact full of branches for incompatible contexts.
     doc_reference:
       file: guide/ultimate-guide.md
       section: 5.1 Understanding Skills
@@ -184,14 +184,14 @@ questions:
     difficulty: power
     profiles:
       - power
-    question: What does the 'allowed-tools' field in skill frontmatter control?
+    question: What does the `allowed-tools` field in skill frontmatter control?
     options:
       a: Tools the skill documents
-      b: Tools the skill can use when activated
+      b: Tools or command patterns pre-approved for the turn that invokes the skill
       c: Tools that can activate the skill
-      d: Tools to install
+      d: A permanent sandbox that blocks every unlisted tool
     correct: b
-    explanation: "The `allowed-tools` field specifies which tools the skill can use when activated. For example, a security-guardian skill might have `allowed-tools: Read, Grep, Bash` - allowing it to read files, search for patterns, and run security scanning commands, but not modify files. This provides security boundaries for each skill."
+    explanation: "The `allowed-tools` field pre-approves matching tools or scoped commands for the turn that invokes the skill. For example, `allowed-tools: Read Grep Bash(npm run *)` narrows what runs without another permission prompt. It is not an exclusive allowlist or sandbox: other tools remain governed by session permissions. Use `disallowed-tools` for turn-scoped removal and project deny rules for persistent restrictions."
     doc_reference:
       file: guide/ultimate-guide.md
       section: 5.2 Creating Skills
@@ -310,7 +310,7 @@ questions:
       c: They work on all systems
       d: No disclaimer needed
     correct: b
-    explanation: "Community cybersecurity skills come with important disclaimers: test thoroughly before using in production assessments, ensure you have proper authorization before penetration testing, review and validate against your organization's security policies, use only in legal contexts with written permission from system owners, and contribute back if you find issues. Verification is essential for any security tooling."
+    explanation: Test community cybersecurity skills before production use, review their instructions, supporting files, scripts, dependencies, and tool grants, and confirm that the work is authorized in writing. A catalog rating or repository popularity does not replace review of the exact version you invoke.
     doc_reference:
       file: guide/ultimate-guide.md
       section: 5.5 Community Skill Repositories
@@ -320,18 +320,18 @@ questions:
     profiles:
       - senior
       - power
-    question: What are the two types of skills introduced in Skills 2.0 (March 2026)?
+    question: Which four ownership scopes should you distinguish before distributing a skill?
     options:
-      a: Active skills and Passive skills
-      b: Manual skills and Automatic skills
-      c: Capability Uplift skills and Encoded Preference skills
-      d: Model skills and Workflow skills
+      a: Local, remote, managed, and unmanaged
+      b: Free, paid, open source, and proprietary
+      c: Personal, project or team, tool or vendor, and marketplace or global
+      d: Prompt, agent, hook, and MCP
     correct: c
-    explanation: "Skills 2.0 formalizes two distinct types: **Capability Uplift** skills fill a gap the base model can't handle consistently (e.g., precise PDF text placement). They fade over time as the model improves and should be monitored with evals. **Encoded Preference** skills sequence existing capabilities your team's specific way (e.g., NDA review against your legal criteria). They stay durable as long as the underlying workflow remains relevant."
+    explanation: Choose between personal, project or team, tool or vendor, and marketplace or global scope before selecting a distribution channel. Each scope carries a different compatibility and maintenance expectation. Public distribution supports discovery, but does not create shared ownership.
     doc_reference:
       file: guide/ultimate-guide.md
-      section: 5.0 Two Kinds of Skills
-      anchor: "#50-two-kinds-of-skills"
+      section: Ownership and Reuse Governance
+      anchor: "#ownership-and-reuse-governance"
   - id: 05-020
     difficulty: senior
     profiles:
@@ -340,11 +340,11 @@ questions:
     question: What is the "Spot Outgrowth" pattern in skill lifecycle management?
     options:
       a: When a skill grows too large and needs to be split
-      b: When the model improves to the point where it passes the skill's eval without the skill, signaling the skill can be retired
+      b: When the model passes representative evals without the skill, making it a retirement candidate that still needs a risk and dependency review
       c: When a skill triggers too often and needs to be throttled
       d: When a skill is adopted by the wider community
     correct: b
-    explanation: "Spot Outgrowth occurs when a model improves to the point where it can pass a skill's eval on its own, without the skill being loaded. This is the retirement signal for Capability Uplift skills: run the eval without the skill — if it passes, the skill is no longer needed. Removing it reduces context load and maintenance overhead. This contrasts with \"Catch Regressions,\" which detects when a skill drifts after a model update."
+    explanation: Spot Outgrowth occurs when the model passes representative evals without a Capability Uplift skill. That result makes the skill a retirement candidate; it does not prove safe deletion. Check active workflow dependencies, usage evidence, task frequency, and failure severity, then disable the skill and compare sessions before retiring it.
     doc_reference:
       file: guide/ultimate-guide.md
       section: 5.X Skill Lifecycle & Retirement
@@ -360,7 +360,7 @@ questions:
       c: It automatically runs all skill tests on a schedule
       d: It analyzes and improves the skill's description field to reduce false positives and false negatives in skill activation
     correct: d
-    explanation: "Trigger Tuning analyzes your skill's `description` field and suggests improvements to reduce two types of triggering errors: false positives (skill fires when it shouldn't) and false negatives (skill doesn't fire when it should). As skill libraries grow, descriptions can conflict and cause unreliable activation. According to Anthropic's internal testing, 5 of 6 document-creation skills showed improved triggering accuracy after optimization. [Source: claudecode.jp — directional]"
+    explanation: Trigger Tuning analyzes a skill's `description` and suggests changes intended to reduce false positives and false negatives in activation. It evaluates routing, not output quality. A skill can trigger at the right time and still produce an incorrect result, so test activation and task assertions separately.
     doc_reference:
       file: guide/ultimate-guide.md
       section: 5.Y Skill Evals
@@ -421,31 +421,31 @@ questions:
     profiles:
       - senior
       - power
-    question: In the Skills 2.0 taxonomy, what distinguishes a Capability Uplift skill from an Encoded Preference skill, and which type stays durable as models improve?
+    question: Where should the boundary sit between a skill and an automation harness?
     options:
-      a: Capability Uplift skills are for junior developers; Encoded Preference skills are for senior developers
-      b: Capability Uplift fills gaps in the model's current abilities and becomes less necessary as models improve; Encoded Preference encodes team workflow decisions and stays durable over time
-      c: Capability Uplift runs faster; Encoded Preference produces higher quality output
-      d: Capability Uplift is triggered automatically; Encoded Preference requires manual invocation
+      a: Keep every repeated workflow in SKILL.md because numbered steps guarantee execution order
+      b: Keep interpretation in a skill, but move required ordering, retries, stop rules, and artifact checks into a hook, script, CI job, or workflow harness
+      c: Move all judgment into a deterministic script so the model cannot adapt
+      d: Use an agent whenever a workflow contains more than one step
     correct: b
-    explanation: The Skills 2.0 taxonomy separates skills by their relationship to model improvement. Capability Uplift skills compensate for current model limitations — things the model cannot do well yet. As models get stronger, these skills become redundant and should be retired. Encoded Preference skills encode team-specific workflow decisions (naming conventions, review checklists, deployment conventions). These preferences are not things a better model will automatically know, so they stay durable regardless of model version.
+    explanation: Use a skill when the model must interpret context, resolve ambiguity, or adapt a procedure. Put required ordering, preconditions, retries, hard stops, and artifact checks in a hook, script, CI job, or dynamic workflow. A numbered list guides the model; it does not guarantee that the controls ran.
     doc_reference:
       file: guide/ultimate-guide.md
-      section: 5.0 Two Kinds of Skills
-      anchor: "#50-two-kinds-of-skills"
+      section: 5.1 Skills vs Agents
+      anchor: "#decision-tree-which-to-use"
   - id: 05-026
     difficulty: senior
     profiles:
       - senior
       - power
-    question: What are the three phases of the Skill Lifecycle, and what does the retirement checklist address?
+    question: What evidence does `/skill-doctor` provide, and what are its current limits?
     options:
-      a: Create, Deploy, Monitor — the checklist covers security scanning
-      b: Draft, Review, Publish — the checklist covers documentation completeness
-      c: Catch Regressions, Spot Outgrowth, and Retirement — the checklist ensures safe removal without breaking team workflows
-      d: Install, Configure, Uninstall — the checklist covers dependency cleanup
+      a: It scans every skill, including bundled and enterprise skills, in local and Remote Control sessions
+      b: It proves that every never-invoked skill is safe to delete
+      c: It reports visible skill context cost and never-invoked skills in the terminal, with scope and availability limits
+      d: It archives unused skills outside discovery paths automatically
     correct: c
-    explanation: "The Skill Lifecycle has three phases. Catch Regressions: run skill-specific tests after every Claude model update, because model changes can alter how skills trigger or perform. Spot Outgrowth: periodically check whether the model now handles the skill's job natively — Capability Uplift skills are the most likely candidates. Retirement: the checklist covers verifying no active workflows depend on the skill, communicating the removal to the team, and confirming the model handles the use case adequately before deleting. Skipping the retirement checklist is how teams accidentally break automated pipelines."
+    explanation: "`/skill-doctor` reports context cost for visible skills and flags skills that have never been invoked. It requires Claude Code v2.1.252 or later, excludes bundled and enterprise skills, depends on feature-flag fetching, and is unavailable through Remote Control. Treat the unused flag as a review signal and combine it with representative sessions, dependencies, and risk."
     doc_reference:
       file: guide/ultimate-guide.md
       section: 5.X Skill Lifecycle & Retirement
@@ -454,14 +454,14 @@ questions:
     difficulty: power
     profiles:
       - power
-    question: What are the three Skill Eval approaches, and what specific problem does Trigger Tuning address?
+    question: What can Skill Evals support, and what do they not prove?
     options:
-      a: Unit testing, integration testing, end-to-end testing — Trigger Tuning reduces false positives in unit tests
-      b: Benchmark Mode (skill vs no-skill comparison), A/B Testing (parallel execution paths), and Trigger Tuning — Trigger Tuning adjusts the skill description to improve auto-invocation rate when Claude should use the skill but doesn't
-      c: Code review, peer review, automated review — Trigger Tuning aligns skill output with team style guides
-      d: Alpha, beta, production — Trigger Tuning controls which user segments receive the skill
+      a: A passing eval proves the skill is correct for every model, repository, and future prompt
+      b: Benchmark and A/B results support a scoped comparison; Trigger Tuning measures routing; independent validators and qualified human review strengthen the evidence
+      c: An LLM judge is independent evidence because it cannot share the tested model's blind spots
+      d: Activation accuracy proves output quality, so task assertions are optional
     correct: b
-    explanation: "Skill Evals use three approaches. Benchmark Mode compares outputs with the skill active versus without it, giving a measurable quality delta. A/B Testing runs both paths in parallel on real tasks to measure impact under actual conditions. Trigger Tuning addresses a specific failure mode: the skill exists and works correctly, but Claude does not invoke it when it should. Adjusting the skill description to more precisely match the language and context of the target task improves auto-invocation rate without changing the skill's logic."
+    explanation: Benchmark Mode records pass rates, elapsed time, and token usage across isolated cases. A/B Testing compares two skill versions without telling the judge which is which. Trigger Tuning targets false positives and false negatives in activation. These artifacts support a scoped comparison; they do not prove universal correctness or remove model variance. Record the model, client version, prompts, assertions, run count, failures, and cost, then add deterministic checks or qualified human review where the risk warrants it.
     doc_reference:
       file: guide/ultimate-guide.md
       section: 5.Y Skill Evals

@@ -16,8 +16,8 @@
 #   CLAUDE_LOG_DIR - Log directory (default: ~/.claude/logs)
 #
 # Cost rates (per 1K tokens, configurable):
-#   CLAUDE_RATE_INPUT  - Input token rate (default: 0.003 for Sonnet)
-#   CLAUDE_RATE_OUTPUT - Output token rate (default: 0.015 for Sonnet)
+#   CLAUDE_RATE_INPUT  - Input token rate (default: 0.002 for Sonnet 5)
+#   CLAUDE_RATE_OUTPUT - Output token rate (default: 0.010 for Sonnet 5)
 
 set -euo pipefail
 
@@ -31,8 +31,8 @@ NC='\033[0m'
 
 # Configuration
 LOG_DIR="${CLAUDE_LOG_DIR:-$HOME/.claude/logs}"
-RATE_INPUT="${CLAUDE_RATE_INPUT:-0.003}"
-RATE_OUTPUT="${CLAUDE_RATE_OUTPUT:-0.015}"
+RATE_INPUT="${CLAUDE_RATE_INPUT:-0.002}"
+RATE_OUTPUT="${CLAUDE_RATE_OUTPUT:-0.010}"
 
 # Defaults
 OUTPUT_MODE="human"
@@ -210,7 +210,7 @@ else
     printf "  Total tokens:      %'d\n" "$TOTAL_TOKENS"
     echo ""
 
-    echo -e "${BLUE}Estimated Cost (Sonnet rates)${NC}"
+    echo -e "${BLUE}Estimated Cost (configured standard rates; excludes cache discounts)${NC}"
     printf "  Input:   \$%.4f\n" "$COST_INPUT"
     printf "  Output:  \$%.4f\n" "$COST_OUTPUT"
     printf "  ${GREEN}Total:   \$%.4f${NC}\n" "$COST_TOTAL"

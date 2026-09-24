@@ -51,7 +51,7 @@ questions:
       c: name, description, model, tools
       d: name, role, skills
     correct: b
-    explanation: "Only `name` and `description` are required in agent frontmatter. Optional fields include: model (sonnet default, opus, or haiku), tools (comma-separated list), skills (to inherit), and disallowedTools. The description is crucial - it determines when Claude auto-activates the agent, so make it clear and specific."
+    explanation: "Only `name` and `description` are required in agent frontmatter. Optional fields include: model (inherits parent by default; explicit sonnet, opus, or haiku), tools (comma-separated list), skills (to inherit), and disallowedTools. The description is crucial - it determines when Claude auto-activates the agent, so make it clear and specific."
     doc_reference:
       file: guide/ultimate-guide.md
       section: 4.2 Creating Custom Agents
@@ -86,7 +86,7 @@ questions:
       c: opus - for maximum reasoning
       d: Any model works equally well
     correct: c
-    explanation: "Use opus for complex reasoning and architecture tasks. Model selection guidelines: haiku (fast, low cost) for quick tasks and simple changes; sonnet (balanced, default) for most tasks; opus (slow, high cost) for complex reasoning, architecture decisions, and critical security reviews. Match the model to the task's complexity."
+    explanation: "Use opus for complex reasoning and architecture tasks. Model selection guidelines: haiku (fast, low cost) for quick tasks and simple changes; sonnet (balanced, explicit choice) for most tasks; opus (slow, high cost) for complex reasoning, architecture decisions, and critical security reviews. Match the model to the task's complexity."
     doc_reference:
       file: guide/ultimate-guide.md
       section: 4.2 Creating Custom Agents

@@ -2,10 +2,10 @@
 title: "Claude Code: The Reference Guide"
 subtitle: "Complete synthesis + advanced workflows"
 author: "Florian BRUNIAUX"
-date: 2026-08-24
+date: "2026-09-24"
 date-format: "MMMM YYYY"
-version: "3.42.0"
-wp-version: "1.4.4"
+version: "3.43.0"
+wp-version: "1.4.5"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -1211,7 +1211,7 @@ You: Create 3 tasks with dependencies:
 
 Claude will create all 3 tasks and automatically mark #2 as blocked by #1, #3 as blocked by #2.
 
-> **Deprecation (v2.1.83+)**: The `TaskOutput` tool is deprecated. Use the `Read` tool to read task output files instead.
+> **Removal (v2.1.278)**: `TaskOutput` is removed. Use `Read` on the output path reported by the background task.
 
 ## Background Agents (since v2.0.60)
 
@@ -2070,18 +2070,48 @@ These commands were added incrementally between v2.1.71 and v2.1.77. They cover 
 `claude project purge [path]`: deletes all Claude Code state for a project (local CLAUDE.md, sessions, local settings). Useful for starting from a clean configuration without deleting source code. This is a CLI command, not a session slash command.
 :::
 
-## Available Models & Knowledge Cutoffs
 
-| Model | `/model` alias | Knowledge cutoff |
-|-------|---------------|-----------------|
-| Claude Opus 5 | `opus` | May 2026 |
-| Claude Opus 4.8 | (previous gen, default on Bedrock/Vertex/Claude Platform on AWS only) | January 2026 |
-| Claude Sonnet 5 | `sonnet` (default since v2.1.197) | January 2026 |
-| Claude Fable 5 | `claude-fable-5` | January 2026 |
-| Claude Opus 4.6 | (previous gen) | May 2025 |
-| Claude Haiku 4.5 | `haiku` | February 2025 |
+## Current Models
 
-Claude Sonnet 5 became the **default model** for Claude Code in v2.1.197, with native 1M-token context and promotional pricing. The `sonnet` alias now resolves to Sonnet 5, not the older 4.6 generation.
+Standard API rates, verified September 24, 2026. USD per million input/output tokens, excluding caching.
+
+| Model | Input / output | Context | Default effort |
+|-------|----------------|---------|----------------|
+| Haiku 4.5 | $1 / $5 | 200K | Unsupported |
+| Sonnet 5 | $2 / $10 | 1M | high |
+| Opus 5.5 | $4 / $20 | 1M | medium |
+| Fable 5.1 | $10 / $50 | 1M | high |
+
+Sonnet's published rate remains $2/$10 after the launch promotion. Opus 5.5 is the direct-service default; account policy can override it. Model choice does not establish a typical task cost.
+
+## Select and Save
+
+`/model` opens the picker. **Enter** saves a default; **s** applies it to this session only. `claude --model sonnet` applies to the launched session. Project and managed settings can reapply at the next launch.
+
+Aliases depend on the provider. `opus` maps to 5.5 on most providers, but 4.6 on Foundry. `sonnet` maps to 5 on the direct API, 4.6 on Claude Platform on AWS, and 4.5 on Bedrock, Google, and Foundry.
+
+`fable` selects 5.1 where available, or 5 through the Claude apps gateway. `best` selects Fable when available, otherwise Opus. Pin a supported full ID when version identity matters.
+
+## Thinking and Effort
+
+Opus 5.5, Sonnet 5, and Fable 5.1 use adaptive thinking. Haiku 4.5 supports extended thinking but has **no effort parameter**.
+
+Current adaptive models support `low`, `medium`, `high`, `xhigh`, and `max`. Opus 4.6 and Sonnet 4.6 support `max` but not `xhigh`.
+
+`/effort` saves levels through `xhigh` per model. Use **s** for a session-only choice. `max` is session-only; `/effort auto` clears the active model's saved choice.
+
+`Option+T` / `Alt+T` toggles thinking where supported. It has no effect on Opus 5.5 or Fable, whose thinking is always enabled. Lower effort for bounded work instead.
+
+`ultrathink` adds a reasoning instruction without changing API effort. `think hard` is ordinary prompt text.
+
+## Choose by Measured Results
+
+Evaluate Haiku on bounded tasks, Sonnet on routine work, and Opus or Fable on harder tasks. Compare accepted outcomes, retries, latency, and total cost on the same task set. Teammates can use different models.
+
+Sources: [Model configuration](https://code.claude.com/docs/en/model-config), [API pricing](https://platform.claude.com/docs/en/about-claude/pricing).
+
+
+Reliable knowledge cutoffs: Opus 5.5 and Fable 5.1, June 2026; Sonnet 5, January 2026; Haiku 4.5, February 2025.
 
 ## Keyboard Shortcuts
 
@@ -2093,8 +2123,8 @@ Keyboard shortcuts let you control Claude Code without breaking your flow. The m
 | Mode | Symbol | Behavior |
 |------|--------|----------|
 | **Default** | (none) | Claude asks for confirmation on sensitive actions |
-| **Auto-approve** | `(auto)` | Claude executes without asking (trusted sessions) |
-| **Plan only** | `(plan)` | Claude plans only, executes nothing |
+| **Auto-approve** | `(auto)` | A classifier decides whether to allow actions |
+| **Plan only** | `(plan)` | Claude plans and uses read-only exploration tools |
 
 Use **Plan only** for risky refactorings: review the plan, then `Shift+Tab` back to Default to execute.
 
@@ -2299,7 +2329,7 @@ To choose a portable harness, distinguish the runtime that owns the loop, the re
 
 *This Reference Guide synthesizes the 7 whitepapers of the Claude Code Ultimate Guide series and adds original content on migration, IDE integration, Git, advanced patterns, and development methodologies.*
 
-*Version 3.42.0, August 2026 (updated: Sonnet 5 default model, Dynamic Workflows, sub-agent nesting depth 3, `/ultrareview`, `/fewer-permission-prompts`, read-only glob patterns skip permission prompts)*
+*Version 3.42.0, August 2026 (updated: Opus 5.5 model defaults, Dynamic Workflows, sub-agent nesting depth 3, `/ultrareview`, `/fewer-permission-prompts`, read-only glob patterns skip permission prompts)*
 
 ---
 

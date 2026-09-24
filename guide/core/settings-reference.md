@@ -141,7 +141,7 @@ Announcements displayed to users at startup. Multiple announcements are cycled t
 **Scope:** all
 **Default:** none
 
-Restrict which models users can select via `/model`, `--model`, Config tool, or `ANTHROPIC_MODEL`. Does not affect the Default option.
+Restrict which models users can select via `/model`, `--model`, Config tool, or `ANTHROPIC_MODEL`. Does not affect the Default option unless `enforceAvailableModels` is enabled.
 
 ```json
 { "availableModels": ["sonnet", "haiku"] }
@@ -829,10 +829,31 @@ Per-plugin MCP server configurations, keyed by `plugin@marketplace`.
 #### `effortLevel`
 **Type:** string
 **Scope:** all
-**Default:** `"medium"`
-**Values:** `"low"` | `"medium"` | `"high"`
+**Values:** `"low"` | `"medium"` | `"high"` | `"xhigh"`
 
-Persist the effort level across sessions. Controls reasoning depth. Written automatically when you run `/effort low|medium|high`. Supported on Opus 4.6+ and Sonnet 4.6+. The `CLAUDE_CODE_EFFORT_LEVEL` env var takes precedence.
+Fallback effort for a model without a saved choice. Defaults depend on the model: Opus 5.5 uses `medium`; Sonnet 5 and Fable 5.1 use `high`. Haiku 4.5 has no effort parameter. Opus 5.5 ignores this legacy key in user settings, but explicit project, local, managed, and `--settings` values still apply.
+
+#### `modelSettings`
+**Type:** object
+**Scope:** all
+
+Since v2.1.251, `/effort` saves the active model's level here. Confirm with `Enter` to save or `s` for this session only. `max` is session-only and cannot be stored as `effortLevel`.
+
+```json
+{
+  "modelSettings": {
+    "claude-opus-5-5": { "effortLevel": "high" }
+  }
+}
+```
+
+Within one settings file, a model-specific level wins over the fallback. Across files, normal settings precedence applies. `CLAUDE_CODE_EFFORT_LEVEL` overrides the chosen level, subject to organization caps. `/effort auto` clears the saved choice for the active model.
+
+#### `enforceAvailableModels`
+**Type:** boolean
+**Scope:** all
+
+Pair with `availableModels` to keep the `/model` Default choice inside that allowlist. Without this setting, the allowlist alone does not constrain Default. See the [official model settings reference](https://code.claude.com/docs/en/settings-reference#enforceavailablemodels).
 
 #### `modelOverrides`
 **Type:** object
@@ -854,9 +875,11 @@ Map Anthropic model IDs to provider-specific model IDs (e.g., Bedrock inference 
 | Alias | Description |
 |-------|-------------|
 | `"default"` | Recommended model for your account type |
-| `"sonnet"` | Latest Sonnet (Claude Sonnet 5) |
-| `"opus"` | Latest Opus (Claude Opus 5) |
-| `"haiku"` | Fast Haiku model |
+| `"sonnet"` | Sonnet 5 on the Anthropic API; cloud-provider aliases may resolve to 4.6 or 4.5 |
+| `"opus"` | Opus 5.5 on most providers; Opus 4.6 on Foundry |
+| `"haiku"` | Haiku 4.5 on the direct service |
+| `"fable"` | Fable 5.1 where available; Fable 5 through the Claude apps gateway |
+| `"best"` | Fable where available, otherwise Opus |
 | `"sonnet[1m]"` | Sonnet with 1M token context |
 | `"opusplan"` | Opus for planning, Sonnet for execution |
 
@@ -902,14 +925,16 @@ Configure a custom script for `@` file path autocomplete. The command receives J
 **Scope:** all
 **Default:** `"Default"`
 
-Controls how Claude communicates throughout the session. Equivalent to selecting a style via `/config` → "Preferred output style".
+Controls how Claude communicates throughout the session. Select with `/output-style` or `/config`. The setting value is case-sensitive; the command accepts case-insensitive names.
 
 **Built-in values:**
-- `"Default"`: concise, task-focused responses optimized for speed
+- `"Default"`: standard coding behavior
+- `"Proactive"`: more initiative in advancing the task
+- `"Concise"`: shorter responses
 - `"Explanatory"`: adds reasoning blocks explaining design choices, trade-offs, and codebase patterns
 - `"Learning"`: pauses at key steps, inserts `TODO(human)` markers, asks you to write the meaningful pieces (pair-programming mode)
 
-**Custom styles:** reference any filename (without `.md`) from `.claude/output-styles/` for a project or `~/.claude/output-styles/` for a user-wide style. Custom styles omit the built-in Claude Code software engineering instructions unless their YAML frontmatter sets `keep-coding-instructions: true`. Changes take effect after `/clear` or a new session.
+**Custom styles:** reference any filename (without `.md`) from `.claude/output-styles/` for a project or `~/.claude/output-styles/` for a user-wide style. Custom styles omit the built-in Claude Code software engineering instructions unless their YAML frontmatter sets `keep-coding-instructions: true`. Style selection applies to the next message. Restart to discover newly created style files.
 
 ```json
 { "outputStyle": "Explanatory" }
@@ -919,7 +944,7 @@ Controls how Claude communicates throughout the session. Equivalent to selecting
 { "outputStyle": "strict-reviewer" }
 ```
 
-Setting persists across sessions. Explanatory and Learning increase output tokens; prompt caching offsets the cost after the first request. See [Section 9.7](../ultimate-guide.md#97-output-styles) for full documentation and custom style examples.
+Setting persists across sessions. Explanatory and Learning increase output tokens; prompt caching can reduce repeated input cost but does not discount generated output. See [Section 9.7](../ultimate-guide.md#97-output-styles) for full documentation and custom style examples.
 
 #### `spinnerTipsEnabled`
 **Type:** boolean
@@ -1250,15 +1275,15 @@ Set in your shell before launching `claude`, or configure under the `env` key in
 | `BASH_DEFAULT_TIMEOUT_MS` | Default bash command timeout in milliseconds (default: 120000) |
 | `BASH_MAX_TIMEOUT_MS` | Maximum bash command timeout in milliseconds (default: 600000) |
 | `BASH_MAX_OUTPUT_LENGTH` | Maximum characters in bash output before saving to a file and sending the path |
-| `MAX_THINKING_TOKENS` | Extended thinking token budget. Set to `0` to disable. Ignored on models with adaptive reasoning unless `CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING` is set |
-| `CLAUDE_CODE_MAX_OUTPUT_TOKENS` | Max output tokens per response (default: 32,000; up to 128,000 on Opus 5, Sonnet 5, Opus 4.8, and Sonnet 4.6) |
+| `MAX_THINKING_TOKENS` | Fixed budget on older extended-thinking models. `0` disables thinking where supported, but not on Opus 5.5 or Fable. The fixed-budget compatibility switch applies only to Opus 4.6 and Sonnet 4.6 |
+| `CLAUDE_CODE_MAX_OUTPUT_TOKENS` | Output limit; default and cap depend on the model. Unrecognized gateway IDs default to 32,000. Values above the known model cap are reduced to that cap |
 | `CLAUDE_CODE_FILE_READ_MAX_OUTPUT_TOKENS` | Override default file read token limit |
 | `CLAUDE_CODE_MAX_CONTEXT_TOKENS` | Override context window size Claude Code assumes for the active model. Only takes effect when `DISABLE_COMPACT` is also set |
 | `CLAUDE_CODE_MAX_TURNS` | Cap the number of agentic turns per session. Equivalent to `--max-turns` (the flag takes precedence when both are set) |
 | `CLAUDE_CODE_MAX_RETRIES` | Override the number of retries for failed API requests (default: 10) |
 | `CLAUDE_CODE_MAX_TOOL_USE_CONCURRENCY` | Maximum read-only tools and subagents executing in parallel (default: 10) |
 | `CLAUDE_ASYNC_AGENT_STALL_TIMEOUT_MS` | Stall timeout in milliseconds for background subagents (default: 600000) |
-| `TASK_MAX_OUTPUT_LENGTH` | Maximum characters in subagent output before truncation (default: 32000, max: 160000) |
+| `TASK_MAX_OUTPUT_LENGTH` | No effect since TaskOutput was removed in v2.1.278 |
 | `MAX_STRUCTURED_OUTPUT_RETRIES` | Retries when model response fails `--json-schema` validation in non-interactive mode (default: 5) |
 | `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP` | Maximum consecutive times a Stop hook may block the turn from ending before Claude Code overrides it (default: 8) |
 | `CLAUDE_CODE_SESSIONEND_HOOKS_TIMEOUT_MS` | SessionEnd hook time budget in ms. Default: 1.5s, raised to the highest configured per-hook timeout up to 60s |

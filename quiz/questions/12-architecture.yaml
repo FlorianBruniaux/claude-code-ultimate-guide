@@ -1,6 +1,6 @@
 category: Architecture Internals
 category_id: 12
-source_file: guide/core/architecture.md
+source_file: guide/architecture.md
 questions:
   - id: 12-001
     difficulty: intermediate
@@ -16,7 +16,7 @@ questions:
     correct: b
     explanation: Claude Code runs a remarkably simple `while(tool_call)` loop. There is NO intent classifier, task router, RAG/embedding pipeline, DAG orchestrator, or planner/executor split. The model itself decides when to call tools, which tools to call, and when it's done. This is the "agentic loop" pattern.
     doc_reference:
-      file: guide/core/architecture.md
+      file: guide/architecture.md
       section: The Master Loop
       anchor: "#1-the-master-loop"
   - id: 12-002
@@ -34,7 +34,7 @@ questions:
     correct: b
     explanation: "Claude Code has exactly 8 core tools: Bash (universal adapter), Read (file contents), Edit (modify files), Write (create/overwrite), Grep (search contents), Glob (find files), Task (sub-agents), and TodoWrite (progress tracking). That's the entire arsenal. Note: TodoWrite was replaced by the Tasks API (TaskCreate/TaskGet/TaskList/TaskUpdate) in v2.1.16+ for persistent task management with dependencies."
     doc_reference:
-      file: guide/core/architecture.md
+      file: guide/architecture.md
       section: The Tool Arsenal
       anchor: "#2-the-tool-arsenal"
   - id: 12-003
@@ -51,7 +51,7 @@ questions:
     correct: c
     explanation: Bash is Claude's swiss-army knife. It can run any CLI tool (git, npm, docker, curl...), execute scripts, chain commands with pipes, and access system state. The model has been trained on massive amounts of shell data, making it highly effective as a universal adapter.
     doc_reference:
-      file: guide/core/architecture.md
+      file: guide/architecture.md
       section: The Bash Universal Adapter
       anchor: "#the-bash-universal-adapter"
   - id: 12-004
@@ -68,7 +68,7 @@ questions:
     correct: c
     explanation: "Claude Code operates within a ~200K token context window. This is shared between: system prompt (~5-15K), CLAUDE.md files (~1-10K), conversation history (variable), tool results (variable), and reserved response buffer (~40-45K). Usable space is approximately 140-150K tokens."
     doc_reference:
-      file: guide/core/architecture.md
+      file: guide/architecture.md
       section: Context Budget Breakdown
       anchor: "#context-budget-breakdown"
   - id: 12-005
@@ -85,7 +85,7 @@ questions:
     correct: b
     explanation: "Auto-compaction thresholds vary by source: PromptLayer analysis reports 92%, community observations report 75-80%. When triggered, older conversation turns are summarized, tool results condensed, and recent context preserved. Use /compact to manually trigger summarization."
     doc_reference:
-      file: guide/core/architecture.md
+      file: guide/architecture.md
       section: Auto-Compaction
       anchor: "#auto-compaction"
   - id: 12-006
@@ -120,7 +120,7 @@ questions:
     correct: b
     explanation: Sub-agents have ISOLATED context. They receive only the task description, have their own fresh context window, access the same tools (except Task), and return only a summary text. This isolation keeps the main context clean and prevents context pollution.
     doc_reference:
-      file: guide/core/architecture.md
+      file: guide/architecture.md
       section: Isolation Model
       anchor: "#isolation-model"
   - id: 12-008
@@ -154,7 +154,7 @@ questions:
     correct: b
     explanation: "When exact match fails, Edit attempts fuzzy matching: (1) Whitespace normalization (trailing spaces, indentation), (2) Line ending normalization (CRLF vs LF), (3) Context expansion (surrounding lines). Only if fuzzy match also fails does it return an error."
     doc_reference:
-      file: guide/core/architecture.md
+      file: guide/architecture.md
       section: Fuzzy Matching Details
       anchor: "#fuzzy-matching-details"
   - id: 12-010
@@ -171,7 +171,7 @@ questions:
     correct: c
     explanation: MCP uses JSON-RPC 2.0 over stdio or HTTP transport. MCP tools follow the naming convention `mcp__<server>__<tool>`. Servers start on first use and stay alive during the session. They have the same permission system as native tools.
     doc_reference:
-      file: guide/core/architecture.md
+      file: guide/architecture.md
       section: MCP Integration
       anchor: "#6-mcp-integration"
   - id: 12-011
@@ -313,7 +313,7 @@ questions:
       c: Rot caused by leaving unused variables and dead code in the context
       d: API rate limiting that causes degraded responses when context is large
     correct: b
-    explanation: "Context Rot is structural, not incidental: transformer attention is O(n²) — each new token attends to all previous tokens. As context grows, the effective attention per token dilutes, early context gets underweighted, and recent tokens dominate disproportionately. This happens even with high-quality context content. Solutions: /compact (prune), context chaining (fresh session with curated summary), or JIT retrieval (never load; fetch on demand). You cannot fix structural rot by cleaning up your prompts."
+    explanation: "Context Rot is structural, not incidental: transformer attention is O(n²), where each new token attends to all previous tokens. As context grows, the effective attention per token dilutes, early context gets underweighted, and recent tokens dominate disproportionately. This happens even with high-quality context content. Solutions: /compact (prune), context chaining (fresh session with curated summary), or JIT retrieval (never load; fetch on demand). You cannot fix structural rot by cleaning up your prompts."
     doc_reference:
       file: guide/core/architecture.md
       section: Context Rot
@@ -324,11 +324,11 @@ questions:
     question: What is the key difference between JIT (Just-In-Time) retrieval and RAG in the context of Claude Code sub-agents?
     options:
       a: JIT retrieval uses vector databases while RAG uses keyword search
-      b: JIT retrieval never pre-loads context — sub-agents fetch only what they need at the moment of need; RAG pre-indexes and embeds documents upfront for semantic lookup
+      b: JIT retrieval never pre-loads context, sub-agents fetch only what they need at the moment of need; RAG pre-indexes and embeds documents upfront for semantic lookup
       c: JIT is faster but less accurate; RAG is slower but more precise
       d: JIT is for code retrieval only; RAG handles documentation retrieval
     correct: b
-    explanation: "JIT retrieval in sub-agents means: never pre-load context — the agent identifies what it needs (WHY/WHAT pattern), fetches only that, processes it, then discards. This keeps context windows small per agent. RAG pre-indexes and embeds a corpus upfront, enabling semantic similarity lookup at query time. For Claude Code sub-agents: JIT is preferred for targeted retrieval tasks (no embedding setup, no stale index); RAG suits knowledge bases queried repeatedly across many sessions."
+    explanation: "JIT retrieval in sub-agents means never pre-loading context: the agent identifies what it needs (WHY/WHAT pattern), fetches only that, processes it, then discards. This keeps context windows small per agent. RAG pre-indexes and embeds a corpus upfront, enabling semantic similarity lookup at query time. For Claude Code sub-agents: JIT is preferred for targeted retrieval tasks (no embedding setup, no stale index); RAG suits knowledge bases queried repeatedly across many sessions."
     doc_reference:
       file: guide/core/architecture.md
       section: JIT vs RAG Retrieval
@@ -343,7 +343,7 @@ questions:
       c: Tracking the maximum memory distance between two related CLAUDE.md files
       d: A compression algorithm that minimizes mean deviation in context summaries
     correct: b
-    explanation: "MMD (Maximum Mean Discrepancy) is a kernel-based statistical test that compares two distributions without assuming a parametric form. In context drift detection: you embed tokens/messages from a baseline window and a recent window, then compute MMD between the two distributions. A high MMD score indicates the conversation has drifted semantically from its original topic — a signal to /compact or start a fresh session. Threshold: MMD > 0.3 typically warrants intervention. More robust than cosine distance for multi-modal drift."
+    explanation: "MMD (Maximum Mean Discrepancy) is a kernel-based statistical test that compares two distributions without assuming a parametric form. In context drift detection: you embed tokens/messages from a baseline window and a recent window, then compute MMD between the two distributions. A high MMD score indicates the conversation has drifted semantically from its original topic, a signal to /compact or start a fresh session. Threshold: MMD > 0.3 typically warrants intervention. More robust than cosine distance for multi-modal drift."
     doc_reference:
       file: guide/core/architecture.md
       section: Context Drift Detection
@@ -354,12 +354,12 @@ questions:
       - power
     question: What is the 'Goldilocks altitude problem' for CLAUDE.md project rules?
     options:
-      a: Finding the right file size for CLAUDE.md — not too large (context waste) nor too small (insufficient guidance)
+      a: Finding the right file size for CLAUDE.md, not too large (context waste) nor too small (insufficient guidance)
       b: "The challenge of writing rules at the right abstraction level: too high-level (ignored/mis-applied) vs too low-level (brittle, over-specified)"
       c: Choosing the right directory depth for nested CLAUDE.md files in a monorepo
-      d: Balancing rule strictness — too strict causes Claude to refuse valid tasks, too loose provides no guidance
+      d: Balancing rule strictness, too strict causes Claude to refuse valid tasks, too loose provides no guidance
     correct: b
-    explanation: 'The Goldilocks altitude problem: rules written too high ("write good code") are too abstract to apply consistently. Rules written too low ("always add a blank line after function declarations") are brittle — they conflict with context or become stale. The sweet spot is mid-altitude: specific enough to be actionable, abstract enough to generalize across similar situations. Example of right altitude: "prefer functional style for data transformations; use classes only when you need stateful lifecycle management."'
+    explanation: 'The Goldilocks altitude problem: rules written too high ("write good code") are too abstract to apply consistently. Rules written too low ("always add a blank line after function declarations") are brittle. They conflict with context or become stale. The sweet spot is mid-altitude: specific enough to be actionable, abstract enough to generalize across similar situations. Example of right altitude: "prefer functional style for data transformations; use classes only when you need stateful lifecycle management."'
     doc_reference:
       file: guide/core/architecture.md
       section: Goldilocks Altitude

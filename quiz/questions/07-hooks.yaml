@@ -441,10 +441,10 @@ questions:
       - power
     question: What are the two worktree-specific hook events added in v2.1.50?
     options:
-      a: WorktreeInit and WorktreeCleanup — fire at session start/end in a worktree
-      b: WorktreeOpen and WorktreeClose — fire when a worktree tab is opened/closed in VSCode
-      c: WorktreeCreate and WorktreeRemove — fire when an agent worktree is created or torn down (v2.1.50+)
-      d: WorktreeMount and WorktreeUnmount — fire when a worktree filesystem is mounted
+      a: WorktreeInit and WorktreeCleanup (fire at session start/end in a worktree)
+      b: WorktreeOpen and WorktreeClose (fire when a worktree tab is opened/closed in VSCode)
+      c: WorktreeCreate and WorktreeRemove (fire when an agent worktree is created or torn down, v2.1.50+)
+      d: WorktreeMount and WorktreeUnmount (fire when a worktree filesystem is mounted)
     correct: c
     explanation: |-
       `WorktreeCreate` fires when an agent worktree is being created (can block with non-zero exit). `WorktreeRemove` fires when a worktree is torn down (cannot block). Common use cases: `WorktreeCreate` to set up a DB branch, copy `.env` files, or install dependencies in the new worktree. `WorktreeRemove` to clean up temporary credentials or delete the corresponding DB branch. These events include `worktree` metadata fields in their JSON payload.
@@ -462,10 +462,10 @@ questions:
       a: Fire when any background agent pauses; fire when a TodoWrite task is ticked
       b: TeammateIdle fires when an agent team member is about to go idle (blockable); TaskCompleted fires when a task is being marked complete (blockable)
       c: Fire when the session is idle for 5 minutes; fire when a cron job completes
-      d: Both are read-only notification hooks — they cannot block operations
+      d: Both are read-only notification hooks, they cannot block operations
     correct: b
     explanation: |-
-      `TeammateIdle` fires when an agent team member is about to go idle — useful for team coordination and quality gates (can block). `TaskCompleted` fires when a task is being marked as completed — useful for enforcing completion criteria or running validation before a task is officially closed (can block). Both events are relevant to multi-agent orchestration and appear in the hook event types table alongside worktree and session lifecycle events.
+      `TeammateIdle` fires when an agent team member is about to go idle, useful for team coordination and quality gates (can block). `TaskCompleted` fires when a task is being marked as completed, useful for enforcing completion criteria or running validation before a task is officially closed (can block). Both events are relevant to multi-agent orchestration and appear in the hook event types table alongside worktree and session lifecycle events.
       ---
     doc_reference:
       file: guide/ultimate-guide.md
@@ -497,10 +497,10 @@ questions:
       - power
     question: What hook event fires when CLAUDE.md or rules files are loaded into context (v2.1.69+)?
     options:
-      a: ConfigChange — fires whenever any configuration file changes
-      b: InstructionsLoaded — fires when CLAUDE.md or .claude/rules/*.md files are loaded into context (v2.1.69+)
-      c: SessionStart — fires when the session begins (instructions are part of this event)
-      d: PreToolUse — fires before any tool call, including instruction file reads
+      a: ConfigChange (fires whenever any configuration file changes)
+      b: InstructionsLoaded (fires when CLAUDE.md or .claude/rules/*.md files are loaded into context, v2.1.69+)
+      c: SessionStart (fires when the session begins; instructions are part of this event)
+      d: PreToolUse (fires before any tool call, including instruction file reads)
     correct: b
     explanation: |-
       `InstructionsLoaded` fires when CLAUDE.md or `.claude/rules/*.md` files are loaded into the context. Added in v2.1.69, this event is useful for auditing which instructions were active during a session, validating that required rule files were loaded, or triggering notifications when rules change. It fires at the start of a session (distinct from `SessionStart`) and also when rules are reloaded mid-session. All hook events from v2.1.69+ also include `agent_id`, `agent_type`, and `worktree` fields for subagent tracking.

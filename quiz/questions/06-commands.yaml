@@ -363,7 +363,7 @@ questions:
       d: Summarizes the diff since last commit in plain language
     correct: b
     explanation: |-
-      `/simplify` reviews your **recently changed code** for over-engineering and redundant abstractions, then fixes the problems it finds. It operates at the architecture and structure level — analyzing for reuse opportunities, quality issues, and efficiency improvements — not at the formatting or linting level. It complements tools like ESLint or Prettier rather than replacing them. Run it after finishing a feature, before opening a pull request: `/simplify` (all changes) or `/simplify focus on error handling` (targeted scope).
+      `/simplify` reviews your **recently changed code** for over-engineering and redundant abstractions, then fixes the problems it finds. It operates at the architecture and structure level (analyzing for reuse opportunities, quality issues, and efficiency improvements), not at the formatting or linting level. It complements tools like ESLint or Prettier rather than replacing them. Run it after finishing a feature, before opening a pull request: `/simplify` (all changes) or `/simplify focus on error handling` (targeted scope).
       ---
     doc_reference:
       file: guide/ultimate-guide.md
@@ -382,7 +382,7 @@ questions:
       d: Orchestrates large-scale codebase changes across 5-30 parallel agents in isolated worktrees, each opening its own PR
     correct: d
     explanation: |-
-      `/batch` distributes large-scale codebase changes across 5–30 parallel agents in isolated git worktrees. Each agent handles an independent portion of the work and opens its own pull request. The workflow is: (1) research and plan the change, (2) spawn parallel worktree agents, (3) each agent completes its portion and creates a PR. Ideal for migrations like `/batch migrate from react to vue` or `/batch add type annotations to all JavaScript files` — tasks that can be split into independent units.
+      `/batch` distributes large-scale codebase changes across 5–30 parallel agents in isolated git worktrees. Each agent handles an independent portion of the work and opens its own pull request. The workflow is: (1) research and plan the change, (2) spawn parallel worktree agents, (3) each agent completes its portion and creates a PR. Ideal for migrations like `/batch migrate from react to vue` or `/batch add type annotations to all JavaScript files`, tasks that can be split into independent units.
       ---
     doc_reference:
       file: guide/ultimate-guide.md
@@ -402,7 +402,7 @@ questions:
       d: Both commands are aliases for /status with different output formats
     correct: a
     explanation: |-
-      `/stats` displays a usage chart and streak — a visual summary of your Claude Code activity over time. `/rename [name]` gives the current session a custom name, making it easier to find in `/resume` history. Both were documented in the cheatsheet update alongside `/loop` and `/copy` (from releases v2.1.59–v2.1.71). These are quality-of-life commands for session management and personal usage tracking.
+      `/stats` displays a usage chart and streak, a visual summary of your Claude Code activity over time. `/rename [name]` gives the current session a custom name, making it easier to find in `/resume` history. Both were documented in the cheatsheet update alongside `/loop` and `/copy` (from releases v2.1.59–v2.1.71). These are quality-of-life commands for session management and personal usage tracking.
       ---
     doc_reference:
       file: guide/cheatsheet.md
@@ -507,7 +507,7 @@ questions:
       - power
     question: What is the key difference between `/branch` and starting a fresh `claude` session at a decision point?
     options:
-      a: There is no difference — `/branch` is just an alias for starting a new session
+      a: "There is no difference: `/branch` is just an alias for starting a new session"
       b: "`/branch` forks the current session into an independent copy that preserves all prior context, while a fresh session starts empty"
       c: "`/branch` creates a git branch automatically, while a fresh session does not"
       d: "`/branch` is only available in Plan Mode; a fresh session works in any mode"
@@ -528,7 +528,7 @@ questions:
       c: Validates the arguments against a schema before the command runs
       d: Sets the default effort level when the command is invoked with arguments
     correct: b
-    explanation: '`argument-hint` is a frontmatter field that controls what placeholder text appears in the slash command picker when a command or skill accepts `$ARGUMENTS`. When a user types the command name, the picker shows the hint as a visual guide to the expected argument format. Example: `argument-hint: "<env> [--skip-tests] [--dry-run]"`. This field has no effect on argument validation or default values — it is purely a UI affordance for discoverability.'
+    explanation: '`argument-hint` is a frontmatter field that controls what placeholder text appears in the slash command picker when a command or skill accepts `$ARGUMENTS`. When a user types the command name, the picker shows the hint as a visual guide to the expected argument format. Example: `argument-hint: "<env> [--skip-tests] [--dry-run]"`. This field has no effect on argument validation or default values. It is purely a UI affordance for discoverability.'
     doc_reference:
       file: guide/ultimate-guide.md
       section: 6.3 Variable Interpolation
@@ -556,10 +556,10 @@ questions:
       - power
     question: You need deterministic CI/CD execution unaffected by local developer settings. Which CLI flag achieves this?
     options:
-      a: "`--dangerously-skip-permissions` — bypasses all permission checks for headless execution"
-      b: "`--bare` — disables hooks, LSP, plugin sync, and skill directory scanning; requires ANTHROPIC_API_KEY"
-      c: "`--no-mcp` — disables all MCP servers for a clean execution environment"
-      d: "`-p` alone — print mode already provides a hermetic execution environment"
+      a: "`--dangerously-skip-permissions`: bypasses all permission checks for headless execution"
+      b: "`--bare`: disables hooks, LSP, plugin sync, and skill directory scanning; requires ANTHROPIC_API_KEY"
+      c: "`--no-mcp`: disables all MCP servers for a clean execution environment"
+      d: "`-p` alone: print mode already provides a hermetic execution environment"
     correct: b
     explanation: "`--bare` was added specifically for scripted `-p` calls in CI environments. It disables hooks, LSP, plugin sync, and skill directory walks so that local developer configuration never bleeds into pipeline execution. It also disables auto-memory entirely and requires `ANTHROPIC_API_KEY` or `apiKeyHelper` via `--settings`. Without `--bare`, a `claude -p` call in CI could pick up local hooks, plugins, and skills installed on the machine that set up the runner, making pipeline behavior non-deterministic."
     doc_reference:

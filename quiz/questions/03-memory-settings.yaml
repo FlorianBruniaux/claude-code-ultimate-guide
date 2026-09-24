@@ -361,7 +361,7 @@ questions:
       d: Overrides the model used by sub-agents only
     correct: b
     explanation: |-
-      `modelOverrides` lets you map model picker entries to custom provider model IDs — for example, pointing the "Opus" entry to a specific Bedrock inference profile ARN. This is useful on third-party providers (Bedrock, Vertex, Foundry) where the model IDs differ from first-party API names. It goes in `~/.claude/settings.json` and does not switch models mid-conversation; it redirects which provider model ID is used when you select a given model from the picker.
+      `modelOverrides` lets you map model picker entries to custom provider model IDs, for example pointing the "Opus" entry to a specific Bedrock inference profile ARN. This is useful on third-party providers (Bedrock, Vertex, Foundry) where the model IDs differ from first-party API names. It goes in `~/.claude/settings.json` and does not switch models mid-conversation; it redirects which provider model ID is used when you select a given model from the picker.
       ---
     doc_reference:
       file: guide/core/claude-code-releases.md
@@ -380,7 +380,7 @@ questions:
       d: The path where session transcripts are archived
     correct: c
     explanation: |-
-      `autoMemoryDirectory` specifies where Claude Code stores memory files that it saves automatically via the auto-memory feature (v2.1.59+). By default, auto-memory writes to `~/.claude/projects/*/memory/MEMORY.md`. This setting lets teams redirect that storage — useful for shared drives or when you want all memory in a specific project subdirectory. It is set in `settings.json`, not in CLAUDE.md.
+      `autoMemoryDirectory` specifies where Claude Code stores memory files that it saves automatically via the auto-memory feature (v2.1.59+). By default, auto-memory writes to `~/.claude/projects/*/memory/MEMORY.md`. This setting lets teams redirect that storage (useful for shared drives or when you want all memory in a specific project subdirectory). It is set in `settings.json`, not in CLAUDE.md.
       ---
     doc_reference:
       file: guide/core/claude-code-releases.md
@@ -393,7 +393,7 @@ questions:
       - power
     question: What is the key difference between `"Read(file_path:*.env*)"` and `"*.env"` in `permissions.deny`?
     options:
-      a: They are equivalent — both block the same operations
+      a: "They are equivalent: both block the same operations"
       b: Simple patterns block the tool entirely; tool-qualified patterns only warn
       c: Tool-qualified format requires a regex while simple patterns use globs
       d: Tool-qualified format matches the full path argument; simple string matches only exact file names
@@ -418,7 +418,7 @@ questions:
       d: HTML comments cause a parse error and prevent CLAUDE.md from loading
     correct: b
     explanation: |-
-      Starting in v2.1.72, HTML comments in CLAUDE.md are **hidden from Claude** when the file is auto-injected into context — they do not consume context tokens or influence Claude's behavior. However, they remain visible when explicitly read via the Read tool. This lets you embed developer notes, revision history, or internal documentation in CLAUDE.md that only appear when a human reads the file directly.
+      Starting in v2.1.72, HTML comments in CLAUDE.md are **hidden from Claude** when the file is auto-injected into context. They do not consume context tokens or influence Claude's behavior. However, they remain visible when explicitly read via the Read tool. This lets you embed developer notes, revision history, or internal documentation in CLAUDE.md that only appear when a human reads the file directly.
       ---
     doc_reference:
       file: guide/core/claude-code-releases.md
@@ -438,7 +438,7 @@ questions:
       d: Define the progress bar style for long-running bash commands
     correct: a
     explanation: |-
-      `spinnerVerbs` replaces or extends the rotating action words shown in the terminal while Claude is working (e.g. "Analyzing…", "Caffeinating…"). Set `"mode": "replace"` to fully replace the defaults or `"mode": "add"` to extend them. `spinnerTipsOverride` customizes the tips shown alongside the spinner; use `"excludeDefault": true` to remove built-in tips entirely. These settings have zero functional effect — they are purely UX personalization for developers who want a more personal or fun terminal experience.
+      `spinnerVerbs` replaces or extends the rotating action words shown in the terminal while Claude is working (e.g. "Analyzing…", "Caffeinating…"). Set `"mode": "replace"` to fully replace the defaults or `"mode": "add"` to extend them. `spinnerTipsOverride` customizes the tips shown alongside the spinner; use `"excludeDefault": true` to remove built-in tips entirely. These settings have zero functional effect. They are purely UX personalization for developers who want a more personal or fun terminal experience.
       ---
     doc_reference:
       file: guide/ultimate-guide.md
@@ -456,7 +456,7 @@ questions:
       d: The config drift formula showing how developers × tools × OS combinations cause fragmented AI instruction files
     correct: d
     explanation: |-
-      N×M×P describes how AI instruction files multiply: N developers × M tools (Claude Code, Cursor, Windsurf) × P operating systems (macOS, Linux). For a 5-dev team using 3 tools on 2 OS types, that's 30 potential configurations. In practice, this causes real drift — one dev adds TypeScript rules, another never gets them; macOS-specific paths break on Linux. The solution is **Profile-Based Module Assembly** (Section 3.5), which extracts reusable modules and auto-assembles the final instruction file per developer profile, achieving a measured 59% token context reduction.
+      N×M×P describes how AI instruction files multiply: N developers × M tools (Claude Code, Cursor, Windsurf) × P operating systems (macOS, Linux). For a 5-dev team using 3 tools on 2 OS types, that's 30 potential configurations. In practice, this causes real drift: one dev adds TypeScript rules, another never gets them; macOS-specific paths break on Linux. The solution is **Profile-Based Module Assembly** (Section 3.5), which extracts reusable modules and auto-assembles the final instruction file per developer profile, achieving a measured 59% token context reduction.
       ---
     doc_reference:
       file: guide/ultimate-guide.md
@@ -539,7 +539,7 @@ questions:
       c: Session, Persistent, Archived
       d: Read-only, Write-once, Append-only
     correct: b
-    explanation: "Agent Memory has 3 scopes: (1) User — global memory in ~/.claude/, applies to all projects, personal preferences and cross-project knowledge. (2) Project — repo-level memory in .claude/, committed to git, shared with the team. (3) Local — gitignored per-machine memory in .claude/memory/ (local), for machine-specific state that should not be shared. Understanding the scope prevents accidentally committing personal notes or missing team-level context."
+    explanation: "Agent Memory has 3 scopes: (1) User: global memory in ~/.claude/, applies to all projects, personal preferences and cross-project knowledge. (2) Project: repo-level memory in .claude/, committed to git, shared with the team. (3) Local: gitignored per-machine memory in .claude/memory/ (local), for machine-specific state that should not be shared. Understanding the scope prevents accidentally committing personal notes or missing team-level context."
     doc_reference:
       file: guide/ultimate-guide.md
       section: Memory Scopes
@@ -572,7 +572,7 @@ questions:
       c: A temporary directory that is wiped after each skill execution
       d: The path to the skill's source code directory
     correct: b
-    explanation: "${CLAUDE_PLUGIN_DATA} provides persistent storage for skills — a directory path that persists across sessions and is not wiped between runs. Skills can use it to store learned preferences, cached lookups, counters, or any state that should survive session restarts. Contrast with /tmp (ephemeral) or the project directory (pollutes repo). Example: a skill that tracks how many times it has been run, or caches expensive API results."
+    explanation: "${CLAUDE_PLUGIN_DATA} provides persistent storage for skills: a directory path that persists across sessions and is not wiped between runs. Skills can use it to store learned preferences, cached lookups, counters, or any state that should survive session restarts. Contrast with /tmp (ephemeral) or the project directory (pollutes repo). Example: a skill that tracks how many times it has been run, or caches expensive API results."
     doc_reference:
       file: guide/ultimate-guide.md
       section: Plugin Commands
@@ -589,7 +589,7 @@ questions:
       c: 500 lines, 100KB, 1000 files
       d: 50 lines, 5KB, 20 files
     correct: b
-    explanation: "MEMORY.md auto-memory has three hard limits: (1) 200-line cap — lines beyond 200 in MEMORY.md are truncated and never loaded into context; (2) 25KB max per memory file — larger files are split or truncated; (3) 200-file directory cap — the memory directory is capped at 200 individual memory files. These limits exist to prevent the memory system from consuming too much context window. Manage proactively: archive old memories, merge duplicates, keep the index concise."
+    explanation: "MEMORY.md auto-memory has three hard limits: (1) 200-line cap: lines beyond 200 in MEMORY.md are truncated and never loaded into context; (2) 25KB max per memory file: larger files are split or truncated; (3) 200-file directory cap: the memory directory is capped at 200 individual memory files. These limits exist to prevent the memory system from consuming too much context window. Manage proactively: archive old memories, merge duplicates, keep the index concise."
     doc_reference:
       file: guide/ultimate-guide.md
       section: MEMORY.md Structure
@@ -606,7 +606,7 @@ questions:
       c: Create a second MEMORY.md file as MEMORY2.md to extend capacity
       d: Increase the limit by adding a setting in settings.json
     correct: b
-    explanation: "When MEMORY.md approaches 200 lines: archive stale memories (move outdated content to an archive file but remove the index pointer), merge duplicates (two entries about the same topic → one updated entry), and ensure each index line is short (under ~150 chars) — the index is just pointers, not content. MEMORY.md is an index file; the actual content lives in individual memory files. Never create a second MEMORY.md — there is no MEMORY2.md support."
+    explanation: "When MEMORY.md approaches 200 lines: archive stale memories (move outdated content to an archive file but remove the index pointer), merge duplicates (two entries about the same topic → one updated entry), and ensure each index line is short (under ~150 chars): the index is just pointers, not content. MEMORY.md is an index file; the actual content lives in individual memory files. Never create a second MEMORY.md, there is no MEMORY2.md support."
     doc_reference:
       file: guide/ultimate-guide.md
       section: MEMORY.md Structure
