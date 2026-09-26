@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "checked_at": "2026-09-26",
-  "measured_at_commit": "c3148216511712724234cf8ce3a0d20c713b6920",
+  "measured_at_commit": "391b658db7d73ae4d8f3159564e049391bd20553",
   "official_scope": "Maintained by the Claude Code Ultimate Guide project; not official Anthropic documentation.",
   "policy": {
     "canonical_language": "en",
@@ -69,7 +69,7 @@
       "known_lag": {
         "status": "current",
         "canonical_guide_commits": 0,
-        "canonical_repo_commits": 1,
+        "canonical_repo_commits": 5,
         "version_delta": "3.41.1 to 3.43.0"
       }
     },
@@ -112,7 +112,7 @@
       "known_lag": {
         "status": "stale",
         "canonical_guide_commits": 47,
-        "canonical_repo_commits": 391,
+        "canonical_repo_commits": 395,
         "version_delta": "3.41.0 to 3.43.0"
       },
       "official": false
@@ -188,7 +188,7 @@
       "known_lag": {
         "status": "stale",
         "canonical_guide_commits": 131,
-        "canonical_repo_commits": 659,
+        "canonical_repo_commits": 663,
         "version_delta": "3.32.2 to 3.43.0"
       },
       "official": false
@@ -205,7 +205,7 @@
       "url": "https://cc.bruniaux.com/whitepapers/",
       "maintainer": "Florian Bruniaux",
       "version": "3.43.0",
-      "source_commit": "c3148216511712724234cf8ce3a0d20c713b6920",
+      "source_commit": "391b658db7d73ae4d8f3159564e049391bd20553",
       "last_checked_at": "2026-09-26",
       "coverage": {
         "status": "paired_publication_catalog",
@@ -230,7 +230,7 @@
       "url": "https://cc.bruniaux.com/cheatsheets/",
       "maintainer": "Florian Bruniaux",
       "version": "3.43.0",
-      "source_commit": "c3148216511712724234cf8ce3a0d20c713b6920",
+      "source_commit": "391b658db7d73ae4d8f3159564e049391bd20553",
       "last_checked_at": "2026-09-26",
       "coverage": {
         "status": "paired_publication_catalog",

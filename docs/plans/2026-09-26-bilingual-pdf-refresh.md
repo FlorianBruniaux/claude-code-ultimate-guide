@@ -36,12 +36,12 @@ Workers must preserve other edits and use separate intermediate output directori
 - [x] Complete English derivative review.
 - [x] Reconcile French derivatives with the same technical baseline.
 - [x] Validate translation coverage, unchanged code/identifiers, figures, links, and navigation.
-- [ ] Refresh source provenance from real commits after semantic review.
+- [x] Refresh source provenance from real commits after semantic review.
 - [x] Make the full-guide build support both languages and reject a stale French edition.
-- [ ] Generate 146 PDFs and the corresponding full-guide/whitepaper EPUBs with a manifest of source and output hashes.
-- [ ] Check page counts, text extraction, language metadata, missing glyphs, wide tables, code blocks, and representative rendered pages. Every recap card must remain one page.
-- [ ] Rebuild series ZIPs, synchronize download manifests and displayed page counts.
-- [ ] Run the guide, MCP, landing, public-path, and download integrity checks.
+- [x] Generate 146 PDFs and the corresponding full-guide/whitepaper EPUBs with a manifest of source and output hashes.
+- [x] Check page counts, text extraction, language metadata, missing glyphs, wide tables, code blocks, and representative rendered pages. Every recap card must remain one page.
+- [x] Rebuild series ZIPs, synchronize download manifests and displayed page counts.
+- [x] Run the guide, MCP, landing, public-path, and download integrity checks.
 - [ ] Commit and push the scoped changes, then verify deployment and live artifact hashes.
 
 ## Findings during execution
@@ -49,7 +49,7 @@ Workers must preserve other edits and use separate intermediate output directori
 - The previous French baseline contained missing sections, untranslated passages, and broken code fences. The refresh restores these in addition to translating recent English changes.
 - Fourteen top-level public inputs and nine included French sheets were absent from Git. They are recovered and included in the clean-checkout inventory.
 - Quarto's changed default syntax highlighter conflicted with the custom templates. Native Typst highlighting restores code-block line breaks.
-- The first English guide and recap-card renders succeeded. Final artifacts must be rebuilt after all content corrections.
+- The final catalog contains 146 validated PDFs and 28 EPUBs; six archives match the reviewed recap-card outputs.
 
 ## Acceptance gates
 

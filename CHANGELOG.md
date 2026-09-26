@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Documentation
 
+- Rebuilt the complete English/French download catalog from guide 3.43.0: 146 PDFs, 28 EPUBs and six recap-card archives. Added an artifact registry with public URLs, checksums, sizes and page counts; validated source freshness, PDF geometry, EPUB metadata and archive contents.
 - **Bilingual print source audit**: reviewed all 26 whitepapers, 116 recap cards, two daily cheatsheets and eleven included French summaries. Corrected command and configuration examples, current models and effort, memory and agent behavior, hooks, security boundaries, privacy and unmeasured outcome claims. Recovered all missing public QMD inputs and recorded per-publication revisions. Historical evidence remains dated; code/configuration checks do not establish production behavior.
 - **Reproducible PDF/EPUB build**: added a bilingual catalog renderer and artifact validator, source/template/font fingerprints and resumable outputs. Fixed nested fences, French contents preprocessing, native syntax highlighting, long code-block pagination, duplicate guide numbering, recap-card heading placement and table widths. The full-guide workflow now builds both languages and requires current French provenance; scheduled validation does not overwrite reviewed release downloads.
 
