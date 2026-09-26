@@ -6,11 +6,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-### Fixed
-
-- Corrected export table widths and page breaks across the guides, whitepapers, cheatsheets, and recap cards; long reference tables now continue across pages without clipping.
-
-
 - **French full-guide refresh**: reconciled 372 source-delta spans against the English v3.43.0 guide, restored missing sections and examples, repaired nested code fences and navigation, and brought current commands, models, memory, permissions, privacy and task behavior into alignment. Corrected matching canonical examples and obsolete fragment links. The review was performed with Codex; it is not a human editorial sign-off. Bilingual print rendering and publication are tracked separately in the [publication plan](docs/plans/2026-09-26-bilingual-pdf-refresh.md).
 
 ### Documentation
@@ -28,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
+- Corrected export table widths and page breaks across the guides, whitepapers, cheatsheets, and recap cards; long reference tables now continue across pages without clipping.
 - Repair relocated public references and search index paths used by the landing. Preserve historical attribution for unavailable sources, replace obsolete monitoring installation advice with official OpenTelemetry documentation, and synchronize the threat catalogue references. Refresh translation provenance against the committed guide while preserving the declared stale status of existing translations.
 
 - **Claude Code releases**: updated tracking from v2.1.274 to v2.1.278 with four documented releases and UTC npm publication dates. v2.1.275 syncs the skills and plugins enabled on a claude.ai account into terminal sessions (`syncClaudeAiSkills`, `syncClaudeAiPlugins` opt out), adds a send-now key for queued messages, and stops plugin and marketplace URLs from showing passwords or tokens. v2.1.276 fixes the proxy and gateway `400 ... Input tag 'advisor_20260301'` regression v2.1.275 introduced. v2.1.277 reads `AGENTS.md` as project instructions when a project has no `CLAUDE.md`, frames subagent results under a header marking them as subagent output, and fixes about fifty crash, resume and rendering issues. v2.1.278 moves auto mode to the server-side classifier by default on the Claude API, Enterprise, Bedrock, Vertex, Foundry and gateways, which carries no classifier-overhead charge. Recorded four behavior changes: the TaskOutput tool is removed along with any effect from `taskOutputMaxChars` and `TASK_MAX_OUTPUT_LENGTH`, a `sandbox.excludedCommands` glob no longer exempts a whole compound Bash command when one part matches, `AGENTS.md` becomes the project-instruction fallback, and the auto mode classifier default flips to server-side with `CLAUDE_CODE_AUTO_MODE_SERVER=0` as the opt out. Synchronized the bundled MCP release data (unpublished package 1.3.4, no further bump) and the three `llms.txt` mirrors. Guide version remains 3.43.0.

@@ -116,7 +116,9 @@ Demander une délégation   → Claude peut utiliser un agent disponible
 | Plan Mode | Aucune | Outils en lecture seule |
 | auto | Le classifieur décide | Le classifieur décide |
 | dontAsk | Uniquement si dans les règles autorisées | Uniquement si dans les règles autorisées |
-| bypassPermissions | Auto | Permissions ignorées ; nécessite une isolation et des accès adaptés |
+| Bypass | Auto | Permissions ignorées ; nécessite une isolation et des accès adaptés |
+
+L’identifiant du mode Bypass est `bypassPermissions`.
 
 **Shift+Tab** pour changer de mode
 

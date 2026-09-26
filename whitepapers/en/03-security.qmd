@@ -208,7 +208,7 @@ The MCP ecosystem has accumulated a significant number of vulnerabilities in und
 
 | CVE | Severity | Impact | Mitigation |
 |-----|----------|--------|------------|
-| **CVE-2025-53109/53110** | High | Filesystem MCP sandbox escape via prefix bypass + symlinks | Update >= 0.6.3 / 2025.7.1 |
+| **CVE-2025-53109, CVE-2025-53110** | High | Filesystem MCP sandbox escape via prefix bypass + symlinks | Update >= 0.6.3 / 2025.7.1 |
 | **CVE-2025-54135** | High (8.6) | RCE via prompt injection rewriting mcp.json | File integrity monitoring hook |
 | **CVE-2025-54136** | High | Persistent team backdoor via post-approval config tampering | Git hooks + hash verification |
 | **CVE-2025-49596** | Critical (9.4) | RCE in MCP Inspector tool | Update to patched version |
@@ -1148,7 +1148,7 @@ The CVEs and advisories below are the primary sources referenced throughout this
 
 | CVE / Source | Link |
 |--------------|------|
-| CVE-2025-53109/53110 | [Cymulate EscapeRoute](https://cymulate.com/blog/cve-2025-53109-53110-escaperoute-anthropic/) |
+| CVE-2025-53109, CVE-2025-53110 | [Cymulate EscapeRoute](https://cymulate.com/blog/cve-2025-53109-53110-escaperoute-anthropic/) |
 | CVE-2025-54135 | [Cato CurXecute](https://www.catonetworks.com/blog/curxecute-rce/) |
 | CVE-2025-54136 | [Checkpoint MCPoison](https://research.checkpoint.com/2025/cursor-vulnerability-mcpoison/) |
 | CVE-2026-24052 | [SentinelOne WebFetch SSRF](https://www.sentinelone.com/vulnerability-database/cve-2026-24052/) |

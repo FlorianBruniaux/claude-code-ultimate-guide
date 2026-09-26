@@ -972,7 +972,7 @@ Problème détecté
 
 | Problème | Cause probable | Solution |
 |----------|----------------|----------|
-| **Agents ne se lancent pas** | Flag manquant, mauvais modèle, tâche trop simple | Vérifier `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`, `/model opus`, demander explicitement "lance 3 agents" |
+| **Agents ne se lancent pas** | Flag manquant, mauvais modèle, tâche trop simple | Vérifier le flag d’activation, `/model opus`, demander explicitement "lance 3 agents" |
 | **Conflits de merge excessifs** | Agents modifient les mêmes fichiers | Redécomposer par couche (backend/frontend/tests), pas par domaine fonctionnel. Sauvegarder les changements avant résolution |
 | **Coûts tokens >5x** | Sur-lancement d'agents, périmètre trop large | Réduire à 2 agents, élaguer le contexte, appliquer l'escalade progressive |
 | **Agent bloqué/suspendu** | Déséquilibre de charge | `Shift+Bas` pour naviguer, "Arrête et rapporte tes découvertes" |
@@ -982,6 +982,8 @@ Problème détecté
 | **Coordination lente** | Dépendances, attentes ou échanges excessifs | Examiner les tâches bloquées et les messages ; réduire le travail redondant |
 | **Contexte lent** | Trop de fichiers chargés | Indiquer explicitement les fichiers : "Agent 1 : src/backend/* uniquement" |
 | **Dépassement budgétaire récurrent** | Mauvaise stratégie d'escalade | Commencer toujours en solo, escalader uniquement si parallélisme évident. Hook `PostToolUse` pour loguer les tokens |
+
+Flag d’activation : `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`.
 
 ## Corrections de Stabilité Récentes
 

@@ -116,7 +116,9 @@ which claude && claude --version
 | Plan Mode | None | Read-only tools |
 | auto | Classifier decides | Classifier decides |
 | dontAsk | Only if in allow rules | Only if in allow rules |
-| bypassPermissions | Auto | Auto (CI/CD only) |
+| Bypass | Auto | Auto (CI/CD only) |
+
+The Bypass mode identifier is `bypassPermissions`.
 
 **Shift+Tab** to switch modes
 
