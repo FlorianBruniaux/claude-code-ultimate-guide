@@ -1,0 +1,79 @@
+CHANGELOG.md
+  s_03ba8b1a919c17::t_9173022251d4ed 9-13
+machine-readable/translations.json
+  s_03ba8b1a919c17::t_95310bcffb7dfe 4,72,115,191,207-209,215-216,219-220,232-234,240-241,244-245
+mcp-server/content/translations.json
+  s_03ba8b1a919c17::t_6074986c69d5c4 4,72,115,191,207-209,215-216,219-220,232-234,240-241,244-245
+whitepapers/_extensions/cheatsheet/_extension.yml
+  s_03ba8b1a919c17::t_66157d4ec8947a 9-10
+whitepapers/_extensions/cheatsheet/table-widths.lua
+  s_03ba8b1a919c17::t_79323a11fe2955 1-10
+whitepapers/_extensions/cheatsheet/typst-template.typ
+  s_9bb6202b9f92b0::t_51773dbc8261a5 90,97,165
+whitepapers/_extensions/whitepaper/_extension.yml
+  s_7e64375df4c8b6::t_47da31e0bc6965 9-10
+whitepapers/_extensions/whitepaper/table-widths.lua
+  s_03ba8b1a919c17::t_59271f3f2fa159 1-10
+whitepapers/en/00-series-introduction.qmd
+  s_7e64375df4c8b6::t_d77763989c7d42 79,82-83
+whitepapers/en/_extensions/cheatsheet/_extension.yml
+  s_03ba8b1a919c17::t_c40b0507eb72f1 9-10
+whitepapers/en/_extensions/cheatsheet/table-widths.lua
+  s_03ba8b1a919c17::t_8e754f314c61d9 1-10
+whitepapers/en/_extensions/cheatsheet/typst-template.typ
+  s_9bb6202b9f92b0::t_97c216693d91d9 86,93,161
+whitepapers/en/_extensions/whitepaper/_extension.yml
+  s_7e64375df4c8b6::t_fa03db404a771f 9-10
+whitepapers/en/_extensions/whitepaper/table-widths.lua
+  s_03ba8b1a919c17::t_b56fb3dbb0bda8 1-10
+whitepapers/en/_extensions/whitepaper/typst-template.typ
+  s_03ba8b1a919c17::t_3f96e50883632f 357-358
+whitepapers/fr/06-privacy.qmd
+  s_7e64375df4c8b6::t_dc6e61cb50cc24 654,657
+whitepapers/fr/07-guide-reference.qmd
+  s_7e64375df4c8b6::t_40f084fd6d9b91 1870
+whitepapers/fr/08-agent-teams.qmd
+  s_7e64375df4c8b6::t_2a2809751c4e7d 1222
+whitepapers/fr/_extensions/cheatsheet/_extension.yml
+  s_03ba8b1a919c17::t_643acad73dca04 9-10
+whitepapers/fr/_extensions/cheatsheet/table-widths.lua
+  s_03ba8b1a919c17::t_9d9b417692ee11 1-10
+whitepapers/fr/_extensions/cheatsheet/typst-template.typ
+  s_9bb6202b9f92b0::t_8b07dace1f09cc 86,93,161
+whitepapers/fr/_extensions/whitepaper/_extension.yml
+  s_7e64375df4c8b6::t_f899a15963d5b3 9-10
+whitepapers/fr/_extensions/whitepaper/table-widths.lua
+  s_03ba8b1a919c17::t_1887189223c7ba 1-10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "d19400f5dea1a8acf5411227db7549d58a00a6b2",
+  "prompts": {},
+  "sessions": {
+    "s_03ba8b1a919c17": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d374-0cc8-7963-b9d1-425a32259a25",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_7e64375df4c8b6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0cf24-9a72-7501-89c0-9d65d4d875c5",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_9bb6202b9f92b0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0dd0b-3a45-74b2-bf85-a54bc884e926",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
