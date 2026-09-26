@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Corrected export table widths and page breaks across the guides, whitepapers, cheatsheets, and recap cards; long reference tables now continue across pages without clipping.
+
+
 - **French full-guide refresh**: reconciled 372 source-delta spans against the English v3.43.0 guide, restored missing sections and examples, repaired nested code fences and navigation, and brought current commands, models, memory, permissions, privacy and task behavior into alignment. Corrected matching canonical examples and obsolete fragment links. The review was performed with Codex; it is not a human editorial sign-off. Bilingual print rendering and publication are tracked separately in the [publication plan](docs/plans/2026-09-26-bilingual-pdf-refresh.md).
 
 ### Documentation

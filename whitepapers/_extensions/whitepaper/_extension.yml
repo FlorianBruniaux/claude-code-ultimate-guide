@@ -6,6 +6,8 @@ contributes:
   formats:
     typst:
       syntax-highlighting: idiomatic
+      filters:
+        - table-widths.lua
       template-partials:
         - typst-template.typ
         - typst-show.typ

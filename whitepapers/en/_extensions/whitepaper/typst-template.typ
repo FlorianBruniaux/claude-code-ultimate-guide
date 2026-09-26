@@ -354,8 +354,8 @@
     inset: 10pt,
   )
 
-  // Prevent tables from splitting across pages
-  show table: it => block(breakable: false, it)
+  // Allow long tables to continue on the next page
+  show table: it => block(breakable: true, it)
 
   // Table header styling
   show table.cell.where(y: 0): set text(weight: "semibold", fill: primary)

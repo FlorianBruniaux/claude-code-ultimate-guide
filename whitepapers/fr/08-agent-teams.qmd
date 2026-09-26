@@ -1219,7 +1219,7 @@ Template disponible dans `examples/agents/loop-monitor.md`. Surveille les sessio
 | **AgentBench** | Benchmark multi-tâches pour agents LLM (2023) | [arxiv.org/abs/2308.03688](https://arxiv.org/abs/2308.03688) |
 | **"Agents" (Wooldridge)** | Introduction aux systèmes multi-agents (référence académique) | [cs.ox.ac.uk/people/michael.wooldridge/pubs/imas](https://www.cs.ox.ac.uk/people/michael.wooldridge/pubs/imas/) |
 | **CoSAI AI Incident Response** | Framework de réponse aux incidents IA (OASIS, Nov 2025) | [cosai.org](https://cosai.org) |
-| **EU AI Act (systèmes autonomes)** | Exigences réglementaires pour systèmes IA autonomes | [eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32024R1689](https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32024R1689) |
+| **EU AI Act (systèmes autonomes)** | Exigences réglementaires pour systèmes IA autonomes | [Texte du règlement IA](https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32024R1689) |
 | **OWASP Agentic AI Top 10** | Risques des agents IA autonomes (2026) | [owasp.org/www-project-agentic-ai-top-10](https://owasp.org/www-project-agentic-ai-top-10/) |
 | **Agent Teams Workflow Guide** | Guide pratique dédié (ce repo) | [guide/workflows/agent-teams.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/agent-teams.md) |
 

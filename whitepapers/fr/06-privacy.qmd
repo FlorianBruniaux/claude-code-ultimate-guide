@@ -651,10 +651,10 @@ Ces ressources sont les points d'entrée officiels d'Anthropic pour la gestion d
 
 | Ressource | Contenu | Lien |
 |-----------|---------|------|
-| **Texte RGPD officiel** | Règlement UE 2016/679 : texte intégral | [eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32016R0679](https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32016R0679) |
+| **Texte RGPD officiel** | Règlement UE 2016/679 : texte intégral | [Texte du RGPD](https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32016R0679) |
 | **CNIL : IA et données** | Guide CNIL sur l'utilisation de l'IA en entreprise | [cnil.fr/fr/intelligence-artificielle](https://www.cnil.fr/fr/intelligence-artificielle) |
 | **CNIL : Correspondant données** | Obligations DPO, registre de traitements | [cnil.fr/fr/la-designation-du-dpo](https://www.cnil.fr/fr/la-designation-du-dpo) |
-| **EU AI Act** | Règlement européen sur l’IA, avec calendrier d’application échelonné | [eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32024R1689](https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32024R1689) |
+| **EU AI Act** | Règlement européen sur l’IA, avec calendrier d’application échelonné | [Texte du règlement IA](https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32024R1689) |
 | **EDPB Guidelines** | Lignes directrices du Comité européen à la protection des données | [edpb.europa.eu/our-work-tools/general-guidance](https://www.edpb.europa.eu/our-work-tools/general-guidance_fr) |
 | **Data Privacy Guide** | Guide data privacy Claude Code (ce repo) | [guide/security/data-privacy.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/security/data-privacy.md) |
 | **AI Traceability Guide** | Attribution, disclosure, politique d'équipe | [guide/ops/ai-traceability.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/ai-traceability.md) |

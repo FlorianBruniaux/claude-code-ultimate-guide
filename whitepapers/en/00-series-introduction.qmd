@@ -76,8 +76,10 @@ Since late 2025, several agentic capabilities have become available and signific
 | **`--safe-mode`** | v2.1.169 | Troubleshooting flag: disables all customizations (CLAUDE.md, plugins, skills, hooks, MCP servers) |
 | **Opus 5.5** | v2.1.280 | Current direct-service default, native 1M context; standard $4/$20 and fast $8/$40 per Mtok |
 | **Fable family** | v2.1.170 | Fable 5.1 is the current direct-API model where available; provider aliases differ |
-| **Nested sub-agents** | v2.1.219 | Agents can delegate to sub-agents up to 3 levels deep by default (`CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH`) |
+| **Nested sub-agents** | v2.1.219 | Agents can delegate to sub-agents up to 3 levels deep by default |
 | **Sonnet 5** | v2.1.197 | Available model with native 1M-token context; published standard price remains $2/$10 per Mtok |
+
+Set nested delegation depth with `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH`.
 
 ## Installation
 

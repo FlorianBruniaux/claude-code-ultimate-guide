@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "checked_at": "2026-09-26",
-  "measured_at_commit": "9a60d90297f3a42d9062c82a1f0794a0694420aa",
+  "measured_at_commit": "c3148216511712724234cf8ce3a0d20c713b6920",
   "official_scope": "Maintained by the Claude Code Ultimate Guide project; not official Anthropic documentation.",
   "policy": {
     "canonical_language": "en",
@@ -69,7 +69,7 @@
       "known_lag": {
         "status": "current",
         "canonical_guide_commits": 0,
-        "canonical_repo_commits": 0,
+        "canonical_repo_commits": 1,
         "version_delta": "3.41.1 to 3.43.0"
       }
     },
@@ -112,7 +112,7 @@
       "known_lag": {
         "status": "stale",
         "canonical_guide_commits": 47,
-        "canonical_repo_commits": 390,
+        "canonical_repo_commits": 391,
         "version_delta": "3.41.0 to 3.43.0"
       },
       "official": false
@@ -188,7 +188,7 @@
       "known_lag": {
         "status": "stale",
         "canonical_guide_commits": 131,
-        "canonical_repo_commits": 658,
+        "canonical_repo_commits": 659,
         "version_delta": "3.32.2 to 3.43.0"
       },
       "official": false
@@ -204,19 +204,20 @@
       "status": "official",
       "url": "https://cc.bruniaux.com/whitepapers/",
       "maintainer": "Florian Bruniaux",
-      "version": "mixed: v3.41.3 and v3.43.0",
-      "source_commit": null,
-      "last_checked_at": "2026-08-31",
+      "version": "3.43.0",
+      "source_commit": "c3148216511712724234cf8ce3a0d20c713b6920",
+      "last_checked_at": "2026-09-26",
       "coverage": {
         "status": "paired_publication_catalog",
         "paired_items": 13,
         "paired_source_items_in_this_repository": 13,
         "known_french_only_source_prefixes": [],
-        "content_freshness": "not_measured_against_the_full_guide"
+        "content_freshness": "operational_content_review_completed_2026-09-26",
+        "review": "Codex source review with EN/FR technical parity; not human editorial sign-off or independent reproduction of historical studies."
       },
       "known_lag": {
-        "status": "unknown",
-        "reason": "These are adaptations, not line-equivalent translations of the canonical full guide."
+        "status": "reviewed_at_recorded_source",
+        "reason": "Adaptations and summaries, not line-equivalent translations of the canonical full guide. Historical evidence limits are documented in docs/audits/2026-09-26-bilingual-publications.md."
       }
     },
     {
@@ -228,19 +229,20 @@
       "status": "official",
       "url": "https://cc.bruniaux.com/cheatsheets/",
       "maintainer": "Florian Bruniaux",
-      "version": "v1.0.0 catalog with four unversioned direct-path files",
-      "source_commit": null,
-      "last_checked_at": "2026-08-31",
+      "version": "3.43.0",
+      "source_commit": "c3148216511712724234cf8ce3a0d20c713b6920",
+      "last_checked_at": "2026-09-26",
       "coverage": {
         "status": "paired_publication_catalog",
         "paired_items": 58,
         "french_manifest_items": 58,
         "english_manifest_items": 58,
-        "content_freshness": "not_measured_against_the_full_guide"
+        "content_freshness": "operational_content_review_completed_2026-09-26",
+        "review": "Codex source review with EN/FR technical parity; not human editorial sign-off or independent reproduction of historical studies."
       },
       "known_lag": {
-        "status": "unknown",
-        "reason": "These are summaries, not line-equivalent translations of the canonical full guide."
+        "status": "reviewed_at_recorded_source",
+        "reason": "Adaptations and summaries, not line-equivalent translations of the canonical full guide. Historical evidence limits are documented in docs/audits/2026-09-26-bilingual-publications.md."
       }
     }
   ],

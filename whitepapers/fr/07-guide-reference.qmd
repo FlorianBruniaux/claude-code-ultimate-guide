@@ -1867,7 +1867,7 @@ Selon votre objectif immédiat, vous n'avez pas besoin de lire les 13 livres bla
 | Repository | Contenu | Lien |
 |------------|---------|------|
 | **Claude Code Ultimate Guide** | Ce guide (~26,6K lignes, 271 templates) | [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide) |
-| **MCP Reference Servers** | Serveurs de référence et exemples | [github.com/modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) |
+| **MCP Reference Servers** | Serveurs de référence et exemples | [Dépôt MCP Reference Servers](https://github.com/modelcontextprotocol/servers) |
 | **Claude Code Action** | GitHub Action officielle pour CI/CD | [github.com/anthropics/claude-code-action](https://github.com/anthropics/claude-code-action) |
 
 ## Pages Guide Complémentaires
