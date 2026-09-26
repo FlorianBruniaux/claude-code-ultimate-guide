@@ -4,10 +4,11 @@ subtitle: "Tracking AI contributions in code and commits"
 card-number: "C10"
 category: "Design"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "August 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: en
 format:
@@ -73,8 +74,8 @@ grammar correction, IDE helpers.
 
 ## AI Code Halflife
 
-Studies on repositories using git-ai show that the median lifespan of AI-generated code is 3.33 years before being replaced, compared to a longer lifespan for human code. AI code is often more generic, less anchored in the project architecture, and requires more rework when requirements evolve. Traceability allows precisely targeting these areas during future refactoring.
+Traceability makes longitudinal maintenance studies possible. Compare equivalent cohorts, observation periods and review practices before attributing differences in code survival to AI assistance. This card does not establish a measured lifespan or a causal effect.
 
 ## Advanced tool: Entire CLI
 
-For enterprise teams, Entire CLI (Feb 2026, Thomas Dohmke) captures complete sessions as Git checkpoints: prompts, tool calls, diffs, and reasoning, on an orphan branch without polluting the main history. Useful for SOC2/HIPAA contexts requiring full auditability.
+For enterprise teams, Entire CLI (Feb 2026, Thomas Dohmke) captures complete sessions as Git checkpoints: prompts, tool calls, diffs, and reasoning, on an orphan branch without polluting the main history. Review capture scope, access and retention against your organization's audit requirements. Recording sessions does not itself demonstrate compliance.

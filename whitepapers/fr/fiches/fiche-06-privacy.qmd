@@ -1,0 +1,24 @@
+{{< pagebreak >}}
+
+## Fiche Récap : Privacy & Conformité
+
+```{=typst}
+#fiche-recap(
+  title: "Privacy & Conformité",
+  subtitle: "RGPD, rétention, ce qui part chez Anthropic",
+  wp-number: "06",
+  points: (
+    "#strong[Ce qui part] : vos prompts, le contenu des fichiers lus, les outputs de commandes bash. Des secrets lus peuvent aussi être transmis ; les règles deny ne filtrent pas tous les canaux.",
+    "#strong[Contrôles] : limiter les lectures, les sorties shell et les accès MCP ; hors projet ne signifie pas inaccessible.",
+    "#strong[Rétention] : commercial 30 jours par défaut ; grand public 5 ans si entraînement activé, 30 jours sinon. ZDR seulement si éligible et activé, avec périmètre contractuel.",
+    "#strong[Revue RGPD] : finalité, base légale, minimisation, DPA, transferts, rétention et droits. Aucun réglage unique ne prouve la conformité.",
+    "#strong[Checklist conformité] : permissions.deny configuré, .gitignore sur .env, audit logging activé, politique rétention documentée.",
+  ),
+  actions: (
+    "Configurer permissions.deny pour bloquer l'accès aux fichiers sensibles",
+    "Vérifier votre politique de rétention Anthropic dans les settings API",
+    "Garder les secrets hors des prompts et instructions ; .gitignore seul ne bloque pas leur lecture",
+    "Compléter la checklist conformité RGPD de ce whitepaper",
+  ),
+)
+```

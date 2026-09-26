@@ -4,10 +4,11 @@ subtitle: "Choisir le bon mécanisme d'extension selon le besoin"
 card-number: "C04"
 category: "Conception"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "Août 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -23,7 +24,7 @@ format:
 | **Plugin** | Marketplace | Global | Oui | Intégration tierce |
 | **Agent** | Spécialiste autonome | Agent tool | Via memory | Délégation complexe |
 
-> **CC 2.1.3** : `.claude/commands/` est fusionné dans `.claude/skills/`. Ajoutez `disable-model-invocation: true` pour une skill déclenchée uniquement par l'utilisateur.
+> **CC 2.1.3** : Commandes personnalisées et skills partagent leur comportement d’invocation. Les fichiers `.claude/commands/*.md` restent pris en charge. Ajouter `disable-model-invocation: true` pour une invocation manuelle uniquement.
 
 ## Skills user-invocables (ex-commands)
 
@@ -47,7 +48,7 @@ disable-model-invocation: true
 
 ## Skills model-invocables
 
-Un skill sans `disable-model-invocation` est chargé automatiquement par le modèle quand la description correspond au contexte.
+Un skill sans `disable-model-invocation` peut être invoqué par le modèle lorsque sa description correspond à la tâche.
 
 ```yaml
 # .claude/skills/security-guardian/SKILL.md
@@ -63,7 +64,7 @@ Analyser le code pour les vulnérabilités OWASP Top 10...
 
 ## Plugins : intégrations tierces
 
-Les plugins proviennent du marketplace et ajoutent des capacités externes. Ils s'installent via `/plugin marketplace add`.
+Les plugins ajoutent des capacités externes. Ajouter un catalogue avec `/plugin marketplace add <source>`, puis installer le plugin choisi avec `/plugin install <name>@<marketplace>`.
 
 **Quand choisir :** une intégration avec un service tiers existant couvre exactement votre besoin.
 
@@ -77,6 +78,7 @@ Un agent est un Claude spécialisé avec ses propres outils et son propre scope.
 # .claude/agents/security-audit.md
 ---
 name: security-audit
+description: Review authentication and input handling for security defects
 model: opus
 tools: Read, Grep, Glob
 ---

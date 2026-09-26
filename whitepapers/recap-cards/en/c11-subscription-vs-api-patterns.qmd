@@ -4,10 +4,11 @@ subtitle: "Understanding when each billing model is advantageous"
 card-number: "C11"
 category: "Design"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "August 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: en
 format:
@@ -26,20 +27,20 @@ The practical distinction: subscription favors solo developers with regular dail
 
 Subscriptions use a hybrid model: a 5-hour rolling window and a weekly cap. Both apply simultaneously. Billing is announced in "messages" but actually corresponds to tokens, making limits difficult to anticipate.
 
-**Critical point: the Opus/Sonnet ratio.** Opus consumes 8 to 10 times more quota than Sonnet for equivalent work. A Max 20x user who uses Opus intensively can exhaust their weekly quota in 24 to 40 hours of real work, despite a premium subscription.
+**Quota is not an API price ratio.** Model, context, tools and account policy affect subscription consumption. Inspect `/usage` and compare real sessions; the API token prices below do not predict how quickly a weekly allowance runs out.
 
 ## Strategies by plan
 
 | Plan | Recommendation |
 |------|---------------|
-| Pro | Sonnet only, batch sessions, avoid context bloat |
-| Max 5x | Sonnet by default, Opus for architecture and complex debug |
+| Pro | Choose an available model for the task; monitor `/usage` |
+| Max 5x | Explicit Sonnet routing can be evaluated against the default |
 | Max 20x | More Opus freedom, but monitor weekly consumption |
 | API | Haiku for mechanical tasks, Sonnet for dev, Opus for audit |
 
 ## The OpusPlan pattern for saving
 
-On a limited budget, the most effective pattern is to use Opus for planning (where reasoning quality matters), then Sonnet or Haiku for mechanical execution.
+On a limited budget, compare Opus for planning with Sonnet or Haiku for bounded execution. Measure retries and accepted results before assuming this routing saves money.
 
 ```bash
 # Phase 1: planning (Opus)
@@ -51,31 +52,34 @@ claude --model sonnet
 "Implement the plan according to the defined specs"
 ```
 
-This pattern is automated via `/model opusplan`.
+`/model opusplan` specifically uses Opus for planning and Sonnet for execution; it does not select Haiku.
 
 ## Consumption monitoring
 
 ```bash
-/cost              # Cost and context of the current session
-/status            # Model + context + summarized cost
+/usage             # Costs, usage limits and statistics
+/context           # Token breakdown
 
 # Community tool for cross-session history
 ccusage            # Overview all periods
-ccusage --today    # Today's cost
-ccusage --month    # Monthly cost
-ccusage --model-breakdown  # By model
+ccusage daily     # Daily totals
+ccusage monthly   # Monthly totals
+ccusage --breakdown # By model
 ```
 
-Anthropic does not provide real-time metrics in the interface. `ccusage` fills this gap.
+`/usage` provides built-in metrics; `ccusage` adds local cross-session analysis. Neither estimate replaces an invoice.
 
 ## When API wins
 
 Subscription hits its limits in three cases: teams where multiple developers consume simultaneously, CI/CD pipelines with a high PR volume, and projects with long daily sessions that exhaust the budget before the end of the week. In these contexts, API billing (with Haiku for mechanical tasks) often ends up cheaper than expected, especially with a progressive escalation strategy.
 
-## Typical API costs (order of magnitude)
+## Explicit token-budget examples
 
-| Session type | Sonnet | Opus |
+Standard direct-API USD, excluding caching and fast mode:
+
+| Input / output | Sonnet 5 | Opus 5.5 |
 |---|---|---|
-| Bug fix / PR review | ~$0.15 | ~$0.38 |
-| Module refactoring | ~$0.75 | ~$1.25 |
-| CI/CD review per PR (Haiku) | ~$0.02 | N/A |
+| 50K / 5K | $0.15 | $0.30 |
+| 150K / 20K | $0.50 | $1.00 |
+
+Actual task cost depends on all calls and retries.

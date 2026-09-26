@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-09-24",
-  "measured_at_commit": "b73b3c7b05972bcda239cf40f6cadca16041b3f9",
+  "checked_at": "2026-09-26",
+  "measured_at_commit": "9a60d90297f3a42d9062c82a1f0794a0694420aa",
   "official_scope": "Maintained by the Claude Code Ultimate Guide project; not official Anthropic documentation.",
   "policy": {
     "canonical_language": "en",
@@ -21,10 +21,10 @@
     "maintainer": "Florian Bruniaux",
     "status": "official",
     "version": "3.43.0",
-    "sha256": "d4fb5fd2537cd811712a99f005afe2a8c5d518953435565136aea4d4d598ab4f",
+    "sha256": "80de16871c84b40e67a4202ab1e2b957e9a18347f7033e16ff71cfd19ad7d830",
     "source": {
-      "commit": "b73b3c7b05972bcda239cf40f6cadca16041b3f9",
-      "sha256": "d4fb5fd2537cd811712a99f005afe2a8c5d518953435565136aea4d4d598ab4f",
+      "commit": "9f3620342e119005796e3abe50c195eef33f7a72",
+      "sha256": "80de16871c84b40e67a4202ab1e2b957e9a18347f7033e16ff71cfd19ad7d830",
       "commit_evidence": "latest_commit_touching_canonical_guide"
     },
     "coverage": {
@@ -47,29 +47,29 @@
       "maintainer": "Florian Bruniaux",
       "status": "official",
       "official": true,
-      "version": "3.41.1",
-      "last_checked_at": "2026-09-24",
-      "last_full_refresh_at": "2026-07-09",
-      "sync_state": "stale",
+      "version": "3.43.0",
+      "last_checked_at": "2026-09-26",
+      "last_full_refresh_at": "2026-09-26",
+      "sync_state": "current",
       "translated_from": {
-        "version": "3.41.1",
-        "commit": "d05a95c6c58cc1bcdb4b5db9aa76ad5a119baec6",
-        "sha256": "7b88e19f61709014a63b4d397e91ca9e394c7657aae51ac64a592217e88dafb3"
+        "version": "3.43.0",
+        "commit": "9a60d90297f3a42d9062c82a1f0794a0694420aa",
+        "sha256": "80de16871c84b40e67a4202ab1e2b957e9a18347f7033e16ff71cfd19ad7d830"
       },
       "artifact": {
-        "sha256": "1ff9dc937db69b81935a12ea1dd73e9bea623e7be3600f3df99c817d195ccdb1",
-        "last_change_commit": "b73b3c7b05972bcda239cf40f6cadca16041b3f9"
+        "sha256": "74b32a9c8f4595d7aaef7bd314826c5df8312d24d2ab834dd33bb051fec8278a",
+        "last_change_commit": "9f3620342e119005796e3abe50c195eef33f7a72"
       },
       "coverage": {
         "type": "full_guide",
         "status": "complete_at_recorded_source",
-        "note": "The file is complete for its recorded source baseline. English additions after 3.41.1 are not yet fully translated. Review calibration and human-approval policy sections received a scoped correction on 2026-09-08; this is not a full refresh. Loop and goal scheduling, evaluation and resume sections received matching scoped corrections on 2026-09-10; this is not a full refresh. Commands, output styles, model selection, thinking and pricing received scoped corrections on 2026-09-24; this is not a full refresh.",
-        "semantic_review": "not_verified_by_automation"
+        "note": "The v3.43.0 refresh reconciled 372 source-delta spans, restored historical omissions and broken code fences, and reviewed commands, examples, links, terminology and navigation against the corrected English source. See docs/audits/2026-09-26-bilingual-publications.md for review scope and limits.",
+        "semantic_review": "codex_review_completed_2026-09-26; not_human_editorial_signoff"
       },
       "known_lag": {
-        "status": "stale",
-        "canonical_guide_commits": 32,
-        "canonical_repo_commits": 321,
+        "status": "current",
+        "canonical_guide_commits": 0,
+        "canonical_repo_commits": 0,
         "version_delta": "3.41.1 to 3.43.0"
       }
     },
@@ -111,8 +111,8 @@
       },
       "known_lag": {
         "status": "stale",
-        "canonical_guide_commits": 46,
-        "canonical_repo_commits": 385,
+        "canonical_guide_commits": 47,
+        "canonical_repo_commits": 390,
         "version_delta": "3.41.0 to 3.43.0"
       },
       "official": false
@@ -187,8 +187,8 @@
       },
       "known_lag": {
         "status": "stale",
-        "canonical_guide_commits": 130,
-        "canonical_repo_commits": 653,
+        "canonical_guide_commits": 131,
+        "canonical_repo_commits": 658,
         "version_delta": "3.32.2 to 3.43.0"
       },
       "official": false
@@ -210,10 +210,8 @@
       "coverage": {
         "status": "paired_publication_catalog",
         "paired_items": 13,
-        "paired_source_items_in_this_repository": 6,
-        "known_french_only_source_prefixes": [
-          "03"
-        ],
+        "paired_source_items_in_this_repository": 13,
+        "known_french_only_source_prefixes": [],
         "content_freshness": "not_measured_against_the_full_guide"
       },
       "known_lag": {
@@ -258,17 +256,22 @@
         "en": "whitepapers/en"
       },
       "public_prefixes": [
+        "00",
+        "01",
         "02",
+        "03",
         "04",
+        "05",
+        "06",
         "07",
         "08",
+        "09",
+        "10",
         "11",
         "12"
       ],
       "known_unpaired_prefixes": {
-        "fr": [
-          "03"
-        ],
+        "fr": [],
         "en": []
       },
       "published_catalog_pairs": 13

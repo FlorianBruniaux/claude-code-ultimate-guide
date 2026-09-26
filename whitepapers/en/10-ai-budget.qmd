@@ -1,0 +1,568 @@
+---
+title: "Making the Case for AI Investment"
+subtitle: "The argumentation guide for CEOs, CTOs and CFOs"
+author: "Florian BRUNIAUX"
+date: "2026-09-26"
+date-format: "MMMM YYYY"
+version: "3.43.0"
+wp-version: "1.2.3"
+series: "Claude Code Ultimate Guide"
+format:
+  whitepaper-typst:
+    toc: true
+    toc-depth: 2
+    section-numbering: "1.1"
+  html:
+    toc: true
+    theme: cosmo
+  epub:
+    toc: true
+    toc-depth: 2
+    epub-cover-image: _extensions/whitepaper/assets/claude-code-ai-logo.jpg
+    css: ../epub-styles.css
+    number-sections: true
+lang: en
+---
+
+::: {.callout-note}
+**Who is this document for?**
+
+| Organization | Technical decision-maker | Budget decision-maker |
+|---|---|---|
+| Startup / SMB | CTO | CEO |
+| Mid-market | CTO or CIO | CEO + CFO |
+| Large enterprise | CIO / VP Engineering | CEO + CFO |
+
+In this document, "CTO" refers to the primary technical decision-maker, regardless of exact title. In large organizations, this role is often held by a CIO or VP Engineering.
+:::
+
+# Executive Summary
+
+**Illustrative planning assumptions**
+
+Prices and break-even calculations below use the historical July 2026 assumptions in this document. They are not current quotes or measured returns. Include review, rework, training, integration and overage costs, and distinguish reusable capacity from cash savings.
+
+| Indicator | Value |
+|-----------|-------|
+| Cursor Pro break-even | < 1 hour saved per month |
+| Claude Max / developer cost ratio | ~1-1.6% of monthly cost |
+| Pilot duration | 8 weeks, 3-5 volunteers |
+| Minimum pilot budget | $100-200 (Cursor Pro × 5 devs) |
+| Measured gain (Borg 2025 study) | +30% median on exploratory tasks |
+
+**Recommendation**: Run a bounded pilot with volunteers, agreed tasks and before/after measures. Obtain current pricing and usage limits from the supplier before choosing a plan. The example duration and team size below are a proposed protocol, not a guarantee of sufficient evidence.
+
+AI isn't just another productivity tool: it's augmentation. The distinction is explained in section 6.
+
+# The Problem Every AI-Addicted Dev Faces
+
+AI costs visible money (a line in the budget, a monthly invoice, a number the CFO sees). The gains, however, are diffuse. "I was faster" doesn't show up in a P&L. "We delivered better" is hard to prove without metrics prepared in advance.
+
+This is the wall most developers hit when trying to get these tools adopted by their company. Not principled resistance, but no budget either, because nobody translated the gains into decision-maker language.
+
+This whitepaper is the case to build before walking into that meeting. Factual arguments, prepared objections, a pre-pitch checklist, and a prompt to generate a repository-specific case from your real git data.
+
+## What This Document Is Not
+
+Not a promise of "2× productivity". Avoid that kind of bold statement: if you push it internally, you can be held accountable. And you might end up feeling compelled to prove it, which leads to working until 2am just to demonstrate the value.
+
+The honest argument: we deliver roughly the same scope as before, with documented and tested code, and a lower contribution barrier. Seniority on the project no longer matters as much on the technical side. That's a durability argument, not a raw performance one.
+
+## The Base Numbers
+
+| Tool | Cost/dev/month | Break-even |
+|------|----------------|------------|
+| Copilot Individual | ~$10 | < 1h saved/month |
+| Cursor Pro | ~$20 | ~1h saved/month |
+| Claude Max | ~$100-200 | 0.5 to 1 day saved/month |
+
+For a worked example, choose a local loaded hourly cost and record its source. Divide total incremental cost by that rate to estimate the hours of accepted work needed to cover the spend. Time released only becomes financial return if it enables useful work or actually avoids a cost.
+
+::: {.callout-note}
+Historical price assumptions from July 2026, not a current quote. Verify current prices, included usage, overage, seat minimums and billing periods before any decision.
+:::
+
+# The Raw Financial Argument
+
+## The Workforce Comparison
+
+AI licenses run from $10 to $200/dev/month depending on the tool. Even at the high end, if they meaningfully increase team capacity, they expand the capacity of your existing team, not a substitute for headcount.
+
+::: {.callout-warning}
+**Framing trap to avoid**: never pitch AI licenses as "the equivalent of hiring an extra developer". The moment you frame it as a headcount substitute, the CFO's next thought is "OK, so we cut a position." You lose the room. The right frame: this is additive capacity on the existing team (more tests, more docs, more debt addressed), not a replacement for anyone.
+:::
+
+No hire will increase the capacity of your existing team at this price. A mid-level salaried developer costs multiples of any AI license every month. AI doesn't replace that developer; it amplifies what the people already there can do.
+
+## The Freelance Day Rate Comparison
+
+Using a hypothetical $20 monthly license, calculate break-even with your own loaded cost and total implementation overhead. Contract term, cancellation and accounting treatment must be checked for the chosen purchase.
+
+## The Real Board Argument
+
+It's not "AI is good", it's "for $X/month, we deliver the same scope as before, with more tests, more documentation, and less dependency on the senior engineers who know the codebase."
+
+# Arguments by Decision-Maker Profile
+
+## For the CEO
+
+**Impact on Time to Market**
+
+Iterating faster on new features means launching more product validation cycles per year. The gain isn't just internal: it reflects on the ability to explore new directions, react to market signals, and reduce the time between a hypothesis and the code that tests it.
+
+**The Strategic Window Is Closing**
+
+Treat competitive claims as hypotheses. A small pilot can show which tasks benefit in your organization and which increase review or rework. Team size, revenue growth and a vendor's adoption story do not establish a causal productivity multiplier.
+
+**Attracting and Retaining Top Performers**
+
+The market isn't tight across the board: it's tight for seniors and experts. They're the ones with their pick of employers. Refusing AI licenses in 2025 is like refusing IntelliJ in 2010 for candidates who have options: technically possible, but a clear signal that you're not the place where top talent wants to grow. A mid-level developer without alternatives won't leave over this. A senior with three offers in 48 hours will.
+
+**Retention hypothesis**: Ask staff whether tooling affects their work and retention decisions. Estimate recruiting and onboarding costs from your own records; do not attribute a departure or a fixed salary multiple to tooling without evidence.
+
+**The Financial Arguments**
+
+| Option | Monthly cost (1 additional dev) | Cancellability |
+|--------|--------------------------------|----------------|
+| Hiring (mid salaried) | ~$8,000-12,000 all-in | 1-3 months notice |
+| Freelance (mid, 20d/month) | ~$10,000-12,000 | Variable |
+| Cursor Pro × 5 devs | $100 | 1 month |
+| Claude Max × 5 devs | $500-1,000 | 1 month |
+
+The table is a worked comparison of assumed prices, not evidence that a license replaces a hire or guarantees a positive return.
+
+**Cost ratio**: Divide the verified annual tool cost by the loaded employment cost in your organization. A small ratio can justify an experiment; it does not establish benefit.
+
+Confirm accounting classification, tax treatment, renewal and cancellation terms with finance for the relevant jurisdiction and contract.
+
+## For the CFO
+
+**ROI first: what the CFO looks at**
+
+A CFO examines a spend through one lens: is the return measurable? On AI licenses, two arguments hold up. Code quality first: fewer production bugs means fewer corrective interventions, less team mobilization on incidents. The cost of a production incident is multiples of any annual license. Documentation second: an onboarding process that drops from three weeks to ten days on a given codebase is a measurable productivity gain on every new hire.
+
+**Accounting and contract review**
+
+Finance should determine the accounting and tax treatment of the actual purchase, including prepaid commitments and implementation costs. Do not assume immediate deductibility, monthly cancellation or absence of a multi-year contract.
+
+## For the CTO
+
+**What the Studies Actually Measure**
+
+Two recent studies provide usable numbers, with important nuances to understand before citing them to a decision-maker.
+
+*Borg et al. "Echoes of AI" (2025, 151 participants, 95% professional devs)*: Phase 1, which was observational, measured a +30.7% median speed improvement on a controlled task (extending a Java web app). Habitual AI users were ~55.9% faster. Phase 2, the true RCT in the strict sense, measured the maintainability of the produced code: developers who evolved AI-assisted code took no longer and produced no lower quality than with human-written code. Co-authored by Dave Farley of "Continuous Delivery."
+
+*METR (2025, 16 experienced developers with moderate AI experience, 246 issues)*: on mature open-source projects with high contribution standards, AI developers were 19% slower, while believing themselves 20% faster. This is a very specific context (high quality requirements, complex code, developers who were not AI power users) and shouldn't be generalized to every team.
+
+Operational conclusion: compare bounded tasks in your own environment. These studies use different tasks and designs; they do not establish that every unfamiliar task improves or every familiar task slows down.
+
+**The Quality Argument (More Defensible Than Speed)**
+
+The most defensible argument isn't "we code faster", it's that we deliver comparable scope with structurally different quality. Code is documented (AI generates docs in the workflow, not after the fact). Code is tested: the unit tests nobody had time to write. The contribution barrier is lower: a developer who joins can ask the AI functional questions and get up to speed faster on an unfamiliar codebase.
+
+This is a team durability and resilience argument, not just an individual performance one.
+
+**The ROI of Engineering Hours**
+
+The real value a software engineer brings is the time they spend thinking about engineering: architecture, design, investigation, technical decisions. Not writing mechanical code on patterns that can be reproduced from a knowledge base. That's exactly what LLMs do well and fast: unit tests, boilerplate, config, CRUD, repetitive migrations. The stuff that was consuming engineering time on mechanics.
+
+Every hour reclaimed from mechanical code is an hour reinvested in architectural thinking, design, and investigation of complex problems. AI doesn't replace the engineer; it frees their time for what actually justifies their salary. For a CTO, this is the most defensible argument: not "we code faster", but "our engineers spend more time on what matters."
+
+**What We Can Now Deliver That We Couldn't Before**
+
+AI tools make it possible to tackle technical debt that was never touched. Document legacy code, write tests on untested code, audit security, refactor old modules. These are tasks that are always pushed back, often never done. With AI, they become feasible in the normal sprint flow.
+
+**Watch Point**
+
+The IP ownership question for generated code deserves verification depending on the tool; Copilot Business offers include IP indemnification. And the Borg study itself flags "code bloat" as a risk to monitor. More generated code doesn't automatically mean less technical debt.
+
+**Watch point on anecdotal gains**: developers sometimes come in with "I built in 2 days what was estimated at 5." It's real on a one-shot. But look at the stats over several weeks and productivity can drop the day after the peak, from mental fatigue post-AI-sprint, tickets scoped differently when working with AI, or tasks where AI provides no leverage. Intellectual honesty means measuring the average over 3-4 weeks, not the best day. Individual peaks don't make for durable performance.
+
+**The Learning Curve (field observation, not a controlled study)**
+
+A useful working hypothesis has three phases. Their duration and benefit must be measured locally:
+
+Initial phase: adaptation. The developer adjusts their reflexes. Gains are low or zero on complex, familiar tasks. The tool hasn't been integrated into the workflow yet.
+
+Appropriation phase: the developer identifies their leverage zones: exploration, documentation, tests, boilerplate. Gains become consistent in those areas.
+
+Composition phase: the developer starts chaining agents, contexts, skills. The scope expands: new languages, new stacks, business domains they wouldn't have touched alone. This is where augmentation becomes tangible.
+
+At the organizational level, the same curve exists, shifted by several months. What the team learns collectively (shared patterns, common agents, AI code review conventions) produces durable advantage.
+
+**Check variation**: Compare outcomes by task, experience and usage pattern. Aggregate adoption rates cannot explain the cause of a change in throughput.
+
+# Q&A: Common Objections
+
+## Budget & Procurement
+
+**"What's the exact budget?"**
+
+Use the historical table as an example only. Obtain a current quote for the appropriate individual, team or enterprise plan and include usage charges and procurement constraints.
+
+**Enterprise thresholds to factor in**: some enterprise offerings have license minimums. Claude Code Enterprise typically requires a minimum seat commitment; verify current terms at anthropic.com before building the business case. For teams of 10-50 developers, this threshold can change the procurement conversation structure. Small teams typically start on individual or Team licenses, then migrate to Enterprise once past the threshold.
+
+**"We can't add this to the IT budget this year."**
+
+Check whether the purchase fits an existing tooling budget and its approval policy. Cancellation, payment term and accounting classification depend on the actual contract.
+
+**"We're coming in mid-year, budgets were locked in January."**
+
+The reality for the majority of organizations. Three approaches depending on context:
+
+1. **Reallocation from an existing tooling line**: is there an underused tool subscription (software licenses, staging cloud access, SaaS tools) that can be deactivated to fund the pilot? A Cursor Pro pilot for 5 developers costs $100/month, often below the radar of existing tooling line items.
+
+2. **CTO/VP Eng discretionary budget**: in many organizations, the CTO or VP Eng has a discretionary envelope for tools. A Cursor Pro pilot typically falls within this without a formal budget process; the envelope size varies by organization and engineering team scale.
+
+3. **The scale argument**: "this is a SaaS subscription, not an infrastructure investment." It doesn't carry the same approval constraints as a $50K annual contract. These offerings are monthly, cancellable, with no lock-in. Comparable in size to any existing SaaS tool.
+
+4. **Replace an existing paid tool with an open-source equivalent**: freeing budget on a tooling line by migrating an underused paid SaaS to an OS alternative can fund the pilot at net-zero cost. The pitch to the decision-maker: we're not spending more, we're redirecting.
+
+**"How do we control costs?"**
+
+Control subscription fees, included usage and overage separately. Set spending limits where supported, monitor usage and test how limits behave. A fixed subscription price does not imply unlimited usage or the absence of additional charges.
+
+::: {.callout-warning}
+**TCO risks to factor in**
+
+Current pricing is attractive. Two risks to integrate into any long-term business case:
+
+**Vendor lock-in**: once adoption is in place, the vendor can revise enterprise terms (tier upgrades, license minimums, contract changes). Mitigation: verify exit clauses and renewal conditions before signing any annual commitment.
+
+**Unbounded API usage**: if the team shifts to pay-as-you-go API calls (automated agents, continuous workflows), costs become variable and uncapped. Prefer: flat-rate plans with clear limits. On this specific point, an API gateway (LiteLLM or equivalent) lets you regain control technically rather than contractually: per-team virtual keys with capped monthly budgets, allowlists of approved models, and automatic rejection of out-of-budget calls before they even reach the provider's API.
+
+**Price increase scenario**: current enterprise offerings reflect customer acquisition strategies. Future price increases are possible, though not the dominant trajectory (GPU inference costs are structurally declining). A prudent 3-year scenario: factor ×2 into the business case, while noting that even at that level the ratio remains favorable.
+:::
+
+
+
+## Non-Cost COMEX Objections
+
+These objections surface regularly at the executive level and aren't budget-related. Worth preparing for them.
+
+**"We're creating dependency on US vendors."**
+
+That's real. Code is processed by models hosted by Anthropic, OpenAI, or Microsoft depending on the tool. The honest answer: yes, there's dependency, just like AWS, GitHub, or Slack. Two concrete mitigations. Portability first: the code produced lives in the repo; AI doesn't write a model-dependency layer into your codebase. Change tools tomorrow, the code doesn't change. On-premise alternatives second: Ollama and LM Studio let you run models locally with no data leaving your infrastructure. Less capable than Claude Max, but a genuine option if vendor dependency is a hard regulatory constraint.
+
+**"Our IP is leaving the building."**
+
+Cloud assistants transmit selected context to the configured service. Review the specific plan's training terms, retention, subprocessors, region and DPA. Classify tests, logs and documentation as well as application code; non-differentiating code can still contain sensitive information.
+
+**"Prices will explode once we're locked in."**
+
+Legitimate concern. AI inference is priced attractively today in a customer acquisition mode. The trajectory to watch: GPU inference costs are structurally declining, which limits the ability to raise prices indefinitely. But future increases are possible. Two practical guardrails: favor offerings with clear exit clauses over locked annual commitments, and don't build infrastructure dependencies on unbounded API calls. Prudent 3-year scenario: factor ×2 into the business case. Even at that level, the ratio remains structurally favorable relative to the cost of a single engineer.
+
+## ROI & Measurement
+
+**"We can't measure the ROI."**
+
+You can. Metrics available without additional tooling: cycle time (feature start date to production date, visible in git log or PRs), test coverage before/after, volume of TODO/FIXME in the code, onboarding time for a new developer.
+
+Merged PR rate can be a descriptive activity measure, but task mix, PR size, selection and concurrent process changes confound attribution. There is no universal 50-developer threshold for significance. Choose the sample and analysis from the variation and effect size relevant to your pilot.
+
+Start with a 2-month pilot with 3-5 volunteer developers. Measure before. Compare after. That's the only way to get a number specific to your context.
+
+**"Gains are individual, they don't show up on the product."**
+
+Test whether additional tests, documentation or debt work improves production outcomes. Test count and coverage alone do not establish fewer bugs or faster onboarding.
+
+**"How do we know it's the AI making the difference?"**
+
+You can't isolate it perfectly without an internal RCT. What you can do: run a pilot during a stable period with the same metrics before and after. The comparison will be indicative, not scientific. That's enough for a business decision.
+
+## Security & Compliance
+
+**"Our source code goes to Anthropic/OpenAI. IP risk."**
+
+Review the selected provider's current contract, DPA, training controls, retention and applicable service commitments. Do not infer isolation, indemnification or an SLA from a plan label.
+
+**"What about GDPR?"**
+
+Assess the actual material sent to the assistant: source, logs, test fixtures and metadata may contain personal data. Establish the applicable legal basis, minimization and processor requirements before transmitting it; synthetic fixtures can reduce exposure.
+
+**"AI can generate code with security vulnerabilities."**
+
+True. AI generates probable code, not correct code. It can introduce SQL injections, XSS, secrets in plaintext. AI-generated code is subject to the same code review as human-written code. Don't merge without review. If the current review process doesn't catch these vulnerabilities, the problem existed before AI. Complementary tools: SAST (Semgrep, Snyk) integrated into CI.
+
+**"Who owns the generated code?"**
+
+Rights, restrictions and any indemnity depend on the provider terms, plan, configuration and jurisdiction. Have qualified reviewers assess the exact terms for sensitive use.
+
+**"We're in a regulated industry."**
+
+Identify the applicable sector obligations, data categories and supplier evidence with qualified reviewers. Certifications do not by themselves establish that a particular workflow is compliant. Local models also require controls for plugins, telemetry, data storage and network access.
+
+**"How do we audit what the AI produced?"**
+
+AI-generated code is code like any other in git: visible in diffs, PRs, history. There's no native "AI vs human" traceability in git; Copilot, Cursor, and most other AI tools leave no built-in marker either. Governance applies to the code, not its origin.
+
+## Usage & Governance
+
+**"Developers will lose their skills."**
+
+METR measured task completion time, not skill loss. Assess learning separately through explanation, independent tasks and debugging. Review generated code and preserve opportunities to practice without assistance.
+
+**"How do we handle AI errors in production?"**
+
+Exactly like a developer error. AI code goes through review, tests, staging. If the deployment process is solid, the origin of the bug doesn't change the correction process. If the process isn't solid, that's the real problem.
+
+**"Our senior developers don't need it."**
+
+The METR result concerns a specific experienced-developer setting. Test benefit and learning separately for senior and junior developers; neither group has a guaranteed immediate ROI.
+
+# Beyond Engineering Teams
+
+This document targets AI adoption for development teams. But agents and skills don't stop at the code boundary.
+
+AI agents can embed business know-how (compliance rules, pricing logic, customer workflows) and become directly usable by business teams without going through a full development cycle. An agent built by the engineering team can be operated by an analyst, an account manager, an L2 support rep.
+
+Concretely: a business analyst who processes 30 financial reports per week can delegate consolidation, anomaly detection, and first-draft synthesis to an agent. What took half a day takes 20 minutes, with a structured output ready for review. An account manager can use a lead qualification skill to automatically score incoming prospects, cross-reference CRM signals, and prepare a contextualized brief before the call, without waiting for the data team to build a dedicated pipeline. An L2 support rep can run an agent that queries logs, cross-references similar historical tickets, and suggests a resolution path before the ticket even reaches the internal queue.
+
+For the CEO, the cycle between a business hypothesis and the code that tests it shortens. Tech and business teams can iterate together, with functional prototypes arriving in hours rather than sprints. It's a co-development opportunity most organizations have never had.
+
+This expanded scope doesn't happen by itself; it requires solid AI tooling mastery by developers first. Adoption starts with engineering teams. But it rarely ends there.
+
+# AI as Augmentation, Not a Tool
+
+The distinction is practical, not philosophical. A tool you install and use: the gain is immediate or near-immediate. Augmentation is different: there's a reconfiguration period.
+
+The first days with Claude Code or Cursor, most developers are slower. Not because the tool is bad, but because they haven't yet developed what you might call contextualization intuition: knowing when to engage AI, how to frame the problem, what granularity of context to provide. It's a skill, and it takes a few weeks.
+
+What happens next is more interesting. The augmented developer doesn't just code faster; their scope changes. They venture into languages they wouldn't have touched, stacks they would have handed to a specialist, business domains they would have left to the few seniors who knew them. AI makes the cost of entering new territory much lower. Progressively, the developer becomes a mini-CTO for their area: able to reason and deliver across a wider scope with fewer dependencies.
+
+This is why onboarding on an AI tool doesn't look like onboarding on an IDE. Tool onboarding: a 30-minute demo. Augmentation onboarding: 4-6 weeks on effective patterns, common pitfalls, and the mindset for knowing when to delegate to AI vs. when to keep full control.
+
+**Pilot implication**: Track adaptation, accepted output, review and rework across enough representative tasks. The first useful signal is not guaranteed to arrive in a particular week.
+
+# How to Start Without Taking Risk
+
+## The 3-Step Pilot (8 Weeks)
+
+Once the pilot is validated, the shared prompt repo (often the first quick win visible to decision-makers) is described in section 9.
+
+**Weeks 1-2: baseline**
+
+Select 3-5 motivated volunteers: not the skeptics, not the evangelists, but practitioners. Measure current cycle time and test coverage. These are the two easiest metrics to compare before/after.
+
+**Weeks 3-8: licenses active**
+
+Free usage. Weekly 15-minute check-in scoped to technical friction: is the tool slow? Does context get lost frequently? Are there recurring error patterns? This is not a sentiment interview ("how are you feeling about AI?"); it's a structured collection of actionable technical signals. Keep a quantitative log of "things we wouldn't have done without AI": technical debt addressed, docs produced, tests written. That log is the real output to present at the debrief.
+
+**Debrief: data, not feelings**
+
+Compare metrics. List concrete deliverables. Present to the decision-maker with facts. Avoid promising specific gains to management before having pilot data.
+
+## Pilot Budget
+
+Cursor Pro × 5 devs × 2 months = $200. Claude Max × 5 devs × 2 months = $1,000-2,000. If it doesn't work, you stop. If it works, you have the data to convince at scale.
+
+## From Pilot to Deployment: Scaling Plan
+
+If the pilot is positive, the next question comes immediately: how do we scale? Budget decision-makers want a timeline, not just "we'll roll it out."
+
+**Example cohort rollout (30-person engineering team)**
+
+| Month | Cohort | Licenses | Monthly budget | Onboarding capacity |
+|-------|--------|----------|----------------|---------------------|
+| 1-2 | Pilot (volunteers) | 5 | ~$100-1,000 | 1 session × 5 devs |
+| 3 | Extension | 15 | ~$300-3,000 | 2 sessions × 5 devs |
+| 4-5 | Full deployment | 30 | ~$600-6,000 | 4 sessions × 5 devs |
+
+Each cohort = 2-hour onboarding per developer on effective patterns vs common pitfalls. No "dump the tool, figure it out" rollouts. Onboarding is the variable that separates real adoption from paper adoption.
+
+**Enterprise threshold note**: if the deployment targets more than a few dozen developers, verify the current enterprise license minimums for the chosen tool before building the timeline. Some offerings have thresholds that change the deal structure (MSA negotiation, dedicated SLA, formal procurement process).
+
+## What to Avoid
+
+Don't roll out to the entire team without onboarding. The gain doesn't come from the tool alone, it comes from knowing how to use it. A 2-hour onboarding per developer on effective patterns vs common pitfalls makes a measurable difference.
+
+::: {.callout-note title="Change management"}
+Resistance profiles, acculturation plans, and the transition from pilot to full deployment are covered in a dedicated section of the extended version of this document.
+:::
+
+# Pre-Pitch Checklist
+
+## Metrics to Prepare
+
+- [ ] Current average cycle time (in days, over the last 3 months)
+- [ ] Current test coverage (in %)
+- [ ] Visible technical debt volume (TODO/FIXME in code, issues open for more than 6 months)
+- [ ] Average onboarding time for a new developer
+- [ ] Feature/bugfix ratio over the last 6 months
+
+## Tool Selection
+
+- [ ] Identify the right tool for your context (Copilot if already in the GitHub ecosystem, Cursor Pro for general use, Claude Max for complex tasks)
+- [ ] Verify data compliance for the chosen offering (DPA available?)
+- [ ] Calculate break-even for your specific context (license cost / day rate or internal hourly cost)
+
+## The Pilot
+
+- [ ] 3-5 volunteer practitioners identified
+- [ ] 2-3 before/after metrics defined
+- [ ] 1-2 concrete expected deliverables from the pilot
+- [ ] Debrief date set (8 weeks recommended)
+
+## The Argument
+
+- [ ] Pilot cost calculated
+- [ ] Argument framed in terms of deliverables, not speed
+- [ ] Unverifiable bold statements removed ("2× productivity")
+- [ ] Security response prepared (DPA, on-premise options for sensitive sectors)
+- [ ] Argument framed as team capacity expansion, not headcount substitute
+- [ ] Month-by-month scaling plan prepared (if deployment beyond the pilot)
+- [ ] Enterprise licensing thresholds verified for the chosen tool
+- [ ] Quantitative metrics prioritized over qualitative (cycle time + PR merge rate over interviews)
+
+## During the Pilot
+
+- [ ] Cycle time measured weekly (not just at the end)
+- [ ] Log of "things we wouldn't have done without AI" maintained
+- [ ] Weekly 15-minute check-in organized
+- [ ] Friction points collected (slow tool, lost context, frequent incorrect responses)
+
+## Post-Pilot Debrief
+
+- [ ] Before/after metrics compared
+- [ ] Concrete deliverables listed
+- [ ] Real ROI calculated
+- [ ] Use cases that worked vs. disappointed identified
+
+# Prompt: Build the Case from Your Repo
+
+Rather than using generic numbers, this prompt analyzes your repository and produces an argument based on your real data. Paste it into Claude Code at the root of the project.
+
+```
+You are a dev productivity analyst. Analyze this repository and produce
+an AI adoption case tailored to our real context.
+Do not invent numbers. If a command fails, note it and move on.
+
+STEP 1: Data Collection
+
+# Volume and frequency
+git log --oneline | wc -l
+git log --since="6 months ago" --oneline | wc -l
+git log --since="6 months ago" --format="%an" | sort | uniq -c | sort -rn | head -10
+
+# Nature of changes (6 months)
+git log --since="6 months ago" --oneline | grep -iE "fix|bug|hotfix" | wc -l
+git log --since="6 months ago" --oneline | grep -iE "test|spec|coverage" | wc -l
+git log --since="6 months ago" --oneline | grep -iE "doc|readme|comment" | wc -l
+git log --since="6 months ago" --oneline | grep -iE "feat|feature|add|new" | wc -l
+
+# Markers to inspect, not a complete measure of technical debt
+rg -n -e "TODO|FIXME|HACK|XXX" \
+  -g "*.js" -g "*.ts" -g "*.py" -g "*.java" \
+  -g "*.go" -g "*.rb" -g "*.rs" \
+  -g "!node_modules/**" -g "!dist/**" -g "!vendor/**" .
+
+# PR open-to-merge latency (not total feature cycle time)
+# Run with a shell that supports pipefail; report command failures.
+set -o pipefail
+gh pr list --state merged --limit 30 \
+  --json number,createdAt,mergedAt \
+  --jq '.[] | (.mergedAt | fromdateiso8601) - (.createdAt | fromdateiso8601) | . / 86400' \
+  | awk '{sum+=$1; n++} END {if(n) print sum/n " days average"; else print "Unavailable: no merged PRs"}'
+
+STEP 2: Analysis
+
+Based on collected data:
+- Current velocity (commits/week)
+- Commit-message keyword counts (overlapping, not exhaustive categories)
+- Marker count and affected files (inspect relevance before calling it debt)
+- Sample PR open-to-merge latency, sample size and coverage limitations
+- Test coverage only from an actual report; otherwise mark unavailable
+
+STEP 3: Tailored Argument
+
+Frame 3-5 specific arguments using only the real extracted numbers. Format:
+
+"Over the last 6 months, [X commits], of which [Y%] were bugfixes.
+Test coverage at [Z%]. [N] unaddressed TODOs across [M] files.
+Proposed AI pilot: [concrete action], measured by [acceptance criterion]."
+
+Output format:
+
+# AI Case: [Project Name]
+*Generated [date] from git log*
+
+## Current State
+[5-6 bullets with real data]
+
+## Where AI Can Help Immediately
+[3 concrete use cases with real numbers]
+
+## The Decision-Maker Argument
+[2-3 paragraphs tailored to the repo context]
+
+## Pilot Recommendation
+[Use case + metrics + dev profile + budget]
+```
+
+## Illustrative Output Example
+
+The following numbers are invented for format illustration. They are not measurements from a real repository or promised outcomes.
+
+```
+# AI Case: Billing API
+
+## Current State
+- 847 commits over 6 months (34 commits/week)
+- 38% bugfixes, 41% features, 8% tests, 13% docs
+- Test coverage: 24%
+- 312 TODOs across 67 files
+- Average cycle time: 4.3 days
+
+## Where AI Can Help Immediately
+1. Tests: 24% coverage. Target 60% on critical modules without
+   dedicating full sprints to coverage work.
+2. Debt: 312 TODOs. Systematic treatment of simple TODOs
+   without pulling sprint capacity.
+3. Docs: 3 files > 800 lines with no inline documentation.
+
+## The Decision-Maker Argument
+38% of our commits are bugfixes. At 34 commits/week, that's
+13 fix commits per week on average in this illustration. Coverage
+does not explain the bugfix ratio by itself. Test a bounded change
+and compare escaped defects, review effort and accepted work.
+
+## Pilot Recommendation
+Use case: billing-service.ts from X% to 60% over 6 weeks.
+Metrics: coverage before/after + production bugs on this module.
+Budget: quote the billed subscription periods for 2 seats,
+plus usage, review and training costs; do not prorate without terms.
+```
+
+# Sources & Further Reading
+
+- **Borg et al. "Echoes of AI" (2025)**: [arXiv:2507.00788](https://arxiv.org/abs/2507.00788). 151 participants, 95% professional devs. Phase 1 observational: +30.7% median speed. Phase 2 RCT: maintainability preserved. Co-authored by Dave Farley ("Continuous Delivery").
+- **METR Experienced Developer Study (2025)**: [arXiv:2507.09089](https://arxiv.org/abs/2507.09089). 16 experienced developers (moderate AI experience), 246 issues on mature open-source projects. 19% longer completion time, with participants estimating a 20% reduction afterward.
+- **Full guide: "The Reality of AI Productivity"**: [claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/roles/learning-with-ai.md#the-reality-of-ai-productivity)
+- **Field feedback**: several insights in this document (headcount framing trap, PR merge rate as directional metric, post-peak mental fatigue, cohort-based rollout planning, enterprise thresholds) come from practitioners running AI adoption at scale in 50+ developer teams, reviewed and integrated with appropriate nuance.
+
+---
+
+*Historical studies and worked assumptions serve different purposes. Replace assumptions with verified prices and local pilot evidence before making a financial commitment.*
+
+# The Series
+
+This whitepaper is part of the **Claude Code Ultimate Guide** series, a complete resource for mastering Claude Code, from installation to production deployment.
+
+**13 whitepapers in the series:**
+
+- **WP00** Introduction & Fundamentals
+- **WP01** Effective Prompts
+- **WP02** Customization & Configuration
+- **WP03** Security in Production
+- **WP04** Internal Architecture
+- **WP05** Team Adoption
+- **WP06** Privacy & Compliance
+- **WP07** Condensed Reference Guide
+- **WP08** Agent Teams & Sub-Agents
+- **WP09** Learning with AI (UVAL)
+- **WP10** AI Budget & ROI
+- **WP11** Leading a Team in the Age of AI
+- **WP12** Engineering in the Age of Autonomous Agents
+
+Full series available at [cc.bruniaux.com/whitepapers/](https://cc.bruniaux.com/whitepapers/)

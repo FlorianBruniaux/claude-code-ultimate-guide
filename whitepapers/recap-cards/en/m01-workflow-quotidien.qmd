@@ -4,10 +4,11 @@ subtitle: "The optimal routine for a productive development session"
 card-number: "M01"
 category: "Methodology"
 difficulty: "beginner"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "August 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: en
 format:
@@ -59,7 +60,7 @@ You: Show me what you changed before continuing
 | 0-50% | Work freely |
 | 50-75% | Be selective about open files |
 | 75%+ | `/compact` now |
-| 90%+ | `/clear` required |
+| 90%+ | Save decisions, then compact or hand off as needed |
 
 ## Anti-Pattern: Vibe Coding
 

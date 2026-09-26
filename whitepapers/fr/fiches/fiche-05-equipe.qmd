@@ -1,0 +1,24 @@
+{{< pagebreak >}}
+
+## Fiche Récap : Adoption en Équipe
+
+```{=typst}
+#fiche-recap(
+  title: "Adoption en Équipe",
+  subtitle: "Config versionnée, champions, CI/CD",
+  wp-number: "05",
+  points: (
+    "#strong[Config versionnée = adoption scalable] : CLAUDE.md dans le repo → chaque dev reçoit le même contexte projet dès le clone.",
+    "#strong[Champions program] : 1-2 early adopters par équipe forment les autres. Mesurer adoption, qualité et coût pour évaluer ce dispositif.",
+    "#strong[CI/CD intégration] : hooks qui valident les outputs Claude Code avant merge. GitHub Actions avec outils bornés et vérification humaine appropriée.",
+    "#strong[3 phases d'adoption] : pilote individuel → travail en binôme → extension à l’équipe après validation.",
+    "Les #strong[métriques d'adoption] à suivre : temps sur les tâches répétitives, qualité des PR reviews, satisfaction des devs.",
+  ),
+  actions: (
+    "Versionner votre CLAUDE.md dans le repo dès aujourd'hui",
+    "Identifier 1 champion dans votre équipe (le plus curieux des outils IA)",
+    "Ajouter une GitHub Action avec permissions bornées et résultats vérifiables",
+    "Organiser un BBL de 1h pour présenter les 5 Golden Rules à l'équipe",
+  ),
+)
+```

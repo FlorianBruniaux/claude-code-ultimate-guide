@@ -2,10 +2,10 @@
 title: "Claude Code : Le Guide de Référence"
 subtitle: "Synthèse complète + workflows avancés"
 author: "Florian BRUNIAUX"
-date: "2026-09-24"
+date: "2026-09-26"
 date-format: "MMMM YYYY"
 version: "3.43.0"
-wp-version: "1.4.5"
+wp-version: "1.4.6"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -44,7 +44,7 @@ lang: fr
 
 ## Qu'est-ce que Claude Code
 
-La plupart des développeurs qui adoptent Claude Code font la même erreur les premières semaines : ils l'utilisent comme un outil d'autocomplétion amélioré. C'est passer à côté de l'essentiel. Claude Code est **un agent de codage autonome qui opère directement dans votre terminal, lit votre codebase, propose des modifications, et exécute des commandes avec votre approbation explicite**.
+La plupart des développeurs qui adoptent Claude Code font la même erreur les premières semaines : ils l'utilisent comme un outil d'autocomplétion amélioré. C'est passer à côté de l'essentiel. Claude Code est **un agent de codage autonome qui opère directement dans votre terminal, lit votre codebase, propose des modifications, et exécute des commandes selon les permissions, le mode et les politiques applicables**.
 
 | Caractéristique | Description |
 |-----------------|-------------|
@@ -57,8 +57,8 @@ La plupart des développeurs qui adoptent Claude Code font la même erreur les p
 
 Ces cinq principes ont émergé de milliers de sessions d'utilisation en production. Ils couvrent les erreurs les plus fréquentes des premières semaines : accepter du code sans review, saturer le contexte, écrire des prompts vagues, perdre des conventions entre sessions, et travailler directement sur main. Les appliquer dès le départ évite la majorité des frustrations signalées par la communauté.
 
-1. **Claude propose, vous décidez** : chaque modification passe par votre validation explicite
-2. **Le contexte est roi** : surveillez `Ctx(u):` et préparez `/compact` dès 50%, exécutez dès 70%
+1. **Claude propose, vous décidez** : définissez les permissions puis relisez les changements ; chaque mode n’exige pas une validation par édition
+2. **Le contexte est roi** : inspectez `/context`, ciblez les lectures et sauvegardez les décisions avant compaction
 3. **Spécifiez avec WHAT/WHERE/HOW/VERIFY** : prompts précis = moins d'itérations
 4. **CLAUDE.md est votre mémoire** : documentez conventions et préférences
 5. **Feature branches toujours** : jamais de travail direct sur main/master
@@ -67,7 +67,7 @@ Ces cinq règles forment le socle sur lequel repose tout le reste de ce guide. L
 
 ## Comment Utiliser Ce Guide
 
-Ce guide de référence **synthétise les 7 whitepapers** de la série (WP00--WP06 + WP08) et **ajoute des chapitres inédits** sur la migration, l'IDE, Git, les patterns avancés, et les méthodologies.
+Ce guide de référence **synthétise plusieurs sujets de la série de 13 livres blancs** et **ajoute des chapitres inédits** sur la migration, l'IDE, Git, les patterns avancés, et les méthodologies.
 
 **Structure** :
 
@@ -202,87 +202,19 @@ Applique à src/utils/helpers.ts
 
 Si vous maîtrisez la formulation de vos prompts (Ch.1), la question suivante est souvent : "Comment intégrer Claude Code dans mon workflow actuel ?" Ce chapitre s'adresse à ceux qui viennent de Copilot, Cursor, ou d'un autre outil d'assistance au code.
 
-## Pourquoi Claude Code est Différent
+## Comparer sur le Workflow Réel
 
-| Feature | GitHub Copilot | Cursor | Claude Code |
-|---------|---------------|--------|-------------|
-| **Interaction** | Inline autocomplete | Chat + autocomplete | CLI + conversation |
-| **Contexte** | Current file | Open files | Entire project |
-| **Autonomie** | Suggestions only | Edit + chat | Full task execution |
-| **Customization** | Limited | Extensions | Agents, skills, hooks, MCP |
-| **Cost Model** | $10-20/month flat | $20/month flat | Pay-per-use |
+Claude Code, GitHub Copilot et Cursor proposent des modes d’interaction et des intégrations qui évoluent. Comparez l’accès aux modèles, le terminal et l’éditeur, la reprise de session, les outils et permissions, les données transmises et la facturation du plan utilisé. Les anciennes limites de contexte ou tarifs forfaitaires ne décrivent pas tous les comptes actuels.
 
-**Changement de mindset clé** : Claude Code est un **partenaire de codage conversationnel**, pas un outil d'autocomplétion.
+| Étape du pilote | Vérification |
+|-----------------|--------------|
+| Choisir une tâche représentative | Même entrée, contraintes et critères d’acceptation |
+| Exécuter avec chaque outil | Consigner modèle, réglages, appels et reprises |
+| Relire et tester | Mesurer bugs restants, temps humain et résultat accepté |
+| Examiner les accès | Permissions, destinations réseau, données et identifiants |
+| Comparer le coût | Usage réellement facturé et limites du compte |
 
-## Migration Guide : GitHub Copilot → Claude Code
-
-### Ce que Copilot fait bien
-
-- **Suggestions inline** : autocomplétion rapide pendant la frappe
-- **Workflow familier** : fonctionne dans l'éditeur
-- **Faible friction** : pas de changement de contexte
-
-### Ce que Claude Code fait mieux
-
-- **Refactoring multi-fichiers** : Copilot un fichier à la fois, Claude lit et édite à travers les fichiers
-- **Tâches complexes** : Copilot suggère des lignes, Claude implémente des features
-- **Comprendre le contexte** : Copilot voit le fichier courant, Claude peut chercher dans tout le projet
-- **Debugging** : faible chez Copilot, analyse systématique des causes racine chez Claude
-
-### Approche Hybride (Recommandée)
-
-**Utilisez Copilot pour :**
-
-- Autocomplétion rapide pendant la frappe
-- Génération de code boilerplate
-- Complétion de fonctions simples
-
-**Utilisez Claude Code pour :**
-
-- Implémentation de features (changements multi-fichiers)
-- Debugging de problèmes complexes
-- Revues de code et refactoring
-- Comprendre des codebases inconnues
-- Écrire des tests pour des modules entiers
-
-### Workflow Exemple
-
-```bash
-# Matin : Planifier avec Claude Code
-claude
-You: "J'ai besoin d'ajouter l'authentification. Quelle approche pour cette codebase ?"
-# Claude analyse le projet, suggère l'architecture
-
-# Pendant le codage : Utiliser Copilot pour les completions
-# Taper dans VS Code, Copilot autocomplète
-
-# Après-midi : Debug avec Claude Code
-claude
-You: "Le login échoue sur mobile mais marche sur desktop. Debug ça."
-
-# Fin de journée : Review avec Claude Code
-claude
-You: "Review mes changements. Check les problèmes de sécurité."
-```
-
-## Migration Guide : Cursor → Claude Code
-
-### Quand switcher
-
-**Restez sur Cursor si :**
-
-- Vous préférez fortement GUI au CLI
-- Vous voulez une expérience IDE tout-en-un
-- Vous l'utilisez >4 heures/jour (tarif fixe avantageux)
-- Vous n'avez pas besoin de customization avancée
-
-**Passez à Claude Code si :**
-
-- Vous êtes à l'aise avec les workflows terminal
-- Vous voulez une customization profonde (agents, hooks)
-- Vous travaillez avec des projets complexes multi-repo
-- Vous voulez intégrer l'IA dans CI/CD
-- Vous préférez le paiement à l'usage
+Vous pouvez conserver un éditeur pour les complétions et utiliser un agent de terminal pour l’analyse ou les modifications, si le pilote le justifie. Consultez les documentations de [Claude Code](https://code.claude.com/docs/en/overview), [Copilot](https://docs.github.com/en/copilot) et [Cursor](https://docs.cursor.com/).
 
 ## Migration Checklist
 
@@ -336,73 +268,18 @@ Les trois premières semaines sont la phase critique d'adoption. Cette checklist
 
 Maintenant que vous savez formuler vos prompts (Ch.1) et positionner Claude Code dans votre outillage (Ch.2), il reste un concept fondamental à maîtriser avant de passer à la configuration : **le contexte**. C'est la ressource la plus précieuse d'une session Claude Code, et sa mauvaise gestion est la première cause de résultats dégradés.
 
-## Le Contexte est Critique
+## Examiner le Contexte
 
-Claude Code utilise un **budget contexte de ~200K tokens**. Comprendre comment il se remplit est essentiel pour des sessions productives.
+La fenêtre dépend du modèle et du fournisseur. Les modèles adaptatifs actuels couverts par le guide disposent de 1M natif ; Haiku 4.5 dispose de 200K. Instructions, conversation et résultats d’outils occupent cette fenêtre.
 
-> **Note :** La fenêtre de contexte officielle est 200K tokens. En pratique, **140-150K tokens sont réellement utilisables** (overhead système, CLAUDE.md, espace réservé pour la réponse). C'est ce chiffre qui compte pour planifier vos sessions. La **fenêtre 1M tokens est désormais GA** (Generally Available, depuis v2.1.75) pour les plans Max, Team et Enterprise (tarification premium au-delà de 200K tokens). → Voir **#4 Architecture** (`04-architecture.qmd`) pour le détail complet.
+| Commande | Effet |
+|----------|-------|
+| `/context` | Répartition des tokens et sources chargées |
+| `/compact` | Résumer l’historique pour libérer de la place |
+| `/clear` | Réinitialiser la conversation ; les instructions du projet restent applicables |
+| `/autocompact` | Inspecter et ajuster les options de compaction disponibles |
 
-```
-┌────────────────────────────────────────────────────────┐
-│              BUDGET CONTEXTE (~200K tokens)            │
-├────────────────────────────────────────────────────────┤
-│  System Prompt                            (~5-15K)     │
-│  CLAUDE.md Files                          (~1-10K)     │
-│  Historique Conversation                  (variable)   │
-│  Résultats des Outils                     (variable)   │
-│  Réservé pour Réponse                     (~40-45K)    │
-└────────────────────────────────────────────────────────┘
-
-UTILISABLE = Total - System - Reserved ≈ 140-150K tokens
-```
-
-## Les 4 Zones de Contexte
-
-| Zone | Usage | Action |
-|------|-------|--------|
-| 🟢 **Vert** (0-50%) | Confort | Travail normal |
-| 🟡 **Jaune** (50-70%) | Attention | Préparer `/compact` dès 50% (planifier) |
-| 🟠 **Orange** (70-90%) | Critique | Exécuter `/compact` maintenant (seuil d'action) |
-| 🔴 **Rouge** (90%+) | Danger | `/clear` ou nouvelle session |
-
-## Commandes Essentielles
-
-Trois commandes couvrent 90% de la gestion de contexte au quotidien. Comprendre quand utiliser chacune évite les erreurs les plus fréquentes : compacter quand on devrait clearer, ou l'inverse.
-
-### /compact : Compression du contexte
-
-```bash
-/compact
-# Résume l'historique, préservant les décisions clés
-# Réduit typiquement de 60-70%
-```
-
-### /clear : Reset complet
-
-```bash
-/clear
-# Efface tout l'historique
-# À utiliser quand vous changez complètement de tâche
-```
-
-### Surveiller le contexte
-
-Regardez l'indicateur `Ctx(u):` dans le prompt :
-
-```
-Ctx(u): 45% ← Vous êtes ici
-```
-
-::: {.callout-note title="/compact vs /clear vs --continue vs --resume : Quand utiliser lequel ?"}
-| Commande | Ce qu'elle fait | Quand l'utiliser | Ce qui est préservé |
-|----------|----------------|------------------|---------------------|
-| `/compact` | Résume le contexte actuel | Contexte plein, tâche continue | Résumé condensé, CLAUDE.md |
-| `/clear` | Efface tout le contexte | Nouvelle tâche non liée | Rien (fresh start) |
-| `--continue` | Reprend la dernière session | Redémarrage inattendu | Historique complet |
-| `--resume <id>` | Reprend une session spécifique | Reprise après `cc-sessions search` | Historique complet |
-
-**Règle pratique** : `/compact` si même tâche en cours, `/clear` si nouvelle tâche distincte, `--continue` si interruption accidentelle, `--resume` si reprise après plusieurs jours.
-:::
+Des pourcentages de remplissage peuvent servir de repères personnels ; ils ne prouvent pas un seuil universel de dégradation. Avant de compacter ou repartir, sauvegardez l’objectif, les décisions, les fichiers modifiés, les tests et le travail restant.
 
 ## Commandes Qualité Code (v2.1.63)
 
@@ -444,17 +321,7 @@ Deux commandes bundlées ajoutées en v2.1.63 couvrent la qualité de code post-
 
 ## Auto-Compaction
 
-À partir de la version 1.0.29, Claude Code peut compacter automatiquement :
-
-```json
-// settings.json
-{
-  "autoCompact": {
-    "enabled": true,
-    "threshold": 70
-  }
-}
-```
+L’auto-compaction se déclenche selon l’espace restant et la configuration. Utilisez `/autocompact` pour les réglages pris en charge et `/compact` pour agir manuellement. N’ajoutez pas un objet `autoCompact.enabled/threshold` supposé dans les settings sans contrat documenté.
 
 ## Stratégies d'Optimisation
 
@@ -474,7 +341,7 @@ Session 3: "Refactor les permissions"
 
 ### Utiliser les sub-agents
 
-Pour les tâches d'exploration, utilisez l'outil Task :
+Pour les tâches d'exploration, utilisez l’outil Agent :
 
 ```
 Claude explore → résumé revient → contexte principal préservé
@@ -492,36 +359,22 @@ La Partie I vous a donné les fondamentaux : formuler des prompts efficaces, pos
 
 Le fichier CLAUDE.md est le coeur de la personnalisation. C'est lui qui transforme Claude Code d'un outil générique en un assistant qui connaît votre projet, vos conventions et vos préférences.
 
-## Hiérarchie des 3 Niveaux
+## Portée des Instructions et Mémoire
 
-Claude Code charge les fichiers CLAUDE.md selon un système de cascade à trois niveaux, du plus général au plus spécifique. Cette architecture permet de séparer les préférences personnelles (global), les conventions d'équipe (projet), et les overrides machine-specific (local). Les instructions se cumulent : un niveau plus spécifique peut affiner ou remplacer les directives d'un niveau supérieur.
+Les fichiers d’instructions se combinent dans le contexte. Résolvez explicitement les contradictions ; leur portée n’est pas une priorité mécanique entre phrases.
 
-| Niveau | Emplacement | Portée | Versioning |
-|--------|-------------|--------|------------|
-| **Global** | `~/.claude/CLAUDE.md` | Tous vos projets | Non versionné |
-| **Projet** | `/CLAUDE.md` (racine) | Ce projet, toute l'équipe | Versionné (git) |
-| **Local** | `/.claude/CLAUDE.md` | Ce projet, vous seul | Gitignored |
+| Usage | Emplacement |
+|-------|-------------|
+| Préférences utilisateur | `~/.claude/CLAUDE.md` |
+| Instructions partagées du projet | `CLAUDE.md` ou `.claude/CLAUDE.md` |
+| Notes personnelles du projet | `CLAUDE.local.md`, ajouté à `.gitignore` |
+| Règles générales ou ciblées | `.claude/rules/*.md`, avec `paths` pour les fichiers concernés |
 
-## Mémoire Agent : 3 Scopes (v3.37.6)
+Les settings imposés suivent une autre hiérarchie : politiques gérées, CLI, local projet, projet, utilisateur. Les listes fusionnent généralement ; les refus priment sur les autorisations.
 
-En complément des CLAUDE.md d'instructions, Claude Code dispose d'un système de **mémoire auto-persistante** via des fichiers MEMORY.md dédiés (limite d'injection : 200 lignes par scope) :
+L’auto-memory est activée par défaut, avec un index `~/.claude/projects/<project>/memory/MEMORY.md` local à la machine et partagé entre worktrees du même dépôt. La limite d’index au démarrage est de 200 lignes ou 25 KB, au premier seuil atteint. `/memory` permet de l’inspecter et de la corriger.
 
-| Scope | Fichier | Portée |
-|-------|---------|--------|
-| `user` | `~/.claude/MEMORY.md` | Tous vos projets |
-| `project` | `.claude/MEMORY.md` | Ce projet (versionnable) |
-| `local` | `.claude/MEMORY.local.md` | Ce projet, vous seul (gitignored) |
-
-*→ Guide canonique complet (partage d'équipe, multi-agent, risques de memory poisoning) : `guide/core/memory-systems.md`*
-
-## Ordre de Lecture
-
-L'ordre de chargement détermine quelle instruction prévaut en cas de conflit. Claude Code lit les trois niveaux séquentiellement au démarrage de chaque session, et les fusionne dans un seul contexte.
-
-```
-Global → Projet → Local
-(les instructions se cumulent, local peut override)
-```
+La mémoire d’agent est distincte : `user` utilise `~/.claude/agent-memory/<name>/`, `project` utilise `.claude/agent-memory/<name>/`, et `local` utilise `.claude/agent-memory-local/<name>/`. Voir la [référence mémoire](https://code.claude.com/docs/en/memory).
 
 ## Structure Recommandée
 
@@ -598,6 +451,9 @@ Le choix entre skill user-invocable, skill model-invocable et agent dépend de l
 name: test
 description: Run tests for modified files
 allowed-tools: Bash, Read
+disable-model-invocation: true
+---
+
 # Test Command
 
 Run tests only for files that were modified in this session.
@@ -621,7 +477,7 @@ Run tests only for files that were modified in this session.
 
 ```bash
 /test        # Exécute la commande
-/test:       # Autocomplete les commandes disponibles
+# Utiliser Tab pour l’autocomplétion
 ```
 
 ## Skills
@@ -635,6 +491,8 @@ Les skills sont des modules réutilisables qui couvrent deux cas d'usage : conna
 name: code-review
 description: Comprehensive code review
 allowed-tools: Read, Grep, Glob
+---
+
 # Code Review Skill
 
 ## Process
@@ -651,18 +509,19 @@ allowed-tools: Read, Grep, Glob
 - Suggestions (actionable items)
 ````
 
-### Champ `effort` (v3.37.3+)
+### Champ `effort`
 
-Skills et commandes supportent le champ frontmatter `effort: low | medium | high | xhigh` pour signaler le coût computationnel attendu :
+Le champ frontmatter `effort` règle l’effort de raisonnement pendant l’exécution d’un skill, depuis Claude Code v2.1.80. Ce n’est pas une estimation de coût. Choisissez un niveau accepté par le modèle.
 
 ```markdown
 ---
 name: full-audit
+description: Audit the requested module against explicit criteria
 effort: high
 ---
 ```
 
-Depuis v3.39.1, le niveau `xhigh` est disponible pour Claude Opus 4.7 (niveau au-dessus de `high`). C'est désormais le niveau d'effort par défaut de Claude Code sur Opus 4.7. Utiliser `effort: xhigh` pour les audits ou analyses qui bénéficient du raisonnement le plus approfondi.
+Les modèles adaptatifs actuels acceptent les niveaux documentés dans la section modèles ; Haiku 4.5 ne prend pas en charge ce paramètre. `${CLAUDE_EFFORT}` peut être référencé dans le corps du skill, mais n’est pas une valeur de remplacement à mettre dans le champ `effort`.
 
 ### Bundled Resources
 
@@ -670,8 +529,8 @@ Les skills peuvent inclure des fichiers :
 
 ```
 .claude/skills/
-├── code-review.md
 └── code-review/
+    ├── SKILL.md
     ├── checklist.md
     └── patterns.json
 ```
@@ -686,7 +545,10 @@ Les agents custom définissent un persona spécialisé avec un comportement déd
 ---
 name: security-auditor
 description: Security-focused code reviewer
-model-hint: thorough
+model: inherit
+tools: Read, Grep, Glob
+---
+
 # Security Auditor Agent
 
 ## Persona
@@ -720,9 +582,9 @@ Use this format:
 ### Invocation
 
 ```bash
-claude -a security-auditor
+claude --agent security-auditor
 # ou dans une session
-@security-auditor review the authentication module
+Ask Claude to delegate the authentication review to security-auditor
 ```
 
 {{< pagebreak >}}
@@ -733,37 +595,13 @@ claude -a security-auditor
 
 Vous avez maintenant un CLAUDE.md bien structuré (Ch.4) et des extensions prêtes à l'emploi (Ch.5). La dernière étape de la personnalisation est d'intégrer Claude Code dans votre environnement de développement quotidien, pour qu'il soit accessible sans quitter votre éditeur.
 
-## VS Code Integration
+## VS Code et JetBrains
 
-Claude Code s'intègre avec VS Code :
+Installez l’extension ou le plugin officiel, puis suivez le chemin d’authentification approuvé pour votre compte. Une clé API n’est pas obligatoire pour tous les utilisateurs : l’abonnement ou le fournisseur configuré peut définir un autre chemin.
 
-1. **Installer l'Extension** : Cherchez "Claude Code" dans Extensions
-2. **Configurer** : Définir la clé API dans les settings
-3. **Utiliser** :
-   - `Ctrl+Shift+P` → "Claude Code: Start Session"
-   - Sélectionner du texte → Clic droit → "Ask Claude"
+Dans le terminal intégré, lancez `claude` depuis le dépôt puis inspectez la connexion à l’IDE. Les menus et raccourcis disponibles dépendent de l’intégration et de la version. Références : [VS Code](https://code.claude.com/docs/en/vs-code) et [JetBrains](https://code.claude.com/docs/en/jetbrains).
 
-## JetBrains Integration
-
-Fonctionne avec IntelliJ, WebStorm, PyCharm :
-
-1. **Installer le Plugin** : Settings → Plugins → "Claude Code"
-2. **Configurer** : Tools → Claude Code → Set API key
-3. **Utiliser** :
-   - `Ctrl+Shift+A` → "Claude Code"
-   - Tool window pour session persistante
-
-::: {.callout-note title="Configuration : split terminal VS Code en 3 étapes"}
-Pour un monorepo React/Node avec plusieurs packages, l'objectif est de garder Claude Code accessible sans quitter VS Code. Configuration en 3 étapes :
-
-**Étape 1 (Extension + terminal intégré)** : installez l'extension Claude Code depuis le marketplace VS Code. Configurez le raccourci `Ctrl+Shift+C` pour ouvrir rapidement une session Claude dans le terminal intégré.
-
-**Étape 2 (Split terminal)** : configurez VS Code pour un split horizontal permanent, éditeur en haut, terminal Claude en bas. Dans `keybindings.json`, ajoutez un raccourci pour basculer entre les deux panneaux.
-
-**Étape 3 (Workflow quotidien)** : le matin, ouvrez le workspace et lancez `claude` dans le terminal intégré. Sur un bug, sélectionnez le code problématique, clic droit → "Ask Claude" : Claude reçoit directement le contexte du fichier ouvert. Pour les refactorings multi-fichiers, basculez vers le terminal Claude et utilisez la formule WHAT/WHERE/HOW/VERIFY.
-
-**Résultat** : plus besoin de switcher entre fenêtres. L'éditeur et Claude Code coexistent dans le même workspace, et le passage de l'un à l'autre se fait en un raccourci clavier.
-:::
+Un panneau d’éditeur et un terminal côte à côte permettent de relire le code, les différences et les résultats de tests dans le même espace de travail.
 
 ## Terminal Integration
 
@@ -870,77 +708,20 @@ Keep first line under 72 characters.
 Include ticket number: [PROJ-123]
 ````
 
-## Git Amend Workflow
+## Commits, Branches et Checkpoints
 
-L'amend est une opération courante mais risquée quand elle est mal utilisée. Claude Code peut amender automatiquement si vous le demandez, mais il ne vérifie pas si le commit a déjà été pushé. La règle absolue est de ne jamais amender un commit déjà présent sur le remote.
+Avant d’amender un commit, vérifiez son contenu, le travail local et l’état distant avec des références à jour. Un `git status` fondé sur une référence distante ancienne ne prouve pas que le commit n’a jamais été publié. Préférez un nouveau commit lorsqu’une réécriture n’est pas nécessaire.
 
-**Quand amender :**
+Une branche organise l’historique ; elle ne sauvegarde pas automatiquement les fichiers non suivis, ignorés ou les données externes. Des commandes telles que `git checkout .` peuvent supprimer du travail non enregistré. Sauvegardez et examinez les modifications avant toute restauration destructive.
 
-- Fix typos dans un commit récent
-- Ajouter des fichiers oubliés au dernier commit
-- Améliorer le message de commit
-- **Uniquement pour commits non-pushés**
+| Mécanisme | Portée |
+|-----------|--------|
+| `/rewind` | Checkpoint de conversation et/ou modifications suivies par Claude Code |
+| `git revert` | Nouveau commit inversant un changement versionné |
+| Worktree | Répertoire de travail distinct associé à un état Git |
+| Sauvegarde séparée | Fichiers et données non couverts par Git |
 
-**Pattern safe :**
-
-```bash
-# Vérifier si le commit est non-pushé
-git status
-# Output: "Your branch is ahead of 'origin/main' by 1 commit"
-
-# Amender le commit
-You: "Add the missing test file to the last commit"
-
-Claude:
-git add tests/auth.test.ts
-git commit --amend --no-edit
-```
-
-**Jamais amender des commits pushés** (requiert force push, casse l'historique équipe)
-
-## Branch Management
-
-Les feature branches sont la cinquième règle d'or pour une bonne raison : Claude Code peut exécuter des modifications destructives, et une branche dédiée offre un filet de sécurité complet via `git checkout .` ou `git branch -D`. Documentez le workflow de branches dans votre CLAUDE.md projet pour que Claude les crée automatiquement avec le bon format de nommage.
-
-**Pattern feature branch :**
-
-````markdown
-## CLAUDE.md Git Workflow
-
-Always work on feature branches:
-1. Create branch from main: git checkout -b feature/name
-2. Make changes and commit regularly
-3. Push to remote: git push -u origin feature/name
-4. Create pull request when ready
-5. Never commit directly to main/master
-````
-
-**Conventions de nommage :**
-
-```
-feature/user-authentication
-fix/login-validation-bug
-refactor/api-endpoints
-docs/update-readme
-chore/dependency-updates
-```
-
-## Rewind vs Revert
-
-Confondre `/rewind` et `git revert` est une erreur fréquente chez les nouveaux utilisateurs. Les deux annulent des changements, mais à des niveaux différents : `/rewind` opère au niveau de la session Claude (avant commit), `git revert` opère au niveau de l'historique Git (après commit). L'arbre de décision ci-dessous clarifie quel outil utiliser selon l'état de vos changements.
-
-| Commande | Usage | Crée un commit ? |
-|----------|-------|------------------|
-| `/rewind` | Undo changements non-commités de la session | Non |
-| `git revert` | Undo changements commités | Oui |
-
-**Arbre de décision :**
-
-```
-Changements pas encore commités ? → /rewind
-Changements commités mais pas pushés ? → git reset (attention !)
-Changements commités et pushés ? → git revert
-```
+Rewind n’annule pas les effets Bash, les appels API, les écritures externes ou tous les changements manuels. Le choix ne se réduit donc pas à « avant commit / après commit ».
 
 ## Git Worktrees
 
@@ -1021,27 +802,41 @@ Les boucles de feedback rapides accélèrent l'apprentissage et détectent les p
 
 ### Implémentation avec Hooks
 
+Exemple pour un projet TypeScript disposant d’un `tsconfig.json` à la racine. Le script utilise l’entrée standard du hook et conserve le code de sortie du compilateur.
+
 ```json
-// settings.json
 {
   "hooks": {
-    "PostToolUse": [{
-      "matcher": "Edit|Write",
-      "hooks": ["./scripts/validate.sh"]
-    }]
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "./scripts/validate.sh"
+          }
+        ]
+      }
+    ]
   }
 }
 ```
 
-**validate.sh :**
-
 ```bash
 #!/bin/bash
-FILE=$(echo "$TOOL_INPUT" | jq -r '.file_path // .file')
+set -u
+INPUT=$(cat)
+FILE=$(printf '%s' "$INPUT" | jq -r '.tool_input.file_path // empty')
 if [[ "$FILE" == *.ts || "$FILE" == *.tsx ]]; then
-    npx tsc --noEmit "$FILE" 2>&1 | head -5
+  cd "${CLAUDE_PROJECT_DIR:?Project directory is required}" || exit 1
+  if ! npx tsc --noEmit -p tsconfig.json >&2; then
+    echo "TypeScript validation failed after the edit." >&2
+    exit 2
+  fi
 fi
 ```
+
+PostToolUse intervient après l’édition ; son retour informe Claude mais n’annule pas l’écriture. Adaptez la commande aux scripts et à la structure de votre projet.
 
 ## Todo as Instruction Mirrors
 
@@ -1197,9 +992,9 @@ Les 15 méthodologies sont organisées en 6 tiers selon leur niveau d'abstractio
 
 **BMAD (Breakthrough Method for Agile AI-Driven Development)**
 
-- **Quoi** : Gouvernance multi-agent avec constitution comme guardrail
+- **Quoi** : Méthode de planification et de développement avec rôles et livrables explicites
 - **Pour** : Projets haute complexité avec exigences stables, compliance ou gouvernance
-- **Concept clé** : Constitution.md comme guardrail stratégique
+- **Concept clé** : La constitution est un mécanisme de Spec Kit ; vérifier les artefacts propres à la méthode choisie
 - **Quand éviter** : MVPs, prototypage rapide, exigences instables; BMAD est fragile quand les specs changent en cours de projet
 
 ### Tier 2 : Spécification & Architecture
@@ -1210,7 +1005,7 @@ Les 15 méthodologies sont organisées en 6 tiers selon leur niveau d'abstractio
 | **Doc-Driven** | Docs = source de vérité | Alignement cross-team | CLAUDE.md natif |
 | **DDD** | Langage domaine first | Business logic | Design-time |
 
-**SDD (Spec-Driven Development)** : spécifications AVANT code. Une itération bien structurée vaut 8 itérations non structurées. CLAUDE.md EST votre fichier spec.
+**SDD (Spec-Driven Development)** : spécifications AVANT code. Définissez les critères d’acceptation et gardez les spécifications synchronisées. CLAUDE.md porte les instructions du dépôt ; il ne remplace pas automatiquement une spécification fonctionnelle.
 
 ### Tier 3 : Behavior & Acceptance
 
@@ -1243,7 +1038,7 @@ Feature: Order Management
 |-----|------|------|------------|
 | **TDD** | Red-Green-Refactor | Code de qualité | Core workflow |
 | **Eval-Driven** | Evals pour outputs LLM | Produits AI | Agents |
-| **Multi-Agent** | Orchestrer sub-agents | Tâches complexes | Task tool |
+| **Multi-Agent** | Orchestrer sub-agents | Tâches complexes | Agent tool |
 
 **TDD (Test-Driven Development)**, le cycle classique :
 
@@ -1317,133 +1112,45 @@ Claude Code exécute des commandes shell avec les mêmes permissions que votre u
 | **.claude/ Attack Surface** | Fichiers CLAUDE.md, agents, hooks modifiés | Persistance d'instructions malveillantes |
 | **Agent Skills Supply Chain** | Dépendances MCP/skills compromises (ex: slopsquatting, CVE-2026-23744) | Exécution de code tiers non vérifié |
 
-## Top 5 Security Hooks
+## Hooks et Contrôles
 
-Ces cinq hooks couvrent les vecteurs d'attaque les plus courants et constituent le minimum recommandé pour tout usage en production. Ils s'activent via le système d'événements PreToolUse/PostToolUse et fonctionnent en cascade : chaque hook intercepte une catégorie de menace spécifique avant ou après l'exécution d'un outil.
+Les hooks du guide sont des exemples à examiner et à tester. Un scanner PreToolUse voit les paramètres de l’appel imminent, pas automatiquement le contenu d’un README déjà lu. Le scanner de secrets PostToolUse signale certains motifs après exécution ; il ne bloque pas rétrospectivement une lecture, ne rédige pas la sortie et ne remplace pas un contrôle pre-commit.
 
-*(Aligné avec WP03, templates complets dans `examples/hooks/bash/`)*
+Depuis la racine du dépôt cloné, après revue des scripts :
 
-| # | Hook | Rôle |
-|---|------|------|
-| 1 | `dangerous-actions-blocker` | Bloque `rm -rf /`, `sudo`, `chmod 777`, pipe-to-shell |
-| 2 | `prompt-injection-detector` | Détecte instructions cachées dans les fichiers lus |
-| 3 | `unicode-injection-scanner` | Repère caractères invisibles (homoglyphes, RTL override) |
-| 4 | `repo-integrity-scanner` | Vérifie signatures commits, fichiers .claude/ modifiés |
-| 5 | `output-secrets-scanner` | Empêche fuite de secrets dans les réponses (API keys, tokens) |
-
-> **Outil complémentaire** : `mcpwn`, scanner de vulnérabilités MCP (détection supply chain attacks, slopsquatting).
-
-> **Pour aller plus loin :** [§7 Hooks](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#7-hooks), event system, 33 templates hooks
-
-Configuration complète (à placer dans `.claude/settings.json`) :
+```bash
+mkdir -p .claude/hooks
+cp examples/hooks/bash/dangerous-actions-blocker.sh .claude/hooks/
+chmod +x .claude/hooks/dangerous-actions-blocker.sh
+```
 
 ```json
 {
   "hooks": {
     "PreToolUse": [
-      // Bloquer commandes dangereuses avant exécution Bash
-      { "matcher": "Bash", "hooks": ["dangerous-actions-blocker"] },
-      // Détecter injections dans fichiers lus
-      { "matcher": "Read", "hooks": ["prompt-injection-detector"] },
-      // Confiner les opérations fichiers au répertoire projet
       {
-        "matcher": "Read|Edit|Write",
+        "matcher": "Bash",
         "hooks": [
-          "./hooks/block-sensitive.sh",
-          "./hooks/confine-directory.sh"
+          {
+            "type": "command",
+            "command": "./.claude/hooks/dangerous-actions-blocker.sh"
+          }
         ]
-      },
-      // Valider les commandes Bash avant exécution
-      { "matcher": "Bash", "hooks": ["./hooks/validate-bash.sh"] }
-    ],
-    "PostToolUse": [
-      // Scanner les sorties pour prévenir fuite de secrets
-      { "matcher": "*", "hooks": ["output-secrets-scanner"] },
-      // Audit log de toutes les opérations
-      { "hooks": ["./hooks/audit-log.sh"] }
+      }
     ]
   }
 }
 ```
 
-## Événements Hook Disponibles
+`exit 0` signifie succès, éventuellement accompagné des champs JSON documentés. `exit 2` bloque lorsque l’événement le permet ; les autres codes non nuls sont des erreurs de hook non bloquantes selon le contrat. `permissionDecision: "continue"` n’est pas valide. Pour PermissionDenied, `retry` appartient à `hookSpecificOutput`.
 
-Le système de hooks compte désormais **30 événements** au total. Référence complète : `guide/core/hooks-events-reference.md`. Les deux événements fondamentaux (`PreToolUse`, `PostToolUse`) restent les plus utilisés, mais les nouveaux événements couvrent désormais les worktrees, les agents teammates, les batches parallèles et les interactions MCP.
+Inspectez `/hooks`, testez les cas autorisés et refusés avec des données témoins, et vérifiez les événements dans la [référence officielle](https://code.claude.com/docs/en/hooks). Les hooks SessionStart, PreToolUse, PostToolUse, Stop, SubagentStop et les événements de tâches ont des contrats différents.
 
-| Événement | Déclencheur | Version |
-|-----------|-------------|---------|
-| `PreToolUse` | Avant l'appel à n'importe quel outil | Core |
-| `PostToolUse` | Après l'appel à n'importe quel outil | Core |
-| `PostToolBatch` | Après résolution complète d'un batch d'appels parallèles | v2.1.x |
-| `Notification` | Quand Claude envoie une notification | Core |
-| `Stop` | Quand Claude termine une réponse | Core |
-| `SubagentStop` | Quand un sub-agent termine | Core |
-| `WorktreeCreate` | Création d'un worktree git | v2.1.50+ |
-| `WorktreeRemove` | Suppression d'un worktree git | v2.1.50+ |
-| `TeammateIdle` | Un agent teammate devient inactif | v2.1.32+ |
-| `TaskCompleted` | Une tâche est complétée | v2.1.32+ |
-| `Elicitation` | Un serveur MCP demande une entrée structurée | v2.1.76 |
-| `ElicitationResult` | Résultat d'une elicitation MCP | v2.1.76 |
-| `PostCompact` | Après un `/compact` (peut déclencher une sauvegarde) | v2.1.76 |
-| `CwdChanged` | Quand le répertoire de travail change | v2.1.83 |
-| `FileChanged` | Quand un fichier est modifié | v2.1.83 |
-| `TaskCreated` | Quand une nouvelle tâche est créée | v2.1.84 |
-| `PermissionDenied` | Quand le classifieur auto-mode refuse un appel outil ; retourner `{"retry": true}` pour réessayer | v2.1.88 |
-| `UserPromptExpansion` | Quand une slash command s'étend en prompt | v2.1.x |
-| `MessageDisplay` | Pendant le streaming du texte de la réponse assistant (timeout 10s) | v2.1.x |
+## Limiter l’Impact et Arrêter une Exécution
 
-**Exemple d'usage: PostCompact pour sauvegarder le contexte**
+Combinez permissions, accès OS, identifiants limités et restrictions réseau. Les contrôles de débit ou d’arrêt exigent un identifiant stable, un budget mesurable et une supervision capable d’arrêter le processus réellement visé. Le script `velocity-governor.sh` du guide ne garantit pas un quota exact de 20 appels par minute.
 
-```json
-{
-  "hooks": {
-    "PostCompact": [
-      { "hooks": ["./hooks/save-compact-summary.sh"] }
-    ],
-    "WorktreeCreate": [
-      { "hooks": ["./hooks/setup-worktree-env.sh"] }
-    ],
-    "WorktreeRemove": [
-      { "hooks": ["./hooks/cleanup-worktree.sh"] }
-    ]
-  }
-}
-```
-
-**Filtre conditionnel `if` (v2.1.85+)** : Les hooks supportent désormais un champ `if` pour n'exécuter que si la condition est vraie (syntaxe permission rule). Réduit l'overhead subprocess.
-
-```json
-{"matcher": "Bash", "hooks": [{"type": "command", "command": "./validate.sh", "if": "!read-only"}]}
-```
-
-## Checklist Sécurité Minimum
-
-Cette checklist représente le plancher de sécurité à valider avant toute utilisation en contexte professionnel. Chaque point correspond à une vulnérabilité documentée dans les retours de la communauté. Validez-la une fois au setup, puis re-vérifiez après chaque mise à jour majeure de Claude Code.
-
-````markdown
-□ Hooks de blocage fichiers sensibles activés
-□ Validation commandes Bash configurée
-□ Audit logging en place
-□ Répertoire de travail confiné
-□ .env et credentials dans .gitignore
-□ Review des diffs avant acceptation
-□ Feature branches (jamais main direct)
-□ velocity-governor.sh activé (sessions longues/agents)
-````
-
-## AI Kill Switch (v3.27.4)
-
-Pour les agents autonomes en sessions longues, implémenter une architecture de containment 3 niveaux :
-
-| Niveau | Mécanisme | Déclencheur |
-|--------|-----------|-------------|
-| Scoped Revocation | `permissions.deny` + agent scope | Agent dépasse périmètre |
-| **Velocity Governor** | Hook rate-limiter PreToolUse | >20 ops/min (runaway) |
-| Global Hard Stop | `Ctrl+C` / `SIGTERM` | Urgence totale |
-
-Template `velocity-governor.sh` disponible dans `examples/hooks/bash/`.
-
-> Contexte réglementaire : EU AI Act (Aug 2025) + CoSAI Incident Response Framework V1.0 imposent ces mécanismes pour systèmes IA autonomes. Référentiel menaces : OWASP Agentic AI Top 10 (2026).
+Les obligations légales dépendent du système et de l’usage ; l’AI Act n’impose pas un mécanisme identique à tout agent de code. Voir le [livre blanc sécurité](https://cc.bruniaux.com/whitepapers/) et la [référence sandboxing](https://code.claude.com/docs/en/sandboxing).
 
 {{< pagebreak >}}
 
@@ -1453,71 +1160,28 @@ Template `velocity-governor.sh` disponible dans `examples/hooks/bash/`.
 
 La sécurité (Ch.10) couvre ce qui peut mal tourner sur votre machine. La privacy couvre ce qui quitte votre machine : quelles données sont envoyées à Anthropic, comment elles sont stockées, et comment vous contrôlez ce flux.
 
-## Les 3 Tiers de Rétention
+## Données et Rétention
 
-La politique de rétention d'Anthropic fonctionne par paliers, du plus permissif au plus restrictif. Le tier par défaut convient pour le développement personnel, mais les projets d'entreprise avec données sensibles nécessitent au minimum l'opt-out (Tier 2) ou le Zero Data Retention contractuel (Tier 3). Le choix du tier impacte directement votre conformité RGPD et vos obligations contractuelles clients.
+Les prompts, instructions chargées, fichiers lus et résultats d’outils peuvent entrer dans le contexte envoyé au fournisseur. Un fichier ignoré par Git ou situé hors du projet n’est pas automatiquement inaccessible. Les règles Read ne filtrent pas tous les résultats Bash ou MCP.
 
-| Tier | Condition | Rétention | Accès |
-|------|-----------|-----------|-------|
-| **Tier 1 (Default)** | Usage standard | 5 ans | Support Anthropic |
-| **Tier 2 (Opt-out)** | Opt-out via paramètres | 30 jours | Analytics internes |
-| **Tier 3 (Enterprise ZDR)** | Zero Data Retention contractuel | 0 jours | Aucun |
+| Compte ou option | Politique standard |
+|------------------|-------------------|
+| Grand public, entraînement activé | Jusqu’à 5 ans |
+| Grand public, entraînement désactivé | 30 jours |
+| Team / Enterprise / API direct | 30 jours, sans entraînement par défaut |
+| ZDR éligible et activé contractuellement | Pas de rétention des entrées/sorties couvertes, sous réserve du périmètre et des exceptions |
 
-## Ce Qui N'Est PAS Collecté
+Les données API Anthropic sont chiffrées en transit et au repos. Les transcriptions locales sous `~/.claude/projects/` restent des fichiers en clair ; leur rétention de 30 jours est configurable par `cleanupPeriodDays`. Un contrat ZDR serveur ne supprime pas ces fichiers.
 
-Une confusion fréquente est de croire que Claude Code envoie l'intégralité de votre projet à Anthropic. En réalité, seuls les contenus explicitement injectés dans la conversation (via Read, prompts, ou résultats de commandes) transitent par l'API. Le reste de votre filesystem reste local.
+## Contrôles à Vérifier
 
-- Contenu des fichiers locaux (sauf envoyé dans prompt)
-- Historique git
-- Variables d'environnement (sauf dans commandes)
-- Données système
-- Credentials (ne JAMAIS les envoyer)
+- Examiner le compte, le fournisseur et les [paramètres de confidentialité](https://claude.ai/settings/data-privacy-controls).
+- Garder les secrets hors des prompts et des instructions ; limiter les outils et leurs accès.
+- Examiner séparément les soumissions volontaires de feedback, qui peuvent suivre une rétention jusqu’à 5 ans.
+- Utiliser `DISABLE_FEEDBACK_COMMAND=1` si les commandes de feedback doivent être désactivées. Ce réglage n’est pas le choix d’entraînement du compte.
+- Faire examiner finalité, base légale, DPA, transferts, droits et conservation par les responsables compétents ; aucun réglage unique ne prouve la conformité RGPD.
 
-## Données Envoyées à Anthropic
-
-Ce tableau distingue précisément ce qui transite par l'API Anthropic et ce qui reste local. La règle fondamentale est simple : si Claude l'a vu dans la conversation, Anthropic l'a reçu. Tout le reste est invisible pour le service.
-
-| Type | Envoyé | Exemple |
-|------|--------|---------|
-| Vos prompts | Oui | "Fix the login bug" |
-| Réponses Claude | Oui | Le code généré |
-| Fichiers que vous partagez | Oui | Contenu des Read |
-| Output des commandes | Oui | Résultats Bash |
-| Fichiers non partagés | Non | Le reste du projet |
-| Votre .env | Non | (sauf si vous le partagez) |
-
-## Action Immédiate : Opt-Out Entraînement
-
-Par défaut, Anthropic peut utiliser vos conversations pour améliorer ses modèles (Tier 1). Si votre politique de sécurité ou vos contrats clients l'interdisent, désactivez cette option dès l'installation. Le changement prend effet immédiatement et s'applique à toutes les sessions futures.
-
-```bash
-# Vérifier le statut actuel
-claude config get sendFeedback
-
-# Désactiver
-claude config set sendFeedback false
-```
-
-Ou dans les settings :
-
-```json
-{
-  "sendFeedback": false
-}
-```
-
-## Privacy Checklist
-
-Validez cette checklist au setup initial, puis après chaque onboarding de nouveau membre d'équipe. Chaque point correspond à un risque de fuite de données documenté dans les retours d'usage.
-
-````markdown
-□ sendFeedback désactivé si requis
-□ Jamais de credentials dans les prompts
-□ .env dans .gitignore
-□ Hook de blocage fichiers sensibles
-□ Review des fichiers avant Read/Edit
-□ Pas de PII dans les logs
-````
+Sources : [utilisation des données](https://code.claude.com/docs/en/data-usage) et [Zero Data Retention](https://code.claude.com/docs/en/zero-data-retention).
 
 {{< pagebreak >}}
 
@@ -1579,23 +1243,16 @@ project/
 └── CLAUDE.md
 ```
 
-### 3. MCP Servers Standards
+### 3. Serveurs MCP Partagés
 
-```json
-{
-  "mcpServers": {
-    "context7": {
-      "required": true,
-      "config": { /* ... */ }
-    },
-    "sequential-thinking": {
-      "recommended": true
-    }
-  }
-}
+Installez un serveur approuvé avec la commande officielle et une portée explicite. La portée projet écrit `.mcp.json`, pas un bloc `mcpServers` dans les settings.
+
+```bash
+claude mcp add --transport stdio --scope project mon-serveur -- /path/to/approved-server
+claude mcp list
 ```
 
-> **Pour aller plus loin :** [§8 MCP Servers](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#8-mcp-servers), configuration, évaluation, sécurité
+Vérifiez `/mcp`, les permissions, les identifiants et les destinations réseau. Les champs arbitraires `required` et `recommended` ne constituent pas une configuration MCP native.
 
 ## Adoption Progressive
 
@@ -1651,7 +1308,7 @@ Mesurer l'adoption sans métriques concrètes mène à des décisions subjective
 
 ## Tasks API (depuis v2.1.16)
 
-**But** : Gestion de tâches persistantes avec dépendances entre sessions.
+**But** : suivi persistant avec dépendances. Sur les modèles récents, activer `CLAUDE_CODE_ENABLE_TODO_TOOLS=1`. Les états sont `pending`, `in_progress` et `completed`.
 
 ### Usage Basique
 
@@ -1660,7 +1317,7 @@ Mesurer l'adoption sans métriques concrètes mène à des décisions subjective
 You: "Create task: Implement user authentication"
 
 # Lister les tâches
-You: "/tasks" ou demander "Show my tasks"
+You: "Use TaskList to show the task list"
 
 # Marquer comme complétée
 You: "Mark task #1 as done"
@@ -1699,7 +1356,7 @@ Claude créera les 3 tâches et marquera automatiquement #2 bloquée par #1, #3 
 You: "Research Next.js 15 best practices in background while I work"
 
 # Voir les tâches en cours
-Ctrl+B  # ou /tasks
+/tasks  # Ctrl+B envoie une exécution éligible en arrière-plan
 
 # Récupérer résultat quand prêt
 You: "What did the research find?"
@@ -1762,47 +1419,23 @@ Workflow:
 
 ## Auto-Memories (depuis v2.1.32)
 
-**But** : Capture automatique du contexte de session pour reprendre exactement où vous étiez.
-
-```
-Session 1 : "Implement auth module" → 2h de travail → Claude mémorise décisions + fichiers modifiés
-Session 2 (lendemain) : "Continue auth work" → Claude charge la mémoire et reprend exactement là
-```
-
-Configuration dans `~/.claude/settings.json` :
+**But** : enregistrer des notes utiles entre sessions, sans garantir une reprise exacte de toutes les actions. L’auto-memory est activée par défaut ; inspectez et corrigez-la avec `/memory`.
 
 ```json
 {
-  "autoMemory": {
-    "enabled": true,
-    "captureInterval": 1800,
-    "maxMemories": 50
-  }
+  "autoMemoryEnabled": true
 }
 ```
 
-**Best practices** : Expliciter les checkpoints ("Save progress on auth module"), nommer les sessions (`claude -s "auth-feature"`), faire un cleanup régulier des memories obsolètes.
+Nommez les sessions avec `claude --name auth-feature` et reprenez-les avec `--continue` ou `--resume`. Les notes mémoire et les transcriptions sont deux mécanismes distincts.
 
-## Session Forking (depuis v2.1.19)
+## Session Forking
 
-**But** : Créer des branches de session pour tester des approches différentes en parallèle.
-
-```bash
-You: "Implement auth with JWT"  # 1h de travail...
-You: "Fork this session and try OAuth instead"
-# → Session A (JWT) + Session B (OAuth) en parallèle
-You: "Show me the diff between both approaches"  # Comparer et choisir
-```
-
-| Scénario | Bénéfice |
-|----------|----------|
-| Test d'architectures | Comparer plusieurs designs sans risque |
-| Debugging | Tester plusieurs hypothèses en parallèle |
-| Code review | Proposer alternatives sans casser l'original |
+`/branch` crée une branche de conversation. `/fork` copie la conversation vers une session en arrière-plan tout en conservant la session courante. Ces opérations ne créent pas automatiquement une isolation du système de fichiers ou des effets externes ; utilisez des worktrees et des responsabilités distinctes pour comparer des implémentations concurrentes.
 
 ## Session Search & Resume : cc-sessions
 
-Créer des sessions (`-s "nom"`) et les forker est utile. Les *retrouver* après plusieurs jours de travail est le défi suivant. `claude --resume` natif exige l'ID complet, mais `cc-sessions` résout ça avec une recherche full-text incrémentale sur tout l'historique local.
+Nommer les sessions avec `--name` facilite leur recherche. `claude --resume` ouvre un sélecteur ou accepte un identifiant ou un nom. `cc-sessions` ajoute une recherche textuelle dans les transcriptions locales.
 
 | Besoin | `cc-sessions` |
 |--------|--------------|
@@ -1812,9 +1445,9 @@ Créer des sessions (`-s "nom"`) et les forker est utile. Les *retrouver* après
 | Filtrer par branche | `cc-sessions --branch develop recent 10` |
 | JSON pour scripts | `cc-sessions --json search "prisma"` |
 
-Note : `claude --resume <full-uuid>` (natif) reste disponible mais exige l'UUID complet. Usage JSON avancé : `cc-sessions --json search "prisma" | jq -r '.[].id'`
+La reprise native est aussi disponible : `claude --resume` ouvre un sélecteur et `claude --resume <nom-ou-id>` sélectionne une session correspondante. Usage JSON avancé pour ce script communautaire : `cc-sessions --json search "prisma" | jq -r '.[].id'`
 
-**Performance** : ~200ms sur 1300+ sessions (index incrémental JSONL, ~360KB).
+Ce script communautaire indexe les enregistrements de sessions locales. Mesurez la latence sur votre propre historique ; aucune garantie de performance transposable n’est établie ici.
 
 ::: {.callout-tip title="Mémo : Quand utiliser cc-sessions"}
 | Cas d'usage | Commande |
@@ -1831,7 +1464,7 @@ Note : `claude --resume <full-uuid>` (natif) reste disponible mais exige l'UUID 
 
 **But** : Code intelligence (go-to-definition, find-references) pour meilleure compréhension codebase.
 
-→ Voir **Chapitre 6 : Intégration IDE** pour le setup complet.
+Installez un plugin de code intelligence adapté et le binaire de son serveur de langage, puis inspectez les erreurs du plugin. Les plugins personnalisés déclarent leurs serveurs dans `.lsp.json` ou dans le champ `lspServers` du manifeste, avec notamment `command` et `extensionToLanguage`. Un objet `lsp.enabled/servers` dans `settings.json` ne constitue pas une configuration prise en charge. Voir la [référence du manifeste de plugin](https://code.claude.com/docs/en/plugins-reference#lspservers).
 
 | Feature | Usage |
 |---------|-------|
@@ -1846,7 +1479,7 @@ Note : `claude --resume <full-uuid>` (natif) reste disponible mais exige l'UUID 
 
 **But** : Contrôler Claude Code depuis un mobile ou navigateur web, sans être au clavier.
 
-**Plans requis** : Pro ou Max uniquement (Research Preview au moment de l'écriture).
+**Accès** : Pro, Max, Team ou Enterprise selon les conditions du compte et de l’organisation.
 
 ```bash
 # Activer depuis une session active
@@ -1902,13 +1535,13 @@ Cette liste regroupe les commandes et raccourcis qui couvrent plus de 90% des in
 | 2 | `/clear` | Reset complet pour nouvelle tâche |
 | 3 | `/plan` | Entrer en mode planification (sans modifier les fichiers) |
 | 4 | Approuver le plan | Quitter Plan Mode et l'appliquer (`Shift+Tab` sort sans valider) |
-| 5 | `/rewind` | Annuler la dernière action de Claude |
+| 5 | `/rewind` | Revenir à un checkpoint |
 | 6 | `Shift+Tab` | Cycler entre les modes de permission |
 | 7 | `Ctrl+C` | Interrompre Claude en cours d'exécution |
 | 8 | `Esc Esc` | Rewind rapide (alias clavier) |
 | 9 | `Ctrl+D` | Quitter la session |
 | 10 | `Ctrl+L` | Effacer l'écran (contexte préservé) |
-| 11 | `/status` | Voir l'état de la session et le contexte |
+| 11 | `/status` | Voir l’état et les sources de configuration |
 | 12 | `/model` | Changer de modèle (sonnet / opus / opusplan) |
 | 13 | `/cost` | Voir les coûts de la session courante (alias `/usage`) |
 | 14 | `/memory` | Gérer la mémoire persistante |
@@ -1926,13 +1559,13 @@ Ces huit commandes forment le vocabulaire de base de toute session Claude Code. 
 | Commande | Action | Usage |
 |----------|--------|-------|
 | `/help` | Aide contextuelle | Toujours |
-| `/status` | État session + contexte | Monitoring |
+| `/status` | État et sources de configuration | Monitoring |
 | `/context` | Breakdown détaillé tokens | Analyse contexte |
 | `/compact` | Compresse le contexte | Planifier à 50%, exécuter dès 70% |
 | `/clear` | Reset la session | Changement de tâche |
 | `/plan` | Mode planification (no changes) | Avant implémentation |
 | `/code-review` | Relire le diff à la recherche de bugs de correction | Avant de livrer |
-| `/rewind` | Undo dernière action | Erreur de Claude |
+| `/rewind` | Restaurer un checkpoint | Erreur de Claude |
 
 ## Commandes Avancées
 
@@ -1945,15 +1578,15 @@ Ces commandes ciblent des cas d'usage spécifiques : optimisation de coûts (`/m
 | `/teleport` | Téléporter session depuis web | Migration web→CLI |
 | `/tasks` | Monitor background tasks | Agents en arrière-plan |
 | `/remote-env` | Configurer environnement cloud | Setup remote |
-| `/fast` | Toggle fast mode (2.5x speed, 6x cost) | Tâches urgentes |
+| `/fast` | Basculer le mode rapide (Opus 5.5 : $8/$40 par MTok) | Tâches urgentes |
 | `/debug` | Troubleshooting systématique | Debugging structuré |
 | `/config` | Voir/modifier config | Setup |
 | `/cost` | Voir coûts session (alias `/usage`) | Monitoring |
 | `/memory` | Gérer mémoire persistante | Sessions longues |
 
-## Nouvelles Commandes (depuis v2.1.71+)
+## Commandes Récentes et Extensions du Guide
 
-Ces commandes ont été ajoutées progressivement entre v2.1.71 et v2.1.77. Elles couvrent la productivité quotidienne (`/stats`, `/rename`, `/copy`), le contrôle fin de l'agent (`/effort`, `/btw`), l'automatisation récurrente (`/loop`), et l'accès multi-device (`/remote-control`, `/mobile`, `/voice`).
+Les numéros `v2.x` ci-dessous désignent Claude Code ; les numéros `v3.x` désignent le guide. Les commandes personnalisées ne sont disponibles qu’après installation. Elles couvrent la productivité quotidienne (`/stats`, `/rename`, `/copy`), le contrôle fin de l'agent (`/effort`, `/btw`), l'automatisation récurrente (`/loop`), et l'accès multi-device (`/remote-control`, `/mobile`, `/voice`).
 
 | Commande | Action | Version |
 |----------|--------|---------|
@@ -1963,18 +1596,18 @@ Ces commandes ont été ajoutées progressivement entre v2.1.71 et v2.1.77. Elle
 | `/stats` | Graphique d'usage, modèle favori, streak (alias `/usage`) | v2.1.71+ |
 | `/rename [nom]` | Nommer ou renommer la session courante | v2.1.71+ |
 | `/copy [N]` | Copie interactive d'un bloc de code ou de la Nème dernière réponse | v2.1.71+ |
-| `/effort` | Contrôler le niveau d'effort (low/medium/high/xhigh/max/ultracode) pour la session | v2.1.71+ |
+| `/effort` | Contrôler le niveau d'effort (low/medium/high/xhigh/max) pour la session | v2.1.71+ |
 | `/branch` | Crée une branche/timeline parallèle (a remplacé `/fork` en v2.1.77 ; `/fork` a réapparu depuis v2.1.212 avec un sens différent : copie la conversation dans une session background séparée, pas une timeline parallèle) | v2.1.77 |
 | `/btw [question]` | Question latérale éphémère, agent read-only sans historique | v2.1.71+ |
 | `/voice` | Active la saisie vocale | v2.1.71+ |
-| `/remote-control` (`/rc`) | Contrôle à distance depuis mobile/navigateur (Pro/Max, Research Preview) | v2.1.51 |
+| `/remote-control` (`/rc`) | Contrôle à distance depuis mobile/navigateur (Pro/Max/Team/Enterprise selon compte) | v2.1.51 |
 | `/mobile` | Liens App Store + Play Store | v2.1.51+ |
-| `/investigate` | Debugging root-cause en 5 phases (Iron Law) | v3.37.x |
-| `/qa` | QA browser diff-aware, détecte régressions visuelles | v3.37.x |
-| `/canary` | Monitoring post-déploiement, 4 niveaux d'alerte | v3.37.x |
-| `/land-and-deploy` | Pipeline merge-to-verify automatisé | v3.37.x |
-| `/session-save` | Handoff de session structuré | v3.37.x |
-| `/autoresearch` | Boucle autonome de qualité de code | v3.37.x |
+| `/investigate` | Commande personnalisée à installer : Debugging root-cause en 5 phases (Iron Law) | v3.37.x |
+| `/qa` | Commande personnalisée à installer : QA browser diff-aware, détecte régressions visuelles | v3.37.x |
+| `/canary` | Commande personnalisée à installer : Monitoring post-déploiement, 4 niveaux d'alerte | v3.37.x |
+| `/land-and-deploy` | Commande personnalisée à installer : Pipeline merge-to-verify automatisé | v3.37.x |
+| `/session-save` | Commande personnalisée à installer : Handoff de session structuré | v3.37.x |
+| `/autoresearch` | Commande personnalisée à installer : Boucle autonome de qualité de code | v3.37.x |
 | `/loop [interval] [cmd]` | Automatisation récurrente à intervalle fixe (ex: `/loop 5m /qa`) | v3.37.x |
 | `/ultrareview` | Review de code multi-agents en parallèle, cloud-based (branche locale ou PR GitHub) | v3.39.1 |
 | `/fewer-permission-prompts` | Génère automatiquement une allowlist depuis l'historique des transcripts (livrée sous le nom `/less-permission-prompts` en v2.1.111) | v3.39.1 |
@@ -1985,6 +1618,9 @@ Ces commandes ont été ajoutées progressivement entre v2.1.71 et v2.1.77. Elle
 ::: {.callout-note title="Autres ajouts notables v2.1.153 → v2.1.197"}
 `--safe-mode` (ou `CLAUDE_CODE_SAFE_MODE`) force une validation maximale avant chaque action (v2.1.169). `fallbackModel` dans `settings.json` permet de définir jusqu'à 3 modèles de secours en cas d'indisponibilité (v2.1.166). `sandbox.credentials` bloque la lecture des credentials depuis le sandbox (v2.1.187, ⭐ sécurité). `enforceAvailableModels` restreint les modèles utilisables au niveau organisation (v2.1.175, renforcé en v2.1.187). `claude mcp login` / `claude mcp logout <name>` gèrent l'authentification MCP en ligne de commande (v2.1.186). La syntaxe de permission `Tool(param:value)` (ex: `Agent(model:opus)`) permet un contrôle fin par paramètre (v2.1.178). Depuis v2.1.183, le mode Auto bloque nativement les opérations git/terraform destructives (`reset --hard`, `checkout -- .`, `clean -fd`, `commit --amend` sur commits externes).
 :::
+
+| Commande | Action | Version |
+|----------|--------|---------|
 | `/proactive` | Alias de `/loop` : relance un prompt en boucle tant que la session est ouverte | v2.1.105 |
 | `/team-onboarding` | Génère un guide d'onboarding personnalisé pour l'équipe | v2.1.106 |
 | `/undo` | Alias de `/rewind` : revient à un checkpoint (conversation et/ou code) | v2.1.108 |
@@ -2046,31 +1682,19 @@ Dates de connaissance fiables : juin 2026 pour Opus 5.5 et Fable 5.1, janvier 20
 
 ## Raccourcis Clavier
 
-Les raccourcis clavier permettent de contrôler Claude Code sans quitter le flux de travail. Le plus important est `Shift+Tab` qui cycle entre les trois modes de permission -- c'est le mécanisme central de contrôle fin sur l'autonomie de Claude.
+`Shift+Tab` parcourt les modes disponibles dans la session. Les modes documentés incluent `default`, `acceptEdits`, `plan`, `auto`, `dontAsk` et `bypassPermissions`, sous réserve du compte et des politiques. Le mode plan permet l’exploration avec des restrictions ; il n’interdit pas toute exécution de lecture.
 
-::: {.callout-tip title="Guide des raccourcis : Modes de permission (Shift+Tab)"}
-`Shift+Tab` cycle entre 3 modes de permission, visibles dans le prompt :
-
-| Mode | Symbole | Comportement |
-|------|---------|--------------|
-| **Default** | (aucun) | Claude demande confirmation pour les actions sensibles |
-| **Auto-approve** | `(auto)` | Un classifieur décide des actions autorisées |
-| **Plan only** | `(plan)` | Claude planifie seulement, n'exécute rien |
-
-Utilisez **Plan only** pour les refactorings risqués : review le plan, puis `Shift+Tab` → Default pour exécuter.
-
-**Changements v3.39.1** : Le mode Auto est désormais disponible directement pour les abonnés Max, sans avoir à passer le flag `--enable-auto-mode`. Les glob patterns Bash en lecture seule ne déclenchent plus de prompt de permission.
-:::
+`Alt+T` bascule le thinking seulement lorsque le modèle le permet ; il n’a pas cet effet sur Opus 5.5 ou Fable. Utilisez l’effort pour ajuster la profondeur de raisonnement.
 
 | Raccourci | Action | Contexte d'usage |
 |-----------|--------|-----------------|
 | `Shift+Tab` | Cycle modes de permission | Contrôle fin sur les autorisations |
-| `Esc` x 2 | Rewind (undo dernière action) | Claude a fait une erreur |
+| `Esc` x 2 | Ouvrir le sélecteur de checkpoints | Claude a fait une erreur |
 | `Ctrl+C` | Interrompre Claude | Arrêter une exécution en cours |
 | `Ctrl+D` | Quitter la session | Fin de session propre |
 | `Ctrl+L` | Effacer l'écran | Affichage propre (contexte préservé) |
 | `Ctrl+R` | Rechercher dans l'historique | Retrouver un prompt précédent |
-| `Ctrl+B` | Tâches en arrière-plan | Voir les agents actifs |
+| `Ctrl+B` | Envoyer une tâche éligible en arrière-plan | `/tasks` pour le suivi |
 | `Tab` | Autocomplete | Commandes, chemins de fichiers |
 | `Shift+Enter` | Nouvelle ligne (sans envoyer) | Prompts multi-lignes |
 | `Alt+T` | Toggle thinking | Activer/désactiver la réflexion visible |
@@ -2078,12 +1702,12 @@ Utilisez **Plan only** pour les refactorings risqués : review le plan, puis `Sh
 
 ## Flags CLI
 
-Les flags CLI s'utilisent au lancement de Claude Code pour modifier son comportement dès le départ. Le flag `-p` transforme Claude en outil one-shot scriptable (idéal pour les pipelines CI/CD), tandis que `-a` charge un agent spécialisé au lieu du mode conversationnel par défaut.
+Les flags CLI s'utilisent au lancement de Claude Code pour modifier son comportement dès le départ. Le flag `-p` transforme Claude en outil one-shot scriptable (idéal pour les pipelines CI/CD), tandis que `--agent` sélectionne un agent principal spécialisé au lieu du mode conversationnel par défaut.
 
 | Flag | Usage | Exemple |
 |------|-------|---------|
 | `-p` | Prompt one-shot | `claude -p "explain this file"` |
-| `-a` | Utiliser un agent | `claude -a security-auditor` |
+| `--agent` | Sélectionner l’agent principal | `claude --agent security-auditor` |
 | `-n` / `--name <nom>` | Nommer la session au démarrage (v2.1.76) | `claude --name auth-refactor` |
 | `--continue` | Reprendre la dernière session | `claude --continue` |
 | `--resume <id>` | Reprendre une session par ID | `claude --resume abc123` |
@@ -2092,11 +1716,11 @@ Les flags CLI s'utilisent au lancement de Claude Code pour modifier son comporte
 | `--max-budget-usd 5.00` | Limite de dépense API (mode print) | `claude -p "..." --max-budget-usd 1.00` |
 | `--add-dir ../lib` | Accès à des dossiers hors du CWD | `claude --add-dir ../shared-lib` |
 | `--output-format` | Format de sortie : `text`, `json`, `stream-json` | `claude -p "..." --output-format json` |
-| `--permission-mode` | Mode de permission : `default`, `auto`, `plan` | `claude --permission-mode plan` |
-| `--bare` | Mode scripted : désactive hooks, LSP, plugins (v2.1.81+) | `claude -p "..." --bare` |
-| `--channels` | Relai permissions vers mobile | `claude --channels` |
+| `--permission-mode` | Mode de permission pris en charge par le compte | `claude --permission-mode plan` |
+| `--bare` | Mode print sans personnalisation automatique, dont hooks et plugins | `claude -p "..." --bare` |
+| `--channels <intégrations>` | Activer des canaux installés et approuvés | Voir la documentation Channels pour les noms acceptés |
 | `--console` | Billing API (pour `claude auth login`) | `claude auth login --console` |
-| `--fork-session` | Fork la session courante pour exploration parallèle | `claude --fork-session` |
+| `--fork-session` | Créer un nouvel identifiant lors d’une reprise | `claude --continue --fork-session` |
 | `--plugin-url <url>` | Charger un plugin `.zip` depuis une URL pour la session courante (v2.1.129) | `claude --plugin-url https://ci.example.com/plugin.zip` |
 
 ::: {.callout-note title="worktree.sparsePaths: Checkout sparse pour monorepos (v2.1.76)"}
@@ -2105,7 +1729,11 @@ Pour les monorepos volumineux, configurez `worktree.sparsePaths` dans `.claude/s
 ```json
 {
   "worktree": {
-    "sparsePaths": ["packages/api", "packages/shared", "apps/web"]
+    "sparsePaths": [
+      "packages/api",
+      "packages/shared",
+      "apps/web"
+    ]
   }
 }
 ```
@@ -2114,7 +1742,7 @@ Cela accélère significativement la création de worktrees sur les dépôts ave
 :::
 
 ::: {.callout-note title="Fonctionnalités Settings avancées"}
-**`managed-settings.d/` (v2.1.83+)** : Déposez des fragments `.json` dans `~/.claude/managed-settings.d/` pour la gouvernance enterprise; chaque fichier est mergé dans la configuration globale.
+**`managed-settings.d/` (v2.1.83+)** : Déposez des fragments `.json` dans le répertoire système `managed-settings.d/` adjacent au `managed-settings.json` de votre OS pour la gouvernance enterprise; chaque fichier est mergé dans la configuration globale.
 
 **`${CLAUDE_PLUGIN_DATA}` (v2.1.78+)** : Variable d'environnement exposant un chemin de stockage persistant pour les plugins et skills entre sessions.
 
@@ -2189,23 +1817,27 @@ Le rôle du Tech Lead est de transformer l'usage individuel en pratique d'équip
 
 # Annexe D : Index des Whitepapers
 
-Pour approfondir chaque sujet, consultez les whitepapers dédiés :
+Treize livres blancs sont disponibles sur la [page de la série](https://cc.bruniaux.com/whitepapers/). Leur pagination dépend de la version rendue.
 
-| # | Titre | Pages | Sujet Principal |
-|---|-------|-------|-----------------|
-| 00 | De Zéro à Productif | ~8 | Installation, quickstart, 5 règles d'or |
-| 01 | Prompts qui Marchent | ~18 | Formule WHAT/WHERE/HOW/VERIFY, XML prompting |
-| 02 | Personnalisation | ~32 | CLAUDE.md, Agents, Skills, Commands, Hooks |
-| 03 | Sécurité | ~25 | 17 hooks sécurité, vecteurs d'attaque, défense |
-| 04 | Architecture | ~20 | Master Loop, 8 outils natifs, contexte |
-| 05 | Équipe | ~28 | Adoption, standards, CI/CD, métriques |
-| 06 | Privacy | ~18 | Rétention données, compliance, opt-out |
-| **07** | **Guide de Référence** | **~120** | **Ce document - synthèse + nouveautés** |
-| 08 | Agent Teams | ~15 | TeamCreate, SendMessage, coordination multi-agents |
+| # | Sujet |
+|---|-------|
+| 00 | Introduction et installation |
+| 01 | Prompts efficaces |
+| 02 | Personnalisation |
+| 03 | Sécurité |
+| 04 | Architecture |
+| 05 | Adoption en équipe |
+| 06 | Confidentialité et conformité |
+| 07 | Guide de référence |
+| 08 | Agent Teams |
+| 09 | Apprendre avec l’IA |
+| 10 | Budget et ROI |
+| 11 | Métriques d’équipe |
+| 12 | Ingénierie d’agents |
 
 ## Matrice de Lecture par Besoin
 
-Selon votre objectif immédiat, vous n'avez pas besoin de lire les 9 whitepapers. Cette matrice indique le parcours de lecture minimal pour chaque cas d'usage courant.
+Selon votre objectif immédiat, vous n'avez pas besoin de lire les 13 livres blancs. Cette matrice indique le parcours de lecture minimal pour chaque cas d'usage courant.
 
 | Besoin | Whitepapers Recommandés |
 |--------|------------------------|
@@ -2227,7 +1859,7 @@ Selon votre objectif immédiat, vous n'avez pas besoin de lire les 9 whitepapers
 | **Claude Code Docs** | Documentation officielle Claude Code | [docs.anthropic.com/en/docs/claude-code/overview](https://docs.anthropic.com/en/docs/claude-code/overview) |
 | **Claude API Reference** | Référence API complète (modèles, endpoints, paramètres) | [docs.anthropic.com/en/api/getting-started](https://docs.anthropic.com/en/api/getting-started) |
 | **Model Context Protocol** | Spécification MCP officielle | [modelcontextprotocol.io](https://modelcontextprotocol.io) |
-| **GitHub Claude Code** | Code source, issues, discussions, CHANGELOG | [github.com/anthropics/claude-code](https://github.com/anthropics/claude-code) |
+| **GitHub Claude Code** | Suivi des issues, discussions et CHANGELOG ; pas le code source complet | [github.com/anthropics/claude-code](https://github.com/anthropics/claude-code) |
 | **Claude Code CHANGELOG** | Historique complet des versions | [CHANGELOG.md](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md) |
 
 ## Repositories
@@ -2235,8 +1867,7 @@ Selon votre objectif immédiat, vous n'avez pas besoin de lire les 9 whitepapers
 | Repository | Contenu | Lien |
 |------------|---------|------|
 | **Claude Code Ultimate Guide** | Ce guide (~26,6K lignes, 271 templates) | [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide) |
-| **MCP Servers Registry** | Registre officiel des serveurs MCP | [github.com/modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) |
-| **Community Examples** | Exemples communautaires validés Anthropic | [github.com/anthropics/claude-code-examples](https://github.com/anthropics/claude-code-examples) |
+| **MCP Reference Servers** | Serveurs de référence et exemples | [github.com/modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) |
 | **Claude Code Action** | GitHub Action officielle pour CI/CD | [github.com/anthropics/claude-code-action](https://github.com/anthropics/claude-code-action) |
 
 ## Pages Guide Complémentaires
@@ -2266,7 +1897,7 @@ Ces outils s'intègrent avec Claude Code via MCP ou slash commands pour étendre
 | Specmatic | API Contracts | [specmatic.io](https://specmatic.io) |
 | Context7 | Documentation MCP | Via MCP (`@context7`) |
 | Sequential Thinking | Analyse complexe MCP | Via MCP (`@sequential-thinking`) |
-| RTK | Optimisation tokens (60-90% savings) | [github.com/rtk-ai/rtk](https://github.com/rtk-ai/rtk) |
+| RTK | Filtrage des sorties de commandes | [github.com/rtk-ai/rtk](https://github.com/rtk-ai/rtk) |
 
 ## Communauté
 
@@ -2281,9 +1912,9 @@ Le Discord officiel Anthropic est le canal le plus rapide pour obtenir de l'aide
 
 ---
 
-*Ce Guide de Référence synthétise les 7 whitepapers de la série Claude Code Ultimate Guide et ajoute du contenu inédit sur la migration, l'intégration IDE, Git, les patterns avancés et les méthodologies de développement.*
+*Ce Guide de Référence synthétise les thèmes de la série de 13 livres blancs Claude Code Ultimate Guide et ajoute du contenu inédit sur la migration, l'intégration IDE, Git, les patterns avancés et les méthodologies de développement.*
 
-*Version 3.42.0, Août 2026 (mis à jour : Claude Opus 5.5 modèle par défaut, sub-agents profondeur 3, Dynamic Workflows `ultracode`)*
+*Version 3.43.0, Septembre 2026 (mis à jour : Claude Opus 5.5 modèle par défaut, sub-agents profondeur 3, Dynamic Workflows `ultracode`)*
 
 ---
 
@@ -2313,13 +1944,13 @@ Ce livre blanc fait partie de la série **Claude Code Ultimate Guide**, une ress
 - **WP01** Prompts Efficaces
 - **WP02** Personnalisation & Configuration
 - **WP03** Sécurité en Production
-- **WP04** Architecture Interne *(à venir)*
+- **WP04** Architecture Interne
 - **WP05** Adoption en Équipe
-- **WP06** Privacy & Conformité *(à venir)*
+- **WP06** Privacy & Conformité
 - **WP07** Guide de Référence Condensé
 - **WP08** Teams d'Agents & Sub-Agents
 - **WP09** Apprendre avec l'IA (UVAL)
-- **WP10** Budget IA & ROI *(à venir)*
+- **WP10** Budget IA & ROI
 - **WP11** Piloter une Équipe à l'Ère de l'IA
 - **WP12** L'Ingénierie Logicielle à l'Ère des Agents Autonomes
 

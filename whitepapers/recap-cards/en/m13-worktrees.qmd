@@ -4,10 +4,11 @@ subtitle: "Work in parallel on multiple branches without switching directories"
 card-number: "M13"
 category: "Methodology"
 difficulty: "advanced"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: en
 format:
@@ -49,7 +50,7 @@ claude
 > "Fix the timeout bug on Safari"
 ```
 
-Each Claude instance indexes its own worktree and maintains an independent context. Both sessions run in parallel without interference.
+Each Claude instance indexes its own worktree and maintains an independent context. Files are separated, but ports, databases and external services may still be shared.
 
 ## Claude Code context in worktrees
 
@@ -57,7 +58,7 @@ Each Claude instance indexes its own worktree and maintains an independent conte
 |------|-------|
 | `~/.claude/CLAUDE.md` | Global, shared by all worktrees |
 | `CLAUDE.md` (repo root) | Project, committed, shared |
-| `.claude/CLAUDE.md` (inside the worktree) | Local to the worktree only |
+| `CLAUDE.local.md` (add to `.gitignore`) | Personal instructions in this worktree |
 
 A worktree can have its own `.claude/` configuration for branch-specific conventions.
 
@@ -65,14 +66,14 @@ A worktree can have its own `.claude/` configuration for branch-specific convent
 
 The main limitation: `node_modules` or `vendor/` are not shared automatically. Each worktree needs its own dependencies, which can take disk space and time.
 
-**Recommended solution**: symlink `node_modules` from the main worktree.
+**Recommended approach**: install dependencies independently in each worktree, using the package manager cache to reduce downloads. A shared `node_modules` symlink couples branches and is unsafe when lockfiles or install state differ.
 
 ```bash
-cd ../myproject-feature
-ln -s ../myproject/node_modules node_modules
+# From the new worktree, using the repository's package manager
+pnpm install --frozen-lockfile
 ```
 
-The `/git-worktree` custom command does this automatically. Use `--isolated` when dependencies must differ.
+Review any custom `/git-worktree` helper before using its dependency-sharing options.
 
 ## When to use worktrees
 

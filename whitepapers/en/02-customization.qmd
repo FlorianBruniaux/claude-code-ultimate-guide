@@ -2,10 +2,10 @@
 title: "Customizing Claude"
 subtitle: "CLAUDE.md, Agents, Skills: Your Tailor-Made Assistant"
 author: "Florian BRUNIAUX"
-date: "2026-09-24"
+date: "2026-09-26"
 date-format: "MMMM YYYY"
 version: "3.43.0"
-wp-version: "1.5.3"
+wp-version: "1.5.4"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -72,16 +72,16 @@ Need → Solution
 
 ## The Memory Hierarchy
 
-Claude Code loads its instructions from a cascade of files, from most general to most specific. Each level can complement or override the previous one, allowing individual developers to customize their experience without touching team conventions.
+Claude Code combines instruction files in context. Their locations define scope, but conflicting prose is not resolved by the same mechanism as settings. Keep instructions consistent and enforce access restrictions through permissions.
 
 ```
 ~/.claude/CLAUDE.md          → Global (all projects)
 /project/CLAUDE.md           → Project (team, committed)
-/project/.claude/CLAUDE.md   → Local (personal, gitignored)
-/project/.claude/rules/*.md  → Auto-load at session start (team)
+/project/CLAUDE.local.md     → Personal (add to .gitignore)
+/project/.claude/rules/*.md  → Startup or paths-scoped (team)
 ```
 
-**Rule**: More specific beats more general (local > project > global).
+**Rule**: Clarify conflicts explicitly. A prose instruction does not override a permission restriction.
 
 ## Decision Tree: Where Does This Instruction Belong?
 
@@ -93,9 +93,9 @@ New Claude Code instruction
    ├─ All my projects → ~/.claude/CLAUDE.md
    │  └─ Persona, language, global style
    ├─ This project only → Sensitive or confidential?
-   │  ├─ Yes - secrets, personal access
-   │  │  └─ .claude/CLAUDE.md gitignored or inline session prompt
-   │  │     └─ API tokens, personal credentials
+   │  ├─ Personal preferences
+   │  │  └─ CLAUDE.local.md, added to .gitignore
+   │  │     └─ Keep credentials out of instructions and prompts
    │  └─ No - team convention → Always applicable every session?
    │     ├─ Yes → .claude/rules/name.md (auto-loaded at startup)
    │     │  └─ Git conventions, code style
@@ -296,9 +296,9 @@ The project CLAUDE.md is committed in git and shared by the entire team. It desc
 - Database queries in /lib/db
 ````
 
-### Level 3: Local (/project/.claude/CLAUDE.md)
+### Level 3: Local (/project/CLAUDE.local.md)
 
-Personal preferences (gitignored), behavior overrides for your own workflow:
+Personal project preferences; add this file to `.gitignore`:
 
 ````markdown
 # My Local Preferences
@@ -320,7 +320,7 @@ This level is useful for diverging from team conventions without polluting them;
 
 ## .claude/rules/: Auto-Load at Every Session
 
-**New paradigm (Dec 2025)**: All `.claude/rules/*.md` files are automatically loaded at startup.
+Rules without a `paths` restriction load at startup. Rules with `paths` frontmatter apply when matching files are used.
 
 **Recommended structure**:
 
@@ -347,7 +347,7 @@ This level is useful for diverging from team conventions without polluting them;
 | < 200 lines | 50-100 line files |
 | Basic setup | Extended conventions |
 
-**Token cost**: rules/ loads **all files** at startup (not on-demand). Keep each file < 100 lines.
+**Token cost**: unconditional rules occupy context from startup. Use `paths` frontmatter for file-scoped rules and keep each rule focused.
 
 ### Ready-to-Use Templates (v3.27.6)
 
@@ -373,20 +373,11 @@ Copy the templates that match your needs into `.claude/rules/` and adapt them to
 - Claude automatically identifies key information during conversations (preferences, decisions, patterns)
 - Memories stored per-project, separate from CLAUDE.md files
 - Automatically recalled in future sessions relevant to that project
-- Opt-in feature; enable via the `/settings` interface in Claude Code
+- Enabled by default; inspect or toggle it with `/memory`
 
-**What gets memorized** (examples):
+### Auto-Memory Storage
 
-- Architectural decisions: "We use Prisma for database access"
-- Preferences: "This team prefers functional components over class components"
-- Project-specific patterns: "API routes follow RESTful naming in `/api/v1/`"
-- Known issues: "Don't use package X due to version conflict with Y"
-
-### Auto-Memory Storage (v3.37.6)
-
-Auto-Memory stores project memory in `.claude/memory/MEMORY.md`, and global memory in `~/.claude/projects/<path>/memory/MEMORY.md`, with a 200-line injection limit per file (overflow handled via topic-specific files). There is no third gitignored variant for Auto-Memory.
-
-The Auto-Memory feature creates these files automatically from conversation. For specific topics, create dedicated files (e.g., `.claude/memory/MEMORY-architecture.md`) referenced from the main file with `@`.
+The default index is `~/.claude/projects/<project>/memory/MEMORY.md`, with topic files beside it. Worktrees of one repository share this machine-local directory. The startup index is capped at 200 lines or 25KB, whichever comes first; topic files load on demand. `autoMemoryDirectory` can configure a different location. See [auto memory storage](https://code.claude.com/docs/en/memory#storage-location).
 
 ### The 3 Agent Memory Scopes (frontmatter)
 
@@ -415,7 +406,7 @@ The agent frontmatter's `memory` field (see above) distinguishes three real scop
 ::: {.callout-tip title="Memo -- Enable Auto-Memories in 30 seconds"}
 **What**: Claude automatically retains decisions and preferences across sessions.
 
-**How**: Launch `claude` → type `/settings` → enable "Auto-memories" → confirm. Memories are stored in `~/.claude/projects/<hash>/memory/`.
+**How**: Open `/memory` to inspect saved files and the auto-memory toggle. The setting is `autoMemoryEnabled`; `CLAUDE_CODE_DISABLE_AUTO_MEMORY=1` disables it.
 
 **Verify**: At the start of the next session, check that Claude remembers your latest preferences without re-specifying them.
 :::
@@ -548,6 +539,8 @@ name: dep-auditor
 description: Audit outdated/vulnerable dependencies in package.json
 model: haiku
 tools: Read, Bash, Grep
+---
+
 # Dependency Auditor
 
 1. Run `pnpm audit --json` and parse results
@@ -582,7 +575,7 @@ The YAML frontmatter is the agent's execution contract: it determines which tool
 |-------|----------|-------------|
 | `name` | Yes | kebab-case identifier |
 | `description` | Yes | When to activate this agent |
-| `model` | No | `haiku`, `sonnet`, `opus` |
+| `model` | No | `haiku`, `sonnet`, `opus`, `inherit`, or a supported full model ID |
 | `tools` | No | Allowed tools (comma-separated) |
 | `skills` | No | Skills to inherit |
 | `disallowedTools` | No | Blocked tools |
@@ -625,6 +618,8 @@ model: sonnet
 tools: Read, Grep, Glob
 skills:
   - security-guardian
+---
+
 # Code Reviewer
 
 ## Role Definition
@@ -659,6 +654,8 @@ name: debugger
 description: Use when encountering errors or unexpected behavior
 model: sonnet
 tools: Read, Bash, Grep, Glob
+---
+
 # Debugger
 
 ## Role Definition
@@ -731,7 +728,7 @@ Before deploying a custom agent:
 
 For agents in production, go beyond the one-shot checklist:
 
-- [ ] `post-response` hook to log metrics (quality, latency, errors)
+- [ ] Register an appropriate `Stop` or `SubagentStop` hook for completion logging; measure quality separately
 - [ ] Compare 2 configurations via A/B testing
 - [ ] Monthly review of collected metrics
 
@@ -751,7 +748,7 @@ Three distinct mechanisms, often confused. Here are the operational differences:
 
 | Mechanism | Trigger | Scope | Ideal use case | Concrete example |
 |-----------|---------|-------|----------------|-----------------|
-| **Agent** | Task tool / Claude invocation | Isolated session | One-shot audit, parallel processing | `dep-auditor` on package.json |
+| **Agent** | Agent tool / Claude delegation | Isolated session | One-shot audit, parallel processing | `dep-auditor` on package.json |
 | **Skill** | `/name` (user) or auto (model) | Shared across agents | Reusable knowledge or workflow | `security-guardian` OWASP |
 | **Dynamic Workflow** | `workflow()` call, JS file | Multi-stage, parallel or resumable | Multi-step pipeline with structured data handoff | Release pipeline chaining tests, build, changelog |
 
@@ -823,9 +820,9 @@ Agent C: inherits security-guardian
 
 ## SKILL.md Frontmatter
 
-The skill frontmatter controls isolation (`context: fork` for a clean sandbox, `inherit` to share the parent context) and tools. Choose `fork` when the skill performs potentially destructive operations; `inherit` when it enriches the current workflow.
+Set `context: fork` to run a task in a subagent context; omit `context` for the normal current-session behavior. `inherit` is not a documented value. A separate context is not an OS sandbox and does not make destructive actions safe.
 
-**Documented limitation**: `context: fork` only isolates when the skill runs as a slash command typed by a user. Invoked via the Skill tool from agent code, `context: fork` is ignored and the isolation does not apply -- don't rely on it alone to sandbox destructive operations triggered by another agent.
+Use the skill's agent type and actual permission settings to define permitted tools. See [skills in subagents](https://code.claude.com/docs/en/skills#run-skills-in-a-subagent).
 
 ::: {.callout-note title="Concrete example: security-guardian skill"}
 ```yaml
@@ -856,17 +853,16 @@ effort: low
 | `name` | kebab-case identifier |
 | `description` | Activation trigger |
 | `allowed-tools` | Authorized tools |
-| `context` | `fork` (isolated) or `inherit` (shared) |
-| `effort` | `low`, `medium`, or `high` (expected computational cost, v3.37.3) |
+| `context` | `fork` for a subagent; omit for current-session execution |
+| `effort` | A model-supported effort level overriding the session during the skill (v2.1.80+) |
 
-**`effort` field (v3.37.3)**: Signals the expected computational cost of the skill or command. Inferred automatically by `eval-skills` from content signals: mechanical tasks → `low`, bounded analysis → `medium`, adversarial or architectural → `high`. Useful for prioritizing and budgeting calls in production.
+**`effort` field (v2.1.80+)**: Overrides the session effort while the skill runs, then restores it. The optional `eval-skills` example can suggest a level from the task description; it does not establish measured quality or cost. Use a level the selected model supports.
 
 **`${CLAUDE_EFFORT}` skill variable (v2.1.120)**: Skills can now reference the current effort level via the `${CLAUDE_EFFORT}` variable. This allows adapting skill behavior to the user's selected effort mode:
 
 ```yaml
 ---
 name: my-skill
-effort: ${CLAUDE_EFFORT}
 ---
 Use the current effort level (${CLAUDE_EFFORT}) to calibrate analysis depth.
 ```
@@ -882,7 +878,7 @@ Useful for skills that need to adapt to context: fast mode (`low`) or in-depth a
 name: tdd
 description: Test-Driven Development methodology
 allowed-tools: Read, Write, Bash
-context: inherit
+---
 # TDD (Test-Driven Development)
 
 ## The TDD Cycle
@@ -1112,11 +1108,11 @@ Understanding **when** each memory method loads is critical for token optimizati
 | Method | When Loaded | Token Cost | Use Case |
 |--------|-------------|------------|----------|
 | `CLAUDE.md` | Session start | Always | Core project context |
-| `.claude/rules/*.md` | Session start (ALL files) | Always | Always-applicable conventions |
-| `@path/to/file.md` | On-demand (when referenced) | Only when used | Optional/conditional context |
-| `.claude/skills/*.md` | Invocation only | Only when invoked | Domain knowledge modules and workflow templates (user-invocable or model-invocable) |
+| `.claude/rules/*.md` | Startup if unscoped; matching files for `paths` rules | Depends on scope | General or file-specific conventions |
+| `@path/to/file.md` in CLAUDE.md | When the importing instructions load | Loaded with instructions | Split instruction files |
+| `.claude/skills/<name>/SKILL.md` | Invocation only | Only when invoked | Domain knowledge modules and workflow templates (user-invocable or model-invocable) |
 
-**Key insight**: `.claude/rules/` is NOT on-demand. Every `.md` file in that directory loads at startup, consuming tokens. Reserve it for always-relevant conventions, not rarely-used guidelines.
+**Key insight**: Rules without `paths` load as general instructions. Rules with `paths` apply to matching files. Imports in CLAUDE.md are loaded with those instructions; use skills for workflows whose full text is needed only when invoked.
 
 **Field data (Vercel)**: In their analysis, skills are invoked in only **56% of sessions** (Gao, 2026); load them on-demand, not as systematic auto-load.
 
@@ -1134,7 +1130,7 @@ Note: These files are loaded **once at session start**, not per request. A 200-l
 ::: {.callout-tip title="Memo -- Optimize the memory token budget"}
 **What**: Every file loaded at session start consumes permanent tokens.
 
-**When**: Check when context exceeds 50% mid-session (`/status`).
+**When**: Check when context exceeds 50% mid-session (`/context`).
 
 **How**: Move rarely-used conventions from `rules/` to skills (on-demand). Keep `rules/` for what applies to every session.
 
@@ -1147,7 +1143,7 @@ Note: These files are loaded **once at session start**, not per request. A 200-l
 
 ## Settings Precedence
 
-The settings JSON files control tool permissions and hooks. The same cascade principle applies: the most local file wins, allowing each developer to customize their permissions without affecting project-level settings.
+The settings JSON files control tool permissions and hooks. Managed policy and command-line settings take precedence over the local, project and user tiers shown below. Lists such as permissions and hooks merge across scopes; scalar settings follow precedence. Deny rules take priority over allow rules.
 
 ```
 Highest Priority
@@ -1173,10 +1169,10 @@ Lowest Priority
 
 ### Enterprise Governance: `managed-settings.d/` (v2.1.83+)
 
-For teams and enterprises that need to push specific policies without overwriting the full settings file, Claude Code supports a drop-in directory `~/.claude/managed-settings.d/`. Each `.json` file placed in this directory is merged into the managed settings at startup. Typical use case: IT pushes a `security-policy.json` with required restrictions, without touching individual developers' other settings.
+For teams and enterprises that need to push specific policies without overwriting the full settings file, Claude Code supports a drop-in directory the system `managed-settings.d/` directory. Use the directory next to the system `managed-settings.json` for your OS, such as `/Library/Application Support/ClaudeCode/managed-settings.d/` on macOS. Each `.json` file placed in this directory is merged into the managed settings at startup. Typical use case: IT pushes a `security-policy.json` with required restrictions, without touching individual developers' other settings.
 
 ```
-~/.claude/managed-settings.d/
+/etc/claude-code/managed-settings.d/  # Linux example
 ├── security-policy.json    # IT security restrictions
 ├── proxy-config.json       # Enterprise network config
 └── tool-allowlist.json     # Authorized tools
@@ -1184,7 +1180,7 @@ For teams and enterprises that need to push specific policies without overwritin
 
 ### `alwaysLoad` for MCPs (v2.1.121)
 
-**`alwaysLoad`** is an MCP configuration option that automatically loads a server across all sessions without per-project configuration. Add it to `~/.claude/settings.json` (global):
+**`alwaysLoad`** excludes a server's tools from tool-search deferral. Configure it in the server entry in `.mcp.json` (project scope) or `~/.claude.json` (user/local scope). It does not change the server's installation scope:
 
 ```json
 {
@@ -1197,19 +1193,21 @@ For teams and enterprises that need to push specific policies without overwritin
 }
 ```
 
-Useful for cross-cutting MCPs (observability, logging, secrets) that should be available in every project without per-project activation.
+Use this selectively for small sets of tools needed immediately. It also makes startup wait for their connection, subject to the documented timeout.
 
 ### Hooks to MCP Tools (v2.1.118)
 
-Hooks can now invoke MCP tools directly via `type: "mcp_tool"`. Example `PostToolUse` hook sending metrics to an observability MCP server:
+Hooks can invoke tools on an already-connected MCP server via `type: "mcp_tool"`. Example `PostToolUse` hook sending metrics to an observability MCP server:
 
 ```json
 {
   "hooks": {
     "PostToolUse": [{
-      "type": "mcp_tool",
-      "server": "observability-mcp",
-      "tool": "log_tool_use"
+      "hooks": [{
+        "type": "mcp_tool",
+        "server": "observability-mcp",
+        "tool": "log_tool_use"
+      }]
     }]
   }
 }
@@ -1217,49 +1215,56 @@ Hooks can now invoke MCP tools directly via `type: "mcp_tool"`. Example `PostToo
 
 ### PostToolUse Output Replacement (v2.1.121)
 
-`PostToolUse` hooks can now replace a tool's output before it enters context. Output JSON on stdout with `exit 0` to substitute the response:
+`PostToolUse` can replace what Claude sees by returning `hookSpecificOutput.updatedToolOutput` with the tool's actual response shape. This Bash example masks a demonstration token pattern in stdout and stderr:
 
 ```bash
 #!/bin/bash
-# Anonymize SQL results before they become context
-INPUT=$(cat)
-ANONYMIZED=$(echo "$INPUT" | jq 'walk(if type == "string" then gsub("\\d{4}-\\d{4}-\\d{4}-\\d{4}"; "****-****-****-****") else . end)')
-echo "$ANONYMIZED"
-exit 0
+jq 'select(.tool_name == "Bash") |
+  {hookSpecificOutput: {hookEventName: "PostToolUse",
+    updatedToolOutput: (.tool_response |
+      .stdout |= gsub("sk-demo-[A-Za-z0-9]+"; "[REDACTED]") |
+      .stderr |= gsub("sk-demo-[A-Za-z0-9]+"; "[REDACTED]"))}}'
 ```
 
-Use cases: sensitive data anonymization, response enrichment, redacting confidential fields before Claude sees them.
+This pattern is illustrative, not comprehensive secret detection. The hook does not undo tool effects or remove original output already captured by telemetry.
 
 ### New Hook Features in v2.1.139
 
-**Exec form (`args`)**: Use `args` instead of `command` to spawn a program directly without a shell. Eliminates shell injection risks and quoting issues when paths contain spaces:
+**Exec form (`args`)**: Set `command` to the executable and `args` to its argument array to spawn it without a shell. Shell interpolation does not occur; the called program still needs to validate its inputs:
 
 ```json
 {
   "hooks": {
     "PostToolUse": [{
       "matcher": "Write|Edit",
-      "args": ["./scripts/check-policy.sh", "--strict"]
+      "hooks": [{
+        "type": "command",
+        "command": "./scripts/check-policy.sh",
+        "args": ["--strict"]
+      }]
     }]
   }
 }
 ```
 
-**`continueOnBlock` (`PostToolUse`)**: When `true`, a block feeds Claude the rejection reason instead of stopping the turn. Claude can self-correct rather than interrupting execution:
+**`continueOnBlock` for prompt hooks**: A prompt hook returns `ok: true` or `ok: false`. On `PostToolUse`, setting `continueOnBlock: true` feeds the rejection reason back to Claude so it can continue and correct its approach:
 
 ```json
 {
   "hooks": {
     "PostToolUse": [{
       "matcher": "Write|Edit",
-      "command": "check-file-policy.sh",
-      "continueOnBlock": true
+      "hooks": [{
+        "type": "prompt",
+        "prompt": "Check whether the tool result follows the project policy. Return JSON with ok and, if false, reason. $ARGUMENTS",
+        "continueOnBlock": true
+      }]
     }]
   }
 }
 ```
 
-Without `continueOnBlock`, a blocked `PostToolUse` stops the turn and surfaces an error. With it, Claude receives the rejection reason and can adjust its approach.
+Command hooks use the event's documented decision fields; `PostToolUse` feedback does not reverse a completed write. See the [hook reference](https://code.claude.com/docs/en/hooks).
 
 **Custom named themes (v2.1.118)**: Claude Code now supports custom named themes in addition to built-in themes. Define a custom theme in `settings.json` with a name:
 
@@ -1273,73 +1278,21 @@ Built-in themes remain: `dark`, `light`, `dark-daltonian`, `light-daltonian`.
 
 **`/config` persistence (v2.1.119)**: The `/config` command now automatically persists changes to `~/.claude/settings.json`. Settings survive restarts without manual JSON file editing. Use `/config` in session to configure theme, default model, effort level, and display preferences.
 
-## CLAUDE.md Precedence
+## Instruction Scope and Conflicts
 
-The CLAUDE.md cascade follows the same logic as settings: the file closest to the project takes priority. This hierarchy lets a developer override a team convention locally without modifying it for others.
+`CLAUDE.md` files combine into context. Project instructions can be stored in `CLAUDE.md` or `.claude/CLAUDE.md`; personal project instructions belong in a gitignored `CLAUDE.local.md`. Use `/context` to inspect loaded files. Resolve contradictions in the text instead of assuming that the nearest file always wins.
 
-```
-Highest Priority
-       │
-       ▼
-┌──────────────────────────────────┐
-│  .claude/CLAUDE.md               │  Local (personal)
-└──────────────────────────────────┘
-       │
-       ▼
-┌──────────────────────────────────┐
-│  /project/CLAUDE.md              │  Project (team)
-└──────────────────────────────────┘
-       │
-       ▼
-┌──────────────────────────────────┐
-│  ~/.claude/CLAUDE.md             │  Global (personal)
-└──────────────────────────────────┘
-       │
-       ▼
-Lowest Priority
-```
+| Need | Configuration |
+|------|---------------|
+| Personal preferences across projects | `~/.claude/CLAUDE.md` |
+| Shared project conventions | `CLAUDE.md` or `.claude/CLAUDE.md` |
+| Personal project notes | `CLAUDE.local.md`, added to `.gitignore` |
+| Rules for matching files | `.claude/rules/*.md` with `paths` |
+| Enforced access restrictions | Permission rules and OS-level sandbox controls |
 
-## Conflict Resolution
+Never put API keys or passwords in these instructions. A gitignored file still enters model context if Claude loads it.
 
-When two levels contradict each other, Claude applies a simple rule: the most specific one wins. This principle extends to agents and skills, where agent frontmatter instructions take precedence over those of the inherited skill.
-
-| Conflict | Resolution |
-|----------|------------|
-| Local vs Project | Local wins |
-| Project vs Global | Project wins |
-| Agent vs Skill | Agent wins |
-| Explicit vs Implicit | Explicit wins |
-
-## Debugging Conflicts
-
-1. Check `/status` to see loaded files
-2. Read each CLAUDE.md level
-3. Identify contradictory instructions
-4. Prioritize explicitly or remove duplicates
-
-## Practical Implications of Priority Order
-
-Knowing the theoretical hierarchy isn't enough; here is what it changes concretely in practice.
-
-**Case 1: Personal override without changing team conventions**
-
-Your team's CLAUDE.md requires `"Always use Prisma"`. You're working on a microservice that uses Drizzle. Solution: create `.claude/CLAUDE.md` (gitignored) with `"Use Drizzle for this service"`. The local override beats the project CLAUDE.md, without touching the shared file.
-
-**Case 2: Global instruction that's too permissive**
-
-Your `~/.claude/CLAUDE.md` global contains `"You can run any bash command"`. Your fintech project has strict rules. The project CLAUDE.md with `"Never run destructive commands without confirmation"` wins; the project rule is more specific and takes precedence.
-
-**Case 3: Confusion between rules/ and CLAUDE.md**
-
-A junior developer places rules in `.claude/rules/debug-helpers.md` that contradict `CLAUDE.md`. Result: unpredictable behavior. Key principle: `rules/` files **add to** context, they do not **override** it. Conflicts resolve based on the last instruction read, and read order is not guaranteed. The clean solution: put priority rules explicitly in `CLAUDE.md`.
-
-**Case 4: Agent vs main session**
-
-An agent with its own frontmatter instructions operates in an isolated context; it does not see the main session's CLAUDE.md unless you explicitly include it with `@path/to/CLAUDE.md` in its instructions. This is intentional: isolation is the whole point of agents.
-
-::: {.callout-warning title="Trap: rules/ does not replace CLAUDE.md"}
-`.claude/rules/*.md` files are added to context **after** CLAUDE.md. If a rule in `rules/code-conventions.md` contradicts CLAUDE.md, behavior depends on phrasing. Always put absolute rules (safety, permissions) in CLAUDE.md, not in rules/.
-:::
+Custom subagents normally load project instructions. Built-in Explore and Plan skip them; a custom definition can use `omitClaudeMd: true` to skip user, project and local instructions, subject to managed-policy rules. Context isolation does not imply that no instructions or permissions are inherited. See [subagent startup context](https://code.claude.com/docs/en/sub-agents#what-loads-at-startup).
 
 > 📖 **Go further:** [§3.3 Settings & Permissions](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#33-settings--permissions): precedence rules, scopes, JSON schema
 
@@ -1427,25 +1380,26 @@ Personal permission overrides (gitignored):
 
 **Repository**: [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)
 
-*Version 3.41.3 | August 2026*
+*Version 3.43.0 | September 2026*
 
 # The Series
 
 This whitepaper is part of the **Claude Code Ultimate Guide** series, a complete resource for mastering Claude Code, from installation to production deployment.
 
-**12 whitepapers in the series:**
+**13 whitepapers in the series:**
 
 - **WP00** Introduction & Fundamentals
 - **WP01** Effective Prompts
 - **WP02** Customization & Configuration
 - **WP03** Security in Production
-- **WP04** Internal Architecture *(coming soon)*
+- **WP04** Internal Architecture
 - **WP05** Team Adoption
-- **WP06** Privacy & Compliance *(coming soon)*
+- **WP06** Privacy & Compliance
 - **WP07** Condensed Reference Guide
 - **WP08** Agent Teams & Sub-Agents
 - **WP09** Learning with AI (UVAL)
-- **WP10** AI Budget & ROI *(coming soon)*
+- **WP10** AI Budget & ROI
 - **WP11** Team Metrics in the AI Era
+- **WP12** Agent Engineering
 
 Full series available at [cc.bruniaux.com/whitepapers/](https://cc.bruniaux.com/whitepapers/)

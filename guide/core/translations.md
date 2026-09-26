@@ -26,19 +26,21 @@ That command validates the evidence in the registry. It does not review translat
 
 ## Verified Inventory
 
-Snapshot date: **2026-08-31**. Lag is measured from the recorded English source commit to canonical snapshot `fb3c671cc742ce21959ebab48d3829df64250ed7`. A guide commit changed `guide/ultimate-guide.md`; repository commits include every path. Pinning the measurement commit keeps the evidence reproducible after unrelated repository commits. Any later change to the canonical guide still invalidates its recorded commit and hash.
+The maintained English and French full guides were reviewed on **2026-09-26** at version **3.43.0**. The French refresh reconciled source changes since 3.41.1 and repaired older omissions and code fences. Its recorded source hash matches the committed English guide. This was a Codex review, not a human editorial sign-off; see the [review record](../../docs/audits/2026-09-26-bilingual-publications.md).
 
-| Language | Maintainer | Status | Version | Recorded English source | Coverage evidence | Known lag |
-|---|---|---|---:|---|---|---|
-| English (`en`) | Florian Bruniaux | Project canonical | 3.43.0 | `7a9f55dd39db2e075274114c3be115fe04dbfdb0` | Complete canonical full guide | Current |
-| French (`fr`) | Florian Bruniaux | Project-maintained translation | 3.41.1 | `d05a95c6c58cc1bcdb4b5db9aa76ad5a119baec6` | Full guide at the recorded source; semantic review not automated | **Stale: 17 guide commits, 193 repository commits** |
-| Simplified Chinese (`zh-CN`) | [JAYcodr](https://github.com/JAYcodr/claude-code-ultimate-guide-zh) | Unofficial community adaptation | 3.41.0 | `7b43b9c10b241f8e196e27651e3fea6079a48d26` | Maintainer reports 23 of 26 priority groups; audit found Han characters in 154 of 520 Markdown files | **Stale: 31 guide commits, 257 repository commits** |
-| Ukrainian (`uk`) | [gerasimsergey](https://github.com/gerasimsergey/claude-code-ultimate-guide-ua) | Unofficial community adaptation | 3.40.0 | `UNKNOWN` | 92 Ukrainian sidecars among 559 Markdown files; 110 files contain Cyrillic | **Exact commit lag UNKNOWN** |
-| Latin American Spanish (`es-419`) | [Richardls](https://github.com/Richardls/claude-code-ultimate-guide-es) | Unofficial community adaptation | 3.32.2 | `11dadc28156112cb17cf2935244b3f9d6ccf01ee` | 330 of 335 Markdown files contain Spanish diacritics; the translation commit reports about 360 files | **Stale: 115 guide commits, 525 repository commits** |
+| Edition | Version | Maintenance and coverage |
+|---------|---------|--------------------------|
+| English | 3.43.0 | Canonical full guide, maintained by Florian Bruniaux |
+| French | 3.43.0 | Project-maintained full guide; current against its recorded English source |
+| Simplified Chinese | 3.41.0 | Independent adaptation by JAYcodr; partial and behind its recorded source |
+| Ukrainian | 3.40.0 | Independent adaptation by gerasimsergey; partial, exact source commit unknown |
+| Latin American Spanish | 3.32.2 | Independent adaptation by Richardls; partial and behind its recorded source |
 
-The file counts are target-script indicators, not semantic coverage scores. A file can contain a target-language character while retaining untranslated passages. Conversely, code-only files can be correctly adapted without target-language prose.
+The community repositories were last inspected on **2026-08-31**. Their current remote state has not been rechecked in this publication refresh. The [registry](../../machine-readable/translations.json) retains each maintainer, source commit or `UNKNOWN`, coverage observations, verification date and measured lag. A later English change invalidates maintained translation freshness until it is reviewed and recorded.
 
-The public landing catalog lists 13 French and English whitepaper pairs and 58 French and English recap-card pairs. This repository contains only 6 paired whitepaper `.qmd` sources plus one French-only source with prefix `03`; the remaining public whitepaper source files are not present here. All 58 recap-card source pairs are present. These publications are topic adaptations and summaries, not line-equivalent translations of the full guide. Their content freshness against the canonical guide is `UNKNOWN` until a dedicated content audit records a source baseline.
+Character counts from the community audit are language indicators, not semantic coverage scores. A file can contain translated words while retaining English passages, and code-only files need not contain target-language characters.
+
+All 13 English/French whitepaper source pairs and 58 recap-card pairs are now present in the repository, together with both daily cheatsheets and the French full-guide export wrapper. The print review covers commands, configuration, models, security and privacy across these adaptations. They summarize topics and are not line-equivalent translations of the full guide. Build completion and public download verification are recorded separately in the publication audit.
 
 ## Chinese Attribution and Source Correction
 
@@ -61,7 +63,7 @@ Run the strict gate when planning a release or a new official locale:
 python3 scripts/check-translations.py --check --require-current-maintained
 ```
 
-This strict command currently fails because French is behind English. That failure is expected evidence, not a broken validator.
+The release build runs this strict gate before rendering the French full guide. A new English source change must be reviewed in French before the gate can pass again.
 
 ## Official and Community Labels
 

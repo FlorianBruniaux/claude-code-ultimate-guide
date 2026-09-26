@@ -4,10 +4,11 @@ subtitle: "Tracer la contribution de l'IA dans le code et les commits"
 card-number: "C10"
 category: "Conception"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "Août 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -73,8 +74,8 @@ correction grammaticale, helpers IDE.
 
 ## AI Code Halflife
 
-Des études sur les dépôts utilisant git-ai montrent que la durée de vie médiane du code généré par IA est de 3,33 ans avant d'être remplacé, contre une durée plus longue pour le code humain. Le code AI est souvent plus générique, moins ancré dans l'architecture projet, et nécessite plus de rework quand les besoins évoluent. La traceability permet de cibler précisément ces zones lors des refactorings futurs.
+La traçabilité permet des études longitudinales de maintenance. Comparer des cohortes, périodes d’observation et pratiques de revue équivalentes avant d’attribuer la survie du code à l’assistance IA. Cette fiche n’établit ni durée de vie mesurée ni effet causal.
 
 ## Outil avancé : Entire CLI
 
-Pour les équipes enterprise, Entire CLI (Feb 2026, Thomas Dohmke) capture les sessions complètes comme checkpoints Git : prompts, tool calls, diffs et raisonnement, sur une branche orpheline sans polluer l'historique principal. Utile pour les contextes SOC2/HIPAA nécessitant une auditabilité complète.
+Pour les équipes enterprise, Entire CLI (Feb 2026, Thomas Dohmke) capture les sessions complètes comme checkpoints Git : prompts, tool calls, diffs et raisonnement, sur une branche orpheline sans polluer l'historique principal. Évaluer le périmètre de capture, les accès et la conservation au regard des exigences d’audit de l’organisation. Enregistrer les sessions ne démontre pas en soi une conformité.

@@ -4,10 +4,11 @@ subtitle: "Contrôler précisément les outils accessibles avec des patterns glo
 card-number: "T04"
 category: "Technique"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -25,15 +26,15 @@ format:
 }
 ```
 
-**Format tool-qualified** : correspond au chemin du fichier passé en argument à Read, Edit ou Write. Plus précis que le format simple.
+**Patterns de chemins** : Read, Edit et Write acceptent directement le pattern du chemin. Ne pas ajouter `file_path:` ; ce qualificatif est invalide pour ces outils.
 
 ```json
 "permissions": {
   "deny": [
-    "Read(file_path:*.env*)",
-    "Edit(file_path:*.pem)",
-    "Write(file_path:*.key)",
-    "Read(file_path:*credentials*)"
+    "Read(*.env*)",
+    "Edit(*.pem)",
+    "Write(*.key)",
+    "Read(*credentials*)"
   ]
 }
 ```
@@ -44,14 +45,14 @@ format:
 |---------|-------------------|
 | `Bash(git *)` | Toute commande git |
 | `Bash(npm test*)` | `npm test`, `npm test:watch` |
-| `Read(file_path:*.env*)` | `.env`, `.env.local`, `.env.prod` |
-| `Edit(file_path:src/**)` | Tous les fichiers sous `src/` |
-| `Write(file_path:*.key)` | Tout fichier `.key` |
+| `Read(*.env*)` | `.env`, `.env.local`, `.env.prod` |
+| `Edit(./src/**)` | Tous les fichiers sous `src/` |
+| `Write(*.key)` | Tout fichier `.key` |
 
 ## Niveaux progressifs
 
 ```json
-// Niveau 1 - Lecture seule
+// Niveau 1 - Préautoriser les outils de lecture
 { "permissions": { "allow": ["Read", "Grep", "Glob"] } }
 
 // Niveau 2 - Git + gestionnaire de paquets
@@ -74,7 +75,7 @@ format:
 
 ## Limitation connue
 
-`permissions.deny` a une limite documentée : le background indexing peut exposer le contenu de fichiers via des rappels système avant que les checks de permission ne s'appliquent (GitHub #4160). Pour une protection garantie des secrets, stocker ces fichiers en dehors du répertoire projet.
+Une règle de chemin restreint les accès correspondants via les outils ; elle ne retire pas un secret déjà collé dans un prompt ou renvoyé par un autre outil. Garder les données sensibles hors de la portée d'accès du processus et examiner ensemble les contrôles du shell, de MCP et du sandbox.
 
 ## Où définir les permissions
 
@@ -84,4 +85,4 @@ format:
 .claude/settings.local.json   (machine locale, gitignore)
 ```
 
-**Ordre de priorité** : `settings.local.json` gagne sur `settings.json` qui gagne sur le global. Utiliser `settings.local.json` pour des permissions personnelles sans affecter l'équipe.
+**Évaluation des règles** : les règles deny de tout scope priment sur ask et allow. Un allow local ne peut pas contourner un deny géré ou utilisateur. Les paramètres locaux servent aux préférences propres au projet dans ces limites.

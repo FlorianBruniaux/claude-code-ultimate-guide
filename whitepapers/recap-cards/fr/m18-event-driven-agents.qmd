@@ -4,10 +4,11 @@ subtitle: "Déclencher des agents automatiquement depuis GitHub, Linear, Jira"
 card-number: "M18"
 category: "Méthodologie"
 difficulty: "advanced"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -66,6 +67,7 @@ La description du ticket sert de prompt. Un ticket avec des critères d'acceptat
 
 ```bash
 spawn_agent() {
+    set -o pipefail
     claude --print --dangerously-skip-permissions \
         "Implement Linear card:
         Title: $title
@@ -80,7 +82,7 @@ spawn_agent() {
 
 **Idempotence** : vérifier qu'une branche n'existe pas déjà avant de démarrer, pour éviter le double traitement en cas de webhook dupliqué.
 
-**Limite de concurrence** : cap à 3-5 agents simultanés. Au-delà, la machine sature et les coûts explosent.
+**Limite de concurrence** : fixer un plafond selon les ressources mesurées, les limites de débit et le budget. L’augmenter seulement si les tâches terminées indépendamment justifient cette coordination.
 
 **Circuit breaker** : si un agent échoue plus de 3 fois sur le même ticket, stopper l'automatisation et alerter un humain.
 

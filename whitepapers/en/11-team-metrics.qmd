@@ -2,10 +2,10 @@
 title: "Leading a Team in the Age of AI"
 subtitle: "Metrics, adoption, and governance for engineering managers"
 author: "Florian Bruniaux"
-date: 2026-08-24
+date: "2026-09-26"
 date-format: "MMMM YYYY"
 version: "3.43.0"
-wp-version: "1.3.1"
+wp-version: "1.3.2"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -39,13 +39,13 @@ lang: en
 - The 6 vanity metrics to drop starting tomorrow
 :::
 
-> **In 5 lines:** AI boosts team velocity, and the numbers are real. The risk is measuring the wrong thing. Sprint velocity, commits, lines of code: these indicators rise automatically when you adopt AI tools, but they tell you nothing about actual code quality or pace sustainability. This whitepaper gives the metrics stack that works when AI generates 70 to 90% of your output, with tools, benchmarks, and an implementation roadmap.
+> **In 5 lines:** Activity counts can rise without improving accepted delivery, maintainability or learning. This whitepaper combines DORA, SPACE and agent-specific measures. Establish a local baseline, distinguish observations from causal explanations, and include human review, rework and cost per accepted task.
 
 # The Measurement Problem
 
-Adopting AI in development changes delivery speed fast enough to break most existing benchmarks. A team that shipped 2 features per sprint in 2022 can now ship 6, with AI generating 70 to 90% of the code. That looks like a win on every traditional dashboard, and it may genuinely be a win. Or velocity is masking superficial reviews, skill atrophy, and growing technical debt that nobody fully understands.
+AI adoption can change how work is produced and reviewed. Compare similar tasks and services before attributing a change in throughput to the assistant. More commits or generated lines can coexist with slower accepted delivery.
 
-Activity metrics rise immediately when you adopt AI tools, but quality and maintainability signals are slower and harder to instrument. Sprint velocity, daily commits, lines written: everything goes up. Production bug rate, PR comprehension time, developer confidence: those are the ones that will tell you the truth 6 months from now.
+Activity measures can change quickly; quality and maintainability often require longer observation. Track accepted outcomes and human effort rather than assuming generated volume proves improvement.
 
 This guide gives engineering managers, tech leads, and CTOs a practical metrics stack: the DORA foundation recalibrated for an AI context, human factors through SPACE, and the AI-specific signals that standard frameworks don't cover.
 
@@ -175,13 +175,13 @@ The proportion of committed code that was AI-generated or AI-assisted. Available
 
 Separate your Change Failure Rate by code origin: AI-generated commits versus manually written commits. Most enterprise AI coding tools can tag commits or PRs.
 
-If the AI CFR is within 2 to 3 percentage points of the manual CFR, your review process is working. If it's significantly higher, review discipline has dropped. If it's lower, AI tools may be genuinely improving code quality in your domain.
+Compare comparable services and changes, with adequate sample sizes and uncertainty. A CFR difference does not identify its cause: task risk, attribution errors, review practices and deployment policy may all contribute.
 
 ## Review Time: AI PRs vs. Manual PRs
 
 Compare the average review time (opening to merge) for AI-generated PRs versus manually written PRs. If AI PRs are merged significantly faster than manual ones, you may have a rubber-stamping problem.
 
-AI-generated code requires at least as much scrutiny at review as manually written code, possibly more: it can be wrong in non-obvious ways with high apparent confidence. A 30% faster review cycle for AI PRs is a yellow signal worth investigating.
+AI-generated code requires at least as much scrutiny at review as manually written code, possibly more: it can be wrong in non-obvious ways with high apparent confidence. Investigate unexpectedly short reviews in relation to change size, risk and review evidence; there is no universal percentage threshold.
 
 ## Developer Code Understanding
 
@@ -211,11 +211,11 @@ These replicate what METR and DeputyDev measured. Run them on real tasks, not sy
 
 | Metric | What it measures | Published baseline |
 |--------|-----------------|-------------------|
-| Task completion time, AI vs. no AI | Actual speedup or slowdown for your task type | METR Study 1 (July 2025, arXiv 2507.09089): -19% for experienced developers on complex open-source repos. Perception gap: +39 points, developers believed they were 20% faster |
+| Task completion time, AI vs. no AI | Actual speedup or slowdown for your task type | METR Study 1 (July 2025, arXiv 2507.09089): 19% longer completion time for experienced developers on complex open-source repos. Perception gap: +39 points, developers believed they were 20% faster |
 | PR cycle time, AI-assisted vs. baseline | Pipeline throughput change | DeputyDev (arXiv 2509.19708): -31.8% PR cycle time (p=0.0018), n=300 engineers, 12 months |
-| Pass rate on PRs with executable tests as oracle | How often agent-generated code actually passes functional validation | c-CRAB (arXiv 2603.23448, March 2026): Claude Code 32.1% pass rate on real PRs. Union of four tools: 41.5%. This is the practical ceiling for current AI code review quality |
+| Pass rate on PRs with executable tests as oracle | How often agent-generated code actually passes functional validation | c-CRAB (arXiv 2603.23448, March 2026): Claude Code 32.1% pass rate on real PRs. Union of four tools: 41.5%. These results are specific to the benchmark and tested systems, not a ceiling on code review quality |
 
-The METR -19% figure applies specifically to L1-L2 workflows (Cursor Pro and Claude 3.5/3.7 Sonnet on complex existing repos). It is the only rigorous control-group measurement available for this context. Self-reported figures from McKinsey (20-45%), BCG (64%), and GitHub's own studies are not replicated under controlled conditions and should be treated as aspirational estimates, not planning inputs.
+The METR result concerns Cursor Pro and Claude 3.5/3.7 Sonnet on complex existing repositories in early 2025. Keep those historical model names and task conditions when interpreting it. Different study designs and self-reports cannot be combined into a universal productivity estimate.
 
 ## Group 2: Agentic Pipeline Metrics
 
@@ -226,9 +226,9 @@ These require instrumentation via Langfuse, Arize Phoenix, or AWS Bedrock AgentC
 | Spec quality score | Completeness and precision of specs before agent execution, a leading indicator for output quality | No standard rubric yet; define internally. Factory.ai's pre-implementation validation contracts are the closest documented proxy |
 | Validation contract pass rate | Percentage of agent-generated implementations that pass pre-defined behavioral contracts, measured before human review | Factory.ai Missions pattern: 81 problems detected in a Slack clone from spec alone, generating 34% of implementation work as fix features |
 | Agent task completion rate | Tasks the agent completes without human correction, expressed as a percentage | Instrument via harness logs. Anthropic's internal data shows the 99.9th-percentile task duration grew from 25 to 45 minutes between October 2025 and January 2026, indicating agents are handling more complex tasks |
-| Code review recall | Rate at which agent-generated review comments are acted on by developers | Code Review Bench (Martian, March 2026, 200,000+ open-source PRs): Augment Code 62.8% recall, GitHub Copilot 53.3% recall, Graphite 75% precision but only 8.8% recall |
+| Code review recall | Share of reference defects correctly detected, using an explicitly defined benchmark denominator | Code Review Bench (Martian, March 2026, 200,000+ open-source PRs): Augment Code 62.8% recall, GitHub Copilot 53.3% recall, Graphite 75% precision but only 8.8% recall |
 | Cost per completed task | Token spend plus human review time per agent task that reaches a mergeable state | No industry benchmark published yet. Track manually: tokens consumed, cost per model call, human review hours per task completion |
-| Tokens per feature | Average tokens consumed per merged feature, crossed with Jira or Linear ticket boundaries. A better signal than tokens per request because it accounts for session count variation per feature | No industry benchmark. Track via ccboard's project leaderboard (tokens per session times sessions per feature). Establish a baseline before optimizing; typical range for a complete PR is 500K-2M tokens on complex codebases |
+| Tokens per feature | Average tokens consumed per merged feature, crossed with Jira or Linear ticket boundaries. A better signal than tokens per request because it accounts for session count variation per feature | No industry benchmark. Track via ccboard's project leaderboard (tokens per session times sessions per feature). Establish a local baseline before optimizing; no universal token range is established here |
 
 ## Test a Harness Before Standardizing It
 
@@ -259,19 +259,19 @@ Sourced from Strata Identity Research 2026 and CSA/Zenity 2026. These reflect th
 
 ## The Heavy-User Review Time Contradiction
 
-Digital Applied Q1 2026 (n=2,847 developers) found that heavy AI tool users spend 14-16 hours per week reviewing AI-generated code, compared to 11.4 hours per week for average users. This directly contradicts the narrative that AI reduces review burden. Per-review unit efficiency may improve, but the volume of generated code grows faster than review capacity, the most likely explanation for the gap. Before committing to time-savings projections, measure your team's actual review time distribution across AI-generated and manually written PRs.
+Measure time spent reviewing generated and manually written changes, together with change size, risk, defects and rework. A higher review load may reflect more output, harder tasks or process changes; without a controlled comparison it does not establish the cause.
 
-Review effectiveness has a ceiling that predates AI and hasn't moved: detection degrades sharply past roughly 200-400 lines per review, or 60-90 minutes of sustained reviewing (Cisco/SmartBear, Cohen 2006). A 14-16 hour weekly review load is therefore not 14-16 hours of equivalent-quality review. See [The Attention Cost of the Review Shift](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/roles/learning-with-ai.md#the-attention-cost-of-the-review-shift) for the underlying studies and the practices that keep review inside the effective band.
+Break large reviews into coherent changes and monitor comprehension and missed defects. Historical review studies can motivate this practice, but a fixed line count or session duration is not a universal quality boundary. See [The Attention Cost of the Review Shift](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/roles/learning-with-ai.md#the-attention-cost-of-the-review-shift) for context.
 
 ## The Uplevel Copilot Study
 
 Uplevel's study of Copilot adoption (uplevelteam.com, "genai-developers") found no significant change to coding speed, PR cycle time, or throughput after teams adopted Copilot, alongside a 41% increase in bug rate within PRs. Their "Sustained Always On" proxy for burnout risk, built from after-hours and weekend activity patterns, also declined more for developers without Copilot than for those with it over the same period.
 
-Read this alongside the heavy-user review time contradiction above: two independent measurements now point the same direction. Neither speed nor throughput moves the way the adoption narrative predicts, and the metrics that do move (bug rate, review time, burnout proxy) move in the wrong direction. Treat any AI-tooling ROI claim resting on developer speed alone as unverified until you've checked it against your own bug rate and review-time data.
+Treat vendor observations as context rather than proof that AI caused changes in bug rate, throughput or burnout. Compare the result with your own task mix, review effort and production outcomes.
 
 ## pass^k for Non-Deterministic Tests
 
-Standard pass@1 is insufficient for agent-generated code. A test that passes once may fail on the next run because the output is non-deterministic. Promptfoo and LangChain both document the pass^k pattern: run critical tests k times consecutively, typically 3 to 5. A test passes only if it passes all k runs. This is not flaky-test detection, it is a deliberate quality gate for probabilistic systems. Apply it specifically to agent-generated suites, not to the full regression suite where the overhead would be prohibitive.
+For a stochastic agent workflow, pass^k asks whether all k independent executions of the same task satisfy a fixed evaluator. Rerun the agent from comparable initial conditions, keeping the task and oracle stable. Repeating the same deterministic test suite on one generated patch measures test repeatability, not agent pass^k. Choose k and the sample size before comparing systems.
 
 # Product Metrics
 
@@ -293,7 +293,7 @@ Segment by user cohort (new versus existing users, different pricing tiers) to d
 
 Bugs found in production divided by total bugs (pre-production bugs plus production bugs). Formula: `bugs_in_prod / (bugs_before_prod + bugs_in_prod)`.
 
-If your Bug Escape Rate exceeds 20%, your QA and review processes are systematically failing to catch problems before they reach users. With AI-assisted development, this metric deserves close monitoring: faster code generation combined with less rigorous reviews can push Bug Escape Rate up even when the absolute number of bugs stays flat.
+Define consistent severity, discovery windows and reporting rules before comparing Bug Escape Rate. There is no universal 20% boundary. Investigate trends alongside deployment volume, test coverage and incident impact.
 
 ## Feature CSAT
 
@@ -432,7 +432,7 @@ Every benchmark so far in this whitepaper answers "how are we doing." This secti
 
 Traditional forecasting takes your velocity (story points or throughput per sprint) and divides it into remaining scope to produce a single date. That date carries false precision, implying a certainty the underlying data never had. Two teams with identical average velocity can have wildly different variance, and variance is exactly what a point estimate throws away.
 
-Monte Carlo forecasting instead runs your team's actual historical cycle times (or throughput) through thousands of simulated iterations and produces a distribution: "80% confidence between March 3 and March 20" instead of "March 12." That's a more honest answer, because it's the one your data can actually support.
+Monte Carlo forecasting samples historical throughput or cycle-time observations to produce a distribution conditional on the model and data. A stated probability needs backtesting and sufficiently comparable conditions; simulation alone does not guarantee calibrated confidence.
 
 ## Tools
 
@@ -441,7 +441,7 @@ Monte Carlo forecasting instead runs your team's actual historical cycle times (
 **Nave** (getnave.com) runs Monte Carlo simulation alongside a "Cycle Time Histogram" view.
 
 ::: {.callout-important title="The one requirement that makes or breaks this"}
-Nave's own documentation states the core constraint plainly: "The sole requirement for Monte Carlo to work and give reliable answers is to use data produced by a predictable delivery system." Even 20-30 completed items are enough if the workflow is stable, but a recent change to team composition or process should reset the data window so the forecast reflects current conditions, not a mix of old and new reality.
+Choose a data window representative of the current workflow and evaluate forecast calibration on held-out outcomes. A fixed count of 20 or 30 completed items is not a general sufficiency guarantee. Changes in scope, team or process can invalidate the historical distribution.
 :::
 
 ## What This Does Not Fix
@@ -452,19 +452,19 @@ Monte Carlo forecasting is not a fix for an unstable or unpredictable delivery s
 
 The most common failure mode in metrics programs is trying to instrument everything at once.
 
-## Phase 1 (Weeks 1-2): Instrument DORA
+## Phase 1: Instrument DORA
 
 Connect your CI/CD pipeline to a metrics tool. For most teams, that means connecting GitHub Actions or its equivalent to LinearB, Faros, or Sleuth. Automate Deployment Frequency and Change Lead Time first. Change Fail Rate, Failed Deployment Recovery Time, and Deployment Rework Rate require deployment-to-incident linkage.
 
 **Output**: a live dashboard showing at minimum Deployment Frequency and Lead Time for Changes. Your first baseline numbers.
 
-## Phase 2 (Weeks 3-4): Baseline and Targets
+## Phase 2: Baseline and Targets
 
-Once you have 2 to 4 weeks of data, establish your real baseline. The temptation here is to compare immediately to industry benchmarks. Resist that. Set internal improvement targets first: "reduce Lead Time by 20% over the next quarter" is more actionable than "reach the High tier." Your context (tech stack, deployment environment, team size, product type) affects what's achievable more than any industry benchmark.
+Once you have representative observations, document the baseline, sample size and uncertainty. The temptation here is to compare immediately to industry benchmarks. Resist that. Set internal improvement targets first: "reduce Lead Time by 20% over the next quarter" is more actionable than "reach the High tier." Your context (tech stack, deployment environment, team size, product type) affects what's achievable more than any industry benchmark.
 
 Launch your first developer satisfaction pulse (5 questions, anonymous, 10 minutes to build in Google Forms or Typeform). That's your SPACE baseline.
 
-## Phase 3 (Month 2+): Product and AI Metrics
+## Phase 3: Product and AI Metrics
 
 Once DORA is stable and automated, add product metrics (time-to-value, Feature CSAT) and AI-specific signals (% AI-assisted code, CFR by origin). These require more setup (product analytics instrumentation, PR tagging conventions) but are worth the investment once your DORA foundation is solid.
 
@@ -479,7 +479,7 @@ Everything above this section assumes the audience is your own team or your engi
 When a board starts doubting a team's delivery capacity after past estimates have slipped, adding more delivery dashboards rarely fixes it on its own. The board's doubt is almost always about trust and visibility, about what caused the slip and whether it will happen again. It is much less often about the data itself: board members generally don't disbelieve the velocity number on the screen, they disbelieve the story that number is supposed to support.
 
 ::: {.callout-warning title="An evidence gap, stated plainly"}
-No published study or vendor report actually measures whether delivery-intelligence tooling repairs executive trust. That's a gap in the field, not a gap in this whitepaper. Nothing here, and none of the tools covered earlier, comes with proof that it fixes a board's confidence. What follows reframes the conversation into one a board can act on, not a guaranteed remedy.
+This whitepaper does not establish whether delivery-intelligence tooling repairs executive trust. That's a gap in the field, not a gap in this whitepaper. Nothing here, and none of the tools covered earlier, comes with proof that it fixes a board's confidence. What follows reframes the conversation into one a board can act on, not a guaranteed remedy.
 :::
 
 ## Bring Scenarios, Not a Velocity Chart
@@ -514,13 +514,13 @@ Neither substitutes for the harder work above. A better forecast and a better-wr
 
 ::: {.callout-tip title="Minimal stack by maturity phase"}
 
-**Phase 1: Foundation (months 1-2)**
+**Phase 1: Foundation**
 
 - Deployment frequency
 - Lead Time for Changes
 - Developer satisfaction (baseline)
 
-**Phase 2: Quality signal (months 2-4)**
+**Phase 2: Quality signal**
 
 - Change Failure Rate (global + by AI/manual origin)
 - Failed Deployment Recovery Time
@@ -528,7 +528,7 @@ Neither substitutes for the harder work above. A better forecast and a better-wr
 - Bug Escape Rate
 - % AI-assisted code
 
-**Phase 3: Full steering (months 4+)**
+**Phase 3: Full steering**
 
 - Time-to-value
 - Feature CSAT
@@ -554,7 +554,7 @@ For regulated environments and compliance-conscious orgs, a PR audit trail captu
 
 This whitepaper is part of the **Claude Code Ultimate Guide** series, a comprehensive resource for mastering Claude Code from installation to production deployment.
 
-**12 whitepapers in the series:**
+**13 whitepapers in the series:**
 
 - **WP00** Introduction & Fundamentals
 - **WP01** Effective Prompts
@@ -568,5 +568,6 @@ This whitepaper is part of the **Claude Code Ultimate Guide** series, a comprehe
 - **WP09** Learning with AI (UVAL)
 - **WP10** AI Budget & ROI
 - **WP11** Leading a Team in the Age of AI
+- **WP12** Agent Engineering
 
 Full series available at [cc.bruniaux.com/whitepapers/](https://cc.bruniaux.com/whitepapers/)

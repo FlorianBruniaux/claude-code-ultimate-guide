@@ -4,10 +4,11 @@ subtitle: "Precisely controlling accessible tools with glob patterns"
 card-number: "T04"
 category: "Technical"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: en
 format:
@@ -25,15 +26,15 @@ format:
 }
 ```
 
-**Tool-qualified format**: matches the file path passed as argument to Read, Edit or Write. More precise than the simple format.
+**Path patterns**: Read, Edit and Write accept the path pattern directly. Do not add `file_path:`; that qualifier is invalid for these tools.
 
 ```json
 "permissions": {
   "deny": [
-    "Read(file_path:*.env*)",
-    "Edit(file_path:*.pem)",
-    "Write(file_path:*.key)",
-    "Read(file_path:*credentials*)"
+    "Read(*.env*)",
+    "Edit(*.pem)",
+    "Write(*.key)",
+    "Read(*credentials*)"
   ]
 }
 ```
@@ -44,14 +45,14 @@ format:
 |---------|--------------|
 | `Bash(git *)` | Any git command |
 | `Bash(npm test*)` | `npm test`, `npm test:watch` |
-| `Read(file_path:*.env*)` | `.env`, `.env.local`, `.env.prod` |
-| `Edit(file_path:src/**)` | All files under `src/` |
-| `Write(file_path:*.key)` | Any `.key` file |
+| `Read(*.env*)` | `.env`, `.env.local`, `.env.prod` |
+| `Edit(./src/**)` | All files under `src/` |
+| `Write(*.key)` | Any `.key` file |
 
 ## Progressive levels
 
 ```json
-// Level 1 - Read only
+// Level 1 - Auto-approve read tools
 { "permissions": { "allow": ["Read", "Grep", "Glob"] } }
 
 // Level 2 - Git + package manager
@@ -74,7 +75,7 @@ format:
 
 ## Known limitation
 
-`permissions.deny` has a documented limit: background indexing can expose file content via system callbacks before permission checks apply (GitHub #4160). For guaranteed secret protection, store these files outside the project directory.
+A path rule restricts matching tool access; it cannot remove a secret already pasted into a prompt or returned by another tool. Keep sensitive data outside the process access boundary and review shell, MCP and sandbox controls together.
 
 ## Where to define permissions
 
@@ -84,4 +85,4 @@ format:
 .claude/settings.local.json   (local machine, gitignore)
 ```
 
-**Priority order**: `settings.local.json` wins over `settings.json` which wins over global. Use `settings.local.json` for personal permissions without affecting the team.
+**Rule evaluation**: deny rules from any scope take precedence over ask and allow rules. A local allow cannot override a managed or user-level deny. Use local settings for project-specific preferences within those limits.

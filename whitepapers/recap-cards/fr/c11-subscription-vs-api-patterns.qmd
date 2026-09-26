@@ -4,10 +4,11 @@ subtitle: "Comprendre quand chaque modèle de facturation est avantageux"
 card-number: "C11"
 category: "Conception"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "Août 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -26,20 +27,20 @@ La distinction pratique : la subscription favorise les développeurs solo avec u
 
 Les subscriptions utilisent un modèle hybride : une fenêtre glissante de 5 heures et un cap hebdomadaire. Les deux s'appliquent simultanément. La facturation est annoncée en "messages" mais correspond en réalité à des tokens, ce qui rend les limites difficiles à anticiper.
 
-**Point critique : le ratio Opus/Sonnet.** Opus consomme 8 à 10 fois plus de quota que Sonnet pour un travail équivalent. Un utilisateur Max 20x qui utilise Opus intensivement peut épuiser son quota hebdomadaire en 24 à 40 heures de travail réel, malgré un abonnement premium.
+**Le quota ne suit pas un ratio de tarifs API.** Le modèle, le contexte, les outils et la politique du compte influencent la consommation de l’abonnement. Consultez `/usage` et comparez des sessions réelles ; les tarifs API ci-dessous ne prédisent pas la vitesse d’épuisement du quota hebdomadaire.
 
 ## Stratégies par plan
 
 | Plan | Recommandation |
 |------|---------------|
-| Pro | Sonnet uniquement, sessions par batch, éviter le context bloat |
-| Max 5x | Sonnet par défaut, Opus pour l'architecture et le debug complexe |
+| Pro | Choisir un modèle disponible pour la tâche ; surveiller `/usage` |
+| Max 5x | Évaluer un routage explicite vers Sonnet face au modèle par défaut |
 | Max 20x | Plus de liberté Opus, mais surveiller la consommation hebdomadaire |
 | API | Haiku pour les tâches mécaniques, Sonnet pour le dev, Opus pour l'audit |
 
 ## Le pattern OpusPlan pour économiser
 
-Sur un budget limité, le pattern le plus efficace consiste à utiliser Opus pour la planification (où la qualité du raisonnement compte), puis Sonnet ou Haiku pour l'exécution mécanique.
+Avec un budget limité, comparez Opus pour planifier et Sonnet ou Haiku pour exécuter des tâches bornées. Mesurez les reprises et les résultats acceptés avant de conclure que ce routage économise de l’argent.
 
 ```bash
 # Phase 1 : planification (Opus)
@@ -51,31 +52,34 @@ claude --model sonnet
 "Implémente le plan selon les specs définies"
 ```
 
-Ce pattern est automatisé via `/model opusplan`.
+`/model opusplan` utilise précisément Opus pour la planification et Sonnet pour l’exécution ; il ne sélectionne pas Haiku.
 
 ## Monitoring de consommation
 
 ```bash
-/cost              # Coût et contexte de la session en cours
-/status            # Modèle + contexte + coût résumé
+/usage             # Coûts, limites et statistiques
+/context           # Répartition des tokens
 
 # Outil communautaire pour l'historique cross-sessions
 ccusage            # Vue d'ensemble toutes périodes
-ccusage --today    # Coût du jour
-ccusage --month    # Coût du mois
-ccusage --model-breakdown  # Par modèle
+ccusage daily      # Totaux quotidiens
+ccusage monthly    # Totaux mensuels
+ccusage --breakdown # Par modèle
 ```
 
-Anthropic ne fournit pas de métriques temps réel dans l'interface. `ccusage` comble ce manque.
+`/usage` fournit des métriques intégrées ; `ccusage` ajoute une analyse locale entre sessions. Aucune de ces estimations ne remplace une facture.
 
 ## Quand l'API gagne
 
 La subscription atteint ses limites dans trois cas : les équipes où plusieurs développeurs consomment simultanément, les pipelines CI/CD avec un volume de PRs élevé, et les projets avec des sessions longues quotidiennes qui épuisent le budget avant la fin de la semaine. Dans ces contextes, la facturation API (avec Haiku pour les tâches mécaniques) revient souvent moins cher que prévu, surtout avec une stratégie d'escalade progressive.
 
-## Coûts typiques en API (ordre de grandeur)
+## Exemples avec budgets de tokens explicites
 
-| Session type | Sonnet | Opus |
+Tarifs API directs standard en USD, hors cache et fast mode :
+
+| Entrée / sortie | Sonnet 5 | Opus 5.5 |
 |---|---|---|
-| Bug fix / PR review | ~$0.15 | ~$0.38 |
-| Refactoring d'un module | ~$0.75 | ~$1.25 |
-| Review CI/CD par PR (Haiku) | ~$0.02 | N/A |
+| 50K / 5K | $0.15 | $0.30 |
+| 150K / 20K | $0.50 | $1.00 |
+
+Le coût réel dépend de tous les appels et reprises.

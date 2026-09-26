@@ -4,10 +4,11 @@ subtitle: "L'ancien et le nouveau système de gestion des tâches"
 card-number: "M07"
 category: "Méthodologie"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "Août 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -24,7 +25,7 @@ format:
 | **Multi-session** | Perdu à la fermeture | Survit aux redémarrages |
 | **Dépendances** | Ordre manuel | `blockedBy` natif |
 | **Coordination** | Agent unique | Multi-agents, broadcast |
-| **Statuts** | pending / completed | 4 statuts + métadonnées |
+| **Statuts** | pending / in_progress / completed | pending / in_progress / completed |
 | **Résumé context** | Perdu au `/compact` | Intact après compaction |
 
 ## Quand rester sur TodoWrite
@@ -43,11 +44,11 @@ Reprise après /compact            → persistance garantie
 ## Activer et désactiver
 
 ```bash
-# Tasks API est activée par défaut depuis v2.1.142
-claude
+# Activer les outils de tâches sur les modèles récents
+CLAUDE_CODE_ENABLE_TODO_TOOLS=1 claude
 
 # Forcer le retour à TodoWrite (rare)
-CLAUDE_CODE_ENABLE_TASKS=false claude
+CLAUDE_CODE_ENABLE_TODO_TOOLS=1 CLAUDE_CODE_ENABLE_TASKS=0 claude
 
 # Vérifier la configuration actuelle
 env | grep CLAUDE_CODE_ENABLE_TASKS
@@ -81,4 +82,4 @@ TodoWrite continuera à fonctionner, mais la direction d'Anthropic est clairemen
 
 ## Activation automatique
 
-Depuis la v2.1.142, la Tasks API est le système par défaut : Claude bascule de lui-même vers `TaskCreate`/`TaskUpdate` pour tout travail en plusieurs étapes, sans flag à activer. TodoWrite reste disponible via `CLAUDE_CODE_ENABLE_TASKS=false`.
+La Tasks API est devenue le système par défaut dans v2.1.142. Depuis v2.1.233, les modèles récents désactivent les deux systèmes sauf si `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` est défini. Après activation, `CLAUDE_CODE_ENABLE_TASKS=0` sélectionne l’ancien TodoWrite.

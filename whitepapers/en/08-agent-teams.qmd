@@ -2,10 +2,10 @@
 title: "Whitepaper 08: Agent Teams"
 subtitle: "Multi-agent coordination for complex tasks"
 author: "Florian BRUNIAUX"
-date: "2026-09-24"
+date: "2026-09-26"
 date-format: "MMMM YYYY"
 version: "3.43.0"
-wp-version: "1.6.1"
+wp-version: "1.6.2"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -33,18 +33,18 @@ lang: en
 
 **Key takeaways**:
 
-- Sub-agents via the Task tool = simple and stable delegation (start here)
+- Sub-agents via the Agent tool = simple and stable delegation (start here)
 - Agent teams = experimental peer-to-peer coordination, 3-5x cost vs solo
-- 95% of multi-agent needs are covered by sub-agents alone
+- Start with sub-agents when tasks can return independent results
 :::
 
-> **In 5 lines:** There's a persistent confusion in the ecosystem between sub-agents and agent teams. Sub-agents (Task tool) enable parallel task delegation: stable, recommended, covering 95% of needs. Agent teams (P2P coordination between Claude instances) are experimental, 3 to 5 times more expensive, and needed only in very specific cases. This whitepaper clarifies when to use which, with concrete examples of both patterns.
+> **In 5 lines:** There's a persistent confusion in the ecosystem between sub-agents and agent teams. Sub-agents (Agent tool) enable parallel task delegation: suited to independent delegated work. Agent teams (P2P coordination between Claude instances) are experimental and add coordination and token costs that depend on the workload. This whitepaper clarifies when to use which, with concrete examples of both patterns.
 
 # Introduction
 
 > A code review project that takes 3 hours with a single agent can drop to 45 minutes with three specialized agents working in parallel --- but the token cost triples simultaneously. This is the fundamental trade-off of agent teams: parallelization power versus consumption intensity. This guide helps you decide when that trade-off is worth it.
 
-Agent teams enable **multiple Claude instances to work in parallel** on different subtasks while coordinating through a git-based system. Unlike manual multi-instance workflows where you orchestrate separate Claude sessions yourself, agent teams provide built-in coordination where agents claim tasks, merge changes continuously, and resolve conflicts automatically.
+Agent teams enable **multiple Claude instances to work in parallel** on different subtasks with shared task tracking and mailbox messages. Agents can claim work and send findings to one another. Source integration and conflict resolution still need an explicit workflow.
 
 The core idea is simple: certain development tasks are naturally decomposable into independent sub-problems. When a human does a code review, they examine security, API quality, and the frontend sequentially. With agent teams, all three analyses happen at the same time, each agent contributing its expertise in a dedicated domain. The time savings are real, but so is the token overhead --- the use case choice determines whether the trade-off pays off.
 
@@ -57,14 +57,14 @@ The core idea is simple: certain development tasks are naturally decomposable in
 
 ## Key Characteristics
 
-Agent teams extend sub-agents with two key additions: bilateral peer-to-peer messaging (teammates can communicate directly with each other, not just with the lead) and built-in coordination tools (shared task list, git-based merge, mailbox system). Sub-agents already provide context isolation and parallel execution. Each teammate gets its own 1M token window, enabling coverage of large codebases without context pressure. The main trade-off remains token cost, which scales linearly with the number of agents.
+Agent teams add peer-to-peer messages and shared task coordination to isolated agent contexts. A teammate's context capacity depends on its model. Separate model calls, repeated context and coordination all add cost; measure the aggregate rather than assuming an exact multiplier.
 
 > **Important**: A single Claude Code agent is a full autonomous coding agent, not a chatbot. Agent teams extend this with parallel coordination between multiple instances; the difference is coordination structure, not capability level.
 
 | Aspect | Description |
 |--------|-------------|
 | **Autonomous coordination** | Team lead delegates, teammates coordinate via peer-to-peer mailbox (not just hierarchical) |
-| **Git-based locking** | Agents claim tasks via lock entries in `.claude/tasks/` |
+| **Task-claim locking** | A shared task list under `~/.claude/tasks/<team-name>/` prevents duplicate claims |
 | **Continuous merge** | Changes committed and pushed/pulled automatically (meaning changes are committed, pulled, and pushed without manual intervention) |
 | **Isolated context** | Each agent has its own independent context window (~30K lines of code, approximately 1M tokens). See -> **Architecture: Per-Agent Context** |
 | **Token-intensive** | Multiple simultaneous model calls = high cost |
@@ -189,33 +189,32 @@ SendMessage({ to: agentId, content: "continue" })
 `SendMessage` with `to: agentId` resumes the agent with its full context intact.
 :::
 
-## Git-Based Coordination
+## Shared-Task Coordination
 
-Coordination between agents goes through git, which is a pragmatic architecture choice: git is already present in every development project, it natively handles concurrency, and its branch model provides natural isolation of each agent's work.
+Agent Teams coordinate through shared task lists and mailbox messages. Git and worktrees can isolate source changes, but task claiming does not automatically branch, merge, or lock source files.
 
 ### How It Works
 
-1. **Task claiming**: Agents write lock files in a shared directory (`.claude/tasks/`)
+1. **Task claiming**: Agents claim entries in `~/.claude/tasks/<team-name>/`; file locking prevents conflicting claims
 2. **Work execution**: Each agent works independently within its own context
-3. **Continuous merge**: Agents pull/push changes to the shared git repository
-4. **Conflict resolution**: Automatic merge (with limitations, see [Section 6](#limitations-gotchas))
+3. **Source changes**: Use separate file ownership or worktrees; decide explicitly when changes are integrated
+4. **Conflict resolution**: Review overlapping edits; task coordination does not resolve source conflicts
 5. **Result synthesis**: Team lead collects findings and presents a unified response
 
-**Task directory structure** (simplified schema):
+**Stored state**:
 ```
-.claude/tasks/
-|- task-1.lock        # Agent A claimed
-|- task-2.lock        # Agent B claimed
-+- task-3.pending     # Not yet claimed
+~/.claude/teams/<team-name>/config.json
+~/.claude/teams/<team-name>/inboxes/<agent-name>.json
+~/.claude/tasks/<team-name>/
 ```
 
-> **Note**: This is a simplified representation. In practice, Claude Code uses the Task tools API (`TaskCreate`/`TaskUpdate`) with JSON files in `~/.claude/tasks/` --- not raw `.lock` files.
+Use the task tools to manage status and dependencies. These paths are implementation storage, not an invitation to invent `.lock` or `.pending` task files.
 
 ## Navigating Between Agents
 
 **Built-in navigation**:
 
-- **Shift+Up/Down**: Switch between teammates in the Claude Code interface
+- **Shift+Down**: Switch between teammates in the Claude Code interface
 - **tmux**: If using tmux, its standard navigation also works for switching between agents. Note: tmux is an external terminal multiplexer, not a built-in Claude Code feature.
 - **Direct takeover**: You can take control of any agent's work when needed
 - **@ mention typeahead (v2.1.83+)**: Sub-agents can be referenced by name in the `@` typeahead. Naming agents in the team lead prompt (`Agent-Security`, `Agent-Backend`) makes them directly selectable.
@@ -225,7 +224,7 @@ Coordination between agents goes through git, which is a pragmatic architecture 
 ```bash
 # Terminal 1: Team lead (enable via settings.json)
 # Claude spawns teammates automatically
-# You can navigate with Shift+Up/Down to inspect each agent
+# You can navigate with Shift+Down to inspect each agent
 ```
 
 # Setup & Configuration
@@ -236,8 +235,8 @@ Coordination between agents goes through git, which is a pragmatic architecture 
 
 - Claude Code v2.1.32 or later
 - A model available to the account; the team may mix models
-- Git repository (for coordination)
-- 1M context per teammate is GA on Max/Team/Enterprise Claude Code plans (since v2.1.75); usage tier 4 or custom rate limits are only required for direct API use
+- A shared project; use git/worktrees when source changes need isolation
+- Context is model/provider dependent: native 1M on current Opus, Sonnet and Fable; 200K on Haiku 4.5. Older 1M variants have separate access rules.
 
 **Recommended**:
 
@@ -541,7 +540,7 @@ Agent teams:
 ```
 
 ::: {.callout-note title="Sub-agents vs Agent Teams for parallel reading"}
-Sub-agents can achieve parallel reading on their own. Agent teams add built-in coordination (mailbox, task tracking, git-based merge) which removes manual orchestration overhead. The value of agent teams lies less in parallelism itself and more in the coordination layer that makes parallelism sustainable across complex, interdependent tasks.
+Sub-agents can already read in parallel. Agent teams add mailbox messages and shared task tracking for interdependent work. The lead still needs to allocate ownership, check progress and review integrated changes.
 :::
 
 ## Coordination Benefits
@@ -555,7 +554,7 @@ Moving from manual to built-in coordination fundamentally changes the developer'
 | **Task delegation** | You decide splits | Team lead decides |
 | **Progress tracking** | Manual check-ins | Automatic reporting |
 | **Merge conflicts** | You resolve | Automatic (with limitations) |
-| **Context sharing** | Copy-paste findings | Git-based coordination |
+| **Context sharing** | Explicit handoffs | Mailbox messages and shared tasks |
 | **Cognitive load** | High (orchestrator role) | Low (observer role) |
 
 ## Cost Trade-offs
@@ -1044,17 +1043,17 @@ function processUser(user: User) {
 - Context loading per agent (total capacity: ~3M tokens across 3 agents --- see -> *Architecture: Per-Agent Context*)
 - Coordination overhead (team lead synthesis)
 
-**Historical illustrative budget** (Opus 4.8 standard rates, $5/$25 per MTok; current Opus 5.5 rates are $4/$20):
+**Illustrative token budget** (Opus 5.5 standard direct-API rates, $4/$20 per MTok; excludes caching, fast mode and coordination overhead):
 ```
 Single agent session:
-- Input: 50K tokens @ $15/M = $0.75
-- Output: 5K tokens @ $75/M = $0.38
-- Total: $1.13
+- Input: 50K tokens @ $4/M = $0.20
+- Output: 5K tokens @ $20/M = $0.10
+- Total: $0.30
 
 Agent teams (3 agents):
-- Input: 150K tokens @ $15/M = $2.25
-- Output: 15K tokens @ $75/M = $1.13
-- Total: $3.38
+- Input: 150K tokens @ $4/M = $0.60
+- Output: 15K tokens @ $20/M = $0.30
+- Total: $0.90
 
 Cost multiplier: ~3x
 ```
@@ -1116,7 +1115,7 @@ Before deploying agent teams, you need to evaluate whether the task truly requir
 
 | Criterion | Agent Teams | Multi-Instance | Dual-Instance |
 |-----------|-------------|----------------|---------------|
-| **Coordination** | Automatic (git-based + mailbox) | Manual (human) | Manual (human) |
+| **Coordination** | Shared tasks and mailbox | Manual (human) | Manual (human) |
 | **Setup** | Experimental flag | Multiple terminals | 2 terminals |
 | **Best for** | Read-heavy tasks needing coordination | Independent parallel tasks | Quality assurance (plan-execute split) |
 | **Communication** | Peer-to-peer messaging + team lead synthesis | Manual copy-paste | Manual synchronization |
@@ -1198,8 +1197,8 @@ Simple task (<5 files)?
 
 **Agent Teams** (Anthropic):
 
-- **Architecture**: Native Claude Code feature, git-based coordination
-- **Coordination**: Real-time git locking, automatic merge
+- **Architecture**: Native Claude Code feature, shared task and mailbox coordination
+- **Coordination**: Shared task assignment and messaging; Git changes require explicit integration
 - **Maturity**: Official Anthropic feature (experimental)
 - **Setup**: Feature flag only (`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`)
 - **Use case**: Rapid prototyping, cloud-based development
@@ -1439,7 +1438,7 @@ What type?
 ├─ Conflicts / inconsistencies → COORDINATION
 │   Merge conflicts?
 │   ├─ Yes → Clear boundaries, no shared files.
-│   │         Fall back: git reset --hard if needed
+│   │         Preserve diffs, then resolve conflicts explicitly
 │   └─ No  → Inconsistent results?
 │             ├─ Yes → Explicit instructions to all agents.
 │             │         Point to same reference docs
@@ -1480,7 +1479,7 @@ This signals poor task decomposition --- agents are modifying the same files.
 
 **Prevention**: Clear boundaries (non-overlapping file sets), interface-first approach, single-writer pattern.
 
-**Recovery**: `git reset --hard` to the point before agent teams, then re-implement with a single agent or better decomposition.
+**Recovery**: Preserve each agent's diff and current work before changing branches. Resolve conflicts explicitly, validate the combined result, and reassign overlapping work if the decomposition caused repeated collisions.
 
 ### 3. High token costs
 
@@ -1581,7 +1580,7 @@ If agent teams regularly cost more than 5x single agent, that's a structural red
 - [ ] Selected model access verified for each teammate
 - [ ] Git repository initialized and working
 - [ ] Experimental flag enabled (`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`)
-- [ ] Navigation working (Shift+Up/Down to switch agents)
+- [ ] Navigation working (Shift+Down to switch agents)
 
 ### Architecture Readiness
 
@@ -1660,13 +1659,13 @@ If agent teams regularly cost more than 5x single agent, that's a structural red
 
 **Team Lead**: Main Claude session that delegates tasks and synthesizes findings
 
-**Teammate**: Independent Claude instance with its own 1M token context working on a subtask
+**Teammate**: Independent Claude instance with its own model-sized context working on a subtask
 
 **Mailbox System**: Peer-to-peer messaging architecture enabling direct agent communication
 
-**Context Isolation**: Agents don't share their full 1M token context, only explicit messages
+**Context Isolation**: Agents do not share their conversation context; messages carry selected information
 
-**Git-Based Coordination**: Agents use git lock files and commits to coordinate work
+**Task Coordination**: Shared task status and dependencies coordinate work; file locking prevents competing task claims
 
 **Convergence Rate**: Percentage of findings flagged by 2+ agents (high confidence indicator)
 
@@ -2262,7 +2261,7 @@ When a subtask cannot be expressed in a way that passes the SPEC test, that is u
 
 ---
 
-*Version 3.42.0 | Created: 2026-02 | Updated: 2026-08 | Agent Teams (v2.1.32+, Experimental)*
+*Version 3.43.0 | Created: 2026-02 | Updated: 2026-09 | Agent Teams (v2.1.32+, Experimental)*
 
 # The Series
 
@@ -2274,13 +2273,13 @@ This whitepaper is part of the **Claude Code Ultimate Guide** series, a complete
 - **WP01** Effective Prompts
 - **WP02** Customization & Configuration
 - **WP03** Security in Production
-- **WP04** Internal Architecture *(coming soon)*
+- **WP04** Internal Architecture
 - **WP05** Team Adoption
-- **WP06** Privacy & Compliance *(coming soon)*
+- **WP06** Privacy & Compliance
 - **WP07** Condensed Reference Guide
 - **WP08** Agent Teams & Sub-Agents
 - **WP09** Learning with AI (UVAL)
-- **WP10** AI Budget & ROI *(coming soon)*
+- **WP10** AI Budget & ROI
 - **WP11** Team Metrics in the AI Era
 - **WP12** Software Engineering in the Age of Autonomous Agents
 

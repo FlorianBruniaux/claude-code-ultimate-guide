@@ -7,113 +7,76 @@ guide-version: "3.43.0"
 difficulty: "beginner"
 author: "Florian BRUNIAUX"
 version: "3.43.0"
-wp-version: "1.1.2"
-date: "2026-09-24"
+wp-version: "1.1.3"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
   recap-card-typst: default
 ---
 
-## Raccourcis Clavier
+## Raccourcis clavier
 
 | Raccourci | Action |
 |-----------|--------|
-| `Cmd+Esc` / `Ctrl+Esc` | Lancer Claude Code depuis le terminal intégré (VS Code, Cursor) |
+| `Cmd+Esc` / `Ctrl+Esc` | Lancer depuis VS Code ou Cursor |
 | `Shift+Tab` | Parcourir les modes de permission |
-| `Shift+Enter` | Nouvelle ligne (multiline) |
+| `Shift+Enter` | Nouvelle ligne |
 | `Ctrl+C` | Interrompre la génération |
-| `Ctrl+R` | Rechercher historique commandes |
-| `Ctrl+B` | Background tasks |
-| `Alt+T` | Thinking si autorisé, sauf Opus 5.5/Fable |
-| `Esc` | Annuler l'action en cours |
-| `Esc` × 2 | Rewind (annuler dernier changement) |
-| `↑` / `↓` | Historique des messages |
-| `Tab` | Complétion de chemin |
-
+| `Ctrl+R` | Rechercher dans l'historique |
+| `Ctrl+B` | Tâches en arrière-plan |
+| `Alt+T` | Thinking si permis, sauf Opus 5.5/Fable |
+| `Esc` ; `Esc` × 2 | Annuler ; rewind au checkpoint |
+| `↑` / `↓` ; `Tab` | Historique ; compléter un chemin |
 | `Ctrl+X Ctrl+K` | Arrêter les sous-agents en arrière-plan |
 | `Ctrl+Enter` / `Ctrl+X Ctrl+S` | Envoyer les messages en attente |
 
-## Commandes Slash Core
-
-```
-/help           Aide et commandes disponibles
-/powerup        Leçons interactives animées (fonctionnalités CC)
-/clear          Vider le contexte (reset)
-/compact        Compresser l'historique
-/model          Choisir ; Entrée enregistre, s = session
-/status         Statut du contexte + coûts de session
-/usage          Consommation tokens par modèle (v2.1.118)
-/cost           alias de /usage (v2.1.118)
-/plan           Entrer en Plan Mode (aucune modification)
-/effort low/medium/high/xhigh/max   Niveau de réflexion (xhigh depuis v2.1.114)
-/recap          Résumé de session (v2.1.108)
-/undo           Alias de /rewind : revenir à un checkpoint (v2.1.108)
-/ultrareview    Revue de code multi-agent (v2.1.114)
-/branch         Créer une timeline parallèle (v2.1.77)
-/rename [nom]   Nommer la session courante
-/loop [int] [prompt]  Scheduler récurrent (ex: /loop 5m check deploy)
-/voice          Activer saisie vocale
-/fast           Opus 5.5 fast : $8/$40 par MTok
-```
-
-## Modes de Permission
-
-```
-claude                    Mode interactif (défaut)
-claude --dangerously-skip-permissions
-                          Bypass total (CI/CD)
-claude --allowedTools "Edit,Read,Bash"
-                          Préautoriser les outils ; --tools limite leur disponibilité
-```
-
-## Démarrage Rapide
+## Permissions et démarrage
 
 ```bash
-# Lancer Claude Code
-claude
-
-# CLAUDE.md est chargé automatiquement au démarrage
-# Pour ajouter un fichier en cours de session :
-@src/auth.ts Regarde cette fonction
-
-# Mode non-interactif (scripts)
-claude -p "Analyse ce fichier" < input.txt
-
-# Continuer la dernière session
-claude --continue
+claude                    # Interactif
+claude --continue         # Dernière session
+claude -p "Analyse" < input.txt
+claude --allowedTools "Edit,Read,Bash"
+claude --dangerously-skip-permissions
 ```
 
-## Commandes de Session
+`--allowedTools` préautorise ; `--tools` limite les outils disponibles. Le bypass supprime les demandes de permission et nécessite un environnement isolé.
 
-```
-/new            Nouvelle session (alias de /clear)
-/resume         Reprendre une session (ouvre le sélecteur)
-/branch         Bifurquer la conversation ici (v2.1.77)
-```
+`CLAUDE.md` se charge au démarrage. Pour ajouter un fichier en session : `@src/auth.ts Regarde cette fonction`. `@fichier` référence son contenu dans le prompt.
 
-## Navigation Contexte
-
-| Commande | Effet |
-|----------|-------|
-| `/compact` | Résume et libère de l'espace |
-| `/clear` | Réinitialise complètement |
-| `@fichier` | Référencer un fichier dans le prompt |
-
-## Slash Commands Personnalisées
-
-```
-# Invoquer une commande personnalisée
-/nom-commande [args]
-
-# Définies dans :
-.claude/skills/nom-commande/SKILL.md
+```{=typst}
+#colbreak()
 ```
 
-## Tips Essentiels
+## Commandes slash
 
-**Contrôle de verbosité** : utiliser `--verbose` au lancement, ou `Ctrl+O` en session, pour voir le transcript détaillé tour par tour.
+| Commande | Action |
+|----------|--------|
+| `/help` ; `/powerup` | Aide ; leçons interactives animées |
+| `/clear` ; `/new` | Réinitialiser la conversation ; alias |
+| `/compact` | Résumer l'historique et libérer du contexte |
+| `/model` | Choisir : Entrée enregistre, s = session |
+| `/status` ; `/context` | Compte/configuration ; répartition du contexte |
+| `/usage` ; `/cost` | Usage par modèle ; alias (v2.1.118) |
+| `/plan` | Planifier sans modifier l'implémentation |
+| `/recap` | Résumé de session (v2.1.108) |
+| `/undo` | Alias `/rewind`, checkpoint (v2.1.108) |
+| `/ultrareview` | Revue multi-agent (v2.1.114) |
+| `/branch` | Bifurquer la conversation (v2.1.77) |
+| `/rename [nom]` | Nommer la session |
+| `/resume` | Sélecteur de sessions à reprendre |
+| `/voice` | Saisie vocale |
+| `/fast` | Opus 5.5 fast : $8/$40 par MTok |
 
-**Multiline** : `Shift+Enter` dans le terminal pour sauter une ligne sans valider.
+`/effort` : `low`, `medium`, `high`, `xhigh`, `max` (`xhigh` depuis v2.1.114). `/loop [int] [prompt]` planifie une tâche récurrente, par exemple `/loop 5m check deploy`.
 
-**Vim mode** : `/config` → Editor mode, ou `{"editorMode": "vim"}` dans `~/.claude/settings.json`. La commande `/vim` a été supprimée en v2.1.92.
+## Commandes personnalisées
+
+Invoquer `/nom-commande [args]`. Définir le skill dans `.claude/skills/nom-commande/SKILL.md`.
+
+## Affichage et édition
+
+`--verbose` au lancement ou `Ctrl+O` en session affiche le transcript détaillé. `Shift+Enter` insère une ligne sans envoyer.
+
+Vim : `/config` → Editor mode, ou `{"editorMode": "vim"}` dans `~/.claude/settings.json`. `/vim` a été supprimé en v2.1.92.

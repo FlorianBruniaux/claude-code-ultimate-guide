@@ -4,10 +4,11 @@ subtitle: "Où vit l'information que Claude utilise et comment la gérer"
 card-number: "C05"
 category: "Conception"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "Août 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -16,7 +17,7 @@ format:
 
 ## Les 4 niveaux de mémoire
 
-Claude Code ne stocke pas d'état entre les sessions par défaut. Tout ce qui doit persister doit être explicitement placé dans l'un des quatre niveaux.
+Claude Code enregistre les transcriptions locales et active l’auto-mémoire par défaut. Utiliser des instructions explicites et inspecter la mémoire stockée pour décider quelles informations doivent influencer le travail futur.
 
 **Niveau 1 : CLAUDE.md (règles explicites)**
 Fichiers Markdown lus au démarrage de chaque session. Contiennent les conventions projet, les commandes importantes, les décisions d'architecture. Lisibles par l'humain, versionnés avec le code.
@@ -31,14 +32,14 @@ CLAUDE.md                     # Racine (dossier courant)
 Claude enregistre automatiquement les décisions prises pendant les sessions dans `~/.claude/projects/*/memory/MEMORY.md`. Ce mécanisme est transparent : vous pouvez relire ces fichiers pour auditer ce que Claude a appris.
 
 **Niveau 3 : Tasks API (état structuré cross-session)**
-Pour les workflows multi-étapes qui s'étendent sur plusieurs sessions, la Tasks API maintient un état avec dépendances et statuts. Utile pour les projets longs où chaque session reprend là où la précédente s'est arrêtée.
+Pour les workflows à plusieurs étapes, activer les outils de tâches avec `CLAUDE_CODE_ENABLE_TODO_TOOLS=1`. Choisir une liste persistante partagée entre sessions via `CLAUDE_CODE_TASK_LIST_ID` et inspecter ses enregistrements actuels avant de reprendre.
 
 **Niveau 4 : Agent memory field (contexte local)**
 Chaque agent spécialisé peut avoir sa propre mémoire déclarative dans son frontmatter YAML, indépendante de la session principale.
 
 ## Ce qui disparaît à chaque session
 
-La conversation elle-même est éphémère. Quand vous fermez une session, tout ce qui n'a pas été explicitement persisté est perdu. Il existe une exception : `claude --continue` reprend la dernière session, mais cela ne fonctionne que si vous n'avez pas ouvert d'autres sessions entre-temps.
+Le contexte actif est propre à la session, mais les conversations enregistrées peuvent être reprises. `claude --continue` choisit la conversation récente ; `claude --resume` permet d’en choisir une ancienne. Aucun des deux ne restaure les fichiers ou l’état d’un service distant.
 
 ## Règle de sélection
 
@@ -56,11 +57,6 @@ La conversation elle-même est éphémère. Quand vous fermez une session, tout 
 
 Chaque erreur corrigée une fois devient une règle CLAUDE.md. Sur 3 mois, un CLAUDE.md bien maintenu accumule les conventions, les gotchas, et les décisions d'architecture qui accélèrent toutes les sessions suivantes, y compris pour les nouveaux membres de l'équipe.
 
-```markdown
-# CLAUDE.md (pattern de croissance)
-Semaine 1 : 5 règles  →  5 erreurs évitées
-Mois 1    : 20 règles → 20 erreurs évitées
-Mois 3    : 50 règles → onboarding accéléré
-```
+Relire les nouvelles règles pour vérifier leur pertinence, retirer doublons et décisions obsolètes, puis vérifier qu’elles améliorent les tâches visées.
 
-**Taille cible :** entre 4 et 8 Ko au total (tous niveaux confondus). Au-delà de 16K tokens, la cohérence du modèle se dégrade selon les études praticiennes.
+**Taille cible :** rester concis, avec environ 200 lignes comme point de départ pratique. La longueur du fichier n’est pas un seuil mesuré de cohérence du modèle.

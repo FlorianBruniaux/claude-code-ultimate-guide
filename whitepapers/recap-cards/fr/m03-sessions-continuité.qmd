@@ -4,10 +4,11 @@ subtitle: "Reprendre une session là où on l'a laissée"
 card-number: "M03"
 category: "Méthodologie"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "Août 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -34,7 +35,7 @@ Les sessions sont stockées dans `~/.claude/projects/<chemin-encodé>/` sous for
 
 ## Recherche dans les Sessions
 
-Le script `session-search.sh` (fourni dans `examples/scripts/`) est la méthode la plus rapide : zéro dépendance, 15ms pour lister, 400ms pour chercher.
+Le script `session-search.sh` (dans `examples/scripts/`) recherche les transcriptions locales. Mesurer sa latence sur votre historique.
 
 ```bash
 cs                        # 10 sessions récentes
@@ -50,14 +51,7 @@ Chaque résultat affiche la commande `claude --resume <id>` prête à copier-col
 
 Claude Code stocke les sessions en encodant le **chemin absolu** du projet. Une session dans `/home/user/myapp` ne sera pas trouvée si vous déplacez le projet vers `/home/user/projects/myapp`.
 
-**Solution si vous déplacez un projet :**
-
-```bash
-cd ~/.claude/projects/
-mv -- -old-location-myapp- -new-location-myapp-
-```
-
-La migration manuelle du dossier de session suffit dans la grande majorité des cas.
+**Lors d’un déplacement du projet :** préserver les transcriptions originales et rédiger une passation avec décisions, fichiers modifiés et contrôles restants. Démarrer dans le dossier cible avec cette passation, puis vérifier fichiers et outils. Une migration manuelle des transcriptions ne réécrit pas les chemins absolus et ne restaure pas les services distants ; la tester sur une sauvegarde avant de s’y fier.
 
 ## Ce que la Reprise NE Fait PAS
 

@@ -4,10 +4,11 @@ subtitle: "Protéger Claude Code quand il traite du contenu externe non fiable"
 card-number: "C09"
 category: "Conception"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "Août 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -61,7 +62,7 @@ Rapporter les résultats uniquement.
 
 ```bash
 # Lancer l'analyse avec un scope restreint
-claude --allowedTools "Read,Grep" \
+claude --tools "Read,Grep" --allowedTools "Read,Grep" \
        -p "Analyse ce fichier uploadé : $FILE"
 ```
 
@@ -79,7 +80,7 @@ Pour les pipelines automatisés, un script de validation peut vérifier que l'ou
 
 ## Règle des permissions minimales
 
-Plus les permissions de Claude sont étroites, plus l'impact d'une injection réussie est limité. Un Claude avec `Read` et `Grep` seulement ne peut pas exfiltrer de données ni modifier de fichiers, même si une injection réussit à lui envoyer des instructions malveillantes.
+Des permissions plus étroites limitent l’impact d’une injection réussie. Les outils en lecture seule restreignent modifications et commandes, mais leurs résultats entrent dans le contexte du modèle. Les données sensibles peuvent donc atteindre le fournisseur configuré ou apparaître dans la réponse.
 
 | Tâche | Permissions suffisantes |
 |-------|------------------------|

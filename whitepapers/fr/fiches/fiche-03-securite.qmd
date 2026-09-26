@@ -1,0 +1,24 @@
+{{< pagebreak >}}
+
+## Fiche Récap : Sécurité en Production
+
+```{=typst}
+#fiche-recap(
+  title: "Sécurité en Production",
+  subtitle: "Permissions, hooks et contrôles vérifiables",
+  wp-number: "03",
+  points: (
+    "#strong[Surfaces d’attaque] : contenu non fiable, dépendances MCP, skills et configurations externes, commandes destructrices.",
+    "#strong[Defense in depth en 4 couches] : permissions.deny (couche 1) → hooks PreToolUse (couche 2) → vetting MCP (couche 3) → audit régulier (couche 4).",
+    "Les #strong[hooks de sécurité] ajoutent des contrôles ciblés. Vérifier les événements, les sorties et les limites de chaque script.",
+    "Le #strong[.claude/ directory] est une surface d'attaque : vérifier les configs externes avant de les copier dans votre projet.",
+    "Consulter la #strong[base de menaces versionnée] pour les avis, versions affectées et correctifs. Une liste historique ne décrit pas l’état courant.",
+  ),
+  actions: (
+    "Évaluer les hooks #strong[dangerous-actions-blocker], secret-leak-detector et prompt-injection-detector sur des cas sans secrets",
+    "Vérifier votre permissions.deny : bloquer rm -rf, git push --force, sudo",
+    "Installer puis lancer la commande du guide /security-check ; examiner ses limites",
+    "Examiner le code, les permissions et les destinations réseau de chaque MCP avant activation",
+  ),
+)
+```

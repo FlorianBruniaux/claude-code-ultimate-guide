@@ -4,10 +4,11 @@ subtitle: "Let Claude plan before acting"
 card-number: "M05"
 category: "Methodology"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "August 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: en
 format:
@@ -16,17 +17,17 @@ format:
 
 ## What is Plan Mode
 
-Plan Mode is Claude Code's "look but don't touch" mode. In Plan Mode, Claude can read, search, analyze, and propose approaches, but cannot modify files, create files, or execute commands that change system state.
+Plan Mode is Claude Code's "look but don't touch" mode. In Plan Mode, Claude can read, search, analyze, and propose approaches, while restricting implementation changes and state-changing commands. It can write its designated plan artifact.
 
 ```
 /plan              # Enter Plan Mode
-Shift+Tab          # Toggle Plan ↔ Normal
+Shift+Tab          # Cycle available permission modes
 Approve the plan   # Exit and move to execution
 ```
 
 ## Why It Changes Everything
 
-Boris Cherny (Head of Claude Code at Anthropic) starts about **80% of his tasks in Plan Mode**, letting Claude plan before writing a single line of code. Execution is almost always correct on the first attempt as a result.
+Planning gives you an opportunity to review scope, dependencies and acceptance criteria before implementation. It does not guarantee a correct first attempt.
 
 Claude explores the codebase without pressure to act. It identifies hidden dependencies, secondary impacts, edge cases. The resulting plan is more solid than what Claude would produce in reactive mode.
 
@@ -35,11 +36,11 @@ Claude explores the codebase without pressure to act. It identifies hidden depen
 - Reading files and exploring the codebase
 - Architecture and dependency analysis
 - Proposing approaches and action plans
-- Writing to a plan file (notes, PLAN.md)
+- Writing its designated plan file
 
 **What it prohibits:**
-- Editing existing files
-- Creating new files
+- Editing implementation files
+- Creating arbitrary project files
 - Executing state-changing commands
 - Git commits
 
@@ -66,11 +67,11 @@ Claude explores the codebase without pressure to act. It identifies hidden depen
    Supervised execution of the approved plan
 ```
 
-Validating the plan before execution catches 30-40% of issues that would otherwise be discovered after the fact, according to community feedback.
+Review the plan to catch scope, dependency and acceptance-criteria mistakes before implementation. The benefit depends on the task and the quality of the review.
 
 ## Auto Plan Mode
 
-For projects where risk level justifies systematic planning, an `--append-system-prompt` configuration can force Claude to present a plan before each action:
+An `--append-system-prompt` instruction can request a plan before each action. It is not a permission boundary; use Plan Mode and tool permissions for enforced restrictions:
 
 ```bash
 # Practical alias
@@ -78,8 +79,8 @@ alias claude-safe='claude --append-system-prompt \
   "Before executing ANY tool, present a plan and wait for approval."'
 ```
 
-This pattern reports a 76% token reduction with better outcomes, because the plan is validated before spending execution tokens.
+Validate the plan before execution and measure total tokens, retries and accepted results on your own tasks. This workflow has no established universal savings rate.
 
 ## Integration with Agents
 
-Agents defined in `.claude/agents/` can also enter Plan Mode via `/plan` within their context. A common pattern: a planner agent (Opus, read-only) that passes the plan to an implementer agent (Haiku, mechanical execution).
+Set `permissionMode: plan` in a custom agent's frontmatter for planning. A planner can pass a saved plan to an implementation agent; choose each model explicitly and keep file ownership separate.

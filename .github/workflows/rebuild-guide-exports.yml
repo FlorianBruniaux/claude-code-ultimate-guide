@@ -8,8 +8,14 @@ on:
     branches: ["main"]
     paths:
       - "guide/ultimate-guide.md"
+      - "guide/ultimate-guide.fr.md"
       - "whitepapers/guide-export.qmd"
+      - "whitepapers/guide-export-fr.qmd"
       - "scripts/preprocess-guide.py"
+      - "scripts/render-publications.py"
+      - "scripts/check-translations.py"
+      - "machine-readable/translations.json"
+      - "VERSION"
       - "whitepapers/_extensions/whitepaper/**"
       - "whitepapers/nocite.lua"
       - "whitepapers/fix-lists.lua"
@@ -24,9 +30,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install Quarto
         uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: "1.10.18"
 
       - name: Install pandoc
         run: |
@@ -46,38 +56,41 @@ jobs:
           find /tmp/jbmono -name "*.ttf" -exec cp {} ~/.local/share/fonts/ \;
           fc-cache -f
 
-      - name: Preprocess guide
-        run: python3 scripts/preprocess-guide.py
+      - name: Render reviewed English and French guides
+        run: TYPST_FONT_PATHS="$HOME/.local/share/fonts" python3 scripts/render-publications.py --collections guides --jobs 2
 
-      - name: Render PDF
-        run: |
-          cd whitepapers
-          quarto render guide-export.qmd --to whitepaper-typst
-
-      - name: Render EPUB
-        run: |
-          cd whitepapers
-          quarto render guide-export.qmd --to epub
+      - name: Preserve source and output evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: guide-export-evidence
+          path: dist/publications/manifest.json
 
       - name: Read version
         id: version
         run: echo "version=$(cat VERSION)" >> "$GITHUB_OUTPUT"
 
       - name: Update GitHub Release
+        # Scheduled runs validate exports without replacing reviewed downloads.
+        if: github.event_name != 'schedule'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: guide-export-v${{ steps.version.outputs.version }}
-          name: "Claude Code Ultimate Guide — PDF & EPUB Export v${{ steps.version.outputs.version }}"
+          name: "Claude Code Ultimate Guide: EN/FR PDF & EPUB v${{ steps.version.outputs.version }}"
           body: |
-            Auto-generated from `guide/ultimate-guide.md` on every push that modifies the guide.
+            English and French full guides, generated from the maintained Markdown sources.
+            The build requires the French translation to match its recorded English source.
 
             | Format | Download |
             |--------|----------|
-            | **PDF** (full guide) | [guide-export.pdf](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/releases/latest/download/guide-export.pdf) |
-            | **EPUB** (e-reader) | [guide-export.epub](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/releases/latest/download/guide-export.epub) |
+            | **PDF EN** | [guide-export.pdf](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/releases/latest/download/guide-export.pdf) |
+            | **EPUB EN** | [guide-export.epub](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/releases/latest/download/guide-export.epub) |
+            | **PDF FR** | [guide-export-fr.pdf](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/releases/latest/download/guide-export-fr.pdf) |
+            | **EPUB FR** | [guide-export-fr.epub](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/releases/latest/download/guide-export-fr.epub) |
 
-            Built with Quarto + Typst. Pipeline: `scripts/preprocess-guide.py` → `whitepapers/guide-export.qmd`.
+            Built with Quarto + Typst through `scripts/render-publications.py`.
           files: |
-            whitepapers/guide-export.pdf
-            whitepapers/guide-export.epub
+            dist/publications/guides/en/guide-export.pdf
+            dist/publications/guides/en/guide-export.epub
+            dist/publications/guides/fr/guide-export-fr.pdf
+            dist/publications/guides/fr/guide-export-fr.epub
           make_latest: "true"

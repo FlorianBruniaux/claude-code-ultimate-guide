@@ -1,0 +1,724 @@
+---
+title: "Privacy & Compliance"
+subtitle: "Vos données chez Anthropic : comprendre et contrôler"
+author: "Florian BRUNIAUX"
+date: "2026-09-26"
+date-format: "MMMM YYYY"
+version: "3.43.0"
+wp-version: "1.3.2"
+series: "Claude Code Ultimate Guide"
+format:
+  whitepaper-typst:
+    toc: true
+    toc-depth: 2
+    section-numbering: "1.1"
+  html:
+    toc: true
+    theme: cosmo
+  epub:
+    toc: true
+    toc-depth: 2
+    epub-cover-image: _extensions/whitepaper/assets/claude-code-ai-logo.jpg
+    css: ../epub-styles.css
+    number-sections: true
+lang: fr
+---
+
+::: {.callout-tip title="Pour qui ce whitepaper ?"}
+**Audience principale** : Tech Leads, CTO, DPO, développeurs soucieux de la conformité
+
+**Prérequis** : Aucun, lecture autonome
+
+**Temps de lecture** : 20 min
+
+**Ce que vous allez retenir** :
+
+- Ce qui entre dans le contexte envoyé au fournisseur : prompts, fichiers et résultats d’outils, y compris des secrets s’ils sont lus
+- 4 niveaux de rétention Anthropic: choisir selon le contexte de votre organisation
+- Questions à examiner avec le DPO pour évaluer votre traitement au regard du RGPD
+:::
+
+> **En 5 lignes :** Avant de déployer Claude Code avec des données client, identifiez les données transmises, le fournisseur, les conditions du compte et les contrôles locaux. Ce livre blanc explique les options de rétention et propose une revue de configuration. Il ne délivre pas de verdict juridique de conformité.
+
+# Ce Qui Est Envoyé à Anthropic
+
+## Vue d'Ensemble
+
+En une session Claude Code standard, un développeur partage des dizaines de fichiers avec les serveurs Anthropic, dont parfois ses clés API, sans le savoir. Le schéma décrit le chemin direct vers Anthropic ; Bedrock, Vertex AI ou un proxy peuvent modifier le fournisseur et les conditions applicables.
+
+```
+  VOTRE MACHINE LOCALE
+  ----------------------------------------
+  • Prompts que vous tapez
+  • CLAUDE.md (integral, a chaque session)
+  • Fichiers lus par Claude (Read tool)
+  • Resultats MCP (requetes SQL, API)
+  • Outputs des commandes Bash
+  • Messages d'erreur et stack traces
+
+              | HTTPS
+              v
+
+  ANTHROPIC API
+  ----------------------------------------
+  • Traite votre requete
+  • Stocke selon politique de retention
+  • Peut utiliser pour training (si opt-in)
+```
+
+## Ce que Contient Votre Contexte Claude Code
+
+Chaque session Claude Code construit un contexte cumulatif : tout ce que le modèle lit, exécute ou reçoit via MCP s'ajoute à la fenêtre de conversation envoyée à Anthropic. La taille de ce contexte varie de quelques milliers de tokens (session légère) à plus de 100K tokens (session intensive avec lectures multiples). Comprendre ce qui compose ce contexte est la première étape pour contrôler ce qui quitte votre machine.
+
+| Élément | Envoyé à Anthropic | Taille typique |
+|---------|-------------------|----------------|
+| CLAUDE.md | Intégral | 2-10K tokens |
+| settings.json | Configuration client ; peut entrer dans le contexte si un outil la lit | Variable |
+| Fichiers lus | Contenu complet | Variable |
+| Outputs bash | Intégraux | Variable |
+| Résultats MCP | Intégraux | Variable |
+| `.env` (si lu) | Intégral : **si non bloqué par deny** | Critique |
+
+> Vérifier avec `/context` (dans une session Claude Code active) pour voir le breakdown tokens réel.
+
+## Flux de Données : Ce Qui Quitte Réellement Votre Machine
+
+```
+[Votre machine: fichiers, secrets, .env]
+        ↓
+[Claude Code CLI: contextualisation du prompt]
+        ↓  HTTPS chiffré
+[API Anthropic]
+        ↓
+[Modèle Claude: traitement en mémoire]
+        ↓
+[API Anthropic]
+        ↓
+[Claude Code CLI]
+        ↓
+[Votre machine]
+
+Ne transite PAS :
+  • Fichiers non lus et non inclus par un autre canal
+  • Appels effectivement refusés par les contrôles applicables
+
+Attention : hors workspace ne signifie pas inaccessible.
+Les permissions Read ne constituent pas un filtre universel
+pour Bash, MCP, les imports ou les données déjà présentes.
+
+Transite vers Anthropic :
+  • Contenu des fichiers lus
+  • Outputs des commandes bash
+  • Résultats MCP (SQL inclus)
+  • CLAUDE.md intégral
+  • Historique de la session
+```
+
+::: {.callout-note title="3 Destinations de Données"}
+Les appels directs et les diagnostics peuvent utiliser les destinations ci-dessous. Les fournisseurs configurés et les serveurs MCP ajoutent leurs propres flux :
+
+| Destination | Données | Opt-out |
+|-------------|---------|---------|
+| **Anthropic API** | Prompts, fichiers, sorties bash, résultats MCP | Tier de rétention |
+| **Statsig** | Métriques opérationnelles (latence, fiabilité), sans code ni chemins | `DISABLE_TELEMETRY=1` |
+| **Sentry** | Logs d'erreur, sans code ni chemins de fichiers | `DISABLE_ERROR_REPORTING=1` |
+
+Variables d'opt-out disponibles : `DISABLE_TELEMETRY=1`, `DISABLE_ERROR_REPORTING=1`, `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1`, `CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY=1`
+:::
+
+## Exemples Concrets
+
+Les scénarios ci-dessous illustrent des situations quotidiennes de développement et les données qui transitent effectivement vers Anthropic dans chaque cas. Ce ne sont pas des cas limites : ce sont les interactions les plus courantes d'une session Claude Code standard.
+
+| Scénario | Données Envoyées |
+|----------|------------------|
+| Claude lit `src/app.ts` | Contenu complet du fichier |
+| Vous exécutez `git status` | Output de la commande |
+| MCP exécute `SELECT * FROM users` | Résultats avec données utilisateurs |
+| Claude lit `.env` | Clés API, mots de passe, secrets |
+| Erreur dans votre code | Stack trace complète avec chemins |
+
+> **Pour aller plus loin :** [§2.12 Data Flow & Privacy](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#212-data-flow--privacy) (schéma complet du flux de données) | [Data Privacy Guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/security/data-privacy.md)
+
+{{< pagebreak >}}
+
+# Politique de Rétention
+
+## Les 4 Niveaux
+
+Les conditions dépendent du type de compte, du choix d’entraînement et du contrat. Référence : [utilisation des données Claude Code](https://code.claude.com/docs/en/data-usage).
+
+| Configuration | Rétention standard | Entraînement |
+|---------------|--------------------|--------------|
+| Compte grand public, entraînement activé | Jusqu’à 5 ans | Selon le choix du compte |
+| Compte grand public, entraînement désactivé | 30 jours | Non pour les nouvelles conversations couvertes par ce choix |
+| Team / Enterprise / API direct | 30 jours par défaut | Non par défaut |
+| ZDR éligible et activé contractuellement | Pas de rétention des entrées/sorties couvertes | Non |
+
+Le ZDR n’est pas automatiquement inclus dans un abonnement Enterprise. Son périmètre dépend de l’organisation, du chemin API et des fonctionnalités utilisées ; les obligations légales, la prévention des abus et les soumissions volontaires peuvent relever d’exceptions. Consultez la [documentation ZDR](https://code.claude.com/docs/en/zero-data-retention).
+
+Les données API Anthropic sont chiffrées en transit par TLS et au repos par AES-256. Cela ne remplace pas une politique de minimisation et de contrôle d’accès.
+
+Les transcriptions locales sont des fichiers en clair sous `~/.claude/projects/`. Leur rétention par défaut est de 30 jours, configurable avec `cleanupPeriodDays`. Le ZDR serveur ne les supprime pas et ne gère pas vos sauvegardes ou journaux MCP.
+
+## Action Immédiate
+
+Vérifiez le compte utilisé et les [paramètres de confidentialité](https://claude.ai/settings/data-privacy-controls). Pour un compte grand public, examinez le choix d’entraînement. Pour un usage commercial, vérifiez le contrat, les règles de l’organisation et les options de rétention ; ne déduisez pas leur activation du seul nom de l’abonnement.
+
+{{< pagebreak >}}
+
+# Risques Identifiés
+
+Le modèle de menace de Claude Code se distingue des assistants IA classiques : la surface d'exposition est **systémique**, pas ponctuelle. Chaque fichier lu, chaque commande exécutée, chaque résultat MCP constitue un transfert de données potentiel vers les serveurs Anthropic. Les permissions et le bac à sable apportent des contrôles ; leur efficacité dépend de la configuration, des outils autorisés et des données déjà présentes dans le contexte.
+
+```
+Code local → Claude Code CLI
+                  │
+                  ├─ permissions.deny ?
+                  │   ├─ Bloqué → Cet appel ne lit pas le fichier
+                  │   └─ Non bloqué → Envoi Anthropic API
+                  │                        └─ Training activé ?
+                  │                             ├─ Oui → Rétention 5 ans + training
+                  │                             └─ Non → Rétention 30 jours
+                  │
+                  └─ MCP Servers → Résultats SQL/API → Envoi Anthropic API
+```
+
+## Risque 1 : Lecture Automatique de Fichiers
+
+Claude Code lit des fichiers pour comprendre le contexte. Ce comportement est **par design** : le modèle a besoin de contexte pour être utile. Le problème survient quand des fichiers sensibles se trouvent dans le workspace sans protection explicite.
+
+| Type de Fichier | Données Exposées |
+|-----------------|------------------|
+| `.env`, `.env.local` | Clés API, mots de passe |
+| `credentials.json` | Comptes de service |
+| `secrets.yaml` | Configurations sensibles |
+| `*.pem`, `*.key` | Clés SSH/TLS |
+| Connection strings | Accès bases de données |
+
+> **Mitigation :** `permissions.deny` bloque les lectures non souhaitées. Voir [Section 4 : Protection des Données](#protection-des-données).
+
+::: {.callout-warning title="Scénario : Marie, lead dev chez une fintech régulée"}
+**Contexte** : Marie travaille sur un microservice de paiement. Son `.env.local` contient les clés Stripe live et les credentials de la DB clients.
+
+**Risque** : Sans `permissions.deny`, Claude lit `.env.local` pour "comprendre le contexte" et les clés Stripe live se retrouvent dans la conversation, retenues selon les conditions du compte ; jusqu’à 5 ans si l’entraînement grand public est activé.
+
+**Configuration** : Ajouter dans `.claude/settings.json` :
+```json
+{ "permissions": { "deny": ["Read(./.env*)", "Bash(cat .env*)", "Bash(head .env*)"] } }
+```
+:::
+
+## Risque 2 : Accès MCP aux Bases de Données
+
+Les serveurs MCP sont des processus séparés avec leur propre accès réseau. Quand Claude demande "montre-moi les commandes récentes", le MCP traduit en SQL et renvoie les résultats **complets**, y compris les données personnelles des clients.
+
+```
+Votre Query: "Montre-moi les commandes récentes"
+                    ↓
+MCP Exécute: SELECT * FROM orders LIMIT 100
+                    ↓
+Résultats Envoyés: 100 lignes avec noms, emails, adresses
+                    ↓
+Stocké chez Anthropic: Selon votre tier de rétention
+```
+
+**Mitigation** : Ne JAMAIS connecter de bases de données production. Utiliser des dumps anonymisés pour le développement.
+
+## Risque 3 : Output des Commandes Shell
+
+Toute commande exécutée par Claude envoie son output complet à Anthropic. Les variables d'environnement sont particulièrement dangereuses car elles concentrent les secrets au même endroit, et des commandes comme `env` ou `printenv` les exposent toutes en une seule requête.
+
+```bash
+# Cet output va chez Anthropic :
+$ env | grep API
+OPENAI_API_KEY=sk-abc123...
+STRIPE_SECRET_KEY=sk_live_...
+```
+
+> **Mitigation :** Bloquer les commandes `env` et `printenv` via `permissions.deny`. Voir [Section 4 : Protection des Données](#protection-des-données).
+
+Un risque connexe concerne les **sous-processus** lancés par Claude Code : sans isolation explicite, ceux-ci héritent de toutes les variables d'environnement du shell parent, y compris les tokens cloud (AWS, GCP, Azure). La variable `CLAUDE_CODE_SUBPROCESS_ENV_SCRUB=1` (v2.1.83+) filtre les identifiants couverts par cette option des sous-processus au moment du lancement. À exporter dans le processus qui lance Claude Code ; un fichier `.env.local` n’est pas chargé automatiquement :
+
+```bash
+export CLAUDE_CODE_SUBPROCESS_ENV_SCRUB=1
+```
+
+## Risque 4 : Les Retours Utilisateur ont une Rétention Distincte
+
+Une soumission via `/feedback` ou son alias `/bug` peut transmettre la conversation associée à Anthropic. Les données de feedback peuvent être conservées jusqu’à 5 ans. Relisez le contenu proposé avant l’envoi et consultez les conditions du compte.
+
+Certains diagnostics et retours appliquent des mesures de rédaction ; cela ne constitue pas un filtre général des secrets dans les prompts ou les résultats d’outils. Pour désactiver les commandes de feedback :
+
+```bash
+export DISABLE_FEEDBACK_COMMAND=1
+```
+
+Ajoutez cette variable au profil shell ou à la configuration d’environnement du processus qui lance Claude Code, puis vérifiez l’état dans une nouvelle session. Voir la [politique de données et feedback](https://code.claude.com/docs/en/data-usage).
+
+## Risque 5 : Incidents Documentés
+
+Ces incidents, rapportés par la communauté, ne sont pas des failles de sécurité au sens classique. Ce sont les conséquences prévisibles du comportement par défaut de Claude Code quand la configuration de protection est absente.
+
+| Incident | Source |
+|----------|--------|
+| Claude lit `.env` par défaut | r/ClaudeAI, GitHub issues |
+| Tentatives DROP TABLE sur MCP mal configuré | r/ClaudeAI |
+| Credentials exposées via env variables | GitHub issues |
+| Prompt injection via MCP malveillants | r/programming |
+
+> La leçon commune : Claude Code est **sécurisable**, pas **sécurisé par défaut**. La protection est une responsabilité de configuration explicite.
+
+## Risque 6 : Intégration Navigateur, Installation Silencieuse du Native Messaging Host
+
+Claude Desktop installe des fichiers de manifeste native messaging dans les répertoires des navigateurs Chromium pour activer sa fonctionnalité "Claude in Chrome". Cette installation se produit **sans invite d'opt-in explicite** de la part de l'utilisateur.
+
+**Ce qui est installé :**
+
+```
+~/Library/Application Support/Google/Chrome/NativeMessagingHosts/
+  com.anthropic.claude_browser_extension.json
+
+/Applications/Claude.app/Contents/MacOS/
+  claude_browser_native_host  (binaire helper)
+```
+
+Claude Desktop écrit ces fichiers dans **tous les navigateurs basés sur Chromium** présents sur le système (Chrome, Brave, Edge, Arc, Vivaldi, Opera, Chromium), y compris les navigateurs non installés au moment de l'installation de Claude Desktop. L'opt-out "Don't ask" dans les préférences de Claude Desktop ne prévient pas de manière fiable cette installation ([GitHub #53864](https://github.com/anthropics/claude-code/issues/53864)).
+
+**Ce que fait réellement le native messaging :**
+
+Le native messaging est un mécanisme Chrome standard utilisé par les gestionnaires de mots de passe, VPN et de nombreuses applications légitimes. Une application modifiant silencieusement les répertoires d'un autre éditeur, sans consentement explicite de l'utilisateur, viole le principe de moindre surprise.
+
+**Audit :**
+
+```bash
+# Lister les native messaging hosts installés pour Chrome
+ls ~/Library/Application\ Support/Google/Chrome/NativeMessagingHosts/
+
+# Vérifier la présence d'Anthropic
+ls ~/Library/Application\ Support/BraveSoftware/Brave-Browser/NativeMessagingHosts/
+ls ~/Library/Application\ Support/Microsoft\ Edge/NativeMessagingHosts/
+```
+
+**Suppression :**
+
+```bash
+# Supprimer de Chrome (répéter pour chaque navigateur)
+rm ~/Library/Application\ Support/Google/Chrome/NativeMessagingHosts/com.anthropic.claude_browser_extension.json
+# Relancer Chrome après suppression
+```
+
+**Conflit avec Claude Code CLI :** Quand Claude Desktop et Claude Code CLI sont tous deux installés, l'extension Chrome se connecte toujours au native host de Claude Desktop, rendant les outils MCP `claude-in-chrome` de Claude Code CLI inaccessibles ([GitHub #51949](https://github.com/anthropics/claude-code/issues/51949)). Bug connu sans contournement en avril 2026 autre que désinstaller Claude Desktop.
+
+**Mitigation :** Si vous n'utilisez pas l'intégration navigateur, supprimez les fichiers de manifeste. Anthropic n'a pas encore fourni de mécanisme d'opt-out officiel fiable. Suivre [GitHub #53864](https://github.com/anthropics/claude-code/issues/53864) pour les mises à jour.
+
+## Risque 7 : Le Client Réseau qui se Fait Passer pour Local
+
+Certains outils CLI ou serveurs MCP se présentent comme "zéro dépendance, sans inscription", laissant penser à un traitement entièrement local, alors qu'ils envoient en réalité chaque entrée vers un serveur tiers via une requête POST. La promesse marketing et le comportement réseau réel divergent, sans qu'aucune alerte ne prévienne l'utilisateur du transfert.
+
+En mode CLI classique, un développeur peut encore repérer l'anomalie : la taille du binaire ou du package ne correspond pas à la fonctionnalité annoncée pour un traitement purement local (un outil de "formatage de texte local" de quelques kilooctets qui embarque un client HTTP complet, par exemple). En mode MCP, ce garde-fou disparaît : c'est l'agent, pas un humain, qui décide à chaque appel quelles données transitent par l'outil, sans relecture systématique. Le problème passe d'une question de discipline individuelle à un problème structurel de la chaîne d'outils.
+
+**Audit** : Avant d'ajouter un serveur MCP tiers, comparer la taille du package installé à la fonctionnalité annoncée. Un écart significatif entre les deux (paquet lourd pour une fonction simple, dépendances réseau non déclarées) est un signal suffisant pour investiguer le trafic réseau réel avant intégration.
+
+**Mitigation :** Auditer le trafic réseau sortant des serveurs MCP tiers avant intégration (via `lsof -i` ou un proxy de sortie), et privilégier les serveurs MCP dont le code source est vérifiable.
+
+{{< pagebreak >}}
+
+# Protection des Données
+
+## Configuration permissions.deny
+
+Les règles `permissions.deny` refusent les appels d’outils correspondants. Chaque famille de règles vise son outil : un refus `Read` ne bloque pas automatiquement toute lecture possible par Bash ou un serveur MCP. Complétez ces règles par le bac à sable, des identifiants limités et des contrôles réseau adaptés.
+
+Dans `.claude/settings.json` :
+
+```json
+{
+  "permissions": {
+    "deny": [
+      "Read(./.env*)",
+      "Edit(./.env*)",
+      "Write(./.env*)",
+      "Bash(cat .env*)",
+      "Bash(head .env*)",
+      "Read(./secrets/**)",
+      "Read(./**/credentials*)",
+      "Read(./**/*.pem)",
+      "Read(./**/*.key)",
+      "Read(./**/service-account*.json)"
+    ]
+  }
+}
+```
+
+## Limitations Connues
+
+Le système `permissions.deny` repose sur du pattern matching textuel, pas sur une analyse sémantique des intentions. Cela signifie qu'un développeur (ou le modèle lui-même) peut involontairement contourner les restrictions en utilisant une variante de commande non couverte par les patterns. Ces limitations justifient l'ajout de hooks de sécurité comme couche de défense complémentaire.
+
+| Limitation | Impact |
+|------------|--------|
+| Pattern matching basique | Contournements possibles |
+| Pas de validation sémantique | `cat .env` vs `head .env` |
+| Fichiers hors workspace | Non protégés par défaut |
+
+**Solution** : Combiner avec hooks de sécurité. Voir **#3 Sécurité en Production** (`03-securite.qmd`).
+
+## Empêcher le Fallback Silencieux du Sandbox
+
+Par défaut, si le sandboxing n'est pas disponible sur la plateforme, Claude Code continue en mode non-sandboxé sans avertissement. Pour les équipes soumises à des exigences de sécurité ou de conformité, ce comportement silencieux est inacceptable. L'option `sandbox.failIfUnavailable` (v2.1.83+) interrompt Claude Code plutôt que de laisser tourner une session non protégée :
+
+```json
+// .claude/settings.json
+{
+  "sandbox": {
+    "failIfUnavailable": true
+  }
+}
+```
+
+Recommandé en production et dans tout environnement régulé où l'absence de sandbox doit être traitée comme une erreur bloquante, pas ignorée.
+
+## Hook de Protection Fichiers
+
+Les hooks Claude Code permettent d'intercepter les appels d'outils avant leur exécution, offrant une couche de validation programmatique que `permissions.deny` ne peut pas fournir. Ce hook inspecte chaque appel à l'outil Read et bloque les fichiers dont le chemin correspond à des patterns sensibles connus. Le code de sortie `2` signale un blocage explicite à Claude Code.
+
+```bash
+#!/bin/bash
+INPUT=$(cat)
+TOOL_NAME=$(echo "$INPUT" | jq -r '.tool_name')
+
+if [[ "$TOOL_NAME" == "Read" ]]; then
+    FILE_PATH=$(echo "$INPUT" | jq -r '.tool_input.file_path')
+
+    if [[ "$FILE_PATH" =~ \.env|credentials|secrets|\.pem|\.key ]]; then
+        echo "BLOCKED: $FILE_PATH" >&2
+        exit 2  # Block
+    fi
+fi
+```
+
+{{< pagebreak >}}
+
+# MCP et Données Sensibles
+
+## Règles pour Bases de Données
+
+L'accès MCP aux bases de données est le vecteur d'exposition le plus sous-estimé de Claude Code. Contrairement aux lectures de fichiers (qui peuvent être bloquées par `permissions.deny`), les résultats SQL transitent intégralement vers Anthropic sans filtrage côté client. Ces cinq règles constituent le socle minimal de sécurité pour tout usage MCP avec des données structurées.
+
+| Règle | Justification |
+|-------|---------------|
+| **Jamais de DB production** | Tous les résultats envoyés à Anthropic |
+| **Utilisateurs read-only** | Empêche DROP/DELETE/UPDATE accidents |
+| **Données anonymisées** | Réduit risque exposition PII |
+| **Datasets minimaux** | Moins de données = moins de risque |
+| **Audit sources MCP** | MCP tiers peuvent avoir vulnérabilités |
+
+## Recommandations par Environnement
+
+Le niveau de protection requis dépend directement de l'environnement de travail. Un développeur en local sur des données de test n'a pas les mêmes contraintes qu'une équipe connectée à un staging avec des données réelles. Le principe directeur est simple : plus les données sont proches de la production, plus le tier de rétention doit être restrictif.
+
+| Environnement | Recommandation |
+|---------------|----------------|
+| **Development** | Opt-out + exclusions + données anonymisées |
+| **Staging** | Enterprise API si données réelles |
+| **Production** | JAMAIS connecter Claude Code directement |
+
+## Grepai : Indexation Locale, Extraits Transmis au Modèle
+
+Avec Ollama et un modèle d’embedding local, grepai peut indexer le dépôt sans envoyer son contenu à un service d’embedding distant. Les extraits qu’il retourne à Claude entrent cependant dans le contexte transmis au fournisseur du modèle.
+
+| Outil | Données entrant dans le contexte |
+|-------|----------------------------------|
+| Grep natif | Résultats de recherche |
+| Read | Contenu lu |
+| Grepai avec index local | Extraits pertinents retournés par la recherche |
+
+```bash
+# Configurer l’index local ; vérifier le fournisseur d’embedding choisi
+grepai init  # Choisir ollama et un modèle local
+grepai index
+```
+
+Le choix d’un index local réduit un flux d’embedding externe. Il ne garantit pas l’absence de transmission des résultats de recherche.
+
+## Sandboxing WASM des Serveurs MCP (Expérimental)
+
+Un serveur MCP mal audité ou compromis hérite par défaut des mêmes privilèges que le processus Claude Code : lecture/écriture filesystem sans restriction et accès réseau sortant. Une approche émergente compile chaque outil MCP en composant `.wasm`, l'exécute dans un runtime WebAssembly, et déclare explicitement les capacités accordées (chemins filesystem, hôtes réseau, variables d'environnement). Le modèle deny-by-default est alors appliqué au niveau du runtime, pas par le code de l'outil lui-même.
+
+**Wassette** (Microsoft) est l'outil le plus abouti sur ce terrain : un fichier de policy YAML déclare précisément ce que chaque composant MCP peut toucher. Le runtime sous-jacent, Wasmtime, offre ce que Microsoft qualifie d'"isolation grade navigateur", une garantie réelle mais qui n'équivaut pas à une frontière de sécurité certifiée pour l'entreprise. Wassette en est à la version 0.4.0 et se décrit elle-même comme non prête pour la production. Wasmtime porte par ailleurs un historique documenté de vulnérabilités d'évasion de sandbox, dont CVE-2026-34971 (une mauvaise compilation Cranelift sur aarch64), corrigée dans les versions 36.0.7, 42.0.2 et 43.0.1. Les projets connexes (wasmcp, whamm, splicer) sont à un stade plus précoce ou couvrent des besoins différents (instrumentation, composition).
+
+Cette isolation ne couvre ni le suivi de coût/usage token, ni les logs d'audit ou la traçabilité : ce sont des contrôles complémentaires, pas des alternatives. Pour les équipes dont le modèle de menace inclut des serveurs MCP tiers compromis ou imprévisibles, c'est la direction architecturale à surveiller. En attendant une release Wassette jugée production-ready, la voie pragmatique reste le workflow d'approbation MCP côté organisation combiné à une isolation par conteneur Docker.
+
+## Comparaison avec Autres Outils
+
+Comparez le plan, le fournisseur, les outils et les contrôles activés à une date donnée. Un même produit peut avoir des conditions différentes entre comptes personnels, commerciaux et fournisseurs cloud. Une ancienne table de tarifs ou de rétention ne prouve pas les conditions de votre déploiement.
+
+Les serveurs MCP sont des processus distincts avec leurs propres permissions et destinations réseau. Vérifiez chaque serveur et son contrat de traitement des données.
+
+{{< pagebreak >}}
+
+# Considérations Légales
+
+> **Avertissement** : Ce whitepaper fournit une information générale et ne constitue pas un avis juridique. Consultez un professionnel du droit pour votre situation spécifique.
+
+L'utilisation de Claude Code en entreprise soulève trois catégories de questions juridiques : la propriété intellectuelle du code généré, la conformité GDPR pour les données transitant par l'API Anthropic, et les obligations contractuelles liées aux licences open-source. Ces questions ont des implications directes sur la responsabilité de l'entreprise.
+
+## Propriété Intellectuelle
+
+### Copyright du Code Généré par IA
+
+Le cadre juridique autour du copyright du code généré par IA reste en construction. Le Copyright Office américain a pris position contre la protection du contenu purement AI-généré, mais la notion de "contribution humaine substantielle" (le développeur qui guide, modifie, intègre le code) demande une analyse au cas par cas.
+
+| Question | État Actuel |
+|----------|-------------|
+| **Qui détient le copyright ?** | Juridiquement incertain : varie selon juridiction |
+| **Registrable au Copyright Office ?** | US : "Non" pour contenu purement AI-généré |
+| **Code modifié par humain ?** | Contribution humaine substantielle peut être protégée |
+| **Travail dérivé ?** | Débat juridique en cours |
+
+**Position pratique** : Ne supposez pas que le code généré appartient au domaine public ou qu’il est libre de droits tiers. Documentez les contributions humaines, examinez les licences et demandez une revue juridique lorsque nécessaire. Voir le [rapport du US Copyright Office sur la protégeabilité](https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-2-Copyrightability-Report.pdf).
+
+### Contamination de Licence
+
+Les modèles sont entraînés sur du code open-source, incluant des licences virales.
+
+| Licence | Risque | Mitigation |
+|---------|--------|------------|
+| **GPL v3** | Copyleft fort : peut "contaminer" | Revue code critique avant release |
+| **AGPL** | Copyleft + network use | Éviter pour SaaS sans revue juridique |
+| **MIT/BSD** | Faible : permissif | Attribution recommandée |
+| **Apache 2.0** | Faible : inclut patent grant | Attribution + notice NOTICE |
+
+### Indemnification Enterprise
+
+| Plan | Couverture IP | Notes |
+|------|---------------|-------|
+| **Free/Pro** | Aucune | Utilisateur assume tous risques |
+| **Team** | Limitée | Vérifier conditions contrat |
+| **Enterprise** | Disponible | Négocier termes spécifiques |
+
+**Recommandation** : Pour code critique/commercial, exiger clause d'indemnification IP explicite.
+
+### Bonnes Pratiques IP
+
+En attendant que le cadre juridique se stabilise, ces quatre pratiques permettent de réduire l'exposition au risque IP tout en continuant à utiliser Claude Code efficacement.
+
+1. **Documenter l'origine** : Logger quand Claude génère vs modifie du code
+2. **Revue humaine** : Toute contribution AI doit être revue/modifiée
+3. **Scan licences** : Utiliser des outils de détection (FOSSA, Snyk, etc.)
+4. **Policy interne** : Définir règles d'utilisation AI dans le handbook développeur
+
+## GDPR/Conformité EU
+
+Identifiez les données personnelles traitées, les rôles des parties, la base légale, les destinataires et les transferts éventuels. Un fournisseur américain n’implique pas à lui seul que chaque requête suit le même chemin de traitement. Le contrat, la région et les sous-traitants doivent être examinés.
+
+| Aspect | Revue à effectuer |
+|--------|--------------------|
+| Données personnelles | Minimisation, pseudonymisation et accès nécessaires |
+| Transferts internationaux | Mécanisme applicable, garanties et documentation |
+| Droits des personnes | Capacités d’accès, d’effacement et durées de conservation |
+| Base légale | Fondement applicable à la finalité du traitement |
+| Sous-traitance | DPA conforme aux obligations pertinentes de l’article 28 |
+
+Sources : [texte officiel du RGPD](https://eur-lex.europa.eu/eli/reg/2016/679/oj) et [DPA Anthropic](https://www.anthropic.com/legal/data-processing-addendum).
+
+**Traçabilité des sessions (v2.1.86+)** : Claude Code envoie désormais un header `X-Claude-Code-Session-Id` avec chaque appel API. Ce header permet aux proxies et à l'infrastructure d'observabilité de corréler toutes les requêtes d'une même session sans en exposer le contenu. Cet identifiant aide la corrélation technique ; il ne prouve pas la conformité RGPD et doit lui-même être protégé selon le contexte. Configuration proxy nginx :
+
+```nginx
+proxy_set_header X-Claude-Code-Session-Id $http_x_claude_code_session_id;
+```
+
+Pour un service fourni par Microsoft ou un autre intermédiaire, vérifiez le DPA et la liste de sous-traitants propres au service. Aucun cadre n’est automatiquement supérieur sans examiner le traitement concerné.
+
+## Questions pour la Revue RGPD
+
+```text
+Données personnelles prévues dans les prompts ou résultats ?
+├─ Non : documenter les contrôles qui maintiennent cette limite
+└─ Oui : définir finalité, catégories, minimisation et base légale
+    ├─ Vérifier les rôles et le DPA applicables
+    ├─ Examiner régions, transferts et sous-traitants
+    ├─ Définir rétention, droits, accès et réponse aux incidents
+    └─ Données sensibles : évaluer les conditions supplémentaires
+       et la nécessité d’une analyse d’impact avec le DPO
+```
+
+Cet arbre prépare la revue ; aucune branche ne délivre un verdict de conformité.
+
+::: {.callout-warning title="Scénario : données patients dans un staging"}
+Des emails conservés dans un jeu prétendument anonymisé peuvent permettre d’identifier des patients. Suspendez leur transmission, vérifiez l’anonymisation et faites examiner le traitement, les contrats et les garanties par les responsables compétents. Un DPA ou une option ZDR ne résout pas seul toutes ces obligations.
+:::
+
+## Quand Examiner une Option ZDR
+
+Examinez le ZDR lorsque la politique de conservation, les engagements clients ou l’analyse de risque le justifient. Confirmez l’éligibilité, l’activation pour l’organisation et les fonctionnalités couvertes. Vérifiez séparément les accords nécessaires, tels qu’un BAA si applicable. Le RGPD n’impose pas universellement le ZDR ; celui-ci ne supprime pas les journaux locaux et les exceptions contractuelles doivent être lues.
+
+{{< pagebreak >}}
+
+# Checklist Compliance Enterprise
+
+Cette checklist transforme les principes des sections précédentes en actions vérifiables. Les contrôles techniques produisent des indices de configuration ; ils ne valident pas à eux seuls la conformité juridique.
+
+## Évaluation et Configuration
+
+Ces dix actions couvrent la configuration initiale nécessaire avant tout déploiement de Claude Code en contexte professionnel. Les sept premières reprennent le format à commandes copiables du Quick Audit Checklist du guide : chaque contrôle doit être interprété dans son périmètre. Les trois suivantes sont des ajouts spécifiques à ce whitepaper, orientés gouvernance d'équipe plutôt que configuration technique.
+
+| # | Action | Commande / Vérification | Fait |
+|---|--------|------------------------|------|
+| 1 | Opt-out training activé | https://claude.ai/settings/data-privacy-controls (toggle "Allow model training" OFF) | ☐ |
+| 2 | Commande `/bug` désactivée | `echo $DISABLE_FEEDBACK_COMMAND` → doit afficher `1` | ☐ |
+| 3 | `.env*` bloqué via permissions.deny | Inspecter `/permissions`, puis tester le refus sur un fichier témoin sans secret | ☐ |
+| 4 | Native messaging host absent (si non désiré) | `ls ~/Library/Application\ Support/Google/Chrome/NativeMessagingHosts/ \| grep anthropic` → rien ne doit apparaître | ☐ |
+| 5 | Inventaire serveurs MCP à jour | `cat ~/.claude.json` (ou `.mcp.json` du projet) : chaque connexion DB pointe vers dev/staging, jamais prod | ☐ |
+| 6 | Télémétrie désactivée si requis | `echo $DISABLE_TELEMETRY && echo $DISABLE_ERROR_REPORTING` → doivent afficher `1` | ☐ |
+| 7 | Pas de secrets exposés dans le shell | Inventorier uniquement les noms des variables dans un terminal contrôlé ; ne pas afficher leurs valeurs dans une session modèle | ☐ |
+| 8 | Équipe formée sur flux données | Session démo Section 1 | ☐ |
+| 9 | Politique classification données documentée | Handbook développeur | ☐ |
+| 10 | Plan réponse incident data exposure | Procédure écrite et testée | ☐ |
+
+## Audit Régulier
+
+La configuration initiale ne suffit pas. Les serveurs MCP évoluent, de nouveaux développeurs rejoignent l'équipe, et les hooks de sécurité doivent être mis à jour avec les nouvelles versions de Claude Code. Un cycle d'audit régulier garantit que les protections restent effectives dans le temps.
+
+| # | Fréquence | Vérification | Commande | Fait |
+|---|-----------|--------------|----------|------|
+| 11 | Mensuel | Revue configurations MCP | `cat ~/.claude.json` (ou `.mcp.json` du projet) | ☐ |
+| 12 | Trimestriel | Audit hooks sécurité + mise à jour | `./examples/scripts/audit-scan.sh` | ☐ |
+
+## Fiches Mémo Compliance
+
+::: {.callout-important title="Memo Compliance -- RGPD (Art. 28, 30, 32)"}
+**Obligation** : Tout sous-traitant traitant des données personnelles doit être encadré par un DPA (Data Processing Agreement) avec clauses Art. 28 RGPD.
+
+**Action Claude Code** : (1) Vérifier l'existence d'un DPA Anthropic pour votre plan (`trust.anthropic.com`). (2) Documenter le traitement dans votre registre des activités (Art. 30). (3) Évaluer les conditions de l’article 9 et les mesures adaptées avec le DPO.
+
+**Vérification** : examiner le DPA applicable et les rapports accessibles via le Trust Center ; une réponse HTTP ne valide pas le contenu contractuel.
+:::
+
+::: {.callout-important title="Memo Compliance -- SOC2 Type II"}
+**Obligation** : Démontrer que les contrôles de sécurité sont opérationnels dans la durée (pas juste au moment de l'audit).
+
+**Action Claude Code** : (1) Configurer `permissions.deny` + hooks de sécurité. (2) Activer les logs d'audit. (3) Planifier revues trimestrielles des configurations MCP.
+
+**Vérification** : `./examples/scripts/audit-scan.sh` pour lancer l'audit automatisé et archiver le rapport.
+:::
+
+::: {.callout-important title="Memo Compliance -- Classification des Données"}
+**Obligation** : Identifier les niveaux de sensibilité des données manipulées par Claude Code avant de choisir le tier de rétention.
+
+**Action Claude Code** : relier chaque niveau de classification aux données permises, au plan approuvé, à la rétention et aux contrôles définis par votre organisation. Examiner le ZDR lorsque requis par cette analyse.
+
+**Vérification** : Croiser votre politique de classification interne avec le tableau de la Section 2 (Politique de Rétention).
+:::
+
+{{< pagebreak >}}
+
+# Gouvernance : Intelligence Artificielle Constitutionnelle
+
+Anthropic construit Claude (et Claude Code) sur un cadre de valeurs hiérarchisées appelé Constitutional AI. Cette hiérarchie détermine comment Claude priorise les décisions en cas de conflit.
+
+| Priorité | Principe | Implication pour Claude Code |
+|----------|----------|------------------------------|
+| **1. Sûreté** | Ne jamais compromettre la sécurité des systèmes | Peut refuser des opérations risquées même si demandées explicitement |
+| **2. Éthique** | Respecter les valeurs éthiques fondamentales | Peut refuser des actions légales mais nuisibles |
+| **3. Conformité Anthropic** | Respecter les politiques Anthropic | Peut refuser des usages hors politique d'utilisation |
+| **4. Utilité** | Être genuinement utile à l'utilisateur | Priorité basse en cas de conflit avec 1-3 |
+
+**Implications pratiques pour les équipes** :
+
+- Les refus de Claude Code reflètent cette hiérarchie de valeurs, pas un bug
+- Les paramètres de configuration (`permissions.deny`, hooks) permettent de restreindre, mais pas d'élargir les limites définies par les niveaux 1-3
+- Pour les environnements réglementés (HIPAA, SOC2) : la priorité "Sûreté" est alignée avec les exigences de conformité. les garde-fous du modèle ne remplacent ni les permissions, ni le bac à sable, ni les contrôles de conformité
+
+{{< pagebreak >}}
+
+# Ressources
+
+## Liens Officiels Anthropic
+
+Ces ressources sont les points d'entrée officiels d'Anthropic pour la gestion de la confidentialité et de la conformité. Le Trust Center (`trust.anthropic.com`) est particulièrement utile pour les équipes compliance qui ont besoin d'artifacts vérifiables (DPA, rapports SOC2, documentation GDPR).
+
+| Ressource | Contenu | Lien |
+|-----------|---------|------|
+| **Privacy Settings** | Désactiver le training, configurer la rétention | [claude.ai/settings/data-privacy-controls](https://claude.ai/settings/data-privacy-controls) |
+| **Anthropic Privacy Policy** | Politique de confidentialité officielle | [anthropic.com/privacy](https://www.anthropic.com/privacy) |
+| **Usage Policy** | Conditions d'utilisation acceptables | [anthropic.com/policies](https://www.anthropic.com/policies) |
+| **Enterprise Information** | Offre Enterprise, ZDR, contrats DPA | [anthropic.com/enterprise](https://www.anthropic.com/enterprise) |
+| **Terms of Service** | Conditions générales d'utilisation | [anthropic.com/legal/consumer-terms](https://www.anthropic.com/legal/consumer-terms) |
+| **Trust Center** | SOC2, GDPR, DPA, certifications sécurité | [trust.anthropic.com](https://trust.anthropic.com) |
+
+## Références Réglementaires
+
+| Ressource | Contenu | Lien |
+|-----------|---------|------|
+| **Texte RGPD officiel** | Règlement UE 2016/679 : texte intégral | [eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32016R0679](https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32016R0679) |
+| **CNIL : IA et données** | Guide CNIL sur l'utilisation de l'IA en entreprise | [cnil.fr/fr/intelligence-artificielle](https://www.cnil.fr/fr/intelligence-artificielle) |
+| **CNIL : Correspondant données** | Obligations DPO, registre de traitements | [cnil.fr/fr/la-designation-du-dpo](https://www.cnil.fr/fr/la-designation-du-dpo) |
+| **EU AI Act** | Règlement européen sur l’IA, avec calendrier d’application échelonné | [eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32024R1689](https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32024R1689) |
+| **EDPB Guidelines** | Lignes directrices du Comité européen à la protection des données | [edpb.europa.eu/our-work-tools/general-guidance](https://www.edpb.europa.eu/our-work-tools/general-guidance_fr) |
+| **Data Privacy Guide** | Guide data privacy Claude Code (ce repo) | [guide/security/data-privacy.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/security/data-privacy.md) |
+| **AI Traceability Guide** | Attribution, disclosure, politique d'équipe | [guide/ops/ai-traceability.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/ai-traceability.md) |
+
+## Commandes Utiles
+
+Ces commandes permettent de vérifier rapidement l'état de votre configuration privacy sans quitter le terminal. Les commandes `/config`, `/status` et `/context` ne sont disponibles que dans une session Claude Code active : elles interrogent l'état réel de la session en cours.
+
+```bash
+# Dans une session Claude Code active (prompt >)
+/config    # Vérifier config Claude
+/permissions # Inspecter les règles d’accès
+/status    # Inspecter les sources de configuration
+/context   # Obtenir breakdown détaillé des tokens
+
+# Dans votre terminal
+./examples/scripts/audit-scan.sh  # Lancer audit privacy
+```
+
+## Parcours Recommandé
+
+La confidentialité est un prérequis, pas une fin en soi. Ce whitepaper couvre le "quoi" et le "pourquoi" de la protection des données ; les whitepapers suivants traitent du "comment" opérationnel pour sécuriser, déployer et configurer Claude Code en équipe.
+
+| Après ce whitepaper | Lire ensuite |
+|---------------------|--------------|
+| Sécurité approfondie | → Voir **#3 Sécurité en Production** (`03-securite.qmd`) |
+| Déploiement équipe | → Voir **#5 Déployer en Équipe** (`05-equipe.qmd`) |
+| Configuration | → Voir **#2 Personnaliser Claude** (`02-personnalisation.qmd`) |
+| Traçabilité IA | → [AI Traceability Guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/ai-traceability.md) : attribution, disclosure, politique d'équipe |
+
+---
+
+| Type | Licence |
+|------|---------|
+| Contenu | CC BY-SA 4.0 |
+| Code | MIT |
+
+**Repository** : [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)
+
+*Version 3.43.0 | Septembre 2026*
+
+
+---
+
+{{< include fiches/fiche-06-privacy.qmd >}}
+
+# La Série
+
+Ce livre blanc fait partie de la série **Claude Code Ultimate Guide**, une ressource complète pour maîtriser Claude Code, de l'installation au déploiement en production.
+
+**13 livres blancs dans la série :**
+
+- **WP00** Introduction & Fondamentaux
+- **WP01** Prompts Efficaces
+- **WP02** Personnalisation & Configuration
+- **WP03** Sécurité en Production
+- **WP04** Architecture Interne
+- **WP05** Adoption en Équipe
+- **WP06** Privacy & Conformité
+- **WP07** Guide de Référence Condensé
+- **WP08** Teams d'Agents & Sub-Agents
+- **WP09** Apprendre avec l'IA (UVAL)
+- **WP10** Budget IA & ROI
+- **WP11** Piloter une Équipe à l'Ère de l'IA
+- **WP12** Ingénierie à l’Ère des Agents Autonomes
+
+Série complète disponible sur [cc.bruniaux.com/whitepapers/](https://cc.bruniaux.com/whitepapers/)

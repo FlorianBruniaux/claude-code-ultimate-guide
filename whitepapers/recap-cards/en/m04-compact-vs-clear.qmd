@@ -4,10 +4,11 @@ subtitle: "When to summarize and when to reset the context"
 card-number: "M04"
 category: "Methodology"
 difficulty: "beginner"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "August 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: en
 format:
@@ -18,24 +19,16 @@ format:
 
 | | `/compact` | `/clear` |
 |--|-----------|---------|
-| History | Preserved as summary | Lost |
+| History | Replaced by a summary | Reset in the current conversation |
 | Session thread | Maintained | Broken |
-| Context freed | ~40-50% | 100% |
+| Context effect | History replaced by a summary; amount varies | Conversation history reset |
 | When to use | Mid-task | Topic change |
 
 `/compact` compresses without cutting the thread, `/clear` starts from scratch. Neither is universally better, the choice depends on the situation.
 
-## Context Zones
+## Context Decisions
 
-```
-0-50%   Work freely
-50-75%  Be selective about loaded files
-75-90%  /compact now (not in a hurry)
-90%+    /clear if the session is going badly
-        or /compact as a last resort
-```
-
-Waiting until 90% to run `/compact` is the classic mistake. At that point, Claude starts forgetting instructions and response quality drops. 75% is the right threshold.
+Use `/context` to inspect usage. Compact when useful history has become bulky; clear when changing topics or when a fresh conversation is more useful. No single occupancy percentage predicts response quality. Save decisions, acceptance criteria and unfinished work before either operation.
 
 ## When to Use `/compact`
 
@@ -48,7 +41,7 @@ Waiting until 90% to run `/compact` is the classic mistake. At that point, Claud
 /compact
 ```
 
-Claude summarizes the history, preserves critical elements, and frees 40-50% of used context. The summary becomes the new "session memory".
+Claude replaces conversation history with a summary. The space recovered and the details preserved vary; check `/context` and keep critical state in files.
 
 ## When to Use `/clear`
 
@@ -61,7 +54,7 @@ Claude summarizes the history, preserves critical elements, and frees 40-50% of 
 /clear
 ```
 
-All context is erased. Start over with a focused prompt and the minimal necessary context file.
+The conversation starts fresh; applicable instructions are loaded again. Saved sessions remain resumable. Start with a focused prompt and the necessary context files.
 
 ## "Summarize from Here": The Third Option
 
@@ -77,11 +70,11 @@ More precise than global `/compact`, useful when only the end of the session is 
 
 | Situation | Command |
 |-----------|---------|
-| Long session, same task, 75%+ | `/compact` |
+| Bulky history, same task | `/compact` |
 | New topics after a dense session | `/clear` |
 | Verbose end of session to clean up | Rewind → Summarize |
-| Context 70-90%, task in progress | `/compact` |
-| Context 90%+, session going badly | `/clear` |
+| Useful history worth summarizing | `/compact` |
+| Repeated confusion, fresh start needed | `/clear` |
 
 ## What `/compact` Does NOT Preserve
 

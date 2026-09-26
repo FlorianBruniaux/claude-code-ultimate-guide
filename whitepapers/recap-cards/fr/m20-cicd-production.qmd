@@ -4,10 +4,11 @@ subtitle: "Utiliser Claude Code en production avec les bonnes garanties de sécu
 card-number: "M20"
 category: "Méthodologie"
 difficulty: "advanced"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -16,7 +17,7 @@ format:
 
 ## Le flag `--dangerously-skip-permissions`
 
-Ce flag désactive les confirmations interactives de Claude Code, ce qui est indispensable pour les pipelines CI/CD non interactifs. Mais il supprime aussi la dernière ligne de défense contre les actions destructives. Son utilisation n'est acceptable que dans un container éphémère isolé, jamais sur une machine partagée persistante.
+Ce flag contourne les demandes de permission. Les tâches non interactives peuvent aussi utiliser des outils pré-approuvés et un ensemble d’outils restreint. Mais il supprime aussi la dernière ligne de défense contre les actions destructives. Son utilisation n'est acceptable que dans un container éphémère isolé, jamais sur une machine partagée persistante.
 
 ```bash
 # Acceptable en CI (container éphémère)
@@ -35,21 +36,20 @@ Un container Docker jetable créé au début du job et détruit à la fin. Le d�
 
 ```yaml
 jobs:
-  agent-task:
+  agent-review:
     runs-on: ubuntu-latest
-    container:
-      image: node:22-alpine
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
-      - name: Run Claude
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: |
-          claude --dangerously-skip-permissions \
-            -p "Run tests, fix failures, open PR"
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: "Review the checked-out source and summarize defects."
+          claude_args: '--tools "Read,Grep,Glob" --allowedTools "Read,Grep,Glob"'
 ```
 
-Pour une isolation maximale, les solutions cloud (E2B, Vercel Sandboxes) offrent des microVMs avec un kernel séparé, ce qui élimine le risque d'échappement de container.
+Cet exemple donne accès en lecture au code source. Identifiants, isolation du runner et déclencheurs du workflow nécessitent une revue séparée. Une microVM ajoute une frontière de noyau ; aucune virtualisation n’élimine tous les risques d’évasion ou d’accès aux données.
 
 ## Whitelist d'outils stricte
 
@@ -62,7 +62,7 @@ Même en mode bypass, il est possible de limiter les outils disponibles. Un agen
 | Analyse de sécurité | Read, Glob, Grep |
 | Implémentation | Read, Edit, Write, Bash |
 
-La whitelist se configure via `--allowedTools` en CLI, ou via `claude_args: '--allowedTools ...'` dans l'action GitHub officielle `anthropics/claude-code-action`.
+Utiliser `--tools` pour limiter les outils disponibles et `--allowedTools` pour pré-approuver les appels autorisés. Transmettre ces options via `claude_args` dans l’action officielle.
 
 ## Secrets en CI
 
@@ -87,7 +87,7 @@ api.anthropic.com   # Modèle
 github.com          # Git operations
 ```
 
-Tout le reste en deny par défaut. Cela bloque l'exfiltration de données vers des endpoints externes si l'agent est compromis ou mal configuré.
+Tout le reste est refusé par défaut. Cela restreint les destinations, mais un service autorisé peut recevoir des données sensibles. Examiner identifiants, périmètre des requêtes et données accessibles à l’agent.
 
 ## Pattern safe autonomy
 

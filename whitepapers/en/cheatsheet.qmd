@@ -2,10 +2,10 @@
 title: "Claude Code Cheatsheet"
 subtitle: "Daily essentials for maximum productivity"
 author: "Florian BRUNIAUX"
-date: "2026-09-24"
+date: "2026-09-26"
 date-format: "MMMM YYYY"
 version: "3.43.0"
-wp-version: "1.2.1"
+wp-version: "1.2.2"
 series: "Claude Code Ultimate Guide"
 format:
   cheatsheet-typst:
@@ -23,7 +23,7 @@ lang: en
 # How to Install
 
 ```bash
-npm install -g @anthropic-ai/claude-code
+curl -fsSL https://claude.ai/install.sh | bash
 # Verify installation
 which claude && claude --version
 ```
@@ -92,7 +92,7 @@ which claude && claude --version
 
 | Feature | What It Does |
 |---------|--------------|
-| **Tasks API** | Persistent task lists with dependencies |
+| **Tasks API** | Persistent dependencies; newer models require `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` |
 | **Background Agents** | Sub-agents work while you code |
 | **Agent Teams** | Multi-agent coordination (TeamCreate/SendMessage) |
 | **Auto-Memories** | Automatic cross-session context capture |
@@ -100,7 +100,7 @@ which claude && claude --version
 | **LSP Tool** | Code intelligence (go-to-def, refs), ~50ms vs 45s with grep |
 | **Voice Mode** | Native voice input, free transcription |
 | **Remote Control** | Control local session from phone/browser (Pro/Max/Team/Enterprise) |
-| **Cloud/Desktop Scheduled Tasks** | Machine-off scheduling via `/schedule` or Desktop app |
+| **Scheduled Tasks** | Cloud routines can run machine-off; Desktop tasks need the app and machine running |
 | **Skill Evals** | A/B testing and trigger tuning for custom skills |
 | **Output Styles** | `/output-style`: Default, Proactive, Concise, Explanatory, Learning |
 | **Rules Templates** | Ready-to-use `.claude/rules/` templates (arch/quality/test/perf) |
@@ -127,13 +127,13 @@ which claude && claude --version
 | **Project** | `.claude/` | Team | Yes |
 | **Personal** | `~/.claude/` | You (all projects) | No |
 
-**Priority**: Project overrides Personal
+**Settings priority**: Managed policy > CLI > project-local > project > user. CLAUDE.md instructions combine rather than replacing one another.
 
 ## .claude/ Folder Structure
 
 ```
 .claude/
-├── CLAUDE.md           # Local memory (gitignored)
+├── CLAUDE.md           # Shared project instructions (committed)
 ├── settings.json       # Hooks (committed)
 ├── settings.local.json # Permissions (not committed)
 ├── agents/             # Custom agents
@@ -155,7 +155,7 @@ which claude && claude --version
 #v(8pt)
 ```
 
-**Watch `Ctx(u):`** → >70% = `/compact`, >85% = `/clear`
+**Watch `/context`**. Compact at a useful boundary; save decisions before clearing. Fixed percentages are workflow heuristics, not model limits.
 
 | Sign | Action |
 |------|--------|
@@ -336,7 +336,7 @@ Loop and graph are not extra substitutes. Loop names the repeated feedback and s
 
 ```
 Simple task       → Just ask Claude
-Complex task      → Tasks API to plan first
+Complex task      → Plan first; opt in to task tools if needed
 Risky change      → Plan Mode first
 Repeating task    → Create agent or command
 Context full      → /compact or /clear
@@ -360,7 +360,7 @@ Deep analysis     → Use Opus (thinking on by default)
 
 | Problem | Solution |
 |---------|----------|
-| "Command not found" | Check PATH, reinstall npm global |
+| "Command not found" | Check PATH and `claude doctor`; repair the chosen installation |
 | Context too high (>70%) | `/compact` immediately |
 | Slow responses | `/compact` or `/clear` |
 | MCP not working | `claude mcp list`, check config |

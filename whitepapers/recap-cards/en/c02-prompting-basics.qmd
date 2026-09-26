@@ -4,9 +4,9 @@ subtitle: "The principles that make the difference between a good and a bad prom
 card-number: "C02"
 category: "Design"
 difficulty: "beginner"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
+version: "3.43.0"
 date: "August 2026"
 layout: "two-col"
 lang: en

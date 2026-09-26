@@ -4,10 +4,11 @@ subtitle: "Structurer les prompts complexes pour des résultats reproductibles"
 card-number: "C03"
 category: "Conception"
 difficulty: "advanced"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "Août 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -16,7 +17,7 @@ format:
 
 ## Pourquoi XML fonctionne
 
-Claude a été entraîné sur des corpus massifs qui incluent du XML. Quand vous structurez un prompt avec des balises, vous créez des délimiteurs sans ambiguïté qui séparent l'instruction, le contexte, le code de référence et les contraintes. Claude interprète alors chaque section exactement dans le rôle que vous lui assignez, sans devoir inférer ce qui est instruction et ce qui est contexte.
+Claude a été entraîné sur des corpus massifs qui incluent du XML. Quand vous structurez un prompt avec des balises, vous créez des délimiteurs sans ambiguïté qui séparent l'instruction, le contexte, le code de référence et les contraintes. La structure peut clarifier ces rôles, mais ne garantit ni le suivi des instructions ni la prévention des injections de prompt.
 
 La structure XML est pertinente pour les tâches complexes ou réutilisables. Pour une correction d'une ligne, c'est du bruit inutile.
 
@@ -78,7 +79,7 @@ function validateJWT(token: string): Claims {
 // END-ANCHOR: token-validation
 ```
 
-Dans votre prompt : "Modifie uniquement la section ANCHOR: auth-flow pour ajouter la gestion des tokens expirés." Claude sait exactement où intervenir sans lire tout le fichier.
+Dans votre prompt : "Modifie uniquement la section ANCHOR: auth-flow pour ajouter la gestion des tokens expirés." Le marqueur limite la modification demandée ; Claude peut encore avoir besoin du code environnant pour en valider les effets.
 
 ## Quand utiliser XML
 

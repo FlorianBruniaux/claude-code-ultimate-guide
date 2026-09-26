@@ -4,10 +4,11 @@ subtitle: "Synchroniser les pratiques Claude Code dans une équipe de 5+ dévelo
 card-number: "C07"
 category: "Conception"
 difficulty: "advanced"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "Août 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -54,17 +55,9 @@ modules:
 
 Alice reçoit uniquement les modules dont elle a besoin. Bob sur Linux sans Cursor reçoit un CLAUDE.md différent, généré depuis les mêmes sources.
 
-## Résultats mesurés
+## Mesurer le résultat
 
-Testé sur une équipe de 5 développeurs, stack TypeScript/Node.js :
-
-| Métrique | Monolithique | Profile-Based | Delta |
-|----------|-------------|---------------|-------|
-| Taille moyenne CLAUDE.md | 380 lignes | 185 lignes | -51% |
-| Coût tokens estimé | ~8 400 tok | ~3 450 tok | -59% |
-| Propagation d'une mise à jour | Manuelle | Automatique | |
-
-La réduction de 59% vient du fait que chaque développeur ne charge que les modules pertinents à son environnement, au lieu du fichier complet.
+Comparer le volume d’instructions chargé, les échecs de propagation et les résultats acceptés avant et après l’introduction des profils. Aucun benchmark d’équipe n’est fourni ici ; valider cette architecture sur vos configurations.
 
 ## settings.json versionné = règles d'équipe
 
@@ -79,10 +72,10 @@ Les règles partagées (hooks, permissions autorisées) vont dans `.claude/setti
 }
 ```
 
-Cette séparation garantit que les guardrails de l'équipe s'appliquent à tous, tout en laissant chaque développeur personnaliser son environnement local sans risque.
+Cette séparation distingue les valeurs partagées des choix personnels. Imposer les restrictions obligatoires par une politique gérée et vérifier la configuration effective.
 
 ## Seuil de rentabilité
 
-La mise en place vaut la peine pour des **équipes de 5+ développeurs**. En dessous, un CLAUDE.md partagé simple suffit. Le coût de maintenance de l'assembleur (quelques dizaines de lignes TypeScript ou Python) est amorti dès le premier mois sur une équipe de 5+.
+Utiliser un assembleur lorsque la dérive répétée des configurations coûte plus que la maintenance des profils. La taille de l’équipe ne suffit pas à déterminer un seuil de rentabilité.
 
 Pour les équipes plus petites, la stratégie simple reste efficace : un CLAUDE.md commun versionné, un `settings.local.json` par développeur pour les overrides.

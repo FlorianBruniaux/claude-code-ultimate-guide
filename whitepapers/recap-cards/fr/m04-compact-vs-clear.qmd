@@ -4,10 +4,11 @@ subtitle: "Quand résumer et quand réinitialiser le contexte"
 card-number: "M04"
 category: "Méthodologie"
 difficulty: "beginner"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "Août 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -18,24 +19,16 @@ format:
 
 | | `/compact` | `/clear` |
 |--|-----------|---------|
-| Historique | Résumé conservé | Perdu |
+| Historique | Remplacé par un résumé | Réinitialisé dans la conversation courante |
 | Fil de session | Maintenu | Rompu |
-| Libération contexte | ~40-50% | 100% |
+| Effet sur le contexte | Historique remplacé par un résumé ; volume variable | Historique de conversation réinitialisé |
 | Quand utiliser | En cours de tâche | Changement de sujet |
 
 `/compact` compresse sans couper le fil, `/clear` repart de zéro. Aucun des deux n'est meilleur dans l'absolu, le choix dépend de la situation.
 
-## Zones de Contexte
+## Décider selon le contexte
 
-```
-0-50%   Travailler librement
-50-75%  Être sélectif sur les fichiers chargés
-75-90%  /compact maintenant (pas en urgence)
-90%+    /clear si la session est mal engagée
-        ou /compact en dernier recours
-```
-
-Attendre 90% pour faire `/compact` est l'erreur classique. À ce stade, Claude commence à oublier des instructions et la qualité des réponses baisse. 75% est le bon seuil.
+Utiliser `/context` pour inspecter l'usage. Compacter quand l'historique utile devient volumineux ; vider quand le sujet change ou qu'une nouvelle conversation serait plus utile. Aucun pourcentage d'occupation ne prédit la qualité des réponses. Sauvegarder décisions, critères d'acceptation et travail inachevé avant l'une ou l'autre opération.
 
 ## Quand Utiliser `/compact`
 
@@ -48,7 +41,7 @@ Attendre 90% pour faire `/compact` est l'erreur classique. À ce stade, Claude c
 /compact
 ```
 
-Claude résume l'historique, conserve les éléments critiques, et libère 40-50% du contexte utilisé. Le résumé devient la nouvelle "mémoire de session".
+Claude remplace l'historique de conversation par un résumé. L'espace récupéré et les détails conservés varient ; vérifier `/context` et garder l'état critique dans des fichiers.
 
 ## Quand Utiliser `/clear`
 
@@ -61,7 +54,7 @@ Claude résume l'historique, conserve les éléments critiques, et libère 40-50
 /clear
 ```
 
-Tout le contexte est effacé. Repartir avec un prompt ciblé et le fichier de contexte minimal nécessaire.
+La conversation repart de zéro ; les instructions applicables sont rechargées. Les sessions sauvegardées restent accessibles via reprise. Commencer avec un prompt ciblé et les fichiers de contexte nécessaires.
 
 ## "Summarize from Here" : La Troisième Option
 
@@ -77,11 +70,11 @@ Plus précis que `/compact` global, utile quand seule la fin de la session est v
 
 | Situation | Commande |
 |-----------|---------|
-| Session longue, même tâche, 75%+ | `/compact` |
+| Historique volumineux, même tâche | `/compact` |
 | Nouveaux sujets après une session dense | `/clear` |
 | Fin de session verbeuse à nettoyer | Rewind → Summarize |
-| Contexte 70-90%, tâche en cours | `/compact` |
-| Contexte 90%+, session mal engagée | `/clear` |
+| Historique utile à résumer | `/compact` |
+| Confusion répétée, nouveau départ nécessaire | `/clear` |
 
 ## Ce que `/compact` NE Conserve PAS
 

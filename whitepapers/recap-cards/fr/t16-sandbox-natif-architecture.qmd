@@ -4,10 +4,11 @@ subtitle: "Comment Claude Code isole ses opérations au niveau OS"
 card-number: "T16"
 category: "Technique"
 difficulty: "advanced"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "Août 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -22,7 +23,7 @@ Depuis v2.1.0, Claude Code intègre un sandbox natif qui isole l'exécution des 
 
 ## Primitives OS selon la plateforme
 
-**macOS : Seatbelt**. Intégré au système, aucune installation requise. Utilise le framework TrustedBSD Mandatory Access Control pour filtrer les appels système au niveau kernel. Overhead minimal (~1-2% CPU).
+**macOS : Seatbelt**. Intégré au système, aucune installation requise. Utilise le framework TrustedBSD Mandatory Access Control pour filtrer les appels système au niveau kernel. Mesurer la surcharge avec vos commandes.
 
 **Linux / WSL2 : bubblewrap**. Nécessite l'installation de deux paquets.
 
@@ -31,18 +32,18 @@ sudo apt-get install bubblewrap socat   # Ubuntu/Debian
 sudo dnf install bubblewrap socat       # Fedora
 ```
 
-Crée un namespace isolé (mount, network, PID, IPC) pour chaque commande exécutée. Overhead comparable (~2-3% CPU, moins de 10ms de démarrage par commande).
+Crée un namespace isolé (mount, network, PID, IPC) pour chaque commande exécutée. Les performances dépendent du travail et de la plateforme.
 
-**WSL1** : non supporté. **Windows natif** : planifié, pas encore disponible.
+**WSL1** : non supporté. **Windows natif** : non pris en charge ; utiliser WSL2.
 
 ## Isolation filesystem
 
-La politique par défaut est asymétrique et intentionnelle : lecture sur tout le système, écriture restreinte au répertoire de travail courant (CWD) et ses sous-dossiers.
+La politique par défaut est asymétrique : lecture sur le système, écriture dans le répertoire de travail, le répertoire temporaire de l’utilisateur et les répertoires explicitement ajoutés, sous réserve des chemins protégés et des règles configurées.
 
 | Accès | Périmètre |
 |-------|-----------|
 | Lecture | Tout l'ordinateur (sauf deny rules) |
-| Écriture | CWD et sous-dossiers uniquement |
+| Écriture | Répertoire de travail, temporaire et répertoires ajoutés, sous réserve des restrictions |
 | Exécution | Commandes dans l'environnement sandboxé |
 
 Pour restreindre la lecture de répertoires sensibles (SSH, credentials cloud), utiliser les `permissions.deny` dans `settings.json` :
@@ -76,11 +77,11 @@ Deux modes selon `sandbox.network.strictAllowlist` : permissif (défaut, un doma
 
 **Auto-allow** : les commandes bash dans le sandbox sont automatiquement approuvées. Les commandes incompatibles avec le sandbox (ex : `docker`) déclenchent un fallback vers le flux de permissions normal. Recommandé pour le développement quotidien.
 
-**Regular permissions** : même dans le sandbox, chaque commande demande une approbation explicite. Utile pour les environnements haute sécurité ou les codebases non fiables.
+**Regular permissions** : les commandes sandboxées suivent les règles normales de permission ; les autorisations existantes restent applicables. Utile pour les environnements sensibles ou les bases de code non fiables.
 
 ## L'escape hatch : `dangerouslyDisableSandbox`
 
-Certains outils sont incompatibles avec le sandboxing car ils nécessitent un accès à des ressources système spécifiques (`docker` via `/var/run/docker.sock`, `watchman` via les filesystem watch APIs). Claude détecte l'échec, relance la commande avec ce paramètre, et demande confirmation à l'utilisateur.
+Certains outils sont incompatibles avec le sandboxing car ils nécessitent un accès à des ressources système spécifiques (`docker` via `/var/run/docker.sock`, `watchman` via les filesystem watch APIs). Claude peut réessayer avec ce paramètre. La reprise suit le flux normal de permissions, selon le mode actif ; une règle ask peut imposer une confirmation.
 
 Pour désactiver complètement l'escape hatch dans les environnements critiques :
 

@@ -4,10 +4,11 @@ subtitle: "Utiliser Claude Code sans interaction humaine : scripts, CI, pipes"
 card-number: "T02"
 category: "Technique"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -40,10 +41,10 @@ cat error.log | claude -p "Identifie la cause racine"
 ```bash
 # Sortie JSON pour parsing automatique
 git status --short | claude -p "Catégorise les changements" \
-  --output-format json | jq '.categories'
+  --output-format json | jq -r '.result'
 
 # Stream JSON pour longues opérations
-cat rapport.txt | claude -p "Résume" --output-format stream-json
+cat rapport.txt | claude -p "Résume" --output-format stream-json --verbose
 ```
 
 ## Contrôle de flux dans les pipes
@@ -82,8 +83,8 @@ git diff main...HEAD | claude -p "Revue sécurité, format JSON" \
 | Aspect | Interactif | Non-Interactif (`-p`) |
 |--------|------------|----------------------|
 | Sortie | Stream UI | stdout brut |
-| Permissions | Demande | Auto ou skip |
+| Permissions | Demandes ou règles enregistrées | Règles d’autorisation ou mode borné à configurer |
 | Usage | Développement | CI, scripts, pipes |
-| Session | Persistante | Unique, sans état |
+| Session | Persistante | Enregistrée par défaut ; continuation ou reprise possible |
 
 **Bonne pratique** : limiter la taille du pipe pour éviter de dépasser la fenêtre de contexte. Filtrer avec `head`, `grep` ou `--name-only` avant d'envoyer à Claude.

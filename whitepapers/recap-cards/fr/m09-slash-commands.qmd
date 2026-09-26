@@ -4,17 +4,18 @@ subtitle: "Skills déclenchés manuellement via /nom (CC 2.1.3)"
 card-number: "M09"
 category: "Méthodologie"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "Août 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
   recap-card-typst: default
 ---
 
-> **CC 2.1.3** : Les "commands" custom vivent désormais dans `.claude/skills/` avec `disable-model-invocation: true`. La syntaxe `/nom` et le comportement sont identiques.
+> **CC 2.1.3** : Les skills utilisent `.claude/skills/<name>/SKILL.md` ; `disable-model-invocation: true` impose une invocation manuelle. Les anciens fichiers `.claude/commands/*.md` restent pris en charge. La syntaxe `/nom` et le comportement sont identiques.
 
 ## Principe
 
@@ -23,15 +24,14 @@ Une slash command est un fichier Markdown qui définit un workflow. Claude l'ex�
 ## Emplacement des fichiers
 
 ```
-.claude/skills/          # Commandes projet (équipe)
-├── commit.md              → /commit
-├── review-pr.md           → /review-pr
-└── tech/
-    └── deploy.md          → /tech:deploy
+.claude/skills/             # Skills du projet
+├── commit/SKILL.md         → /commit
+├── review-pr/SKILL.md      → /review-pr
+└── deploy/SKILL.md         → /deploy
 
-~/.claude/skills/        # Commandes globales (perso)
-├── release.md             → /release
-└── sync.md                → /sync
+~/.claude/skills/           # Skills personnels
+├── release/SKILL.md        → /release
+└── sync/SKILL.md           → /sync
 ```
 
 Les commandes globales sont disponibles dans toutes les sessions, quel que soit le projet.
@@ -40,7 +40,7 @@ Les commandes globales sont disponibles dans toutes les sessions, quel que soit 
 
 ```
 /commit                    # Aucun argument
-/tech:deploy production    # Argument positionnel
+/deploy production    # Argument positionnel
 /release minor             # Bump de version
 ```
 
@@ -61,18 +61,14 @@ Ajouter `argument-hint` dans le frontmatter pour afficher un placeholder dans le
 
 ```markdown
 # Nom de la Commande
-
 ## Objectif
 Ce que fait cette commande en une phrase.
-
 ## Processus
 1. **Étape 1** — instructions détaillées
 2. **Étape 2** — instructions détaillées
 3. **Étape 3** — instructions détaillées
-
 ## Arguments
 - $0 : environnement cible (défaut: staging)
-
 ## Format de sortie
 Description du résultat attendu.
 ```
@@ -102,8 +98,8 @@ Description du résultat attendu.
 | **Skill** | Connaissance réutilisable + ressources embarquées |
 | **Agent** | Spécialiste récurrent avec mémoire propre |
 
-Une command ne peut pas embarquer des fichiers de référence supplémentaires (pour ça, utiliser un skill). Une command n'a pas de mémoire persistante (pour ça, utiliser un agent).
+Un répertoire de skill peut inclure fichiers de référence et scripts, que l’invocation vienne du modèle ou de l’utilisateur. La mémoire d’agent est un mécanisme persistant distinct.
 
 ## Conseils pratiques
 
-Une commande, une responsabilité. Dès qu'une commande fait deux choses distinctes, la découper. Nommer avec un verbe d'action en premier (`commit`, `release`, `sync`) pour que l'intention soit immédiatement lisible dans la liste des commandes disponibles.
+Une commande, une responsabilité. Séparer les procédures distinctes. Nommer par un verbe d'action (`commit`, `release`, `sync`) pour rendre l'intention lisible.

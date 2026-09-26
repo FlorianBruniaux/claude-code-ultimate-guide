@@ -4,10 +4,11 @@ subtitle: "Triggering agents automatically from GitHub, Linear, Jira"
 card-number: "M18"
 category: "Methodology"
 difficulty: "advanced"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: en
 format:
@@ -66,6 +67,7 @@ The ticket description serves as prompt. A ticket with clear acceptance criteria
 
 ```bash
 spawn_agent() {
+    set -o pipefail
     claude --print --dangerously-skip-permissions \
         "Implement Linear card:
         Title: $title
@@ -80,7 +82,7 @@ spawn_agent() {
 
 **Idempotence**: check that a branch does not already exist before starting, to avoid double processing in case of a duplicated webhook.
 
-**Concurrency limit**: cap at 3-5 simultaneous agents. Beyond that, the machine saturates and costs explode.
+**Concurrency limit**: set a cap from measured resource use, rate limits and budget. Increase it only when independently completed tasks justify the added coordination.
 
 **Circuit breaker**: if an agent fails more than 3 times on the same ticket, stop the automation and alert a human.
 

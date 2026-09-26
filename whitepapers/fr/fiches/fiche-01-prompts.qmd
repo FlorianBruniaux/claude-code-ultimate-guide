@@ -1,0 +1,24 @@
+{{< pagebreak >}}
+
+## Fiche Récap : Prompts Efficaces
+
+```{=typst}
+#fiche-recap(
+  title: "Prompts Efficaces",
+  subtitle: "Structurer pour moins itérer",
+  wp-number: "01",
+  points: (
+    "Un prompt #strong[structuré] précise le livrable et ses critères de vérification. WHAT (quoi), WHERE (où), HOW (comment), VERIFY (vérifier).",
+    "Les #strong[balises XML] peuvent délimiter les parties d’un prompt complexe : <context>, <task>, <format>, <constraints>.",
+    "#strong[Anti-patterns] à éviter : prompts vagues ('améliore ce code'), périmètre flou, absence de critères de succès.",
+    "Le #strong[chaînage de prompts] (plusieurs étapes courtes) permet de vérifier les résultats intermédiaires.",
+    "Itérer sur le #strong[CLAUDE.md] plutôt que de répéter le même contexte à chaque session.",
+  ),
+  actions: (
+    "Prendre votre prochain prompt et appliquer WHAT/WHERE/HOW/VERIFY",
+    "Tester 1 XML tag sur une tâche complexe (<context>, <task>)",
+    "Identifier vos 3 anti-patterns habituels et créer des alternatives",
+    "Ajouter vos conventions de code dans CLAUDE.md pour ne plus les répéter",
+  ),
+)
+```

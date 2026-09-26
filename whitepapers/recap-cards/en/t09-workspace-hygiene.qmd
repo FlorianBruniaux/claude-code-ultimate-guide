@@ -4,10 +4,11 @@ subtitle: "Keeping context clean by blocking what Claude should not read"
 card-number: "T09"
 category: "Technical"
 difficulty: "beginner"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "August 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: en
 format:
@@ -16,18 +17,18 @@ format:
 
 ## There is no .claudeignore
 
-Claude Code has no `.claudeignore` file in the `.gitignore` mold. Blocking file access goes through `permissions.deny` in `.claude/settings.json`, with the `file_path:` qualifier to target paths by glob.
+Claude Code has no `.claudeignore` file in the `.gitignore` mold. Blocking file access goes through `permissions.deny` in `.claude/settings.json`, using direct path patterns such as `Read(*.env*)`. The `file_path:` qualifier is invalid for Read, Edit and Write permission rules.
 
 ```json
 {
   "permissions": {
     "deny": [
-      "Read(file_path:*.env*)",
-      "Edit(file_path:*.env*)",
-      "Write(file_path:*.env*)",
-      "Read(file_path:*.pem)",
-      "Read(file_path:*.key)",
-      "Read(file_path:*credentials*)",
+      "Read(*.env*)",
+      "Edit(*.env*)",
+      "Write(*.env*)",
+      "Read(*.pem)",
+      "Read(*.key)",
+      "Read(*credentials*)",
       "Bash(cat .env*)"
     ]
   }
@@ -69,11 +70,10 @@ These three mechanisms are independent. A file can be ignored by Git without bei
 ├── agents/              # Custom agents
 ├── skills/               # Skills (includes slash commands since CC 2.1.3)
 ├── hooks/                # Automation scripts
-├── rules/                # Auto-loaded conventions
-└── memory/               # Auto-memory (MEMORY.md)
+└── rules/                # Shared conventions, optionally path-scoped
 ```
 
-The `agents/`, `skills/`, `hooks/` and `rules/` folders are committed with the project. `settings.local.json` and `CLAUDE.md` (if personal) stay in `.gitignore`.
+The `agents/`, `skills/`, `hooks/` and `rules/` folders are committed with the project. `settings.local.json` and the project-root `CLAUDE.local.md` hold local configuration and personal instructions. Auto-memory lives under `~/.claude/projects/<project>/memory/`, separately from this tree.
 
 ## Clean workspace checklist
 

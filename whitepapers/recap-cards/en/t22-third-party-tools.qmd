@@ -4,10 +4,11 @@ subtitle: "The essential complementary tools in the ecosystem"
 card-number: "T22"
 category: "Technical"
 difficulty: "intermediate"
-guide-version: "3.42.0"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.42.0"
-date: "2026-08-28"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: en
 format:
@@ -18,13 +19,13 @@ format:
 
 The tools in this card are adjacent layers: they observe, configure, or coordinate sessions. They do not replace the runtime that owns the agent loop. Use the [Agent Harness Map](https://cc.bruniaux.com/guide/agent-harness-landscape/) to choose a runtime or orchestrator.
 
-**ccusage**: the community reference tool for tracking API spending. Parses local JSONL files, zero data sent externally.
+**ccusage**: reads local session usage records and estimates costs. Review its network behavior and pricing source; local input alone does not establish zero network access.
 
 ```bash
-npx ccusage          # Today's summary
+npx ccusage daily --last 1 # Latest day
 ccusage daily        # Daily report
 ccusage blocks --live # Real-time monitoring (5h windows)
-ccusage --breakdown  # Breakdown by model
+ccusage daily --breakdown # Breakdown by model
 ```
 
 **ccburn**: Python alternative with burn-rate charts in the terminal. Useful for visualizing consumption relative to billing limits, within a Python ecosystem.
@@ -62,10 +63,10 @@ npx viberank-cli      # Submit ccusage data
 
 ## Token Optimization
 
-**RTK (Rust Token Killer)**: CLI proxy that filters outputs before they enter the context. 92% reduction on `git log`, 90% on tests. See card T20 for details.
+**RTK (Rust Token Killer)**: CLI proxy that filters outputs before they enter the context. Savings depend on the command and output; its estimates do not establish a corresponding reduction in the API bill. See card T20 for details.
 
 ```bash
-brew install rtk-ai/tap/rtk
+brew install rtk
 rtk init             # Setup with automatic hook
 ```
 

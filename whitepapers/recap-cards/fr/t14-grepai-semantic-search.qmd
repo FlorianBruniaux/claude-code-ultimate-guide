@@ -4,10 +4,11 @@ subtitle: "Trouver du code par intention, pas par regex"
 card-number: "T14"
 category: "Technique"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -16,9 +17,9 @@ format:
 
 ## Principe : chercher par intention
 
-Grep natif (ripgrep) est idéal quand on connaît le texte exact à trouver. Grepai prend le relai quand on cherche "le code qui gère X" sans connaître les noms exacts des fonctions ou des variables. Il s'appuie sur des embeddings locaux via Ollama et le modèle `nomic-embed-text`, ce qui garantit une confidentialité totale : aucune donnée ne quitte la machine.
+Grep natif (ripgrep) est idéal quand on connaît le texte exact à trouver. Grepai prend le relai quand on cherche "le code qui gère X" sans connaître les noms exacts des fonctions ou des variables. Il s'appuie sur des embeddings locaux via Ollama et le modèle `nomic-embed-text`, ce qui maintient cette étape d’indexation en local. Les résultats transmis à Claude peuvent néanmoins entrer dans le contexte du fournisseur configuré.
 
-**Économie de tokens** : ~4K tokens avec grepai vs ~15K en faisant grep brut + lecture de fichiers entiers.
+**Mesurer la valeur** : comparer précision de recherche, taille du contexte retourné et coût par tâche acceptée sur des recherches représentatives.
 
 ## Les 5 outils principaux
 
@@ -58,8 +59,8 @@ Profondeur recommandée : 2 par défaut, 3 au maximum pour les analyses complexe
 
 | Situation | Outil recommandé |
 |-----------|-----------------|
-| Pattern exact connu (`"authenticate"`) | Grep natif (~20ms) |
-| Recherche par concept ou intention | Grepai (~500ms) |
+| Pattern exact connu (`"authenticate"`) | Grep natif |
+| Recherche par concept ou intention | Grepai |
 | Analyse de graphe d'appels | Grepai (`trace_callers`) |
 | Refactoring multi-fichiers | Grepai + Serena |
 | Regex avancée sur structure AST | ast-grep |

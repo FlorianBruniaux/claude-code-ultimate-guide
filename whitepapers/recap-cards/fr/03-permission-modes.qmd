@@ -3,12 +3,12 @@ title: "Modes de Permission"
 subtitle: "Contrôle des accès outils, du plus sûr au plus permissif"
 card-number: "T03"
 category: "Technique"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
 difficulty: "beginner"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-wp-version: "1.1.1"
-date: "2026-08-24"
+version: "3.43.0"
+wp-version: "1.1.2"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -23,11 +23,11 @@ format:
 | **Auto-accept edits** | `acceptEdits` | `Shift+Tab` | Revues de code |
 | **Plan** | `plan` | `Shift+Tab x2` ou `/plan` | Analyse sans modification |
 | **Don't Ask** | `dontAsk` | `/permissions` ou règles `permissions.allow` | Workflows restrictifs, refus silencieux si non pré-approuvé |
-| **Auto (classifier IA)** | `auto` | `permissions.defaultMode: "auto"` | Tâches longues, moins d'interruptions |
+| **Auto (classifier IA)** | `auto` | `permissions` → `defaultMode: "auto"` | Tâches longues, moins d'interruptions |
 | **Bypass total** | `bypassPermissions` | `--dangerously-skip-permissions` | CI/CD headless, sandboxé |
 | **Moins de prompts** | _(aucun)_ | `/fewer-permission-prompts` | Génère un allowlist à partir des transcripts (livrée sous le nom `/less-permission-prompts` en v2.1.111) |
 
-**Activation en CLI :** `claude --permission-mode <mode>` accepte `default`, `plan`, `acceptEdits`, `bypassPermissions`. **Activation persistante :** clé `permissions.defaultMode` dans `settings.json`.
+**Activation en CLI :** `claude --permission-mode <mode>` accepte `default`, `plan`, `acceptEdits`, `dontAsk`, `auto`, `bypassPermissions`. **Activation persistante :** clé `permissions.defaultMode` dans `settings.json`.
 
 **Note :** `--dangerously-skip-permissions` ne prompte plus pour les écritures dans `.claude/skills/`, `.claude/agents/` et `.claude/commands/` (v2.1.121) ; le reste de `.claude/` (settings, hooks) et `.git/` restent protégés même en bypass total. Le mode `auto` s'appuie sur un modèle classifieur qui évalue chaque appel d'outil avant exécution : friction en moins, pas une frontière de sécurité.
 
@@ -35,13 +35,13 @@ format:
 
 ```bash
 # Autoriser seulement certains outils
-claude --allowedTools "Read,Grep,Glob"
+claude --tools "Read,Grep,Glob" --allowedTools "Read,Grep,Glob"
 
 # Bloquer des outils spécifiques
 claude --disallowedTools "Bash,Write"
 
 # Combinaisons utiles
-claude --allowedTools "Read,Edit,Bash(git*)"
+claude --allowedTools "Read,Edit,Bash(git *)"
 ```
 
 ## Configuration dans settings.json
@@ -71,6 +71,9 @@ Les permissions se cumulent et s'héritent dans cet ordre :
 2. `.claude/settings.json` : projet (partagé)
 3. `.claude/settings.local.json` : projet (local, gitignored)
 4. Flags CLI : session uniquement
+5. Politique gérée : contraintes de l’organisation
+
+Les règles de refus de toute portée applicable prennent priorité sur les autorisations.
 
 ## Glob Patterns pour Bash
 
@@ -87,12 +90,8 @@ Les permissions se cumulent et s'héritent dans cet ordre :
 
 ## Bonnes Pratiques
 
-**CI/CD** : toujours utiliser `--dangerously-skip-permissions` avec un environnement sandboxé (Docker, container éphémère). Ne jamais sur une machine de production partagée.
+**CI/CD** : pré-approuver les outils nécessaires et limiter leur disponibilité avec `--tools`. Si le contournement est nécessaire, utiliser un environnement isolé avec identifiants et accès réseau restreints.
 
-**Projets sensibles** : restreindre les outils Bash avec des globs précis dans `.claude/settings.json`. Committer ce fichier pour que toute l'équipe utilise les mêmes contraintes.
+**Projets sensibles** : restreindre Bash avec des motifs précis dans `.claude/settings.json`. Committer les valeurs partagées ; imposer par une politique gérée les contraintes que les développeurs ne doivent pas remplacer.
 
-**Audit** : les actions de Claude sont loggées dans `~/.claude/logs/`. Vérifiable à tout moment.
-
-## Threat Intelligence
-
-La base de données des menaces connues (v2.27.0) recense 118 CVEs et 93 skills malveillants identifiés. Parmi les vulnérabilités actives : CVE-2026-33032 (nginx-ui MCPwn, CVSS 9.8, exploitation active) et CVE-2026-30623 (LiteLLM, patchée). Vérifier régulièrement les outils MCP tiers avant intégration.
+**Audit** : inspecter les transcriptions locales sous `~/.claude/projects/`. Les logs de hooks nécessitent leur propre répertoire configuré ; les transcriptions ne sont pas une piste d’audit inviolable.

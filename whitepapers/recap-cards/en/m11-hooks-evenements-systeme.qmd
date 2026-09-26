@@ -4,10 +4,11 @@ subtitle: "Automatically react to Claude Code actions"
 card-number: "M11"
 category: "Methodology"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: en
 format:
@@ -16,7 +17,7 @@ format:
 
 ## What is a hook
 
-A hook is a shell script (or any command) executed automatically when Claude Code triggers an event. Comparable to git hooks, but for the agent environment. The script receives a JSON via stdin describing the event context.
+Command hooks run on configured events and receive JSON on stdin. Other hook types include prompt, agent, HTTP and MCP tool hooks; availability depends on the event.
 
 ## Main events
 
@@ -40,27 +41,19 @@ A hook is a shell script (or any command) executed automatically when Claude Cod
 | `TaskCompleted` | v2.1.32+ (Agent Teams) | A task is about to be marked complete |
 | `ConfigChange` | v2.1.49+ | A config file changed during the session |
 
-`TeammateIdle` and `TaskCompleted` allow implementing quality gates at the agent team level: preventing a task from being marked `completed` if tests fail, for example. `ConfigChange` is for configuration auditing in enterprise environments and does not depend on Agent Teams.
+Team gates can request further work before completion. `ConfigChange` audits configuration independently of Agent Teams.
 
 ## Configuration in settings.json
 
 ```json
 {
   "hooks": {
-    "PostToolUse": [{
-      "matcher": "Edit|Write",
-      "hooks": [{
-        "type": "command",
-        "command": ".claude/hooks/auto-format.sh",
-        "timeout": 10000,
-        "async": true
-      }]
-    }],
     "PreToolUse": [{
       "matcher": "Bash",
       "hooks": [{
         "type": "command",
-        "command": ".claude/hooks/security.sh"
+        "command": "${CLAUDE_PROJECT_DIR}/.claude/hooks/security.sh",
+        "args": [], "timeout": 10
       }]
     }]
   }
@@ -71,30 +64,29 @@ A hook is a shell script (or any command) executed automatically when Claude Cod
 
 | Field | Usage |
 |-------|-------|
-| `command` | Shell command executed via a shell interpreter |
-| `args` | Exec form: array of strings spawned directly without a shell. Avoids injection risks and quoting issues. Overrides `command` when present. (v2.1.139) |
-| `timeout` | Max duration in ms (default: 60000) |
+| `command` | Executable when `args` is present; otherwise shell command |
+| `args` | Arguments passed to `command` without a shell; does not replace the executable |
+| `timeout` | Seconds; defaults: command 600, prompt 30, agent 60 |
 | `async` | If `true`, Claude continues without waiting for completion |
-| `continueOnBlock` | `PostToolUse` only: if `true`, a block feeds Claude the rejection reason and continues the turn instead of stopping it. Claude can then self-correct. (v2.1.139) |
+| `continueOnBlock` | Prompt hooks: continue after `ok: false` on supported events, including `PreToolUse` and `PostToolUse` |
 
 ## Exit codes
 
 | Code | Meaning |
 |------|---------|
-| `0` | Success, continue normally |
-| `2` | Block the action (stderr message visible to Claude) |
-| Other non-0 | Error surfaced to Claude |
+| `0` | Success; valid JSON may still deny an action |
+| `2` | Blocking on supported events; behavior varies by event |
+| Other non-0 | Usually a nonblocking error without decision JSON |
 
 For `PreToolUse` hooks, exit 2 prevents the tool from executing. Claude reads the stderr message and can adapt its behavior.
 
 ## Synchronous vs Asynchronous
 
-Synchronous hooks (default): Claude waits for the script to finish. Suited for validation and type checking. Asynchronous hooks (`async: true`): Claude continues immediately. Suited for formatting, notifications, and logging, where feedback is not needed for the next step.
+Keep validation synchronous. `async: true` runs a command hook in the background and cannot stop the action; use it for notifications or logging. Formatting in the background can race with subsequent edits.
 
 ## stdin data flow
 
-```bash
-# Example JSON received on stdin (PostToolUse)
+```json
 {
   "tool_name": "Edit",
   "tool_input": { "file_path": "src/auth.ts" },
@@ -103,4 +95,4 @@ Synchronous hooks (default): Claude waits for the script to finish. Suited for v
 }
 ```
 
-The `Stop` event also includes a `last_assistant_message` field since v2.1.47, giving direct access to Claude's last response without parsing transcripts.
+`Stop` includes `last_assistant_message`. Full decisions and exceptions: [Hooks reference](https://code.claude.com/docs/en/hooks).

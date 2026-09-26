@@ -4,10 +4,11 @@ subtitle: "Auditing and analyzing Claude Code activity through logs"
 card-number: "M22"
 category: "Methodology"
 difficulty: "advanced"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: en
 format:
@@ -16,11 +17,12 @@ format:
 
 ## The JSONL registry: source of truth
 
-Every Claude Code action is recorded in JSONL files (one JSON entry per line) stored in `~/.claude/projects/<project>/`. These files are the source of truth for what the agent actually did: which files it read, which files it modified, which commands it executed.
+Claude Code records conversation and tool activity in local JSONL transcripts stored in `~/.claude/projects/<project>/`. They help reconstruct activity, but recorded tool requests are not proof that every requested effect completed. Correlate tool results and external logs.
 
 ```bash
 # Locate session files for the current project
-ls ~/.claude/projects/-$(pwd | tr '/' '-')-/
+ls ~/.claude/projects/
+# Select the actual project directory; do not guess its encoding
 # → SESSION_ID.jsonl  SESSION_ID2.jsonl ...
 ```
 
@@ -33,8 +35,8 @@ Each `assistant` type line contains a `content` array whose `tool_use` entries d
 | `Read` | File path, line range |
 | `Edit` / `Write` | Path, modified content |
 | `Bash` | Full command executed |
-| `WebFetch` | URL called (POST data included) |
-| `Task` | Prompt sent to sub-agent |
+| `WebFetch` | Requested URL and processing prompt |
+| `Agent` | Prompt sent to sub-agent |
 | `Glob` / `Grep` | Search patterns and scope |
 
 ## Essential jq queries
@@ -72,7 +74,7 @@ These patterns are worth detecting automatically in audits:
 | WebFetch to external URL | Potential exfiltration | select `.name=="WebFetch"` |
 | Write outside project directory | Scope creep | Compare path to current directory |
 
-For teams, synchronize these logs to immutable storage (S3 with versioning, for example) to maintain an unalterable forensic trace.
+For teams, export reviewed logs to access-controlled storage with an explicit retention policy. S3 versioning alone does not make logs immutable; that requires additional controls such as configured Object Lock.
 
 ## Community external tools
 
@@ -88,7 +90,8 @@ For teams, synchronize these logs to immutable storage (S3 with versioning, for 
 # Quick install
 npm i -g ccusage          # Costs and statistics
 cargo install ccboard     # Interactive dashboard
-npm i -g claude-code-otel # OpenTelemetry export
+# Native OpenTelemetry configuration:
+# https://code.claude.com/docs/en/monitoring-usage
 ```
 
 ## Decision tree
@@ -102,4 +105,4 @@ Visual dashboard?          → ccboard
 
 ## Cost estimation in JSONL
 
-JSONL logs do not contain Anthropic prices directly. Tools like ccusage apply a heuristic of approximately 4 characters per token, then multiply by model rates. This estimate tends to slightly overestimate; figures are indicative, not billed.
+JSONL logs do not contain Anthropic prices directly. Tools such as ccusage read recorded usage counters and apply model pricing to estimate cost. Missing records, pricing changes and subscription billing can make those estimates differ from the provider invoice.

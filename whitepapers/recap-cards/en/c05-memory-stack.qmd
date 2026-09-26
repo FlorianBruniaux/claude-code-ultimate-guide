@@ -4,10 +4,11 @@ subtitle: "Where the information Claude uses lives and how to manage it"
 card-number: "C05"
 category: "Design"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "August 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: en
 format:
@@ -16,7 +17,7 @@ format:
 
 ## The 4 memory levels
 
-Claude Code does not store state between sessions by default. Everything that needs to persist must be explicitly placed in one of the four levels.
+Claude Code saves local transcripts and enables auto-memory by default. Use explicit instructions and inspect stored memory to decide which information should influence future work.
 
 **Level 1: CLAUDE.md (explicit rules)**
 Markdown files read at the start of each session. They contain project conventions, important commands, and architecture decisions. Human-readable, versioned with the code.
@@ -31,14 +32,14 @@ CLAUDE.md                     # Root (current folder)
 Claude automatically records decisions made during sessions in `~/.claude/projects/*/memory/MEMORY.md`. This mechanism is transparent: you can review these files to audit what Claude has learned.
 
 **Level 3: Tasks API (structured cross-session state)**
-For multi-step workflows spanning several sessions, the Tasks API maintains state with dependencies and statuses. Useful for long projects where each session picks up where the previous one left off.
+For multi-step workflows, opt into task tools with `CLAUDE_CODE_ENABLE_TODO_TOOLS=1`. Use `CLAUDE_CODE_TASK_LIST_ID` to select a persistent list shared across sessions, and inspect its current records before resuming work.
 
 **Level 4: Agent memory field (local context)**
 Each specialized agent can have its own declarative memory in its YAML frontmatter, independent from the main session.
 
 ## What disappears each session
 
-The conversation itself is ephemeral. When you close a session, everything that has not been explicitly persisted is lost. There is one exception: `claude --continue` resumes the last session, but this only works if you have not opened any other sessions in between.
+The live context is session-specific, but saved conversations can be resumed. `claude --continue` selects the recent conversation; `claude --resume` lets you choose an older one. Neither restores the previous filesystem or remote-service state.
 
 ## Selection rule
 
@@ -56,11 +57,6 @@ The conversation itself is ephemeral. When you close a session, everything that 
 
 Each mistake corrected once becomes a CLAUDE.md rule. Over 3 months, a well-maintained CLAUDE.md accumulates the conventions, gotchas, and architecture decisions that accelerate all subsequent sessions, including for new team members.
 
-```markdown
-# CLAUDE.md (growth pattern)
-Week 1 :  5 rules  →  5 errors avoided
-Month 1 : 20 rules → 20 errors avoided
-Month 3 : 50 rules → accelerated onboarding
-```
+Review new rules for relevance, remove duplicates and stale decisions, and verify that the instructions improve the tasks they target.
 
-**Target size:** between 4 and 8 KB total (across all levels). Beyond 16K tokens, model coherence degrades according to practitioner studies.
+**Target size:** Keep instructions concise, with roughly 200 lines as a practical starting point. File length is not a measured threshold for model coherence.

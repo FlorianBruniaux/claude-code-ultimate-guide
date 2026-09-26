@@ -31,11 +31,11 @@ Workers must preserve other edits and use separate intermediate output directori
 - [x] Load the export and translation workflows.
 - [x] Recover public numbered QMD sources and the French full-guide wrapper that were missing from version control.
 - [x] Start the English and French Codex workers.
-- [ ] Review and track every public source needed by a clean checkout.
+- [x] Review and track every public source needed by a clean checkout.
 - [x] Complete French full-guide catch-up and restore historical omissions.
-- [ ] Complete English derivative review.
-- [ ] Reconcile French derivatives with the same technical baseline.
-- [ ] Validate translation coverage, unchanged code/identifiers, figures, links, and navigation.
+- [x] Complete English derivative review.
+- [x] Reconcile French derivatives with the same technical baseline.
+- [x] Validate translation coverage, unchanged code/identifiers, figures, links, and navigation.
 - [ ] Refresh source provenance from real commits after semantic review.
 - [x] Make the full-guide build support both languages and reject a stale French edition.
 - [ ] Generate 146 PDFs and the corresponding full-guide/whitepaper EPUBs with a manifest of source and output hashes.

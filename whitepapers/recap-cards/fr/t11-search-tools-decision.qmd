@@ -4,10 +4,11 @@ subtitle: "Choisir entre Glob, Grep, Read, Agent et Bash selon le contexte"
 card-number: "T11"
 category: "Technique"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -28,7 +29,7 @@ Claude Code propose 5 outils distincts pour trouver et lire des informations dan
 
 ## Glob : fichiers par pattern
 
-Glob retourne une liste de chemins sans lire leur contenu. C'est l'outil le plus rapide pour localiser des fichiers avant toute autre opération.
+Glob retourne une liste de chemins sans lire leur contenu. Utiliser cet outil pour réduire l’ensemble de fichiers avant d’en lire le contenu.
 
 ```
 Exemples de patterns :
@@ -41,17 +42,17 @@ src/**/*.tsx      → tous les .tsx dans src/
 
 ## Grep : contenu par regex
 
-Grep utilise ripgrep sous le capot, ce qui le rend très rapide (~20ms sur des codebases moyens). Il lit partiellement les fichiers pour extraire uniquement les lignes correspondantes, sans charger tout le contenu.
+Grep utilise ripgrep, adapté aux recherches de texte exact. Il extrait les lignes correspondantes sans charger tout le contenu.
 
 ```bash
 # Chercher une fonction par nom exact
-Grep "authenticate" --type ts
+rg "authenticate" --type ts
 
 # Chercher avec contexte (3 lignes autour)
-Grep "validateJWT" -A 3
+rg "validateJWT" -A 3
 ```
 
-Grep est suffisant pour 90% des recherches de texte exact. Ne pas escalader vers Agent ou Bash si la pattern est connue.
+Utiliser Grep pour les recherches de texte exact. Ne pas déléguer à Agent ou Bash si le motif est connu.
 
 ## Read : lecture ciblée
 
@@ -59,7 +60,7 @@ Read charge un fichier entier ou une plage de lignes via `offset` et `limit`. Su
 
 ```
 # Lire les lignes 50 à 120 d'un fichier
-Read("auth.service.ts", offset=50, limit=70)
+Read("auth.service.ts", offset=50, limit=71)
 ```
 
 Toujours préférer un Read ciblé avec offset/limit plutôt qu'un Read complet sur un fichier de plusieurs centaines de lignes.

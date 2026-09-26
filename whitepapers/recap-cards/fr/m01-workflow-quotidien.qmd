@@ -4,10 +4,11 @@ subtitle: "La routine optimale pour une session de développement productive"
 card-number: "M01"
 category: "Méthodologie"
 difficulty: "beginner"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "Août 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -59,7 +60,7 @@ You: Montre-moi ce que tu as modifié avant de continuer
 | 0-50% | Travailler librement |
 | 50-75% | Être sélectif sur les fichiers ouverts |
 | 75%+ | `/compact` maintenant |
-| 90%+ | `/clear` requis |
+| 90%+ | Sauvegarder les décisions, puis compacter ou préparer une passation selon le besoin |
 
 ## Anti-Pattern : Le Vibe Coding
 

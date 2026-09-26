@@ -2,10 +2,10 @@
 title: "Claude Code Cheatsheet"
 subtitle: "L'essentiel au quotidien pour une productivité maximale"
 author: "Florian BRUNIAUX"
-date: "2026-09-24"
+date: "2026-09-26"
 date-format: "MMMM YYYY"
 version: "3.43.0"
-wp-version: "1.2.1"
+wp-version: "1.2.2"
 series: "Claude Code Ultimate Guide"
 format:
   cheatsheet-typst:
@@ -23,7 +23,7 @@ lang: fr
 # Installation
 
 ```bash
-npm install -g @anthropic-ai/claude-code
+curl -fsSL https://claude.ai/install.sh | bash
 # Vérifier l'installation
 which claude && claude --version
 ```
@@ -38,9 +38,9 @@ which claude && claude --version
 | `/powerup` | Leçons animées interactives sur les fonctionnalités de Claude Code |
 | `/clear` | Réinitialiser la conversation |
 | `/compact` | Libérer du contexte |
-| `/status` | État de la session + usage du contexte |
+| `/status` | État de la session et sources de configuration |
 | `/context` | Détail de la consommation de tokens |
-| `/plan` | Entrer en Plan Mode (aucune modification) |
+| `/plan` | Explorer sous les restrictions du mode plan |
 | Approuver le plan | Sortir du Plan Mode (`Shift+Tab` pour sortir sans valider) |
 | `/model` | Choisir le modèle ; Entrée enregistre, s limite à la session |
 | `/insights` | Analytique d'usage + rapport d'optimisation |
@@ -66,7 +66,7 @@ which claude && claude --version
 | Raccourci | Action |
 |----------|--------|
 | `Shift+Tab` | Alterner les modes de permission |
-| `Esc × 2` | Rewind (annuler) |
+| `Esc × 2` | Ouvrir le sélecteur de checkpoints |
 | `Ctrl+C` | Interrompre |
 | `Ctrl+R` | Rechercher dans l'historique des commandes |
 | `Ctrl+L` | Effacer l'écran (garde le contexte) |
@@ -84,7 +84,7 @@ which claude && claude --version
 
 ```
 @chemin/vers/fichier.ts   → Référencer un fichier
-@nom-agent                → Appeler un agent
+Demander une délégation   → Claude peut utiliser un agent disponible
 !commande-shell           → Exécuter une commande shell
 ```
 
@@ -92,12 +92,12 @@ which claude && claude --version
 
 | Fonctionnalité | Ce que ça fait |
 |---------|--------------|
-| **Tasks API** | Listes de tâches persistantes avec dépendances |
+| **Tasks API** | Listes persistantes avec dépendances ; activer `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` sur les modèles récents |
 | **Background Agents** | Des sous-agents travaillent pendant que vous codez |
 | **Agent Teams** | Coordination multi-agents (TeamCreate/SendMessage) |
-| **Auto-Memories** | Capture automatique du contexte entre sessions |
-| **Session Forking** | Rewind + création d'une timeline parallèle |
-| **LSP Tool** | Intelligence de code (go-to-def, refs), ~50ms contre 45s avec grep |
+| **Auto-Memories** | Activées par défaut ; inspecter et corriger avec `/memory` |
+| **Session Forking** | `/branch` crée une branche de conversation ; `/fork` copie vers une session en arrière-plan |
+| **LSP Tool** | Navigation vers définitions et références, selon les serveurs configurés |
 | **Mode vocal** | Entrée vocale native, transcription gratuite |
 | **Remote Control** | Contrôler une session locale depuis téléphone/navigateur (Pro/Max/Team/Enterprise) |
 | **Tâches planifiées (Cloud/Desktop)** | Planification machine éteinte via `/schedule` ou l'app Desktop |
@@ -116,7 +116,7 @@ which claude && claude --version
 | Plan Mode | Aucune | Outils en lecture seule |
 | auto | Le classifieur décide | Le classifieur décide |
 | dontAsk | Uniquement si dans les règles autorisées | Uniquement si dans les règles autorisées |
-| bypassPermissions | Auto | Auto (CI/CD uniquement) |
+| bypassPermissions | Auto | Permissions ignorées ; nécessite une isolation et des accès adaptés |
 
 **Shift+Tab** pour changer de mode
 
@@ -127,18 +127,20 @@ which claude && claude --version
 | **Projet** | `.claude/` | Équipe | Oui |
 | **Personnel** | `~/.claude/` | Vous (tous projets) | Non |
 
-**Priorité** : le projet prime sur le personnel
+**Settings** : politiques gérées > CLI > local projet > projet > utilisateur ; listes généralement fusionnées. Les instructions CLAUDE.md se combinent, sans priorité mécanique des textes.
+
+Les préférences personnelles au projet peuvent être placées dans `CLAUDE.local.md` à la racine, ajouté à `.gitignore`. L’auto-memory native utilise `~/.claude/projects/<project>/memory/MEMORY.md` sur la machine.
 
 ## Structure du dossier .claude/
 
 ```
 .claude/
-├── CLAUDE.md            # Mémoire locale (gitignored)
+├── CLAUDE.md            # Instructions projet partagées
 ├── settings.json        # Hooks (versionné)
 ├── settings.local.json  # Permissions (non versionné)
 ├── agents/               # Agents personnalisés
 ├── hooks/                # Scripts d'événements
-├── rules/                # Règles chargées automatiquement
+├── rules/                # Démarrage ou portée paths
 │   ├── architecture-review.md
 │   ├── code-quality-review.md
 │   ├── test-review.md
@@ -155,12 +157,12 @@ which claude && claude --version
 #v(8pt)
 ```
 
-**Surveillez `Ctx(u):`** → >70% = `/compact`, >85% = `/clear`
+**Surveillez `/context`** et la continuité du raisonnement. Sauvegardez les décisions avant compaction ou passation ; aucun seuil universel ne garantit une chute de qualité.
 
 | Signe | Action |
 |------|--------|
 | Réponses courtes | `/compact` |
-| Oublis fréquents | `/clear` |
+| Oublis fréquents | Vérifier les instructions, résumer l’état puis repartir si nécessaire |
 | Contexte >70% | `/compact` |
 | Tâche terminée | `/clear` |
 
@@ -170,7 +172,7 @@ which claude && claude --version
 |---------|-------|
 | `/compact` | Résumer et libérer du contexte |
 | `/clear` | Repartir de zéro |
-| `/rewind` | Annuler les changements récents |
+| `/rewind` | Revenir à un checkpoint ; ne révoque pas les effets Bash ou externes |
 | `claude -c` | Reprendre la dernière session |
 | `claude -r <id>` | Reprendre une session spécifique |
 
@@ -197,7 +199,7 @@ Les modèles adaptatifs actuels acceptent `low`, `medium`, `high`, `xhigh` et `m
 
 ```
 1. Démarrer la session   → claude
-2. Vérifier le contexte  → /status
+2. Vérifier le contexte  → /context
 3. Plan Mode             → Shift+Tab × 2 (tâches complexes)
 4. Décrire la tâche      → prompt clair et précis
 5. Vérifier les diffs    → toujours lire avant d'accepter !
@@ -267,7 +269,8 @@ Décision rapide : texte exact → `rg` | nom exact → `rg`/Serena | concept �
 | `--max-budget-usd 5.00` | Plafond de dépense API (mode print) |
 | `--dangerously-skip-permissions` | Auto-accepter (à manier avec précaution) |
 | `--debug='mcp'` | Déboguer les serveurs MCP |
-| `--allowedTools "Edit,Read"` | Liste blanche d'outils |
+| `--allowedTools "Edit,Read"` | Autoriser ces appels sans nouvelle demande |
+| `--tools "Edit,Read"` | Limiter les outils disponibles |
 | `--debug` | Sortie de débogage |
 
 # Anti-patterns
@@ -336,7 +339,7 @@ Boucle et graphe ne sont pas des substituts de plus. La boucle nomme le feedback
 
 ```
 Tâche simple       → demander directement à Claude
-Tâche complexe     → passer par Tasks API pour planifier
+Tâche complexe     → planifier ; activer Tasks API si suivi persistant utile
 Changement risqué  → Plan Mode d'abord
 Tâche répétitive   → créer un agent ou une commande
 Contexte plein     → /compact ou /clear
@@ -360,7 +363,7 @@ Analyse profonde   → utiliser Opus (réflexion activée par défaut)
 
 | Problème | Solution |
 |---------|----------|
-| "Command not found" | Vérifier le PATH, réinstaller npm global |
+| "Command not found" | Vérifier le PATH et les instructions d’installation officielles |
 | Contexte trop élevé (>70%) | `/compact` immédiatement |
 | Réponses lentes | `/compact` ou `/clear` |
 | MCP ne fonctionne pas | `claude mcp list`, vérifier la config |

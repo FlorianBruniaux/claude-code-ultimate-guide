@@ -84,7 +84,7 @@
   paper: "a4",
   lang: "fr",
   region: "FR",
-  font: ("Helvetica Neue", "Helvetica", "Arial"),
+  font: ("Inter", "Helvetica Neue", "Helvetica", "Arial"),
   fontsize: 11pt,
   sectionnumbering: "1.1",
   toc: true,
@@ -318,7 +318,7 @@
       radius: 6pt,
       stroke: (left: 3pt + accent),
       width: 100%,
-      breakable: false,
+      breakable: true,
       it
     )
   }

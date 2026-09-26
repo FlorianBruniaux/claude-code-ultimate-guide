@@ -4,10 +4,11 @@ subtitle: "How Claude Code isolates its operations at the OS level"
 card-number: "T16"
 category: "Technical"
 difficulty: "advanced"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "August 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: en
 format:
@@ -22,7 +23,7 @@ Since v2.1.0, Claude Code includes a native sandbox that isolates bash command e
 
 ## OS primitives by platform
 
-**macOS: Seatbelt**. Built into the system, no installation required. Uses the TrustedBSD Mandatory Access Control framework to filter system calls at the kernel level. Minimal overhead (~1-2% CPU).
+**macOS: Seatbelt**. Built into the system, no installation required. Uses the TrustedBSD Mandatory Access Control framework to filter system calls at the kernel level. Measure overhead with your own commands.
 
 **Linux / WSL2: bubblewrap**. Requires installing two packages.
 
@@ -31,18 +32,18 @@ sudo apt-get install bubblewrap socat   # Ubuntu/Debian
 sudo dnf install bubblewrap socat       # Fedora
 ```
 
-Creates an isolated namespace (mount, network, PID, IPC) for each executed command. Comparable overhead (~2-3% CPU, less than 10ms startup per command).
+Creates an isolated namespace (mount, network, PID, IPC) for each executed command. Performance depends on the workload and platform.
 
-**WSL1**: not supported. **Native Windows**: planned, not yet available.
+**WSL1**: not supported. **Native Windows**: not supported; use WSL2.
 
 ## Filesystem isolation
 
-The default policy is asymmetric and intentional: read access across the entire system, write access restricted to the current working directory (CWD) and its subdirectories.
+The default policy is asymmetric and intentional: read access across the entire system, write access includes the working directory, the per-user temporary directory and explicitly added directories, subject to protected paths and configured rules.
 
 | Access | Scope |
 |--------|-------|
 | Read | Entire computer (except deny rules) |
-| Write | CWD and subdirectories only |
+| Write | Working directory, temporary directory and added directories, subject to restrictions |
 | Execute | Commands within the sandboxed environment |
 
 To restrict reading of sensitive directories (SSH, cloud credentials), use `permissions.deny` in `settings.json`:
@@ -76,11 +77,11 @@ Two modes via `sandbox.network.strictAllowlist`: permissive (default, a host out
 
 **Auto-allow**: bash commands inside the sandbox are automatically approved. Commands incompatible with the sandbox (e.g., `docker`) trigger a fallback to the normal permissions flow. Recommended for day-to-day development.
 
-**Regular permissions**: even inside the sandbox, each command requires explicit approval. Useful for high-security environments or untrusted codebases.
+**Regular permissions**: sandboxed commands follow the normal permission rules; existing allow rules still apply. Useful for high-security environments or untrusted codebases.
 
 ## The escape hatch: `dangerouslyDisableSandbox`
 
-Some tools are incompatible with sandboxing because they require access to specific system resources (`docker` via `/var/run/docker.sock`, `watchman` via filesystem watch APIs). Claude detects the failure, relaunches the command with this parameter, and asks the user for confirmation.
+Some tools are incompatible with sandboxing because they require access to specific system resources (`docker` via `/var/run/docker.sock`, `watchman` via filesystem watch APIs). Claude may retry with this parameter. The retry uses the normal permission flow, which depends on the active mode; setting an ask rule can require a prompt.
 
 To completely disable the escape hatch in critical environments:
 

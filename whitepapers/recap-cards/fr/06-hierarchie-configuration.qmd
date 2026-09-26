@@ -3,12 +3,12 @@ title: "Hiérarchie de Configuration"
 subtitle: "Où configurer quoi, de global à local"
 card-number: "T05"
 category: "Technique"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
 difficulty: "beginner"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-wp-version: "1.1.0"
-date: "2026-08-24"
+version: "3.43.0"
+wp-version: "1.1.1"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -50,7 +50,7 @@ Les règles du niveau inférieur **complètent** et ne remplacent pas les niveau
     "deny": ["Bash(rm -rf*)"]
   },
   "env": {
-    "ANTHROPIC_LOG": "error"
+    "DISABLE_TELEMETRY": "1"
   }
 }
 ```

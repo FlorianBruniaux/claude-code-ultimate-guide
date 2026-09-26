@@ -37,6 +37,8 @@
   $endif$
   $if(section-numbering)$
   sectionnumbering: "$section-numbering$",
+  $else$
+  sectionnumbering: none,
   $endif$
   $if(toc)$
   toc: $toc$,

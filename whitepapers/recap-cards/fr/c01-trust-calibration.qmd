@@ -4,10 +4,11 @@ subtitle: "Comment penser la relation avec Claude pour en tirer le meilleur"
 card-number: "C01"
 category: "Conception"
 difficulty: "beginner"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "Août 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -16,7 +17,7 @@ format:
 
 ## Le bon mental model
 
-La façon la plus productive de penser à Claude Code : un développeur junior très rapide, avec une connaissance encyclopédique des patterns, mais sans le jugement qui vient de l'expérience projet. Il peut produire 100 lignes de code solide en 10 secondes, et prendre une mauvaise décision d'architecture dans la même foulée.
+La façon la plus productive de penser à Claude Code : un développeur junior très rapide, avec une connaissance encyclopédique des patterns, mais sans le jugement qui vient de l'expérience projet. Il peut produire rapidement du code tout en commettant des erreurs d’architecture nécessitant une relecture attentive.
 
 Ce cadre a une implication immédiate : la supervision n'est pas optionnelle. Elle est calibrée selon le type de tâche.
 
@@ -24,7 +25,7 @@ Ce cadre a une implication immédiate : la supervision n'est pas optionnelle. El
 
 | Tâche | Niveau de confiance | Action |
 |-------|---------------------|--------|
-| Renommage, formatage | Élevé | Accepter sans relire |
+| Renommage, formatage | Élevé | Vérifier le diff obtenu |
 | Génération de tests | Moyen-élevé | Vérifier la couverture |
 | Refactoring d'un module | Moyen | Relire le diff |
 | Décision d'architecture | Faible | Valider obligatoirement |
@@ -34,7 +35,7 @@ La règle générale : plus la décision est irréversible ou coûteuse à corri
 
 ## Le piège de l'itération non supervisée
 
-Le coût d'une erreur augmente de façon quasi exponentielle avec le nombre d'itérations non supervisées. Un mauvais choix de structure de données à l'étape 1 contaminera les 8 étapes suivantes.
+Une erreur initiale peut se propager aux changements suivants. Les reprises dépendent des dépendances et du moment où la validation la détecte.
 
 La pratique recommandée : valider par petits incréments. Après chaque changement significatif, regarder le diff avant de continuer.
 
@@ -57,8 +58,8 @@ Claude Code exécute. Vous orchestrez. La distinction n'est pas stylistique, ell
 Si Claude part dans une direction problématique, `/rewind` permet de revenir à l'état précédent avant de ré-itérer. Mieux vaut rewindrer tôt que de construire 10 échanges supplémentaires sur une base bancale.
 
 ```
-/rewind    # Annule les derniers changements
-           # Revenir au dernier point sain
+/rewind    # Ouvrir le choix des points de contrôle
+           # Choisir quoi restaurer puis vérifier le résultat
 ```
 
 ## Pattern Amplification

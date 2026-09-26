@@ -3,12 +3,12 @@ title: "Erreurs Courantes"
 subtitle: "Les pièges fréquents et comment les éviter"
 card-number: "C13"
 category: "Conception"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
 difficulty: "beginner"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-wp-version: "1.1.0"
-date: "2026-08-24"
+version: "3.43.0"
+wp-version: "1.1.1"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -21,10 +21,10 @@ format:
 Donne tout le fichier à Claude au lieu d'isoler la partie pertinente. Le contexte se remplit en quelques échanges.
 
 **Ne pas utiliser CLAUDE.md**
-Répéter les conventions du projet à chaque session. Centralize dans `CLAUDE.md` tout ce qui doit être constant.
+Répéter les conventions du projet à chaque session. Centraliser dans `CLAUDE.md` tout ce qui doit être constant.
 
 **Ignorer les avertissements de contexte**
-À 85%+, la qualité des réponses se dégrade. Utiliser `/compact` dès 75%.
+Utiliser `/context` pour inspecter capacité et pertinence. Compacter ou préparer une passation si nécessaire ; aucun pourcentage ne garantit une qualité de réponse donnée.
 
 ## Prompting
 
@@ -58,12 +58,6 @@ Passer des clés API dans le prompt ou les lire via `@fichier`. Utiliser des var
 
 **--dangerously-skip-permissions sans sandbox**
 Exécuter en bypass total sur une machine partagée ou en production. Réserver aux environnements éphémères.
-
-## Routines (cloud automation, mars 2026)
-
-**Mal configurer les Routines sans tester les permissions** : les Routines tournent sans supervision humaine dans le cloud. Tester d'abord la tâche en interactif, restreindre les outils autorisés via `allowedTools`, et vérifier les sorties avant de planifier une exécution récurrente.
-
-**Routines sur des données sensibles sans audit** : une Routine qui lit des fichiers de prod ou des secrets doit avoir une whitelist d'outils stricte et ses logs examinés régulièrement.
 
 ## Règles d'Or
 

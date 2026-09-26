@@ -2,10 +2,10 @@
 title: "Software Engineering in the Age of Autonomous Agents"
 subtitle: "Harnesses, agentic CI/CD, and honest productivity measurement"
 author: "Florian BRUNIAUX"
-date: 2026-08-30
+date: "2026-09-26"
 date-format: "MMMM YYYY"
 version: "3.43.0"
-wp-version: "1.4.1"
+wp-version: "1.4.2"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -37,10 +37,10 @@ lang: en
 - The 9 components of an agent harness and why code is the engineering unit
 - What GitHub Agentic Workflows, AWS Bedrock AgentCore, and GitLab Duo deliver today
 - Why SDD (spec-driven development) supersedes TDD (test-driven development) as the reference discipline in agentic mode
-- Warning signals in observability and governance: 93% approvals without review, LLM (Large Language Model) judge < 25% TNR
+- Warning signals in observability and governance: approval fatigue and the limits of LLM (Large Language Model) judges
 :::
 
-> **In 5 lines:** Agents are crossing from "augmented autocomplete" to autonomous loops capable of spending days on a codebase. This regime change is not an automatic gain: the only randomized controlled trial (RCT) on experienced developers (METR, Model Evaluation and Threat Research, n=16) measures -19% actual time despite a positive perception of +24%. Productivity returns when teams master three things: a properly architected harness (executability, inspectability, statefulness), a CI/CD (Continuous Integration / Continuous Delivery) pipeline instrumented for continuous evaluation, and HITL (Human-in-the-Loop) governance that holds at scale rather than letting 93% of approvals go unexamined.
+> **In 5 lines:** Agents are crossing from "augmented autocomplete" to autonomous loops capable of spending days on a codebase. This regime change is not an automatic gain: a randomized controlled trial (RCT) on experienced developers (METR, Model Evaluation and Threat Research, n=16) measures 19% longer completion time despite a positive perception of +24%. Productivity returns when teams master three things: a properly architected harness (executability, inspectability, statefulness), a CI/CD (Continuous Integration / Continuous Delivery) pipeline instrumented for continuous evaluation, and HITL (Human-in-the-Loop) governance that holds at scale while preserving meaningful review of consequential actions.
 
 # The L2-L3 Threshold and the Productivity J-curve
 
@@ -59,14 +59,14 @@ METR Study 2 (February 2026) attempted to extend the protocol to 57 developers a
 DeputyDev (arXiv 2509.19708) followed 300 engineers over a full year using a cohort design. PR cycle time decreased by 31.8% with p=0.0018, which is statistically solid. This is a real positive signal, but it is a cohort study without a randomized control group, so the result blends technology effect with adoption-related selection effects.
 
 ::: {.callout-warning title="The 39-point gap"}
-In METR Study 1, developers estimated they were saving 24% of time before tasks and 20% afterward. The measured reality: -19%. This 39-point gap is not an outlier: it persists across 246 production-grade tasks. Managing only on perception means navigating with a systematically biased compass.
+In METR Study 1, developers estimated they were saving 24% of time before tasks and 20% afterward. The measured reality: 19% longer completion time. This 39-point gap is not an outlier: it persists across 246 production-grade tasks. Managing only on perception means navigating with a systematically biased compass.
 :::
 
 The contrast with marketing benchmarks is sharp. GitHub's widely cited "Copilot makes developers 55% faster" comes from an unpublished synthetic study where participants implemented a 45-minute JavaScript HTTP server task. Comparing a 45-minute synthetic task to a two-hour task on a million-line codebase is not a fair extrapolation. Both numbers can be true simultaneously, and they describe completely different regimes.
 
 | Study | Type | n | Time result |
 |-------|------|---|-------------|
-| METR Study 1 (arXiv 2507.09089) | RCT | 16 | -19% (CI +2% to +39%) |
+| METR Study 1 (arXiv 2507.09089) | RCT | 16 | +19% completion time (CI +2% to +39%) |
 | METR Study 2 (update) | Cohort, abandoned for bias | 57 | "Very weak evidence" |
 | DeputyDev (arXiv 2509.19708) | Cohort, 1 year | 300 | -31.8% PR cycle time (p=0.0018) |
 | GitHub "Copilot 55% faster" | Synthetic JS task | unpublished | +55% (45-min task) |
@@ -165,9 +165,9 @@ Claude Code is one of several viable tools for teams crossing the L3 threshold. 
 
 ## Terminal Agents: Direct Alternatives
 
-**Codex CLI** (openai/codex, 86,200+ stars, Rust, Apache 2.0, launched April 2025) is OpenAI's direct answer to Claude Code. Same interaction model, same edit-test-iterate loop, connected to GPT-4o, o3, and o4-mini. For teams already on ChatGPT Pro or Team plans ($20-$30/month), it adds no marginal cost. The choice between Claude Code and Codex CLI often reduces to a model preference: which provider performs better on your specific task profile is the actual variable.
+**Codex CLI** is OpenAI's terminal agent for inspecting files, changing code and running local tools. It supports interactive work, `codex exec` automation and delegated subtasks. Select the model and reasoning effort exposed by the installed client and account; older lists of GPT-4o/o3/o4-mini are not a current model catalog. Compare the whole model-runtime combination on representative tasks, including permissions, verification, usage limits and cost. See the [official Codex CLI documentation](https://learn.chatgpt.com/docs/codex/cli).
 
-**Hermes Agent** (NousResearch/hermes-agent, 170,000+ stars, MIT, Python), formerly OpenClaw, rebranded in late 2025, has three concrete differentiators. First, it supports 200+ LLM providers via OpenRouter, OpenAI, Anthropic, and Ollama, letting you run Claude for code generation and a local model for offline work within the same agent environment. Second, the self-improvement loop extracts patterns from completed sessions and auto-generates reusable skills, producing a compounding efficiency gain over 30-40 sessions on the same codebase. Third, integration with 22 messaging platforms (Telegram, Discord, Slack, WhatsApp, Signal, Teams) lets teams assign tasks from whatever communication channel they already use. Since Anthropic's 2026 billing clarification, running Hermes with Claude models draws from the programmatic billing bucket of a Max subscription, not the interactive allocation.
+**[Hermes Agent](https://github.com/NousResearch/hermes-agent)** (Nous Research, MIT, Python) combines selectable model providers, persistent memory, reusable skills and a messaging gateway. OpenClaw is a separate project from which Hermes can import configuration; Hermes is not its rebrand. Verify the chosen provider's authentication and billing terms. A Claude Max subscription must not be assumed to cover third-party programmatic use, and memory or skill accumulation does not establish a measured productivity gain.
 
 **Aider** (Aider-AI/aider, 45,400+ stars, Apache 2.0, Python) predates Claude Code and established several conventions the field subsequently adopted: git auto-commits with descriptive messages, whole-file editing format, and multi-model support via LiteLLM. Mature, well-documented, 5.3M+ PyPI downloads. The right call for teams wanting multi-model support in a lighter package than Hermes. Release cadence has slowed since mid-2025 (v0.86.0, August 2025), which makes it stable but less reactive to the latest model capabilities.
 
@@ -310,14 +310,14 @@ What this all means operationally: invest in automated test generation because t
 
 # Governance and HITL at Scale
 
-The principle is uncontroversial: keep humans in the loop for consequential agent decisions. The operational reality, once agents run thousands of operations per day, is that classic Human-in-the-Loop degrades into rubber-stamping. The data Anthropic published in 2026 puts a number on this: 93% of approval requests are validated without adequate review in production when human workflows process more than a few thousand operations per day. This figure does not say that 93% of those approvals are wrong. It says that the model of "human reads each request and approves" stops working at scale, because the same cognitive constraint that makes humans unable to maintain sustained attention across 1,000 alerts per day makes them unable to maintain sustained attention across 1,000 agent approvals per day.
+Consequential agent decisions need accountable oversight. At high request volumes, a process that asks people to approve every operation can encourage superficial review. Measure approval volume, review time, sampled decision quality and incident outcomes in your own workflow before choosing which actions may proceed automatically.
 
 Anthropic's Measuring Agent Autonomy report (January 2026) makes the scale shift concrete. The 99.9th percentile duration of an agent turn went from under 25 minutes in October 2025 to over 45 minutes in January 2026. The longest sessions more than doubled in three months. This means agents are handling increasingly complex tasks, which makes synchronous HITL even less viable: nobody can wait 45 minutes for a human approval cycle to gate every meaningful agent decision.
 
 OpenAI's Codex team published an alternative that has become the reference pattern. They reduced human approvals by a factor of 200x by deploying a dedicated second agent that analyzes the request intent, the execution environment, the applicable policy, and the probable impact, then approves or escalates. HITL does not disappear in this model, it gets delegated to a specialized verifier agent. Humans only see the cases the verifier escalates, which by construction are the cases where the verifier was uncertain or where the impact crossed a threshold.
 
-::: {.callout-important title="93% approvals without review"}
-Anthropic's internal measurements show that 93% of approval requests are validated without adequate review in production once volume exceeds a few thousand operations per day. This is not a team motivation problem: it is a cognitive constraint. A human cannot maintain sustained attention across 1,000 requests per day. The solution is not to ask for more vigilance, it is to change the architecture.
+::: {.callout-important title="Measure the quality of approvals"}
+An approval click does not prove the reviewer understood the action. Use clear action previews, least privilege, escalation for consequential changes and sampled review of approved operations. No verified universal percentage of unreviewed approvals is established here.
 :::
 
 The Human-on-the-Loop variant, well-known in financial fraud detection, scales differently. HSBC processes 1.35 billion transactions per month with HOTL governance, where humans intervene only on high-uncertainty or high-impact cases. The reported result is a 20% reduction in false positives after implementing the HOTL pattern. The lesson transfers: human time is most valuable on edge cases, not on the bulk of routine decisions.
@@ -346,7 +346,7 @@ The pattern across these tools is the same: treat agent identity as first-class,
 
 **SRE (Site Reliability Engineer)**. Application observability built around HTTP latency, error rates, and availability is no longer sufficient when meaningful work happens inside agentic loops that emit no HTTP traffic until they fail. The new instrumentation includes OpenTelemetry `gen_ai.client` attributes that are still in Development status, ideally routed through a versioned adapter or frozen local schema, agent trace spans that are even less settled, the Tool Correctness Score documented by Agent GPA Snowflake, and HITL versus HOTL intervention rates over time. The incident budget changes shape as well: CSA/Zenity reports 58% of agent anomalies take more than 5 hours to detect, which redefines what a useful SLO (Service Level Objective) looks like for an agentic system. SREs who treat agent identity and credential rotation as part of the platform contract, rather than as application-team concerns, end up with systems that are auditable when something goes wrong.
 
-**Engineering Manager**. Velocity metrics (commits per developer, PRs merged per week) inflate mechanically with agent adoption, and they say nothing about whether the team is shipping value. The only available RCT (METR Study 1, n=16, -19% actual time with a 39-point perception gap) shows that managing on developer feel rather than measurement produces systematically optimistic forecasts. Engineering managers who want to navigate the J-curve from section 1 successfully recalibrate their DORA targets around what their team actually measures, instrument the AI-specific metrics WP11 covers, and resist the temptation to treat the early adoption period as a productivity win. Communicating the dip to leadership before it shows up in the numbers avoids budget cuts at the worst possible moment.
+**Engineering Manager**. Velocity metrics (commits per developer, PRs merged per week) inflate mechanically with agent adoption, and they say nothing about whether the team is shipping value. The only available RCT (METR Study 1, n=16, +19% completion time with a 39-point perception gap) shows that managing on developer feel rather than measurement produces systematically optimistic forecasts. Engineering managers who want to navigate the J-curve from section 1 successfully recalibrate their DORA targets around what their team actually measures, instrument the AI-specific metrics WP11 covers, and resist the temptation to treat the early adoption period as a productivity win. Communicating the dip to leadership before it shows up in the numbers avoids budget cuts at the worst possible moment.
 
 # See Also
 
@@ -362,7 +362,7 @@ The pattern across these tools is the same: treat agent identity as first-class,
 
 **Repository**: [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)
 
-*Version 3.42.0 | August 2026*
+*Version 3.43.0 | September 2026*
 
 # The Series
 

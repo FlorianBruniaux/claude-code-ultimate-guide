@@ -4,10 +4,11 @@ subtitle: "Méthodologies de développement structurées avec Claude Code"
 card-number: "M15"
 category: "Méthodologie"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -87,15 +88,12 @@ Applicable quand la correction du résultat est critique et que les tests automa
 
 ## Intégration avec Tasks API
 
-```bash
-# Créer la hiérarchie TDD dans Tasks API
-TaskCreate("Écrire les tests failing pour auth")
-TaskCreate("Implémenter auth pour passer les tests", {
-  blockedBy: ["task-tests-failing"]
-})
-TaskCreate("Refactoriser auth", {
-  blockedBy: ["task-impl-auth"]
-})
+Activer les outils de tâches avec `CLAUDE_CODE_ENABLE_TODO_TOOLS=1`, puis demander à Claude :
+
+```text
+Create tasks for failing auth tests, implementation, and refactoring.
+Use the IDs returned by TaskCreate to add dependencies with TaskUpdate:
+implementation waits for tests; refactoring waits for implementation.
 ```
 
 Le cycle Red-Green-Refactor devient traçable et persistant entre sessions.

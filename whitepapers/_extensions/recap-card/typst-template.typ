@@ -224,7 +224,7 @@
   )
 
   set text(
-    font: ("Helvetica Neue", "Helvetica", "Arial"),
+    font: ("Inter", "Helvetica Neue", "Helvetica", "Arial"),
     size: 9pt,
     lang: lang,
     fill: text-primary,
@@ -275,23 +275,20 @@
   // HEADING STYLES
   // ==========================================
 
-  show heading.where(level: 1): it => {
-    v(8pt, weak: true)
+  show heading.where(level: 1): it => block(
+    above: 8pt, below: 5pt, sticky: true,
     text(11pt, weight: "bold", fill: text-primary)[#it.body]
-    v(5pt, weak: true)
-  }
+  )
 
-  show heading.where(level: 2): it => {
-    v(6pt, weak: true)
+  show heading.where(level: 2): it => block(
+    above: 6pt, below: 4pt, sticky: true,
     text(9pt, weight: "bold", fill: accent)[#it.body]
-    v(4pt, weak: true)
-  }
+  )
 
-  show heading.where(level: 3): it => {
-    v(5pt, weak: true)
+  show heading.where(level: 3): it => block(
+    above: 5pt, below: 3pt, sticky: true,
     text(8.5pt, weight: "bold", fill: text-secondary)[#it.body]
-    v(3pt, weak: true)
-  }
+  )
 
   // ==========================================
   // CODE BLOCKS
@@ -341,8 +338,13 @@
       else if calc.odd(y) { white }
       else { bg-card }
     },
-    inset: 5pt,
+    inset: 3.5pt,
   )
+
+  show table: it => {
+    set text(size: 8pt, hyphenate: true)
+    it
+  }
 
   show table.cell.where(y: 0): set text(weight: "bold", fill: accent, size: 8pt)
 

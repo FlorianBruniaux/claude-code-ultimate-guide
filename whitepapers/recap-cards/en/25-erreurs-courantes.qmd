@@ -3,11 +3,12 @@ title: "Common Mistakes"
 subtitle: "Frequent pitfalls and how to avoid them"
 card-number: "C13"
 category: "Design"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 difficulty: "beginner"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: en
 format:
@@ -23,7 +24,7 @@ Dumps the entire file to Claude instead of isolating the relevant part. The cont
 Repeating project conventions every session. Centralize in `CLAUDE.md` everything that needs to be constant.
 
 **Ignoring context warnings**
-At 85%+, response quality degrades. Use `/compact` as early as 75%.
+Use `/context` to inspect capacity and relevance. Compact or hand off when needed; no percentage guarantees a particular response quality.
 
 ## Prompting
 

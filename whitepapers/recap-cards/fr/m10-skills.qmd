@@ -4,10 +4,11 @@ subtitle: "Modules de compétences réutilisables avec ressources embarquées"
 card-number: "M10"
 category: "Méthodologie"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -33,7 +34,7 @@ mon-skill/
 | Mode | Frontmatter | Comportement |
 |------|-------------|-------------|
 | **User-invocable** | `disable-model-invocation: true` | Déclenché par l'utilisateur via `/nom` |
-| **Model-invocable** | (aucun flag) | Chargé automatiquement par le modèle |
+| **Modèle uniquement** | `user-invocable: false` | Masqué dans le menu utilisateur ; Claude peut l’invoquer |
 | **Les deux** | (aucun flag) | Invocable des deux façons |
 
 ## Frontmatter SKILL.md
@@ -65,20 +66,20 @@ allowed-tools: Read Grep Bash
 
 La différence principale : un skill peut embarquer un fichier `reference.md` de 500 lignes qui devient disponible lors de l'invocation. Une command ne peut pas.
 
-## Marketplace : npx add-skill
+## Installer des skills communautaires
 
 ```bash
-# Installer le bundle Vercel (3 skills)
-npx add-skill vercel-labs/agent-skills
+# Inspecter les skills disponibles avant l'installation
+npx skills add vercel-labs/agent-skills --list
 
-# Installer le skill Supabase
-npx add-skill supabase/agent-skills
+# Choisir les skills souhaités en mode interactif
+npx skills add vercel-labs/agent-skills --agent claude-code
 
 # Vérifier les skills installés
-ls ~/.claude/skills/
+npx skills list
 ```
 
-Les skills du marketplace passent un audit de sécurité automatique en 3 couches (Socket, Snyk, Gen) avant publication. Plus de 200 skills disponibles.
+Le [CLI skills](https://github.com/vercel-labs/skills) installe des paquets communautaires. Un catalogue ou un scan ne garantit pas leur sécurité : inspecter les instructions, les scripts, les accès demandés et la révision choisie avant utilisation.
 
 ## Invocation
 
@@ -102,4 +103,4 @@ Deux patterns de gestion dans le temps :
 
 ## Précaution importante
 
-Les skills ne sont invoqués que lors d'une activation explicite. Les evals montrent une invocation automatique dans seulement 56% des cas. Pour des instructions critiques qui doivent toujours s'appliquer, utiliser `CLAUDE.md` ou `.claude/rules/` plutôt qu'un skill.
+Claude peut invoquer automatiquement les skills éligibles, mais leur découverte ne garantit pas leur invocation à chaque demande pertinente. Placez les instructions permanentes dans `CLAUDE.md` ou `.claude/rules/` et testez l’activation sur des prompts représentatifs.

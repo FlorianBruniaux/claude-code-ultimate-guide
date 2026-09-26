@@ -1,0 +1,1189 @@
+---
+title: "Prompts qui Marchent"
+subtitle: "La méthode pour des prompts qui marchent du premier coup"
+author: "Florian BRUNIAUX"
+date: "2026-09-26"
+date-format: "MMMM YYYY"
+version: "3.43.0"
+wp-version: "1.3.3"
+series: "Claude Code Ultimate Guide"
+format:
+  whitepaper-typst:
+    toc: true
+    toc-depth: 2
+    section-numbering: "1.1"
+  html:
+    toc: true
+    theme: cosmo
+  epub:
+    toc: true
+    toc-depth: 2
+    epub-cover-image: _extensions/whitepaper/assets/claude-code-ai-logo.jpg
+    css: ../epub-styles.css
+    number-sections: true
+lang: fr
+citeproc: false
+---
+
+::: {.callout-tip title="Pour qui ce whitepaper ?"}
+**Audience principale** : Développeurs (tous niveaux)
+
+**Prérequis** : Installation de Claude Code (WP00)
+
+**Temps de lecture** : 30 min
+
+**Ce que vous allez retenir** :
+
+- Un prompt structuré (WHAT/WHERE/HOW/VERIFY) réduit les itérations de 60-70%
+- Les XML tags augmentent la précision sur les tâches complexes
+- Les anti-patterns les plus fréquents : prompts vagues, périmètre flou, absence de critères
+:::
+
+> **En 5 lignes :** La qualité de vos outputs Claude Code dépend directement de la qualité de vos prompts. Cet ebook décortique la mécanique du prompt efficace : pourquoi un prompt structuré bat un prompt vague, comment les XML tags changent le niveau de précision, et quels anti-patterns sabotent vos sessions sans que vous le réalisiez. Applicable dès la prochaine interaction.
+
+# Le Problème : Prompts Vagues
+
+## Le Coût Caché des Itérations
+
+La plupart des équipes qui adoptent Claude Code font la même erreur les 3 premières semaines : des prompts trop vagues qui déclenchent 3 à 5 cycles de correction pour chaque tâche. Résultat : du contexte brûlé, du temps perdu, et un modèle qui suppose là où il devrait exécuter.
+
+| Prompt vague | Résultat | Itérations typiques |
+|---|---|---|
+| "Fix the login" | Claude modifie le mauvais fichier | 3-5 |
+| "Add validation" | Validation trop basique ou trop complexe | 2-4 |
+| "Make it faster" | Optimisation du mauvais composant | 4-6 |
+
+**Conséquence** : chaque itération superflue coûte du temps et du contexte. Multipliez par le nombre de tâches quotidiennes et les pertes s'accumulent vite.
+
+## Anatomie d'un Mauvais Prompt
+
+Analyser un prompt raté permet d'identifier exactement où Claude perd le fil. Le prompt suivant est l'un des plus fréquents en équipe, et l'un des plus coûteux en itérations.
+
+```
+Add validation
+```
+
+Ce prompt échoue car Claude ne sait pas :
+
+- **QUEL** bug parmi les potentiels dizaines ?
+- **OÙ** regarder dans la codebase ?
+- **COMMENT** vérifier que c'est corrigé ?
+
+Le modèle va deviner, et ses suppositions ne correspondent pas forcément à vos attentes.
+
+## Le Cercle Vicieux
+
+Le problème n'est pas ponctuel : c'est un mécanisme auto-entretenu qui se dégrade à chaque itération. Comprendre ce cycle est la première étape pour en sortir.
+
+```
+Prompt vague → Claude suppose → Résultat approximatif → Vous reformulez → ...
+```
+
+Ce cycle n'est pas qu'un inconvénient mineur : chaque itération consomme du contexte (la mémoire de travail de Claude), et ce contexte ne se recharge pas gratuitement. Au bout de 3-4 corrections, Claude travaille avec un historique pollué de tentatives échouées, ce qui dégrade la qualité des réponses suivantes. C'est un double coût : temps humain perdu ET qualité de réponse en baisse progressive.
+
+{{< pagebreak >}}
+
+# La Formule WHAT/WHERE/HOW/VERIFY
+
+## Principe
+
+Une formule en 4 éléments pour des réponses précises du premier coup. L'idée est simple : chaque élément élimine une catégorie entière d'ambiguïté. WHAT empêche Claude de deviner la tâche, WHERE l'empêche de chercher au mauvais endroit, HOW cadre l'approche technique, et VERIFY donne un critère objectif de succès. Quand les quatre sont présents, Claude n'a plus besoin de supposer quoi que ce soit.
+
+| Élément | Question | Rôle |
+|---|---|---|
+| **WHAT** | Que dois-tu livrer ? | Livrable concret attendu |
+| **WHERE** | Où intervenir ? | Chemins des fichiers concernés |
+| **HOW** | Comment procéder ? | Contraintes techniques, approche |
+| **VERIFY** | Comment savoir si c'est bon ? | Critères de succès mesurables |
+
+## Exemple Complet
+
+La formule en action sur un cas réel : de gauche à droite, un prompt vague se transforme en prompt actionnable que Claude peut exécuter du premier coup.
+
+**Avant** (vague) :
+
+```
+Add email validation
+```
+
+**Après** (structuré) :
+
+```
+Add input validation to the login form.
+WHERE: src/components/LoginForm.tsx
+HOW: Use Yup schema, display inline errors below each field
+VERIFY: Empty email shows "Email required", invalid format shows "Invalid email"
+```
+
+## Décomposition
+
+Chaque élément de la formule mérite une attention particulière. Les sections suivantes détaillent ce que Claude attend pour chacun, avec des exemples concrets de la différence entre un élément vague et un élément actionnable.
+
+### WHAT : Le Livrable
+
+Soyez spécifique sur ce que vous attendez :
+
+| Trop vague | Précis |
+|---|---|
+| "Fix the bug" | "Fix the null pointer exception when user has no profile" |
+| "Add tests" | "Add unit tests for the calculateTotal function" |
+| "Improve perf" | "Reduce API response time from 2s to 500ms" |
+
+### WHERE : La Localisation
+
+Sans WHERE, Claude doit scanner la codebase pour deviner où intervenir -- ce qui consomme du contexte et aboutit souvent au mauvais fichier. Donnez les chemins explicites, jusqu'à la fonction si possible.
+
+```
+WHERE: src/auth/login.ts (function validateCredentials)
+```
+
+Si plusieurs fichiers :
+
+```
+WHERE:
+- src/components/UserForm.tsx (form component)
+- src/hooks/useValidation.ts (validation logic)
+- src/types/user.ts (type definitions)
+```
+
+### HOW : Les Contraintes
+
+HOW est l'élément que les développeurs oublient le plus souvent, car ils supposent que Claude connaît les conventions du projet. En réalité, sans directive explicite, Claude choisira la librairie ou le pattern qu'il juge le plus courant -- pas forcément celui utilisé dans votre codebase. Précisez l'approche technique, y compris la librairie exacte à utiliser.
+
+```
+HOW:
+- Use existing validation library (yup, not zod)
+- Follow project error handling pattern (try-catch with custom Error)
+- Keep backward compatibility with v1 API
+```
+
+### VERIFY : Les Critères
+
+VERIFY transforme un prompt d'instruction en prompt vérifiable. Sans critères de succès, Claude considère la tâche terminée dès que le code compile -- même si le comportement n'est pas celui attendu. Donnez des tests concrets que vous pouvez exécuter immédiatement.
+
+```
+VERIFY:
+- npm test passes
+- Manual test: empty form shows 3 error messages
+- Existing login flow still works
+```
+
+::: {.callout-note title="Exemple : effet de la formule WHAT/WHERE/HOW/VERIFY"}
+Un prompt du type "Fix the payment validation" fait typiquement modifier `payment-form.tsx` alors que le bug se trouve dans `payment-api.ts`. En appliquant WHAT/WHERE/HOW/VERIFY de façon systématique, le taux de prompts corrects du premier coup passe d'environ 30% à environ 80%.
+:::
+
+::: {.callout-tip title="Memo -- WHAT/WHERE/HOW/VERIFY en 30 secondes"}
+**Principe** : 4 elements obligatoires pour eliminer l'ambiguite.
+
+**Format type** : `[Action precise] WHERE: [chemin:ligne] HOW: [lib/pattern] VERIFY: [test concret]`
+
+**Anti-pattern** : Omettre WHERE -- Claude choisira un fichier au hasard dans la codebase.
+
+**Resultat attendu** : Reponse correcte au premier essai dans ~80% des cas.
+:::
+
+> 📖 **Pour aller plus loin :** [§2.6 Mental Model](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#26-mental-model): le modèle mental complet de l'interaction avec Claude Code
+
+{{< pagebreak >}}
+
+# XML Prompting Avancé
+
+## Quand l'Utiliser
+
+Le XML n'est pas toujours nécessaire. Pour une tâche simple sur un seul fichier, la formule WHAT/WHERE/HOW/VERIFY en texte brut suffit. Le XML devient pertinent quand la quantité d'information à transmettre dépasse ce qu'un paragraphe peut structurer clairement.
+
+| Situation | Format recommandé |
+|---|---|
+| Tâche simple (1 fichier, claire) | WHAT/WHERE/HOW/VERIFY en texte |
+| Tâche complexe (multi-fichiers) | XML structuré |
+| Revue de code | XML avec sections dédiées |
+| Debug multi-étapes | XML avec contexte détaillé |
+
+## Structure de Base
+
+La structure minimale repose sur quatre balises qui correspondent aux questions fondamentales de toute tâche : quoi faire, dans quel contexte, avec quelles contraintes, et sous quelle forme livrer le résultat. Vous pouvez ajouter d'autres balises selon le besoin, mais ces quatre forment le socle.
+
+```xml
+<instruction>
+  Tâche principale à accomplir
+</instruction>
+
+<context>
+  Informations de fond, état du projet
+</context>
+
+<constraints>
+  - Limitation 1
+  - Limitation 2
+</constraints>
+
+<output>
+  Format attendu de la réponse
+</output>
+```
+
+## Tags Courants
+
+Au-delà de la structure de base, Claude reconnaît un ensemble de balises spécialisées. Chaque catégorie ci-dessous regroupe les tags par intention : décrire la tâche, fournir du contexte, montrer du code, ou poser des limites.
+
+### Instructions et Tâches
+
+Ces balises définissent ce que Claude doit accomplir. Utiliser `<instruction>` pour la tâche principale, `<task>` pour des sous-tâches, et `<goal>` pour clarifier l'objectif quand il diffère de l'action immédiate.
+
+```xml
+<instruction>Main task</instruction>
+<task>Specific subtask</task>
+<goal>Desired outcome</goal>
+```
+
+### Contexte et Information
+
+Les balises de contexte permettent à Claude de situer la tâche dans son environnement. Sans elles, Claude infère le contexte à partir des fichiers qu'il lit -- ce qui peut être incomplet ou trompeur, surtout dans un projet multi-modules.
+
+```xml
+<context>Project uses Next.js 14</context>
+<problem>Users report slow loads</problem>
+<state>Currently on feature-branch</state>
+```
+
+### Code et Exemples
+
+Fournir du code dans des balises dédiées permet à Claude de distinguer le code existant (à modifier) du code de référence (à imiter). Cette distinction est importante : sans elle, Claude peut confondre un exemple à suivre avec du code à corriger.
+
+```xml
+<code_example>
+  // Pattern à suivre
+  const user = await getUser(id);
+</code_example>
+
+<current_code>
+  // Code à modifier
+</current_code>
+```
+
+### Contraintes et Règles
+
+Les contraintes sont ce qui différencie un prompt amateur d'un prompt professionnel. Claude respecte mieux les limitations quand elles sont explicitement isolées dans des balises, plutôt que noyées dans un paragraphe de contexte.
+
+```xml
+<constraints>
+  - Backward compatibility required
+  - No breaking API changes
+  - Max 100ms response time
+</constraints>
+
+<avoid>
+  - Don't use any for types
+  - Don't modify database schema
+</avoid>
+```
+
+Le XML n'est pas une syntaxe arbitraire : Claude a ete entraine avec des balises XML dans ses donnees d'alignement (system prompts, tool use). En structurant vos prompts en XML, vous parlez le langage natif du modele -- il distingue mieux les sections et respecte davantage les contraintes.
+
+> 📖 **Pour aller plus loin :** [§2.8 Structured Prompting with XML Tags](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#28-structured-prompting-with-xml-tags): catalogue complet des balises XML
+
+{{< pagebreak >}}
+
+## Exemple Complet : Revue de Sécurité
+
+Cet exemple montre comment structurer un audit de sécurité en XML. Les balises `<context>` et `<constraints>` sont particulièrement importantes ici : elles forcent Claude à analyser le code sous l'angle compliance (PCI DSS, OWASP) au lieu de se limiter à une relecture fonctionnelle.
+
+```xml
+<instruction>
+Review this authentication middleware for security vulnerabilities
+</instruction>
+
+<context>
+Financial application handling sensitive user data.
+OWASP Top 10 guidelines required.
+PCI DSS compliance needed.
+</context>
+
+<code_example>
+async function authenticate(req, res, next) {
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) return res.status(401).json({ error: 'No token' });
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  req.user = decoded;
+  next();
+}
+</code_example>
+
+<constraints>
+- Point out security risks
+- Suggest PCI DSS compliant alternatives
+- Consider timing attacks
+</constraints>
+
+<output>
+1. List of security issues (Critical/High/Medium/Low)
+2. Specific code fixes
+3. Hardening recommendations
+</output>
+```
+
+## Exemple Complet : Bug Investigation
+
+L'investigation de bug est le cas d'usage où le XML apporte le plus de valeur. Les balises `<problem>`, `<state>` et `<context>` séparent clairement les symptômes observés, l'état du système, et les changements récents -- trois informations que Claude a besoin de distinguer pour formuler une hypothèse pertinente.
+
+```xml
+<task>
+Investigate premature session expiration
+</task>
+
+<problem>
+Users logged out after 5-10 minutes.
+Session timeout configured for 24 hours.
+</problem>
+
+<context>
+- Next.js 14 App Router with next-auth
+- PostgreSQL session store
+- Load balanced (3 servers)
+- Started after v2.3.0 deploy
+</context>
+
+<state>
+Git diff v2.2.0 → v2.3.0 shows changes to:
+- middleware.ts (session refresh)
+- auth.config.ts (session strategy)
+- database.ts (connection pooling)
+</state>
+
+<constraints>
+- Don't suggest reverting
+- Production issue, quick resolution needed
+- Maintain session security
+</constraints>
+
+<output>
+1. Root cause hypothesis
+2. Files to investigate (priority order)
+3. Debug commands
+4. Potential fixes with trade-offs
+</output>
+```
+
+::: {.callout-tip title="Memo -- XML Prompting en 30 secondes"}
+**Principe** : Structurer en balises XML pour les taches complexes (multi-fichiers, debug, revue de code).
+
+**Format type** : `<instruction>` + `<context>` + `<constraints>` + `<output>`
+
+**Anti-pattern** : Utiliser XML pour une tache simple a un fichier -- surcharge inutile.
+
+**Resultat attendu** : Claude separe mieux les informations et respecte chaque contrainte individuellement.
+:::
+
+{{< pagebreak >}}
+
+# Techniques Avancées v3.26
+
+Jusqu'ici, nous avons vu comment structurer un prompt individuel (formule WHAT/WHERE/HOW/VERIFY) et comment l'organiser visuellement (XML). L'etape suivante : controler ce que Claude voit avant meme que vous ecriviez votre prompt.
+
+La formule WHAT/WHERE/HOW/VERIFY couvre 80% des cas. Les techniques ci-dessous s'appliquent quand vous avez besoin de controler finement le contexte que Claude recoit ou d'automatiser la validation de vos prompts.
+
+## Comparatif des Techniques de Prompting
+
+Quatre approches fondamentales, chacune adaptée à un contexte précis :
+
+| Technique | Quand utiliser | Avantages | Limites |
+|---|---|---|---|
+| **Zero-shot** | Tâche claire, contexte riche dans CLAUDE.md | Rapide, économe en tokens | Claude peut dériver sans exemples |
+| **Few-shot** | Tâche créative, output au format précis | Ancre le style et le format | Prend de la place dans le contexte |
+| **Chain-of-thought** | Debug complexe, raisonnement multi-étapes | Réduit les erreurs d'inférence | Verbeux, coûteux en tokens |
+| **Role-based** | Revue de sécurité, analyse d'architecture | Active un cadre d'expertise spécifique | Risque de sur-généralisation du rôle |
+
+**Règle de composition** : ces techniques se combinent. Un prompt de debug efficace combine souvent rôle expert + chain-of-thought + WHERE explicite.
+
+## Références `@file` : Contrôle Explicite du Contexte
+
+**Depuis v3.26**, Claude Code supporte les références de fichiers explicites.
+
+**Principe** : Charger des fichiers au contexte sans exécuter d'action.
+
+```bash
+@src/utils/validators.ts     # Charge un fichier
+@src/schemas/                 # Charge un dossier
+!git status                   # Exécute une commande shell
+```
+
+**Quand utiliser** :
+
+| Situation | Syntaxe | Effet |
+|---|---|---|
+| Exploration | `@README.md` | Lecture seule, pas d'édition |
+| Multi-fichiers | `@auth.ts @types.ts` | Plusieurs références |
+| Context engineering | `@config/` dans le prompt (indépendant de `/context`, qui ne prend que l'argument optionnel `all` pour afficher la répartition du contexte) | Ajout explicite au contexte |
+
+**Avantages** :
+
+- Contrôle précis de la consommation de contexte
+- Évite le chargement automatique de fichiers non pertinents
+- Permet d'explorer avant de modifier
+
+**Exemple** :
+
+```
+Before editing auth.ts, load context:
+@src/auth/auth.ts
+@src/types/user.ts
+@README.md
+
+Now analyze authentication flow.
+```
+
+::: {.callout-tip title="Memo -- References fichier en 30 secondes"}
+**Quoi** : Charger des fichiers dans le contexte sans declencher d'action.
+
+**Quand** : Avant une modification, pour que Claude ait la vue complete.
+
+**Comment** : `@chemin/fichier` dans votre prompt, ou `@dossier/` pour tout un repertoire.
+
+**Verifier** : Claude mentionne le contenu du fichier charge dans sa reponse.
+:::
+
+## Thinking Modes et Efficacité
+
+Opus 5.5 est le modèle par défaut du service direct ; les politiques d’organisation et fournisseurs peuvent différer. Opus 5.5, Sonnet 5 et Fable 5.1 utilisent un raisonnement adaptatif et un contexte natif de 1M tokens. L’effort influence le raisonnement et les appels d’outils. Le thinking reste activé sur Opus 5.5 et Fable ; Haiku 4.5 accepte l’extended thinking mais n’a pas de paramètre d’effort.
+
+Les modèles adaptatifs actuels acceptent `low / medium / high / xhigh / max`. Opus 4.6 et Sonnet 4.6 n’acceptent pas `xhigh`. `/effort` enregistre les niveaux compatibles jusqu’à `xhigh` par modèle ; **s** applique le choix à la session seule. `max` est limité à la session. `/effort ultracode` active les workflows dynamiques avec un raisonnement `xhigh` : ce n’est pas un sixième niveau API.
+
+**Impact sur les prompts** :
+
+| Effort | Quand | Effet sur le prompt |
+|---|---|---|
+| `low` | Tâche mécanique, zéro décision de design | Prompt court, WHERE explicite recommandé |
+| `medium` | Pattern connu, périmètre défini | WHAT/WHERE/HOW/VERIFY |
+| `high` | Décisions de design, cas limites multiples | Détaillez contraintes et compromis attendus |
+| `xhigh` | Analyse approfondie sur modèle compatible | Formule complète et vérification explicite |
+| `max` | Décisions irréversibles, audits critiques | Contexte maximal, critères de vérification explicites |
+
+**Effort bas** → Compenser avec plus de détails :
+
+```
+❌ INSUFFISANT (effort low)
+Optimize the API
+
+✅ BON (effort low)
+Reduce response time of /users endpoint.
+WHERE: src/api/users/index.ts (listUsers function)
+CAUSE: No pagination, full table scan on 50K rows
+FIX: Add cursor-based pagination (limit 50)
+VERIFY: Response time < 200ms with 50K records
+```
+
+**Effort élevé** → Gardez les critères de réussite explicites :
+
+```
+✅ ACCEPTABLE (effort xhigh)
+Add cursor pagination to src/api/users/index.ts
+Currently full table scan, target < 200ms
+```
+
+**Compromis** : un effort élevé peut consommer davantage de tokens et de temps. Comparez les résultats acceptés et les reprises sur la même tâche avant de conclure à un gain de qualité.
+
+**Évaluer Fable 5.1** : si Opus 5.5 ne satisfait pas les critères d’acceptation, comparez Fable 5.1 (`claude-fable-5-1`) lorsque le compte y donne accès. Son tarif standard est de $10/$50 par million de tokens entrée/sortie, contre $4/$20 pour Opus 5.5. Gardez les mêmes preuves et critères de vérification ; changer de modèle n’autorise pas une action irréversible.
+
+**Note v2.1.89** : `showThinkingSummaries` est maintenant `false` par défaut. Pour rétablir les résumés de raisonnement visibles : `"showThinkingSummaries": true` dans `settings.json`.
+
+::: {.callout-tip title="Memo -- Thinking Modes en 30 secondes"}
+**Quoi** : Le parametre `effort` calibre le budget de calcul du modele sur 5 paliers (low a max), pas seulement le raisonnement.
+
+**Quand** : évaluer `low`/`medium` pour les tâches bornées et `high`/`xhigh` pour l’analyse. Augmenter l’effort ou comparer les modèles lorsque les échecs mesurés le justifient. Opus 5.5 utilise `medium` par défaut ; Sonnet 5 et Fable 5.1 utilisent `high`.
+
+**Comment** : exprimer WHAT/WHERE/HOW/VERIFY à tous les niveaux d’effort. Plus de raisonnement ne fournit pas les critères manquants.
+
+**Verifier** : Si la reponse manque de profondeur en effort bas, montez de palier ou ajoutez du contexte au prompt.
+:::
+
+## Context Engineering : Les Couches de Contexte
+
+**Context Engineering** = Gérer ce que Claude "voit" pour maximiser pertinence.
+
+### Couche 1 : CLAUDE.md (Instructions Durables)
+
+CLAUDE.md est chargé automatiquement à chaque session. Tout ce que vous y placez s'applique sans que vous ayez à le répéter, ce qui réduit la taille de vos prompts quotidiens et garantit la cohérence des conventions.
+
+```markdown
+# Project Context
+
+- Tech stack: React 18 + TypeScript + Zod
+- Validation pattern: All schemas in src/schemas/
+- Error handling: Use custom AppError class
+```
+
+**Effet** : Claude applique ces règles automatiquement, sans les répéter.
+
+### Couche 2 : Skills (Workflows Réutilisables)
+
+Prompt réutilisable encapsulé dans un skill.
+
+**Exemple** : `/add-validation` skill
+
+```yaml
+name: add-validation
+effort: low
+prompt: |
+  Add Zod validation to form {{form_name}}.
+  WHERE: {{file_path}}
+  HOW: Use pattern from src/schemas/auth.ts
+  VERIFY: Empty fields show error messages
+```
+
+**Usage** : `/add-validation form_name=LoginForm file_path=src/components/LoginForm.tsx`
+
+**Champ `effort` (Claude Code v2.1.80+)** : le frontmatter d’un skill peut remplacer l’effort de session pendant son exécution, puis le restaurer. Choisissez un niveau compatible avec le modèle. `${CLAUDE_EFFORT}` est disponible dans le corps du skill pour les instructions qui se réfèrent au niveau actif.
+
+### Couche 3 : Hooks (Validation Automatique)
+
+Valider les prompts AVANT exécution.
+
+**Exemple** : Hook qui force WHAT/WHERE/HOW
+
+```bash
+# ~/.claude/hooks/validate-prompt.sh
+# Pseudo-code illustratif: les hooks reçoivent les données via stdin JSON
+# (lire le champ "prompt" depuis le JSON reçu en entrée)
+if ! <prompt_from_stdin> | grep -q "WHERE:"; then
+  echo "❌ Missing WHERE clause"
+  exit 2
+fi
+```
+
+**Effet** : Impossible d'envoyer un prompt sans WHERE.
+
+### Couche 4 : Project Memory (Contexte Conversationnel)
+
+Claude se souvient des décisions passées.
+
+**Exemple** :
+
+```
+You: We decided to use Zod for all validation
+
+[10 messages later]
+
+You: Add validation to RegisterForm
+
+Claude: I'll use Zod as per our earlier decision.
+```
+
+**Astuce** : Rappeler les décisions importantes en début de session.
+
+### Couche 5 : Review-Driven Optimization (crit)
+
+Les 4 couches précédentes capturent le contexte de façon déclarative (CLAUDE.md, Skills) ou passive (Memory retient ce qui est mentionné en conversation). La cinquième couche capture activement les corrections humaines pendant la revue de code, via l'outil [crit](https://github.com/tomasz-tomczyk/crit).
+
+**Principe** : transformer les commentaires de revue inline en règles CLAUDE.md, au lieu de les reformuler de mémoire en fin de session.
+
+```bash
+crit                                          # revue le diff produit par Claude Code
+crit comment src/file.go:42 "wrong approach, see rule X"
+```
+
+Après plusieurs cycles de revue, on extrait les patterns récurrents dans les commentaires : une correction qui revient 4 fois ou plus devient une règle CLAUDE.md immédiate, 2 à 3 fois une règle scopée dans `.claude/rules/`, une seule fois on la laisse de côté.
+
+**Effet** : le diff round-to-round (entre deux itérations de Claude, pas entre deux commits) sert de vérification. Si la même erreur réapparaît malgré votre commentaire, c'est le signal que la règle doit être explicite dans CLAUDE.md plutôt que déduite du contexte.
+
+> 📖 **Pour aller plus loin :** [§9.26 Review-Driven Context Optimization](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#926-review-driven-context-optimization)
+
+## Les 3 Provocation Patterns
+
+**Provocation** = Forcer Claude à justifier ses choix. Ces patterns exploitent la tendance du modèle à proposer la première solution plausible. En exigeant une justification, vous activez un raisonnement plus profond et obtenez des réponses mieux calibrées.
+
+### 1. Gatekeeper Pattern
+
+Le Gatekeeper est le pattern le plus utile au moment de choisir une librairie, un pattern d'architecture, ou une stratégie d'optimisation. Il empêche Claude de s'engager sur la première option sans analyse comparative.
+
+**Principe** : Demander preuve AVANT d'accepter.
+
+```
+Claude proposes to use library X.
+
+You: Prove that X is the right choice.
+Show benchmarks vs alternatives.
+```
+
+**Effet** : Claude analyse plus profondément.
+
+### 2. Proof Demand Pattern
+
+Le Proof Demand intervient après l'implémentation. Il force Claude à démontrer que sa solution fonctionne réellement, plutôt que de simplement affirmer que "ça devrait marcher".
+
+**Principe** : Exiger test/vérification.
+
+```
+You: Add caching to reduce API calls.
+
+Claude: [Implements caching]
+
+You: Prove it works. Show before/after metrics.
+```
+
+**Effet** : Claude ajoute benchmarks/tests automatiquement.
+
+### 3. Reset Pattern
+
+Le Reset combat l'effet d'ancrage : une fois que Claude a proposé une solution, il a tendance à la défendre même face à des alternatives meilleures. En demandant explicitement d'oublier la première idée, vous libérez le modèle de cet ancrage.
+
+**Principe** : Forcer reconsidération.
+
+```
+Claude: I'll use approach A.
+
+You: Forget approach A. What are 3 OTHER solutions?
+```
+
+**Effet** : Évite l'ancrage sur première idée.
+
+::: {.callout-note title="Exemple : Gatekeeper Pattern sur une requete SQL lente"}
+Claude propose d'ajouter un index pour resoudre une requete SQL lente. Au lieu d'accepter directement, le Gatekeeper Pattern force la verification : "Prouve que l'index est la bonne solution. Montre le plan d'execution avant/apres et compare avec une solution par cache." Claude produit une analyse comparative et revele que le vrai probleme est un N+1 dans l'ORM, pas un index manquant.
+:::
+
+::: {.callout-tip title="Memo -- Provocation Patterns en 30 secondes"}
+**Quoi** : 3 patterns pour forcer Claude a justifier ses choix au lieu d'accepter sa premiere proposition.
+
+**Quand** : Choix technique structurant, optimisation de performance, selection de librairie.
+
+**Comment** : Gatekeeper ("Prouve-le"), Proof Demand ("Montre les metriques"), Reset ("Oublie ca, 3 autres solutions").
+
+**Verifier** : Claude produit une analyse comparative au lieu d'une reponse unique.
+:::
+
+> 📖 **Pour aller plus loin :** [§9.15 Named Prompting Patterns](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#915-named-prompting-patterns): 15+ patterns nommés avec exemples
+
+::: {.callout-note title="Exemple : skill /add-feature qui injecte le contexte projet"}
+Un skill `/add-feature` peut injecter automatiquement le CLAUDE.md du projet, les conventions de nommage et le pattern de tests. Les devs juniors n'ont alors plus besoin de se souvenir de la formule WHAT/WHERE/HOW/VERIFY : le skill la genere. Resultat : les code reviews signalent 40% moins de problemes de conventions.
+:::
+
+::: {.callout-tip title="Memo -- Context Engineering en 30 secondes"}
+**Principe** : Controler les couches de contexte (CLAUDE.md, Skills, Hooks, Memory, Review-Driven Optimization) pour que Claude ait les bonnes informations avant chaque prompt.
+
+**Format type** : CLAUDE.md pour les regles durables, Skills pour les workflows repetitifs, Hooks pour la validation automatique, crit pour capturer les corrections de revue.
+
+**Anti-pattern** : Repeter les memes instructions dans chaque prompt au lieu de les placer dans CLAUDE.md.
+
+**Resultat attendu** : Des prompts plus courts et des reponses plus coherentes avec les conventions du projet.
+:::
+
+## Ordre de Priorité des Instructions
+
+Quand plusieurs sources d'instructions coexistent, Claude applique une hiérarchie stricte :
+
+| Priorité | Source | Portée | Persistance |
+|---|---|---|---|
+| **1 (haute)** | System prompt (Anthropic) | Toute la session | Permanente |
+| **2** | `CLAUDE.md` racine du projet | Toute la session | Tant que le fichier existe |
+| **3** | `CLAUDE.md` sous-dossier | Scope du dossier | Tant que le fichier existe |
+| **4** | Prompt inline (votre message) | Tour courant | Éphémère |
+
+**Conséquence pratique** : si votre CLAUDE.md dit `use Zod` et que votre prompt dit `use Yup`, Claude suit le prompt inline, mais seulement pour ce tour. Au tour suivant, CLAUDE.md reprend la main.
+
+::: {.callout-important title="Conflit CLAUDE.md vs prompt inline"}
+Si vous constatez que Claude ignore vos instructions inline, vérifiez que votre CLAUDE.md ne contient pas une directive contradictoire de priorité supérieure. Pour un override ponctuel, précisez explicitement : `OVERRIDE CLAUDE.md: pour cette tâche uniquement, utilise Yup.`
+:::
+
+{{< pagebreak >}}
+
+# Les Anti-Patterns à Éviter
+
+Même en connaissant la formule WHAT/WHERE/HOW/VERIFY, certains réflexes récurrents dégradent la qualité des réponses. Les cinq patterns ci-dessous sont les plus fréquents en équipe, et les plus faciles à corriger une fois identifiés.
+
+## 1. Prompt Trop Long
+
+**Problème** : Plus de 200-300 mots hors code → Claude perd le fil.
+
+```
+❌ MAUVAIS
+I need you to help me with this authentication system that we've been
+working on for the past few weeks. It was originally designed by John
+who left the company last month. The system uses JWT tokens but also
+has some session-based auth for legacy reasons. We want to eventually
+migrate everything to JWT but for now we need to support both. The
+main issue is that... [500 mots de plus]
+```
+
+**Solution** : Extraire l'essentiel.
+
+```
+✅ BON
+Fix JWT token refresh failing silently.
+WHERE: src/auth/refresh.ts
+CONTEXT: Hybrid auth (JWT + legacy sessions)
+VERIFY: Token refresh returns new valid token
+```
+
+## 2. Manque de Contexte Fichier
+
+**Problème** : Claude cherche au mauvais endroit.
+
+```
+❌ MAUVAIS
+The email check is broken
+```
+
+**Solution** : Toujours spécifier WHERE.
+
+```
+✅ BON
+Fix email validation regex (rejects valid addresses with subdomains).
+WHERE: src/utils/validators.ts:45 (validateEmail function)
+```
+
+## 3. Instructions Contradictoires
+
+**Problème** : Claude ne sait pas quelle directive suivre.
+
+```
+❌ MAUVAIS
+Make it simple but also handle all edge cases.
+Keep it fast but add comprehensive logging.
+Don't change too much but refactor the architecture.
+```
+
+**Solution** : Prioriser explicitement.
+
+```
+✅ BON
+Priority 1: Handle null user edge case
+Priority 2: Add error logging (if simple)
+CONSTRAINT: Minimal changes, no architecture refactor
+```
+
+## 4. "Fais Comme Tu Veux"
+
+**Problème** : Claude fait des choix que vous ne voulez pas.
+
+```
+❌ MAUVAIS
+Add some validation, whatever you think is best
+```
+
+**Solution** : Spécifier les choix techniques.
+
+```
+✅ BON
+Add validation using Zod (not yup, not joi).
+Schema location: src/schemas/user.ts
+Pattern: Follow existing loginSchema in same file.
+```
+
+{{< pagebreak >}}
+
+## 5. Plusieurs Tâches Sans Structure
+
+**Problème** : Claude mélange tout ou en oublie.
+
+```
+❌ MAUVAIS
+Fix the login, add validation, update the tests, and also
+check if the API responses are correct, oh and make sure
+the error messages are user-friendly.
+```
+
+**Solution** : Une tâche à la fois ou liste numérotée.
+
+```
+✅ BON
+Task 1: Fix login null check (src/auth/login.ts:23)
+Task 2: Add Zod validation (src/schemas/auth.ts)
+Task 3: Update tests (tests/auth.test.ts)
+
+Start with Task 1, I'll validate before moving to Task 2.
+```
+
+## Récapitulatif Anti-Patterns
+
+Les cinq anti-patterns ci-dessous partagent une cause commune : le manque de spécificité. Utilisez ce tableau comme checklist rapide avant d'envoyer un prompt.
+
+| Anti-Pattern | Symptôme | Solution |
+|---|---|---|
+| Trop long | Claude perd le contexte | Extraire l'essentiel (<200 mots) |
+| Pas de WHERE | Mauvais fichier modifié | Toujours spécifier le chemin |
+| Contradictions | Résultat incohérent | Prioriser explicitement |
+| "Comme tu veux" | Choix techniques surprenants | Spécifier librairies/patterns |
+| Multi-tâches | Tâches oubliées/mélangées | Une à la fois ou liste |
+
+::: {.callout-tip title="Memo -- Anti-Patterns en 30 secondes"}
+**Principe** : Les 5 erreurs les plus frequentes partagent une cause commune -- le manque de specificite.
+
+**Test rapide** : Relisez votre prompt. Si Claude peut l'interpreter de 3 facons differentes, il manque un WHERE ou un HOW.
+
+**Anti-pattern supreme** : "Fix the bug" sans localisation -- c'est le prompt le plus reformule dans les equipes.
+
+**Resultat attendu** : Chaque prompt ne devrait admettre qu'une seule interpretation raisonnable.
+:::
+
+{{< pagebreak >}}
+
+# Decision Tree : Quel Style de Prompt
+
+Vous connaissez maintenant les techniques (WHAT/WHERE/HOW/VERIFY, XML, provocation patterns). La question suivante est : quand utiliser laquelle ? Cet arbre de décision vous guide vers le bon format selon la nature de votre tâche.
+
+## Arbre de Décision
+
+Cet arbre couvre les situations les plus fréquentes. Suivez les branches de haut en bas : la première condition qui s'applique détermine le format à utiliser.
+
+```
+┌─ Tâche simple (1 fichier, claire) ?
+│   └─ OUI → Prompt direct + WHERE
+│
+├─ Exploration/compréhension ?
+│   └─ OUI → /plan mode (lecture seule)
+│
+├─ Tâche complexe (multi-fichiers) ?
+│   └─ OUI → XML structuré
+│
+├─ Bug à investiguer ?
+│   └─ OUI → XML avec <problem>, <context>, <state>
+│
+├─ Multi-étapes avec dépendances ?
+│   └─ OUI → TodoWrite + 1 tâche à la fois
+│
+└─ Risqué (production, données) ?
+    └─ OUI → /plan mode PUIS prompt structuré
+```
+
+## Exemples par Situation
+
+Les exemples suivants illustrent chaque branche de l'arbre de décision avec un prompt prêt à l'emploi. Notez comment le niveau de structure augmente avec la complexité de la tâche.
+
+### Tâche Simple
+
+```
+Fix typo in error message.
+WHERE: src/components/Error.tsx:12
+VERIFY: "Errror" becomes "Error"
+```
+
+### Exploration
+
+```
+/plan
+Explain the authentication flow in this codebase.
+Focus on: session management, token refresh, logout.
+```
+
+**Nommage des fichiers de plan** : depuis la v3.39, les fichiers de plan sont nommés d'après le prompt initial plutôt qu'un identifiant générique. Un plan lancé sur "Refactor auth flow" produit un fichier `refactor-auth-flow.md` -- plus facile à retrouver quand plusieurs plans coexistent.
+
+### Tâche Complexe
+
+```xml
+<instruction>
+Implement rate limiting for API endpoints
+</instruction>
+
+<context>
+Express.js + Redis stack
+No rate limiting currently
+API abuse detected from specific IPs
+</context>
+
+<requirements>
+- 100 req/min authenticated users
+- 20 req/min unauthenticated
+- Return 429 with Retry-After header
+</requirements>
+
+<constraints>
+- Reuse existing Redis connection
+- Handle Redis failures gracefully
+</constraints>
+```
+
+### Bug Investigation
+
+```xml
+<task>Debug cart total calculation</task>
+
+<problem>
+Total shows $0 when cart has items.
+Started after discount feature merge.
+</problem>
+
+<state>
+Working: feature/checkout-v1 branch
+Broken: main branch (post-merge)
+</state>
+```
+
+L'arbre de decision ci-dessus couvre les cas les plus courants. Dans le doute, commencez par un prompt direct avec WHERE : c'est le format qui offre le meilleur ratio effort/precision. Reservez XML aux taches impliquant 3+ fichiers ou necessitant un contexte riche.
+
+## Arbre de Décision : Quelle Technique Choisir ?
+
+Au-delà du format (texte vs XML), le choix de la **technique de prompting** dépend du type de tâche :
+
+```
+Type de tâche ?
+│
+├─ Créatif / format de sortie précis ?
+│   └─ Oui  →  Few-shot  (fournir 2-3 exemples du résultat attendu)
+│
+└─ Analytique / debug multi-étapes ?
+    │
+    ├─ Oui  →  Besoin d'un cadre d'expertise ?
+    │           ├─ Oui  →  Role-based + Chain-of-thought
+    │           │           (ex: "Tu es un expert sécurité OWASP")
+    │           └─ Non  →  Chain-of-thought seul
+    │                       ("Raisonne étape par étape")
+    │
+    └─ Non  →  Contexte projet déjà dans CLAUDE.md ?
+                ├─ Oui  →  Zero-shot + WHERE
+                │           (le contexte est déjà chargé)
+                └─ Non  →  Zero-shot + contexte inline
+                            (préciser stack et contraintes)
+```
+
+::: {.callout-tip title="Memo -- Choisir son format de prompt en 30 secondes"}
+**Regle d'or** : Complexite du format = complexite de la tache. Ne pas sur-structurer.
+
+**1 fichier, action claire** : Prompt direct + WHERE.
+
+**Multi-fichiers ou debug** : XML structure.
+
+**Risque eleve (production)** : `/plan` d'abord, prompt structure ensuite.
+
+**Anti-pattern** : Utiliser XML pour "Fix typo in Error.tsx:12" -- gaspillage de tokens.
+:::
+
+{{< pagebreak >}}
+
+# Checklist du Prompt Efficace
+
+Tout ce qui précède se résume en une checklist de 7 points à passer avant d'envoyer un prompt. Rapide à consulter, elle couvre la formule WHAT/WHERE/HOW/VERIFY et les anti-patterns les plus fréquents.
+
+## Avant d'Envoyer
+
+Passez chaque prompt par cette checklist de 7 points avant de l'envoyer. Les points 1 à 4 correspondent à la formule WHAT/WHERE/HOW/VERIFY ; les points 5 à 7 vérifient les anti-patterns les plus courants.
+
+| # | Vérification | ✓ |
+|---|--------------|---|
+| 1 | **WHAT** : Livrable concret défini ? | ☐ |
+| 2 | **WHERE** : Chemin(s) de fichier spécifié(s) ? | ☐ |
+| 3 | **HOW** : Contraintes techniques précisées ? | ☐ |
+| 4 | **VERIFY** : Critères de succès mesurables ? | ☐ |
+| 5 | Moins de 200 mots (hors code) ? | ☐ |
+| 6 | Pas de contradictions ? | ☐ |
+| 7 | Une tâche principale claire ? | ☐ |
+
+## Signaux d'Alarme
+
+Si vous écrivez ces phrases, reformulez :
+
+| Phrase | Problème | Reformulation |
+|---|---|---|
+| "Fix the bug" | Quel bug ? | "Fix null pointer in login.ts:45" |
+| "Make it better" | Mieux comment ? | "Reduce response time to <500ms" |
+| "Add some validation" | Quelle validation ? | "Add Zod email validation" |
+| "Clean up the code" | Quoi nettoyer ? | "Extract duplicated fetch logic" |
+| "Whatever you think" | Choix non contrôlé | "Use pattern X from file Y" |
+
+## Template Rapide
+
+Ce template est le format minimal à mémoriser. Il couvre les 4 éléments de la formule en 4 lignes, et convient à la majorité des tâches quotidiennes.
+
+```
+[ACTION] [CIBLE SPÉCIFIQUE]
+WHERE: [chemin/fichier:ligne]
+HOW: [librairie/pattern à utiliser]
+VERIFY: [test concret de succès]
+```
+
+**Exemple** :
+
+```
+Add input sanitization to user registration
+WHERE: src/api/users/register.ts (createUser function)
+HOW: Use DOMPurify for string fields, Zod for schema
+VERIFY: XSS payload "<script>alert(1)</script>" is escaped
+```
+
+{{< pagebreak >}}
+
+# Review Plan : Valider Avant de Coder (v3.27.4)
+
+**Nouveau workflow** (inspiré Garry Tan, CEO YC) : avant d'implémenter, déclencher `/review-plan` pour une revue structurée sur 4 axes.
+
+**Quand l'utiliser** : Tout changement architecturalement significatif, feature complexe, ou migration.
+
+```
+/review-plan           # Revue complète (4 axes)
+/review-plan small     # Revue légère (qualité + tests)
+```
+
+**Les 4 axes** :
+
+| Axe | Questions clés |
+|---|---|
+| **Architecture** | Scope correct ? Dépendances ? Breaking changes ? |
+| **Qualité** | Patterns cohérents ? DRY ? Error handling ? |
+| **Tests** | Coverage suffisant ? Edge cases ? Failure modes ? |
+| **Performance** | Bottlenecks ? N+1 ? Cache ? |
+
+**Output** : Chaque problème trouvé = options numérotées (a/b/c) + "ne rien faire". Intégré avec AskUserQuestion pour interaction structurée.
+
+**ROI** : D'apres les retours d'experience, une revue de plan en amont reduit significativement les corrections post-implementation -- typiquement 2 a 4 allers-retours evites.
+
+::: {.callout-note title="Exemple : /review-plan sur une migration monolithe vers microservices"}
+Avant d'ecrire une ligne de code, `/review-plan` passe l'architecture en revue. Sur une migration monolithe vers microservices, Claude identifie un probleme de dependance circulaire entre deux services. Correction en 10 minutes a la conception, au lieu de plusieurs jours de refactoring apres implementation.
+:::
+
+> Template : `examples/commands/review-plan.md`
+
+::: {.callout-tip title="Memo -- Review Plan en 30 secondes"}
+**Quoi** : Revue structuree sur 4 axes (Architecture, Qualite, Tests, Performance) avant d'ecrire du code.
+
+**Quand** : Tout changement architecturalement significatif, migration, ou feature complexe.
+
+**Comment** : `/review-plan` pour la revue complete, `/review-plan small` pour qualite + tests uniquement.
+
+**Verifier** : Claude produit des options numerotees (a/b/c) pour chaque probleme identifie.
+:::
+
+{{< pagebreak >}}
+
+# Nouveaux Workflows v3.37+
+
+Ces commandes et mécanismes enrichissent directement les workflows de prompting décrits plus haut.
+
+## Nouvelles Commandes Slash
+
+| Commande | Usage |
+|----------|-------|
+| `/investigate` | Debug root-cause structuré (Iron Law : pas de fix avant cause identifiée, workflow en 5 phases) |
+| `/qa` | Tests QA navigateur diff-aware, 3 niveaux de couverture |
+| `/canary` | Monitoring post-déploiement, 4 niveaux d'alerte |
+| `/land-and-deploy` | Pipeline merge-to-verify (pre-flight → CI → merge → deploy → health check) |
+| `/session-save` | Handoff de session structuré : décisions prises + fichiers modifiés + prochaines étapes |
+| `/ultrareview` | Revue de code multi-agents en parallèle dans le cloud ; exécuté sur la branche courante ou sur une PR GitHub (`/ultrareview <numéro-PR>`) |
+| `/fewer-permission-prompts` | Génère automatiquement une allowlist depuis l'historique des transcripts pour réduire les confirmations répétitives (livrée sous le nom `/less-permission-prompts` en v2.1.111) |
+| `/proactive` | Alias de `/loop` : relance un prompt en boucle tant que la session est ouverte (v2.1.105) |
+| `/team-onboarding` | Génère un guide d'onboarding personnalisé pour l'équipe selon le projet et le profil (v2.1.106) |
+| `/undo` | Alias de `/rewind` : revient à un checkpoint (conversation et/ou code) (v2.1.108) |
+| `/recap` | Résumé contextuel de la session au retour : génère un état des lieux quand on reprend une session interrompue (v2.1.108) |
+| `/reload-plugins` | Recharger les plugins installés sans redémarrer Claude Code (v2.1.69) |
+| `/tui [default\|fullscreen]` | Choisir le moteur de rendu du terminal et relancer dessus, conversation intacte (v2.1.110) |
+| `/focus` | Vue focus : n'affiche que le dernier prompt, un résumé d'appels d'outils et la réponse finale (fullscreen uniquement, v2.1.110) |
+| `/keybindings` | Afficher et configurer les raccourcis clavier de la session (v2.1.100+) |
+| `/terminal-setup` | Assistant de configuration terminal : optimise le shell pour Claude Code (v2.1.100+) |
+
+**`/review-pr` amélioré** : détection de scope drift, heuristique Fix-First, LLM Output Trust Boundary; à utiliser avant tout merge de PR critique.
+
+**Patterns glob en lecture seule** : les commandes bash en lecture seule (find, ls, cat, grep et patterns glob similaires) ne déclenchent plus de prompt de permission, ce qui fluidifie les sessions d'exploration.
+
+## Automatisation et Parallélisation
+
+**`/loop` (v2.1.71+)** : planifie un prompt dans la session courante. Un intervalle explicite est fixe ; sinon Claude choisit le délai. Les tâches récurrentes expirent après sept jours et s’arrêtent avec la session. Les skills personnalisés doivent autoriser l’invocation par le modèle ; les commandes natives et skills avec `disable-model-invocation: true` sont transmis comme texte.
+
+```
+/loop 5m /qa        # Lance /qa toutes les 5 minutes
+/loop /review-pr    # Claude choisit le délai ; skill installé éligible requis
+```
+
+**`/goal` (v2.1.139+)** : définit une condition de complétion ; Claude travaille jusqu'à ce qu'un évaluateur séparé (Haiku par défaut sur l’API Claude) confirme qu'elle est atteinte. Contrairement à `/loop` (basé sur le temps), `/goal` s'arrête quand c'est fait, pas quand le minuteur sonne.
+
+```
+/goal tous les tests dans test/auth passent, vérifié par npm test auth exit 0
+/goal migrer tous les appels à l'API legacy vers v2 sans perdre la couverture
+```
+
+Trois éléments font un bon goal : un état final mesurable, un mécanisme de vérification, et des contraintes de périmètre. Évitez les objectifs vagues ("améliore le code"). L'évaluateur a besoin de quelque chose de concret à vérifier dans la conversation.
+
+**`/branch` (v2.1.77+)** : fork de la session courante pour exploration parallèle sans perdre le contexte principal. Workflow recommandé : `/rename` la session principale d'abord, puis `/branch` pour l'exploration.
+
+```
+/rename "feat: auth refactor (main)"
+/branch                              # Fork vers exploration alternative
+```
+
+::: {.callout-tip title="Memo -- Nouveaux Workflows en 30 secondes"}
+**`/investigate`** : root-cause avant tout fix (Iron Law).
+
+**`/loop`** : intervalle fixe si précisé ; sinon Claude choisit le délai.
+
+**`/goal`** : complétion autonome de tâche. Fixez la ligne d'arrivée une fois, Claude travaille jusqu'à ce que l'évaluateur confirme que c'est fait.
+
+**`/branch`** : explorez une alternative sans perdre votre session principale.
+
+**`/session-save`** : ne terminez jamais une session sans capturer décisions + prochaines étapes.
+
+**`/ultrareview`** : revue multi-agents dans le cloud, utile sur les PRs critiques ou avant un merge structurant.
+
+**`/fewer-permission-prompts`** : à lancer une fois par projet pour éliminer les confirmations répétitives sur les commandes read-only.
+:::
+
+# Ressources
+
+Références, lectures complémentaires et parcours recommandé pour approfondir chaque concept abordé dans ce whitepaper.
+
+## Formule Mémorisable
+
+La formule tient en une ligne. Imprimez-la, collez-la sur votre écran, ou ajoutez-la dans votre CLAUDE.md pour que Claude vous la rappelle quand votre prompt manque d'un élément.
+
+```
+WHAT / WHERE / HOW / VERIFY
+─────────────────────────
+Quoi / Où / Comment / Test
+```
+
+## Lectures Complémentaires
+
+| Ressource | Contenu | Lien |
+|---|---|---|
+| **Guide Ultimate** | Référence complète Claude Code (~27K lignes) | [github.com/.../claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide) |
+| **Methodologies Reference** | 15 méthodologies (TDD, SDD, BDD…) | [guide/methodologies.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/methodologies.md) |
+| **Context Engineering** | Gestion du contexte pour sessions longues | [guide/core/context-engineering.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/core/context-engineering.md) |
+| **Documentation officielle** | Docs Anthropic Claude Code | [docs.anthropic.com/en/docs/claude-code](https://docs.anthropic.com/en/docs/claude-code/overview) |
+| **Best Practices Anthropic** | Guide officiel des bonnes pratiques de prompt | [anthropic.com/engineering/claude-code-best-practices](https://www.anthropic.com/engineering/claude-code-best-practices) |
+| **Named Prompting Patterns** | 15+ patterns nommés avec exemples détaillés | [§9.15 du guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#915-named-prompting-patterns) |
+| **Semantic Anchors catalogue** | Collection d'ancres sémantiques réutilisables | [examples/semantic-anchors/](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/semantic-anchors/) |
+
+> 📖 **Pour aller plus loin :** [§2.9 Semantic Anchors](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#29-semantic-anchors) + [Catalogue d'ancres](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/semantic-anchors/)
+
+## Parcours Recommandé
+
+Chaque whitepaper de la série est autonome, mais la lecture dans l'ordre renforce la progression. Choisissez selon votre niveau actuel :
+
+| Profil | Lire ensuite | Fichier |
+|---|---|---|
+| Débutant | **#0 Introduction à la Série** | [00-introduction-serie.qmd](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/whitepapers/fr/00-introduction-serie.qmd) |
+| Intermédiaire | **#2 Personnaliser Claude** | [02-personnalisation.qmd](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/whitepapers/fr/02-personnalisation.qmd) |
+| Avancé | **#4 Architecture Démystifiée** | [04-architecture.qmd](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/whitepapers/fr/04-architecture.qmd) |
+
+---
+
+| Type | Licence |
+|------|---------|
+| Contenu | CC BY-SA 4.0 |
+| Code | MIT |
+
+**Repository** : [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)
+
+*Version 3.43.0 | Septembre 2026*
+
+
+---
+
+{{< include fiches/fiche-01-prompts.qmd >}}
+
+# La Série
+
+Ce livre blanc fait partie de la série **Claude Code Ultimate Guide**, une ressource complète pour maîtriser Claude Code, de l'installation au déploiement en production.
+
+**13 livres blancs dans la série :**
+
+- **WP00** Introduction & Fondamentaux
+- **WP01** Prompts Efficaces
+- **WP02** Personnalisation & Configuration
+- **WP03** Sécurité en Production
+- **WP04** Architecture Interne
+- **WP05** Adoption en Équipe
+- **WP06** Privacy & Conformité
+- **WP07** Guide de Référence Condensé
+- **WP08** Teams d'Agents & Sub-Agents
+- **WP09** Apprendre avec l'IA (UVAL)
+- **WP10** Budget IA & ROI
+- **WP11** Piloter une Équipe à l'Ère de l'IA
+- **WP12** Ingénierie à l’Ère des Agents Autonomes
+
+Série complète disponible sur [cc.bruniaux.com/whitepapers/](https://cc.bruniaux.com/whitepapers/)

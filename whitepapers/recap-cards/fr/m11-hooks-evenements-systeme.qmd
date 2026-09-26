@@ -4,10 +4,11 @@ subtitle: "Réagir automatiquement aux actions de Claude Code"
 card-number: "M11"
 category: "Méthodologie"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -16,7 +17,7 @@ format:
 
 ## Qu'est-ce qu'un hook
 
-Un hook est un script shell (ou toute commande) exécuté automatiquement quand Claude Code déclenche un événement. Comparable aux git hooks, mais pour l'environnement de l'agent. Le script reçoit un JSON via stdin décrivant le contexte de l'événement.
+Les hooks de type commande s'exécutent sur les événements configurés et reçoivent du JSON sur stdin. Il existe aussi des hooks prompt, agent, HTTP et MCP tool ; leur disponibilité dépend de l'événement.
 
 ## Événements principaux
 
@@ -27,8 +28,8 @@ Un hook est un script shell (ou toute commande) exécuté automatiquement quand 
 | `UserPromptSubmit` | Avant traitement du prompt | Oui |
 | `PreToolUse` | Avant l'appel d'un outil | Oui |
 | `PostToolUse` | Après succès d'un outil | Non |
-| `PreCompact` | Avant compaction du contexte | Oui |
-| `Notification` | Claude envoie une notification | Non |
+| `PreCompact` | Avant compaction | Oui |
+| `Notification` | Notification | Non |
 | `Stop` | Claude finit de répondre | Oui |
 | `SubagentStop` | Fin d'un sous-agent | Oui |
 
@@ -36,31 +37,23 @@ Un hook est un script shell (ou toute commande) exécuté automatiquement quand 
 
 | Événement | Depuis | Utilité |
 |-----------|--------|---------|
-| `TeammateIdle` | v2.1.32+ (Agent Teams) | Un membre de l'équipe va passer en idle |
-| `TaskCompleted` | v2.1.32+ (Agent Teams) | Une tâche est sur le point d'être marquée terminée |
-| `ConfigChange` | v2.1.49+ | Un fichier de config a changé pendant la session |
+| `TeammateIdle` | v2.1.32+ | Un membre va devenir inactif |
+| `TaskCompleted` | v2.1.32+ | Une tâche va être terminée |
+| `ConfigChange` | v2.1.49+ | La configuration change |
 
-`TeammateIdle` et `TaskCompleted` permettent d'implémenter des quality gates au niveau de l'équipe d'agents : empêcher qu'une tâche soit marquée `completed` si les tests échouent, par exemple. `ConfigChange` sert plutôt à l'audit de configuration en environnement entreprise et ne dépend pas d'Agent Teams.
+Les contrôles d'équipe peuvent demander du travail supplémentaire avant la clôture. `ConfigChange` audite la configuration indépendamment d'Agent Teams.
 
 ## Configuration dans settings.json
 
 ```json
 {
   "hooks": {
-    "PostToolUse": [{
-      "matcher": "Edit|Write",
-      "hooks": [{
-        "type": "command",
-        "command": ".claude/hooks/auto-format.sh",
-        "timeout": 10000,
-        "async": true
-      }]
-    }],
     "PreToolUse": [{
       "matcher": "Bash",
       "hooks": [{
         "type": "command",
-        "command": ".claude/hooks/security.sh"
+        "command": "${CLAUDE_PROJECT_DIR}/.claude/hooks/security.sh",
+        "args": [], "timeout": 10
       }]
     }]
   }
@@ -71,30 +64,29 @@ Un hook est un script shell (ou toute commande) exécuté automatiquement quand 
 
 | Champ | Usage |
 |-------|-------|
-| `command` | Commande shell exécutée via interpréteur |
-| `args` | Forme exec : tableau de chaînes spawné directement sans shell. Évite les risques d'injection et les problèmes de quoting. Remplace `command` quand présent. (v2.1.139) |
-| `timeout` | Délai max en ms (défaut : 60000) |
-| `async` | Si `true`, Claude continue sans attendre la fin |
-| `continueOnBlock` | `PostToolUse` uniquement : si `true`, un blocage alimente Claude avec la raison du refus et continue le tour au lieu de l'arrêter. Claude peut alors s'autocorriger. (v2.1.139) |
+| `command` | Exécutable si `args` est présent ; sinon commande shell |
+| `args` | Arguments sans shell ; ne remplace pas l'exécutable |
+| `timeout` | Secondes ; défauts : command 600, prompt 30, agent 60 |
+| `async` | Si `true`, continuer sans attendre |
+| `continueOnBlock` | Hooks prompt : continuer après `ok: false` sur les événements compatibles, dont `PreToolUse` et `PostToolUse` |
 
 ## Codes de sortie
 
 | Code | Signification |
 |------|---------------|
-| `0` | Succès, continuer normalement |
-| `2` | Bloquer l'action (message stderr visible par Claude) |
-| Autre non-0 | Erreur remontée à Claude |
+| `0` | Succès ; un JSON valide peut encore refuser l'action |
+| `2` | Blocage si l'événement le permet ; effet variable |
+| Autre non-0 | Généralement non bloquant, sans JSON de décision |
 
-Pour les hooks `PreToolUse`, un exit 2 empêche l'outil de s'exécuter. Claude lit le message stderr et peut adapter son comportement.
+Pour `PreToolUse`, exit 2 empêche l'exécution. Le message stderr est transmis à Claude.
 
 ## Synchrone vs Asynchrone
 
-Hooks synchrones (défaut) : Claude attend la fin du script. Adapté à la validation et au type checking. Hooks asynchrones (`async: true`) : Claude continue immédiatement. Adapté au formatage, aux notifications et aux logs, où le feedback n'est pas nécessaire pour la suite.
+Garder la validation synchrone. `async: true` exécute un hook commande en arrière-plan, sans pouvoir bloquer l'action : notifications ou logs. Un formatage en arrière-plan peut entrer en concurrence avec une édition.
 
 ## Flux des données stdin
 
-```bash
-# Exemple de JSON reçu sur stdin (PostToolUse)
+```json
 {
   "tool_name": "Edit",
   "tool_input": { "file_path": "src/auth.ts" },
@@ -103,4 +95,4 @@ Hooks synchrones (défaut) : Claude attend la fin du script. Adapté à la valid
 }
 ```
 
-L'event `Stop` inclut également un champ `last_assistant_message` depuis v2.1.47, donnant accès direct à la dernière réponse de Claude sans parser les transcripts.
+`Stop` inclut aussi `last_assistant_message`. Décisions et exceptions : [référence des hooks](https://code.claude.com/docs/en/hooks).
