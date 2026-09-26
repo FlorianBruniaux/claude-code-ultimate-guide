@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- **French full-guide refresh**: reconciled 372 source-delta spans against the English v3.43.0 guide, restored missing sections and examples, repaired nested code fences and navigation, and brought current commands, models, memory, permissions, privacy and task behavior into alignment. Corrected matching canonical examples and obsolete fragment links. The review was performed with Codex; it is not a human editorial sign-off. Bilingual print rendering and publication are tracked separately in the [publication plan](docs/plans/2026-09-26-bilingual-pdf-refresh.md).
+
 ### Documentation
 
 - **Commands, cheatsheets, and model reference audit (September 24, 2026)**: aligned the current guidance with Opus 5.5, Sonnet 5, Haiku 4.5, and Fable 5.1, including provider-specific aliases, effort defaults and persistence, native 1M context, standard and fast-mode pricing. Corrected output styles, review commands, MCP debugging, background-agent shortcuts, TaskOutput removal, and per-teammate model selection. Updated English/French print sources, quiz answers, settings and API examples, and the machine-readable/MCP mirrors. Regenerated the MCP product manifest after the guide and index changes so its release contract remains current. Preserved historical model-specific evidence. Fixed fallback billing for current and older models and added a regression check. See the [audit record](docs/audits/2026-09-24-commands-models.md) for scope and validation limits.

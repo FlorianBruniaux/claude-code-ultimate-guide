@@ -176,7 +176,7 @@ If you only have time for 5 sections:
   - [5.2 Creating Skills](#52-creating-skills)
   - [5.3 Skill Template](#53-skill-template)
   - [5.4 Skill Examples](#54-skill-examples)
-- [6. Commands](#6-commands) `🟡 Intermediate` `⏱ 30 min`
+- [6. Commands](#6-commands-user-invocable-skills) `🟡 Intermediate` `⏱ 30 min`
   - [6.1 Slash Commands](#61-slash-commands)
   - [6.2 Creating Custom Commands](#62-creating-custom-commands)
   - [6.3 Command Template](#63-command-template)
@@ -244,7 +244,7 @@ If you only have time for 5 sections:
 
 # 1. Quick Start (Day 1)
 
-_Quick jump:_ [Installation](#11-installation) · [First Workflow](#12-first-workflow) · [Essential Commands](#13-essential-commands) · [Permission Modes](#14-permission-modes) · [Productivity Checklist](#15-productivity-checklist) · [Migrating from Other Tools](#16-migrating-from-other-ai-coding-tools) · [Beginner Mistakes](#17-eight-beginner-mistakes-and-how-to-avoid-them)
+_Quick jump:_ [Installation](#11-installation) · [First Workflow](#12-first-workflow) · [Essential Commands](#13-essential-commands) · [Permission Modes](#14-permission-modes) · [Productivity Checklist](#15-productivity-checklist) · [Migrating from Other Tools](#16-migrating-from-other-ai-coding-tools) · [Beginner Mistakes](#18-eight-beginner-mistakes-and-how-to-avoid-them)
 
 ---
 
@@ -752,9 +752,9 @@ Understanding Claude's image processing helps optimize for speed and accuracy.
 
 #### Session Continuation and Resume
 
-Claude Code allows you to **continue previous conversations** across terminal sessions, maintaining full context and conversation history.
+Claude Code allows you to **continue previous conversations** across terminal sessions, restoring the saved conversation context. Resuming does not restore a filesystem snapshot or a remote service state.
 
-**Two ways to resume**:
+**Ways to resume**:
 
 1. **Continue last session** (`--continue` or `-c`):
    ```bash
@@ -792,11 +792,8 @@ Claude Code allows you to **continue previous conversations** across terminal se
 # Native: Interactive session picker
 claude --resume
 
-# Native: List via Serena MCP (if configured)
-claude mcp call serena list_sessions
-
 # Recommended: Fast search with ready-to-use resume commands
-# See examples/scripts/session-search.sh (bash, zero dependencies, 15ms list, 400ms search)
+# See examples/scripts/session-search.sh (bash, local transcript search)
 # See examples/scripts/cc-sessions.py (Python, incremental index, partial resume, branch filter)
 cs                    # List 10 most recent sessions
 cs "authentication"   # Full-text search across all sessions
@@ -841,11 +838,7 @@ Claude: [Continues with full context of Day 1 work]
 
 - **Use `/exit` properly**: Always exit with `/exit` or `Ctrl+D` (not force-kill) to ensure session is saved
 - **Descriptive final messages**: End sessions with context ("Ready for testing") so you remember the state when resuming
-- **Proactive context management**: Monitor with `/status` and use research-backed thresholds:
-  - **< 70%**: Optimal, full reasoning capacity
-  - **75%**: Good time to `/compact` manually, before quality degrades
-  - **85%**: Auto-compact territory. Claude Code will compress automatically once remaining context drops below its fixed buffer (~6-7% of window). Manual handoff recommended before this point ([research-backed](core/architecture.md#auto-compaction))
-  - **95%**: Force handoff, severe quality degradation, reset immediately
+- **Proactive context management**: Inspect `/context` and compact or hand off when the transcript no longer fits the task. Percentage used is a capacity indicator, not a validated reasoning-quality threshold. Automatic compaction depends on the active model and configuration.
 - **Session naming**: Use `/rename` to give sessions descriptive names, critical when running multiple sessions in parallel (see [Auto-Rename Pattern](#session-auto-rename) below)
 
 **Resume vs. fresh start**:
@@ -854,45 +847,28 @@ Claude: [Continues with full context of Day 1 work]
 |-------------------|---------------------|
 | Continuing a specific feature/task | Switching to unrelated work |
 | Building on previous decisions | Previous session went off track |
-| Context is still relevant (< 75%) | Context is bloated (> 85%) |
+| Context remains relevant to the task | Old context is distracting or misleading |
 | Multi-step implementation in progress | Quick one-off questions |
 
-**Limitations**:
+**Limits and checks when resuming**:
 
-- Sessions are stored locally (not synced across machines)
-- Very old sessions may be pruned (depends on local storage limits)
-- Corrupted sessions can't be resumed (start fresh with `/clear`)
-- Cannot resume sessions started with different model or MCP config
+- Local CLI transcripts are stored on the machine. Retention follows `cleanupPeriodDays` and other applicable account or managed settings.
+- A resumed conversation can use a different model. Model access and MCP availability depend on the current configuration.
+- The saved transcript can contain earlier file contents, tool results and summaries. Check current files and Git changes before relying on them.
+- Current instructions, permissions and MCP connections still need to be checked. Resume does not roll back files or restore an MCP server's in-memory state.
 
-**Context preservation**:
+**Using MCP tools after resume**:
 
-When you resume, Claude retains:
-- ✅ Full conversation history
-- ✅ Files previously read/edited
-- ✅ CLAUDE.md and project settings
-- ✅ MCP server state (if Serena is used)
-- ✅ Uncommitted code changes awareness
-
-**Combining with MCP Serena**:
-
-For advanced session management with project memory and symbol tracking:
+Run `/mcp` inside Claude Code to inspect the configured servers and reconnect or authenticate as needed. A server such as Serena may offer its own project-memory tools; their persistence and names belong to that server's documented contract. Ask Claude to inspect the available tools before invoking them.
 
 ```bash
-# Initialize Serena memory for the project
-claude mcp call serena initialize_session
-
-# Work with full session persistence
-You: Implement user authentication
-Claude: [Works with Serena tracking symbols and context]
-
-# Exit and resume later with full project memory
-claude -c
-Claude: [Resumes with Serena's persistent project understanding]
+# From the project directory, resume the latest conversation
+claude --continue
 ```
 
-> **💡 Pro tip**: Use `claude -c` as your default way to start Claude Code in active projects. This ensures you never lose context from previous sessions unless you explicitly want a fresh start with `claude` (no flags).
+Then ask Claude to check the current Git diff, reopen the files needed for the next step, and summarize any difference from the saved plan.
 
-> **Source**: [DeepTo Claude Code Guide - Context Resume Functions](https://cc.deeptoai.com/docs/en/best-practices/claude-code-comprehensive-guide)
+> **Sources**: [CLI reference](https://code.claude.com/docs/en/cli-reference), [MCP configuration](https://code.claude.com/docs/en/mcp), [settings](https://code.claude.com/docs/en/settings).
 
 ### Session Pattern Discovery (cc-sessions discover) {#session-pattern-discovery}
 
@@ -954,7 +930,7 @@ cc-sessions --all discover --json | jq '.[] | select(.category == "skill")'
 
 **The 20% rule built into scoring**: patterns above 20% of sessions become `CLAUDE.md rule` suggestions (always load), 5-20% become `skill` suggestions (load on demand), below 5% become `command` suggestions (explicit invocation). The cross-project bonus (1.5×) prioritizes patterns that recur across different codebases. Those are worth extracting even at lower frequency.
 
-See also: [§5.1 Understanding Skills](#51-understanding-skills) for the distinction between CLAUDE.md rules, skills, and commands, and the [20% rule](#the-20-rule) for the decision framework.
+See also: [§5.1 Understanding Skills](#51-understanding-skills) for the distinction between CLAUDE.md rules, skills, and commands, and the [selection heuristic](#decision-tree-which-to-use) for the decision framework.
 
 **GitHub**: [FlorianBruniaux/cc-sessions](https://github.com/FlorianBruniaux/cc-sessions)
 
@@ -1740,8 +1716,8 @@ The loop is designed so that **you remain in control**. Claude proposes, you dec
 **The zones**:
 - 🟢 0-50%: Work freely
 - 🟡 50-75%: Be selective
-- 🔴 75-90%: `/compact` now
-- ⚫ 90%+: `/clear` required
+- 🔴 75-90%: Review relevance and consider `/compact`
+- ⚫ 90%+: Preserve state and assess compaction or a new session
 
 **When context is high**:
 1. `/compact` (saves context, frees space)
@@ -1761,7 +1737,7 @@ Context is Claude's "working memory" for your conversation. It includes:
 
 ### The Context Budget
 
-Claude has a **200,000 token** context window. Think of it like RAM - when it fills up, things slow down or fail.
+The context window depends on the selected model and provider. Opus 5.5, Sonnet 5 and Fable 5.1 have native **1M-token** windows on the direct API; Haiku 4.5 has **200K**. Inspect `/context` for the active session. Capacity does not guarantee that every detail will be retrieved reliably.
 
 ### Reading the Statusline
 
@@ -2069,7 +2045,7 @@ Instead of looping the same task, dedicate a fresh session to each quality dimen
 4. **Review sessions**: Separate sessions for security audit, performance, code review
 5. **Repeat**: Iterate with scope adjustments as needed
 
-This combines Fresh Context (clean 200K per phase) with [OpusPlan](#62-opusplan-hybrid-mode) (Opus for review/strategy sessions, Sonnet for implementation). Each session generates progress artifacts that feed the next.
+This combines Fresh Context (clean 200K per phase) with [OpusPlan](#opusplan-mode) (Opus for review/strategy sessions, Sonnet for implementation). Each session generates progress artifacts that feed the next.
 
 #### Practical Implementation
 
@@ -2178,7 +2154,7 @@ Example output:
 
 > **Note:** If you use `claude -p`, the Agent SDK, GitHub Actions, or any automation harness, a billing model change effective June 15, 2026 introduces a new monthly credit cap on programmatic usage separate from interactive limits. See [§9.13: The Interactive/Programmatic Billing Split](#the-interactiveprogrammatic-billing-split-effective-june-15-2026) for the full breakdown, affected tools, and audit steps.
 
-Claude Code isn't free - you're using API credits. Understanding costs helps optimize usage.
+Claude Code usage can draw from a subscription allowance, usage credits or API billing. Check the active account and billing path before interpreting a token-cost estimate.
 
 #### Pricing Model (verified September 24, 2026)
 
@@ -2261,11 +2237,11 @@ Frees significant context space for subsequent messages
 **Strategy 3: Choose the right model**
 
 ```bash
-# Use Haiku for simple tasks (4x cheaper input, 3.75x cheaper output)
+# Evaluate Haiku for bounded tasks (standard token rates below Opus 5.5)
 claude --model haiku "Fix this typo in README.md"
 
 # Select Sonnet explicitly for standard work
-claude "Refactor this module"
+claude --model sonnet "Refactor this module"
 
 # Use Opus only for critical/complex tasks
 claude --model opus "Design the entire authentication system"
@@ -2317,7 +2293,7 @@ If you call the Anthropic API directly (e.g., for custom agents or pipelines), p
 ```python
 # Mark stable sections with cache_control
 response = client.messages.create(
-    model="claude-sonnet-4-6-20250514",
+    model="claude-sonnet-5",
     max_tokens=1024,
     system=[
         {
@@ -2396,7 +2372,7 @@ print(response.usage.input_tokens)                  # Non-cached input tokens
 
 Calculate your hit rate as `cache_read / (cache_read + cache_creation)` across requests. A ratio above 0.8 means your prompt structure is working well. Low ratios usually mean content in the stable prefix is changing between requests: check for timestamps, random IDs, or dynamic content embedded in your system prompt.
 
-No dedicated monitoring tool exists specifically for Claude Code session cache metrics. Cost tracking via `ccusage` covers overall spend but does not break out cache hit rates. For cache-specific visibility in custom pipelines, parse the response fields above.
+`/usage` includes prompt-cache statistics for the main conversation on supported current versions. For custom API pipelines, inspect the response fields above. See the [cost and cache documentation](https://code.claude.com/docs/en/costs#prompt-cache-statistics).
 
 **Practical rules**
 
@@ -2432,14 +2408,14 @@ Claude Code │ Ctx(u): 45% │ Cost: $0.23 │ Session: 1h 23m
 The `ccusage` CLI tool provides detailed cost analytics beyond the `/cost` command (use `/usage` since v2.1.118):
 
 ```bash
-ccusage                    # Overview all periods
-ccusage --today            # Today's costs
-ccusage --month            # Current month
-ccusage --session          # Active session breakdown
-ccusage --model-breakdown  # Cost by model (Sonnet/Opus/Haiku)
+ccusage daily              # Daily usage from detected local sources
+ccusage daily --last 1     # Today's usage
+ccusage monthly            # Monthly breakdown
+ccusage session            # Session breakdown
+ccusage daily --breakdown  # Costs by model
 ```
 
-**Example output**:
+**Illustrative historical output, not a current model recommendation**:
 ```
 ┌──────────────────────────────────────────────────────┐
 │ USAGE SUMMARY - January 2026                         │
@@ -2470,18 +2446,7 @@ Check your Anthropic Console for detailed usage:
 
 **Cost budgeting**:
 
-```bash
-# Set a mental budget per session
-- Quick task (5-10 min): $0.05-$0.10
-- Feature work (1-2 hours): $0.20-$0.50
-- Deep refactor (half day): $1.00-$2.00
-
-# If you're consistently over budget:
-1. Use /compact more often
-2. Be more specific in queries
-3. Consider using Haiku for simpler tasks
-4. Reduce MCP servers
-```
+Estimate from measured input, output, cache usage and retries for representative accepted tasks. Use the provider's billing records for charged amounts; local tools provide estimates. See the [ccusage command guide](https://ccusage.com/guide/) for available reports.
 
 #### Cost vs. Value
 
@@ -2499,117 +2464,32 @@ Check your Anthropic Console for detailed usage:
 
 #### Cost-Conscious Workflows
 
-**For solo developers on a budget:**
+Choose a model and effort level that meet the task's acceptance criteria, then compare total cost including retries and review. Route repetitive work to a cheaper model only when the measured result justifies it. A team pilot should record accepted tasks, model usage, failures and human review effort before setting a budget.
 
-```markdown
-1. Start with Haiku for exploration/planning
-2. Switch to Sonnet for implementation
-3. Use /compact aggressively (every 50-60% context)
-4. Limit to 1-2 MCP servers
-5. Be specific in all queries
-6. Batch operations when possible
-
-Monthly cost estimate: $5-$15 for 20-30 hours
-```
-
-**For professional developers:**
-
-```markdown
-1. Evaluate Sonnet as a chosen project default; compare cost per accepted task
-2. Use /compact when needed (70%+ context)
-3. Use full MCP setup (productivity matters)
-4. Don't micro-optimize queries
-5. Use Opus for critical architectural decisions
-
-Monthly cost estimate: $20-$50 for 40-80 hours
-```
-
-**For teams:**
-
-```markdown
-1. Shared MCP infrastructure (Context7, Serena)
-2. Standardized CLAUDE.md to avoid repeated explanations
-3. Agent library to avoid rebuilding patterns
-4. CI/CD integration for automation
-5. Track costs per developer in Anthropic Console
-
-Monthly cost estimate: $50-$200 for 5-10 developers
-```
-
-#### Red Flags (Cost Waste Indicators)
-
-| Indicator | Cause | Fix |
-|-----------|-------|-----|
-| Sessions consistently >$1 | Not using `/compact` | Set reminder at 70% context |
-| Cost per message >$0.05 | Context bloat | Start fresh `/clear` |
-| >$5/day for hobby project | Over-using or inefficient queries | Review query specificity |
-| Haiku failing simple tasks | Using wrong model tier | Use Sonnet for anything non-trivial |
+| Observation | Investigation |
+|-------------|---------------|
+| Cost rises during long sessions | Inspect context growth and cache misses with `/usage` |
+| Repeated tool calls return the same material | Narrow the request and reuse an explicit result |
+| A cheaper model needs many retries | Compare cost per accepted task with a stronger model |
+| Many agents repeat repository discovery | Give each a bounded scope and shared written context |
 
 #### Subscription Plans & Limits
 
-> **Note**: Anthropic's plans evolve frequently. Always verify current pricing and limits at [claude.com/pricing](https://claude.com/pricing).
-
-**How Subscription Limits Work**
-
-Unlike API usage (pay-per-token), subscriptions use a hybrid model that's deliberately opaque:
-
-| Concept | Description |
-|---------|-------------|
-| **5-hour rolling window** | Primary limit; resets when you send next message after 5 hours lapse |
-| **Weekly aggregate cap** | Secondary limit; resets every 7 days. Both apply simultaneously |
-| **Hybrid counting** | Advertised as "messages" but actual capacity is token-based, varying by code complexity, file size, and context |
-| **Model weighting** | Model and plan affect quota consumption; API price ratios do not determine subscription allowances |
-
-**Approximate Token Budgets by Plan** (Jan 2026, community-verified)
-
-| Plan | 5-Hour Token Budget | Claude Code prompts/5h | Weekly Sonnet Hours | Weekly Opus Hours | Claude Code Access |
-|------|---------------------|------------------------|---------------------|-------------------|-------------------|
-| **Free** | 0 | 0 | 0 | 0 | ❌ None |
-| **Pro** ($20/mo) | ~44,000 tokens | ~10-40 prompts | 40-80 hours | N/A (Sonnet only) | ✅ Limited |
-| **Max 5x** ($100/mo) | ~88,000-220,000 tokens | ~50-200 prompts | 140-280 hours | 15-35 hours | ✅ Full |
-| **Max 20x** ($200/mo) | ~220,000+ tokens | ~200-800 prompts | 240-480 hours | 24-40 hours | ✅ Full |
-
-> **Warning**: These are community-measured estimates. Anthropic does not publish exact token limits, and limits have been reduced without announcement (notably Oct 2025). The 8-10× Opus/Sonnet ratio means Max 20x users get only ~24-40 Opus hours weekly despite paying $200/month. "Prompts/5h" is a rough practical translation of the token budget: actual capacity varies significantly with task complexity, context size, and sub-agent usage. Monthly cap: ~50 active 5-hour windows across all plans.
-
-**Why "Hours" Are Misleading**
-
-The term "hours of Sonnet 4" refers to **elapsed wall-clock time** during active processing, not calendar hours. This is not directly convertible to tokens without knowing:
-- Code complexity (larger files = higher per-token overhead)
-- Tool usage (Bash execution adds ~245 input tokens per call; text editor adds ~700)
-- Context re-reads and caching misses
-
-**Tier-Specific Strategies**
-
-| If you have... | Recommended approach |
-|----------------|---------------------|
-| **Pro plan** | Sonnet only; batch sessions, avoid context bloat |
-| **Limited Opus quota** | OpusPlan essential: Opus for planning, Sonnet for execution |
-| **Max 5x** | Consider Sonnet for routine work and evaluate Opus for harder tasks; this is a routing policy |
-| **Max 20x** | More Opus freedom, but still monitor weekly usage (24-40h goes fast) |
-
-**The Pro User Pattern** (validated by community):
-
-```
-1. Opus → Create detailed plan (high-quality thinking)
-2. Sonnet/Haiku → Execute the plan (cost-effective implementation)
-3. Result: Best reasoning where it matters, lower cost overall
-```
-
-This is exactly what OpusPlan mode does automatically (see Section 2.3).
+Check [current plans](https://claude.com/pricing) and the usage information for the signed-in account. Subscription allowances are not fixed published token budgets; API price ratios do not determine quota consumption. Model access and organization policy can change independently of the plan label. Pro is not limited to Sonnet: current defaults and available selections are described in the model table above.
 
 **Monitoring Your Usage**
 
-```bash
-/status    # Shows current session: cost, context %, model
+```text
+/usage    # Session estimates, subscription limits and usage breakdown
+/model    # Available models for this account and provider
+/status   # Active account and session configuration
 ```
 
-Anthropic provides no in-app real-time usage metrics. Community tools like [`ccusage`](https://github.com/ryoppippi/ccusage) help track token consumption across sessions.
+The session dollar estimate does not by itself represent a subscriber's bill. `/usage` includes plan bars for subscription accounts and, when enabled, usage-credit information. Use the relevant Claude or provider billing page for authoritative charged amounts. [Cost tracking documentation](https://code.claude.com/docs/en/costs).
 
-For subscription usage history: Check your [Anthropic Console](https://console.anthropic.com/settings/usage) or Claude.ai settings.
+If you choose `opusplan`, Opus handles planning and Sonnet handles execution. Haiku requires separate explicit selection. Evaluate this routing policy against your work; it does not promise a fixed saving or a guaranteed number of usable hours.
 
-**Historical Note**: In October 2025, users reported significant undocumented limit reductions coinciding with Sonnet 4.5's release. Pro users who previously sustained 40-80 Sonnet hours weekly reported hitting limits after only 6-8 hours. Anthropic acknowledged the limits but did not explain the discrepancy.
-
-**Peak Hours (March 2026)**: On March 26, 2026, Anthropic adjusted how session limits are consumed during peak demand: the 5-hour rolling window drains faster during **weekdays 5am–11am PT** (1pm–7pm GMT). Same weekly total, different distribution. Anthropic cited GPU capacity constraints; roughly 7% of users hit limits they wouldn't have before. Max users reported going from 21% to 100% usage on a single prompt during peak. Practical workaround: move compute-heavy agentic tasks (long sub-agent chains, large refactors) to evenings or weekends. Off-peak usage clears faster, stretching the same budget further.
+When a limit interrupts work, inspect its reset information and current account policy. Preserve the task state before switching model, account or execution mode. Historical reports of quotas and peak-hour behavior are not reliable current limits.
 
 ### Context Poisoning (Bleeding)
 
@@ -2896,7 +2776,7 @@ User: "y"
 Claude: [Executes the plan]
 ```
 
-**Result**: 76% fewer tokens with better results because the plan is validated before execution.
+**Expected benefit**: reviewing a plan can catch misunderstandings before implementation. Token savings and defect reduction depend on the task and must be measured; no general percentage is established here.
 
 ### Model Aliases
 
@@ -3091,13 +2971,13 @@ Claude: [Refined plan incorporating both rounds]
 User: Implement the plan from round 3.
 ```
 
-**Why it works**: Each round forces Claude to reconsider assumptions. Round 2 typically catches 30-40% of issues that round 1 missed. Round 3 synthesizes into a more complete plan.
+**Purpose**: a second round challenges assumptions and a third consolidates the plan. Repetition does not guarantee new findings or correctness; keep independent tests and explicit acceptance criteria.
 
 > **📊 Empirical backing: Anthropic AI Fluency Index (Feb 2026)**
 >
-> An Anthropic study analyzing 9,830 Claude conversations quantifies exactly why plan review works: users who iterate and **question the AI's reasoning are 5.6× more likely to catch missing context** and errors compared to users who accept the first output. A second round of review makes you 4× more likely to identify what was left out.
+> In 9,830 Claude.ai conversations sampled during one week in January 2026, conversations with iteration/refinement were 5.6 times more likely to show users questioning reasoning and four times more likely to show users identifying missing context. These are associations between observed behaviors, not measured bug-detection rates.
 >
-> The Rev the Engine pattern operationalizes this finding: each round of deep challenge triggers the questioning behavior that produces measurably better plans.
+> The report explicitly does not establish causality. It does not test the three-round pattern above or prove that another review round improves a plan.
 >
 > *Source: Swanson et al., "The AI Fluency Index", Anthropic (2026-02-23), [anthropic.com/research/AI-fluency-index](https://www.anthropic.com/research/AI-fluency-index)*
 
@@ -4520,7 +4400,7 @@ When you use Claude Code, the following data leaves your machine:
 
 **2. Never connect production databases** to MCP servers. Use dev/staging with anonymized data.
 
-**3. Use security hooks** to block reading of sensitive files (see [Section 7.4](#74-hooks-automating-workflows)).
+**3. Use security hooks** to block reading of sensitive files (see [Section 7.4](#74-security-hooks)).
 
 > **Full guide**: For complete privacy documentation including known risks, community incidents, and enterprise considerations, see [Data Privacy & Retention Guide](./security/data-privacy.md).
 
@@ -4544,7 +4424,7 @@ Claude Code runs on a simple `while` loop:
 │       │                                                     │
 │       ▼                                                     │
 │   ┌────────────────────────────────────────────────────┐    │
-│   │   Claude Reasons (no classifier, no router)        │    │
+│   │   Claude reasons and selects the next action       │    │
 │   └───────────────────────┬────────────────────────────┘    │
 │                           │                                 │
 │              Tool needed? │                                 │
@@ -4563,17 +4443,11 @@ Claude Code runs on a simple `while` loop:
 
 **Source**: [Anthropic Engineering Blog](https://www.anthropic.com/engineering/claude-code-best-practices)
 
-There is no:
-- Intent classifier or task router
-- RAG/embedding pipeline
-- DAG orchestrator
-- Planner/executor split
-
-The model itself decides when to call tools, which tools to call, and when it's done.
+The diagram describes the basic model/tool loop. It does not inventory every current product feature: auto mode can add a permission classifier, and dynamic workflows can coordinate additional agents. The model selects actions within the tools, policy checks and execution controls exposed by the runtime.
 
 ### The Tool Arsenal
 
-Claude Code has 8 core tools:
+The following is a selection of built-in tools, not the complete current inventory:
 
 | Tool | Purpose |
 |------|---------|
@@ -4583,7 +4457,7 @@ Claude Code has 8 core tools:
 | `Write` | Create/overwrite files |
 | `Grep` | Search file contents (ripgrep-based) |
 | `Glob` | Find files by pattern |
-| `Task` | Spawn sub-agents (isolated context) |
+| `Agent` | Spawn subagents; `Task` remains a compatibility alias in settings and agent definitions |
 | `TodoWrite` | Track progress (legacy, see below) |
 
 **How tool execution works**: Claude Code can start executing tools marked as concurrency-safe (read-only operations like `Read`, `Grep`, `Glob`) while the model is still generating its response, reducing total turn time. Non-concurrent tools (writes, bash commands) wait for the response to complete and run serially. When multiple read-only tools appear in a single response, they run in parallel, up to 10 concurrent by default.
@@ -4600,16 +4474,16 @@ Claude Code provides two task management approaches:
 | **Multi-session** | ❌ Lost on session end | ✅ Survives across sessions |
 | **Dependencies** | ❌ Manual ordering | ✅ Task blocking (A blocks B) |
 | **Coordination** | Single agent | ✅ Multi-agent broadcast |
-| **Status tracking** | pending/in_progress/completed | pending/in_progress/completed/failed |
+| **Status tracking** | pending/in_progress/completed | pending/in_progress/completed |
 | **Description visibility** | ✅ Always visible | ⚠️ TaskGet only (not in TaskList) |
-| **Metadata visibility** | N/A | ❌ Never visible in outputs |
+| **Metadata visibility** | N/A | Not included in the compact TaskList view |
 | **Multi-call overhead** | None | ⚠️ 1 + N calls for N full tasks |
-| **Enabled by** | Always available | Default since v2.1.19 |
+| **Enabled by** | Legacy selection after task tools are enabled | Newer models require opt-in; see below |
 
 #### Tasks API (v2.1.16+)
 
 **Available tools:**
-- `TaskCreate` - Initialize new tasks with hierarchy and dependencies
+- `TaskCreate` - Create a task; use `TaskUpdate` for dependency and status changes
 - `TaskUpdate` - Modify task status, metadata, and dependencies
 - `TaskGet` - Retrieve individual task details
 - `TaskList` - List all tasks in current task list
@@ -4619,13 +4493,14 @@ Claude Code provides two task management approaches:
 - **Persistent storage**: Tasks saved to `~/.claude/tasks/<task-list-id>/`
 - **Multi-session coordination**: Share state across multiple Claude sessions
 - **Dependency tracking**: Tasks can block other tasks (task A blocks task B)
-- **Status lifecycle**: pending → in_progress → completed/failed
+- **Status lifecycle**: pending → in_progress → completed; record failures in the task details rather than inventing a `failed` state
 - **Metadata**: Attach custom data (priority, estimates, related files, etc.)
 
 **Configuration:**
 
 ```bash
-# Enable multi-session task persistence
+# Opt in on newer models, then select a persistent task list
+export CLAUDE_CODE_ENABLE_TODO_TOOLS=1
 export CLAUDE_CODE_TASK_LIST_ID="project-name"
 claude
 
@@ -4636,15 +4511,15 @@ claude
 
 **⚠️ Important**: Use repository-specific task list IDs to avoid cross-project contamination. Tasks with the same ID are shared across all sessions using that ID.
 
-**Task schema example:**
+**Illustrative task record** (not a complete tool-call schema):
 
 ```json
 {
   "id": "task-auth-login",
-  "title": "Implement login endpoint",
+  "subject": "Implement login endpoint",
   "description": "POST /auth/login with JWT token generation",
   "status": "in_progress",
-  "dependencies": [],
+  "blockedBy": [],
   "metadata": {
     "priority": "high",
     "estimated_duration": "2h",
@@ -4718,11 +4593,11 @@ TaskGet(task-1), TaskGet(task-2), ..., TaskGet(task-10)  # 10 additional calls
 **Migration flag** (v2.1.19+):
 
 ```bash
-# Temporarily revert to TodoWrite system
-CLAUDE_CODE_ENABLE_TASKS=false claude
+# Opt in to task tools, then select legacy TodoWrite
+CLAUDE_CODE_ENABLE_TODO_TOOLS=1 CLAUDE_CODE_ENABLE_TASKS=0 claude
 
-# Use new Tasks API (default)
-claude
+# Opt in to the Tasks API on newer models
+CLAUDE_CODE_ENABLE_TODO_TOOLS=1 claude
 ```
 
 #### Best Practices
@@ -4738,7 +4613,7 @@ Project (parent)
 ```
 
 **Dependency management:**
-- Always define dependencies when creating tasks
+- Add dependencies with `TaskUpdate` after obtaining the task IDs
 - Use task IDs (not titles) for dependency references
 - Verify dependencies with `TaskGet` before execution
 
@@ -4746,7 +4621,7 @@ Project (parent)
 - Mark `in_progress` when starting work (prevents parallel execution)
 - Update frequently for visibility
 - Only mark `completed` when fully accomplished (tests passing, validated)
-- Use `failed` status with error metadata for debugging
+- Record failure details and blockers in the description or metadata; leave unfinished work uncompleted
 
 **Metadata conventions:**
 ```json
@@ -4823,13 +4698,14 @@ User: "Actually, here's what I need: [refined instruction with specifics]"
 #### Sources
 
 - **Official**: [Claude Code CHANGELOG v2.1.16](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md) - "new task management system with dependency tracking"
-- **Official**: [System Prompts - TaskCreate](https://github.com/Piebald-AI/claude-code-system-prompts) (extracted from Claude Code source)
+- **Official**: [Tools reference and task availability](https://code.claude.com/docs/en/tools-reference#task-tool-availability) and [shared team tasks](https://code.claude.com/docs/en/agent-teams#assign-and-claim-tasks)
+- **Community extraction**: [System Prompts - TaskCreate](https://github.com/Piebald-AI/claude-code-system-prompts)
 - **Community**: [paddo.dev - From Beads to Tasks](https://paddo.dev/blog/from-beads-to-tasks/)
 - **Community**: [llbbl.blog - Two Changes in Claude Code](https://llbbl.blog/2026/01/25/two-changes-in-claude-code.html)
 
 ### Context Management
 
-Claude Code operates within a **200K token context window** (1M beta available via API, see [200K vs 1M comparison](line 1751)):
+Context is model/provider dependent: current Opus, Sonnet and Fable models have native 1M windows on the direct API; Haiku 4.5 has 200K. Older variants have separate access rules. See [200K vs 1M comparison](#200k-vs-1m-context-performance-cost--use-cases). The following sizes are illustrative, not fixed reservations:
 
 | Component | Approximate Size |
 |-----------|------------------|
@@ -4839,73 +4715,29 @@ Claude Code operates within a **200K token context window** (1M beta available v
 | Tool results | Variable |
 | Reserved for response | 40-45K tokens |
 
-When context fills up (~75% in VS Code, ~95% in CLI), older content is automatically summarized. However, **research shows this degrades quality** (50-70% performance drop on complex tasks). Use `/compact` proactively at logical breakpoints, or trigger **session handoffs at 85%** to preserve intent over compressed history. See [Session Handoffs](line 2140) and [Auto-Compaction Research](core/architecture.md#auto-compaction).
+Native 1M sessions normally auto-compact around 967K tokens. `/autocompact` can choose a smaller window. Compaction can omit information needed later, so save decisions and verification commands before a handoff. Use `/compact` at logical breakpoints; a fixed percentage is not a universal quality threshold. See [Session Handoffs](line 2140) and [Auto-Compaction Research](core/architecture.md#auto-compaction).
 
 ### Sub-Agent Isolation
 
-The `Task` tool spawns sub-agents with:
-- Their own fresh context window
-- Access to the same tools (except Task itself)
-- **Maximum depth of 1** (cannot spawn sub-sub-agents)
-- Only their summary text returns to the main context
+The `Agent` tool spawns subagents with:
+- Their own context, subject to the chosen subagent type
+- Tools controlled by the agent definition and permission policy
+- Up to three nested layers by default since v2.1.219, configurable with `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH`
+- A result returned to the parent instead of injecting the whole working transcript
+
+See the [official subagent depth rules](https://code.claude.com/docs/en/sub-agents#subagent-depth-limit).
 
 This prevents context pollution during exploratory tasks.
 
-### TeammateTool (Experimental)
+### Agent Teams (Experimental)
 
-**Status**: Partially feature-flagged, progressive rollout in progress.
+Agent Teams provide a lead, independently working teammates, shared tasks and direct mailbox messages. Enable them with `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`; choose an available model for each teammate.
 
-TeammateTool enables **multi-agent orchestration** with persistent communication between agents. Unlike standard sub-agents that work in isolation, teammates can coordinate through structured messaging.
+Task state lives under `~/.claude/tasks/<team-name>/`, with team configuration and inboxes under `~/.claude/teams/<team-name>/`. File locking prevents simultaneous claims of one task. It does not merge source changes or prevent two agents editing the same file.
 
-**Core Capabilities**:
+Use separate file ownership or worktrees for edits. Ask the lead to stop or redirect teammates when their scope changes. Display modes include in-process and terminal split panes; use `Shift+Down` to cycle teammates in-process.
 
-| Operation | Purpose |
-|-----------|---------|
-| `spawnTeam` | Create a named team of agents |
-| `discoverTeams` | List available teams |
-| `requestJoin` | Agent requests to join a team |
-| `approveJoin` | Team leader approves join requests |
-| Messaging | JSON-based inter-agent communication |
-
-**Execution Backends** (auto-detected):
-- **In-process**: Async tasks in same Node.js process (fastest)
-- **tmux**: Persistent terminal sessions (survives disconnects)
-- **iTerm2**: Visual split panes (macOS only)
-
-**Patterns**:
-
-```
-Parallel Specialists Pattern:
-Leader spawns 3 teammates → Each reviews different aspect (security, perf, architecture)
-→ Teammates work concurrently → Report back to leader → Leader synthesizes
-
-Swarm Pattern:
-Leader creates shared task queue → Teammates self-organize and claim tasks
-→ Independent execution → Async updates to shared state
-```
-
-**Limitations**:
-- 5-minute heartbeat timeout before auto-removal
-- Cannot cleanup teams while teammates are active
-- Feature flags not officially documented (community-discovered)
-- No official Anthropic support for experimental features
-
-**When to Use**:
-- Large codebases requiring parallel analysis (4+ aspects)
-- Long-running workflows with independent sub-tasks
-- Code reviews with multiple specialized concerns
-
-**When NOT to Use**:
-- Simple tasks (overhead not justified)
-- Sequential dependencies (standard sub-agents sufficient)
-- Production-critical workflows (experimental = unstable)
-
-**Sources**:
-- **Community**: [kieranklaassen - TeammateTool Guide](https://gist.github.com/kieranklaassen/4f2aba89594a4aea4ad64d753984b2ea)
-- **Community**: [GitHub Issue #3013 - Parallel Agent Execution](https://github.com/anthropics/claude-code/issues/3013)
-- **Community**: [mikekelly/claude-sneakpeek](https://github.com/mikekelly/claude-sneakpeek) - Parallel build with feature flags enabled
-
-> ⚠️ **Note**: This is an experimental feature. Capabilities may change or be removed in future releases. Always verify current behavior with official documentation.
+Older community material uses the name `TeammateTool` and inferred operations such as `spawnTeam`. Treat those as historical implementation notes, not the current documented interface. See [Agent Teams](https://code.claude.com/docs/en/agent-teams) and [§9.20](#920-agent-teams-multi-agent-coordination) for current operation and limitations.
 
 ### Agent Anti-Patterns: Roles vs Context Control
 
@@ -5029,13 +4861,9 @@ trade-offs.
 
 ### The Philosophy
 
-> "Do more with less. Smart architecture choices, better training efficiency, and focused problem-solving can compete with raw scale."
-> — Daniela Amodei, Anthropic CEO
+A small model/tool loop is a useful starting point for reasoning about the system. More capable models and additional orchestration still need explicit tool boundaries and verification.
 
-Claude Code trusts the model's reasoning instead of building complex orchestration systems. This means:
-- Fewer components = fewer failure modes
-- Model-driven decisions = better generalization
-- Simple loop = easy debugging
+Use that simplified model to locate decisions, tool results and failures. It does not prove that fewer components always improve reliability or that a model-selected action is correct.
 
 ### Learn More
 
@@ -5082,7 +4910,7 @@ _Quick jump:_ [Memory Files (CLAUDE.md)](#31-memory-files-claudemd) · [.claude/
 
 ## 3.1 Memory Files (CLAUDE.md)
 
-CLAUDE.md files are persistent instructions read at every session start. Three levels: `~/.claude/CLAUDE.md` (global) → `/project/CLAUDE.md` (project) → `/project/.claude/CLAUDE.md` (local/personal). All merge additively; more specific file wins on conflict.
+CLAUDE.md files are persistent instructions read at every session start. Three levels: `~/.claude/CLAUDE.md` (global) → `/project/CLAUDE.md` (project) → `/project/CLAUDE.local.md` (personal; add to `.gitignore`). Instructions are combined; they are not settings with a guaranteed override order. `.claude/CLAUDE.md` is an alternative shared project instruction file.
 
 **Minimum viable**: project name, one-sentence description, and `## Commands` block. Claude auto-detects stack, directory structure, and conventions. Add a line only when Claude makes the same mistake twice, not preemptively.
 
@@ -5321,7 +5149,7 @@ Shared team conventions checked into version control:
 - `pnpm lint` - Check linting
 ```
 
-### Level 3: Local (/project/.claude/CLAUDE.md)
+### Level 3: Local (/project/CLAUDE.local.md)
 
 Personal overrides not committed to git (add to .gitignore):
 
@@ -5342,7 +5170,7 @@ Personal overrides not committed to git (add to .gitignore):
 | Update when conventions change | Let it go stale |
 | Reference external docs with `@path` | Duplicate documentation inline |
 
-**File imports**: CLAUDE.md can import additional files using `@path/to/file` syntax (e.g., `@README.md`, `@docs/conventions.md`, `@~/.claude/my-overrides.md`). Imported files load on-demand, only consuming tokens when referenced.
+**File imports**: CLAUDE.md can import additional files using `@path/to/file` syntax (e.g., `@README.md`, `@docs/conventions.md`, `@~/.claude/my-overrides.md`). Imports load with the CLAUDE.md file that references them, so their content contributes to its context cost.
 
 > **📊 Empirical backing: Anthropic AI Fluency Index (Feb 2026)**
 >
@@ -5671,7 +5499,7 @@ This hierarchy enables:
 
 ```gitignore
 # .gitignore for project root
-.claude/CLAUDE.md           # Personal instructions
+CLAUDE.local.md            # Personal instructions (add to .gitignore)
 .claude/settings.local.json # Machine-specific overrides
 .claude/plans/              # Saved plan files (optional)
 ```
@@ -5989,9 +5817,9 @@ Full example with 80+ guide-derived tips and custom verbs: [`examples/config/set
 | `WebSearch` | Web search capability |
 | `mcp__serena__*` | All Serena MCP tools |
 | `mcp__github__create_issue` | Specific MCP tool (format: `mcp__<server>__<tool>`) |
-| `Read(file_path:*.env*)` | Read matching file paths (tool-qualified format) |
-| `Edit(file_path:*.pem)` | Edit matching file paths (tool-qualified format) |
-| `Write(file_path:*.key)` | Write matching file paths (tool-qualified format) |
+| `Read(*.env*)` | Read matching file paths (tool-qualified format) |
+| `Edit(*.pem)` | Edit matching file paths (tool-qualified format) |
+| `Write(*.key)` | Write matching file paths (tool-qualified format) |
 
 **Tool-qualified deny format**: lock down file access by path pattern, not just by tool name:
 
@@ -5999,23 +5827,23 @@ Full example with 80+ guide-derived tips and custom verbs: [`examples/config/set
 {
   "permissions": {
     "deny": [
-      "Bash(command:*rm -rf*)",
-      "Bash(command:*terraform destroy*)",
-      "Read(file_path:*.env*)",
-      "Read(file_path:*.pem)",
-      "Read(file_path:*credentials*)",
-      "Edit(file_path:*.env*)",
-      "Edit(file_path:*.key)",
-      "Write(file_path:*.env*)",
-      "Write(file_path:*.key)"
+      "Bash(rm -rf *)",
+      "Bash(terraform destroy *)",
+      "Read(*.env*)",
+      "Read(*.pem)",
+      "Read(*credentials*)",
+      "Edit(*.env*)",
+      "Edit(*.key)",
+      "Write(*.env*)",
+      "Write(*.key)"
     ]
   }
 }
 ```
 
-The `file_path:` prefix matches against the full path argument passed to Read/Edit/Write. Use glob patterns (`*`, `**`). This is more granular than the simple string form (e.g. `".env"`) which only matches exact file names.
+Use a direct path pattern for Read/Edit/Write and a command pattern for Bash. The `file_path:` and `command:` qualifiers are invalid for these primary tool fields and are ignored with a warning. See the [permission rule syntax](https://code.claude.com/docs/en/permissions).
 
-> **Defense-in-depth**: `permissions.deny` has a known limitation: background indexing may expose file contents via system reminders before permission checks apply ([GitHub #4160](https://github.com/anthropics/claude-code/issues/4160)). Store secrets outside the project directory for guaranteed protection.
+> **Defense-in-depth**: `permissions.deny` has a known limitation: background indexing may expose file contents via system reminders before permission checks apply ([GitHub #4160](https://github.com/anthropics/claude-code/issues/4160)). Keeping secrets outside the project reduces accidental discovery, but does not prevent an authorized shell or MCP process from reading them. Use OS-level isolation and narrow credentials where access must be prevented.
 
 ### Permission Behavior
 
@@ -6161,7 +5989,7 @@ claude
 
 ## 3.4 Precedence Rules
 
-When memory files or settings conflict, Claude Code uses this precedence:
+Settings and instruction files behave differently. Managed settings and command-line settings take precedence over the local, project and user tiers shown below; applicable permission lists and hooks merge across scopes.
 
 ### Settings Precedence
 
@@ -6187,33 +6015,13 @@ Highest Priority
 Lowest Priority
 ```
 
-### CLAUDE.md Precedence
+### CLAUDE.md Combination
 
-```
-Highest Priority
-       │
-       ▼
-┌──────────────────────────────────┐
-│  .claude/CLAUDE.md               │  Local (personal)
-└──────────────────────────────────┘
-       │
-       ▼
-┌──────────────────────────────────┐
-│  /project/CLAUDE.md              │  Project (team)
-└──────────────────────────────────┘
-       │
-       ▼
-┌──────────────────────────────────┐
-│  ~/.claude/CLAUDE.md             │  Global (personal)
-└──────────────────────────────────┘
-       │
-       ▼
-Lowest Priority
-```
+Claude combines applicable user and project instructions. `CLAUDE.md` or `.claude/CLAUDE.md` contains shared project instructions; `CLAUDE.local.md` contains personal project instructions. Nested instruction files become relevant when Claude works in their subtree. Avoid contradictory instructions rather than relying on a deterministic settings-style override.
 
 ### Rules Auto-Loading
 
-Files in `.claude/rules/` are automatically loaded and combined:
+Rules without `paths` frontmatter load generally. Rules with `paths` apply when matching files are relevant. The example below assumes unscoped rules:
 
 ```
 .claude/rules/
@@ -6229,11 +6037,11 @@ Understanding when each memory method loads is critical for token optimization:
 | Method | When Loaded | Token Cost | Use Case |
 |--------|-------------|------------|----------|
 | `CLAUDE.md` | Session start | Always | Core project context |
-| `.claude/rules/*.md` | Session start (ALL files) | Always | Conventions that always apply |
-| `@path/to/file.md` | On-demand (when referenced) | Only when used | Optional/conditional context |
-| `.claude/skills/*.md` | Invocation only | When invoked (`/name`) or auto-loaded | Workflow templates + knowledge modules |
+| `.claude/rules/*.md` | Startup if unscoped; matching files for `paths` rules | Depends on scope | General or file-specific conventions |
+| `@path/to/file.md` in CLAUDE.md | When the importing instructions load | Loaded with instructions | Split instruction files |
+| `.claude/skills/<name>/SKILL.md` | Full body on invocation | Description may be available earlier | Workflow templates and knowledge |
 
-**Key insight**: `.claude/rules/` is NOT on-demand. Every `.md` file in that directory loads at session start, consuming tokens. Reserve it for always-relevant conventions, not rarely-used guidelines. Skills are invocation-only and may not be triggered reliably: one eval found agents invoked skills in only 56% of cases ([Gao, 2026](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals)). Never rely on skills for critical instructions; use CLAUDE.md or rules instead.
+**Key insight**: Scope file-specific conventions with `paths`. Keep unscoped rules focused on instructions that apply generally. Skills are invocation-only and may not be triggered reliably: one eval found agents invoked skills in only 56% of cases ([Gao, 2026](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals)). Never rely on skills for critical instructions; use CLAUDE.md or rules instead.
 
 > **See also**: [Token Cost Estimation](#token-saving-techniques) for approximate token costs per file size. For a unified "which mechanism for what?" reference, see [Memory Loading Comparison](#memory-loading-comparison).
 
@@ -6243,7 +6051,9 @@ Since December 2025, rules can target specific file paths using YAML frontmatter
 
 ```markdown
 ---
-globs: src/api/**/*.ts, lib/handlers/**/*.ts
+paths:
+  - "src/api/**/*.ts"
+  - "lib/handlers/**/*.ts"
 ---
 
 # API Endpoint Conventions
@@ -6592,7 +6402,7 @@ Tools like [Packmind](ecosystem/third-party-tools.md#packmind) take the same pri
 
 # 4. Agents
 
-_Quick jump:_ [What Are Agents](#41-what-are-agents) · [Creating Custom Agents](#42-creating-custom-agents) · [Agent Template](#43-agent-template) · [Best Practices](#44-best-practices) · [Agent Examples](#45-agent-examples)
+_Quick jump:_ [What Are Agents](#41-what-are-agents) · [Creating Custom Agents](#42-creating-custom-agents) · [Agent Template](#43-agent-template) · [Best Practices](#44-best-practices) · [Agent Memory](#45-agent-memory)
 
 ---
 
@@ -9800,7 +9610,7 @@ Fork-ready template at `examples/commands/recipe-template.md` in this repo.
 
 ### Example 1: Commit Command
 
-```markdown
+````markdown
 # Commit Current Changes
 
 ## Purpose
@@ -9845,11 +9655,11 @@ If $ARGUMENTS[0] provided:
 
 Commit: [hash] [message]
 Files: [number] changed
-
+````
 
 ### Example 2: PR Command
 
-```markdown
+````markdown
 # Create Pull Request
 
 ## Purpose
@@ -9910,6 +9720,7 @@ If not on feature branch:
 
 If working directory dirty:
 - ASK: "Commit changes first?"
+````
 
 ### Example 3: Problem Framer Command
 
@@ -10418,30 +10229,40 @@ Hooks communicate results through exit codes and optional JSON on stdout. Choose
 - **TeammateIdle, TaskCompleted**: Exit code 2 only (no JSON decision control)
 - **PermissionRequest**: Uses `hookSpecificOutput` with `decision.behavior` (allow/deny)
 
-**`continueOnBlock`** (`PostToolUse` only, v2.1.139): When `true`, a `decision: "block"` response feeds the `reason` back to Claude as context and continues the turn instead of halting. Use to give Claude a chance to retry with a compliant approach:
+**`continueOnBlock` for prompt hooks**: A `type: "prompt"` hook returns `ok: true` or `ok: false`. On `PostToolUse`, `continueOnBlock: true` feeds a rejection reason back to Claude so it can continue and adjust. Command hooks use the event-specific decision fields instead.
 
 ```json
 {
-  "type": "PostToolUse",
-  "matcher": "Write|Edit",
-  "command": "check-file-policy.sh",
-  "continueOnBlock": true
-}
-```
-
-Without `continueOnBlock`, a blocked PostToolUse stops the turn and surfaces an error. With it, Claude receives the rejection reason and can self-correct.
-
-**Output replacement** (`PostToolUse`, v2.1.121): `PostToolUse` hooks can replace what Claude receives as the tool result via `hookSpecificOutput.updatedToolOutput`. Works for all tools: Bash, Read, Write, Edit, MCP tools, etc.:
-
-```json
-{
-  "hookSpecificOutput": {
-    "updatedToolOutput": "redacted: output contained PII, removed by policy hook"
+  "hooks": {
+    "PostToolUse": [{
+      "matcher": "Write|Edit",
+      "hooks": [{
+        "type": "prompt",
+        "prompt": "Check this result against project policy. Return JSON with ok and, if false, reason. $ARGUMENTS",
+        "continueOnBlock": true
+      }]
+    }]
   }
 }
 ```
 
-Use cases: scrub PII from tool outputs before Claude processes them, compress large results, inject metadata or audit trails into every tool response.
+**Output replacement** (`PostToolUse`): `hookSpecificOutput.updatedToolOutput` must match the actual tool response shape. For a Bash result:
+
+```json
+{
+  "hookSpecificOutput": {
+    "hookEventName": "PostToolUse",
+    "updatedToolOutput": {
+      "stdout": "[redacted]",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false
+    }
+  }
+}
+```
+
+Replacement changes what Claude sees; it does not reverse tool effects or redact telemetry captured before the hook. See the [hook reference](https://code.claude.com/docs/en/hooks).
 
 **PreToolUse blocking example** (preferred over exit code 2):
 
@@ -16278,8 +16099,8 @@ Claude: [writes handoff to claudedocs/handoffs/oauth-implementation.md]
 
 **Cross-references:**
 - Full `/plan` workflow: See [§2.3 Plan Mode](#23-plan-mode) (line 2100)
-- Fresh context pattern: See [§2.2 Fresh Context Pattern](#22-fresh-context-pattern) (line 1525)
-- Session handoffs: See [Session Handoffs](#session-handoffs) (line 2278)
+- Fresh context pattern: See [§2.2 Fresh Context Pattern](#fresh-context-pattern-ralph-loop) (line 1525)
+- Session handoffs: See [Session Handoffs](#session-handoff-pattern) (line 2278)
 
 Rusitschka's "Vibe Coding, Level 2" is Claude Code's native workflow, needing only explicit framing as an anti-pattern antidote. Plan mode prevents context pollution during exploration, fresh context prevents accumulation during implementation, and handoffs enable clean phase transitions.
 
@@ -16370,7 +16191,7 @@ Local DB             →    Docker DB       →    Production DB
 **Reading time**: 5 minutes
 **Skill level**: Week 1+
 
-Batch operations improve efficiency and reduce context usage when making similar changes across files. For cost-optimized bulk processing at scale via the API, the Anthropic Message Batches API (`client.messages.batches`) processes up to 100 requests asynchronously at 50% of the synchronous cost (see the [API Patterns section](#anthropic-api-patterns) for full usage).
+Batch operations improve efficiency and reduce context usage when making similar changes across files. For cost-optimized bulk processing at scale via the API, the Anthropic Message Batches API (`client.messages.batches`) processes up to 100 requests asynchronously at 50% of the synchronous cost (see the [API Patterns section](https://platform.claude.com/docs/en/build-with-claude/batch-processing) for full usage).
 
 ### When to Batch
 
@@ -17693,11 +17514,12 @@ grep -r "PaymentService\|billing/" src/ --include="*.ts" -l
 # Overlap detected? Sequence them.
 ```
 
-In the Tasks API, set `blockedBy` for tasks that depend on others completing first:
+In the Tasks API, create both tasks and use `TaskUpdate` to add the prerequisite task ID to the dependent task. This is a coordination instruction, not a JSON tool-call schema:
 
-```json
-// Task B cannot start until Task A merges
-TaskCreate("Implement payment service", { blockedBy: ["task-a-id"] })
+```text
+Create task A: implement and merge the auth change.
+Create task B: implement the payment service.
+Use TaskUpdate to make B depend on A using their returned IDs.
 ```
 
 **Decision matrix**:
@@ -17960,18 +17782,9 @@ curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/master/install.sh | bash
 rtk --version  # v0.28.0+
 ```
 
-**Proven Token Savings (Benchmarked on real output):**
+**Measure the effect on your workload:**
 
-| Command | Baseline | RTK | Reduction |
-|---------|----------|-----|-----------|
-| `rtk git log` | 13,994 chars | 1,076 chars | **92.3%** |
-| `rtk git status` | 100 chars | 24 chars | **76.0%** |
-| `rtk git diff` | 15,815 chars | 6,982 chars | **55.9%** |
-| `rtk vitest run` | ~50,000 chars | ~5,000 chars | **90.0%** |
-| `rtk pnpm list` | ~8,000 chars | ~2,400 chars | **70.0%** |
-| `rtk cat CHANGELOG.md` | 163,587 chars | 61,339 chars | **62.5%** |
-
-**Average: 60-90% token reduction depending on commands**
+Compare equivalent commands on the same repository state and retain raw output for diagnosis. `rtk gain` reports estimates for filtered shell output, not measured savings on the entire invoice. No universal session reduction follows from a smaller `git log` or test log. See [how RTK measures savings](https://github.com/rtk-ai/rtk#how-savings-work).
 
 **Key Features (v0.28.0):**
 
@@ -17987,7 +17800,7 @@ rtk pnpm list            # Dependency tree optimized
 rtk prisma migrate status # Migration status filtered
 
 # Python
-rtk python pytest        # Python test output condensed
+rtk pytest               # Python test output condensed
 rtk mypy                 # Type errors grouped by file
 
 # Go
@@ -18028,14 +17841,9 @@ rtk rewrite <cmd>        # Single source of truth for hook rewrites
 rtk verify               # Validate TOML filter rules
 ```
 
-**Real-World Impact:**
+**Measure the effect on your workload:**
 
-```
-30-minute Claude Code session:
-- Without RTK: ~150K tokens (10-15 git commands @ ~10K tokens each)
-- With RTK: ~41K tokens (10-15 git commands @ ~2.7K tokens each)
-- Savings: 109K tokens (72.6% reduction)
-```
+Compare representative raw and filtered outputs, then inspect `rtk gain` for its estimated output reduction. RTK's byte-based token estimate is not the provider's token count or a measured reduction in the full session bill. Retain raw output when filtering hides information needed for diagnosis.
 
 **TOML Filter DSL (v0.28.0, add filters without writing Rust):**
 
@@ -18068,9 +17876,9 @@ Debug: `RTK_NO_TOML=1` bypasses all TOML filters. `RTK_TOML_DEBUG=1` shows which
    ## Token Optimization
 
    Use RTK for all supported commands:
-   - `rtk git log` (92.3% reduction)
-   - `rtk git status` (76.0% reduction)
-   - `rtk git diff` (55.9% reduction)
+   - `rtk git log`
+   - `rtk git status`
+   - `rtk git diff`
    ```
 
 3. **Skill** (auto-suggestion):
@@ -18095,7 +17903,7 @@ exclude_commands = ["my-interactive-tool", "fzf"]  # Never rewrite these
 After upgrading from v0.24.0 or earlier, run `rtk init --global` to install the new thin-delegator hook. The old hook still works, but won't pick up new command mappings automatically.
 
 ```bash
-cargo install rtk          # Upgrade binary
+cargo install --git https://github.com/rtk-ai/rtk  # Upgrade the correct RTK project
 rtk init --global          # Replace hook with thin delegator
 ```
 
@@ -18626,7 +18434,7 @@ Six levers control LLM costs. Some are directly accessible within Claude Code; o
 | Cost monitoring | `/cost` command, `ccusage` CLI, subscription credit dashboard | Anthropic Console dashboard, per-call spend tracking | §9.13 above |
 | Output compression | Caveman skill (65-75% prose reduction), RTK for CLI output | Prompt engineering, streaming response handling | §9.13 Caveman + RTK |
 | Model routing | `/model opusplan`, `model:` agent frontmatter, `haiku` for mechanical tasks | RouteLLM (85% fewer calls to top-tier model on MT-Bench, arXiv 2406.18665) | [§2.5 Model Selection](#25-model-selection--thinking-guide) |
-| Prompt caching | Automatic for stable context prefixes (Anthropic caches repeated prefixes transparently) | `cache_control` breakpoints in API requests; up to 90% savings on repeated context | [§2.2 Token Management](#22-token-usage--context-management) |
+| Prompt caching | Automatic for stable context prefixes (Anthropic caches repeated prefixes transparently) | `cache_control` breakpoints in API requests; up to 90% savings on repeated context | [§2.2 Token Management](#22-context-management) |
 | Batch processing | Not available in interactive Claude Code sessions | Message Batches API: 50% cheaper, async, 24-hour window, up to 100 requests per batch | [core/architecture.md, Message Batches API](./core/architecture.md#message-batches-api) |
 | Semantic pre-indexing | grepai MCP, lean-ctx, stacklit | Semble (CPU-only, no Ollama required, native MCP server) | mcp-servers-ecosystem.md, context-engineering-tools.md |
 
@@ -20104,7 +19912,7 @@ New feature request
 
 **When to optimize for agents**: High-impact files (core business logic, frequently modified modules) and greenfield projects. Don't refactor stable code just for agents.
 
-**Cross-references**: [CLAUDE.md patterns (3.1)](#31-claudemd-project-context) · [Hooks (6.2)](#62-hooks) · [Pitfalls (9.11)](#911-common-pitfalls--best-practices) · [Methodologies (9.14)](#914-development-methodologies)
+**Cross-references**: [CLAUDE.md patterns (3.1)](#31-memory-files-claudemd) · [Hooks (7)](#7-hooks) · [Pitfalls (9.11)](#911-common-pitfalls--best-practices) · [Methodologies (9.14)](#914-development-methodologies)
 
 ---
 
@@ -20208,7 +20016,7 @@ We use Next.js 14 with App Router.
 
 **Recommendation**: For greenfield projects with AI-assisted development, prefer opinionated frameworks unless architectural constraints require custom design. The reduction in agent cognitive load often outweighs loss of flexibility.
 
-**See also**: [CLAUDE.md sizing guidelines (Section 3.2)](#32-claudemd-best-practices) for token optimization patterns.
+**See also**: [CLAUDE.md sizing guidelines (Section 3.2)](#claudemd-best-practices) for token optimization patterns.
 
 ---
 
@@ -20255,7 +20063,7 @@ Beyond basic project setup, use CLAUDE.md to encode deep domain knowledge:
 
 **Why this works**: When the agent encounters `syncEvents()`, it understands the rate limiting constraint. When it sees `deletedAt`, it knows not to use hard deletes.
 
-**See also**: [CLAUDE.md Best Practices (3.1)](#31-claudemd-project-context) for foundational setup.
+**See also**: [CLAUDE.md Best Practices (3.1)](#31-memory-files-claudemd) for foundational setup.
 
 #### Code Comments: What vs How
 
@@ -20881,7 +20689,7 @@ src/services/event/
 - Splitting would create artificial boundaries
 - File size <300 lines
 
-**See also**: [Context Management (2.1)](#21-core-concepts) for token optimization strategies.
+**See also**: [Context Management (2.2)](#22-context-management) for token optimization strategies.
 
 #### Remove Obvious Comments (Reduce Noise)
 
@@ -21527,7 +21335,7 @@ class UserController {
 
 **Agent sees**: "❌ Layering violation: Controllers must call Services..." → revises to call service.
 
-**See**: [Hooks (6.2)](#62-hooks) for comprehensive hook examples.
+**See**: [Hooks (7)](#7-hooks) for comprehensive hook examples.
 
 #### "Tainted Code" Philosophy
 
@@ -21948,7 +21756,7 @@ Agent instruction: "When implementing Google Calendar integration, use Context7 
 - Uses Context7 MCP → fetches current docs
 - Implements with correct API (not outdated training data)
 
-**See**: [Context7 MCP (5.3)](#53-context7-technical-documentation) for setup.
+**See**: [Context7 MCP (8.2)](#context7-documentation-lookup) for setup.
 
 #### Sensible Defaults
 
@@ -22085,7 +21893,7 @@ Use this checklist to assess your codebase's agent-friendliness:
 - [ ] Files under 500 lines (split larger files by concern)
 - [ ] Obvious comments removed (keep only valuable context)
 - [ ] Debug output controlled by verbose flags
-- [ ] Large generated files excluded via `.claudeignore`
+- [ ] Searches scoped to relevant files; access restrictions configured through permission rules where required
 
 **Testing** (Score: ___ / 5)
 - [ ] Tests written manually (not delegated to agent)
@@ -22203,8 +22011,8 @@ Business logic and domain operations. Services are framework-agnostic.
 - "Prompt Injection Prevention in Code Agents" (ArXiv, November 2024)
 
 **Cross-references in this guide**:
-- [CLAUDE.md patterns (3.1)](#31-claudemd-project-context)
-- [Hooks (6.2)](#62-hooks)
+- [CLAUDE.md patterns (3.1)](#31-memory-files-claudemd)
+- [Hooks (7)](#7-hooks)
 - [CI/CD Integration (9.3)](#93-cicd-integration)
 - [Pitfalls (9.11)](#911-common-pitfalls--best-practices)
 - [Methodologies - TDD (9.14)](#914-development-methodologies)
@@ -22407,7 +22215,7 @@ I'll decide based on our team context.
 
 **Key difference from Multi-Instance** (§9.17):
 - **Multi-Instance** = You manually orchestrate separate Claude sessions (independent projects, no shared state)
-- **Agent Teams** = Claude manages coordination automatically (shared codebase, git-based communication)
+- **Agent Teams** = Claude coordinates through shared tasks and mailbox messages; source changes still need ownership and integration rules
 
 ```
 Setup:
@@ -22425,7 +22233,7 @@ OR in ~/.claude/settings.json:
 ### When Introduced & Production Validation
 
 **Version**: v2.1.32 (2026-02-05) as research preview
-**Model requirement**: Opus 5 recommended (Opus 4.6+ compatible)
+**Model selection**: choose a model available to the account per teammate; Opus is optional
 
 **Production metrics** (validated cases):
 - **Fountain** (workforce management): 50% faster screening, 2x conversions
@@ -22439,13 +22247,13 @@ Source: [2026 Agentic Coding Trends Report](https://resources.anthropic.com/hubf
 ```
 Team Lead (Main Session)
     ├─ Breaks tasks into subtasks
-    ├─ Spawns teammate sessions (each with 1M token context)
+    ├─ Spawns teammates (independent, model-sized contexts)
     └─ Synthesizes findings from all agents
          │
          ├─ Teammate 1: Task A (independent context)
          └─ Teammate 2: Task B (independent context)
 
-Coordination: Git-based (task locking, continuous merge, conflict resolution)
+Coordination: shared task claims and mailbox messages; source merges remain explicit
 Navigation: Shift+Down to cycle through teammates, or tmux panes
 ```
 
@@ -22453,7 +22261,7 @@ Navigation: Shift+Down to cycle through teammates, or tmux panes
 
 | Pattern | Coordination | Best For | Cost | Setup |
 |---------|--------------|----------|------|-------|
-| **Agent Teams** | Automatic (git-based) | Read-heavy tasks needing coordination | High (3x+) | Experimental flag |
+| **Agent Teams** | Shared tasks and mailbox | Read-heavy tasks needing coordination | High (3x+) | Experimental flag |
 | **Multi-Instance** ([§9.17](#917-scaling-patterns-multi-instance-workflows)) | Manual (human) | Independent parallel tasks | Medium (2x) | Multiple terminals |
 | **Dual-Instance** | Manual (human) | Quality assurance (plan-execute) | Medium (2x) | 2 terminals |
 
@@ -22648,7 +22456,7 @@ This section is a quick overview. For complete guide:
 
 **Related patterns**:
 - [§9.17 Multi-Instance Workflows](#917-scaling-patterns-multi-instance-workflows): Manual parallel coordination
-- [§4.3 Sub-Agents](#43-sub-agents): Single-agent task delegation
+- [§4.1 Agents](#41-what-are-agents): Single-agent task delegation
 - [AI Ecosystem: Beads Framework](./ecosystem/ai-ecosystem.md): Alternative orchestration (Gas Town)
 
 **Official sources**:
@@ -23091,7 +22899,7 @@ The signal is always there: you keep doing the same manual fixes. The work is id
 
 ### Detecting Friction from Your JSONL Logs
 
-Your sessions are already logged (see [§Observability: Setting Up Session Logging](#setting-up-session-logging)). What's missing is reading them for **quality signals**, not just cost metrics.
+Your sessions are already logged (see [§Observability: Setting Up Session Logging](./ops/observability.md#setting-up-session-logging)). What's missing is reading them for **quality signals**, not just cost metrics.
 
 Three patterns that reliably indicate a skill or rule needs updating:
 
@@ -23288,7 +23096,7 @@ Both require more setup than the manual loop above, and neither eliminates the n
 **What's Next?**
 
 - [§9.10 Continuous Improvement Mindset](#910-continuous-improvement-mindset): the decision framework for when to encode vs. accept as an edge case
-- [§Observability: Reading for Quality](#reading-for-quality-not-just-quantity): qualitative JSONL analysis patterns
+- [§Observability: Reading for Quality](./ops/observability.md#reading-for-quality-not-just-quantity): qualitative JSONL analysis patterns
 - [§9.12 Git Best Practices](#912-git-best-practices--workflows): version control for your config alongside your code
 
 ---
@@ -23482,7 +23290,7 @@ Each feature needs three things: a description of the expected behavior, the ver
       "id": "feat-001",
       "name": "Document Import",
       "description": "User can import PDF and TXT files from the local filesystem",
-      "dependencies": [],
+      "blockedBy": [],
       "status": "passing",
       "evidence": "npm test -- --grep 'document import' → 4 tests pass"
     },
@@ -23948,8 +23756,8 @@ _Quick jump:_ [Commands Table](#101-commands-table) · [Keyboard Shortcuts](#102
 | **Copy ready-to-use templates** | **[examples/ directory](../examples/)**: Commands, hooks, agents |
 
 ### Most Common Lookups:
-- **Context full?** → [10.4.1 Context Issues](#context-issues)
-- **MCP not working?** → [10.4.4 MCP Troubleshooting](#mcp-issues)
+- **Context full?** → [10.4.1 Context Issues](#context-recovery)
+- **MCP not working?** → [10.4.4 MCP Troubleshooting](#mcp-server-issues)
 - **Need clean reinstall?** → [10.4.3 Full Reinstall](#full-clean-reinstall-procedures)
 
 **Usage tip**: Bookmark this section: you'll reference it often.
@@ -24225,7 +24033,7 @@ Toggle voice on/off with `/voice`. The push-to-talk binding only activates when 
 | `~/.claude/CLAUDE.md` | All projects (global) | N/A |
 | `/project/CLAUDE.md` | This project (shared) | ✅ Yes |
 | `/project/CLAUDE.local.md` | This project (local overrides) | ❌ No (.gitignored) |
-| `/project/.claude/CLAUDE.md` | Personal project config | ❌ No |
+| `/project/CLAUDE.local.md` | Personal project instructions; add to `.gitignore` | ❌ No |
 | Parent/child directories | Auto-loaded in monorepos | Depends on location |
 
 ### Settings Files
@@ -24245,9 +24053,9 @@ Toggle voice on/off with `/voice`. The push-to-talk binding only activates when 
 | `Write` | All file writes |
 | `WebSearch` | Web search |
 | `mcp__serena__*` | All Serena tools |
-| `Read(file_path:*.env*)` | Block reading any `.env*` file path |
-| `Edit(file_path:*.pem)` | Block editing `.pem` certificates |
-| `Bash(command:*rm -rf*)` | Block destructive bash commands |
+| `Read(*.env*)` | Block reading any `.env*` file path |
+| `Edit(*.pem)` | Block editing `.pem` certificates |
+| `Bash(rm -rf *)` | Block destructive bash commands |
 
 ### CLI Flags Reference
 
@@ -25971,7 +25779,8 @@ These are the same across all platforms:
 | File/Directory | Location | Purpose | Commit to Git? |
 |----------------|----------|---------|----------------|
 | `CLAUDE.md` | Project root | Project memory (team) | ✅ Yes |
-| `.claude/CLAUDE.md` | Project root | Personal memory | ❌ No |
+| `.claude/CLAUDE.md` | Project root | Shared project instructions | ✅ Yes |
+| `CLAUDE.local.md` | Project root | Personal instructions; add to `.gitignore` | ❌ No |
 | `.claude/settings.json` | Project root | Hook configuration | ✅ Yes |
 | `.claude/settings.local.json` | Project root | Personal permissions | ❌ No |
 | `.claude/agents/` | Project root | Custom agents | ✅ Yes (team) |
@@ -26161,37 +25970,19 @@ Common misconceptions we've seen:
 
 ### Can I continue a session from a different project folder?
 
-**Short answer**: Not with native \`--resume\`, but manual filesystem operations work reliably.
+Use `claude --resume` from the original project directory to select a saved conversation. When moving work to another directory, first preserve the original transcripts and create a handoff with the task, decisions, changed files and remaining checks.
 
-**The limitation**: Claude Code's \`--resume\` command is scoped to the current working directory by design. Sessions are stored at \`~/.claude/projects/<encoded-path>/\` where the path is derived from your project's absolute location. Moving a project or forking a session to a new folder breaks the resume capability.
+```bash
+# From the original project directory
+claude --resume
 
-**Why this design?**: Sessions store absolute file paths, project-specific context (MCP server configurations, \`.claudeignore\` rules, environment variables). Cross-folder resume would require path rewriting and context validation, which isn't implemented yet.
+# From the destination project directory, begin with the reviewed handoff
+claude
+```
 
-**Workaround - Manual migration** (recommended):
+Session transcripts can contain absolute paths and project-specific tool results. Copying an encoded transcript directory does not rewrite those references, transfer MCP state or validate permissions in the destination. Manual migration tools are community workflows that require backups and explicit validation; they are not a guaranteed native restore mechanism.
 
-\`\`\`bash
-# When moving a project folder
-cd ~/.claude/projects/
-mv -- -old-location-myapp- -new-location-myapp-
-
-# When forking sessions to a new project
-cp -n ./-source-project-/*.jsonl ./-target-project-/
-cp -r ./-source-project-/subagents ./-target-project-/ 2>/dev/null || true
-
-cd /path/to/target/project && claude --continue
-\`\`\`
-
-**⚠️ Migration risks**:
-- Hardcoded secrets/credentials may not transfer correctly
-- Absolute paths in session context may break
-- MCP server configurations may differ between projects
-- \`.claudeignore\` rules are project-specific
-
-**Community automation**: The [claude-migrate-session](https://github.com/jimweller/dotfiles/tree/7a1d306b15de0a89ea0a809ca42fff5ad5a16e43/dotfiles/claude-code/skills/claude-migrate-session) skill by Jim Weller automates this process, but has limited testing (1 star as of 2026-07-27, was 0 in Feb 2026). Manual approach is safer.
-
-**Detailed guide**: See [Session Resume Limitations & Cross-Folder Migration](ops/observability.md#session-resume-limitations--cross-folder-migration) for complete workflow and edge cases.
-
-**Related**: GitHub issue [#1516](https://github.com/anthropics/claude-code/issues/1516) tracks community requests for native cross-folder support.
+See the [official CLI resume options](https://code.claude.com/docs/en/cli-reference) and the [session migration discussion](https://github.com/anthropics/claude-code/issues/1516) before attempting a migration.
 
 ---
 
@@ -26248,15 +26039,15 @@ This section addresses common misconceptions about Claude Code circulating in on
 
 **What people confuse**:
 - **Progressive rollout ≠ Hidden features**: Anthropic uses feature flags for staged deployment (standard industry practice)
-- **Experimental features ≠ Secrets**: Features like TeammateTool exist but are clearly marked as experimental/unstable
+- **Experimental features ≠ Secrets**: Agent Teams have documented activation and limitations
 - **Community discovery ≠ Hacking**: When users discover unreleased features in compiled code, that's exploration, not "unlocking secrets"
 
 **The truth about feature flags**:
 
 | Flag | Purpose | Status |
 |------|---------|--------|
-| `CLAUDE_CODE_ENABLE_TASKS=false` | **Revert** to old TodoWrite system (v2.1.19+) | Official migration path |
-| TeammateTool flags | Progressive deployment of multi-agent orchestration | Experimental, unstable |
+| `CLAUDE_CODE_ENABLE_TASKS=0` | Select legacy TodoWrite after task tools are enabled | Newer models also require the task-tool opt-in |
+| `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` | Enable Agent Teams | Documented experimental feature |
 | Other internal flags | Quality assurance, A/B testing, staged rollout | Not meant for end users |
 
 **Best practice**: Read the [CHANGELOG](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md) and official release notes. Features become public when they're stable and documented. Using experimental features via workarounds can cause:
@@ -26337,7 +26128,7 @@ You → Coordinate next steps
 
 **Documented, verifiable strengths**:
 
-1. **Context Window**: 200K tokens (~150K words) - one of the largest in the industry
+1. **Context Window**: Model-dependent; current Opus, Sonnet and Fable direct-API models have native 1M windows, while Haiku 4.5 has 200K. Inspect `/context`.
 2. **Sub-Agent System**: Isolated context windows prevent pollution during exploration
 3. **MCP Ecosystem**: 100+ community servers for specialized tasks
 4. **Permission System**: Granular control over tool access and dangerous operations
