@@ -1,0 +1,451 @@
+.github/workflows/rebuild-guide-exports.yml
+  s_9cf259c16931e6::t_2487489355ac21 11,13,15-18,33-34,38-39,59-60,62-66,73-74,78,80-81,85-88,90,92-95
+.gitignore
+  s_9bb6202b9f92b0::t_02ac0c40ea68a8 58,64-68,73-74,81,85
+CHANGELOG.md
+  s_03ba8b1a919c17::t_97a26e284db8c2 13-15
+README.md
+  s_03ba8b1a919c17::t_86c46aeafa9196 21,420
+docs/audits/2026-09-26-bilingual-publications.md
+  s_8e2f5eb86a0417::t_e8b9692e13f4a8 1-77
+docs/plans/2026-09-26-bilingual-pdf-refresh.md
+  s_7e64375df4c8b6::t_5785631f28c803 34,36-38
+docs/workflows/whitepaper-build.md
+  s_03ba8b1a919c17::t_1de941ab1f1f1a 36,42,65,67,70-71,73-74,76-77,79-80,82-83,86-90,92-98,100-103,105-106,108,110-114,117-120,123-125,127-129
+guide/core/translations.md
+  s_03ba8b1a919c17::t_b2ebd3bd520dd1 29,31-37,39,41-43,66
+machine-readable/mcp-product.json
+  s_03ba8b1a919c17::t_acc314a5155d78 15,488
+machine-readable/reference.yaml
+  s_9bb6202b9f92b0::t_6ee3a7ccfd246f 56,917-918,920,997,1001,1009,1012,1014-1015,1020-1021,1024,1026,1028,1031,1034,1039-1044,1047,1049-1050,1057,1071,1097,1154-1157,1319,1321-1322,1324,1328,1332-1334,1336,1343,1387,1399,1401-1402,1405,1455,1469,1598,1600,1602-1606,1655,1703,1727,2243,2431,2450,2497-2498
+machine-readable/translations.json
+  s_03ba8b1a919c17::t_d29b777a67d289 3-4,24,26-27,50-53,55-57,60-61,66-67,70-72,114-115,190-191,213-214,259-260,262,264-265,268-269,274
+mcp-server/content/reference.yaml
+  s_03ba8b1a919c17::t_fe941d91bd0b91 56,917-918,920,997,1001,1009,1012,1014-1015,1020-1021,1024,1026,1028,1031,1034,1039-1044,1047,1049-1050,1057,1071,1097,1154-1157,1319,1321-1322,1324,1328,1332-1334,1336,1343,1387,1399,1401-1402,1405,1455,1469,1598,1600,1602-1606,1655,1703,1727,2243,2431,2450,2497-2498
+mcp-server/content/translations.json
+  s_03ba8b1a919c17::t_32efea5c7aa30c 3-4,24,26-27,50-53,55-57,60-61,66-67,70-72,114-115,190-191,213-214,259-260,262,264-265,268-269,274
+scripts/preprocess-guide.py
+  s_9bb6202b9f92b0::t_2015c4f38df686 53-65,86-87,89,93,158,164-166,169-171
+scripts/render-publications.py
+  s_86ed8bd547d4f8::t_1cc02509c74b9e 1-215
+scripts/test-render-publications.py
+  s_9bb6202b9f92b0::t_778129ed88f717 1-56
+scripts/validate-publications.py
+  s_9bb6202b9f92b0::t_2dddf92289faa3 1-118
+whitepapers/_extensions/cheatsheet/_extension.yml
+  s_9bb6202b9f92b0::t_3ffb354b98b99e 8
+whitepapers/_extensions/recap-card/_extension.yml
+  s_eda02df4434e21::t_6f03336c213301 8-10
+whitepapers/_extensions/recap-card/table-widths.lua
+  s_03ba8b1a919c17::t_8898ed3f71a8db 1-10
+whitepapers/_extensions/recap-card/typst-template.typ
+  s_03ba8b1a919c17::t_0b20a1cf873d90 227,278-279,281,283-284,286,288-289,291,341,344-348
+whitepapers/_extensions/whitepaper/_extension.yml
+  s_9bb6202b9f92b0::t_9b16eaf7cabc73 8,15,22
+whitepapers/_extensions/whitepaper/typst-show.typ
+  s_03ba8b1a919c17::t_c5f4558f08bade 40-41
+whitepapers/_extensions/whitepaper/typst-template.typ
+  s_03ba8b1a919c17::t_5b4815e9e9d6a3 85,334
+whitepapers/en/00-series-introduction.qmd
+  s_86ed8bd547d4f8::t_7eee9adfceecb5 1-472
+whitepapers/en/01-effective-prompts.qmd
+  s_86ed8bd547d4f8::t_f43d86322e60ee 1-1184
+whitepapers/en/02-customization.qmd
+  s_86ed8bd547d4f8::t_645b18e811e041 5,8,75,80-81,84,96-98,299,301,323,350,376,378,380,409,542-543,578,621-622,657-658,731,751,823,825,856-857,859,881,1111-1113,1115,1133,1146,1172,1175,1183,1196,1200,1206-1210,1218,1222-1226,1229,1233,1240-1244,1250,1257-1261,1267,1281,1283,1285-1291,1293,1295,1383,1389,1395,1397,1401,1403
+whitepapers/en/03-security.qmd
+  s_86ed8bd547d4f8::t_16b064cb0906c7 1-1223
+whitepapers/en/04-architecture.qmd
+  s_86ed8bd547d4f8::t_da90cabb3d5b5f 3,5,8,36,38,41,45,47,49,51,53,55,116,132,144,153,155-156,179,231,233,235,237,239,245,250,314,321-322,325,335,377,380,383,389,391,399,418,420,435,437,439-445,468,496,499,509,518,523,525-526,532,545-546,568-569,571,591,593,616,620,638,678,682,689,692,694,702-703,710,716-720,735,760,764-769,780,787,806,814,816,818,843,891
+whitepapers/en/05-team.qmd
+  s_86ed8bd547d4f8::t_53558bfb013f29 1-1246
+whitepapers/en/06-privacy.qmd
+  s_86ed8bd547d4f8::t_6c517d861282f8 1-719
+whitepapers/en/07-reference-guide.qmd
+  s_03ba8b1a919c17::t_972a5f757db6f1 5,8,205,215-220,222,268,277,317,319,331,333,346,349,351,360,367,383,430,468,474,476,478,480,482-486,488,490,492,582-583,621,638,640,649,658,671-673,707,709,722,724-725,727,864,891,895,901,988-998,1007-1008,1010-1011,1274,1286,1295,1304,1310,1341,1351,1353,1381,1401,1448,1450,1461,1518,1579,1582,1594-1611,1615-1622,1625-1633,1636-1652,1660,1680,1690-1697,1700-1707,1710-1717,1756,1766,1768,1770,1772,1774,1776,1779,1782,1784,1786-1790,1792,1852-1853,1858-1859,1865-1866,1941,1945,1949,1955,1973,1975,1979,1992,2000,2010,2014,2016-2022,2106,2111,2114,2119,2124,2134-2135,2155,2273,2301,2326,2328,2332
+whitepapers/en/08-agent-teams.qmd
+  s_86ed8bd547d4f8::t_f98c69db5f759a 5,8,36,38,41,47,60,67,192,194,198,200-201,204,206-208,211,217,227,238-239,543,557,1046,1049-1051,1054-1056,1118,1200-1201,1441,1482,1583,1662,1666,1668,2264,2276,2278,2282
+whitepapers/en/09-learning-with-ai.qmd
+  s_86ed8bd547d4f8::t_a40cf4c8799dfd 1-1162
+whitepapers/en/10-ai-budget.qmd
+  s_86ed8bd547d4f8::t_a36f40b798554f 1-568
+whitepapers/en/11-team-metrics.qmd
+  s_03ba8b1a919c17::t_6dfc94ebfb0e25 5,8,42,46,48,178,184,214,216,218,229,231,262,264,270,274,296,435,444,455,461,463,467,482,517,523,531,557,571
+whitepapers/en/12-agent-engineering.qmd
+  s_03ba8b1a919c17::t_f727b2281ac887 5,8,40,43,62,69,168,170,313,319-320,349,365
+whitepapers/en/_extensions/cheatsheet/_extension.yml
+  s_9bb6202b9f92b0::t_b809191946ce0e 8
+whitepapers/en/_extensions/whitepaper/_extension.yml
+  s_9bb6202b9f92b0::t_1a3c7a1ab46ed3 8,15
+whitepapers/en/_extensions/whitepaper/typst-show.typ
+  s_03ba8b1a919c17::t_75d79bc2e3b378 40-41
+whitepapers/en/_extensions/whitepaper/typst-template.typ
+  s_03ba8b1a919c17::t_2a3144201a53d0 87,321
+whitepapers/en/cheatsheet.qmd
+  s_86ed8bd547d4f8::t_edb383e664999a 5,8,26,95,103,130,136,158,339,363
+whitepapers/fr/00-introduction-serie.qmd
+  s_7e64375df4c8b6::t_206526cef4641f 1-450
+whitepapers/fr/01-prompts-efficaces.qmd
+  s_7e64375df4c8b6::t_e11be613455f60 1-1189
+whitepapers/fr/02-personnalisation.qmd
+  s_7e64375df4c8b6::t_420f72b3abdff1 5,8,75,80-81,84,96-98,301,303,323,325,352,378,380,382,400,411,541-542,577,620-621,656-657,692,730,750,820,822,853-854,856,878,935,938,943,948,950,952-954,957-961,963,982,1088-1089,1091,1093,1109,1122,1124,1128,1131,1139,1152,1156,1162-1166,1174,1178-1182,1185,1189,1196-1200,1206,1213-1217,1223,1237,1239,1241-1247,1249,1251,1288-1289,1319,1353,1364,1370,1372,1376,1378
+whitepapers/fr/03-securite.qmd
+  s_7e64375df4c8b6::t_8ca80bb27ac9dc 5,7-8,38,41,101,103,105,109,113,117,132,144,167,219,247,250,254,320,322,324,330,335,337,381-382,387,405,407,420-425,430-437,447,449-453,455,473,475,479,485,487,489-495,497,515,530,636,638-642,644,646,648,650,665,669,687,753,758-759,774-779,784-791,798-803,807-818,826-827,878-880,883,907,911,955,970,1010,1084,1123,1134,1140,1142,1146,1148
+whitepapers/fr/04-architecture.qmd
+  s_7e64375df4c8b6::t_b37e9543e46e29 5,8,38,41,51,53,55-60,62,138,149,159,237,239,241,245,251,253,255,304,306,397,400-401,404,410-412,414-418,420,432,441,482,488,490,492,499,512-513,533,535,556,558,581,643,647,649-655,657,665-667,673,679-683,698,719,721,727,756-765,790,841,852,860,864,866
+whitepapers/fr/05-equipe.qmd
+  s_7e64375df4c8b6::t_1c6dcbb57d6a1e 1-1301
+whitepapers/fr/06-privacy.qmd
+  s_7e64375df4c8b6::t_7bf7c427202f90 1-724
+whitepapers/fr/07-guide-reference.qmd
+  s_03ba8b1a919c17::t_7fdb9683086b27 5,8,47,60-61,70,205,207,209-215,217,271,273,275-280,282,324,344,362,364,366-371,373,375,377,454-456,480,494-495,512,514,519,524,533,548-551,585,587,598,600,602,604,711,713,715,717-722,724,805-806,810-820,827-829,831-835,839-840,995,997,1008,1041,1115,1117,1119,1121-1125,1132,1134-1137,1139,1145,1147,1149,1151,1153,1163,1165,1167-1172,1174,1176,1178-1182,1184,1246,1248-1252,1255,1311,1320,1359,1422,1426,1430,1432,1434,1438,1448,1450,1467,1482,1538,1544,1562,1568,1581,1587,1589,1599,1603,1605-1610,1621-1623,1685,1687,1692,1697,1705,1710,1719-1721,1723,1732-1736,1745,1820-1836,1840,1862,1870,1900,1915,1917,1947,1949,1953
+whitepapers/fr/08-agent-teams.qmd
+  s_7e64375df4c8b6::t_25e82ef5164a6b 5,8,36-38,41,47,60,68-70,81-82,90,92,94,97,99,117-118,159,177-178,204,206,208-211,214,220,224,235,245,256,615,621,739-747,785,792,794,796,802,816,820,823,858,956,967-968,976,982,997,1032,1236,1253,1255,1259
+whitepapers/fr/09-apprendre-avec-ia.qmd
+  s_7e64375df4c8b6::t_b7a4d9581aacc4 1-1185
+whitepapers/fr/10-budget-ia.qmd
+  s_7e64375df4c8b6::t_6fa6a8d46f98b1 1-547
+whitepapers/fr/11-team-metrics.qmd
+  s_7e64375df4c8b6::t_64a4c0729a2723 3,5,8,42,46,48,66,68,88,174,176,182,212,214,216,227,229,260,262,268,272-274,296,315,354,358,376,435,443-444,449,455,461,463,465,467,482,509,517,523,531,554,560,562,566,568
+whitepapers/fr/12-agent-engineering.qmd
+  s_7e64375df4c8b6::t_acde3872532c42 5,8,40,43,67,79,85,224,226,439,441,473,475,487,503
+whitepapers/fr/_extensions/cheatsheet/_extension.yml
+  s_9bb6202b9f92b0::t_aa7b6d97071dd7 8
+whitepapers/fr/_extensions/whitepaper/_extension.yml
+  s_9bb6202b9f92b0::t_c0902d7b339a54 8,15
+whitepapers/fr/_extensions/whitepaper/typst-show.typ
+  s_03ba8b1a919c17::t_d4c8ebcf66b835 40-41
+whitepapers/fr/_extensions/whitepaper/typst-template.typ
+  s_03ba8b1a919c17::t_9c14bf4d137e33 87,321
+whitepapers/fr/cheatsheet.qmd
+  s_7e64375df4c8b6::t_72a18c970e8e79 5,8,26,41,43,69,87,95,98-100,119,130-132,138,143,160,165,175,202,272-273,342,366
+whitepapers/fr/fiches/fiche-00-introduction.qmd
+  s_03ba8b1a919c17::t_f5c0a8888125b8 1-24
+whitepapers/fr/fiches/fiche-01-prompts.qmd
+  s_03ba8b1a919c17::t_18706d2bc18d40 1-24
+whitepapers/fr/fiches/fiche-02-personnalisation.qmd
+  s_03ba8b1a919c17::t_9bfc09be33643b 1-24
+whitepapers/fr/fiches/fiche-03-securite.qmd
+  s_03ba8b1a919c17::t_ac1da8479a6236 1-24
+whitepapers/fr/fiches/fiche-04-architecture.qmd
+  s_03ba8b1a919c17::t_98606e8bdf3dd1 1-24
+whitepapers/fr/fiches/fiche-05-equipe.qmd
+  s_03ba8b1a919c17::t_3c08cebbf5e0b9 1-24
+whitepapers/fr/fiches/fiche-06-privacy.qmd
+  s_03ba8b1a919c17::t_eb34e378686492 1-24
+whitepapers/fr/fiches/fiche-07-guide-reference.qmd
+  s_03ba8b1a919c17::t_ffb148dc931b59 1-24
+whitepapers/fr/fiches/fiche-08-agent-teams.qmd
+  s_03ba8b1a919c17::t_134b19f53d2b4b 11-13,15,18
+whitepapers/fr/fiches/fiche-09-uval.qmd
+  s_03ba8b1a919c17::t_ccabba9ae571fb 1-24
+whitepapers/fr/fiches/fiche-12-agent-engineering.qmd
+  s_03ba8b1a919c17::t_5695f04247204e 11,14,23
+whitepapers/guide-export-fr.qmd
+  s_03ba8b1a919c17::t_a448eac859fa18 1-30
+whitepapers/guide-export.qmd
+  s_03ba8b1a919c17::t_f4058e6dc2067e 3,5,8
+whitepapers/recap-cards/en/01-commandes-essentielles.qmd
+  s_86ed8bd547d4f8::t_2f79df6634a7b2 7,11,40-41,49
+whitepapers/recap-cards/en/03-permission-modes.qmd
+  s_7e64375df4c8b6::t_528382941aa0d0 6-7,10-11,26,30,38,44,74-76,93,95,97
+whitepapers/recap-cards/en/04-context-management.qmd
+  s_86ed8bd547d4f8::t_0b18b2c7b27155 6-7,10-11,18,20,28,35-38,56,60,86
+whitepapers/recap-cards/en/06-hierarchie-configuration.qmd
+  s_86ed8bd547d4f8::t_7913964ea9c6b4 6-7,10-11,53
+whitepapers/recap-cards/en/25-erreurs-courantes.qmd
+  s_86ed8bd547d4f8::t_463db11a7fbf7b 6-7,10-11,27
+whitepapers/recap-cards/en/c01-trust-calibration.qmd
+  s_86ed8bd547d4f8::t_026ba643a7993f 7-8,10-11,20,28,38,61-62
+whitepapers/recap-cards/en/c02-prompting-basics.qmd
+  s_03ba8b1a919c17::t_7165bb987bde4d 7,9
+whitepapers/recap-cards/en/c03-xml-prompting-anchors.qmd
+  s_86ed8bd547d4f8::t_451c9a0fdb3531 7-8,10-11,20,82
+whitepapers/recap-cards/en/c04-commands-skills-plugins-agents.qmd
+  s_86ed8bd547d4f8::t_5470d06224fa16 7-8,10-11,27,51,67,81
+whitepapers/recap-cards/en/c05-memory-stack.qmd
+  s_86ed8bd547d4f8::t_de450b03eee1db 7-8,10-11,20,35,42,60,62
+whitepapers/recap-cards/en/c06-configuration-decision-guide.qmd
+  s_03ba8b1a919c17::t_c15771ee97aac5 7,9
+whitepapers/recap-cards/en/c07-conventions-equipe-scale.qmd
+  s_86ed8bd547d4f8::t_aa931c0ea2d100 7-8,10-11,58,60,75,79
+whitepapers/recap-cards/en/c08-surface-attaque-menaces.qmd
+  s_86ed8bd547d4f8::t_d32469df5c0f81 7-8,10-11,36,62
+whitepapers/recap-cards/en/c09-prompt-injection-defenses.qmd
+  s_86ed8bd547d4f8::t_2004a148de0a13 7-8,10-11,65,83
+whitepapers/recap-cards/en/c10-ai-traceability.qmd
+  s_86ed8bd547d4f8::t_34f7ac988b73eb 7-8,10-11,77,81
+whitepapers/recap-cards/en/c11-subscription-vs-api-patterns.qmd
+  s_86ed8bd547d4f8::t_027f611d4442a9 7-8,10-11,30,36-37,43,55,60-61,65-67,70,76,78-80,82-85
+whitepapers/recap-cards/en/c12-agent-sdk-integrations-ide.qmd
+  s_86ed8bd547d4f8::t_61b5a6c4b17d3f 7-8,10-11,48-49
+whitepapers/recap-cards/en/m01-workflow-quotidien.qmd
+  s_86ed8bd547d4f8::t_129b444f28fba5 7-8,10-11,63
+whitepapers/recap-cards/en/m03-sessions-continuité.qmd
+  s_86ed8bd547d4f8::t_91d254fcf5cca1 7-8,10-11,38,54
+whitepapers/recap-cards/en/m04-compact-vs-clear.qmd
+  s_86ed8bd547d4f8::t_fd909b37f71492 7-8,10-11,22,24,29,31,44,57,73,76-77
+whitepapers/recap-cards/en/m05-plan-mode.qmd
+  s_86ed8bd547d4f8::t_92e9acce04ec64 7-8,10-11,20,24,30,39,42-43,70,74,82,86
+whitepapers/recap-cards/en/m06-task-management-system.qmd
+  s_86ed8bd547d4f8::t_59b5195eaf3cd5 7-8,10-11,22,40,46-47,66,73-74,77,81,85
+whitepapers/recap-cards/en/m07-todowrite-vs-tasks-api.qmd
+  s_86ed8bd547d4f8::t_06277f87ec5e01 7-8,10-11,28,47-48,51,85
+whitepapers/recap-cards/en/m08-agents-custom.qmd
+  s_86ed8bd547d4f8::t_3ddadd0abf2ffd 8,11,39,61
+whitepapers/recap-cards/en/m09-slash-commands.qmd
+  s_86ed8bd547d4f8::t_7bfea8a8bd5ea5 7-8,10-11,18,27-34,43,103
+whitepapers/recap-cards/en/m10-skills.qmd
+  s_86ed8bd547d4f8::t_31e4e7999f7fb4 7-8,10-11,37,68,71-72,74-75,78,81,105
+whitepapers/recap-cards/en/m11-hooks-evenements-systeme.qmd
+  s_86ed8bd547d4f8::t_76d6b464c34008 7-8,10-11,20,44,55-56,67-69,71,77-79,85,89,98
+whitepapers/recap-cards/en/m12-hooks-patterns-concrets.qmd
+  s_86ed8bd547d4f8::t_c881600de05c99 7-8,10-11,20,35,39,44-48,55,62,70,74,80,86,90,94-95,102,106,109-113,116-117
+whitepapers/recap-cards/en/m13-worktrees.qmd
+  s_86ed8bd547d4f8::t_8ae11cd2088380 7-8,10-11,53,61,69,72-73,76
+whitepapers/recap-cards/en/m14-plan-validate-execute.qmd
+  s_86ed8bd547d4f8::t_159c3b2b7a5e5f 7-8,10-11,68
+whitepapers/recap-cards/en/m15-tdd-bdd-sdd.qmd
+  s_86ed8bd547d4f8::t_3d4c0805a63022 7-8,10-11,91-96
+whitepapers/recap-cards/en/m16-multi-agent-topologie.qmd
+  s_86ed8bd547d4f8::t_ef3b7db8ccb330 8,11,40,71,90
+whitepapers/recap-cards/en/m17-multi-agent-communication-trust.qmd
+  s_86ed8bd547d4f8::t_a7e2dcdf869c50 7-8,10-11,28,69,71,74-76,79
+whitepapers/recap-cards/en/m18-event-driven-agents.qmd
+  s_86ed8bd547d4f8::t_90f37f4cf84156 7-8,10-11,70,85
+whitepapers/recap-cards/en/m19-github-actions.qmd
+  s_86ed8bd547d4f8::t_a171d07eea02a5 7-8,10-11,36-37,39,54-55,64-68,71
+whitepapers/recap-cards/en/m20-cicd-production.qmd
+  s_86ed8bd547d4f8::t_701eacc6782d85 7-8,10-11,20,39,41-42,45-49,52,65,90
+whitepapers/recap-cards/en/m21-debug-methodique.qmd
+  s_86ed8bd547d4f8::t_c9bc257fe3746f 7-8,10-11,73,78,91
+whitepapers/recap-cards/en/m22-observabilite-jsonl.qmd
+  s_86ed8bd547d4f8::t_f660433d33940d 7-8,10-11,20,24-25,38-39,77,93-94,108
+whitepapers/recap-cards/en/t02-mode-non-interactif.qmd
+  s_86ed8bd547d4f8::t_da540501dd8195 7-8,10-11,44,47,86,88
+whitepapers/recap-cards/en/t04-permissions-glob-patterns.qmd
+  s_86ed8bd547d4f8::t_bc8064653ed8c6 7-8,10-11,29,34-37,48-50,55,78,88
+whitepapers/recap-cards/en/t06-settings-json.qmd
+  s_86ed8bd547d4f8::t_7db86832cb27ca 7-8,10-11,28,37,69-70,74,100
+whitepapers/recap-cards/en/t07-claudemd-best-practices.qmd
+  s_86ed8bd547d4f8::t_70204ec3f22221 7-8,10-11,48,57,70,83
+whitepapers/recap-cards/en/t08-auto-memories.qmd
+  s_86ed8bd547d4f8::t_f11d7faec98cfe 7-8,10-11,30,58,73
+whitepapers/recap-cards/en/t09-workspace-hygiene.qmd
+  s_86ed8bd547d4f8::t_67345509936dd5 7-8,10-11,20,26-31,73,76
+whitepapers/recap-cards/en/t10-config-multi-machine.qmd
+  s_86ed8bd547d4f8::t_8188492d8f38f5 7-8,10-11,29,31,34-36,38-45,48,65,67,71-74
+whitepapers/recap-cards/en/t11-search-tools-decision.qmd
+  s_86ed8bd547d4f8::t_dda62eb221317b 7-8,10-11,32,45,49,52,55,63
+whitepapers/recap-cards/en/t12-mcp-servers-overview.qmd
+  s_86ed8bd547d4f8::t_478e4699a7ae00 7-8,10-11,22,35,37,48-49,55-56,59,67,102
+whitepapers/recap-cards/en/t13-context7-sequential.qmd
+  s_86ed8bd547d4f8::t_4647dbffbfe3e6 7-8,10-11,37,84
+whitepapers/recap-cards/en/t14-grepai-semantic-search.qmd
+  s_86ed8bd547d4f8::t_571e0b691efe68 7-8,10-11,20,22,62-63
+whitepapers/recap-cards/en/t15-mcp-secrets-management.qmd
+  s_86ed8bd547d4f8::t_55402ec8c8ecf1 7-8,10-11,35-36,47,69,80,89
+whitepapers/recap-cards/en/t16-sandbox-natif-architecture.qmd
+  s_86ed8bd547d4f8::t_52c660c5f0fd8e 7-8,10-11,26,35,37,41,46,80,84
+whitepapers/recap-cards/en/t17-sandbox-natif-vs-docker.qmd
+  s_86ed8bd547d4f8::t_d3a7c4b9d978dc 7-8,10-11,18,20,22-29,31,33,35-36,39,41,43,45,47,49-52,56,61-62
+whitepapers/recap-cards/en/t20-token-optimization.qmd
+  s_86ed8bd547d4f8::t_8bc5b9134fbcbd 7-8,10-11,24-25,27-28,32,34,49,57,59-66,69,89
+whitepapers/recap-cards/en/t22-third-party-tools.qmd
+  s_86ed8bd547d4f8::t_544b686cf6386c 7-8,10-11,22,25,28,66,69
+whitepapers/recap-cards/fr/01-commandes-essentielles.qmd
+  s_aba67d75d36ed2::t_baf9e9e265e71a 10-11,18,22,24,26-30,34,36-39,41,44,46,48-49,52,54-70,72,74,76,78,80,82
+whitepapers/recap-cards/fr/03-permission-modes.qmd
+  s_7e64375df4c8b6::t_a82377fc7f9578 6,9-11,26,30,38,44,74-76,93,95,97
+whitepapers/recap-cards/fr/04-context-management.qmd
+  s_aba67d75d36ed2::t_8a830f4c98b1ef 6,9-11,18,20,28,35-38,56,60,86
+whitepapers/recap-cards/fr/06-hierarchie-configuration.qmd
+  s_aba67d75d36ed2::t_184423738bb65e 6,9-11,53
+whitepapers/recap-cards/fr/25-erreurs-courantes.qmd
+  s_03ba8b1a919c17::t_ddfe29276ce9a0 6,9-11,24,27
+whitepapers/recap-cards/fr/c01-trust-calibration.qmd
+  s_aba67d75d36ed2::t_3be963b42949eb 7-8,10-11,20,28,38,61-62
+whitepapers/recap-cards/fr/c02-prompting-basics.qmd
+  s_aba67d75d36ed2::t_5934804f8fb524 7-8,10
+whitepapers/recap-cards/fr/c03-xml-prompting-anchors.qmd
+  s_aba67d75d36ed2::t_1cdbc0e09f6c2e 7-8,10-11,20,82
+whitepapers/recap-cards/fr/c04-commands-skills-plugins-agents.qmd
+  s_aba67d75d36ed2::t_889a4f8041a0f6 7-8,10-11,27,51,67,81
+whitepapers/recap-cards/fr/c05-memory-stack.qmd
+  s_aba67d75d36ed2::t_d7cb7fe00ede8c 7-8,10-11,20,35,42,60,62
+whitepapers/recap-cards/fr/c06-configuration-decision-guide.qmd
+  s_aba67d75d36ed2::t_c4b97b5f7a1821 7-8,10
+whitepapers/recap-cards/fr/c07-conventions-equipe-scale.qmd
+  s_aba67d75d36ed2::t_bb0487850590fe 7-8,10-11,58,60,75,79
+whitepapers/recap-cards/fr/c08-surface-attaque-menaces.qmd
+  s_aba67d75d36ed2::t_6df446c3b44c70 7-8,10-11,36,62
+whitepapers/recap-cards/fr/c09-prompt-injection-defenses.qmd
+  s_aba67d75d36ed2::t_562bb53aff816f 7-8,10-11,65,83
+whitepapers/recap-cards/fr/c10-ai-traceability.qmd
+  s_aba67d75d36ed2::t_96efa3ef862ca1 7-8,10-11,77,81
+whitepapers/recap-cards/fr/c11-subscription-vs-api-patterns.qmd
+  s_aba67d75d36ed2::t_1b74cb237c3c02 7-8,10-11,30,36-37,43,55,60-61,65-67,70,76,78-80,82-85
+whitepapers/recap-cards/fr/c12-agent-sdk-integrations-ide.qmd
+  s_aba67d75d36ed2::t_b03c3c27d9a9cf 7-8,10-11,48-49
+whitepapers/recap-cards/fr/c14-agent-harness-map.qmd
+  s_aba67d75d36ed2::t_abe3a0920f4781 8
+whitepapers/recap-cards/fr/m01-workflow-quotidien.qmd
+  s_aba67d75d36ed2::t_f6cb40014ccbf9 7-8,10-11,63
+whitepapers/recap-cards/fr/m03-sessions-continuité.qmd
+  s_aba67d75d36ed2::t_6645a93caefee2 7-8,10-11,38,54
+whitepapers/recap-cards/fr/m04-compact-vs-clear.qmd
+  s_15b4342f176f7b::t_71bc983f00cb16 7-8,10-11,22,24,29,31,44,57,73,76-77
+whitepapers/recap-cards/fr/m05-plan-mode.qmd
+  s_15b4342f176f7b::t_48abd7abc4266e 7-8,10-11,20,24,30,39,42-43,70,74,82,86
+whitepapers/recap-cards/fr/m06-task-management-system.qmd
+  s_15b4342f176f7b::t_2878555b4e2b5b 7-8,10-11,22,40,46-47,72-73,76,80,84
+whitepapers/recap-cards/fr/m07-todowrite-vs-tasks-api.qmd
+  s_aba67d75d36ed2::t_21a01f7da9d1d3 7-8,10-11,28,47-48,51,85
+whitepapers/recap-cards/fr/m08-agents-custom.qmd
+  s_aba67d75d36ed2::t_ef744ab6eb5bb0 8,11,39,61
+whitepapers/recap-cards/fr/m09-slash-commands.qmd
+  s_86ed8bd547d4f8::t_71af2a154d489b 7-8,10-11,18,27-34,43,101,105
+whitepapers/recap-cards/fr/m10-skills.qmd
+  s_15b4342f176f7b::t_61b0546214ea3d 7-8,10-11,37,69,72-73,75-76,79,82,106
+whitepapers/recap-cards/fr/m11-hooks-evenements-systeme.qmd
+  s_aba67d75d36ed2::t_d200f6837b14eb 7-8,10-11,20,31-32,40-42,44,55-56,67-71,77-79,81,85,89,98
+whitepapers/recap-cards/fr/m12-hooks-patterns-concrets.qmd
+  s_86ed8bd547d4f8::t_8045b9f1d0f668 7-8,10-11,20,35,39,43-48,55,62,70,74,80,86,90,94-95,102,106,109-113,116-117,121
+whitepapers/recap-cards/fr/m13-worktrees.qmd
+  s_aba67d75d36ed2::t_aa9e719f74c15b 7-8,10-11,53,61,69,72-73,76
+whitepapers/recap-cards/fr/m14-plan-validate-execute.qmd
+  s_aba67d75d36ed2::t_72f6eb703f45fb 7-8,10-11,68,72
+whitepapers/recap-cards/fr/m15-tdd-bdd-sdd.qmd
+  s_aba67d75d36ed2::t_f5d92ea56bf882 7-8,10-11,91-96
+whitepapers/recap-cards/fr/m16-multi-agent-topologie.qmd
+  s_aba67d75d36ed2::t_4f0dc9a8e992ed 8,11,40,71,90
+whitepapers/recap-cards/fr/m17-multi-agent-communication-trust.qmd
+  s_aba67d75d36ed2::t_160280ad288795 7-8,10-11,28,69,71,74-76,79
+whitepapers/recap-cards/fr/m18-event-driven-agents.qmd
+  s_aba67d75d36ed2::t_ad26d83ba05fc9 7-8,10-11,70,85
+whitepapers/recap-cards/fr/m19-github-actions.qmd
+  s_aba67d75d36ed2::t_b7c82b059e975d 7-8,10-11,36-37,39,54-55,64-68,71,110
+whitepapers/recap-cards/fr/m20-cicd-production.qmd
+  s_aba67d75d36ed2::t_6be3790b3f35c3 7-8,10-11,20,39,41-42,45-49,52,65,90
+whitepapers/recap-cards/fr/m21-debug-methodique.qmd
+  s_aba67d75d36ed2::t_ea3d4d7e19f46e 7-8,10-11,73,78,91
+whitepapers/recap-cards/fr/m22-observabilite-jsonl.qmd
+  s_aba67d75d36ed2::t_3bf7a1e21ccbb4 7-8,10-11,20,24-25,38-39,77,93-94,108
+whitepapers/recap-cards/fr/t02-mode-non-interactif.qmd
+  s_aba67d75d36ed2::t_3112c26fb1a32e 7-8,10-11,44,47,86,88
+whitepapers/recap-cards/fr/t04-permissions-glob-patterns.qmd
+  s_aba67d75d36ed2::t_0a40edf7e77c84 7-8,10-11,29,34-37,48-50,55,78,88
+whitepapers/recap-cards/fr/t06-settings-json.qmd
+  s_aba67d75d36ed2::t_ea92930081210e 7-8,10-11,28,37,69-70,74,100
+whitepapers/recap-cards/fr/t07-claudemd-best-practices.qmd
+  s_aba67d75d36ed2::t_2057bbe80e00c4 7-8,10-11,48,57,70,83
+whitepapers/recap-cards/fr/t08-auto-memories.qmd
+  s_aba67d75d36ed2::t_ea356bc37088b6 7-8,10-11,30,58,73
+whitepapers/recap-cards/fr/t09-workspace-hygiene.qmd
+  s_15b4342f176f7b::t_21a8544c8551d4 7-8,10-11,20,26-31,73,76
+whitepapers/recap-cards/fr/t10-config-multi-machine.qmd
+  s_aba67d75d36ed2::t_ad83a7dc97cefe 7-8,10-11,18,21,24-25,27,29,31,34-36,38-45,48,50,52,65,67,69,71,73-74
+whitepapers/recap-cards/fr/t11-search-tools-decision.qmd
+  s_aba67d75d36ed2::t_eb7030395ec8e0 7-8,10-11,32,45,49,52,55,63
+whitepapers/recap-cards/fr/t12-mcp-servers-overview.qmd
+  s_aba67d75d36ed2::t_35e09aa84ee279 7-8,10-11,22,35,37,48-49,55-56,59,67,102
+whitepapers/recap-cards/fr/t13-context7-sequential.qmd
+  s_aba67d75d36ed2::t_a47c98105c6375 7-8,10-11,37,84
+whitepapers/recap-cards/fr/t14-grepai-semantic-search.qmd
+  s_aba67d75d36ed2::t_db7079f32c6b1f 7-8,10-11,20,22,62-63
+whitepapers/recap-cards/fr/t15-mcp-secrets-management.qmd
+  s_aba67d75d36ed2::t_be67981ebd6de6 7-8,10-11,35-36,47,69,80,89
+whitepapers/recap-cards/fr/t16-sandbox-natif-architecture.qmd
+  s_aba67d75d36ed2::t_2e65f2b7e4b3ac 7-8,10-11,26,35,37,41,46,80,84
+whitepapers/recap-cards/fr/t17-sandbox-natif-vs-docker.qmd
+  s_aba67d75d36ed2::t_66b19fd174979e 7-8,10-11,18,20,22-29,31,33,35-36,39,41,43,45,47,49-52,56,61-62
+whitepapers/recap-cards/fr/t18-modeles-thinking-modes.qmd
+  s_aba67d75d36ed2::t_d8a0b80e65442a 8
+whitepapers/recap-cards/fr/t19-context-window-200k-1m.qmd
+  s_aba67d75d36ed2::t_5ddcce1496ef21 8
+whitepapers/recap-cards/fr/t20-token-optimization.qmd
+  s_aba67d75d36ed2::t_4acd8c6c04f3be 7-8,10-11,24-25,27-28,32,34,49,57,59-66,69,89
+whitepapers/recap-cards/fr/t21-fast-mode-api.qmd
+  s_aba67d75d36ed2::t_f9ba6f8e079b2e 8
+whitepapers/recap-cards/fr/t22-third-party-tools.qmd
+  s_15b4342f176f7b::t_dfddc83d799d4f 7-8,10-11,22,25,28,66,69
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "c3148216511712724234cf8ce3a0d20c713b6920",
+  "prompts": {},
+  "sessions": {
+    "s_03ba8b1a919c17": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d374-0cc8-7963-b9d1-425a32259a25",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_15b4342f176f7b": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d8d2-4af2-7dc0-a2be-a710e2e168e5",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_7e64375df4c8b6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0cf24-9a72-7501-89c0-9d65d4d875c5",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_86ed8bd547d4f8": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0ddea-193b-7a90-97b4-7fabe707f76c",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_8e2f5eb86a0417": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d3a5-14e3-7ac2-838b-e4f78ed75628",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_9bb6202b9f92b0": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0dd0b-3a45-74b2-bf85-a54bc884e926",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_9cf259c16931e6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a03e6c-f9af-7811-b19d-91365bbf6d38",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_aba67d75d36ed2": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08b4e-9b8b-7b93-a51f-ded90afe5aeb",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_eda02df4434e21": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08bfd-7b02-7162-ad9b-3d0c85ef93e9",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
