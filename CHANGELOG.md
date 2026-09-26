@@ -24,6 +24,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
+- Preserve the real case of skill filenames when generating the examples index on macOS, so lowercase `skill.md` links remain valid on case-sensitive public hosts.
+- Repaired ten machine-readable references after the bilingual guide refresh, including renamed agent-team anchors and ambiguous section line numbers; synchronized the MCP mirror and product manifest. Verified all 180 published downloads against their recorded checksums.
 - Corrected export table widths and page breaks across the guides, whitepapers, cheatsheets, and recap cards; long reference tables now continue across pages without clipping.
 - Repair relocated public references and search index paths used by the landing. Preserve historical attribution for unavailable sources, replace obsolete monitoring installation advice with official OpenTelemetry documentation, and synchronize the threat catalogue references. Refresh translation provenance against the committed guide while preserving the declared stale status of existing translations.
 

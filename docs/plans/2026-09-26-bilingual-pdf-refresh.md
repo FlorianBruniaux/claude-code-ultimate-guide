@@ -1,6 +1,6 @@
 # Bilingual PDF refresh
 
-Status: in progress. Owner: Codex coordinator. Starting baseline: published guide 3.43.0 and the September 24 command/model audit. The refresh also corrects source-backed defects discovered in the canonical English guide; French must include those corrections before its final source hash is recorded. Uncommitted work in the primary checkout is excluded from this publication baseline.
+Status: complete. Owner: Codex coordinator. Starting baseline: published guide 3.43.0 and the September 24 command/model audit. The refresh also corrects source-backed defects discovered in the canonical English guide; French must include those corrections before its final source hash is recorded. Uncommitted work in the primary checkout is excluded from this publication baseline.
 
 ## Deliverables
 
@@ -42,7 +42,7 @@ Workers must preserve other edits and use separate intermediate output directori
 - [x] Check page counts, text extraction, language metadata, missing glyphs, wide tables, code blocks, and representative rendered pages. Every recap card must remain one page.
 - [x] Rebuild series ZIPs, synchronize download manifests and displayed page counts.
 - [x] Run the guide, MCP, landing, public-path, and download integrity checks.
-- [ ] Commit and push the scoped changes, then verify deployment and live artifact hashes.
+- [x] Commit and push the scoped changes, then verify deployment and live artifact hashes.
 
 ## Findings during execution
 
@@ -64,3 +64,11 @@ The final report must list changed files, commits, checks, source baseline, rema
 - [Export workflow](../workflows/whitepaper-build.md)
 - [Translation provenance and freshness](../workflows/translations.md)
 - [September command/model audit](../audits/2026-09-24-commands-models.md)
+
+## Completion evidence
+
+All 180 public downloads match the validated artifact registry: 146 PDFs,
+28 EPUBs and six ZIP archives. The English and French full guides have
+670 and 708 pages respectively. Both production sites deployed successfully.
+See the [publication audit](../audits/2026-09-26-bilingual-publications.md)
+for validation scope and evidence limits.

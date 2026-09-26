@@ -840,7 +840,7 @@ deep_dive:
   config_git_strategy_global: "guide/ultimate-guide.md#git-strategy-for-project-configuration"  # Version control ~/.claude/
   config_backup_strategies: "guide/ultimate-guide.md#backup-strategies"  # Git, cloud sync, cron
   config_multi_machine_sync: "guide/ultimate-guide.md#multi-machine-sync"  # Laptop + desktop workflows
-  config_security_considerations: 14038  # anchor: security-considerations | Configuration security guidance
+  config_security_considerations: 5645  # anchor: security-considerations | Configuration security guidance
   config_disaster_recovery: "guide/ultimate-guide.md#disaster-recovery"  # Restore from backup
   config_community_solutions: "guide/ultimate-guide.md#community-solutions"  # brianlovin + Ratinaud
   config_github_issue: "https://github.com/anthropics/claude-code/issues/16204"  # Migration guidance request
@@ -1048,11 +1048,11 @@ deep_dive:
   todowrite_legacy: "guide/ultimate-guide.md#todowrite-legacy" # was line 4920
   todowrite_when_to_use: 4578  # anchor: todowrite-legacy
   todowrite_migration_flag: 4578  # anchor: todowrite-legacy
-  task_best_practices: 4791  # Duplicate heading slug; exact current line in Tasks API
-  task_hierarchy_design: 4728  # anchor: best-practices | task-system best practices
+  task_best_practices: 4603  # anchor: best-practices | task-system best practices
+  task_hierarchy_design: 4603  # anchor: best-practices | task-system best practices
   task_dependency_management: "guide/ultimate-guide.md#task-management-system" # was line 4808
-  task_status_transitions: 4728  # anchor: best-practices | task-system best practices
-  task_metadata_conventions: 4728  # anchor: best-practices | task-system best practices
+  task_status_transitions: 4603  # anchor: best-practices | task-system best practices
+  task_metadata_conventions: 4603  # anchor: best-practices | task-system best practices
   task_complete_workflow: "guide/ultimate-guide.md#complete-workflow" # was line 5030
   task_sources: 4698  # anchor: sources | Task management sources
   # Task Management Workflow (guide/workflows/task-management.md)
@@ -1405,7 +1405,7 @@ deep_dive:
   headless_pm_framework: 19620  # anchor: headless-pm-open-source
   multi_instance_implementation: "guide/ultimate-guide.md#implementation-guide-progressive-scaling"  # was 19268, drifted
   multi_instance_monitoring: "guide/ultimate-guide.md#monitoring--observability"  # was 19268, drifted
-  multi_instance_decision_matrix: 20041  # anchor: decision-matrix | Multi-instance selection matrix
+  multi_instance_decision_matrix: 19849  # anchor: decision-matrix | Multi-instance selection matrix
   # External orchestration systems
   external_orchestrators:
     gas_town:
@@ -1556,7 +1556,7 @@ deep_dive:
   # Sub-Agent Patterns (Refactored 2026-02-09)
   agent_anti_patterns: "guide/ultimate-guide.md#agent-anti-patterns-roles-vs-context-control" # Critical: Roles vs Context Control (Dex Horty principle)
   scope_focused_agents: "guide/ultimate-guide.md#scope-focused-agents" # Formerly "Split-Role Sub-Agents", refactored for context isolation
-  teammatetool_experimental: "guide/ultimate-guide.md#teammatetool-experimental" # Multi-agent orchestration parent section
+  teammatetool_experimental: "guide/ultimate-guide.md#agent-teams-experimental" # Multi-agent orchestration parent section
   # Task Management Diagnostic
   task_lists_diagnostic: "guide/ultimate-guide.md#task-lists-as-diagnostic-tool" # was line 4979
   # Mental Model
@@ -1690,7 +1690,7 @@ deep_dive:
   local_vs_cloud_decision: "guide/ecosystem/local-vs-cloud-inference.md#decision-framework"
   local_vs_cloud_cli_bridge: "guide/ecosystem/local-vs-cloud-inference.md#switching-providers-at-the-cli-level"  # cc-copilot-bridge, ccd/ccc/cco backend routing
   # Experimental Features
-  teammatetool: "guide/ultimate-guide.md#teammatetool-experimental" # was line 5071
+  teammatetool: "guide/ultimate-guide.md#agent-teams-experimental" # was line 5071
   teammatetool_status: "Experimental, progressive rollout, feature-flagged"
   teammatetool_capabilities: "Multi-agent coordination, team messaging, swarm patterns"
   teammatetool_sources:
@@ -2251,7 +2251,7 @@ mcp:
   serena: "symbol search + session memory (write_memory/read_memory) + project indexation"
   claude_mem: "automatic session capture + AI compression + progressive disclosure + Web dashboard (localhost:37777)"
   claude_mem_repo: "https://github.com/thedotmack/claude-mem"
-  claude_mem_guide: "guide/ultimate-guide.md:1935"
+  claude_mem_guide: "guide/ultimate-guide.md#claude-mem-automatic-session-memory"
   claude_mem_plugin: "examples/plugins/claude-mem.md"
   claude_mem_installation: "/plugin marketplace add thedotmack/claude-mem"
   claude_mem_stars: "26.5k"
@@ -2499,7 +2499,7 @@ hooks_session_scoped: 10102  # Session-scoped hooks (ephemeral, no settings.json
 hooks_async_support: "v2.1.0+ - add 'async: true' for non-blocking execution; 'asyncRewake: true' for background with exit-2 wakeup"
 hooks_async_use_cases: "logging, notifications, formatting, metrics (no feedback needed)"
 hooks_sync_use_cases: "validation, type checking, security (feedback required)"
-hooks_decision_matrix: 10171  # anchor: decision-matrix | Hook Execution Model
+hooks_decision_matrix: 9982  # anchor: decision-matrix | Hook Execution Model
 hooks_async_limitations: "no exit code feedback for blocking (exit 2 ignored), no real-time systemMessage, no guaranteed execution order. Note: additionalContext IS delivered on the next conversation turn after the background process exits."
 hooks_async_bug_fix: "v2.1.23 - fixed cancellation in headless streaming"
 

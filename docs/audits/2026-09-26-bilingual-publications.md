@@ -88,6 +88,15 @@ public paths, the renderer tests, the MCP server tests, and the landing tests.
 These checks do not certify every example against provider runtimes. Some
 attributed historical benchmark figures remain unverified in this pass.
 
-Publication and live-download verification are the remaining gates in the
-[execution plan](../plans/2026-09-26-bilingual-pdf-refresh.md). A source commit
-or successful local render is not proof that a public download has changed.
+Publication completed on September 26, 2026. The portfolio production
+deployment and GitHub Pages deployment succeeded. All 180 public downloads
+were retrieved and matched the recorded byte counts and SHA-256 checksums;
+the six live archives also matched the reviewed PDF members. The full-guide
+release contains the exact four locally reviewed files after a successful
+GitHub build.
+
+Download the [full guides](https://cc.bruniaux.com/downloads/),
+[whitepapers](https://cc.bruniaux.com/whitepapers/) and
+[recap cards](https://cc.bruniaux.com/cheatsheets/). The
+[execution plan](../plans/2026-09-26-bilingual-pdf-refresh.md) records the
+completed publication gates.
