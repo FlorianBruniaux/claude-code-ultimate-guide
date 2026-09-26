@@ -1,0 +1,31 @@
+CHANGELOG.md
+  s_03ba8b1a919c17::t_22f9c32a6a9290 27-28
+docs/audits/2026-09-26-bilingual-publications.md
+  s_03ba8b1a919c17::t_8b23a3ded49533 91-102
+docs/plans/2026-09-26-bilingual-pdf-refresh.md
+  s_03ba8b1a919c17::t_1c2a33a36212b7 3,45,67-74
+machine-readable/mcp-product.json
+  s_03ba8b1a919c17::t_17d9219a62d853 488
+machine-readable/reference.yaml
+  s_03ba8b1a919c17::t_7a4e7a4af0cf51 843,1051-1052,1054-1055,1408,1559,1693,2254,2502
+mcp-server/content/reference.yaml
+  s_03ba8b1a919c17::t_0bda57936fde39 843,1051-1052,1054-1055,1408,1559,1693,2254,2502
+scripts/generate-examples-data.py
+  s_03ba8b1a919c17::t_568e5116a9cfbd 370-373,395-396
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "a10267c921fd0b285ce5201e79609ccd856ab5d5",
+  "prompts": {},
+  "sessions": {
+    "s_03ba8b1a919c17": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d374-0cc8-7963-b9d1-425a32259a25",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
