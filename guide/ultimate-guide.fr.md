@@ -5027,7 +5027,7 @@ Les fichiers CLAUDE.md sont des instructions persistantes lues à chaque démarr
 
 **Le risque d'ancrage** : les entrées CLAUDE.md obsolètes biaisent chaque session vers des patterns dépassés. Traitez la suppression d'entrées comme une tâche de maintenance. Structurez autour du QUOI/POURQUOI/COMMENT pour les projets plus importants.
 
-> **Couverture complète** : Voir [Memory Systems: CLAUDE.md](./core/memory-systems.md#21-claudemd-three-levels) pour le diagramme de hiérarchie à trois niveaux, le filtre de découvrabilité, les résultats de recherche de l'ETH Zürich (écriture développeur +4% vs LLM-généré -3%), et les patterns de partage d'équipe.
+> **Couverture complète** : Voir [Memory Systems: CLAUDE.md](./core/memory-systems.md#21-claudemd-three-levels) pour le diagramme de hiérarchie à trois niveaux, le filtre de découvrabilité, les recherches sur les fichiers de contexte et les pratiques de partage en équipe. Pour les limites expérimentales, voir l’[évaluation corrigée de la source](../docs/resource-evaluations/agents-md-empirical-study-2602-11988.md).
 
 ### CLAUDE.md comme mémoire à effet composé
 
@@ -17797,7 +17797,7 @@ You: "Implement the caching layer following the plan"
 
 Note : Ceux-ci sont chargés **une fois au démarrage de la session**, pas par requête. Un CLAUDE.md de 200 lignes coûte environ 2K tokens au départ mais ne croît pas pendant la session. La préoccupation concerne l'effet cumulatif combiné à plusieurs `@includes` et tous les fichiers dans `.claude/rules/`.
 
-> **Important** : Au-delà de la taille des fichiers, les fichiers de contexte contenant des informations non essentielles (guides de style, descriptions d'architecture, conventions générales) ajoutent **+20-23% de coût d'inférence par session** indépendamment du nombre de lignes, car les agents traitent et agissent sur chaque instruction. La même recherche confirme que les fichiers de contexte générés par LLM réduisent le taux de réussite des tâches d'environ 3%, tandis que les fichiers écrits par les développeurs l'améliorent d'environ 4%. ([Gloaguen et al., 2026](https://arxiv.org/abs/2602.11988))
+> **Portée de la recherche** : [Gloaguen et al., section 4.2](https://arxiv.org/html/2602.11988v1) rapportent des hausses moyennes du coût d’inférence de 20 % et 23 % avec des fichiers générés par LLM sur SWE-bench Lite et AGENTbench, respectivement. Ces résultats concernent les configurations testées ; ils ne constituent pas un surcoût applicable à chaque fichier d’instructions. Coût, tokens de raisonnement et taux de réussite sont des mesures différentes.
 
 > **Voir aussi** : [Comparaison du chargement de la mémoire](#memory-loading-comparison) pour savoir quand chaque méthode se charge.
 
@@ -17815,7 +17815,7 @@ Note : Ceux-ci sont chargés **une fois au démarrage de la session**, pas par r
 - Diviser par préoccupation : règles d'équipe dans le CLAUDE.md du projet, préférences personnelles dans ~/.claude/CLAUDE.md
 ```
 
-> **Note de recherche** (Gloaguen et al., ETH Zürich, fév. 2026, 138 benchmarks, 12 dépôts) : La première étude empirique sur les fichiers de contexte montre que les CLAUDE.md écrits par les développeurs améliorent le taux de réussite des agents de **+4%**, mais que les fichiers générés par LLM le réduisent de **-3%**. Cause : les agents suivent fidèlement toutes les instructions, même celles non pertinentes pour la tâche, conduisant à une exploration plus large des fichiers et à des chaînes de raisonnement plus longues. **Recommandation : n'inclure que les commandes de build/test et les outils spécifiques au projet.** Les guides de style et les descriptions d'architecture appartiennent à des documents séparés. ([Évaluation complète](../docs/resource-evaluations/agents-md-empirical-study-2602-11988.md))
+> **Note de recherche** : Les fichiers de contexte rédigés par des humains apportaient des bénéfices variables selon les agents dans [Evaluating AGENTS.md](https://arxiv.org/html/2602.11988v1). L’expérience ne définit ni limite universelle de lignes ni nocivité de tout fichier généré. Comparez une version plus courte au fichier existant sur des tâches représentatives, en conservant les contraintes nécessaires au projet. [Évaluation de la source](../docs/resource-evaluations/agents-md-empirical-study-2602-11988.md).
 
 **2. Utiliser des références de fichiers ciblées :**
 
@@ -23443,10 +23443,12 @@ L'étape de promotion reste intentionnellement manuelle : c'est vous qui décide
 
 ## 9.25 Ingénierie du harness de dépôt {#925-repository-harness-engineering}
 
+L’inventaire structurel, l’exécution et l’acceptation exigent des preuves différentes. Un cas synthétique Walkinglabs a obtenu 100/100 alors que sa vérification échouait ; voir l’[évaluation liée à une révision précise](../docs/resource-evaluations/learn-harness-engineering-2026.md). L’[exercice local de contrôle](../examples/workflows/review-control-demo.py) teste les verdicts, les budgets persistants et la perte de réponse sur un service simulé. Il ne démontre pas un contrôle de fusion en production. [Agent Harness Engineering](./core/agent-harness.md), [Loop & Graph Engineering](./core/loop-graph-engineering.md) et [Agent Evaluation](./roles/agent-evaluation.md) détaillent les contrats et la méthode de comparaison.
+
 **Temps de lecture** : 10 minutes
 **Niveau de compétence** : Mois 2+
 
-> **L'intuition fondamentale** : la capacité du modèle et la fiabilité d'exécution sont orthogonales. Le même modèle produit des résultats fondamentalement différents selon l'infrastructure qui l'entoure, et non selon la qualité du modèle. Dans cette section, cette infrastructure est le **harness de dépôt** : l'environnement de projet dans lequel fonctionne un runtime comme Claude Code.
+> **L’intuition fondamentale** : évaluez la capacité du modèle avec l’infrastructure qui gouverne son exécution. Un même modèle peut se comporter différemment lorsque son contexte, ses outils ou ses contrôles changent ; l’effet dépend de la tâche et du budget. Ici, le **harness de dépôt** désigne l’environnement de projet dans lequel fonctionne un runtime comme Claude Code.
 
 Le vocabulaire distingue quatre couches : le **modèle** génère du texte ; le **harness de runtime** exécute la boucle d'outils, le contexte, les permissions et les sessions ; le **harness de dépôt** fournit les instructions, la configuration, l'état et les retours du projet ; un **orchestrateur** coordonne plusieurs sessions de runtime. Voir [Agent Harness Engineering](./core/agent-harness.md#0-four-layers-four-responsibilities) pour la distinction complète et [Agent Harness Landscape](./ecosystem/agent-harness-landscape.md) pour les produits.
 
@@ -23468,9 +23470,9 @@ Les modes d'échec les plus courants se mappent directement sur des sous-systèm
 
 ### Le fossé de vérification
 
-Le mode d'échec le plus dangereux dans les workflows agentiques : l'agent annonce « terminé » alors que les tests échouent encore, que les types sont cassés ou que le build ne compile pas. Ce n'est pas un problème de qualité du modèle ; c'est un problème de conception du harness. Sans étape de vérification imposée, l'agent s'appuie sur l'inspection du code plutôt que sur l'exécution réelle, et sa confiance est mal calibrée.
+Un agent peut annoncer « terminé » alors que les tests échouent, que les types sont incorrects ou que le build ne compile pas. Le harness doit contrôler les preuves d’exécution avant de considérer le travail terminé, indépendamment de cette annonce. La confiance du modèle ne démontre pas qu’une commande a été exécutée sur la révision candidate.
 
-La solution consiste à rendre la vérification non facultative. Ajoutez un contrôle en trois couches avant que l'agent puisse déclarer la complétion :
+Définissez des contrôles adaptés au dépôt. Pour une application web, l’exemple suivant illustre trois couches ; utilisez les commandes et critères d’acceptation réels du projet :
 
 ```bash
 # Layer 1: Static analysis
@@ -23483,7 +23485,7 @@ npm test
 npm run e2e
 ```
 
-Encodez ceci comme règle impérative dans CLAUDE.md :
+Documentez le contrat dans CLAUDE.md pour que l’agent sache quelles preuves produire :
 
 ```markdown
 ## Definition of Done
@@ -23496,13 +23498,17 @@ A feature is NOT done until all three layers pass:
 Do NOT commit or report completion before running all three.
 ```
 
-La troisième couche compte plus que la plupart des équipes ne le pensent. Les tests unitaires passent lorsque les composants fonctionnent isolément. Les tests end-to-end détectent les incompatibilités d'interface, les erreurs de propagation d'état et les problèmes de cycle de vie que les tests unitaires ne peuvent structurellement pas détecter. Les agents qui savent que la vérification E2E est imposée ont également tendance à écrire un meilleur code d'intégration, parce qu'ils savent qu'il sera testé.
+L’instruction décrit le comportement attendu. Son application exige un contrôleur ou un contrôle CI obligatoire qui bloque la transition vers la complétion ou la fusion lorsqu’un résultat requis échoue, manque, est périmé ou reste ininterprétable. Liez ce résultat à la révision candidate et conservez la politique hors du changement évalué. Un hook local ne couvre que les actions et les clients qu’il intercepte réellement.
+
+Testez les deux décisions : un contrôle requis en échec doit bloquer la transition, et un candidat valide accompagné de preuves complètes doit passer cette étape de politique. Testez aussi une sortie absente et un résultat provenant d’une révision antérieure. Une politique qui rejette tout peut réussir une suite composée uniquement de cas négatifs.
+
+Les contrôles end-to-end peuvent révéler des défauts de navigation, de configuration et d’intégration absents de la couverture unitaire. Le [retour d’Anthropic sur les agents de longue durée](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) décrit des vérifications dans le navigateur après que des agents avaient déclaré des fonctionnalités terminées trop tôt. Considérez ce retour comme une expérience d’implémentation rapportée, puis conservez votre propre scénario reproductible et son résultat.
 
 ### WIP=1 : une fonctionnalité à la fois
 
 Lorsque plusieurs fonctionnalités sont en cours simultanément, la vérification devient ambiguë (quelle fonctionnalité a cassé les tests ?), le suivi de progression devient bruité, et le contexte se remplit plus vite sans signal de complétion clair. L'agent distribue son attention sur l'ensemble de la liste de tâches au lieu de terminer une chose.
 
-Imposez WIP=1 dans votre liste de fonctionnalités : une seule fonctionnalité peut être à l'état `active` à tout moment. L'agent en choisit une, la termine en passant les trois couches de vérification, puis passe à la suivante. Cette contrainte paraît restrictive et produit des taux de complétion mesurément meilleurs.
+Pour un workflow séquentiel, WIP=1 constitue une politique de départ utile : une fonctionnalité passe à `active`, termine ses contrôles requis et enregistre son résultat avant qu’une autre ne commence. Si l’exclusivité compte, un contrôleur doit valider cette transition. Mesurez localement la complétion et la reprise ; ce guide ne démontre aucun taux universel d’amélioration lié à cette politique.
 
 ### Le cycle de vie de session
 
@@ -24126,7 +24132,7 @@ Notation : `<arg>` est requis, `[arg]` est facultatif ; les alias suivent la com
 | `/artifacts` | Parcourir, joindre ou ouvrir les artefacts accessibles là où la fonction est disponible |
 | `/design [brief]` | Créer des planches de design modifiables sous forme d'artefact dans les sessions Anthropic compatibles |
 | `/config [key=value ...]` (`/settings`) | Ouvrir les paramètres ou définir directement une clé, par exemple `/config theme=dark`. `/config --help` liste les clés modifiables |
-| `/init` | Générer un premier `CLAUDE.md`. ⚠️ Examiner et alléger le contenu LLM avant commit : l'étude ETH Zürich mesure ~3 % de réussite en moins et 20 %+ de coût d'inférence en plus pour des contextes autogénérés. `CLAUDE_CODE_NEW_INIT=1` ajoute un parcours interactif pour skills, hooks et mémoire personnelle |
+| `/init` | Générer un premier `CLAUDE.md`. Examinez les instructions produites et testez leur utilité avant de commiter ; [les effets des fichiers de contexte varient selon la configuration](../docs/resource-evaluations/agents-md-empirical-study-2602-11988.md). `CLAUDE_CODE_NEW_INIT=1` ajoute un parcours interactif pour skills, hooks et mémoire personnelle |
 | `/hooks` | Afficher la configuration des hooks d'événements d'outils |
 | `/mcp [reconnect <server>\|enable\|disable [<server>\|all]]` | Gérer connexions MCP et OAuth. En mode `-p`, afficher un résumé textuel de l'état |
 | `/plugin [subcommand]` | Gérer les plugins avec les sous-commandes `list`, `install`, `enable`, `disable` |

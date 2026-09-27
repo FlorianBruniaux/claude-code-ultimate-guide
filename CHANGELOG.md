@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-- **Gemini infographic refresh**: add six reviewed FR/EN diagrams on evidence, acceptance and human oversight. Update embedded figures, accessible descriptions and full-size links. Refresh canonical translation provenance from the committed guide after preserving the concurrent bilingual publication update. The French full guide remains marked stale for the new English changes.
+- **Gemini infographic refresh**: add six reviewed FR/EN diagrams on evidence, acceptance and human oversight. Update embedded figures, accessible descriptions and full-size links. Refresh canonical translation provenance from the committed guide after preserving the concurrent bilingual publication update. Translate the matching context-file and harness passages into French, then bind translation provenance to the reviewed English revision.
 
 ### Documentation
 
