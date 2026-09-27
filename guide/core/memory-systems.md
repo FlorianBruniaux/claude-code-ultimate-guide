@@ -138,7 +138,7 @@ Claude automatically detects the tech stack, directory structure, and existing c
 
 **The anchoring risk**: every entry loads every session regardless of task. A stale entry referencing a deprecated library biases the agent toward it on every prompt. Treat periodic CLAUDE.md pruning as maintenance, not cleanup. Tools like [ctxharness](https://github.com/FlorianBruniaux/ctxharness) automate the detection half of that maintenance, scanning CLAUDE.md and AGENTS.md files for stale version references and broken paths so drift gets caught before it biases a session.
 
-> **Research note (Feb 2026)**: ETH Zürich evaluated agent context files across 138 benchmarks and 12 repositories. Developer-written files improve task success by ~4%, but LLM-generated files (`/init` output) reduce it by ~3%. Both add 20-23% inference cost. Mechanism: agents follow every instruction, including those irrelevant to the current task. Source: [Gloaguen et al., arXiv 2602.11988](https://arxiv.org/abs/2602.11988)
+> **Research note (reviewed September 2026)**: [Gloaguen et al.](https://arxiv.org/html/2602.11988v1) compare context-file conditions across agents and datasets; the human-written condition appears only on AGENTbench. The results do not establish a fixed cost surcharge or success-rate effect for every file. Test instruction relevance on representative tasks, retaining necessary constraints. See the [corrected source evaluation](../../docs/resource-evaluations/agents-md-empirical-study-2602-11988.md).
 
 **When your project grows**, structure around three layers:
 
@@ -1076,6 +1076,16 @@ Activate hook mode by adding `~/.claude/hooks/icm-post-tool.sh` to `PostToolUse`
 
 ## 9. Benchmarks and Evaluation
 
+### Keep history distinct from compaction
+
+In [The Log Is The Agent, 04:57](https://www.youtube.com/watch?v=UPwGaM2MKHY&t=297s), Ishaan Sehgal treats compacted context as a lossy view of the raw record. Where retention is authorized, keep source events separately so a summary can be rebuilt and disputed. Apply access and deletion rules to both. A log does not restore external tool state; effects still need reconciliation.
+
+### Test memory migration
+
+[Does Your Agent's Memory Survive a Model Upgrade?](https://arxiv.org/html/2609.05339v1) tests memory writers, readers and embedding changes on synthetic histories with two small open-weight models. Migration direction matters, and matching vector dimensions do not establish compatible embedding spaces. These limited experiments do not select a universal memory format.
+
+Record the writer model, extraction prompt, schema, reader and embedding/index version. Change one component at a time, replay fixed questions, and compare retrieval and answers before replacing the old store. Re-embed retained source material when changing embedding spaces; test the resulting index before promotion.
+
 ### Academic Evaluation Frameworks
 
 | Benchmark | What it measures |
@@ -1117,6 +1127,12 @@ Three documented approaches with different theoretical grounding:
 The production-correct model combines all three: importance score at write time, exponential recency decay at read time, reinforcement on retrieval, and consolidation triggered by token budget rather than a fixed entry count. The MemGPT/Letta paging model (hot memories in context, warm in working store, cold in archive) is the most engineering-useful framing.
 
 ---
+
+## Qualify learned rules before promotion
+
+Keep the source event, interpretation, candidate lesson and active rule separate. A content hash verifies which text was supplied; it does not prove that the text occurred in a transcript or that an instruction inside it is authorized. Link evidence to an observable source and collector, record how contradictions were resolved, and assign an owner before promotion.
+
+The [AutoHarness inspection](../../docs/resource-evaluations/autoharness-2026.md) reproduced fabricated evidence accepted without transcript association and a candidate overwriting an existing user skill. These are version-specific observations. Test source mismatch, foreign-file preservation and the complete candidate, then evaluate usefulness before distribution. Rare mandatory protections cannot be removed on frequency alone.
 
 ## 10. Open Problems
 

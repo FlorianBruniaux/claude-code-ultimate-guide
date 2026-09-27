@@ -100,7 +100,7 @@ Term coined by [Andrej Karpathy](https://x.com/karpathy/status/18861921848081493
 
 **Karpathy's caveat:** "Not too bad for throwaway weekend projects", but dangerous for production code you'll need to maintain.
 
-**Antidote:** The UVAL Protocol (§5) forces understanding before acceptance.
+**Proposed practice:** UVAL (§5) provides checkpoints for examining understanding before acceptance; its effect on retention and transfer needs assessment.
 
 > **Related**: For context management strategies that prevent vibe coding chaos, see [Anti-Pattern: Context Overload](#anti-pattern-context-overload) in the main guide (§9.8).
 
@@ -124,7 +124,7 @@ Most developers experience three distinct phases:
 
 **Critical nuance**: These gains are conditional. Studies show experienced developers (5+ years) see larger, sustained gains. Junior developers often see initial spikes followed by regression, because speed without understanding creates technical debt. A 2026 RCT ([Shen & Tamkin, Anthropic Fellows](https://arxiv.org/abs/2601.20245)) measured a **17% reduction in skills acquisition** when developers learned a new library with AI assistance (n=52, p=0.01), with no significant time savings. Only ~20% of AI users (pure delegation pattern) finished faster, at the cost of learning almost nothing.
 
-**AI-specific stress factor**: Nondeterministic outputs (identical prompts → varying results) create cognitive anxiety distinct from traditional debugging. This variability can trigger "AI fatigue": mental exhaustion from unpredictable tool behavior that compounds over extended sessions. Mitigation: Time-box sessions (30 min max), limit retry attempts (3 max before reverting to manual implementation), and recognize when tool unpredictability signals a need for context reset (`/clear`) or manual problem-solving.
+**Check whether to continue**: Repeated failures, reported fatigue or difficulty explaining the next action can justify a pause, a smaller task or additional help. Agree and assess a cadence locally; these observations do not establish a medical condition or its cause. See [Check whether to continue](#step-25-check-whether-to-continue).
 
 ### Where AI Helps (And Where It Hurts)
 
@@ -230,18 +230,18 @@ Every developer using AI falls into one of three patterns:
 
 ## The UVAL Protocol
 
-A systematic approach to using AI without losing your edge.
+A proposed practice for checking understanding during AI-assisted work. It does not establish a retention benefit or replace the policy for accepting a change.
 
 ### Overview
 
 | Step | Action | Why It Matters |
 |------|--------|----------------|
 | **U** | Understand First | Ask better questions, catch wrong answers |
-| **V** | Verify | Ensure you actually learned, not just copied |
-| **A** | Apply | Transform knowledge into skill through modification |
-| **L** | Learn | Capture insights for long-term retention |
+| **V** | Verify | Check explanation and prediction against evidence |
+| **A** | Apply | Apply a requirement, predict a result or diagnose a defect |
+| **L** | Learn | Record an insight and assess later recall or transfer |
 
-For the reasoning behind naming this a protocol rather than a habit, see [the UVAL protocol and the comprehension debt it prevents](https://www.florian.bruniaux.com/blog/articles/uval-protocol-comprehension-debt/).
+For the reasoning behind naming this a protocol rather than a habit, see [the UVAL protocol and its proposed comprehension checks](https://www.florian.bruniaux.com/blog/articles/uval-protocol-comprehension-debt/).
 
 ---
 
@@ -270,15 +270,9 @@ List 3 possible approaches, even if you're not sure they'll work:
 
 This forces you to think before asking AI.
 
-#### Step 2.5: Recognize Fatigue Signals (30 sec)
+#### Step 2.5: Check whether to continue
 
-Before moving forward, pause and assess your cognitive state:
-
-- **Session duration**: Been working >30 min? → Take a 5-min break, consider `/clear` to reset context
-- **Retry count**: Tried the same prompt 3+ times with inconsistent results? → Switch to manual implementation
-- **Frustration level**: Feeling anxious about unpredictable AI responses? → This is "AI fatigue" (nondeterminism stress), not your fault: it's the tool's inherent variability
-
-This checkpoint prevents compounding exhaustion from extended sessions with diminishing returns.
+Note reported fatigue, frustration, repeated failed attempts and difficulty explaining the next action. These observations can justify a pause, a smaller task or help from another person; they do not diagnose a condition or identify its cause. Agree a cadence suited to the task and evaluate it locally. Clearing an agent context and recovering human attention are separate interventions.
 
 #### Step 3: Identify Knowledge Gaps (3 min)
 
@@ -291,7 +285,7 @@ What specifically do you NOT know?
 
 #### Step 4: THEN Ask AI (5 min)
 
-Now your question is 10x better:
+The revised question names the missing knowledge:
 
 ```
 ❌ "How do I add validation?"
@@ -304,7 +298,7 @@ Now your question is 10x better:
    What's the idiomatic React approach?"
 ```
 
-Better questions → Better answers → Faster learning.
+The revised question makes the missing knowledge and expected behavior explicit.
 
 #### Claude Code Implementation
 
@@ -325,6 +319,8 @@ If I skip these, remind me to think first.
 ### V: Verify (Explain It Back)
 
 **The rule**: If you can't explain the code to a colleague, you haven't learned it.
+
+An explanation also needs a behavioral check. [Necessary or Sufficient?](https://arxiv.org/html/2609.05385v1) found that models’ cited top three did not reliably identify the highest-scoring features under the tested input interventions in two synthetic decision tasks. It does not test human learning or validate UVAL. As a local exercise, predict a boundary case, change the input, and compare the actual result with the explanation.
 
 #### The Rubber Duck Protocol
 
@@ -384,55 +380,20 @@ See [/learn:quiz command](../../examples/commands/learn/quiz.md) for a more comp
 
 ---
 
-### A: Apply (Transform, Don't Copy)
+### A: Apply (Predict, Test, Adapt)
 
-**The rule**: Never copy-paste AI code directly. Always modify something.
+Keep correct code unchanged when no requirement calls for an edit. Renaming a variable, changing a loop or pasting code does not by itself establish how much someone learned.
 
-#### Why This Works
+Choose a behavior to predict before executing a check. For a cart total, specify whether an invalid price should be rejected, coerced or ignored; those choices are different contracts. A conversion such as `Number(value) || 0` silently maps some invalid inputs to zero and is not evidence of correct validation.
 
-Modification forces engagement. Even small changes require understanding:
+| Exercise | Observation to record |
+|---|---|
+| Predict an empty-input or duplicate-item case | Prediction, actual result and explanation of the difference |
+| Apply a changed requirement | The invariant preserved and the test that observes it |
+| Diagnose a seeded defect | Reproduction, cause and correction, with help recorded |
+| Resume on a new comparable task | What transfers without replaying the same explanation |
 
-| Action | Cognitive Load | Learning |
-|--------|---------------|----------|
-| Copy-paste | Zero | Zero |
-| Rename variables | Low | Some |
-| Add edge case | Medium | Good |
-| Refactor structure | High | Excellent |
-
-#### Minimum Viable Modifications
-
-Always do at least ONE:
-
-1. **Rename**: Change variable names to match your project conventions
-2. **Restructure**: Extract a helper function, change iteration method
-3. **Extend**: Add an edge case, validation, or error handling
-4. **Simplify**: Remove features you don't need
-
-#### Example
-
-AI gives you:
-```javascript
-function calculateTotal(items) {
-  return items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-}
-```
-
-You transform it:
-```javascript
-// Added: explicit type checking, edge case handling
-function calculateCartTotal(cartItems) {
-  if (!Array.isArray(cartItems) || cartItems.length === 0) {
-    return 0;
-  }
-  return cartItems.reduce((total, item) => {
-    const itemPrice = Number(item.price) || 0;
-    const itemQty = Number(item.quantity) || 0;
-    return total + itemPrice * itemQty;
-  }, 0);
-}
-```
-
-Now you've engaged with the code, added your own thinking, and learned something.
+These are proposed learning checks, not a ranking of learning by edit type. A later assessment is needed to establish retention. Use the [comprehension exercise](../../examples/learning-project/review-comprehension-exercise.md) to record evidence without requiring cosmetic edits.
 
 ---
 
@@ -625,7 +586,7 @@ Apply the UVAL protocol (§4) to every interaction:
 
 1. **Understand**: 15-minute rule before asking
 2. **Verify**: Explain every line back
-3. **Apply**: Transform, don't copy
+3. **Apply**: Predict, test a requirement or diagnose; adapt only when needed
 4. **Learn**: Capture one insight per session
 
 ### Red Flags You're Slipping
@@ -926,7 +887,7 @@ A concrete path from wherever you are to augmented developer.
 >
 > **Problem**: The rest of this guide addresses individual developers. This section addresses the people responsible for creating the conditions where good habits form, or don't.
 
-The UVAL protocol solves the individual problem. The organizational problem is different: how do you create conditions where juniors *want to* think before they prompt, where quality isn't traded for velocity, and where AI-generated debt doesn't accumulate silently at team scale?
+UVAL proposes individual comprehension checks whose effectiveness needs evaluation. The organizational problem is different: how do you create conditions where juniors *want to* think before they prompt, where quality isn't traded for velocity, and where AI-generated debt doesn't accumulate silently at team scale?
 
 ---
 
@@ -1099,15 +1060,11 @@ Warning Signs
 
 ---
 
-### Regulatory Exposure (Regulated Industries)
+### Regulatory scope requires a product-specific assessment
 
-For teams shipping AI-generated code into healthcare, finance, or government systems, comprehension debt is no longer just a quality risk: it is a compliance risk.
+Using AI to write software does not, by itself, establish which regulatory category applies to the resulting product. This learning guide does not determine compliance, applicable dates or penalties.
 
-The **EU AI Act** classifies healthcare AI systems as high-risk, with mandatory human oversight requirements active since August 2, 2025 for general-purpose AI models and fully applicable from August 2, 2026 (medical devices: August 2027). Non-compliance carries penalties up to 6% of global annual turnover. The requirement for "meaningful human oversight" of AI outputs creates an implicit obligation to actually understand what your team is shipping: "the model wrote it" does not satisfy the standard.
-
-The **FDA's January 2025 draft guidance** for AI-enabled device software functions mandates AI Bill of Materials (AIBOMs), data lineage documentation, and post-market monitoring plans. The June 2025 cybersecurity guidance adds third-party component transparency requirements. A team that cannot explain the behavior of AI-generated code in a medical device submission is not compliant with this guidance.
-
-**Practical consequence for tech leads**: If your team is building in a regulated space, the "explain this" gate in code review functions as a documentation requirement, not merely a learning exercise. Reviewers who rubber-stamp AI-generated code are creating liability, not just technical risk. This is worth stating explicitly in your team AI policy.
+The [FDA page for the January 2025 AI-enabled device software draft](https://www.fda.gov/regulatory-information/search-fda-guidance-documents/artificial-intelligence-enabled-device-software-functions-lifecycle-management-and-marketing) identifies it as draft guidance containing non-binding recommendations. Do not turn that draft into a general legal requirement to use UVAL or an explanation gate. A regulated product needs an assessment of its actual intended use and applicable rules.
 
 ---
 
@@ -1115,39 +1072,23 @@ The **FDA's January 2025 draft guidance** for AI-enabled device software functio
 
 > **Audience**: Developers at any experience level, plus tech leads doing capacity planning.
 >
-> **Problem**: [§3 The Reality of AI Productivity](#the-reality-of-ai-productivity) establishes that the review bottleneck has inverted. This section covers what that inversion costs the person doing the reviewing, and why that cost almost never appears in an adoption plan.
+> **Question**: How does delegated generation change the work needed to verify and resume a task? Measure this separately from code-production speed.
 
-The standard adoption story treats review as the cheap half of the job. Code gets generated, a human glances at it, the team ships. That framing survives only until someone measures how review actually behaves under load, and the measurements have existed since 2006.
+A review consumes attention and may create correction work. Account for both before increasing generated output.
 
-### What Moved
+### What the sources establish
 
-Two independent 2026 surveys put numbers on the same shift.
+[Johan Martinsson](https://unlockers.ai/blog/relire-des-pr-faites-par-l-ia) describes teams where agents produce PRs while humans retain review and merge decisions. Those field observations motivate measuring review capacity; they do not establish an industry-wide inversion of writing and review time.
 
-| Measure | Finding | Source |
-|---------|---------|--------|
-| Weekly hours reviewing AI-generated code | 11.4h median, versus 9.8h writing new code (+31% YoY) | Digital Applied Q1 2026, n=2,847 developers |
-| Heavy agentic-tool users | 14-16h/week reviewing, writing hours flat or down | Same survey |
-| Share of the work week spent checking, fixing, validating AI output | 24% | Sonar 2026 State of Code |
-| Developers who do not fully trust AI output | 96%, of whom only 48% always verify before committing | Sonar 2026 State of Code |
+The [Sonar 2026 survey](https://www.sonarsource.com/state-of-code-developer-survey-report.pdf) reports incomplete trust and verification as separate responses: 96% report incomplete trust, while 48% completely agree that they always check AI-assisted code before committing. The latter item reports n=1,149. These percentages are not nested populations. The report's 24% figure concerns general toil work, not the share of the week spent verifying AI output.
 
-Both are vendor surveys built on self-reported hours, so treat the direction as reliable and the magnitude as indicative. The gap between "I do not trust this" and "I verified it anyway" is where the load actually lands.
+Digital Applied figures from an earlier draft are excluded here because their primary methodology was not established in this review. Repetition across secondary summaries cannot validate a denominator or a causal interpretation.
 
-### Review Has a Measured Ceiling
+### Historical review limits need local calibration
 
-The reference dataset is still the Cisco case study run by Jason Cohen at SmartBear over ten months, published as *Best Kept Secrets of Peer Code Review* (2006). About 50 developers on the Cisco MeetingPlace product, roughly 2,500 reviews covering 3.2 million lines of C/C++, instrumented automatically through the Code Collaborator tool.
+Jason Cohen's [Cisco case study](https://static0.smartbear.co/support/media/resources/cc/book/code-review-cisco-case-study.pdf) is an observational study of one team, with roughly 50 developers and 2,500 reviews of C/C++ code. It predates current agent workflows. Its recommendations on review size, pace and duration motivate limiting review load, but do not establish universal cognitive ceilings for AI-generated changes.
 
-| Finding | Threshold |
-|---------|-----------|
-| Defect density falls sharply past a certain review size | Under 200 LOC ideal, 400 LOC is the ceiling. No review larger than 250 lines produced more than 37 defects per kLOC |
-| Inspection pace governs detection | Best results under 300 LOC/hour, meaningful drop past 500 LOC/hour |
-| Sustained review decays | Detection falls off after ~60 minutes, collapses past 90 |
-| Expected yield inside the band | 70-90% of existing defects on a 200-400 LOC review spread over 60-90 minutes |
-
-Caveats worth stating: this is observational rather than randomized, one company, one language family, and it predates AI entirely. Its value is that the limits it found are cognitive rather than procedural, which is why they did not move when the tooling did.
-
-Neuroimaging work supports that reading. Siegmund et al. ([ICSE 2014](https://www.cs.cmu.edu/~ckaestne/pdf/icse14_fmri.pdf)) showed that comprehending even short snippets recruits working memory, attention, and language regions. Floyd et al. ([ICSE 2017](https://doi.org/10.1109/ICSE.2017.24)) found that reviewing code has a neural signature distinct from reviewing prose, and that the signature shifts with expertise. Peitek et al. ([2021](https://doi.org/10.1109/ICSE43902.2021.00056)) found that plain structural properties, textual size and vocabulary size above all, predict measured cognitive load during comprehension.
-
-**Operational consequence**: an agent will happily produce a 900-line diff. That single artifact sits four times past the size where human defect detection is known to degrade. Constrain the agent's output size rather than asking reviewers to absorb it.
+Split a change when its behavior cannot be understood or verified in context. A generated file, repetitive edit and unfamiliar authorization change require different effort even at equal line counts. Agree breaks and observe review quality in the actual team. The sources examined here do not establish that the historical thresholds become lower, unchanged or higher with agent assistance.
 
 ### Reviewing Machine Output Is a Third Mode
 
@@ -1160,20 +1101,17 @@ Reviewing agent output is neither writing nor reviewing a colleague. It carries 
 
 A tool that is usually right is harder to review well than one that is usually wrong. Obvious garbage triggers scrutiny. Plausible output does not.
 
-### The Day Lost Its Low-Load Stretches
+### Supervision needs capacity and a usable interface
 
-Writing routine code was cognitively cheap, and it ended. Both properties mattered, and both are gone from a review-dominated day. This is the part of the picture with the strongest practitioner signal and the weakest measurement, so the evidence is presented with its limits attached.
+Accounts of lost pauses or satisfying coding work concern how people experience their day. Fatigue, enjoyment, autonomy and clinical burnout are different observations. A survey or an individual approval pattern does not diagnose a developer or identify the cause of their experience.
 
-| Finding | Detail | Confidence |
-|---------|--------|-----------|
-| "AI brain fry" | BCG and UC Riverside, n=1,488 US employees: 14% report mental fatigue from AI oversight beyond cognitive capacity, 18% among developers. Managing 3+ agents: +14% mental effort, +12% fatigue | Survey, named institutions, self-report |
-| Routine offload helps | Same study: using AI for genuinely repetitive tasks correlated with ~15% *lower* burnout | Correlational |
-| Adoption raises job demands | [arXiv 2510.07435](https://arxiv.org/html/2510.07435v2), "Modeling Developer Burnout with GenAI Adoption": adoption heightens burnout by raising job demands, mitigated by job resources and positive perception of the tool (JD-R model) | Survey-based SEM, preprint |
-| The field admits the gap | [arXiv 2605.22349](https://arxiv.org/pdf/2605.22349.pdf), "At What Cost?": only a small number of studies explicitly theorize or measure burnout, stress or work-life balance in AI-assisted development | Literature review |
+[Mitchell, Ghosh and Passi](https://arxiv.org/html/2608.23642v3) argue that agent design can undermine the oversight it relies on. Their article is a position grounded in prior research, not a trial showing that a particular intervention works in this team. A concrete design response is a compact dossier containing the requirement, relevant revision, evidence, unknowns, disagreements and available actions, with access to the original traces.
 
-The recovery literature is older and firmer. Wendsche & Lohmann-Haislah's meta-analysis ([Frontiers in Psychology, 2017](https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2016.02072/full), 86 publications, k=91 samples, N=38,124) found psychological detachment from work associated with lower exhaustion, better sleep and higher life satisfaction, with correlations in the 0.30 to 0.36 range. It also found heavy work investment negatively related to detachment, at a medium effect size.
+Use a real way to pause and resume work. On selected disposable exercises, collect an initial judgment before the recommendation and record changes after advice. Assess decision accuracy, capacity to resume, human effort and satisfaction separately. A shorter dossier that hides contradictions may increase the work needed to verify it.
 
-One finding cuts against the simple reading, and it matters for anyone who recognises themselves in "I cannot put it down and I have never enjoyed it more". A study of Norwegian knowledge workers ([Frontiers in Psychology, 2020](https://pmc.ncbi.nlm.nih.gov/articles/PMC7205444/)) identified a high-involvement profile combining low detachment with high autonomous motivation. That profile scored *lower* on emotional exhaustion than the higher-detachment group. Low detachment is not by itself a burnout trajectory. It becomes one when the involvement is driven by demand rather than by autonomous motivation, which is the distinction to check before diagnosing anyone, including yourself.
+[![Useful oversight needs understandable context, accessible evidence, practiced skills, available attention and the ability to stop and resume. Measure accuracy, recovery, effort and satisfaction separately.](../images/harness-review/human-oversight-en-gemini.webp)](../images/harness-review/human-oversight-en-gemini.webp)
+
+*Practices to evaluate with real participants, not a reported intervention. [French version and sources](../images/harness-review/README.md).*
 
 ### The Apprenticeship Ladder Ran Through the Writing Phase
 
@@ -1185,21 +1123,22 @@ The labour market data is unusually good for a question this recent.
 | Westby, Sasser Modestino et al. ([June 2025](https://aliciasassermodestino.com/wp-content/uploads/2025/06/Impact_of_GenAI_on_SWEs_061625.pdf)) | 1.5M+ software developer vacancies, 2021-2023, difference-in-differences with month and location fixed effects | 16.3% drop in the junior share of software developer postings after the November 2022 ChatGPT release, larger than for other computer and mathematical occupations |
 | Lichtinger & Hosseini Massoum (Harvard) | LinkedIn and Revelio Labs, ~62M workers, 285,000 firms, 2015-2025 | Junior hiring falls in AI-adopting firms from Q1 2023 while senior headcount rises |
 
-Those three describe the market. The training mechanism is the part nobody has measured. The ladder ran write, get reviewed, absorb the reviewer's reasoning, eventually review others. Cutting the first rung does not automatically produce the third one, and the assumption that it does is currently an assumption.
+Those three describe the market. Those employment measures do not establish the training mechanism. The ladder ran write, get reviewed, absorb the reviewer's reasoning, eventually review others. Cutting the first rung does not automatically produce the third one, and the assumption that it does is currently an assumption.
 
-**No study has yet tracked whether a developer trained primarily on review reaches senior-level judgment at the same rate as one trained on writing.** Anyone claiming otherwise in either direction is extrapolating. The practices in [§13 For Tech Leads & Engineering Managers](#for-tech-leads--engineering-managers) are built to hedge against the pessimistic case at low cost.
+The sources reviewed here do not establish whether review-based training develops judgment at the same rate as writing-based training. An absence in this search is not proof that no study exists. The practices in [§13 For Tech Leads & Engineering Managers](#for-tech-leads--engineering-managers) are built to hedge against the pessimistic case at low cost.
 
-### Practices That Address This
+### Practices to evaluate locally
 
-| Practice | Who | Why |
-|----------|-----|-----|
-| Cap agent diff size at 200-400 lines per reviewable unit | Individual, enforced in team policy | Keeps review inside the band where detection holds |
-| Time-box review at 60 minutes, hard stop at 90 | Individual | Past that, added time yields close to nothing |
-| Split "explore with the agent" from "review for merge" into separate sessions | Individual | Verification and generation are different modes, and interleaving them costs the vigilance |
-| Track review hours as work, not as overhead | Tech lead | A 14h/week review load is most of a role, and capacity plans that ignore it are wrong by design |
-| Keep one weekly block of manual writing | Individual | Preserves the cheap-cognition stretch and keeps the skill calibrated. Deleuze recommends alternating sessions deliberately (see [adoption-approaches.md](./adoption-approaches.md#what-we-do-know-empirical-data)) |
-| Cap daily AI development cycles even when tooling allows more | Individual, tech lead | Reported fatigue within weeks when practitioners ignored the cap (Lepine, IFTTD ep 351) |
-| Distinguish demand-driven from motivation-driven overwork before intervening | Tech lead | The Norwegian profile data shows the two look identical from outside and need opposite responses |
+| Practice | Responsible role | Observation |
+|---|---|---|
+| Split changes according to behavior and verification needs | Author and reviewer | Can the requirement and interacting changes be assessed? |
+| Agree pauses and a manageable review workload | Reviewer and team lead | Effort, missed defects and ability to resume, without a universal line or time limit |
+| Admit new work only when it can be verified | Capacity owner | Availability declared, deferred task owner and explicit resumption condition |
+| Separate exploration and acceptance decisions where useful | Task owner | Whether switching modes changes errors or verification effort |
+| Exercise prediction and diagnosis on a new task | Learner and mentor | Correctness, assistance received and transfer, separately from delivery speed |
+| Discuss workload and difficulty stopping | Person and team lead | Reported experience, without inferring a diagnosis or an intervention from an approval rate |
+
+Start with the [admission worksheet](../../examples/workflows/review-admission.md). It can remain a manual policy; the exercise does not require a scheduler or a questionnaire on every action.
 
 ### Observe attention alongside throughput
 
@@ -1207,14 +1146,11 @@ Those three describe the market. The training mechanism is the part nobody has m
 
 Record concurrent tasks, interruptions, context resumptions, review effort and self-reported difficulty stopping. Agree a concurrency limit to evaluate locally and compare equivalent work before and after the change. Do not convert a line-count heuristic or an individual report into a universal cognitive threshold.
 
-### What Is Not Established
+### What is not established
 
-Stated plainly so nobody over-reads this section:
+The sources examined for this section do not establish a causal burnout comparison between review-heavy and write-heavy developer work, a protective effect of coding friction, or universal review-size and duration limits for AI-generated changes. Employment trends do not establish an individual's learning trajectory.
 
-- Whether review-heavy work causes burnout at a higher rate than write-heavy work. Nobody has run that comparison.
-- Whether reduced friction in an intrinsically motivating activity drives overwork. It is a plausible mechanism, consistent with the detachment findings on heavy work investment, and it has not been tested on developers.
-- Whether the Cisco thresholds transfer to reviewing machine-generated diffs. The automation bias literature suggests the effective ceiling is *lower*, never higher, but that has not been measured directly.
-- Whether the junior hiring decline reflects AI capability or ordinary post-2022 cost discipline. The Stanford design controls for firm shocks and finds AI exposure predictive, which is strong evidence, not proof.
+The [supervision exercise](../../examples/learning-project/review-comprehension-exercise.md) requires real participants. A simulated person's answer is not human evidence. Its first use can test feasibility; it cannot establish durable learning or cognitive decline without an appropriate design and further observations.
 
 ---
 
@@ -1227,12 +1163,12 @@ Warning signs you're becoming dependent, and what to do:
 | Can't start without AI | Outsourced problem decomposition | Code 30 min daily without AI |
 | Don't understand AI's code | Copying without learning | Use `/explain-back` on EVERYTHING |
 | Can't debug AI errors | Never learned debugging | Deliberately break code, fix manually |
-| Anxiety without AI | Emotional dependence | It's a tool, not a lifeline, practice without |
+| Reported anxiety or difficulty working unaided | Cause not established by this signal | Discuss the experience and adapt the exercise or seek appropriate support |
 | Rejected in interviews | Fundamentals atrophied | Practice whiteboard problems without AI |
 | Always ask "how" never "why" | Surface-level usage | Force yourself to ask "why this approach?" |
 | Every solution looks the same | AI has patterns, you need variety | Study multiple implementations manually |
 | Task feels easy but you can't explain it | **Perception gap**: AI users rate tasks easier while scoring 17% lower ([Shen & Tamkin 2026](https://arxiv.org/abs/2601.20245)) | After each task, explain the solution without looking at code |
-| Prolonged sessions without breaks | **Session fatigue**: identical prompts yield varying outputs, causing anxiety | Time-box sessions: 30 min limit, max 3 attempts before manual implementation |
+| Repeated failures or difficulty sustaining attention | Reported difficulty, without a causal diagnosis | Pause, reduce scope or request help; evaluate a locally agreed cadence |
 
 ### Weekly Self-Audit
 
@@ -1243,7 +1179,7 @@ Every Friday, ask:
 3. Did I understand everything I shipped?
 4. Am I faster than last month? Am I smarter?
 
-If you're faster but not smarter, you're building dependency.
+Faster delivery and independent understanding are separate observations. Use an unfamiliar task to investigate a suspected gap.
 
 ---
 
@@ -1270,7 +1206,7 @@ Sources for [§3 The Reality of AI Productivity](#the-reality-of-ai-productivity
 - **McKinsey Developer Productivity Report (2024)** ([mckinsey.com](https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/unleashing-developer-productivity-with-generative-ai)): Comprehensive analysis of AI impact across dev workflows
 - **Stack Overflow 2024: AI Sentiment** ([stackoverflow.co](https://stackoverflow.co/labs/developer-sentiment-ai-ml/)): Developer attitudes toward AI tools, productivity perceptions
 - **Uplevel Engineering Intelligence (2024)**: Burnout and productivity metrics with AI coding tools
-- **METR Experienced Developer RCT (2025)** ([arXiv:2507.09089](https://arxiv.org/abs/2507.09089)): Randomized controlled trial (16 experienced devs, 246 issues, repos 1M+ lines): AI tools made developers 19% slower on familiar codebases, despite perceiving themselves 20% faster (39-point perception gap). Strongest evidence for skill atrophy risk in experienced developers.
+- **METR Experienced Developer RCT (2025)** ([arXiv:2507.09089](https://arxiv.org/abs/2507.09089)): Randomized controlled trial (16 experienced devs, 246 issues, repos 1M+ lines): AI tools made developers 19% slower on familiar codebases, despite perceiving themselves 20% faster (39-point perception gap). A task-performance study, not a measurement of long-term skill atrophy.
 - **Borg et al. "Echoes of AI" RCT (2025)** ([arXiv:2507.00788](https://arxiv.org/abs/2507.00788)): 2-phase blind RCT (151 participants, 95% professional developers): AI users 30.7% faster (median), habitual users ~55.9% faster. Phase 2: downstream developers evolving AI-generated code showed no significant difference in evolution time or code quality vs. human-generated code. First RCT to explicitly target maintainability of AI-assisted code. Co-authored by Dave Farley ("Continuous Delivery"). Note: arXiv preprint (v2 Dec 2025), not yet published in peer-reviewed proceedings.
 - **DORA/Google DevOps Research (2024)**: AI tool adoption impact on team performance
 
@@ -1278,21 +1214,19 @@ Sources for [§3 The Reality of AI Productivity](#the-reality-of-ai-productivity
 
 Sources for [§14 The Attention Cost of the Review Shift](#the-attention-cost-of-the-review-shift):
 
-- **Cohen, "Best Kept Secrets of Peer Code Review" / Cisco case study (2006)** ([smartbear.co, PDF](https://static0.smartbear.co/support/media/resources/cc/book/code-review-cisco-case-study.pdf)): 10 months, ~50 developers on Cisco MeetingPlace, ~2,500 reviews over 3.2M LOC, instrumented via Code Collaborator. Defect density drops sharply past 200 LOC (no review over 250 lines exceeded 37 defects/kLOC), best detection under 300 LOC/hour, detection collapses past 60-90 minutes of sustained review. Observational, single company, pre-AI.
+- **Cohen, Cisco review case study (2006)** ([primary PDF](https://static0.smartbear.co/support/media/resources/cc/book/code-review-cisco-case-study.pdf)): observational, single team, pre-AI. The findings motivate local workload calibration, not universal thresholds.
 - **Siegmund et al., "Understanding Understanding Source Code with fMRI" (ICSE 2014)** ([cs.cmu.edu, PDF](https://www.cs.cmu.edu/~ckaestne/pdf/icse14_fmri.pdf)): program comprehension recruits working memory, attention and language regions.
 - **Floyd, Santander & Weimer (ICSE 2017)** ([DOI](https://doi.org/10.1109/ICSE.2017.24)): code review carries a neural signature distinct from prose review, modulated by expertise.
 - **Peitek et al., code complexity metrics vs measured cognitive load (2021)** ([DOI](https://doi.org/10.1109/ICSE43902.2021.00056)): textual size and vocabulary size predict neural and subjective cognitive load during comprehension.
 - **Parasuraman & Riley, "Humans and Automation: Use, Misuse, Disuse, Abuse" (Human Factors, 1997)** ([sagepub.com](https://journals.sagepub.com/doi/10.1518/001872097778543886)): foundational taxonomy of automation bias and complacency.
-- **Goddard, Roudsari & Wyatt, automation bias systematic review (2011)** ([PMC3240751](https://pmc.ncbi.nlm.nih.gov/articles/PMC3240751/)): erroneous decision-support advice raised incorrect-decision risk ~26% versus unaided decisions. Clinical domain, mechanism transfers to reviewing generated code.
+- **Goddard, Roudsari & Wyatt, automation bias systematic review (2011)** ([PMC3240751](https://pmc.ncbi.nlm.nih.gov/articles/PMC3240751/)): erroneous decision-support advice raised incorrect-decision risk ~26% versus unaided decisions. Clinical domain; it does not provide an effect size for software review.
 - **Lee, Sarkar et al., "The Impact of Generative AI on Critical Thinking" (CHI 2025)** ([microsoft.com](https://www.microsoft.com/en-us/research/publication/the-impact-of-generative-ai-on-critical-thinking-self-reported-reductions-in-cognitive-effort-and-confidence-effects-from-a-survey-of-knowledge-workers/)): Microsoft Research and Carnegie Mellon, 319 knowledge workers, 936 first-hand examples. Confidence in GenAI predicts less critical thinking, self-confidence predicts more. Critical thinking migrates to verification, integration, task stewardship.
 - **DORA, Trust in AI** ([dora.dev](https://dora.dev/insights/trust-in-ai/)): ~39% of developers outside Google trust generative AI output "a little" or "not at all".
-- **BCG & UC Riverside, "AI brain fry" (2026, n=1,488 US employees)**: 14% report mental fatigue from AI oversight beyond cognitive capacity, 18% among developers. Managing 3+ concurrent agents raises mental effort ~14% and fatigue ~12%. Same study found AI applied to genuinely repetitive tasks correlated with ~15% lower burnout. Self-reported survey.
 - **"Modeling Developer Burnout with GenAI Adoption"** ([arXiv:2510.07435](https://arxiv.org/html/2510.07435v2)): survey-based SEM on the JD-R model. Adoption raises burnout through increased job demands, mitigated by job resources and positive perception of the tool. Preprint.
 - **"At What Cost? Software Developers' Well-Being in the Age of AI"** ([arXiv:2605.22349](https://arxiv.org/pdf/2605.22349.pdf)): literature review noting that few studies explicitly measure burnout, stress or work-life balance in AI-assisted development. Useful as an honest statement of the evidence gap.
 - **Wendsche & Lohmann-Haislah, detachment meta-analysis (Frontiers in Psychology, 2017)** ([frontiersin.org](https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2016.02072/full)): 86 publications, k=91 samples, N=38,124. Psychological detachment associated with lower exhaustion, better sleep, higher life satisfaction (r ≈ 0.30-0.36). Heavy work investment negatively related to detachment.
 - **Involvement profiles in knowledge workers (Frontiers in Psychology, 2020)** ([PMC7205444](https://pmc.ncbi.nlm.nih.gov/articles/PMC7205444/)): two Norwegian samples. The high-involvement profile (low detachment plus high autonomous motivation) scored lower on emotional exhaustion than the higher-detachment group. Counterweight to reading low detachment as burnout on its own.
-- **Digital Applied Q1 2026 (n=2,847 developers)**: 11.4h/week reviewing AI-generated code versus 9.8h writing, +31% YoY, heavy agentic users at 14-16h. Vendor survey, self-reported hours. Also cited in [ops/team-metrics.md](../ops/team-metrics.md).
-- **Sonar 2026 State of Code**: 42% of committed code AI-generated, 24% of the work week spent checking and validating AI output, 96% do not fully trust it while 48% always verify. Vendor survey.
+- **Sonar 2026 State of Code** ([primary report](https://www.sonarsource.com/state-of-code-developer-survey-report.pdf)): trust and verification are separate self-reported measures. The 24% toil measure is not specific to verification of AI output.
 
 ### Junior Pipeline & Labour Market
 
@@ -1377,10 +1311,10 @@ U — UNDERSTAND FIRST
     State → Brainstorm → Identify gaps → THEN ask AI
 
 V — VERIFY
-    Read every line → Explain out loud → Ask about gaps
+    Explain the invariant → Predict behavior → Investigate gaps
 
 A — APPLY
-    Never copy raw → Rename/Restructure/Extend/Simplify
+    Predict → Test a requirement → Diagnose → Adapt only when needed
 
 L — LEARN
     One insight per session → Log it → Review later

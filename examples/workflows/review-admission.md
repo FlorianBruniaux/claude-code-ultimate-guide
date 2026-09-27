@@ -26,7 +26,9 @@ This is a proposed policy worksheet, not an installed scheduler or a validated t
 | Work allowed during pause | Existing review, agreed corrections, incident response within existing authority |
 | Urgent exception | Named approver, reason, bounded scope, displaced work, expiry |
 
-Reserve a verification slot atomically before dispatching new authoring; release or convert it exactly once when the task changes state. A canceled task does not count as an accepted change. Corrections remain attached to their original change. A new revision invalidates affected acceptance evidence.
+Start with declared availability and a named verifier. The first pilot can remain a manual policy. If admission is automated, reserve a verification slot atomically before dispatch and make release or conversion idempotent under a stable reservation identity. Reconcile an uncertain acknowledgement before retrying. A canceled task does not count as an accepted change. Corrections remain attached to their original change. A new revision invalidates affected acceptance evidence.
+
+Every deferred task records its reason, owner, resumption condition and expiry or review point. Repeated deferrals require reconsideration, reduced scope, reassignment or explicit cancellation under the agreed policy. Expiring a reservation does not authorize its previous holder to continue. Do not infer fatigue from activity telemetry or add a scheduler merely to implement this worksheet.
 
 ## Tabletop exercise
 
@@ -43,3 +45,5 @@ The following numbers are synthetic policy inputs, not recommended team limits. 
 | Urgent request without named exception approval | Keep queued |
 
 Record observed decisions when exercising an implementation. Until then, these are expected outcomes only. Track accepted changes, escaped defects and human effort alongside queue size so that faster approvals do not masquerade as improvement.
+
+The [local control exercise](review-control-demo.py) tests durable budgets and concurrent effects on a simulated service. It does not implement this capacity policy or measure human availability.

@@ -215,6 +215,28 @@ The [LangGraph persistence documentation](https://docs.langchain.com/oss/python/
 
 Do not claim crash recovery unless it has been exercised. Interrupt a run at a defined point, resume it in a clean process, and inspect the state transition, external effect, evidence record, and duplicate-work behavior.
 
+### Make tool failures actionable
+
+Michael Hablich's [Chrome DevTools talk, 13:14](https://www.youtube.com/watch?v=_B4Pv9ttFgY&t=794s), describes improving tool errors; his [closing recommendations](https://www.youtube.com/watch?v=_B4Pv9ttFgY&t=1316s) include recovery playbooks and tokens per successful outcome. This is practitioner guidance, not a controlled cost comparison.
+
+A proposed adapter contract should report what failed, whether an effect may have occurred, and which bounded recovery is permitted. For example, a timeout after publishing a review must trigger receipt reconciliation before another publish attempt. Test that branch and charge recovery attempts to the retained budget; an error message alone cannot enforce either rule.
+
+### Reconcile interrupted effects before retrying
+
+A remote operation can succeed while its response is lost. Preserve a stable logical effect identifier and the consumed budget across restart. Reconcile with the destination before repeating the action; without a reliable receipt, keep the outcome uncertain and route it for a decision. A checkpoint or atomic file rename does not establish exactly-once execution across systems.
+
+The [control exercise](../../examples/workflows/review-control-demo.py) uses durable SQLite state and a simulated idempotent destination. Its checks cover allowed/refused/unknown results, a changed revision, a stale or false producer, budget exhaustion, concurrent attempts and response loss. Run it from the cloned guide root:
+
+```bash
+python3 examples/workflows/review-control-demo.py
+```
+
+The example exercises its own control path. Qualifying a real provider also requires its actual permissions, receipt source and side-effect semantics. [AutoHarness](../../docs/resource-evaluations/autoharness-2026.md) provides inspected counterexamples on lost updates, replayed counters and partial multi-file writes that motivate separate adapter tests.
+
+[![Identify the revision, run checks and review, and accept only when evidence is valid and policy permits it. Missing proof, unknown results, refusal or exhausted budget pause or stop the process.](../images/harness-review/review-acceptance-en-gemini.webp)](../images/harness-review/review-acceptance-en-gemini.webp)
+
+*Proposed design, not evidence of a deployed workflow. [French version and sources](../images/harness-review/README.md).*
+
 ## 7. Observe and evaluate the system
 
 An agent trace needs enough evidence to answer four questions: what ran, why it routed, what state changed, and who accepted the result. Capture data at the layer that made the decision.

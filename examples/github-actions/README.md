@@ -19,18 +19,18 @@ Ready-to-use GitHub Actions workflows that integrate Claude Code into your CI/CD
 
 ## Available Workflows
 
-### 1. Code Review (Prompt-Based, `claude-code-review.yml`) ⭐ Recommended
+### 1. Code Review (Prompt-Based, `claude-code-review.yml`)
 
 Externalized prompt, anti-hallucination protocol, and `/claude-review` on-demand trigger.
 
-The review logic lives in `.github/prompts/code-review.md`, so you can iterate on criteria without touching the workflow YAML. The prompt enforces a verification step before every finding: Claude must confirm an issue with `Read`/`Grep` before reporting it.
+The review logic lives in `.github/prompts/code-review.md`, so you can iterate on criteria without touching the workflow YAML. The prompt asks Claude to verify each finding with `Read`/`Grep`. That instruction is not an executable acceptance control.
 
 **Features:**
 - Triggers on PR open/sync/ready **and** `/claude-review` comment
 - Externalized prompt: edit `code-review.md` to tune criteria for your stack
 - Anti-hallucination protocol: no invented line numbers or unverified claims
 - Structured output: `🔴 MUST FIX` / `🟡 SHOULD FIX` / `🟢 CAN SKIP` table + inline comments
-- Read-only `allowed_tools` (no write access to repo)
+- `claude_args` restricts requested tools to file inspection and review publication; qualify tool availability and permissions in the target repository
 - OAuth token support (no API key needed if Claude GitHub App is installed)
 
 **Setup:**
@@ -54,8 +54,10 @@ Edit `.github/prompts/code-review.md` to add your stack conventions:
 - New API routes require integration tests
 ```
 
-**Blocking merge on findings:**
-The `gate` job in this workflow reads the posted review, parses the `### 🔴 Must Fix (n)` count from the summary, and fails the job if `n > 0`. Add `gate` to your branch protection's required status checks to turn advisory findings into an actual merge block. Without that branch protection rule, the review still posts but nothing stops a maintainer from merging past it.
+**Acceptance boundary:**
+This template is advisory. The former gate selected the latest review without binding its producer, run or revision, treated a missing severity heading as zero and could skip after a producer failure. It has been removed. Do not make the advisory job an acceptance verdict.
+
+A replacement needs authenticated evidence for the relevant revision and scope, explicit refusal and unknown states, plus separately verified repository policy. The [control and recovery simulation](../workflows/review-control-demo.py) tests local decision and recovery cases with a fake destination; it is not a live GitHub adapter. See the [multi-provider guide](../../guide/workflows/multi-provider-code-review.md).
 
 ---
 
@@ -258,7 +260,7 @@ Two problems show up once a repo has real traffic: PRs that touch dozens of file
 ```
 examples/github-actions/
 ├── README.md                        # This file
-├── claude-code-review.yml           # Main review + gate job + optional synthesis job
+├── claude-code-review.yml           # Advisory review + optional synthesis job
 ├── claude-code-review-batched.yml    # Domain-split matrix review for large PRs
 ├── .coderabbit.yaml                 # CodeRabbit config (copy to repo root)
 ├── .greptile/
@@ -372,7 +374,7 @@ These workflows consume Anthropic API credits:
 ```
 examples/github-actions/
 ├── README.md                        # This file
-├── claude-code-review.yml           # Prompt-based review + gate job + optional synthesis job
+├── claude-code-review.yml           # Advisory prompt-based review + optional synthesis job
 ├── claude-code-review-batched.yml    # Domain-split matrix review for large PRs
 ├── .coderabbit.yaml                 # CodeRabbit config (copy to repo root)
 ├── .greptile/                       # Greptile config templates (copy to repo root)

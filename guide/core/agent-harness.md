@@ -28,9 +28,11 @@ The 2026 [Agent System and Harness Design survey](https://arxiv.org/abs/2606.206
 
 Controlled evidence supports a narrower claim. In [The Scaffold Effect in Coding Agents](https://arxiv.org/abs/2607.22585), two fixed models were tested across three harnesses on 50 Terminal-Bench Pro tasks. Harness choice changed tokens per solved task by up to 40 times, while paired pass-rate differences stayed within 0 to 8 percentage points and were mostly not statistically significant. The harness can dominate cost and failure behavior without dominating task accuracy. Conversely, model quality or model-harness compatibility can remain the binding constraint. Report the pair, the task set, and the budget.
 
+Tokens per solved task are not a billing multiplier: input/output prices, caching and human review require separate accounting. A non-significant success-rate difference also does not establish equivalent quality. Keep the study's resource and outcome measures distinct when selecting a local baseline.
+
 This page uses **agent harness** in its runtime sense: the system that owns the agent loop, tools, context, state, and permissions. A repository can also provide a **repository harness** around that runtime: its instructions, setup, task state, and verification gates. The distinction matters because a project can improve its repository harness without replacing Claude Code, and a team can switch runtime harnesses without discarding every project practice.
 
-This page covers what is inside the runtime. For the repository layer, see [Repository Harness Engineering](../ultimate-guide.md#925-harness-engineering). For feedback loops, executable workflow graphs, stopping rules, and judgment boundaries, use [Loop & Graph Engineering](./loop-graph-engineering.md). For a dated comparison of specific products across CLI, IDE, and cloud, see the [Agent Harness Landscape](../ecosystem/agent-harness-landscape.md).
+This page covers what is inside the runtime. For the repository layer, see [Repository Harness Engineering](../ultimate-guide.md#925-repository-harness-engineering). For feedback loops, executable workflow graphs, stopping rules, and judgment boundaries, use [Loop & Graph Engineering](./loop-graph-engineering.md). For a dated comparison of specific products across CLI, IDE, and cloud, see the [Agent Harness Landscape](../ecosystem/agent-harness-landscape.md).
 
 ![A user goal moves through six harness stages: context building, LLM reasoning, policy gating, guarded tool execution, verification, and an accepted result. Observability spans every stage, constraints govern policy and runtime, and feedback returns accepted results to the context builder.](../images/agent-harness-reliability-loop.webp)
 
@@ -290,7 +292,7 @@ The central concept: `gh aw compile` takes an agent workflow definition in Markd
 
 **Code review integration**: GitHub Copilot Code Review has processed 60M+ code reviews as of 2026. On Code Review Bench (Martian, March 2026, 200,000+ open-source PRs, 17 tools evaluated), Augment Code leads at 62.8% recall, Copilot at 53.3%. Graphite leads precision at 75% but recall at 8.8% (high precision means few false positives, low recall means many real bugs missed). No tool dominates both metrics.
 
-**c-CRAB benchmark** (arXiv 2603.23448): Claude Code achieves 32.1% pass rate on pull requests with executable test suites as oracles. The union of four tools reaches 41.5%. These are ceiling numbers; average production use is lower.
+**[c-CRAB benchmark](https://arxiv.org/html/2603.23448v3)**: Claude Code reaches 32.1% on tests derived from selected human review comments. A separate coding agent applies the comments before scoring. Of 234 tests, 192 are structural and 42 behavioral. These results are neither a production ceiling nor general defect recall. The repair agent, test construction and selected concerns constrain the interpretation.
 
 **Best for**: organizations that want GitHub-native audit trails and a straightforward integration with existing Actions pipelines.
 
@@ -404,11 +406,39 @@ Tests are necessary, but a green suite is not a complete proof bundle. Simon Wil
 
 Do not assume that stacking planning, tools, memory, reflection, and retrieval is monotonic. [Cross-Component Interference](https://arxiv.org/abs/2605.05716) tested all 32 subsets of five components on HotpotQA and GSM8K. A single-tool configuration exceeded the all-in system by 32% on HotpotQA; a three-component subset exceeded it by 79% on GSM8K. This is a preprint over two benchmarks, but its design supports a strong engineering rule: start with the smallest sufficient harness and require each added component to pass a paired ablation and regression test.
 
+### Test review constraints separately
+
+[SWE-Gate](https://arxiv.org/html/2609.04167v1) separates functional tests from constraints derived from code reviews. With those constraints supplied, 221 of 644 functionally passing model-instance repairs still violated constraint tests. The denominator spans four backends over 303 synthesized Python repair instances; it is not 644 independent production PRs. The [replication repository](https://github.com/DeepSoftwareAnalytics/SWE-Gate) is available, but was not run for this guide.
+
+For a local repair, test the reported bug and relevant compatibility, error-handling or resource constraints separately. For example, a parser fix can pass its new input case while changing the exception callers rely on.
+
+### Test the control and its permitted path
+
+[Marmelab's September 2026 survey](https://marmelab.com/blog/2026/09/24/the-state-of-ai-harness-engineering-2026.html) recommends testing the harness, observing actual use and retiring obsolete components. Its repository inventory is discovery evidence, not a controlled estimate of effectiveness.
+
+For each preventive control, retain the incident it addresses, an input that must be blocked, a valid nearby input that must pass, and the expected result when its adapter cannot interpret the action. Test the policy core, the host adapter and the observed client behavior separately. A deny-all implementation can pass a negative-only suite; a hook invocation log can coexist with an ignored response.
+
+Give the control an owner and a reconsideration condition. Low usage can indicate a discovery failure or a rare protected action. Before removal, replay the motivating incident and permitted alternatives, then assess task outcomes on held-out cases. A static inventory or a successful installation does not establish that the control works in a running session.
+
 ---
+
+### Structural scores and passing suites need behavioral evidence
+
+The [Walkinglabs evaluation](../../docs/resource-evaluations/learn-harness-engineering-2026.md) records a synthetic repository that scored 100/100 structurally while verification failed, and a simulated review accepting `not approved`. The course is useful teaching material; these cases do not justify treating its scaffold as a production control.
+
+The [AutoHarness evaluation](../../docs/resource-evaluations/autoharness-2026.md) records 410 passing supplied tests alongside targeted counterexamples involving skill ownership, fabricated evidence, lost updates and mixed file generations. A suite can pass while a stated property lacks coverage. Use these cases to design failure tests for your own boundary, not to attribute those defects to another project.
+
+Keep viewed, invoked, executed successfully and useful as separate observations. Preserve the producer, relevant revision, scope, terminal state and acceptance policy for each result. The [runnable control exercise](../../examples/workflows/review-control-demo.py) illustrates receipt validation, durable budgets and effect recovery on a simulated service; it does not measure skill activation or usefulness.
+
+[![Presence, activation, execution and verified effect require separate evidence. Acceptance also requires policy permission.](../images/harness-review/harness-evidence-en-gemini.webp)](../images/harness-review/harness-evidence-en-gemini.webp)
+
+*Each observation needs its own evidence; none implies the next. Open the image for full size. Acceptance also requires policy authority. [French version and sources](../images/harness-review/README.md).*
 
 ## 8. Creator-Verifier Pattern
 
 The creator-verifier pattern assigns production and evaluation to separate steps or agents. It is a useful design candidate, not a guaranteed accuracy multiplier.
+
+[Natural-Language Agent Harnesses](https://arxiv.org/html/2603.25723v1), RQ2, reports lower aggregate scores after adding its verifier on sampled coding and computer-use tasks, alongside some additional rescued cases. In a recorded SymPy case, local verifier acceptance disagreed with the benchmark. This bounded counterexample motivates evaluating final acceptance after review, rather than counting successful intermediate verdicts.
 
 The evidence is mixed. [Self-Refine](https://arxiv.org/abs/2303.17651) reports gains from iterative same-model feedback across seven tasks. [Multiagent Debate](https://arxiv.org/abs/2305.14325) reports improvements on selected reasoning and factuality tasks. Conversely, [Large Language Models Cannot Self-Correct Reasoning Yet](https://arxiv.org/abs/2310.01798) finds that intrinsic self-correction without external feedback can fail or degrade answers. [Scalable oversight experiments](https://arxiv.org/abs/2407.04622) find task-dependent rather than universal gains, and [LLM-as-a-judge bias research](https://arxiv.org/abs/2410.02736) documents systematic evaluator biases. Anthropic's [evaluator-optimizer guidance](https://www.anthropic.com/engineering/building-effective-agents) therefore recommends the pattern when evaluation criteria are clear and iterative refinement produces measurable value.
 
@@ -423,6 +453,8 @@ A fresh context is only one dimension of independence. A verifier can still shar
 | **Escalation authority** | A probabilistic verdict silently becomes final | Define appeal, timeout, human checkpoint, and fail-closed rules for high-impact decisions |
 
 Measure rescued failures, false accepts, false rejects, regressions, latency, and cost. Counting reviewer calls or using a different role name does not establish independence.
+
+Read-only permissions constrain authority; they do not demonstrate independent judgment. Preserve those controls while comparing review treatments, and record which evidence each reviewer obtains independently.
 
 [Cross-session messaging](../workflows/cross-session-messaging.md#coordination-safety-correlated-drift-and-false-consensus) can carry the handoff between independently launched Claude Code sessions, but the transport does not make the verifier independent. Bind the handoff to a commit SHA, send the original requirements, artifact, evidence, and uncertainty instead of the creator's rationale, then let the verifier inspect its own current state. Apply the [cross-session threat model](../security/security-hardening.md#cross-session-messaging-threat-model) separately for sender trust, inbound policy, permissions, and cross-machine exposure.
 
@@ -460,6 +492,8 @@ Shachar Azriel presents this architecture in [Executable Specs: Building a Verif
 This does not eliminate hallucination; it catches the subset of hallucinations that are inconsistent with the stated requirements. For catching hallucinations that are internally consistent but factually wrong, you need domain-specific test cases.
 
 ---
+
+Human oversight needs enough information and capacity to challenge or resume the work. A compact decision dossier should retain sources, unknowns and disagreements; approval speed alone cannot establish its quality. [Learning with AI](../roles/learning-with-ai.md#supervision-needs-capacity-and-a-usable-interface) owns the proposed human exercise and its evidence limits.
 
 ## 9. Reference Architecture
 
@@ -523,6 +557,14 @@ Use three evidence levels throughout this page:
 | [Dex Horthy, Context Engineering](https://www.youtube.com/watch?v=Usufn8IQJgw), 2026-07-15 | ["If you want to do loops engineering, you should build one loop at a time and keep them small and contained."](https://www.youtube.com/watch?v=Usufn8IQJgw&t=3509s) | Bounded loops before lights-off automation | Practitioner interview and retrospective, not a controlled study |
 | [Pavan Belagatti, What Is a Software Factory?](https://www.youtube.com/watch?v=0nM1ygBm8tA), 2026 | ["Agents do the work, humans provide the gates."](https://www.youtube.com/watch?v=0nM1ygBm8tA&t=97s) | Separation between the execution loop and the governance loop | Practitioner short and Port-oriented framing; no comparative reliability or productivity measurement |
 
+Three additional talks provide practical examples, paraphrased here from checked passages:
+
+- **Will Bond and Ameya Ketkar, Uber**, [Building uReview, 07:03](https://www.youtube.com/watch?v=EL123UNokkI&t=423s), 2026-08-28: team-specific criteria and single-file/multi-file reviewers within a bounded review window. See [role separation](../workflows/multi-provider-code-review.md#role-separation).
+- **Ishaan Sehgal, Omnara**, [The Log Is The Agent, 04:57](https://www.youtube.com/watch?v=UPwGaM2MKHY&t=297s), 2026-06-25: the raw record and its compacted view serve different purposes. See [history and compaction](./memory-systems.md#keep-history-distinct-from-compaction).
+- **Michael Hablich, Google**, [Building Agent Interfaces, 21:56](https://www.youtube.com/watch?v=_B4Pv9ttFgY&t=1316s), 2026-06-05: recovery playbooks and tokens per successful outcome. See [actionable tool failures](./loop-graph-engineering.md#make-tool-failures-actionable).
+
+These additions and three research papers are assessed in the [corpus supplement](../../docs/resource-evaluations/harness-corpus-supplement-2026.md).
+
 The source list is selective. It includes videos that add a distinct mechanism, metric, or failure boundary to this page. Inclusion is not an endorsement of every claim in a talk.
 
 ---
@@ -568,9 +610,9 @@ The practical conclusion is not “self-improving agents solve harness engineeri
 - [Security Hardening](../security/security-hardening.md) and [Native Sandbox](../security/sandbox-native.md): prompt-injection defense and execution boundaries
 - [Cross-Session Messaging](../workflows/cross-session-messaging.md#coordination-safety-correlated-drift-and-false-consensus): commit-bound handoffs, correlated-drift controls, and shared-working-tree risks
 - [Agent Teams](../workflows/agent-teams.md) and [Agentic Software Factories](../workflows/agentic-software-factories.md): multi-agent coordination above one loop
-- [Repository Harness Engineering](../ultimate-guide.md#925-harness-engineering): project-level instructions, setup, state, and verification gates
+- [Repository Harness Engineering](../ultimate-guide.md#925-repository-harness-engineering): project-level instructions, setup, state, and verification gates
 - [Machine-Readable References](../../machine-readable/README.md): release history, topic anchors, and normalized harness data
 
 ---
 
-*Last updated: August 2026. Claude Code implementation mapping checked through v2.1.250. Practitioner quotations checked against the yt-insights WebVTT corpus snapshot generated on 2026-08-25. Academic evidence checked against primary sources through 2026-08-28. arXiv 2605.18747 (Code as Agent Harness) is the primary code-centric survey; arXiv 2606.20683 supplies the six-responsibility runtime taxonomy.*
+*Last updated: September 26, 2026. Control testing and review-evaluation evidence were selectively updated; the product inventory was not re-audited. Claude Code implementation mapping checked through v2.1.250. Practitioner quotations checked against the yt-insights WebVTT corpus snapshot generated on 2026-08-25. Academic evidence checked against primary sources through 2026-08-28. arXiv 2605.18747 (Code as Agent Harness) is the primary code-centric survey; arXiv 2606.20683 supplies the six-responsibility runtime taxonomy.*

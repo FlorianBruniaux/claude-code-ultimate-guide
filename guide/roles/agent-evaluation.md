@@ -40,6 +40,8 @@ Use the [Agent Harness Map](../ecosystem/agent-harness-landscape.md) to determin
 
 Record the model, harness version, repository state, tool set, permissions, context policy, and budget for every comparison. A model-only label is not reproducible evidence. In [The Scaffold Effect](https://arxiv.org/abs/2607.22585), two models were each tested through three coding harnesses across 50 tasks. Harness choice changed token use per solved task by up to 40 times, while pass-rate differences stayed between 0 and 8 percentage points and were mostly not statistically significant.
 
+Keep token efficiency, billed cost and cost per accepted task separate. Count failed attempts in resource totals, identify the acceptance rule, and report human review and rework alongside inference. A smaller token total alone does not establish a cheaper accepted change.
+
 For optimizer or meta-harness experiments, split development and held-out tasks, cap search and execution budgets, retain every candidate version, and evaluate the selected candidate in a fresh environment. [HarnessOpt-Bench](https://arxiv.org/abs/2608.06301) applies these controls across 5 optimizer models, 4 tasks, and 111 scored runs. The [benchmark construction checklist](https://arxiv.org/abs/2507.02825) explains why task diversity, contamination checks, and independent scoring belong in the evaluation contract.
 
 For a multi-agent control plane, separate workflow correctness from task correctness. [Liza](https://github.com/liza-mas/liza) provides concrete orchestration signals such as lease recovery, forbidden state transitions, reviewer verdicts, worktree cleanup, and merge eligibility. Those tests show whether the control plane followed its contract. They do not show that the final patch satisfies the user's requirements, so pair them with repository tests, requirement-level review, intervention counts, recovery drills, and repeated real-ticket outcomes. The [Liza profile](../ecosystem/agentic-tools.md#48-liza) records the pinned evidence boundary.
@@ -62,7 +64,31 @@ Reviewer separation also needs its own experimental design. Compare at least sam
 
 For graph-based systems, add graph-level measures: graph and policy version, node and edge chosen, routing reason, state before and after, join wait, retry, interruption, resume point, reviewer provenance, human checkpoint latency, and verdict overturn. These fields let you distinguish a bad node result from a bad route, stale state, missing join, or incorrect acceptance decision.
 
+### Separate review uptake from correctness
+
+In [Building uReview, 05:11](https://www.youtube.com/watch?v=EL123UNokkI&t=311s), Uber's speakers describe tracking reply sentiment, then adding an address-rate signal. This is a practitioner account, not independent validation of reviewer accuracy.
+
+For your evaluation, record separately whether developers react, act on a finding, and produce a verified correction. Inspect unresolved findings and regressions introduced by accepted advice. Define each denominator and observation window: a popular comment, an edited line and a fixed defect measure different outcomes.
+
+### Freeze the Oracle and the Decision Rule
+
+Before exposing reviewer outputs, freeze the change set, inclusion policy, acceptance criteria and independently established reference defects. Keep candidate code and reviewer instructions from modifying the evaluator or its hidden cases. New valid findings can justify a versioned reference amendment; they must not silently rewrite an earlier result.
+
+[c-CRAB](https://arxiv.org/html/2603.23448v3) illustrates why the oracle needs inspection: many of its executable tests check code structure, and the score also depends on a repair agent. Document whether each local test checks behavior, a required interface or one preferred implementation. Include valid alternative repairs so a structural preference does not masquerade as the product requirement.
+
+Predeclare the smallest difference that would change the decision, the repeated-run design and the uncertainty calculation. Fifty independent tasks with one binary outcome each give two percentage points per outcome. Repeated attempts on one task do not create new independent tasks. Pair treatments on the same changes and retain that dependence in analysis. Failure to detect a difference does not establish equivalence; an interval too wide for the decision should remain inconclusive.
+
+Evaluate a component with and without the proposed addition under a declared budget policy. If removing a reviewer reallocates resources to another, record that as a different treatment from simply omitting the call. Inspect false acceptances, false rejections, introduced regressions and cost. Keep rare high-impact cases visible instead of letting frequent easy cases determine the policy alone.
+
 ---
+
+### Control the initial state and the human assessment
+
+A matching commit is insufficient if one run starts with different working-tree changes, fixtures, dependencies or relevant caches. Record the actual state and reset or declare these conditions. A pair with an unexplained mismatch is not a model or harness comparison. Keep teaching examples outside the reserved result set.
+
+Evaluate supervision separately with the [human exercise](../../examples/learning-project/review-comprehension-exercise.md). Record an initial judgment, response to a misleading recommendation, justified refusal and ability to resume a new task, with help received. Decision correctness, recovery, effort and satisfaction are separate outcomes. Simulated participants cannot supply those observations, and feasibility does not establish a durable learning benefit.
+
+When evaluating another reviewer, retain a baseline and a predeclared stopping rule. Track confirmed additional defects, harmful corrections and human triage cost. Different providers or fresh contexts do not alone establish informational independence.
 
 ## Metrics to Track
 
@@ -84,7 +110,7 @@ For graph-based systems, add graph-level measures: graph and policy version, nod
   "timestamp": "2026-02-10T14:32:00Z",
   "agent_id": "backend-architect",
   "task_completed": true,
-  "correctness_score": 4.5,  # User rating 1-5
+  "user_rating": 4.5,  # Experience rating, not an adjudicated correctness score
   "hallucinations": 0,
   "response_tokens": 1250
 }
@@ -276,7 +302,7 @@ instructions: |
 # - Issues found: 5 (2 additional critical issues)
 # - User rating: 5/5
 
-# Conclusion: Version 2 is more thorough and faster → promote to production
+# Illustrative observations only: adjudicate defects, check comparability and uncertainty before promotion
 ```
 
 **Pros**: Data-driven decisions, quantifiable improvements

@@ -92,6 +92,12 @@ python3 -m unittest scripts/test-check-distribution-channels.py
 
 The MCP package exposes the same registry as `claude-code-guide://distribution-channels`.
 
+### Harness controls and supervision
+
+- [Runnable control and recovery simulation](../examples/workflows/review-control-demo.py): 13 local tests, simulated destination, no live GitHub acceptance claim.
+- [Walkinglabs](../docs/resource-evaluations/learn-harness-engineering-2026.md) and [AutoHarness](../docs/resource-evaluations/autoharness-2026.md): inspected teaching and maintenance cases, with targeted failure evidence.
+- [Human oversight position paper](../docs/resource-evaluations/human-oversight-agents-2608-23642.md) and [bilingual infographics](../guide/images/harness-review/README.md): practices to evaluate, not observed local human outcomes.
+
 ### Agent harness landscape
 
 Use the human-readable pages according to the question being asked:
@@ -99,6 +105,7 @@ Use the human-readable pages according to the question being asked:
 | Need | Entry point |
 |---|---|
 | Runtime architecture, components, controls, Claude Code implementation, and optimizer evaluation protocol | [Agent Harness Engineering](../guide/core/agent-harness.md) |
+| Control tests, reviewer ablations, independent acceptance criteria and cost per accepted task | [Agent Evaluation](../guide/roles/agent-evaluation.md#freeze-the-oracle-and-the-decision-rule) and [source evaluation](../docs/resource-evaluations/harness-evidence-marmelab-2026.md) |
 | Loop contracts, graph contracts, judgment allocation, durability, observability, and control-structure selection | [Loop & Graph Engineering](../guide/core/loop-graph-engineering.md) |
 | Dated cross-product map, classification, selection, test-drive protocol, and meta-harness research layer | [Agent Harness Landscape](../guide/ecosystem/agent-harness-landscape.md) |
 | Detailed profiles of selected coding agents | [Agent Tools: Beyond Claude Code](../guide/ecosystem/agentic-tools.md) |

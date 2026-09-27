@@ -5088,7 +5088,7 @@ CLAUDE.md files are persistent instructions read at every session start. Three l
 
 **The anchoring risk**: stale CLAUDE.md entries bias every session toward outdated patterns. Treat pruning as maintenance. Structure around WHAT/WHY/HOW for larger projects.
 
-> **Full coverage**: See [Memory Systems: CLAUDE.md](./core/memory-systems.md#21-claudemd-three-levels) for the three-level hierarchy diagram, discoverability filter, ETH Zürich research findings (developer-written +4% vs LLM-generated -3%), and team sharing patterns.
+> **Full coverage**: See [Memory Systems: CLAUDE.md](./core/memory-systems.md#21-claudemd-three-levels) for the three-level hierarchy diagram, discoverability filter, context-file research, and team sharing patterns. For the experimental limits, see the [corrected source evaluation](../docs/resource-evaluations/agents-md-empirical-study-2602-11988.md).
 
 ### CLAUDE.md as Compounding Memory
 
@@ -17764,7 +17764,7 @@ You: "Implement the caching layer following the plan"
 
 Note: These are loaded **once at session start**, not per request. A 200-line CLAUDE.md costs ~2K tokens upfront but doesn't grow during the session. The concern is the cumulative effect when combined with multiple `@includes` and all files in `.claude/rules/`.
 
-> **Important**: Beyond file size, context files containing non-essential information (style guides, architecture descriptions, general conventions) add **+20-23% inference cost per session** regardless of line count, because agents process and act on every instruction. The same research confirms that LLM-generated context files reduce task success by ~3%, while developer-written files improve it by ~4%. ([Gloaguen et al., 2026](https://arxiv.org/abs/2602.11988))
+> **Research boundary**: [Gloaguen et al., section 4.2](https://arxiv.org/html/2602.11988v1) report average inference-cost increases of 20% and 23% for LLM-generated files on SWE-bench Lite and AGENTbench, respectively. Those are results for the tested configurations, not a surcharge for every instruction file. Cost, reasoning tokens and success rate are different measures.
 
 > **See also**: [Memory Loading Comparison](#memory-loading-comparison) for when each method loads.
 
@@ -17782,7 +17782,7 @@ Note: These are loaded **once at session start**, not per request. A 200-line CL
 - Split by concern: team rules in project CLAUDE.md, personal prefs in ~/.claude/CLAUDE.md
 ```
 
-> **Research note** (Gloaguen et al., ETH Zürich, Feb 2026, 138 benchmarks, 12 repos): The first empirical study on context files shows developer-written CLAUDE.md improves agent success rate by **+4%**, but LLM-generated files reduce it by **-3%**. Cause: agents faithfully follow all instructions, even those irrelevant to the task, leading to broader file exploration and longer reasoning chains. **Recommendation: include only build/test commands and project-specific tooling.** Style guides and architecture descriptions belong in separate docs. ([Full evaluation](../docs/resource-evaluations/agents-md-empirical-study-2602-11988.md))
+> **Research note**: Human-written context files had mixed benefits across agents in [Evaluating AGENTS.md](https://arxiv.org/html/2602.11988v1). The experiment does not establish a universal line limit or show that every generated file is harmful. Evaluate a shorter candidate against the existing file on representative tasks, retaining necessary project constraints. [Source evaluation](../docs/resource-evaluations/agents-md-empirical-study-2602-11988.md).
 
 **2. Use targeted file references:**
 
@@ -23389,10 +23389,13 @@ The promotion step stays manual by design: you decide what gets encoded. The pip
 
 ## 9.25 Repository Harness Engineering
 
+Structural inventory, execution and acceptance need different evidence. A synthetic Walkinglabs fixture scored 100/100 while its verification failed; see the [pinned evaluation](../docs/resource-evaluations/learn-harness-engineering-2026.md). The [local control exercise](../examples/workflows/review-control-demo.py) tests verdict handling, durable budgets and response loss against a simulated service. It does not prove a live merge gate. Use [Agent Harness Engineering](./core/agent-harness.md), [Loop & Graph Engineering](./core/loop-graph-engineering.md) and [Agent Evaluation](./roles/agent-evaluation.md) for the full contracts and comparison method.
+
+
 **Reading time**: 10 minutes
 **Skill level**: Month 2+
 
-> **The core insight**: model capability and execution reliability are orthogonal. The same model produces fundamentally different outcomes depending on the infrastructure around it, not the model's quality. In this section, that infrastructure is the **repository harness**: the project environment a runtime such as Claude Code operates inside.
+> **The core insight**: evaluate model capability together with the infrastructure that governs execution. A fixed model can behave differently when its context, tools or checks change; the effect depends on the task and budget. In this section, the **repository harness** is the project environment a runtime such as Claude Code operates inside.
 
 The vocabulary is deliberately layered: the **model** generates text; the **runtime harness** runs its tool loop, context, permissions, and sessions; this **repository harness** supplies project instructions, setup, state, and feedback; an **orchestrator** coordinates multiple runtime sessions. See [Agent Harness Engineering](./core/agent-harness.md#0-four-layers-four-responsibilities) for the full distinction and the [Agent Harness Landscape](./ecosystem/agent-harness-landscape.md) for the product landscape.
 
@@ -23414,9 +23417,9 @@ The most common failure modes map directly to missing subsystems. Agents that fo
 
 ### The Verification Gap
 
-The most dangerous failure mode in agentic workflows: the agent announces "done" while tests are still failing, types are broken, or the build doesn't compile. This is not a model quality issue; it is a harness design issue. Without an enforced verification step, the agent relies on code inspection rather than actual execution, and its confidence is uncalibrated.
+An agent can announce "done" while tests fail, types are broken or the build does not compile. The harness needs a completion boundary that checks execution evidence independently of that announcement. A model's confidence cannot establish that a command ran on the candidate revision.
 
-The fix is to make verification non-optional. Add a three-layer check before the agent can declare completion:
+Define checks appropriate to the repository. For a web application, the following illustrates three layers; use the project's actual commands and acceptance criteria:
 
 ```bash
 # Layer 1: Static analysis
@@ -23429,7 +23432,7 @@ npm test
 npm run e2e
 ```
 
-Encode this as a hard rule in CLAUDE.md:
+Document the contract in CLAUDE.md so the agent knows what evidence to produce:
 
 ```markdown
 ## Definition of Done
@@ -23442,13 +23445,17 @@ A feature is NOT done until all three layers pass:
 Do NOT commit or report completion before running all three.
 ```
 
-The third layer matters more than most teams expect. Unit tests pass when components work in isolation. End-to-end tests catch interface mismatches, state propagation errors, and lifecycle issues that unit tests structurally cannot detect. Agents that know E2E verification is enforced also tend to write better integration code, because they know it will be tested.
+The instruction describes expected behavior. Enforcement requires a controller or required CI check that blocks the relevant completion or merge transition when a required result is failing, missing, stale or uninterpretable. Bind the result to the candidate revision and keep policy outside the change being judged. A local hook covers only the actions and clients it actually intercepts.
+
+Test both decisions: a failing required check must block the transition, and a valid candidate with complete evidence must pass that policy step. Also exercise missing output and a result from an earlier revision. A policy that rejects everything can pass a negative-only test suite.
+
+End-to-end checks can expose navigation, configuration and integration failures absent from unit coverage. Anthropic's [long-running agent account](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) describes using browser checks after agents prematurely marked features complete. Treat that as a reported implementation experience, then retain your own reproducible scenario and result.
 
 ### WIP=1: One Feature at a Time
 
 When multiple features are in progress simultaneously, verification becomes ambiguous (which feature broke the tests?), progress tracking becomes noisy, and context fills faster with no clear completion signal. The agent distributes attention across the full task list instead of closing one thing.
 
-Enforce WIP=1 in your feature list: only one feature can be in `active` state at any time. The agent picks one, finishes it through all three verification layers, then picks the next. This constraint feels restrictive and produces measurably better completion rates.
+For a sequential feature workflow, WIP=1 is a useful starting policy: one feature enters `active`, completes its required checks and records its result before another starts. A controller must validate that transition if exclusivity matters. Measure completion and recovery locally; this guide does not establish a universal improvement rate from that policy.
 
 ### The Session Lifecycle
 
@@ -24053,7 +24060,7 @@ Notation: `<arg>` is required, `[arg]` is optional, aliases follow the command i
 | `/artifacts` | Browse, attach, or open accessible artifacts where the feature is available |
 | `/design [brief]` | Draft editable design artboards as an artifact on supported Anthropic sessions |
 | `/config [key=value ...]` (`/settings`) | Open the settings interface, or set a key directly: `/config theme=dark`. `/config --help` lists every settable key |
-| `/init` | Generate a starter `CLAUDE.md`. ⚠️ output is LLM-generated; review and prune before committing (ETH Zürich research shows auto-generated context files reduce agent task success by ~3% and add 20%+ inference cost). `CLAUDE_CODE_NEW_INIT=1` adds an interactive flow covering skills, hooks, personal memory |
+| `/init` | Generate a starter `CLAUDE.md`. Review the generated instructions and test their usefulness before committing; [context-file effects vary by configuration](../docs/resource-evaluations/agents-md-empirical-study-2602-11988.md). `CLAUDE_CODE_NEW_INIT=1` adds an interactive flow covering skills, hooks, personal memory |
 | `/hooks` | View hook configurations for tool events |
 | `/mcp [reconnect <server>\|enable\|disable [<server>\|all]]` | Manage MCP connections and OAuth. In `-p` mode, prints a text status summary |
 | `/plugin [subcommand]` | Manage plugins. Subcommands: `list`, `install`, `enable`, `disable` |

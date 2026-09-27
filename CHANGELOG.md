@@ -6,7 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- **Gemini infographic refresh**: add six reviewed FR/EN diagrams on evidence, acceptance and human oversight. Update embedded figures, accessible descriptions and full-size links. Reconcile the translation registry with the actual 13 bilingual whitepaper pairs; canonical guide provenance is refreshed from its committed source, without marking the French translation current.
+
 ### Documentation
+
+- **Harness corpus supplement (September 27, 2026)**: add three checked AI Engineer talks and three primary research preprints across six existing pages. Cover review constraints beyond functional tests, memory migration, behavioral checks of explanations, raw history versus compaction, actionable tool errors and review uptake versus correctness. Preserve experimental scope and distinguish practitioner reports from measured outcomes; add a resource evaluation and discovery anchors.
+
+- **Harness controls and human supervision (September 27, 2026)**: enrich eight existing pages with scoped Walkinglabs and AutoHarness counterexamples, reviewer ablations, recovery and human supervision practices. Add three source evaluations and three bilingual infographic topics. Correct UVAL cosmetic-edit advice, fatigue thresholds, survey scope and the nonbinding FDA guidance claim. Add a standard-library control simulation with 13 passing tests; remove the permissive GitHub review gate and update action inputs. Live GitHub acceptance, native client behavior and human learning outcomes remain unverified.
+
+- **Harness and review evidence (September 26, 2026)**: integrate Marmelab's control-testing recommendations and bounded primary-study evidence into the existing harness and evaluation pages. Correct the c-CRAB production-ceiling claim, distinguish instructions from executable acceptance gates, and qualify context-file cost claims. No local benchmark or recovery drill is claimed.
 
 - **Commands, cheatsheets, and model reference audit (September 24, 2026)**: aligned the current guidance with Opus 5.5, Sonnet 5, Haiku 4.5, and Fable 5.1, including provider-specific aliases, effort defaults and persistence, native 1M context, standard and fast-mode pricing. Corrected output styles, review commands, MCP debugging, background-agent shortcuts, TaskOutput removal, and per-teammate model selection. Updated English/French print sources, quiz answers, settings and API examples, and the machine-readable/MCP mirrors. Regenerated the MCP product manifest after the guide and index changes so its release contract remains current. Preserved historical model-specific evidence. Fixed fallback billing for current and older models and added a regression check. See the [audit record](docs/audits/2026-09-24-commands-models.md) for scope and validation limits.
 

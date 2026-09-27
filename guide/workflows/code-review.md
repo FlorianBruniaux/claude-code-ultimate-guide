@@ -150,6 +150,10 @@ For manual code review workflows (CLI, no Teams/Enterprise required):
 
 ---
 
+## A review informs the acceptance policy
+
+A posted review is evidence to qualify, not permission to merge. Confirm the reviewed revision, actual execution and covered scope, then apply the repository's required checks and authorized decision process. Preserve unresolved findings and disagreements when summarizing. The [multi-provider workflow](./multi-provider-code-review.md#blocking-merge-the-ci-gate) covers these boundaries and a local control exercise; it does not establish the managed service's runtime behavior.
+
 ## Known limitations (research preview)
 
 - Teams and Enterprise only, no Free/Pro access

@@ -37,6 +37,11 @@ Les documents de travail bruts (prompts Perplexity, audits clients) restent dans
 
 | Ressource | Score Initial | Score Final | Décision | Fichier |
 |-----------|---------------|-------------|----------|---------|
+| **Harness corpus supplement** (3 papers, 3 talks) | 3-4/5 | **3-4/5** | Selective additions: review constraints, memory migration, explanations, logs, tool recovery and review metrics | [harness-corpus-supplement-2026.md](./harness-corpus-supplement-2026.md) |
+| **Learn Harness Engineering** | 3/5 | **3/5** | Teaching cases with reproduced failure controls; no production scaffold endorsement | [learn-harness-engineering-2026.md](./learn-harness-engineering-2026.md) |
+| **AutoHarness** | 3/5 | **3/5** | Skill maintenance case with targeted counterexamples; no live benefit measurement | [autoharness-2026.md](./autoharness-2026.md) |
+| **AI Agents Push Humans Out of the Loop** | 4/5 | **4/5** | Position paper informs supervision exercises; no local human outcomes claimed | [human-oversight-agents-2608-23642.md](./human-oversight-agents-2608-23642.md) |
+| **Marmelab and harness evaluation evidence** | 4/5 | **4/5** | Selective integration: tested controls, reviewer ablations, evaluation limits and context-file corrections | [harness-evidence-marmelab-2026.md](./harness-evidence-marmelab-2026.md) |
 | **Jev / TypeSafe AI** (typed decisions) | 3/5 | **3/5** | Work in progress: API evidence, independent reports and experiment criteria; no production recommendation | [jev-typesafe-system-one.md](./jev-typesafe-system-one.md) |
 | **DarkMoon and Strix** (agentic pentesting) | 3/5 | **3/5** | Documented comparison and evidence requirements; no performance ranking or production endorsement | [darkmoon-strix-agentic-pentesting.md](./darkmoon-strix-agentic-pentesting.md) |
 | **Databricks: Managing AI Coding Costs at Scale** | 4/5 | **4/5** | ✅ Intégration sélective: routage à trois niveaux, budgets progressifs, cache et clarification meta-harness; chiffres internes non généralisés | [databricks-managing-ai-coding-costs-scale.md](./databricks-managing-ai-coding-costs-scale.md) |
@@ -108,4 +113,4 @@ Ressources surveillées mais pas encore intégrées : [watch-list.md](./watch-li
 
 ---
 
-**Last updated**: 2026-09-09 (184 Markdown files on disk, 62 indexed above; the disk/index gap is a known backlog awaiting a dedicated audit pass)
+**Last updated**: 2026-09-27 (192 Markdown files on disk, 69 indexed above; the disk/index gap remains a separate maintenance backlog)

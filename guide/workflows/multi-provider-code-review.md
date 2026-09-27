@@ -1,14 +1,14 @@
 ---
 title: "Multi-Provider Code Review: Non-Redundant Automated PR Review"
-description: "Run Claude Code Action alongside CodeRabbit and Greptile without triplicate findings: role separation, a blocking CI gate, batching for large PRs, and cross-tool deduplication"
+description: "Run Claude Code Action alongside CodeRabbit and Greptile without triplicate findings: role separation, an explicit acceptance policy, batching for large PRs, and cross-tool deduplication"
 tags: [workflow, ci-cd, code-review, github-actions, coderabbit, greptile]
 ---
 
 # Multi-Provider Code Review: Non-Redundant Automated PR Review
 
-> **Evidence boundary**: this is a design pattern informed by project configuration, not a validated end-to-end deployment contract. Inspect effective provider execution, permissions, output handling and branch policy in your repository. Severity thresholds, domain names and file-count cutoffs are illustrative starting points; the gate example has unresolved limits documented below.
+> **Evidence boundary**: this is a design pattern informed by project configuration, not a validated end-to-end deployment contract. Inspect effective provider execution, permissions, output handling and branch policy in your repository. Severity thresholds, domain names and file-count cutoffs are illustrative starting points; the advisory workflow and control simulation have distinct limits documented below.
 
-Running two or three automated reviewers on the same PR without a plan produces the same finding three times in three different comment styles, which trains developers to skim past all of them. The fix is not picking one tool over the others, it's giving each tool a job the other two don't do, and writing that boundary down where every config file can see it.
+Overlapping reviewers can duplicate findings and increase triage work. Compare one reviewer against the additional role on reserved tasks, including false positives and harmful corrections. Write down each retained role and its authority after that comparison.
 
 This page separates semantic review, executable checks and cross-file investigation. Claude Code Action, CodeRabbit and Greptile can contribute to these roles, but a provider name does not establish deterministic behavior or merge authority. Assign required checks through repository policy. The [GitHub Actions Workflows](./github-actions.md) and [templates](../../examples/github-actions/) provide implementation examples with limits described below. [Loop & Graph Engineering](../core/loop-graph-engineering.md#5-allocate-judgment-explicitly) explains acceptance authority and reviewer independence.
 
@@ -16,7 +16,7 @@ This page separates semantic review, executable checks and cross-file investigat
 
 ## Table of Contents
 
-1. [Why Three Providers, Not One](#why-three-providers-not-one)
+1. [When Another Reviewer Earns Its Place](#when-another-reviewer-earns-its-place)
 2. [Role Separation](#role-separation)
 3. [The Non-Duplication Rule](#the-non-duplication-rule)
 4. [Blocking Merge: the CI Gate](#blocking-merge-the-ci-gate)
@@ -30,7 +30,7 @@ This page separates semantic review, executable checks and cross-file investigat
 
 ---
 
-## Why Three Providers, Not One
+## When Another Reviewer Earns Its Place
 
 A different tool can expose a blind spot, but additional coverage must be measured. Repository search can help investigate callers outside the diff. Executable lint rules and tests provide repeatable checks for specified properties; they can still miss cases outside their model, scope or implementation. An AI reviewer emitting PASS/FAIL is not thereby deterministic. In particular, do not assume that CodeRabbit custom checks have the same guarantees as a compiler or a tested lint rule.
 
@@ -42,14 +42,18 @@ Stacking overlapping tools can increase duplicate findings without enough additi
 
 | Provider | Job | Can it block merge? | Why this job fits this tool |
 |----------|-----|---------------------|------------------------------|
-| **Claude Code Action** | Deep semantic review: logic errors, security (IDOR, auth, injection), architecture violations, data integrity | Yes, via the [CI gate](#blocking-merge-the-ci-gate) | Full codebase context per PR, reasons about intent, not just pattern-matches |
+| **Claude Code Action** | Deep semantic review: logic errors, security (IDOR, auth, injection), architecture violations, data integrity | Only through verified execution and an explicit repository acceptance policy | Can inspect the repository context made available by the workflow |
 | **CodeRabbit** (or equivalent) | PR summaries and configured review checks | Only through an explicit required-check policy with verified execution and output handling | Evaluate each check's actual mechanism and error behavior; binary output is not a reliability guarantee |
 | **Executable lint rules and tests** | Specified syntax, type and behavior constraints | Yes, where repository policy requires them | Repeatable within their inputs and environment; coverage and test quality limit detection |
-| **Greptile** (or equivalent) | Cross-file invariants: dependency chains, "does every caller of X respect rule Y," patterns that repeat across distant files | No | RAG-indexed search across the whole repo, not scoped to the diff |
+| **Greptile** (or equivalent) | Cross-file invariants: dependency chains, "does every caller of X respect rule Y," patterns that repeat across distant files | Only through verified execution and an explicit repository acceptance policy | Can investigate indexed callers outside the diff; inspect index coverage and freshness |
 
 Adjust the "job" column to your stack, not the principle. If your deterministic-check tool is something else (a custom lint rule, a separate CI job, Semgrep), the role still belongs in that column, not duplicated into the LLM reviewer's prompt.
 
 ---
+
+### Practitioner example: uReview
+
+[Uber's uReview talk, 07:03](https://www.youtube.com/watch?v=EL123UNokkI&t=423s), describes team customization and separate single-file and multi-file reviewers under time constraints. The talk does not establish an optimal reviewer count. Test whether each role contributes unique confirmed findings; [track uptake separately from correctness](../roles/agent-evaluation.md#separate-review-uptake-from-correctness).
 
 ### Separate discovery from verification evidence
 
@@ -63,7 +67,7 @@ This is a practitioner method, not proof that a second model makes a finding cor
 
 Write the boundary into every config file, not just into a wiki page nobody reads mid-review-setup. Concretely:
 
-- `.github/prompts/code-review.md` (Claude): a one-line header noting it owns deep semantic review and the merge gate, not style nits already caught by a linter.
+- `.github/prompts/code-review.md` (Claude): a one-line header noting it supplies semantic review evidence to the acceptance policy, not style nits already caught by a linter.
 - `.coderabbit.yaml` (or equivalent): a comment at the top stating it should not duplicate the LLM reviewer or the RAG tool. See the [template in this repo](../../examples/github-actions/.coderabbit.yaml).
 - `.greptile/rules.md` (or equivalent): same non-duplication note, explicit about which invariants live here because they require cross-file search, not because they were easiest to write down. See the [template](../../examples/github-actions/.greptile/rules.md).
 
@@ -75,7 +79,7 @@ Assign an owner to each rule and distinguish intentional defense in depth from d
 
 An automated comment does not establish merge authority. A required check or required approving review must be part of the effective repository policy. Parsing a severity count is one input to a check; it is not a sufficient acceptance contract.
 
-**Template limitation:** the [`gate` example](../../examples/github-actions/claude-code-review.yml) selects the last returned review without establishing its provider, current commit or run identity, and treats an absent severity match as zero. It also skips the gate after an unsuccessful review job. Do not use that example as a required acceptance gate without replacing these behaviors and testing failure cases. A passing or skipped job can otherwise conceal missing review evidence.
+**Template boundary:** [`claude-code-review.yml`](../../examples/github-actions/claude-code-review.yml) is advisory. Its former severity-parser gate selected an unbound latest review, interpreted a missing heading as zero and skipped after producer failure; that gate has been removed. Do not use a successful advisory job as an acceptance verdict. The local exercise below is a separate controller simulation, not a replacement GitHub receipt adapter. The workflow's live provider execution and configured tool availability still need qualification in the target repository.
 
 An acceptance gate needs:
 
@@ -88,6 +92,12 @@ Record the base, merge base, tested integration revision and exact PR revisions 
 Human deep review can be selective under a documented policy, with sensitive paths assigned to an owner. Before relying on recoverability, exercise detection, containment and restoration after an incorrectly accepted change. Resuming the reviewer process does not restore application data or compensate external effects.
 
 ---
+
+### Exercise the consumer and the recovery path
+
+Run the [local control exercise](../../examples/workflows/review-control-demo.py) from the repository root with `python3 examples/workflows/review-control-demo.py`. It tests a permitted result, explicit refusal, `not approved`, missing or stale evidence, unknown producer, changed revision, durable budget and response loss. The effect service is simulated; this is not a live GitHub integration test.
+
+Treat verification capacity as an admission condition, using the [worksheet](../../examples/workflows/review-admission.md). A deferred task needs a responsible owner and a route back into review. The decision dossier keeps the current revision, evidence, disagreement and unresolved questions visible.
 
 ## Scaling to Large PRs: Batching
 
@@ -109,7 +119,9 @@ A marker is only a locator, not authenticated evidence. Validate its publisher a
 
 ## Cross-Tool Deduplication
 
-When two or three bots comment on the same PR, the LLM reviewer can read what the others already posted before writing its own findings, and skip anything already flagged. This is what the `multi-reviewer-synthesis` job in [`claude-code-review.yml`](../../examples/github-actions/claude-code-review.yml) does after the fact (waits for external bots, then synthesizes consensus vs. unique catches). For tighter coupling, the same `mcp__github__list_pull_request_files`-style read access lets Claude's own review step check existing PR comments before posting, and explicitly note "already flagged by CodeRabbit" instead of repeating the finding under a different wording.
+Preserve independent observations before combining findings. The optional synthesis job reads prior reviews after they have been produced; that is different from conditioning a reviewer on another review before its initial verdict. If the latter is used, declare it as a treatment and do not call the resulting observations independent.
+
+Keep disagreements and the evidence behind unique findings. Count corrections that introduce regressions, together with false positives, rescued defects and triage effort. Another provider earns its place only when a comparison against the baseline supports its marginal value under the declared budget.
 
 ---
 
@@ -123,7 +135,7 @@ The practical cost: a file-exclusion list (lockfiles, generated code, migrations
 
 ## Interactive Companions vs. CI
 
-Everything above runs unattended in CI. A separate, complementary layer is a handful of local Claude Code skills a developer runs by hand during active work: a quick check of the current PR's CI/review/preview status, a pull of everything posted since the last push across every bot and human reviewer, and a periodic retrospective audit across the last N PRs to spot findings bots keep flagging that no rule file covers yet. These are developer-convenience tools, not part of the CI pipeline, worth building as project-local skills once the CI-side architecture above is stable, not before.
+The workflow templates target CI; the local simulation and admission worksheet serve different purposes. A separate, complementary layer is a handful of local Claude Code skills a developer runs by hand during active work: a quick check of the current PR's CI/review/preview status, a pull of everything posted since the last push across every bot and human reviewer, and a periodic retrospective audit across the last N PRs to spot findings bots keep flagging that no rule file covers yet. These are developer-convenience tools, not part of the CI pipeline, worth building as project-local skills once the CI-side architecture above is stable, not before.
 
 ---
 
@@ -131,10 +143,10 @@ Everything above runs unattended in CI. A separate, complementary layer is a han
 
 1. Copy `claude-code-review.yml` + `prompts/code-review.md` (see [GitHub Actions Workflows](./github-actions.md) for the base setup)
 2. Fill in the prompt's stack context and a severity calibration table matched to your product's actual risk profile, not a generic OWASP list
-3. Replace the illustrative gate's evidence handling, exercise stale/missing/malformed/failed results, then configure and inspect the effective required-check policy
+3. Implement and qualify a separate receipt adapter and acceptance check; exercise stale/missing/malformed/failed results before configuring the required-check policy
 4. If your PRs regularly exceed ~50-75 files, add `claude-code-review-batched.yml` and tune the domain globs
 5. Assign repeatable invariants to executable lint rules or tests; evaluate AI review checks separately and document which results can block
-6. If you have budget for a cross-file RAG reviewer, add it (Greptile or equivalent) and scope its rulebook to invariants that genuinely need repo-wide search
+6. Compare a cross-file reviewer against the baseline on reserved cases; add it only if its confirmed contribution justifies errors, triage and cost
 7. Schedule a periodic pass comparing all provider configs against each other for rule drift
 
 ---
