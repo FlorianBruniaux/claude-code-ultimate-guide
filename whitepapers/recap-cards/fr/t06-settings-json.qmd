@@ -4,10 +4,11 @@ subtitle: "Toutes les clés de configuration et leur portée"
 card-number: "T06"
 category: "Technique"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "Août 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -24,7 +25,7 @@ format:
 .claude/settings.local.json     (machine locale, gitignore)
 ```
 
-`settings.local.json` prend toujours le dessus. C'est l'endroit idéal pour les overrides personnels sans créer de conflits Git.
+Les réglages locaux du projet prennent le dessus sur ceux du projet et de l’utilisateur. Les arguments CLI et la politique administrée sont prioritaires. Utilisez les réglages locaux pour vos ajustements personnels sans conflit Git.
 
 ## Structure complète
 
@@ -33,7 +34,7 @@ format:
   "model": "claude-sonnet-5",
   "permissions": {
     "allow": ["Bash(git *)", "Bash(pnpm *)", "Read"],
-    "deny":  ["Bash(rm -rf *)", "Write(file_path:*.env*)"],
+    "deny":  ["Bash(rm -rf *)", "Write(*.env*)"],
     "ask":   ["Bash(npm publish)"],
     "defaultMode": "acceptEdits",
     "additionalDirectories": ["../shared-libs/"]
@@ -65,12 +66,12 @@ format:
 | `permissions.allow` | Outils auto-approuvés |
 | `permissions.deny` | Outils bloqués |
 | `permissions.ask` | Outils avec confirmation |
-| `permissions.defaultMode` | Mode par défaut (default/acceptEdits/plan/bypassPermissions) |
-| `permissions.additionalDirectories` | Répertoires additionnels accessibles |
+| `permissions.defaultMode` | Mode par défaut (default/acceptEdits/plan/auto/dontAsk/bypassPermissions) |
+| `permissions` → `additionalDirectories` | Répertoires additionnels accessibles |
 | `env` | Variables d'environnement injectées |
 | `hooks` | Scripts déclenchés sur événements |
 | `statusLine` | Ligne de statut personnalisée |
-| `outputStyle` | Style de communication (Default/Explanatory/Learning) |
+| `outputStyle` | Style de communication (Default/Proactive/Concise/Explanatory/Learning) |
 | `spinnerVerbs` | Mots dans le spinner de chargement |
 | `spinnerTipsOverride` | Conseils affichés pendant le traitement |
 | `enableAllProjectMcpServers` | Active tous les serveurs MCP du projet |
@@ -96,7 +97,7 @@ format:
 
 ```gitignore
 .claude/settings.local.json   # Overrides machine locale
-.claude/CLAUDE.md             # Instructions personnelles
+CLAUDE.local.md              # Instructions personnelles du projet
 .env.local                    # Secrets
 ```
 

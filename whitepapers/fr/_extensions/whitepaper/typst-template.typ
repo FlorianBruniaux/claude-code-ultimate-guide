@@ -84,7 +84,7 @@
   paper: "a4",
   lang: "fr",
   region: "FR",
-  font: ("Helvetica Neue", "Helvetica", "Arial"),
+  font: ("Inter", "Helvetica Neue", "Helvetica", "Arial"),
   fontsize: 11pt,
   sectionnumbering: "1.1",
   toc: true,
@@ -318,17 +318,15 @@
       radius: 6pt,
       stroke: (left: 3pt + accent),
       width: 100%,
-      breakable: false,
+      breakable: true,
       it
     )
   }
 
   // Inline code styling
   show raw.where(block: false): it => {
-    box(
+    highlight(
       fill: light-bg,
-      inset: (x: 5pt, y: 2pt),
-      radius: 3pt,
       text(
         size: 0.9em,
         font: ("JetBrains Mono", "Fira Code", "SF Mono", "Consolas", "monospace"),
@@ -351,11 +349,14 @@
       else if calc.odd(y) { white }
       else { light-bg.lighten(60%) }
     },
-    inset: 10pt,
+    inset: 7pt,
   )
 
   // Allow tables to break across pages (prevents blank pages before large tables)
-  show table: it => block(breakable: true, it)
+  show table: it => {
+    set text(size: 9pt)
+    block(breakable: true, it)
+  }
 
   // Table header styling
   show table.cell.where(y: 0): set text(weight: "semibold", fill: primary)

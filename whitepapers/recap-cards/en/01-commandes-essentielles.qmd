@@ -4,10 +4,11 @@ subtitle: "Keyboard shortcuts & indispensable slash commands"
 card-number: "T01"
 category: "Technical"
 guide-version: "3.43.0"
+wp-version: "1.0.1"
 difficulty: "beginner"
 author: "Florian BRUNIAUX"
 version: "3.43.0"
-date: "2026-09-24"
+date: "2026-09-26"
 layout: "two-col"
 lang: en
 format:
@@ -36,7 +37,8 @@ format:
 /compact        Compress history
 /model          Choose model; Enter saves, s applies once
 /cost           View session costs
-/status         Context status
+/status         Account and active settings sources
+/context        Context usage breakdown
 ```
 
 ## Permission Modes
@@ -44,7 +46,7 @@ format:
 ```
 claude                    Interactive mode (default)
 claude --dangerously-skip-permissions
-                          Full bypass (CI/CD)
+                          Bypass permission prompts; requires isolation
 claude --allowedTools "Edit,Read,Bash"
                           Pre-approve tools; --tools restricts availability
 ```

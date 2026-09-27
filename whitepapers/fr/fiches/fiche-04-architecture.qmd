@@ -1,0 +1,24 @@
+{{< pagebreak >}}
+
+## Fiche Récap : Architecture Interne
+
+```{=typst}
+#fiche-recap(
+  title: "Architecture Interne",
+  subtitle: "Master loop, outils, budget contexte",
+  wp-number: "04",
+  points: (
+    "#strong[Boucle agentique] : le modèle choisit une action, les outils l’exécutent, le résultat alimente le tour suivant ; des sous-agents peuvent travailler en parallèle.",
+    "#strong[Outils] : Read, Write, Edit, Bash, Glob, Grep, WebFetch, WebSearch et Agent ; leur disponibilité dépend des permissions et de la configuration.",
+    "#strong[Contexte selon modèle] : 1M sur les modèles adaptatifs actuels couverts par le guide, 200K sur Haiku 4.5. /context permet d’inspecter la consommation.",
+    "La #strong[persistance] comprend instructions, transcriptions reprenables et auto-memory locale activée par défaut. Inspecter les notes avec /memory.",
+    "Les #strong[sub-agents] (outil Agent) permettent la parallélisation : chaque agent a son propre contexte isolé.",
+  ),
+  actions: (
+    "Vérifier votre usage contexte avec /context en cours de session",
+    "Tester un sub-agent sur une tâche parallélisable (analyse de plusieurs fichiers)",
+    "Identifier les commandes bash qui consomment beaucoup de tokens dans vos workflows",
+    "Surveiller /context et sauvegarder les décisions avant compaction ou passation",
+  ),
+)
+```

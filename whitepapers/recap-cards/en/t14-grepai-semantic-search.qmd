@@ -4,10 +4,11 @@ subtitle: "Finding code by intent, not by regex"
 card-number: "T14"
 category: "Technical"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: en
 format:
@@ -16,9 +17,9 @@ format:
 
 ## Principle: search by intent
 
-Native Grep (ripgrep) is ideal when you know the exact text to find. Grepai takes over when you are looking for "the code that handles X" without knowing the exact function or variable names. It relies on local embeddings via Ollama and the `nomic-embed-text` model, which guarantees full privacy: no data leaves the machine.
+Native Grep (ripgrep) is ideal when you know the exact text to find. Grepai takes over when you are looking for "the code that handles X" without knowing the exact function or variable names. It relies on local embeddings via Ollama and the `nomic-embed-text` model, which keeps that indexing step local. Search results returned to Claude can still enter the configured model provider's context.
 
-**Token savings**: ~4K tokens with grepai vs ~15K doing raw grep + reading full files.
+**Measure value**: compare retrieval accuracy, returned context size and accepted-task cost on representative searches.
 
 ## The 5 main tools
 
@@ -58,8 +59,8 @@ Recommended depth: 2 by default, 3 at most for complex analyses.
 
 | Situation | Recommended tool |
 |-----------|-----------------|
-| Exact pattern known (`"authenticate"`) | Native Grep (~20ms) |
-| Search by concept or intent | Grepai (~500ms) |
+| Exact pattern known (`"authenticate"`) | Native Grep |
+| Search by concept or intent | Grepai |
 | Call graph analysis | Grepai (`trace_callers`) |
 | Multi-file refactoring | Grepai + Serena |
 | Advanced regex on AST structure | ast-grep |

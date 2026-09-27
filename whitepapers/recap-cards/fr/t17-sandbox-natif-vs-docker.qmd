@@ -4,87 +4,59 @@ subtitle: "Choisir le bon niveau d'isolation selon le contexte"
 card-number: "T17"
 category: "Technique"
 difficulty: "advanced"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "Août 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
   recap-card-typst: default
 ---
 
-## Deux approches d'isolation locale
+## Comparer les limites réelles
 
-Claude Code propose deux mécanismes d'isolation pour l'exécution autonome. Le sandbox natif est intégré au CLI et s'appuie sur les primitives OS. Docker Sandboxes (Docker Desktop 4.58+) utilisent une isolation microVM via hyperviseur, plus robuste mais plus lourde.
+Le sandbox Bash natif de Claude Code utilise l'isolation des processus du système d'exploitation. Docker Sandboxes fournit un environnement distinct pour l'agent, avec des options microVM locales et cloud. Sa documentation actuelle utilise la CLI `sbx` ; vérifier installation et plateformes avant de reprendre d'anciens exemples `docker sandbox`.
 
-## Tableau comparatif
+| Aspect | Sandbox Claude natif | Docker Sandboxes |
+|--------|-----------------------|------------------|
+| Limite | Isolation de processus par l'OS | Environnement sandbox séparé |
+| Noyau | Partagé avec l'hôte | Noyau séparé dans la microVM locale |
+| Installation | `/sandbox` ; dépendances sur Linux | Installer et configurer `sbx` |
+| Espace de travail | Répertoire actuel et ajouts explicites | Montages et synchronisation configurés |
+| Réseau | Politique de domaines et permissions | Politique réseau du sandbox |
+| Coût et performances | Mesurer vos commandes | Mesurer séparément calcul et usage des modèles |
 
-| Aspect | Sandbox natif | Docker Sandboxes | Aucun |
-|--------|--------------|------------------|-------|
-| **Isolation** | Process (Seatbelt/bubblewrap) | microVM (hyperviseur) | Aucune |
-| **Noyau** | Partagé avec l'hôte | Noyau séparé par sandbox | Partagé |
-| **Setup** | 0 dépendances (macOS), 2 paquets (Linux) | Docker Desktop 4.58+ | Aucun |
-| **Overhead** | ~1-3% CPU | ~5-10% CPU, +200MB RAM | Zéro |
-| **Docker-in-Docker** | Non supporté | Daemon Docker privé inclus | Non |
-| **Plateforme** | macOS, Linux, WSL2 | macOS, Windows | Tous |
+## Sandbox natif
 
-## Sandbox natif : le choix du quotidien
+macOS utilise Seatbelt ; Linux et WSL2 utilisent bubblewrap et socat. Windows natif et WSL1 ne sont pas pris en charge par le sandbox natif de Claude Code.
 
-Le sandbox natif convient à la grande majorité des sessions de développement avec du code de confiance. Il démarre instantanément, n'exige pas Docker Desktop, et son overhead est négligeable. La limitation principale est le noyau partagé : une exploit kernel permettrait théoriquement de sortir du sandbox, ce qui ne s'applique pas aux microVMs.
-
-**Activer** :
-
-```bash
-/sandbox   # menu interactif dans Claude Code
-
-# Linux/WSL2 : prérequis
-sudo apt-get install bubblewrap socat
+```text
+/sandbox
 ```
 
-## Docker Sandboxes : isolation maximale
+En mode de permissions normal, les règles existantes restent applicables. Auto-allow réduit les demandes pour les commandes sandboxées, avec des exceptions documentées. Inspecter la politique de reprise hors sandbox avant de compter sur l'isolation.
 
-Docker Sandboxes font tourner Claude Code dans une microVM avec un daemon Docker privé. Chaque sandbox est éphémère et n'apparaît pas dans `docker ps`. Les modifications dans le sandbox se propagent vers l'hôte, mais les accès réseau et système restent confinés.
+## Docker Sandboxes
 
-```bash
-# Démarrer une session sandboxée
-docker sandbox run claude ~/mon-projet
+Consulter la [documentation Docker Sandboxes](https://docs.docker.com/ai/sandboxes/) actuelle pour `sbx`, les plateformes, les différences local/cloud, l'accès matériel et le comportement du workspace. Une ancienne version de Docker Desktop ou un tableau historique ne décrit pas nécessairement la version installée.
 
-# Avec mode autonome (safe dans une microVM)
-docker sandbox run claude ~/mon-projet -- --dangerously-skip-permissions
-```
+Une microVM ajoute une frontière de noyau sans garantir l'immunité aux évasions, à l'abus d'identifiants ou aux dégâts dans les espaces montés. Contourner les demandes de permission de l'agent exige toujours de limiter explicitement les données et services externes accessibles.
 
-## Arbre de décision
+## Choisir un environnement
 
-```
-Code de l'équipe, environnement de confiance
-  → Sandbox natif (léger, zéro config)
-
-Code non fiable ou scripts générés par IA
-  → Docker Sandboxes (isolation kernel)
-
-Besoin de Docker dans le sandbox
-  → Docker Sandboxes (seule option)
-
-CI/CD avec charges sensibles
-  → Docker Sandboxes ou cloud sandboxes
-
-Multi-agent en parallèle, cloud
-  → Fly.io Sprites, E2B, Vercel Sandboxes
-```
-
-## Limitations à connaître
-
-**Sandbox natif** : noyau partagé avec l'hôte (exposition aux exploits kernel), risque de domain fronting via CDNs, Unix sockets potentiellement dangereux si mal configurés.
-
-**Docker Sandboxes** : nécessite Docker Desktop (pas Docker Engine seul), pas de GPU passthrough, sync workspace unidirectionnel (sandbox vers hôte). Disponible sur macOS et Windows ; Linux utilise une isolation container plus ancienne.
-
-**Plateforme** : le sandbox natif ne tourne pas sur Windows natif pour l'instant. WSL2 est supporté, WSL1 non.
+- Utiliser le sandbox natif si les accès requis entrent dans ses contrôles de fichiers et de réseau.
+- Évaluer un sandbox distinct pour une séparation plus forte ou des services propres à la tâche.
+- Avant de donner de l'autonomie, vérifier identifiants, montages, réseau, budget et reprise après échec.
+- Mesurer surcharge et résultats des tâches terminées, sans supposer de pourcentages universels de CPU ou de mémoire.
 
 ## Runtime open-source
 
-Le runtime sandbox d'Anthropic est publié en open-source et peut sandbox n'importe quelle commande, pas seulement Claude Code.
+Anthropic publie aussi un runtime sandbox capable d'encadrer d'autres commandes :
 
 ```bash
 npx @anthropic-ai/sandbox-runtime node mcp-server.js
 ```
+
+Source : [Sandboxing Claude Code](https://code.claude.com/docs/en/sandboxing).

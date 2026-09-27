@@ -4,10 +4,11 @@ subtitle: "Structured approach to diagnosing and resolving errors"
 card-number: "M21"
 category: "Methodology"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: en
 format:
@@ -69,12 +70,12 @@ This prompt forces Claude to expose its reasoning, allowing you to validate or c
 A single agent suits bugs localized to 1 to 3 files. For problems that cross multiple interconnected components (a network bug affecting auth affecting the database), delegating exploration to a sub-agent via the Agent tool (formerly Task) preserves the main context.
 
 ```
-Main agent  →  Task("Explore auth flow from request to DB")
+Main agent  →  Agent: explore auth flow from request to DB
                 └─ Sub-agent explores and returns a summary
 Main agent receives the summary (not the raw context)
 ```
 
-Sub-agent errors do not pollute the main agent's context.
+A sub-agent returns a smaller summary, but errors in that summary can still influence the main agent. Verify consequential findings.
 
 ## Warning signals during debugging
 
@@ -87,4 +88,4 @@ Sub-agent errors do not pollute the main agent's context.
 
 ## Resetting the context
 
-After 15 to 25 conversation turns, Claude can lose sight of constraints stated at session start. If debugging drags on, use `/compact` to summarize the history or `/clear` to restart with a clean context containing only the essential elements.
+Long or irrelevant context can make important constraints harder to apply; there is no fixed turn count that predicts this. If debugging drags on, use `/compact` to summarize the history or `/clear` to restart with a clean context containing only the essential elements.

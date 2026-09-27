@@ -4,10 +4,11 @@ subtitle: "Le protocole d'extension et les serveurs essentiels"
 card-number: "T12"
 category: "Technique"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -18,7 +19,7 @@ format:
 
 MCP (Model Context Protocol) est le standard ouvert qui permet à Claude Code de se connecter à des outils externes via un protocole JSON-RPC 2.0. Chaque MCP server expose des outils supplémentaires, nommés selon la convention `mcp__<server>__<tool>`. Claude les utilise exactement comme ses outils natifs, avec le même système de permissions.
 
-**Architecture de base** : Claude Code (client) communique avec le MCP server via stdio ou HTTP. Le server démarre au premier usage et reste actif pendant toute la session.
+**Architecture de base** : Claude Code communique avec le serveur MCP via stdio ou HTTP. Connexion et reconnexion dépendent du type de serveur, du runtime et de la configuration ; `/mcp` affiche l’état actuel.
 
 ## Serveurs les plus utilisés
 
@@ -31,9 +32,9 @@ MCP (Model Context Protocol) est le standard ouvert qui permet à Claude Code de
 | **Playwright** | Automatisation browser, tests E2E |
 | **GitHub** | Issues, PRs, repositories |
 
-## Configuration dans settings.json
+## Portées de configuration MCP
 
-Les MCP servers se déclarent dans `~/.claude/settings.json` (global) ou `.claude/settings.json` (projet).
+Utiliser `claude mcp add` avec la portée souhaitée. Les serveurs du projet résident dans `.mcp.json` ; les configurations utilisateur et locales dans `~/.claude.json`.
 
 ```json
 {
@@ -44,19 +45,18 @@ Les MCP servers se déclarent dans `~/.claude/settings.json` (global) ou `.claud
       "env": {}
     },
     "github": {
-      "command": "npx",
-      "args": ["@github/mcp-server"],
-      "env": {
-        "GITHUB_TOKEN": "${GITHUB_TOKEN}"
-      }
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/"
     }
   }
 }
 ```
 
+Authentifier le serveur distant GitHub via `/mcp` avant usage ; les politiques du compte ou de l’organisation peuvent restreindre l’accès.
+
 ## Transport : local (stdio) vs distant (HTTP)
 
-**stdio (local)** : le server tourne en tant que processus enfant sur la machine. Aucune exposition réseau, idéal pour les outils locaux comme grepai (Ollama) ou Serena.
+**stdio (local)** : le serveur tourne comme processus enfant sur la machine. Il peut émettre des requêtes réseau ; examiner son code et ses permissions.
 
 **HTTP/SSE (distant)** : le server est accessible via une URL. Utilisé pour les services hébergés comme Figma MCP (`https://mcp.figma.com/mcp`) ou des serveurs d'équipe partagés.
 
@@ -64,7 +64,7 @@ Les MCP servers se déclarent dans `~/.claude/settings.json` (global) ou `.claud
 {
   "mcpServers": {
     "figma": {
-      "transport": "http",
+      "type": "http",
       "url": "https://mcp.figma.com/mcp"
     }
   }
@@ -99,4 +99,4 @@ Par défaut, les outils MCP sont chargés en différé (via `ToolSearch`). Pour 
 
 Un MCP server n'accède pas à l'historique de la conversation, il ne voit que les paramètres passés lors de l'appel. Chaque appel est indépendant sauf si le server implémente lui-même un cache. Il ne peut pas non plus modifier le system prompt de Claude ni bypasser le système de permissions.
 
-**Coût tokens** : chaque server chargé ajoute environ 2K tokens d'overhead par session (définitions des outils). Charger uniquement ce qui est nécessaire pour le projet en cours.
+**Coût tokens** : le volume des définitions d’outils varie selon les schémas et leur chargement différé. Charger uniquement ce qui est utile au projet actuel.

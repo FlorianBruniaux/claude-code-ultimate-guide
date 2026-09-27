@@ -4,10 +4,11 @@ subtitle: "Choosing the right extension mechanism for the task"
 card-number: "C04"
 category: "Design"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "August 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: en
 format:
@@ -23,7 +24,7 @@ format:
 | **Plugin** | Marketplace | Global | Yes | Third-party integration |
 | **Agent** | Autonomous specialist | Agent tool | Via memory | Complex delegation |
 
-> **CC 2.1.3**: `.claude/commands/` is merged into `.claude/skills/`. Add `disable-model-invocation: true` for user-triggered-only skills.
+> **CC 2.1.3**: Custom commands and skills share invocation behavior. Existing `.claude/commands/*.md` files remain supported. Add `disable-model-invocation: true` for user-triggered-only skills.
 
 ## User-Invocable Skills (formerly "Commands")
 
@@ -47,7 +48,7 @@ disable-model-invocation: true
 
 ## Model-Invocable Skills
 
-A skill without `disable-model-invocation` is loaded automatically by the model when the description matches the context.
+A skill without `disable-model-invocation` may be invoked by the model when its description fits the task.
 
 ```yaml
 # .claude/skills/security-guardian/SKILL.md
@@ -63,7 +64,7 @@ Analyze code for OWASP Top 10 vulnerabilities...
 
 ## Plugins: Third-Party Integrations
 
-Plugins come from the marketplace and add external capabilities. Install via `/plugin marketplace add`.
+Plugins come from the marketplace and add external capabilities. Add a catalog with `/plugin marketplace add <source>`, then install a selected plugin with `/plugin install <name>@<marketplace>`.
 
 **When to choose:** An existing third-party integration covers exactly your need.
 
@@ -77,6 +78,7 @@ An agent is a specialized Claude with its own tools and scope. It isolates conte
 # .claude/agents/security-audit.md
 ---
 name: security-audit
+description: Review authentication and input handling for security defects
 model: opus
 tools: Read, Grep, Glob
 ---

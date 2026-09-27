@@ -50,21 +50,19 @@ def strip_inline_toc(content: str) -> str:
     We keep the heading as a brief note instead of deleting it entirely,
     so the section numbering flow in the PDF remains coherent.
     """
-    toc_heading = "## Table of Contents"
-    # Next major heading that ends the TOC section
-    next_heading = "## 1.1 Installation"
-
-    start = content.find(toc_heading)
-    end = content.find("\n" + next_heading)
-
-    if start == -1 or end == -1:
-        return content  # Section not found, leave unchanged
-
-    replacement = (
-        "\n## Table of Contents\n\n"
-        "_See the Table of Contents at the beginning of this document._\n\n"
-    )
-    return content[:start] + replacement + content[end + 1:]
+    for title, note in (
+        ("Table of Contents", "See the Table of Contents at the beginning of this document."),
+        ("Table des matières", "Consultez la table des matières au début de ce document."),
+    ):
+        heading = re.search(r"^## " + re.escape(title) + r"\s*$", content, re.MULTILINE)
+        if heading is None:
+            continue
+        end = re.search(r"^## 1\.1 Installation\s*$", content[heading.end():], re.MULTILINE)
+        if end is None:
+            return content
+        replacement = f"## {title}\n\n_{note}_\n\n"
+        return content[:heading.start()] + replacement + content[heading.end() + end.start():]
+    return content
 
 
 def escape_citation_patterns(content: str) -> str:
@@ -85,13 +83,14 @@ def escape_citation_patterns(content: str) -> str:
         # Track code fence state
         stripped = line.lstrip()
         if not in_fence:
-            if stripped.startswith("```") or stripped.startswith("~~~"):
+            opening = re.match(r"(`{3,}|~{3,})", stripped)
+            if opening:
                 in_fence = True
-                fence_marker = stripped[:3]
+                fence_marker = opening.group(1)
                 result.append(line)
                 continue
         else:
-            if stripped.startswith(fence_marker):
+            if re.fullmatch(re.escape(fence_marker[0]) + "{" + str(len(fence_marker)) + r",}\s*", stripped):
                 in_fence = False
                 result.append(line)
                 continue
@@ -156,18 +155,20 @@ def ensure_blank_before_lists(content: str) -> str:
 
     lines = content.split("\n")
     result = []
-    in_fence = False
+    fence_marker = ""
 
     for i, line in enumerate(lines):
         stripped = line.lstrip()
 
         # Track code fences
-        if stripped.startswith("```") or stripped.startswith("~~~"):
-            in_fence = not in_fence
+        opening = re.match(r"(`{3,}|~{3,})", stripped)
+        if not fence_marker and opening:
+            fence_marker = opening.group(1)
             result.append(line)
             continue
-
-        if in_fence:
+        if fence_marker:
+            if re.fullmatch(re.escape(fence_marker[0]) + "{" + str(len(fence_marker)) + r",}\s*", stripped):
+                fence_marker = ""
             result.append(line)
             continue
 

@@ -4,10 +4,11 @@ subtitle: "Intégrer Claude Code dans les pipelines CI/CD GitHub"
 card-number: "M19"
 category: "Méthodologie"
 difficulty: "advanced"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -32,10 +33,10 @@ Cette séparation permet d'itérer sur la qualité des reviews sans risquer de c
 
 | Méthode | Coût par review | Prérequis |
 |---------|----------------|-----------|
-| OAuth token (Plan Max) | ~0$ | Claude GitHub App installée |
-| `ANTHROPIC_API_KEY` | 0,05-0,15$ (Sonnet) | Clé API Anthropic |
+| OAuth abonnement | Consomme le quota du plan ; limites applicables | Compte éligible et token OAuth |
+| `ANTHROPIC_API_KEY` | Facturation API au token | Clé API Anthropic |
 
-L'OAuth via la Claude GitHub App est la solution privilégiée pour les équipes avec un plan Max : zéro coût marginal par review, configuration en un clic.
+Choisissez l’authentification selon le compte et le volume de travail. Une revue sur abonnement consomme le quota ; aucune méthode ne garantit un coût fixe par revue.
 
 ## Workflow minimal commenté
 
@@ -50,7 +51,8 @@ jobs:
   claude-review:
     if: |
       github.event_name == 'pull_request' ||
-      contains(github.event.comment.body, '/claude-review')
+      (github.event.issue.pull_request &&
+       contains(github.event.comment.body, '/claude-review'))
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -59,12 +61,14 @@ jobs:
       - uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          model: claude-sonnet-5
-          prompt_file: .github/prompts/code-review.md
-          allowed_tools: Read,Glob,Grep
+          trigger_phrase: /claude-review
+          prompt: Read .github/prompts/code-review.md and review the PR.
+          claude_args: >-
+            --model claude-sonnet-5
+            --tools "Read,Glob,Grep"
 ```
 
-Le `fetch-depth: 0` est nécessaire pour que Claude ait accès à l'historique git complet et puisse comparer la branche avec main.
+`fetch-depth: 0` récupère tout l’historique. L’action actuelle accepte `prompt` et `claude_args` ; la restriction CLI des outils garde cet exemple en lecture seule. Voir les [entrées officielles de l’action](https://github.com/anthropics/claude-code-action/blob/main/action.yml).
 
 ## Outils autorisés en CI
 
@@ -103,7 +107,7 @@ Prévoir un job de fallback qui poste un commentaire en cas d'échec du job Clau
   with:
     script: |
       github.rest.issues.createComment({
-        issue_number: context.payload.pull_request.number,
+        issue_number: context.issue.number,
         owner: context.repo.owner,
         repo: context.repo.repo,
         body: '⚠️ Claude review failed — human reviewer needed.'

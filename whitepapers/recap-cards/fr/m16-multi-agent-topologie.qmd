@@ -5,9 +5,10 @@ card-number: "M16"
 category: "Méthodologie"
 difficulty: "advanced"
 guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
 version: "3.43.0"
-date: "2026-09-24"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -36,7 +37,7 @@ Orchestrateur
 └── Agent Tests     → couverture
 ```
 
-L'orchestrateur planifie et délègue ; il ne code pas lui-même. Son rôle est d'allouer le travail, de débloquer les dépendances, et de présenter une réponse unifiée.
+Dans cette organisation choisie, l’orchestrateur se concentre sur la planification et la délégation ; c’est une convention de rôle, pas une restriction d’outil. Son rôle est d'allouer le travail, de débloquer les dépendances, et de présenter une réponse unifiée.
 
 ## Topologie pipeline
 
@@ -67,7 +68,7 @@ Chaque agent peut recevoir un contexte et une whitelist d'outils distincts. Limi
 | Agent | Outils autorisés |
 |-------|-----------------|
 | Explorateur | Read, Glob, Grep |
-| Planificateur | Read, Glob, Grep, Write(plan) |
+| Planificateur | Read, Glob, Grep ; écritures du plan autorisées séparément |
 | Implémenteur | Read, Edit, Bash, Write |
 | Relecteur | Read, Glob, Grep |
 
@@ -86,7 +87,7 @@ claude
 }
 ```
 
-Prérequis : Claude Code v2.1.32+, modèle un modèle accessible au compte (les coéquipiers peuvent différer), dépôt git initialisé. Navigation entre agents via `Shift+Down` en mode in-process.
+Prérequis : Claude Code v2.1.32+, modèle accessible au compte (différent selon le coéquipier si besoin). Git est nécessaire à l’isolation par worktree, pas à la messagerie des tâches. `Shift+Down` passe entre agents dans le même processus.
 
 ## Contrôles de boucle
 

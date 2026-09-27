@@ -4,10 +4,11 @@ subtitle: "Passer du contexte entre agents et gérer les niveaux de confiance"
 card-number: "M17"
 category: "Méthodologie"
 difficulty: "advanced"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -24,7 +25,7 @@ Dans Claude Code Agent Teams, la communication repose sur un système de mailbox
 | Agent → Lead | Rapport de progression | Résultats, blocages |
 | Agent ↔ Agent | Peer-to-peer mailbox | Débat de solutions |
 
-Les contextes restent isolés : l'agent 2 ne voit pas les 1M tokens de l'agent 1. Seuls les messages explicites traversent la frontière, ce qui implique de formuler les transmissions de façon précise et concise.
+Les contextes restent isolés : l’agent 2 ne voit pas la conversation de l’agent 1. Seuls les messages explicites traversent la frontière, ce qui implique de formuler les transmissions de façon précise et concise.
 
 ## Passage de contexte entre agents
 
@@ -65,18 +66,17 @@ Trois garde-fous à mettre en place :
 2. **Valider le format** : si l'agent attend du JSON, rejeter tout ce qui n'est pas du JSON valide.
 3. **Limiter les outils** : un agent de lecture n'a pas besoin de `Bash` ou `Write`.
 
-## Coordination par tâches git
+## Coordination par tâches partagées
 
-Les Agent Teams utilisent `.claude/tasks/` comme registre partagé. Chaque agent revendique une tâche en écrivant un fichier lock ; les autres agents évitent les tâches déjà marquées.
+Les Agent Teams stockent leurs tâches dans `~/.claude/tasks/<team-name>/`. Le verrouillage de fichiers évite les prises en charge simultanées d’une tâche ; il ne verrouille pas les fichiers source et ne fusionne pas le code. Utilisez `TaskList` et `TaskUpdate` pour coordonner le travail.
 
 ```
-.claude/tasks/
-├── task-1.lock      # Agent A en cours
-├── task-2.lock      # Agent B en cours
-└── task-3.pending   # Disponible
+~/.claude/teams/<team-name>/config.json
+~/.claude/teams/<team-name>/inboxes/<agent-name>.json
+~/.claude/tasks/<team-name>/
 ```
 
-Ce mécanisme évite les conflits de travail en double sans coordination centralisée. L'orchestrateur peut surveiller les fichiers `.pending` pour savoir ce qui reste à traiter.
+Attribuez des fichiers distincts ou des worktrees à chaque agent. Les messages transportent l’avancement et les résultats ; les conflits source nécessitent toujours une revue.
 
 ## Récupération itérative (v3.38.0)
 

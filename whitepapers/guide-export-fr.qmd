@@ -1,0 +1,30 @@
+---
+title: "Guide Ultime Claude Code"
+subtitle: "De zéro à utilisateur avancé: La référence complète"
+author: "Florian Bruniaux"
+date: "2026-09-26"
+date-format: "MMMM YYYY"
+version: "3.43.0"
+wp-version: "1.1.0"
+series: "Claude Code Ultimate Guide"
+lang: fr
+region: "FR"
+format:
+  whitepaper-typst:
+    toc: true
+    toc-depth: 2
+    toc-title: "Table des matières"
+    section-numbering: ""
+  epub:
+    toc: true
+    toc-depth: 2
+    number-sections: false
+    epub-cover-image: _extensions/whitepaper/assets/claude-code-ai-logo.jpg
+    css: epub-styles.css
+citeproc: false
+filters:
+  - nocite.lua
+  - fix-lists.lua
+---
+
+{{< include guide-content-fr.md >}}

@@ -1,0 +1,24 @@
+{{< pagebreak >}}
+
+## Fiche Récap : Personnalisation
+
+```{=typst}
+#fiche-recap(
+  title: "Personnalisation",
+  subtitle: "Agents, skills, commands : quand utiliser quoi",
+  wp-number: "02",
+  points: (
+    "#strong[Instructions] : utilisateur (~/.claude/CLAUDE.md), projet (CLAUDE.md) et notes personnelles (CLAUDE.local.md). Les textes se combinent ; résoudre leurs contradictions.",
+    "#strong[Agent] = processus autonome multi-étapes avec accès aux outils. Idéal pour les tâches complexes qui nécessitent du raisonnement.",
+    "#strong[Skill] = workflow packagé réutilisable avec ressources bundlées. Idéal pour les processus répétitifs de votre équipe.",
+    "#strong[Command] = raccourci slash pour une action précise. Idéal pour les one-liners fréquents (/deploy, /test, /review).",
+    "Les #strong[settings] suivent : politique gérée, CLI, local projet, projet, utilisateur. Les listes fusionnent généralement ; les règles deny priment.",
+  ),
+  actions: (
+    "Créer votre premier CLAUDE.md projet avec les conventions de votre codebase",
+    "Identifier 1 workflow répétitif et le convertir en skill",
+    "Créer 2-3 commands slash pour vos actions les plus fréquentes",
+    "Installer la commande du guide /audit-agents-skills puis vérifier les agents sur des cas représentatifs",
+  ),
+)
+```

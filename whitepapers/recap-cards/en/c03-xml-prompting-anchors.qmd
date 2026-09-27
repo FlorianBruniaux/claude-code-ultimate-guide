@@ -4,10 +4,11 @@ subtitle: "Structuring complex prompts for reproducible results"
 card-number: "C03"
 category: "Design"
 difficulty: "advanced"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "August 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: en
 format:
@@ -16,7 +17,7 @@ format:
 
 ## Why XML works
 
-Claude was trained on massive corpora that include XML. When you structure a prompt with tags, you create unambiguous delimiters that separate the instruction, context, reference code, and constraints. Claude then interprets each section exactly in the role you assign it, without having to infer what is instruction and what is context.
+Claude was trained on massive corpora that include XML. When you structure a prompt with tags, you create unambiguous delimiters that separate the instruction, context, reference code, and constraints. The structure can make those roles clearer, but it does not guarantee instruction following or prevent prompt injection.
 
 XML structure is relevant for complex or reusable tasks. For a one-line fix, it is unnecessary noise.
 
@@ -78,7 +79,7 @@ function validateJWT(token: string): Claims {
 // END-ANCHOR: token-validation
 ```
 
-In your prompt: "Modify only the ANCHOR: auth-flow section to add expired token handling." Claude knows exactly where to intervene without reading the entire file.
+In your prompt: "Modify only the ANCHOR: auth-flow section to add expired token handling." The marker narrows the requested edit; Claude may still need surrounding code to validate its effect.
 
 ## When to use XML
 

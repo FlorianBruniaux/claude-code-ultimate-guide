@@ -4,10 +4,11 @@ subtitle: "Travailler en parallèle sur plusieurs branches sans changer de répe
 card-number: "M13"
 category: "Méthodologie"
 difficulty: "advanced"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -49,7 +50,7 @@ claude
 > "Corrige le bug de timeout sur Safari"
 ```
 
-Chaque instance de Claude indexe son propre worktree et maintient un contexte indépendant. Les deux sessions tournent en parallèle sans interférence.
+Chaque instance de Claude indexe son propre worktree et maintient un contexte indépendant. Les fichiers sont séparés, mais ports, bases de données et services externes peuvent rester partagés.
 
 ## Contexte Claude Code dans les worktrees
 
@@ -57,7 +58,7 @@ Chaque instance de Claude indexe son propre worktree et maintient un contexte in
 |---------|--------|
 | `~/.claude/CLAUDE.md` | Global, partagé par tous les worktrees |
 | `CLAUDE.md` (racine repo) | Projet, commité, partagé |
-| `.claude/CLAUDE.md` (dans le worktree) | Local au worktree uniquement |
+| `CLAUDE.local.md` (ajouter à `.gitignore`) | Instructions personnelles de ce worktree |
 
 Un worktree peut avoir sa propre configuration `.claude/` pour des conventions spécifiques à la branche.
 
@@ -65,14 +66,14 @@ Un worktree peut avoir sa propre configuration `.claude/` pour des conventions s
 
 La principale limitation : `node_modules` ou `vendor/` ne sont pas partagés automatiquement. Chaque worktree a besoin de ses dépendances, ce qui peut prendre de l'espace disque et du temps.
 
-**Solution recommandée** : symlinker `node_modules` depuis le worktree principal :
+**Approche recommandée** : installer les dépendances séparément dans chaque worktree, en utilisant le cache du gestionnaire de paquets. Un lien partagé vers `node_modules` couple les branches et devient dangereux si les lockfiles ou l’état d’installation diffèrent.
 
 ```bash
-cd ../monprojet-feature
-ln -s ../monprojet/node_modules node_modules
+# Depuis le nouveau worktree, avec le gestionnaire de paquets du dépôt
+pnpm install --frozen-lockfile
 ```
 
-La commande `/git-worktree` (custom command) le fait automatiquement. Utiliser `--isolated` quand les dépendances doivent différer.
+Examiner tout helper personnalisé `/git-worktree` avant d’utiliser ses options de partage des dépendances.
 
 ## Quand utiliser les worktrees
 

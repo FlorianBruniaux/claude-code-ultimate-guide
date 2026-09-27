@@ -1,0 +1,24 @@
+{{< pagebreak >}}
+
+## Fiche Récap : Apprendre avec l'IA
+
+```{=typst}
+#fiche-recap(
+  title: "Apprendre avec l'IA",
+  subtitle: "UVAL, dette de compréhension, 70/30 rule",
+  wp-number: "09",
+  points: (
+    "#strong[Dette de compréhension] ≠ dette technique. Accepter du code que vous ne comprenez pas crée une dépendance croissante à l'IA.",
+    "#strong[Protocole UVAL] : Understand (comprendre avant) → Verify (valider l'output) → Apply (adapter au contexte) → Learn (extraire la leçon).",
+    "#strong[70/30 rule] : repère pédagogique proposé, à adapter ; aucun ratio universel d’apprentissage n’est démontré.",
+    "#strong[3 patterns d'auto-tromperie] : accepter sans lire, copier sans adapter, générer sans comprendre. Demander une explication et vérifier soi-même les étapes ; /explain n’est pas une commande native.",
+    "L'#strong[IA accélère l'apprentissage] quand vous posez les bonnes questions : 'pourquoi ?' avant 'comment ?'",
+  ),
+  actions: (
+    "Auto-diagnostic : identifier votre pattern d'auto-tromperie dominant",
+    "Activer UVAL dans votre CLAUDE.md ('always explain your choices')",
+    "Pour chaque output accepté cette semaine : passer 2 min à comprendre pourquoi",
+    "Plan 30 jours semaine 1 : choisir 1 concept à maîtriser activement avec l'IA",
+  ),
+)
+```

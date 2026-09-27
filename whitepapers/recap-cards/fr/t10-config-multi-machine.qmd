@@ -4,74 +4,52 @@ subtitle: "Synchroniser sa configuration Claude Code entre plusieurs postes"
 card-number: "T10"
 category: "Technique"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "Août 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
   recap-card-typst: default
 ---
 
-## Ce qui reste local vs ce qui se partage
+## Ce qui reste local ou peut être partagé
 
 | Local uniquement | Partageable |
-|-----------------|-------------|
+|------------|-----------|
 | `settings.local.json` | `agents/`, `skills/` |
 | Clés API, tokens | `hooks/`, `rules/` |
-| Historique de sessions | `settings.template.json` |
-| `.env` avec secrets | CLAUDE.md (conventions équipe) |
+| Historique des sessions | `settings.template.json` |
+| `.env` avec secrets | CLAUDE.md (conventions d'équipe) |
 
-**Règle d'or** : ne jamais committer de clés API ou credentials. Utiliser des fichiers template avec des placeholders `${VAR_NAME}` pour les valeurs sensibles.
+**Règle d'or** : ne jamais committer de clés API ou d'identifiants. Utiliser des modèles avec des placeholders `${VAR_NAME}` pour les valeurs sensibles.
 
-## Stratégie Git + symlinks (recommandée)
+## Versionner les fichiers de configuration relus
 
-Approche inspirée par Martin Ratinaud (504 sessions testées) et brianlovin/claude-config.
+Conserver les fichiers eux-mêmes dans un dépôt de configuration. Un lien symbolique du dépôt vers `~/.claude` ne stocke dans Git que la cible du lien, pas le contenu référencé.
 
 ```bash
-# 1. Créer un repo privé pour la config globale
-mkdir ~/claude-config-backup && cd ~/claude-config-backup
+# Create a new private configuration repository
+mkdir ~/claude-config-backup
+cd ~/claude-config-backup
 git init
-
-# 2. Créer des symlinks (les changements sont automatiques)
-ln -s ~/.claude/agents ./agents
-ln -s ~/.claude/skills ./skills
-ln -s ~/.claude/hooks  ./hooks
-
-# 3. Template sans secrets
-cp ~/.claude/settings.json ./settings.template.json
-# Remplacer les valeurs par ${ANTHROPIC_API_KEY} etc.
-
-# 4. .gitignore strict
-cat > .gitignore << EOF
-settings.json
-mcp.json
-projects/
-EOF
-
-git remote add origin git@github.com:you/claude-config-private.git
-git push -u origin main
+# Copy only directories that exist and have been reviewed
+cp -R ~/.claude/agents ./agents
+cp -R ~/.claude/skills ./skills
+cp -R ~/.claude/hooks ./hooks
+# Inspect copies for secrets and machine-specific paths before staging
+git add agents skills hooks
+git diff --cached
+# Commit and push only after reviewing the staged content
 ```
 
-## Synchronisation entre machines
+Créer séparément un modèle de paramètres nettoyé des secrets. Sur une autre machine, cloner le dépôt et comparer les fichiers à la configuration actuelle avant de les copier. Sauvegarder les fichiers existants et relire les hooks avant de les activer.
 
-```bash
-# Machine source (après modification)
-cd ~/claude-config-backup
-git add agents/ skills/ hooks/
-git commit -m "Update hooks: add auto-format"
-git push
+## `settings.local.json` pour les choix propres à la machine
 
-# Machine cible
-cd ~/claude-config-backup
-git pull
-# Les symlinks propagent automatiquement vers ~/.claude/
-```
-
-## `settings.local.json` pour les overrides machine
-
-Chaque machine peut avoir ses propres préférences sans toucher à la configuration partagée. Ce fichier prend le dessus sur `settings.json` et ne se committe jamais.
+Chaque machine peut avoir ses préférences sans toucher à la configuration partagée. Ce fichier prime sur `settings.json` et n'est jamais committé.
 
 ```json
 {
@@ -84,22 +62,14 @@ Chaque machine peut avoir ses propres préférences sans toucher à la configura
 }
 ```
 
-## Alternative : cloud sync par symlink
+## Périmètre de sauvegarde cloud
 
-```bash
-# Déplacer ~/.claude vers Dropbox/iCloud
-mv ~/.claude ~/Dropbox/claude-config
-ln -s ~/Dropbox/claude-config ~/.claude
-# Synchronisation automatique entre machines
-```
+Sauvegarder les modèles de configuration relus plutôt que tout `~/.claude`, qui contient aussi des transcriptions et potentiellement des identifiants. Choisir les accès et la conservation selon les données réelles.
 
-Avantage : zéro effort de maintenance. Inconvénient : pas d'historique de versions, risque de conflits de synchronisation si les deux machines sont actives simultanément.
+## Sauvegarde automatique avec cron
 
-## Backup automatique avec cron
+Créer d'abord le répertoire de sauvegarde et le protéger. Cette entrée archive le dépôt relu ; cron exige d'échapper le signe pourcentage dans `date`.
 
-```bash
-# Backup quotidien à 2h du matin
-0 2 * * * tar -czf ~/claude-backups/config-$(date +%F).tar.gz \
-  ~/.claude/agents ~/.claude/skills \
-  ~/.claude/hooks ~/.claude/settings.json
+```cron
+0 2 * * * tar -czf "$HOME/claude-backups/config-$(date +\%F).tar.gz" -C "$HOME" claude-config-backup
 ```

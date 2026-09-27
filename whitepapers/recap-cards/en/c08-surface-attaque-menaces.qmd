@@ -4,10 +4,11 @@ subtitle: "Understanding the attack vectors specific to Claude Code"
 card-number: "C08"
 category: "Design"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "August 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: en
 format:
@@ -32,7 +33,7 @@ Claude Code is an agent with access to the filesystem, Bash commands, and the in
 |----------|------|-----------------|
 | Solo dev, public repos | Medium | Install an output-scanner hook |
 | Team, sensitive codebase | High | MCP vetting + injection hooks |
-| Enterprise, production | Critical | ZDR + integrity verification |
+| Enterprise, production | Critical | Least privilege, isolation and integrity verification |
 
 ## CVEs to know (selection 2025-2026)
 
@@ -58,7 +59,7 @@ Minimal permissions (settings.json)
         + Sandbox / ephemeral environment
 ```
 
-**Basic permissions rule:** grant only what the task requires. For a read/analysis task, `permissions.allow: ["Read", "Grep", "Glob"]`. No Bash, no Write.
+**Basic permissions rule:** grant only what the task requires. For a read/analysis task, restrict the agent with `tools: Read, Grep, Glob` or CLI `--tools "Read,Grep,Glob"`. An allow rule only pre-approves a tool; it does not remove other tools.
 
 ## Audit with JSONL logs
 

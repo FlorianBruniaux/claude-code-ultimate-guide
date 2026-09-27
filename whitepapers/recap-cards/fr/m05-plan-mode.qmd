@@ -4,10 +4,11 @@ subtitle: "Faire planifier Claude avant d'agir"
 card-number: "M05"
 category: "Méthodologie"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "Août 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -16,17 +17,17 @@ format:
 
 ## Qu'est-ce que Plan Mode
 
-Plan Mode est le mode "regarder sans toucher" de Claude Code. En Plan Mode, Claude peut lire, chercher, analyser, et proposer des approches, mais ne peut pas modifier de fichiers, créer des fichiers, ou exécuter des commandes qui changent l'état du système.
+Plan Mode est le mode "regarder sans toucher" de Claude Code. En Plan Mode, Claude peut lire, chercher, analyser, et proposer des approches, tout en limitant les changements d'implémentation et les commandes qui modifient l'état du système. Il peut écrire dans son fichier de plan désigné.
 
 ```
 /plan              # Entrer en Plan Mode
-Shift+Tab          # Basculer Plan ↔ Normal
+Shift+Tab          # Parcourir les modes de permission disponibles
 Approuver le plan   # Quitter et passer à l'exécution
 ```
 
 ## Pourquoi Ça Change Tout
 
-Boris Cherny (Head of Claude Code chez Anthropic) commence environ **80% de ses tâches en Plan Mode**, laissant Claude planifier avant d'écrire une seule ligne de code. L'exécution est ainsi presque toujours correcte au premier essai.
+La planification permet de relire le périmètre, les dépendances et les critères d'acceptation avant l'implémentation. Elle ne garantit pas un résultat correct dès la première tentative.
 
 Claude explore le codebase sans pression d'agir. Il identifie les dépendances cachées, les impacts secondaires, les edge cases. Le plan qui en sort est plus solide que ce que Claude produirait en mode réactif.
 
@@ -35,11 +36,11 @@ Claude explore le codebase sans pression d'agir. Il identifie les dépendances c
 - Lecture de fichiers et exploration du codebase
 - Analyse d'architecture et de dépendances
 - Proposition d'approches et de plans d'action
-- Écriture dans un fichier plan (notes, PLAN.md)
+- Écriture dans son fichier de plan désigné
 
 **Ce qu'il interdit :**
-- Édition de fichiers existants
-- Création de nouveaux fichiers
+- Édition de fichiers d'implémentation
+- Création de fichiers arbitraires dans le projet
 - Exécution de commandes modifiant l'état
 - Commits git
 
@@ -66,11 +67,11 @@ Claude explore le codebase sans pression d'agir. Il identifie les dépendances c
    Exécution supervisée du plan approuvé
 ```
 
-La validation du plan avant exécution permet de catcher 30-40% des problèmes qui auraient été découverts après coup, selon les retours de la communauté.
+Relire le plan pour repérer les erreurs de périmètre, de dépendances et de critères d'acceptation avant l'implémentation. Le bénéfice dépend de la tâche et de la qualité de la relecture.
 
 ## Auto Plan Mode
 
-Pour les projets où le niveau de risque justifie une planification systématique, une configuration `--append-system-prompt` peut forcer Claude à présenter un plan avant chaque action :
+Une instruction `--append-system-prompt` peut demander un plan avant chaque action. Elle ne constitue pas une frontière d’autorisation ; utilisez le mode plan et les permissions d’outils pour imposer les restrictions :
 
 ```bash
 # Alias pratique
@@ -78,8 +79,8 @@ alias claude-safe='claude --append-system-prompt \
   "Before executing ANY tool, present a plan and wait for approval."'
 ```
 
-Ce pattern rapporte 76% de réduction de tokens avec de meilleurs résultats, parce que le plan est validé avant la dépense de tokens d'exécution.
+Valider le plan avant l'exécution, puis mesurer les tokens, les nouvelles tentatives et les résultats acceptés sur ses propres tâches. Aucun taux universel d'économie n'est établi pour ce workflow.
 
 ## Intégration avec Agents
 
-Les agents définis dans `.claude/agents/` peuvent aussi entrer en Plan Mode via `/plan` dans leur contexte. Un pattern courant : agent planificateur (Opus, read-only) qui passe le plan à un agent implémenteur (Haiku, exécution mécanique).
+Définissez `permissionMode: plan` dans le frontmatter d’un agent personnalisé pour la planification. Un agent peut transmettre un plan enregistré à un agent d’implémentation ; choisissez explicitement chaque modèle et séparez la responsabilité des fichiers.

@@ -5,6 +5,9 @@ quarto-required: ">=1.4.0"
 contributes:
   formats:
     typst:
+      syntax-highlighting: idiomatic
+      filters:
+        - table-widths.lua
       template-partials:
         - typst-template.typ
         - typst-show.typ

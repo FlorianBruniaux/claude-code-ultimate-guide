@@ -4,10 +4,11 @@ subtitle: "Official documentation and multi-step reasoning within reach of a pro
 card-number: "T13"
 category: "Technical"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: en
 format:
@@ -33,7 +34,7 @@ Context7 solves a common problem: Claude knows popular APIs up to its knowledge 
 
 Sequential Thinking brings a multi-step reasoning engine for complex problems. Rather than answering directly, it decomposes the problem into hypotheses, tests them, and builds an argued response step by step.
 
-**Triggers**: an explicit request ("reason step by step", "use Sequential Thinking"), or problems involving 3+ interconnected components. There is no dedicated CLI flag for Sequential Thinking: `--think-hard` and `--ultrathink` are old keywords for the model's own native extended thinking, now purely cosmetic and without effect (reasoning depth is set via the `/model` slider or `effortLevel`).
+**Invocation**: request the installed Sequential Thinking MCP tool for a problem that benefits from explicit steps. `--think-hard` and `--ultrathink` are not Claude Code CLI flags. The prompt word `ultrathink` adds a reasoning instruction without changing API effort; use `/effort` for supported models. Haiku 4.5 has no effort parameter.
 
 ```bash
 # Invoke Sequential for complex debugging
@@ -80,4 +81,4 @@ npx -y @upstash/context7-mcp --api-key YOUR_API_KEY
 npx -y @modelcontextprotocol/server-sequential-thinking
 ```
 
-Add in `~/.claude/settings.json` under the `mcpServers` key with `command: "npx"` and the corresponding args.
+Register the server with `claude mcp add --transport stdio --scope project <name> -- npx -y <package>`, using the selected package and its required arguments. Project scope writes `.mcp.json`; user and local scope live in `~/.claude.json`. Inspect the connection with `/mcp`. See [MCP installation](https://code.claude.com/docs/en/mcp).

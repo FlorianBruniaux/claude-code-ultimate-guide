@@ -1,0 +1,547 @@
+---
+title: "Convaincre son Employeur d'Investir dans l'IA"
+subtitle: "Le dossier d'argumentation pour CEO, CTO et CFO"
+author: "Florian BRUNIAUX"
+date: "2026-09-26"
+date-format: "MMMM YYYY"
+version: "3.43.0"
+wp-version: "1.2.3"
+series: "Claude Code Ultimate Guide"
+format:
+  whitepaper-typst:
+    toc: true
+    toc-depth: 2
+    section-numbering: "1.1"
+  html:
+    toc: true
+    theme: cosmo
+  epub:
+    toc: true
+    toc-depth: 2
+    epub-cover-image: _extensions/whitepaper/assets/claude-code-ai-logo.jpg
+    css: ../epub-styles.css
+    number-sections: true
+lang: fr
+---
+
+::: {.callout-note}
+**À qui s'adresse ce document ?**
+
+| Organisation | Décideur tech | Décideur budget |
+|---|---|---|
+| Startup / PME | CTO | CEO |
+| ETI française | CTO ou CIO | CEO + DAF |
+| Grande entreprise FR | CIO / DSI | CEO + DAF |
+
+Dans ce document, "CTO" désigne le décideur technique principal. En France, ce rôle est souvent tenu par un CIO ou DSI dans les organisations de plus de 500 personnes.
+:::
+
+# Résumé exécutif
+
+Le dossier doit relier une dépense vérifiable à des résultats observables dans votre équipe : travail accepté, qualité, délai et coût total, incluant revue, reprises et apprentissage.
+
+**Proposition de pilote** : choisir quelques volontaires, définir les tâches comparables et les métriques avant l’essai, puis comparer les résultats. Le scénario de 8 semaines avec 3 à 5 développeurs présenté plus loin est un exemple de protocole, sans garantie de gain ni seuil de validité statistique.
+
+**Décision attendue** : poursuivre, ajuster ou arrêter selon les données du pilote. Le temps libéré peut améliorer la capacité disponible ; il ne devient une économie financière que si une dépense est effectivement évitée.
+
+# Le problème du dev accro à l'IA
+
+L'IA coûte de l'argent visible: une ligne dans le budget, une facture mensuelle, un chiffre que le CFO voit. Les gains, eux, sont diffus. "J'ai été plus rapide" ne se voit pas dans un compte de résultat. "On a livré mieux" est difficile à prouver sans métriques préparées à l'avance.
+
+C'est le mur que rencontrent la plupart des devs qui veulent faire adopter ces outils à leur boite. Pas de résistance de principe, mais pas de budget non plus, parce que personne n'a traduit les gains en langage décideur.
+
+Ce whitepaper est le dossier à construire avant d'entrer dans cette réunion. Arguments factuels, objections préparées, checklist pré-pitch, et un prompt pour générer un argumentaire à partir des données réelles de votre repo.
+
+## Ce que ce document n'est pas
+
+Pas une promesse de "2× la productivité". Éviter ce genre de bold statement : si tu le pousses en interne, on peut te demander des comptes. Et tu peux finir par te sentir redevable de le prouver, ce qui mène à bosser jusqu'à 2h du mat' juste pour démontrer la valeur.
+
+L'argument honnête : on livre dans le même ordre de grandeur qu'avant, avec un code documenté, testé, et une barrière à la contribution abaissée. L'ancienneté sur le projet ne joue plus autant sur la partie technique. C'est un argument de durabilité, pas de performance brute.
+
+## Hypothèses de calcul à remplacer
+
+Les anciens prix de juillet 2026 ci-dessous servent uniquement à illustrer un budget. Ils ne sont ni des devis actuels ni des garanties d’usage illimité.
+
+| Hypothèse historique | Montant mensuel par personne |
+|---|---:|
+| Copilot Individual | 10 USD |
+| Cursor Pro | 20 USD |
+| Claude Max | 100 à 200 USD |
+
+Avant une décision, relevez le plan, les limites d’usage, les dépassements, les taxes, le change et les conditions de résiliation dans les [tarifs GitHub Copilot](https://github.com/features/copilot/plans), [tarifs Cursor](https://cursor.com/pricing) et [tarifs Claude](https://claude.com/pricing).
+
+Un TJM fictif de 500 EUR peut servir à une simulation, mais ne démontre ni le coût salarial de l’équipe ni la valeur réalisable d’une heure gagnée. Calculez le coût total par tâche acceptée et distinguez capacité disponible et dépenses évitées.
+
+# L'argument financier brut
+
+## La comparaison workforce
+
+Les licences IA vont de 10 à 200$/dev/mois selon l'outil. Même au tarif haut, si elles augmentent significativement la capacité de l'équipe, c'est une expansion de la capacité de l'équipe existante, pas un substitut au recrutement.
+
+::: {.callout-warning}
+**Piège à éviter absolument** : ne jamais présenter les licences IA comme "l'équivalent de recruter un dev en plus". Si tu frames ça comme un substitut headcount, le CFO raisonne immédiatement "OK, mais on enlève autant côté effectifs". Tu perds la salle. L'argument juste : c'est de la capacité additionnelle sur l'équipe existante (plus de tests, plus de docs, plus de dette traitée), pas un remplacement de personne.
+:::
+
+Aucun recrutement n'augmente la capacité de l'équipe existante à ce prix. Un salarié dev junior en France coûte charges incluses bien au-delà de ça chaque mois. L'IA ne remplace pas ce dev; elle amplifie ce que font ceux qui sont déjà là.
+
+## La comparaison avec une prestation
+
+Comparez des périmètres équivalents : tâches acceptées, responsabilité, revue, reprises, intégration et support. Une licence et une prestation humaine ne couvrent pas les mêmes coûts. Les règles comptables et fiscales et les conditions d’engagement doivent être validées par le service financier.
+
+## Le vrai argument pour le board
+
+Ce n'est pas "l'IA c'est bien", c'est "pour X€/mois, on livre la même chose qu'avant, avec plus de tests, plus de documentation, et moins de dépendance sur les seniors qui connaissent le projet."
+
+# Arguments par profil de décideur
+
+## Pour le CEO
+
+**Impact sur le time to market**
+
+Itérer plus vite sur les nouvelles features, c'est lancer plus de cycles de validation produit par an. Le gain n'est pas seulement interne : il se reflète sur la capacité à explorer de nouvelles directions, à réagir aux signaux marché, à réduire le délai entre l'hypothèse et le code qui la teste.
+
+**Tester un avantage concret**
+
+Définissez les travaux aujourd’hui retardés que le pilote pourrait aider à réaliser : tests, documentation, migration ou revue. Les chiffres de croissance d’un fournisseur ne prouvent pas un gain pour votre organisation.
+
+**Attraction et rétention**
+
+L’accès aux outils peut compter pour certains candidats ou collaborateurs. Documentez ce besoin avec vos données RH ; n’attribuez pas un départ, ni un coût de remplacement, au seul refus d’une licence sans preuve.
+
+**Les arguments financiers**
+
+Présentez le coût des licences et de l’usage variable, de la préparation, de la revue et des reprises. Reliez chaque bénéfice attendu à un indicateur et à une hypothèse explicite. Une simulation favorable doit être confirmée par le pilote.
+
+## Pour le DAF/CFO
+
+**ROI first : ce que le DAF voit en premier**
+
+Un DAF regarde une dépense sous un angle précis : est-ce que le retour est mesurable ? Sur les licences IA, deux arguments tiennent la route. La qualité du code d'abord: moins de bugs en production, c'est moins d'interventions correctives, moins de mobilisation des équipes sur des incidents. Le coût d'un incident de prod dépasse de loin le coût d'une licence annuelle. La documentation ensuite: un onboarding qui se réduit de 3 semaines à 10 jours sur un codebase, c'est un gain de productivité mesurable sur chaque nouvelle recrue.
+
+**Traitement comptable et conditions du contrat**
+
+Faites confirmer la classification comptable, la déductibilité éventuelle, les engagements, les renouvellements et la résiliation par les fonctions compétentes. Un abonnement mensuel affiché ne prouve pas que toutes les offres sont sans engagement ou déductibles immédiatement.
+
+## Pour le CTO
+
+**Ce que les études mesurent vraiment**
+
+Deux études récentes donnent des chiffres exploitables, avec des nuances importantes à connaître avant d'en parler à un décideur.
+
+*Borg et al. "Echoes of AI" (2025, 151 participants, 95% devs pro)* : la Phase 1 observationnelle mesure +30.7% de vitesse en médiane sur une tâche contrôlée. Les utilisateurs habituels IA sont ~55.9% plus rapides. La Phase 2, le vrai RCT au sens strict, mesure la maintenabilité du code produit : les devs qui évoluent du code IA-assisted ne mettent pas plus de temps, et la qualité est préservée. Co-signée par Dave Farley de "Continuous Delivery".
+
+*METR (2025, 16 devs expérimentés avec expérience IA modérée, 246 issues)* : sur des projets open-source matures avec des standards de contribution élevés, les devs IA étaient 19% plus lents, tout en se croyant 20% plus rapides. Contexte très précis (forte exigence qualitative, code complexe, devs pas power users IA), à ne pas généraliser à n'importe quelle équipe.
+
+Ces études portent sur des populations et des tâches différentes. Elles invitent à mesurer votre contexte ; elles ne déterminent pas à l’avance le résultat d’un type de tâche ou d’une équipe.
+
+**L'argument quali (plus solide que la vitesse)**
+
+L'argument le plus défendable n'est pas "on code plus vite", c'est qu'on livre dans le même ordre de grandeur qu'avant, mais avec une qualité structurellement différente. Le code est documenté: l'IA génère les docs dans le flux de travail, pas après. Le code est testé: les tests unitaires que personne n'avait le temps d'écrire. La barrière à la contribution est abaissée : un dev qui arrive peut poser ses questions fonctionnelles à l'IA et monter en vitesse plus vite sur un codebase inconnu.
+
+C'est un argument de durabilité et de résilience équipe, pas juste de performance individuelle.
+
+**Le ROI des heures d'ingénieur**
+
+La vraie valeur ajoutée d'un software engineer, c'est le temps qu'il passe à réfléchir à l'ingénierie: architecture, design, investigation, choix techniques. Pas à écrire du code mécanique sur des patterns qu'on peut reproduire d'une base de connaissance. Les LLMs font ce dernier travail vite et bien : tests unitaires, boilerplate, config, CRUD, migrations répétitives. Ce qui était du temps d'ingé consommé sur de la mécanique.
+
+Chaque heure récupérée sur du code mécanique est une heure réinvestie en réflexion architecturale, en design, en investigation de sujets complexes. L'IA ne remplace pas l'ingénieur; elle libère son temps sur ce qui justifie son salaire. Pour un CTO, c'est l'argument le plus solide : pas "on code plus vite", mais "nos ingénieurs passent plus de temps sur ce qui a de la valeur".
+
+**Ce qu'on peut livrer qu'on ne livrait pas avant**
+
+Les outils IA permettent de traiter de la dette technique qu'on n'avait jamais le temps de toucher. Documenter du legacy, écrire des tests sur du code non-testé, auditer la sécurité, refactorer des modules anciens. Ce sont des tâches toujours repoussées, souvent jamais faites. Avec l'IA, elles deviennent réalisables dans le flux normal du sprint.
+
+**Point de vigilance**
+
+La propriété, les droits d’usage et l’indemnisation éventuelle doivent être vérifiés selon le contrat et la juridiction ; une indemnisation a des conditions et exclusions. Et l'étude Borg elle-même signale le "code bloat" comme risque à monitorer. Plus de code généré ne signifie pas automatiquement moins de dette technique.
+
+**Watch point sur les gains anecdotiques** : les devs arrivent parfois avec "j'ai fait en 2 jours un truc chiffré à 5". C'est réel sur un one-shot. Mais si on regarde les stats sur plusieurs semaines, la productivité peut baisser le lendemain du pic (fatigue mentale post-sprint IA, tickets découpés différemment avec l'IA, sujets sur lesquels l'IA n'apporte pas). L'honnêteté intellectuelle impose de mesurer la moyenne sur 3-4 semaines, pas le meilleur jour. Les pics individuels ne font pas la performance durable.
+
+**La courbe d'apprentissage (retour terrain, pas une étude mesurée)**
+
+Ce qui suit est observationnel, pas une étude contrôlée. Mais c'est un pattern récurrent dans les équipes qui adoptent ces outils.
+
+*Phase 1: Adaptation (semaines 1-4)* : le dev ajuste ses réflexes. Les gains sont faibles, parfois nuls sur les tâches complexes familières. L'outil n'est pas encore intégré dans le flux. C'est normal et prévisible.
+
+*Phase 2: Appropriation (mois 2-3)* : le dev identifie ses zones de levier. Exploration, documentation, tests, boilerplate. Les gains deviennent consistants sur ces zones.
+
+*Phase 3: Composition (mois 4+)* : le dev chaîne les outils (agents, contextes, skills personnalisés). À ce stade, c'est moins la vitesse sur les tâches qui change que le périmètre des tâches abordables. C'est là que l'augmentation devient tangible.
+
+Au niveau organisationnel, la même courbe existe mais décalée de plusieurs mois. Ce que l'équipe construit collectivement (patterns partagés, agents communs, conventions de review du code IA) est ce qui produit l'avantage durable.
+
+**Surveiller un éventuel plateau** : une adoption élevée ne prouve pas un gain de résultat. Comparez les tâches acceptées, le temps de revue et les reprises ; les phases ci-dessus sont une proposition pédagogique, sans calendrier universel validé.
+
+# Q&A: Objections fréquentes
+
+## Budget & Procurement
+
+**"C'est quoi le budget exact ?"**
+
+Demandez un devis ou consultez le tarif actuel du plan choisi. Les montants historiques plus haut servent de scénario, pas d’offre en vigueur. Aucun seuil universel d’une heure gagnée par mois n’établit le ROI.
+
+**Seuils enterprise à anticiper** : certaines offres enterprise ont des minimums de licences. Claude Code Enterprise exige typiquement un engagement minimum; vérifier les conditions en vigueur sur anthropic.com avant de construire le business case. Pour les équipes de 10-50 devs, ce seuil peut changer la structure de la conversation procurement. Les petites équipes démarrent généralement sur des licences individuelles ou Team, puis migrent vers Enterprise au-delà du seuil.
+
+**"On peut pas mettre ça dans le budget IT cette année."**
+
+Examinez avec le service financier une ligne budgétaire adaptée et les règles d’approbation applicables. Le contrat détermine les engagements et les conditions de résiliation.
+
+**"On arrive en septembre, les budgets sont bouclés depuis janvier."**
+
+Réalité terrain de la majorité des organisations. Trois approches selon le contexte :
+
+1. **Réallocation depuis une ligne outillage existante** : est-ce qu'il y a un abonnement outil sous-utilisé (licences logicielles, accès cloud de staging, outils SaaS) qu'on peut désactiver pour financer le pilote ? Un pilote Cursor Pro x 5 devs coûte 100$/mois, souvent sous le radar des lignes outillage.
+
+2. **Budget discrétionnaire CTO/VP Eng** : dans beaucoup d'organisations, le CTO ou VP Eng a une enveloppe discrétionnaire pour les outils. Un pilote Cursor Pro rentre généralement dans ce cadre sans processus budgétaire formel; la taille de l'enveloppe varie selon les organisations et la taille de la tech.
+
+3. **L'argument de la taille** : "c'est un abonnement SaaS, pas un investissement infra". Ça n'a pas les mêmes contraintes d'approbation qu'un contrat annuel à 50K€. Vérifiez si l’offre retenue est mensuelle ou annuelle et quelles conditions s’appliquent. Une dépense comparable à n'importe quel outil SaaS existant.
+
+4. **Remplacer un outil payant existant par un équivalent open source** : libérer du budget sur une ligne outillage en migrant un SaaS payant sous-utilisé vers une alternative OS peut financer le pilote à coût net zéro. L'argument au décideur : on ne dépense pas plus, on réoriente.
+
+**"Comment on contrôle les coûts ?"**
+
+Distinguez le prix de l’abonnement, les quotas inclus et l’usage additionnel. Définissez des plafonds et alertes lorsque disponibles ; vérifiez leur comportement réel, notamment pour les appels concurrents, et les frais hors forfait.
+
+::: {.callout-warning}
+**Risque TCO à anticiper**
+
+Les prix actuels sont attractifs. Deux risques à intégrer dans le business case long terme :
+
+**Lock-in vendor** : une fois l'adoption en place, le vendor peut revoir ses conditions enterprise (upgrade de tier, minimum de licences, modifications contractuelles). Mitiger : vérifier les clauses d'exit et les conditions de renouvellement avant tout engagement annuel.
+
+**Usage API non plafonné** : si l'équipe bascule sur des appels API pay-as-you-go (agents automatisés, workflows continus), le coût devient variable et non plafonné. À préférer : des forfaits fixes avec limites claires. Sur ce point précis, une passerelle API (LiteLLM ou équivalent) permet de reprendre la main techniquement plutôt que contractuellement : clés virtuelles par équipe avec budget mensuel plafonné, allowlist de modèles autorisés, et rejet automatique des appels hors budget avant même d'atteindre l'API du fournisseur.
+
+**Hypothèse de hausse** : les offres enterprise actuelles reflètent des stratégies d'acquisition. Des hausses futures restent possibles, sans être la trajectoire dominante (les coûts d'inférence GPU baissent structurellement). Un scénario de prix multiplié par deux peut tester la sensibilité du budget ; ce n’est ni une prévision ni une preuve de rentabilité.
+:::
+
+
+
+## Freins COMEX au-delà du coût
+
+Ces objections reviennent régulièrement en COMEX et ne sont pas liées au budget. Mieux vaut les avoir préparées.
+
+**"On crée une dépendance à des fournisseurs US."**
+
+C'est réel. Le code est analysé par des modèles hébergés par Anthropic, OpenAI ou Microsoft selon l'outil choisi. La réponse honnête : oui, il y a une dépendance, comme pour AWS, GitHub ou Slack. Deux mitigations concrètes. La portabilité d'abord : le code produit reste dans le repo, l'IA n'écrit pas de couche de dépendance au modèle. Si vous changez d'outil demain, le code ne change pas. Les solutions locales peuvent réduire les transferts de données si les modèles, outils et réseaux sont effectivement configurés ainsi. Vérifiez leurs performances sur vos tâches et leurs flux réels ; une installation locale ne prouve pas l’absence de tout envoi.
+
+**"Notre IP sort de l'entreprise."**
+
+Une offre cloud peut transmettre du code et des résultats d’outils hors de l’organisation. Vérifiez le fournisseur, le contrat, l’entraînement, la rétention, les sous-traitants et les transferts. Une clause de non-entraînement ne signifie pas absence de stockage ou de risque de divulgation. Voir le livre blanc 06 sur la confidentialité.
+
+**"Les prix vont exploser quand on sera captifs."**
+
+Légitime. L'inférence IA est vendue à des prix attractifs aujourd'hui, dans une logique d'acquisition d'audience. La trajectoire à surveiller : les coûts GPU d'inférence baissent structurellement, ce qui limite la capacité à monter les prix indéfiniment. Mais une hausse future reste possible. Deux garde-fous pratiques : préférer les offres avec clauses d'exit claires plutôt que des engagements annuels verrouillés, et ne pas construire de dépendances d'infrastructure sur des appels API illimités. Testez plusieurs scénarios de prix et d’usage dans le budget. La rentabilité reste à démontrer pour chacun.
+
+## ROI & Mesure
+
+**"On peut pas mesurer le ROI."**
+
+Mesurez avec des sources adaptées : latence de PR depuis GitHub, cycle de livraison complet depuis les événements de travail et de déploiement, couverture depuis le rapport de tests, TODO/FIXME depuis le code, onboarding depuis des critères de réussite. Le git log seul ne fournit pas toutes ces données.
+
+Le taux de PR fusionnées est un signal descriptif, sensible au découpage des tâches et à la taille des PR. Aucun seuil universel de 50 développeurs ne garantit sa significativité. Définissez l’unité d’analyse, les variations attendues et les facteurs de confusion avant l’essai. Le pilote proposé ne prouve pas à lui seul une causalité.
+
+**"Les gains sont individuels, ça ne se voit pas sur le produit."**
+
+Vérifiez si les résultats individuels améliorent le produit. Plus de tests ou de couverture ne prouve pas moins de défauts ; mesurez aussi les défauts échappés, les reprises et la réussite des tâches d’onboarding.
+
+**"Comment on sait que c'est l'IA qui fait la différence ?"**
+
+On ne peut pas l'isoler parfaitement sans un RCT interne. Ce qu'on peut faire : pilote sur une période stable, mêmes métriques avant/après. La comparaison sera indicative, pas scientifique. C'est suffisant pour une décision d'entreprise.
+
+## Sécurité & Compliance
+
+**"Notre code source part chez Anthropic/OpenAI. Risque IP."**
+
+Vérifiez les conditions exactes du fournisseur et du plan : usage des données, rétention, hébergement, sécurité, SLA et DPA. Ne déduisez pas ces garanties du nom Business ou Enterprise. Faites valider le dispositif avant déploiement.
+
+**"Quid de la RGPD ?"**
+
+Le code source en lui-même n'est généralement pas de la donnée personnelle au sens RGPD. Si le code contient des données personnelles (exemples hardcodés, logs, fichiers de test avec vraies données), c'est un problème indépendamment de l'IA. Règle : ne jamais inclure de données personnelles réelles dans le contexte envoyé à l'IA.
+
+**"L'IA peut générer du code avec des vulnérabilités."**
+
+C'est vrai. L'IA génère du code probable, pas du code correct. Elle peut introduire des injections SQL, des XSS, des secrets en clair. Le code IA reste soumis à la même code review que le code humain. Si le process de review actuel ne détecte pas ces vulnérabilités, le problème existait avant l'IA. Outils complémentaires : SAST (Semgrep, Snyk) intégrés dans la CI.
+
+**"Qui est propriétaire du code généré ?"**
+
+Les droits d’usage, la protection par le droit d’auteur et l’indemnisation sont distincts. Faites examiner le contrat et la juridiction applicables.
+
+**"On est dans un secteur régulé."**
+
+Déterminez les obligations à partir des données, du rôle de l’organisation et du déploiement. Vérifiez le périmètre et la validité des certifications revendiquées. Ni un label fournisseur ni un modèle local ne suffisent à conclure à la conformité. Voir le livre blanc 06 et les sources officielles qui y sont référencées.
+
+**"Comment on audit ce que l'IA a fait ?"**
+
+Le code généré par IA est du code comme les autres dans le git : visible dans les diffs, les PRs, l'historique. La gouvernance s'applique au code, pas à son origine.
+
+## Usage & Gouvernance
+
+**"Les devs vont perdre leurs compétences."**
+
+METR mesure une durée d’exécution, pas une perte de compétences. L’apprentissage demande une évaluation séparée. Réponse : utiliser l'IA pour les tâches de surface (tests, docs, boilerplate, exploration) et garder le raisonnement profond sur l'architecture et les algorithmes critiques côté humain. Faire des code reviews qui challengent le code généré, pas juste qui l'approuvent.
+
+**"Comment on gère si l'IA fait une erreur en prod ?"**
+
+Exactement comme si un dev avait fait l'erreur. Le code IA passe en review, en tests, en staging. Si le process de déploiement est solide, l'origine du bug ne change pas le process de correction.
+
+**"Nos seniors n'en ont pas besoin."**
+
+Sur leur code familier complexe, les seniors en tirent effectivement moins, voire sont ralentis (cf. METR). Mais ils peuvent l'utiliser intelligemment sur des tâches de levier : architecture, documentation technique, onboarding des juniors, audit de sécurité, exploration de nouveaux stacks. Et les juniors : montée en compétence accélérée, barrière à la contribution abaissée. Le résultat pour les juniors doit être mesuré, notamment la compréhension et l’autonomie après assistance.
+
+# Au-delà des équipes tech
+
+Ce document cible l'adoption IA pour les équipes de développement. Mais les agents et les skills ne s'arrêtent pas à la frontière du code.
+
+Les agents IA peuvent embarquer du know-how métier (règles de compliance, logique de pricing, workflow client) et devenir directement utilisables par des équipes business sans passer par un cycle de développement complet. Un agent construit par l'équipe tech peut être opéré par un analyste, un account manager, un support L2.
+
+Concrètement : un analyste business qui traite 30 rapports financiers par semaine peut confier à un agent la consolidation, la détection d'anomalies et la production d'un premier draft de synthèse. Dans ce scénario illustratif, on comparerait le temps total, la qualité et les corrections nécessaires avant de conclure à un gain. Un account manager peut utiliser un skill de qualification de leads pour scorer automatiquement les prospects entrants, croiser les signaux CRM, et préparer l'appel avec un brief contextualisé, sans attendre que l'équipe data construise un pipeline dédié. Un support L2 peut passer par un agent de diagnostic qui interroge les logs, recroît les tickets historiques similaires, et propose une piste de résolution avant même d'ouvrir le ticket en interne.
+
+Pour le CEO, le cycle entre l'hypothèse business et le code qui la teste raccourcit. Les équipes tech et business peuvent itérer ensemble, le prototype fonctionnel arrivant en heures plutôt qu'en sprints. C'est une opportunité de co-développement que beaucoup d'organisations n'ont jamais eu.
+
+Ce périmètre élargi ne s'improvise pas; il demande une maîtrise solide de l'outillage IA par les devs d'abord. L'adoption commence par les équipes tech. Mais c'est rarement là qu'elle finit.
+
+# L'IA comme augmentation, pas comme outil
+
+La distinction est pratique, pas philosophique. Un outil, tu l'installes et tu l'utilises : le gain est immédiat ou quasi-immédiat. Une augmentation, c'est différent: il y a une période de reconfiguration.
+
+Les premiers jours avec Claude Code ou Cursor, la plupart des devs sont plus lents. Pas parce que l'outil est mauvais, mais parce qu'ils n'ont pas encore développé ce qu'on peut appeler l'intuition de contextualisation : savoir quand engager l'IA, comment formuler le problème, quelle granularité de contexte fournir. Ça s'apprend, et ça prend quelques semaines.
+
+Ce qui se passe ensuite est plus intéressant. Le dev augmenté ne code pas juste plus vite; il change de périmètre. Il s'aventure sur des langages qu'il n'aurait pas touchés, des stacks qu'il aurait passées à un spécialiste, des domaines métier qu'il aurait laissés aux seuls seniors qui les connaissaient. L'IA rend la prise en main de nouveaux territoires moins coûteuse. Le dev devient progressivement un mini-CTO de son périmètre : il peut raisonner et livrer sur des sujets plus larges, avec moins de dépendances.
+
+C'est pourquoi l'onboarding sur un outil IA ne ressemble pas à un onboarding sur un IDE. L'onboarding outil : 30 minutes de démo. L'onboarding augmentation : 4-6 semaines sur les patterns efficaces, les pièges, et le mindset pour savoir quand déléguer à l'IA vs garder la main.
+
+**Implication pour le pilote** : mesurez dès le départ, puis distinguez la phase d’apprentissage de l’usage stabilisé. Aucun nombre fixe de semaines ne garantit cette stabilisation.
+
+# Comment démarrer sans prendre de risque
+
+## Exemple de pilote en 3 étapes (8 semaines)
+
+Une fois le pilote validé, le prompt repo partagé (souvent la première quick win visible pour les décideurs) est décrit en section 9.
+
+**Semaines 1-2 : baseline**
+
+Sélectionner 3-5 volontaires motivés: ni les sceptiques, ni les évangélistes, des praticiens. Mesurer le cycle time et la couverture de tests actuels. Ce sont les deux métriques les plus faciles à comparer avant/après.
+
+**Semaines 3-8 : licences actives**
+
+Usage libre. Point hebdo de 15 min scopé sur les frictions techniques : l'outil est-il lent ? Le contexte se perd-il souvent ? Y a-t-il des patterns d'erreur récurrents ? Ce n'est pas une interview de ressenti ("comment tu te sens avec l'IA"), c'est une collecte de signaux techniques actionnables. Tenir un log quantitatif des "trucs qu'on n'aurait pas faits sans IA" : dette technique traitée, docs produites, tests écrits. C'est le vrai output à présenter au bilan.
+
+**Bilan : données, pas ressentis**
+
+Comparer les métriques. Lister les livrables concrets. Présenter au décideur avec des faits. Éviter de promettre des gains chiffrés avant d'avoir les données du pilote.
+
+## Budget pilote
+
+Avec les hypothèses historiques de prix ci-dessus : 20 USD × 5 personnes × 2 mois = 200 USD ; 100 à 200 USD × 5 personnes × 2 mois = 1 000 à 2 000 USD, hors coûts d’accompagnement, usage additionnel, change et taxes. Si ça ne marche pas, on arrête. Si ça marche, on a les données pour convaincre à l'échelle.
+
+## Du pilote au déploiement : plan de montée en charge
+
+Si le pilote est positif, la question suivante est immédiate : comment on passe à l'échelle ? Les décideurs budget demandent un échéancier, pas juste "on va déployer".
+
+**Exemple de rollout par cohortes (équipe de 30 devs)**
+
+| Mois | Cohorte | Licences | Budget mensuel | Capacité d'onboarding |
+|------|---------|----------|----------------|----------------------|
+| 1-2 | Pilote (volontaires) | 5 | ~100-1 000$ | 1 session × 5 devs |
+| 3 | Extension | 15 | ~300-3 000$ | 2 sessions × 5 devs |
+| 4-5 | Déploiement large | 30 | ~600-6 000$ | 4 sessions × 5 devs |
+
+Chaque cohorte = 2h d'onboarding par dev sur les patterns efficaces et les pièges. Pas de déploiement "dump the tool, figure it out". L'onboarding est la variable qui fait la différence entre adoption réelle et adoption sur papier.
+
+**Point sur les seuils enterprise** : si le déploiement vise au-delà de quelques dizaines de devs, vérifier les minimums de licences enterprise en vigueur pour l'outil choisi avant de construire l'échéancier. Certaines offres ont des seuils qui changent la structure du deal (négociation MSA, SLA dédié, procurement formel).
+
+## Ce qu'il faut éviter
+
+Ne pas déployer à toute l'équipe sans onboarding. Le gain ne vient pas de l'outil seul, il vient de savoir comment l'utiliser. Le scénario propose un onboarding de 2 heures ; vérifiez sa pertinence et ses résultats, sans lui attribuer d’effet garanti.
+
+::: {.callout-note title="Change management"}
+Les profils de résistance, le plan d'acculturation, et le passage de pilote à déploiement généralisé font l'objet d'une section dédiée dans la version étendue de ce document.
+:::
+
+# Checklist pré-pitch
+
+## Métriques à préparer
+
+- [ ] Cycle time moyen actuel (en jours, sur les 3 derniers mois)
+- [ ] Couverture de tests actuelle (en %)
+- [ ] Volume de dette technique visible (TODO/FIXME, issues open depuis plus de 6 mois)
+- [ ] Temps d'onboarding moyen d'un nouveau dev
+- [ ] Ratio features/bugfixes sur les 6 derniers mois
+
+## Choix de l'outil
+
+- [ ] Identifier l'outil adapté au contexte (Copilot si écosystème GitHub, Cursor Pro pour l'usage polyvalent, Claude Max pour les tâches complexes)
+- [ ] Vérifier la compliance data de l'offre choisie (DPA disponible ?)
+- [ ] Calculer le seuil de rentabilité pour votre contexte
+
+## Le pilote
+
+- [ ] 3-5 devs volontaires identifiés
+- [ ] 2-3 métriques définies avant/après
+- [ ] 1-2 livrables concrets attendus du pilote
+- [ ] Date de bilan fixée (8 semaines recommandées)
+
+## L'argumentaire
+
+- [ ] Coût du pilote calculé
+- [ ] Argument formulé en termes de livrable, pas de vitesse
+- [ ] Bold statements retirés ("2× la productivité")
+- [ ] Réponse sécurité préparée (DPA, on-premise si secteur sensible)
+- [ ] Argument framé en expansion de capacité de l'équipe, pas en substitut headcount
+- [ ] Plan de montée en charge mois par mois préparé (si déploiement au-delà du pilote)
+- [ ] Seuils de licensing enterprise vérifiés pour l'outil choisi
+- [ ] Métriques quantitatives privilégiées sur le qualitatif (cycle time + PR merge rate plutôt qu'interviews)
+
+## Pendant le pilote
+
+- [ ] Cycle time mesuré hebdomadairement
+- [ ] Log des "trucs qu'on n'aurait pas faits sans IA" tenu à jour
+- [ ] Point hebdo de 15 min organisé
+- [ ] Frictions collectées (outil lent, contexte perdu, réponses incorrectes)
+
+## Bilan post-pilote
+
+- [ ] Métriques avant/après comparées
+- [ ] Livrables concrets listés
+- [ ] ROI réel calculé
+- [ ] Use cases qui ont marché vs déçu identifiés
+
+# Prompt : Générer l'argumentaire depuis votre repo
+
+Plutôt que d'utiliser des chiffres génériques, ce prompt analyse votre repository et produit un argumentaire basé sur vos données réelles. À coller dans Claude Code à la racine du projet.
+
+```
+Tu es un analyste de productivité dev. Analyse ce repository et produis
+un argumentaire d'adoption IA adapté à notre contexte réel.
+Ne pas inventer de chiffres. Si une commande échoue, l'indiquer et passer à la suivante.
+
+ÉTAPE 1: Collecte de données
+
+# Volume et fréquence
+git log --oneline | wc -l
+git log --since="6 months ago" --oneline | wc -l
+git log --since="6 months ago" --format="%an" | sort | uniq -c | sort -rn | head -10
+
+# Nature des changements (6 mois)
+git log --since="6 months ago" --oneline | grep -iE "fix|bug|hotfix" | wc -l
+git log --since="6 months ago" --oneline | grep -iE "test|spec|coverage" | wc -l
+git log --since="6 months ago" --oneline | grep -iE "doc|readme|comment" | wc -l
+git log --since="6 months ago" --oneline | grep -iE "feat|feature|add|new" | wc -l
+
+# Repères dans le code, sans assimiler un TODO à toute la dette technique
+rg -n -e 'TODO|FIXME|HACK|XXX' \
+  -g '*.js' -g '*.ts' -g '*.py' -g '*.java' -g '*.go' -g '*.rb' -g '*.rs' \
+  -g '!node_modules/**' -g '!dist/**' -g '!vendor/**'
+# rg sort avec 1 lorsqu’aucune ligne ne correspond ; toute autre erreur doit être signalée.
+
+# Latence de PR : création à fusion, pas cycle complet de livraison
+# Nécessite gh authentifié et jq ; ne pas masquer une erreur de collecte.
+if gh pr list --state merged --limit 30 \
+  --json number,createdAt,mergedAt > /tmp/ai-pilot-prs.json; then
+  jq '[.[] | select(.createdAt != null and .mergedAt != null) |
+    ((.mergedAt | fromdateiso8601) - (.createdAt | fromdateiso8601)) / 86400] |
+    if length == 0 then {count: 0, meanDays: null}
+    else {count: length, meanDays: (add / length)} end' /tmp/ai-pilot-prs.json
+else
+  printf '%s\n' 'Collecte GitHub indisponible : ne pas calculer de moyenne.' >&2
+fi
+
+# Couverture : lire un rapport existant produit par le projet.
+# Si absent : indiquer « indisponible », jamais inventer Z%.
+
+ÉTAPE 2: Analyse
+
+Sur la base des données collectées :
+- Vélocité actuelle (commits/semaine)
+- Répartition features/bugfixes/tests/docs (en %)
+- Dette technique visible (TODO count, fichiers concernés)
+- Latence de PR moyenne si disponible, distincte du cycle de livraison
+
+ÉTAPE 3: Argumentaire adapté
+
+Formule 3-5 arguments spécifiques en utilisant uniquement les chiffres
+réels extraits. Format :
+
+"Sur les 6 derniers mois, [X commits], dont [Y%] de bugfixes.
+Couverture de tests : [valeur et rapport source, sinon indisponible]. [N] TODOs non traités dans [M] fichiers.
+L'IA permettrait de [action concrète] pour [bénéfice mesurable]."
+
+Format de sortie :
+
+# Argumentaire IA: [Nom du projet]
+*Généré le [date] sur la base du git log*
+
+## Situation actuelle
+[5-6 bullets avec données réelles]
+
+## Où l'IA peut intervenir immédiatement
+[3 use cases concrets avec chiffres réels]
+
+## L'argument pour le décideur
+[2-3 paragraphes adaptés au contexte du repo]
+
+## Recommandation pilote
+[Use case + métriques + profil dev + budget]
+```
+
+## Exemple fictif de sortie attendue
+
+```
+# Argumentaire IA: API Billing
+
+## Situation actuelle
+- 847 commits sur 6 mois (34 commits/semaine)
+- 38% bugfixes, 41% features, 8% tests, 13% docs
+- Couverture de tests : 24%
+- 312 TODOs dans 67 fichiers
+- Latence création-fusion des PR : 4,3 jours
+
+## Où l'IA peut intervenir immédiatement
+1. Tests : 24% de couverture. Objectif 60% sur les modules critiques
+   sans dédier des sprints entiers au coverage.
+2. Dette : 312 TODOs. Traitement systématique sans mobiliser
+   de capacity sprint.
+3. Docs : 3 fichiers > 800 lignes sans documentation inline.
+
+## L'argument pour le décideur
+38% des messages de commit mentionnent des correctifs, selon une
+classification approximative. La couverture ne prouve pas la cause des
+défauts. Tester si un travail ciblé améliore leur détection et réduit les reprises.
+
+## Recommandation pilote
+Use case : billing-service.ts de X% à 60% sur 6 semaines.
+Métriques : couverture + bugs en prod sur la période.
+Budget : calculer les périodes de facturation réelles de deux licences,
+plus l’usage variable et l’accompagnement ; 6 semaines ne valent pas un mois.
+```
+
+# Sources & lectures
+
+- **Borg et al. "Echoes of AI" (2025)**: [arXiv:2507.00788](https://arxiv.org/abs/2507.00788). 151 participants, 95% devs pro. Phase 1 observationnelle : +30.7% médiane. Phase 2 RCT : maintenabilité préservée. Co-signé par Dave Farley ("Continuous Delivery").
+- **METR Experienced Developer Study (2025)**: [arXiv:2507.09089](https://arxiv.org/abs/2507.09089). 16 devs expérimentés (expérience IA modérée), 246 issues sur projets open-source matures. 19% de temps supplémentaire dans les conditions de l’étude ; la perception déclarée des participants ne mesurait pas ce temps.
+- **Guide complet "The Reality of AI Productivity"**: [claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/roles/learning-with-ai.md#the-reality-of-ai-productivity)
+- **Retours de praticiens, non accessibles comme preuve publique** : plusieurs propositions de ce document (piège framing headcount, PR merge rate comme métrique directionnelle, fatigue post-pic IA, plan de montée en charge par cohortes, seuils enterprise) proviennent du feedback de praticiens pilotant l'adoption IA en entreprise sur des équipes de 50+ devs, challengé et intégré avec nuances.
+
+---
+
+*Les scénarios de budget et de déploiement sont illustratifs. Les résultats de recherche restent limités à leur protocole ; le ROI de votre équipe reste à mesurer.*
+
+# La Série
+
+Ce livre blanc fait partie de la série **Claude Code Ultimate Guide**, une ressource complète pour maîtriser Claude Code, de l'installation au déploiement en production.
+
+**13 livres blancs dans la série :**
+
+- **WP00** Introduction & Fondamentaux
+- **WP01** Prompts Efficaces
+- **WP02** Personnalisation & Configuration
+- **WP03** Sécurité en Production
+- **WP04** Architecture Interne
+- **WP05** Adoption en Équipe
+- **WP06** Privacy & Conformité
+- **WP07** Guide de Référence Condensé
+- **WP08** Teams d'Agents & Sub-Agents
+- **WP09** Apprendre avec l'IA (UVAL)
+- **WP10** Budget IA & ROI
+- **WP11** Piloter une Équipe à l'Ère de l'IA
+- **WP12** Ingénierie à l'Ère des Agents Autonomes
+
+Série complète disponible sur [cc.bruniaux.com/whitepapers/](https://cc.bruniaux.com/whitepapers/)

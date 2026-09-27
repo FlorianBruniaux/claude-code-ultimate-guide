@@ -2,10 +2,10 @@
 title: "L'Architecture Démystifiée"
 subtitle: "Pas de RAG, pas de magie noire - juste une boucle"
 author: "Florian BRUNIAUX"
-date: "2026-09-24"
+date: "2026-09-26"
 date-format: "MMMM YYYY"
 version: "3.43.0"
-wp-version: "1.5.1"
+wp-version: "1.5.2"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -35,10 +35,10 @@ lang: fr
 
 - Le master loop : pas de RAG, pas d'orchestrateur LLM; un agent synchrone réaction/action/observation
 - 9 outils natifs et comment les combiner efficacement
-- Budget contexte 200K: comprendre la consommation pour optimiser
+- Budget de contexte selon modèle : comprendre la consommation pour optimiser
 :::
 
-> **En 5 lignes :** Comprendre l'architecture interne de Claude Code change la façon dont vous l'utilisez. Cet ebook expose le master loop (le cycle fondamental réaction-action-observation), les 9 outils natifs avec leurs trade-offs, et la mécanique du budget contexte 200K tokens. Avec ce modèle mental, vous anticipez les comportements au lieu de les subir.
+> **En 5 lignes :** Comprendre l'architecture interne de Claude Code change la façon dont vous l'utilisez. Cet ebook expose le master loop (le cycle fondamental réaction-action-observation), les 9 outils natifs avec leurs trade-offs, et la répartition du contexte selon le modèle. Avec ce modèle mental, vous anticipez les comportements au lieu de les subir.
 
 # Philosophie : Less Scaffolding, More Model
 
@@ -48,46 +48,18 @@ lang: fr
 >
 > Daniela Amodei, Co-founder & President, Anthropic
 
-La plupart des agents IA s'appuient sur des classifieurs d'intention, des routeurs de tâches et des orchestrateurs. Claude Code n'en a aucun, ce qui est précisément son avantage architectural.
+Le modèle choisit les outils et la suite du travail à partir du contexte. Le runtime encadre ces décisions : permissions, politiques gérées, hooks, gestion du contexte, sous-agents et vérifications. Le mode auto utilise notamment un classificateur de permissions.
 
-## Ce Que Claude Code N'a PAS
+## Répartir les Responsabilités
 
-Là où la plupart des coding agents empilent des composants spécialisés (classifieur d'intention, routeur, orchestrateur DAG), Claude Code fait le choix inverse : supprimer ces couches intermédiaires et laisser le modèle gérer l'intégralité du flux de décision. Ce choix réduit drastiquement la surface de défaillance et élimine les interactions imprévisibles entre composants.
+| Élément | Responsabilité |
+|---------|----------------|
+| Modèle | Proposer les actions et interpréter les observations |
+| Runtime | Exécuter les outils, appliquer les contrôles, gérer les sessions |
+| Dépôt | Fournir instructions, conventions, tests et état versionné |
+| Utilisateur ou orchestrateur | Définir objectifs, responsabilités et critères d’acceptation |
 
-| Composant | Utilisé ailleurs | Claude Code |
-|-----------|-----------------|-------------|
-| Intent classifier | Oui | Non |
-| Task router | Oui | Non |
-| RAG/Embeddings | Oui | Non |
-| DAG orchestrator | Oui | Non |
-| Planner/Executor split | Oui | Non |
-
-**Tout cela est remplacé par** : Le modèle Claude lui-même décide quand appeler des outils, lesquels appeler, et quand il a terminé.
-
-## Pourquoi Ce Design
-
-Ce choix architectural n'est pas un manque d'ingénierie. C'est un pari délibéré sur la capacité du modèle. Chaque composant supprimé (classifieur, routeur, orchestrateur) est un point de friction en moins entre l'intention de l'utilisateur et l'exécution. Le résultat est un système où les mises à jour du modèle améliorent directement le produit, sans nécessiter de re-calibrer des heuristiques intermédiaires.
-
-| Avantage | Explication |
-|----------|-------------|
-| **Simplicité** | Moins de composants = moins de modes de défaillance |
-| **Model-driven** | Le raisonnement de Claude > heuristiques codées |
-| **Flexibilité** | Pas de pipeline rigide limitant Claude |
-| **Débogage** | Facile de comprendre ce qui s'est passé |
-
-## Les Trade-offs
-
-Tout choix architectural a un prix. L'absence d'orchestrateur offre de la flexibilité mais retire du contrôle déterministe. En pratique, cela signifie que deux sessions identiques peuvent produire des séquences d'outils différentes, puisque le modèle raisonne à chaque fois sans pipeline fixe.
-
-| Avantage | Inconvénient |
-|----------|--------------|
-| Simplicité | Moins de contrôle fin |
-| Flexibilité | Plus dur d'imposer des comportements stricts |
-| Moins de bugs | Les erreurs du modèle affectent tout |
-| Itération rapide | Nécessite un modèle de qualité |
-
-Ce compromis est au cœur de la philosophie Anthropic : plutôt que multiplier les couches de contrôle, investir dans la qualité du modèle lui-même. Chaque composant supprimé (classifieur, routeur, orchestrateur) est une surface de défaillance en moins et un vecteur de rigidité éliminé. Mais cela signifie aussi que la qualité de l'expérience dépend directement de la qualité du raisonnement du modèle, ce qui impose d'évaluer le modèle avec le même harness.
-
+La boucle action-observation est un modèle pédagogique utile ; elle ne décrit pas à elle seule tous les composants internes. Une mise à jour du modèle peut changer les résultats, mais les réglages et le dépôt restent déterminants. Évaluez le couple modèle-runtime sur des tâches représentatives.
 
 ## Modèles actuels
 
@@ -163,7 +135,7 @@ return claude_response.text
 Votre Prompt
     │
     ▼
-Claude raisonne (pas de classifieur, pas de routeur)
+Claude raisonne sous les contrôles du runtime
     ├─ Outil nécessaire → Exécute l'outil
     │                          │
     │                          ▼
@@ -174,7 +146,7 @@ Claude raisonne (pas de classifieur, pas de routeur)
     └─ Pas d'outil → Réponse texte (Terminé)          (boucle)
 ```
 
-Cette boucle est le seul mécanisme de contrôle. Il n'y a pas d'étape de planification préalable, pas de décomposition explicite en sous-tâches, pas de graphe d'exécution pré-calculé. Le modèle reçoit un prompt, raisonne, et décide s'il a besoin d'un outil. Si oui, il l'appelle, reçoit le résultat, et re-raisonne. Chaque itération enrichit le contexte, ce qui affine les décisions suivantes.
+Ce schéma simplifie l’exécution. Les décisions d’outils restent soumises aux permissions, hooks et autres contrôles du runtime. Des modes de planification, sous-agents et workflows peuvent ajouter une décomposition explicite.
 
 ## Ce Que Cela Signifie
 
@@ -184,7 +156,7 @@ Le modèle lui-même décide :
 - **Quel** outil appeler
 - **Quand** il a terminé
 
-Il n'y a pas de logique métier codée en dur qui route les requêtes : tout vient du raisonnement du modèle appris pendant l'entraînement.
+Le choix proposé par le modèle ne dispense pas le runtime de vérifier qu’une action est autorisée.
 
 ::: {.callout-note title="Scénario : Marc, dev senior dans une PME logistique"}
 Marc demande "ajoute la validation Zod au formulaire d'expédition". Claude entre dans le master loop : (1) Glob pour trouver `ShippingForm.tsx`, (2) Read pour comprendre la structure, (3) Grep pour identifier les imports Zod existants, (4) Edit pour ajouter le schéma de validation, (5) Bash pour lancer les tests. Cinq itérations de boucle, sans routeur ni orchestrateur ; le modèle a décidé seul de l'enchaînement.
@@ -262,65 +234,25 @@ Le modèle apprend ces patterns pendant l'entraînement. Pour les patterns dange
 
 ## Coût Token par Outil
 
-Chaque appel d'outil consomme des tokens du budget contexte, en input (la requête vers l'outil) et en output (le résultat retourné). Ces coûts s'accumulent à chaque itération du master loop, ce qui rend la sélection d'outil directement liée à l'économie de session. Un Read mal ciblé sur un gros fichier peut consommer autant qu'une dizaine de Grep ciblés.
+La définition des outils, leurs arguments et leurs résultats consomment du contexte. Le nombre de tokens dépend des données réellement retournées ; il n’existe pas de coût fixe par appel Read ou Bash. Ciblez les fichiers utiles et mesurez avec `/context`.
 
-| Outil | Coût Input | Coût Output | Ordre de grandeur |
-|-------|------------|-------------|-------------------|
-| Bash | Bas (commande) | Variable (output) | ~50 input / 100-10K output |
-| Read | Moyen | Élevé (gros fichiers) | ~100 input / 500-8K output |
-| Edit | Moyen | Moyen | ~200 input / 100-500 output |
-| Grep | Bas | Variable | ~80 input / 50-5K output |
-| Agent | Élevé (nouveau contexte) | Résumé seulement | ~2K input / 200-1K output |
+## Exécution et Recherche
 
-L'écart entre un Read sur un petit fichier (500 tokens) et un Read sur un fichier de 2000 lignes (8K tokens) montre pourquoi la gestion du contexte est critique. Chaque token consommé est un token de moins pour le raisonnement du modèle.
-
-## Exécution Streaming des Outils
-
-Les outils non-mutants (Read, Grep, Glob) peuvent démarrer leur exécution pendant que le modèle génère encore sa réponse, et s'exécuter en parallèle (jusqu'à 10 appels simultanés). Un outil n'attend donc plus la fin complète de la réponse avant de démarrer. Résultat visible : les sessions multi-lecture sont sensiblement plus rapides sur des codebases de taille moyenne à grande.
-
-::: {.callout-note title="Builds Natifs : bfs/ugrep remplacent Glob/Grep (v2.1.117)"}
-Dans les builds natifs macOS et Linux, les outils `Glob` et `Grep` sont remplacés par des binaires embarqués plus rapides :
-
-| Outil générique | Remplacement natif | Avantage |
-|-----------------|-------------------|----------|
-| `Glob` | `bfs` (breadth-first search) | Traversée de répertoires ~2-4x plus rapide, sans round-trip shell |
-| `Grep` | `ugrep` | Recherche regex multi-format sans dépendance externe |
-
-Ces remplacements sont transparents pour l'utilisateur : même interface, même syntaxe. L'impact est architectural, les builds natifs n'ont plus de dépendance externe sur les outils système `find`/`grep`, ce qui améliore la portabilité et les performances en cold start.
-:::
+Des outils indépendants peuvent s’exécuter en parallèle lorsque le runtime le permet. La concurrence, le démarrage et les implémentations de recherche peuvent varier entre versions et plateformes. Mesurez ces comportements sur la version installée avant d’en déduire un gain de débit.
 
 ## Patterns Avancés d'Utilisation des Outils
 
-Ces fonctionnalités sont disponibles via l'Agent SDK/API (pas le CLI directement) et concernent les équipes qui intègrent Claude dans des pipelines personnalisés :
-
-| Feature | Description | Gain mesuré |
-|---------|-------------|-------------|
-| **Programmatic Tool Calling (PTC)** | Orchestration multi-outils en un seul passage d'inférence ; Claude planifie et appelle plusieurs outils sans aller-retour supplémentaire | ~37% réduction tokens (communauté) |
-| **Dynamic Filtering** | Pré-traitement HTML brut avant injection dans le contexte | +13.3pp BrowseComp sur Sonnet 4.6 (officiel) |
-| **Tool Use Examples** | Champ `input_examples` dans la définition d'outil | Précision 72% → 90% (benchmark officiel) |
+Les API et SDK permettent des compositions d’outils, des schémas structurés et des stratégies de filtrage spécifiques. Ces mécanismes ne constituent pas tous des options CLI interchangeables. Consultez les contrats de l’API utilisée et mesurez les résultats sur vos données ; un gain de benchmark historique ne prédit pas le coût de votre pipeline.
 
 {{< pagebreak >}}
 
 # Gestion du Contexte
 
-## Budget Contexte (~200K tokens)
+## Budget de Contexte
 
-> **Fenêtres actuelles** : Opus 5.5, Sonnet 5 et Fable 5.1 utilisent 1M natif ; Haiku 4.5 utilise 200K. Voir le tableau des modèles ci-dessous.
+La fenêtre dépend du modèle et du fournisseur. Elle accueille les instructions système, les instructions du dépôt, l’historique, les résultats d’outils et la réserve de réponse. Les modèles adaptatifs actuels couverts par le guide disposent de 1M natif ; Haiku 4.5 dispose de 200K.
 
-```
-[ CONTEXT BUDGET ~200K tokens ]
-─────────────────────────────────────────────
-  System Prompt          ~5-15K tokens
-  CLAUDE.md Files        ~1-10K tokens
-  Conversation History   variable
-  Tool Results           variable
-  Réserve Réponse        ~40-45K tokens
-─────────────────────────────────────────────
-  USABLE = Total - System - Réserve ≈ 140-150K tokens
-```
-
-Le budget contexte est une ressource finie et non extensible au sein d'une session. Chaque Read, chaque Bash, chaque Grep consomme de l'espace qui ne sera plus disponible pour le raisonnement. C'est pourquoi la stratégie de gestion du contexte conditionne directement la qualité des réponses en fin de session.
-
+Inspectez les composantes avec `/context` plutôt que de déduire une capacité utile fixe d’un diagramme générique.
 
 ## Le contexte dépend du modèle
 
@@ -369,37 +301,9 @@ Sources : [Configuration](https://code.claude.com/docs/en/model-config), [spéci
 
 ## Auto-Compaction
 
-Claude Code déclenche l'auto-compaction non pas à un simple pourcentage fixe, mais quand le contexte restant tombe en-dessous d'un buffer fixe (~6-7% de la fenêtre). En pratique, cela correspond à environ 92% d'utilisation sur une fenêtre 200K, ce qui réconcilie les chiffres "75% vs 80% vs 92%" qui circulaient dans la communauté. Le `/compact` manuel reste disponible à tout moment.
+L’auto-compaction résume l’historique lorsque la place restante l’exige, selon le modèle et la configuration. `/compact` permet une compaction manuelle et `/autocompact` donne accès aux réglages disponibles. Aucun seuil universel de 70%, 85% ou 92% ne prouve une dégradation de qualité.
 
-**Ce qui se passe** :
-1. Passe de pré-compaction légère (micro-compaction) : compresse sélectivement les anciens tool results sans toucher à l'historique de conversation
-2. Si insuffisant : compaction complète; anciens tours résumés, contexte récent préservé intégralement
-3. Signal "context was compacted" envoyé au modèle
-
-::: {.callout-tip title="📋 Mémo : Zones de Contexte"}
-**Vert (0-50%)** : Travailler librement, toutes opérations possibles.
-
-**Jaune (50-70%)** : Être sélectif sur les Read/Grep, éviter les fichiers volumineux.
-
-**Orange (70-90%)** : Lancer `/compact` maintenant, privilégier les opérations ciblées.
-
-**Rouge (90%+)** : `/clear` requis, risque de dégradation des réponses.
-:::
-
-## Comportement au Seuil Critique
-
-Quand le contexte approche 90%+, le modèle adopte des comportements défensifs observables :
-
-| Symptôme | Cause | Action recommandée |
-|----------|-------|--------------------|
-| Réponses plus courtes | Réserve output compressée | `/compact` immédiat |
-| Omission d'étapes | Troncature des tool results | `/clear` + nouvelle session |
-| Répétitions de lecture | Contexte ancien perdu | Vérifier avec `/context` |
-| Hallucinations de chemin | Perte de contexte fichiers | Relire les fichiers clés |
-
-::: {.callout-warning title="Seuil 90% : Compacter avant, pas après"}
-Attendre l'auto-compaction à 92% signifie que Claude a déjà dégradé sa qualité pendant les 10-15% précédents. La bonne pratique : compacter à 70-75% pour préserver un contexte récent de qualité.
-:::
+Avant une passation, sauvegardez l’objectif, les décisions, les fichiers modifiés, les vérifications et le travail restant. Si Claude oublie une contrainte, inspectez le contexte et les instructions ; ne supposez pas que le pourcentage est l’unique cause. `/clear` réinitialise la conversation, tandis que les instructions du projet continuent à s’appliquer.
 
 ## Commande /context (v2.1.15+)
 
@@ -490,35 +394,30 @@ cc-sessions resume 8d472d
 
 ### Couche 4 en action : Grepai (Recherche Sémantique Locale, v3.27.1)
 
-**Grepai** est un exemple concret de Couche 4 : il opère entièrement hors du context window (local, Ollama + nomic-embed-text, zéro exfiltration) et remplace les patterns Grep+Read coûteux en tokens. → Voir aussi **#8 Intégration MCP** pour les autres outils de Couche 4.
-
-| Workflow | Tokens | Verdict |
-|----------|--------|---------|
-| `Grep brut + Read fichiers` | ~15K | Beaucoup de bruit |
-| `grepai search + trace` | ~4K | Recommandé |
+Grepai peut utiliser Ollama et un modèle d’embedding local pour construire son index. Les extraits retournés à Claude entrent cependant dans le contexte envoyé au fournisseur. Un index local ne garantit donc pas l’absence de transmission.
 
 ```bash
-# Recherche par intention (pas par regex)
-grepai_search("payment flow")      # Trouve le flux paiement
-grepai_trace_callers("authenticate") # Qui appelle authenticate ?
-grepai_trace_graph("processOrder") # Call graph complet
+grepai search "payment flow"
+grepai trace callers "authenticate"
 ```
 
-**Alignement "Less Scaffolding"** : Grepai fait du RAG local sans infrastructure ; le modèle raisonne sur les snippets pertinents, pas sur l'intégralité du fichier.
+Comparez les extraits obtenus, leur pertinence et leur volume à une recherche textuelle ciblée avant d’en conclure à un gain.
 
 > 📖 **Pour aller plus loin :** [§2.2 Context Management](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#22-context-management) (zones de contexte, stratégies de compaction, /compact vs auto-compact)
 
 ## Mémoire Agent (MEMORY.md)
 
-Claude Code offre trois scopes de mémoire persistante injectés automatiquement en Couche 2 :
+L’auto-memory native est activée par défaut. Son index se trouve sous `~/.claude/projects/<project>/memory/MEMORY.md`, avec les fichiers thématiques voisins. Les worktrees d’un dépôt partagent ce répertoire local à la machine. L’index chargé au démarrage est limité à 200 lignes ou 25 KB, au premier seuil atteint ; les fichiers thématiques se chargent à la demande.
 
-| Scope | Chemin | Visibilité |
-|-------|--------|------------|
-| `user` | `~/.claude/MEMORY.md` | Tous les projets |
-| `project` | `<project>/.claude/MEMORY.md` | Ce projet uniquement |
-| `local` | `<project>/.claude/MEMORY.local.md` | Ce projet, non partagé |
+La mémoire d’un agent personnalisé est distincte :
 
-**Limite d'injection** : 200 lignes par fichier MEMORY. Au-delà, le contenu est tronqué silencieusement; garder ces fichiers concis et structurés (décisions, conventions, contexte clé).
+| Scope agent | Répertoire |
+|-------------|------------|
+| `user` | `~/.claude/agent-memory/<name>/` |
+| `project` | `.claude/agent-memory/<name>/` |
+| `local` | `.claude/agent-memory-local/<name>/` |
+
+Inspectez et corrigez la mémoire avec `/memory`. Voir la [référence mémoire](https://code.claude.com/docs/en/memory).
 
 {{< pagebreak >}}
 
@@ -530,7 +429,7 @@ Les outils natifs opèrent dans le contexte de l'agent principal. Mais certaines
 
 ```
 1. Agent Principal → Sub-Agent (niveau 1) : Agent("Explore authentication patterns")
-                                             [Contexte frais | Mêmes outils sauf Agent]
+                                             [Contexte et outils selon la définition de l’agent]
 2. Sub-Agent (n1)  → Sub-Agent (niveau 2) : Agent("Deep-dive OAuth flow")
                                              [3 niveaux de profondeur par défaut]
 3. Sub-Agent (n2)  → Sub-Agent (n2)       : Glob, Read, Grep...
@@ -539,7 +438,7 @@ Les outils natifs opèrent dans le contexte de l'agent principal. Mais certaines
                                              [Seul le résumé de chaque niveau remonte]
 ```
 
-L'isolation est bidirectionnelle : un sub-agent ne voit pas l'historique de conversation de son parent, et le parent ne reçoit que le résumé final de chaque enfant. Cela signifie que si un sub-agent lit 50 fichiers (consommant 40K tokens dans son contexte), seuls 200-1K tokens de résumé reviennent dans le contexte de son parent, quel que soit le niveau où il se trouve dans la chaîne.
+Un sous-agent reçoit un contexte distinct et renvoie son résultat au parent. Le contenu initial dépend de son type : une délégation ordinaire et un contexte forké ne reçoivent pas le même historique. Les permissions et instructions héritées restent à examiner ; un contexte distinct n’est pas un bac à sable OS.
 
 ## Pourquoi une Profondeur Limitée à 3 Niveaux ?
 
@@ -580,24 +479,24 @@ Leïla debug un problème de performance sur l'API de paiement. Plutôt que lire
 
 **Status** : Expérimental (v2.1.32+, modèles choisis par coéquipier)
 
-Les sub-agents résolvent le problème de l'isolation contexte, mais restent synchrones et limités à depth 3. Pour les tâches nécessitant une coordination réelle entre plusieurs agents autonomes (chacun avec son propre context window de 1M tokens), les Agent Teams représentent l'étape suivante.
+Les sub-agents résolvent le problème de l'isolation contexte, peuvent fonctionner au premier plan ou en arrière-plan, avec une profondeur configurée. Pour les tâches nécessitant une coordination réelle entre plusieurs agents autonomes (chacun avec une fenêtre de contexte selon le modèle), les Agent Teams représentent l'étape suivante.
 
 ## Architecture Lead-Teammate
 
 ```
 [ Team Lead: Session principale ]
-    ├─ spawn → [ Teammate 1: 1M tokens ]
+    ├─ spawn → [ Teammate 1: contexte indépendant ]
     │                    ⇄ mailbox peer-to-peer ⇄
-    └─ spawn → [ Teammate 2: 1M tokens ]
+    └─ spawn → [ Teammate 2: contexte indépendant ]
     │
-    └─ coordination → [ Git-based locks: Merge automatique ]
+    └─ coordination → [ Liste de tâches partagée et messagerie ]
 ```
 
 **Capacités clés** :
 
 - Contexte isolé par agent, dimensionné selon le modèle
 - Communication peer-to-peer via mailbox (pas juste hiérarchique)
-- Coordination git-based (locks, merge automatique)
+- Prise de tâche coordonnée ; intégration des fichiers explicitement organisée
 - Débat solutions entre agents (challenge approches)
 
 ## Activation
@@ -610,8 +509,8 @@ claude
 Ou dans `~/.claude/settings.json` :
 ```json
 {
-  "experimental": {
-    "agentTeams": true
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   }
 }
 ```
@@ -631,17 +530,9 @@ Ou dans `~/.claude/settings.json` :
 
 ## Quand Utiliser
 
-| Critère | Teams | Single |
-|---------|-------|--------|
-| Complexité | >5 files, multi-layers | <5 files |
-| Type | Read-heavy (analysis) | Write-heavy (edits) |
-| Budget | >$300/month | <$100/month |
-| Coordination | Auto (git-based) | Manual |
+Utilisez une team lorsque les sous-tâches peuvent avancer indépendamment et que la messagerie bilatérale facilite une validation observable. Fixez des responsabilités de fichiers et un responsable d’intégration. Les verrous de prise de tâche ne verrouillent pas le code source et ne fusionnent pas automatiquement les branches.
 
-**Métriques** (Anthropic 2026) :
-
-- Fountain : 50% faster candidate screening (workforce management use case)
-- CRED : feature delivery réduit de moitié (source : planify.in, sept. 2025)
+Mesurez coûts, reprises et résultats acceptés face à un agent unique. Les études de cas générales d’adoption ne constituent pas une preuve d’efficacité des Agent Teams.
 
 {{< pagebreak >}}
 
@@ -662,18 +553,9 @@ Agents qui s'exécutent en arrière-plan sans bloquer session main.
 
 ## Lancement Background
 
-```bash
-claude
-You: & run full test suite
-# Préfixe & lance en background, vous continuez travailler
-# Ctrl+B pour envoyer en background, /tasks pour voir les tâches
-# Notification quand terminé (~15min later)
-```
+Demandez un sous-agent en arrière-plan pour une tâche indépendante, ou utilisez `Ctrl+B` lorsqu’une exécution éligible peut être envoyée en arrière-plan. `/tasks` affiche les travaux suivis dans la session. Le préfixe `&` sert au transfert vers le cloud lorsqu’il est disponible ; ce n’est pas une syntaxe générique de tâche locale.
 
-**Différence vs Agent Tool** :
-
-- **Agent** : Synchrone, bloque jusqu'à résumé
-- **Background** : Asynchrone, non-bloquant, notif à la fin
+L’outil Agent peut travailler au premier plan ou en arrière-plan. Définissez le résultat attendu, les fichiers possédés et la façon de récupérer ou interrompre le travail.
 
 ## Architecture
 
@@ -696,12 +578,7 @@ You: & run full test suite
 
 **Session Forking** (v2.1.19+) : Background agents peuvent fork session complète (contexte + historique), pas juste task description.
 
-**Monitoring** :
-```bash
-/background list         # Agents actifs
-/background status <id>  # Progression
-/background logs <id>    # Output détaillé
-```
+**Suivi** : ouvrir `/tasks`, inspecter le statut et les résultats, puis intégrer explicitement les changements.
 
 ## Quand Utiliser Background
 
@@ -763,30 +640,21 @@ Le Model Context Protocol (MCP) étend les capacités de Claude Code au-delà de
 ─────────────────────────────────────────────────────
 ```
 
-Le modèle traite les outils MCP exactement comme les outils natifs : il décide quand les appeler selon son raisonnement, sans routeur ni classifieur. La seule différence est le transport (JSON-RPC vs appel interne) et l'isolation (le serveur MCP ne voit pas le contexte complet).
+Le modèle traite les outils MCP exactement comme les outils natifs : il décide quand les appeler selon son raisonnement, sans routeur ni classifieur. Le transport et les contrôles applicables diffèrent ; un serveur peut avoir des accès locaux ou réseau propres à son processus.
 
 ## Faits Clés MCP
 
-Le protocole MCP repose sur quelques principes simples qui conditionnent son utilisation en pratique. Le serveur MCP ne reçoit que les paramètres d'appel, pas le contexte complet de la conversation, ce qui garantit l'isolation mais limite aussi sa capacité à contextualiser les réponses.
+Un appel MCP transmet les paramètres attendus au serveur et retourne un résultat. Un serveur peut maintenir de l’état et, selon ses permissions OS, lire d’autres fichiers ou accéder au réseau. L’absence de transmission automatique de tout l’historique n’est pas une garantie d’isolation.
 
-| Aspect | Comportement |
-|--------|--------------|
-| Protocole | JSON-RPC 2.0 sur stdio ou HTTP |
-| Nommage outils | Convention `mcp__<server>__<tool>` |
-| Partage contexte | Via paramètres et valeurs retour seulement |
-| Lifecycle | Server démarre au premier usage |
-| Permissions | Même système que outils natifs |
+| Aspect | À vérifier |
+|--------|------------|
+| Transport | stdio ou HTTP, authentification et destinations |
+| Accès | Fichiers, réseau, identifiants et commandes du serveur |
+| État | Mémoire, caches, journaux et rétention propres au serveur |
+| Contenu | Descriptions et résultats traités comme données non fiables |
+| Cycle de vie | Connexion immédiate ou différée selon configuration |
 
-## Ce Que MCP NE PEUT PAS Faire
-
-Ces limitations ne sont pas des bugs ; elles découlent du design intentionnel de MCP. L'isolation entre le serveur et le contexte principal est une garantie de sécurité : un serveur MCP compromis ne peut pas lire l'historique de conversation ni modifier le system prompt.
-
-| Limitation | Explication |
-|------------|-------------|
-| Accéder historique | Voit seulement params, pas contexte complet |
-| Maintenir état | Chaque appel est indépendant |
-| Modifier system prompt | Tools only, pas d'injection prompt |
-| Contourner permissions | Même layer sécurité que natif |
+Une réponse MCP peut contenir une injection de prompt. Les permissions du client ne remplacent pas les contrôles propres au serveur. Voir la [référence MCP](https://code.claude.com/docs/en/mcp).
 
 ## Comparaison des Mécanismes d'Extension
 
@@ -794,23 +662,25 @@ Claude Code propose 4 façons d'étendre son comportement, avec des profils trè
 
 | Mécanisme | Complexité | Latence ajoutée | Persistance | Cas d'usage typique |
 |-----------|-----------|-----------------|-------------|---------------------|
-| **Hooks** | Faible | <50ms | Session | Validation, logging, blocage commande |
-| **MCP** | Moyenne | 100–500ms | Configurable | APIs externes, BDD, browser |
-| **Skills** | Faible | Nulle | Global | Workflows récurrents (user-invocable) + modules de connaissance (model-invocable) |
+| **Hooks** | Faible | Selon le hook | Session | Validation, logging, blocage commande |
+| **MCP** | Moyenne | Selon le serveur | Configurable | APIs externes, BDD, browser |
+| **Skills** | Faible | Selon le workflow | Global | Workflows récurrents (user-invocable) + modules de connaissance (model-invocable) |
 | **Agents** | Élevée | Variable | Session | Tâches parallèles, analyse multi-fichiers |
 
 **Règle de sélection** : Hooks pour intercepter, MCP pour accéder, Skills pour automatiser, Agents pour paralléliser.
 
 ::: {.callout-note title="Hooks → MCP Tools (v2.1.118)"}
-Depuis v2.1.118, les hooks peuvent invoquer directement des outils MCP via `type: "mcp_tool"` dans la configuration de hook. Cela crée un nouveau point d'extension architectural : les hooks ne sont plus limités aux scripts shell, ils peuvent appeler n'importe quel serveur MCP enregistré.
+Depuis v2.1.118, les hooks peuvent invoquer directement des outils MCP via `type: "mcp_tool"` dans la configuration de hook. Cela crée un nouveau point d'extension architectural : les hooks ne sont plus limités aux scripts shell, ils peuvent appeler un serveur MCP déjà connecté.
 
 ```json
 {
   "hooks": {
     "PostToolUse": [{
-      "type": "mcp_tool",
-      "server": "mon-serveur-mcp",
-      "tool": "log_tool_call"
+      "hooks": [{
+        "type": "mcp_tool",
+        "server": "mon-serveur-mcp",
+        "tool": "log_tool_call"
+      }]
     }]
   }
 }
@@ -825,7 +695,7 @@ Impact : les hooks deviennent un bus d'intégration entre Claude Code et l'écos
 
 # Le Modèle de Sécurité
 
-La simplicité architecturale de Claude Code (une boucle, pas d'orchestrateur) ne signifie pas absence de sécurité. Au contraire, le modèle de permission est structuré en 4 couches progressives, de l'interaction utilisateur la plus simple jusqu'à l'isolation filesystem complète.
+La boucle agentique est encadrée par plusieurs contrôles de sécurité. Au contraire, le modèle de permission est structuré en 4 couches progressives, de l'interaction utilisateur la plus simple jusqu'à l'isolation filesystem complète.
 
 ## Les 4 Couches de Permission
 
@@ -846,59 +716,15 @@ La simplicité architecturale de Claude Code (une boucle, pas d'orchestrateur) n
              Isolation filesystem + réseau
 ```
 
-Chaque couche est indépendante et cumulative. La couche 1 suffit pour un usage personnel. Les couches 2-3 sont recommandées pour les équipes. La couche 4 est destinée aux environnements CI/CD et aux pipelines automatisés où aucun humain ne supervise l'exécution.
+Choisissez les contrôles selon les données et les actions, y compris en usage personnel. Le mode de permission, les règles enregistrées, les politiques gérées et le bac à sable déterminent si un appel est demandé, autorisé ou refusé.
 
-## Patterns Dangereux Détectés
-
-Le modèle apprend à reconnaître les commandes destructives pendant l'entraînement, mais cela ne suffit pas pour un système de production. Des règles explicites dans le system prompt viennent compléter cet apprentissage pour garantir qu'un prompt interactif s'affiche systématiquement, même si le modèle ne détecte pas le risque seul.
-
-| Pattern | Risque | Comportement |
-|---------|--------|--------------|
-| `rm -rf` | Suppression destructive | Prompt toujours |
-| `sudo` | Escalade privilèges | Prompt toujours |
-| `curl \| sh` | Exécution code distant | Prompt toujours |
-| `chmod 777` | Permissions insécures | Prompt toujours |
-| `git push --force` | Destruction historique | Prompt toujours |
-| `DROP TABLE` | Destruction données | Prompt toujours |
-
-Ces patterns sont détectés via l'entraînement du modèle ET des règles explicites dans le system prompt.
-
-::: {.callout-tip title="📋 Mémo : Sécurité rapide"}
-**Quoi** : 4 couches de permission (prompts, rules, hooks, sandbox).
-
-**Quand** : Prompts = usage perso. Rules + Hooks = équipe. Sandbox = CI/CD.
-
-**Comment** : `settings.json` pour les règles, `.claude/hooks/` pour les hooks.
-
-**Vérifier** : `claude /permissions` pour voir les règles actives.
-:::
+Les commandes destructrices ne produisent pas systématiquement un prompt dans tous les modes. Inspectez `/permissions` dans la session et testez des cas témoins ; ne considérez pas une consigne dans CLAUDE.md comme une frontière d’autorisation.
 
 {{< pagebreak >}}
 
 # Comment Fonctionne l'Edit Tool
 
-L'Edit tool est l'outil le plus utilisé dans les sessions de codage. Comprendre son algorithme interne permet de diagnostiquer les échecs d'édition et d'écrire des CLAUDE.md qui minimisent les erreurs.
-
-## Algorithme Edit
-
-```
-Input : old_string, new_string, file_path
-      │
-      ▼
-Match exact ?
-├─ Oui → REMPLACER (Terminé)
-└─ Non → Fuzzy match ? (Whitespace + line endings + contexte élargi)
-          ├─ Oui → REMPLACER + WARNING
-          └─ Non → ERREUR mismatch
-```
-
-## Fuzzy Matching
-
-Quand le match exact échoue :
-
-1. **Normalisation whitespace** : Ignore trailing spaces
-2. **Normalisation line endings** : Gère CRLF vs LF
-3. **Expansion contexte** : Utilise lignes environnantes
+L’outil Edit remplace une chaîne dans un fichier. Pour diagnostiquer un échec, vérifiez le chemin, le contenu courant et l’unicité de la chaîne. Les détails de correspondance tolérante ne constituent pas un contrat public stable ; ne fondez pas un workflow sur un algorithme interne supposé.
 
 ## Validation Edit
 
@@ -927,32 +753,16 @@ Antoine constate que Claude échoue à éditer un fichier avec "old_string not f
 
 ## Comparaison Architecturale (2026)
 
-Les coding agents évoluent vite, mais les différences architecturales fondamentales restent stables. Claude Code se distingue par son exécution locale, son modèle de raisonnement transparent et son absence d'orchestrateur, là où les alternatives reposent sur des pipelines cloud ou des systèmes event-driven.
+Comparez les outils sur votre travail réel : modèles accessibles, intégration éditeur, outils, permissions, contexte, reprise de session, coût facturé et qualité des changements acceptés. Copilot Workspace était une ancienne preview ; elle ne décrit pas tout le produit Copilot actuel. Les capacités de Cursor et Copilot ont évolué, notamment pour MCP et les modèles de raisonnement.
 
-| Dimension | Claude Code | GitHub Copilot Workspace | Cursor |
-|-----------|-------------|--------------------------|--------|
-| **Architecture** | while(tool) loop | Cloud-based planning | Event-driven + cloud |
-| **Exécution** | Local terminal | Cloud sandbox | Local + cloud |
-| **Modèle** | Claude (Opus 5.5 par défaut, Sonnet 5, Fable 5.1 sur demande) | GPT-4o/o3-mini/Claude | Multiple (adaptive) |
-| **Contexte** | 200K–1M tokens (1M natif sur Sonnet 5) | 128K–200K (selon modèle)^[GPT-4o : 128K, o3-mini et Claude via Copilot : 200K. Source : GitHub Copilot docs, nov. 2025. Vérifié fév. 2026.] | Non publié officiellement |
-| **Thinking** | Opus 5.5 (medium), Sonnet 5 / Fable 5.1 (high) | Non | Non |
-| **Agent Teams** | Oui (expérimental) | Non | Non |
-| **Transparence** | Élevée (visible reasoning) | Moyenne | Moyenne |
-| **Custom** | CLAUDE.md + hooks + agents | Limité | Plugins |
-| **MCP** | Natif | Non | Quelques servers |
-| **LSP** | Oui (v2.0.74+) | Non | Oui |
+| Critère | Validation locale |
+|---------|-------------------|
+| Qualité | Même tâche et mêmes critères d’acceptation |
+| Coût | Tous les appels et reprises, plus le temps de revue |
+| Sécurité | Permissions, destinations réseau et données exposées |
+| Intégration | Éditeur, terminal, CI et reprise réellement utilisés |
 
-## Quand Choisir Claude Code
-
-Le choix d'un coding agent dépend du workflow dominant dans votre équipe. Claude Code excelle dans les workflows terminaux, l'exploration de code profonde et la personnalisation avancée via CLAUDE.md et hooks. En revanche, si l'intégration IDE native est prioritaire, d'autres outils seront plus adaptés.
-
-| Scénario | Claude Code | Alternative |
-|----------|-------------|-------------|
-| Exploration profonde codebase | Excellent | Bon |
-| Workflow terminal-native | Excellent | Limité |
-| Automatisation custom (hooks) | Excellent | Limité |
-| Standardisation équipe | Bon (CLAUDE.md) | Variable |
-| Intégration IDE | Limité | Cursor/Copilot |
+Consultez les documentations actuelles de [Claude Code](https://code.claude.com/docs/en/overview), [GitHub Copilot](https://docs.github.com/en/copilot) et [Cursor](https://docs.cursor.com/) avant de choisir.
 
 ## Quatre couches, quatre responsabilités
 
@@ -977,7 +787,7 @@ Malgré la transparence croissante d'Anthropic, plusieurs aspects internes de Cl
 
 | Sujet | État |
 |-------|------|
-| Seuil exact compaction | Résolu : buffer fixe ~6-7% restant (≈92% utilisé) |
+| Seuil de compaction | Dépend du modèle et de la configuration ; inspecter `/context` et `/autocompact` |
 | Contenu system prompt | Pas public, varie par version |
 | Méthode comptage tokens | Tokenizer exact, overhead |
 | Fallback modèle | Claude Code fait-il fallback? |
@@ -1028,7 +838,7 @@ Chaque whitepaper de la série est autonome, mais ils se complètent mutuellemen
 
 **Repository** : [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)
 
-*Version 3.42.0 | Août 2026*
+*Version 3.43.0 | Septembre 2026*
 
 
 ---
@@ -1039,7 +849,7 @@ Chaque whitepaper de la série est autonome, mais ils se complètent mutuellemen
 
 Ce livre blanc fait partie de la série **Claude Code Ultimate Guide**, une ressource complète pour maîtriser Claude Code, de l'installation au déploiement en production.
 
-**12 livres blancs dans la série :**
+**13 livres blancs dans la série :**
 
 - **WP00** Introduction & Fondamentaux
 - **WP01** Prompts Efficaces
@@ -1047,11 +857,12 @@ Ce livre blanc fait partie de la série **Claude Code Ultimate Guide**, une ress
 - **WP03** Sécurité en Production
 - **WP04** Architecture Interne
 - **WP05** Adoption en Équipe
-- **WP06** Privacy & Conformité *(à venir)*
+- **WP06** Privacy & Conformité
 - **WP07** Guide de Référence Condensé
 - **WP08** Teams d'Agents & Sub-Agents
 - **WP09** Apprendre avec l'IA (UVAL)
-- **WP10** Budget IA & ROI *(à venir)*
+- **WP10** Budget IA & ROI
 - **WP11** Piloter une Équipe à l'Ère de l'IA
+- **WP12** Ingénierie à l’Ère des Agents Autonomes
 
 Série complète disponible sur [cc.bruniaux.com/whitepapers/](https://cc.bruniaux.com/whitepapers/)

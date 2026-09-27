@@ -367,14 +367,10 @@ def scan_skills(skills_dir: Path) -> list[dict]:
         if not skill_path.exists():
             continue
         # Prefer SKILL.md path if exists, else folder pointer
-        skill_md = skill_path / "SKILL.md"
-        skill_md_lower = skill_path / "skill.md"
-        if skill_md.exists():
-            path_val = f"skills/{name}/SKILL.md"
-        elif skill_md_lower.exists():
-            path_val = f"skills/{name}/"
-        else:
-            path_val = f"skills/{name}/"
+        # Path.exists() is case-insensitive on common macOS filesystems.
+        # Preserve the spelling that will actually exist on the public host.
+        file_names = {child.name for child in skill_path.iterdir() if child.is_file()}
+        path_val = f"skills/{name}/SKILL.md" if "SKILL.md" in file_names else f"skills/{name}/"
         entries.append({
             "name": f"{name}/",
             "path": path_val,
@@ -396,9 +392,8 @@ def scan_skills(skills_dir: Path) -> list[dict]:
     for d in sorted(skills_dir.iterdir()):
         if not d.is_dir() or d.name in collection_names:
             continue
-        skill_md = d / "SKILL.md"
-        skill_md_lower = d / "skill.md"
-        actual_md = skill_md if skill_md.exists() else (skill_md_lower if skill_md_lower.exists() else None)
+        files = {child.name: child for child in d.iterdir() if child.is_file()}
+        actual_md = files.get("SKILL.md") or files.get("skill.md")
         if actual_md:
             desc = extract_description(actual_md)
             entries.append({

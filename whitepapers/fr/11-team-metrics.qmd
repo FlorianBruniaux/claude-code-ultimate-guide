@@ -1,11 +1,11 @@
 ---
 title: "Piloter une Équipe à l'Ère de l'IA"
-subtitle: "DORA, SPACE et les métriques qui comptent quand l'IA écrit 70 % de votre code"
+subtitle: "DORA, SPACE et les métriques du développement assisté par IA"
 author: "Florian BRUNIAUX"
-date: 2026-08-24
+date: "2026-09-26"
 date-format: "MMMM YYYY"
 version: "3.43.0"
-wp-version: "1.3.1"
+wp-version: "1.3.2"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -39,15 +39,13 @@ lang: fr
 - Les 6 métriques vanity à supprimer dès demain
 :::
 
-> **En 5 lignes :** L'IA booste la vélocité des équipes, les chiffres sont réels. Le risque, c'est de mesurer la mauvaise chose. Sprint velocity, commits, lignes de code : ces indicateurs montent automatiquement quand vous adoptez des outils IA, mais ils ne vous disent rien sur la qualité réelle du code ni sur la soutenabilité du rythme. Ce whitepaper donne la stack de métriques qui fonctionne quand l'IA génère 70 à 90 % de votre output, avec les outils, les benchmarks et la roadmap d'implémentation.
+> **En 5 lignes :** L’assistance IA peut modifier le volume produit, le temps de revue et le coût d’une tâche. Les commits et lignes de code ne suffisent pas à mesurer le résultat. Ce livre blanc combine DORA, SPACE et des mesures propres aux agents. Il propose une instrumentation progressive et distingue les observations publiées, les hypothèses et les résultats à vérifier dans votre équipe.
 
 # Le Problème de la Mesure
 
-L'adoption de l'IA dans le développement change la vitesse de livraison assez vite pour casser la plupart des benchmarks existants. Une équipe qui livrait 2 features par sprint en 2022 peut maintenant en livrer 6, avec l'IA générant 70 à 90 % du code. Ça ressemble à une victoire sur tous les tableaux de bord traditionnels, et c'est peut-être effectivement une victoire. Ou la vélocité masque des revues superficielles, une atrophie des compétences, et une dette technique croissante que personne ne comprend vraiment.
+Une hausse d’activité peut coexister avec des défauts, des reprises ou une perte de compréhension. Elle n’est ni automatique avec l’IA ni synonyme de valeur livrée. Comparez chaque service à sa propre baseline et vérifiez les facteurs qui changent entre périodes.
 
-Les métriques d'activité montent immédiatement quand vous adoptez des outils IA, mais les signaux de qualité et de maintenabilité sont plus lents et plus difficiles à instrumenter. Vélocité de sprint, commits par jour, lignes écrites : tout monte. Taux de bugs en prod, temps de compréhension d'une PR, confiance des développeurs : ce sont eux qui vous diront la vérité dans 6 mois.
-
-Ce guide donne aux engineering managers, tech leads et CTO une stack de métriques pratique : la fondation DORA recalibrée pour un contexte IA, les facteurs humains via SPACE, et les signaux AI-specific que les frameworks standard ne couvrent pas.
+Les métriques d’activité arrivent souvent plus vite que les signaux de maintenabilité. Suivez les deux, en ajoutant les coûts d’usage, de revue et de correction. DORA décrit le système de livraison ; SPACE élargit l’observation au travail et aux personnes.
 
 ## Ce que les Données Anthropic Confirment
 
@@ -65,9 +63,9 @@ DORA (DevOps Research and Assessment) mesure la santé d'un système de livraiso
 
 **Comment mesurer** : Comptez les déploiements en production par jour, semaine ou mois. La plupart des outils CI/CD exposent ça directement (GitHub Actions, CircleCI, Vercel, etc.).
 
-**En contexte IA** : L'IA accélère le développement de features, donc votre cadence devrait augmenter, à condition que votre pipeline suive. Si la fréquence de déploiement reste plate après adoption IA généralisée, le goulot est en aval : environnements de staging, QA manuel, débit de revue. L'IA vous donne plus de PRs à merger, elle n'améliore pas automatiquement le reste du pipeline.
+**En contexte IA** : vérifiez si le temps de développement change, puis examinez les attentes de revue, validation et déploiement. Une fréquence stable ne suffit pas à localiser une contrainte ni à conclure à un effet de l’IA.
 
-**Signal d'alerte** : fréquence de déploiement qui monte pendant que le Change Failure Rate monte aussi. C'est du code IA-accéléré qui n'est pas relu sérieusement.
+**Signal à examiner** : une fréquence de déploiement et un Change Failure Rate qui montent ensemble. Inspectez les changements et les incidents avant d’en attribuer la cause à la revue ou à l’IA.
 
 ## Change Lead Time
 
@@ -87,7 +85,7 @@ DORA (DevOps Research and Assessment) mesure la santé d'un système de livraiso
 
 **En contexte IA** : C'est la métrique la plus à risque quand l'adoption IA dépasse la discipline de revue. L'IA génère du code syntaxiquement correct et structurellement plausible qui peut quand même avoir des erreurs comportementales subtiles. Les équipes qui traitent les PRs IA-générées comme "moins risquées" et font du rubber-stamping voient leur CFR monter progressivement sur 6 à 12 mois.
 
-**Recommandation** : Trackez le CFR séparément pour le code IA-généré et le code écrit manuellement. Si le CFR IA est significativement plus élevé, c'est votre processus de revue qui a besoin de renforcement, pas vos outils IA.
+**Recommandation** : comparez les groupes avec une définition documentée de l’assistance IA, en tenant compte des tâches, de la taille des changements et des équipes. Un écart peut justifier une investigation de l’outil, de la revue ou du contexte ; il n’identifie pas à lui seul la cause.
 
 ## Failed Deployment Recovery Time
 
@@ -173,15 +171,15 @@ La proportion de code commité qui était IA-généré ou IA-assisté. Disponibl
 
 ## CFR : Code IA vs Code Manuel
 
-Séparez votre Change Failure Rate par origine du code : commits IA-générés versus commits écrits manuellement. La plupart des outils enterprise de coding IA peuvent tagger les commits ou les PRs. Si vous préférez un mécanisme self-hosted plutôt qu'un outil enterprise payant, le [PR Audit Trail](https://cc.bruniaux.com/guide/ai-traceability/) fait ce tagging pour vous : un hook `PreToolUse` journalise chaque appel d'outil, une GitHub Action capture et attache l'artefact à la PR à sa création (rétention 90 jours).
+Comparez les déploiements avec et sans assistance IA identifiée, en documentant les changements mixtes et les cas sans attribution. Le [PR Audit Trail](https://cc.bruniaux.com/guide/ai-traceability/) peut fournir des traces supplémentaires : `PreToolUse` journalise une tentative d’appel, sans prouver son succès ni attribuer intégralement le code livré. La collecte et la conservation des artefacts dépendent de votre workflow.
 
-Si le CFR IA est dans les 2 à 3 points de pourcentage du CFR manuel, votre processus de revue fonctionne. S'il est significativement plus élevé, la discipline de revue a chuté. S'il est plus bas, les outils IA améliorent peut-être réellement la qualité du code dans votre domaine.
+Un écart de 2 ou 3 points de pourcentage n’est pas un seuil universel de bon fonctionnement. Examinez les effectifs, la sévérité, les tâches et l’incertitude avant de conclure. Un CFR plus faible peut refléter des tâches moins risquées ou d’autres différences.
 
 ## Temps de Revue : PRs IA vs PRs Manuelles
 
 Comparez le temps moyen de revue (ouverture à merge) pour les PRs IA-générées versus les PRs écrites manuellement. Si les PRs IA sont mergées significativement plus vite que les manuelles, vous avez peut-être un problème de rubber-stamping.
 
-Le code IA-généré nécessite au moins autant de scrutin à la revue que le code écrit manuellement, voire plus : il peut être dans l'erreur de façon non évidente mais avec une grande confiance apparente. Un cycle de revue 30 % plus rapide pour les PRs IA est un signal jaune à investiguer.
+Le code IA-généré nécessite au moins autant de scrutin à la revue que le code écrit manuellement, voire plus : il peut être dans l'erreur de façon non évidente mais avec une grande confiance apparente. Un changement de latence mérite une investigation, sans seuil universel de 30 %. Séparez le temps actif de revue du temps d’attente et de fusion.
 
 ## Compréhension du Code par les Développeurs
 
@@ -211,11 +209,11 @@ Ces métriques reproduisent ce qu'ont mesuré METR et DeputyDev. Exécutez-les s
 
 | Métrique | Ce qu'elle mesure | Baseline publiée |
 |----------|-------------------|-------------------|
-| Temps de complétion de tâche, IA vs sans IA | Accélération ou ralentissement réel pour votre type de tâche | METR Study 1 (juillet 2025, arXiv 2507.09089) : -19 % pour des développeurs expérimentés sur des repos open-source complexes. Écart de perception : +39 points (les développeurs pensaient être 20 % plus rapides) |
+| Temps de complétion de tâche, IA vs sans IA | Accélération ou ralentissement réel pour votre type de tâche | METR Study 1 (juillet 2025, arXiv 2507.09089) : 19 % de temps supplémentaire sur les tâches étudiées. Les participants déclaraient se sentir plus rapides, ce qui est une mesure distincte |
 | Cycle time des PRs, assisté par IA vs baseline | Évolution du débit du pipeline | DeputyDev (arXiv 2509.19708) : -31,8 % de cycle time PR (p=0,0018), n=300 ingénieurs, 12 mois |
-| Taux de succès sur PRs avec tests exécutables comme oracle | Fréquence à laquelle le code généré par agent passe réellement la validation fonctionnelle | c-CRAB (arXiv 2603.23448, mars 2026) : Claude Code 32,1 % de pass rate sur PRs réelles. Union de quatre outils : 41,5 %. C'est le plafond pratique actuel pour la qualité de revue de code IA |
+| Taux de succès sur PRs avec tests exécutables comme oracle | Fréquence à laquelle le code généré par agent passe réellement la validation fonctionnelle | c-CRAB (arXiv 2603.23448, mars 2026) : Claude Code 32,1 % de pass rate sur PRs réelles. Union de quatre outils : 41,5 %. Ces scores concernent ce protocole et ces outils ; ils ne constituent pas un plafond universel de qualité de revue |
 
-Le chiffre METR de -19 % s'applique spécifiquement aux workflows L1-L2 (Cursor Pro et Claude 3.5/3.7 Sonnet sur des repos existants complexes). C'est la seule mesure rigoureuse avec groupe de contrôle disponible dans ce contexte. Les chiffres auto-déclarés de McKinsey (20-45 %), BCG (64 %) et les propres études GitHub ne sont pas reproduits dans des conditions contrôlées : à traiter comme des estimations aspirationnelles, pas comme des inputs de planification.
+Le résultat METR de 19 % de temps supplémentaire concerne le protocole, les développeurs, les dépôts et les outils étudiés en 2025. Il ne se transfère pas automatiquement aux modèles ou workflows actuels. Les résultats contrôlés, observationnels et déclaratifs répondent à des questions différentes ; vérifiez le protocole avant d’utiliser un chiffre dans une décision.
 
 ## Groupe 2 : Métriques de Pipeline Agentique
 
@@ -226,9 +224,9 @@ Elles nécessitent une instrumentation via Langfuse, Arize Phoenix ou AWS Bedroc
 | Spec quality score | Complétude et précision des specs avant exécution par l'agent. Indicateur avancé de la qualité du résultat | Pas de rubrique standard encore ; à définir en interne. Les contrats de validation pré-implémentation de Factory.ai sont le proxy documenté le plus proche |
 | Validation contract pass rate | Pourcentage d'implémentations générées par agent qui passent des contrats comportementaux prédéfinis, mesuré avant la revue humaine | Pattern Factory.ai Missions : 81 problèmes détectés dans un clone de Slack à partir de la seule spec, générant 34 % du travail d'implémentation sous forme de fix features |
 | Agent task completion rate | Tâches complétées par l'agent sans correction humaine, en pourcentage | Instrumenter via les logs du harness. Les données internes Anthropic montrent que la durée de tâche au 99,9e percentile est passée de 25 à 45 minutes entre octobre 2025 et janvier 2026, signe que les agents gèrent des tâches de plus en plus complexes |
-| Code review recall | Taux auquel les commentaires de revue générés par agent sont réellement traités par les développeurs | Code Review Bench (Martian, mars 2026, 200 000+ PRs open-source) : Augment Code 62,8 % de recall, GitHub Copilot 53,3 % de recall, Graphite 75 % de précision mais seulement 8,8 % de recall |
+| Code review recall | Part des défauts de référence détectés : vrais positifs / (vrais positifs + faux négatifs). Vérifier la définition et l’oracle du benchmark | Code Review Bench (Martian, mars 2026, 200 000+ PRs open-source) : Augment Code 62,8 % de recall, GitHub Copilot 53,3 % de recall, Graphite 75 % de précision mais seulement 8,8 % de recall |
 | Cost per completed task | Dépense en tokens plus temps de revue humaine par tâche agent atteignant un état mergeable | Pas de benchmark industriel publié à ce jour. Trackez manuellement : tokens consommés, coût par appel modèle, heures de revue humaine par tâche complétée |
-| Tokens per feature | Tokens moyens consommés par feature mergée, croisés avec les frontières de tickets Jira ou Linear. Meilleur signal que tokens/requête car il prend en compte la variation du nombre de sessions par feature | Pas de benchmark industriel. Trackez via le leaderboard projet ccboard (tokens/session × sessions par feature). Établissez une baseline avant d'optimiser ; la fourchette typique pour une PR complète est de 500K à 2M tokens sur des codebases complexes |
+| Tokens per feature | Tokens moyens consommés par feature mergée, croisés avec les frontières de tickets Jira ou Linear. Meilleur signal que tokens/requête car il prend en compte la variation du nombre de sessions par feature | Définir le rattachement des sessions et coûts aux tâches, sans multiplier des moyennes hétérogènes. Établir une baseline locale ; aucune fourchette universelle n’est retenue ici |
 
 ## Tester un harness avant de le standardiser
 
@@ -259,19 +257,21 @@ Sourcées de Strata Identity Research 2026 et CSA/Zenity 2026. Elles reflètent 
 
 ## La Contradiction du Temps de Revue chez les Power Users
 
-Digital Applied Q1 2026 (n=2 847 développeurs) montre que les utilisateurs intensifs d'outils IA passent 14 à 16 heures par semaine à relire du code IA-généré, contre 11,4 heures par semaine pour l'utilisateur moyen. Ça contredit directement le narratif selon lequel l'IA réduit la charge de revue. L'efficacité par unité de revue s'améliore peut-être, mais le volume de code généré grandit plus vite que la capacité de revue, ce qui est l'explication la plus probable. Avant de vous engager sur des projections de gain de temps, mesurez la distribution réelle du temps de revue de votre équipe entre code IA-généré et code écrit manuellement.
+Une augmentation du volume généré peut déplacer le travail vers la revue. Mesurez le temps actif, les défauts détectés et les reprises de votre équipe avant de projeter un gain.
 
-L'efficacité de la revue a un plafond antérieur à l'IA, et ce plafond n'a pas bougé : la détection des défauts s'effondre au-delà de 200 à 400 lignes par revue, ou de 60 à 90 minutes de lecture soutenue (Cisco/SmartBear, Cohen 2006). Une charge de revue de 14 à 16 heures par semaine n'est donc pas 14 à 16 heures de revue à qualité équivalente. Voir [The Attention Cost of the Review Shift](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/roles/learning-with-ai.md#the-attention-cost-of-the-review-shift) pour le détail des études et des pratiques qui maintiennent la revue dans la fenêtre efficace.
+Les repères historiques Cisco/SmartBear sur la taille et la durée d’une revue décrivent un contexte d’étude ancien. Ils ne fixent pas une limite humaine universelle en lignes ou en minutes. Découpez les changements, adaptez la revue au risque et vérifiez la qualité obtenue.
 
 ## L'Étude Uplevel sur Copilot
 
 L'étude d'Uplevel sur l'adoption de Copilot (uplevelteam.com, "genai-developers") ne trouve aucun changement significatif de la vitesse de coding, du cycle time des PRs ou du throughput après l'adoption de Copilot par les équipes étudiées, mais montre une hausse de 41 % du taux de bugs dans les PRs. Leur proxy de risque de burnout, "Sustained Always On", construit à partir des patterns d'activité hors horaires et le week-end, a aussi baissé davantage chez les développeurs sans Copilot que chez ceux qui l'utilisaient sur la même période.
 
-À lire avec la contradiction du temps de revue chez les power users ci-dessus : deux mesures indépendantes pointent maintenant dans la même direction. Ni la vitesse ni le throughput ne bougent comme le prédit le narratif d'adoption, et les métriques qui bougent (taux de bugs, temps de revue, proxy de burnout) bougent dans le mauvais sens. Traitez toute promesse de ROI sur des outils IA reposant uniquement sur la vitesse développeur comme non vérifiée tant que vous ne l'avez pas confrontée à votre propre taux de bugs et à votre propre temps de revue.
+Cette étude observationnelle décrit une association dans les équipes étudiées. Elle n’établit pas que Copilot soit la cause de la variation des bugs ou du proxy de burnout. Confrontez les hypothèses de gain à vos propres résultats, avec les facteurs de confusion et les limites de l’attribution.
 
 ## Le Pattern pass^k pour les Tests Non-Déterministes
 
-Le pass@1 standard est insuffisant pour du code généré par agent. Un test qui passe une fois peut échouer au run suivant parce que le résultat est non-déterministe. Promptfoo et LangChain documentent tous les deux le pattern pass^k : exécuter les tests critiques k fois consécutives, typiquement 3 à 5. Un test ne passe que s'il réussit les k runs. Ce n'est pas de la détection de flaky tests, c'est un gate de qualité délibéré pour les systèmes probabilistes. Appliquez-le spécifiquement aux suites générées par agent, pas à la suite de régression complète où l'overhead serait prohibitif.
+Pour évaluer la fiabilité d’un agent, répétez l’exécution complète sur la même tâche avec un état initial équivalent et un oracle de réussite fixe. `pass^k` s’intéresse à la réussite de toutes les tentatives d’un groupe de k exécutions ; il se distingue de `pass@k`, qui cherche au moins une réussite.
+
+Choisissez k et le nombre de tâches selon l’incertitude à mesurer. Relancer plusieurs fois la même suite de tests déterministe sur un artefact inchangé ne mesure pas la fiabilité de la génération par l’agent. Conservez aussi les échecs, les coûts et les interventions humaines.
 
 # Métriques Produit
 
@@ -293,7 +293,7 @@ Segmentez par cohorte utilisateur (nouveaux vs. utilisateurs existants, différe
 
 Bugs trouvés en production divisés par le total des bugs (bugs pré-production + bugs en production). Formule : `bugs_en_prod / (bugs_avant_prod + bugs_en_prod)`.
 
-Si votre Bug Escape Rate dépasse 20 %, vos processus de QA et de revue échouent systématiquement à attraper les problèmes avant qu'ils atteignent les utilisateurs. Avec le développement assisté par IA, cette métrique mérite d'être surveillée de près : une génération de code plus rapide combinée à des revues moins rigoureuses peut faire monter le Bug Escape Rate même quand le nombre absolu de bugs reste stable.
+Aucun seuil universel de 20 % ne suffit à juger la QA. Examinez la sévérité, la découverte des bugs et les changements de méthode de comptage. Avec le développement assisté par IA, cette métrique mérite d'être surveillée de près : une génération de code plus rapide combinée à des revues moins rigoureuses peut faire monter le Bug Escape Rate même quand le nombre absolu de bugs reste stable.
 
 ## Feature CSAT
 
@@ -312,7 +312,7 @@ Des tailles d'équipe différentes ont des tolérances différentes à l'overhea
 | Métrique | Comment | Fréquence |
 |----------|---------|-----------|
 | Fréquence de déploiement | Comptage manuel ou depuis CI | Hebdomadaire |
-| Cycle Time (commit → prod) | Linear ou diff timestamp GitHub | Par PR, revu mensuellement |
+| Change Lead Time (commit → prod) | Relier le commit au déploiement réel | Par changement, revu mensuellement |
 | Time-to-value (north star produit) | Outil analytics (Mixpanel, Amplitude, PostHog) | Mensuel |
 | Bugs en prod par mois | Comptage dans votre issue tracker | Mensuel |
 | Satisfaction développeur | Formulaire anonyme 5 questions | Trimestriel |
@@ -351,11 +351,11 @@ Le temps de revue de PR est particulièrement révélateur à cette échelle. Qu
 | Abandonner | Remplacer par | Pourquoi |
 |------------|--------------|----------|
 | Vélocité de sprint | Cycle Time + Fréquence de déploiement | La vélocité est manipulable en 2 sprints en changeant les pratiques d'estimation. Le cycle time est plus difficile à fausser. |
-| Lignes de code | Bug Escape Rate | Les LOC mesurent le volume d'output. Avec l'IA, les LOC montent automatiquement. Le Bug Escape Rate mesure la qualité de l'output. |
+| Lignes de code | Bug Escape Rate | Les LOC mesurent le volume d'output. L’assistance IA peut augmenter le volume sans améliorer le résultat. Le Bug Escape Rate mesure la qualité de l'output. |
 | NPS seul | CSAT + Time-to-value | Le NPS est un signal de marque en retard, pas une métrique de pilotage d'ingénierie. Le CSAT sur des features spécifiques est actionnable en quelques semaines. |
 | Commits par jour | Lead Time for Changes | La fréquence de commits mesure l'activité. Le lead time mesure si cette activité livre réellement de la valeur. |
 | Story points | Throughput (features livrées) | Les points sont définis relativement à la baseline propre de l'équipe et sont manipulables en repointing. Le throughput compte les livrables réels. |
-| Taux de couverture de code | Score de mutation testing + Bug Escape Rate | La couverture vous dit que les tests existent. Le mutation testing vous dit si ces tests attraperaient de vrais bugs. |
+| Taux de couverture de code | Score de mutation testing + Bug Escape Rate | La couverture mesure les éléments exécutés. Le mutation testing mesure la détection de mutations artificielles, sans prouver la détection de tous les défauts réels. |
 
 **Note sur les story points en contexte IA** : si l'IA génère le boilerplate et le scaffolding automatiquement, l'effort pour implémenter une "story à 3 points" a considérablement baissé. Les équipes qui n'ont pas recalibré leur pointing verront des augmentations de vélocité qui reflètent l'efficacité des outils, pas la capacité de l'équipe.
 
@@ -373,7 +373,7 @@ Si la réponse est non, c'est une métrique de reporting, pas une métrique de p
 
 **3. Est-elle corrélée à un outcome business ?**
 
-La fréquence de déploiement est corrélée au revenu dans les produits SaaS à forte itération. Le temps de revue de PR est corrélé à la satisfaction et la rétention des développeurs. Le Feature CSAT est corrélé au revenu d'expansion. Les lignes de code ne sont corrélées à rien d'important.
+Définissez l’hypothèse qui relie la métrique à un résultat métier et vérifiez-la dans votre contexte. Une corrélation observée ne prouve pas une causalité, et une métrique technique ne remplace pas une mesure de valeur.
 
 **4. Peut-elle être mesurée automatiquement ?**
 
@@ -432,7 +432,7 @@ Chaque benchmark de ce whitepaper jusqu'ici répond à "où on en est". Cette se
 
 La prévision traditionnelle prend votre vélocité (points de story ou throughput par sprint) et la divise dans le scope restant pour produire une date unique. Cette date porte une fausse précision, en impliquant une certitude que les données sous-jacentes n'ont jamais eue. Deux équipes avec la même vélocité moyenne peuvent avoir une variance radicalement différente, et la variance, c'est exactement ce qu'une estimation ponctuelle jette à la poubelle.
 
-La prévision Monte Carlo fait tourner à la place vos cycle times historiques réels (ou votre throughput) à travers des milliers d'itérations simulées et produit une distribution : "80 % de confiance entre le 3 et le 20 mars" au lieu de "le 12 mars". C'est une réponse plus honnête, parce que c'est celle que vos données peuvent réellement soutenir.
+Une simulation Monte Carlo rééchantillonne des cycle times ou du throughput historiques selon un modèle explicite. Le résultat est une distribution conditionnelle aux données et aux hypothèses. Un quantile de 80 % ne garantit pas une couverture réelle de 80 % : évaluez la calibration sur des prévisions passées et les effets d’un changement de périmètre ou de processus.
 
 ## Outils
 
@@ -440,31 +440,31 @@ La prévision Monte Carlo fait tourner à la place vos cycle times historiques r
 
 **Nave** (getnave.com) fait tourner une simulation Monte Carlo à côté d'une vue "Cycle Time Histogram".
 
-::: {.callout-important title="La seule exigence qui fait toute la différence"}
-La documentation de Nave pose la contrainte centrale sans détour : "The sole requirement for Monte Carlo to work and give reliable answers is to use data produced by a predictable delivery system" (la seule exigence pour que Monte Carlo fonctionne et donne des réponses fiables, c'est d'utiliser des données produites par un système de livraison prévisible). Même 20 à 30 items complétés suffisent si le workflow est stable, mais un changement récent de composition d'équipe ou de processus devrait réinitialiser la fenêtre de données pour que la prévision reflète les conditions actuelles, pas un mélange d'ancien et de nouveau.
+::: {.callout-important title="Vérifier les hypothèses de prévision"}
+La représentativité des données, la stabilité du processus, les dépendances entre tâches et les changements de scope comptent. Aucun minimum universel de 20 à 30 éléments ne garantit une prévision fiable. Documentez la fenêtre retenue et testez les prévisions sur des périodes historiques séparées.
 :::
 
 ## Ce que Ça Ne Répare Pas
 
-La prévision Monte Carlo n'est pas un remède à un système de livraison instable ou imprévisible. Si vos cycle times varient énormément parce que le scope change en plein sprint, ou parce que la composition de l'équipe vient de changer, la simulation va fidèlement reproduire cette imprévisibilité sous forme d'une distribution plus large. Elle ne va pas réduire la fourchette à votre place. Un intervalle de confiance à 80 % large mais honnête reste plus utile qu'une fausse estimation ponctuelle, mais c'est un rapport de symptôme, pas un remède. Réparez d'abord l'instabilité sous-jacente ; la prévision se resserrera d'elle-même une fois le processus stabilisé.
+Une simulation ne corrige pas les données incomplètes ni les changements futurs absents de l’historique. Elle peut sous-estimer l’incertitude après une réorganisation ou un changement de périmètre. Réévaluez les hypothèses et confrontez les prévisions aux résultats avant d’affiner un engagement.
 
 # Roadmap d'Implémentation
 
 Le mode d'échec le plus courant dans les programmes de métriques, c'est d'essayer d'instrumenter tout en même temps.
 
-## Phase 1 (semaines 1-2) : Instrumenter DORA
+## Étape 1 : Instrumenter DORA
 
 Connectez votre pipeline CI/CD à un outil de métriques. Pour la plupart des équipes, cela signifie connecter GitHub Actions ou son équivalent à LinearB, Faros ou Sleuth. Automatisez d'abord la Fréquence de Déploiement et le Change Lead Time. Le Change Fail Rate, le Failed Deployment Recovery Time et le Deployment Rework Rate demandent de relier les déploiements aux incidents.
 
 **Output** : un dashboard live montrant au minimum la Fréquence de Déploiement et le Lead Time for Changes. Vos premiers chiffres de baseline.
 
-## Phase 2 (semaines 3-4) : Baseline et Cibles
+## Étape 2 : Établir la baseline et les cibles
 
-Une fois que vous avez 2 à 4 semaines de données, établissez votre baseline réelle. La tentation ici est de comparer immédiatement aux benchmarks industriels. Résistez. Définissez d'abord des cibles d'amélioration internes : "réduire le Lead Time de 20 % sur le prochain trimestre" est plus actionnable que "atteindre le tier High." Votre contexte (tech stack, environnement de déploiement, taille d'équipe, type de produit) affecte ce qui est atteignable plus que n'importe quel benchmark industriel.
+Une fois les données complètes et représentatives du service étudié, établissez votre baseline et son incertitude. La tentation ici est de comparer immédiatement aux benchmarks industriels. Résistez. Définissez d'abord des cibles d'amélioration internes : "réduire le Lead Time de 20 % sur le prochain trimestre" est plus actionnable que "atteindre le tier High." Votre contexte (tech stack, environnement de déploiement, taille d'équipe, type de produit) affecte ce qui est atteignable plus que n'importe quel benchmark industriel.
 
-Lancez votre premier pulse de satisfaction développeur (5 questions, anonyme, 10 minutes à construire dans Google Forms ou Typeform). C'est votre baseline SPACE.
+Lancez votre premier pulse de satisfaction développeur (questions et anonymat adaptés à la taille de l’équipe). C'est votre baseline SPACE.
 
-## Phase 3 (mois 2+) : Métriques Produit et IA
+## Étape 3 : Ajouter les métriques produit et IA
 
 Une fois DORA stable et automatisé, ajoutez les métriques produit (time-to-value, Feature CSAT) et les signaux AI-specific (% code assisté, CFR par origine). Ces éléments nécessitent plus de setup (instrumentation analytics produit, conventions de tagging des PRs, pour lesquelles le PR Audit Trail sert d'implémentation de référence) mais ils valent l'investissement une fois votre fondation DORA solide.
 
@@ -479,7 +479,7 @@ Tout ce qui précède suppose une audience interne : votre propre équipe ou vot
 Quand un board commence à douter de la capacité de livraison d'une équipe après des estimations passées qui ont dérapé, ajouter plus de dashboards de delivery ne règle rarement le problème à lui seul. Le doute du board porte presque toujours sur la confiance et la visibilité, sur ce qui a causé le dérapage et sur le risque que ça se reproduise. Il porte beaucoup plus rarement sur les données elles-mêmes : les membres d'un board ne remettent généralement pas en cause le chiffre de vélocité affiché à l'écran, ils remettent en cause l'histoire que ce chiffre est censé soutenir.
 
 ::: {.callout-warning title="Un manque de preuves, dit sans détour"}
-Aucune étude publiée ni aucun rapport vendeur ne mesure réellement si l'outillage de delivery intelligence répare la confiance d'un exécutif. C'est un manque de preuves du domaine, pas un manque de ce whitepaper. Rien ici, et aucun des outils couverts plus haut, ne vient avec la preuve qu'il répare la confiance d'un board. Ce qui suit reformule la conversation en une décision que le board peut réellement prendre, pas en un remède garanti.
+Les sources présentées ici n’établissent pas que l’outillage de delivery intelligence restaure la confiance d’un exécutif. Rien ici, et aucun des outils couverts plus haut, ne vient avec la preuve qu'il répare la confiance d'un board. Ce qui suit reformule la conversation en une décision que le board peut réellement prendre, pas en un remède garanti.
 :::
 
 ## Apportez des Scénarios, pas un Graphique de Vélocité
@@ -506,7 +506,7 @@ Une réunion plénière de board est un mauvais endroit pour un premier aligneme
 
 ## Où la Prévision et les Récits IA S'Insèrent, et Où Ils Ne Suffisent Pas
 
-Les outils de prévision probabiliste couverts plus haut dans ce whitepaper donnent la fourchette honnête derrière chaque scénario ci-dessus : "80 % de confiance entre ces deux dates" est un chiffre plus défendable à apporter dans la salle qu'une estimation ponctuelle unique, à condition que votre système de livraison soit assez stable pour que la prévision veuille dire quelque chose. Les récits de board générés par IA d'outils comme LinearB et Jellyfish réduisent l'effort manuel de traduction des données de sprint en un résumé écrit qu'un membre de board non technique peut lire.
+Les outils de prévision probabiliste couverts plus haut dans ce whitepaper donnent la fourchette honnête derrière chaque scénario ci-dessus : un intervalle simulé devient exploitable lorsque ses hypothèses et sa calibration sont exposées, sans présenter son niveau nominal comme une garantie. Les récits de board générés par IA d'outils comme LinearB et Jellyfish réduisent l'effort manuel de traduction des données de sprint en un résumé écrit qu'un membre de board non technique peut lire.
 
 Aucun des deux ne remplace le travail plus dur décrit ci-dessus. Une meilleure prévision et un résumé mieux écrit ne plafonneront pas votre roadmap, ne sépareront pas le scope engagé du best-effort, et n'auront pas les conversations individuelles qui font remonter ce qu'un membre de board donné doute réellement. Ces trois-là restent un travail de management, pas un travail d'outillage.
 
@@ -514,13 +514,13 @@ Aucun des deux ne remplace le travail plus dur décrit ci-dessus. Une meilleure 
 
 ::: {.callout-tip title="Stack minimale par phase de maturité"}
 
-**Phase 1 : Fondation (mois 1-2)**
+**Phase 1 : Fondation**
 
 - Fréquence de déploiement
 - Lead Time for Changes
 - Satisfaction développeur (baseline)
 
-**Phase 2 : Signal qualité (mois 2-4)**
+**Phase 2 : Signal qualité**
 
 - Change Failure Rate (global + par origine IA/manuel)
 - Failed Deployment Recovery Time
@@ -528,7 +528,7 @@ Aucun des deux ne remplace le travail plus dur décrit ci-dessus. Une meilleure 
 - Bug Escape Rate
 - % code assisté par IA
 
-**Phase 3 : Pilotage complet (mois 4+)**
+**Phase 3 : Pilotage complet**
 
 - Time-to-value
 - Feature CSAT
@@ -551,19 +551,20 @@ La tentation est de tout vouloir dès le départ. Une stack de métriques, comme
 
 Ce livre blanc fait partie de la série **Claude Code Ultimate Guide**, une ressource complète pour maîtriser Claude Code, de l'installation au déploiement en production.
 
-**12 livres blancs dans la série :**
+**13 livres blancs dans la série :**
 
 - **WP00** Introduction & Fondamentaux
 - **WP01** Prompts Efficaces
 - **WP02** Personnalisation & Configuration
 - **WP03** Sécurité en Production
-- **WP04** Architecture Interne *(à venir)*
+- **WP04** Architecture Interne
 - **WP05** Adoption en Équipe
-- **WP06** Privacy & Conformité *(à venir)*
+- **WP06** Privacy & Conformité
 - **WP07** Guide de Référence Condensé
 - **WP08** Teams d'Agents & Sub-Agents
 - **WP09** Apprendre avec l'IA (UVAL)
-- **WP10** Budget IA & ROI *(à venir)*
+- **WP10** Budget IA & ROI
 - **WP11** Piloter une Équipe à l'Ère de l'IA
+- **WP12** Ingénierie à l’Ère des Agents Autonomes
 
 Série complète disponible sur [cc.bruniaux.com/whitepapers/](https://cc.bruniaux.com/whitepapers/)

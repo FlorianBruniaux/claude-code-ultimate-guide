@@ -4,10 +4,11 @@ subtitle: "The production 3-command workflow: research, validation, execution to
 card-number: "M14"
 category: "Methodology"
 difficulty: "advanced"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: en
 format:
@@ -64,7 +65,7 @@ Every significant architectural decision generates an ADR. 1 ADR: watching. 2 AD
 
 ## Cost
 
-Typical Tier 2 feature: $2 to $10 for the full pipeline. Cost drops as ADR coverage grows: fewer agents needed, fewer validation issues, faster execution.
+Measure all planning, validation, implementation and retry calls. Current standard rates per million input/output tokens are $2/$10 for Sonnet 5 and $4/$20 for Opus 5.5; a task label alone does not determine the pipeline cost.
 
 ## Auto Plan Mode
 

@@ -5,9 +5,10 @@ card-number: "M08"
 category: "Méthodologie"
 difficulty: "intermediate"
 guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
 version: "3.43.0"
-date: "2026-09-24"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -24,7 +25,6 @@ name: code-reviewer
 description: Utiliser pour relire du code avant tout commit
 model: sonnet
 tools: Read, Grep, Glob
-memory: project
 ---
 ```
 
@@ -36,7 +36,7 @@ Le corps du fichier contient les instructions en Markdown : rôle, méthodologie
 |-------|-------------|------|
 | `name` | Oui | Identifiant kebab-case |
 | `description` | Oui | Déclencheur d'activation (50-100 chars) |
-| `model` | Non | `haiku`, `sonnet`, `opus`, `inherit` |
+| `model` | Non | Alias comme `sonnet`, `inherit`, ou identifiant de modèle pris en charge |
 | `tools` | Non | Whitelist des outils accessibles |
 | `memory` | Non | Portée de la mémoire persistante |
 | `maxTurns` | Non | Limite de tours agentic |
@@ -58,7 +58,7 @@ memory: user      # ~/.claude/agent-memory/<name>/
 memory: local     # .claude/agent-memory-local/<name>/
 ```
 
-La mémoire `project` est committée avec le repo, utile pour que l'agent accumule des connaissances partagées par toute l'équipe. La mémoire `local` reste privée à la machine.
+La mémoire `project` peut être commitée pour l’équipe après relecture. La mémoire `local` reste privée à la machine. Activer la mémoire ajoute automatiquement Read, Write et Edit : omettre `memory` pour un agent strictement en lecture seule.
 
 ## Agent vs Slash Command
 
@@ -81,7 +81,6 @@ description: Utiliser PROACTIVELY après chaque modification
   de code pour vérifier qualité, sécurité et conventions
 model: sonnet
 tools: Read, Grep, Glob
-memory: project
 ---
 
 # Code Reviewer

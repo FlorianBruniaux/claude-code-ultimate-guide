@@ -2,10 +2,10 @@
 title: "L'Ingénierie Logicielle à l'Ère des Agents Autonomes"
 subtitle: "Harnesses, CI/CD agentic, et la mesure honnête de la productivité"
 author: "Florian BRUNIAUX"
-date: 2026-08-30
+date: "2026-09-26"
 date-format: "MMMM YYYY"
 version: "3.43.0"
-wp-version: "1.4.1"
+wp-version: "1.4.2"
 series: "Claude Code Ultimate Guide"
 format:
   whitepaper-typst:
@@ -37,10 +37,10 @@ lang: fr
 - Les 9 composants d'un harness d'agent (armature d'orchestration) et pourquoi le code est l'unité d'ingénierie
 - Ce que livrent aujourd'hui GitHub Agentic Workflows, AWS Bedrock AgentCore et GitLab Duo
 - Pourquoi le SDD (spec-driven development) remplace le TDD (test-driven development) comme discipline de référence en mode agentic
-- Les signaux d'alarme en observabilité et gouvernance : 93% d'approbations sans examen, LLM-judge (grand modèle de langage utilisé comme évaluateur) < 25% TNR
+- Les signaux d'alarme en observabilité et gouvernance : fatigue d’approbation et limites des LLM utilisés comme évaluateurs
 :::
 
-> **En 5 lignes :** Les agents passent du mode "auto-complétion augmentée" à des boucles autonomes capables de passer des jours sur un codebase. Ce changement de régime n'est pas un gain automatique : le seul essai contrôlé randomisé (RCT) sur des développeurs expérimentés (METR, Model Evaluation and Threat Research, n=16) mesure -19% de temps réel malgré une perception positive de +24%. La productivité revient quand les équipes maîtrisent trois choses : un harness correctement architecturé (executability, inspectability, statefulness), un pipeline CI/CD (intégration continue / déploiement continu) instrumenté pour évaluer en continu, et une gouvernance HITL (Human-in-the-Loop, supervision humaine dans la boucle) qui résiste à l'échelle plutôt que de laisser 93% des approbations sans examen réel.
+> **En 5 lignes :** Les agents passent du mode "auto-complétion augmentée" à des boucles autonomes capables de passer des jours sur un codebase. Ce changement de régime n'est pas un gain automatique : un essai contrôlé randomisé (RCT) sur des développeurs expérimentés (METR, Model Evaluation and Threat Research, n=16) mesure +19% de temps réel malgré une perception positive de +24%. La productivité revient quand les équipes maîtrisent trois choses : un harness correctement architecturé (executability, inspectability, statefulness), un pipeline CI/CD (intégration continue / déploiement continu) instrumenté pour évaluer en continu, et une gouvernance HITL (Human-in-the-Loop, supervision humaine dans la boucle) qui résiste à l'échelle avec une revue effective des actions importantes.
 
 # Le Palier L2-L3 et la J-curve de Productivité
 
@@ -64,7 +64,7 @@ Le piège du discours marketing est de confondre L2 et L3. Un développeur qui u
 
 Le seul essai contrôlé randomisé (RCT) publié sur des développeurs expérimentés en conditions réelles donne un résultat contre-intuitif. METR Study 1 (arXiv 2507.09089, juillet 2025) a recruté 16 développeurs avec 5 ans d'expérience minimum, leur a confié 246 tâches réelles d'environ 2h sur des repositories de production avec 23 000+ étoiles GitHub et 1 million de lignes de code minimum. Outils utilisés : Cursor Pro avec Claude 3.5 et 3.7 Sonnet. Mesure principale : temps réel pour compléter chaque tâche, avec et sans AI.
 
-Résultat : **-19% de temps réel avec AI**, intervalle de confiance à 95% allant de +2% à +39%. Autrement dit, dans le pire cas du protocole METR, l'AI fait perdre du temps. Le détail le plus frappant porte sur la perception : les participants estimaient ex-ante un gain de 24% (une accélération de 24%), et ex-post un gain de 20%. **Écart entre perception et mesure réelle : 39 points.**
+Résultat : **+19% de temps réel avec AI**, intervalle de confiance à 95% allant de +2% à +39%. Autrement dit, dans le pire cas du protocole METR, l'AI fait perdre du temps. Le détail le plus frappant porte sur la perception : les participants estimaient ex-ante un gain de 24% (une accélération de 24%), et ex-post un gain de 20%. **Écart entre perception et mesure réelle : 39 points.**
 
 Ce gap n'est ni un biais cognitif marginal ni une erreur de protocole. Il est mesuré sur 246 tâches, dans deux directions temporelles (avant et après), avec une amplitude constante. Cela invalide le pilotage par anecdote ("je code 2x plus vite") comme méthode d'évaluation, sans pour autant disqualifier les agents : la conclusion correcte est qu'au palier L2-L3 sur des tâches complexes, les gains ne sont pas automatiques et ne se laissent pas mesurer par le ressenti.
 
@@ -76,13 +76,13 @@ La tâche synthétique de 45 minutes en JavaScript utilisée pour le célèbre "
 
 | Étude | Type | n | Résultat sur le temps |
 |-------|------|---|----------------------|
-| METR Study 1 (arXiv 2507.09089) | RCT | 16 | -19% (IC +2% à +39%) |
+| METR Study 1 (arXiv 2507.09089) | RCT | 16 | +19% de temps (IC +2% à +39%) |
 | METR Study 2 (arXiv 2507.09089 update) | Cohort, abandonné biais | 57 | "Very weak evidence" |
 | DeputyDev (arXiv 2509.19708) | Cohort, 1 an | 300 | -31.8% PR cycle time (p=0.0018) |
 | GitHub "Copilot 55% faster" | Tâche synthétique JS | non publié | +55% (tâche de 45 min) |
 
 ::: {.callout-warning title="Le gap de 39 points"}
-Dans METR Study 1, les développeurs estimaient gagner 24% de temps avant les tâches, 20% après. La réalité mesurée : -19%. Cet écart de 39 points n'est pas une anomalie : il persiste sur 246 tâches dans des repos de production. Piloter uniquement sur les perceptions revient à naviguer avec un compas biaisé.
+Dans METR Study 1, les développeurs estimaient gagner 24% de temps avant les tâches, 20% après. La réalité mesurée : 19% plus lent. Cet écart de 39 points n'est pas une anomalie : il persiste sur 246 tâches dans des repos de production. Piloter uniquement sur les perceptions revient à naviguer avec un compas biaisé.
 :::
 
 ## La J-curve macro et le creux d'adoption
@@ -221,9 +221,9 @@ Claude Code n'est pas le seul outil dans ce champ. Depuis 2024, trois familles d
 
 ## Agents de terminal : les alternatives directes
 
-**Codex CLI** (openai/codex, 86 200+ étoiles, Rust, Apache 2.0, lancé avril 2025) est la réponse directe d'OpenAI à Claude Code. Même modèle d'interaction, même cycle edit-test-iterate, mais connecté à GPT-4o, o3 et o4-mini. Pour les équipes déjà abonnées à ChatGPT Pro ou Team ($20-$30/mois), il vient sans surcoût marginal. Le choix entre Claude Code et Codex CLI se réduit souvent à une préférence de modèle selon les tâches.
+**Codex CLI** est l’agent de code en terminal d’OpenAI. Il propose une boucle d’édition, de test et de revue avec les modèles accessibles au compte. Utilisez les identifiants et les réglages exposés par votre installation ; ne transposez pas les alias Claude dans sa configuration. Les droits d’accès, limites et coûts dépendent du plan et du mode d’authentification. Voir la [documentation officielle Codex CLI](https://learn.chatgpt.com/docs/codex/cli).
 
-**Hermes Agent** (NousResearch/hermes-agent, 170 000+ étoiles, MIT, Python), ancien OpenClaw rebaptisé fin 2025, présente trois différenciateurs concrets. Support de 200+ providers LLM via OpenRouter, OpenAI, Anthropic et Ollama, ce qui permet de mixer Claude pour la génération et un modèle local pour le travail hors-connexion dans un même environnement. Boucle d'auto-amélioration : après chaque session, Hermes extrait des patterns récurrents et génère automatiquement des skills réutilisables, produisant un gain cumulatif mesurable sur 30 à 40 sessions sur un même codebase. Intégration avec 22 plateformes de messagerie (Telegram, Discord, Slack, WhatsApp, Signal, Teams), pertinente pour les équipes qui préfèrent assigner des tâches depuis un canal de communication plutôt que depuis un terminal. Depuis la clarification Anthropic en 2026, l'utilisation de Hermes avec Claude impute les tokens sur le bucket programmatique du plan Max.
+**[Hermes Agent](https://github.com/NousResearch/hermes-agent)** (Nous Research, MIT, Python) combine plusieurs fournisseurs de modèles, une mémoire persistante, des skills réutilisables et une passerelle de messagerie. OpenClaw est un projet distinct dont Hermes peut importer la configuration ; Hermes n’en est pas le nouveau nom. Vérifiez l’authentification et la facturation du fournisseur choisi : un abonnement Claude Max ne garantit pas la couverture d’un usage programmatique tiers. L’accumulation de mémoire ou de skills ne démontre pas à elle seule un gain de productivité mesuré.
 
 **Aider** (Aider-AI/aider, 45 400+ étoiles, Apache 2.0, Python) a précédé Claude Code et établi plusieurs conventions adoptées depuis par le secteur : auto-commits git avec messages descriptifs, édition whole-file, support multi-modèle via LiteLLM. Mature, 5,3M+ téléchargements PyPI, bien documenté. Utile pour les équipes qui veulent un outil multi-modèle dans un package plus léger que Hermes. Sa cadence de release a ralenti depuis mi-2025 (v0.86.0, août 2025), ce qui le rend stable mais moins réactif aux dernières avancées des modèles.
 
@@ -436,11 +436,9 @@ Le HITL (Human-in-the-Loop, supervision humaine dans la boucle) est une bonne id
 
 Le paradoxe central est que vouloir garder l'humain dans la boucle "pour la sécurité" peut produire l'effet inverse : si l'humain valide sans examiner réellement parce que le volume excède sa capacité cognitive, le HITL devient un théâtre rassurant pour le management, pas un contrôle effectif. Mieux vaut un HOTL bien conçu avec interventions ciblées qu'un HITL formellement appliqué mais cognitivement vidé.
 
-## Le chiffre des 93%
+## Mesurer la qualité des approbations
 
-Anthropic a publié en 2026 une mesure interne sur les workflows agentic à grande échelle : **93% des demandes d'approbation sont approuvées sans examen adéquat** quand les workflows humains traitent plus de quelques milliers d'opérations par jour. Ce chiffre fait partie de leur communication sur le shared responsibility model et l'architecture des Claude Managed Agents.
-
-Ce 93% ne signifie pas que les 93% sont des erreurs. Beaucoup de ces approbations seraient acceptables même après examen. Il signifie que le processus d'approbation ne produit plus de filtre effectif : l'humain coche la case sans lire le contexte, sans valider la cohérence avec la spec, sans vérifier les permissions demandées. Cette dérive est une contrainte cognitive, pas un problème de motivation. Aucun humain ne peut maintenir un niveau d'attention constant sur 1 000+ demandes par jour, c'est physiologique.
+Un clic d’approbation ne prouve pas la compréhension de l’action. Mesurez le volume, le temps de revue, la qualité d’un échantillon de décisions et les incidents. Utilisez des aperçus précis, des permissions minimales et des escalades adaptées aux conséquences. Aucun taux universel vérifié d’approbations sans examen n’est établi ici.
 
 Anthropic a publié en parallèle "Measuring Agent Autonomy" (janvier 2026) qui documente l'évolution de la durée des tours d'agent. Le 99.9e percentile de durée d'un tour est passé de moins de 25 minutes en octobre 2025 à plus de 45 minutes en janvier 2026. Les sessions les plus longues ont plus que doublé en 3 mois. Cette augmentation reflète la complexification des tâches confiées aux agents (passage de L2 vers L3-L4), et elle rend le HITL synchrone (l'humain attend que l'agent demande pour valider) encore moins viable : on ne va pas attendre 45 minutes devant un écran à chaque demande.
 
@@ -472,13 +470,9 @@ Le pattern commun : finir les API keys statiques, passer à des credentials à d
 
 ## Critères décisionnels pour passer en HITL
 
-Quatre critères justifient de maintenir un HITL strict malgré le coût opérationnel. Premièrement, le seuil d'impact financier : au-delà de 10 000 USD d'impact potentiel par action, le ratio coût-d'-approbation versus coût-d'-erreur penche vers HITL. Deuxièmement, le réglementaire : EU AI Act article 14 (systèmes à haut risque) impose une supervision humaine effective, HIPAA pour les données de santé, SOX pour les contrôles financiers. Troisièmement, la sémantique : si l'instruction originale contient une ambiguïté que l'agent doit résoudre par interprétation, le HITL ramène la décision à l'humain qui connaît l'intention. Quatrièmement, l'irréversibilité : suppression de données, déploiement en production, modification de schéma de base de données, toute action où le rollback est impossible ou coûteux.
+L’impact financier, les obligations applicables, l’ambiguïté de l’instruction et l’irréversibilité aident à choisir les actions qui nécessitent une validation humaine. Définissez vos seuils avec les responsables concernés ; 10 000 USD n’est pas une limite universelle. L’article 14 de l’AI Act concerne la supervision des systèmes à haut risque dans son périmètre. Il ne signifie pas que toute opération d’un agent doive recevoir la même approbation.
 
-En dehors de ces quatre critères, le HOTL ou l'auto-review devraient être le mode par défaut, sous peine de tomber dans le 93%.
-
-::: {.callout-important title="93% d'approvals sans examen"}
-Les mesures internes Anthropic montrent que 93% des demandes d'approbation sont validées sans examen adéquat en production quand le volume dépasse quelques milliers d'opérations par jour. Ce n'est pas un problème de motivation des équipes : c'est une contrainte cognitive. Un humain ne peut pas maintenir un niveau d'attention constant sur 1 000 demandes par jour. La solution n'est pas de demander plus de vigilance, c'est de changer d'architecture.
-:::
+Choisissez les contrôles à partir des risques et des preuves de fonctionnement, puis réévaluez-les. Une revue automatique doit elle-même être testée ; elle ne remplace pas la responsabilité humaine.
 
 # Ce que Ça Change Concrètement pour les Rôles
 
@@ -490,7 +484,7 @@ Les sept sections précédentes ont posé le cadre technique et empirique. Cette
 
 **SRE (Site Reliability Engineer)**. L'observabilité applicative classique (latence, erreurs HTTP, disponibilité) ne suffit plus. Il faut instrumenter `gen_ai.client` avec des conventions GenAI encore en statut Development, prévoir un adaptateur versionné ou un schéma local gelé, suivre les trace spans d'agent au niveau de chaque décision, le Tool Correctness Score (Agent GPA Snowflake), et les taux d'intervention HITL/HOTL. Le budget d'incidents change de nature : 58% des anomalies d'agent sont détectées plus de 5 heures après leur début (CSA/Zenity), ce qui redéfinit les SLO (objectifs de niveau de service). Un SLO classique de 99.9% sur la disponibilité n'a plus de sens isolé si l'agent fonctionne mais dérape sémantiquement. Concrètement : ajouter au runbook des seuils sur la dérive sémantique (un agent dont le Tool Correctness Score chute de 10% en 24h doit déclencher une alerte), instrumenter les hooks pre/post tool call avec OpenTelemetry, intégrer Arize Phoenix ou équivalent dans la pile d'observabilité.
 
-**Engineering Manager**. Les métriques de vélocité brutes (commits, PRs mergées, story points livrés) explosent mécaniquement avec l'adoption des agents. Ce n'est pas un signal de productivité, c'est un artefact d'adoption : l'agent produit plus d'artefacts mesurables, mais la mesure du temps réel sur des tâches complexes ne suit pas (METR Study 1 : -19% mesuré contre +24% perçu, gap de 39 points). Un EM qui communique à sa direction sur la base des métriques de vélocité agentic se prépare à un retour de bâton quand la J-curve descend (creux de -1.33 point de PTF documenté par Brynjolfsson sur le terrain industriel américain). Recalibrer les cinq métriques DORA actuelles (change lead time, deployment frequency, failed deployment recovery time, change fail rate et deployment rework rate) à la lumière de l'agentic, puis instrumenter les métriques AI-specific détaillées dans le whitepaper 11. Concrètement : ne jamais piloter sur le ressenti seul, demander des données mesurées, accepter la J-curve dans la communication avec la direction, communiquer en amont sur le creux pour éviter les coupes budgétaires au pire moment.
+**Engineering Manager**. Les métriques de vélocité brutes (commits, PRs mergées, story points livrés) explosent mécaniquement avec l'adoption des agents. Ce n'est pas un signal de productivité, c'est un artefact d'adoption : l'agent produit plus d'artefacts mesurables, mais la mesure du temps réel sur des tâches complexes ne suit pas (METR Study 1 : 19% plus lent contre +24% perçu, gap de 39 points). Un EM qui communique à sa direction sur la base des métriques de vélocité agentic se prépare à un retour de bâton quand la J-curve descend (creux de -1.33 point de PTF documenté par Brynjolfsson sur le terrain industriel américain). Recalibrer les cinq métriques DORA actuelles (change lead time, deployment frequency, failed deployment recovery time, change fail rate et deployment rework rate) à la lumière de l'agentic, puis instrumenter les métriques AI-specific détaillées dans le whitepaper 11. Concrètement : ne jamais piloter sur le ressenti seul, demander des données mesurées, accepter la J-curve dans la communication avec la direction, communiquer en amont sur le creux pour éviter les coupes budgétaires au pire moment.
 
 # Voir Aussi
 
@@ -506,7 +500,7 @@ Les sept sections précédentes ont posé le cadre technique et empirique. Cette
 
 **Repository** : [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)
 
-*Version 3.42.0 | Août 2026*
+*Version 3.43.0 | Septembre 2026*
 
 {{< include fiches/fiche-12-agent-engineering.qmd >}}
 

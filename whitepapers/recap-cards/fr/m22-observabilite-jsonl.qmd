@@ -4,10 +4,11 @@ subtitle: "Auditer et analyser l'activité de Claude Code via les logs"
 card-number: "M22"
 category: "Méthodologie"
 difficulty: "advanced"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -16,11 +17,12 @@ format:
 
 ## Le registre JSONL : source de vérité
 
-Chaque action de Claude Code est enregistrée dans des fichiers JSONL (une entrée JSON par ligne) stockés dans `~/.claude/projects/<projet>/`. Ces fichiers sont la source de vérité sur ce que l'agent a réellement fait : quels fichiers il a lus, quels fichiers il a modifiés, quelles commandes il a exécutées.
+Claude Code enregistre conversations et activité des outils dans les transcriptions JSONL locales de `~/.claude/projects/<project>/`. Elles aident à reconstituer l’activité, mais une requête d’outil enregistrée ne prouve pas que tous ses effets ont abouti. Corréler les résultats d’outils et les logs externes.
 
 ```bash
 # Localiser les fichiers de session du projet courant
-ls ~/.claude/projects/-$(pwd | tr '/' '-')-/
+ls ~/.claude/projects/
+# Choisir le répertoire réel du projet ; ne pas deviner son encodage
 # → SESSION_ID.jsonl  SESSION_ID2.jsonl ...
 ```
 
@@ -33,8 +35,8 @@ Chaque ligne de type `assistant` contient un tableau `content` dont les entrées
 | `Read` | Chemin du fichier, plage de lignes |
 | `Edit` / `Write` | Chemin, contenu modifié |
 | `Bash` | Commande complète exécutée |
-| `WebFetch` | URL appelée (données POST incluses) |
-| `Task` | Prompt transmis au sous-agent |
+| `WebFetch` | URL demandée et prompt de traitement |
+| `Agent` | Prompt transmis au sous-agent |
 | `Glob` / `Grep` | Patterns de recherche et scope |
 
 ## Requêtes jq essentielles
@@ -72,7 +74,7 @@ Ces patterns valent la peine d'être détectés automatiquement dans les audits 
 | WebFetch vers URL externe | Exfiltration potentielle | sélectionner `.name=="WebFetch"` |
 | Write hors du répertoire projet | Scope creep | Comparer le chemin au répertoire courant |
 
-Pour les équipes, synchroniser ces logs vers un stockage immuable (S3 avec versioning, par exemple) pour conserver une trace forensique inaltérable.
+Pour les équipes, exporter les logs relus vers un stockage aux accès contrôlés avec une politique de conservation explicite. Le versioning S3 ne rend pas les logs immuables à lui seul ; des contrôles supplémentaires comme Object Lock configuré sont nécessaires.
 
 ## Outils externes de la communauté
 
@@ -88,7 +90,8 @@ Pour les équipes, synchroniser ces logs vers un stockage immuable (S3 avec vers
 # Installation rapide
 npm i -g ccusage          # Coûts et statistiques
 cargo install ccboard     # Dashboard interactif
-npm i -g claude-code-otel # Export OpenTelemetry
+# Configuration OpenTelemetry native :
+# https://code.claude.com/docs/en/monitoring-usage
 ```
 
 ## Arbre de décision
@@ -102,4 +105,4 @@ Dashboard visuel ?         → ccboard
 
 ## Estimation des coûts dans le JSONL
 
-Les logs JSONL ne contiennent pas les prix Anthropic directement. Les outils comme ccusage appliquent une heuristique d'environ 4 caractères par token, puis multiplient par les tarifs du modèle. Cette estimation tend à légèrement surestimer ; les chiffres sont indicatifs, pas facturés.
+Les logs JSONL ne contiennent pas les tarifs Anthropic directement. Des outils comme ccusage lisent les compteurs d’usage enregistrés et appliquent les tarifs des modèles. Les enregistrements manquants, changements de tarifs et abonnements peuvent faire diverger ces estimations de la facture.

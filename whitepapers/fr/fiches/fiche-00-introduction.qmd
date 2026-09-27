@@ -1,0 +1,24 @@
+{{< pagebreak >}}
+
+## Fiche Récap : Introduction à Claude Code
+
+```{=typst}
+#fiche-recap(
+  title: "Introduction à Claude Code",
+  subtitle: "Système de contexte, pas chatbot",
+  wp-number: "00",
+  points: (
+    "Claude Code = #strong[système de contexte] : le contexte, le modèle et les contrôles influencent le résultat. Pas un assistant passif, un agent actif avec accès à vos fichiers, votre terminal, votre git.",
+    "Les #strong[5 Golden Rules] structurent chaque interaction : Be specific, Give context, Think in steps, Verify outputs, Iterate fast.",
+    "La formule #strong[WHAT / WHERE / HOW / VERIFY] réduit les itérations inutiles : quoi faire, dans quels fichiers, comment vérifier.",
+    "#strong[CLAUDE.md] = mémoire persistante. Ce fichier définit le contexte projet qui sera relu à chaque session.",
+    "Le guide couvre 10 chapitres progressifs, sans obligation de tout lire pour commencer à produire.",
+  ),
+  actions: (
+    "Installer Claude Code et créer un premier #strong[CLAUDE.md] dans votre projet",
+    "Appliquer la formule WHAT/WHERE/HOW/VERIFY sur votre prochaine tâche réelle",
+    "Tester /help pour découvrir les commandes natives",
+    "Lire le chapitre 2 et vérifier ces concepts sur une tâche réelle",
+  ),
+)
+```

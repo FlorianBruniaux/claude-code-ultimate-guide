@@ -4,10 +4,11 @@ subtitle: "Documentation officielle et raisonnement multi-étapes à portée de 
 card-number: "T13"
 category: "Technique"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -33,7 +34,7 @@ Context7 résout un problème courant : Claude connaît les APIs populaires jusq
 
 Sequential Thinking apporte un moteur de raisonnement multi-étapes pour les problèmes complexes. Plutôt que de répondre directement, il décompose le problème en hypothèses, les teste, et construit une réponse argumentée étape par étape.
 
-**Triggers** : demande explicite ("raisonne étape par étape", "utilise Sequential Thinking"), ou problèmes impliquant 3+ composants interconnectés. Il n'existe pas de flag CLI dédié à Sequential Thinking : `--think-hard` et `--ultrathink` sont d'anciens mots-clés pour l'extended thinking natif du modèle, aujourd'hui purement cosmétiques et sans effet (la profondeur de raisonnement se règle via le curseur `/model` ou `effortLevel`).
+**Invocation** : demandez l’outil MCP Sequential Thinking installé pour un problème qui bénéficie d’étapes explicites. `--think-hard` et `--ultrathink` ne sont pas des flags CLI Claude Code. Le mot `ultrathink` dans un prompt ajoute une instruction de raisonnement sans modifier l’effort API ; utilisez `/effort` pour les modèles compatibles. Haiku 4.5 n’a pas de paramètre d’effort.
 
 ```bash
 # Invoquer Sequential pour un debug complexe
@@ -80,4 +81,4 @@ npx -y @upstash/context7-mcp --api-key YOUR_API_KEY
 npx -y @modelcontextprotocol/server-sequential-thinking
 ```
 
-Ajouter dans `~/.claude/settings.json` sous la clé `mcpServers` avec `command: "npx"` et les args correspondants.
+Enregistrer le serveur avec `claude mcp add --transport stdio --scope project <name> -- npx -y <package>`, en utilisant le paquet choisi et ses arguments requis. Le scope projet écrit `.mcp.json` ; les scopes utilisateur et local résident dans `~/.claude.json`. Inspecter la connexion avec `/mcp`. Voir [l'installation MCP](https://code.claude.com/docs/en/mcp).

@@ -4,10 +4,11 @@ subtitle: "Workflow de production en 3 commandes : recherche, validation, exécu
 card-number: "M14"
 category: "Méthodologie"
 difficulty: "advanced"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -64,11 +65,11 @@ Chaque décision architecturale significative génère un ADR. 1 ADR : suivi. 2 
 
 ## Coût
 
-Feature Tier 2 typique : $2 à $10 pour le pipeline complet. Le coût décroît à mesure que la couverture ADR grandit : moins d'agents nécessaires, moins d'issues en validation, exécution plus rapide.
+Mesurez tous les appels de planification, validation, implémentation et reprise. Les tarifs standard par million de tokens entrée/sortie sont $2/$10 pour Sonnet 5 et $4/$20 pour Opus 5.5 ; le nom d’une tâche ne suffit pas à déterminer le coût du pipeline.
 
 ## Auto Plan Mode
 
-Forcer le Plan Mode natif sur toutes les opérations via `--append-system-prompt` :
+Demander une planification via `--append-system-prompt` ne force pas le mode plan natif. Utilisez les permissions pour imposer une restriction d’outils :
 
 ```bash
 alias claude-safe='claude --append-system-prompt \

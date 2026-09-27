@@ -4,10 +4,11 @@ subtitle: "Resuming a session right where you left off"
 card-number: "M03"
 category: "Methodology"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "August 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: en
 format:
@@ -34,7 +35,7 @@ Sessions are stored in `~/.claude/projects/<encoded-path>/` as JSONL files.
 
 ## Searching Sessions
 
-The `session-search.sh` script (provided in `examples/scripts/`) is the fastest method: zero dependencies, 15ms to list, 400ms to search.
+The `session-search.sh` script (provided in `examples/scripts/`) searches local transcripts. Measure its latency on your own history.
 
 ```bash
 cs                        # 10 recent sessions
@@ -50,14 +51,7 @@ Each result displays the `claude --resume <id>` command ready to copy-paste.
 
 Claude Code stores sessions by encoding the **absolute path** of the project. A session in `/home/user/myapp` will not be found if you move the project to `/home/user/projects/myapp`.
 
-**Solution if you move a project:**
-
-```bash
-cd ~/.claude/projects/
-mv -- -old-location-myapp- -new-location-myapp-
-```
-
-Manual migration of the session folder works in the vast majority of cases.
+**When moving a project:** preserve the original transcripts and write a handoff with decisions, changed files and remaining checks. Start in the destination with that handoff and verify current files and tools. Manual transcript migration does not rewrite absolute paths or restore remote services; test it on a backup before relying on it.
 
 ## What Resuming Does NOT Do
 

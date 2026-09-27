@@ -5,9 +5,10 @@ card-number: "M16"
 category: "Methodology"
 difficulty: "advanced"
 guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
 version: "3.43.0"
-date: "2026-09-24"
+date: "2026-09-26"
 layout: "two-col"
 lang: en
 format:
@@ -36,7 +37,7 @@ Orchestrator
 └── Test Agent      → coverage
 ```
 
-The orchestrator plans and delegates; it does not code itself. Its role is to allocate work, unblock dependencies, and present a unified response.
+In this chosen arrangement, the orchestrator focuses on planning and delegation; this is a role convention, not a tool restriction. Its role is to allocate work, unblock dependencies, and present a unified response.
 
 ## Pipeline topology
 
@@ -67,7 +68,7 @@ Each agent can receive distinct context and a tool whitelist. Limiting an agent 
 | Agent | Allowed tools |
 |-------|--------------|
 | Explorer | Read, Glob, Grep |
-| Planner | Read, Glob, Grep, Write(plan) |
+| Planner | Read, Glob, Grep; separately scoped plan-file writes |
 | Implementer | Read, Edit, Bash, Write |
 | Reviewer | Read, Glob, Grep |
 
@@ -86,7 +87,7 @@ claude
 }
 ```
 
-Prerequisites: Claude Code v2.1.32+, a model available to the account (teammates may differ), initialized git repository. Navigate between agents with `Shift+Down` in in-process mode.
+Prerequisites: Claude Code v2.1.32+, a model available to the account (teammates may differ); a Git repository is required for worktree isolation, not for task messaging itself. Navigate between agents with `Shift+Down` in in-process mode.
 
 ## Loop Controls
 

@@ -16,7 +16,7 @@ tags: [guide, reference, workflows, agents, hooks, mcp, security]
 
 **Dernière mise à jour** : Janvier 2026
 
-**Version** : 3.41.1
+**Version** : 3.43.0
 
 ---
 
@@ -151,7 +151,6 @@ Si vous n'avez le temps que pour 5 sections :
   - [2.4 Rewind](#24-rewind)
   - [2.5 Sélection du Modèle & Guide de Réflexion](#25-model-selection--thinking-guide)
   - [2.6 Modèle Mental](#26-mental-model)
-  - [2.7 Guide de Décision de Configuration](#27-configuration-decision-guide)
   - [2.8 Prompting Structuré avec des Balises XML](#28-structured-prompting-with-xml-tags)
   - [2.9 Ancres Sémantiques](#29-semantic-anchors)
   - [2.10 Patterns de Prompt Engineering](#210-prompt-engineering-patterns)
@@ -177,7 +176,7 @@ Si vous n'avez le temps que pour 5 sections :
   - [5.2 Créer des Skills](#52-creating-skills)
   - [5.3 Template de Skill](#53-skill-template)
   - [5.4 Exemples de Skills](#54-skill-examples)
-- [6. Commandes](#6-commands) `🟡 Intermédiaire` `⏱ 30 min`
+- [6. Commandes](#6-commands-user-invocable-skills) `🟡 Intermédiaire` `⏱ 30 min`
   - [6.1 Slash Commands](#61-slash-commands)
   - [6.2 Créer des Commandes Personnalisées](#62-creating-custom-commands)
   - [6.3 Template de Commande](#63-command-template)
@@ -222,6 +221,8 @@ Si vous n'avez le temps que pour 5 sections :
   - [9.24 Apprentissage Continu Basé sur l'Instinct](#924-instinct-based-continuous-learning)
   - [9.25 Ingénierie du Harnais](#925-harness-engineering)
   - [9.26 Optimisation du Contexte par la Revue](#926-review-driven-context-optimization)
+- [9.27 Messagerie inter-sessions](#927-cross-session-messaging-peer-coordination)
+- [9.28 Ingestion d’événements et délégation sûre](#928-event-ingestion-and-safe-delegation)
 - [10. Référence](#10-reference) `🟢 Tous niveaux` `⏱ Selon besoin`
   - [10.1 Tableau des Commandes](#101-commands-table)
   - [10.2 Raccourcis Clavier](#102-keyboard-shortcuts)
@@ -241,9 +242,11 @@ Si vous n'avez le temps que pour 5 sections :
 
 ---
 
+<a id="1-quick-start-day-1"></a>
+
 # 1. Quick Start (Jour 1)
 
-_Navigation rapide :_ [Installation](#11-installation) · [Premier Workflow](#12-first-workflow) · [Commandes Essentielles](#13-essential-commands) · [Modes de Permission](#14-permission-modes) · [Checklist de Productivité](#15-productivity-checklist) · [Migrer depuis d'Autres Outils](#16-migrating-from-other-ai-coding-tools) · [Erreurs de Débutant](#17-eight-beginner-mistakes-and-how-to-avoid-them)
+_Navigation rapide :_ [Installation](#11-installation) · [Premier Workflow](#12-first-workflow) · [Commandes Essentielles](#13-essential-commands) · [Modes de Permission](#14-permission-modes) · [Checklist de Productivité](#15-productivity-checklist) · [Migrer depuis d'Autres Outils](#16-migrating-from-other-ai-coding-tools) · [Erreurs de Débutant](#18-eight-beginner-mistakes-and-how-to-avoid-them)
 
 ---
 
@@ -378,6 +381,8 @@ Au premier lancement :
 
 > **Note** : Claude Code nécessite un abonnement Anthropic actif. Voir [claude.com/pricing](https://claude.com/pricing) pour les offres actuelles et les limites de tokens.
 
+<a id="12-first-workflow"></a>
+
 ## 1.2 Premier flux de travail
 
 Corrigeons un bug ensemble. Cela illustre la boucle d'interaction principale.
@@ -426,6 +431,8 @@ Vous : Committe cette correction
 ```
 
 Claude créera un commit avec un message approprié.
+
+<a id="13-essential-commands"></a>
 
 ## 1.3 Commandes essentielles
 
@@ -751,9 +758,9 @@ Comprendre le traitement des images par Claude aide à optimiser la vitesse et l
 
 #### Continuation et reprise de session
 
-Claude Code vous permet de **continuer des conversations précédentes** entre les sessions de terminal, en conservant tout le contexte et l'historique de conversation.
+Claude Code vous permet de **continuer des conversations précédentes** entre les sessions de terminal, en restaurant le contexte enregistré. La reprise ne restaure pas un instantané des fichiers ni l'état d'un service distant.
 
-**Deux façons de reprendre** :
+**Façons de reprendre** :
 
 1. **Continuer la dernière session** (`--continue` ou `-c`) :
    ```bash
@@ -791,11 +798,8 @@ Claude Code vous permet de **continuer des conversations précédentes** entre l
 # Natif : Sélecteur de session interactif
 claude --resume
 
-# Natif : Liste via Serena MCP (si configuré)
-claude mcp call serena list_sessions
-
 # Recommandé : Recherche rapide avec commandes de reprise prêtes à l'emploi
-# Voir examples/scripts/session-search.sh (bash, zéro dépendance, 15ms pour lister, 400ms pour chercher)
+# Voir examples/scripts/session-search.sh (bash, recherche locale dans les transcriptions)
 # Voir examples/scripts/cc-sessions.py (Python, index incrémental, reprise partielle, filtre par branche)
 cs                    # Lister les 10 sessions les plus récentes
 cs "authentication"   # Recherche en texte intégral dans toutes les sessions
@@ -807,7 +811,70 @@ Session ID: abc123def (sauvegardé pour reprise)
 
 > **Outils de recherche de sessions** : Pour une recherche rapide de sessions, voir [session-search.sh](../examples/scripts/session-search.sh) (bash, léger) et [cc-sessions.py](../examples/scripts/cc-sessions.py) (Python, fonctionnalités avancées : index incrémental, reprise par ID partiel, filtre par branche, et `discover` pour l'analyse automatique de patterns, voir [GitHub](https://github.com/FlorianBruniaux/cc-sessions)). Voir aussi : [Guide d'observabilité](./ops/observability.md#session-search--resume).
 
-**Cas d'usage courants**
+**Cas d'usage courants** :
+
+| Scénario | Commande | Pourquoi |
+|----------|---------|-----|
+| Travail interrompu | `claude -c` | Reprendre là où vous vous êtes arrêté |
+| Fonctionnalité sur plusieurs jours | `claude -r abc123` | Continuer une tâche complexe au fil des jours |
+| Après une pause ou une réunion | `claude -c` | Reprendre sans perdre le contexte |
+| Projets parallèles | `claude -r <id>` | Passer d'un contexte de projet à un autre |
+| Suite d'une revue de code | `claude -r <id>` | Traiter les commentaires dans le contexte d'origine |
+
+**Exemple de workflow** :
+
+```bash
+# Day 1: Start implementing authentication
+cd ~/project
+claude
+You: Implement JWT authentication with refresh tokens
+Claude: [Analysis and initial implementation]
+You: /exit
+Session ID: auth-feature-xyz (27% context used)
+
+# Day 2: Continue the work
+cd ~/project
+claude --continue
+Claude: Resuming session auth-feature-xyz...
+You: Add rate limiting to the auth endpoints
+Claude: [Continues with full context of Day 1 work]
+```
+
+**Bonnes pratiques** :
+
+- **Quitter correctement** : Utilisez `/exit` ou `Ctrl+D`, plutôt qu'un arrêt forcé, pour permettre l'enregistrement de la session.
+- **Dernier message descriptif** : Terminez avec le contexte (« Prêt pour les tests ») pour retrouver l'état à la reprise.
+- **Gestion proactive du contexte** : Consultez `/context` et compactez ou préparez une passation lorsque la transcription ne convient plus à la tâche. Le pourcentage utilisé indique la capacité consommée, sans constituer un seuil validé de qualité du raisonnement. La compaction automatique dépend du modèle actif et de la configuration.
+- **Noms de session** : Utilisez `/rename` pour attribuer des noms descriptifs, surtout avec plusieurs sessions parallèles (voir [Renommage automatique](#session-auto-rename) ci-dessous).
+
+**Reprendre ou repartir de zéro** :
+
+| Reprendre lorsque… | Repartir de zéro lorsque… |
+|-------------------|---------------------|
+| Vous continuez une fonctionnalité ou tâche précise | Vous passez à un travail sans rapport |
+| Vous vous appuyez sur les décisions précédentes | La session précédente s'est égarée |
+| Le contexte reste pertinent pour la tâche | L'ancien contexte distrait ou induit en erreur |
+| Une implémentation à plusieurs étapes continue | Vous avez des questions ponctuelles |
+
+**Limites et vérifications à la reprise** :
+
+- Les transcriptions locales de la CLI sont stockées sur la machine. Leur conservation dépend de `cleanupPeriodDays` et des paramètres de compte ou paramètres gérés applicables.
+- Une conversation reprise peut utiliser un autre modèle. L'accès aux modèles et la disponibilité des serveurs MCP dépendent de la configuration actuelle.
+- La transcription peut contenir d'anciennes versions de fichiers, des résultats d'outils et des résumés. Vérifiez les fichiers actuels et les modifications Git avant de vous y fier.
+- Les instructions, permissions et connexions MCP actuelles doivent être vérifiées. Reprendre ne restaure ni les fichiers ni l'état en mémoire d'un serveur MCP.
+
+**Utiliser les outils MCP après une reprise** :
+
+Exécutez `/mcp` dans Claude Code pour inspecter les serveurs configurés et vous reconnecter ou vous authentifier si nécessaire. Un serveur comme Serena peut proposer ses propres outils de mémoire du projet ; leur persistance et leurs noms relèvent du contrat documenté de ce serveur. Demandez à Claude d'inspecter les outils disponibles avant de les invoquer.
+
+```bash
+# From the project directory, resume the latest conversation
+claude --continue
+```
+
+Demandez ensuite à Claude de vérifier le diff Git actuel, de rouvrir les fichiers nécessaires à l'étape suivante et de résumer les différences avec le plan enregistré.
+
+> **Sources** : [Référence CLI](https://code.claude.com/docs/en/cli-reference), [configuration MCP](https://code.claude.com/docs/en/mcp), [paramètres](https://code.claude.com/docs/en/settings).
 
 ### Découverte de patterns de session (cc-sessions discover) {#session-pattern-discovery}
 
@@ -869,9 +936,11 @@ cc-sessions --all discover --json | jq '.[] | select(.category == "skill")'
 
 **La règle des 20% intégrée dans le scoring** : les patterns présents dans plus de 20% des sessions deviennent des suggestions de règle `CLAUDE.md` (chargement permanent), ceux entre 5 et 20% deviennent des suggestions de `skill` (chargement à la demande), et ceux en dessous de 5% deviennent des suggestions de `command` (invocation explicite). Le bonus inter-projets (1,5×) priorise les patterns qui réapparaissent dans différentes bases de code, ceux-là valent la peine d'être extraits même à faible fréquence.
 
-Voir aussi : [§5.1 Comprendre les Skills](#51-understanding-skills) pour la distinction entre règles CLAUDE.md, skills et commandes, ainsi que la [règle des 20%](#the-20-rule) pour le cadre de décision.
+Voir aussi : [§5.1 Comprendre les Skills](#51-understanding-skills) pour la distinction entre règles CLAUDE.md, skills et commandes, ainsi que la [heuristique de choix](#decision-tree-which-to-use) pour le cadre de décision.
 
 **GitHub** : [FlorianBruniaux/cc-sessions](https://github.com/FlorianBruniaux/cc-sessions)
+
+<a id="session-auto-rename"></a>
 
 ### Renommage automatique de session
 
@@ -948,6 +1017,8 @@ Les deux approches couvrent des moments différents du cycle de vie d'une sessio
 > Voir le template complet : [examples/claude-md/session-naming.md](../examples/claude-md/session-naming.md)
 > Voir le template de hook : [examples/hooks/bash/auto-rename-session.sh](../examples/hooks/bash/auto-rename-session.sh)
 
+<a id="14-permission-modes"></a>
+
 ## 1.4 Modes de permissions
 
 Claude Code dispose de cinq modes de permissions qui contrôlent le degré d'autonomie accordé à Claude :
@@ -992,7 +1063,7 @@ Refuse automatiquement les outils sauf ceux pré-approuvés via `/permissions` o
 
 ### Mode Auto (tous les abonnements, v2.1.114+)
 
-Le mode Auto délègue les décisions de permission à un modèle classificateur dédié. Au lieu de s'arrêter pour demander une approbation à chaque action, une seconde instance IA exécutant Sonnet 4.6 évalue chaque appel d'outil avant son exécution. Les actions sûres sont exécutées automatiquement ; les actions risquées sont bloquées, et Claude reçoit la raison afin de pouvoir essayer une approche différente.
+Le mode Auto délègue les décisions de permission à un modèle classificateur dédié. Au lieu de s'arrêter pour demander une approbation à chaque action, une seconde instance IA exécutant Sonnet 5 évalue chaque appel d'outil avant son exécution. Les actions sûres sont exécutées automatiquement ; les actions risquées sont bloquées, et Claude reçoit la raison afin de pouvoir essayer une approche différente.
 
 ```json
 // .claude/settings.json
@@ -1004,7 +1075,7 @@ Le mode Auto délègue les décisions de permission à un modèle classificateur
 Le mode Auto effectue deux vérifications parallèles sur tout ce que Claude touche :
 
 1. **Sonde d'entrée** : avant que tout contenu entre dans le contexte de Claude (lectures de fichiers, requêtes web, sorties shell, réponses MCP), une sonde côté serveur analyse les injections de prompt. Lorsqu'elle détecte des instructions suspectes, elle ajoute un avertissement au contexte de Claude plutôt que de filtrer silencieusement, afin que Claude sache que ce contenu tente peut-être de le manipuler.
-2. **Classificateur de transcript** (Sonnet 4.6) : évalue chaque appel d'outil selon trois catégories de risque avant l'exécution. Le classificateur ne voit que les messages utilisateur et les appels d'outils en attente de Claude ; les sorties d'outils et le raisonnement propre à Claude sont supprimés pour éviter la manipulation du raisonnement.
+2. **Classificateur de transcript** (Sonnet 5) : évalue chaque appel d'outil selon trois catégories de risque avant l'exécution. Le classificateur ne voit que les messages utilisateur et les appels d'outils en attente de Claude ; les sorties d'outils et le raisonnement propre à Claude sont supprimés pour éviter la manipulation du raisonnement.
 
 Les trois catégories vérifiées par le classificateur :
 
@@ -1056,6 +1127,30 @@ Règles de blocage inconditionnel qui s'appliquent avant le classificateur et ne
 
 Contrairement aux règles du classificateur (qui pèsent le contexte et l'intention de l'utilisateur), les entrées `hard_deny` sont absolues. Utilisez-les pour les opérations qui ne doivent jamais s'exécuter sans surveillance : commandes destructives, fichiers de credentials, chemins de configuration système.
 
+**Générer les entrées d'environnement avec `/auto-mode-setup`** (v2.1.228+, v2.1.233+ sur Windows natif)
+
+Exécutez `/auto-mode-setup` pour que Claude Code prépare des entrées `autoMode.environment`, et parfois `allow`/`soft_deny`/`hard_deny`, à partir du projet courant et de vos sessions récentes sur ce projet. Accepter la proposition l'écrit dans `~/.claude/settings.json`. Il faut un abonnement Pro, Max ou Team et la récupération des feature flags activée ; la commande n'est pas disponible dans Claude Code sur le web.
+
+Éléments lus :
+
+| Toujours analysés | Facultatifs, après demande |
+|-------------------|----------------------------|
+| CLAUDE.md, README.md, fichiers de configuration et remotes Git du projet | Premier mot de chaque commande de l'historique shell |
+| Réglages `autoMode` et `permissions.allow` | Hôtes distants et noms de dépôts dans votre dossier personnel |
+| Hôtes, buckets et noms de commandes exécutées par Claude dans les sessions récentes du projet, jamais vos messages | |
+
+Acceptez ou rejetez la proposition entière, puis ajustez les entrées individuelles dans `~/.claude/settings.json`. Lors de l'acceptation, Claude Code écrit la liste `environment` sans `"$defaults"`, car elle détaille les valeurs intégrées inchangées. Il ajoute `"$defaults"` aux listes `allow`/`soft_deny`/`hard_deny` modifiées afin de conserver les règles intégrées, et propose de retirer les règles `permissions.allow` ignorées par le mode Auto ou qui préapprouvent des commandes destructives, par exemple `Bash(*)`.
+
+Après plusieurs blocages sans entrées `autoMode.environment`, une boîte « Teach auto mode about your environment? » propose l'assistant. « Don't show again » supprime la proposition mais garde la commande. Pour désactiver les deux :
+
+```json
+{ "skillOverrides": { "auto-mode-setup": "off" } }
+```
+
+`/auto-mode-setup` est une commande intégrée, pas un skill fourni. `disableBundledSkills` ne la désactive pas ; seul `skillOverrides` le fait.
+
+Commandes d'inspection associées : `claude auto-mode defaults` (règles intégrées en JSON), `claude auto-mode config` (configuration effective), `claude auto-mode critique` (revue IA des règles personnalisées), `claude auto-mode reset` (v2.1.212+, retire vos personnalisations ; les paramètres gérés restent applicables).
+
 **Quand utiliser le mode Auto**
 
 | Contexte | Verdict | Notes |
@@ -1106,6 +1201,8 @@ La solution consiste à choisir le bon mode dès le départ plutôt que de cliqu
 
 L'échec à éviter : recourir à `--dangerously-skip-permissions` sur une machine de dev avec des clés SSH, des tokens API ou un accès production dans la portée. Le système de permissions n'a de valeur que si vous lisez réellement ce que vous approuvez, ou si vous configurez un mode qui correspond à votre niveau de confiance réel.
 
+<a id="15-productivity-checklist"></a>
+
 ## 1.5 Liste de contrôle de productivité
 
 Vous êtes prêt pour le Jour 2 quand vous savez :
@@ -1118,6 +1215,8 @@ Vous êtes prêt pour le Jour 2 quand vous savez :
 - [ ] Utiliser `/clear` pour repartir de zéro
 - [ ] Utiliser `/status` pour vérifier l'utilisation du contexte
 - [ ] Quitter proprement avec `/exit` ou `Ctrl+D`
+
+<a id="16-migrating-from-other-ai-coding-tools"></a>
 
 ## 1.6 Migration depuis d'autres outils de codage IA
 
@@ -1373,6 +1472,8 @@ Gardez Copilot/Cursor pour :
 - Détection de davantage de problèmes grâce aux revues Claude
 - Meilleure compréhension du code inconnu
 
+<a id="17-trust-calibration-when-and-how-much-to-verify"></a>
+
 ## 1.7 Calibration de la confiance : quand et dans quelle mesure vérifier
 
 Le code généré par l'IA nécessite une **vérification proportionnelle** au niveau de risque. Accepter aveuglément toute la production ou examiner paranoïaquement chaque ligne fait perdre du temps dans les deux cas. Cette section vous aide à calibrer votre niveau de confiance.
@@ -1462,6 +1563,8 @@ Erreur acceptée puis détectée → contenir, restaurer ou compenser, évaluer
 La reprise d'une tâche, le rollback de la configuration du reviewer, celui de l'application et la récupération des données sont des opérations distinctes. Exercez la récupération du produit avant d'invoquer la réversibilité pour réduire la revue humaine. Voir [Loop & Graph Engineering](core/loop-graph-engineering.md#5-allocate-judgment-explicitly) et la [review multi-provider](workflows/multi-provider-code-review.md).
 
 **Attribution** : le cadrage de la revue sélective s'appuie sur [AI Code Review d'Addy Osmani](https://addyosmani.com/blog/code-review-ai/). La politique proposée ici est une méthode à évaluer localement, pas un résultat de performance mesuré.
+
+<a id="18-eight-beginner-mistakes-and-how-to-avoid-them"></a>
 
 ## 1.8 Huit erreurs de débutant (et comment les éviter)
 
@@ -1553,9 +1656,11 @@ Avant votre prochaine session, confirmez :
 
 ---
 
+<a id="2-core-concepts"></a>
+
 # 2. Concepts fondamentaux
 
-_Navigation rapide :_ [La boucle d'interaction](#21-the-interaction-loop) · [Gestion du contexte](#22-context-management) · [Mode Plan](#23-plan-mode) · [Rewind](#24-rewind) · [Sélection du modèle](#25-model-selection--thinking-guide) · [Modèle mental](#26-mental-model) · [Guide de décision de configuration](#27-configuration-decision-guide) · [Patterns de prompt engineering](#210-prompt-engineering-patterns) · [Flux de données & confidentialité](#212-data-flow--privacy)
+_Navigation rapide :_ [La boucle d'interaction](#21-the-interaction-loop) · [Gestion du contexte](#22-context-management) · [Mode Plan](#23-plan-mode) · [Rewind](#24-rewind) · [Sélection du modèle](#25-model-selection--thinking-guide) · [Modèle mental](#26-mental-model) · [Patterns de prompt engineering](#210-prompt-engineering-patterns) · [Flux de données & confidentialité](#212-data-flow--privacy)
 
 ---
 
@@ -1585,6 +1690,8 @@ _Navigation rapide :_ [La boucle d'interaction](#21-the-interaction-loop) · [Ge
 **Niveau** : Jour 1-3
 
 **Objectif** : Comprendre comment Claude Code fonctionne
+
+<a id="21-the-interaction-loop"></a>
 
 ## 2.1 La boucle d'interaction
 
@@ -1622,6 +1729,8 @@ Chaque interaction Claude Code suit ce schéma :
 
 La boucle est conçue pour que **vous restiez aux commandes**. Claude propose, vous décidez.
 
+<a id="22-context-management"></a>
+
 ## 2.2 Gestion du contexte
 
 🔴 **C'est le concept le plus important dans Claude Code.**
@@ -1631,8 +1740,8 @@ La boucle est conçue pour que **vous restiez aux commandes**. Claude propose, v
 **Les zones** :
 - 🟢 0-50% : Travaillez librement
 - 🟡 50-75% : Soyez sélectif
-- 🔴 75-90% : `/compact` maintenant
-- ⚫ 90%+ : `/clear` requis
+- 🔴 75-90% : Vérifier la pertinence du contexte et envisager `/compact`
+- ⚫ 90%+ : Préserver l’état et évaluer une compaction ou une nouvelle session
 
 **Quand le contexte est élevé** :
 1. `/compact` (préserve le contexte, libère de l'espace)
@@ -1652,7 +1761,7 @@ Le contexte est la « mémoire de travail » de Claude pour votre conversation. 
 
 ### Le budget de contexte
 
-Claude dispose d'une fenêtre de contexte de **200 000 tokens**. Pensez-y comme de la RAM : quand elle se remplit, les choses ralentissent ou échouent.
+La fenêtre de contexte dépend du modèle et du fournisseur. Opus 5.5, Sonnet 5 et Fable 5.1 disposent de **1M tokens** sur l'API directe ; Haiku 4.5 de **200K**. Consultez `/context` pour la session active. La capacité ne garantit pas que chaque détail sera retrouvé de façon fiable.
 
 ### Lecture de la barre de statut
 
@@ -1888,6 +1997,8 @@ L'option 1 donne un contrôle total mais requiert de la discipline. L'option 2 e
 
 > **Voir aussi** : [Systèmes de mémoire : mémoire de session vs. mémoire persistante](./core/memory-systems.md#25-session-vs-persistent-memory) pour le tableau de comparaison complet et les options d'outils inter-sessions.
 
+<a id="fresh-context-pattern-ralph-loop"></a>
+
 ### Pattern de contexte frais (boucle Ralph)
 
 #### Le problème : pourrissement du contexte
@@ -1960,7 +2071,7 @@ Au lieu de boucler sur la même tâche, dédiez une session fraîche à chaque d
 4. **Sessions de révision** : sessions séparées pour l'audit de sécurité, les performances, la revue de code
 5. **Répéter** : itérer avec des ajustements de portée si nécessaire
 
-Cela combine le contexte frais (200K propres par phase) avec [OpusPlan](#62-opusplan-hybrid-mode) (Opus pour les sessions de révision/stratégie, Sonnet pour l'implémentation). Chaque session génère des artefacts de progression qui alimentent la suivante.
+Cela combine le contexte frais (200K propres par phase) avec [OpusPlan](#opusplan-mode) (Opus pour les sessions de révision/stratégie, Sonnet pour l'implémentation). Chaque session génère des artefacts de progression qui alimentent la suivante.
 
 #### Mise en œuvre pratique
 
@@ -2065,75 +2176,48 @@ Exemple de sortie :
 - Les corrections de dernière minute
 - La génération d'un résumé ou d'un point de contrôle
 
+<a id="cost-awareness--optimization"></a>
+
 ### Conscience des coûts et optimisation
 
 > **Remarque :** Si vous utilisez `claude -p`, l'Agent SDK, GitHub Actions ou tout autre système d'automatisation, une modification du modèle de facturation effective au 15 juin 2026 introduit un nouveau plafond mensuel de crédits sur l'utilisation programmatique, distinct des limites interactives. Voir [§9.13 : The Interactive/Programmatic Billing Split](#the-interactiveprogrammatic-billing-split-effective-june-15-2026) pour la description complète, les outils concernés et les étapes d'audit.
 
-Claude Code n'est pas gratuit : vous consommez des crédits API. Comprendre les coûts aide à optimiser l'utilisation.
+L'utilisation de Claude Code peut consommer l'allocation d'un abonnement, des crédits d'usage ou une facturation API. Vérifiez le compte actif et le mode de facturation avant d'interpréter une estimation du coût des tokens.
 
-#### Modèle de tarification (vérifié le 24 septembre 2026)
+#### Modèle de tarification (vérifié le 24 septembre 2026) {#pricing-model-verified-september-24-2026}
 
+Claude Code v2.1.280 et les versions suivantes utilisent **Opus 5.5** par défaut sur Pro, Max, Team, Enterprise, l'API Anthropic, Claude Platform on AWS, Bedrock et Google Cloud's Agent Platform. Microsoft Foundry conserve Sonnet 4.5 comme modèle par défaut du compte. La politique de l'organisation, les paramètres du modèle et les variables d'environnement peuvent modifier ce choix. Consultez `/model` et `/status` pour votre session.
 
+| Modèle | Entrée / MTok | Sortie / MTok | Lecture du cache / MTok | Contexte | Effort par défaut dans Claude Code |
+|-------|--------------|---------------|-------------------|---------|-------------------------------|
+| Opus 5.5 | $4 | $20 | $0.20 | 1M | `medium` |
+| Sonnet 5 | $2 | $10 | $0.20 | 1M | `high` |
+| Haiku 4.5 | $1 | $5 | $0.10 | 200K | Pas de paramètre d'effort |
+| Fable 5.1 | $10 | $50 | $0.25 | 1M | `high` |
 
+Il s'agit des tarifs standard de l'API Anthropic en USD, vérifiés le 24 septembre 2026. Les allocations des abonnements, les crédits d'usage, les écritures du cache, les remises par lot, la résidence des données et les tarifs des clouds partenaires sont distincts. Le tarif publié de Sonnet 5 reste de $2/$10 ; sa promotion de lancement ne permet pas de déduire une hausse en septembre. [Tarifs officiels des modèles](https://platform.claude.com/docs/en/about-claude/pricing).
 
-Tarifs API standard vérifiés le 24 septembre 2026. Dollars par million de tokens en entrée/sortie, hors cache.
+Le mode rapide prend en charge Opus 5.5 ($8/$40 par MTok), Opus 5 et Opus 4.8 ($10/$50). Il n'est pas disponible sur Sonnet et Haiku. Anthropic décrit une sortie jusqu'à 2.5 fois plus rapide, sans garantie pour chaque requête. Le mode rapide des abonnements utilise des crédits d'usage. [Référence du mode rapide](https://code.claude.com/docs/en/fast-mode).
 
-| Modèle | Entrée / sortie | Contexte | Effort par défaut |
-|--------|-----------------|----------|-------------------|
-| Haiku 4.5 | $1 / $5 | 200K | Non pris en charge |
-| Sonnet 5 | $2 / $10 | 1M | high |
-| Opus 5.5 | $4 / $20 | 1M | medium |
-| Fable 5.1 | $10 / $50 | 1M | high |
+Fable 5.1 est disponible sur sélection explicite, sous réserve d'accès du compte et de l'organisation. Ce n'est pas un modèle par défaut associé à un type de compte. Les tarifs des générations précédentes figurent dans le [tableau officiel des anciens modèles](https://platform.claude.com/docs/en/about-claude/pricing), pas dans les lignes des modèles par défaut ci-dessus.
 
-Le tarif publié de Sonnet reste $2/$10 après la promotion de lancement. Opus 5.5 est le défaut du service direct, sauf règle du compte. Le modèle seul ne détermine pas le coût d'une tâche.
+#### Contexte 200K et 1M : performances, coûts et usages {#200k-vs-1m-context-performance-cost--use-cases}
 
+Opus 5.5, Sonnet 5 et Fable 5.1 disposent d'un contexte natif de 1M sur l'API Anthropic. Sonnet 5 n'y propose aucune variante 200K. Les anciens Opus 4.6 et Sonnet 4.6 utilisent une variante `[1m]` avec un accès dépendant de l'offre. Les passerelles et fournisseurs cloud peuvent exposer une autre fenêtre ; consultez `/context` et les [règles des fournisseurs](https://code.claude.com/docs/en/model-config#extended-context).
 
+Les modèles actuels à 1M natif conservent leurs tarifs standard au-delà de 200K tokens d'entrée. Les anciens conseils sur l'en-tête bêta et le supplément long contexte de Sonnet 4/4.5 ne s'appliquent pas à eux. La sortie maximale est de 128K pour Opus 5.5, Sonnet 5 et Fable 5.1, et de 64K pour Haiku 4.5. [Caractéristiques des modèles](https://platform.claude.com/docs/en/models/overview).
 
+**Factures de tokens illustratives, sans mesure de sessions**, hors cache et reprises :
 
-##### Le contexte dépend du modèle
+| Exemple | Entrée | Sortie | Sonnet 5 | Opus 5.5 |
+|---------|-------|--------|----------|----------|
+| Relecture bornée | 50K | 5K | $0.15 | $0.30 |
+| Refactorisation d'un module | 150K | 20K | $0.50 | $1.00 |
+| Analyse avec contexte volumineux | 500K | 50K | $1.50 | $3.00 |
 
-| Modèle sur l'API directe | Contexte | Sortie maximale |
-|-------------------------|----------|-----------------|
-| Haiku 4.5 | 200K | 64K |
-| Sonnet 5 | 1M natif | 128K |
-| Opus 5.5 | 1M natif | 128K |
-| Fable 5.1 | 1M natif | 128K |
+Une fenêtre plus grande représente une capacité, sans garantie sur la recherche d'information ou le raisonnement. Chargez le contexte pertinent et évaluez la tâche entière. Les anciennes mesures de recherche d'Opus 4.6 et Sonnet 4.5 décrivent ces modèles et les conditions de leur benchmark ; elles n'établissent pas les performances de la gamme actuelle.
 
-Vérifié le 24 septembre 2026. Le fournisseur peut imposer d'autres limites. Consulter `/context` pour la session active.
-
-##### Pas de surcoût du 1M natif
-
-Les modèles actuels à 1M natif gardent leurs tarifs standard au-delà de 200K tokens en entrée. L'ancien en-tête bêta n'est pas requis. Sonnet 5 n'a pas de variante 200K sur l'API directe.
-
-Opus 4.6 et Sonnet 4.6 proposent des variantes `[1m]` avec des restrictions de forfait et de fournisseur. Ces règles ne décrivent pas les modèles actuels.
-
-##### Chiffrer une requête complète
-
-Exemples en dollars, sans cache ni nouvelle tentative :
-
-| Entrée / sortie | Sonnet 5 | Opus 5.5 |
-|-----------------|----------|----------|
-| 50K / 5K | $0.15 | $0.30 |
-| 150K / 20K | $0.50 | $1.00 |
-| 500K / 50K | $1.50 | $3.00 |
-
-Séparer entrée, sortie, lecture et écriture du cache. La taille du contexte est une capacité, pas un coût ni un score de précision.
-
-##### Maîtriser l'accumulation
-
-`/context` détaille les tokens. `/compact` résume la conversation ; `/clear` repart de zéro. Enregistrer les décisions et les commandes de vérification avant de vider le contexte.
-
-`/autocompact 500k` enregistre une fenêtre plus petite. `/autocompact auto` rétablit le défaut du modèle. Une session à 1M natif compacte normalement vers 967K.
-
-Charger les fichiers utiles plutôt que remplir la fenêtre. Séparer les tâches indépendantes quand cela facilite le travail. Aucun pourcentage fixe ne garantit le rappel des informations.
-
-##### Évaluer la recherche d'information
-
-Les anciens scores MRCR d'Opus 4.6 ou Sonnet 4.5 restent propres à ces modèles et au protocole du benchmark. Ils ne mesurent pas Sonnet 5 ou Opus 5.5.
-
-Tester son corpus avec questions vérifiables, citations attendues et distracteurs. Mesurer aussi les éléments de preuve manqués.
-
-Sources : [Configuration](https://code.claude.com/docs/en/model-config), [spécifications](https://platform.claude.com/docs/en/models/overview), [tarifs](https://platform.claude.com/docs/en/about-claude/pricing).
+Les sessions à 1M natif déclenchent normalement la compaction automatique vers 967K tokens. Utilisez `/autocompact auto` pour rétablir le défaut du modèle ou `/autocompact 500k` pour choisir une fenêtre plus petite. Compactez ou ouvrez une nouvelle session lorsque l'accumulation du contexte nuit à la tâche ; un pourcentage fixe n'est pas un seuil universel d'exactitude.
 
 #### Qu'est-ce qui coûte le plus ?
 
@@ -2185,7 +2269,7 @@ Libère un espace de contexte significatif pour les messages suivants
 claude --model haiku "Fix this typo in README.md"
 
 # Choisir Sonnet explicitement pour le travail standard
-claude "Refactor this module"
+claude --model sonnet "Refactor this module"
 
 # Utiliser Opus uniquement pour les tâches critiques/complexes
 claude --model opus "Design the entire authentication system"
@@ -2237,7 +2321,7 @@ Si vous appelez l'API Anthropic directement (par exemple pour des agents ou pipe
 ```python
 # Marquer les sections stables avec cache_control
 response = client.messages.create(
-    model="claude-sonnet-4-6-20250514",
+    model="claude-sonnet-5",
     max_tokens=1024,
     system=[
         {
@@ -2289,6 +2373,8 @@ Un bloc doit atteindre une taille minimale pour être éligible à la mise en ca
 |---|---|
 | Claude Opus 4.7, Opus 4.6, Opus 4.5, Haiku 4.5 | 4 096 |
 | Claude Sonnet 4.6 | 2 048 |
+| Claude Opus 5, Fable 5 | 512 |
+| Claude Sonnet 5, Opus 4.8 | 1 024 |
 | Claude Sonnet 4.5, Sonnet 4, Sonnet 3.7, Opus 4.1, Opus 4 | 1 024 |
 | Claude Haiku 3.5, Haiku 3 | 2 048 |
 
@@ -2314,7 +2400,7 @@ print(response.usage.input_tokens)                  # Tokens d'entrée non mis e
 
 Calculez votre taux de succès comme `cache_read / (cache_read + cache_creation)` entre les requêtes. Un ratio supérieur à 0,8 signifie que la structure de votre invite fonctionne bien. Les ratios faibles signifient généralement que le contenu du préfixe stable change entre les requêtes, vérifiez la présence d'horodatages, d'identifiants aléatoires ou de contenu dynamique intégré dans votre invite système.
 
-Il n'existe pas d'outil de surveillance dédié spécifiquement aux métriques de cache de session Claude Code. Le suivi des coûts via `ccusage` couvre les dépenses globales mais ne détaille pas les taux de succès de cache. Pour une visibilité spécifique au cache dans des pipelines personnalisés, analysez les champs de réponse ci-dessus.
+`/usage` inclut les statistiques du cache de prompts de la conversation principale dans les versions actuelles compatibles. Pour les pipelines API personnalisés, inspectez les champs de réponse ci-dessus. Voir la [documentation des coûts et du cache](https://code.claude.com/docs/en/costs#prompt-cache-statistics).
 
 **Règles pratiques**
 
@@ -2350,14 +2436,14 @@ Claude Code │ Ctx(u): 45% │ Cost: $0.23 │ Session: 1h 23m
 L'outil CLI `ccusage` fournit des analyses de coûts détaillées au-delà de la commande `/cost` (utilisez `/usage` depuis la v2.1.118) :
 
 ```bash
-ccusage                    # Vue d'ensemble de toutes les périodes
-ccusage --today            # Coûts d'aujourd'hui
-ccusage --month            # Mois en cours
-ccusage --session          # Détail de la session active
-ccusage --model-breakdown  # Coût par modèle (Sonnet/Opus/Haiku)
+ccusage daily              # Daily usage from detected local sources
+ccusage daily --last 1     # Today's usage
+ccusage monthly            # Monthly breakdown
+ccusage session            # Session breakdown
+ccusage daily --breakdown  # Costs by model
 ```
 
-**Exemple de sortie** :
+**Sortie historique illustrative, sans recommandation de modèle actuel** :
 ```
 ┌──────────────────────────────────────────────────────┐
 │ USAGE SUMMARY - January 2026                         │
@@ -2379,167 +2465,631 @@ ccusage --model-breakdown  # Coût par modèle (Sonnet/Opus/Haiku)
 - **Planification budgétaire** : fixez des objectifs de dépenses mensuelles
 - **Analytique d'équipe** : agrégez les coûts entre développeurs
 
-> Pour un inventaire complet des outils communautaires de suivi des coûts, visionneuses de sessions, gestionnaires de configuration et interfaces alternatives, voir [Third-Party Tools](./ecosystem/
+> Pour un inventaire complet des outils communautaires de suivi des coûts, visionneuses de sessions, gestionnaires de configuration et interfaces alternatives, voir [Third-Party Tools](./ecosystem/third-party-tools.md).
 
-"Let me analyze this problem thoroughly."
-[Spends tokens on comprehensive analysis]
+**Suivi mensuel** :
 
-User: "Think deeper, what are you missing?"
-[Forces reconsideration of assumptions]
+Consultez votre console Anthropic pour le détail d'utilisation :
+- https://console.anthropic.com/settings/usage
 
-User: "Think even harder about edge cases."
-[Final validation round]
+**Établir un budget** :
 
-User: "Now implement."
-[Executes with maximum confidence]
+Estimez-le à partir des tokens d'entrée, de sortie, du cache et des reprises mesurés sur des tâches représentatives acceptées. Les relevés du fournisseur font foi pour les montants facturés ; les outils locaux fournissent des estimations. Consultez le [guide des commandes ccusage](https://ccusage.com/guide/) pour les rapports disponibles.
+
+#### Coût et valeur {#cost-vs-value}
+
+**Mettre les coûts en perspective** : Si Claude Code vous fait gagner un temps significatif sur une tâche, le coût API est généralement négligeable par rapport à votre tarif horaire. Ne réduisez pas les coûts de tokens au détriment de la productivité.
+
+**Quand optimiser** :
+- ✅ Budget limité (étudiant, usage personnel)
+- ✅ Usage important (>4 heures/jour)
+- ✅ Usage en équipe (5+ développeurs)
+
+**Quand ne PAS optimiser** :
+- ❌ Votre temps coûte plus cher que l'API
+- ❌ Vous passez plus de temps à optimiser que ne le justifient les économies
+- ❌ Les restrictions nuisent à votre productivité
+
+#### Workflows attentifs aux coûts {#cost-conscious-workflows}
+
+Choisissez un modèle et un niveau d'effort qui satisfont les critères d'acceptation de la tâche, puis comparez le coût total, reprises et relecture comprises. Confiez les tâches répétitives à un modèle moins cher uniquement si le résultat mesuré le justifie. Un pilote en équipe doit consigner les tâches acceptées, l'usage des modèles, les échecs et l'effort de relecture humaine avant de fixer un budget.
+
+| Observation | Investigation |
+|-------------|---------------|
+| Le coût augmente pendant les longues sessions | Inspecter la croissance du contexte et les échecs de cache avec `/usage` |
+| Des appels répétés renvoient les mêmes données | Préciser la demande et réutiliser un résultat explicite |
+| Un modèle moins cher exige de nombreuses reprises | Comparer son coût par tâche acceptée à celui d'un modèle plus capable |
+| Plusieurs agents répètent l'exploration du dépôt | Leur attribuer un périmètre borné et un contexte écrit partagé |
+
+#### Abonnements et limites {#subscription-plans--limits}
+
+Consultez les [offres actuelles](https://claude.com/pricing) et l'utilisation du compte connecté. Les allocations des abonnements ne correspondent pas à des budgets fixes publiés en tokens ; les rapports de prix API ne déterminent pas la consommation des quotas. L'accès aux modèles et les politiques d'organisation peuvent changer indépendamment du nom de l'offre. Pro ne se limite pas à Sonnet : les valeurs par défaut et les choix disponibles figurent dans le tableau des modèles ci-dessus.
+
+**Suivre votre utilisation**
+
+```text
+/usage    # Session estimates, subscription limits and usage breakdown
+/model    # Available models for this account and provider
+/status   # Active account and session configuration
 ```
 
-**With thinking budget**:
+L'estimation en dollars de la session ne représente pas à elle seule la facture d'un abonné. `/usage` inclut les barres de consommation de l'offre pour les abonnements et, lorsqu'ils sont activés, les crédits d'usage. Consultez la page de facturation Claude ou du fournisseur concerné pour connaître les montants effectivement facturés. [Documentation du suivi des coûts](https://code.claude.com/docs/en/costs).
+
+Si vous choisissez `opusplan`, Opus gère la planification et Sonnet l'exécution. Haiku nécessite une sélection explicite distincte. Évaluez cette politique de routage sur votre travail ; elle ne promet ni économie fixe ni nombre garanti d'heures utilisables.
+
+Lorsqu'une limite interrompt le travail, consultez sa date de réinitialisation et la politique actuelle du compte. Enregistrez l'état de la tâche avant de changer de modèle, de compte ou de mode d'exécution. Les anciens témoignages sur les quotas et les heures de pointe ne sont pas des limites actuelles fiables.
+
+
+
+### Contamination du contexte (bleeding) {#context-poisoning-bleeding}
+
+**Définition** : Des informations provenant d'une tâche contaminent une autre tâche.
+
+**Pattern 1 : propagation du style**
+
+```
+Task 1: "Create a blue button"
+Claude: [Creates blue button]
+
+Task 2: "Create a form"
+Claude: [Creates form... with all buttons blue!]
+        ↑ The "blue" bled into the new task
+
+Solution: Use explicit boundaries
+"---NEW TASK---
+Create a form. Use default design system colors."
+```
+
+**Pattern 2 : contamination des instructions**
+
+```
+Instruction 1: "Always use arrow functions"
+Instruction 2: "Follow project conventions" (which uses function)
+
+Claude: [Paralyzed, alternating between styles]
+
+Solution: Clarify priority
+"In case of conflict, project conventions take precedence over my preferences."
+```
+
+**Pattern 3 : confusion temporelle**
+
+```
+Early session: "auth.ts contains login logic"
+... 2h of work ...
+You renamed auth.ts to authentication.ts
+
+Claude: "I'll modify auth.ts..."
+        ↑ Using outdated info
+
+Solution: Explicit updates
+"Note: auth.ts was renamed to authentication.ts"
+```
+
+**Checklist d'hygiène du contexte :**
+
+- [ ] Nouvelles tâches = séparations Markdown explicites
+- [ ] Changements structurels = informer explicitement Claude
+- [ ] Instructions contradictoires = préciser la priorité
+- [ ] Session longue (>2h) = envisager `/clear` ou une nouvelle session
+- [ ] Comportement erratique = vérifier avec `/context`
+
+### Technique de contrôle de cohérence {#sanity-check-technique}
+
+Vérifiez que Claude a correctement chargé votre configuration.
+
+**Méthode simple :**
+
+1. Ajoutez en tête de CLAUDE.md :
+
+```markdown
+# My name is [Your Name]
+# Project: [Project Name]
+# Stack: [Your tech stack]
+```
+
+2. Demandez à Claude : « Comment est-ce que je m'appelle ? Sur quel projet est-ce que je travaille ? »
+
+3. Si la réponse est correcte → La configuration a été chargée correctement
+
+**Méthode avancée : plusieurs points de contrôle**
+
+```markdown
+# === CHECKPOINT 1 === Project: MyApp ===
+
+[... 500 lines of instructions ...]
+
+# === CHECKPOINT 2 === Stack: Next.js ===
+
+[... 500 lines of instructions ...]
+
+# === CHECKPOINT 3 === Owner: [Name] ===
+```
+
+Demandez « Quel est le point de contrôle 2 ? » pour vérifier que Claude a lu jusque-là.
+
+| Symptôme | Cause probable | Solution |
+|----------|----------------|----------|
+| Ne connaît pas votre nom | CLAUDE.md non chargé | Vérifier l'emplacement du fichier |
+| Réponses incohérentes | Faute dans le nom du fichier | Doit être `CLAUDE.md` (pas `clause.md`) |
+| Connaissance partielle | Contexte épuisé | `/clear` ou nouvelle session |
+
+### Pattern de passation de session {#session-handoff-pattern}
+
+Lorsque vous terminez une session ou changez de contexte, créez un **document de passation** pour maintenir la continuité.
+
+**Objectif** : Assurer le relais entre les sessions en documentant l'état, les décisions et les prochaines étapes.
+
+**Modèle :**
+
+```markdown
+# Session Handoff - [Date] [Time]
+
+## What Was Accomplished
+- [Key task 1 completed]
+- [Key task 2 completed]
+- [Files modified: list]
+
+## Current State
+- [What's working]
+- [What's partially done]
+- [Known issues or blockers]
+
+## Decisions Made
+- [Architectural choice 1: why]
+- [Technology selection: rationale]
+- [Trade-offs accepted]
+
+## Next Steps
+1. [Immediate next task]
+2. [Dependent task]
+3. [Follow-up validation]
+
+## Context for Next Session
+- Branch: [branch-name]
+- Key files: [list 3-5 most relevant]
+- Dependencies: [external factors]
+```
+
+**Quand créer un document de passation :**
+
+| Scénario | Pourquoi |
+|----------|----------|
+| Fin de journée de travail | Reprendre demain sans réexpliquer le contexte |
+| Avant la limite du contexte | Préserver l'état avant `/clear` |
+| Changement de sujet | Une autre tâche nécessite un contexte neuf |
+| Interruption attendue | Une urgence ou une réunion interrompt le travail |
+| Débogage complexe | Documenter les hypothèses et les tests effectués |
+
+**Emplacement de stockage** : `claudedocs/handoffs/handoff-YYYY-MM-DD.md`
+
+**Conseil pratique** : Demandez à Claude de générer la passation :
+
+```
+You: "Create a session handoff document for what we accomplished today"
+```
+
+Claude analysera l'état Git et l'historique de conversation, puis générera une passation structurée.
+
+**Pattern des trois commandes de passation** : Pour les équipes ou les workflows multisessions, un protocole en trois commandes ajoute des règles de fusion explicites à la passation de base. Les trois commandes fonctionnent ensemble :
+
+| Commande | Rôle |
+|----------|------|
+| `/handoff:create` | Génère le document structuré à partir du contexte de la session courante |
+| `/handoff:resume` | Charge un document de passation, confirme sa compréhension et attend l'approbation avant de commencer |
+| `/handoff:update` | Met à jour une passation existante avec des règles de fusion propres à chaque section (voir ci-dessous) |
+
+L'ajout déterminant concerne les règles de fusion par section dans `update` :
+
+| Section | Règle de fusion |
+|---------|-----------------|
+| Tâche, périmètre | Conserver ou préciser |
+| Fichiers | Fusionner : combiner la liste initiale avec les nouveaux fichiers touchés |
+| Découvertes | Ajouter : consigner les nouvelles observations sans supprimer les précédentes |
+| Travail réalisé | **Ajout uniquement** : ajouter de nouvelles entrées sans jamais supprimer l'historique, inclure les hashes de commits |
+| État | Remplacer : décrire l'état actuel |
+| Prochaines étapes | Remplacer : écrire la checklist mise à jour |
+
+La section Travail réalisé, alimentée uniquement par des ajouts, crée une piste d'audit entre les sessions. Même si un travail antérieur est révisé, la révision apparaît comme une nouvelle entrée au lieu d'écraser la précédente.
+
+Des modèles prêts à adapter sont disponibles dans `examples/commands/handoff/` dans ce dépôt.
+
+> Pattern inspiré des [trois commandes de passation de Packmind](https://github.com/PackmindHub/packmind) (Apache 2.0). Voir les [Crédits](./core/credits.md).
+
+
+
+<a id="23-plan-mode"></a>
+
+## 2.3 Mode Plan
+
+Le mode Plan permet à Claude Code d'examiner le projet sans le modifier.
+
+### Entrer en mode Plan
+
+```
+/plan
+```
+
+Ou demandez-le directement à Claude :
+
+```
+You: Let's plan this feature before implementing
+```
+
+### Ce que le mode Plan autorise
+
+- ✅ Lire des fichiers
+- ✅ Rechercher dans le code
+- ✅ Analyser l'architecture
+- ✅ Proposer des approches
+- ✅ Écrire dans un fichier de plan
+
+### Ce que le mode Plan empêche
+
+- ❌ Modifier des fichiers
+- ❌ Exécuter des commandes qui modifient l'état du système
+- ❌ Créer de nouveaux fichiers
+- ❌ Créer des commits
+
+### Quand utiliser le mode Plan
+
+| Situation | Utiliser le mode Plan ? |
+|-----------|-------------------------|
+| Explorer un code inconnu | ✅ Oui |
+| Enquêter sur un bug | ✅ Oui |
+| Préparer une nouvelle fonctionnalité | ✅ Oui |
+| Corriger une faute de frappe | ❌ Non |
+| Modifier rapidement un fichier connu | ❌ Non |
+
+> **Fréquence recommandée** : Boris Cherny, responsable de Claude Code chez Anthropic, commence environ **80 % de ses tâches en mode Plan** et laisse Claude préparer son approche avant d'écrire une ligne de code. Une fois le plan approuvé, l'exécution est presque toujours correcte dès le premier essai.
+> *Lenny's Newsletter, 19 février 2026*
+
+### Quitter le mode Plan
+
+Appuyez sur `Shift+Tab` pour revenir au mode normal, aussi appelé mode Act. Vous pouvez également écrire un message ; Claude demandera alors si vous souhaitez mettre le plan en œuvre.
+
+> **Remarque** : `Shift+Tab` permet de changer de mode pendant une session. Depuis le mode normal, appuyez deux fois sur `Shift+Tab` pour entrer en mode Plan, puis une fois pour en sortir.
+
+### Mode Plan automatique
+
+**Principe** : déclencher automatiquement la planification avant toute opération risquée.
+
+**Fichier de configuration** (`~/.claude/auto-plan-mode.txt`) :
+
+```
+Before executing ANY tool (Read, Write, Edit, Bash, Grep, Glob, WebSearch), you MUST:
+1. FIRST: Use exit_plan_mode tool to present your plan
+2. WAIT: For explicit user approval before proceeding
+3. ONLY THEN: Execute the planned actions
+
+Each new user request requires a fresh plan - previous approvals don't carry over.
+```
+
+**Lancer avec le mode Plan automatique** :
+
+*macOS/Linux :*
 
 ```bash
-# Maximum thinking tokens for planning
-claude --thinking-budget 10000 "Plan the complete refactoring of auth system"
+# Direct
+claude --append-system-prompt "Before executing ANY tool..."
 
-# Default thinking for implementation
-claude "Implement the plan we just created"
+# Via file (recommended)
+claude --append-system-prompt "$(cat ~/.claude/auto-plan-mode.txt)"
+
+# Alias in .zshrc/.bashrc
+alias claude-safe='claude --append-system-prompt "$(cat ~/.claude/auto-plan-mode.txt)"'
 ```
 
-**When NOT to rev the engine**:
-- Simple bug fixes with clear solutions
-- Repetitive tasks with established patterns
-- Time-sensitive situations
+*Windows (PowerShell) :*
 
-> **Tradeoff**: Takes 3-5x longer and uses more tokens. Reserve for decisions where mistakes are expensive.
+```powershell
+# Create the config file at %USERPROFILE%\.claude\auto-plan-mode.txt with the same content
 
-### Extend Thinking (ultrathink)
+# Direct
+claude --append-system-prompt "Before executing ANY tool..."
 
-`ultrathink` ajoute une consigne de réflexion sans changer l'effort envoyé à l'API. `think` et `think hard` sont du texte ordinaire. Utiliser `/effort` ou `--effort` pour un réglage explicite. Opus 5.5 démarre à `medium`, Sonnet 5 et Fable 5.1 à `high`. Haiku 4.5 ne prend pas en charge le paramètre effort.
-
-### The OODA Loop Method
-
-**Definition**: Observe → Orient → Decide → Act. A military decision-making framework adapted for coding.
-
-**Applied to Claude Code**:
-
-```
-OBSERVE:
-"Read and summarize: main.ts, auth.ts, database.ts, routes/user.ts"
-
-ORIENT:
-"What are the potential problems with this structure?"
-
-DECIDE:
-"What's the best approach to add refresh tokens?"
-
-ACT:
-"Implement what we just decided."
+# Via file (add to $PROFILE)
+function claude-safe {
+    $planPrompt = Get-Content "$env:USERPROFILE\.claude\auto-plan-mode.txt" -Raw
+    claude --append-system-prompt $planPrompt $args
+}
 ```
 
-**Why it works**: Forces Claude to build complete context before acting, prevents rushed solutions.
-
-**Example Session**:
+**Déroulement obtenu** :
 
 ```
-User: "OBSERVE: Read all files in /src/auth/"
-Claude: [Reads 12 files, summarizes]
+User: "Add an email field to the User model"
 
-User: "ORIENT: What security issues do you see?"
-Claude: [Identifies 3 vulnerabilities]
+Claude (Auto Plan Mode active):
+┌─────────────────────────────────────────────────────────────┐
+│ 📋 PROPOSED PLAN                                            │
+│                                                             │
+│ 1. Read schema.prisma to understand current model           │
+│ 2. Add field email: String? @unique                         │
+│ 3. Generate Prisma migration                                │
+│ 4. Update TypeScript types                                  │
+│ 5. Add Zod validation in routers                            │
+│                                                             │
+│ ⚠️ Impact: 3 files modified, 1 migration created            │
+│                                                             │
+│ Approve this plan? (y/n)                                    │
+└─────────────────────────────────────────────────────────────┘
 
-User: "DECIDE: Which is most critical and how should we fix it?"
-Claude: [Recommends JWT expiry fix]
+User: "y"
 
-User: "ACT: Implement the fix"
-Claude: [Implements precisely, no wasted tokens]
+Claude: [Executes the plan]
 ```
 
+**Bénéfice attendu** : relire un plan avant l'exécution permet de repérer les ambiguïtés et les limites de périmètre avant de modifier des fichiers. Mesurez les économies de tokens et les résultats acceptés sur votre propre travail ; aucun pourcentage général n'est établi ici.
+
+### Alias de modèles
+
+Les alias dépendent du fournisseur et peuvent être redéfinis dans la configuration. Vérification effectuée le 24 septembre 2026 dans la [documentation officielle des modèles](https://code.claude.com/docs/en/model-config) :
+
+| Fournisseur | `opus` | `sonnet` |
+|-------------|--------|----------|
+| Anthropic API | Opus 5.5 | Sonnet 5 |
+| Claude Platform on AWS | Opus 5.5 | Sonnet 4.6 |
+| Amazon Bedrock / Google Cloud's Agent Platform | Opus 5.5 | Sonnet 4.5 |
+| Microsoft Foundry | Opus 4.6 | Sonnet 4.5 |
+
+| Sélection | Signification |
+|-----------|---------------|
+| `default` | Supprime la sélection explicite et utilise le modèle par défaut du compte ou de l'organisation |
+| `haiku` | Alias de la famille Haiku ; le modèle actuel du service direct est Haiku 4.5 |
+| `fable` | Fable 5.1, sauf via la passerelle des applications Claude, qui utilise Fable 5 |
+| `best` | Équivalent à `fable` lorsque disponible, sinon `opus` |
+| `opus[1m]`, `sonnet[1m]` | Demande une variante 1M lorsque le fournisseur ou le modèle l'exige |
+| `opusplan` | `opus` pour la planification, `sonnet` pour l'exécution |
+| `opusplan[1m]` | Demande 1M dans les deux phases lorsque ce n'est pas natif ; `/model` l'accepte depuis la v2.1.265 |
+
+Pour fixer une version, utilisez son identifiant exact chez le fournisseur, par exemple `claude-opus-5-5`, ou la variable `ANTHROPIC_DEFAULT_*_MODEL` correspondante. Un alias qui pointe vers un ancien modèle ne signifie pas que les identifiants explicites des modèles plus récents sont indisponibles.
+
+`/model <name>` enregistre un choix par défaut pour les nouvelles sessions. Dans le sélecteur, appuyez sur `s` pour limiter le choix à la session en cours. `claude --model <name>` et `ANTHROPIC_MODEL` s'appliquent à la session lancée. Les paramètres du projet et les paramètres gérés peuvent se réappliquer au lancement suivant ; une session reprise retrouve généralement son modèle enregistré. `ANTHROPIC_DEFAULT_MODEL` est un choix par défaut de priorité inférieure, qui ne remplace pas ces sélections explicites.
+
+Utilisez la barre d'état, `/model` ou les métadonnées de réponse de l'API pour identifier le modèle actif. Les déclarations du modèle sur sa propre identité ne sont pas fiables. Les dates limites de connaissances fiables sont juin 2026 pour Opus 5.5 et Fable 5.1, janvier 2026 pour Sonnet 5, et février 2025 pour Haiku 4.5. [Caractéristiques des modèles](https://platform.claude.com/docs/en/models/overview).
+
+<a id="opusplan-mode"></a>
+
+### Mode OpusPlan
+
+**Principe** : utiliser Opus pour la planification, grâce à ses capacités de raisonnement, et Sonnet pour l'implémentation, à moindre coût.
+
+**Pourquoi OpusPlan ?**
+
+- **Maîtrise des coûts** : les tokens Opus coûtent plus cher que ceux de Sonnet.
+- **Complémentarité** : planification avec Opus et exécution rapide avec Sonnet.
+- **Économie de tokens** : la planification est généralement plus courte que l'implémentation.
+
+**Activation** :
+
+```
+/model opusplan
+```
+
+Ou dans `~/.claude/settings.json` :
+
+```json
+{
+  "model": "opusplan"
+}
+```
+
+**Fonctionnement** :
+
+1. En **mode Plan** (`/plan` ou deux pressions sur `Shift+Tab`), utilise **Opus**.
+2. En **mode Act**, lors de l'exécution normale, utilise **Sonnet**.
+3. Le changement de modèle suit automatiquement le mode.
+
+**Déroulement recommandé** :
+
+```
+1. /model opusplan        → Enable OpusPlan
+2. Shift+Tab × 2          → Enter Plan Mode (Opus)
+3. Describe your task     → Get Opus-quality planning
+4. Shift+Tab              → Exit to Act Mode (Sonnet)
+5. Execute the plan       → Sonnet implements efficiently
+```
+
+**Autre approche avec les sous-agents** :
+
+Vous pouvez aussi choisir le modèle de chaque agent :
+
+```yaml
+# .claude/agents/planner.md
 ---
+name: planner
+model: opus
+tools: Read, Grep, Glob
+---
+# Strategic Planning Agent
+```
 
-## Tour 1 : Analyse initiale
+```yaml
+# .claude/agents/implementer.md
+---
+name: implementer
+model: haiku
+tools: Write, Edit, Bash
+---
+# Fast Implementation Agent
+```
+
+**Pour les abonnés Pro** : OpusPlan est particulièrement utile lorsque le quota de tokens Opus est limité. Il réserve le raisonnement d'Opus aux étapes de planification importantes et préserve des tokens pour d'autres sessions.
+
+**Variante économique : SonnetPlan, une astuce communautaire**
+
+`opusplan` associe Opus et Sonnet de manière fixe. Il n'existe pas d'alias natif `sonnetplan`. Vous pouvez toutefois redéfinir les modèles associés aux alias `opus` et `sonnet` grâce aux variables d'environnement, et ainsi créer une combinaison Sonnet→Haiku :
+
+```bash
+# Add to ~/.zshrc
+sonnetplan() {
+    ANTHROPIC_DEFAULT_OPUS_MODEL=claude-sonnet-5 \
+    ANTHROPIC_DEFAULT_SONNET_MODEL=claude-haiku-4-5-20251001 \
+    claude "$@"
+}
+```
+
+Avec `sonnetplan`, `/model opusplan` utilise :
+
+- En **mode Plan**, Sonnet 5 via l'alias `opus` redéfini.
+- En **mode Act**, Haiku 4.5 via l'alias `sonnet` redéfini.
+
+> **Attention** : la réponse à « quel modèle es-tu ? » n'est pas fiable ; les modèles ne connaissent pas toujours leur propre identité. Fiez-vous à la barre d'état (`Model: Sonnet 5` en mode Plan) ou vérifiez le tableau de bord de facturation. L'issue GitHub [#9749](https://github.com/anthropics/claude-code/issues/9749) suit la prise en charge native de cette combinaison.
+
+<a id="pinning-opus-46-community-hack"></a>
+
+**Fixer Opus 4.6, une astuce communautaire**
+
+Opus 4.7 utilise un nouveau tokenizer qui convertit une même entrée en environ 1.0 à 1.35 fois plus de tokens selon le contenu. Aux niveaux d'effort élevés, il produit aussi davantage de tokens de sortie, avec plus d'étapes de raisonnement. Lorsque cette dépense supplémentaire n'améliore pas les résultats, fixer Opus 4.6 conserve un modèle et un tokenizer plus anciens. Mesurez le compromis entre coût et qualité sur votre propre tâche.
+
+**Option A : Opus 4.6 partout, la plus simple**
+
+```json
+// ~/.claude/settings.json
+{
+  "model": "claude-opus-4-6"
+}
+```
+
+Toutes les sessions utilisent Opus 4.6, sans alternance. Ajoutez `[1M]` si vous avez besoin de la fenêtre de contexte 1M : `"claude-opus-4-6[1M]"`.
+
+**Option B : conserver OpusPlan et fixer volontairement l'ancien modèle Opus**
+
+```json
+// ~/.claude/settings.json
+{
+  "model": "opusplan",
+  "env": {
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-4-6"
+  }
+}
+```
+
+`opusplan` continue d'alterner entre les modes Plan et Act, mais le mode Plan utilise désormais Opus 4.6 à la place du modèle associé à l'alias Opus actuel du fournisseur. Le modèle Sonnet du mode Act ne change pas.
+
+Variante shell non persistante, utile pour tester :
+
+```bash
+ANTHROPIC_DEFAULT_OPUS_MODEL=claude-opus-4-6 claude
+```
+
+**Option C : changer de modèle pour une session, sans modifier la configuration**
+
+```
+/model claude-opus-4-6
+```
+
+Le choix est réinitialisé à la session suivante. Cette approche permet de tester avant de changer la configuration.
+
+**Vérification** : consultez la barre d'état en mode Plan et vérifiez l'identifiant Opus 4.6 effectivement utilisé. Le tableau de bord de facturation confirme le modèle facturé.
+
+> **Compromis** : Opus 4.6 ne prend pas en charge `xhigh`, mais accepte `max`. Le fixer conserve un modèle, un tokenizer et une date limite de connaissances plus anciens. Comparez les résultats acceptés et le total des tokens au modèle actuel par défaut avant de considérer ce choix comme une économie.
+
+### Rev the Engine
+
+**Principe** : enchaîner plusieurs tours de planification et de réflexion approfondie avant l'exécution, comme on fait chauffer un moteur avant de partir.
+
+Déroulement standard : réfléchir → planifier → exécuter.
+Rev the Engine : réfléchir → planifier → approfondir → affiner le plan → approfondir encore → finaliser → exécuter.
+
+**Quand l'utiliser** :
+
+- Pour des décisions d'architecture critiques, difficiles à inverser et à fort impact.
+- Pour des migrations complexes qui touchent plus de 10 fichiers.
+- Dans un domaine inconnu où la première intuition est souvent trompeuse.
+
+**Exemple** :
+
+```markdown
+## Round 1: Initial analysis
 User: /plan
 User: Analyze the current auth system. What are the key components,
       dependencies, and potential risks of migrating to OAuth2?
-Claude: [Analyse initiale]
+Claude: [Initial analysis]
 
-## Tour 2 : Remise en question approfondie
+## Round 2: Deep challenge
 User: Now use extended thinking. Challenge your own analysis:
       - What assumptions did you make?
       - What failure modes did you miss?
       - What would a senior security engineer flag?
-Claude: [Analyse approfondie avec auto-correction]
+Claude: [Deeper analysis with self-correction]
 
-## Tour 3 : Plan définitif
+## Round 3: Final plan
 User: Based on both rounds, write the definitive migration plan.
       Include rollback strategy and risk mitigation for each step.
-Claude: [Plan affiné intégrant les deux tours]
+Claude: [Refined plan incorporating both rounds]
 
-## Exécution
-[approuver le plan, ou Shift+Tab pour sortir du Plan Mode]
+## Execute
+[approve the plan, or Shift+Tab to leave plan mode]
 User: Implement the plan from round 3.
 ```
 
-**Pourquoi ça fonctionne** : Chaque tour force Claude à reconsidérer ses hypothèses. Le tour 2 détecte généralement 30 à 40 % des problèmes que le tour 1 avait manqués. Le tour 3 synthétise le tout en un plan plus robuste.
+**Objectif** : chaque tour pose une question distincte sur les hypothèses, les contraintes manquantes ou la consolidation. Des tours supplémentaires peuvent simplement répéter les précédents ; arrêtez quand ils n'apportent plus rien. Des critères d'acceptation et des vérifications indépendantes restent nécessaires.
 
-> **📊 Base empirique : Anthropic AI Fluency Index (fév. 2026)**
+> **📊 Données empiriques : Anthropic AI Fluency Index, février 2026**
 >
-> Une étude Anthropic portant sur 9 830 conversations Claude quantifie précisément pourquoi la révision du plan fonctionne : les utilisateurs qui itèrent et **remettent en question le raisonnement de l'IA ont 5,6 fois plus de chances de détecter un contexte manquant** et des erreurs, par rapport aux utilisateurs qui acceptent le premier résultat. Un deuxième tour de révision vous rend 4 fois plus susceptible d'identifier ce qui a été omis.
+> Une étude Anthropic portant sur 9 830 conversations sur une semaine en janvier 2026 a observé que l'itération et l'affinement étaient **associés à 5.6 fois plus de questionnement du raisonnement du modèle et à 4 fois plus d'identification de contexte manquant**. Ces associations ne mesurent pas la détection de bugs et ne démontrent pas de causalité ; l'étude ne testait pas ce workflow de relecture en trois tours.
 >
-> Le pattern Rev the Engine met en pratique cette observation : chaque tour de remise en question approfondie déclenche le comportement questionnant qui produit des plans mesurément meilleurs.
+> La méthode Rev the Engine applique ce constat : chaque tour de remise en question déclenche le comportement associé à de meilleurs plans mesurés.
 >
-> *Source : Swanson et al., "The AI Fluency Index", Anthropic (2026-02-23), [anthropic.com/research/AI-fluency-index](https://www.anthropic.com/research/AI-fluency-index)*
+> *Source : Swanson et al., « The AI Fluency Index », Anthropic (2026-02-23), [anthropic.com/research/AI-fluency-index](https://www.anthropic.com/research/AI-fluency-index)*
 
 ### Ultrareview (v2.1.114+)
 
-Révision de code multi-agents parallèle dans le cloud. Plusieurs agents de revue lisent vos modifications simultanément et remontent les bugs et problèmes de conception qu'un réviseur attentif détecterait.
+Revue de code réalisée dans le cloud par plusieurs agents en parallèle. Les agents examinent simultanément les modifications et signalent les bugs et problèmes de conception qu'une relecture attentive pourrait relever.
 
 **Activation** :
 
 ```bash
-/ultrareview              # Réviser la branche courante (diff depuis la base)
-/ultrareview <PR#>        # Réviser une PR GitHub spécifique
+/ultrareview              # Review current branch (diff from base)
+/ultrareview <PR#>        # Review a specific GitHub PR
 ```
 
-Ultrareview opère sur les **diffs, pas sur la base de code complète** : il révise ce qui a changé sur la branche courante, ou les modifications d'une PR donnée. La session cloud dispatche des agents parallèles pour analyser le diff ; les résultats arrivent dans le navigateur et peuvent optionnellement être rapatriés vers le terminal.
+Ultrareview travaille sur **les différences, pas sur l'ensemble du code** : il examine les changements de la branche courante ou ceux d'une PR donnée. La session cloud distribue l'analyse à plusieurs agents. Les résultats arrivent dans le navigateur et peuvent être renvoyés vers le terminal.
 
-**Offre de lancement** : Les abonnés Pro et Max reçoivent trois ultrareviews gratuits pour essayer la fonctionnalité.
+**Offre de lancement** : les abonnés Pro et Max bénéficient de trois ultrareviews gratuites pour essayer la fonctionnalité.
 
 **Prérequis** :
 
 | Prérequis | Détail |
 |-----------|--------|
-| Version Claude Code | v2.1.114+ |
+| Version de Claude Code | v2.1.114+ |
 | Compte | Pro ou Max |
-| Fournisseurs | API Anthropic uniquement |
+| Fournisseurs | Anthropic API uniquement |
 
 ---
 
-### Mechanic Stacking
+### Combiner les mécanismes
 
-**Concept** : Superposer plusieurs mécanismes de Claude Code pour une intelligence maximale sur les décisions critiques.
+**Principe** : associer plusieurs mécanismes de Claude Code pour approfondir l'analyse des décisions critiques.
 
 ```
-Couche 1 : Plan Mode          → Exploration sécurisée, sans effets de bord
-Couche 2 : Extended Thinking  → Raisonnement approfondi avec tokens de réflexion
-Couche 3 : Rev the Engine     → Affinement multi-tours
-Couche 4 : Split-Role Agents  → Analyse multi-perspectives
-Couche 5 : Permutation        → Test de variations systématiques
+Layer 1: Plan Mode          → Safe exploration, no side effects
+Layer 2: Extended Thinking  → Deep reasoning with thinking tokens
+Layer 3: Rev the Engine     → Multi-round refinement
+Layer 4: Split-Role Agents  → Multi-perspective analysis
+Layer 5: Permutation        → Systematic variation testing
 ```
 
-**Toutes les couches ne sont pas nécessaires pour chaque tâche.** Adaptez la profondeur de la pile à l'impact de la décision :
+**Toutes les tâches n'exigent pas toutes ces couches.** Adaptez leur nombre à l'impact de la décision :
 
-| Impact de la décision | Profondeur de pile | Exemple |
-|-----------------------|--------------------|---------|
-| Faible (corriger une faute) | 0 couche | Faites-le directement |
-| Moyen (ajouter une fonctionnalité) | 1-2 couches | Plan Mode + Extended Thinking |
-| Élevé (architecture) | 3-4 couches | Rev the Engine + Split-Role |
-| Critique (migration) | 4-5 couches | Pile complète |
+| Impact de la décision | Nombre de couches | Exemple |
+|----------------------|-------------------|---------|
+| Faible, correction d'une faute | 0 | Exécution directe |
+| Moyen, ajout d'une fonctionnalité | 1 à 2 | Mode Plan et réflexion étendue |
+| Élevé, architecture | 3 à 4 | Rev the Engine et rôles distincts |
+| Critique, migration | 4 à 5 | Ensemble des mécanismes |
 
-**Anti-pattern** : Empiler des couches sur des décisions triviales. Si le changement est réversible et à faible risque, exécutez directement. Sur-planifier est aussi coûteux que sous-planifier.
+**À éviter** : empiler les mécanismes pour des décisions triviales. Si la modification est réversible et peu risquée, exécutez-la directement. Trop planifier gaspille autant que trop peu planifier.
 
-**Références croisées** :
-- Permutation Frameworks : voir [§9.19](#919-permutation-frameworks)
-- Split-Role Sub-Agents : voir [Sub-Agent Isolation](#sub-agent-isolation)
-- Extended Thinking : voir [§9.1 The Trinity](#91-the-trinity)
+**Renvois** :
+
+- Cadres de permutation : voir [§9.19](#919-permutation-frameworks).
+- Sous-agents aux rôles distincts : voir [Isolation des sous-agents](#sub-agent-isolation).
+- Réflexion étendue : voir [§9.1 La Trinité](#91-the-trinity).
+
+
 
 ## 2.4 Rewind
 
@@ -2687,6 +3237,8 @@ Pour une expérimentation systématique, utilisez le pattern de point de contrô
 - Léger pour les expériences rapides
 - Fonctionne sur plusieurs fichiers
 
+<a id="25-model-selection--thinking-guide"></a>
+
 ## 2.5 Guide de sélection du modèle et du mode de réflexion
 
 Choisir le bon modèle pour chaque tâche est l'amélioration du ROI la plus rapide que la plupart des utilisateurs de Claude Code puissent réaliser. Une décision par tâche, sans trop réfléchir.
@@ -2698,44 +3250,45 @@ _Accès rapide :_ [Tableau de décision](#decision-table) · [Niveaux d'effort](
 ---
 
 
-### Modèles actuels
+<a id="decision-table"></a>
 
-Tarifs API standard vérifiés le 24 septembre 2026. Dollars par million de tokens en entrée/sortie, hors cache.
+### Tableau de décision
 
-| Modèle | Entrée / sortie | Contexte | Effort par défaut |
-|--------|-----------------|----------|-------------------|
-| Haiku 4.5 | $1 / $5 | 200K | Non pris en charge |
-| Sonnet 5 | $2 / $10 | 1M | high |
-| Opus 5.5 | $4 / $20 | 1M | medium |
-| Fable 5.1 | $10 / $50 | 1M | high |
+| Tâche | Modèle candidat | Effort de départ |
+|-------|-----------------|------------------|
+| Renommage, formatage, extraction bornée | Haiku 4.5 | Non pris en charge |
+| Fonctionnalités, tests, débogage courant | Sonnet 5 ou Opus 5.5 | Défaut du modèle |
+| Architecture ou débogage difficile | Opus 5.5 | Augmenter depuis `medium` si l'évaluation le justifie |
+| Travail long ou ambigu sous le niveau de qualité attendu | Évaluer Fable 5.1 | Commencer à `high` |
+| Workflow multi-agents | Affecter selon le rôle et les résultats mesurés | Selon le modèle pris en charge |
 
-Le tarif publié de Sonnet reste $2/$10 après la promotion de lancement. Opus 5.5 est le défaut du service direct, sauf règle du compte. Le modèle seul ne détermine pas le coût d'une tâche.
+Le nom d'un modèle ne détermine pas un coût fixe par tâche. Mesurez les tokens d'entrée, de sortie et de cache, les nouvelles tentatives et l'effort de revue avec les mêmes critères d'acceptation. Voir le [tableau de tarification](#pricing-model-verified-september-24-2026).
 
-### Choisir et enregistrer
+<a id="escalating-to-fable"></a>
 
-`/model` ouvre le sélecteur. **Entrée** enregistre le défaut ; **s** limite le choix à la session. `claude --model sonnet` s'applique à la session lancée. Les réglages du projet ou de l'organisation peuvent reprendre priorité au lancement suivant.
+#### Passer à Fable
 
-Les alias dépendent du fournisseur. `opus` sélectionne 5.5 chez la plupart, mais 4.6 sur Foundry. `sonnet` sélectionne 5 sur l'API directe, 4.6 sur Claude Platform on AWS, et 4.5 sur Bedrock, Google et Foundry.
+Fable 5.1 (`claude-fable-5-1`, Claude Code v2.1.257+) est une option explicite lorsque les évaluations d'Opus 5.5 restent insuffisantes. `/model fable` le sélectionne normalement ; les sessions via la passerelle Claude apps associent cet alias à Fable 5, donc utilisez un identifiant complet pris en charge pour fixer la nouvelle version. La disponibilité et la facturation en crédits dépendent du compte. Un modèle plus puissant ne dispense pas de vérifier les décisions de sécurité ou de production. [Accès et facturation Fable](https://code.claude.com/docs/en/model-config#work-with-fable).
 
-`fable` sélectionne 5.1 si disponible, ou 5 via la passerelle Claude apps. `best` choisit Fable si accessible, sinon Opus. Utiliser un identifiant complet pour fixer une version.
+<a id="effort-levels"></a>
 
-### Thinking et effort
+### Niveaux d'effort
 
-Opus 5.5, Sonnet 5 et Fable 5.1 utilisent le thinking adaptatif. Haiku 4.5 dispose du thinking étendu mais **pas du paramètre effort**.
+L'effort contrôle le raisonnement adaptatif et peut modifier l'usage des outils, la longueur des réponses, la latence et le coût. Il ne garantit pas l'exactitude.
 
-Les modèles adaptatifs actuels acceptent `low`, `medium`, `high`, `xhigh` et `max`. Opus 4.6 et Sonnet 4.6 acceptent `max`, mais pas `xhigh`.
+| Modèles | Niveaux d'effort Claude Code pris en charge | Défaut |
+|---------|-------------------------------------------|--------|
+| Opus 5.5 | `low`, `medium`, `high`, `xhigh`, `max` | `medium` |
+| Sonnet 5, Opus 5 / 4.8, Fable 5 / 5.1 | `low`, `medium`, `high`, `xhigh`, `max` | `high` |
+| Opus 4.7 | `low`, `medium`, `high`, `xhigh`, `max` | `xhigh` |
+| Opus 4.6, Sonnet 4.6 | `low`, `medium`, `high`, `max` | `high` |
+| Haiku 4.5 | Aucun paramètre effort | Sans objet |
 
-`/effort` enregistre les niveaux jusqu'à `xhigh` par modèle. **s** limite le choix à la session. `max` reste propre à la session ; `/effort auto` efface le choix enregistré pour le modèle actif.
+`/effort` et le sélecteur `/model` enregistrent les niveaux pris en charge de `low` à `xhigh` par modèle avec `Enter` ; `s` limite le choix à la session. `/effort max` ne s'applique qu'à la session. Les réglages persistants `modelSettings` et `effortLevel` n'acceptent pas `max`. `CLAUDE_CODE_EFFORT_LEVEL` peut surcharger la session et les règles de l'organisation peuvent plafonner les niveaux disponibles.
 
-`Option+T` / `Alt+T` bascule le thinking si le modèle le permet. Ce raccourci n'a pas d'effet sur Opus 5.5 ou Fable, dont le thinking reste actif. Réduire plutôt l'effort pour une tâche bornée.
+`/effort ultracode` active l'orchestration dynamique des workflows avec un raisonnement `xhigh`. C'est un réglage Claude Code, pas un sixième niveau d'effort du modèle. Le mot-clé `ultrathink` ajoute une consigne de raisonnement plus approfondi sans modifier la valeur envoyée à l'API.
 
-`ultrathink` ajoute une consigne de réflexion sans changer l'effort API. `think hard` est du texte ordinaire.
-
-### Décider sur des résultats mesurés
-
-Évaluer Haiku sur les tâches bornées, Sonnet sur le travail courant, Opus ou Fable sur les cas difficiles. Comparer résultats acceptés, reprises, latence et coût total sur les mêmes tâches. Les coéquipiers peuvent utiliser des modèles différents.
-
-Sources : [Configuration des modèles](https://code.claude.com/docs/en/model-config), [tarifs API](https://platform.claude.com/docs/en/about-claude/pricing).
+Opus 5.5 commence à `medium` et n'hérite pas de l'ancien `effortLevel` global des paramètres utilisateur. Un choix par modèle, une surcharge explicite à l'exécution ou les paramètres de projet, locaux ou gérés peuvent néanmoins le modifier. [Règles officielles d'effort](https://code.claude.com/docs/en/model-config#adjust-effort-level).
 
 ### Allocation de l'effort par skill (v2.1.80+)
 
@@ -2773,6 +3326,8 @@ effort: high
 > **Modèle de coût** : l'effort `low` signifie moins d'appels d'outils, pas de préambule, sortie directe. L'effort `high` signifie plus d'appels d'outils avec explications, résumés détaillés, exploration approfondie. Adaptez l'effort là où l'analyse apporte de la valeur, pas selon le principe « effort = qualité » de manière uniforme.
 
 ---
+
+<a id="model-per-agent-patterns"></a>
 
 ### Modèle par agent : modèles d'utilisation
 
@@ -2816,10 +3371,12 @@ tools: Read, Grep, Glob
 > **Conseil pro** : Ajoutez un rappel de modèle dans votre CLAUDE.md :
 > ```
 > # Model reminder
-> Default: Sonnet. Haiku for mechanical tasks. Opus for architecture and security audits.
+> Project preference: Sonnet for routine work, Haiku for bounded tasks, Opus for harder reasoning. This is a chosen policy, not the account default.
 > ```
 
 ---
+
+<a id="when-thinking-helps-vs-wastes-tokens"></a>
 
 ### Quand la réflexion aide ou gaspille des tokens
 
@@ -2835,6 +3392,8 @@ tools: Read, Grep, Glob
 Bascule : `Alt+T` (session courante) · `/config` (permanent)
 
 ---
+
+<a id="26-mental-model"></a>
 
 ## 2.6 Modèle mental
 
@@ -2912,6 +3471,8 @@ Pensez à vous comme un ordonnanceur de CPU. Les instances de Claude Code sont d
 
 Ce modèle mental passe à l'échelle : un seul développeur peut orchestrer 2 à 5 instances de Claude sur des tâches indépendantes (voir [§9.17 Scaling Patterns](#917-scaling-patterns-multi-instance-workflows)).
 
+<a id="from-chatbot-to-context-system"></a>
+
 ### Du chatbot au système de contexte
 
 L'erreur la plus courante est de traiter Claude Code comme un chatbot : taper des requêtes ad hoc en espérant obtenir de bons résultats. Ce qui distingue l'usage occasionnel des workflows de production est un changement de perspective :
@@ -2947,7 +3508,7 @@ Ce ne sont pas des fonctionnalités indépendantes. Ce sont des couches du même
 
 Le changement ne concerne pas la rédaction de meilleurs prompts. Il s'agit de construire un système où Claude commence chaque session en sachant déjà ce dont vous avez besoin.
 
-> **Voir aussi** : [§9.10 Continuous Improvement Mindset](#910-continuous-improvement-mindset) pour faire évoluer ce système dans le temps. Prêt à choisir le bon mécanisme ? [§2.7 Configuration Decision Guide](#27-configuration-decision-guide) cartographie les sept mécanismes avec un arbre de décision.
+> **Voir aussi** : [§9.10 Continuous Improvement Mindset](#910-continuous-improvement-mindset) pour faire évoluer ce système dans le temps.
 
 ### Communiquer efficacement
 
@@ -2963,6 +3524,8 @@ Login is broken
 ```
 
 Plus vous fournissez de contexte, mieux Claude peut vous aider.
+
+<a id="28-structured-prompting-with-xml-tags"></a>
 
 ## 2.8 Prompts Structurés avec les Balises XML
 
@@ -3309,7 +3872,6 @@ When making complex requests, use this structure:
 <output>
   Expected deliverables
 </output>
-```
 
 ## Balises spécifiques au projet
 
@@ -3452,6 +4014,8 @@ Cela impose une deuxième tentative substantielle avec le contexte accumulé, pl
 
 > **Source** : [10 Tips from Inside the Claude Code Team](https://paddo.dev/blog/claude-code-team-tips/) (fil Boris Cherny, février 2026)
 
+<a id="29-semantic-anchors"></a>
+
 ## 2.9 Ancres sémantiques
 
 Les LLM sont des apparieurs de motifs statistiques entraînés sur d'immenses corpus textuels. L'utilisation d'un **vocabulaire technique précis** aide Claude à activer les bons motifs dans ses données d'entraînement, produisant ainsi des résultats de meilleure qualité.
@@ -3544,6 +4108,8 @@ Les ancres sémantiques fonctionnent puissamment avec les prompts structurés en
 > **Catalogue complet** : Voir [examples/semantic-anchors/anchor-catalog.md](../examples/semantic-anchors/anchor-catalog.md) pour une référence exhaustive organisée par domaine.
 
 > **Source** : Concept d'Alexandre Soyer. Catalogue original : [github.com/LLM-Coding/Semantic-Anchors](https://github.com/LLM-Coding/Semantic-Anchors) (Apache-2.0)
+
+<a id="210-prompt-engineering-patterns"></a>
 
 ## 2.10 Patrons d'ingénierie des prompts
 
@@ -3798,147 +4364,447 @@ Lorsque `classification: "urgent"` et `reasoning: "customer explicitly states pr
 
 ---
 
-Looking at [task list]...
+## 2.11 Sorties structurées et conception des schémas {#211-structured-outputs--schema-design}
 
-User: That's not right. I expected [X, Y, Z]—why are you doing [A, B, C] instead?
+La conception du schéma détermine quelle part du travail d'extraction revient au modèle et quelle part revient à la validation en aval. Un bon schéma exprime ce que le modèle sait réellement ; un mauvais schéma le force à inventer des valeurs pour des champs qu'il ne trouve pas.
+
+---
+
+### Calibration de la confiance {#confidence-calibration}
+
+Un score de confiance de 0.9 ne signifie rien sans un jeu de validation annoté montrant que les champs auxquels ce modèle attribue 0.9 sont effectivement corrects dans 90% des cas. Des scores de confiance non calibrés donnent une fausse impression d'exactitude.
+
+**Construire une référence de calibration :**
+
+```python
+from collections import defaultdict
+
+def calibrate_confidence(
+    model_outputs: list[dict],
+    ground_truth: list[dict],
+    field: str,
+    bucket_size: float = 0.1
+) -> dict:
+    buckets = defaultdict(lambda: {"correct": 0, "total": 0})
+
+    for output, truth in zip(model_outputs, ground_truth):
+        conf = output.get("confidence", 0.5)
+        bucket = round(conf / bucket_size) * bucket_size
+        buckets[bucket]["total"] += 1
+        if output.get(field) == truth.get(field):
+            buckets[bucket]["correct"] += 1
+
+    return {
+        bucket: {
+            "accuracy": data["correct"] / data["total"] if data["total"] > 0 else 0,
+            "samples": data["total"]
+        }
+        for bucket, data in sorted(buckets.items())
+    }
+
+# Example output:
+# {0.9: {"accuracy": 0.91, "samples": 234}}  <- well-calibrated
+# {0.9: {"accuracy": 0.63, "samples": 234}}  <- overconfident, needs adjustment
 ```
 
-> The above divergence is your signal to refine: the model's interpretation and yours don't match. Correct the task list, then proceed.
+**Seuils par champ :**
 
-**Correction creates better instructions**: When you correct a task list, you're discovering what your instructions actually need to say.
+Le coût d'une erreur varie selon le champ. Un nom de fournisseur incorrect sur une facture est gênant ; un montant total incorrect est une erreur financière. Définissez des seuils de confiance par champ pour orienter les résultats vers une revue humaine lorsqu'ils ne sont pas atteints :
 
----
+```python
+REVIEW_THRESHOLDS = {
+    "vendor_name": 0.70,
+    "invoice_date": 0.80,
+    "total_amount": 0.95,  # high bar: financial field
+    "line_items": 0.85
+}
 
-## 2.14 Thinking (Extended Context)
+def needs_review(extraction: dict, confidence_scores: dict) -> list[str]:
+    return [
+        field
+        for field, threshold in REVIEW_THRESHOLDS.items()
+        if confidence_scores.get(field, 0) < threshold
+    ]
+```
 
-> **Reading time**: 4 minutes
-> **Goal**: Use Claude's extended thinking and CLAUDE.md efficiently
+**Graphiques d'exactitude et de confiance :**
 
-### When Extended Thinking Helps
+Placez la confiance du modèle sur l'axe horizontal et l'exactitude réelle sur l'axe vertical. Un modèle parfaitement calibré suit la diagonale. Une confiance systématiquement trop élevée produit une courbe sous la diagonale ; une confiance systématiquement trop faible produit une courbe au-dessus. Les deux peuvent être corrigées en ajustant la température ou par une calibration a posteriori (calibration de Platt).
 
-Le bénéfice du raisonnement étendu dépend de la tâche. Choisir un effort explicite et vérifier le résultat :
-
-| Task Type | Ultrathink Benefit | Example |
-|-----------|-------------------|---------|
-| Multi-constraint reasoning | **High** | "Design an auth system that handles SSO, RBAC, and audit requirements" |
-| Algorithmic complexity | **High** | "Optimize this graph traversal for memory efficiency" |
-| Tradeoff analysis | **High** | "Compare JWT vs session cookies for this use case" |
-| Simple implementations | **None** | "Add a null check to this function" |
-| Mechanical refactors | **None** | "Rename all variables from camelCase to snake_case" |
-
-> **Source**: Anthropic Engineering, [Claude Code Best Practices](https://www.anthropic.com/engineering/claude-code-best-practices)
-
-**Réglage du raisonnement** : `/effort` sélectionne un niveau pris en charge par le modèle. `ultrathink` ajoute une consigne sans changer le niveau API. Aucun mot-clé ne garantit un budget fixe ni une meilleure qualité.
-
-> **Usage note**: Extended thinking consumes significantly more tokens. Reserve it for genuinely complex tasks where deeper reasoning is valuable.
+Calibrez sur au moins 200 exemples annotés par champ pour obtenir des tranches statistiquement significatives. En dessous de 100 exemples, les estimations d'exactitude par tranche sont trop bruitées pour guider une action.
 
 ---
 
-### CLAUDE.md Best Practices
+## 2.12 Flux de données et confidentialité {#212-data-flow--privacy}
 
-CLAUDE.md is a configuration file that helps Claude Code understand your project context, conventions, and constraints. Think of it as onboarding documentation for Claude.
+> **Important** : Tout ce que vous partagez avec Claude Code est envoyé aux serveurs d'Anthropic. Comprendre ce flux de données permet de protéger les informations sensibles.
 
-**What belongs in CLAUDE.md:**
+### Ce qui est envoyé à Anthropic {#what-gets-sent-to-anthropic}
+
+Lorsque vous utilisez Claude Code, les données suivantes quittent votre machine :
+
+| Type de données | Exemple | Niveau de risque |
+|-----------------|---------|------------------|
+| Vos prompts | « Corrige le bug de connexion » | Faible |
+| Fichiers lus par Claude | `.env`, `src/app.ts` | **Élevé** s'ils contiennent des secrets |
+| Résultats des requêtes MCP | Résultats de requêtes SQL contenant des données utilisateur | **Élevé** s'il s'agit de données de production |
+| Sorties des commandes | Sortie de `env \| grep API` | Moyen |
+| Messages d'erreur | Traces de pile contenant des chemins de fichiers | Faible |
+
+### Politiques de conservation {#retention-policies}
+
+| Configuration | Conservation | Comment l'activer |
+|---------------|--------------|-------------------|
+| **Par défaut** | 5 ans | (état par défaut, entraînement activé) |
+| **Opt-out** | 30 jours | [claude.ai/settings](https://claude.ai/settings/data-privacy-controls) |
+| **Enterprise (ZDR)** | 0 jour | Contrat Enterprise |
+
+**Action immédiate** : [Désactivez l'utilisation des données pour l'entraînement](https://claude.ai/settings/data-privacy-controls) pour réduire la conservation de 5 ans à 30 jours.
+
+### Protéger les données sensibles {#protecting-sensitive-data}
+
+**1. Bloquez l'accès aux fichiers sensibles** dans `.claude/settings.json` :
+
+```json
+{
+  "permissions": {
+    "deny": [
+      "Read(./.env*)",
+      "Edit(./.env*)",
+      "Write(./.env*)",
+      "Bash(cat .env*)",
+      "Bash(head .env*)",
+      "Read(./secrets/**)",
+      "Read(./**/*.pem)",
+      "Read(./**/*.key)",
+      "Read(./**/credentials*)"
+    ]
+  }
+}
+```
+
+> **Avertissement** : `permissions.deny` a des limites connues. Consultez le [Guide de durcissement de la sécurité](./security/security-hardening.md#known-limitations-of-permissionsdeny) pour les détails.
+
+**2. Ne connectez jamais les bases de données de production** aux serveurs MCP. Utilisez les environnements de développement ou de staging avec des données anonymisées.
+
+**3. Utilisez des hooks de sécurité** pour bloquer la lecture des fichiers sensibles (voir la [Section 7.4](#74-security-hooks)).
+
+> **Guide complet** : Pour la documentation complète sur la confidentialité, y compris les risques connus, les incidents rapportés par la communauté et les considérations propres aux entreprises, consultez le [Guide de confidentialité et de conservation des données](./security/data-privacy.md).
+
+## 2.13 Fonctionnement interne {#213-under-the-hood}
+
+> **Temps de lecture** : 5 minutes
+> **Objectif** : Comprendre l'architecture de base de Claude Code
+
+Cette section résume les mécanismes internes de Claude Code. Pour une analyse technique complète avec des diagrammes et des sources, consultez le [Guide d'architecture et de fonctionnement interne](./core/architecture.md).
+
+### La boucle principale {#the-master-loop}
+
+Claude Code fonctionne avec une simple boucle `while` :
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    MASTER LOOP (simplified)                 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   Your Prompt                                               │
+│       │                                                     │
+│       ▼                                                     │
+│   ┌────────────────────────────────────────────────────┐    │
+│   │   Claude reasons and selects the next action        │    │
+│   └───────────────────────┬────────────────────────────┘    │
+│                           │                                 │
+│              Tool needed? │                                 │
+│                     ┌─────┴─────┐                           │
+│                    YES         NO                           │
+│                     │           │                           │
+│                     ▼           ▼                           │
+│              Execute Tool    Text Response (done)           │
+│                     │                                       │
+│                     └──────── Feed result back to Claude    │
+│                                        │                    │
+│                               (loop continues)              │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Source** : [Blog d'ingénierie d'Anthropic](https://www.anthropic.com/engineering/claude-code-best-practices)
+
+Le schéma décrit la boucle de base entre modèle et outils, sans inventorier toutes les fonctions actuelles du produit : le mode Auto peut ajouter un classificateur de permissions et les workflows dynamiques coordonner d'autres agents. Le modèle choisit des actions parmi les outils, contrôles de politique et commandes d'exécution exposés par le runtime.
+
+### Les outils disponibles {#the-tool-arsenal}
+
+Voici une sélection d'outils intégrés, pas l'inventaire actuel complet :
+
+| Outil | Fonction |
+|-------|----------|
+| `Bash` | Exécuter des commandes shell (adaptateur universel) |
+| `Read` | Lire le contenu des fichiers (2 000 lignes maximum) |
+| `Edit` | Modifier les fichiers existants (par différences) |
+| `Write` | Créer ou écraser des fichiers |
+| `Grep` | Rechercher dans le contenu des fichiers (avec ripgrep) |
+| `Glob` | Trouver des fichiers par motif |
+| `Agent` | Lancer des sous-agents ; `Task` reste un alias de compatibilité dans les paramètres et définitions d'agents |
+| `TodoWrite` | Suivre l'avancement (ancien système, voir ci-dessous) |
+
+**Exécution des outils** : Claude Code peut commencer à exécuter les outils marqués comme compatibles avec une exécution concurrente (opérations en lecture seule comme `Read`, `Grep`, `Glob`) alors que le modèle génère encore sa réponse, ce qui réduit la durée totale du tour. Les outils non concurrents (écritures, commandes bash) attendent la fin de la réponse et s'exécutent en série. Lorsque plusieurs outils en lecture seule figurent dans une même réponse, ils s'exécutent en parallèle, avec une limite par défaut de 10 exécutions simultanées.
+
+### Système de gestion des tâches {#task-management-system}
+
+**Version** : Claude Code v2.1.16+ a introduit un nouveau système de gestion des tâches
+
+Claude Code propose deux approches de gestion des tâches :
+
+| Fonctionnalité | TodoWrite (ancien système) | Tasks API (v2.1.16+) |
+|----------------|---------------------------|---------------------|
+| **Persistance** | Mémoire de session uniquement | Stockage sur disque (`~/.claude/tasks/`) |
+| **Multisession** | ❌ Perdu à la fin de la session | ✅ Conservé entre les sessions |
+| **Dépendances** | ❌ Ordonnancement manuel | ✅ Blocage de tâches (A bloque B) |
+| **Coordination** | Un seul agent | ✅ Diffusion multi-agent |
+| **Suivi des états** | pending/in_progress/completed | pending/in_progress/completed |
+| **Visibilité des descriptions** | ✅ Toujours visibles | ⚠️ TaskGet uniquement (pas dans TaskList) |
+| **Visibilité des métadonnées** | Sans objet | Absentes de la vue compacte TaskList |
+| **Surcoût des appels multiples** | Aucun | ⚠️ 1 + N appels pour N tâches complètes |
+| **Activation** | Sélection historique après activation des outils de tâches | Les nouveaux modèles exigent une activation explicite ; voir ci-dessous |
+
+#### Tasks API (v2.1.16+) {#tasks-api-v2116}
+
+**Outils disponibles :**
+
+- `TaskCreate` : créer une tâche ; utiliser `TaskUpdate` pour les dépendances et les changements d'état
+- `TaskUpdate` : modifier l'état, les métadonnées et les dépendances des tâches
+- `TaskGet` : récupérer les détails d'une tâche
+- `TaskList` : lister toutes les tâches de la liste courante
+- `TaskOutput` a été supprimé dans v2.1.278. Utilisez `Read` sur le chemin de sortie renvoyé par la tâche en arrière-plan ; ne supposez pas un répertoire fixe.
+
+**Fonctionnalités principales :**
+
+- **Stockage persistant** : tâches enregistrées dans `~/.claude/tasks/<task-list-id>/`
+- **Coordination multisession** : partage de l'état entre plusieurs sessions Claude
+- **Suivi des dépendances** : les tâches peuvent en bloquer d'autres (la tâche A bloque la tâche B)
+- **Cycle de vie des états** : pending → in_progress → completed ; consigner les échecs dans les détails de la tâche sans inventer d'état `failed`
+- **Métadonnées** : ajout de données personnalisées (priorité, estimations, fichiers associés, etc.)
+
+**Configuration :**
+
+```bash
+# Opt in on newer models, then select a persistent task list
+export CLAUDE_CODE_ENABLE_TODO_TOOLS=1
+export CLAUDE_CODE_TASK_LIST_ID="project-name"
+claude
+
+# Example: Project-specific task list
+export CLAUDE_CODE_TASK_LIST_ID="api-v2-auth-refactor"
+claude
+```
+
+**⚠️ Important** : Utilisez des identifiants de listes de tâches propres à chaque dépôt pour éviter de mélanger les projets. Les tâches portant le même identifiant sont partagées entre toutes les sessions qui l'utilisent.
+
+**Enregistrement de tâche illustratif** (ce n'est pas le schéma complet d'un appel d'outil) :
+
+```json
+{
+  "id": "task-auth-login",
+  "subject": "Implement login endpoint",
+  "description": "POST /auth/login with JWT token generation",
+  "status": "in_progress",
+  "blockedBy": [],
+  "metadata": {
+    "priority": "high",
+    "estimated_duration": "2h",
+    "related_files": ["src/auth/login.ts", "src/middleware/auth.ts"]
+  }
+}
+```
+
+**Quand utiliser Tasks API :**
+
+- Projets répartis sur plusieurs sessions de développement
+- Hiérarchies de tâches complexes avec dépendances
+- Scénarios de coordination multi-agent
+- Besoin de reprendre le travail après une compaction du contexte
+
+**⚠️ Limites de Tasks API à prendre en compte**
+
+**Contrainte de visibilité des champs :**
+
+| Outil | Champs visibles | Champs masqués |
+|-------|-----------------|----------------|
+| `TaskList` | `id`, `subject`, `status`, `owner`, `blockedBy` | `description`, `activeForm`, `metadata` |
+| `TaskGet` | Tous les champs | - |
+
+**Conséquences :**
+
+- **Surcoût des appels multiples** : consulter 10 descriptions de tâches nécessite 1 appel TaskList + 10 appels TaskGet (11 fois plus d'appels)
+- **Pas de parcours des métadonnées** : impossible de filtrer ou trier par champs personnalisés (priorité, estimations, tags) sans récupérer chaque tâche individuellement
+- **Reprise de session moins directe** : impossible de parcourir d'un coup toutes les notes de tâches pour décider où reprendre
+
+**Exemple de coût :**
+
+```bash
+# Inefficient (if you need descriptions)
+TaskList  # Returns 10 tasks (no descriptions)
+TaskGet(task-1), TaskGet(task-2), ..., TaskGet(task-10)  # 10 additional calls
+
+# Total: 11 API calls to review 10 tasks
+```
+
+**Solutions de contournement :**
+
+1. **Approche hybride** (recommandée) :
+   - Utiliser Tasks API pour le **suivi des états** et la **coordination des dépendances**
+   - Conserver des fichiers Markdown dans le dépôt pour les **plans d'implémentation détaillés**
+   - Exemple : `docs/plans/auth-refactor.md` + Tasks pour les états
+
+2. **Résumé dans le champ subject** :
+   - Placer les informations déterminantes dans le champ `subject` (toujours visible dans TaskList)
+   - Réserver `description` au contexte détaillé (récupéré à la demande avec TaskGet)
+   - Exemples de sujets : `"[P0] Fix login bug (src/auth.ts:45)"` plutôt que `"Fix bug"`
+
+3. **Récupération sélective** :
+   - Utiliser TaskList pour identifier les tâches qui nécessitent une intervention (status, blockedBy)
+   - Appeler TaskGet uniquement pour les tâches sur lesquelles vous travaillez activement
+
+**Source** : Retour d'un praticien de la communauté ([Gang Rui, janv. 2026](https://www.linkedin.com/posts/limgangrui_i-explored-the-new-claude-codes-task-system-activity-7420651412881268736-Hpd6))
+
+#### TodoWrite (ancien système) {#todowrite-legacy}
+
+**Outil** : `TodoWrite` crée des listes de tâches stockées dans la mémoire de session
+
+**Fonctionnalités :**
+
+- Suivi simple des tâches au sein d'une seule session
+- Suivi des états : pending/in_progress/completed
+- Perdu à la fin de la session ou lorsque le contexte est compacté
+
+**Quand utiliser TodoWrite :**
+
+- Implémentations simples réalisées en une session
+- Corrections rapides ou développement exploratoire
+- Claude Code < v2.1.16
+- Préférence pour la simplicité plutôt que la persistance
+
+**Option de migration** (v2.1.19+) :
+
+```bash
+# Opt in to task tools, then select legacy TodoWrite
+CLAUDE_CODE_ENABLE_TODO_TOOLS=1 CLAUDE_CODE_ENABLE_TASKS=0 claude
+
+# Opt in to the Tasks API on newer models
+CLAUDE_CODE_ENABLE_TODO_TOOLS=1 claude
+```
+
+#### Bonnes pratiques {#best-practices}
+
+**Concevoir la hiérarchie des tâches :**
+
+```
+Project (parent)
+└── Feature A (child)
+    ├── Component A1 (leaf task)
+    │   ├── Implementation
+    │   └── Tests (depends on Implementation)
+    └── Component A2
+```
+
+**Gestion des dépendances :**
+
+- Ajouter les dépendances avec `TaskUpdate` après avoir obtenu les identifiants des tâches
+- Référencer les dépendances avec les identifiants des tâches, pas leurs titres
+- Vérifier les dépendances avec `TaskGet` avant l'exécution
+
+**Transitions d'état :**
+
+- Marquer `in_progress` au début du travail (empêche l'exécution parallèle)
+- Mettre à jour fréquemment pour rendre l'avancement visible
+- Marquer `completed` uniquement lorsque le travail est entièrement accompli (tests réussis, validation effectuée)
+- Consigner les échecs et blocages dans la description ou les métadonnées ; laisser le travail inachevé non terminé
+
+**Conventions de métadonnées :**
+
+```json
+{
+  "priority": "high|medium|low",
+  "estimated_duration": "2h",
+  "related_files": ["path/to/file.ts"],
+  "related_issue": "https://github.com/org/repo/issues/123",
+  "type": "feature|bugfix|refactor|test"
+}
+```
+
+#### Les listes de tâches comme outil de diagnostic {#task-lists-as-diagnostic-tool}
+
+**Principe de diagnostic** : Lorsque la liste de tâches de Claude ne correspond pas à votre intention, le problème se situe dans vos instructions, pas dans Claude.
+
+Les listes de tâches servent de **miroir** à la clarté des instructions. Si vous demandez à Claude de planifier une fonctionnalité et que les tâches produites vous surprennent, cet écart est une information de diagnostic :
+
+```
+Your instruction: "Refactor the auth system"
+
+Claude's task list:
+- [ ] Read all auth-related files
+- [ ] Identify code duplication
+- [ ] Extract shared utilities
+- [ ] Update imports
+- [ ] Run tests
+
+Your reaction: "That's not what I meant—I wanted to switch from session to JWT"
+
+Diagnosis: Your instruction was ambiguous. "Refactor" ≠ "replace".
+```
+
+**Types d'écarts et ce qu'ils révèlent :**
+
+| Type d'écart | Signification | Correction |
+|--------------|---------------|------------|
+| Tâches trop larges | Les instructions manquent de précision | Ajouter QUOI, OÙ, COMMENT, VÉRIFIER |
+| Tâches trop étroites | Les instructions sont trop détaillées, sans vue d'ensemble | Exprimer l'objectif, pas seulement les étapes |
+| Mauvaises priorités | Il manque le contexte sur ce qui compte | Ajouter les contraintes et les priorités |
+| Tâches manquantes | Des connaissances implicites n'ont pas été partagées | Expliciter les hypothèses dans le prompt |
+| Tâches supplémentaires | Claude a déduit des exigences que vous ne souhaitiez pas | Définir explicitement les limites du périmètre |
+
+**Utiliser les écarts entre les tâches et votre intention dans le workflow :**
 
 ```markdown
-## Build & Test Commands
-npm run build
-npm test -- --testPathPattern=<file>
-npm run lint:fix
+## Step 1: Seed with loose instruction
+User: "Improve the checkout flow"
 
-## Architecture
-- Frontend: React + TypeScript at src/
-- Backend: Express at server/
-- Database: PostgreSQL with Prisma ORM
-- Authentication: JWT (see src/auth/README.md)
+## Step 2: Review Claude's task list (don't execute yet)
+Claude generates: [task list]
 
-## Conventions
-- Error handling: always use Result<T, E> type
-- API responses: {data, error, metadata} shape
-- Tests: co-locate with source files as *.test.ts
+## Step 3: Compare against your mental model
+- Missing: payment retry logic? → Add to instructions
+- Unexpected: UI redesign? → Clarify scope (backend only)
+- Wrong order: tests last? → Specify TDD approach
 
-## Known Issues
-- Legacy auth module (server/auth/legacy/) is deprecated, don't modify
-- tests/integration/old/ contains flaky tests, skip unless specifically testing
-
-## Team Preferences
-- Use async/await not .then() chains
-- Prefer explicit returns in arrow functions
-- All database queries go through repository layer
+## Step 4: Refine and re-plan
+User: "Actually, here's what I need: [refined instruction with specifics]"
 ```
 
-**What NOT to include:**
+**Conseil pratique** : Exécutez `TaskList` après la planification initiale comme **contrôle de cohérence** avant l'exécution. Si plus de 30% des tâches vous surprennent, votre prompt doit être retravaillé. Itérez sur le prompt, pas sur les tâches.
 
-- Prompt injection attempts ("Ignore previous instructions and...")
-- Sensitive data (API keys, passwords, connection strings)
-- Overly long explanations (CLAUDE.md adds to every request's context)
-- Obvious coding standards Claude already knows (e.g., "use meaningful variable names")
+#### Workflow complet {#complete-workflow}
 
-**Multi-project CLAUDE.md hierarchy:**
+**→ Voir** : [Workflow de gestion des tâches](./workflows/task-management.md) pour :
 
-If you have a monorepo or nested projects, Claude Code reads CLAUDE.md files at multiple levels:
+- La phase de planification des tâches (décomposition, conception de la hiérarchie)
+- Les modes d'exécution des tâches
+- La gestion et la reprise des sessions
+- L'intégration avec le TDD et les workflows pilotés par un plan
+- Le guide de migration depuis TodoWrite
+- Les patterns, anti-patterns et méthodes de dépannage
 
-```
-repo/
-├── CLAUDE.md          ← Global: applies to all subprojects
-├── frontend/
-│   └── CLAUDE.md      ← Frontend-specific: React conventions, build commands
-└── backend/
-    └── CLAUDE.md      ← Backend-specific: API patterns, DB conventions
-```
+#### Sources {#sources}
 
-Each level inherits from parent levels. More specific files can override or extend parent instructions.
+- **Officielle** : [CHANGELOG de Claude Code v2.1.16](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md), « new task management system with dependency tracking »
+- **Officielle** : [Référence des outils et disponibilité des tâches](https://code.claude.com/docs/en/tools-reference#task-tool-availability) et [tâches partagées d'équipe](https://code.claude.com/docs/en/agent-teams#assign-and-claim-tasks)
+- **Extraction communautaire** : [Prompts système : TaskCreate](https://github.com/Piebald-AI/claude-code-system-prompts)
+- **Communauté** : [paddo.dev : From Beads to Tasks](https://paddo.dev/blog/from-beads-to-tasks/)
+- **Communauté** : [llbbl.blog : Two Changes in Claude Code](https://llbbl.blog/2026/01/25/two-changes-in-claude-code.html)
 
-**Validating your CLAUDE.md:**
+### Gestion du contexte {#context-management}
 
-Check if Claude actually absorbs it by asking at session start:
-
-```
-What are our testing conventions based on your context?
-What commands should I run to build and test this project?
-```
-
-If the answers don't match what's in CLAUDE.md, either the file isn't being read or the relevant section needs to be clearer.
-
----
-
-## Étape 1 : Amorcer avec une instruction vague
-Utilisateur : « Améliore le tunnel de paiement »
-
-## Étape 2 : Examiner la liste de tâches de Claude (sans l'exécuter)
-Claude génère : [liste de tâches]
-
-## Étape 3 : Comparer avec votre modèle mental
-- Manquant : logique de nouvelle tentative de paiement ? → Ajouter aux instructions
-- Inattendu : refonte UI ? → Préciser le périmètre (back-end uniquement)
-- Ordre incorrect : tests en dernier ? → Spécifier l'approche TDD
-
-## Étape 4 : Affiner et replanifier
-Utilisateur : « En fait, voici ce dont j'ai besoin : [instruction affinée avec détails] »
-```
-
-**Conseil pro** : Exécutez `TaskList` après la planification initiale comme **vérification de cohérence** avant l'exécution. Si plus de 30 % des tâches vous surprennent, votre prompt nécessite du travail. Itérez sur le prompt, pas sur les tâches.
-
-#### Flux de travail complet
-
-**→ Voir** : [Task Management Workflow](./workflows/task-management.md) pour :
-- Phase de planification des tâches (décomposition, conception de la hiérarchie)
-- Modèles d'exécution des tâches
-- Gestion des sessions et reprise
-- Intégration avec les flux de travail TDD et Plan-Driven
-- Guide de migration TodoWrite
-- Modèles, anti-modèles et dépannage
-
-#### Sources
-
-- **Officielle** : [Claude Code CHANGELOG v2.1.16](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md) - « new task management system with dependency tracking »
-- **Officielle** : [System Prompts - TaskCreate](https://github.com/Piebald-AI/claude-code-system-prompts) (extrait du code source de Claude Code)
-- **Communauté** : [paddo.dev - From Beads to Tasks](https://paddo.dev/blog/from-beads-to-tasks/)
-- **Communauté** : [llbbl.blog - Two Changes in Claude Code](https://llbbl.blog/2026/01/25/two-changes-in-claude-code.html)
-
-### Gestion du contexte
-
-Claude Code fonctionne dans une **fenêtre de contexte de 200 000 tokens** (1M en bêta disponible via API, voir [comparaison 200K vs 1M](line 1751)) :
+Le contexte dépend du modèle et du fournisseur : les modèles actuels Opus, Sonnet et Fable ont une fenêtre native de 1M sur l'API directe ; Haiku 4.5 dispose de 200K. Les variantes anciennes suivent leurs propres règles d'accès. Voir la [comparaison 200K et 1M](#200k-vs-1m-context-performance-cost--use-cases). Les tailles suivantes sont illustratives, pas des réservations fixes :
 
 | Composant | Taille approximative |
 |-----------|----------------------|
@@ -3946,149 +4812,110 @@ Claude Code fonctionne dans une **fenêtre de contexte de 200 000 tokens** (1M e
 | Fichiers CLAUDE.md | 1-10K tokens |
 | Historique de conversation | Variable |
 | Résultats des outils | Variable |
-| Réservé pour la réponse | 40-45K tokens |
+| Réserve pour la réponse | 40-45K tokens |
 
-Lorsque le contexte se remplit (~75 % dans VS Code, ~95 % en CLI), le contenu ancien est automatiquement résumé. Cependant, **la recherche montre que cela dégrade la qualité** (baisse de performance de 50 à 70 % sur les tâches complexes). Utilisez `/compact` de manière proactive aux points de rupture logiques, ou déclenchez des **transferts de session à 85 %** pour préserver l'intention plutôt que l'historique compressé. Voir [Session Handoffs](line 2140) et [Auto-Compaction Research](core/architecture.md#auto-compaction).
+Les sessions natives 1M déclenchent normalement la compaction automatique vers 967K tokens. `/autocompact` permet une fenêtre plus petite. Une compaction peut perdre une information utile plus tard : enregistrez les décisions et commandes de vérification avant une passation. Utilisez `/compact` aux transitions logiques ; un pourcentage fixe n'est pas un seuil universel de qualité. Voir [Passations de session](#session-handoff-pattern) et [Recherche sur l'auto-compaction](core/architecture.md#auto-compaction).
 
-### Isolation des Sub-Agents
+### Isolation des sous-agents {#sub-agent-isolation}
 
-L'outil `Task` crée des sub-agents avec :
-- Leur propre fenêtre de contexte fraîche
-- Accès aux mêmes outils (sauf Task lui-même)
-- **Profondeur maximale de 1** (impossible de créer des sous-sous-agents)
-- Seul leur texte de résumé revient au contexte principal
+L'outil `Agent` lance des sous-agents avec :
 
-Cela évite la pollution du contexte lors des tâches exploratoires.
+- Leur propre contexte, selon le type de sous-agent choisi
+- Des outils contrôlés par la définition de l'agent et la politique de permissions
+- Jusqu'à trois niveaux imbriqués par défaut depuis v2.1.219, configurables avec `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH`
+- Un résultat retourné au parent au lieu d'injecter toute la transcription de travail
 
-### TeammateTool (Expérimental)
+Voir les [règles officielles de profondeur](https://code.claude.com/docs/en/sub-agents#subagent-depth-limit).
 
-**Statut** : Partiellement protégé par des feature flags, déploiement progressif en cours.
+Cela évite de polluer le contexte pendant les tâches exploratoires.
 
-TeammateTool permet l'**orchestration multi-agents** avec une communication persistante entre agents. Contrairement aux sub-agents standard qui travaillent en isolation, les teammates peuvent se coordonner via des messages structurés.
+### Agent Teams (expérimental) {#agent-teams-experimental}
 
-**Capacités principales** :
+Les équipes d'agents associent un responsable, des coéquipiers travaillant indépendamment, des tâches partagées et une messagerie directe. Activez-les avec `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` et choisissez un modèle disponible pour chaque coéquipier.
 
-| Opération | Objectif |
-|-----------|---------|
-| `spawnTeam` | Créer une équipe d'agents nommée |
-| `discoverTeams` | Lister les équipes disponibles |
-| `requestJoin` | Un agent demande à rejoindre une équipe |
-| `approveJoin` | Le chef d'équipe approuve les demandes d'adhésion |
-| Messagerie | Communication inter-agents basée sur JSON |
+L'état des tâches est stocké dans `~/.claude/tasks/<team-name>/`, la configuration d'équipe et les boîtes de réception dans `~/.claude/teams/<team-name>/`. Le verrouillage des fichiers empêche deux agents de réclamer simultanément une tâche. Il ne fusionne pas les modifications du code et n'empêche pas deux agents de modifier le même fichier.
 
-**Backends d'exécution** (détection automatique) :
-- **In-process** : Tâches asynchrones dans le même processus Node.js (le plus rapide)
-- **tmux** : Sessions de terminal persistantes (survive aux déconnexions)
-- **iTerm2** : Panneaux divisés visuels (macOS uniquement)
+Attribuez des fichiers distincts ou des worktrees pour les modifications. Demandez au responsable d'arrêter ou de réorienter les coéquipiers lorsque leur périmètre change. L'affichage peut utiliser le même processus ou des volets de terminal ; `Shift+Down` passe d'un coéquipier à l'autre dans le même processus.
 
-**Modèles** :
+Les anciennes ressources communautaires emploient `TeammateTool` et des opérations déduites comme `spawnTeam`. Ce sont des notes historiques d'implémentation, pas l'interface documentée actuelle. Voir [Agent Teams](https://code.claude.com/docs/en/agent-teams) et [§9.20](#920-agent-teams-multi-agent-coordination) pour le fonctionnement et les limites actuels.
+
+### Anti-patterns des agents : rôles et contrôle du contexte {#agent-anti-patterns-roles-vs-context-control}
+
+> **« Les sous-agents ne servent pas à anthropomorphiser des rôles, ils servent à contrôler le contexte »**, Dex Horty
+
+**Erreur fréquente** : Créer des agents comme si l'on constituait une équipe humaine avec des intitulés de poste.
+
+❌ **Mauvaise approche** (anthropomorphisation) :
 
 ```
-Modèle Parallel Specialists :
-Le leader crée 3 teammates → Chacun examine un aspect différent (sécurité, perf, architecture)
-→ Les teammates travaillent en parallèle → Rendent compte au leader → Le leader synthétise
-
-Modèle Swarm :
-Le leader crée une file de tâches partagée → Les teammates s'auto-organisent et s'attribuent des tâches
-→ Exécution indépendante → Mises à jour asynchrones de l'état partagé
+- Frontend Agent (role: UI developer)
+- Backend Agent (role: API engineer)
+- QA Agent (role: tester)
+- Security Agent (role: security expert)
 ```
 
-**Limitations** :
-- Délai d'expiration heartbeat de 5 minutes avant suppression automatique
-- Impossible de nettoyer les équipes tant que des teammates sont actifs
-- Feature flags non officiellement documentés (découverts par la communauté)
-- Aucun support officiel Anthropic pour les fonctionnalités expérimentales
+**Pourquoi cela échoue** : Les agents ne sont pas des humains dotés de domaines d'expertise. Ce sont des **outils d'isolation du contexte** destinés à utiliser efficacement les ressources de calcul.
 
-**Quand l'utiliser** :
-- Grandes bases de code nécessitant une analyse parallèle (4+ aspects)
-- Flux de travail longs avec sous-tâches indépendantes
-- Revues de code avec plusieurs préoccupations spécialisées
+✅ **Bonne approche** (contrôle du contexte) :
 
-**Quand NE PAS l'utiliser** :
-- Tâches simples (surcharge non justifiée)
-- Dépendances séquentielles (les sub-agents standard suffisent)
-- Flux de travail critiques en production (expérimental = instable)
-
-**Sources** :
-- **Communauté** : [kieranklaassen - TeammateTool Guide](https://gist.github.com/kieranklaassen/4f2aba89594a4aea4ad64d753984b2ea)
-- **Communauté** : [GitHub Issue #3013 - Parallel Agent Execution](https://github.com/anthropics/claude-code/issues/3013)
-- **Communauté** : [mikekelly/claude-sneakpeek](https://github.com/mikekelly/claude-sneakpeek) - Build parallèle avec feature flags activés
-
-> ⚠️ **Remarque** : Il s'agit d'une fonctionnalité expérimentale. Les capacités peuvent changer ou être supprimées dans les versions futures. Vérifiez toujours le comportement actuel dans la documentation officielle.
-
-### Anti-modèles d'agents : Rôles vs Contrôle du contexte
-
-> **« Les subagents ne servent pas à anthropomorphiser des rôles, ils servent à contrôler le contexte »** - Dex Horty
-
-**Erreur courante** : Créer des agents comme si l'on constituait une équipe humaine avec des titres de poste.
-
-❌ **Incorrect** (Anthropomorphisation) :
 ```
-- Agent Frontend (rôle : développeur UI)
-- Agent Backend (rôle : ingénieur API)
-- Agent QA (rôle : testeur)
-- Agent Sécurité (rôle : expert en sécurité)
+- Agent for isolated dependency analysis (scope: package.json + lock files only)
+- Agent for parallel file processing (scope: batch edits without main context pollution)
+- Agent for fresh security audit (scope: security-focused analysis without prior assumptions)
+- Agent for independent module testing (scope: test execution without interfering with main workflow)
 ```
 
-**Pourquoi cela échoue** : Les agents ne sont pas des humains avec des domaines d'expertise. Ce sont des **outils d'isolation de contexte** pour l'efficacité computationnelle.
+**Différences principales :**
 
-✅ **Correct** (Contrôle du contexte) :
-```
-- Agent pour l'analyse isolée des dépendances (périmètre : package.json + fichiers lock uniquement)
-- Agent pour le traitement parallèle de fichiers (périmètre : modifications par lot sans polluer le contexte principal)
-- Agent pour un audit de sécurité frais (périmètre : analyse axée sécurité sans hypothèses préalables)
-- Agent pour les tests de module indépendants (périmètre : exécution des tests sans interférer avec le flux principal)
-```
-
-**Différences clés** :
-
-| Anthropomorphisation (Incorrect) | Contrôle du contexte (Correct) |
-|----------------------------------|-------------------------------|
+| Anthropomorphisation (mauvaise approche) | Contrôle du contexte (bonne approche) |
+|----------------------------------------|--------------------------------------|
 | « Agent expert en sécurité » | « Audit de sécurité avec contexte isolé » |
-| « Agent développeur frontend » | « Analyse de composants UI (périmètre : src/components/ uniquement) » |
-| « Agent réviseur de code » | « Revue de PR sans pollution du contexte principal » |
-| Imite la structure d'une équipe humaine | Optimise les ressources computationnelles |
-| Basé sur les rôles professionnels | Basé sur les limites de périmètre/contexte |
+| « Agent développeur frontend » | « Analyse des composants UI (périmètre : src/components/ uniquement) » |
+| « Agent relecteur de code » | « Revue de PR sans pollution du contexte principal » |
+| Reproduit la structure d'une équipe humaine | Optimise les ressources de calcul |
+| Fondée sur les métiers | Fondée sur les limites du périmètre et du contexte |
 
-**Quand utiliser les agents** (bonnes raisons) :
-- **Isoler le contexte** : Éviter la pollution du contexte de conversation principal
-- **Traitement parallèle** : Opérations indépendantes pouvant s'exécuter simultanément
-- **Limitation du périmètre** : Restreindre l'analyse à des fichiers/répertoires spécifiques
-- **Perspective fraîche** : Analyser sans les biais issus du raisonnement précédent
-- **Optimisation des ressources** : Décharger les opérations lourdes dans une fenêtre de contexte séparée
+**Quand utiliser des agents** (bonnes raisons) :
 
-**Quand NE PAS utiliser les agents** (mauvaises raisons) :
-- ❌ Créer une fausse équipe avec des titres de poste
-- ❌ Jouer différents personnages avec des « expertises »
-- ❌ Imiter une structure organisationnelle humaine
-- ❌ Répartir le travail par discipline (frontend/backend/QA) plutôt que par limites de contexte
+- **Isoler le contexte** : éviter de polluer le contexte de la conversation principale
+- **Traiter en parallèle** : opérations indépendantes pouvant s'exécuter simultanément
+- **Limiter le périmètre** : restreindre l'analyse à des fichiers ou répertoires précis
+- **Apporter un regard neuf** : analyser sans les présupposés du raisonnement précédent
+- **Optimiser les ressources** : déléguer les opérations lourdes à une fenêtre de contexte distincte
 
-### Agents à périmètre ciblé
+**Quand NE PAS utiliser des agents** (mauvaises raisons) :
 
-Au-delà des sub-agents génériques, l'**orchestration à périmètre ciblé** assigne des **limites de contexte** distinctes à différents agents pour une analyse multi-perspectives.
+- ❌ Créer une équipe fictive avec des intitulés de poste
+- ❌ Jouer différentes personnalités « expertes »
+- ❌ Reproduire une structure organisationnelle humaine
+- ❌ Répartir le travail par discipline (frontend/backend/QA) plutôt que selon les frontières du contexte
 
-**Le modèle** : Plutôt qu'un seul agent qui examine tout, créez des agents **isolés par périmètre** qui analysent chacun des aspects distincts avec un contexte frais :
+### Agents centrés sur un périmètre {#scope-focused-agents}
+
+Au-delà des sous-agents génériques, **l'orchestration par périmètre** attribue des **frontières de contexte** distinctes aux agents afin de croiser leurs analyses.
+
+**Principe** : Au lieu de confier toute la revue à un seul agent, lancez des agents aux **périmètres isolés**, chacun analysant un aspect distinct avec un contexte neuf :
 
 ```markdown
-Utilisateur : Examinez le nouveau service de paiement avec une analyse à périmètre ciblé :
+User: Review the new payment service using scope-focused analysis:
 
-Agent 1 (Périmètre Sécurité) : Analyser l'authentification, la validation des entrées,
-  les vecteurs d'injection, la gestion des secrets, la conformité PCI DSS.
-  Contexte : src/payment/, src/auth/, config/security.yml
+Agent 1 (Security Scope): Analyze authentication, input validation,
+  injection vectors, secret handling, PCI DSS compliance.
+  Context: src/payment/, src/auth/, config/security.yml
 
-Agent 2 (Périmètre Performance) : Analyser les requêtes de base de données, les problèmes N+1,
-  les opportunités de mise en cache, les goulots d'étranglement des temps de réponse.
-  Contexte : src/payment/repository/, src/database/, journaux de requêtes lentes
+Agent 2 (Performance Scope): Analyze database queries, N+1 problems,
+  caching opportunities, response time bottlenecks.
+  Context: src/payment/repository/, src/database/, slow query logs
 
-Agent 3 (Périmètre Conception API) : Analyser les messages d'erreur, la cohérence du format
-  des réponses, la découvrabilité de l'API, l'exhaustivité de la documentation.
-  Contexte : src/payment/api/, docs/api/, tests/integration/
+Agent 3 (API Design Scope): Analyze error messages, response format
+  consistency, API discoverability, documentation completeness.
+  Context: src/payment/api/, docs/api/, tests/integration/
 
-Synthétiser les trois analyses à périmètre ciblé en une revue unifiée avec
-des éléments d'action priorisés.
+Synthesize all three scoped analyses into a unified review with
+prioritized action items.
 ```
 
-**Implémentation avec des agents personnalisés** :
+**Implémentation avec des agents personnalisés :**
 
 ```yaml
 # .claude/agents/security-audit.md
@@ -4097,15 +4924,15 @@ name: security-audit
 model: opus
 tools: Read, Grep, Glob
 ---
-Analyser le code pour identifier les problèmes de sécurité avec un contexte isolé :
-- Vulnérabilités OWASP Top 10
-- Failles d'authentification/autorisation
-- Lacunes de validation des entrées
-- Risques d'exposition des secrets
+Analyze code for security issues with isolated context:
+- OWASP Top 10 vulnerabilities
+- Authentication/authorization flaws
+- Input validation gaps
+- Secret exposure risks
 
-Périmètre : Analyse axée sécurité uniquement. Rapporter les résultats avec des niveaux
-de sévérité (Critique/Élevé/Moyen/Faible) sans tenir compte des compromis
-en matière de performance ou d'UX.
+Scope: Security-focused analysis only. Report findings with severity
+ratings (Critical/High/Medium/Low) without considering performance
+or UX trade-offs.
 ```
 
 ```yaml
@@ -4115,47 +4942,48 @@ name: perf-audit
 model: sonnet
 tools: Read, Grep, Glob, Bash
 ---
-Analyser le code pour identifier les goulots d'étranglement de performance avec un contexte isolé :
-- Efficacité des requêtes de base de données (N+1, index manquants)
-- Fuites mémoire et gestion des ressources
-- Opportunités de mise en cache
-- Problèmes de complexité algorithmique
+Analyze code for performance bottlenecks with isolated context:
+- Database query efficiency (N+1, missing indexes)
+- Memory leaks and resource management
+- Caching opportunities
+- Algorithmic complexity issues
 
-Périmètre : Analyse axée performance uniquement. Rapporter les résultats avec l'impact estimé
-(Élevé/Moyen/Faible) sans tenir compte des compromis en matière de sécurité
-ou de maintenabilité.
+Scope: Performance-focused analysis only. Report findings with estimated
+impact (High/Medium/Low) without considering security or maintainability
+trade-offs.
 ```
 
-**Quand utiliser les agents à périmètre ciblé :**
-- Analyse nécessitant 3+ limites de contexte distinctes (périmètre sécurité, perf, API)
-- Préoccupations concurrentes bénéficiant d'une évaluation isolée (performance vs sécurité vs DX)
-- Grandes bases de code où le contexte complet polluerait l'analyse d'aspects spécifiques
+**Quand utiliser des agents centrés sur un périmètre :**
 
-**Quand NE PAS utiliser les agents à périmètre ciblé :**
-- Revues simples (un seul agent avec le contexte complet couvre tous les aspects)
-- Situations contraintes dans le temps (la surcharge de synthèse dépasse le bénéfice)
-- Tâches où les périmètres ne sont pas genuinement indépendants (contexte chevauchant nécessaire)
+- Analyse nécessitant au moins 3 frontières de contexte distinctes (sécurité, performance, API)
+- Contraintes concurrentes qui gagnent à être évaluées séparément (performance, sécurité, expérience développeur)
+- Grandes bases de code où le contexte complet polluerait l'analyse de certains aspects
 
-### La philosophie
+**Quand NE PAS utiliser des agents centrés sur un périmètre :**
 
-> « Faire plus avec moins. Des choix d'architecture intelligents, une meilleure efficacité d'entraînement et une résolution de problèmes ciblée peuvent rivaliser avec la puissance brute de l'échelle. »
-> — Daniela Amodei, PDG d'Anthropic
+- Revues simples (un agent disposant du contexte complet couvre tous les aspects)
+- Situations contraintes par le temps (le coût de la synthèse dépasse le bénéfice)
+- Tâches dont les périmètres ne sont pas réellement indépendants (un contexte commun est nécessaire)
 
-Claude Code fait confiance au raisonnement du modèle plutôt que de construire des systèmes d'orchestration complexes. Cela signifie :
-- Moins de composants = moins de modes de défaillance
-- Décisions pilotées par le modèle = meilleure généralisation
-- Boucle simple = débogage facile
+### La philosophie {#the-philosophy}
 
-### En savoir plus
+Une boucle simple entre modèle et outils constitue un point de départ utile pour comprendre le système. Des modèles plus capables et une orchestration supplémentaire exigent toujours des limites explicites sur les outils et des vérifications.
 
-| Sujet | Où |
-|-------|-----|
-| Détails complets de l'architecture | [Architecture & Internals Guide](./core/architecture.md) |
-| Système de permissions | [Section 7 - Hooks](#7-hooks) |
-| Intégration MCP | [Section 8.6 - MCP Security](#86-mcp-security) |
+Utilisez ce modèle simplifié pour repérer les décisions, les résultats d'outils et les échecs. Il ne démontre pas qu'un nombre réduit de composants améliore toujours la fiabilité, ni qu'une action choisie par le modèle est correcte.
+
+### Pour approfondir {#learn-more}
+
+| Sujet | Destination |
+|-------|-------------|
+| Détails complets de l'architecture | [Guide d'architecture et de fonctionnement interne](./core/architecture.md) |
+| Système d'autorisations | [Section 7 : Hooks](#7-hooks) |
+| Intégration MCP | [Section 8.6 : Sécurité MCP](#86-mcp-security) |
 | Conseils de gestion du contexte | [Section 2.2](#22-context-management) |
 
 ---
+
+
+<a id="3-memory--settings"></a>
 
 # 3. Mémoire et paramètres
 
@@ -4189,9 +5017,11 @@ _Accès rapide :_ [Fichiers mémoire (CLAUDE.md)](#31-memory-files-claudemd) · 
 **Niveau** : Semaine 1
 **Objectif** : Personnaliser Claude Code pour votre projet
 
+<a id="31-memory-files-claudemd"></a>
+
 ## 3.1 Fichiers mémoire (CLAUDE.md)
 
-Les fichiers CLAUDE.md sont des instructions persistantes lues à chaque démarrage de session. Trois niveaux : `~/.claude/CLAUDE.md` (global) → `/project/CLAUDE.md` (projet) → `/project/.claude/CLAUDE.md` (local/personnel). Tous fusionnent de manière additive ; le fichier le plus spécifique l'emporte en cas de conflit.
+Les fichiers CLAUDE.md sont des instructions persistantes lues à chaque démarrage de session. Trois niveaux : `~/.claude/CLAUDE.md` (global) → `/project/CLAUDE.md` (projet) → `/project/CLAUDE.local.md` (personnel ; ajouter à `.gitignore`). Les instructions sont combinées ; elles ne disposent pas d’un ordre de priorité garanti comme les paramètres. `.claude/CLAUDE.md` est un autre emplacement d’instructions de projet partagées.
 
 **Minimum viable** : nom du projet, description en une phrase, et bloc `## Commands`. Claude détecte automatiquement la stack, la structure des répertoires et les conventions. N'ajoutez une ligne que lorsque Claude fait deux fois la même erreur, pas de manière préventive.
 
@@ -4430,7 +5260,7 @@ Conventions d'équipe partagées, versionnées dans le contrôle de source :
 - `pnpm lint` - Check linting
 ```
 
-### Niveau 3 : Local (/project/.claude/CLAUDE.md)
+### Niveau 3 : Local (/project/CLAUDE.local.md)
 
 Préférences personnelles non versionnées dans git (à ajouter au .gitignore) :
 
@@ -4442,6 +5272,8 @@ Préférences personnelles non versionnées dans git (à ajouter au .gitignore) 
 - Use verbose logging during debugging
 ```
 
+<a id="claudemd-best-practices"></a>
+
 ### Bonnes pratiques pour CLAUDE.md
 
 | À faire | À éviter |
@@ -4451,7 +5283,7 @@ Préférences personnelles non versionnées dans git (à ajouter au .gitignore) 
 | Mettre à jour quand les conventions changent | Laisser le fichier devenir obsolète |
 | Référencer des docs externes avec `@path` | Dupliquer la documentation en ligne |
 
-**Imports de fichiers** : CLAUDE.md peut importer des fichiers supplémentaires avec la syntaxe `@path/to/file` (ex. : `@README.md`, `@docs/conventions.md`, `@~/.claude/my-overrides.md`). Les fichiers importés se chargent à la demande et ne consomment des tokens que lorsqu'ils sont référencés.
+**Imports de fichiers** : CLAUDE.md peut importer des fichiers supplémentaires avec la syntaxe `@path/to/file` (ex. : `@README.md`, `@docs/conventions.md`, `@~/.claude/my-overrides.md`). Les imports sont chargés avec le fichier CLAUDE.md qui les référence ; leur contenu contribue donc à son coût en contexte.
 
 > **📊 Données empiriques : Anthropic AI Fluency Index (fév. 2026)**
 >
@@ -4588,8 +5420,6 @@ monorepo/
 
 pnpm workspace. Turborepo for builds.
 
-```
-
 ## Commandes
 - `pnpm install` - Installer toutes les dépendances
 - `pnpm build` - Compiler tous les paquets
@@ -4695,6 +5525,8 @@ Cette séparation maintient l'index d'usage quotidien lisible tout en permettant
 
 ---
 
+<a id="32-the-claude-folder-structure"></a>
+
 ## 3.2 La structure du dossier .claude/
 
 Le dossier `.claude/` est le répertoire Claude Code de votre projet pour la mémoire, les paramètres et les extensions.
@@ -4746,7 +5578,7 @@ Le dossier `.claude/` est le répertoire Claude Code de votre projet pour la mé
 | Préférences personnelles | `CLAUDE.md` | ❌ Gitignore |
 | Permissions personnelles | `settings.local.json` | ❌ Gitignore |
 
-### 3.41.1 Gestion de versions et sauvegarde
+### 3.43.0 Gestion de versions et sauvegarde
 
 **Problème** : Sans gestion de versions, perdre votre configuration Claude Code signifie des heures de reconfiguration manuelle pour les agents, skills, hooks et serveurs MCP.
 
@@ -4782,7 +5614,7 @@ Cette hiérarchie permet :
 
 ```gitignore
 # .gitignore à la racine du projet
-.claude/CLAUDE.md           # Instructions personnelles
+CLAUDE.local.md            # Instructions personnelles (ajouter à .gitignore)
 .claude/settings.local.json # Surcharges spécifiques à la machine
 .claude/plans/              # Fichiers de plan sauvegardés (optionnel)
 ```
@@ -4981,6 +5813,8 @@ tar -xzf claude-config-YYYY-MM-DD_HH-MM-SS.tar.gz -C ~/
 
 **Ticket GitHub** : [#16204 - Guidance proactive de migration pour les workflows de sauvegarde/restauration](https://github.com/anthropics/claude-code/issues/16204)
 
+<a id="33-settings--permissions"></a>
+
 ## 3.3 Paramètres & Permissions
 
 ### settings.json (Configuration d'équipe)
@@ -5100,9 +5934,9 @@ Exemple complet avec plus de 80 conseils tirés du guide et des verbes personnal
 | `WebSearch` | Capacité de recherche web |
 | `mcp__serena__*` | Tous les outils Serena MCP |
 | `mcp__github__create_issue` | Outil MCP spécifique (format : `mcp__<server>__<tool>`) |
-| `Read(file_path:*.env*)` | Lecture des chemins de fichiers correspondants (format qualifié par outil) |
-| `Edit(file_path:*.pem)` | Modification des chemins de fichiers correspondants (format qualifié par outil) |
-| `Write(file_path:*.key)` | Écriture des chemins de fichiers correspondants (format qualifié par outil) |
+| `Read(*.env*)` | Lecture des chemins de fichiers correspondants (format qualifié par outil) |
+| `Edit(*.pem)` | Modification des chemins de fichiers correspondants (format qualifié par outil) |
+| `Write(*.key)` | Écriture des chemins de fichiers correspondants (format qualifié par outil) |
 
 **Format de refus qualifié par outil** : restreindre l'accès aux fichiers par modèle de chemin, pas seulement par nom d'outil :
 
@@ -5110,23 +5944,23 @@ Exemple complet avec plus de 80 conseils tirés du guide et des verbes personnal
 {
   "permissions": {
     "deny": [
-      "Bash(command:*rm -rf*)",
-      "Bash(command:*terraform destroy*)",
-      "Read(file_path:*.env*)",
-      "Read(file_path:*.pem)",
-      "Read(file_path:*credentials*)",
-      "Edit(file_path:*.env*)",
-      "Edit(file_path:*.key)",
-      "Write(file_path:*.env*)",
-      "Write(file_path:*.key)"
+      "Bash(rm -rf *)",
+      "Bash(terraform destroy *)",
+      "Read(*.env*)",
+      "Read(*.pem)",
+      "Read(*credentials*)",
+      "Edit(*.env*)",
+      "Edit(*.key)",
+      "Write(*.env*)",
+      "Write(*.key)"
     ]
   }
 }
 ```
 
-Le préfixe `file_path:` est comparé à l'argument de chemin complet transmis à Read/Edit/Write. Utilisez des patterns glob (`*`, `**`). C'est plus granulaire que la forme simple (ex. `".env"`) qui ne correspond qu'aux noms de fichiers exacts.
+Utilisez directement un motif de chemin pour Read/Edit/Write et un motif de commande pour Bash. Les qualificatifs `file_path:` et `command:` sont invalides pour ces champs principaux et sont ignorés avec un avertissement. Voir la [syntaxe des règles de permission](https://code.claude.com/docs/en/permissions).
 
-> **Défense en profondeur** : `permissions.deny` présente une limitation connue, l'indexation en arrière-plan peut exposer le contenu des fichiers via des rappels système avant que les vérifications de permissions ne s'appliquent ([GitHub #4160](https://github.com/anthropics/claude-code/issues/4160)). Stockez les secrets en dehors du répertoire du projet pour une protection garantie.
+> **Défense en profondeur** : `permissions.deny` présente une limite connue : l’indexation en arrière-plan peut exposer le contenu de fichiers via les rappels système avant l’application des permissions ([GitHub #4160](https://github.com/anthropics/claude-code/issues/4160)). Conserver les secrets hors du projet réduit leur découverte accidentelle, mais n’empêche pas un shell ou processus MCP autorisé de les lire. Utilisez l’isolation du système d’exploitation et des identifiants aux droits restreints lorsque l’accès doit être empêché.
 
 ### Comportement des permissions
 
@@ -5270,9 +6104,11 @@ cd ~/projects/myapp-feature-x
 claude
 ```
 
+<a id="34-precedence-rules"></a>
+
 ## 3.4 Règles de priorité
 
-Lorsque des fichiers mémoire ou des paramètres entrent en conflit, Claude Code applique les priorités suivantes :
+Les paramètres et les fichiers d’instructions fonctionnent différemment. Les paramètres gérés et ceux de la ligne de commande priment sur les niveaux local, projet et utilisateur ci-dessous ; les listes de permissions et hooks applicables fusionnent entre portées.
 
 ### Priorité des paramètres
 
@@ -5298,33 +6134,13 @@ Priorité la plus haute
 Priorité la plus basse
 ```
 
-### Priorité de CLAUDE.md
+### Combinaison des fichiers CLAUDE.md {#claudemd-combination}
 
-```
-Priorité la plus haute
-       │
-       ▼
-┌──────────────────────────────────┐
-│  .claude/CLAUDE.md               │  Local (personnel)
-└──────────────────────────────────┘
-       │
-       ▼
-┌──────────────────────────────────┐
-│  /project/CLAUDE.md              │  Projet (équipe)
-└──────────────────────────────────┘
-       │
-       ▼
-┌──────────────────────────────────┐
-│  ~/.claude/CLAUDE.md             │  Global (personnel)
-└──────────────────────────────────┘
-       │
-       ▼
-Priorité la plus basse
-```
+Claude combine les instructions utilisateur et projet applicables. `CLAUDE.md` ou `.claude/CLAUDE.md` contient les instructions partagées du projet ; `CLAUDE.local.md` contient les instructions personnelles du projet. Les fichiers imbriqués deviennent pertinents lorsque Claude travaille dans leur sous-arborescence. Évitez les contradictions plutôt que de compter sur un remplacement déterministe comparable à celui des paramètres.
 
 ### Chargement automatique des règles
 
-Les fichiers dans `.claude/rules/` sont automatiquement chargés et combinés :
+Les règles sans frontmatter `paths` se chargent de façon générale. Celles avec `paths` s’appliquent lorsque les fichiers correspondants sont pertinents. L’exemple ci-dessous suppose des règles sans restriction de chemin :
 
 ```
 .claude/rules/
@@ -5333,6 +6149,8 @@ Les fichiers dans `.claude/rules/` sont automatiquement chargés et combinés :
 └── architecture.md        ──┘
 ```
 
+<a id="memory-loading-comparison"></a>
+
 ### Comparaison du chargement en mémoire
 
 Comprendre à quel moment chaque méthode de mémoire se charge est essentiel pour l'optimisation des tokens :
@@ -5340,13 +6158,13 @@ Comprendre à quel moment chaque méthode de mémoire se charge est essentiel po
 | Méthode | Moment du chargement | Coût en tokens | Cas d'usage |
 |--------|-------------|------------|----------|
 | `CLAUDE.md` | Démarrage de session | Toujours | Contexte principal du projet |
-| `.claude/rules/*.md` | Démarrage de session (TOUS les fichiers) | Toujours | Conventions s'appliquant systématiquement |
-| `@path/to/file.md` | À la demande (lorsque référencé) | Uniquement lors de l'utilisation | Contexte optionnel ou conditionnel |
-| `.claude/skills/*.md` | Invocation uniquement | Lors de l'invocation (`/name`) ou chargement automatique | Modèles de workflow + modules de connaissances |
+| `.claude/rules/*.md` | Au démarrage sans restriction ; fichiers correspondants pour les règles `paths` | Selon la portée | Conventions générales ou propres aux fichiers |
+| `@path/to/file.md` dans CLAUDE.md | Au chargement des instructions qui importent | Chargé avec les instructions | Découpage des fichiers d’instructions |
+| `.claude/skills/<name>/SKILL.md` | Corps complet à l’invocation | Description potentiellement disponible avant | Modèles de workflow et connaissances |
 
-**Point clé** : `.claude/rules/` n'est PAS à la demande. Chaque fichier `.md` de ce répertoire est chargé au démarrage de la session, consommant des tokens. Réservez-le aux conventions toujours pertinentes, pas aux directives rarement utilisées. Les skills ne sont déclenchés qu'à l'invocation et peuvent ne pas l'être de manière fiable, une évaluation a montré que les agents n'invoquaient les skills que dans 56 % des cas ([Gao, 2026](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals)). Ne comptez jamais sur les skills pour des instructions critiques ; utilisez CLAUDE.md ou rules à la place.
+**Point clé** : Limitez les conventions propres aux fichiers avec `paths`. Gardez les règles générales centrées sur les instructions qui s’appliquent largement. Les skills ne sont déclenchés qu'à l'invocation et peuvent ne pas l'être de manière fiable, une évaluation a montré que les agents n'invoquaient les skills que dans 56 % des cas ([Gao, 2026](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals)). Ne comptez jamais sur les skills pour des instructions critiques ; utilisez CLAUDE.md ou rules à la place.
 
-> **Voir aussi** : [Estimation du coût en tokens](#token-saving-techniques) pour les coûts approximatifs en tokens selon la taille des fichiers. Pour une référence unifiée « quel mécanisme pour quoi ? », consultez le [§2.7 Guide de décision de configuration](#27-configuration-decision-guide).
+> **Voir aussi** : [Estimation du coût en tokens](#token-saving-techniques) pour les coûts approximatifs en tokens selon la taille des fichiers. Pour une référence unifiée « quel mécanisme pour quoi ? », consultez le [Comparaison du chargement en mémoire](#memory-loading-comparison).
 
 ### Règles par chemin (décembre 2025)
 
@@ -5354,7 +6172,9 @@ Depuis décembre 2025, les règles peuvent cibler des chemins de fichiers spéci
 
 ```markdown
 ---
-globs: src/api/**/*.ts, lib/handlers/**/*.ts
+paths:
+  - "src/api/**/*.ts"
+  - "lib/handlers/**/*.ts"
 ---
 
 # API Endpoint Conventions
@@ -5376,6 +6196,8 @@ Cela permet un chargement progressif du contexte : les règles n'apparaissent qu
 - Les règles sans frontmatter `globs:` se chargent toujours
 
 ---
+
+<a id="35-team-configuration-at-scale"></a>
 
 ## 3.5 Configuration d'équipe à grande échelle
 
@@ -5703,7 +6525,7 @@ Des outils comme [Packmind](ecosystem/third-party-tools.md#packmind) poussent le
 
 # 4. Agents
 
-_Accès rapide :_ [Qu'est-ce que les agents](#41-what-are-agents) · [Créer des agents personnalisés](#42-creating-custom-agents) · [Template d'agent](#43-agent-template) · [Bonnes pratiques](#44-best-practices) · [Exemples d'agents](#45-agent-examples)
+_Accès rapide :_ [Qu'est-ce que les agents](#41-what-are-agents) · [Créer des agents personnalisés](#42-creating-custom-agents) · [Template d'agent](#43-agent-template) · [Bonnes pratiques](#44-best-practices) · [Mémoire des agents](#45-agent-memory)
 
 ---
 
@@ -5733,6 +6555,8 @@ _Accès rapide :_ [Qu'est-ce que les agents](#41-what-are-agents) · [Créer des
 **Temps de lecture** : 20 minutes
 **Niveau de compétence** : Semaine 1-2
 **Objectif** : Créer des assistants IA spécialisés
+
+<a id="41-what-are-agents"></a>
 
 ## 4.1 Ce que sont les Agents
 
@@ -5767,6 +6591,8 @@ L'agent encapsule toute cette expertise.
 | Intégré | Par défaut dans Claude Code | Explore, Plan |
 | Personnalisé | Votre dossier `.claude/agents/` | Architecte backend, Réviseur de code |
 
+<a id="42-creating-custom-agents"></a>
+
 ## 4.2 Créer des Agents Personnalisés
 
 Les agents sont des fichiers markdown dans `.claude/agents/` avec un frontmatter YAML.
@@ -5792,7 +6618,7 @@ Tous les champs officiels pris en charge par Claude Code ([source](https://code.
 |-------|--------|-------------|
 | `name` | ✅ | Identifiant en kebab-case |
 | `description` | ✅ | Quand activer cet agent (utilisez "PROACTIVELY" pour l'invocation automatique) |
-| `model` | ❌ | `inherit` (par défaut), `sonnet`, `opus`, `haiku`, ou `inherit` |
+| `model` | ❌ | `inherit` (par défaut), `sonnet`, `opus`, `haiku`, ou un identifiant de modèle complet disponible |
 | `tools` | ❌ | Outils autorisés (séparés par des virgules). Supporte la syntaxe `Task(agent_type)` pour restreindre les sous-agents pouvant être créés |
 | `disallowedTools` | ❌ | Outils à interdire, retirés de la liste héritée ou spécifiée |
 | `permissionMode` | ❌ | `default`, `acceptEdits`, `dontAsk`, `bypassPermissions`, ou `plan` |
@@ -5820,8 +6646,10 @@ Tous les champs officiels pris en charge par Claude Code ([source](https://code.
 | Modèle | Idéal pour | Vitesse | Coût |
 |--------|-----------|-------|------|
 | `haiku` | Tâches rapides, modifications simples | Rapide | Faible |
-| `sonnet` | La plupart des tâches (par défaut) | Équilibré | Moyen |
+| `sonnet` | La plupart des tâches (choix explicite) | Équilibré | Moyen |
 | `opus` | Raisonnement complexe, architecture | Lent | Élevé |
+
+<a id="43-agent-template"></a>
 
 ## 4.3 Modèle d'Agent
 
@@ -5882,6 +6710,8 @@ Vos livrables doivent inclure :
 2. [Ce que vous faites ensuite]
 3. [Résultat final]
 ```
+
+<a id="44-best-practices"></a>
 
 ## 4.4 Bonnes Pratiques
 
@@ -5982,6 +6812,8 @@ ctrl+f    # Ouvre l'overlay du gestionnaire d'agents
 ESC
 ctrl+c
 ```
+
+<a id="45-agent-memory"></a>
 
 ## 4.5 Mémoire des agents
 
@@ -6099,6 +6931,8 @@ Ce pattern (skills pour les connaissances statiques de démarrage, mémoire pour
 
 ---
 
+<a id="46-agent-examples"></a>
+
 ## 4.6 Exemples d'agents
 
 ### Exemple 1 : Agent de révision de code
@@ -6177,7 +7011,7 @@ tools: Read, Bash, Grep, Glob
 Perform systematic debugging with isolated context:
 - Investigate root causes, not symptoms
 - Use evidence-based debugging approach
-- Verify rather than assume (always review output—LLMs can make mistakes)
+- Verify rather than assume (always review output, LLMs can make mistakes)
 
 Scope: Debugging analysis only. Focus on root cause identification without context pollution from previous debugging attempts.
 
@@ -6249,6 +7083,8 @@ Utiliser cet agent quand :
 - Tenir compte des implications en termes de performance
 - Documenter les décisions architecturales
 ```
+
+<a id="47-advanced-agent-patterns"></a>
 
 ## 4.7 Patterns d'Agents Avancés
 
@@ -6476,7 +7312,7 @@ La valeur de l'agent réside dans la mise en avant d'une perspective cohérente 
 │   PATTERN D'ORCHESTRATION                                   │
 │                                                             │
 │                    ┌──────────────┐                         │
-│                    │  Sonnet 4.5  │                         │
+│                    │   Sonnet 5   │                         │
 │                    │ Orchestrateur│                         │
 │                    └──────┬───────┘                         │
 │                           │                                 │
@@ -6492,7 +7328,7 @@ La valeur de l'agent réside dans la mise en avant d'une perspective cohérente 
 │                           │                                 │
 │                           ▼                                 │
 │                    ┌──────────────┐                         │
-│                    │  Sonnet 4.5  │                         │
+│                    │   Sonnet 5   │                         │
 │                    │  Validateur  │                         │
 │                    └──────────────┘                         │
 │                                                             │
@@ -6559,7 +7395,6 @@ skills:
   - presentation/slide-structure
   - presentation/styling
 ---
-```
 
 ## Étape 5 : Auto-évolution (après chaque exécution)
 
@@ -6584,7 +7419,7 @@ _Chaque exécution ajoute des découvertes ici. Les invocations futures démarre
 
 # 5. Skills
 
-_Navigation rapide :_ [Deux types de skills](#50-two-kinds-of-skills) · [Comprendre les skills](#51-understanding-skills) · [Créer des skills](#52-creating-skills) · [Cycle de vie des skills](#5x-skill-lifecycle--retirement) · [Évaluations des skills](#5y-skill-evals) · [Modèle de skill](#53-skill-template) · [Exemples de skills](#54-skill-examples)
+_Navigation rapide :_ [Deux types de skills](#50-two-kinds-of-skills) · [Comprendre les skills](#51-understanding-skills) · [Responsabilité et réutilisation](#ownership-and-reuse-governance) · [Créer des skills](#52-creating-skills) · [Cycle de vie des skills](#5x-skill-lifecycle--retirement) · [Évaluations des skills](#5y-skill-evals) · [Modèle de skill](#53-skill-template) · [Exemples de skills](#54-skill-examples)
 
 ---
 
@@ -6596,9 +7431,11 @@ _Navigation rapide :_ [Deux types de skills](#50-two-kinds-of-skills) · [Compre
 **Niveau** : Semaine 2
 **Objectif** : Créer, tester et gérer des modules de connaissances réutilisables
 
+<a id="50-two-kinds-of-skills"></a>
+
 ## 5.0 Deux types de skills
 
-> **Nouveau en mars 2026** : La mise à jour Skill Creator d'Anthropic formalise une taxonomie qui change la façon de concevoir, tester et éventuellement retirer les skills. Sources : ainews.com, mexc.co, claudecode.jp, pas encore reflété dans le `llms-full.txt` officiel.
+Cette taxonomie est une aide à la conception, pas une classification officielle de la plateforme. Elle distingue les skills qui compensent une limite du modèle de ceux qui encodent un choix local durable. Cette distinction change la référence de comparaison et le test de retrait.
 
 Tous les skills ne vieillissent pas de la même façon. Le type que vous construisez détermine comment vous l'écrivez, comment vous le testez, et quand le retirer.
 
@@ -6616,13 +7453,15 @@ Tous les skills ne vieillissent pas de la même façon. Le type que vous constru
 
 > **Implication pratique** : Lors de la construction d'un skill de montée en capacité, prévoir du temps pour les évaluations. Lors de la construction d'un skill de préférence encodée, prévoir du temps pour maintenir la description du workflow à jour à mesure que votre processus évolue.
 
+<a id="51-understanding-skills"></a>
+
 ## 5.1 Comprendre les skills
 
 Les skills sont des packages de connaissances que les agents peuvent hériter.
 
 ### Skills vs Agents
 
-> **Les commandes sont dépréciées.** Le répertoire `.claude/commands/` n'existe plus en tant que concept séparé. Tout est désormais un skill dans `.claude/skills/`. Les workflows invocables par l'utilisateur qui vivaient précédemment dans `.claude/commands/` sont maintenant des skills avec `disable-model-invocation: true`. Si vous avez des commandes existantes, déplacez-les dans `.claude/skills/` et ajoutez ce champ frontmatter.
+> **Les commandes personnalisées ont fusionné avec les skills, mais les fichiers existants restent utilisables.** Un fichier `.claude/commands/deploy.md` et un skill `.claude/skills/deploy/SKILL.md` créent tous deux `/deploy`. Utilisez le format répertoire de skill pour le nouveau contenu réutilisable : il permet les fichiers complémentaires et les contrôles d'invocation. Réservez `disable-model-invocation: true` aux workflows manuels ayant des effets de bord.
 
 | Concept | Rôle | Invocation |
 |---------|------|------------|
@@ -6643,16 +7482,18 @@ Les skills sont des packages de connaissances que les agents peuvent hériter.
 | **Coût en tokens** | Faible (modèle uniquement) | Moyen (connaissances chargées) | Élevé (agent complet) |
 | **Exemples** | `/commit`, `/pr`, `/ship` | TDD, security-guardian | security-audit, perf-audit |
 
+<a id="decision-tree-which-to-use"></a>
+
 #### Arbre de décision : lequel utiliser ?
 
 ```
-Est-ce un workflow répétable avec des étapes ?
-├─ Oui → Utiliser un SKILL (invocable par l'utilisateur, disable-model-invocation: true)
-│        Exemple : /commit, /release-notes, /ship
+La correction exige-t-elle un ordre garanti, des tentatives, un artefact obligatoire ou un arrêt strict ?
+├─ Oui → Utiliser un HOOK, SCRIPT, JOB CI ou WORKFLOW DYNAMIQUE
+│        Garder le jugement dans un skill seulement si le modèle doit interpréter un cas.
 │
-└─ Non → S'agit-il de connaissances spécialisées dont plusieurs agents ont besoin ?
+└─ Non → S'agit-il de connaissances réutilisables ou d'une procédure adaptable ?
          ├─ Oui → Utiliser un SKILL
-         │        Exemple : méthodologie TDD, liste de vérification sécurité
+         │        Invocation manuelle si le moment ou les effets de bord doivent rester sous contrôle utilisateur.
          │
          └─ Non → Faut-il un contexte isolé ou un travail parallèle ?
                   ├─ Oui → Utiliser un AGENT
@@ -6661,9 +7502,9 @@ Est-ce un workflow répétable avec des étapes ?
                   └─ Non → L'écrire directement dans CLAUDE.md comme instructions
 ```
 
-> **La règle des 20 %** : si une instruction s'applique à plus de 20 % de vos conversations, placez-la dans `CLAUDE.md` (toujours chargé). Si elle s'applique à moins de 20 %, faites-en un skill (chargé à la demande). La différence compte pour l'efficacité en tokens : le prompt système d'un skill n'est injecté que lorsque Claude l'invoque, tandis que le contenu de CLAUDE.md est décompté de la fenêtre de contexte à chaque requête.
+> **Heuristique de départ, pas règle de la plateforme** : placez dans `CLAUDE.md` le contenu pertinent pour la plupart des sessions, et dans des skills les procédures et références occasionnelles. Mesurez vos propres usages avant de fixer un seuil numérique. Les descriptions visibles des skills consomment déjà du contexte ; leur contenu complet entre dans la conversation lors de l'invocation.
 
-> **Voir aussi** : [§2.7 Guide de décision de configuration](#27-configuration-decision-guide) pour un arbre de décision plus large couvrant les sept mécanismes (dont Hooks, MCP, et CLAUDE.md vs rules). Pour automatiser la détection de ce qui appartient à chaque catégorie, utiliser [`cc-sessions discover`](#session-pattern-discovery), qui applique ce seuil de 20 % à votre historique de sessions réel.
+> **Voir aussi** : [Comparaison du chargement en mémoire](#memory-loading-comparison) pour les sept mécanismes, dont Hooks, MCP et CLAUDE.md face aux règles. [`cc-sessions discover`](#session-pattern-discovery) applique le seuil de 20 % à votre historique pour aider à identifier les candidats.
 
 #### Patterns courants
 
@@ -6710,24 +7551,52 @@ Agent B : possède les connaissances sécurité (dupliquées)
 Agent C : possède les connaissances sécurité (dupliquées)
 ```
 
-Avec skills :
+Avec un skill maintenu par le projet :
 ```
-skill security-guardian : source unique des connaissances sécurité
+skill security-guardian : source partagée dans le périmètre de ce dépôt et de cette équipe
 Agent A : hérite de security-guardian
 Agent B : hérite de security-guardian
 Agent C : hérite de security-guardian
 ```
 
+La duplication diminue seulement dans un périmètre de responsabilité doté d'un mainteneur, d'un circuit de revue et d'hypothèses communes. Un skill public ne crée pas automatiquement ce contrat.
+
+<a id="ownership-and-reuse-governance"></a>
+
+### Gouvernance de la responsabilité et de la réutilisation
+
+Dans [Un Skill n'est pas une librairie](https://devx.writizzy.blog/p/un-skill-nest-pas-une-lib), Frédéric Camblor distingue le partage d'une idée ou d'une implémentation de l'engagement à maintenir ensemble un artefact générique. Les skills encodent souvent un contexte coûteux à reconstruire et peuvent régresser sans échec de compilation.
+
+Choisissez le périmètre avant le canal de distribution :
+
+| Sphère | Canal habituel | Attente par défaut |
+|--------|----------------|--------------------|
+| **Personnelle** | `~/.claude/skills/` | Adaptation aux habitudes d'une personne, sans promesse de compatibilité |
+| **Projet ou équipe** | `.claude/skills/` commité dans le projet | Contrat local commun avec un responsable nommé et un circuit de revue |
+| **Outil ou fournisseur** | Plugin ou dépôt maintenu | Support versionné pour les utilisateurs de cet outil |
+| **Marketplace ou globale** | Registre ou dépôt public | Découverte et inspiration ; l'adoption exige une revue et une évaluation locales |
+
+Le partage public peut aboutir à plusieurs décisions valables : utiliser tel quel, forker et spécialiser, extraire un pattern ou rejeter. Une duplication n'est pas forcément du gaspillage si l'alternative est un skill générique rempli de branches pour des contextes incompatibles.
+
+Deux règles s'appliquent simultanément :
+
+- **Frontière de sécurité** : traitez un skill téléchargé comme du code exécutable. Examinez ses instructions, scripts, dépendances et autorisations d'outils avant son invocation.
+- **Frontière de responsabilité** : traitez un skill comme un contexte situé. Consignez son périmètre, son responsable, ses hypothèses, sa référence de comparaison et son signal de retrait.
+
+Un catalogue reste donc utile même sans installation : il expose des workflows, garde-fous et patterns de conception qui peuvent inspirer un skill local plus ciblé.
+
 ### Qu'est-ce qui fait un bon skill ?
 
 | Bon skill | Mauvais skill | Durée de vie attendue |
 |-----------|---------------|----------------------|
-| Réutilisable entre agents | Spécifique à un seul agent | — |
-| Centré sur un domaine | Trop large | — |
-| Contient du matériel de référence | Uniquement des instructions | — |
-| Inclut des listes de vérification | Vérification absente | — |
+| Réutilisable dans son périmètre déclaré | Promet une réutilisation universelle sans preuve | n/a |
+| Centré sur un domaine et sensible au contexte | Des branches génériques diluent le cas courant | n/a |
+| Consigne le responsable et les hypothèses | Aucun contrat de maintenance | n/a |
+| Inclut une vérification observable | Repose uniquement sur l'autoévaluation | n/a |
 | Évaluations définies | Validation du type « ça semble marcher » | Montée en capacité : surveiller régulièrement ; Préférence encodée : stable |
 | Critères de retrait clairs | Aucun plan de cycle de vie | Montée en capacité : court à moyen terme ; Préférence encodée : long terme |
+
+<a id="52-creating-skills"></a>
 
 ## 5.2 Créer des skills
 
@@ -6842,20 +7711,20 @@ ${end}
 
 Cela permet à un seul skill de servir à la fois les cas d'analyse rapide (low/medium) et approfondie (high/xhigh) sans maintenir deux skills distincts.
 
-**Ciblage wildcard dans `allowed-tools`**, limiter un skill à des espaces de noms de commandes spécifiques plutôt que d'ouvrir un accès Bash complet :
+**Les wildcards dans `allowed-tools`** préapprouvent les commandes correspondantes pour le tour qui invoque le skill :
 
 ```yaml
-# Limité à un outil CLI spécifique uniquement — aucune autre commande Bash autorisée
+# Préapprouver un espace de noms de commandes CLI pour cette invocation
 allowed-tools: Bash(agent-browser:*)
 
-# Limité aux scripts npm uniquement
+# Préapprouver les scripts npm
 allowed-tools: Bash(npm run *)
 
-# Lecture seule + écritures ciblées
+# Préapprouver les lectures et les modifications sous docs
 allowed-tools: Read Grep Glob Edit(/docs/**)
 ```
 
-C'est plus sûr que d'accorder un accès `Bash` large : le skill ne peut exécuter que des commandes correspondant au pattern. Idéal pour les skills encapsulant un outil CLI spécifique.
+Cette préapprobation est plus ciblée qu'un accès `Bash` large, mais ne constitue ni une sandbox ni une liste exclusive d'outils. Les autres outils restent appelables selon les permissions de la session. Utilisez `disallowed-tools` pour retirer des outils pendant le tour, et les règles de refus du projet pour une restriction persistante. Examinez les autorisations des skills du projet avant d'ouvrir Claude Code dans un dépôt non fiable.
 
 > **Standard ouvert** : Les Agent Skills suivent la [spécification agentskills.io](https://agentskills.io), créée par Anthropic et supportée par plus de 35 plateformes (Cursor, VS Code, GitHub Copilot, Codex, Gemini CLI, Goose, Roo Code, OpenHands, Amp, Letta, Junie, etc.). Les skills que vous créez pour Claude Code sont portables. Le champ `disable-model-invocation` est une extension Claude Code.
 
@@ -6889,11 +7758,13 @@ Avant de publier ou de committer un skill, parcourir cette liste de vérificatio
 - [ ] **Responsabilité unique** : un skill, un domaine, pas un fourre-tout qui délègue à des sous-skills
 - [ ] **La description est une phrase déclencheur** : le champ `description` doit indiquer à Claude quand activer ce skill, pas ce qu'il fait en interne
 
-Un skill qui passe ces 9 critères est prêt pour une utilisation en production ou un partage via le registre agentskills.io.
+Ces neuf critères établissent seulement la préparation structurelle et éditoriale. Avant une utilisation en production ou un partage, testez le déclenchement et la qualité des sorties sur des prompts représentatifs, dans de nouvelles sessions, avec une référence sans skill. Consignez le modèle, la version de Claude Code, les prompts, assertions, nombres d'exécutions et de réussites, coût en tokens et variabilité observée.
+
+<a id="5x-skill-lifecycle--retirement"></a>
 
 ## 5.X Cycle de vie et retrait des skills
 
-Les skills ont un cycle de vie. Les traiter comme des artefacts permanents conduit à la dégradation des skills : du code mort dans `.claude/skills/` qui consomme des tokens sans apporter de valeur.
+Les skills ont un cycle de vie. Les traiter comme des artefacts permanents les laisse vieillir : chaque nom et description visible consomme du contexte, tandis qu'un contenu obsolète invoqué peut orienter le travail dans la mauvaise direction.
 
 Deux modèles définissent quand agir :
 
@@ -6919,7 +7790,11 @@ Corriger ou retirer
 - [ ] **Lancer l'eval sans le skill** : Claude réussit-il seul ?
 - [ ] **Vérifier la date de dernière activation** : quand ce skill a-t-il été déclenché pour la dernière fois en pratique ?
 - [ ] **Vérifier la précision du workflow** : pour les skills de Préférence Encodée, le processus sous-jacent a-t-il changé ?
-- [ ] **Archiver avant de supprimer** : déplacer vers `.claude/skills/archive/` avec une note datée expliquant la raison du retrait
+- [ ] **Examiner l'usage et le coût de contexte** : lancer `/skill-doctor` dans le terminal ; son signal d'inutilisation invite à une revue, pas à une suppression automatique
+- [ ] **Désactiver avant de supprimer** : désactiver un candidat avec `/skills` ou `skillOverrides`, puis comparer des sessions représentatives
+- [ ] **Archiver hors des chemins de découverte** : conserver le skill dans l'historique Git ou le déplacer hors de `.claude/skills/` ; la découverte récursive peut garder une archive interne visible
+
+`/skill-doctor` signale les skills visibles jamais invoqués et leur coût de contexte. La documentation officielle actuelle exige Claude Code v2.1.252 ou ultérieur. Le rapport exclut les skills intégrés et d'entreprise, dépend de la récupération des feature flags et n'est pas disponible via Remote Control.
 
 > **Voir aussi** : [§5.Y Skill Evals](#5y-skill-evals), comment lancer des evals pour éclairer les décisions de retrait.
 
@@ -6927,9 +7802,9 @@ Corriger ou retirer
 
 ## 5.Y Skill Evals
 
-Les skill evals font passer la qualité de « semble fonctionner » à « fonctionne avec certitude ». C'est la couche de tests qui rend les skills dignes d'un environnement de production.
+Les évaluations remplacent une impression non étayée par des preuves reproductibles. Elles ne démontrent ni une correction universelle ni l'absence de variabilité du modèle, et ne suffisent pas à rendre un skill prêt pour la production.
 
-> **Disponible via** : le plugin Skill Creator (GitHub Anthropic) pour les utilisateurs de Claude Code. En production sur Claude.ai et Cowork depuis mars 2026. Sources : ainews.com, mexc.co, pas encore dans le `llms-full.txt` officiel.
+> **Disponible via** : installez le plugin officiel `skill-creator` avec `/plugin install skill-creator@claude-plugins-official`. Consultez la [documentation actuelle des skills Claude Code](https://code.claude.com/docs/en/skills#run-evals-with-skill-creator).
 
 ### Fonctionnement
 
@@ -6945,7 +7820,7 @@ Skill → Prompts de test + Fichiers
      Améliorer le skill → Relancer
 ```
 
-Vous définissez trois éléments : des prompts de test (des entrées réalistes qui déclenchent le skill), des sorties attendues (description de ce à quoi ressemble un « bon » résultat, pas une correspondance exacte de chaîne de caractères), et un seuil de taux de réussite. Claude exécute le skill contre chaque cas de test et évalue la sortie.
+Définissez des prompts réalistes, des fichiers d'entrée facultatifs et des assertions explicites. Exécutez chaque cas dans un contexte isolé, avec puis sans le skill. La référence sans skill révèle sa valeur ajoutée, au-delà d'une réponse simplement acceptable.
 
 Les résultats indiquent : taux de réussite, temps écoulé, utilisation des tokens par cas de test.
 
@@ -6953,9 +7828,9 @@ Les résultats indiquent : taux de réussite, temps écoulé, utilisation des to
 
 **Mode Benchmark** : suit les taux de réussite, le temps écoulé et l'utilisation des tokens au fil des mises à jour du modèle. Exécute les tests en parallèle avec des contextes propres et isolés (pas de contamination croisée entre les cas). Utilisez-le pour détecter automatiquement les régressions lors des mises à jour de Claude.
 
-**Tests A/B (Agents Comparateurs)** : comparaison en aveugle entre deux versions d'un skill. Version A contre Version B, évaluées sans savoir laquelle est laquelle. Élimine le biais de confirmation dans les décisions d'amélioration des skills.
+**Tests A/B (Agents Comparateurs)** : comparaison en aveugle entre deux versions d'un skill, sans révéler laquelle est laquelle. Cela réduit le biais de confirmation, sans transformer un juge LLM en preuve indépendante.
 
-**Optimisation du déclenchement (Description Optimizer)** : analyse le champ `description` de votre skill et suggère des améliorations pour réduire les faux positifs (le skill se déclenche quand il ne devrait pas) et les faux négatifs (le skill ne se déclenche pas quand il le devrait). Test interne d'Anthropic : 5 skills de création de documents sur 6 ont montré une précision de déclenchement améliorée après optimisation. [Source : claudecode.jp, indicatif, non vérifié indépendamment]
+**Optimisation du déclenchement (Description Optimizer)** : analyse le champ `description` et propose des améliorations pour réduire les faux positifs (déclenchement injustifié) et les faux négatifs (absence de déclenchement attendu).
 
 ### Deux utilisations des evals
 
@@ -6969,22 +7844,26 @@ Les résultats indiquent : taux de réussite, temps écoulé, utilisation des to
 ```
 .claude/skills/my-skill/
 ├── SKILL.md
-└── tests/                      ← Répertoire d'eval
-    ├── test-01-basic.md        # Prompt + description de la sortie attendue
-    ├── test-02-edge-case.md    # Couverture des cas limites
-    └── benchmark-config.md     # Seuil de taux de réussite, budget de tokens
+└── evals/
+    └── evals.json              # Prompts, fichiers d'entrée et assertions
 ```
+
+Le plugin écrit les preuves d'évaluation de chaque exécution dans `grading.json` et agrège les résultats avec et sans skill dans `benchmark.json`. Ces rapports sont des artefacts de preuve, pas des éléments de la spécification portable Agent Skills.
 
 ### Principes de conception des evals
 
 - **Un comportement par test** : ne combinez pas plusieurs assertions, les échecs deviennent ambigus
 - **Incluez les cas limites** : testez les entrées qui ont rendu le skill nécessaire au départ
 - **Définissez « bon » avec précision** : des sorties attendues vagues rendent les jugements d'eval peu fiables
-- **Fixez un seuil de taux de réussite** : 80 % est un point de départ raisonnable ; ajustez selon la criticité
+- **Définissez une règle d'acceptation selon le risque** : indiquez le dénominateur, la variabilité et la gravité de chaque assertion en échec, plutôt qu'un pourcentage universel
+- **Séparez déclenchement et sortie** : un skill correctement invoqué peut produire un résultat erroné
+- **Utilisez des vérifications indépendantes si possible** : des validateurs déterministes et une revue humaine qualifiée renforcent l'évaluation LLM
 
 > **Voir aussi** : [§5.2 Critères de qualité des skills](#52-creating-skills) pour la liste de contrôle avant publication | [§5.X Cycle de vie des skills](#5x-skill-lifecycle--retirement) pour le workflow de retrait
 
 ---
+
+<a id="53-skill-template"></a>
 
 ## 5.3 Modèle de skill
 
@@ -7051,6 +7930,8 @@ When activated, follow this approach:
 ## Reference Material
 
 See `reference.md` for detailed documentation.
+
+<a id="54-skill-examples"></a>
 
 ## 5.4 Exemples de skills
 
@@ -7757,14 +8638,16 @@ Ce skill illustre le schéma du **skill qui crée des skills**, une méta-approc
 ### Amélioration automatique de skills : Claude Reflect System
 
 **Dépôt** : [claude-reflect-system](https://github.com/haddock-development/claude-reflect-system)
-**Auteur** : Haddock Development | **Statut** : Prêt pour la production (2026)
+**Auteur** : Haddock Development | **Statut** : Projet tiers ; le comportement et la maintenance actuels restent à vérifier
 **Marketplace** : [Agent Skills Index](https://agent-skills.md/skills/haddock-development/claude-reflect-system/reflect)
 
-Là où Claudeception crée de nouveaux skills à partir de schémas découverts, **Claude Reflect System** améliore automatiquement les skills existants en analysant les retours de Claude et les corrections détectées pendant les sessions.
+Là où Claudeception crée de nouveaux skills à partir de patterns découverts, **Claude Reflect System** vise à proposer des modifications de skills existants à partir des retours et corrections observés dans les sessions.
+
+> **Limite des preuves** : la réflexion sur les sessions peut produire des candidats utiles, mais ne valide pas ses propres modifications. Avant installation, examinez une révision précise du dépôt et vérifiez le contrat des hooks, les commandes, les écritures et le retour arrière. Avant d'accepter une modification, relancez des évaluations indépendantes ou des contrôles déterministes contre la version précédente.
 
 #### Comment ça fonctionne
 
-Claude Reflect fonctionne selon deux modes :
+Le projet documente deux modes :
 
 **Mode manuel** (`/reflect [skill-name]`) :
 ```bash
@@ -7781,9 +8664,11 @@ Claude Reflect fonctionne selon deux modes :
 7. **Applique** les modifications avec validation (syntaxe YAML, structure markdown)
 8. **Valide** avec un message descriptif
 
-#### Fonctionnalités de sécurité
+#### Fonctionnalités de sécurité documentées
 
-| Fonctionnalité | Objectif | Implémentation |
+Les contrôles suivants restent des affirmations du projet tant qu'ils n'ont pas été vérifiés sur la révision installée et dans une session réelle :
+
+| Fonctionnalité | Objectif | Implémentation documentée |
 |----------------|---------|----------------|
 | **Validation par l'utilisateur** | Prévenir les modifications automatiques non souhaitées | Toutes les propositions nécessitent une approbation explicite avant application |
 | **Sauvegardes Git** | Permettre le retour arrière en cas de mauvaises améliorations | Commits automatiques avant chaque modification avec messages descriptifs |
@@ -7813,10 +8698,10 @@ Consultez le [README du dépôt](https://github.com/haddock-development/claude-r
 
 **Problème** : Vous utilisez un skill `terraform-validation` qui ne détecte pas une mauvaise configuration de sécurité spécifique. Pendant la session, Claude détecte et corrige manuellement le problème.
 
-**Reflect System détecte** :
+**Exemple de proposition** :
 - Claude a corrigé un schéma non couvert par le skill
-- La correction a été vérifiée (les tests ont passé)
-- Haute confiance (amélioration claire)
+- Une correction est apparue avec des tests réussis
+- Le système attribue au candidat un niveau de confiance élevé
 
 **Proposition** :
 ```yaml
@@ -7828,7 +8713,7 @@ Diff:
   + - Reject: Encryption not set or using AES256 instead of aws:kms
 ```
 
-**L'utilisateur examine** → approuve → **skill mis à jour** → les sessions futures détectent automatiquement ce problème.
+**L'utilisateur examine** → évalue contre la version précédente → accepte ou rejette le candidat. Une modification réussie ne prouve pas que les sessions futures détecteront toujours ce problème.
 
 #### ⚠️ Avertissements de sécurité
 
@@ -7840,10 +8725,6 @@ Les systèmes auto-améliorants introduisent des risques de sécurité spécifiq
 | **Empoisonnement de mémoire** | Des modifications malveillantes des schémas appris s'accumulent | Sauvegardes Git, validation syntaxique | Auditez périodiquement l'historique des skills via Git log |
 | **Injection de prompt** | Instructions intégrées dans les transcriptions de session | Assainissement des entrées, isolation des propositions | N'approuvez jamais des propositions contenant des commandes exécutables |
 | **Gonflement des skills** | Croissance non contrôlée sans curation | Mode `/reflect [skill]` manuel, curation régulière | Archivez ou fusionnez les améliorations redondantes trimestriellement |
-
-**Sources académiques** :
-- [Anthropic Memory Cookbook](https://github.com/anthropics/claude-cookbooks/blob/main/tool_use/memory_cookbook.ipynb) (orientations officielles sur les systèmes de mémoire des agents)
-- Recherches sur les attaques adversariales contre les systèmes d'apprentissage IA
 
 #### Activation et contrôle
 
@@ -7870,23 +8751,18 @@ Par défaut : **Désactivé** (opt-in pour la sécurité)
 
 #### Workflow combiné recommandé
 
-1. **Amorçage** (Claudeception) : Laissez Claude générer des skills à partir des schémas découverts lors du travail initial sur le projet
-2. **Itération** (Utilisation des skills) : Appliquez les skills générés dans les sessions suivantes
-3. **Affinement** (Reflect System) : Activez `/reflect-on` pour capturer les améliorations au fur et à mesure que les skills évoluent avec l'usage
-4. **Curation** (Manuel) : Revue trimestrielle via `/reflect status` et l'historique Git pour archiver ou fusionner les schémas redondants
-
-**Exemple de chronologie** :
-- Semaines 1-2 : Claudeception génère un skill `api-error-handling` à partir de sessions de débogage
-- Semaines 3-6 : Skill utilisé dans 20+ sessions, couvre 80 % des cas d'erreur
-- Semaine 7 : Reflect détecte 3 cas limites manquants, propose des ajouts HIGH confidence
-- Semaine 8 : L'utilisateur approuve, le skill couvre désormais automatiquement 95 % des cas
+1. **Amorcer** : générer un skill candidat à partir d'une difficulté récurrente observée.
+2. **Établir une référence** : consigner des prompts représentatifs et des assertions avant modification.
+3. **Réfléchir** : exploiter les retours de session pour proposer une modification ciblée.
+4. **Comparer** : exécuter les versions précédente et nouvelle dans des contextes frais, avec une référence sans skill.
+5. **Maintenir** : accepter les changements étayés ; fusionner les doublons et retirer les skills obsolètes.
 
 #### Ressources
 
 - **Dépôt GitHub** : [haddock-development/claude-reflect-system](https://github.com/haddock-development/claude-reflect-system)
 - **Marketplace** : [Agent Skills Index](https://agent-skills.md/skills/haddock-development/claude-reflect-system/reflect)
-- **Tutoriel vidéo** : [Présentation YouTube](https://www.youtube.com/watch?v=...) (consultez le dépôt pour la version la plus récente)
-- **Fondement académique** : [Anthropic Memory Cookbook](https://github.com/anthropics/claude-cookbooks/blob/main/tool_use/memory_cookbook.ipynb)
+
+
 
 ### Intelligence Design : UI UX Pro Max
 
@@ -7951,9 +8827,51 @@ Now generate the code.
 
 #### Installation
 
-**Option 1, Claude Marketplace** (deux commandes) :
+**Option 1 : Claude Marketplace** (deux commandes) :
 ```
-/plugin marketplace add nextlevelbuilder/ui
+/plugin marketplace add nextlevelbuilder/ui-ux-pro-max-skill
+/plugin install ui-ux-pro-max@ui-ux-pro-max-skill
+```
+
+**Option 2 : CLI** (recommandée) :
+```bash
+npm install -g uipro-cli
+cd /path/to/your/project
+uipro init --ai claude   # Claude Code
+```
+
+**Option 3 : Installation manuelle** (sans npm) :
+```bash
+git clone --depth=1 https://github.com/nextlevelbuilder/ui-ux-pro-max-skill /tmp/uipro
+cp -r /tmp/uipro/.claude/skills/ui-ux-pro-max .claude/skills/
+```
+
+**Prérequis** : Python 3.x doit être installé ; le moteur de raisonnement est un script Python.
+
+#### Utilisation
+
+Une fois installé, le skill s'active automatiquement pour les demandes UI/UX dans Claude Code :
+
+```
+Build a landing page for my SaaS product
+Create a dashboard for healthcare analytics
+Design a fintech app with dark theme
+```
+
+#### Considérations
+
+| Aspect | Notes |
+|--------|-------|
+| **Périmètre** | Multiplateforme : prend en charge Cursor, Windsurf, Copilot, Gemini CLI et dix autres clients en plus de Claude Code |
+| **Signal de qualité** | 110,8K étoiles et 11,8K forks au 27/07/2026, contre 33,7k et 3,3k dans les trois premiers mois ; la plus forte traction communautaire des skills de design |
+| **Maintenance** | Active : v2.0→v2.2.1 en dix jours en janvier 2026, mises à jour régulières |
+| **Communauté chinoise** | Forte adoption : présence sur [jimmysong.io](https://jimmysong.io/ai/ui-ux-pro-max-skill/) et dans les dépôts de benchmark de cet écosystème |
+
+> **Note de sécurité** : `npm install -g uipro-cli` installe globalement un paquet d'une organisation anonyme, « nextlevelbuilder ». Un audit de source en février 2026 a confirmé :
+> - **Aucun script preinstall/postinstall** dans le paquet npm
+> - **Aucun appel réseau** dans le moteur Python (`search.py`, `core.py`, `design_system.py` ; bibliothèque standard et CSV/JSON locaux uniquement)
+>
+> L'option 3, clonage Git manuel, reste le parcours le plus sûr pour examiner les sources avant installation. Le paquet n'a pas fait l'objet d'un audit formel par Anthropic ou les mainteneurs de ce guide.
 
 ### Guide DevOps & SRE
 
@@ -7973,36 +8891,23 @@ Pour les workflows DevOps/SRE complets, consultez le **[Guide DevOps & SRE](./op
 Skills.sh (Vercel Labs) propose un marketplace centralisé pour découvrir et installer des skills d'agents avec une installation en une seule commande :
 
 ```bash
-npx add-skill vercel-labs/agent-skills  # React/Next.js best practices (35K+ installs)
-npx add-skill supabase/agent-skills     # Postgres optimization patterns
-npx add-skill anthropics/skills         # Frontend design + skill-creator
-npx add-skill anthropics/claude-plugins-official  # CLAUDE.md auditor + automation recommender
+npx skills add vercel-labs/agent-skills
+npx skills add supabase/agent-skills
+npx skills add anthropics/skills
+npx skills add anthropics/claude-plugins-official
 ```
 
 #### Fonctionnement
 
-**Installation** : Les skills sont copiés dans `~/.claude/skills/` (même format que ce guide)
+**Installation** : le CLI copie les skills sélectionnés vers l'agent et le périmètre choisis. Confirmez la destination et examinez les fichiers copiés avant invocation.
 
-**Agents pris en charge** : 20+ dont Claude Code, Cursor, GitHub Copilot, Windsurf, Cline, Goose, et d'autres
+**Agents pris en charge** : le catalogue actuel comprend Claude Code, Cursor, Codex, GitHub Copilot, Windsurf, Gemini, Cline et d'autres clients.
 
-**Format** : SKILL.md standard avec frontmatter YAML (100% compatible avec les sections 5.2-5.3)
+**Format** : `SKILL.md` standard avec frontmatter YAML. Les champs propres à Claude Code ne se comportent pas nécessairement de la même façon dans un autre client.
 
-#### Top des skills par catégorie (janvier 2026)
+#### Catalogue et données de popularité
 
-| Catégorie | Top skills | Installations | Créateur |
-|-----------|-----------|---------------|---------|
-| **Frontend** | vercel-react-best-practices | 35K+ | vercel-labs |
-| | web-design-guidelines | 26,6K | vercel-labs |
-| | frontend-design | 5,6K | anthropics |
-| **Base de données** | supabase-postgres-best-practices | 1K+ | supabase |
-| **Auth** | better-auth-best-practices | 2K+ | better-auth |
-| **Tests** | test-driven-development | 721 | obra ([Superpowers](https://github.com/obra/superpowers)) |
-| **Média** | remotion-best-practices | Nouveau | remotion-dev |
-| **Méta** | skill-creator | 3,2K | anthropics |
-| **Outillage** | claude-md-improver | 472 | anthropics |
-| | claude-automation-recommender | 333 | anthropics |
-
-Catalogue complet : [classement skills.sh](https://skills.sh/)
+Le classement et les nombres d'installations changent continuellement et ne prouvent ni qualité, ni compatibilité, ni maintenance. Consultez le [catalogue skills.sh actuel](https://skills.sh/) pour découvrir des ressources, puis examinez le dépôt retenu et évaluez le skill dans votre périmètre avant adoption.
 
 #### Audits de sécurité (février 2026)
 
@@ -8025,7 +8930,9 @@ Vercel a lancé une analyse de sécurité automatisée sur chaque skill de skill
 
 **Surveillance continue** : les skills sont réévalués à mesure que la détection s'améliore. Si un dépôt devient malveillant après l'installation, sa note se met à jour automatiquement.
 
-> **Modèle mental** : traitez un skill comme une image Docker : c'est une dépendance exécutable, pas un prompt. Vérifiez le niveau de risque avant d'installer en production.
+> **Modèle de sécurité** : traitez un skill téléchargé comme du code exécutable : il peut contenir des autorisations d'outils, scripts, dépendances et instructions. La note d'une marketplace est un élément de décision, pas un substitut à la revue de la version installée.
+>
+> **Modèle de responsabilité** : l'installation ne crée pas de contrat de maintenance partagé. Utilisez tel quel, forkez, extrayez un pattern ou rejetez selon votre contexte et vos preuves d'évaluation.
 
 #### Statut et compromis
 
@@ -8034,9 +8941,9 @@ Vercel a lancé une analyse de sécurité automatisée sur chaque skill de skill
 **Gouvernance** : Projet communautaire de Vercel Labs (non officiel Anthropic). Skills contribués par Vercel, Anthropic, Supabase et des membres de la communauté.
 
 **Compromis** :
-- ✅ Découverte centralisée + classement (200+ skills)
+- ✅ Découverte centralisée et classement actualisé
 - ✅ Installation en une commande (vs clonage GitHub manuel)
-- ✅ Format 100% compatible avec ce guide
+- ✅ Utilise le format répertoire Agent Skills
 - ✅ Audit de sécurité automatisé en 3 couches avant installation
 - ✅ Surveillance continue après installation
 - ⚠️ Orienté multi-agents (pas spécifique à Claude Code)
@@ -8046,24 +8953,24 @@ Vercel a lancé une analyse de sécurité automatisée sur chaque skill de skill
 
 | Cas d'usage | Recommandation |
 |-------------|----------------|
-| **Découvrir des patterns populaires** | skills.sh (classement, tendances) |
-| **Installer des skills de frameworks officiels** | skills.sh (Vercel React, Supabase, etc.) |
-| **Skills internes/spécifiques à l'équipe** | Dépôts GitHub (comme [claude-code-templates](https://github.com/davila7/claude-code-templates), 17K⭐) |
-| **Skills d'entreprise personnalisés** | `.claude/skills/` local (sections 5.2-5.3) |
+| **Découvrir des patterns** | Parcourir skills.sh ; l'installation est facultative |
+| **Adopter un skill d'outil maintenu** | Examiner la source, les permissions, scripts, version et engagement de support du fournisseur |
+| **Skill d'équipe** | Forker ou écrire un skill de projet avec un responsable nommé et des évaluations locales |
+| **Skill géré par l'organisation** | Utiliser le canal de distribution géré avec une politique explicite de revue et de retrait |
 
 #### Exemples d'installation
 
-**Installation standard** (globale, toutes les sessions Claude Code) :
+**Installation interactive par le CLI** :
 ```bash
-# Install Vercel bundle (3 skills: react + web-design + deploy)
-npx add-skill vercel-labs/agent-skills
+# Select skills, target agents, and scope in the installer
+npx skills add vercel-labs/agent-skills
 
-# Install Supabase Postgres patterns
-npx add-skill supabase/agent-skills
+# Add another repository
+npx skills add supabase/agent-skills
 
-# Verify installation
+# Example verification when you selected Claude Code personal scope
 ls ~/.claude/skills/
-# Output: react-best-practices/ web-design-guidelines/ vercel-deploy/
+
 ```
 
 **Installation manuelle** (spécifique au projet) :
@@ -8089,6 +8996,8 @@ cp -r /tmp/agent-skills/react-best-practices .claude/skills/
 
 ---
 
+<a id="6-commands-user-invocable-skills"></a>
+
 # 6. Commandes (skills invocables par l'utilisateur)
 
 _Accès rapide :_ [Slash Commands](#61-slash-commands) · [Créer des commandes personnalisées](#62-creating-custom-commands) · [Modèle de commande](#63-command-template) · [Exemples de commandes](#64-command-examples)
@@ -8109,6 +9018,8 @@ Les slash commands sont des skills invocables par l'utilisateur. Depuis CC 2.1.3
 
 ### Commandes intégrées
 
+Claude Code fournit environ 100 commandes intégrées. La liste complète par catégorie figure dans le [tableau §10.1](#101-commands-table), et la référence officielle de la version courante se trouve dans la [documentation des commandes](https://code.claude.com/docs/en/commands). Voici celles qui reviennent dans la plupart des sessions.
+
 | Commande | Action |
 |---------|--------|
 | `/help` | Afficher toutes les commandes |
@@ -8116,41 +9027,43 @@ Les slash commands sont des skills invocables par l'utilisateur. Depuis CC 2.1.3
 | `/compact` | Résumer le contexte |
 | `/status` | Afficher les informations de session |
 | `/context` | Détail du contexte/décompte des tokens avec suggestions d'action |
-| `/cost` | Décompte du coût en tokens par modèle pour la session *(utilisez `/usage` depuis la v2.1.118)* |
+| `/usage` (`/cost`, `/stats`) | Coût de session, limites de l’offre et détail par modèle (fusion de `/cost` et `/stats` en v2.1.118) |
 | `/plan` | Passer en mode Plan |
-| `/rewind` | Annuler les modifications |
-| `/undo` | Alias de /rewind |
-| `/resume` | Reprendre une session précédente avec un sélecteur interactif |
+| `/rewind` (`/checkpoint`, `/undo`) | Revenir à un point de contrôle de la conversation et/ou du code |
+| `/resume` (`/continue`) | Reprendre une session avec un sélecteur interactif |
 | `/voice` | Activer/désactiver la saisie vocale (maintenir Espace pour parler, relâcher pour envoyer) |
 | `/recap` | Afficher un résumé du contexte lors du retour à une session après une pause |
-| `/config` | Éditeur de configuration interactif |
+| `/config` | Éditeur de configuration interactif, ou `key=value` pour définir directement une valeur |
 | `/model` | Changer de modèle (sonnet/opus/opusplan) |
-| `/effort [level]` | Définir la profondeur de réflexion : low/medium/high/xhigh/max ; sans argument = curseur interactif |
+| `/effort [level]` | Choisir la profondeur du thinking : low/medium/high/xhigh/max/ultracode ; sans argument, ouvrir le curseur interactif |
 | `/focus` | Activer/désactiver la vue focalisée (interface minimaliste, masque les métadonnées) |
 | `/tui [fullscreen]` | Passer au rendu TUI plein écran sans scintillement |
 | `/copy` | Sélecteur interactif : copier un bloc de code ou une réponse complète |
-| `/loop [interval] [prompt]` | Exécuter un prompt à intervalle régulier |
-| `/proactive` | Alias de /loop |
-| `/simplify` | Examiner le code modifié et corriger la sur-ingénierie |
+| `/loop [interval] [prompt]` (`/proactive`) | Exécuter un prompt à intervalle récurrent |
+| `/code-review [level]` | Relire le diff pour trouver bugs et améliorations. `--fix` les applique, `ultra` lance la revue cloud |
+| `/simplify` | Relire le code modifié et corriger la sur-ingénierie (ne recherche plus les bugs depuis v2.1.154) |
 | `/batch` | Modifications à grande échelle via des agents worktree parallèles |
+| `/subtask <task>` | Confier une tâche annexe à un sous-agent issu d’un fork qui rend compte ici (v2.1.212+) |
 | `/insights` | Générer un rapport d'analyse d'utilisation |
 | `/btw [question]` | Question rapide via une superposition éphémère : lecture seule, sans outils, réponse unique, ne pollue pas l'historique principal |
-| `/doctor` | Vérification diagnostique : environnement, paramètres, connectivité |
+| `/doctor` (`/checkup`) | Vérifier installation, paramètres, hooks, volume de `CLAUDE.md`, skills inutilisés et serveurs MCP |
+| `/skill-doctor` | Rapport de skills dans le terminal : coût de contexte visible et skills jamais invoqués ; exclut les skills embarqués et d’entreprise, indisponible via Remote Control (v2.1.252+) |
 | `/release-notes` | Parcourir le changelog de Claude Code de façon interactive |
 | `/fewer-permission-prompts` | Analyser les transcriptions et proposer une liste d'outils en lecture seule autorisés (livrée sous le nom `/less-permission-prompts` en v2.1.111) |
-| `/team-onboarding` | Générer un guide d'intégration pour les coéquipiers à partir du CLAUDE.md et des sessions récentes |
-| `/terminal-setup` | Configurer la sensibilité du défilement du terminal (VS Code, Cursor, Windsurf) |
-| `/reload-plugins` | Recharger les plugins MCP et installer automatiquement les dépendances manquantes |
+| `/team-onboarding` | Générer un guide d’intégration à partir de 30 jours d’historique de sessions |
+| `/terminal-setup` | Configurer Shift+Enter dans le terminal (VS Code, Cursor, Zed, Alacritty) |
+| `/reload-plugins` | Recharger les plugins actifs sans redémarrer |
 | `/mcp` | Afficher le statut des serveurs MCP |
 | `/memory` | Afficher/modifier les fichiers mémoire |
 | `/plugin` | Gérer les plugins (installer, lister, mettre à jour) |
 | `/keybindings` | Modifier les raccourcis clavier (ouvre ~/.claude/keybindings.json) |
 | `/setup-bedrock` | Assistant de configuration Bedrock interactif |
 | `/setup-vertex` | Assistant de configuration Vertex AI interactif |
-| `/ultrareview` | Révision de code multi-agents parallèles dans le cloud (Pro/Max) |
+| `/ultrareview` | Revue de code parallèle dans le cloud ; alias de `/code-review ultra` (Pro/Max) |
 | `/goal [condition]` | Définir une condition d'achèvement. Claude travaille de façon autonome sur plusieurs tours jusqu'à ce que la condition soit remplie, affichant une superposition en direct avec le temps écoulé, le nombre de tours et l'utilisation des tokens. Exemple : `/goal all tests pass and build is green` (v2.1.139) |
 | `/scroll-speed` | Curseur interactif pour régler la vitesse de défilement à la molette. Les modifications prennent effet immédiatement avec un aperçu en direct. (v2.1.139) |
 | `/exit` | Quitter Claude Code |
+
 
 ### La commande /btw
 
@@ -8187,7 +9100,7 @@ La bifurcation de session crée une nouvelle session indépendante qui démarre 
 claude --resume <session-id> --fork-session
 ```
 
-`/branch` a été ajouté dans la v2.1.77, remplaçant `/fork` (qui fonctionne toujours comme alias).
+`/branch` a été ajouté en v2.1.77, succédant à `/fork`. Les deux ont ensuite divergé : depuis v2.1.212, `/branch` vous place dans la copie, `/fork` copie la conversation dans une session distincte en arrière-plan qui fonctionne indépendamment, et `/subtask` confie une tâche annexe à un sous-agent issu d'un fork qui rapporte son résultat dans cette conversation.
 
 **Quand bifurquer plutôt que redémarrer :**
 - Vous êtes dans un état fonctionnel et souhaitez explorer un refactoring risqué sans le perdre
@@ -8546,7 +9459,9 @@ Claude Code propose trois mécanismes distincts pour exécuter des tâches récu
 
 #### Routines (Automatisation cloud)
 
-Les Routines s'exécutent sur l'infrastructure d'Anthropic : votre machine peut être complètement éteinte. Chaque exécution clone une copie fraîche de votre dépôt GitHub. Trois types de déclencheurs peuvent être combinés sur une seule routine.
+Les routines s'exécutent sur une infrastructure cloud gérée par Anthropic ou dans un environnement autohébergé par l'organisation ; votre machine peut être éteinte. Chaque exécution clone une nouvelle copie de votre dépôt GitHub. Trois types de déclencheurs peuvent être combinés sur une seule routine.
+
+> **Limite des événements** : Les routines sont des sessions persistantes distinctes. Ce ne sont pas des Monitors locaux ; pour un relais d'événement GitHub, un Monitor WebSocket, les Channels et une passation contrôlée à Codex, voir [Ingestion d'événements et délégation sûre](#928-event-ingestion-and-safe-delegation).
 
 > **Aperçu de recherche** : le comportement, les limites et la surface d'API peuvent changer.
 
@@ -8709,6 +9624,8 @@ Depuis CC 2.1.3, les skills invocables par l'utilisateur se trouvent dans `.clau
 
 Ajoutez `disable-model-invocation: true` au frontmatter pour empêcher le modèle de charger automatiquement le skill quand il n'est pas explicitement invoqué.
 
+<a id="62-creating-custom-commands"></a>
+
 ## 6.2 Création de Commandes Personnalisées
 
 Les commandes sont des fichiers markdown qui définissent un processus.
@@ -8776,6 +9693,8 @@ Déployer vers l'environnement $ARGUMENTS[0].
 ```
 
 Quand l'utilisateur tape `/deploy`, le menu affiche : `/deploy <env> [--skip-tests] [--dry-run]`
+
+<a id="63-command-template"></a>
 
 ## 6.3 Modèle de Commande
 
@@ -8849,11 +9768,13 @@ Modèle prêt à l'emploi disponible dans `examples/commands/recipe-template.md`
 
 > Modèle inspiré des [fichiers de commande Packmind](https://github.com/PackmindHub/packmind) (Apache 2.0). Voir [Crédits](./core/credits.md).
 
+<a id="64-command-examples"></a>
+
 ## 6.4 Exemples de Commandes
 
 ### Exemple 1 : Commande Commit
 
-```markdown
+````markdown
 # Valider les Modifications Actuelles
 
 ## Objectif
@@ -8898,11 +9819,11 @@ Si $ARGUMENTS[0] est fourni :
 
 Commit : [hash] [message]
 Fichiers : [nombre] modifié(s)
-```
+````
 
 ### Exemple 2 : Commande PR
 
-```markdown
+````markdown
 # Créer une Pull Request
 
 ## Objectif
@@ -8963,6 +9884,7 @@ Si la branche courante n'est pas une branche de fonctionnalité :
 
 Si le répertoire de travail contient des modifications non validées :
 - DEMANDER : "Valider les modifications d'abord ?"
+````
 
 ### Exemple 3 : Commande Problem Framer
 
@@ -9058,6 +9980,8 @@ _Accès rapide :_ [Le système d'événements](#71-le-système-dévénements) ·
 **Temps de lecture** : 20 minutes
 **Niveau de compétence** : Semaine 2-3
 **Objectif** : Automatiser Claude Code avec des scripts pilotés par événements
+
+<a id="71-the-event-system"></a>
 
 ## 7.1 Le système d'événements
 
@@ -9299,6 +10223,8 @@ gh pr create --title "..." --body "..."
 
 > Inspiré par [Nick Tune's Coding Agent Development Workflows](https://medium.com/nick-tune-tech-strategy-blog/coding-agent-development-workflows-af52e6f912aa)
 
+<a id="72-creating-hooks"></a>
+
 ## 7.2 Création de Hooks
 
 ### Enregistrement des Hooks (settings.json)
@@ -9471,30 +10397,40 @@ Les hooks communiquent leurs résultats via les codes de sortie et optionnelleme
 - **TeammateIdle, TaskCompleted** : Code de sortie 2 uniquement (pas de contrôle de décision JSON)
 - **PermissionRequest** : Utilise `hookSpecificOutput` avec `decision.behavior` (allow/deny)
 
-**`continueOnBlock`** (`PostToolUse` uniquement, v2.1.139) : Quand `true`, une réponse `decision: "block"` transmet la `reason` à Claude comme contexte et continue le tour au lieu de s'arrêter. Utiliser pour donner à Claude l'opportunité de réessayer avec une approche conforme :
+**`continueOnBlock` pour les hooks de prompt** : Un hook `type: "prompt"` renvoie `ok: true` ou `ok: false`. Sur `PostToolUse`, `continueOnBlock: true` transmet la raison du refus à Claude afin qu’il puisse continuer et s’adapter. Les hooks de commande utilisent les champs de décision propres à l’événement.
 
 ```json
 {
-  "type": "PostToolUse",
-  "matcher": "Write|Edit",
-  "command": "check-file-policy.sh",
-  "continueOnBlock": true
-}
-```
-
-Sans `continueOnBlock`, un PostToolUse bloqué arrête le tour et affiche une erreur. Avec lui, Claude reçoit la raison du refus et peut s'autocorriger.
-
-**Remplacement de sortie** (`PostToolUse`, v2.1.121) : Les hooks `PostToolUse` peuvent remplacer ce que Claude reçoit comme résultat d'outil via `hookSpecificOutput.updatedToolOutput`. Fonctionne pour tous les outils : Bash, Read, Write, Edit, outils MCP, etc. :
-
-```json
-{
-  "hookSpecificOutput": {
-    "updatedToolOutput": "redacted: output contained PII, removed by policy hook"
+  "hooks": {
+    "PostToolUse": [{
+      "matcher": "Write|Edit",
+      "hooks": [{
+        "type": "prompt",
+        "prompt": "Check this result against project policy. Return JSON with ok and, if false, reason. $ARGUMENTS",
+        "continueOnBlock": true
+      }]
+    }]
   }
 }
 ```
 
-Cas d'usage : expurger les données personnelles des sorties d'outils avant que Claude les traite, compresser les résultats volumineux, injecter des métadonnées ou des pistes d'audit dans chaque réponse d'outil.
+**Remplacement de sortie** (`PostToolUse`) : `hookSpecificOutput.updatedToolOutput` doit correspondre à la structure réelle de la réponse de l’outil. Pour un résultat Bash :
+
+```json
+{
+  "hookSpecificOutput": {
+    "hookEventName": "PostToolUse",
+    "updatedToolOutput": {
+      "stdout": "[redacted]",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false
+    }
+  }
+}
+```
+
+Le remplacement modifie ce que Claude voit ; il n’annule pas les effets de l’outil et n’expurge pas la télémétrie capturée avant le hook. Voir la [référence des hooks](https://code.claude.com/docs/en/hooks).
 
 **Exemple de blocage PreToolUse** (préférable au code de sortie 2) :
 
@@ -9638,6 +10574,8 @@ Champs spécifiques aux événements non listés dans le tableau d'entrée commu
 **`background_tasks` et `session_crons`** sont disponibles dans Stop/SubagentStop depuis v2.1.145. Chaque entrée dans `background_tasks` possède `id`, `type` (shell/subagent/monitor/workflow/teammate/cloud session/MCP task), `status`, `description`, et des champs spécifiques au type. Chaque entrée dans `session_crons` possède `id`, `schedule`, `recurring` (bool), `prompt`. Utilisez-les pour distinguer « session terminée » de « session en attente de tâches en arrière-plan ».
 
 **`additionalContext`** est injecté dans la fenêtre de contexte de Claude comme rappel système au point où le hook s'est déclenché. Pour `PostToolUse` et `PostToolBatch`, il apparaît à côté du résultat de l'outil. Pour `UserPromptSubmit`, il apparaît à côté du prompt soumis. Plusieurs hooks retournant `additionalContext` pour le même événement sont tous transmis. Les valeurs sont limitées à 10 000 caractères.
+
+<a id="73-hook-templates"></a>
 
 ## 7.3 Modèles de Hooks
 
@@ -9922,6 +10860,8 @@ exit 0
 }
 ```
 
+<a id="74-security-hooks"></a>
+
 ## 7.4 Hooks de Sécurité
 
 Les hooks de sécurité sont essentiels pour protéger votre système.
@@ -10193,6 +11133,8 @@ echo '{"tool_name":"Read","tool_input":{"file_path":"$HOME/.env"}}' | \
 ```
 
 > **Référence croisée** : Pour un renforcement complet de la sécurité incluant les mitigations spécifiques aux CVE et l'intégrité des configurations MCP, consultez le [Guide de renforcement de la sécurité](./security/security-hardening.md).
+
+<a id="75-hook-examples"></a>
 
 ## 7.5 Exemples de Hooks
 
@@ -10907,6 +11849,8 @@ export ECC_HOOK_PROFILE=strict
 
 ---
 
+<a id="8-mcp-servers"></a>
+
 # 8. Serveurs MCP
 
 _Accès rapide :_ [Qu'est-ce que MCP](#81-what-is-mcp) · [Serveurs disponibles](#82-available-servers) · [Configuration](#83-configuration) · [Guide de sélection de serveur](#84-server-selection-guide) · [Système de plugins](#85-plugin-system) · [Sécurité MCP](#86-mcp-security)
@@ -10916,6 +11860,8 @@ _Accès rapide :_ [Qu'est-ce que MCP](#81-what-is-mcp) · [Serveurs disponibles]
 **Temps de lecture** : 15 minutes
 **Niveau de compétence** : Semaines 2-3
 **Objectif** : Étendre Claude Code avec des outils externes
+
+<a id="81-what-is-mcp"></a>
 
 ## 8.1 Qu'est-ce que MCP
 
@@ -11058,6 +12004,8 @@ MCP Apps est construit sur le **Model Context Protocol** (standard ouvert par An
 - **Spécification officielle** : [SEP-1865 sur GitHub](https://github.com/modelcontextprotocol/ext-apps)
 
 ---
+
+<a id="82-available-servers"></a>
 
 ## 8.2 Serveurs disponibles
 
@@ -11557,6 +12505,8 @@ mgrep "code that handles user authentication"
 > **Remarque** : Je n'ai pas testé mgrep personnellement. Considérez-le comme une alternative qui mérite d'être explorée.
 > **Source** : [mgrep GitHub](https://github.com/mixedbread-ai/mgrep)
 
+<a id="context7-documentation-lookup"></a>
+
 ### Context7 (Consultation de documentation)
 
 **Objectif** : Accéder à la documentation officielle des bibliothèques.
@@ -12042,15 +12992,19 @@ export GITHUB_PERSONAL_ACCESS_TOKEN=ghp_xxx
 
 ---
 
-### 📖 Ce Guide comme Serveur MCP
+### Ce guide comme serveur MCP
 
-Le Claude Code Ultimate Guide embarque son propre serveur MCP (`claude-code-ultimate-guide-mcp`) pour que vous puissiez interroger le guide directement depuis n'importe quelle session Claude Code sans cloner le dépôt.
-
-**Ce qu'il vous apporte** : 9 outils couvrant la recherche, la lecture de contenu, les templates, les digests, la cheatsheet et les notes de version. L'index structuré (882 entrées) est inclus dans le package (~130 Ko) ; les fichiers markdown sont récupérés depuis GitHub à la demande avec un cache local de 24h.
+<!-- mcp-product:start -->
+Le Claude Code Ultimate Guide fournit un serveur MCP stdio : les clients de codage peuvent rechercher dans l'index embarqué, lire des sections sources, consulter les versions et récupérer des modèles.
 
 #### Installation
 
-Ajouter dans `~/.claude.json` :
+```bash
+claude mcp add --scope user claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.4
+codex mcp add claude-code-guide -- npx -y claude-code-ultimate-guide-mcp@1.3.4
+```
+
+Pour Claude Code à l'échelle du projet, ajoutez le serveur à `.mcp.json` :
 
 ```json
 {
@@ -12058,89 +13012,64 @@ Ajouter dans `~/.claude.json` :
     "claude-code-guide": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "claude-code-ultimate-guide-mcp"]
+      "args": ["-y", "claude-code-ultimate-guide-mcp@1.3.4"]
     }
   }
 }
 ```
 
-Ou avec un clone local (mode dev, lit les fichiers directement depuis le disque) :
+#### Capacités générées
 
-```json
-{
-  "mcpServers": {
-    "claude-code-guide": {
-      "type": "stdio",
-      "command": "node",
-      "args": ["/path/to/claude-code-ultimate-guide/mcp-server/dist/index.js"],
-      "env": {
-        "GUIDE_ROOT": "/path/to/claude-code-ultimate-guide"
-      }
-    }
-  }
-}
-```
+| Capacité | Nombre | Noms |
+| --- | ---: | --- |
+| Outils | 17 | `compare_versions`, `diff_official_docs`, `get_changelog`, `get_cheatsheet`, `get_digest`, `get_example`, `get_release`, `get_threat`, `init_official_docs`, `list_examples`, `list_threats`, `list_topics`, `read_section`, `refresh_official_docs`, `search_examples`, `search_guide`, `search_official_docs` |
+| Ressources | 6 | `claude-code-guide://agent-harnesses`, `claude-code-guide://distribution-channels`, `claude-code-guide://llms`, `claude-code-guide://reference`, `claude-code-guide://releases`, `claude-code-guide://translations` |
+| Prompts | 1 | `claude-code-expert` |
+| Commandes complémentaires | 5 | `/ccguide:daily`, `/ccguide:diff-docs`, `/ccguide:init-docs`, `/ccguide:refresh-docs`, `/ccguide:search-docs` |
 
-#### Outils disponibles
+| Outil | Description |
+| --- | --- |
+| `compare_versions` | Affiche les changements entre deux versions du CLI Claude Code : toutes les versions de l'intervalle, leurs points clés et les changements incompatibles. |
+| `diff_official_docs` | Compare les instantanés de référence et actuel de la documentation officielle Anthropic. Affiche les pages ajoutées, supprimées et modifiées. Lit uniquement les fichiers locaux, sans réseau. Exécuter d'abord `init_official_docs()`, puis `refresh_official_docs()` pour actualiser l'instantané courant. |
+| `get_changelog` | Renvoie les N dernières entrées du CHANGELOG du guide. Pour les versions du CLI Claude Code, utiliser `get_release()`. |
+| `get_cheatsheet` | Renvoie l'aide-mémoire : une référence compacte d'une page sur les principales commandes, raccourcis, options et workflows. |
+| `get_digest` | Résume les changements du guide et du CLI pour une période, en combinant CHANGELOG du guide et versions officielles Claude Code. |
+| `get_example` | Récupère un modèle ou exemple prêt à l'emploi : agents, skills, commandes, hooks et scripts. Un nom partiel recherche les exemples correspondants. |
+| `get_release` | Renvoie les détails des versions officielles du CLI. Fournir une version précise ou omettre l'argument pour les dernières versions et l'historique récent. |
+| `get_threat` | Recherche une menace par identifiant dans la base de sécurité : CVE (par exemple `CVE-2025-53109`) ou technique (par exemple `T001`). |
+| `init_official_docs` | Télécharge la documentation officielle (`llms-full.txt`) et enregistre l'instantané local de référence. À exécuter en premier. Une nouvelle exécution remplace les instantanés de référence ET actuel. Environ 5 secondes pour ~1,2 Mo depuis Anthropic. |
+| `list_examples` | Liste les modèles prêts à l'emploi par catégorie : agents, commandes, hooks, skills et scripts. Utiliser `get_example(name)` pour récupérer le contenu. |
+| `list_threats` | Parcourt la base de menaces. Sans catégorie, renvoie un résumé et les nombres ; avec une catégorie, toutes ses entrées. |
+| `list_topics` | Liste les thèmes et catégories principaux du guide pour explorer son périmètre avant une recherche. |
+| `read_section` | Lit une section Markdown, YAML ou un exemple. Pagination par décalage, ou ancre `#heading-slug` pour rejoindre une section renvoyée par `search_guide()`. À utiliser après la recherche pour obtenir son contenu. |
+| `refresh_official_docs` | Retélécharge la documentation officielle et actualise l'instantané courant sans toucher à la référence. À exécuter avant une nouvelle comparaison. Environ 5 secondes pour ~1,2 Mo depuis Anthropic. |
+| `search_examples` | Recherche sémantique par intention dans les modèles, par exemple « hook lint » ou « agent code review ». Complète `get_example` (nom) et `list_examples` (catégorie). |
+| `search_guide` | Recherche le guide par thème, mot-clé ou question : fonctionnalités, hooks, agents, MCP, skills, commandes et pratiques. À utiliser en premier pour une question Claude Code avant une recherche web. |
+| `search_official_docs` | Recherche par mot-clé ou thème dans l'instantané officiel actuel en local, sans appel réseau. Exécuter `init_official_docs()` d'abord. |
 
-| Outil | Signature | Description |
-|------|-----------|-------------|
-| `search_guide` | `(query, limit?)` | Rechercher dans 882 entrées indexées par mot-clé ou question |
-| `read_section` | `(path, offset?, limit?)` | Lire n'importe quel fichier du guide avec pagination (500 lignes max) |
-| `list_topics` | `()` | Parcourir les 25 catégories de sujets |
-| `get_example` | `(name)` | Récupérer un template prêt pour la production par son nom |
-| `list_examples` | `(category?)` | Lister tous les templates : `agents`, `commands`, `hooks`, `skills`, `scripts` |
-| `get_changelog` | `(count?)` | Les N dernières entrées du CHANGELOG du guide (défaut : 5) |
-| `get_digest` | `(period)` | Digest combiné du guide + releases CC : `day`, `week`, `month` |
-| `get_release` | `(version?)` | Détails d'une release du CLI Claude Code |
-| `get_cheatsheet` | `(section?)` | Cheatsheet complète ou filtrée par section |
+| URI de ressource | Type MIME | Description |
+| --- | --- | --- |
+| `claude-code-guide://agent-harnesses` | `application/json` | Données sourcées de l'Agent Harness Map. Sépare catalogue général, compléments du guide, runtimes au sens strict et plans de contrôle voisins. Les preuves inconnues restent déclarées inconnues. |
+| `claude-code-guide://distribution-channels` | `text/yaml` | Canaux de publication, URL attribuées, états des fichiers, dates et résultats sur 30 jours pour le guide. |
+| `claude-code-guide://llms` | `text/plain` | Fichier `llms.txt` d'identité et de navigation lisible par machine. |
+| `claude-code-guide://reference` | `text/yaml` | Index structuré complet. À utiliser si les résultats de `search_guide()` ne suffisent pas. |
+| `claude-code-guide://releases` | `text/yaml` | Historique des versions officielles de Claude Code avec points clés et changements incompatibles. |
+| `claude-code-guide://translations` | `application/json` | Version, provenance, fraîcheur et couverture des traductions maintenues et communautaires. |
 
-**Ressources** : `claude-code-guide://reference` (index YAML complet de 94 Ko), `claude-code-guide://releases`, `claude-code-guide://llms`
+| Commande complémentaire | Description |
+| --- | --- |
+| `/ccguide:daily` | Vérification quotidienne : comparaison des documents officiels et résumé des changements du guide/CLI |
+| `/ccguide:diff-docs` | Compare les instantanés officiel de référence et actuel, immédiatement et sans réseau |
+| `/ccguide:init-docs` | Télécharge la documentation officielle et crée l'instantané local de référence |
+| `/ccguide:refresh-docs` | Retélécharge la documentation officielle et actualise l'instantané courant, sans modifier la référence |
+| `/ccguide:search-docs` | Recherche la documentation officielle par mot-clé |
 
-**Prompt** : `claude-code-expert`, active le mode expert avec un workflow de recherche optimal
+#### Limites des données et du réseau
 
-#### Raccourcis de slash commands
+Les listes et l'index de recherche utilisent le contenu embarqué du paquet. Les outils de sections, exemples, aide-mémoire, changelog, résumé (`get_digest`) et menaces peuvent télécharger du contenu GitHub et écrire un cache local de 24 heures. L'initialisation et l'actualisation de la documentation officielle téléchargent les documents Anthropic et écrivent des instantanés locaux séparés. Le serveur n'est donc ni entièrement hors ligne, ni purement en lecture seule.
 
-Installez les slash commands complémentaires pour un accès en une touche (stockés dans `~/.claude/commands/ccguide/`) :
-
-```bash
-# Ces commandes sont incluses dans le dépôt du guide sous .claude/commands/ccguide/
-# Copiez ou créez un lien symbolique vers ~/.claude/commands/ccguide/ pour une installation globale
-```
-
-**Commandes du guide :**
-
-| Commande | Exemple | Description |
-|---------|---------|-------------|
-| `/ccguide:search` | `/ccguide:search hooks` | Rechercher par mot-clé |
-| `/ccguide:cheatsheet` | `/ccguide:cheatsheet hooks` | Cheatsheet (complète ou par section) |
-| `/ccguide:digest` | `/ccguide:digest week` | Ce qui a changé cette semaine (guide + releases CC) |
-| `/ccguide:example` | `/ccguide:example code-reviewer` | Récupérer un template |
-| `/ccguide:examples` | `/ccguide:examples agents` | Lister les templates par catégorie |
-| `/ccguide:release` | `/ccguide:release 2.1.59` | Détails d'une release |
-| `/ccguide:changelog` | `/ccguide:changelog 10` | CHANGELOG récent du guide |
-| `/ccguide:topics` | `/ccguide:topics` | Parcourir toutes les catégories |
-
-**Suivi de la documentation officielle Anthropic** (MCP v1.1.0+) :
-
-| Commande | Description |
-|---------|-------------|
-| `/ccguide:init-docs` | Récupérer la documentation officielle et la stocker comme référence de base locale (à exécuter une fois) |
-| `/ccguide:refresh-docs` | Récupérer la dernière documentation, mettre à jour le snapshot actuel (la référence de base reste inchangée) |
-| `/ccguide:diff-docs` | Comparer la référence de base avec l'état actuel : pages ajoutées/supprimées/modifiées, sans réseau |
-| `/ccguide:search-docs <query>` | Rechercher dans la documentation officielle Anthropic depuis le cache local |
-| `/ccguide:daily` | **Briefing quotidien** : actualisation + diff de la documentation officielle + digest guide/CC |
-
-Workflow typique :
-```bash
-/ccguide:init-docs          # une fois — stocke la référence de base + l'état actuel dans ~/.cache/claude-code-guide/
-# quelques jours plus tard...
-/ccguide:daily              # chaque jour — actualisation + diff + digest en une seule commande
-```
-
-#### Agent personnalisé
-
-Un agent `claude-code-guide` est inclus dans `.claude/agents/claude-code-guide.md`. Il utilise Haiku (rapide et économique) et recherche automatiquement dans le guide avant de répondre à toute question sur Claude Code.
+Consultez le [guide technique canonique](ecosystem/claude-code-guide-mcp.md) pour distinguer versions publiées et candidates, configurer Cursor et VS Code, comprendre confidentialité, fonctionnement hors ligne, limites, diagnostics et statistiques datées. Le [README du paquet](../mcp-server/README.md) reste la référence rapide du paquet.
+<!-- mcp-product:end -->
 
 ---
 
@@ -12203,7 +13132,7 @@ npm install @microsoft/playwright-mcp
 .mcp.json               # Portée projet (racine du projet, partageable via VCS)
 ```
 
-> **Note** : Trois portées existent : `local` (par défaut, privée + projet courant, dans `~/.claude.json`), `project` (partagée via `.mcp.json` à la racine du projet), et `user` (inter-projets, également dans `~/.claude.json`). Utilisez `claude mcp add --scope <scope>` pour cibler une portée spécifique.
+> **Note** : Trois portées existent : `local` (par défaut, privée au projet courant, dans `~/.claude.json`), `project` (partagée via `.mcp.json` à la racine du projet), et `user` (inter-projets, stockée sous une clé `mcpServers` à la racine de `~/.claude.json`, disponible dans tous les projets de la machine). Deux tickets, [anthropics/claude-code#16728](https://github.com/anthropics/claude-code/issues/16728) et [#32939](https://github.com/anthropics/claude-code/issues/32939), ont signalé que cette portée se limitait au chemin d'un seul projet dans Claude Code 2.1.1 et 2.1.72. Tous deux ont été fermés avec `not_planned`. Le comportement vérifié sur 2.1.221 correspond à la portée inter-projets décrite ci-dessus, ce qui suggère une correction dans une version ultérieure. Utilisez `claude mcp add --scope <scope>` pour cibler une portée spécifique.
 
 ### Exemple de configuration
 
@@ -12362,6 +13291,8 @@ claude mcp add --help
 ```
 
 > **Source** : syntaxe CLI adaptée depuis [Shipyard Claude Code Cheat Sheet](https://shipyard.build/blog/claude-code-cheat-sheet/)
+
+<a id="831-mcp-secrets-management"></a>
 
 ### 8.3.1 Gestion des secrets MCP
 
@@ -12741,6 +13672,8 @@ claude
 
 Pour les déploiements en production, envisagez le [privilège permanent zéro](https://www.rkon.com/articles/mcp-server-security-navigating-the-new-ai-attack-surface/) où les serveurs MCP démarrent sans secrets et demandent des identifiants juste-à-temps lors de l'invocation des outils.
 
+<a id="84-server-selection-guide"></a>
+
 ## 8.4 Guide de sélection des serveurs
 
 ### Arbre de décision
@@ -12837,6 +13770,8 @@ Ticket de support reçu
 **Point clé** : Ce schéma (Claude Code comme orchestrateur opérationnel avec des adaptateurs MCP spécifiques au domaine) s'applique à toute équipe ops/support jonglant avec plusieurs systèmes déconnectés. Il se distingue de « Claude Code comme outil de développement » : ici Claude s'exécute dans un **workflow de production**, pas dans un IDE.
 
 > Source : [Blog Mergify : « How We Turned Claude Into a Cross-System Support Investigator »](https://mergify.com/blog/how-we-turned-claude-into-a-cross-system-support-investigator) (Julian Maurin, nov. 2025)
+
+<a id="85-plugin-system"></a>
 
 ## 8.5 Système de plugins
 
@@ -13403,6 +14338,8 @@ La variante session fraîche (même modèle, nouveau contexte via `claude -p`) v
 
 ---
 
+<a id="86-mcp-security"></a>
+
 ## 8.6 Sécurité MCP
 
 Les serveurs MCP étendent les capacités de Claude Code, mais ils élargissent également sa surface d'attaque. Avant d'installer un serveur MCP, en particulier ceux créés par la communauté, appliquez le même niveau de scrutin sécurité que vous utiliseriez pour n'importe quelle dépendance de code tierce partie.
@@ -13502,6 +14439,8 @@ claude
 **Bonne pratique** : auditez votre configuration MCP tous les trimestres. Supprimez les serveurs que vous n'utilisez pas activement.
 
 ---
+
+<a id="9-advanced-patterns"></a>
 
 # 9. Patterns avancés
 
@@ -13607,6 +14546,8 @@ Chaque pattern ci-dessous inclut :
 
 ---
 
+<a id="91-the-trinity"></a>
+
 ## 9.1 La Trinité
 
 Le pattern Claude Code le plus puissant combine trois techniques :
@@ -13622,7 +14563,7 @@ Le pattern Claude Code le plus puissant combine trois techniques :
 │          │                                              │
 │          ▼                                              │
 │   ┌─────────────┐                                       │
-│   │ Ext.Thinking│  Deep analysis (Opus 4.5/4.6, adaptive in 4.6) │
+│   │ Ext.Thinking│  Deep analysis (Opus 4.6+, adaptive thinking)  │
 │   └──────┬──────┘                                       │
 │          │                                              │
 │          ▼                                              │
@@ -13647,23 +14588,46 @@ Le pattern Claude Code le plus puissant combine trois techniques :
 
 ### Extended Thinking (Opus 4.5+) & Adaptive Thinking (Opus 4.6+)
 
-#### Thinking et effort
+Les versions figurant dans ce titre conservent les liens existants. Dans la gamme actuelle, Opus 5.5, Sonnet 5 et Fable 5.1 utilisent le raisonnement adaptatif. Haiku 4.5 prend en charge le thinking étendu, sans paramètre d'effort. [Caractéristiques des modèles](https://platform.claude.com/docs/en/models/overview).
 
-Opus 5.5, Sonnet 5 et Fable 5.1 utilisent le thinking adaptatif. Haiku 4.5 dispose du thinking étendu mais **pas du paramètre effort**.
+#### Adaptive Thinking (Opus 4.6+, including Opus 4.8)
 
-Les modèles adaptatifs actuels acceptent `low`, `medium`, `high`, `xhigh` et `max`. Opus 4.6 et Sonnet 4.6 acceptent `max`, mais pas `xhigh`.
+L'effort régit le raisonnement et peut modifier l'utilisation des outils, la longueur des réponses, la latence et le coût. Consultez le [tableau des niveaux d'effort](#effort-levels) : les modèles n'ont pas tous la même valeur par défaut. Opus 5.5 utilise `medium` ; Sonnet 5 et Fable 5.1 utilisent `high`.
 
-`/effort` enregistre les niveaux jusqu'à `xhigh` par modèle. **s** limite le choix à la session. `max` reste propre à la session ; `/effort auto` efface le choix enregistré pour le modèle actif.
+```python
+response = client.messages.create(
+    model="claude-opus-5-5",
+    max_tokens=16000,
+    thinking={"type": "adaptive"},
+    output_config={"effort": "high"},
+    messages=[{"role": "user", "content": "Analyze the failure modes."}],
+)
+```
 
-`Option+T` / `Alt+T` bascule le thinking si le modèle le permet. Ce raccourci n'a pas d'effet sur Opus 5.5 ou Fable, dont le thinking reste actif. Réduire plutôt l'effort pour une tâche bornée.
+Opus 4.7 et les versions suivantes, Sonnet 5 et Fable utilisent exclusivement le raisonnement adaptatif. `CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING` et un budget fixe `MAX_THINKING_TOKENS` ne s'y appliquent pas. Le commutateur de compatibilité avec un budget fixe reste propre à Opus 4.6 et Sonnet 4.6.
 
-`ultrathink` ajoute une consigne de réflexion sans changer l'effort API. `think hard` est du texte ordinaire.
+#### Contrôler le mode thinking {#controlling-thinking-mode}
 
-#### Décider sur des résultats mesurés
+| Contrôle | Comportement actuel |
+|---------|------------------|
+| `/effort` ou curseur `/model` | Choisir un effort pris en charge ; `Enter` l'enregistre par modèle, `s` l'applique à cette session |
+| `--effort high` | Définir l'effort de la session lancée |
+| `CLAUDE_CODE_EFFORT_LEVEL` | Remplacement explicite par variable d'environnement |
+| `modelSettings` / `effortLevel` | Les paramètres persistants prennent en charge `low` à `xhigh`, pas `max` |
+| `Option+T` / `Alt+T`, `/config`, `MAX_THINKING_TOKENS=0` | Peuvent désactiver le thinking sur les modèles compatibles ; aucun effet sur Opus 5.5 ou Fable |
+| `Ctrl+O` | Ouvrir le visualiseur de transcription ; l'affichage ne modifie pas la facturation |
 
-Évaluer Haiku sur les tâches bornées, Sonnet sur le travail courant, Opus ou Fable sur les cas difficiles. Comparer résultats acceptés, reprises, latence et coût total sur les mêmes tâches. Les coéquipiers peuvent utiliser des modèles différents.
+Les tokens de thinking sont facturés même lorsque leur affichage est replié ou masqué. Définissez `showThinkingSummaries: true` pour rendre les résumés complets accessibles dans la vue développée. [Contrôles du thinking](https://code.claude.com/docs/en/model-config#extended-thinking).
 
-Sources : [Configuration des modèles](https://code.claude.com/docs/en/model-config), [tarifs API](https://platform.claude.com/docs/en/about-claude/pricing).
+#### Référence des anciens mots-clés {#legacy-keywords-reference}
+
+`ultrathink` ajoute actuellement une consigne de raisonnement plus approfondi pour le tour. Il ne définit **pas** l'effort API à `max`. `think` et `think hard` sont du texte ordinaire dans le prompt. Pour choisir l'effort de façon déterministe, utilisez `/effort` ou `--effort`.
+
+#### Changements incompatibles de l'API (Opus 4.6) {#api-breaking-changes-opus-46}
+
+Le préremplissage assistant n'est pas pris en charge sur Opus 4.6. Consultez le guide de migration du modèle cible avant de réutiliser des exemples fondés sur ce préremplissage ; employez des instructions système, des exemples ou des sorties structurées prises en charge lorsque le préremplissage n'est pas disponible.
+
+Pour le mode rapide, utilisez une version d'Opus compatible et les [instructions actuelles de l'API](https://platform.claude.com/docs/en/build-with-claude/fast-mode). Dans Claude Code, `/fast` utilise Opus 5.5 par défaut depuis v2.1.280. Le tarif standard d'Opus 5.5 est de 4 $/20 $ par MTok, contre 8 $/40 $ en mode rapide. Le mode rapide des anciens Opus 5 et 4.8 coûte 10 $/50 $. La disponibilité, la prise en charge par les fournisseurs et la facturation en crédits d'usage sont distinctes du réglage de vitesse.
 
 ### Exemple : Utilisation de la Trinité
 
@@ -13685,6 +14649,8 @@ Ready to implement?
 You: [approuver le plan]
 Let's start with phase 1
 ```
+
+<a id="92-composition-patterns"></a>
 
 ## 9.2 Patrons de Composition
 
@@ -13751,6 +14717,8 @@ Pour les travaux critiques, combinez tout :
 4. Rev the Engine → Amélioration itérative
 5. Code Review Agent → Validation finale
 ```
+
+<a id="93-cicd-integration"></a>
 
 ## 9.3 Intégration CI/CD
 
@@ -14607,6 +15575,8 @@ exit 0
 
 > **Sources** : Schéma de compétence de déploiement Vercel documenté par la communauté (lobehub.com, haniakrim21) ; gestion des secrets multi-plateformes avec Infisical sur [infisical.com](https://infisical.com). Aucun flux de déploiement automatisé de bout en bout n'existe dans la communauté à la date de mars 2026, les éléments de base sont disponibles, mais le schéma de promotion du staging vers la production est quelque chose que chaque équipe assemble elle-même.
 
+<a id="94-ide-integration"></a>
+
 ## 9.4 Intégration avec les IDE
 
 ### Intégration avec VS Code
@@ -14691,6 +15661,8 @@ Si le fichier n'existe pas, le créer :
 ```powershell
 New-Item -Path $PROFILE -Type File -Force
 ```
+
+<a id="95-tight-feedback-loops"></a>
 
 ## 9.5 Boucles de retour rapides
 
@@ -14957,6 +15929,8 @@ claude --no-chrome       # disable for this session
 
 > Introduit dans la v2.0.72 sous le nom "Claude in Chrome Beta". Les flags `--chrome`/`--no-chrome` et la commande `/chrome` contrôlent l'intégration au navigateur. Cela est distinct du serveur MCP `claude-in-chrome`, qui est un mécanisme d'automatisation du navigateur différent.
 
+<a id="96-todo-as-instruction-mirrors"></a>
+
 ## 9.6 Les Todos comme Miroirs d'Instructions
 
 **Temps de lecture** : 5 minutes
@@ -15026,6 +16000,8 @@ Intégrez les contraintes directement dans les todos :
 - [ ] Tests: [attentes en matière de couverture de tests]
 - [ ] Docs: [si API publique]
 ```
+
+<a id="97-output-styles"></a>
 
 ## 9.7 Styles de Sortie
 
@@ -15220,514 +16196,293 @@ classDiagram
 3. **Dans docs/** : Générez un fichier architecture.md avec des diagrammes intégrés
 4. **Export** : Utilisez mermaid.live pour exporter en PNG/SVG pour les présentations
 
-I'll batch update all components. Here's my approach:
+## 9.8 Vibe Coding et squelettes de projets {#98-vibe-coding--skeleton-projects}
 
-1. Scanning src/components... found 12 files
-2. Pattern: Remove PropTypes import, add TypeScript interface
-3. Template (from Button.tsx):
-   - Remove: import PropTypes from 'prop-types'
-   - Add: interface Props { ... }
-   - Convert: component PropTypes.shape → TypeScript
-4. Applying to all 12 files
-5. Run typecheck to verify
-```
+**Temps de lecture** : 5 minutes
+**Niveau de compétence** : Mois 1
 
-> **Context management for batch operations**: Large batch operations can fill context quickly. If context exceeds 75% (visible in status bar), see the [§2.2 Fresh Context Pattern](#22-fresh-context-pattern) for /compact commands and session handoff strategies.
+### Vibe Coding {#vibe-coding}
 
----
+Le « Vibe Coding » consiste à prototyper rapidement par une conversation naturelle, en explorant les idées avant de s'engager dans l'implémentation.
 
-## 9.10 Scaffold-First Development (Horizontal-First Development)
+#### Quand pratiquer le Vibe Coding {#when-to-vibe-code}
 
-**Reading time**: 5 minutes
-**Skill level**: Month 1+
+- **Exploration initiale** : tester si une approche fonctionne
+- **Preuve de concept** : valider rapidement avant l'implémentation complète
+- **Apprentissage** : comprendre une nouvelle bibliothèque ou un nouveau pattern
 
-Build horizontally before vertically: scaffold the full structure first, then fill details.
-
-### The Horizontal Approach
-
-```
-WRONG (Vertical):           RIGHT (Horizontal):
-──────────────────         ─────────────────────────────
-1. UserService (100%)       1. UserService (scaffold)
-2. OrderService (100%)      2. OrderService (scaffold)
-3. PaymentService (100%)    3. PaymentService (scaffold)
-4. Integration (later)      4. Integration test (scaffold)
-                            5. Fill in details
-```
-
-### Scaffold-First Execution
+#### Session de Vibe Coding {#vibe-coding-session}
 
 ```markdown
-User: Let's build the order processing system scaffold:
-      - 4 services: Order, Payment, Inventory, Notification
-      - Don't implement logic, just:
-        a. Service files with method signatures
-        b. Interface definitions
-        c. Dependency injection setup
-        d. Integration test scaffold
+User: Let's explore how we could add real-time updates to the dashboard.
+      Don't write code yet, just brainstorm approaches.
 
-Claude: [Creates all 4 service scaffolds + integration tests]
-        All files created. Now pick one service to implement first.
+Claude: Here are three approaches we could consider:
+
+1. **WebSockets**: Full duplex, lowest latency
+   - Pro: Real-time push
+   - Con: Connection management complexity
+
+2. **Server-Sent Events (SSE)**: One-way server push
+   - Pro: Simple, native browser support
+   - Con: One direction only
+
+3. **Polling**: Periodic HTTP requests
+   - Pro: Simplest implementation
+   - Con: Not truly real-time, more server load
+
+User: Let's vibe on option 2. Show me a minimal SSE setup.
+
+Claude: [Provides minimal example for exploration]
 ```
 
-### Scaffold Template
+#### Règles du Vibe Coding {#vibe-coding-rules}
 
-```typescript
-// order.service.ts (scaffold)
-export class OrderService {
-  async createOrder(data: CreateOrderDto): Promise<Order> {
-    // TODO: Implement
-    throw new Error('Not implemented');
-  }
+1. **Pas de code de production** : il s'agit uniquement d'exploration
+2. **Jeter sans hésiter** : ne pas s'attacher au code exploratoire
+3. **Se concentrer sur l'apprentissage** : comprendre l'approche
+4. **Signaler clairement le statut** : « C'est du vibe code, pas du code de production »
 
-  async getOrder(id: string): Promise<Order> {
-    // TODO: Implement
-    throw new Error('Not implemented');
-  }
-}
-```
+#### Anti-pattern : surcharge du contexte {#anti-pattern-context-overload}
 
-### Fill Phase
+[Jens Rusitschka](https://kickboost.substack.com/p/are-you-still-vibe-coding-or-are) identifie la « surcharge du contexte » comme le principal mode d'échec du vibe coding : déverser des bases de code entières dans le contexte en espérant que Claude s'y retrouve.
 
-```markdown
-User: Now implement OrderService.createOrder():
-      1. Validate the order data
-      2. Check inventory availability
-      3. Reserve inventory
-      4. Create order record
-      5. Return order confirmation
+**Symptômes :**
 
-Claude: [Implements just this one method with full details]
-```
+- Coller plus de 5K lignes de code dans le premier prompt
+- « Lis tout le dépôt et implémente X »
+- Attendre de Claude qu'il conserve le contexte sur plus de 20 modifications de fichiers
+- Dégradation des performances après pollution du contexte (voir §2.2 Pattern de contexte neuf)
 
----
+**Pourquoi cela échoue :**
 
-## 9.11 Time-Boxing
+- Attention dispersée entre trop de fichiers et de sujets
+- Raisonnement architectural perdu dans le bruit
+- Accumulation des tentatives échouées, qui dégrade encore la qualité
+- Interférences de contexte entre des tâches sans rapport
 
-**Reading time**: 3 minutes
-**Skill level**: Week 1
+**Stratégie de contexte par phases :**
 
-Time-boxing prevents endless iteration and forces decisions.
+Au lieu de tout charger d'un coup, utilisez une **approche progressive** fondée sur les fonctionnalités natives de Claude Code :
 
-### Time-Box Structure
+| Phase | Outil | Objectif | Taille du contexte |
+|-------|-------|----------|--------------------|
+| 1. Exploration | Mode `/plan` | Analyse en lecture seule, investigation sûre | Maîtrisée (le plan consigne les observations) |
+| 2. Implémentation | Mode normal | Exécuter les modifications planifiées | Ciblée (le plan guide le périmètre) |
+| 3. Nouveau départ | Passation de session | Repartir à zéro lorsque le contexte dépasse 75% | Minimale (document de passation uniquement) |
 
-```
-Task: Add user authentication
-Time-box: 90 minutes
-
-00:00 - 20:00: Explore options with Claude
-20:00 - 60:00: Implement chosen approach
-60:00 - 80:00: Test and fix critical issues
-80:00 - 90:00: Document what was done
-```
-
-### Time-Box with Claude
-
-```markdown
-User: We have 90 minutes for authentication. I'm starting now.
-      At 20 min: We pick an approach (no more exploring)
-      At 60 min: We start testing (no more features)
-      At 80 min: We start documenting (no more fixing)
-
-Claude: Understood. Timer set. What auth options are on the table?
-```
-
-### When Time Runs Out
-
-```markdown
-User: We're at 90 minutes. We're at 75%.
-      Create a status document: what's done, what's left, next steps.
-
-Claude: Status document created:
-        DONE: Basic login/register, JWT tokens
-        REMAINING: Password reset, 2FA
-        NEXT SESSION: Start with password reset
-```
-
----
-
-## 9.12 Advanced Context Management
-
-**Reading time**: 12 minutes
-**Skill level**: Month 2+
-
-### Understanding Context Window Mechanics
-
-Claude Code's effectiveness is directly correlated with how well you manage the context window. Unlike human memory, context has hard limits and predictable degradation patterns.
-
-**Context Anatomy:**
-```
-[System Prompt] [CLAUDE.md] [Conversation] [Tool Results] [Working Memory]
-     ~2K            ~5K        grows...       per tool        per task
-```
-
-**Degradation curve:**
-```
-0-40% full   → Peak performance
-40-70% full  → Slight degradation, can recover
-70-85% full  → Noticeable quality drop, use /compact
-85-95% full  → Significant degradation, consider new session
-95-100% full → Emergency: create handoff, start fresh
-```
-
-> Claude Code displays current context usage in the status bar. Watch for yellow/red indicators.
-
-### The /compact Command
-
-`/compact` summarizes conversation history while preserving key information:
-
-```
-Before /compact:
-[10,000 tokens of conversation]
-
-After /compact:
-[2,000 token summary] ← Keeps: decisions, code state, next steps
-                      ← Drops: exploration, failed attempts, repetition
-```
-
-**When to use /compact:**
-
-```
-Trigger                    Action
-─────────────────────────────────────────
-Context > 70%              /compact
-Before major new phase     /compact  
-After long debugging       /compact
-Before switching features  /compact
-```
-
-**What /compact preserves:**
-- Current file states and recent changes
-- Key architectural decisions made
-- Open issues and TODOs
-- Next planned steps
-- Error states being debugged
-
-**What gets dropped:**
-- Exploration paths not taken
-- Failed approaches
-- Verbose outputs
-- Repeated information
-
-### Custom /compact Instructions
-
-You can guide what /compact preserves:
-
-```markdown
-User: /compact Focus on: the auth refactoring we just completed,
-      the three bugs we fixed, and the next step (payment integration).
-      Drop all the exploration of the JWT options we didn't choose.
-```
-
-### Context Preservation Strategies
-
-#### Strategy 1: Periodic Checkpoints
-
-```markdown
-# Every ~30 minutes, create a checkpoint:
-User: Create a context checkpoint. List:
-      1. Files modified so far
-      2. Key decisions made  
-      3. Current working state
-      4. Next 3 steps
-
-Claude: [Creates checkpoint in .claude/checkpoints/2024-01-15-14-30.md]
-```
-
-#### Strategy 2: Parallel Session Management
+**Workflow pratique :**
 
 ```bash
-# Session A: Feature work
-claude-code --session feature-auth
+# Phase 1: Exploration (read-only, safe)
+/plan
+You: "How should I refactor the auth system for OAuth?"
+Claude: [explores codebase, writes plan to .claude/plans/oauth-refactor.md]
+[approve the plan, or Shift+Tab]  # exit plan mode
 
-# Session B: Bug fixes (separate context)  
-claude-code --session bugfix-payment
+# Phase 2: Implementation (focused context)
+You: "Execute the plan from .claude/plans/oauth-refactor.md"
+Claude: [reads plan, implements in focused scope]
 
-# Session C: Review/documentation
-claude-code --session docs-update
+# Phase 3: Fresh start if needed (context >75%)
+You: "Create session handoff document"
+Claude: [writes handoff to claudedocs/handoffs/oauth-implementation.md]
+# New session: cat claudedocs/handoffs/oauth-implementation.md | claude -p
 ```
 
-#### Strategy 3: Context Budget Allocation
+**Références croisées :**
 
-```
-Task Budget (100K context window):
-├── System/CLAUDE.md: 5K (non-negotiable)
-├── Core files: 15K (key files for task)
-├── Working space: 60K (conversation + tools)  
-└── Buffer: 20K (unexpected needs)
-```
+- Workflow `/plan` complet : voir [§2.3 Mode plan](#23-plan-mode) (ligne 2100)
+- Pattern de contexte neuf : voir [§2.2 Pattern de contexte neuf](#fresh-context-pattern-ralph-loop)
+- Passations de session : voir [Passations de session](#session-handoff-pattern)
 
-### CLAUDE.md as Persistent Memory
+Le « Vibe Coding, Level 2 » de Rusitschka correspond au workflow natif de Claude Code ; il suffit de le présenter explicitement comme une réponse à cet anti-pattern. Le mode plan évite la pollution du contexte pendant l'exploration, le contexte neuf évite l'accumulation pendant l'implémentation, et les passations permettent des transitions propres entre les phases.
 
-CLAUDE.md survives context resets, it's loaded fresh each session:
+### Lutter contre la dégradation du vibe code {#fighting-vibe-code-degradation}
 
-```markdown
-# Project Intelligence (CLAUDE.md)
+Le vibe coding permet de construire vite. Les bases de code qu'il produit ont tendance à se dégrader de manière peu visible : les abstractions dérivent, le nommage devient incohérent, les erreurs sont gérées de trois façons différentes. Le code fonctionne encore, mais y travailler devient progressivement plus difficile.
 
-## Architecture Decisions
-- We use repository pattern (not service layer direct DB access)
-- All async operations must handle errors explicitly
-- TypeScript strict mode enabled
+Le « slop », terme [introduit par Simon Willison](https://simonwillison.net/2024/May/8/slop/) en 2024 pour désigner le contenu IA non souhaité et non relu, est le problème de qualité que le vibe coding à grande échelle produit inévitablement.
 
-## Active Work
-- Currently: Refactoring auth to OAuth
-- Blocked on: AWS credentials for staging
-- Next: Payment service integration
-
-## Known Issues
-- UserService.findByEmail() has N+1 query (fix ticket #234)
-- Tests skip the payment module (temporary, fix this sprint)
-```
-
-### Advanced: Multi-Agent Context Management
-
-For large tasks, distribute context across specialized agents:
-
-```
-Main Agent (Coordinator)
-├── Reads: CLAUDE.md + task definition
-├── Delegates: "Research agent, analyze current auth system"
-│   └── Research Agent: Focused on analysis only
-├── Delegates: "Implementation agent, implement OAuth flow"
-│   └── Implementation Agent: Focused on code only  
-└── Synthesizes: Combines outputs into coherent result
-```
-
-### Context Recovery Protocols
-
-When context degrades severely:
-
-```markdown
-# Emergency Recovery Protocol
-User: Our context is degraded. Before we continue:
-      1. What is the current state of the auth system?
-      2. What was the last thing we successfully completed?
-      3. What specific file are we working on?
-      4. What's the exact next step?
-
-Claude: [Reconstructs working state from context artifacts]
-
-User: Good. Create a fresh session handoff document, 
-      then we'll start a new session.
-```
-
-### Context Anti-Patterns
-
-| Anti-Pattern | Problem | Solution |
-|--------------|---------|----------|
-| "Read all 50 files" | Fills context immediately | Use /plan to explore, then focus |
-| Debugging loops | Failed attempts accumulate | /compact or fresh session after 3 fails |
-| Pasting logs (1000+ lines) | Log noise dominates | Extract just relevant lines |
-| Never /compact | Gradual degradation | /compact at 70% |
-| **Plusieurs sessions** | Le mode serveur accepte `--spawn` et `--capacity` ; les limites dépendent de la configuration |
-
----
-
-## 9.13 Debugging Patterns & Rubber Duck Debugging
-
-**Reading time**: 10 minutes
-**Skill level**: Week 2+
-
-### Structured Debugging Protocol
-
-Claude is exceptionally effective at debugging when given structured information. The key is providing the right context, not everything, just the right things.
-
-#### The Debugging Template
-
-```markdown
-## Bug Report
-
-**What should happen:**
-[Expected behavior]
-
-**What actually happens:**
-[Actual behavior with error message]
-
-**Minimal reproduction:**
-[Smallest code that shows the problem]
-
-**What I've tried:**
-[Previous attempts to fix]
-
-**Environment:**
-[Node version, OS, relevant dependencies]
-```
-
-#### Example: Effective Bug Report
-
-```markdown
-User: ## Bug Report
-
-**What should happen:**
-POST /api/users should return 201 with user object
-
-**What actually happens:**
-Returns 500: "Cannot read property 'id' of undefined"
-
-**Minimal reproduction:**
-```javascript
-const user = await UserService.create({ email: 'test@test.com' });
-console.log(user.id); // undefined
-```
-
-**What I've tried:**
-- Verified database connection works
-- Logger shows UserService.create() is called
-- User appears in DB after the call
-
-**Environment:**
-Node 18.12, PostgreSQL 14, TypeORM 0.3
-```
-
-### Rubber Duck Debugging with Claude
-
-The "rubber duck" technique (explaining your problem to an inanimate listener) works because articulation reveals issues. Claude is an active rubber duck that can ask clarifying questions.
-
-```markdown
-User: Let me rubber-duck this bug. The payment webhook is 
-      failing intermittently. About 1 in 50 webhooks fails 
-      with "signature invalid". 
-      
-      The webhook comes in → we get the raw body → we verify 
-      signature → sometimes fails.
-      
-      Wait, I said "raw body"... do we actually get the raw 
-      body or does something parse it first?
-
-Claude: That's the key question. Express middleware that parses 
-        JSON modifies the body buffer. If anything touches 
-        req.body before your signature verification, the raw 
-        body is gone.
-        
-        Check: is your signature verification middleware 
-        registered before the JSON parser?
-```
-
-### Binary Search Debugging
-
-For complex bugs:
-
-```markdown
-User: Auth is broken somewhere in this 300-line middleware chain.
-      Let's binary search it.
-
-Claude: Put a log at line 150. If auth fails before that log 
-        appears, the issue is in lines 1-149. If it appears, 
-        the issue is in 151-300.
-
-User: Log appeared. So lines 151-300.
-
-Claude: Put a log at line 225...
-```
-
-### Debugging Anti-Patterns
-
-```markdown
-❌ "Nothing is working" (too vague)
-✅ "The login button doesn't respond to clicks on mobile Safari 16"
-
-❌ "Fix this code" (dumps 500 lines)  
-✅ "This function returns null on the second call" (minimal case)
-
-❌ "Why does this fail?" (with no error message)
-✅ "Getting: TypeError: Cannot read property 'map' of undefined
-    At: src/components/UserList.tsx:23"
-```
-
----
-
-## 9.14 Code Review Patterns
-
-**Reading time**: 5 minutes
-**Skill level**: Week 2+
-
-### Types of Review
-
-Request the right review type:
-
-```markdown
-# Security review
-User: Review this for security issues only. Focus on:
-      input validation, auth checks, SQL injection, data exposure
-
-# Performance review  
-User: Review this for performance. Focus on:
-      N+1 queries, inefficient algorithms, memory leaks
-
-# Architecture review
-User: Review the overall design. Focus on:
-      separation of concerns, coupling, extensibility
-
-# Readability review
-User: Review for readability and maintainability.
-      Assume a junior dev inheriting this code.
-```
-
-### The Review Ritual
-
-```markdown
-User: Before I submit this PR, do a review ritual:
-      1. What does this code actually do? (summarize)
-      2. What could go wrong? (risks)
-      3. What's missing? (gaps)
-      4. What would make this better? (improvements)
-
-Claude: [Structured review following this format]
-```
-
-### Review Depth Levels
-
-```
-Level 1 (Quick): "Any obvious issues?"
-Level 2 (Standard): "Review for correctness and security"
-Level 3 (Deep): "Assume this will be maintained for 5 years"
-Level 4 (Adversarial): "Try to break this code. Find every edge case."
-```
-
-## Requête Batch Efficace
-
-"Appliquer ce motif de modification à tous les fichiers correspondants :
-
-**Motif** : Ajouter la directive 'use client' aux composants utilisant des hooks
-**Portée** : src/components/**/*.tsx
-**Règle** : Si le fichier contient useState, useEffect, ou useContext
-**Modification** : Ajouter 'use client' comme première ligne
-
-Lister d'abord les fichiers concernés, puis effectuer les modifications."
-```
-
-### Automatisation Batch macOS : Shell + AppleScript
-
-Les opérations batch vont au-delà des modifications de code. Le même motif s'applique aux pipelines de conversion de fichiers en utilisant les outils natifs macOS, sans dépendances externes.
-
-**Cas d'usage** : Convertir un dossier de présentations PPTX en PDF avec Keynote.
+**Desloppify** ([github.com/peteromallet/desloppify](https://github.com/peteromallet/desloppify)) est un outil communautaire qui s'attaque directement à ce problème. Il installe un guide de workflow dans Claude Code sous forme de skill, puis exécute une boucle de corrections priorisées : analyser → obtenir le problème suivant → corriger → marquer comme résolu → recommencer jusqu'à atteindre le score de qualité visé. Le score est conçu pour résister aux manipulations : l'améliorer exige d'améliorer réellement le code.
 
 ```bash
-# Prérequis : macOS + Keynote installé. Pas de LibreOffice, pas de Python.
-./pptx-to-pdf.sh ~/Downloads/Prose   # récursif, traite tous les sous-répertoires
+pip install --upgrade "desloppify[full]"
+desloppify update-skill claude   # installs workflow as a Claude Code skill
+
+# Before scanning: exclude generated files, build output, vendored code
+desloppify exclude node_modules
+desloppify exclude .next
+
+desloppify scan --path .
+desloppify next                  # get first prioritized fix
+# fix it, then:
+desloppify resolve <issue-id>
+desloppify next                  # repeat
+```
+
+La boucle traite les problèmes mécaniques (code mort, duplication, complexité) et structurels (clarté du nommage, conception des abstractions, frontières des modules). Un score supérieur à 98 est censé correspondre à ce qu'un ingénieur senior qualifierait de base de code propre.
+
+> **Statut** : Projet récent (publié en février 2026, environ 2K étoiles GitHub ; 2 996 au 2026-07-27). L'intégration native à Claude Code est prometteuse, mais n'a pas encore fait ses preuves à grande échelle. Évaluez le coût en tokens avant de l'exécuter sur de grandes bases de code : une revue LLM en plusieurs passes sur l'ensemble d'une base peut coûter cher.
+
+---
+
+### Squelettes de projets {#skeleton-projects}
+
+Les squelettes de projets sont des modèles minimaux et fonctionnels qui établissent les patterns avant l'implémentation complète.
+
+#### Structure du squelette {#skeleton-structure}
+
+```
+project/
+├── src/
+│   ├── index.ts           # Entry point (working)
+│   ├── config.ts          # Config structure (minimal)
+│   ├── types.ts           # Core types (defined)
+│   └── features/
+│       └── example/       # One working example
+│           ├── route.ts
+│           ├── service.ts
+│           └── repo.ts
+├── tests/
+│   └── example.test.ts    # One working test
+└── package.json           # Dependencies defined
+```
+
+#### Principes du squelette {#skeleton-principles}
+
+1. **Il doit fonctionner** : `pnpm dev` fonctionne dès le premier jour
+2. **Une tranche verticale complète** : toute la stack pour une fonctionnalité
+3. **Des patterns, pas des fonctionnalités** : montrer COMMENT, pas QUOI
+4. **Dépendances minimales** : uniquement ce qui est nécessaire
+
+#### Créer un squelette {#creating-a-skeleton}
+
+```markdown
+User: Create a skeleton for our new microservice. Include:
+      - Express setup
+      - One complete route (health check)
+      - Database connection pattern
+      - Test setup
+      - Docker configuration
+
+Claude: [Creates minimal, working skeleton with these elements]
+```
+
+#### Développer le squelette {#skeleton-expansion}
+
+```
+Skeleton (Day 1)     →    MVP (Week 1)    →    Full (Month 1)
+────────────────────────────────────────────────────────────
+1 route              →    5 routes        →    20 routes
+1 test               →    20 tests        →    100+ tests
+Basic config         →    Env-based       →    Full config
+Local DB             →    Docker DB       →    Production DB
+```
+
+## 9.9 Pattern d'opérations par lots {#99-batch-operations-pattern}
+
+**Temps de lecture** : 5 minutes
+**Niveau de compétence** : Semaine 1+
+
+Les opérations par lots améliorent l'efficacité et réduisent l'usage du contexte lorsqu'on applique des modifications similaires à plusieurs fichiers. Pour réduire le coût du traitement en volume via l'API, l'API Message Batches d'Anthropic (`client.messages.batches`) traite jusqu'à 100 requêtes de façon asynchrone pour 50% du coût synchrone (voir la [section Patterns API](https://platform.claude.com/docs/en/build-with-claude/batch-processing) pour son utilisation complète).
+
+### Quand utiliser les lots {#when-to-batch}
+
+| Scénario | Par lot ? | Pourquoi |
+|----------|-----------|----------|
+| Même modification dans au moins 5 fichiers | ✅ Oui | Efficacité |
+| Modifications liées dans 3 fichiers | ✅ Oui | Cohérence |
+| Corrections sans rapport | ❌ Non | Risque d'erreurs |
+| Refactoring complexe | ⚠️ Peut-être | Dépend du pattern |
+
+### Patterns de traitement par lots {#batch-patterns}
+
+#### 1. Mise à jour des imports {#1-import-updates}
+
+```markdown
+User: Update all files in src/components to use the new Button import:
+      - Old: import { Button } from "~/ui/button"
+      - New: import { Button } from "~/components/ui/button"
+```
+
+#### 2. Migration d'API {#2-api-migration}
+
+```markdown
+User: Migrate all API calls from v1 to v2:
+      - Change: /api/v1/* → /api/v2/*
+      - Update response handling for new format
+      - Files: src/services/*.ts
+```
+
+#### 3. Application d'un pattern {#3-pattern-application}
+
+```markdown
+User: Add error boundaries to all page components:
+      - Wrap each page export with ErrorBoundary
+      - Use consistent error fallback
+      - Files: src/pages/**/*.tsx
+```
+
+### Stratégie d'exécution par lots {#batch-execution-strategy}
+
+```
+1. Identify scope   → List all affected files
+2. Define pattern   → Exact change needed
+3. Create template  → One example implementation
+4. Batch apply      → Apply to all files
+5. Verify all       → Run tests, typecheck
+```
+
+### Traitement par lots avec Claude {#batch-with-claude}
+
+```markdown
+## Effective Batch Request
+
+"Apply this change pattern to all matching files:
+
+**Pattern**: Add 'use client' directive to components using hooks
+**Scope**: src/components/**/*.tsx
+**Rule**: If file contains useState, useEffect, or useContext
+**Change**: Add 'use client' as first line
+
+List affected files first, then make changes."
+```
+
+### Automatisation par lots sur macOS : Shell + AppleScript {#macos-batch-automation-shell--applescript}
+
+Les opérations par lots s'étendent au-delà des modifications de code. Le même pattern s'applique aux pipelines de conversion de fichiers avec les outils natifs de macOS, sans dépendance externe.
+
+**Cas d'usage** : convertir un dossier de présentations PPTX en PDF avec Keynote.
+
+```bash
+# Requirements: macOS + Keynote installed. No LibreOffice, no Python.
+./pptx-to-pdf.sh ~/Downloads/Prose   # recursive, processes all subdirectories
 ```
 
 Le script ([`examples/scripts/pptx-to-pdf.sh`](../examples/scripts/pptx-to-pdf.sh)) :
-- Trouve tous les fichiers `.pptx` récursivement dans le dossier cible
-- Ignore les fichiers pour lesquels un `.pdf` existe déjà (idempotent, sûr à relancer)
-- Ouvre chaque fichier via le shell, exporte en PDF via AppleScript, puis ferme Keynote
-- Affiche un résumé de tous les PDFs générés à la fin
 
-**Point critique** : ouvrir via le shell, pas via AppleScript
+- Trouve récursivement tous les fichiers `.pptx` du dossier cible
+- Ignore les fichiers dont le `.pdf` existe déjà (idempotent, peut être relancé sans risque)
+- Ouvre chaque fichier via le shell, exporte en PDF via AppleScript, puis ferme Keynote
+- Affiche à la fin un récapitulatif de tous les PDF générés
+
+**Piège à connaître : ouvrir via le shell, pas via AppleScript** :
 
 L'approche intuitive échoue :
+
 ```applescript
--- Déclenche l'erreur -1719 "Index non valable" sur ~12% des fichiers
+-- This triggers error -1719 "Index non valable" on ~12% of files
 tell application "Keynote" to open pptx_file
--- document 1 est parfois vide, AppleScript lève une exception à l'accès
+-- document 1 is sometimes empty, AppleScript throws on access
 ```
 
-Le correctif : utiliser `open -a "Keynote" "$pptx"` depuis le shell *avant* le bloc AppleScript, avec un `sleep` de 8 secondes pour laisser Keynote enregistrer pleinement le document. Quand Keynote ouvre un fichier via sa propre commande `open`, il ne l'ajoute pas toujours à la liste `documents`. Quand le shell lui transmet un chemin via `open -a`, il le fait.
+La correction consiste à utiliser `open -a "Keynote" "$pptx"` depuis le shell *avant* le bloc AppleScript, avec une pause de 8 secondes pour laisser Keynote enregistrer complètement le document. Lorsque Keynote ouvre un fichier par sa propre commande `open`, il ne l'ajoute pas toujours à la liste `documents`. Lorsque le shell lui transmet le chemin avec `open -a`, il le fait.
 
 ```bash
-# Motif correct
-open -a "Keynote" "$pptx"   # ouverture via le shell
-sleep 8                      # attendre que Keynote enregistre le document
+# Correct pattern
+open -a "Keynote" "$pptx"   # shell open
+sleep 8                      # wait for Keynote to register the document
 
 osascript << EOF
 tell application "Keynote"
@@ -15739,7 +16494,11 @@ end tell
 EOF
 ```
 
-Ce motif shell-open-puis-AppleScript se généralise à toute application macOS qui supporte les scripts mais dont l'enregistrement de document via sa propre commande `open` est peu fiable.
+Ce même pattern, ouverture par le shell puis AppleScript, s'applique à toute application macOS prenant en charge les scripts mais dont l'enregistrement des documents via sa propre commande `open` est peu fiable.
+
+
+
+<a id="910-continuous-improvement-mindset"></a>
 
 ## 9.10 État d'Esprit d'Amélioration Continue
 
@@ -15794,6 +16553,8 @@ C'est la méta-compétence : au lieu de corriger du code, **corriger le système
 > Inspiré par [Nick Tune's Coding Agent Development Workflows](https://medium.com/nick-tune-tech-strategy-blog/coding-agent-development-workflows-af52e6f912aa)
 
 > **Voir aussi** : [§2.5 From Chatbot to Context System](#from-chatbot-to-context-system), le cadre à quatre couches (CLAUDE.md, skills, hooks, mémoire) qui rend cette mentalité opérationnelle.
+
+<a id="911-common-pitfalls--best-practices"></a>
 
 ## 9.11 Pièges Courants & Bonnes Pratiques
 
@@ -16262,6 +17023,8 @@ L'équipe passe de 3 à 10 instances Claude :
 
 ---
 
+<a id="912-git-best-practices--workflows"></a>
+
 ## 9.12 Bonnes pratiques Git & flux de travail
 
 Flux de travail Git efficaces avec Claude Code pour le développement professionnel.
@@ -16279,7 +17042,7 @@ git commit -m "feat: add user authentication middleware
 - Add session management
 - Create auth error handling
 
-Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>"
 ```
 
 #### Standards d'attribution de l'IA
@@ -16321,7 +17084,7 @@ git commit -m "feat: implement user login endpoint [AUTH-42]
 - Generate JWT tokens
 - Return user profile on success
 
-Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>"
 ```
 
 ### Flux de travail Git Amend
@@ -16958,11 +17721,12 @@ grep -r "PaymentService\|billing/" src/ --include="*.ts" -l
 # Chevauchement détecté ? Les séquencer.
 ```
 
-Dans l'API Tasks, définissez `blockedBy` pour les tâches qui dépendent de l'achèvement d'autres :
+Dans l'API Tasks, créez d'abord les tâches, puis ajoutez les dépendances avec `TaskUpdate` à partir de leurs identifiants :
 
-```json
-// Task B cannot start until Task A merges
-TaskCreate("Implement payment service", { blockedBy: ["task-a-id"] })
+```text
+Create task A: implement and merge the auth change.
+Create task B: implement the payment service.
+Use TaskUpdate to make B depend on A using their returned IDs.
 ```
 
 **Matrice de décision** :
@@ -16981,6 +17745,8 @@ TaskCreate("Implement payment service", { blockedBy: ["task-a-id"] })
 > **Note** : La détection automatique complète des dépendances (où le système infère quelles tâches entrent en conflit) n'existe pas dans Claude Code ni dans l'écosystème plus large à partir de mars 2026. Les approches ci-dessus représentent l'état de l'art pratique.
 
 ---
+
+<a id="913-cost-optimization-strategies"></a>
 
 ## 9.13 Stratégies d'Optimisation des Coûts
 
@@ -17013,6 +17779,8 @@ Shift+Tab
 You: "Implement the caching layer following the plan"
 # Sonnet exécute le plan à moindre coût
 ```
+
+<a id="token-saving-techniques"></a>
 
 ### Techniques d'Économie de Tokens
 
@@ -17203,7 +17971,9 @@ Se déclenche également automatiquement sur des phrases comme « sois bref » o
 
 ### Optimisation de la Sortie des Commandes avec RTK
 
-**RTK (Rust Token Killer)** filtre les sorties des commandes bash **avant** qu'elles n'atteignent le contexte de Claude, atteignant une réduction de tokens de 60-90% à travers les flux de travail git, de test et de développement. 73 531 étoiles, 4 597 forks au 27/07/2026 (contre 446 étoiles, 38 forks auparavant), 700+ votes positifs sur r/ClaudeAI.
+**RTK (Rust Token Killer)** filtre les sorties des commandes avant qu'elles n'atteignent le modèle. Les réductions rapportées concernent les sorties shell traitées, pas la session entière ou la facture. `rtk gain` utilise des estimations locales de tokens ; comptabilisez séparément les reprises et les résultats des tâches.
+
+Pour des hooks, la navigation dans le code et l'interception MCP plus larges, voir la [comparaison Tokenade et les limites des preuves](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ecosystem/third-party-tools.md#tokenade). Elle présente une alternative propriétaire avec des résultats de benchmark maintenus par son éditeur, pas une recommandation universelle de remplacement.
 
 **Dépôt :** [rtk-ai/rtk](https://github.com/rtk-ai/rtk) | **Site web :** [rtk-ai.app](https://www.rtk-ai.app/)
 
@@ -17211,30 +17981,21 @@ Se déclenche également automatiquement sur des phrases comme « sois bref » o
 
 ```bash
 # Option 1 : Homebrew (macOS/Linux)
-brew install rtk-ai/tap/rtk
+brew install rtk
 
 # Option 2 : Cargo (toutes plateformes)
-cargo install rtk
+cargo install --git https://github.com/rtk-ai/rtk
 
 # Option 3 : Script d'installation
-curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/master/install.sh | bash
 
 # Vérifier l'installation
 rtk --version  # v0.28.0+
 ```
 
-**Économies de tokens prouvées (benchmarkées sur des sorties réelles) :**
+**Mesurez l'effet sur votre travail :**
 
-| Commande | Référence | RTK | Réduction |
-|----------|-----------|-----|-----------|
-| `rtk git log` | 13 994 caractères | 1 076 caractères | **92,3%** |
-| `rtk git status` | 100 caractères | 24 caractères | **76,0%** |
-| `rtk git diff` | 15 815 caractères | 6 982 caractères | **55,9%** |
-| `rtk vitest run` | ~50 000 caractères | ~5 000 caractères | **90,0%** |
-| `rtk pnpm list` | ~8 000 caractères | ~2 400 caractères | **70,0%** |
-| `rtk cat CHANGELOG.md` | 163 587 caractères | 61 339 caractères | **62,5%** |
-
-**Moyenne : réduction de tokens de 60-90% selon les commandes**
+Comparez des commandes équivalentes sur le même état du dépôt et conservez les sorties brutes pour le diagnostic. `rtk gain` rapporte des estimations sur les sorties shell filtrées, sans mesurer l'économie sur la facture totale. Une sortie `git log` ou des logs de tests plus courts ne prouvent pas une réduction universelle de la session. Voir [comment RTK mesure les économies](https://github.com/rtk-ai/rtk#how-savings-work).
 
 **Fonctionnalités clés (v0.28.0) :**
 
@@ -17250,7 +18011,7 @@ rtk pnpm list            # Arbre de dépendances optimisé
 rtk prisma migrate status # État des migrations filtré
 
 # Python
-rtk python pytest        # Sortie de test Python condensée
+rtk pytest        # Sortie de test Python condensée
 rtk mypy                 # Erreurs de type groupées par fichier
 
 # Go
@@ -17291,14 +18052,9 @@ rtk rewrite <cmd>        # Source unique de vérité pour les réécritures de h
 rtk verify               # Valider les règles de filtre TOML
 ```
 
-**Impact dans le monde réel :**
+**Mesurez l'effet sur votre travail :**
 
-```
-Session Claude Code de 30 minutes :
-- Sans RTK : ~150K tokens (10-15 commandes git @ ~10K tokens chacune)
-- Avec RTK : ~41K tokens (10-15 commandes git @ ~2,7K tokens chacune)
-- Économies : 109K tokens (réduction de 72,6%)
-```
+Comparez des sorties brutes et filtrées représentatives, puis consultez `rtk gain` pour sa réduction estimée. L'estimation de tokens fondée sur les octets de RTK n'est ni le comptage du fournisseur ni une mesure de réduction de la facture entière. Conservez les sorties brutes lorsque le filtrage masque des éléments utiles au diagnostic.
 
 **DSL de filtre TOML (v0.28.0, ajouter des filtres sans écrire de Rust) :**
 
@@ -17331,9 +18087,9 @@ Débogage : `RTK_NO_TOML=1` contourne tous les filtres TOML. `RTK_TOML_DEBUG=1` 
    ## Optimisation des tokens
 
    Utiliser RTK pour toutes les commandes supportées :
-   - `rtk git log` (réduction de 92,3%)
-   - `rtk git status` (réduction de 76,0%)
-   - `rtk git diff` (réduction de 55,9%)
+   - `rtk git log`
+   - `rtk git status`
+   - `rtk git diff`
    ```
 
 3. **Skill** (suggestion automatique) :
@@ -17358,7 +18114,7 @@ exclude_commands = ["my-interactive-tool", "fzf"]  # Ne jamais réécrire ceux-c
 Après mise à jour depuis v0.24.0 ou antérieur, exécutez `rtk init --global` pour installer le nouveau hook délégateur léger. L'ancien hook fonctionne toujours, mais ne récupèrera pas automatiquement les nouveaux mappings de commandes.
 
 ```bash
-cargo install rtk          # Mettre à jour le binaire
+cargo install --git https://github.com/rtk-ai/rtk          # Mettre à jour le binaire
 rtk init --global          # Remplacer le hook par le délégateur léger
 ```
 
@@ -17505,7 +18261,7 @@ client = anthropic.Anthropic()
 
 # Suivre les dépenses
 response = client.messages.create(
-    model="claude-sonnet-4-5",
+    model="claude-sonnet-5",
     max_tokens=1024,
     messages=[...],
     metadata={
@@ -17618,15 +18374,15 @@ Total sortie : 2 500 tokens
 Coût total par requête : (26 000 + 2 500) tokens × prix du modèle
 ```
 
-**Tarification Sonnet (approximative) :**
-- Entrée : 3 $ par million de tokens
-- Sortie : 15 $ par million de tokens
+**Tarification Sonnet 5 (vérifiée le 24 septembre 2026) :**
+- Entrée : 2 $ par million de tokens
+- Sortie : 10 $ par million de tokens
 
 **Coût par session :**
 ```
-Entrée : 26 000 × $3 / 1 000 000 = $0,078
-Sortie : 2 500 × $15 / 1 000 000 = $0,0375
-Total : ~$0,12 par interaction
+Entrée : 26 000 × $2 / 1 000 000 = $0,052
+Sortie : 2 500 × $10 / 1 000 000 = $0,025
+Total : ~$0,08 par interaction
 ```
 
 ### Liste de Contrôle d'Optimisation des Coûts
@@ -17754,6 +18510,8 @@ Les gains de temps liés à une utilisation efficace de Claude Code dépassent g
 - Fonctionnalités urgentes
 - Apprentissage et expérimentation
 - Décisions architecturales complexes
+
+<a id="the-interactiveprogrammatic-billing-split-effective-june-15-2026"></a>
 
 ### La Séparation Facturation Interactive/Programmatique (Effective le 15 juin 2026)
 
@@ -17889,7 +18647,7 @@ Six leviers permettent de contrôler les coûts des LLM. Certains sont directeme
 | Surveillance des coûts | Commande `/cost`, CLI `ccusage`, tableau de bord des crédits d'abonnement | Tableau de bord Anthropic Console, suivi des dépenses par appel | §9.13 ci-dessus |
 | Compression des sorties | Skill Caveman (réduction de 65-75% de la prose), RTK pour la sortie CLI | Ingénierie des prompts, gestion des réponses en streaming | §9.13 Caveman + RTK |
 | Routage de modèle | `/model opusplan`, `model:` dans le frontmatter des agents, `haiku` pour les tâches mécaniques | RouteLLM (85% d'appels en moins vers le modèle de premier niveau sur MT-Bench, arXiv 2406.18665) | [§2.5 Sélection du modèle](#25-model-selection--thinking-guide) |
-| Mise en cache des prompts | Automatique pour les préfixes de contexte stables (Anthropic met en cache les préfixes répétés de manière transparente) | Points d'arrêt `cache_control` dans les requêtes API ; jusqu'à 90% d'économies sur le contexte répété | [§2.2 Gestion des tokens](#22-token-usage--context-management) |
+| Mise en cache des prompts | Automatique pour les préfixes de contexte stables (Anthropic met en cache les préfixes répétés de manière transparente) | Points d'arrêt `cache_control` dans les requêtes API ; jusqu'à 90% d'économies sur le contexte répété | [§2.2 Gestion des tokens](#22-context-management) |
 | Traitement par lots | Non disponible dans les sessions interactives de Claude Code | Message Batches API : 50% moins cher, asynchrone, fenêtre de 24 heures, jusqu'à 100 requêtes par lot | [core/architecture.md, Message Batches API](./core/architecture.md#message-batches-api) |
 | Pré-indexation sémantique | MCP grepai, lean-ctx, stacklit | Semble (CPU uniquement, sans Ollama, serveur MCP natif) | mcp-servers-ecosystem.md, context-engineering-tools.md |
 
@@ -17898,6 +18656,8 @@ Six leviers permettent de contrôler les coûts des LLM. Certains sont directeme
 **Sur le traitement par lots** : La [Message Batches API](./core/architecture.md#message-batches-api) est le levier à plus fort effet de levier pour les pipelines automatisés (classification nocturne, analyse de documents en masse, extraction de données à grande échelle). Non applicable à un usage interactif. Si vous exécutez `claude -p` en CI/CD à volume, évaluez la Batches API avant la séparation de facturation programmatique du 15 juin, qui sépare les coûts d'usage interactif et programmatique.
 
 ---
+
+<a id="914-development-methodologies"></a>
 
 ## 9.14 Méthodologies de développement
 
@@ -17960,6 +18720,8 @@ Six leviers permettent de contrôler les coûts des LLM. Certains sont directeme
 | Produit natif LLM | Eval-Driven + Multi-Agent |
 
 ---
+
+<a id="915-named-prompting-patterns"></a>
 
 ## 9.15 Schémas de prompting nommés
 
@@ -18120,6 +18882,8 @@ Add the logout button only. Don't add session management or remember-me features
 
 ---
 
+<a id="916-session-teleportation"></a>
+
 ## 9.16 Téléportation de session
 
 **Temps de lecture** : 5 minutes
@@ -18225,11 +18989,15 @@ claude --teleport
 
 ---
 
+<a id="917-scaling-patterns-multi-instance-workflows"></a>
+
 ## 9.17 Modèles de mise à l'échelle : flux de travail multi-instances
 
 **Temps de lecture** : 10 minutes
 
 **TL;DR** : L'orchestration multi-instances = un modèle avancé pour les équipes gérant 10+ fonctionnalités simultanées. Nécessite une architecture modulaire + un budget + une surveillance. **95 % des utilisateurs n'en ont pas besoin**, les flux de travail séquentiels avec 1-2 instances sont plus efficaces dans la plupart des contextes.
+
+Avant d'ajouter un gestionnaire de processus, identifiez la couche responsable de chaque fonction. Le modèle génère du texte ; le harness de runtime gère la boucle entre modèle et outils d'une session ; le harness de dépôt fournit les instructions et les contrôles de livraison ; l'orchestrateur coordonne les sessions. [Agent Harness Engineering](./core/agent-harness.md) explique ces limites. [Agent Harness Map](./ecosystem/agent-harness-landscape.md) compare les harness de runtime au sens strict et distingue son répertoire plus large du tableau des runtimes. [Agent Tools: Beyond Claude Code](./ecosystem/agentic-tools.md) présente les frameworks et les plans de contrôle ; le [glossaire](./core/glossary.md) définit les termes.
 
 ---
 
@@ -19007,6 +19775,8 @@ Anthropic a étudié la façon dont ses propres ingénieurs utilisent Claude Cod
 
 ---
 
+<a id="contribution-metrics-january-2026"></a>
+
 ### Métriques de contribution (janvier 2026)
 
 Cinq mois après l'étude interne, Anthropic a publié des données de productivité actualisées accompagnées d'une nouvelle fonctionnalité d'analyse pour les clients Team et Enterprise.
@@ -19037,15 +19807,15 @@ Les workflows multi-instances ont des coûts directs et des surcharges implicite
 
 | Échelle | Modèle | Coût mensuel | Gain de productivité au seuil de rentabilité |
 |-------|-------|--------------|------------------------------|
-| **5 développeurs, 2 instances chacun** | Sonnet | 390-750 $ | 3-5% |
-| **10 développeurs, 2-3 instances** | Sonnet | 1 080-1 650 $ | 1,3-2% |
+| **5 développeurs, 2 instances chacun** | Sonnet | 260-500 $ | 3-5% |
+| **10 développeurs, 2-3 instances** | Sonnet | 720-1 100 $ | 1,3-2% |
 | **Échelle Boris (15 instances)** | Opus | 500-1 000 $ | Justifié si 259 PRs/mois |
 
-**Base de calcul** (Sonnet 4.5) :
-- Entrée : 3 $/million de tokens
-- Sortie : 15 $/million de tokens
+**Base de calcul** (Sonnet 5, tarifs publiés vérifiés le 24 septembre 2026) :
+- Entrée : 2 $/million de tokens
+- Sortie : 10 $/million de tokens
 - Estimation : 30k tokens/instance/jour × 20 jours
-- 5 développeurs × 2 instances × 600k tokens/mois = ~540 $/mois
+- 5 développeurs × 2 instances × 600k tokens/mois = ~360 $/mois
 
 **Optimisation OpusPlan** : Utiliser Opus pour la planification (10-20% du travail), Sonnet pour l'exécution (80-90%). Réduit les coûts tout en maintenant la qualité.
 
@@ -19161,6 +19931,7 @@ Ne passez pas directement à 10 instances. Montez en charge progressivement avec
 # - Headless PM (manual coordination)
 # - Gas Town (parallel task execution)
 # - multiclaude (self-hosted, tmux-based)
+# - Multica (issue/chat control plane with local daemon execution)
 # - Entire CLI (governance + sequential handoffs)
 
 # 2. Define roles
@@ -19182,7 +19953,10 @@ Ne passez pas directement à 10 instances. Montez en charge progressivement avec
 | **Manuel (worktrees)** | Sans framework | 2-3 instances, contrôle total |
 | **Gas Town** | Coordination parallèle | 5+ instances, tâches parallèles complexes |
 | **multiclaude** | Lanceur auto-hébergé | Équipes nécessitant on-prem/airgap |
+| **Multica** | Plan de contrôle multi-fournisseurs piloté par tickets | Équipes coordonnant des CLI d’agents locales via une séparation serveur/daemon |
 | **Entire CLI** | Gouvernance + handoffs | Workflows séquentiels avec conformité |
+
+> **Multica** conserve tickets, chat, configuration des agents, calendriers et journaux d’exécution dans sa couche de coordination. Les ordinateurs connectés exécutent Claude Code, Codex et d’autres CLI via un daemon local. Voir le [profil Multica fondé sur des preuves identifiées](./ecosystem/agentic-tools.md#49-multica) pour les limites de déploiement, données, sécurité, Git et licence.
 
 > **Entire CLI** (fév. 2026) : Alternative à l'orchestration parallèle, axée sur les **handoffs séquentiels entre agents** avec une couche de gouvernance (points d'approbation, pistes d'audit). Utile pour les workflows critiques en matière de conformité (SOC2, HIPAA) ou les handoffs multi-agents (Claude → Gemini). Voir le [Guide de l'écosystème IA](./ecosystem/ai-ecosystem.md#entire-cli-governance-first-orchestration) pour plus de détails.
 
@@ -19341,6 +20115,8 @@ New feature request
 
 ---
 
+<a id="918-codebase-design-for-agent-productivity"></a>
+
 ## 9.18 Conception de Base de Code pour la Productivité des Agents
 
 > **Source**: [Agent Experience Best Practices for Coding Agent Productivity](https://marmelab.com/blog/2026/01/21/agent-experience.html)
@@ -19361,7 +20137,7 @@ New feature request
 
 **Quand optimiser pour les agents** : Fichiers à fort impact (logique métier centrale, modules fréquemment modifiés) et projets greenfield. Ne pas refactoriser du code stable uniquement pour les agents.
 
-**Références croisées** : [Patterns CLAUDE.md (3.1)](#31-claudemd-project-context) · [Hooks (6.2)](#62-hooks) · [Écueils (9.11)](#911-common-pitfalls--best-practices) · [Méthodologies (9.14)](#914-development-methodologies)
+**Références croisées** : [Patterns CLAUDE.md (3.1)](#31-memory-files-claudemd) · [Hooks (7)](#7-hooks) · [Écueils (9.11)](#911-common-pitfalls--best-practices) · [Méthodologies (9.14)](#914-development-methodologies)
 
 ---
 
@@ -19465,7 +20241,7 @@ We use Next.js 14 with App Router.
 
 **Recommandation** : Pour les projets greenfield avec développement assisté par IA, privilégier les frameworks à forte opinion, sauf si des contraintes architecturales imposent une conception personnalisée. La réduction de la charge cognitive des agents compense souvent la perte de flexibilité.
 
-**Voir aussi** : [Recommandations de taille pour CLAUDE.md (Section 3.2)](#32-claudemd-best-practices) pour les patterns d'optimisation des tokens.
+**Voir aussi** : [Recommandations de taille pour CLAUDE.md (Section 3.2)](#claudemd-best-practices) pour les patterns d'optimisation des tokens.
 
 ---
 
@@ -19512,7 +20288,7 @@ Au-delà de la configuration de base du projet, utilisez CLAUDE.md pour encoder 
 
 **Pourquoi ça fonctionne** : Lorsque l'agent rencontre `syncEvents()`, il comprend la contrainte de limite de débit. Lorsqu'il voit `deletedAt`, il sait qu'il ne faut pas utiliser de suppressions définitives.
 
-**Voir aussi** : [Bonnes Pratiques CLAUDE.md (3.1)](#31-claudemd-project-context) pour la configuration de base.
+**Voir aussi** : [Bonnes Pratiques CLAUDE.md (3.1)](#31-memory-files-claudemd) pour la configuration de base.
 
 #### Commentaires de Code : Quoi vs Comment
 
@@ -19573,7 +20349,6 @@ Stocker les ADRs dans `docs/decisions/` et y faire référence depuis le code :
 **Status**: Accepted
 **Date**: 2025-11-15
 **Authors**: Engineering team
-```
 
 ## Contexte
 
@@ -19828,185 +20603,127 @@ class UserManager {
 
 ---
 
-### 9.18.4 Formats de documentation pour les agents (llms.txt)
+<a id="9184-documentation-formats-for-agents-llmstxt"></a>
 
-**Problème** : Les agents ont besoin de découvrir et de consulter efficacement la documentation d'un projet. La documentation traditionnelle (wikis, Confluence) est difficile à trouver et à analyser. Les serveurs de documentation MCP nécessitent une installation et une configuration.
+### 9.18.4 Architecture de la documentation lisible par les machines {#9184-machine-readable-documentation-architecture}
 
-**Solution** : Utilisez le standard llms.txt pour une indexation de documentation optimisée pour l'IA.
+Ce dépôt fait évoluer son index hybride lisible par les machines vers une répartition plus stricte des responsabilités. Aujourd'hui, `reference.yaml` mêle navigation, commandes sélectionnées, modèles, valeurs de configuration, compteurs et informations opérationnelles. Des registres dédiés aux versions, à Cowork et à la distribution font autorité sur certains domaines qui évoluent, mais la séparation reste incomplète. La couverture est aussi asymétrique : `reference.yaml` donne accès à tous les fichiers suivis sous `guide/`, tandis que les chemins vers `docs/` et `examples/` restent sélectionnés.
 
-#### Qu'est-ce que llms.txt ?
+#### Organisation actuelle et responsabilités visées {#current-layout-and-target-boundaries}
 
-llms.txt est un standard léger permettant de rendre la documentation découvrable pour les LLM. C'est comme `robots.txt` pour les agents IA, un fichier d'index simple qui indique aux agents où trouver la documentation pertinente.
+| Couche | Contrat actuel | Responsabilité visée |
+|--------|----------------|----------------------|
+| **Source éditoriale** | `guide/ultimate-guide.md` et les guides Markdown thématiques contiennent les explications et recommandations | Le texte porte l'interprétation ; les registres y renvoient au lieu de recopier ses affirmations |
+| **Index de découverte** | `llms.txt` liste les principaux points d'entrée et la version suivie de Claude Code | La découverte fournit uniquement les chemins d'accès ; les informations susceptibles de changer proviennent d'un registre validé |
+| **Index de référence** | `machine-readable/reference.yaml` fournit des chemins sélectionnés et contient encore des données opérationnelles et de configuration utilisées par les consommateurs existants | La référence porte les identifiants stables et les chemins ; les données propres à chaque domaine passent dans des registres dédiés après migration des consommateurs |
+| **Registres opérationnels** | Les fichiers YAML des versions, de Cowork et de la distribution font déjà autorité sur leurs instantanés et états respectifs | Chaque domaine susceptible de changer dispose d'une source, d'un schéma, d'une règle de réplication et d'un validateur |
 
-**Spécification** : https://llmstxt.org/
+Le sens des dépendances visé est le suivant :
 
-**Format** : Fichier texte brut à `/llms.txt` ou `/machine-readable/llms.txt` contenant :
-- Du contenu Markdown directement (docs intégrées)
-- Des liens vers des fichiers de documentation externes
-- Des sections structurées pour différents sujets
+```text
+editorial Markdown
+  --> llms.txt                         discovery routes
+  --> machine-readable/reference.yaml precise routes
 
-**Exemple tiré de ce dépôt** (`machine-readable/llms.txt`) :
-
-```
-# Claude Code Ultimate Guide
-
-Complete guide for Anthropic's Claude Code CLI (19,000+ lines, 120 templates)
-```
-
-## Démarrage rapide
-- Installation: guide/ultimate-guide.md#installation (line 450)
-- Première session: guide/cheatsheet.md#first-session
-- Configuration CLAUDE.md: guide/ultimate-guide.md#31-claudemd-project-context (line 1850)
-
-## Concepts fondamentaux
-- Agents: guide/ultimate-guide.md#4-agents (line 4100)
-- Skills: guide/ultimate-guide.md#5-skills (line 5400)
-- Hooks: guide/ultimate-guide.md#62-hooks (line 7200)
-
-## Modèles
-- Agents personnalisés: examples/agents/
-- Slash commands: examples/commands/
-- Hooks d'événements: examples/hooks/
+official release notes --> claude-code-releases.yaml --> llms.txt version claim
+Cowork canonical index --> cowork-reference.yaml
+publication evidence --> distribution-channels.yaml
 ```
 
-#### Pourquoi llms.txt complète les serveurs MCP
+Un contenu lisible par les machines peut être analysé et ses éléments peuvent être adressés. Cela ne signifie pas qu'il est vérifié, à jour, exhaustif ou proprement séparé par domaine. Le 2026-09-04, `check-index-coverage.py` atteignait 104 fichiers suivis sur 104 dans `guide/`. Aucun contrôle exhaustif équivalent ne couvre tous les fichiers de `docs/` ou `examples/` ; les entrées de ces arborescences restent des chemins sélectionnés. Les validateurs existants acceptent le contrat hybride de `reference.yaml` et ne prouvent pas que chaque clé appartient à la couche idéale visée. Chaque validateur ci-dessous démontre une propriété plus restreinte.
 
-llms.txt et les serveurs MCP de documentation résolvent des **problèmes différents** :
+#### Contrats des fichiers et portée des preuves {#file-contracts-and-proof-boundaries}
 
-| Aspect | llms.txt | Context7 MCP |
-|--------|----------|--------------|
-| **Objectif** | Index de documentation statique | Recherche de bibliothèques en temps réel |
-| **Configuration** | Aucune (juste un fichier) | Nécessite l'installation d'un serveur MCP |
-| **Contenu** | Docs spécifiques au projet | Docs officielles des bibliothèques |
-| **Coût en tokens** | Faible (index seulement, ~500 tokens) | Moyen (récupération complète des docs) |
-| **Cas d'usage** | README du projet, architecture | API React, patterns Next.js |
-| **Fréquence de mise à jour** | Manuelle (lors des changements de docs) | Automatique (suit les versions des bibliothèques) |
+| Fichier | Rôle | Source | Déclencheur de mise à jour | Validateur | Portée de la preuve |
+|---------|------|--------|---------------------------|------------|--------------------|
+| `machine-readable/reference.yaml` | Recherche de sujets, chemins, ancres, modèles, commandes et décisions sélectionnés ; la couverture exhaustive au niveau fichier se limite aux fichiers suivis de `guide/` | Le guide principal, les guides thématiques, une sélection de documents et d'exemples, et le fichier racine `VERSION` | Un titre ou un chemin référencé change ; une nouvelle page de guide ou un nouveau concept à rechercher est ajouté ; la version du guide change | `validate-reference-yaml.py --ci`, `resync-reference-yaml.py --check`, `check-index-coverage.py --check --max-missing 0`, plus le contrôle du miroir MCP | Prouve que le YAML est analysable, que les chemins et ancres référencés sont résolus, que les références positionnelles sont alignées et que les fichiers suivis de `guide/` sont couverts. Ne prouve ni l'exactitude des faits ni la couverture exhaustive de `docs/` et `examples/`. |
+| `machine-readable/claude-code-releases.yaml` | Historique condensé des versions de Claude Code, de la plus récente à la plus ancienne | Le changelog officiel de Claude Code d'Anthropic, condensé manuellement | Une version de Claude Code vérifiée est ajoutée | Analyse YAML dans `validate-reference-yaml.py --ci` ; contrôle du miroir MCP ; le test de documentation MCP compare `latest` à la version annoncée par les trois copies de `llms.txt` | Prouve la structure locale, l'égalité des copies et la cohérence des versions annoncées. Ne prouve ni l'actualité par rapport à la source amont ni la conservation de toutes les notes amont. |
+| `machine-readable/cowork-reference.yaml` | Index relais local pour le guide Claude Cowork distinct | Le fichier canonique `machine-readable/reference.yaml` du guide Cowork | L'index canonique de Cowork est vérifié et sa version ou ses chemins changent | Analyse YAML dans `validate-reference-yaml.py --ci` | Prouve que l'instantané local est analysable. Ne contacte pas le dépôt Cowork et ne prouve pas que le relais correspond à son état distant actuel. |
+| `machine-readable/distribution-channels.yaml` | État daté des ressources, soumissions, placements, URL d'attribution et champs de résultats | Les ressources de distribution locales, ainsi que les preuves vérifiées de soumission, de placement et de mesure | Une ressource ou un canal change d'état, ou une observation datée est recueillie | `test-check-distribution-channels.py` et `check-distribution-channels.py`, plus le contrôle du miroir MCP | Prouve le respect du schéma, des états autorisés et de la cohérence entre champs, la présence des dates requises, l'existence locale des ressources prêtes et les champs d'attribution. Ne prouve pas la publication externe et ne remplace pas les résultats manquants par zéro. |
+| `llms.txt` | Index de découverte court pour les humains, les robots d'indexation et les agents | Des chemins sélectionnés vers la documentation du dépôt ; la version suivie de Claude Code provient de `claude-code-releases.yaml` | Un point d'entrée principal change ou la valeur `latest` du registre des versions change | `mcp-server/test/render-product-docs.test.mjs`, exécuté par `npm run release:check` en CI | Prouve l'égalité octet par octet entre la racine, `machine-readable/` et le paquet MCP, ainsi que la parité avec la version du registre. Ne prouve ni que toutes les pages utiles sont listées ni que le texte lié est à jour. |
 
-**Bonne pratique** : utilisez les **deux** :
-- llms.txt pour la documentation spécifique au projet (architecture, conventions, prise en main)
-- Context7 MCP pour la documentation officielle des bibliothèques (hooks React, API Express)
+Le dépôt conserve trois copies de `llms.txt` identiques octet par octet : le point d'entrée à la racine, la source dans `machine-readable/` et la copie intégrée au paquet MCP. Une mise à jour des versions reste incomplète tant que les trois n'annoncent pas la même valeur `latest` que `claude-code-releases.yaml`.
 
-#### Créer llms.txt pour votre projet
+#### llms.txt comme index de découverte {#llmstxt-as-the-discovery-index}
 
-**Exemple minimal** :
+La [proposition llms.txt](https://llmstxt.org/) définit un point d'entrée au format Markdown pour la documentation destinée aux LLM. Gardez ce fichier assez court pour être parcouru avant de charger les sources détaillées. Préférez les ancres de titres stables aux numéros de ligne, car les ajouts de texte décalent ces derniers.
 
-```
-# MyProject
+```markdown
+# Project documentation
 
-Enterprise SaaS platform for event management
-
-## Getting Started
+## Start
 - Setup: docs/setup.md
-- Architecture: docs/architecture.md
-- API Reference: docs/api.md
+- Architecture: docs/architecture.md#request-flow
 
-## Development
+## Operate
 - Testing: docs/testing.md
 - Deployment: docs/deployment.md
 - Troubleshooting: docs/troubleshooting.md
 ```
 
-**Exemple avancé avec numéros de ligne** :
-
-```
-# MyProject
-
-## Architecture Decisions
-- Why microservices: docs/decisions/ADR-001.md (line 15)
-- Event-driven design: docs/architecture.md#event-bus (line 230)
-- Database strategy: docs/decisions/ADR-005.md (line 42)
-
-## Common Patterns
-- Authentication flow: src/services/auth-service.ts (line 78-125)
-- Error handling: CLAUDE.md#error-patterns (line 150)
-- Rate limiting: src/middleware/rate-limiter.ts (line 45)
-
-## Domain Knowledge
-- Event lifecycle: docs/domain/events.md
-- Payment processing: docs/domain/payments.md
-- Webhook handling: docs/domain/webhooks.md
-```
-
-Les **numéros de ligne** permettent aux agents d'accéder directement aux sections pertinentes sans lire les fichiers entiers.
-
-#### Quand mettre à jour llms.txt
-
-Mettez à jour llms.txt quand :
-- Vous ajoutez de nouveaux fichiers de documentation importants
-- Vous restructurez le répertoire de documentation
-- Vous documentez de nouveaux patterns architecturaux
-- Vous ajoutez des ADR (Architecture Decision Records)
-- Vous créez des guides spécifiques à un domaine
-
-**Ne pas** mettre à jour pour :
-- Les modifications de code (sauf changements d'architecture)
-- Les retouches mineures de documentation
-- Les mises à jour de dépendances
-
-#### Intégration avec CLAUDE.md
-
-llms.txt et CLAUDE.md ont des objectifs différents :
-
-| Fichier | Objectif | Audience |
-|---------|---------|----------|
-| **CLAUDE.md** | Instructions actives, contexte du projet | Claude pendant cette session |
-| **llms.txt** | Index de documentation | Claude découvrant des ressources |
-
-**Pattern** : référencez llms.txt depuis CLAUDE.md :
+`CLAUDE.md` a une autre portée. Il fournit les instructions actives et le contexte du dépôt à Claude Code. `llms.txt` oriente le lecteur vers la documentation. Une instruction courte peut pointer vers l'index sans le recopier :
 
 ```markdown
-# CLAUDE.md
+## Project documentation
 
-## Project Documentation
-
-Complete documentation is indexed in `machine-readable/llms.txt`.
-
-Key resources:
-- Architecture overview: docs/architecture.md
-- API reference: docs/api.md
-- Testing guide: docs/testing.md
-
-For domain-specific knowledge, consult llms.txt index.
+Start with `llms.txt`, then open only the source relevant to the task.
 ```
 
-#### Exemple concret : ce guide
+Un serveur de documentation MCP peut exposer les mêmes sources au moyen d'API de recherche et de ressources utilisables à l'exécution. Ce transport ne remplace pas l'index statique, et l'index statique ne prouve pas le comportement du serveur à l'exécution.
 
-Ce guide utilise à la fois llms.txt et CLAUDE.md :
+#### Organisation du catalogue : CATALOG.yaml, INDEX.md, TOPICS.md et llms.txt {#catalog-pattern-catalogyaml-indexmd-topicsmd-and-llmstxt}
 
-**llms.txt** (`machine-readable/llms.txt`) :
-- Indexe toutes les sections principales avec des numéros de ligne
-- Pointe vers les modèles dans `examples/`
-- Référence les workflows dans `guide/workflows/`
+Pour un dépôt contenant de nombreux documents, séparez l'inventaire de la navigation. L'organisation suivante est un exemple de structure, pas une ressource publique de ce guide :
 
-**CLAUDE.md** (`CLAUDE.md`) :
-- Contexte actif du projet (structure du dépôt, conventions)
-- Focus actuel (version du guide, changelog)
-- Instructions de travail (synchronisation des versions, synchronisation de la page d'accueil)
+```text
+docs/
+  INDEX.md             human-readable inventory
+  TOPICS.md            curated routes by reader intent
+machine-readable/
+  CATALOG.yaml         structured record for every document
+llms.txt               short discovery entry point
+```
 
-**Résultat** : les agents peuvent découvrir le contenu via llms.txt, puis consulter CLAUDE.md pour le contexte actif.
+| Fichier | Responsabilité | Ce qu'il ne doit pas porter |
+|---------|----------------|-----------------------------|
+| `CATALOG.yaml` | Identifiants stables, chemins, titres, responsables, états et dates des sources | De longues explications recopiées des documents |
+| `INDEX.md` | Liste consultable des enregistrements du catalogue | Des valeurs d'état indépendantes qui peuvent diverger du catalogue |
+| `TOPICS.md` | Parcours sélectionnés, par exemple démarrer, construire, exploiter et dépanner | Un second inventaire exhaustif |
+| `llms.txt` | Principaux points d'entrée et liens vers `INDEX.md` et `TOPICS.md` | Le catalogue complet ou les instructions actives destinées aux agents |
 
-#### Concret : le llms.txt officiel d'Anthropic
+Choisissez un sens de rédaction et faites-le respecter. Si `CATALOG.yaml` fait autorité, générez ou vérifiez `INDEX.md` à partir de lui et rejetez les divergences en CI. Gardez `TOPICS.md` sous contrôle éditorial, car organiser les parcours selon l'intention du lecteur demande du jugement. Construisez `llms.txt` à partir de chemins stables, puis testez chaque chemin et chaque copie.
 
-Anthropic publie deux variantes LLM-optimized pour Claude Code :
+```yaml
+# machine-readable/CATALOG.yaml, illustrative subset
+documents:
+  - id: architecture
+    path: docs/architecture.md
+    title: Architecture
+    status: maintained
+```
 
-| Fichier | URL | Taille | Tokens (approx) | Cas d'usage |
-|---------|-----|--------|-----------------|----------|
-| `llms.txt` | `code.claude.com/docs/llms.txt` | ~65 pages | ~15-20K | Index rapide, découverte de sections |
-| `llms-full.txt` | `code.claude.com/docs/llms-full.txt` | ~98 KB | ~25-30K | Vérification des faits, documentation complète, source de vérité |
+```markdown
+<!-- docs/INDEX.md -->
+- [Architecture](architecture.md) (`architecture`, maintained)
 
-**Pattern recommandé** : récupérer `llms.txt` d'abord pour identifier la section pertinente, puis récupérer la page spécifique (ou `llms-full.txt`) pour les détails. Évite de charger 98 Ko quand seules 2 pages sont nécessaires.
+<!-- docs/TOPICS.md -->
+## Build
+- [Architecture](architecture.md)
 
-Ces URLs constituent la source officielle à consulter en priorité lorsqu'une affirmation sur Claude Code semble incertaine ou potentiellement obsolète.
+<!-- llms.txt -->
+## Documentation maps
+- Complete inventory: docs/INDEX.md
+- Topic routes: docs/TOPICS.md
+```
 
-#### Ressources sur la spécification
+Un contrôle structurel peut prouver que les identifiants sont uniques, que les chemins existent, que les fichiers générés correspondent et que les dates déclarées sont analysables. L'exactitude éditoriale, l'attribution des responsabilités, l'actualité du contenu et l'utilité de l'ordre des parcours nécessitent toujours une revue.
 
-- **Spécification officielle** : https://llmstxt.org/
-- **Exemples communautaires** : https://github.com/topics/llms-txt
-- **Implémentation de ce guide** : `machine-readable/llms.txt`
+#### Documentation officielle de Claude Code lisible par les machines {#official-claude-code-machine-readable-documentation}
 
-**Source déconseillée** : les billets de blog spécifiques à un framework (ils présentent souvent llms.txt en opposition aux serveurs MCP, alors qu'ils sont complémentaires).
+Anthropic publie un [index officiel de la documentation](https://code.claude.com/docs/llms.txt) et un [export officiel de la documentation complète](https://code.claude.com/docs/llms-full.txt). Utilisez l'index pour trouver la source pertinente, puis ouvrez la page concernée ou l'export complet lorsque l'affirmation nécessite davantage de contexte. Ces points d'accès sont des sources amont sur le comportement de Claude Code, pas des validateurs pour les index de ce dépôt.
 
 ---
+
 
 ### 9.18.5 Open Knowledge Format (OKF)
 
@@ -20201,7 +20918,7 @@ src/services/event/
 - La division créerait des frontières artificielles
 - Taille du fichier <300 lignes
 
-**Voir aussi** : [Gestion du contexte (2.1)](#21-core-concepts) pour les stratégies d'optimisation des tokens.
+**Voir aussi** : [Gestion du contexte (2.2)](#22-context-management) pour les stratégies d'optimisation des tokens.
 
 #### Supprimer les commentaires évidents (réduire le bruit)
 
@@ -20732,7 +21449,7 @@ class UserProfile {
 
 **Exemple d'ADR** :
 
-```markdown
+````markdown
 # ADR-011: Service Layer Architecture
 
 **Statut** : Accepté
@@ -20756,7 +21473,6 @@ Adopter une architecture en 3 couches :
 - Les repositories encapsulent toutes les requêtes vers la base de données
 
 **Similaire à** : L'architecture NestJS, les couches Spring Boot, les cas d'usage de la Clean Architecture
-```
 
 ## Exemple
 
@@ -20794,6 +21510,7 @@ class UserController {
   }
 }
 ```
+````
 
 **Avantage pour l'agent** : Lorsqu'il travaille dans les controllers, l'agent lit ADR-011 et sait qu'il doit appeler les services (et non les repositories).
 
@@ -20849,7 +21566,7 @@ class UserController {
 
 **L'agent voit** : « ❌ Layering violation: Controllers must call Services... » → révise pour appeler le service.
 
-**Voir** : [Hooks (6.2)](#62-hooks) pour des exemples complets de hooks.
+**Voir** : [Hooks (7)](#7-hooks) pour des exemples complets de hooks.
 
 #### La philosophie du « code contaminé »
 
@@ -21100,7 +21817,7 @@ src/integrations/google-calendar/
 
 **README.md** :
 
-```markdown
+````markdown
 # Google Calendar Integration
 
 API client for Google Calendar API v3.
@@ -21130,7 +21847,7 @@ Erreurs courantes :
 - `CalendarNotFoundError` : L'utilisateur n'a pas accordé la permission d'accès au calendrier
 
 Voir TROUBLESHOOTING.md pour le catalogue complet des erreurs et leurs solutions.
-```
+````
 
 **Workflow de l'agent** :
 1. L'agent doit intégrer Google Calendar
@@ -21271,7 +21988,7 @@ Agent instruction: "When implementing Google Calendar integration, use Context7 
 - Utilise Context7 MCP → récupère la documentation actuelle
 - Implémente avec la bonne API (pas des données d'entraînement obsolètes)
 
-**Voir** : [Context7 MCP (5.3)](#53-context7-technical-documentation) pour la configuration.
+**Voir** : [Context7 MCP (8.2)](#context7-documentation-lookup) pour la configuration.
 
 #### Valeurs par défaut sensées
 
@@ -21408,7 +22125,7 @@ Utilisez cette liste pour évaluer la compatibilité de votre base de code avec 
 - [ ] Fichiers de moins de 500 lignes (diviser les fichiers plus volumineux par préoccupation)
 - [ ] Commentaires évidents supprimés (ne conserver que le contexte utile)
 - [ ] La sortie de débogage est contrôlée par des flags verbose
-- [ ] Les grands fichiers générés sont exclus via `.claudeignore`
+- [ ] Recherches limitées aux fichiers pertinents ; restrictions d’accès configurées par les règles de permission si nécessaire
 
 **Tests** (Score : ___ / 5)
 - [ ] Les tests sont écrits manuellement (pas délégués à l'agent)
@@ -21526,13 +22243,15 @@ Business logic and domain operations. Services are framework-agnostic.
 - « Prompt Injection Prevention in Code Agents » (ArXiv, novembre 2024)
 
 **Références croisées dans ce guide** :
-- [Patterns CLAUDE.md (3.1)](#31-claudemd-project-context)
-- [Hooks (6.2)](#62-hooks)
+- [Patterns CLAUDE.md (3.1)](#31-memory-files-claudemd)
+- [Hooks (7)](#7-hooks)
 - [Intégration CI/CD (9.3)](#93-cicd-integration)
 - [Pièges (9.11)](#911-common-pitfalls--best-practices)
 - [Méthodologies - TDD (9.14)](#914-development-methodologies)
 
 ---
+
+<a id="919-permutation-frameworks"></a>
 
 ## 9.19 Frameworks de permutation
 
@@ -21718,6 +22437,8 @@ I'll decide based on our team context.
 
 ---
 
+<a id="920-agent-teams-multi-agent-coordination"></a>
+
 ## 9.20 Équipes d'agents (Coordination multi-agents)
 
 **Temps de lecture** : 5 minutes (vue d'ensemble) | [Démarrage rapide →](./workflows/agent-teams-quick-start.md) (8-10 min, pratique) | [Guide complet →](./workflows/agent-teams.md) (~30 min, théorie)
@@ -21730,7 +22451,7 @@ Les **équipes d'agents** permettent à plusieurs instances Claude de travailler
 
 **Différence clé avec Multi-Instance** (§9.17) :
 - **Multi-Instance** = Vous orchestrez manuellement des sessions Claude séparées (projets indépendants, sans état partagé)
-- **Équipes d'agents** = Claude gère la coordination automatiquement (base de code partagée, communication via git)
+- **Équipes d'agents** = Claude gère la coordination automatiquement (base de code partagée, tâches partagées et messagerie ; attribution des fichiers et intégration du code restent explicites)
 
 ```
 Setup:
@@ -21762,13 +22483,13 @@ Sources : [2026 Agentic Coding Trends Report](https://resources.anthropic.com/hu
 ```
 Team Lead (Main Session)
     ├─ Breaks tasks into subtasks
-    ├─ Spawns teammate sessions (each with 1M token context)
+    ├─ Spawns teammate sessions (independent model-sized context)
     └─ Synthesizes findings from all agents
          │
          ├─ Teammate 1: Task A (independent context)
          └─ Teammate 2: Task B (independent context)
 
-Coordination: Git-based (task locking, continuous merge, conflict resolution)
+Coordination: Shared task list + mailbox messages; source merges remain explicit
 Navigation: Shift+Down to cycle through teammates, or tmux panes
 ```
 
@@ -21776,7 +22497,7 @@ Navigation: Shift+Down to cycle through teammates, or tmux panes
 
 | Modèle | Coordination | Idéal pour | Coût | Mise en place |
 |--------|--------------|------------|------|---------------|
-| **Équipes d'agents** | Automatique (via git) | Tâches à forte lecture nécessitant une coordination | Élevé (3x+) | Flag expérimental |
+| **Équipes d'agents** | Tâches partagées et messagerie | Tâches à forte lecture nécessitant une coordination | Élevé (3x+) | Flag expérimental |
 | **Multi-Instance** ([§9.17](#917-scaling-patterns-multi-instance-workflows)) | Manuelle (humain) | Tâches parallèles indépendantes | Moyen (2x) | Plusieurs terminaux |
 | **Double instance** | Manuelle (humain) | Assurance qualité (planification-exécution) | Moyen (2x) | 2 terminaux |
 
@@ -21971,7 +22692,7 @@ Cette section est une vue d'ensemble rapide. Pour le guide complet :
 
 **Patterns associés** :
 - [§9.17 Workflows Multi-Instance](#917-scaling-patterns-multi-instance-workflows) : Coordination parallèle manuelle
-- [§4.3 Sous-agents](#43-sub-agents) : Délégation de tâches mono-agent
+- [§4.1 Agents](#41-what-are-agents) : Délégation de tâches mono-agent
 - [Écosystème IA : Framework Beads](./ecosystem/ai-ecosystem.md) : Orchestration alternative (Gas Town)
 
 **Sources officielles** :
@@ -21980,6 +22701,8 @@ Cette section est une vue d'ensemble rapide. Pour le guide complet :
 - [2026 Agentic Coding Trends Report](https://resources.anthropic.com/hubfs/2026%20Agentic%20Coding%20Trends%20Report.pdf) (Anthropic, jan. 2026)
 
 ---
+
+<a id="921-legacy-codebase-modernization"></a>
 
 ## 9.21 Modernisation des bases de code héritées
 
@@ -22107,13 +22830,75 @@ Les gains moyens sont réels et significatifs. Les chiffres les plus spectaculai
 - **❌ Sauter la découverte** : Commencer à traduire avant de cartographier. Vous casserez des choses dont vous ignoriez l'existence.
 - **❌ Faire confiance à l'IA sur la logique métier** : L'IA traduit fidèlement ce qu'elle lit. Si l'original était erroné ou dépendant du contexte, la traduction le sera aussi.
 
+### Ancrer les fonctionnalités dans le code : quand vous ne réécrivez pas le système {#feature-to-code-anchoring-when-youre-not-rewriting}
+
+Le workflow en 4 étapes ci-dessus suppose que l'objectif est de remplacer le système. Ce n'est souvent pas le cas. Une équipe qui chiffre une modification, audite un statut « toujours actif » ou détermine ce qui peut être archivé sans risque dans un parc applicatif hérité a besoin d'un résultat plus ciblé : un lien vérifié entre chaque fonctionnalité documentée et le fichier ainsi que le symbole qui l'implémentent réellement. La personne suivante évite ainsi de réexplorer manuellement des dizaines de dépôts chaque fois que la question se pose.
+
+Le problème comporte quatre couches ; seule la première doit être construite pour un audit strict.
+
+| Couche | Objectif | État |
+|--------|----------|------|
+| 0 (ancrage déterministe) | Relier chaque fonctionnalité à un fichier et un symbole réels, vérifiables par lecture directe (`ls`, `git grep`, LSP). Aucune interprétation, uniquement l'emplacement. | Réalisable aujourd'hui, voir ci-dessous |
+| 1 (extraction sémantique) | Comprendre ce que fait le code ancré (règles métier, machines à états, autorisations). | Outil candidat : le skill officiel `business-rules-extractor` d'Anthropic (Apache-2.0, ancrage `file:line-line`, format Given/When/Then, niveau de confiance High/Medium/Low) |
+| 2 (contrôle déterministe) | Rejeter mécaniquement toute règle de la couche 1 dont l'ancre ne se résout pas dans la couche 0, au lieu de simplement la qualifier de « faible confiance ». | Aucun des outils étudiés ici ne le propose ; reste à construire |
+| 3 (sortie standardisée) | Fournir le résultat sous forme de fichiers versionnables et interrogeables. | [OKF](#9185-open-knowledge-format-okf) convient directement : un concept par fichier Markdown, un champ `resource` pour l'ancre de code |
+
+#### Construire l'ancrage de couche 0 {#building-the-layer-0-anchor}
+
+Pour chaque point d'entrée documenté d'une fonctionnalité, résolvez dans cet ordre et ne devinez jamais silencieusement :
+
+1. **LSP** (`workspaceSymbol`, `documentSymbol`) sur le nom de la route ou du fichier.
+2. **`git grep`** en repli dans le clone local.
+3. Si aucun des deux ne résout l'entrée : la marquer non résolue, avec la raison. Jamais de supposition silencieuse.
+
+```yaml
+files:
+  - repo: <name>
+    path: <path relative to repo root>
+    symbol: <function/handler name, if identified>
+    method: grep | LSP
+    confidence: EXTRACTED | INFERRED
+    commit_ref: <short hash>
+resolution_status: COMPLETE | PARTIAL | NOT_FOUND
+```
+
+`EXTRACTED` signifie une correspondance unique et exacte. `INFERRED` signifie plusieurs candidats plausibles, laissés à l'arbitrage humain. Le hash de commit n'est pas une ancre permanente, et un numéro de ligne l'est encore moins : ce sont des marqueurs d'actualité à un instant donné. Retrouvez la ligne à la demande avec `git grep` lorsque vous en avez besoin ; ne la stockez jamais comme identifiant fixe, car elle se décale à chaque modification sans rapport située au-dessus.
+
+Sur un parc où la résolution ne peut pas être déduite de noms de routes explicites, prévoyez deux passages : un premier récupère les cas évidents avec grep, puis un second cible le sous-ensemble non résolu, regroupé **par dépôt plutôt que par fonctionnalité**. Chaque agent ouvre ainsi un dépôt une seule fois, au lieu de le rouvrir pour chaque fonctionnalité qui le concerne.
+
+#### Outils testés sur un parc réel {#tools-tested-against-a-real-fleet}
+
+Trois outils ont été évalués concrètement sur un parc applicatif hérité comprenant un framework interne non standard, précisément le cas qui met en échec la détection par signatures de frameworks.
+
+**Reversa** (`github.com/sandeco/reversa`) est un framework multi-agent (éclaireur, archéologue, détective, architecte, rédacteur, relecteur, curateur) qui transforme un dépôt hérité en spécifications pour des agents de développement. Rejeté pour ce cas d'usage : une vulnérabilité CRITICAL de traversée de répertoires dans sa procédure de désinstallation, aucun test automatisé sur 56 versions en trois mois, une dépendance à un seul mainteneur et un sceau de confiance (🟢🟡🔴) que rien ne vérifie mécaniquement ; son propre validateur fait 22 lignes. La traçabilité fichier:ligne existe pour les exigences non fonctionnelles et les tâches, puis disparaît précisément au niveau des règles métier, là où elle compte le plus : les règles sont des puces suivies d'un emoji. Lorsque son détecteur de framework ne reconnaît pas un framework interne personnalisé, il invente à l'aveugle un découpage en modules et fige cette décision après le premier passage. Toutes les étapes suivantes héritent d'une supposition qu'elles ne peuvent plus réviser.
+
+**code-graph-mcp** (`github.com/sdsrss/code-graph-mcp`) est un serveur MCP en Rust qui construit un graphe de connaissances AST (tree-sitter, 19 langages) avec graphe d'appels, recherche sémantique hybride et traçage des routes HTTP. Aucun problème relevé sur la sécurité. Rejeté sur les preuves, pas sur sa jeunesse : 12 arêtes « inférées » sur 12 mesurées étaient fausses, avec une confiance maximale, sur une stack moderne et bien prise en charge (Fastify), et aucune route n'a été extraite du framework interne personnalisé. Un outil qui répond faux avec assurance est pire qu'un outil qui ne répond rien.
+
+**Graphify** (`github.com/safishamsi/graphify`, présentation complète dans [ecosystem/third-party-tools.md, Knowledge Graph](ecosystem/third-party-tools.md#knowledge-graph)) est la meilleure brique déterministe trouvée. Son tag `EXTRACTED` est garanti par l'architecture : le code source ne quitte jamais la machine pendant la passe AST, une affirmation vérifiée dans le code de l'outil et par confrontation de ses artefacts avec le code réel, arête par arête. Lorsqu'il ne reconnaît pas un framework, il ne produit aucune arête au lieu d'en inventer une plausible. L'échec apparaît donc sous forme d'un nombre mesurable de composantes déconnectées plutôt que d'une mauvaise réponse silencieuse. Il échoue encore sur la résolution dynamique (routage fondé sur `readdirSync`, fabrique générique exportée `create()` qui masque le nom du véritable handler). Pour couvrir entièrement un parc utilisant beaucoup de frameworks personnalisés, une petite passe dédiée doit donc compléter l'outil sur ce seul point.
+
+#### Principes confirmés {#principles-that-held}
+
+- **Aucune invention.** Aucun chemin n'est écrit sans preuve directe, y compris dans les instructions confiées à un agent. Non résolu signifie non résolu, jamais deviné.
+- **Vérification indépendante avant acceptation.** Chaque affirmation d'un agent, chemin, symbole, hash de commit ou existence d'un dépôt, est vérifiée par une commande indépendante avant d'entrer dans un livrable. Ce contrôle détecte une affirmation hallucinée et, tout aussi souvent, évite une accusation infondée d'hallucination.
+- **Respect strict du périmètre.** Une tâche limitée à un champ n'en modifie jamais un autre, même si elle y découvre une inexactitude sans rapport. Signaler ces problèmes séparément ; ne jamais les corriger en silence.
+- **Un score de confiance non vérifié mécaniquement est cosmétique, et la réciproque vaut aussi.** Un sceau décoratif et un tag d'inférence non vérifié échouent au même test. Un tag garanti par l'architecture et vérifiable arête par arête dans la source, comme `EXTRACTED` de Graphify, le réussit. Seule une vérification mécanique reproductible fait autorité, jamais un niveau de confiance autodéclaré, honnête ou non.
+
+#### Ce que la couche 0 ne fournit pas {#what-layer-0-doesnt-give-you}
+
+Elle indique où se trouve le code, pas ce qu'il fait ; aucune règle métier n'est extraite de cette façon. Sa couverture se limite à l'inventaire de fonctionnalités qui l'a alimentée : un endpoint que personne n'a documenté en amont n'a aucune raison de figurer dans les ancres. Le hash de commit stocké est un instantané, pas une garantie en continu : sans vérification périodique, cette couche vieillit au même rythme que le code sous-jacent.
+
+
+
 ### Ressources
 
+- [Skill Anthropic business-rules-extractor](https://github.com/anthropics/claude-plugins-official/blob/main/plugins/code-modernization/agents/business-rules-extractor.md) (candidat pour la couche 1, Apache-2.0)
 - [Anthropic COBOL Modernization Playbook](https://claude.com/blog/how-ai-helps-break-cost-barrier-cobol-modernization) (février 2026)
 - [AI-Driven Legacy Systems Modernization: COBOL to Java](https://arxiv.org/abs/2504.11335) (arXiv, avril 2025)
 - [AWS EKS COBOL Modernization Case Study](https://aws.amazon.com/blogs/apn/modernize-cobol-workloads-with-amazon-eks-powered-by-generative-ai/) (juillet 2025)
 
 ---
+
+<a id="922-remote-control-mobile-access"></a>
 
 ## 9.22 Contrôle à distance (accès mobile)
 
@@ -22328,6 +23113,8 @@ Vous avez maîtrisé les concepts et les patterns. La Section 10 vous fournit ma
 
 ---
 
+<a id="923-configuration-lifecycle--the-update-loop"></a>
+
 ## 9.23 Cycle de vie de la configuration & la boucle de mise à jour
 
 **Temps de lecture** : 8 minutes
@@ -22356,7 +23143,7 @@ Le signal est toujours là : vous continuez à faire les mêmes corrections manu
 
 ### Détecter les frictions dans vos journaux JSONL
 
-Vos sessions sont déjà journalisées (voir [§Observabilité : Configurer la journalisation des sessions](#setting-up-session-logging)). Ce qui manque, c'est de les lire pour des **signaux de qualité**, pas seulement des métriques de coût.
+Vos sessions sont déjà journalisées (voir [§Observabilité : Configurer la journalisation des sessions](./ops/observability.md#setting-up-session-logging)). Ce qui manque, c'est de les lire pour des **signaux de qualité**, pas seulement des métriques de coût.
 
 Trois patterns qui indiquent de manière fiable qu'un skill ou une règle nécessite une mise à jour :
 
@@ -22553,10 +23340,12 @@ Les deux nécessitent plus de configuration que la boucle manuelle ci-dessus, et
 **Et ensuite ?**
 
 - [§9.10 État d'esprit d'amélioration continue](#910-continuous-improvement-mindset) : le cadre de décision pour savoir quand encoder plutôt qu'accepter comme cas limite
-- [§Observabilité : Lire pour la qualité](#reading-for-quality-not-just-quantity) : patterns d'analyse JSONL qualitative
+- [§Observabilité : Lire pour la qualité](./ops/observability.md#reading-for-quality-not-just-quantity) : patterns d'analyse JSONL qualitative
 - [§9.12 Bonnes pratiques Git](#912-git-best-practices--workflows) : contrôle de version pour votre configuration aux côtés de votre code
 
 ---
+
+<a id="924-instinct-based-continuous-learning"></a>
 
 ## 9.24 Apprentissage continu basé sur l'instinct
 
@@ -22650,16 +23439,20 @@ L'étape de promotion reste intentionnellement manuelle : c'est vous qui décide
 
 ---
 
-## 9.25 Harness Engineering
+<a id="925-harness-engineering"></a>
+
+## 9.25 Ingénierie du harness de dépôt {#925-repository-harness-engineering}
 
 **Temps de lecture** : 10 minutes
 **Niveau de compétence** : Mois 2+
 
-> **L'intuition fondamentale** : la capacité du modèle et la fiabilité d'exécution sont orthogonales. Le même modèle produit des résultats fondamentalement différents selon l'infrastructure qui l'entoure, et non selon la qualité du modèle. Cette infrastructure, c'est le harness.
+> **L'intuition fondamentale** : la capacité du modèle et la fiabilité d'exécution sont orthogonales. Le même modèle produit des résultats fondamentalement différents selon l'infrastructure qui l'entoure, et non selon la qualité du modèle. Dans cette section, cette infrastructure est le **harness de dépôt** : l'environnement de projet dans lequel fonctionne un runtime comme Claude Code.
 
-### Qu'est-ce qu'un harness ?
+Le vocabulaire distingue quatre couches : le **modèle** génère du texte ; le **harness de runtime** exécute la boucle d'outils, le contexte, les permissions et les sessions ; le **harness de dépôt** fournit les instructions, la configuration, l'état et les retours du projet ; un **orchestrateur** coordonne plusieurs sessions de runtime. Voir [Agent Harness Engineering](./core/agent-harness.md#0-four-layers-four-responsibilities) pour la distinction complète et [Agent Harness Landscape](./ecosystem/agent-harness-landscape.md) pour les produits.
 
-Le harness, c'est tout ce qui compose l'environnement d'ingénierie autour de l'agent : les fichiers d'instructions, les scripts d'initialisation, le suivi d'état, les commandes de vérification et les boucles de rétroaction. Ce n'est ni un fichier de prompt ni une liste de directives. Le harness est l'établi sur lequel l'agent opère.
+### Qu'est-ce qu'un harness de dépôt ? {#what-is-a-repository-harness}
+
+Le harness de dépôt, c'est tout ce qui compose l'environnement d'ingénierie autour de l'agent : les fichiers d'instructions, les scripts d'initialisation, le suivi d'état, les commandes de vérification et les boucles de rétroaction. Ce n'est ni un fichier de prompt ni une liste de directives. Le harness est l'établi sur lequel l'agent opère.
 
 Cinq sous-systèmes constituent un harness complet :
 
@@ -23016,6 +23809,8 @@ Cette philosophie ne s'applique que lorsque le débit est véritablement élevé
 
 ---
 
+<a id="926-review-driven-context-optimization"></a>
+
 ## 9.26 Optimisation du Contexte par Révision
 
 **Temps de lecture** : 7 minutes
@@ -23131,6 +23926,64 @@ C'est l'étape de vérification qui distingue l'optimisation par révision de la
 
 ---
 
+## 9.27 Messagerie entre sessions (coordination entre pairs) {#927-cross-session-messaging-peer-coordination}
+
+**Temps de lecture** : 5 minutes (aperçu) | [Guide complet →](./workflows/cross-session-messaging.md) (~15 min, mécanismes complets et modèle de sécurité)
+**Niveau de compétence** : Mois 1+
+**Statut** : Stable, v2.1.224+ (macOS/Linux/WSL2), v2.1.234+ (Windows natif)
+
+### Principe {#what-it-is}
+
+Deux sessions Claude Code peuvent communiquer sans que l'une ait lancé l'autre. `ListAgents` découvre les sessions que Claude peut joindre ; `SendMessage` envoie un court message texte à l'une d'elles en la désignant par son nom. Deux sessions exécutées en parallèle sur la même machine, dans des dépôts différents ou dans le même dépôt, se voient automatiquement, sans configuration.
+
+Ce fonctionnement se distingue des [équipes d'agents (§9.20)](#920-agent-teams-multi-agent-coordination) : le responsable d'une équipe lance et supervise ses propres coéquipiers, leur attribue des tâches et synthétise leurs résultats. La messagerie entre sessions vise des sessions qui existent déjà indépendamment, lancées et pilotées par un humain. Elle évite simplement de copier-coller les informations pour les transmettre entre elles.
+
+### Découverte et acheminement {#discovery-and-delivery}
+
+Exécutez `/list-agents` (alias `/peers`) pour voir ce qu'une session peut joindre : sous-agents, coéquipiers d'une équipe d'agents, autres sessions locales sur cette machine, sessions cloud et sessions Remote Control sur d'autres machines. Claude adresse alors un message par nom, soit de sa propre initiative après une modification qui affecte le travail d'une autre session, soit à votre demande :
+
+```text
+Ask the session running in my other terminal whether the migration finished
+```
+
+Vous pouvez aussi nommer directement la cible avec une `@`-mention, selon le même mécanisme que pour les sous-agents (v2.1.232+) :
+
+```text
+Let @api-worker know the schema migration finished
+```
+
+Le message quitte ou non la machine selon l'emplacement de la session cible : sur la même machine, il passe par un socket Unix local ou un tube nommé et ne transite jamais par les serveurs d'Anthropic ; une session sur une autre de vos machines ou sur le Web est jointe par les serveurs d'Anthropic via la connexion Remote Control.
+
+### Frontière de sécurité {#security-boundary}
+
+Un message provenant d'une session paire transmet des informations, jamais une autorisation. Claude Code indique explicitement au Claude qui le reçoit que le texte vient d'une autre session et non de l'utilisateur, et lui impose des limites : ce message ne peut pas approuver une demande d'autorisation en attente ni modifier `CLAUDE.md` ou une autre configuration. Une commande intégrée au texte du message arrive comme du texte brut et n'est pas exécutée. Si agir sur ce message nécessite une autorisation dont la session destinataire ne dispose pas déjà, la demande habituelle s'affiche, comme pour toute autre action.
+
+Chaque session contrôle ce qu'elle accepte des autres sessions avec `crossSessionInbound` (`accept` / `hold` / `refuse`, configurable dans `/config`). Le réglage `isolatePeerMachines: true` impose une approbation explicite avant qu'un message ne quitte la machine courante, même en mode `bypassPermissions`.
+
+### Quand l'utiliser {#when-to-use-it}
+
+Coordonnez les sessions que vous avez déjà ouvertes et que vous pilotez vous-même : transmettez une découverte d'un worktree à un autre, prévenez la session backend lorsque la migration de la base de données est terminée, ou envoyez à une session de documentation la réponse qui vient de débloquer la session frontend. Sans `TeamCreate`, responsable d'équipe ni liste de tâches commune, deux sessions indépendantes ou davantage échangent directement, sans relais humain.
+
+> **Référence complète** : [Messagerie entre sessions](./workflows/cross-session-messaging.md) détaille les types de sessions découverts, le mécanisme de socket de réception, les règles complètes de priorité de `crossSessionInbound`, les limites de taille des messages et de rafale, ainsi que l'historique des versions. Diagramme : [Messagerie entre sessions : découverte et acheminement](./diagrams/07-multi-agent-patterns.md#cross-session-messaging-discovery--delivery).
+
+---
+
+## 9.28 Ingestion d'événements et délégation sécurisée {#928-event-ingestion-and-safe-delegation}
+
+**Temps de lecture** : 3 minutes (aperçu) | [Guide complet →](./workflows/monitor-event-delegation.md) (~12 min, sources, frontières et workflow Codex)
+**Niveau de compétence** : Avancé
+
+Claude Code propose plusieurs moyens d'observer un événement, mais aucun ne transforme le texte reçu en autorisation : source de commande Monitor (v2.1.98+), source WebSocket native (v2.1.195+), monitors de plugins (v2.1.105+) et MCP Channels (v2.1.80+, aperçu de recherche). Les routines s'exécutent comme des sessions distinctes sur une infrastructure cloud gérée par Anthropic ou dans un environnement autohébergé par une organisation ; elles sont déclenchées par des planifications, des API ou des événements GitHub.
+
+Une mise en œuvre sûre reste ciblée et explicite : vérifier la signature du webhook GitHub, le dépôt, le type d'événement, le schéma et l'identifiant de livraison ; relayer uniquement des métadonnées typées sur une connexion WebSocket approuvée ; classifier avec `codex exec` en lecture seule ; puis exiger une validation explicite par un humain ou une politique avant qu'une tâche distincte et isolée puisse utiliser `--sandbox workspace-write`. Les commentaires bruts, corps d'issues, logs et trames WebSocket restent des données, jamais des instructions ni des autorisations.
+
+> **Référence complète** : [Monitor, Channels et délégation sécurisée à Codex](./workflows/monitor-event-delegation.md) présente les limites d'entrée de Monitor, les frontières de confiance des plugins et des Channels, le traitement des livraisons GitHub et un exemple de jobs séparés avec `openai/codex-action@v1` pour GitHub Actions.
+
+---
+
+
+<a id="10-reference"></a>
+
 # 10. Référence
 
 _Accès rapide :_ [Tableau des Commandes](#101-commands-table) · [Raccourcis Clavier](#102-keyboard-shortcuts) · [Référence de Configuration](#103-configuration-reference) · [Dépannage](#104-troubleshooting) · [Aide-mémoire](#105-cheatsheet) · [Flux de Travail Quotidien](#106-daily-workflow--checklists)
@@ -23154,8 +24007,8 @@ _Accès rapide :_ [Tableau des Commandes](#101-commands-table) · [Raccourcis Cl
 | **Copier des modèles prêts à l'emploi** | **[Répertoire examples/](../examples/)** : Commandes, hooks, agents |
 
 ### Recherches les Plus Fréquentes :
-- **Contexte plein ?** → [10.4.1 Problèmes de Contexte](#context-issues)
-- **MCP ne fonctionne pas ?** → [10.4.4 Dépannage MCP](#mcp-issues)
+- **Contexte plein ?** → [10.4.1 Problèmes de Contexte](#context-recovery)
+- **MCP ne fonctionne pas ?** → [10.4.4 Dépannage MCP](#mcp-server-issues)
 - **Besoin d'une réinstallation propre ?** → [10.4.3 Réinstallation Complète](#full-clean-reinstall-procedures)
 
 **Conseil d'utilisation** : Mettez cette section en favori, vous y reviendrez souvent.
@@ -23164,48 +24017,203 @@ _Accès rapide :_ [Tableau des Commandes](#101-commands-table) · [Raccourcis Cl
 
 **Objectif** : Recherche rapide de toutes les informations Claude Code
 
-## 10.1 Tableau des Commandes
+<a id="101-commands-table"></a>
 
-Sélection de commandes. La [référence complète anglaise](ultimate-guide.md#101-commands-table) et la [documentation officielle](https://code.claude.com/docs/en/commands) couvrent aussi les commandes récentes et leurs restrictions. `/autocompact` règle la fenêtre de compaction, `/output-style` est à nouveau disponible, et `/review` est un alias de `/code-review`.
+## 10.1 Tableau des commandes
 
-### Commandes Intégrées
+> **Source de référence** : [code.claude.com/docs/en/commands](https://code.claude.com/docs/en/commands) est la documentation officielle et donne les commandes actuelles. Les tableaux ci-dessous la reflètent au 24 septembre 2026 (CLI suivi v2.1.281), avec les notes et renvois du guide. En cas de désaccord, la page officielle prime. Pour les options au lancement, voir [la référence CLI](https://code.claude.com/docs/en/cli-reference) et §10.3.
 
-| Commande | Action | Catégorie |
-|---------|--------|----------|
-| `/help` | Afficher toutes les commandes disponibles | Navigation |
-| `/clear` | Effacer l'historique de conversation | Session |
-| `/compact` | Résumer et compresser le contexte | Contexte |
-| `/status` | Afficher les informations de session (contexte, coût) | Info |
-| `/usage` | Vérifier les limites de débit et l'allocation de tokens | Info |
-| `/stats` | Afficher les statistiques d'utilisation avec des graphiques d'activité | Info |
-| `/output-style [style]` | Choisir Default, Proactive, Concise, Explanatory, Learning ou un style personnalisé (v2.1.269+) | Affichage |
-| `/feedback` | Signaler des bugs ou envoyer des retours à Anthropic | Support |
-| `/chrome` | Vérifier la connexion Chrome, gérer les permissions | Mode |
-| `/config` | Afficher et modifier les paramètres globaux | Config |
-| `/copy` | Copier la dernière réponse dans le presse-papiers : sélecteur interactif pour choisir des blocs de code spécifiques, ou option « Always copy full response » (v2.1.59+) | Session |
-| `/debug` | Dépannage systématique et investigation des erreurs | Débogage |
-| `/doctor` | Lancer des diagnostics et vérifications de dépannage | Débogage |
-| `/execute` | **N'est pas une commande Claude Code.** Absente de la référence officielle et du CHANGELOG. Pour quitter le Plan Mode : approuver le plan, ou `Shift+Tab` | Mode |
-| `/exit` | Quitter Claude Code | Session |
-| `/fast` | Opus 5.5 fast : $8/$40 par MTok entrée/sortie ; crédits d’usage sur abonnement | Mode |
-| `/hooks` | Configuration interactive des hooks | Config |
-| `/init` | Générer un CLAUDE.md de départ basé sur la structure du projet. ⚠️ La sortie est générée par LLM ; réviser et élaguer avant de valider (la recherche de l'ETH Zürich montre que les fichiers de contexte auto-générés réduisent le taux de réussite des tâches de l'agent d'environ 3 % et augmentent le coût d'inférence de plus de 20 %) | Config |
-| `/login` | Se connecter au compte Claude | Auth |
-| `/logout` | Se déconnecter et se ré-authentifier | Auth |
-| `/loop [interval] [prompt]` | Exécuter un prompt ou une commande slash à intervalle récurrent (ex. `/loop 5m check the deploy`), v2.1.71+ | Automatisation |
-| `/mcp` | Gérer les serveurs Model Context Protocol | Config |
-| `/memory` | Afficher et modifier la mémoire automatique (contexte sauvegardé automatiquement par Claude entre sessions via MEMORY.md), v2.1.59+ | Config |
-| `/mobile` | Afficher les liens de téléchargement App Store et Google Play | Info |
-| `/model` | Changer de modèle (avec flèches gauche/droite pour le curseur d'effort) | Mode |
-| `/permissions` | Configurer les listes d'autorisation de permissions | Config |
-| `/plan` | Entrer en Mode Plan | Mode |
-| `/plugin` | Parcourir et installer des plugins Claude Code | Config |
-| `/remote-control` (`/rc`) | Contrôler une session locale depuis le web/mobile ; activation par le propriétaire sur Team/Enterprise | Mode |
-| `/rename` | Donner un nom descriptif à la session actuelle | Session |
-| `/resume` | Reprendre une session précédente (depuis une session en cours) | Session |
-| `/rewind` | Ouvrir le menu rewind pour annuler les modifications récentes | Édition |
-| `/sandbox` | Activer l'isolation au niveau du système d'exploitation | Config |
-| `Ctrl+D` | Quitter Claude Code | Session |
+Toutes les commandes ne sont pas visibles pour tous. Leur disponibilité dépend de la plateforme, du forfait et du fournisseur : `/desktop` apparaît sur macOS et Windows x64 avec un abonnement Claude, `/setup-bedrock` uniquement avec `CLAUDE_CODE_USE_BEDROCK=1`, et `/upgrade` jamais sur Enterprise. Saisissez `/` dans une session pour voir les commandes réellement disponibles.
+
+Notation : `<arg>` est requis, `[arg]` est facultatif ; les alias suivent la commande entre parenthèses.
+
+<a id="session-lifecycle"></a>
+
+### Cycle de vie des sessions
+
+| Commande | Action |
+|---------|--------|
+| `/clear [name]` (`/reset`, `/new`) | Démarrer une conversation vide. Le nom donné identifie la précédente dans le sélecteur `/resume` |
+| `/resume [session]` (`/continue`) | Reprendre une conversation par identifiant ou nom, ou ouvrir le sélecteur. Les sessions en arrière-plan portent la mention `bg` |
+| `/branch [name]` | Créer une branche de la conversation à cet endroit et basculer dans la copie. L'original reste accessible par `/resume` (v2.1.77+) |
+| `/fork [prompt]` | Copier la conversation dans une nouvelle session en arrière-plan et continuer ici. Entre v2.1.161 et v2.1.211, lançait un sous-agent forké, désormais `/subtask` ; auparavant, alias de `/branch` |
+| `/subtask <task>` | Lancer un sous-agent forké qui hérite de toute la conversation, travaille en arrière-plan et rend son résultat ici (v2.1.212+) |
+| `/background [prompt]` (`/bg`) | Détacher cette session pour l'exécuter comme agent en arrière-plan et libérer le terminal. La suivre avec `claude agents` |
+| `/stop` | Arrêter la session en arrière-plan attachée. Transcription et worktree sont conservés. `/exit` détache sans arrêter |
+| `/rename [name]` | Nommer la session et afficher son nom sur la barre de prompt. Sans argument, générer un nom depuis l'historique |
+| `/recap` | Obtenir à la demande un résumé de la session en une ligne |
+| `/rewind` (`/checkpoint`, `/undo`) | Revenir à un point de contrôle de conversation et/ou de code, ou résumer depuis un message choisi |
+| `/copy [N]` | Copier la N-ième réponse récente. Si elle contient du code, ouvrir un sélecteur ; `w` écrit dans un fichier |
+| `/export [filename]` | Exporter la conversation en texte brut vers un fichier ou le presse-papiers |
+| `/teleport` (`/tp`) | Rapatrier une session Claude Code sur le web dans ce terminal, branche et conversation comprises |
+| `/remote-control` (`/rc`) | Rendre cette session pilotable depuis claude.ai ou l'application mobile |
+| `/desktop` (`/app`) | Continuer la session dans l'application Claude Code Desktop |
+| `/exit` (`/quit`) | Quitter le CLI. Dans une session en arrière-plan attachée, se détacher et la laisser fonctionner |
+
+<a id="context"></a>
+
+### Contexte
+
+| Commande | Action |
+|---------|--------|
+| `/compact [instructions]` | Résumer la conversation pour libérer du contexte. Les instructions facultatives ciblent le résumé |
+| `/autocompact [auto\|<tokens>]` | Définir et enregistrer la fenêtre de compaction automatique, ou rétablir le défaut du modèle |
+| `/context [all]` | Afficher une grille colorée de l'utilisation du contexte et des suggestions d'optimisation. `all` développe le détail par élément en plein écran |
+| `/btw [question]` | Poser une question annexe dans un panneau éphémère en lecture seule, sans outils ni pollution de l'historique. Sans question, rouvrir le dernier panneau (v2.1.212+) |
+| `/memory` | Modifier les fichiers `CLAUDE.md`, activer/désactiver la mémoire automatique et parcourir ses entrées |
+| `/add-dir <path>` | Ajouter un répertoire de travail accessible pendant la session. La plupart des configurations `.claude/` n'y sont pas découvertes |
+| `/cd <path>` | Déplacer la session vers un autre répertoire sans perdre le cache de prompt (v2.1.169+) |
+
+<a id="model-effort-and-permission-modes"></a>
+
+### Modèle, effort et modes de permission
+
+| Commande | Action |
+|---------|--------|
+| `/model [model]` | Changer de modèle et l'enregistrer par défaut. Les flèches gauche/droite règlent l'effort. `s` limite le choix à la session |
+| `/effort [level\|auto\|status]` | Régler l'effort : `low`, `medium`, `high`, `xhigh`, `max` ou `ultracode`. `max` reste propre à la session ; `ultracode` active les workflows dynamiques à `xhigh` ; `auto` efface le niveau enregistré pour le modèle |
+| `/fast [on\|off]` | Activer/désactiver le mode rapide : même modèle, sortie plus rapide, prix supérieur |
+| `/plan [description]` | Entrer en mode planification, avec éventuellement la tâche de départ |
+| `/goal [condition\|clear]` | Définir une condition de fin. Claude poursuit sur plusieurs tours jusqu'à confirmation par un évaluateur, avec un panneau indiquant temps écoulé, tours et tokens (v2.1.139+) |
+| `/advisor [model\|off]` | Activer l'outil conseiller : un second modèle consulté aux moments clés. Accepte `fable` si disponible, `opus`, `sonnet` ou un identifiant complet |
+| `/permissions` (`/allowed-tools`) | Gérer règles d'autorisation, de demande et de refus, répertoires de travail et refus récents du mode Auto |
+| `/fewer-permission-prompts` | Analyser les transcriptions pour trouver les appels Bash/MCP courants en lecture seule, puis proposer une liste d'autorisation pour `.claude/settings.json`. Livrée comme `/less-permission-prompts` en v2.1.111, puis renommée |
+| `/sandbox` | Activer/désactiver la sandbox sur les plateformes compatibles |
+
+<a id="parallel-and-scheduled-work"></a>
+
+### Travail parallèle et planifié
+
+| Commande | Action |
+|---------|--------|
+| `/tasks` (`/bashes`) | Afficher et gérer le travail en arrière-plan de la session, y compris les sous-agents terminés |
+| `/batch <instruction>` | Décomposer une modification de toute la base en 5 à 30 unités, puis lancer un sous-agent par unité dans son propre worktree, chacun ouvrant une PR |
+| `/list-agents` (`/peers`) | Lister les sous-agents, coéquipiers et autres sessions joignables lorsque la messagerie intersessions est activée |
+| `/workflow-authoring` | Charger la référence de rédaction des scripts de workflow dynamique lorsque cette fonction est activée |
+| `/workflows` | Ouvrir la vue de progression pour suivre, suspendre, reprendre ou enregistrer les exécutions |
+| `/loop [interval] [prompt]` (`/proactive`) | Répéter un prompt tant que la session reste ouverte. Sans intervalle, Claude détermine le rythme ; sans prompt, exécuter le contrôle de maintenance ou `.claude/loop.md` |
+| `/schedule [description]` (`/routines`) | Créer, actualiser, lister ou exécuter des routines sur l'infrastructure cloud gérée par Anthropic |
+| `/deep-research <question>` | Répartir des recherches web, recouper les sources et rédiger un rapport sourcé. Invocation manuelle uniquement depuis v2.1.218 |
+| `/autofix-pr [prompt]` | Lancer une session cloud surveillant la PR de la branche courante et poussant des corrections après un échec CI ou un commentaire de revue. Nécessite `gh` |
+| `/remote-env` | Choisir l'environnement par défaut des agents cloud |
+
+<a id="review-and-ship"></a>
+
+### Revue et livraison
+
+| Commande | Action |
+|---------|--------|
+| `/diff` | Afficher interactivement les modifications non commitées et les diffs par tour |
+| `/code-review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [target]` | Examiner le diff pour les bugs et simplifications. `--fix` applique les corrections, `--comment` publie des commentaires de PR et `ultra` lance la revue cloud. Sous-agent en arrière-plan depuis v2.1.218 |
+| `/review [level] [--fix] [--comment] [target]` | Alias de `/code-review` depuis v2.1.223 ; mêmes cibles, niveaux d'effort et options |
+| `/ultrareview [PR or branch]` | Revue approfondie multi-agents dans le cloud. Alias de `/code-review ultra`. Trois exécutions gratuites sur Pro et Max, puis crédits d'utilisation |
+| `/security-review` | Examiner le diff de branche contre la branche par défaut d'origin pour les risques d'injection, d'authentification et d'exposition des données. Nécessite un remote `origin` |
+| `/simplify [target]` | Quatre agents parallèles examinent réutilisation, simplification, efficacité et niveau d'abstraction, puis appliquent les corrections. Depuis v2.1.154, les bugs de correction relèvent de `/code-review` |
+| `/verify` | Confirmer une modification en construisant l'application, en la lançant et en observant le résultat, au-delà des tests (v2.1.145+) |
+| `/run` | Lancer et piloter l'application du projet pour voir fonctionner une modification (v2.1.145+) |
+| `/run-skill-generator` | Écrire un skill de projet qui apprend à `/run` et `/verify` à construire, lancer et piloter l'application (v2.1.145+) |
+
+<a id="configuration-and-extensions"></a>
+
+### Configuration et extensions
+
+| Commande | Action |
+|---------|--------|
+| `/output-style [style]` | Lister ou sélectionner Default, Proactive, Concise, Explanatory, Learning ou un style personnalisé (v2.1.269+) |
+| `/auto-mode-setup` | Préparer des entrées d'environnement du mode Auto à partir du projet et des sessions récentes, puis les examiner avant enregistrement |
+| `/update-config [request]` | Demander à Claude de modifier le fichier de paramètres approprié pour le changement décrit |
+| `/import [codex\|gemini\|cursor] [--dry-run] [--yes]` | Importer la configuration d'un autre agent local ; examiner d'abord avec `--dry-run`. Des restrictions de fournisseur et de feature flags s'appliquent |
+| `/artifacts` | Parcourir, joindre ou ouvrir les artefacts accessibles là où la fonction est disponible |
+| `/design [brief]` | Créer des planches de design modifiables sous forme d'artefact dans les sessions Anthropic compatibles |
+| `/config [key=value ...]` (`/settings`) | Ouvrir les paramètres ou définir directement une clé, par exemple `/config theme=dark`. `/config --help` liste les clés modifiables |
+| `/init` | Générer un premier `CLAUDE.md`. ⚠️ Examiner et alléger le contenu LLM avant commit : l'étude ETH Zürich mesure ~3 % de réussite en moins et 20 %+ de coût d'inférence en plus pour des contextes autogénérés. `CLAUDE_CODE_NEW_INIT=1` ajoute un parcours interactif pour skills, hooks et mémoire personnelle |
+| `/hooks` | Afficher la configuration des hooks d'événements d'outils |
+| `/mcp [reconnect <server>\|enable\|disable [<server>\|all]]` | Gérer connexions MCP et OAuth. En mode `-p`, afficher un résumé textuel de l'état |
+| `/plugin [subcommand]` | Gérer les plugins avec les sous-commandes `list`, `install`, `enable`, `disable` |
+| `/reload-plugins [--force]` | Recharger les plugins actifs sans redémarrer. Ignorer avec avertissement si le rechargement invaliderait le cache de prompt, sauf si forcé |
+| `/reload-skills` | Réexaminer les répertoires de skills et de commandes pour appliquer leurs modifications pendant la session (v2.1.152+) |
+| `/skills` | Lister les skills. Saisir pour filtrer, `t` pour trier par coût en tokens, `Space` pour changer la visibilité |
+| `/agents` | Rappeler de demander à Claude de gérer les sous-agents, ou de modifier `.claude/agents/` directement. Était un gestionnaire interactif avant v2.1.198 |
+| `/keybindings` | Ouvrir `~/.claude/keybindings.json` |
+| `/statusline` | Configurer la ligne d'état, éventuellement à partir du prompt shell |
+| `/terminal-setup` | Configurer les raccourcis du terminal pour Shift+Enter. Apparaît seulement dans les terminaux qui en ont besoin |
+| `/setup-bedrock` | Assistant Amazon Bedrock interactif, visible uniquement avec `CLAUDE_CODE_USE_BEDROCK=1` |
+| `/setup-vertex` | Assistant Google Cloud Agent Platform interactif, visible uniquement avec `CLAUDE_CODE_USE_VERTEX=1` |
+| `/web-setup` | Connecter GitHub à Claude Code sur le web avec les identifiants locaux de `gh` |
+| `/install-github-app` | Installer l'application GitHub Claude pour un dépôt, avec possibilité de configurer workflows GitHub Actions et secrets |
+| `/install-slack-app` | Installer l'application Slack Claude par un parcours OAuth dans le navigateur |
+| `/chrome` | Configurer Claude dans Chrome |
+| `/design-login` | Autoriser l'accès au design system pour `/design-sync` avec le compte claude.ai |
+| `/design-sync [hint]` | Convertir le design system React du dépôt et l'envoyer à Claude Design pour utiliser les vrais composants. La première synchronisation peut prendre des heures sur un grand dépôt. API Anthropic uniquement |
+| `/claude-api [subcommand]` | Référence API et workflows : `migrate`, `upgrade`, `managed-agents-onboard`, `prompt-audit`, `cost-optimize`, `build-eval`, `hillclimb` |
+| `/dataviz [request]` | Conseils de graphiques et dashboards avec un validateur exécutable du contraste et du daltonisme (v2.1.198+) |
+
+<a id="interface-and-display"></a>
+
+### Interface et affichage
+
+| Commande | Action |
+|---------|--------|
+| `/theme` | Changer le thème : automatique, clair, sombre, adapté au daltonisme, ANSI ou thèmes personnalisés dans `~/.claude/themes/` |
+| `/color [color\|default]` | Définir la couleur de la barre de prompt pour la session. Sans argument, choisir aléatoirement |
+| `/tui [default\|fullscreen]` | Choisir le moteur de rendu du terminal et le relancer en conservant la conversation |
+| `/focus` | Afficher le dernier prompt, un résumé des outils en une ligne avec statistiques du diff, et la réponse finale. Plein écran uniquement |
+| `/scroll-speed` | Régler la vitesse de molette avec une règle défilante de prévisualisation. Plein écran uniquement, hors terminal JetBrains |
+| `/voice [hold\|tap\|off]` | Activer/désactiver la dictée ou choisir son mode. Nécessite un compte claude.ai |
+| `/ide` | Gérer les intégrations IDE et afficher leur état |
+
+<a id="diagnostics-and-support"></a>
+
+### Diagnostic et assistance
+
+| Commande | Action |
+|---------|--------|
+| `/doctor` (`/checkup`) | Contrôle complet : installation, `PATH`, paramètres illisibles, skills et serveurs MCP inutilisés face à leur coût de contexte, hooks lents, volume de `CLAUDE.md`, dérive des versions. Rapport d'abord, demande avant modification (v2.1.205+) |
+| `/skill-doctor` | Signaler le coût de contexte des skills visibles et ceux jamais invoqués. Exclut skills intégrés et d'entreprise, exige la récupération des feature flags et ne fonctionne pas via Remote Control. À lancer dans le terminal (v2.1.252+) |
+| `/debug [description]` | Activer les journaux de débogage de session et diagnostiquer à partir de ceux-ci |
+| `/heapdump` | Écrire un instantané du tas et une répartition mémoire dans `~/Desktop`. ⚠️ Contient toute la conversation et des identifiants ; ne jamais le partager |
+| `/status` | Ouvrir l'onglet Status des paramètres : version, modèle, compte, connectivité. Fonctionne pendant la réponse de Claude |
+| `/usage` (`/cost`, `/stats`) | Coût de session, limites du forfait et activité. Sur les forfaits payants, ventilation par skill, sous-agent, plugin et serveur MCP |
+| `/insights` | Produire un rapport sur les sessions : domaines de projet, interactions et difficultés |
+| `/release-notes` | Sélecteur interactif de changelog. Depuis v2.1.208, les notes restent hors de la conversation visible par Claude |
+| `/help` | Afficher l'aide et les commandes disponibles |
+| `/bug [report]` (`/share`) | Signaler un bug ou partager la conversation avec écran de consentement. Sur les fournisseurs tiers, repli vers une archive locale sous `~/.claude/feedback-bundles/` (v2.1.212+) |
+| `/feedback [report]` | Envoyer un retour produit. Même boîte de dialogue et règles d'envoi que `/bug` |
+| `/team-onboarding` | Créer un guide d'intégration pour un coéquipier à partir de 30 jours de sessions, commandes et usages MCP |
+| `/powerup` | Leçons interactives et démonstrations animées pour découvrir les fonctions |
+
+<a id="account-and-platform"></a>
+
+### Compte et plateforme
+
+| Commande | Action |
+|---------|--------|
+| `/login` | Se connecter au compte Anthropic |
+| `/logout` | Se déconnecter |
+| `/upgrade` | Ouvrir la page de changement de forfait. Masquée sur Enterprise |
+| `/rate-limit-options` | Afficher les choix d'attente/continuation, crédits et changement de forfait après une limite d'abonnement ; saisir cette commande cachée en entier |
+| `/usage-credits` | Configurer les crédits d'utilisation, ou les demander à l'administrateur lorsque la limite est atteinte. Anciennement `/extra-usage` |
+| `/privacy-settings` | Consulter et modifier les paramètres de confidentialité. Pro et Max uniquement |
+| `/passes` | Partager une semaine gratuite de Claude Code. Visible uniquement pour les comptes éligibles |
+| `/mobile` (`/ios`, `/android`) | Afficher le QR code de l'application mobile Claude |
+| `/stickers` | Commander des autocollants Claude Code |
+| `/radio` | Ouvrir la radio lo-fi Claude FM ou afficher l'URL du flux. Indisponible sur Bedrock, Agent Platform, Foundry et Claude Platform on AWS |
+
+Les serveurs MCP ajoutent leurs propres commandes `/mcp__<server>__<prompt>`, découvertes depuis les serveurs connectés.
+
+<a id="removed-renamed-and-commands-that-never-existed"></a>
+
+### Commandes supprimées, renommées ou inexistantes
+
+| Commande | État |
+|---------|--------|
+| `/ultraplan` | Supprimée ; utiliser `/plan` |
+| `/execute` | **Ce n'est pas une commande Claude Code.** Absente de la référence officielle et de tout le CHANGELOG. Les anciennes versions du guide l'indiquaient par erreur. Sortir du Plan Mode en approuvant le plan ou avec `Shift+Tab` |
+| `/less-permission-prompts` | Renommée `/fewer-permission-prompts`. L'ancien nom livré en v2.1.111 demeure dans les notes de cette version |
+| `/extra-usage` | Renommée `/usage-credits` |
+| `/pr-comments` | Supprimée en v2.1.91. Demander à Claude de récupérer les commentaires de PR |
+| `/vim` | Supprimée en v2.1.92. Utiliser `/config` → Editor mode |
+| `Ctrl+D` | Raccourci clavier de sortie, pas une commande. Voir §10.2 |
 
 ### Actions Rapides
 
@@ -23216,6 +24224,8 @@ Sélection de commandes. La [référence complète anglaise](ultimate-guide.md#1
 | Annuler une opération | `Ctrl+C` |
 | Rechercher dans l'historique | `Ctrl+R` |
 | Rejeter une suggestion | `Esc` |
+
+<a id="102-keyboard-shortcuts"></a>
 
 ## 10.2 Raccourcis Clavier
 
@@ -23249,9 +24259,10 @@ Sélection de commandes. La [référence complète anglaise](ultimate-guide.md#1
 | Raccourci | Action |
 |----------|--------|
 | `Alt+T` (`Option+T` sur macOS) | Basculer le thinking si autorisé ; sans effet sur Opus 5.5/Fable |
+| `Alt+P` (`Option+P` sur macOS) | Ouvrir le sélecteur de modèle |
 | `Ctrl+X Ctrl+K` | Arrêter les sous-agents en arrière-plan |
 | `Ctrl+Enter` / `Ctrl+X Ctrl+S` | Envoyer les messages en attente immédiatement |
-| `Ctrl+O` | Afficher les blocs de thinking |
+| `Ctrl+O` | Ouvrir le visualiseur de transcription |
 
 ### Saisie Vocale
 
@@ -23288,6 +24299,8 @@ Activez/désactivez la voix avec `/voice`. La liaison push-to-talk n'est active 
 
 > **Note** : Combinez les drapeaux de reprise avec `-p` pour les scripts et les flux de travail CI/CD.
 
+<a id="103-configuration-reference"></a>
+
 ## 10.3 Référence de Configuration
 
 ### Emplacements de CLAUDE.md
@@ -23297,7 +24310,7 @@ Activez/désactivez la voix avec `/voice`. La liaison push-to-talk n'est active 
 | `~/.claude/CLAUDE.md` | Tous les projets (global) | N/A |
 | `/project/CLAUDE.md` | Ce projet (partagé) | ✅ Oui |
 | `/project/CLAUDE.local.md` | Ce projet (substitutions locales) | ❌ Non (.gitignored) |
-| `/project/.claude/CLAUDE.md` | Configuration personnelle du projet | ❌ Non |
+| `/project/CLAUDE.local.md` | Instructions personnelles du projet ; ajouter à `.gitignore` | ❌ Non |
 | Répertoires parents/enfants | Chargés automatiquement dans les monorepos | Selon l'emplacement |
 
 ### Fichiers de Configuration
@@ -23317,9 +24330,9 @@ Activez/désactivez la voix avec `/voice`. La liaison push-to-talk n'est active 
 | `Write` | Toutes les écritures de fichiers |
 | `WebSearch` | Recherche web |
 | `mcp__serena__*` | Tous les outils Serena |
-| `Read(file_path:*.env*)` | Bloquer la lecture de tout chemin de fichier `.env*` |
-| `Edit(file_path:*.pem)` | Bloquer la modification des certificats `.pem` |
-| `Bash(command:*rm -rf*)` | Bloquer les commandes bash destructives |
+| `Read(*.env*)` | Bloquer la lecture de tout chemin de fichier `.env*` |
+| `Edit(*.pem)` | Bloquer la modification des certificats `.pem` |
+| `Bash(rm -rf *)` | Bloquer les commandes bash destructives |
 
 ### Référence des Flags CLI
 
@@ -23548,6 +24561,8 @@ claude -r abc123 -p "summarize progress"
 | `--permission-mode plan` | Sûr | Exploration en lecture seule |
 | `--debug` | Moyen | Dépannage (journaux détaillés) |
 
+<a id="104-troubleshooting"></a>
+
 ## 10.4 Dépannage
 
 > **Dépannage interactif** : Utilisez la commande `/diagnose` pour une résolution guidée et interactive des problèmes. Elle analyse automatiquement votre environnement et fournit des solutions ciblées. Voir [examples/commands/diagnose.md](../examples/commands/diagnose.md).
@@ -23587,6 +24602,8 @@ Utilisez ce guide basé sur les symptômes pour identifier et résoudre rapideme
 | Commande introuvable | Erreur de chemin | Vérifier `.claude/commands/` |
 | Frais API inattendus malgré un abonnement actif | `ANTHROPIC_API_KEY` défini dans le shell ou `.env` contourne l'abonnement | Exécuter `echo $ANTHROPIC_API_KEY`. Si une valeur s'affiche, Claude Code facture aux tarifs API. Supprimer la variable de votre profil shell pour rétablir la facturation par abonnement. Exécuter `claude /cost` pour vérifier les dépenses de la session en cours. |
 
+<a id="context-recovery"></a>
+
 ### Récupération du contexte
 
 | Niveau de contexte | Action recommandée |
@@ -23619,6 +24636,8 @@ Utilisez ce guide basé sur les symptômes pour identifier et résoudre rapideme
 - Utiliser `claude /cost` (ou `/usage` depuis la v2.1.118) pour vérifier les dépenses en temps réel dans la session en cours
 - Utiliser `npx ccusage` pour consulter l'historique des dépenses entre sessions
 - Voir [§9.13 : The Interactive/Programmatic Billing Split](#the-interactiveprogrammatic-billing-split-effective-june-15-2026) pour le modèle de facturation complet et les changements du 15 juin
+
+<a id="mcp-server-issues"></a>
 
 ### Problèmes de serveur MCP
 
@@ -23906,6 +24925,8 @@ Scripts de diagnostic pour un dépannage instantané. À récupérer depuis :
 - macOS/Linux : [`examples/scripts/check-claude.sh`](../examples/scripts/check-claude.sh)
 - Santé du bridge : `python examples/scripts/bridge.py --health` (connectivité LM Studio)
 
+<a id="full-clean-reinstall-procedures"></a>
+
 ### Procédures de réinstallation complète
 
 ⚠️ **Option nucléaire pour les installations corrompues.** À utiliser en dernier recours.
@@ -23931,6 +24952,8 @@ Récupérer les scripts depuis :
 - ✓ Fichiers `CLAUDE.md` des projets
 - ✓ Agents, skills, commandes et hooks personnalisés (dans les projets)
 - ✓ Configurations des serveurs MCP (dans `mcp.json`)
+
+<a id="105-cheatsheet"></a>
 
 ## 10.5 Aide-mémoire
 
@@ -24008,6 +25031,8 @@ Récupérer les scripts depuis :
 ╚══════════════════════════════════════════════════════════╝
 ```
 
+<a id="106-daily-workflow--checklists"></a>
+
 ## 10.6 Flux de travail quotidien & listes de contrôle
 
 ### Modèle de flux de travail quotidien
@@ -24070,6 +25095,8 @@ Récupérer les scripts depuis :
 ```
 
 ---
+
+<a id="appendix-templates-collection"></a>
 
 # Annexe : Collection de modèles
 
@@ -24274,6 +25301,8 @@ exit 0
 
 ---
 
+<a id="11-ai-ecosystem-complementary-tools"></a>
+
 # 11. Écosystème IA : outils complémentaires
 
 _Accès rapide :_ [Pourquoi la complémentarité](#111-why-complementarity-matters) · [Matrice des outils](#112-tool-matrix) · [Flux de travail pratiques](#113-practical-workflows) · [Schémas d'intégration](#114-integration-patterns)
@@ -24287,6 +25316,8 @@ _Accès rapide :_ [Pourquoi la complémentarité](#111-why-complementarity-matte
 **Objectif** : Enchaîner Claude Code avec les bons outils IA pour des flux de travail optimaux
 
 > **En résumé** : Claude Code excelle dans le raisonnement contextuel et l'implémentation multi-fichiers. Combinez-le avec Perplexity (recherche), Gemini (images), Kimi (diapositives) et NotebookLM (synthèse) pour un flux de développement entièrement assisté par l'IA.
+
+<a id="111-why-complementarity-matters"></a>
 
 ## 11.1 Pourquoi la complémentarité est essentielle
 
@@ -24315,6 +25346,8 @@ Claude Code est conçu pour être votre **partenaire d'implémentation** avec un
 
 Enchaîner le bon outil à chaque étape compte plus que **remplacer l'un par l'autre**.
 
+<a id="112-tool-matrix"></a>
+
 ## 11.2 Matrice des outils
 
 ### Guide de décision rapide
@@ -24340,6 +25373,8 @@ Enchaîner le bon outil à chaque étape compte plus que **remplacer l'un par l'
 | **[v0.dev](https://v0.dev)** | Prototypage UI (Shadcn) | Limitée | 20 $/mois |
 | **[Cursor](https://cursor.sh)** | IDE avec autocomplétion IA | Limitée | 20 $/mois |
 | **[cc-copilot-bridge](https://github.com/FlorianBruniaux/cc-copilot-bridge)** | Basculement multi-fournisseurs | Complet | Copilot Pro 10 $/mois |
+
+<a id="multi-provider-setup-cc-copilot-bridge"></a>
 
 ### Configuration multi-fournisseurs : cc-copilot-bridge
 
@@ -24449,6 +25484,8 @@ python examples/scripts/bridge.py
 - Quand la planification Opus + exécution locale surpasse Opus en bout en bout
 
 Voir : [`examples/scripts/bridge.py`](../examples/scripts/bridge.py), [`examples/scripts/README.md`](../examples/scripts/README.md)
+
+<a id="113-practical-workflows"></a>
 
 ## 11.3 Workflows pratiques
 
@@ -24578,6 +25615,8 @@ Voir : [`examples/scripts/bridge.py`](../examples/scripts/bridge.py), [`examples
 
 **Quand l'utiliser** : démos de sprint, annonces de release, mises à jour pour la direction.
 
+<a id="114-integration-patterns"></a>
+
 ## 11.4 Patterns d'intégration
 
 ### Workflow complet : fonctionnalité à forte composante de recherche
@@ -24631,6 +25670,8 @@ claude
 ---
 
 > **📖 Approfondissement** : pour des patterns d'intégration détaillés, des prompts prêts à l'emploi et des comparaisons d'outils, consultez le [guide complet de l'écosystème IA](./ecosystem/ai-ecosystem.md).
+
+<a id="for-non-developers-claude-cowork"></a>
 
 ### Pour les non-développeurs : Claude Cowork
 
@@ -24953,6 +25994,8 @@ La couche 3 a le plus fort coefficient car elle est la plus souvent absente et p
 
 ---
 
+<a id="appendix-a-file-locations-reference"></a>
+
 ## Annexe A : Référence des emplacements de fichiers
 
 Référence rapide indiquant où Claude Code stocke les fichiers et la configuration.
@@ -25043,7 +26086,8 @@ Ces fichiers sont identiques sur toutes les plateformes :
 | Fichier/Répertoire | Emplacement | Rôle | Inclure dans Git ? |
 |----------------|----------|---------|----------------|
 | `CLAUDE.md` | Racine du projet | Mémoire du projet (équipe) | ✅ Oui |
-| `.claude/CLAUDE.md` | Racine du projet | Mémoire personnelle | ❌ Non |
+| `.claude/CLAUDE.md` | Racine du projet | Instructions de projet partagées | ✅ Oui |
+| `CLAUDE.local.md` | Racine du projet | Instructions personnelles ; ajouter à `.gitignore` | ❌ Non |
 | `.claude/settings.json` | Racine du projet | Configuration des hooks | ✅ Oui |
 | `.claude/settings.local.json` | Racine du projet | Permissions personnelles | ❌ Non |
 | `.claude/agents/` | Racine du projet | Agents personnalisés | ✅ Oui (équipe) |
@@ -25061,8 +26105,8 @@ Définissez-les dans votre profil shell (`~/.zshrc`, `~/.bashrc`, ou les Propri�
 |----------|---------|---------|
 | `ANTHROPIC_API_KEY` | Authentification API | `sk-ant-api03-...` |
 | `ANTHROPIC_BASE_URL` | Point d'accès API alternatif | `https://api.deepseek.com/anthropic` |
-| `ANTHROPIC_MODEL` | Modèle par défaut | `claude-sonnet-4-20250514` |
-| `ANTHROPIC_SMALL_FAST_MODEL` | Modèle rapide pour les tâches simples | `claude-haiku-4-20250514` |
+| `ANTHROPIC_MODEL` | Modèle par défaut | `claude-sonnet-5` |
+| `ANTHROPIC_SMALL_FAST_MODEL` | Modèle rapide pour les tâches simples | `claude-haiku-4-5-20251001` |
 | `BASH_DEFAULT_TIMEOUT_MS` | Délai d'expiration des commandes Bash | `60000` |
 | `ANTHROPIC_AUTH_TOKEN` | Token d'authentification alternatif | Votre token d'auth |
 | `CLAUDE_CODE_DISABLE_1M_CONTEXT` | Désactiver le support de la fenêtre de contexte 1M (v2.1.50+) | `true` |
@@ -25130,6 +26174,8 @@ Thumbs.db
 ```
 
 ---
+
+<a id="appendix-b-faq"></a>
 
 ## Annexe B : FAQ
 
@@ -25233,37 +26279,19 @@ Idées reçues que nous avons rencontrées :
 
 ### Puis-je reprendre une session depuis un dossier de projet différent ?
 
-**Réponse courte** : Pas avec la commande native `--resume`, mais les opérations manuelles sur le système de fichiers fonctionnent de manière fiable.
-
-**La limitation** : La commande `--resume` de Claude Code est intentionnellement limitée au répertoire de travail courant. Les sessions sont stockées dans `~/.claude/projects/<encoded-path>/` où le chemin est dérivé de l'emplacement absolu de votre projet. Déplacer un projet ou bifurquer une session vers un nouveau dossier interrompt la capacité de reprise.
-
-**Pourquoi cette conception ?** : Les sessions stockent des chemins de fichiers absolus, un contexte spécifique au projet (configurations de serveurs MCP, règles `.claudeignore`, variables d'environnement). La reprise entre dossiers nécessiterait une réécriture des chemins et une validation du contexte, qui ne sont pas encore implémentées.
-
-**Solution de contournement, migration manuelle** (recommandée) :
+Utilisez `claude --resume` depuis le dossier du projet d'origine pour choisir une conversation enregistrée. Pour déplacer le travail vers un autre dossier, préservez d'abord les transcriptions originales et préparez une passation indiquant la tâche, les décisions, les fichiers modifiés et les vérifications restantes.
 
 ```bash
-# Lors du déplacement d'un dossier de projet
-cd ~/.claude/projects/
-mv -- -old-location-myapp- -new-location-myapp-
+# From the original project directory
+claude --resume
 
-# Lors de la bifurcation de sessions vers un nouveau projet
-cp -n ./-source-project-/*.jsonl ./-target-project-/
-cp -r ./-source-project-/subagents ./-target-project-/ 2>/dev/null || true
-
-cd /path/to/target/project && claude --continue
+# From the destination project directory, begin with the reviewed handoff
+claude
 ```
 
-**⚠️ Risques liés à la migration** :
-- Les secrets/identifiants codés en dur peuvent ne pas se transférer correctement
-- Les chemins absolus dans le contexte de session peuvent être invalides
-- Les configurations de serveurs MCP peuvent différer entre les projets
-- Les règles `.claudeignore` sont spécifiques au projet
+Les transcriptions peuvent contenir des chemins absolus et des résultats d'outils propres au projet. Copier un dossier de transcriptions au nom encodé ne réécrit pas ces références, ne transfère pas l'état MCP et ne valide pas les permissions dans le dossier cible. Les outils de migration manuelle sont des workflows communautaires nécessitant sauvegardes et validation explicite ; ils ne constituent pas un mécanisme natif de restauration garanti.
 
-**Automatisation communautaire** : Le skill [claude-migrate-session](https://github.com/jimweller/dotfiles/tree/7a1d306b15de0a89ea0a809ca42fff5ad5a16e43/dotfiles/claude-code/skills/claude-migrate-session) de Jim Weller automatise ce processus, mais dispose de tests limités (0 étoile/fork au février 2026). L'approche manuelle est plus sûre.
-
-**Guide détaillé** : Voir [Limitations de la reprise de session et migration entre dossiers](ops/observability.md#session-resume-limitations--cross-folder-migration) pour le flux complet et les cas particuliers.
-
-**Connexe** : L'issue GitHub [#1516](https://github.com/anthropics/claude-code/issues/1516) recense les demandes de la communauté pour un support natif entre dossiers.
+Consultez les [options officielles de reprise CLI](https://code.claude.com/docs/en/cli-reference) et la [discussion sur la migration des sessions](https://github.com/anthropics/claude-code/issues/1516) avant une migration.
 
 ---
 
@@ -25320,15 +26348,15 @@ Cette section aborde les idées reçues courantes sur Claude Code qui circulent 
 
 **Ce que les gens confondent** :
 - **Déploiement progressif ≠ Fonctionnalités cachées** : Anthropic utilise des feature flags pour les déploiements par étapes (pratique standard dans l'industrie)
-- **Fonctionnalités expérimentales ≠ Secrets** : Des fonctionnalités comme TeammateTool existent mais sont clairement marquées comme expérimentales/instables
+- **Fonctionnalités expérimentales ≠ Secrets** : Les équipes d’agents disposent d’une activation et de limites documentées
 - **Découverte communautaire ≠ Piratage** : Lorsque des utilisateurs découvrent des fonctionnalités non publiées dans le code compilé, c'est de l'exploration, pas un « déverrouillage de secrets »
 
 **La vérité sur les feature flags** :
 
 | Flag | Objectif | Statut |
 |------|---------|--------|
-| `CLAUDE_CODE_ENABLE_TASKS=false` | **Revenir** à l'ancien système TodoWrite (v2.1.19+) | Chemin de migration officiel |
-| Flags TeammateTool | Déploiement progressif de l'orchestration multi-agents | Expérimental, instable |
+| `CLAUDE_CODE_ENABLE_TASKS=0` | Choisir l’ancien TodoWrite après activation des outils de tâches | Les nouveaux modèles exigent aussi l’activation explicite des outils de tâches |
+| `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` | Activer les équipes d’agents | Fonctionnalité expérimentale documentée |
 | Autres flags internes | Assurance qualité, tests A/B, déploiement par étapes | Non destinés aux utilisateurs finaux |
 
 **Bonne pratique** : Lisez le [CHANGELOG](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md) et les notes de version officielles. Les fonctionnalités deviennent publiques lorsqu'elles sont stables et documentées. L'utilisation de fonctionnalités expérimentales via des contournements peut entraîner :
@@ -25409,7 +26437,7 @@ Vous → Coordonnez les étapes suivantes
 
 **Points forts documentés et vérifiables** :
 
-1. **Fenêtre de contexte** : 200K tokens (~150K mots) - l'une des plus grandes du secteur
+1. **Fenêtre de contexte** : Dépend du modèle ; les modèles actuels Opus, Sonnet et Fable disposent de 1M sur l'API directe, Haiku 4.5 de 200K. Consultez `/context`.
 2. **Système de sous-agents** : Des fenêtres de contexte isolées évitent la pollution lors de l'exploration
 3. **Écosystème MCP** : Plus de 100 serveurs communautaires pour des tâches spécialisées
 4. **Système de permissions** : Contrôle granulaire de l'accès aux outils et des opérations dangereuses
@@ -25469,4 +26497,4 @@ Nous l'évaluerons et l'ajouterons à cette section s'il répond aux critères d
 
 **Contributions** : Issues et PRs bienvenus.
 
-**Dernière mise à jour** : Janvier 2026 | **Version** : 3.41.1
+**Dernière mise à jour** : Janvier 2026 | **Version** : 3.43.0

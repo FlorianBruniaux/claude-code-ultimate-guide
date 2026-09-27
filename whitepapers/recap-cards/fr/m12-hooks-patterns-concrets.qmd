@@ -4,10 +4,11 @@ subtitle: "Exemples pratiques de hooks pour automatiser le workflow"
 card-number: "M12"
 category: "Méthodologie"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -16,7 +17,7 @@ format:
 
 ## Auto-format après édition
 
-Hook `PostToolUse` sur `Edit|Write`. Détecte l'extension du fichier modifié et applique le formateur adapté.
+`PostToolUse`, matcher `Edit|Write` : choisir le formateur par extension.
 
 ```bash
 INPUT=$(cat)
@@ -31,31 +32,34 @@ esac
 exit 0
 ```
 
-Configurer en `async: true`, car le formatage est cosmétique et ne doit pas bloquer Claude.
+Attendre la fin du formatage avant les tests ou une nouvelle écriture : l'exécution en arrière-plan crée un risque de concurrence.
 
 ## Notification macOS à la fin
 
-Hook `Stop`. Déclenche une alerte système macOS avec un son contextuel (succès, erreur, attente).
+`Stop` : afficher une notification et jouer un son.
 
 ```bash
 INPUT=$(cat)
-MESSAGE=$(echo "$INPUT" | jq -r '.message // "Terminé"')
-osascript -e "display notification \"$MESSAGE\" \
-  with title \"Claude Code\""
+MESSAGE=$(echo "$INPUT" | jq -r '.message // "Done"')
+osascript - "$MESSAGE" <<'APPLESCRIPT'
+on run argv
+  display notification (item 1 of argv) with title "Claude Code"
+end run
+APPLESCRIPT
 afplay /System/Library/Sounds/Hero.aiff &
 exit 0
 ```
 
 ## Sécurité : bloquer les commandes dangereuses
 
-Hook `PreToolUse` sur `Bash`. Intercepte les patterns destructifs avant exécution.
+`PreToolUse`, matcher `Bash` : bloquer avant l'exécution.
 
 ```bash
 COMMAND=$(cat | jq -r '.tool_input.command')
 DANGEROUS=("rm -rf /" "dd if=" "DROP DATABASE"
            "git push --force.*main")
 for pattern in "${DANGEROUS[@]}"; do
-  if [[ "$COMMAND" == *"$pattern"* ]]; then
+  if [[ "$COMMAND" =~ $pattern ]]; then
     echo "BLOCKED: $pattern" >&2
     exit 2
   fi
@@ -63,58 +67,58 @@ done
 exit 0
 ```
 
-Exit code 2 bloque l'action et remonte le message stderr à Claude.
+Exit 2 bloque cette action. La liste reste contournable ; compléter avec permissions et isolation.
 
 ## Git auto-stage après édition
 
-Hook `PostToolUse` sur `Edit|Write`. Prépare automatiquement les fichiers modifiés pour le prochain commit.
+`PostToolUse`, matcher `Edit|Write` : indexer le fichier modifié.
 
 ```bash
 INPUT=$(cat)
 FILE=$(echo "$INPUT" | jq -r '.tool_input.file_path // empty')
 [[ -z "$FILE" || "$FILE" == "null" ]] && exit 0
-git add "$FILE" 2>/dev/null
+git add -- "$FILE" 2>/dev/null
 exit 0
 ```
 
 ## RTK auto-wrapper
 
-Hook `PreToolUse` sur `Bash`. Détecte les commandes optimisables par RTK et informe Claude de l'alternative disponible.
-
-La logique : si la commande commence par `git log`, `cargo test`, `pnpm list` ou des équivalents verbeux, suggérer `rtk <commande>` via stdout avant de laisser passer.
+`PreToolUse` sur `Bash` : pour `git log`, `cargo test`, `pnpm list`, suggérer `rtk <commande>` via le JSON `hookSpecificOutput.additionalContext`, ou utiliser un wrapper dédié. Une sortie stdout brute ne suffit pas à informer Claude.
 
 ## Logger toutes les commandes exécutées
 
-Hook `PostToolUse` sur `Bash`. Utile pour l'audit et le debug de sessions longues.
+`PostToolUse`, matcher `Bash` : journaliser les commandes.
 
 ```bash
 COMMAND=$(cat | jq -r '.tool_input.command // empty')
-echo "$(date -u +%FT%T) | $COMMAND" \
+mkdir -p ~/.claude/logs
+printf '%s | %s\n' "$(date -u +%FT%T)" "$COMMAND" \
   >> ~/.claude/logs/commands.log
 exit 0
 ```
 
 ## Pattern dispatcher : un seul point d'entrée
 
-Plutôt que multiplier les entrées dans `settings.json`, un script `dispatch.sh` route vers des handlers spécialisés selon le fichier ou l'outil. Résultat : un seul matcher `Edit|Write|Bash` dans la config, et des handlers maintenables séparément dans `.claude/hooks/handlers/`.
+Dans `settings.json`, un matcher `Edit|Write|Bash` appelle `dispatch.sh`, qui choisit un handler dans `.claude/hooks/handlers/` selon l'outil ou le fichier.
 
 ## Remplacement de sortie d'outil (v2.1.121)
 
-Hook `PostToolUse`. Remplace ce que Claude reçoit comme résultat d'un outil via `hookSpecificOutput.updatedToolOutput`. Fonctionne pour tous les outils : Bash, Read, Write, Edit, MCP. Cas d'usage : anonymiser les données sensibles, compresser les résultats volumineux, injecter des métadonnées d'audit.
+`PostToolUse` peut remplacer la réponse de Bash, Read, Write, Edit ou MCP via `hookSpecificOutput.updatedToolOutput` : anonymisation, compression ou métadonnées.
 
 ```bash
-INPUT=$(cat)
-OUTPUT=$(echo "$INPUT" | jq -r '.tool_response.output // empty')
-# Anonymiser les tokens avant que Claude ne les voie
-CLEAN=$(echo "$OUTPUT" | sed 's/ghp_[A-Za-z0-9]*/[TOKEN_REDACTED]/g')
-echo "{\"hookSpecificOutput\": {\"updatedToolOutput\": $(echo "$CLEAN" | jq -Rs .)}}"
-exit 0
+jq 'select(.tool_name == "Bash") |
+  {hookSpecificOutput: {hookEventName: "PostToolUse",
+    updatedToolOutput: (.tool_response |
+      .stdout |= gsub("ghp_[A-Za-z0-9]+"; "[REDACTED]") |
+      .stderr |= gsub("ghp_[A-Za-z0-9]+"; "[REDACTED]"))}}'
 ```
+
+Respecter le schéma réel de réponse. Le remplacement n'annule ni les effets de bord ni la télémétrie déjà capturée. Ce motif ne couvre pas tous les secrets.
 
 ## Checklist installation
 
 ```bash
-chmod +x .claude/hooks/mon-hook.sh   # Obligatoire
+chmod +x .claude/hooks/mon-hook.sh
 # Tester manuellement avant d'activer :
 echo '{"tool_name":"Edit","tool_input":{"file_path":"test.ts"}}' \
   | .claude/hooks/mon-hook.sh

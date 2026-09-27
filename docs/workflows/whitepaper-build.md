@@ -33,13 +33,13 @@ cd whitepapers && ./render-epub.sh fr   # French only
 cd whitepapers && ./render-epub.sh en   # English only
 ```
 
-**PDF stack**: Quarto → Typst 0.13 → PDF. Template: `whitepapers/_extensions/whitepaper/`. Bold Guy palette (warm beige + burnt orange).
+**PDF stack**: Quarto → bundled Typst → PDF. Template: `whitepapers/_extensions/whitepaper/`. Bold Guy palette (warm beige + burnt orange).
 
 **EPUB stack**: Quarto → Pandoc → EPUB3. CSS: `whitepapers/epub-styles.css`. Cover: `_extensions/whitepaper/assets/claude-code-ai-logo.jpg`.
 
 **Available skill**: `/pdf-generator` for contextual help (YAML template, stack, troubleshooting).
 
-**Critical**: Always use `--to whitepaper-typst`, never `--to pdf`. See `MEMORY.md` for details.
+**Whitepaper format**: use `--to whitepaper-typst` to select the project template. Recap cards and cheatsheets use their own formats.
 
 ## Recap Cards (Thematic Memo Sheets)
 
@@ -62,64 +62,71 @@ cd whitepapers/recap-cards && ./render-recap-cards.sh all
 
 **58 cards per language** in the Technical, Methodology, and Design series.
 
-## Guide Export (EPUB + PDF, full ~25K lines)
+## Complete bilingual publication build
 
-Generates `guide/ultimate-guide.md` as EPUB and/or PDF. Output goes to `dist/`.
-
-```bash
-# Generate both EPUB and PDF (default)
-./scripts/generate-guide-exports.sh
-
-# EPUB only
-./scripts/generate-guide-exports.sh --epub
-
-# PDF only
-./scripts/generate-guide-exports.sh --pdf
-
-# Custom output directory
-./scripts/generate-guide-exports.sh -o /tmp/exports
-
-# Verbose
-./scripts/generate-guide-exports.sh -v
-```
-
-**Stack**: pandoc → EPUB3 (488K) and pandoc + Typst → PDF (2.9 MB).
-
-**Dependencies**: Python 3, Pandoc, plus either standalone Typst or Quarto. The
-script uses `quarto typst` when Typst is not installed separately, including on
-Linux environments.
-
-**PDF note**: Internal anchor links are stripped before PDF rendering (Typst label compatibility). The PDF is purely sequential — no clickable cross-refs, but fully readable with TOC.
-
-**Note**: Different from whitepaper EPUBs — this generates the full guide, not individual focused documents. `dist/` is gitignored.
-
-## French Guide Translation + Export
-
-`guide/ultimate-guide.fr.md` is a French translation of the full guide, generated via the Anthropic API.
+Run from the cloned repository root:
 
 ```bash
-# 1. Translate (or re-translate after updates)
-#    Resumes from .translation-cache/ if interrupted
-python3 scripts/translate-guide.py
+# Inventory only: 146 PDFs and 28 EPUB companions
+python3 scripts/render-publications.py --list
 
-# 2. Preprocess for Quarto (strips links, escapes @citations, fixes lists)
-python3 scripts/preprocess-guide.py \
-  --input guide/ultimate-guide.fr.md \
-  --output whitepapers/guide-content-fr.md
+# Build both languages; resume only when all recorded input/output hashes match
+python3 scripts/render-publications.py --resume
 
-# 3. Render PDF (Bold Guy template, ~3.7 MB)
-cd whitepapers && quarto render guide-export-fr.qmd --to whitepaper-typst
+# Check every output, source hash, one-page card, EPUB and PDF page boundary
+python3 scripts/validate-publications.py
 
-# 4. Render EPUB (optional)
-cd whitepapers && quarto render guide-export-fr.qmd --to epub
+# Full guides only, using the same templates as the public downloads
+python3 scripts/render-publications.py --collections guides
+
+# A single language or collection
+python3 scripts/render-publications.py --lang en --collections whitepapers cards
 ```
 
-**Key files**:
-- `scripts/translate-guide.py` (chunked translation, claude-sonnet-5, retry x3; cost per run not reverified since the model bump, was ~$3/run on claude-sonnet-4-6)
-- `whitepapers/guide-export-fr.qmd` — QMD wrapper (lang: fr)
-- `whitepapers/guide-content-fr.md` — preprocessed content (gitignored, generated)
+The complete catalog contains two full guides, 26 whitepapers, 116 recap cards,
+and two daily cheatsheets. EPUB companions are generated for the guides and
+whitepapers. Outputs, render logs, and `manifest.json` go to
+`dist/publications/`, which is ignored by Git. The manifest records source and
+output hashes; a successful render does not establish semantic accuracy.
 
-**Known issue**: `strip_inline_toc` in preprocess-guide.py looks for EN headings — won't strip the FR TOC section, minor visual artifact only.
+Requirements: Python 3, Quarto 1.10.18 with bundled Typst, and the Inter and
+JetBrains Mono fonts. The extensions select native Typst syntax highlighting
+(`syntax-highlighting: idiomatic`) to preserve code lines with the custom raw-text
+styles. Quarto 1.9 changed the default highlighter; see its
+[Typst documentation](https://quarto.org/docs/output-formats/typst.html). `pdfinfo`, when installed, also checks readability and
+records page counts. The build runs independent sources concurrently, while
+PDF and EPUB rendering of one source remains sequential.
+
+The full-guide preprocessor removes the manual English or French table of
+contents and internal anchor links before rendering. Quarto supplies the PDF
+table of contents. Cross-references to internal Markdown anchors are plain text
+in these exports.
+
+`scripts/generate-guide-exports.sh` remains a legacy English Pandoc export.
+Use `scripts/render-publications.py` for the styled public editions and CI.
+
+## French translation freshness
+
+`guide/ultimate-guide.fr.md` is maintained against the recorded English source.
+The bilingual build refuses to render a stale French full guide. Before marking
+a refresh complete, review the complete English delta, restore any missing
+sections, preserve executable examples, and review the French prose. Structural
+counts alone are insufficient.
+
+```bash
+# Only after the translation review and source commit are complete
+python3 scripts/check-translations.py --update-local --record-french-refresh
+python3 scripts/check-translations.py --check --require-current-maintained
+python3 scripts/render-publications.py --collections guides --lang fr
+```
+
+The September 2026 refresh uses Codex workers. The existing
+`scripts/translate-guide.py` is a separate legacy Anthropic API tool and is not
+invoked by the build. Its presence does not select the model used by Codex.
+
+Full-guide wrappers are `whitepapers/guide-export.qmd` and
+`whitepapers/guide-export-fr.qmd`. Preprocessed Markdown is generated and ignored.
+See [translation maintenance](translations.md) for the evidence registry.
 
 ## Typst Templates — 3 Copies, Always Sync
 

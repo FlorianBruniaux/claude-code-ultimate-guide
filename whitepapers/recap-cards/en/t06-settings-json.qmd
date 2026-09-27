@@ -4,10 +4,11 @@ subtitle: "All configuration keys and their scope"
 card-number: "T06"
 category: "Technical"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "August 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: en
 format:
@@ -24,7 +25,7 @@ format:
 .claude/settings.local.json     (local machine, gitignore)
 ```
 
-`settings.local.json` always takes precedence. It is the ideal place for personal overrides without creating Git conflicts.
+Project-local settings override project and user settings. CLI arguments and managed policy have higher priority. Use local settings for personal overrides without Git conflicts.
 
 ## Complete structure
 
@@ -33,7 +34,7 @@ format:
   "model": "claude-sonnet-5",
   "permissions": {
     "allow": ["Bash(git *)", "Bash(pnpm *)", "Read"],
-    "deny":  ["Bash(rm -rf *)", "Write(file_path:*.env*)"],
+    "deny":  ["Bash(rm -rf *)", "Write(*.env*)"],
     "ask":   ["Bash(npm publish)"],
     "defaultMode": "acceptEdits",
     "additionalDirectories": ["../shared-libs/"]
@@ -65,12 +66,12 @@ format:
 | `permissions.allow` | Auto-approved tools |
 | `permissions.deny` | Blocked tools |
 | `permissions.ask` | Tools requiring confirmation |
-| `permissions.defaultMode` | Default mode (default/acceptEdits/plan/bypassPermissions) |
-| `permissions.additionalDirectories` | Additional accessible directories |
+| `permissions.defaultMode` | Default mode (default/acceptEdits/plan/auto/dontAsk/bypassPermissions) |
+| `permissions` → `additionalDirectories` | Additional accessible directories |
 | `env` | Injected environment variables |
 | `hooks` | Scripts triggered on events |
 | `statusLine` | Custom status line |
-| `outputStyle` | Communication style (Default/Explanatory/Learning) |
+| `outputStyle` | Communication style (Default/Proactive/Concise/Explanatory/Learning) |
 | `spinnerVerbs` | Words in the loading spinner |
 | `spinnerTipsOverride` | Tips displayed during processing |
 | `enableAllProjectMcpServers` | Enables all project MCP servers |
@@ -96,7 +97,7 @@ format:
 
 ```gitignore
 .claude/settings.local.json   # Local machine overrides
-.claude/CLAUDE.md             # Personal instructions
+CLAUDE.local.md              # Personal project instructions
 .env.local                    # Secrets
 ```
 

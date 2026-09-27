@@ -4,10 +4,11 @@ subtitle: "Réduire la consommation de tokens sans perdre en qualité"
 card-number: "T20"
 category: "Technique"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "Août 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -20,23 +21,17 @@ RTK (Rust Token Killer) intercepte les outputs de commandes **avant** qu'ils ent
 
 ```bash
 # Installation
-brew install rtk-ai/tap/rtk
-# ou : cargo install rtk
+brew install rtk
+# ou : cargo install --git https://github.com/rtk-ai/rtk
 
-# Initialisation dans un projet (pose le hook automatiquement)
+# Inspecter les changements de configuration avant l'intégration
+rtk init --dry-run
 rtk init
 ```
 
-## Économies Mesurées
+## Mesurer la réduction des sorties
 
-| Commande | Sans RTK | Avec RTK | Réduction |
-|----------|----------|----------|-----------|
-| `git log` | 13 994 chars | 1 076 chars | **92%** |
-| `git status` | 100 chars | 24 chars | **76%** |
-| `vitest run` | ~50 000 chars | ~5 000 chars | **90%** |
-| `pnpm list` | ~8 000 chars | ~2 400 chars | **70%** |
-
-Une session de 30 minutes avec 10-15 commandes git passe de ~150K à ~41K tokens, soit 72% d'économie sur ce poste seul.
+Comparer des commandes équivalentes sur le même état du dépôt, inspecter les échecs et utiliser `rtk gain` pour les estimations locales. Réduire la sortie du shell ne couvre qu'une partie de la consommation de tokens ; cela ne prouve pas une réduction identique de la facture totale. RTK estime les tokens sans exécuter le tokenizer du modèle. Voir [le calcul des économies RTK](https://github.com/rtk-ai/rtk#how-savings-work).
 
 ## Commandes RTK Essentielles
 
@@ -51,7 +46,7 @@ rtk gain              # Dashboard d'économies
 
 ## Compact : Libérer le Contexte
 
-`/compact` résume l'historique de la conversation et libère environ 40-50% du contexte utilisé, sans perdre le fil de la session. À utiliser proactivement à 70% d'utilisation, pas en urgence à 90%.
+`/compact` résume l'historique de conversation. L'espace récupéré varie et des détails peuvent être perdus ; conserver les décisions et prochaines étapes dans des fichiers et inspecter `/context` avant de continuer.
 
 ```
 /compact              # Résumer la session en cours
@@ -59,17 +54,19 @@ rtk gain              # Dashboard d'économies
 
 La différence avec `/clear` : compact conserve la continuité de la session, clear repart de zéro.
 
-## `.claudeignore` : Exclure le Bruit
+## Limiter les lectures et la recherche
 
-```
-node_modules/
-.next/
-dist/
-*.lock
-coverage/
+Claude Code ne documente aucun mécanisme natif `.claudeignore`. Nommer les répertoires pertinents dans les demandes. Pour bloquer un accès, utiliser les règles de permission de `.claude/settings.json`, par exemple :
+
+```json
+{
+  "permissions": {
+    "deny": ["Read(./node_modules/**)", "Read(./dist/**)"]
+  }
+}
 ```
 
-Sans ce fichier, Claude peut lire des milliers de fichiers non pertinents lors d'une recherche globale, consommant du contexte inutilement.
+Examiner séparément les accès shell et MCP. Ces règles restreignent les accès ; elles ne classent pas les résultats de recherche. Voir [les patterns de permissions](https://code.claude.com/docs/en/permissions#read-and-edit).
 
 ## Règles de Prompt Efficaces
 
@@ -89,4 +86,4 @@ Sans ce fichier, Claude peut lire des milliers de fichiers non pertinents lors d
 
 ## Stratégie Combinée
 
-RTK réduit le coût des commandes bash (préventif). `/compact` libère le contexte en cours de session (curatif). `.claudeignore` évite les lectures inutiles (structurel). Ces trois leviers sont complémentaires et s'appliquent en parallèle.
+Filtrer les sorties verbeuses du shell, compacter lorsque c'est utile et limiter les lectures aux sources pertinentes. Vérifier que le résultat conserve les preuves nécessaires pour terminer la tâche.

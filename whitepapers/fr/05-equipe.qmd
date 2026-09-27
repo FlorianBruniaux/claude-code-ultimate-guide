@@ -1,0 +1,1301 @@
+---
+title: "Déployer en Équipe"
+subtitle: "De solo à 50 devs : observabilité, CI/CD, adoption"
+author: "Florian BRUNIAUX"
+date: "2026-09-26"
+date-format: "MMMM YYYY"
+version: "3.43.0"
+wp-version: "1.6.2"
+series: "Claude Code Ultimate Guide"
+format:
+  whitepaper-typst:
+    toc: true
+    toc-depth: 2
+    section-numbering: "1.1"
+  html:
+    toc: true
+    theme: cosmo
+  epub:
+    toc: true
+    toc-depth: 2
+    epub-cover-image: _extensions/whitepaper/assets/claude-code-ai-logo.jpg
+    css: ../epub-styles.css
+    number-sections: true
+lang: fr
+---
+
+::: {.callout-tip title="Pour qui ce whitepaper ?"}
+**Audience principale** : Tech Leads, Engineering Managers, CTO
+
+**Prérequis** : Expérience personnelle Claude Code (2+ semaines)
+
+**Temps de lecture** : 25 min
+
+**Ce que vous allez retenir** :
+
+- 3 phases d'adoption : Solo → Pair → Team (timeline et métriques par phase)
+- Champions program: ROI x3 vs formation top-down
+- Config versionnée dans le repo = le levier d'adoption le plus sous-estimé
+:::
+
+> **En 5 lignes :** L'adoption en équipe de Claude Code ne se décrète pas, elle se structure. Cet ebook donne le playbook complet : 3 phases avec timelines réalistes, le programme champions qui multiplie par 3 le taux d'adoption, et les intégrations CI/CD qui transforment Claude Code en standard d'équipe plutôt qu'en outil individuel.
+
+# Du Solo à l'Équipe
+
+Votre équipe de 8 devs vient d'adopter Claude Code. Les 3 premières semaines ressemblent toujours à la même chose : chacun configure de son côté, les prompts divergent, les coûts s'envolent avant la première facture, et un dev senior déclare "ça marche pas pour moi" parce que personne n'a commité de `CLAUDE.md`. Ce whitepaper est le playbook pour éviter cette phase.
+
+## Les Défis de l'Adoption
+
+| Défi | Impact | Solution |
+|------|--------|----------|
+| Configurations divergentes | Onboarding confus | CLAUDE.md partagé |
+| Coûts non maîtrisés | Facture surprise | Monitoring + quotas |
+| Sécurité inégale | Risques | Hooks standardisés |
+| Résistances | Adoption faible | Champions program |
+
+Le vrai problème n'est jamais l'outil. C'est le moment où les conventions implicites d'un dev entrent en collision avec celles d'un autre. Sans `CLAUDE.md` partagé, chaque développeur crée son propre dialecte de prompts, et les revues de code deviennent des débats sur le style généré plutôt que sur la logique métier. La résistance des seniors est souvent le signal qu'il manque un cadre commun, pas que l'outil est inadapté.
+
+## Matrice de Décision
+
+```
+Besoin d'expédier aujourd'hui ?
+│
+├─ OUI → Turnkey Quickstart
+│
+├─ NON → Équipe a besoin de conventions partagées ?
+│        ├─ OUI → Turnkey + documentation
+│        └─ NON → Autonomous Learning Path
+```
+
+Le **Turnkey Quickstart** (démarrage rapide clé en main) est décrit en section [Stratégies d'Adoption](#stratégies-dadoption). L'**Autonomous Learning Path** s'adresse aux équipes qui préfèrent une adoption progressive et auto-gérée.
+
+## Structures par Taille d'Équipe
+
+### Solo / Petite Équipe (2-3)
+
+En solo ou à deux, la configuration reste volontairement minimale. Un seul `CLAUDE.md` à la racine du projet suffit pour que Claude Code comprenne le contexte ; les préférences personnelles vivent dans le répertoire global de l'utilisateur.
+
+```
+./CLAUDE.md                    # Projet (commité)
+~/.claude/CLAUDE.md            # Préférences perso
+```
+
+### Équipe Moyenne (4-10)
+
+Dès 4 développeurs, les hooks partagés deviennent nécessaires pour garantir une cohérence minimale. Le fichier `.claude/settings.json` commité dans le repo permet de standardiser les garde-fous (sécurité, format) sans toucher aux préférences individuelles de chaque dev.
+
+```
+./CLAUDE.md                    # Conventions équipe (commité)
+./.claude/settings.json        # Hooks partagés (commité)
+~/.claude/CLAUDE.md            # Préférences individuelles
+```
+
+### Grande Équipe (10+)
+
+Au-delà de 10 développeurs, la structure doit être explicite et documentée. Les agents partagés et les rules auto-chargées (`.claude/rules/`) permettent d'imposer des standards de review (architecture, qualité, tests, performance) sans que chaque dev doive les connaître par coeur.
+
+```
+./CLAUDE.md                    # Documenté, commité
+./.claude/settings.json        # Hooks standardisés
+./.claude/agents/              # Agents partagés
+./.claude/rules/               # Règles au démarrage ou selon paths
+│   ├── architecture-review.md
+│   ├── code-quality-review.md
+│   ├── test-review.md
+│   └── performance-review.md
+~/.claude/CLAUDE.md            # Ajouts personnels
+```
+
+> **Chargement des règles** : les fichiers sans `paths` sont chargés au démarrage ; les règles ciblées sont chargées lors de l’utilisation de fichiers correspondants. La version du guide n’est pas une version de Claude Code.
+
+La transition de "Petite Équipe" à "Équipe Moyenne" est le moment critique. C'est là que les configurations personnelles divergent assez pour créer des frictions visibles : un dev commit du code formaté différemment, un autre ignore les hooks parce qu'ils ne sont pas dans le repo. Le passage au `.claude/settings.json` commité est le signal que l'équipe passe de "groupe d'individus" à "équipe avec conventions".
+
+**Templates prêts** : `examples/rules/` contient les 4 templates ci-dessus, à copier et adapter.
+
+## Que Committer ? Arbre de Décision
+
+```
+Fichier de config Claude Code
+│
+└─ Contenu sensible ? (tokens, chemins perso, clés)
+   ├─ OUI → ❌ Ne pas committer → Ajouter au .gitignore
+   └─ NON (règles, conventions, outils) → Scope souhaité ?
+            ├─ Tout le projet → ✅ CLAUDE.md à la racine → git commit
+            │                        └─ Conventions de code
+            │                           Stack technique
+            │                           Commandes build/test/lint
+            ├─ Sous-dossier spécifique → ✅ CLAUDE.md dans le dossier → git commit
+            │                                └─ (mêmes contenus que racine)
+            └─ Mon poste uniquement → ❌ ~/.claude/CLAUDE.md → jamais commité
+                                           └─ Préférences personnelles
+                                              Style de réponse
+                                              Langue de travail
+```
+
+::: {.callout-note title="Ce qui va dans .gitignore"}
+```gitignore
+# Claude Code: fichiers jamais commités
+CLAUDE.local.md              # instructions personnelles au projet
+.claude/settings.local.json  # overrides personnels (si utilisé)
+```
+Commitez les instructions, agents, skills et settings partagés après revue. Gardez les fichiers personnels hors du dépôt. Ne placez aucun secret dans les instructions du modèle, même si elles sont ignorées par Git.
+:::
+
+## Fusion des Settings : Règles de Priorité
+
+Les valeurs simples suivent cet ordre : politiques gérées, options de ligne de commande, settings locaux au projet, settings partagés du projet, puis settings utilisateur. Les listes sont généralement fusionnées ; les listes de modèles ont des exceptions documentées. Les hooks de plusieurs portées peuvent s’exécuter ensemble, sous réserve des restrictions gérées.
+
+Inspectez `/status` pour les sources chargées et `/hooks` pour les hooks enregistrés. Testez l’événement attendu au lieu de supposer qu’un fichier a supprimé les hooks d’un autre. Voir les [règles de fusion des settings](https://code.claude.com/docs/en/settings#lists-merge-instead-of-overriding).
+
+## Hook Profiles : Niveaux par Environnement (v3.38.0)
+
+Pour les équipes qui veulent des niveaux de rigueur différents selon l'environnement (dev, staging, prod), le préfixe `HOOK_REQUIRED_LEVEL` permet de conditionner l'activation des hooks par variable d'environnement. Source : Everything Claude Code (Affaan Mustafa).
+
+```bash
+# Dans settings.json, chaque hook déclare son niveau requis
+# Le hook ne s'exécute que si HOOK_REQUIRED_LEVEL >= niveau déclaré
+
+HOOK_REQUIRED_LEVEL=minimal  # Hooks essentiels seulement
+HOOK_REQUIRED_LEVEL=standard # Hooks standard (défaut)
+HOOK_REQUIRED_LEVEL=strict   # Tous les hooks actifs
+```
+
+**Cas d'usage équipe** : chaque hook déclare son `HOOK_REQUIRED_LEVEL` dans `settings.json` (fixe, commité). L'environnement fait varier le niveau actif via `ECC_HOOK_PROFILE` : dev local exporte `ECC_HOOK_PROFILE=minimal` (vélocité), CI exporte `ECC_HOOK_PROFILE=strict` (sécurité maximale), sans maintenir plusieurs fichiers `settings.json`.
+
+| Niveau | Hooks actifs | Usage typique |
+|--------|-------------|---------------|
+| `minimal` | Secrets scan uniquement | Dev local, exploration |
+| `standard` | Sécurité + format | Staging, PR review |
+| `strict` | Tous | CI/CD production, branches protégées |
+
+{{< pagebreak >}}
+
+# Observabilité
+
+## Pourquoi Monitorer
+
+Sans monitoring, les équipes découvrent leurs coûts réels à la réception de la facture API, souvent trop tard pour ajuster les comportements. Les outils présentés dans cette section permettent de quantifier l'usage en continu, par développeur et par projet.
+
+- **Comprendre les coûts** : Estimer la dépense API avant les factures
+- **Identifier les patterns** : Outils les plus utilisés, fichiers répétés
+- **Optimiser le workflow** : Trouver les inefficacités
+- **Suivre par projet** : Comparer l'usage entre codebases
+- **Visibilité équipe** : Agréger pour budget team
+
+## Session Search & Resume
+
+### Commandes Natives
+
+La reprise de session évite de reconstruire le contexte depuis zéro après une interruption. Claude Code fournit trois niveaux de reprise de session en natif. La reprise rapide (`-c`) convient au cas le plus courant (continuer la dernière session interrompue), tandis que le sélecteur interactif (`--resume`) est utile quand plusieurs sessions coexistent sur un même projet.
+
+| Commande | Usage |
+|----------|-------|
+| `claude -c` | Reprendre session la plus récente |
+| `claude -r <id>` | Reprendre session spécifique |
+| `claude --resume` | Sélecteur interactif |
+
+### Script Recommandé : session-search.sh
+
+**Installation** :
+
+```bash
+cp examples/scripts/session-search.sh ~/.claude/scripts/cs
+chmod +x ~/.claude/scripts/cs
+echo "alias cs='~/.claude/scripts/cs'" >> ~/.zshrc
+```
+
+**Usage** :
+
+```bash
+cs                          # 10 sessions récentes (~15ms)
+cs "authentication"         # Recherche mot-clé (~400ms)
+cs "Prisma migration"       # Recherche AND multi-mots
+cs -n 20                    # 20 résultats
+cs -p myproject "bug"       # Filtrer par projet
+cs --since 7d               # 7 derniers jours
+cs --since today            # Aujourd'hui seulement
+cs --json "api" | jq .      # Sortie JSON pour scripts
+```
+
+**Output** :
+
+```
+2026-01-15 08:32 │ my-project │ Implement OAuth flow for...
+  claude --resume 84287c0d-8778-4a8d-abf1-eb2807e327a8
+
+2026-01-14 21:13 │ other-project │ Fix database migration...
+  claude --resume 1340c42e-eac5-4181-8407-cc76e1a76219
+```
+
+## Session Logging
+
+### Installation
+
+```bash
+mkdir -p ~/.claude/hooks
+cp examples/hooks/bash/session-logger.sh ~/.claude/hooks/
+chmod +x ~/.claude/hooks/session-logger.sh
+```
+
+### Configuration
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [{
+      "matcher": "*",
+      "hooks": [{
+        "type": "command",
+        "command": "~/.claude/hooks/session-logger.sh"
+      }]
+    }]
+  }
+}
+```
+
+### Variables d'Environnement
+
+Ces variables appartiennent au script d’exemple copié ci-dessus. `~/.claude/logs` est son emplacement personnalisé ; les transcriptions natives sont sous `~/.claude/projects/`.
+
+| Variable | Défaut | Description |
+|----------|--------|-------------|
+| `CLAUDE_LOG_DIR` | `~/.claude/logs` | Stockage logs |
+| `CLAUDE_LOG_TOKENS` | `true` | Estimation tokens |
+| `CLAUDE_SESSION_ID` | auto | ID personnalisé |
+
+## Remplacement de Sortie PostToolUse pour l'Observabilité Équipe (v2.1.121)
+
+Un hook de journalisation peut enregistrer certaines métadonnées sans remplacer le résultat de l’outil. Cet exemple écrit un enregistrement JSONL local ; définissez les accès et la rétention adaptés à votre équipe.
+
+```bash
+#!/bin/bash
+set -euo pipefail
+INPUT=$(cat)
+LOG_DIR="${CLAUDE_LOG_DIR:-$HOME/.claude/logs}"
+mkdir -p "$LOG_DIR"
+printf '%s' "$INPUT" | jq -c '{
+  tool: .tool_name,
+  session: .session_id,
+  duration_ms: .duration_ms
+}' >> "$LOG_DIR/tool-metadata.jsonl"
+# Aucun remplacement de sortie demandé.
+```
+
+Pour transformer une sortie, retournez l’objet documenté `hookSpecificOutput.updatedToolOutput` en respectant le schéma du résultat. Réémettre l’entrée du hook n’est pas un contrat de remplacement. Un hook PostToolUse intervient après l’outil et ne peut pas annuler ses effets externes. Voir le [contrôle de sortie PostToolUse](https://code.claude.com/docs/en/hooks#posttooluse-decision-control).
+
+{{< pagebreak >}}
+
+## Analyse des Sessions
+
+### session-stats.sh
+
+Ce script agrège les logs JSONL générés par `session-logger.sh` et produit un résumé structuré : nombre d'opérations, estimation de coût, et répartition par outil. Quatre modes d'analyse couvrent les besoins courants du quotidien au mois.
+
+```bash
+# Résumé du jour
+session-stats.sh
+
+# 7 derniers jours
+session-stats.sh --range week
+
+# Date spécifique
+session-stats.sh --date 2026-01-14
+
+# Par projet
+session-stats.sh --project my-app
+
+# JSON pour scripts
+session-stats.sh --json
+```
+
+### Exemple de Sortie
+
+```
+═══════════════════════════════════════════════════════
+    Claude Code Session Statistics - today
+═══════════════════════════════════════════════════════
+
+Summary
+  Total operations:  127
+  Sessions:          3
+
+Token Usage
+  Input tokens:      45,230
+  Output tokens:     12,450
+  Total tokens:      57,680
+
+Estimated Cost (Sonnet rates)
+  Input:   $0.1357
+  Output:  $0.1868
+  Total:   $0.3225
+
+Tools Used
+  Edit: 45
+  Read: 38
+  Bash: 24
+  Grep: 12
+  Write: 8
+
+Projects
+  my-app: 89
+  other-project: 38
+```
+
+## session-summary.sh : Résumé Automatique (v3.27.1)
+
+**Nouveau hook** inspiré du workflow Gemini CLI : affiche automatiquement un résumé de session à la fin.
+
+```bash
+# Installation (SessionEnd hook)
+cp examples/hooks/bash/session-summary.sh ~/.claude/hooks/
+```
+
+**Output** :
+
+```
+═══ Session Summary ═══════════════════════════════
+  Duration: 47min | Tools: 89 calls
+  Files modified: 12 | Tests run: 3
+  Commits: 2 | Cost estimate: ~$0.18
+════════════════════════════════════════════════════
+```
+
+**Utile en équipe** : Chaque dev voit son coût + impact par session → visibilité naturelle sans dashboard.
+
+## Optimisation Tokens : RTK (v3.27.1)
+
+**RTK** filtre les sorties des commandes prises en charge avant leur entrée dans le contexte. Mesurez les résultats sur votre dépôt et conservez l’accès aux sorties brutes pour les diagnostics.
+
+```bash
+brew install rtk
+# ou installer le projet officiel depuis sa source
+cargo install --git https://github.com/rtk-ai/rtk
+```
+
+| Commande | Variante RTK |
+|----------|--------------|
+| `git status` | `rtk git status` |
+| `cargo test` | `rtk cargo test` |
+| `vitest run` | `rtk vitest run` |
+| `gh pr view` | `rtk gh pr view` |
+
+`rtk vitest run` ne remplace pas automatiquement un script `pnpm test` arbitraire. Les économies dépendent de la sortie et du travail demandé. Référence : [RTK officiel](https://github.com/rtk-ai/rtk).
+
+> Configuration complète : [guide/ecosystem/third-party-tools.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ecosystem/third-party-tools.md), section RTK.
+
+## Limitations du Monitoring
+
+L’exemple de logger collecte des métadonnées d’outils, pas une trace complète de facturation ou de latence. Utilisez `/usage`, les données d’usage des réponses ou la télémétrie configurée pour les tokens et le cache ; la facture du fournisseur fait foi pour les montants facturés. La mesure du premier token demande une instrumentation du flux de réponse.
+
+**Ce qu'on PEUT mesurer avec précision** :
+
+- Compte d'utilisation outils
+- Patterns d'accès fichiers
+- Comparaisons relatives jour/jour, projet/projet
+- Timing des opérations
+
+> 📖 **Pour aller plus loin :** [Observability Guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/observability.md) (session search, logging, cost tracking)
+
+## Team-level Log Aggregation
+
+Les outils ci-dessus couvrent le monitoring individuel. Pour une équipe de 10+ développeurs, il faut faire converger les logs vers un stockage central afin de suivre le spend total, repérer les patterns anormaux, et répondre aux questions de compliance. Deux options, non exclusives.
+
+**Option A (recommandée) : router via le Gateway LiteLLM.** Le [Gateway API](#budget-équipe) capture l'usage au niveau réseau, sans aucun setup côté client : chaque requête est loggée server-side avec l'alias de la clé virtuelle, le modèle, et les tokens consommés. Chaque dev se connecte au même gateway avec une clé scopée à son équipe, sans cron job par machine.
+
+**Option B : envoyer les JSONL de session vers un store central.** Claude Code écrit ses logs de session dans `~/.claude/projects/**/*.jsonl`. Un hook `PostToolUse` ou un cron léger peut expédier les nouvelles entrées vers Loki :
+
+Le collecteur doit définir un curseur persistant, gérer la rotation et la déduplication, filtrer les données sensibles, s’authentifier auprès du stockage et reprendre après échec. Cette architecture nécessite une implémentation testée ; aucun script d’expédition prêt à exécuter n’est fourni ici.
+
+Les transcriptions peuvent fournir des appels et résultats d’outils à corréler. Elles ne prouvent pas seules l’état final des fichiers ni l’attribution complète des changements. Le contenu transmis au gateway dépend de sa configuration ; vérifiez ses règles de journalisation.
+
+Si le Gateway exporte en OTel, un collector minimal relaie les traces vers Grafana Tempo, ce qui permet de corréler une session Claude Code avec un événement de déploiement sur la même timeline. Les requêtes suivantes sont des schémas illustratifs : adaptez les noms, labels, types et unités aux métriques effectivement exposées par votre version et testez les résultats :
+
+```promql
+# Spend quotidien par équipe (USD)
+sum by (team_id) (increase(litellm_spend_total[1d]))
+
+# Volume de requêtes par modèle
+sum by (model) (rate(litellm_requests_total[1h]))
+
+# Budget headroom (fraction restante par équipe)
+1 - (litellm_spend_total / litellm_budget_limit)
+```
+
+Détails complets (config OTel Collector, requêtes Grafana additionnelles) : [guide/ops/observability.md §10](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/observability.md#10-team-level-log-aggregation).
+
+{{< pagebreak >}}
+
+# CI/CD Integration
+
+## Mode Headless en CI/CD (v2.1.81+)
+
+Pour une tâche headless, utilisez `-p` et configurez les outils et permissions nécessaires. Validez le résultat et le code de sortie dans le pipeline appelant.
+
+```bash
+claude -p "Review the diff and report findings" \
+  --tools "Read,Grep,Glob,Bash" \
+  --allowedTools "Read,Grep,Glob,Bash(git diff *)" \
+  --output-format json
+```
+
+`--tools` limite les outils disponibles ; `--allowedTools` autorise les appels correspondants sans nouvelle demande. Ces deux paramètres ont des rôles distincts.
+
+`--bare` évite la personnalisation automatique en mode print, notamment les hooks et plugins. Il ne supprime pas les effets de bord des outils et ne remplace pas le bac à sable. Consultez la [référence CLI](https://code.claude.com/docs/en/cli-reference) si vos contrôles obligatoires dépendent de ces personnalisations.
+
+`--channels` active des intégrations installées et nommées qui reçoivent des événements externes. Ce n’est pas un relais mobile générique pour les permissions. Configurez l’intégration choisie et les contrôles d’expéditeur selon la [documentation Channels](https://code.claude.com/docs/en/channels).
+
+## Les 3 GitHub Actions
+
+L'action officielle `anthropics/claude-code-action` s'intègre directement dans les workflows GitHub Actions existants. Ces trois configurations couvrent les cas d'usage les plus courants en équipe (la revue de PR, l'audit sécurité, et le triage d'issues) sans nécessiter de serveur dédié ni d'infrastructure supplémentaire.
+
+| Action | Trigger | Fonction |
+|--------|---------|----------|
+| `claude-pr-auto-review.yml` | PR opened/sync | Revue de code automatique |
+| `claude-security-review.yml` | PR | Audit sécurité |
+| `claude-issue-triage.yml` | Issue opened | Triage automatique |
+
+## PR Auto-Review
+
+**Fichier** : `.github/workflows/claude-pr-auto-review.yml`
+
+```yaml
+name: Claude PR Auto-Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches: [main, develop]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  claude-review:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v41
+        with:
+          files: |
+            **/*.ts
+            **/*.tsx
+            **/*.py
+          files_ignore: |
+            **/dist/**
+            **/node_modules/**
+
+      - name: Claude Code PR Review
+        uses: anthropics/claude-code-action@v1
+        if: steps.changed-files.outputs.any_changed == 'true'
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_args: --model sonnet
+          prompt: |
+            Review this PR for:
+            1. Correctness
+            2. Security
+            3. Performance
+            4. Best practices
+```
+
+**Codes couleur revue** :
+
+| Emoji | Niveau | Action |
+|-------|--------|--------|
+| 🔴 | Critical | Doit corriger avant merge |
+| 🟡 | Important | Devrait corriger |
+| 🟢 | Suggestion | Nice to have |
+| 💡 | Tip | Éducatif |
+
+{{< pagebreak >}}
+
+## Security Review
+
+**Fichier** : `.github/workflows/claude-security-review.yml`
+
+```yaml
+name: Security Review
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Claude Code Security Review
+        uses: anthropics/claude-code-security-review@main
+        with:
+          claude-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+          comment-pr: true
+```
+
+## Issue Triage
+
+**Schéma à compléter** : `.github/workflows/claude-issue-triage.yml`. Le bloc suivant décrit les étapes ; il n’est pas un workflow exécutable tel quel.
+
+```yaml
+name: Claude Issue Triage
+on:
+  issues:
+    types: [opened, edited, reopened]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Collect context & similar issues
+        id: gather
+        run: |
+          # Recherche issues similaires
+          gh api search/issues -f q="repo:${{ github.repository }} ..." > similars.json
+
+      - name: Ask Claude for triage JSON
+        run: |
+          # Appel API Claude pour:
+          # - labels suggérés
+          # - sévérité (low/medium/high/critical)
+          # - URL duplicate si trouvé
+          # - commentaire markdown
+
+      - name: Post triage comment
+        # Poste le résultat en commentaire
+```
+
+**Output du triage** :
+
+````markdown
+### 🤖 Triage
+- **Suggested labels:** bug, security
+- **Severity:** high
+- **Possible duplicate:** #123
+---
+This appears to be a security-related bug...
+````
+
+## Secrets Requis
+
+Un seul secret suffit pour activer toutes les GitHub Actions ci-dessus. La clé API doit être stockée dans les secrets du repository (ou de l'organisation pour un déploiement multi-repos), jamais en dur dans les fichiers de workflow.
+
+| Secret | Où le créer | Usage |
+|--------|-------------|-------|
+| `ANTHROPIC_API_KEY` | GitHub Settings → Secrets | Toutes les actions |
+
+> 📖 **Pour aller plus loin :** [§9.3 CI/CD Integration](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#93-cicd-integration) (workflows GitHub Actions complets) | [4 templates GitHub Actions](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/github-actions/)
+
+> 📖 **Pour aller plus loin :** [§9.12 Git Best Practices](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#912-git-best-practices--workflows) (worktrees, branching strategies, pre-commit hooks)
+
+## Code Review Natif (Research Preview, v3.36.0+)
+
+::: {.callout-note title="Code Review: Teams/Enterprise uniquement"}
+Depuis mars 2026, Anthropic propose une fonctionnalité **Code Review** intégrée à `claude.ai` (Research Preview). Elle est disponible exclusivement sur les plans Teams et Enterprise.
+:::
+
+### Architecture
+
+Claude analyse automatiquement les PR avec une architecture multi-agents. Chaque commentaire porte un niveau de sévérité explicite :
+
+| Niveau | Usage |
+|--------|-------|
+| **critical** | Bloquant, doit être corrigé avant merge |
+| **warning** | Important, devrait être corrigé |
+| **info** | Suggestion ou amélioration non bloquante |
+
+### Setup
+
+1. Aller sur `claude.ai/admin-settings/claude-code`
+2. Installer la **GitHub App** Claude Code
+3. Choisir le mode de déclenchement :
+
+| Mode | Comportement |
+|------|--------------|
+| `once` | Review unique à l'ouverture de la PR |
+| `every push` | Review automatique à chaque nouveau commit |
+| `manual` | Review à la demande uniquement |
+
+**Déclenchement manuel** : ajouter le commentaire `@claude review` sur n'importe quelle PR.
+
+### Personnalisation
+
+Créer un fichier `REVIEW.md` à la racine du repository pour personnaliser les instructions de review (focus domaines, conventions maison, niveaux de sévérité préférés).
+
+### Tarification
+
+Le Code Review est facturé **hors forfait** (extra usage), indépendamment du plan Teams/Enterprise souscrit. Le coût moyen observé est de **$15-25 par PR**, selon la taille et la complexité des changements.
+
+## `claude ultrareview` en CI/CD (v2.1.120)
+
+Depuis v2.1.120, `/ultrareview` est disponible en tant que sous-commande CLI pour l'intégration CI/CD sans session interactive :
+
+```bash
+# Dans un pipeline CI/CD (GitHub Actions, GitLab CI, etc.)
+claude ultrareview 1234 --json > review.json
+```
+
+Le pipeline doit configurer son déclenchement et la conservation de l’artefact. La commande écrit sur stdout ; `--post` publie explicitement sur une PR GitHub, tandis que `--no-post` est le défaut. `--timeout <minutes>` ajuste l’attente. Un code de sortie 0 indique une exécution réussie, pas l’absence de défaut dans le code. Voir la [référence CLI](https://code.claude.com/docs/en/cli-reference).
+
+Comparaison avec `/ultrareview` en session :
+
+| Mode | Usage | Contexte |
+|------|-------|---------|
+| `/ultrareview` (session) | Review interactive en session Claude Code | Développeur en local |
+| `claude ultrareview` (CI) | Review automatisée dans pipeline | GitHub Actions, GitLab CI |
+
+## `claude project purge` (v2.1.126)
+
+Supprime tout l'état Claude Code d'un projet : transcripts, tâches, historique de fichiers, entrée de configuration. Utile pour remettre à zéro l'état d'un projet en CI ou après une migration.
+
+```bash
+# Prévisualiser ce qui sera supprimé sans effacer
+claude project purge --dry-run
+
+# Supprimer sans confirmation interactive
+claude project purge --yes
+
+# Supprimer l'état de tous les projets
+claude project purge --all
+```
+
+**Options disponibles** : `--dry-run`, `--yes` (`-y`), `--interactive` (`-i`), `--all`.
+
+{{< pagebreak >}}
+
+# Stratégies d'Adoption
+
+## Turnkey Quickstart
+
+### Étape 1 : Config Minimale
+
+```bash
+mkdir -p .claude
+```
+
+Créer `./CLAUDE.md` :
+
+````markdown
+# Project: [nom-projet]
+
+## Stack
+- Runtime: [Node 20 / Python 3.11 / etc.]
+- Framework: [Next.js / FastAPI / etc.]
+
+## Commands
+- Test: `npm test` ou `pytest`
+- Lint: `npm run lint` ou `ruff check`
+
+## Convention
+- [Une règle importante, ex: "TypeScript strict mode required"]
+````
+
+### Étape 2 : Vérifier
+
+```bash
+claude
+> What's this project's test command?
+```
+
+**Pass** : Retourne la commande configurée.
+
+### Étape 3 : Première Vraie Tâche
+
+```bash
+claude "Review the README and suggest improvements"
+```
+
+**Ajoutez plus de config uniquement quand vous rencontrez des frictions.**
+
+## Champions Program
+
+L'adoption organique fonctionne mieux qu'un déploiement top-down imposé par le management. Le programme Champions s'appuie sur 2-3 développeurs reconnus par leurs pairs pour démontrer la valeur de l'outil sur des cas concrets avant d'élargir à toute l'équipe.
+
+| Phase | Action | Durée |
+|-------|--------|-------|
+| 1 | Identifier 2-3 early adopters | Semaine 1 |
+| 2 | Formation approfondie champions | Semaine 2 |
+| 3 | Champions forment leurs équipes | Semaine 3-4 |
+| 4 | Feedback loop et ajustements | Continu |
+
+Le choix des champions est déterminant. L'erreur classique est de choisir les devs les plus enthousiastes, alors que les meilleurs champions sont souvent les pragmatiques respectés par leurs pairs. Un senior sceptique converti a plus d'impact sur l'adoption qu'un junior enthousiaste, parce que l'équipe observe ses choix d'outils.
+
+::: {.callout-note title="Scénario : Équipe de 12 devs dans une PME e-commerce"}
+**Contexte** : L'équipe backend utilise Claude Code depuis 2 semaines. Seuls 3 devs l'utilisent activement, les autres restent sur leur workflow habituel.
+
+**Défi** : Le tech lead pousse l'adoption via un mail d'équipe avec un `CLAUDE.md` de 200 lignes copié d'un projet open source. Résultat : personne ne le lit, 2 devs l'essaient et trouvent les règles inadaptées à leur stack.
+
+**Approche** : Un champion identifié, senior backend, crée un `CLAUDE.md` de 15 lignes avec uniquement la stack, les commandes test/lint, et une convention de nommage. Il fait un live coding en standup de 10 minutes sur une vraie tâche.
+
+**Résultat** : 8/12 devs utilisent Claude Code après la semaine 3. Les ajouts au `CLAUDE.md` viennent des devs eux-mêmes via PR ; le fichier grandit organiquement de 15 à 45 lignes en un mois.
+:::
+
+## Anti-Patterns à Éviter
+
+Ces patterns reviennent systématiquement dans les équipes qui décrochent après les premières semaines. Chacun semble raisonnable isolément, mais produit l'effet inverse de celui recherché ; la complexité initiale tue l'adoption au lieu de l'accélérer.
+
+| Pattern | Problème | Alternative |
+|---------|----------|-------------|
+| Config copiée massive | Règles ignorées | Commencer petit |
+| Over-engineering setup | Temps perdu | Templates comme point de départ |
+| Pas de conventions | Divergence équipe | Documenter quelques essentiels |
+| Tout activer immédiatement | Complexité sans bénéfice | Activer selon besoin |
+
+## AGENTS.md : Apprentissage Cumulatif (v3.38.0)
+
+Le fichier `AGENTS.md` fonctionne comme un `CLAUDE.md` dédié aux agents : il documente ce que l'équipe a appris sur le comportement des agents dans ce projet spécifique.
+
+**Quoi documenter** :
+
+- Patterns qui fonctionnent dans ce repo (et pourquoi)
+- Tâches où les agents échouent systématiquement (et le contournement)
+- Ownership de fichiers critiques (quel agent peut modifier quoi)
+- Seuils de confiance observés par type de tâche
+
+**Évidence empirique** (Gloaguen et al., 2026) :
+
+| Source du fichier | Impact sur taux de succès | Impact sur coût |
+|-------------------|--------------------------|-----------------|
+| Fichier généré par LLM | −3% | +20% |
+| Fichier écrit par développeur | +4% | stable |
+
+Les fichiers générés automatiquement par LLM augmentent les coûts sans améliorer les résultats. Les fichiers rédigés par les développeurs, même courts, améliorent le taux de succès de 4%, parce qu'ils capturent des invariants que le LLM ne peut pas inférer seul.
+
+**Règles de maintenance** :
+
+- Édition humaine uniquement (jamais auto-générée)
+- Revue mensuelle (supprimer les entrées obsolètes)
+- Format court : une observation = une ligne, avec date
+
+```markdown
+# AGENTS.md
+
+## Observations (format: date | observation)
+- 2026-03-15 | auth.ts : toujours vérifier le middleware avant de modifier les routes
+- 2026-03-20 | migrations DB : tester en staging avant merge, 3 rollbacks récents
+- 2026-04-01 | agent Security : rate-limit à 2 appels/min sur l'API de scan
+```
+
+## Apprentissage Continu par Instinct (v3.38.0)
+
+Pour les équipes qui veulent capturer les patterns découverts session après session, le modèle d'instinct enregistre des observations légères au hook `Stop` sans alourdir le `CLAUDE.md`.
+
+**Pipeline** :
+
+```
+Stop hook
+  → Capture observation (confidence score)
+  → Decay model (observations non confirmées s'effacent)
+  → Promotion pipeline : instinct → CLAUDE.md rule ou skill
+```
+
+**Différence avec CLAUDE.md direct** : les instincts sont des hypothèses non validées. Seuls ceux confirmés plusieurs fois sont promus. Cela évite de polluer `CLAUDE.md` avec des généralisations incorrectes issues d'un seul run.
+
+**Pertinence équipe** : les instincts sont partagés via `AGENTS.md` ou un fichier dédié `.claude/instincts.md`, ce qui crée un apprentissage persistant accessible à tous les membres.
+
+## Dual-Instance Planning (Jon Williams, 2026)
+
+**Pattern** : 2 sessions Claude avec rôles distincts.
+
+**Architecture** :
+
+- **Claude Zero** (Planner) : Explore, écrit plans, review
+- **Claude One** (Implementer) : Lit plans approuvés, code, commit
+
+**Workflow** :
+```
+Terminal 1 (Claude Zero):
+  /plan → interview user → .claude/plans/Review/feature.md
+
+Human:
+  Review plan → approve → mv Review/ → Active/
+
+Terminal 2 (Claude One):
+  Implement .claude/plans/Active/feature.md
+
+Claude Zero:
+  Review implementation vs plan → feedback
+```
+
+**Quand utiliser** :
+
+- Spec-heavy features (security, payments, migrations)
+- Quality > speed (product designers coding)
+- Budget <$300/month (vs multi-instance horizontal)
+
+**ROI** : Évite correction loops (breakeven : ≥2 corrections/feature)
+
+**Source** : [Jon Williams LinkedIn](https://www.linkedin.com/posts/thatjonwilliams_ive-been-using-cursor-for-six-months-now-activity-7424481861802033153-k8bu)
+
+{{< pagebreak >}}
+
+# Agent Teams : Coordination Multi-Instance
+
+**Status** : Expérimental (v2.1.32+, Opus 5.5 disponible selon le compte et le fournisseur)
+
+## Architecture Lead-Teammate
+
+Plusieurs instances Claude travaillent en parallèle sur une codebase partagée.
+
+**Coordination** :
+
+- Git-based locking (`.claude/tasks/`)
+- Peer-to-peer messaging (mailbox system)
+- Team lead synthèse findings
+
+**Activation** :
+```bash
+export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
+# Ou dans ~/.claude/settings.json
+```
+
+> ⚠️ **Risques connus avant déploiement :**
+> - **Conflits de merge** : plusieurs agents modifiant les mêmes fichiers → préférer une architecture modulaire avec ownership clair par agent
+> - **Coût multiplicatif** : N agents = N× tokens. Un déploiement 5 agents sur Opus peut consommer $50-100 par run complexe
+> - **Limite 5 agents** : au-delà, le coordination overhead dépasse le gain de productivité (anti-pattern documenté)
+> - **Codebase locking** : les fichiers verrouillés par un agent bloquent les autres ; les sessions longues peuvent créer des deadlocks
+>
+> **Mitigation :** Commencer avec 2 agents (lead + 1 specialist), tâches read-heavy uniquement, budget quotidien plafonné via `claude_budget_check`. → Voir **#6 Privacy & Compliance** (`06-privacy.qmd`) pour les implications data des sessions multi-agents.
+
+```
+1. Agent Lead    → Agent Security  : Scan vulnérabilités (read-only)
+2. Agent Lead    → Agent API       : Review endpoints (read-only)
+3. Agent Lead    → Agent Frontend  : Check UI + a11y (read-only)
+4. Agent Security  → Agent Lead   : Rapport sécurité
+5. Agent API       → Agent Lead   : Rapport API design
+6. Agent Frontend  → Agent Lead   : Rapport accessibilité
+7. Agent Lead    → Agent Lead     : Synthèse consolidée
+```
+
+## Cas d'Usage Équipe
+
+::: {.callout-note title="Scénario : Review Multi-Couche (Fountain, workforce management)"}
+**Contexte** : Fountain, plateforme de gestion de workforce logistique, utilise Claude Code en multi-agent pour le screening de candidats (pas de la code review).
+
+**Approche** : 3 agents spécialisés en parallèle (sécurité, API design, accessibilité frontend), chacun en lecture seule sur la PR, avec un agent lead qui consolide les rapports.
+
+**Résultat** : 50% de réduction du temps de candidate screening, 40% d'accélération de l'onboarding développeur (source : anthropic.com).
+
+**Point de vigilance** : Ces gains concernent un domaine spécifique (workforce management), pas du développement généraliste. Le transfert direct à une équipe produit classique n'est pas garanti.
+:::
+
+::: {.callout-note title="Scénario : Full Dev Lifecycle (CRED, fintech)"}
+**Contexte** : CRED, fintech indienne, intègre Claude Code dans son cycle de développement complet, de la spec au déploiement.
+
+**Résultat** : Temps de livraison de features réduit de moitié (source : planify.in, sept. 2025).
+
+**Point de vigilance** : La métrique "temps de livraison" inclut le pipeline complet (spec, dev, review, deploy). L'attribution à Claude Code seul vs. l'amélioration du processus global n'est pas isolée.
+:::
+
+## Quand Déployer en Équipe
+
+| Critère | Teams ✅ | Single ❌ |
+|---------|----------|-----------|
+| **Type tâche** | Read-heavy (review, analysis) | Write-heavy (refactoring shared files) |
+| **Budget** | >$300/month | <$100/month |
+| **Complexité** | >5 files, multi-layers | <5 files |
+| **Architecture** | Modular (clear boundaries) | Monolithic |
+
+**Point de vigilance** : ajouter des agents augmente la coordination ; mesurez le résultat accepté et les reprises avant d’élargir l’équipe.
+
+Le piège le plus fréquent est de déployer des agents en écriture sur des fichiers partagés. Des éditions concurrentes peuvent se chevaucher ou écraser du travail. Les verrous de prise de tâche ne verrouillent pas les fichiers source ; séparez les responsabilités et prévoyez une intégration explicite. Les tâches read-heavy (review, analyse, audit) sont le terrain de jeu naturel du multi-agent.
+
+## Reviewer Teammate Dédié (v3.38.0)
+
+Pattern validé par Addy Osmani (O'Reilly AI CodeCon) : une instance choisie explicitement, par exemple Opus 5.5, en lecture seule, déclenchée automatiquement sur `TaskCompleted`, avec un ratio 1:4 (1 reviewer pour 4 agents actifs).
+
+**Architecture** :
+
+```
+TaskCompleted → Reviewer (modèle choisi, read-only)
+  → Vérifie cohérence + qualité
+  → Poste un rapport dans .claude/reviews/
+  → Lead agent décide suite (merge / rework / escalate)
+```
+
+**Pourquoi read-only** : le reviewer n'écrit jamais de code; il évalue. Séparer l'évaluation de l'implémentation réduit les biais de confirmation et les loops de correction.
+
+**Ratio 1:4** : au-delà, le reviewer devient le bottleneck. En dessous de 4 agents actifs, une review manuelle est souvent plus rapide.
+
+## Loop Guardrails (v3.38.0)
+
+Pour les workflows CI/CD non-surveillés, les boucles d'agents sans condition d'arrêt explicite peuvent consommer des budgets importants. Trois garde-fous recommandés :
+
+Ajouter dans le brief de chaque teammate :
+
+> Maximum 8 tentatives sur une tâche bloquée. Avant de retenter, répondre : qu'est-ce qui a précisément échoué ? Quel changement spécifique corrigerait le problème ? Si toujours bloqué après 8 tentatives, arrêter et remonter au lead.
+
+Ce n'est pas une clé `settings.json` native, c'est du texte injecté dans le prompt de tâche.
+
+| Garde-fou | Effet | Valeur recommandée |
+|-----------|-------|-------------------|
+| Limite de tentatives | Arrêt forcé après N itérations | 8 (ajustable par tâche) |
+| Reflection prompt | L'agent évalue sa progression avant de continuer | Obligatoire en CI |
+| Kill / reassign | Critères de sortie si l'agent tourne en rond | Définir par type de tâche |
+
+**Critères de kill/reassign** : si 3 itérations consécutives produisent le même output, ou si le coût dépasse le budget de la tâche, la tâche est réassignée ou abandonnée.
+
+## `${CLAUDE_EFFORT}` dans les Skills d'Équipe (v2.1.120)
+
+Les skills peuvent référencer le niveau d'effort courant via `${CLAUDE_EFFORT}`. En contexte équipe, cela permet de standardiser les skills tout en les adaptant au contexte d'exécution :
+
+```yaml
+---
+name: code-review
+---
+Effectuer une code review au niveau d'effort ${CLAUDE_EFFORT}.
+Si xhigh : analyse approfondie de sécurité + architecture.
+Si low : vérification rapide de style et bugs évidents.
+```
+
+Utile pour les équipes qui alternent entre reviews rapides (commits fréquents) et reviews approfondies (PRs critiques).
+
+## Workflow Background Agents
+
+**Use case** : Tests longs, builds CI/CD sans bloquer session.
+
+Demandez un sous-agent en arrière-plan pour une tâche indépendante, ou utilisez `Ctrl+B` sur une exécution éligible. `/tasks` affiche le suivi. Le préfixe `&` correspond au transfert vers le cloud lorsqu’il est disponible, pas à une commande générique de tâche locale. L’outil Agent peut fonctionner au premier plan ou en arrière-plan.
+
+{{< pagebreak >}}
+
+# Coûts et Optimisation
+
+## Tarifs par Modèle
+
+Tarifs API directs standard en USD par million de tokens, hors cache et fast mode. Les quotas d’abonnement ne se déduisent pas de ces tarifs.
+
+| Modèle | Entrée | Sortie | Usage à évaluer |
+|--------|--------|--------|----------------|
+| Haiku 4.5 | $1 | $5 | Tâches bornées |
+| Sonnet 5 | $2 | $10 | Développement général |
+| Opus 5.5 | $4 | $20 | Analyse et implémentation complexes |
+| Fable 5.1 | $10 | $50 | Raisonnement approfondi selon disponibilité |
+
+Opus 5.5 est le modèle par défaut couvert par cet audit. Choisir Sonnet pour maîtriser les coûts est un routage explicite. Comparez le coût par résultat accepté, y compris reprises et revue.
+
+## Stratégies d'Économie
+
+### 1. Model Switching
+
+```bash
+/model haiku    # Tâches simples
+/model sonnet   # Développement
+/model opus     # Architecture complexe
+```
+
+### 2. OpusPlan Pattern
+
+OpusPlan utilise Opus pour planifier et Sonnet pour implémenter. Sélectionner Haiku relève d’un routage distinct.
+
+```bash
+/model opusplan
+> Plan the refactoring of the auth system
+# Opus planifie, Sonnet implémente
+```
+
+### 3. Gestion du Contexte
+
+| Zone | Contexte | Action |
+|------|----------|--------|
+| Vert | 0-50% | Travailler librement |
+| Jaune | 50-70% | Préparer : être sélectif, éviter les grandes lectures |
+| Orange | 70%+ | Agir : `/compact` pour libérer de l'espace |
+| Rouge | 90%+ | Sauvegarder les décisions, puis compacter ou préparer une passation |
+
+### 4. Budget Alerts
+
+```bash
+# Dans ~/.zshrc
+claude_budget_check() {
+  local cost=$(session-stats.sh --json | jq -r '.summary.estimated_cost.total')
+  local threshold=5.00  # $5/jour
+
+  if (( $(echo "$cost > $threshold" | bc -l) )); then
+    echo "⚠️  Claude spend: \$$cost (threshold: \$$threshold)"
+  fi
+}
+
+claude_budget_check  # Au démarrage shell
+```
+
+## Budget Équipe
+
+| Profil | Budget suggéré/jour | Notes |
+|--------|---------------------|-------|
+| Junior dev | $5-10 | Apprentissage |
+| Senior dev | $10-20 | Productivité |
+| Tech Lead | $15-30 | Reviews + arch |
+| Team (10 devs) | $100-200 | Agrégé |
+
+Ces fourchettes sont des exemples de politique budgétaire, pas des dépenses mesurées ni des prévisions. Calibrez-les sur les modèles choisis, les tokens réellement consommés, les reprises et les résultats acceptés. Le `session-summary.sh` (section Observabilité) permet à chaque dev de calibrer son propre budget sur données réelles plutôt que sur des estimations.
+
+### API Gateway & Budgets Centralisés
+
+Les scripts locaux comme `claude_budget_check()` ci-dessus restent utiles pour la visibilité individuelle, mais ils reposent sur la discipline de chaque dev : rien n'empêche un développeur de désactiver le script ou d'appeler un modèle plus cher que prévu. Pour une équipe qui dépasse 10 personnes, le contrôle des coûts doit se déplacer côté plateforme, avant que la requête n'atteigne l'API Anthropic.
+
+Un gateway (proxy) comme [LiteLLM](https://github.com/BerriAI/litellm) s'intercale entre Claude Code et Anthropic. Chaque développeur pointe `ANTHROPIC_BASE_URL` vers le gateway au lieu de `api.anthropic.com`, et utilise une clé virtuelle scopée à son équipe plutôt que la vraie clé Anthropic :
+
+```bash
+export ANTHROPIC_BASE_URL=http://your-litellm-host:4000/anthropic
+export ANTHROPIC_API_KEY=sk-litellm-team-backend-abc123
+```
+
+Chaque clé virtuelle porte un budget mensuel plafonné et une allowlist de modèles. Une structure à trois paliers couvre la plupart des besoins :
+
+| Palier | Modèles autorisés | Budget mensuel | Pour |
+|--------|-------------------|-----------------|------|
+| Developer | Haiku, Sonnet | $30 | Tous les devs |
+| Project élevé | Haiku, Sonnet | $100 | Sprint actif |
+| Lead/Architecte | Tous les modèles | $300 | Tech leads, architectes |
+
+Un appel à un modèle hors allowlist reçoit un `403 ModelNotAllowedError` avant même d'atteindre Anthropic. Une clé qui dépasse son budget reçoit un `429 BudgetExceededError` et se réinitialise au cycle suivant, ce qui remplace la table statique de budgets suggérés par un plafond réellement appliqué. LiteLLM expose aussi des métriques Prometheus (`litellm_spend_total`, `litellm_requests_total` par équipe et modèle) pour des dashboards Grafana, sans nécessiter d'infrastructure supplémentaire côté client.
+
+Détails complets (configuration, Docker Compose de production, alternative managée Portkey) : [guide/ops/api-gateway.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/api-gateway.md).
+
+> 📖 **Pour aller plus loin :** [§9.13 Cost Optimization Strategies](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ultimate-guide.md#913-cost-optimization-strategies) (OpusPlan, Haiku routing, budget alerts)
+
+{{< pagebreak >}}
+
+# Governance
+
+## Enterprise Features (Claude for Teams)
+
+**Disponible** : Anthropic Teams/Enterprise plans
+
+::: {.callout-note title="Propager la config à l'équipe : 3 mécanismes concrets"}
+La plupart des organisations combinent les trois. Le `settings.json` partagé, commité dans le repo, reste le levier à plus haute fidélité : chaque dev qui clone le repo l'hérite automatiquement, et toute dérive est visible dans l'historique git. Le `CLAUDE.md` hiérarchique distribue les règles de comportement (conventions de code, classification des données, restrictions d'outils) à chaque session. La console admin Anthropic Team/Enterprise (`console.anthropic.com`) ajoute une couche org-level pour les politiques d'usage et la gestion des clés API, mais elle complète le `settings.json` de repo plutôt que de le remplacer, parce qu'elle reste la couche la plus granulaire et fonctionne sur tous les plans, y compris avec une clé API personnelle.
+:::
+
+**Capacités** :
+
+- **SSO/SAML** : Intégration Okta, Google Workspace, Azure AD
+- **Admin console** : Gestion centralisée users, permissions, quotas
+- **Usage analytics** : Dashboards token consumption équipe-wide
+- **Data retention policies** : Contrôle session storage (GDPR compliance)
+- **API key rotation** : Automated secret management
+- **Audit logs** : Compliance trail (SOC 2, ISO 27001)
+
+**Déploiement** : configurez l’identité de l’organisation, les sièges et l’audit dans l’interface d’administration prise en charge. Déployez les politiques client obligatoires via les settings gérés. Un objet `organization` dans le `settings.json` utilisateur ne configure ni SSO ni journaux d’audit. Voir les [portées des settings](https://code.claude.com/docs/en/settings#settings-files-and-who-they-affect).
+
+**Use case** : Teams >50 devs, compliance-driven industries (finance, healthcare)
+
+## Séparation Shared vs Personal
+
+La frontière entre ce qui est partagé et ce qui reste personnel est une source fréquente de confusion en équipe. La règle est simple : tout ce qui affecte le comportement du projet (tests, conventions, hooks sécurité) va dans le repo, tout ce qui relève du confort individuel (modèle préféré, langue de réponse) reste local.
+
+| Shared (repo) | Personal (~/.claude) |
+|---------------|----------------------|
+| Commandes test/lint | Préférences modèle |
+| Conventions projet | Agents personnels |
+| Format commits | Flags par défaut |
+| Hooks sécurité | Extensions optionnelles |
+
+## Audit Trail
+
+### Configuration Logging
+
+→ Voir configuration section Observabilité
+
+### Agrégation Team
+
+```bash
+# Sync vers S3 quotidien
+aws s3 sync ~/.claude/logs/ s3://company-claude-logs/$(whoami)/
+
+# Agréger tous les logs équipe
+aws s3 sync s3://company-claude-logs/ /tmp/team-logs/
+
+# Analyser
+cat /tmp/team-logs/*/activity-*.jsonl | \
+  jq -s 'group_by(.project) | map({
+    project: .[0].project,
+    total_tokens: [.[].tokens.total] | add
+  })'
+```
+
+### Log Rotation
+
+```bash
+# Nettoyer logs >30 jours
+find ~/.claude/logs -name "*.jsonl" -mtime +30 -delete
+```
+
+::: {.callout-tip title="Memo : Onboarding Premier Mois"}
+**Quoi** : Déployer Claude Code sur une équipe existante sans casser le workflow en place.
+
+**Quand** : Semaine 1 = config minimale + 2 champions. Semaine 2-3 = élargissement. Semaine 4 = review.
+
+**Comment** : Turnkey Quickstart (15 lignes de CLAUDE.md) → live demo en standup → PR ouvertes pour ajouts → session-summary.sh pour visibilité coûts.
+
+**Vérifier** : Après 1 mois, combien de devs utilisent activement ? Le CLAUDE.md a-t-il grandi organiquement ? Les coûts sont-ils dans la fourchette budgétée ?
+:::
+
+## Onboarding d'un Nouveau Membre
+
+L'objectif : un nouveau dev opérationnel avec Claude Code en moins d'une heure, sans dépendre d'une personne disponible pour l'aider.
+
+::: {.callout-tip title="Checklist onboarding Claude Code : Nouveau membre"}
+**Durée estimée : 45 minutes**
+
+**Étape 1 : Installation (10 min)**
+
+1. Suivre les [instructions d’installation officielles](https://code.claude.com/docs/en/setup), de préférence avec l’installeur natif
+2. Lancer `claude` et utiliser le chemin approuvé : abonnement, Console ou fournisseur cloud
+3. Vérification : `claude --version`
+
+**Étape 2 : Config projet (15 min)**
+
+4. Lire `CLAUDE.md` à la racine (conventions du projet, stack, commandes)
+5. Si un template `~/.claude/CLAUDE.md.example` est fourni dans le repo : le copier vers `~/.claude/CLAUDE.md` et ajuster langue et style
+6. Ouvrir `.claude/settings.json` pour comprendre quels hooks sont actifs
+
+**Étape 3 : Premier run (20 min)**
+
+7. Ouvrir le projet dans le terminal
+8. `claude` → lancer une session
+9. Tester : *"Explique-moi l'architecture de ce projet"* (valide que `CLAUDE.md` est lu)
+10. Inspecter les règles avec `/permissions`, les hooks avec `/hooks` et les sources chargées avec `/status`
+11. Tester un hook : modifier un fichier et vérifier qu'aucun hook bloquant ne s'active de manière inattendue
+:::
+
+**Ce que le repo doit fournir** pour rendre cet onboarding autonome :
+
+| Fichier | Contenu attendu |
+|---------|----------------|
+| `CLAUDE.md` (racine) | Stack, commandes test/lint, conventions principales |
+| `.claude/settings.json` | Hooks actifs (commité, donc visible) |
+| `~/.claude/CLAUDE.md.example` | Template config personnelle avec commentaires |
+| `CONTRIBUTING.md` ou `README.md` | Lien vers ces 3 fichiers + mention "Claude Code ready" |
+
+::: {.callout-note title="Stratégies de partage : comparatif"}
+| Mécanisme | Avantages | Inconvénients | Cas d'usage |
+|-----------|-----------|---------------|-------------|
+| **CLAUDE.md commité** | Visible, versionné, reviewable en PR | Textuel, pas de logique conditionnelle | Conventions, stack, commandes |
+| **`.claude/settings.json` commité** | Hooks partagés automatiquement, JSON structuré | Priorité sur les valeurs simples ; listes généralement fusionnées | Hooks sécurité, allowlists outils |
+| **Git hooks (pre-commit)** | Indépendant de Claude Code, universel | Ne s'applique qu'aux commits, pas aux sessions | Lint, format, secrets scan |
+| **`~/.claude/CLAUDE.md` (perso)** | Ajouts sans impact équipe | Non partagé, invisible aux autres | Préférences, langue, raccourcis |
+
+**Recommandation** : Commencer par `CLAUDE.md` + `settings.json` commités. Ajouter les Git hooks existants du projet ; ne pas dupliquer dans Claude Code ce qui est déjà enforced par pre-commit.
+:::
+
+## Checklist Déploiement Équipe
+
+Cette checklist synthétise les actions couvertes dans ce whitepaper. Elle sert de référence lors du déploiement initial et de point de contrôle lors de la revue post-premier-mois.
+
+| # | Action | Fait |
+|---|--------|------|
+| 1 | CLAUDE.md projet créé et commité | ☐ |
+| 2 | Hooks sécurité standardisés | ☐ |
+| 3 | GitHub Actions configurées | ☐ |
+| 4 | Secret ANTHROPIC_API_KEY ajouté | ☐ |
+| 5 | Session logging activé | ☐ |
+| 6 | Budget alerts configurés | ☐ |
+| 7 | Champions identifiés | ☐ |
+| 8 | Formation initiale planifiée | ☐ |
+| 9 | Documentation onboarding | ☐ |
+| 10 | Revue post-1 mois planifiée | ☐ |
+
+{{< pagebreak >}}
+
+# Ressources
+
+## Commandes Utiles
+
+Ces commandes intégrées couvrent les opérations de maintenance les plus fréquentes en cours de session. Elles ne nécessitent aucune installation et sont disponibles dans toutes les versions de Claude Code.
+
+| Commande | Usage |
+|----------|-------|
+| `/context` | Examiner l’usage du contexte |
+| `/compact` | Compresser quand contexte en zone orange (70%+) |
+| `/clear` | Reset complet |
+| `/plan` | Mode planification |
+| `/model` | Changer de modèle |
+
+## Scripts Fournis
+
+Trois scripts complémentaires sont fournis dans le repository du guide. Ils couvrent la recherche de sessions passées, l'analyse d'usage, et le logging d'activité : les trois piliers de l'observabilité en équipe.
+
+| Script | Location | Usage |
+|--------|----------|-------|
+| [`session-search.sh`](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/examples/scripts/session-search.sh) | `examples/scripts/` | Recherche sessions |
+| [`session-stats.sh`](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/examples/scripts/session-stats.sh) | `examples/scripts/` | Analyse usage |
+| [`session-logger.sh`](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/examples/hooks/bash/session-logger.sh) | `examples/hooks/bash/` | Logging activité |
+
+## Références pour le Déploiement Équipe
+
+| Ressource | Contenu | Lien |
+|-----------|---------|------|
+| **GitHub Actions officielle** | Action anthropics/claude-code-action | [github.com/anthropics/claude-code-action](https://github.com/anthropics/claude-code-action) |
+| **Claude for Teams** | Offre Teams d'Anthropic (SSO, admin console, quotas) | [anthropic.com/teams](https://www.anthropic.com/teams) |
+| **Claude API Usage Tiers** | Tiers d'usage, rate limits, limites par niveau | [docs.anthropic.com/en/api/rate-limits](https://docs.anthropic.com/en/api/rate-limits) |
+| **RTK (Rust Token Killer)** | Filtrage des sorties de commandes | [github.com/rtk-ai/rtk](https://github.com/rtk-ai/rtk) |
+| **Observability Guide** | Session search, logging, cost tracking (ce repo) | [guide/ops/observability.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ops/observability.md) |
+| **4 templates GitHub Actions** | Workflows CI/CD prêts à déployer | [examples/github-actions/](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/github-actions/) |
+| **Scripts observabilité** | session-search.sh, session-stats.sh | [examples/scripts/](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/tree/main/examples/scripts/) |
+| **Third-party Tools Guide** | RTK, cc-sessions et autres outils communautaires | [guide/ecosystem/third-party-tools.md](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ecosystem/third-party-tools.md) |
+
+## Parcours Recommandé
+
+Ce whitepaper couvre le déploiement opérationnel en équipe. Les whitepapers suivants approfondissent les dimensions complémentaires : sécurité des hooks en production, compréhension de l'architecture interne, et conformité données pour les entreprises réglementées.
+
+| Après ce whitepaper | Lire ensuite |
+|---------------------|--------------|
+| Setup sécurité | → Voir **#3 Sécurité en Production** (`03-securite.qmd`) |
+| Comprendre l'archi | → Voir **#4 Architecture Démystifiée** (`04-architecture.qmd`) |
+| Compliance | → Voir **#6 Privacy & Compliance** (`06-privacy.qmd`) |
+
+---
+
+| Type | Licence |
+|------|---------|
+| Contenu | CC BY-SA 4.0 |
+| Code | MIT |
+
+**Repository** : [github.com/FlorianBruniaux/claude-code-ultimate-guide](https://github.com/FlorianBruniaux/claude-code-ultimate-guide)
+
+*Version 3.43.0 | Septembre 2026*
+
+
+---
+
+{{< include fiches/fiche-05-equipe.qmd >}}
+
+# La Série
+
+Ce livre blanc fait partie de la série **Claude Code Ultimate Guide**, une ressource complète pour maîtriser Claude Code, de l'installation au déploiement en production.
+
+**13 livres blancs dans la série :**
+
+- **WP00** Introduction & Fondamentaux
+- **WP01** Prompts Efficaces
+- **WP02** Personnalisation & Configuration
+- **WP03** Sécurité en Production
+- **WP04** Architecture Interne
+- **WP05** Adoption en Équipe
+- **WP06** Privacy & Conformité
+- **WP07** Guide de Référence Condensé
+- **WP08** Teams d'Agents & Sub-Agents
+- **WP09** Apprendre avec l'IA (UVAL)
+- **WP10** Budget IA & ROI
+- **WP11** Piloter une Équipe à l'Ère de l'IA
+- **WP12** Ingénierie à l’Ère des Agents Autonomes
+
+Série complète disponible sur [cc.bruniaux.com/whitepapers/](https://cc.bruniaux.com/whitepapers/)

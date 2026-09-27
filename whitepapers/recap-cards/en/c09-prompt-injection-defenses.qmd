@@ -4,10 +4,11 @@ subtitle: "Protecting Claude Code when processing untrusted external content"
 card-number: "C09"
 category: "Design"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "August 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: en
 format:
@@ -61,7 +62,7 @@ Report results only.
 
 ```bash
 # Launch analysis with restricted scope
-claude --allowedTools "Read,Grep" \
+claude --tools "Read,Grep" --allowedTools "Read,Grep" \
        -p "Analyze this uploaded file: $FILE"
 ```
 
@@ -79,7 +80,7 @@ For automated pipelines, a validation script can check that agent 1's output doe
 
 ## Minimal permissions rule
 
-The narrower Claude's permissions, the more limited the impact of a successful injection. A Claude with only `Read` and `Grep` cannot exfiltrate data or modify files, even if an injection succeeds in sending it malicious instructions.
+The narrower Claude's permissions, the more limited the impact of a successful injection. Read-only tools restrict file modification and command execution. Their results still enter the model context, so sensitive information can still reach the configured provider or be exposed in the response.
 
 | Task | Sufficient permissions |
 |------|------------------------|

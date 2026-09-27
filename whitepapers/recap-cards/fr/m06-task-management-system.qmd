@@ -4,10 +4,11 @@ subtitle: "Organiser le travail de Claude avec la Tasks API"
 card-number: "M06"
 category: "Méthodologie"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "Août 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -18,7 +19,7 @@ format:
 
 ## Hiérarchie des tâches
 
-La Tasks API (v2.1.16+, activée par défaut depuis v2.1.142) introduit une structure en quatre niveaux pour décomposer n'importe quel projet complexe de façon claire et traçable.
+Lorsqu’elle est activée, la Tasks API (v2.1.16+) assure un suivi persistant des états et des dépendances. Les quatre niveaux ci-dessous sont une convention de planification, pas des types de tâches obligatoires.
 
 | Niveau | Rôle |
 |--------|------|
@@ -36,13 +37,14 @@ TaskCreate   Créer une tâche ou sous-tâche
 TaskList     Lister toutes les tâches (statuts + blocages)
 TaskGet      Lire les détails complets d'une tâche
 TaskUpdate   Mettre à jour le statut ou les métadonnées
-TaskStop     Annuler une tâche en cours
+TaskStop     Arrêter une exécution en arrière-plan
 ```
 
 ## Cycle d'exécution
 
 ```bash
-# 1. Initialiser avec un ID de liste stable
+# 1. Activer les outils sur les modèles récents et fixer un ID stable
+export CLAUDE_CODE_ENABLE_TODO_TOOLS=1
 export CLAUDE_CODE_TASK_LIST_ID="monprojet-auth-v2"
 claude
 
@@ -61,28 +63,25 @@ claude
 | `pending` | En attente |
 | `in_progress` | En cours d'exécution |
 | `completed` | Terminée avec succès |
-| `failed` | Échouée, avec métadonnées d'erreur pour le debug |
 
 ## Dépendances avec blockedBy
 
 Le champ `blockedBy` empêche l'exécution prématurée d'une tâche qui dépend d'une autre. Les IDs utilisés doivent être les identifiants réels des tâches, pas leurs titres.
 
 ```
-TaskCreate: {
-  title: "Écrire les tests d'intégration",
-  blockedBy: ["task-login", "task-refresh"]
-}
+Créer « Écrire les tests d’intégration », puis définir ses dépendances
+avec les identifiants réels renvoyés pour les tâches login et refresh.
 ```
 
-Claude respecte cet ordre automatiquement lors de l'exécution.
+Les tâches en attente dont les dépendances ne sont pas résolues ne peuvent pas être prises en charge. Consignez les échecs dans la description ou les métadonnées ; les états sont `pending`, `in_progress` et `completed`.
 
 ## Quand activer la Tasks API
 
-Utiliser dès que le travail dépasse trois étapes séquentielles, implique plusieurs répertoires, ou doit se poursuivre sur plusieurs sessions. Pour une tâche rapide qui se boucle en moins de dix minutes dans une seule session, TodoWrite reste suffisant.
+Utilisez-la lorsque les dépendances ou l’état doivent survivre à la session. Une petite tâche peut ne nécessiter qu’un plan court ; les deux systèmes requièrent une activation explicite sur les modèles récents.
 
 ## Coût à anticiper
 
-`TaskList` coûte un appel API. Récupérer les détails de chaque tâche avec `TaskGet` ajoute un appel supplémentaire par tâche. Pour vingt tâches, cela représente vingt fois plus d'overhead. Placer les informations critiques dans le champ `subject` (visible via `TaskList`) et garder les descriptions concises limite ce coût.
+`TaskList` retourne un résumé ; `TaskGet` récupère les détails d'une tâche choisie. Ce sont des appels d'outils, sans correspondance un pour un avec les requêtes au modèle facturées. Placer des résumés utiles dans `subject` et récupérer les descriptions détaillées au besoin limite le contexte inutile.
 
 ## ID de liste : règles de nommage
 

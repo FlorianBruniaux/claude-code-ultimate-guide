@@ -4,10 +4,11 @@ subtitle: "Practical hook examples to automate your workflow"
 card-number: "M12"
 category: "Methodology"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: en
 format:
@@ -16,7 +17,7 @@ format:
 
 ## Auto-format after editing
 
-`PostToolUse` hook on `Edit|Write`. Detects the extension of the modified file and applies the appropriate formatter.
+`PostToolUse`, matcher `Edit|Write`: format by extension.
 
 ```bash
 INPUT=$(cat)
@@ -31,31 +32,34 @@ esac
 exit 0
 ```
 
-Configure as `async: true`, since formatting is cosmetic and should not block Claude.
+Wait for formatting before testing or editing again to avoid concurrent writes.
 
 ## macOS notification on completion
 
-`Stop` hook. Triggers a macOS system alert with a contextual sound (success, error, waiting).
+`Stop`: show a macOS notification and play a sound.
 
 ```bash
 INPUT=$(cat)
 MESSAGE=$(echo "$INPUT" | jq -r '.message // "Done"')
-osascript -e "display notification \"$MESSAGE\" \
-  with title \"Claude Code\""
+osascript - "$MESSAGE" <<'APPLESCRIPT'
+on run argv
+  display notification (item 1 of argv) with title "Claude Code"
+end run
+APPLESCRIPT
 afplay /System/Library/Sounds/Hero.aiff &
 exit 0
 ```
 
 ## Security: block dangerous commands
 
-`PreToolUse` hook on `Bash`. Intercepts destructive patterns before execution.
+`PreToolUse`, matcher `Bash`: inspect the proposed command.
 
 ```bash
 COMMAND=$(cat | jq -r '.tool_input.command')
 DANGEROUS=("rm -rf /" "dd if=" "DROP DATABASE"
            "git push --force.*main")
 for pattern in "${DANGEROUS[@]}"; do
-  if [[ "$COMMAND" == *"$pattern"* ]]; then
+  if [[ "$COMMAND" =~ $pattern ]]; then
     echo "BLOCKED: $pattern" >&2
     exit 2
   fi
@@ -63,53 +67,53 @@ done
 exit 0
 ```
 
-Exit code 2 blocks the action and surfaces the stderr message to Claude.
+Exit 2 blocks this action. These illustrative patterns are bypassable; retain permissions and isolation.
 
 ## Git auto-stage after editing
 
-`PostToolUse` hook on `Edit|Write`. Automatically prepares modified files for the next commit.
+`PostToolUse`, matcher `Edit|Write`. Opt-in staging; review the index before committing.
 
 ```bash
 INPUT=$(cat)
 FILE=$(echo "$INPUT" | jq -r '.tool_input.file_path // empty')
 [[ -z "$FILE" || "$FILE" == "null" ]] && exit 0
-git add "$FILE" 2>/dev/null
+git add -- "$FILE" 2>/dev/null
 exit 0
 ```
 
 ## RTK auto-wrapper
 
-`PreToolUse` hook on `Bash`. Detects commands optimizable by RTK and informs Claude of the available alternative.
-
-The logic: if the command starts with `git log`, `cargo test`, `pnpm list` or verbose equivalents, suggest `rtk <command>` via stdout before letting it through.
+For `PreToolUse` on `Bash`, suggest an RTK equivalent through JSON `hookSpecificOutput.additionalContext`. Plain stdout is not a reliable model instruction. Verify wrapper support before rewriting a command.
 
 ## Log all executed commands
 
-`PostToolUse` hook on `Bash`. Useful for auditing and debugging long sessions.
+`PostToolUse`, matcher `Bash`: this example creates its own log directory.
 
 ```bash
 COMMAND=$(cat | jq -r '.tool_input.command // empty')
-echo "$(date -u +%FT%T) | $COMMAND" \
+mkdir -p ~/.claude/logs
+printf '%s | %s\n' "$(date -u +%FT%T)" "$COMMAND" \
   >> ~/.claude/logs/commands.log
 exit 0
 ```
 
 ## Dispatcher pattern: a single entry point
 
-Rather than multiplying entries in `settings.json`, a `dispatch.sh` script routes to specialized handlers based on the file or tool. Result: a single `Edit|Write|Bash` matcher in the config, with separately maintainable handlers in `.claude/hooks/handlers/`.
+Use one `Edit|Write|Bash` matcher and route by tool name to `.claude/hooks/handlers/`. Preserve each handler's decision and exit status.
 
 ## Tool output replacement (v2.1.121)
 
-`PostToolUse` hook. Replaces what Claude receives as a tool result via `hookSpecificOutput.updatedToolOutput`. Works for all tools: Bash, Read, Write, Edit, MCP. Use cases: scrub sensitive data before Claude processes it, compress large results, inject audit metadata into every tool response.
+`PostToolUse`: `hookSpecificOutput.updatedToolOutput` replaces the result delivered to Claude. Match the actual response schema.
 
 ```bash
-INPUT=$(cat)
-OUTPUT=$(echo "$INPUT" | jq -r '.tool_response.output // empty')
-# Redact tokens before Claude sees them
-CLEAN=$(echo "$OUTPUT" | sed 's/ghp_[A-Za-z0-9]*/[TOKEN_REDACTED]/g')
-echo "{\"hookSpecificOutput\": {\"updatedToolOutput\": $(echo "$CLEAN" | jq -Rs .)}}"
-exit 0
+jq 'select(.tool_name == "Bash") |
+  {hookSpecificOutput: {hookEventName: "PostToolUse",
+    updatedToolOutput: (.tool_response |
+      .stdout |= gsub("ghp_[A-Za-z0-9]+"; "[REDACTED]") |
+      .stderr |= gsub("ghp_[A-Za-z0-9]+"; "[REDACTED]"))}}'
 ```
+
+This covers one token pattern. It cannot undo side effects or redact earlier telemetry.
 
 ## Installation checklist
 

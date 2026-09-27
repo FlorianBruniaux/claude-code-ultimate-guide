@@ -83,14 +83,14 @@
 // CARD COMPONENT (matches web card style)
 // ==========================================
 
-#let card(title: none, body) = {
+#let card(title: none, breakable: true, body) = {
   block(
     fill: bg-card,
     stroke: 1pt + border-color,
     radius: 8pt,
     inset: 16pt,
     width: 100%,
-    breakable: true,
+    breakable: breakable,
     [
       #if title != none [
         #text(14pt, weight: "bold", fill: text-primary)[#title]
@@ -158,7 +158,7 @@
 // ==========================================
 
 #let golden-rules(rules) = {
-  card(title: "The Golden Rules")[
+  card(title: "Les règles d’or", breakable: false)[
     #for (i, rule) in rules.enumerate() [
       #grid(
         columns: (auto, 1fr),

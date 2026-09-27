@@ -4,10 +4,11 @@ subtitle: "Écrire des instructions efficaces que Claude lit à chaque session"
 card-number: "T07"
 category: "Technique"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "Août 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -44,7 +45,7 @@ Next.js 14, TypeScript, PostgreSQL/Prisma, pnpm
 
 ## Taille recommandée
 
-Garder CLAUDE.md entre 4 et 8 KB au total (tous niveaux combinés). Les fichiers dépassant 16K tokens dégradent la cohérence du modèle. Boris Cherny (créateur de Claude Code) maintient un CLAUDE.md de 2,5K tokens pour son équipe, capturant les conventions sur plusieurs mois d'usage réel.
+Garder des instructions concises et vérifier leur effet sur des tâches réelles. Environ 200 lignes est un point de départ pratique, pas un seuil démontré de cohérence du modèle.
 
 **Règle pratique** : si Claude fait la même erreur deux fois, ajouter la règle. Ne pas tout documenter préventivement.
 
@@ -53,7 +54,7 @@ Garder CLAUDE.md entre 4 et 8 KB au total (tous niveaux combinés). Les fichiers
 ```
 ~/.claude/CLAUDE.md            (global, tous projets)
 /projet/CLAUDE.md              (projet, commité)
-/projet/.claude/CLAUDE.md      (local, gitignore)
+/projet/CLAUDE.local.md        (personnel, ajouter à .gitignore)
 ```
 
 Dans un monorepo, Claude charge le CLAUDE.md racine puis fusionne le CLAUDE.md du sous-dossier actif. Les règles enfants complètent les règles parentes sans les effacer.
@@ -66,7 +67,7 @@ Dans un monorepo, Claude charge le CLAUDE.md racine puis fusionne le CLAUDE.md d
 @docs/conventions/architecture.md
 ```
 
-Les fichiers importés avec `@chemin` se chargent à la demande, uniquement quand ils sont référencés. Ils ne consomment des tokens qu'au moment de leur utilisation, contrairement aux fichiers dans `.claude/rules/` qui chargent systématiquement au démarrage.
+Les imports dans CLAUDE.md se chargent avec ce fichier d’instructions. Les règles générales se chargent largement ; les règles avec frontmatter `paths` s’appliquent lorsque les fichiers correspondants sont pertinents. Utiliser un skill si le workflow complet ne doit se charger qu’à l’invocation.
 
 ## Architecture modulaire recommandée
 
@@ -79,4 +80,4 @@ Les fichiers importés avec `@chemin` se chargent à la demande, uniquement quan
     └── api.md          (conventions REST)
 ```
 
-CLAUDE.md reste lisible d'un coup d'oeil. Les règles détaillées vivent dans `.claude/rules/`, chargées automatiquement à chaque session.
+CLAUDE.md reste lisible d’un coup d’œil. Les règles détaillées résident dans `.claude/rules/` ; limiter les instructions propres aux fichiers avec `paths`.

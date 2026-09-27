@@ -4,10 +4,11 @@ subtitle: "Intégrer Claude Code dans Xcode, VS Code et d'autres environnements"
 card-number: "C12"
 category: "Conception"
 difficulty: "advanced"
-guide-version: "3.42.0"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.42.0"
-date: "2026-08-28"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -44,7 +45,8 @@ gh repo view <mcp-repo>
 # Toujours épingler : @1.2.3 pas @latest
 
 # 3. Lire les outils et permissions, puis scanner si disponible
-npx mcp-scan ./skill-directory
+# Suivre la documentation actuelle d’installation et de périmètre du scanner
+# https://github.com/snyk/agent-scan
 ```
 
 Ne pas utiliser les étoiles ou un classement comme preuve de sécurité. Ne jamais approuver un MCP d'une source inconnue sans vérifier les outils, les permissions, la version et le mécanisme de mise à jour.

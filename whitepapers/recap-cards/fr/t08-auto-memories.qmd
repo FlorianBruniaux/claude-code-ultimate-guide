@@ -4,10 +4,11 @@ subtitle: "Le système de mémorisation automatique vs CLAUDE.md manuel"
 card-number: "T08"
 category: "Technique"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "Août 2026"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -26,11 +27,7 @@ Introduites en v2.1.59 (février 2026), les auto-memories permettent à Claude C
 ~/.claude/projects/<chemin-encodé>/memory/MEMORY.md
 ```
 
-Pour les memories au niveau projet (si vous utilisez `.claude/memory/`) :
-
-```
-.claude/memory/MEMORY.md
-```
+C'est l'emplacement natif par défaut. Configurer `autoMemoryDirectory` seulement si un autre emplacement est nécessaire ; un dossier `.claude/memory/` ne devient pas automatiquement le stockage mémoire du projet.
 
 Depuis v2.1.63, les auto-memories sont partagées entre les git worktrees du même repo.
 
@@ -58,7 +55,7 @@ Problèmes connus :
 | Source | Documentation explicite | Analyse de conversation |
 | Visibilité | Git, partagé équipe | Local utilisateur, gitignore |
 | Contenu idéal | Conventions équipe | Découvertes personnelles |
-| Contrôle | Total | Limité |
+| Contrôle | Modifier les instructions | Inspecter, modifier, supprimer ou désactiver la mémoire |
 
 ## Gérer les memories avec /memory
 
@@ -73,4 +70,4 @@ Problèmes connus :
 
 **Laisser les auto-memories travailler :** préférences de flux de travail personnelles, patterns découverts en cours de session, contexte temporaire lié à une fonctionnalité en cours.
 
-**Limite principale** : pas de contrôle fin sur ce qui est mémorisé automatiquement. Si une décision capturée devient obsolète, il faut la supprimer manuellement via `/memory`. Les auto-memories ne sont pas committées en Git, elles restent donc invisibles pour les autres membres de l'équipe.
+**Relire régulièrement** : inspecter la mémoire avec `/memory` et corriger les notes obsolètes. La mémoire automatique est activée par défaut ; `autoMemoryEnabled: false` la désactive. L'index de démarrage est limité à 200 lignes ou 25 Ko ; les fichiers thématiques se chargent à la demande. Les fichiers mémoire par défaut restent locaux à la machine et ne sont pas partagés via le dépôt. [Référence mémoire](https://code.claude.com/docs/en/memory).

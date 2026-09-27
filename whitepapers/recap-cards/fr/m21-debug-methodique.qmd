@@ -4,10 +4,11 @@ subtitle: "Approche structurée pour diagnostiquer et résoudre les erreurs"
 card-number: "M21"
 category: "Méthodologie"
 difficulty: "intermediate"
-guide-version: "3.41.3"
+guide-version: "3.43.0"
+wp-version: "1.0.1"
 author: "Florian BRUNIAUX"
-version: "3.41.3"
-date: "2026-08-24"
+version: "3.43.0"
+date: "2026-09-26"
 layout: "two-col"
 lang: fr
 format:
@@ -69,12 +70,12 @@ Ce prompt force Claude à exposer son raisonnement, ce qui permet de valider ou 
 Un agent unique convient pour les bugs localisés sur 1 à 3 fichiers. Pour les problèmes qui traversent plusieurs composants interconnectés (un bug de réseau qui affecte l'auth qui affecte la base de données), déléguer l'exploration à un sous-agent via l'Agent tool (anciennement Task) préserve le contexte principal.
 
 ```
-Main agent  →  Task("Explore auth flow from request to DB")
+Main agent  →  Agent: explore auth flow from request to DB
                 └─ Sub-agent explore et retourne un résumé
 Main agent reçoit le résumé (pas le contexte brut)
 ```
 
-Les erreurs du sous-agent ne polluent pas le contexte de l'agent principal.
+Un sous-agent retourne un résumé plus court, mais ses erreurs peuvent influencer l’agent principal. Vérifier les constats qui ont des conséquences.
 
 ## Signaux d'alarme pendant le debug
 
@@ -87,4 +88,4 @@ Les erreurs du sous-agent ne polluent pas le contexte de l'agent principal.
 
 ## Réinitialiser le contexte
 
-Après 15 à 25 tours de conversation, Claude peut perdre de vue les contraintes énoncées en début de session. Si le debug s'étire, utiliser `/compact` pour résumer l'historique ou `/clear` pour repartir avec un contexte propre incluant uniquement les éléments essentiels.
+Un contexte long ou non pertinent peut rendre les contraintes importantes plus difficiles à appliquer ; aucun nombre fixe de tours ne le prédit. Si le débogage s’éternise, `/compact` résume l’historique et `/clear` repart avec les seuls éléments essentiels.

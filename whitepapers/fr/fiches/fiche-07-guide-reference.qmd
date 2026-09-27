@@ -1,0 +1,24 @@
+{{< pagebreak >}}
+
+## Fiche Récap : Guide de Référence
+
+```{=typst}
+#fiche-recap(
+  title: "Guide de Référence",
+  subtitle: "Commandes, migrations, méthodologies",
+  wp-number: "07",
+  points: (
+    "#strong[Commandes intégrées] : /compact, /context, /clear, /init, /model et /help. /test et /deploy sont des commandes personnalisées à installer.",
+    "#strong[Migration depuis Copilot/Cursor] : 3 différences structurelles. Claude Code = agent proactif, pas un autocomplete. Le changement mental est le plus important.",
+    "#strong[15 méthodologies] documentées : TDD-AI, SDD, BDD, ATDD, DDD avec Claude Code comme pair programmer.",
+    "Le #strong[cheatsheet] couvre commandes, raccourcis clavier et patterns d’usage fréquents.",
+    "Le #strong[quiz] permet de repérer des notions à revoir ; vérifier ensuite les compétences sur une tâche réelle.",
+  ),
+  actions: (
+    "Télécharger et imprimer le #strong[cheatsheet] (cc.bruniaux.com)",
+    "Tester 3 commandes avancées que vous n'utilisez pas encore (/review, /compact, /context)",
+    "Explorer 1 méthodologie TDD-AI ou SDD sur votre prochain feature",
+    "Faire 10 questions du quiz pour identifier vos angles morts",
+  ),
+)
+```
