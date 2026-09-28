@@ -17,12 +17,15 @@ keywords:
 > **Release dates**: UTC publication dates from the [official npm package metadata](https://registry.npmjs.org/@anthropic-ai%2Fclaude-code). Only versions with upstream changelog entries are included.
 > **Machine-readable**: [claude-code-releases.yaml](../../machine-readable/claude-code-releases.yaml)
 
-**Latest**: v2.1.281 | **Updated**: 2026-09-24
+**Latest**: v2.1.284 | **Updated**: 2026-09-28
 
 ---
 
 ## Quick Jump
 
+- [v2.1.284](#v21284-2026-09-28): Sonnet 5.5, auto mode by default in interactive sessions, Ultracode toggle and stream and compaction recovery fixes
+- [v2.1.283](#v21283-2026-09-25): `deniedModels` and exact `availableModels` matching, `/doctor prompt-audit` and MCP lifecycle fixes
+- [v2.1.282](#v21282-2026-09-24): `maxProseWidth`, project-level OpenTelemetry variables ignored and managed-settings validation fixes
 - [v2.1.281](#v21281-2026-09-23): MCP browser flows and validation, gateway controls, send-now backgrounds tools and tighter auto-mode review
 - [v2.1.280](#v21280-2026-09-22): Opus 5.5, Opus default on Pro and Team Standard, symlink-write permission fix and VS Code dialogs
 - [v2.1.278](#v21278-2026-09-19): server-side auto mode classifier by default, with no classifier-overhead charge
@@ -47,6 +50,41 @@ keywords:
 ---
 
 ## 2.1.x Series (January-August 2026)
+
+### v2.1.284 (2026-09-28)
+
+- **Added** ⭐: Claude Sonnet 5.5 (`claude-sonnet-5-5`) is now the default Sonnet model on the Anthropic API, with a 1M context window, $2/$10 per Mtok and $0.20/Mtok cache reads.
+- **Added**: Auto mode's prompt before a read outside the working directories offers "Yes, but ask again next time", which allows that one read only. `/mcp reconnect all` retries every MCP server that failed to connect or needs authentication. `effortSlider:decreaseEffort`, `increaseEffort` and `toggleUltracode` keybinding actions make the `/effort` slider keys rebindable.
+- **Added**: Claude apps gateway spend limits show dollar amounts in `/usage` and the status line, and `rate_limits.spend_limit` gains `used_usd`, `limit_usd` and `period`. Gateways also gain startup warnings for an empty or incomplete managed `availableModels`, Google Cloud auth for telemetry forwarding and `private_key_jwt` client authentication with the identity provider.
+- **Changed**: Interactive terminal and VS Code sessions start in auto mode when no permission mode is configured, on every plan and provider; `permissions.defaultMode` still overrides it. Ultracode is now its own toggle in `/effort` (Tab, or `/effort ultracode [on|off]`); it no longer forces xhigh effort and stays on at any effort level.
+- **Changed**: Retries after a connection dropped mid-response share one budget with the request's other retries, so a failing request gives up sooner. On the Anthropic API, safety-related model switches in sessions that pin an Opus model with `ANTHROPIC_DEFAULT_OPUS_MODEL` or `modelOverrides` now use the model the API picks for each kind of flag.
+- **Fixed** (security): Under managed `allowManagedPermissionRulesOnly`, plugins from marketplaces, claude.ai and npm no longer pre-approve their own tools via `allowed-tools`; only official Anthropic sources or sources that managed settings vouch for keep it. Rules symlinked into `.claude/rules` from outside the project, and a `.claude` directory symlinked from outside it, now require the external-imports approval. `ANTHROPIC_FOUNDRY_RESOURCE` values that are not plain resource names are refused instead of being interpolated into the endpoint host.
+- **Fixed**: Damaged response streams are retried or reported as interrupted instead of showing raw JSON errors or writing "undefined" into an answer. "Prompt is too long" errors after compacting trigger one more compaction. Resumed-session MCP tool calls wait up to 10 seconds for a connecting server instead of failing with "No such tool available".
+- **Fixed**: `claude mcp add` refuses when managed settings restrict MCP servers to plugins, Elicitation hooks honor `{"decision":"block"}`, failed hooks log their stderr and status code, and the Explore subagent inherits an unrecognized custom model instead of switching to Opus.
+- **Improved**: Startup builds only the parts of the settings schema that the settings files use. Auto-memory loading neutralizes invisible characters and tags imitating Claude Code markup in `MEMORY.md` and recalled notes. VS Code adds optional message timestamps and plugin load errors in Manage plugins.
+
+### v2.1.283 (2026-09-25)
+
+- **Added**: `deniedModels` blocks specific models even when `availableModels` allows them. `availableModelsMatch: "exact"` makes an `availableModels` entry allow only the version it names, so new releases stay blocked until listed.
+- **Added**: `/doctor prompt-audit` (also `/checkup prompt-audit`) audits CLAUDE.md files, skills, agents and commands for prompting patterns written for older models. Stale paths, stale commands and contradicting instruction files lead the report.
+- **Added**: `CLAUDE_CODE_GATEWAY_HINT_HEADERS=1` adds `x-claude-code-prompt-id` so LLM gateways can group the requests that serve one prompt. `OTEL_LOG_TOOL_CONTENT=1` now also exports MCP, WebFetch and WebSearch outputs. Claude apps gateways gain a `load_test_mode` block and a `mantle` upstream for Amazon Bedrock's Mantle endpoint.
+- **Changed**: Interactive sessions on third-party providers or with telemetry off start in auto mode when no permission mode is configured; `permissions.defaultMode` still overrides it. `--system-prompt` and `--append-system-prompt` accept their text and `-file` forms together, with the file's text first.
+- **Changed**: `Skill(anthropic-skills:<name>)` deny rules also block that skill when Claude Desktop delivers it as a plugin. `claude plugin eval` refuses git versions older than 2.31. The 2.1.282 reservation of the `claude-ai` name is reverted.
+- **Fixed** (security): On Windows, the PowerShell tool no longer lets `cmd /c rd`, `rmdir`, `del` or `erase` delete drive roots, the home folder and other folders that `Remove-Item` refuses. An invalid nested value in managed `sandbox` settings now fails closed while the rest of the block still applies.
+- **Fixed**: Stdio MCP servers no longer keep running when the session ends during their startup, and a brief HTTP 404 from a stateless remote MCP server no longer leaves it unusable for the session. `/context` counts MCP server instructions as their own row. MCP progress notifications survive a move to the background.
+- **Fixed**: `claude plugin validate` rejects names Claude Code cannot install and paths for `outputStyles`, `themes`, `monitors` or `lspServers` that are missing or leave the plugin directory. Several `installed_plugins.json` recovery and uninstall issues are fixed.
+- **Improved**: Images returned by MCP tools are also saved to a file that other tools can open. Long lists across `/mcp`, `/tasks`, `/help` and other pickers support page keys, the mouse wheel and clicks. First-reply and startup latency are reduced.
+
+### v2.1.282 (2026-09-24)
+
+- **Added**: `maxProseWidth` caps the width of Claude's prose in wide terminals while tables and code blocks keep the full width. A startup notice and `/status` and `claude doctor` entries list telemetry variables in project settings that were ignored or turned telemetry off.
+- **Added**: `allowClaudeInChromeWithManagedMcp` lets `claude --chrome` run alongside an exclusive `managed-mcp.json`. Claude apps gateways gain `store.readiness_grace_seconds` so `/readyz` stays ready through a short Postgres outage.
+- **Changed**: Project and local settings ignore OpenTelemetry variables that turn on export, set its endpoint or capture content, such as `CLAUDE_CODE_ENABLE_TELEMETRY` and `OTEL_LOG_*`. Auto mode uses the server-side classifier by default on a direct Anthropic API connection when telemetry is off (`CLAUDE_CODE_AUTO_MODE_SERVER=0` opts out).
+- **Changed**: `sandbox.excludedCommands` ignores project and local entries when managed settings or `--settings` set `allowUnsandboxedCommands: false`, or managed `allowManagedDomainsOnly: true`. On Windows and WSL, a present but invalid or unreadable admin policy keeps user-writable HKCU and WSL `/etc/claude-code` settings from applying.
+- **Changed**: `Skill(anthropic-skills:*)` and `Skill(claude-ai:*)` allow rules cover only skills synced from claude.ai. Skill folders, command files and workflow commands in those namespaces stop loading, and MCP servers with those names list no skills or prompts; 2.1.283 reverted the `claude-ai` part.
+- **Fixed** (security): Repository, user and `--add-dir` skills, commands and skills-directory plugin manifests no longer pre-approve their tools via `allowed-tools` under managed `allowManagedPermissionRulesOnly`. Mistyped values for managed boolean lock keys now apply the lock, and managed `permissions`, `autoMode`, `worktree` and `attribution` blocks still apply when one nested value is invalid. Bash permission rules with a mid-pattern `:*` now work from every source.
+- **Fixed**: Conversations whose history holds web search results the API cannot decrypt no longer fail every request with a 400 error. Continued and resumed sessions keep more of their earlier extended thinking, and an "Invalid `data` in `redacted_thinking` block" error drops thinking blocks and retries once. Compaction retries on a fallback model when the summarization request is refused.
+- **Improved**: Very large sessions resume faster, including ones never compacted. `/artifacts` lines up titles and supports paging, the mouse wheel and clicks.
 
 ### v2.1.281 (2026-09-23)
 
@@ -3549,6 +3587,15 @@ keywords:
 
 | Version | Change |
 |---------|--------|
+| v2.1.284 | Interactive terminal and VS Code sessions start in auto mode when no permission mode is configured, on every plan and provider; `permissions.defaultMode` still overrides it. |
+| v2.1.284 | Ultracode is a separate `/effort` toggle (Tab, or `/effort ultracode [on\|off]`) and no longer forces xhigh effort. |
+| v2.1.284 | Under managed `allowManagedPermissionRulesOnly`, only plugins from an official Anthropic source or a source managed settings vouch for keep `allowed-tools` pre-approval; marketplace, claude.ai and npm plugins lose it. |
+| v2.1.283 | Interactive sessions on third-party providers or with telemetry off start in auto mode when no permission mode is configured; `permissions.defaultMode` still overrides it. |
+| v2.1.283 | `Skill(anthropic-skills:<name>)` deny rules also block that skill when Claude Desktop delivers it as a plugin; `claude plugin eval` refuses git versions older than 2.31. |
+| v2.1.282 | Project and local settings ignore OpenTelemetry variables that turn on export, set its endpoint or capture content, such as `CLAUDE_CODE_ENABLE_TELEMETRY` and `OTEL_LOG_*`. |
+| v2.1.282 | Auto mode uses the server-side classifier by default on a direct Anthropic API connection when telemetry is off; `CLAUDE_CODE_AUTO_MODE_SERVER=0` opts out. |
+| v2.1.282 | `sandbox.excludedCommands` ignores project and local entries when managed settings or `--settings` set `allowUnsandboxedCommands: false`, or managed `allowManagedDomainsOnly: true`. |
+| v2.1.282 | Skill folders, command files and workflow commands in the `anthropic-skills` namespace no longer load, and MCP servers named `anthropic-skills` list no skills or prompts; the same `claude-ai` reservation was reverted in 2.1.283. |
 | v2.1.281 | Older CLI versions skip settings files containing `"attribution": false`; keep the object form in files shared across versions. |
 | v2.1.281 | Server-side auto mode review now also gates read-only and sandboxed shell commands; `CLAUDE_CODE_AUTO_MODE_SERVER=0` also opts out on direct Anthropic API connections, where the local classifier counts toward usage. |
 | v2.1.281 | Dangerous-rm prompts in auto and bypass modes deny after two unanswered minutes; `CLAUDE_CODE_DISABLE_DANGEROUS_RM_TIMEOUT=1` disables the timeout. |
@@ -3600,6 +3647,9 @@ keywords:
 
 | Version | Issue |
 |---------|-------|
+| v2.1.284 | Plugin `allowed-tools` pre-approval limited to trusted sources under `allowManagedPermissionRulesOnly`, externally symlinked rules and `.claude` directories require approval, unvalidated `ANTHROPIC_FOUNDRY_RESOURCE` values refused |
+| v2.1.283 | Windows PowerShell `cmd /c` deletions of drive roots and the home folder blocked, invalid managed `sandbox` values fail closed |
+| v2.1.282 | Repository and user skill `allowed-tools` pre-approval blocked under `allowManagedPermissionRulesOnly`, mistyped managed lock keys enforced, project-level OpenTelemetry export ignored |
 | v2.1.281 | Background-session workspace trust, inherited setting-source restrictions, NUL permission rules and command-substitution-only recursive removal checks |
 | v2.1.280 | Symlinked writes checked at the destination, reserved marketplace impersonation rejected and artifact republish access rules preserved |
 | v2.1.277 | `sandbox.excludedCommands` glob exempting a whole compound Bash command when one part matched; subagent results now framed as subagent output |
@@ -3631,6 +3681,7 @@ keywords:
 
 | Version | Key Features |
 |---------|--------------|
+| **v2.1.284** | Sonnet 5.5 becomes the default Sonnet model on the Anthropic API with 1M context; interactive terminal and VS Code sessions start in auto mode when no permission mode is configured; Ultracode becomes a separate `/effort` toggle |
 | **v2.1.280** | Opus 5.5 becomes the default Opus model with 1M context; Pro and Team Standard default to Opus; VS Code adds status, sandbox, Chrome, export and skills dialogs |
 | **v2.1.277** | `AGENTS.md` read as project instructions when no `CLAUDE.md` is present, subagent results framed as subagent output, TaskOutput tool removed, egress-boundary and static-header options for Claude apps gateways |
 | **v2.1.275** | claude.ai skills and plugins sync into terminal sessions, send-now key for queued messages, `/plugin install --marketplace` |
