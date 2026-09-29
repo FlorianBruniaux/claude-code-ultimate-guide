@@ -46,6 +46,7 @@ OpenAI's [Harness Engineering](https://openai.com/index/harness-engineering/) re
 4. [Five governance questions before you adopt anything](#4-five-governance-questions-before-you-adopt-anything)
 5. [The unbounded velocity trap](#5-the-unbounded-velocity-trap)
 6. [The half of the factory that runs after the merge](#6-the-half-of-the-factory-that-runs-after-the-merge)
+7. [Before the merge: two loops Claude Code already ships](#7-before-the-merge-two-loops-claude-code-already-ships)
 
 ---
 
@@ -203,3 +204,44 @@ Nothing, at the levels most readers occupy. Levels 1 through 4 remain the right 
 What the account does change is the shape of the ceiling. The constraint at OpenAI is not model capability and not orchestration; it is that every delivery system downstream of code generation is absorbing load it was not built for, reported as roughly 10x on some systems in about six months. That is the same wall Anthropic hit in its own CI, documented in section 5, from an entirely separate codebase and toolchain. Two competing frontier labs independently reporting that their verification and delivery infrastructure, not their agents, became the binding constraint is the most transferable thing in either account.
 
 Read that alongside what neither account publishes. Both measure throughput in detail and neither publishes a defect rate, an escape rate or a change failure rate. Section 5's trap is not a hypothetical that applies to smaller teams with less rigor. It is visible in the reporting of the two organizations best placed to measure their way out of it.
+
+---
+
+## 7. Before the merge: two loops Claude Code already ships
+
+Section 6 covers the stages a native setup cannot reach. The same OpenAI account also describes two pre-merge loops that do have a native Claude Code counterpart, which makes them the cheapest part of the pipeline to copy. The source and its limits are the same as in section 6: one company's system, described to a journalist, with no quality figures.
+
+### 7.1 One long-running goal instead of many supervised sessions
+
+OpenAI attributes part of its internal adoption surge to a `/goal` setting in Codex, where the agent keeps working until a stated outcome is reached. Andrew Ambrosino, the Codex desktop lead, describes the effect on how people work: "Codex being good at longer-running tasks seems to cause people to do fewer things in parallel. This is because a long-running agent often spins off other agents to do other things, reducing the surface area that you, as a human, have to manage." That is an observation from one team, not a measurement. The April to May internal usage jump (60% to 90%), which he attributes in part to better handling of long-running tasks, is self-reported with no counting method.
+
+The claim is still worth taking seriously, because it cuts against a common piece of advice: open more sessions in parallel to go faster. Every parallel session is a context a human has to hold, check and merge. A single goal that delegates to sub-agents moves that fan-out inside the harness, where the lead agent owns the synthesis. Level 2 and Level 3 in section 1 already describe that shape; the goal is what keeps it running without a prompt per step.
+
+Claude Code ships the same primitive. The [official `/goal` documentation](https://code.claude.com/docs/en/goal) describes the mechanics:
+
+- `/goal <condition>` starts a turn immediately and keeps starting new ones. After each turn, a small fast model (Haiku by default on the Claude API) returns one of three verdicts: not yet met, met, or impossible. The goal clears on met, on impossible, or on an error you have to fix.
+- The completion check comes from a separate model, not from the one doing the work. This is the creator-verifier split from [agent-harness.md §8](../core/agent-harness.md#8-creator-verifier-pattern), applied at the loop level.
+- A goal does not change the permission mode. Unattended runs need auto mode; in Manual mode Claude still asks before tool calls your settings do not allow.
+- It runs non-interactively: `claude -p "/goal <condition>"` loops to completion in one invocation.
+- If Claude keeps answering the evaluator without using any tool for several turns, the loop stops and hands control back with the goal still set.
+
+The limit to design around: the evaluator judges the condition against what appears in the conversation. It does not run commands or read files itself. A condition such as "the feature works" can be satisfied by a confident summary. A condition such as "`npm test` exits 0 and `git status` shows no change outside `src/auth`" forces the proof into the transcript, where the evaluator can read it. That is question 1 from section 4, deterministic gate or LLM self-grading, applied to a single session. To bound the cost, the documentation's own advice is to put a turn or time clause in the condition itself, such as `or stop after 20 turns`.
+
+### 7.2 An agent that babysits the pull request until it is green
+
+In OpenAI's pipeline, the coding agent opens the pull request and then stays on it: it fixes CI failures, answers review comments and updates the PR until checks pass. The human is not the one relaying red builds back to the agent.
+
+The native counterpart is [Auto-fix pull requests](https://code.claude.com/docs/en/claude-code-on-the-web#auto-fix-pull-requests), started from the terminal with `/autofix-pr` on the PR's branch. According to the official documentation, it spawns a cloud session that subscribes to GitHub activity on that PR. On a failing check or a new review comment, Claude pushes a fix when it is confident, asks you when a comment is ambiguous or architecturally significant, and logs duplicates without acting.
+
+Four constraints decide whether it fits your repository:
+
+| Constraint | Consequence |
+|---|---|
+| Requires the Claude GitHub App on the repository | Not available on a forge the app cannot reach |
+| GitHub sends no webhook when the base branch moves and creates a conflict | Conflicts still need a human prompt ("rebase") |
+| Claude replies to review threads under your GitHub account, labeled as Claude Code | Reviewers see your name on agent-written replies |
+| Those replies can trigger comment-driven automation (Atlantis, Terraform Cloud, `issue_comment` workflows) | The documentation recommends disabling auto-fix where a PR comment can deploy infrastructure |
+
+The last row matters most for a factory. An agent that can post comments in a repository where comments are commands has deploy rights by a side door. Audit the repository's comment-triggered workflows before turning it on, the same way section 4's questions audit a platform before adopting it.
+
+What the native loop does not include is the part of OpenAI's review stage that decides how much review a change gets. `/autofix-pr` reacts to whatever reviewers and CI produce. The risk classification that routes a change to more agents, a mandated human, or auto-approval (section 6.1) remains something you build. The loop removes the relay work; it does not replace the decision about who has to look.

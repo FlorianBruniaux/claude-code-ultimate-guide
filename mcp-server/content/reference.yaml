@@ -1262,6 +1262,7 @@ deep_dive:
   agentic_software_factories_decision_tree: "guide/workflows/agentic-software-factories.md#2-the-missing-decision-tree-when-does-a-closed-software-factory-actually-win"  # closed platform vs native stack, branches on team size/budget/compliance
   agentic_software_factories_governance_5th_question: "guide/workflows/agentic-software-factories.md#4-five-governance-questions-before-you-adopt-anything"  # extends spec-first.md's 4 questions with: is the advertised verification feature actually wired
   agentic_software_factories_post_merge: "guide/workflows/agentic-software-factories.md#6-the-half-of-the-factory-that-runs-after-the-merge"  # OpenAI Sep 2026 operator account: risk-tiered review routing, per-change deploy agent + own dashboard, Perf Factory regression loop, Sevbot proposes-never-executes; the incident-to-permanent-fix loop nobody closes
+  agentic_software_factories_pre_merge_loops: "guide/workflows/agentic-software-factories.md#7-before-the-merge-two-loops-claude-code-already-ships"  # OpenAI Sep 2026 pre-merge loops mapped to native Claude Code: /goal long-running goal with separate evaluator (transcript-only, condition must carry its proof), /autofix-pr PR babysitting (GitHub App, no conflict webhook, comment-triggered automation risk)
   agentic_software_factories_fusion_case_study: "docs/resource-evaluations/fusion-multi-agent-orchestrator.md"  # 727K lines/4 months, bus factor 1, verification module built but never wired into production
   # Resource Evaluations (added 2026-01-26, updated 2026-02-07, synced 2026-07-08)
   resource_evaluations_directory: "docs/resource-evaluations/"
@@ -3756,6 +3757,7 @@ section_maps:
     - "4-five-governance-questions-before-you-adopt-anything"
     - "5-the-unbounded-velocity-trap"
     - "6-the-half-of-the-factory-that-runs-after-the-merge"
+    - "7-before-the-merge-two-loops-claude-code-already-ships"
   "guide/workflows/ai-assisted-open-source-contributions.md":
     - "1-check-whether-the-project-wants-this-contribution"
     - "2-establish-the-problem-before-editing"

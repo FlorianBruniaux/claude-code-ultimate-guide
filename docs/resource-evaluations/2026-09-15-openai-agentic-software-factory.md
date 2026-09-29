@@ -65,6 +65,8 @@ Only the facts below are cited anywhere they are used in the guide. Each is attr
 | Incident agent that mitigates but never remediates | Sevbot proposes, never executes; a human triggers any mitigation | Absent | Covered, and named as the one loop OpenAI does not close |
 | Delivery infrastructure buckling under agent volume | 10x load in six months, self-reported | `agentic-software-factories.md` §5 already documents this from Anthropic's side (25x CI jobs, single-writer rewrite) and from a source-level audit (Fusion) | Add as a second operator datapoint, explicitly scoped, in the existing §5 |
 | Velocity published without quality | Total absence of defect metrics | §5 already argues the trap in general terms | Use as the cleanest available illustration |
+| Long-running `/goal` threads reducing human-managed parallelism | Andrew Ambrosino's observation, plus the self-reported 60% to 90% April to May usage jump he partly attributes to long-running task handling | `/goal` appeared only in `claude-code-releases.md`, with no usage coverage in `guide/` (grep, 2026-09-29) | Added 2026-09-29 as §7.1, mapped to the native `/goal` mechanics from the official documentation |
+| Coding agent babysitting its PR until CI is green | Stage 4, body text | `/autofix-pr` listed once in the command table of `ultimate-guide.md`, no workflow coverage; zero `babysit` hits in `guide/` | Added 2026-09-29 as §7.2, with the four constraints from the official Auto-fix documentation |
 
 ## Fact-check
 
@@ -82,6 +84,7 @@ Only the facts below are cited anywhere they are used in the guide. Each is attr
 - `guide/workflows/agentic-software-factories.md`, new section 6, "The half of the factory that runs after the merge". The page's six levels all stop at the PR; this closes that gap and keeps the page's editorial stance, which is that a stage is only real when you can name who owns the gate.
 - `guide/workflows/agentic-software-factories.md` §5, two sentences adding OpenAI as a second operator datapoint alongside Anthropic's CI account.
 - `machine-readable/reference.yaml` and `mcp-server/content/reference.yaml`: one `deep_dive` key for the new section.
+- Follow-up, 2026-09-29: `guide/workflows/agentic-software-factories.md` section 7, "Before the merge: two loops Claude Code already ships", plus a second `deep_dive` key (`agentic_software_factories_pre_merge_loops`). Claude Code behavior in that section is sourced to the official documentation pages for [`/goal`](https://code.claude.com/docs/en/goal) and [Auto-fix pull requests](https://code.claude.com/docs/en/claude-code-on-the-web#auto-fix-pull-requests), read on 2026-09-29, not to the article.
 
 ## Rejected
 
