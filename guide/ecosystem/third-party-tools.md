@@ -1515,6 +1515,7 @@ This section covers tools for running **multiple Claude Code instances in parall
 | [Piebald](#piebald) | Desktop/web app | Multi-provider + Windows + hooks compat (also listed above) |
 | [YYLO](#yylo) | Task and merge lifecycle CLI | Typed task → worktree → merge-gate boundaries for coding agents (60 stars, 2026-09-17) |
 | [swe-mux](https://github.com/jatoran/swe-mux) | Desktop/web workspace | Live per-session status for Claude Code, Codex, OpenCode and Pi, the same sessions on your phone over Tailscale, sessions survive restarts (Apache-2.0, 2026-09-23) |
+| [agent-manager](https://github.com/YoanWai/agent-manager) | Multi-agent session TUI | Runs your installed Claude Code, Codex, OpenCode, Gemini CLI and other agent CLIs as-is, each in its own tmux session, with live status, optional per-session Git worktrees and a diff review that sends line comments back to the agent (540 stars, 2026-09-29) |
 
 ---
 
