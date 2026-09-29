@@ -18,7 +18,7 @@ This page maps the ecosystem of tools that help you manage what enters the conte
 
 1. [The Mental Model](#1-the-mental-model)
 2. [Core Concepts](#2-core-concepts) (MVC, context rot, semantic priming, ghost tokens)
-3. [Output Compression: CLI & Tool Output](#3-output-compression-cli--tool-output) (RTK, Headroom, pxpipe, tilth, Token Savior, context-mode, stacklit, Cloudflare Code Mode MCP)
+3. [Output Compression: CLI & Tool Output](#3-output-compression-cli--tool-output) (RTK, Headroom, pxpipe, tilth, shunt, Token Savior, context-mode, stacklit, Cloudflare Code Mode MCP)
 4. [Prompt Compression](#4-prompt-compression) (LLMLingua, Selective Context, AutoCompressors/Gisting, RECOMP, AttnComp, TOON)
 5. [AI Gateways](#5-ai-gateways)
 6. [RAG Optimization](#6-rag-optimization)
@@ -241,6 +241,69 @@ tilth install claude-code   # registers the MCP server in Claude Code
 No per-project configuration is needed after global install.
 
 **Comparison with lean-ctx**: Both tilth and lean-ctx use tree-sitter to compress file reads. lean-ctx operates as a hook-level redirect (intercepts native Read calls at the MCP layer), while tilth exposes explicit navigation tools the model calls directly. lean-ctx is more transparent and requires no change to how the model requests files. tilth gives the model more control over what it fetches but requires it to use the tilth tools rather than standard read operations. On teams that want the model to actively navigate code structure rather than have reads compressed passively, tilth's explicit tools fit better.
+
+### shunt (delegation, not compression)
+
+shunt targets the same pool as tilth and lean-ctx, file reads, with a different mechanism. It does not compress what Claude reads. It keeps the file away from Claude entirely: a hook blocks the read, and a script sends the files and the question to a cheaper model, which answers with a summary. Claude only sees that summary.
+
+| Attribute | Details |
+|-----------|---------|
+| **Source** | [github.com/spotify/portal-ai-plugins](https://github.com/spotify/portal-ai-plugins) (`plugins/shunt`, Apache-2.0) |
+| **Article** | [Portal by Spotify cut my Claude Code token usage by 90%](https://engineering.atspotify.com/2026/9/portal-by-spotify-cut-my-claude-code-token-usage-by-90) |
+| **Requires** | A Spotify Portal instance (commercial managed Backstage, free trial then sales pricing) with the AiKA assistant |
+| **Worker model** | Gemini 2.5 Flash by default, configurable per Portal "mode" |
+| **Evaluation** | [spotify-portal-shunt.md](../../docs/resource-evaluations/spotify-portal-shunt.md) (3/5) |
+
+**How it works**: a `PreToolUse` hook on `Read` blocks full reads of files above 350 lines and names the `/bulk-reader` skill in its refusal. A second hook does the same for `cat`, `head`, `tail`, `less` and `more` in Bash. The `bulk-read` script sends the files to the worker model through the Portal CLI. A `code-write` script generates boilerplate from a spec and one reference file and writes it straight to disk, so Claude never reads the generated code.
+
+**Reading the 90%**: it is the mean of three read scenarios (82%, 94%, 94%) on a private monorepo, counted as tokens entering Claude's context only. The worker model's tokens, the extra turn caused by each block and answer accuracy are not measured. The cost moves to another bill rather than disappearing. The author also reports the limits: the worker's summaries carry unreliable line numbers, so edits still need a targeted read, and Gemini Flash missed a thread-safety bug that Claude found once given the section. Apply the checklist in [How to read a vendor's cost-reduction claim](../ops/ai-unit-economics.md#6-how-to-read-a-vendors-cost-reduction-claim) before quoting the number.
+
+**Measured defects** (live test, Claude Code 2.1.284, no Portal instance):
+
+- The Read block works on text files, but a PDF is blocked too: the line count is taken on the binary, so a PDF with 4,471 newline bytes is sent down the delegation path.
+- The Bash hook ignores paths that start with `~`: `head -100 ~/project/file.ts` passes while the same command with an absolute path is blocked. The hook tests the literal string, and a quoted `~` is not expanded.
+- Ranged reads always pass, including `offset: 0`, and the refusal message itself suggests re-reading with `offset` and `limit`. The hook steers Claude; it does not enforce a budget.
+- `code-write --target` writes through Bash, outside any hook or permission rule scoped to `Edit` and `Write`.
+
+**What to take from it**: the pattern, not the product. The author's first version was a block of routing rules in `CLAUDE.md`, which Claude could ignore. The hook makes the routing apply on every call. You can reproduce the same enforcement without Portal and without sending code to a second vendor, by redirecting to a subagent that runs on Haiku:
+
+```markdown
+<!-- .claude/agents/bulk-reader.md -->
+---
+name: bulk-reader
+description: Answers a precise question about large files. Use when a full read was refused for size.
+tools: Read, Grep, Glob
+model: haiku
+---
+Read the files named in the task and answer only the question asked, in short bullets.
+Lead each bullet with the exact symbol name and line number. Do not propose edits.
+```
+
+```bash
+#!/usr/bin/env bash
+# PreToolUse hook (matcher: Read): send full reads of large text files to a Haiku subagent
+MIN_LINES="${BULK_READ_MIN_LINES:-350}"
+input=$(cat)
+# The subagent itself must be able to read the files it was sent
+[ "$(jq -r '.agent_type // empty' <<<"$input")" = "bulk-reader" ] && exit 0
+# Ranged reads (offset or limit set, including 0) are targeted: let them through
+[ "$(jq -r '.tool_input | has("offset") or has("limit")' <<<"$input")" = "true" ] && exit 0
+path=$(jq -r '.tool_input.file_path // empty' <<<"$input")
+[ -f "$path" ] || exit 0
+# Text files only: PDFs, images and notebooks go to Read as usual
+case "$(file -b --mime-type "$path")" in
+  text/*|application/json|application/xml|application/javascript) ;;
+  *) exit 0 ;;
+esac
+lines=$(wc -l < "$path" | tr -d ' ')
+[ "$lines" -le "$MIN_LINES" ] && exit 0
+jq -n --arg r "File is $lines lines (threshold: $MIN_LINES). Ask the bulk-reader subagent a precise question about it, or re-read only the section you need with offset and limit." \
+  '{hookSpecificOutput: {hookEventName: "PreToolUse", permissionDecision: "deny", permissionDecisionReason: $r}}'
+```
+
+Register it under `hooks.PreToolUse` with `"matcher": "Read"` in `.claude/settings.json`. The hook uses the current `hookSpecificOutput` format, exits silently when it has nothing to decide, and reads `agent_type` so the subagent is not blocked by the rule it serves. File reads are already resolved to absolute paths by Claude Code, so the `~` problem above does not apply to a Read hook. The trade-off stays the same as shunt's: a summary replaces the file, which is fine for "what does this module do" and wrong for "fix line 212". Measure before and after with `/cost` on the same questions, and check the answers, not only the token count.
+
+**Comparison with tilth and lean-ctx**: they cut the tokens of a read locally, without adding a model, and keep exact content available. shunt and the subagent variant replace the read with an answer from another model: larger savings on exploratory questions, lossy by construction, and useless for edits.
 
 ### Token Savior
 
@@ -737,6 +800,7 @@ These tools are not mutually exclusive. Langfuse for tracing plus Phoenix for RA
 |---------|------|
 | Command outputs flooding context | RTK |
 | File reads consuming most of context budget | tilth, lean-ctx, or Token Savior |
+| Exploratory questions over large files, where a summary is enough | A Read hook that redirects to a Haiku subagent (the [shunt](#shunt-delegation-not-compression) pattern) |
 | Monitoring token spend | ccusage (see [Third-Party Tools](./third-party-tools.md)) |
 | Context growing too long in a session | `/compact` at 70% usage |
 | Forgetting past session decisions | ICM memory system |

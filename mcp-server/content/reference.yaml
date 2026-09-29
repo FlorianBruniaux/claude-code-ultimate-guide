@@ -404,6 +404,14 @@ deep_dive:
   edgee_compressor_v2_guide: "guide/ecosystem/context-engineering-tools.md:419"
   edgee_compressor_v2_source: "https://www.edgee.ai/blog/posts/introducing-compressor-v2-three-compression-layers-measured-end-to-end-for-a-50-cost-reduction"
   edgee_rtk_lineage: "Edgee's tool-result-trimming layer explicitly credits RTK as its inspiration; TSR and brevity are the two layers RTK cannot cover"
+  # shunt (Spotify Portal) - hook-enforced delegation of large reads to a cheaper model (evaluated 2026-09-29)
+  shunt_guide: "guide/ecosystem/context-engineering-tools.md#shunt-delegation-not-compression"
+  shunt_evaluation: "docs/resource-evaluations/spotify-portal-shunt.md"
+  shunt_upstream: "https://github.com/spotify/portal-ai-plugins"
+  shunt_mechanism: "PreToolUse hooks refuse full reads over 350 lines and redirect to scripts that send files to a Portal AiKA mode (Gemini 2.5 Flash default); Claude sees only the summary. Requires a Spotify Portal instance"
+  shunt_claim_scope: "90% = mean of 3 read scenarios on a private monorepo, tokens entering Claude's context only; worker-model tokens and accuracy not measured"
+  shunt_defects: "Live-tested CC 2.1.284: PDFs blocked as text, Bash hook bypassed by ~ paths, ranged reads always pass"
+  shunt_native_variant: "Read hook redirecting to a model: haiku subagent, tested example in the guide entry"
   vendor_claims_checklist: "guide/ops/ai-unit-economics.md#6-how-to-read-a-vendors-cost-reduction-claim"  # paired design, sign test ceiling at small n, bootstrap CI width, median vs aggregate
   # Google Antigravity (Agent-First IDE)
   antigravity_guide: "guide/ecosystem/ai-ecosystem.md#61-google-antigravity-agent-first-ide"
