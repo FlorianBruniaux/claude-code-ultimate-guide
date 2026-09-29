@@ -317,6 +317,7 @@ sudo snap install ttyd --classic
 | [Happy Coder](https://github.com/slopus/happy) | App native | Voice, encryption, multi-instances, mobile-first | Dépendance projet tiers | ✅ Safe | 7.8K |
 | [Remoto.sh](https://remoto.sh) | Cloud relay | Setup rapide, browser only | Cloud wrapping, latence, coût | ⚠️ Risk | N/A |
 | tmux + SSH | Self-hosted | Zero deps, CLI officiel | Besoin client SSH mobile | ✅ Safe | N/A |
+| [swe-mux](https://github.com/jatoran/swe-mux) | Self-hosted (PWA over Tailscale) | Official CLI in real PTYs, same live sessions on desktop and phone, per-session status, push notifications, dev-server previews, sessions survive restarts, no relay | Windows desktop app; macOS/Linux via browser; young project | ✅ Safe | N/A |
 
 We chose ttyd + Tailscale because:
 - It's just your terminal exposed via browser

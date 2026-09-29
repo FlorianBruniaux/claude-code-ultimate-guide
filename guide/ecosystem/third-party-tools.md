@@ -1514,6 +1514,7 @@ This section covers tools for running **multiple Claude Code instances in parall
 | [Conductor](#conductor) | Desktop app | macOS parallel agents (also listed above) |
 | [Piebald](#piebald) | Desktop/web app | Multi-provider + Windows + hooks compat (also listed above) |
 | [YYLO](#yylo) | Task and merge lifecycle CLI | Typed task → worktree → merge-gate boundaries for coding agents (60 stars, 2026-09-17) |
+| [swe-mux](https://github.com/jatoran/swe-mux) | Desktop/web workspace | Live per-session status for Claude Code, Codex, OpenCode and Pi, the same sessions on your phone over Tailscale, sessions survive restarts (Apache-2.0, 2026-09-23) |
 
 ---
 
