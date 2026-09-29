@@ -1,0 +1,19 @@
+examples/README.md
+  s_2b47aafd5c6e51::t_e826ee26e59023 12,61,87,103-114,118,137,290
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "09e9c91f0ff790b77b676b76198badc28d62aca3",
+  "prompts": {},
+  "sessions": {
+    "s_2b47aafd5c6e51": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "eb9f2c9e-2738-40ce-9df9-3c0a8467bbe6",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
