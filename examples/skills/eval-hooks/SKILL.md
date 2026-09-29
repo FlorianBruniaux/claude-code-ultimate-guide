@@ -1,130 +1,235 @@
 ---
 name: eval-hooks
-description: "Audit Claude Code hooks defined in settings.json files for validity, performance safety, and correctness. Resolves each command against the filesystem, checks exit-code strategy for blocking hooks, flags missing timeouts, and reviews interactive vs async patterns. Use when setting up hooks for the first time, debugging a hook that never fires or hangs the agent, or doing a periodic hooks hygiene pass."
+description: "Audit Claude Code and Codex hooks for validity, safety, and correctness across settings.json, hooks.json, config.toml, plugin, and skill or agent frontmatter hooks. Resolves each command, checks event names, handler types, matchers, exit-code and JSON decision strategy, and timeouts against each host's documented rules, then reviews hooks one by one. Use when setting up hooks, debugging a hook that never fires, never blocks, or hangs the agent, or doing a periodic hooks hygiene pass. Not for writing a new hook from scratch."
 allowed-tools: Read Glob Bash Edit
 effort: medium
-argument-hint: "[path to settings file or dir, default: all settings files]"
+argument-hint: "[claude | codex | path to a hooks or settings file; default: all locations]"
 ---
 
 # Hooks Evaluator
 
-Discover all Claude Code hooks across every settings file in scope, validate each one against the filesystem and hook semantics, then run an interactive session to confirm or improve them.
+Discover every Claude Code and Codex hook in scope, validate each one against the filesystem and the host's documented hook semantics, then run an interactive session to confirm or improve them.
 
 The goal is not just to score; it is to leave every hook working, correctly scoped, and safe to run.
+
+Sources of truth: the official Claude Code hooks reference (https://code.claude.com/docs/en/hooks) and the Codex hooks documentation (https://developers.openai.com/codex/hooks). When a rule below and the live documentation disagree, the documentation wins; report the disagreement instead of scoring against stale text.
 
 ## When to Use
 
 - First time adding hooks (validate before committing)
 - A hook never fires, or fires on every tool call
 - The agent hangs noticeably before executing a tool
-- A PreToolUse hook is supposed to block but doesn't
-- After copying hooks from another project or machine
+- A policy hook is supposed to block but doesn't
+- After copying hooks from another project, machine, or host
 - Periodic hygiene: "are all these hooks still doing something useful?"
 
-## Key Concepts
+## Scope
 
-### Event types
-
-| Event | When it fires | Can block? (exit 2) |
-|---|---|---|
-| `PreToolUse` | Before any tool call | Yes |
-| `PermissionRequest` | When a permission dialog appears | Yes |
-| `PostToolUse` | After tool completes successfully | No (shows stderr to Claude) |
-| `PostToolUseFailure` | After a tool fails | No |
-| `PostToolBatch` | After a full batch of parallel tool calls resolves | Yes (stops agentic loop) |
-| `UserPromptSubmit` | When user submits a prompt | Yes |
-| `UserPromptExpansion` | When a slash command expands | Yes |
-| `Stop` | When Claude finishes responding | Yes (continues the turn) |
-| `SubagentStop` | When a subagent finishes | Yes (continues the subagent) |
-| `TeammateIdle` | When an agent team teammate goes idle | Yes |
-| `TaskCreated` | When a task is being created | Yes |
-| `TaskCompleted` | When a task is being marked as completed | Yes |
-| `PreCompact` | Before context compaction | Yes |
-| `ConfigChange` | When a configuration file changes | Yes (except policy_settings) |
-| `PermissionDenied` | When auto-mode classifier denies a tool call | No |
-| `SessionStart` | When a session starts or resumes | No |
-| `Setup` | On --init-only or -p --init/--maintenance | No |
-| `StopFailure` | When the turn ends due to API error | No |
-| `Notification` | When Claude sends a notification | No |
-| `MessageDisplay` | While assistant message streams | No |
-| `SubagentStart` | When a subagent is spawned | No |
-| `InstructionsLoaded` | When a CLAUDE.md or rules file is loaded | No |
-| `CwdChanged` | When working directory changes | No |
-| `FileChanged` | When a watched file changes on disk | No |
-| `WorktreeCreate` | When a worktree is created (replaces default git behavior) | Yes (any non-zero fails) |
-| `WorktreeRemove` | When a worktree is removed | No |
-| `PostCompact` | After compaction completes | No |
-| `SessionEnd` | When a session terminates | No |
-| `ElicitationResult` | After user responds to MCP elicitation | Yes |
-| `Elicitation` | When MCP server requests user input | Yes |
-
-**Events that do NOT support matchers**: UserPromptSubmit, PostToolBatch, Stop, TeammateIdle, TaskCreated, TaskCompleted, WorktreeCreate, WorktreeRemove, CwdChanged, MessageDisplay.
-
-### Exit codes (command hooks)
-
-- **Exit 0**: success. Claude Code parses stdout for JSON output. JSON is only processed on exit 0.
-- **Exit 2**: blocking error. Stderr is fed to Claude as error message. The tool call or action is prevented on events that support blocking.
-- **Any other non-zero**: non-blocking error. Shows a hook error notice in the transcript (first line of stderr). Execution continues.
-
-> Warning: only exit code 2 blocks. Exit code 1 is a non-blocking error and proceeds with the action. Use exit 2 for policy enforcement.
-
-### Timeout defaults
-
-| Hook type | Default timeout |
+| Argument | Audit |
 |---|---|
-| `command`, `http`, `mcp_tool` | 600s |
-| `UserPromptSubmit` (command/http/mcp_tool) | 30s |
-| `MessageDisplay` (command/http/mcp_tool) | 10s |
-| `prompt` | 30s |
-| `agent` | 60s |
-| `SessionEnd` | 1.5s (overall budget) |
+| none | Every Claude Code and Codex location listed below that exists |
+| `claude` or `codex` | That host only |
+| a file path | That file only (settings JSON, `hooks.json`, `config.toml`, skill or agent file) |
 
-### Hook types
-
-- **command**: shell command, receives JSON on stdin, communicates via exit codes and stdout
-- **http**: POST request to a URL, same JSON, response body as output
-- **mcp_tool**: calls a tool on a connected MCP server
-- **prompt**: sends prompt to a Claude model, returns `{ "ok": true/false }` decision
-- **agent**: spawns a subagent with tool access (experimental)
-
-### Matcher patterns
-
-For `PreToolUse`, `PostToolUse`, and related tool events, the matcher filters on tool name:
-- Letters/digits/underscores/pipe only: exact match or pipe-separated list (`Edit|Write`)
-- Contains any other character: treated as JavaScript regex (`mcp__memory__.*`)
-- `"*"`, `""`, or absent: matches all tool calls
-
-Other events match different fields (e.g. `SessionStart` matches on `source: startup|resume|clear|compact`). For the complete per-event matcher field reference, see `guide/core/hooks-events-reference.md`.
-
-### The `if` field (v2.1.85+)
-
-The `if` field narrows a handler further by tool name AND arguments together, using [permission rule syntax](../../../guide/core/tools-reference.md#permission-rule-formats). Evaluated per handler (not per matcher group), so the process only spawns when both match.
-
-```json
-{
-  "matcher": "Bash",
-  "hooks": [
-    { "type": "command", "if": "Bash(git *)", "command": "my-git-policy.sh" }
-  ]
-}
-```
-
-Flag: `if` only works on tool events (PreToolUse, PostToolUse, PostToolUseFailure, PermissionRequest, PermissionDenied). Adding it to any other event type prevents the hook from running.
+Audit each host with its own rules. Never score a Codex hook against Claude Code semantics or the reverse.
 
 ---
 
-## Settings Files Scanned
+## Claude Code: Key Concepts
 
-| File | Scope | Committed? |
+### Event types (33)
+
+| Event | When it fires | Exit 2 effect |
 |---|---|---|
-| `~/.claude/settings.json` | Global user | No |
-| `~/.claude/settings.local.json` | Global local | No |
-| `.claude/settings.json` | Project | Yes |
-| `.claude/settings.local.json` | Project local | No |
-| Plugin `hooks/hooks.json` | Per plugin | Yes (in plugin) |
-| Skill/agent frontmatter `hooks:` | Per component | Yes |
+| `SessionStart` | Session begins or resumes | Stderr to user only |
+| `Setup` | `--init-only`, or `--init` / `--maintenance` in `-p` mode | Ignored |
+| `UserPromptSubmit` | Prompt submitted, before processing | Blocks and erases the prompt |
+| `UserPromptExpansion` | A typed command expands into a prompt | Blocks the expansion |
+| `PreToolUse` | Before a tool call executes | Blocks the tool call |
+| `PermissionRequest` | A tool call needs a permission decision | **Not honored**: deny through the JSON `decision` object |
+| `PermissionDenied` | Auto mode denies a tool call | Ignored (only `hookSpecificOutput.retry` is read) |
+| `PostToolUse` | After a tool call succeeds | Stderr to Claude; the tool already ran |
+| `PostToolUseFailure` | After a tool call fails | Stderr to Claude |
+| `PostToolBatch` | After a full batch of parallel tool calls | Stops the agentic loop |
+| `Notification` | Claude Code sends a notification | Ignored |
+| `MessageDisplay` | While assistant text is displayed | Original text displayed |
+| `SubagentStart` | A subagent is spawned | Stderr to user only |
+| `SubagentStop` | A subagent finishes | Prevents the subagent from stopping |
+| `TaskCreated` | A task is being created | Rolls back the creation |
+| `TaskCompleted` | A task is being marked completed | Prevents completion |
+| `Stop` | Claude finishes responding | Prevents stopping, continues the turn |
+| `StopFailure` | The turn ends on an API error | Ignored (except `terminalSequence`) |
+| `TeammateIdle` | An agent team teammate is about to go idle | Keeps the teammate working |
+| `InstructionsLoaded` | A CLAUDE.md or `.claude/rules/*.md` file loads | Ignored |
+| `ConfigChange` | A configuration file changes mid-session | Blocks the change (except `policy_settings`) |
+| `CwdChanged` | The working directory changes | Stderr to user only |
+| `DirectoryAdded` | A directory is added via `/add-dir` or SDK `register_repo_root` | Stderr to debug log; already added |
+| `FileChanged` | A watched file changes on disk | Stderr to user only |
+| `WorktreeCreate` | A worktree is being created | Any non-zero exit fails creation |
+| `WorktreeRemove` | A worktree is being removed | Any non-zero exit fails removal if the directory remains |
+| `PreCompact` | Before compaction | Blocks compaction |
+| `PostCompact` | After compaction | Stderr to user only |
+| `PreModelSwitch` | Before a requested model switch | Blocks the switch |
+| `PostModelSwitch` | After the session model changes | Stderr to user only |
+| `Elicitation` | An MCP server requests user input | Denies the elicitation |
+| `ElicitationResult` | After the user answers an elicitation | Blocks the response (becomes decline) |
+| `SessionEnd` | Session terminates | Stderr to user only |
 
-If an argument is provided (e.g. `/eval-hooks .claude/settings.local.json`), audit only that file. Otherwise scan the four standard locations.
+### Exit codes and JSON output
+
+- **Exit 2** blocks on the events whose row says so. No JSON can override it, not even `permissionDecision: "allow"`.
+- **JSON is read on every exit code**, not only 0. For events with a standard decision model, a valid JSON decision takes effect on exit 0 or any other non-2 code: `hookSpecificOutput.permissionDecision: "deny"` (PreToolUse, PreModelSwitch), `hookSpecificOutput.decision.behavior: "deny"` (PermissionRequest), top-level `decision: "block"` (UserPromptSubmit, UserPromptExpansion, PostToolUse, PostToolUseFailure, PostToolBatch, Stop, SubagentStop, ConfigChange, PreCompact, TaskCreated, PreModelSwitch).
+- **Any other non-zero code without valid JSON** is a non-blocking error: the action proceeds and the transcript shows the first stderr line. A missing or non-executable script exits with a code like 127 and lands in this bucket, so a mistyped path silently disables a policy gate.
+- **Exit 0 stdout** becomes context only on `UserPromptSubmit`, `UserPromptExpansion`, `SessionStart`, and `PostModelSwitch`; elsewhere it goes to the debug log.
+
+A policy hook is correctly built when it uses **either** exit 2 **or** a JSON decision supported by its event. Exit 1 alone is the defect.
+
+### Timeout defaults (seconds)
+
+| Handler | Default |
+|---|---|
+| `command`, `http`, `mcp_tool` | 600 |
+| same, on `UserPromptSubmit`, `PreModelSwitch`, `PostModelSwitch` | 30 |
+| same, on `MessageDisplay` | 10 |
+| `prompt` | 30 |
+| `agent` | 60 |
+| `SessionEnd` | 1.5 total budget; a per-hook `timeout` raises it to the highest configured value, up to 60. Plugin hook timeouts do not raise it. `CLAUDE_CODE_SESSIONEND_HOOKS_TIMEOUT_MS` overrides it |
+
+A timed-out `command`, `http`, or `mcp_tool` hook on `PreToolUse` does **not** block the tool call; on `PreModelSwitch` it blocks the switch. `timeout` is not enforced on a running `async: true` hook; it is enforced with `asyncRewake`.
+
+### Handler types and where they are allowed
+
+| Handler type | Allowed on |
+|---|---|
+| `command`, `mcp_tool` | Every event |
+| `http` | Every event except `SessionStart` and `Setup` |
+| `prompt` | `PermissionDenied`, `PostToolBatch`, `PostToolUse`, `PostToolUseFailure`, `PreToolUse`, `Stop`, `SubagentStop`, `TaskCompleted`, `TaskCreated`, `TeammateIdle`, `UserPromptExpansion`, `UserPromptSubmit`, `PermissionRequest` |
+| `agent` (experimental) | Same as `prompt`, except `PermissionRequest`, where an agent hook is skipped |
+
+On `PermissionDenied`, prompt and agent hooks run but their output is discarded.
+
+### Handler fields
+
+| Field | Applies to | Notes |
+|---|---|---|
+| `type` | all | `command`, `http`, `mcp_tool`, `prompt`, `agent` |
+| `if` | all | One permission rule, such as `Bash(git *)`. Evaluated only on `PreToolUse`, `PostToolUse`, `PostToolUseFailure`, `PermissionRequest`, `PermissionDenied`; on any other event the hook never runs. Best-effort filter, not an enforcement mechanism |
+| `timeout` | all | Seconds |
+| `statusMessage` | all | Spinner text |
+| `once` | all | Honored only in skill frontmatter; ignored in settings files and agent frontmatter |
+| `command` | command | Shell string, or the executable when `args` is set |
+| `args` | command | Exec form: no shell, each element one argument. Preferred when referencing `${CLAUDE_PROJECT_DIR}` or `${CLAUDE_PLUGIN_ROOT}` |
+| `shell` | command | `bash` or `powershell`; ignored when `args` is set |
+| `async` | command | Runs in the background; cannot block or decide |
+| `asyncRewake` | command | Background, and wakes Claude when the process exits 2 |
+| `url`, `headers`, `allowedEnvVars` | http | Blocks only through a 2xx JSON body; status codes alone never block |
+| `server`, `tool`, `input` | mcp_tool | Uses an already connected server |
+| `prompt`, `model` | prompt, agent | `$ARGUMENTS` receives the hook input |
+
+### Matchers
+
+| Matcher value | Evaluated as |
+|---|---|
+| `"*"`, `""`, or omitted | Match all |
+| Only letters, digits, `_`, `-`, spaces, `,`, `\|` | Exact string, or a list separated by `\|` or `,` (hyphens need v2.1.195+) |
+| Any other character | Unanchored JavaScript regex (`Edit.*` also matches `NotebookEdit`; anchor with `^...$`) |
+
+`FileChanged` and `StopFailure` use a narrower exact set (letters, digits, `_`, `|`). Each event filters a different field:
+
+| Event | Matcher filters |
+|---|---|
+| `PreToolUse`, `PostToolUse`, `PostToolUseFailure`, `PermissionRequest`, `PermissionDenied` | tool name (`Bash`, `Edit\|Write`, `mcp__server__.*`) |
+| `SessionStart` | `startup`, `resume`, `clear`, `compact`, `fork` |
+| `Setup` | `init`, `maintenance` |
+| `SessionEnd` | `clear`, `resume`, `logout`, `prompt_input_exit`, `other` |
+| `Notification` | notification type |
+| `SubagentStart`, `SubagentStop` | agent type |
+| `PreCompact`, `PostCompact` | `manual`, `auto` |
+| `PreModelSwitch`, `PostModelSwitch` | canonical target model name |
+| `ConfigChange` | configuration source |
+| `DirectoryAdded` | `slash_command`, `register_repo_root` |
+| `FileChanged` | literal filenames to watch |
+| `StopFailure` | error type |
+| `InstructionsLoaded` | load reason |
+| `UserPromptExpansion` | command name |
+| `Elicitation`, `ElicitationResult` | MCP server name |
+
+**No matcher support** (a matcher is silently ignored): `UserPromptSubmit`, `PostToolBatch`, `Stop`, `TeammateIdle`, `TaskCreated`, `TaskCompleted`, `WorktreeCreate`, `WorktreeRemove`, `CwdChanged`, `MessageDisplay`.
+
+### Execution model
+
+- All matching hooks run **in parallel**.
+- The same handler defined in more than one settings file runs **once**. A plugin's or a skill's copy of the same handler stays separate.
+- `PermissionRequest` hooks also run in sessions that cannot show a prompt, such as background subagents in `-p` mode; if no hook decides, the call is denied.
+- Several `PreToolUse` decisions resolve as `deny > defer > ask > allow`. The documentation does not define which `updatedInput` wins when several hooks rewrite the same call.
+- `Stop` and `SubagentStop` continuations, through `decision: "block"` or `additionalContext`, are bounded by the `stop_hook_active` input and an 8-consecutive-continuation cap.
+- Command hooks run without a controlling terminal: interactive commands (`read`, `fzf`, `gum`, any TUI) cannot get input. Use `terminalSequence` in JSON output for notifications.
+
+---
+
+## Claude Code: Locations Scanned
+
+| Location | Scope | Notes |
+|---|---|---|
+| Managed policy settings | Organization | Cannot be disabled by user, project, or local `disableAllHooks` |
+| `~/.claude/settings.json` | User | Not read by cloud sessions |
+| `.claude/settings.json` | Project, committed | |
+| `.claude/settings.local.json` | Project, personal | |
+| Plugin `hooks/hooks.json` | While the plugin is enabled | |
+| Skill frontmatter `hooks:` | Rest of the session once the skill is invoked | `once: true` honored here only |
+| Subagent frontmatter `hooks:` | While that subagent runs | `Stop` becomes `SubagentStop`. Project subagent hooks run only after workspace trust is accepted, including in `-p` |
+
+`~/.claude/settings.local.json` is **not** a documented settings location. If it exists, report it as undocumented and do not score its hooks as active.
+
+Also record, from the effective settings:
+
+- `disableAllHooks: true` disables every non-managed hook; only a managed-level value disables managed hooks.
+- `allowManagedHooksOnly` blocks user, project, local, and plugin hooks (plugins force-enabled in managed `enabledPlugins` are exempt).
+- `allowedHttpHookUrls` and `httpHookAllowedEnvVars` restrict HTTP hooks from every source.
+- Interactive sessions hold back every settings-file hook until workspace trust is accepted; `-p` and SDK sessions treat the folder as trusted.
+
+---
+
+## Codex: Key Concepts
+
+### Locations
+
+| Location | Notes |
+|---|---|
+| `~/.codex/hooks.json` | User |
+| `~/.codex/config.toml` inline `[hooks]` | User |
+| `<repo>/.codex/hooks.json`, `<repo>/.codex/config.toml` | Loaded only when the project `.codex/` layer is trusted |
+| Plugin `hooks/hooks.json`, or a `hooks` entry in `.codex-plugin/plugin.json` | Manifest paths must stay inside the plugin root |
+| Managed `requirements.toml` `[hooks]` | Trusted by policy; `allow_managed_hooks_only = true` skips user, project, session, and plugin hooks |
+
+Every source loads; higher layers do not replace lower ones. A layer holding both `hooks.json` and inline `[hooks]` is merged with a startup warning: flag it and recommend one representation per layer. `[features] hooks = false` turns hooks off (`codex_hooks` is a deprecated alias).
+
+### Trust review
+
+Every non-managed hook, plugin hooks included, must be reviewed and trusted in `/hooks` before it runs. Trust is recorded against the hook's current hash, so an edited hook is skipped until trusted again. When auditing, report that a changed hook needs review; do not assume it runs. `--dangerously-bypass-hook-trust` bypasses the check for one invocation only: flag any automation that relies on it.
+
+### Events (12) and matchers
+
+| Event | Matcher filters |
+|---|---|
+| `PreToolUse`, `PostToolUse`, `PermissionRequest` | tool name (`Bash`, `apply_patch`, MCP names; `Edit` or `Write` also match `apply_patch`) |
+| `SessionStart` | `startup`, `resume`, `clear`, `compact` |
+| `SessionEnd` | currently only `other` |
+| `PreCompact`, `PostCompact` | `manual`, `auto` |
+| `SubagentStart`, `SubagentStop` | subagent type |
+| `UserPromptSubmit`, `Stop`, `Interrupt` | not supported (matcher ignored) |
+
+Codex matchers are regex strings. `Interrupt` and `SessionEnd` do not run for subagents.
+
+### Handlers and output
+
+- Only `command` and `mcp_tool` handlers run. `prompt` and `agent` handlers are parsed and skipped: flag them as dead configuration.
+- `timeout` is in seconds, default 600. `SessionEnd` and `Interrupt` default to 1 and allow at most 3.
+- Optional fields: `statusMessage`, `async`, `additionalContextLimit` (default 2,500 tokens; `0` passes everything and can flood the context), `commandWindows` / `command_windows`.
+- Commands run with the session `cwd`. For repo-local scripts, resolve from the git root rather than a relative `.codex/hooks/...` path.
+- `PreToolUse` ignores plain-text stdout. It blocks with `permissionDecision: "deny"`, legacy `decision: "block"`, or exit 2 with the reason on stderr. `permissionDecision: "ask"`, `continue`, `stopReason`, and `suppressOutput` are not supported there: Codex marks the hook run as failed and **continues the tool call**. Flag any Codex policy hook that relies on them.
+- Background (`async`) hooks cannot block, approve, or rewrite; at most eight run concurrently; `SessionEnd` always runs synchronously.
+- `SessionEnd` does not support MCP tool hooks.
 
 ---
 
@@ -132,19 +237,19 @@ If an argument is provided (e.g. `/eval-hooks .claude/settings.local.json`), aud
 
 | # | Criterion | Max | What is checked |
 |---|-----------|-----|-----------------|
-| 1 | **valid event type** | 1 | Type is one of the 30 known event types listed above |
-| 2 | **matcher** | 2 | Absent for events that don't support matchers (1pt); not an overly broad pattern with a heavy command (1pt) |
-| 3 | **command** | 3 | Non-empty (1pt); referenced script or binary resolves on disk (1pt); script is executable (chmod +x) (1pt) |
-| 4 | **timeout** | 2 | Blocking hooks (PreToolUse, UserPromptSubmit) have explicit `timeout` field (1pt); value is ≤ 30s for interactive hooks (1pt) |
-| 5 | **blocking awareness** | 2 | Blocking hooks: exit 2 used (not exit 1) for policy enforcement (1pt); no interactive commands that would hang (1pt) |
-| Bonus | **hygiene** | +1 | No duplicate (event + matcher + command) combination found across all scanned files |
+| 1 | **event and handler type** | 1 | The event exists for this host, and the handler type is allowed on it (a Claude `agent` hook on `PermissionRequest` or a Codex `prompt` hook scores 0) |
+| 2 | **matcher** | 2 | No matcher on an event without matcher support, or a matcher using that event's documented values (1); not a match-all or broad regex on a tool event paired with a slow command (1) |
+| 3 | **command** | 3 | Non-empty (1); the script or binary resolves on disk, after substituting `${CLAUDE_PROJECT_DIR}`, `${CLAUDE_PLUGIN_ROOT}`, or the git root (1); the script is executable, or it is passed to an interpreter (`bash script.sh`, `python3 script.py`) or run in exec form with a resolvable executable (1) |
+| 4 | **timeout** | 2 | The effective timeout (explicit or documented default) fits the event: interactive-path hooks (`PreToolUse`, `PermissionRequest`, `UserPromptSubmit`, `PreModelSwitch`, `Stop`) under 30 s or backed by an internal timeout guard (1); no explicit value that exceeds a documented cap or budget, such as a Codex `SessionEnd` above 3 or a Claude `SessionEnd` above 60 (1) |
+| 5 | **blocking awareness** | 2 | For a hook meant to enforce a policy: blocks through exit 2 or a JSON decision supported by the event and host, not exit 1 (1); no interactive command, no reliance on a timeout to block `PreToolUse`, no unsupported Codex output field (1) |
+| Bonus | **hygiene** | +1 | No redundant copy of the same handler within one scope, and `$CLAUDE_PROJECT_DIR` or a git-root path instead of a hardcoded project-local absolute path |
 
 **Thresholds:**
 - ✅ Good: ≥8/10 (≥80%)
 - ⚠️ Needs work: 5-7/10 (50-79%)
 - ❌ Fix: <5/10 (<50%)
 
-**Non-blocking events** (PostToolUse, SessionEnd, Notification, etc.): skip criterion 5 (blocking awareness). Score on 8 pts max. Flag with 🔵.
+**Observational hooks** (logging, context injection, formatting, events that cannot block): skip criterion 5 and score on 8 pts max. Flag with 🔵. Decide "meant to enforce a policy" from the script and the user's answer, not from the event name alone.
 
 ---
 
@@ -152,65 +257,84 @@ If an argument is provided (e.g. `/eval-hooks .claude/settings.local.json`), aud
 
 ### Step 1: Discovery
 
-Parse each settings file found:
+List the locations that exist for each host in scope. Claude Code:
 
 ```bash
-ls ~/.claude/settings.json ~/.claude/settings.local.json \
-   .claude/settings.json .claude/settings.local.json 2>/dev/null
+ls ~/.claude/settings.json .claude/settings.json .claude/settings.local.json 2>/dev/null
+ls ~/.claude/settings.local.json 2>/dev/null && echo "undocumented location"
 ```
 
-For each file that exists, extract the `hooks` object. Parse every entry across all event types.
+Codex:
+
+```bash
+ls ~/.codex/hooks.json ~/.codex/config.toml .codex/hooks.json .codex/config.toml 2>/dev/null
+```
+
+Also read `hooks:` blocks in `.claude/skills/*/SKILL.md`, `.claude/agents/**/*.md`, and enabled plugin `hooks/hooks.json` files when the user asks for a full picture. Managed settings and `requirements.toml` are read-only for this audit: report them, never edit them.
 
 Build a flat list of hook records:
-- `source_file`: which settings file it came from
-- `event_type`: e.g. `PreToolUse`
-- `matcher`: string or absent
-- `type`: command / http / mcp_tool / prompt / agent
-- `command`: shell command string (command hooks only)
-- `timeout`: seconds or absent (note: JSON uses seconds, not ms)
-- `async`: boolean
+- `host`: `claude` or `codex`
+- `source_file` and `scope`
+- `event_type`, `matcher` (or absent)
+- `type` and its type-specific fields (`command`, `args`, `url`, `server`/`tool`, `prompt`)
+- `timeout` (seconds, explicit or default), `async`, `asyncRewake`, `if`, `once`
 
-If no hooks are found in any file, report it and stop.
+If no hooks are found in any location, report it and stop.
+
+Done when: every existing location is listed with its host and scope, and each hook has a record (or the audit stopped with "no hooks found").
 
 ### Step 2: Resolve commands (command hooks only)
 
-For each command hook, resolve the first token to a binary or script:
+Resolve the executable and any script it runs:
 
 ```bash
 CMD=$(echo "$command" | awk '{print $1}')
 CMD="${CMD/#\~/$HOME}"
-which "$CMD" 2>/dev/null || test -f "$CMD" && echo "found" || echo "not found"
+command -v "$CMD" >/dev/null 2>&1 || test -f "$CMD" && echo "found" || echo "not found"
 test -x "$CMD" && echo "executable" || echo "not executable"
 ```
 
+- With `args` (exec form), `command` is resolved on `PATH` or as a path; `args` elements are literal.
+- For `bash script.sh`, `node script.js`, `python3 script.py`, check that the script exists and is readable; it does not need `chmod +x`.
+- Substitute `${CLAUDE_PROJECT_DIR}` with the project root and `$(git rev-parse --show-toplevel)` with the repository root before testing.
+
 Flag:
-- **Not found**: script or binary does not exist at that path
-- **Not executable**: file exists but `chmod +x` was never run (most common source of silent failures)
-- **Tilde path**: command starts with `~` (usually safe since hooks run via shell, but absolute paths are preferred)
-- **Relative path**: path does not start with `/` or `~` (resolves from working directory, which may vary)
+- **Not found**: nothing exists at that path; for a policy hook this silently disables the gate
+- **Not executable**: a directly executed script without `chmod +x`
+- **Relative path**: resolves from the session `cwd`, which varies
+- **Interactive command** (`read`, `fzf`, `gum`, TUI): hooks have no controlling terminal
 
-Also flag patterns that indicate the hook will hang:
-- `read`, `fzf`, `gum`, any interactive TUI command: flag as ❌ (hangs the agent, hooks run without a controlling terminal since v2.1.139)
+Done when: every command hook is marked found or not found, executable or not, with the resolved path.
 
-### Step 3: Check blocking hooks for exit code strategy
+### Step 3: Check blocking strategy
 
-For PreToolUse, UserPromptSubmit, UserPromptExpansion, Stop, SubagentStop hooks whose command is a local script:
+For hooks on events that can block (see the tables above) whose command is a local script:
 
-1. Read the script file
-2. Check for `exit 2` statements vs `exit 1` or generic `exit $?`
-3. Classify:
-   - **Uses exit 2 for blocking**: ✅ correct pattern
-   - **Uses exit 1 for blocking**: ⚠️ exit 1 is non-blocking, action will proceed
-   - **No explicit exit**: the last command's exit code propagates, may not block as intended
-   - **Always exits 0**: will never block (may be intentional for context-only hooks)
+1. Read the script.
+2. Classify:
+   - **exit 2 on the block path**: ✅
+   - **JSON decision supported by the event and host** (`permissionDecision: "deny"`, `decision.behavior: "deny"`, `decision: "block"`): ✅, whatever the exit code
+   - **exit 1 or a generic non-zero code on the block path, without JSON**: ⚠️ the action proceeds
+   - **exit 2 on `PermissionRequest`** (Claude Code): ⚠️ not honored; use the `decision` object
+   - **Codex `permissionDecision: "ask"` or `continue: false` on `PreToolUse`**: ⚠️ unsupported, the tool call continues
+   - **No decision at all**: 🔵 observational, fine when intended
+3. Flag slow operations (`curl`, `sleep`, network calls) without an internal timeout guard in hooks on the interactive path.
 
-Flag any PreToolUse script that contains slow operations (`curl`, `sleep`, network calls) without a surrounding timeout guard.
+Done when: every script-backed hook on a blocking event has one of the classifications above.
 
-### Step 4: Check for duplicates
+### Step 4: Check duplicates and dead configuration
 
-Compare all hook records by (event_type + matcher + command). Report exact duplicates across files: they fire twice and consume double the latency.
+- Claude Code: the same handler in several settings files runs once. Report it as redundant configuration to clean up, not as double execution. A plugin or skill copy of the same handler runs separately: report that one as a real duplicate.
+- A matcher on an event without matcher support (silently ignored).
+- `if` on a non-tool event (the hook never runs).
+- `once` outside skill frontmatter (ignored).
+- A handler type not allowed on its event (skipped).
+- `async: true` combined with a decision field (no effect).
+- Two or more `PreToolUse` hooks on the same matcher returning `updatedInput` (winner undocumented).
+- A Stop hook that always continues without reading `stop_hook_active`.
+- Codex: a layer with both `hooks.json` and inline `[hooks]`; hooks awaiting trust review.
 
-Also flag: a matcher field on an event that doesn't support matchers (silently ignored by Claude Code).
+Done when: each finding is attached to a hook record, or the list is explicitly empty.
 
 ### Step 5: Interactive review (core of the skill)
 
@@ -220,12 +344,12 @@ Process hooks **one by one**. Do not batch and skip the interaction.
 
 Show:
 ```
-Hook: PreToolUse → Bash [~/.claude/settings.json]
+Hook: PreToolUse → Bash [claude, project settings]
 type: command
-command: /Users/me/.claude/hooks/confirm-git-push.sh
+command: ${CLAUDE_PROJECT_DIR}/.claude/hooks/confirm-git-push.sh
 timeout: (none, default 600s)
 Script: found (executable ✅)
-Exit strategy: uses exit 2 ✅
+Blocking strategy: JSON permissionDecision "deny" ✅
 ```
 
 Ask three questions:
@@ -237,10 +361,10 @@ Ask three questions:
 
 Show:
 ```
-Hook: SessionEnd [~/.claude/settings.local.json]
+Hook: SessionEnd [claude, user settings]
 type: command
 command: ~/.claude/hooks/session-summary.sh
-timeout: (none, default 1.5s for SessionEnd, very short!)
+timeout: (none, 1.5s SessionEnd budget)
 Script: found (executable ✅)
 ```
 
@@ -248,7 +372,9 @@ Ask:
 1. "Does this hook still serve a useful purpose? (y / n)"
 2. "Is the command working within the timeout? (y / broken / unsure)"
 
-**If the user provides changes during the interaction**: apply them using Edit, confirm each change, then move to the next hook.
+**If the user provides changes during the interaction**: apply them using Edit, confirm each change, then move to the next hook. Never edit managed settings or `requirements.toml`. After editing a Codex hook, remind the user that it must be trusted again in `/hooks`.
+
+Done when: every hook has the user's three answers (or two for lifecycle hooks) and every agreed edit is applied and confirmed.
 
 ### Step 6: Output report
 
@@ -256,7 +382,7 @@ After all hooks are reviewed:
 
 ```
 # Hooks Audit: [project or global]
-Date: [today] | Scanned: N hooks across M settings files
+Date: [today] | Scanned: N hooks across M files (Claude Code: X, Codex: Y)
 
 ## Summary
 
@@ -265,7 +391,7 @@ Date: [today] | Scanned: N hooks across M settings files
 | ✅ Good (≥80%) | N |
 | ⚠️ Needs work (50-79%) | N |
 | ❌ Fix (<50%) | N |
-| 🔵 Non-blocking event | N |
+| 🔵 Observational | N |
 | ✅ User confirmed useful | N |
 | ⚠️ User flagged for update | N |
 | 🗑️ User marked as stale | N |
@@ -274,39 +400,41 @@ Date: [today] | Scanned: N hooks across M settings files
 
 ## Per-Hook Results
 
-### PreToolUse → Bash [~/.claude/settings.json] (7/10 ⚠️)
+### PreToolUse → Bash [claude, user settings] (7/10 ⚠️)
 
 type: command
 command: `~/.claude/hooks/confirm-git-push.sh`
-timeout: (none)
+timeout: (none, default 600s)
 
 | Criterion | Score | Notes |
 |-----------|-------|-------|
-| valid event type | ✅ 1/1 | PreToolUse |
+| event and handler type | ✅ 1/1 | PreToolUse, command |
 | matcher | ✅ 2/2 | scoped to Bash |
-| command | ✅ 3/3 | found, executable, absolute path |
-| timeout | ❌ 0/2 | no timeout (UserPromptSubmit default is 30s, others 600s) |
-| blocking awareness | ✅ 2/2 | exit 2 used for blocking ✅ |
+| command | ✅ 3/3 | found, executable |
+| timeout | ⚠️ 1/2 | 600s default on the interactive path, script calls the network without a guard |
+| blocking awareness | ⚠️ 0/2 | block path exits 1 without JSON: the tool call proceeds |
 
 **Priority fixes:**
-1. Add `"timeout": 10` to cap blocking time
-2. Verify script doesn't block on network calls without internal timeout
+1. Replace `exit 1` with `exit 2`, or print a `permissionDecision: "deny"` JSON object
+2. Add `"timeout": 10` or an internal timeout around the network call
 
 User feedback: ✅ scope correct
-Content: timeout added ✅
+Content: exit strategy fixed ✅
 
 ---
 
-### PostToolUse → Edit|Write [~/.claude/settings.json] (10/10 ✅) 🔵
+### PostToolUse → Edit|Write [claude, user settings] (8/8 ✅) 🔵
 
 type: command
 command: `~/.claude/hooks/anti-ai-markers.sh`
 timeout: 2
 
-Non-blocking event: exit 2 shows stderr to Claude but doesn't prevent the action. All criteria pass. User confirmed still useful.
+Observational hook: exit 2 would only show stderr to Claude. All applicable criteria pass. User confirmed still useful.
 
 ---
 ```
+
+Done when: the report lists every scanned hook with its score and criterion notes.
 
 ### Step 7: Fix Summary
 
@@ -314,39 +442,43 @@ Non-blocking event: exit 2 shows stderr to Claude but doesn't prevent the action
 ## What Changed This Session
 
 confirm-git-push.sh hook:
+  - Exit strategy changed to exit 2
   - Added timeout: 10
 
 session-summary.sh hook:
   - User confirmed useful, no changes
 
-rtk-baseline.sh hook:
+rtk-baseline.sh hook (codex):
+  - Edited; needs re-trust in /hooks
   - User flagged as stale (awaiting explicit deletion confirmation)
 
 ---
-N hooks audited · N edits applied · N flagged as stale · N duplicates found
+N hooks audited · N edits applied · N flagged as stale · N redundant copies · N awaiting Codex trust review
 ```
 
-For any hook the user marked as stale: ask for explicit confirmation before removing it from the settings file. Never delete without a clear "yes, remove it".
+For any hook the user marked as stale: ask for explicit confirmation before removing it. Never delete without a clear "yes, remove it".
+
+Done when: the summary line counts match the per-hook results and no deletion happened without explicit confirmation.
 
 ---
 
 ## Edge Cases
 
-- **Command is a one-liner inline** (e.g. `rtk hook claude`): skip script-level checks, verify the binary `rtk` exists in PATH
-- **Command uses `bash -c '...'` inline**: parse the inner script string for interactive commands and exit code logic
-- **`exit 1` in a PreToolUse hook**: flag as ⚠️ (exit 1 is a non-blocking error, the tool call will proceed even if the intent was to block)
-- **Same hook in both global and project settings**: not a duplicate (each fires in its own scope), but note both locations in the report
-- **`timeout: 0`**: flag as likely invalid (may be treated as no timeout)
-- **Unknown event type** (e.g. `PreToolCall` typo): flag as ❌, report exact string, suggest the correct name
-- **Script not executable**: hook fails silently on most systems, suggest `chmod +x` immediately
-- **Matcher on non-matcher event** (e.g. `UserPromptSubmit` with a matcher): flag as silently ignored, suggest removing it
-- **`async: true` hook returning `decision: "block"`**: flag as ⚠️ (async hooks cannot block, decision fields have no effect)
-- **`asyncRewake: true` hook**: implies `async: true` but additionally wakes Claude when the background process exits with code 2. The hook's stderr (or stdout if stderr is empty) is shown to Claude as a system reminder. Flag hooks that need to signal background failures back to Claude but use `async` instead of `asyncRewake`
-- **`prompt` or `agent` type hook**: these don't have a command to resolve; check that the `prompt` field is present and non-empty
-- **SessionEnd hooks**: the default timeout budget is 1.5s. Even if a hook declares `timeout: 30`, it may be cut off. Flag any SessionEnd hook without an explicit timeout, and warn that heavy work here risks being killed
-- **Hooks not firing as expected**: advise using `/hooks` menu in Claude Code to verify configuration, and checking `~/.claude/logs/` or running with `--debug`
-- **`PermissionRequest` hook in `-p` mode**: these hooks don't fire in non-interactive mode. Flag and suggest migrating to `PreToolUse` instead
-- **`if` field on non-tool event**: hook never runs silently. Flag and suggest removing `if` or changing the event type
-- **Multiple PreToolUse hooks with `updatedInput`**: when several hooks modify tool input, the last to finish wins (execution is parallel, order is non-deterministic). Flag when more than one PreToolUse hook on the same matcher returns `updatedInput`
-- **Stop hook without `stop_hook_active` check**: a Stop hook that always blocks will hit the 8-consecutive-blocks cap and be overridden. Check that the script reads the `stop_hook_active` field from stdin JSON and exits 0 when it is `true`, to let Claude stop once it has already continued
-- **`$CLAUDE_PROJECT_DIR` in command**: preferred over hardcoded absolute paths for project scripts. Flag any command containing an absolute path that looks project-local and suggest replacing with `${CLAUDE_PROJECT_DIR}/...`
+- **Inline one-liner** (e.g. `rtk hook claude`): skip script-level checks, verify the binary is on `PATH`
+- **`bash -c '...'` inline**: parse the inner script for interactive commands and exit logic
+- **`exit 1` in a policy hook without JSON**: ⚠️ non-blocking, the action proceeds
+- **Same hook in user and project settings (Claude Code)**: runs once; note both locations as redundant configuration
+- **`timeout: 0`**: flag as likely invalid
+- **Unknown event** (e.g. `PreToolCall`): ❌, report the exact string and suggest the documented name for that host
+- **Claude-only event in a Codex file** (e.g. `PostToolUseFailure`, `PreModelSwitch`) or the reverse (`Interrupt` in Claude settings): ❌ never fires on that host
+- **Script not executable and run directly**: fails with a non-blocking error; suggest `chmod +x`
+- **Matcher on a no-matcher event**: silently ignored, suggest removing it
+- **`async: true` with `decision` or `permissionDecision`**: ⚠️ no effect
+- **`asyncRewake: true`**: background, wakes Claude on exit 2 with stderr (or stdout); use it instead of `async` when a background failure must reach Claude
+- **`prompt` or `agent` hook**: no command to resolve; check that `prompt` is present and that the event allows the type
+- **SessionEnd hook doing heavy work**: 1.5 s default budget on Claude Code, 1 s default and 3 s maximum on Codex; warn that it may be killed
+- **`PermissionRequest` in `-p` or background subagents (Claude Code)**: hooks still run; if none decides, the call is denied. Do not recommend migrating to `PreToolUse` for that reason
+- **`if` on a non-tool event**: the hook never runs; remove `if` or change the event
+- **Stop hook without a `stop_hook_active` check**: continuations stop at the 8-consecutive cap; read the field and exit 0 when it is `true`
+- **Hardcoded project-local absolute path**: suggest `${CLAUDE_PROJECT_DIR}/...` (Claude Code, exec form preferred) or a git-root-based path (Codex)
+- **Hooks not firing as expected**: Claude Code: open `/hooks` (read-only browser showing each hook's source) and run with `--debug`. Codex: open `/hooks` to see sources, pending trust reviews, and disabled hooks

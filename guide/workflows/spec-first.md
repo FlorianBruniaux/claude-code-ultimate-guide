@@ -68,6 +68,8 @@ intent.md → spec.md → plan.md
 
 `intent.md` states the problem in plain language before any technical framing exists (see "With intent.md" below). `spec.md` is the technical spec this guide already covers in the rest of this section. `plan.md` is the file-by-file implementation plan (ordering, risk, evidence) approved before Claude writes code, distinct from the spec itself.
 
+> **Naming note: agentic SDLC, AI-native SDLC, "ADLC"**. The playbook states that "agentic SDLC, the AI SDLC, or simply agentic software development" all describe the same shift. Some practitioner posts relabel it "ADLC, the Agentic Development Lifecycle". Be careful with that acronym: Salesforce ([Agentforce architecture guide](https://architect.salesforce.com/docs/architect/fundamentals/guide/agent-development-lifecycle.html)) and IBM ([What is the ADLC?](https://www.ibm.com/think/topics/agent-development-lifecycle-adlc)) already use ADLC for the *Agent* Development Lifecycle, the process for building, testing and operating AI agents as a product. One ADLC is agents building your software; the other is you building agents. When evaluating agents as the product, see [agent-evaluation.md](../roles/agent-evaluation.md) instead.
+
 ---
 
 ## Task Granularity: Sizing Work for Agents

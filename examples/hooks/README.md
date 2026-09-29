@@ -51,7 +51,7 @@ Hooks are scripts that execute automatically on Claude Code events. They enable 
 
 ## Hook Events
 
-30 events in 8 groups. Events marked **[B]** can block (exit 2 or `decision: "block"`).
+33 events in 9 groups. Events marked **[B]** can block, through exit 2 or a JSON decision. `PermissionRequest` ignores exit 2 and blocks only through its `decision` object.
 
 **Lifecycle**
 
@@ -76,7 +76,7 @@ Hooks are scripts that execute automatically on Claude Code events. They enable 
 
 | Event | When | Typical Use Cases |
 |-------|------|-------------------|
-| `PermissionRequest` **[B]** | Permission dialog appears | Custom approval logic, auto-approve safe ops |
+| `PermissionRequest` **[B]** | Permission dialog appears (deny through `decision`, not exit 2) | Custom approval logic, auto-approve safe ops |
 | `PermissionDenied` | Tool call denied by auto mode | Audit classifier denials, optionally signal retry |
 
 **Compaction**
@@ -110,7 +110,8 @@ Hooks are scripts that execute automatically on Claude Code events. They enable 
 | `CwdChanged` | Working directory changes | direnv reload, toolchain switching |
 | `FileChanged` | A watched file changes on disk | Reload env, trigger watchers |
 | `WorktreeCreate` **[B]** | Worktree being created | Custom VCS setup (SVN, Perforce) |
-| `WorktreeRemove` | Worktree being removed | Clean up VCS state, credentials |
+| `DirectoryAdded` | Working directory added via `/add-dir` or SDK `register_repo_root` | Load per-repo environment, audit added roots |
+| `WorktreeRemove` **[B]** | Worktree being removed (any non-zero exit fails removal) | Clean up VCS state, credentials |
 
 **User interaction**
 
@@ -122,6 +123,13 @@ Hooks are scripts that execute automatically on Claude Code events. They enable 
 | `MessageDisplay` | While assistant text is displayed | Strip markdown on screen, redact secrets |
 | `Elicitation` **[B]** | MCP server requests user input | Pre-answer in headless automation |
 | `ElicitationResult` **[B]** | User responds to an elicitation | Audit or modify responses before they go to MCP |
+
+**Model**
+
+| Event | When | Typical Use Cases |
+|-------|------|-------------------|
+| `PreModelSwitch` **[B]** | Before a requested model switch is applied | Enforce allowed models, warn on cost |
+| `PostModelSwitch` | After the session model changes | Log model changes, inject model-specific context |
 
 ## Advanced Guardrails (NEW in v3.3.0)
 

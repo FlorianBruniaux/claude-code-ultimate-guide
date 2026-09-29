@@ -17053,6 +17053,8 @@ claude                    # Continue feature work
 - Disk space is limited (each worktree = full working directory)
 - Team is unfamiliar with worktrees (adds complexity)
 
+> **Worktrees isolate changes, not behavior.** Each worktree has its own files and branch, but all of them share the repository's Git metadata, including the stash list (a `git stash` made in one worktree appears in `git stash list` in the others), plus your credentials, local services such as databases and dev servers, and network access. Agents sharing a single worktree are worse off: in Bun's Zig-to-Rust port, parallel agents ran `git stash` and `git reset` over each other's work until the workflow forbade those commands ([case study](#case-study-buns-zig-to-rust-port-with-claude-code)). For trusted work that tradeoff is usually acceptable. Unattended agents consuming untrusted content need a real sandbox and scoped credentials ([sandbox isolation](security/sandbox-isolation.md)).
+
 **Worktree lifecycle commands:**
 
 The full worktree lifecycle is covered by 4 companion commands:
@@ -22505,6 +22507,8 @@ Map the entire codebase:
 >  global variables, or file I/O. Output a dependency map."
 > ```
 
+**Make the discovery survive the session.** Write the map to a file, not to the chat: the next session, and the next agent, should not pay for the same archaeology again. For yellow and red zones (Step 2), Addy Osmani recommends a separate read-only pass that produces a short comprehension memo (entry points, owners, callers, existing abstractions, tests, production signals, relevant history, open questions), where every claim cites a file, issue, ownership record or dashboard. The `research.md` phase in [plan-driven.md](workflows/plan-driven.md) is the same pattern for a single feature.
+
 ---
 
 **Step 2: Risk Analysis & Opportunity Mapping**
@@ -22523,6 +22527,18 @@ With the dependency map in hand:
 >  Which components can be modernized in isolation?
 >  Which share state with 3+ other modules and should be touched last?"
 > ```
+
+**Turn the risk map into zones the agent cannot redraw.** Addy Osmani's [Brownfield Agentic Engineering](https://addyo.substack.com/p/brownfield-agentic-engineering) (September 2026) makes the ranking operational with three zones, each with its own permitted verbs:
+
+| Zone | What lives there | How agents work there |
+|------|------------------|-----------------------|
+| Green | Modern, well-tested, isolated code | Tight agent loop |
+| Yellow | Mixed quality, partial coverage | Characterization tests first, then changes |
+| Red | Auth, billing, permissions, payroll, code few people understand | A human pairs on every step, or the work does not happen |
+
+Three rules keep the zones from being a metaphor. A person draws the map, not the agent: left to choose, it tends to start in the scariest file. A zone only moves when it is earned: yellow becomes green once characterization tests exist and the module owner has reviewed the agent's first changes. And the zone sets the verbs, not the agent's confidence. Osmani's criterion: "Autonomy should follow blast radius, observability, and recoverability. A model's confidence is a poor guide." A surface that only production traffic really exercises, with no honest test suite, is red by definition until something stands in for that traffic (replay, shadow traffic, synthetic journeys).
+
+Encode the map where it is enforced, not only where it is read: a `permissions.deny` entry or a `PreToolUse` hook on red paths, path-scoped rules for yellow ones (see [7. Hooks](#7-hooks)). A zone map that lives only in a planning document is advice.
 
 ---
 
@@ -22560,6 +22576,12 @@ Never migrate the whole system at once:
 >  Write tests that verify identical outputs for identical inputs."
 > ```
 
+**Pin today's behavior before the agent changes it, and not with the same session.** Characterization tests lock what the module does now, ugly parts included, because in an old system some of that ugly behavior is what the business runs on. If the session that will make the change also writes the tests that judge it, the green suite encodes the implementation it just invented. Write the characterization tests in a separate pass, or have a person write them, then let the agent work (see [TDD with Legacy Code](workflows/tdd-with-claude.md#tdd-with-legacy-code)).
+
+**A migration unit is complete when the old path is gone.** Running old and new code side by side is a transition state, not the finish line. Osmani's definition: "A migration is complete when the new path works and the old dependency is demonstrably gone." Half-finished migrations are particularly confusing to agents, because search returns the old pattern in forty files, the new one in twelve, and a shim presenting both as current: the agent sees contradictory precedent. Finish one route end to end, deletion included, before converting the next thirty files.
+
+Passing tests do not prove the migration happened. [SWE Refactor Bench](https://arxiv.org/abs/2608.23564) (August 2026, 20 whole-repository migrations) names this "Blindness": a migration starts green, so a repository handed back untouched, or a replacement that still calls the original implementation, passes the behavioral suite. Its protocol adds a migration audit (is the old stack gone from the built artifact?) and independent agents hunting for behavioral differences. Across 520 runs from 8 frontier models, 28 passed all three stages (5.4%), 13 of the 20 tasks received no accepted solution, and language rewrites scored 5.6/100 against 31.4 for build-toolchain rewrites. Track migration progress with the numbers that can move: remaining old imports, share of traffic served by the new path, parity mismatches, legacy dependencies removed.
+
 ---
 
 ### Key Principles
@@ -22571,6 +22593,8 @@ Never migrate the whole system at once:
 | **Parallel run** | Rollback possible only if both versions coexist |
 | **Test at boundary** | Test inputs/outputs, not internal logic (which will change) |
 | **Human review on business logic** | AI doesn't know which edge case is regulatory vs. dead code |
+| **Pin, then change** | Characterization tests written by the same session that makes the change prove only that session's assumptions |
+| **Delete the old path** | A green suite with all traffic still on the legacy path is not a migration |
 
 ### Realistic Expectations
 
@@ -22591,6 +22615,24 @@ The average gains are real and significant. The headline numbers require favorab
 - **❌ No parallel run**: Cutting over without a fallback. One undiscovered edge case = production outage.
 - **❌ Skipping discovery**: Starting to translate before mapping. You will break things you didn't know existed.
 - **❌ Trusting AI on business logic**: AI translates faithfully what it reads. If the original was wrong or context-dependent, the translation will be too.
+- **❌ Half-finished migration**: Thirty files converted, a compatibility shim left behind, deletion deferred to a cleanup ticket. Agents then copy whichever pattern search returns first.
+- **❌ Letting the agent pick where to start**: Without a human-drawn zone map, agents gravitate to the most interesting code, which is usually the riskiest.
+
+### Case Study: Bun's Zig-to-Rust Port with Claude Code
+
+Jarred Sumner's [Rewriting Bun in Rust](https://bun.com/blog/bun-in-rust) (July 2026) is a first-party account of a Claude Code migration at scale: 535,496 lines of Zig across 1,448 files ported in 11 days (May 3 to 14, 2026), with about 50 dynamic workflows and a peak of about 64 concurrent Claude instances on a pre-release Claude Fable 5. The author prices the run at around $165,000 at API pricing (5.9 billion uncached input tokens, 690 million output tokens, 72 billion cached input token reads). Read it as one expert operator's report on a codebase he knows best, not as a benchmark.
+
+What transfers is the structure around the agents, not the scale:
+
+| Practice | What Bun did | What it buys you |
+|----------|--------------|------------------|
+| Rulebook before any porting | About 3 hours producing `PORTING.md` (Zig patterns mapped to Rust patterns), then a workflow tracing every struct field's lifetime into `LIFETIMES.tsv`, reviewed by adversarial agents and read by the author | One durable set of decisions every later agent reads, instead of each one re-deriving them |
+| Pilot before the sweep | 3 files first: 1 implementer, 2 adversarial reviewers, 1 fixer, before the 1,448-file run | The rulebook gets tested on a disposable unit |
+| Oracle outside the change | The existing, language-independent test suite (1,386,826 `expect()` calls, 60,624 tests on one platform, "0 tests skipped or deleted") was the merge gate, and the author "manually verified the tests were in fact running and not being skipped" | The tests are not part of what changes, and someone checked that they ran |
+| Separate reviewers | Every generated unit reviewed by two adversarial reviewers before commit | The writer is never its own only judge ([creator-verifier](core/agent-harness.md#8-creator-verifier-pattern)) |
+| Failures turned into rules | Agents ran `git stash` and `git reset` over each other's work, so the workflow forbade them; agents stubbed out functions to silence compile errors, so reviews rejected workarounds that needed a paragraph-long comment | Each false start became a harness rule, not a hand-fixed diff |
+
+Evidence limits. The author states the rewrite "introduced 19 known regressions, each of which has been fixed", and publishes no post-release defect rate. He monitored the workflows "for most of those 11 days (and after)". This was a mechanical, behavior-preserving port against a suite that did not depend on the implementation language, the most favorable case for agents. SWE Refactor Bench measured language rewrites as the weakest migration category, so the result does not transfer to a codebase without an equivalent oracle.
 
 ### Feature-to-Code Anchoring: When You're Not Rewriting
 

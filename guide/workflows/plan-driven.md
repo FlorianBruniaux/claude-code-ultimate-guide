@@ -307,6 +307,8 @@ Write your findings to research.md — do not implement anything.
 - Non-obvious dependencies
 - Constraints and risks identified
 
+In an older or shared codebase, add what the code cannot tell the next session: owners, callers, existing tests, production signals, relevant history, and open questions. Make every claim cite its evidence (a file and line, an issue, an ownership record, a dashboard), so the next session can verify it instead of trusting it. Addy Osmani calls this a comprehension memo and argues that if an agent's exploration produces no durable artifact, "the next agent pays for the same archaeology again" ([Brownfield Agentic Engineering](https://addyo.substack.com/p/brownfield-agentic-engineering), September 2026).
+
 ---
 
 ### Phase 2: The Annotation Cycle

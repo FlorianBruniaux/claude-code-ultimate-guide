@@ -159,6 +159,8 @@ Claude automatically detects the tech stack, directory structure, and existing c
 
 **CLAUDE.md as compounding memory**: Boris Cherny (creator of Claude Code) described the pattern: you should never correct Claude twice for the same mistake. CLAUDE.md grows through actual errors caught during development, not preemptive documentation. 2.5K tokens of accumulated context built over months means new team members benefit from tribal knowledge instantly.
 
+CLAUDE.md is the right home only for corrections that cannot be enforced mechanically. When the same review comment comes back, prefer the strongest control that can catch it: a lint rule, a type, a test, a hook, or a skill. A deny rule or a CI check does not have to be remembered; a line in CLAUDE.md does. See the meta loop in [agent-harness.md](agent-harness.md#three-loop-horizons) for where each control belongs.
+
 > **Full documentation**: [Memory Files (CLAUDE.md)](../ultimate-guide.md#31-memory-files-claudemd)
 
 ---

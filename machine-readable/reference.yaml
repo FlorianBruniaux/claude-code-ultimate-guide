@@ -1251,6 +1251,10 @@ deep_dive:
   ai_native_sdlc_playbook_evaluation: "docs/resource-evaluations/2026-08-26-anthropic-ai-native-sdlc-playbook.md"
   intent_md_pattern: "guide/workflows/spec-first.md#with-intentmd-upstream-problem-statement"  # intent.md -> spec.md -> plan.md, 3-document chain with separate human gates
   intent_md_diagram: "guide/diagrams/06-development-workflows.md#spec-first-development-pipeline"  # updated with intent.md upstream node + Maintain-to-Plan closed loop
+  maintain_loop_triage: "guide/diagrams/06-development-workflows.md#spec-first-development-pipeline"  # Maintain loop: Claude drafts intent.md, on-call/service owner triages (fix now, schedule, dismiss)
+  document_chain_audit_trail: "guide/ops/ai-traceability.md#the-document-chain-as-a-second-audit-trail"  # intent/spec/plan/diff/review findings = decision trail, complements session execution logs
+  agentic_sdlc_naming_adlc: "guide/workflows/spec-first.md#the-pattern"  # agentic SDLC = AI-native SDLC; "ADLC" collides with Salesforce/IBM Agent Development Lifecycle
+  sdlc_to_adlc_post_evaluation: "docs/resource-evaluations/gohel-sdlc-to-adlc-post.md"
   # Agentic Software Factories orientation page (added 2026-07-15)
   agentic_software_factories_hub: "guide/workflows/agentic-software-factories.md"  # single entry point: spectrum, decision tree, file map, governance checklist, velocity-trap case study
   agentic_software_factories_operating_model: "guide/workflows/agentic-software-factories.md#a-software-factory-is-an-operating-model"
@@ -1348,14 +1352,14 @@ deep_dive:
   git_best_practices: 16853
   cost_optimization: 2153  # anchor: cost-awareness--optimization
   session_teleportation: "guide/ultimate-guide.md#916-session-teleportation" # was line 19161
-  remote_control: 22661  # anchor: 922-remote-control-mobile-access
+  remote_control: 22703  # anchor: 922-remote-control-mobile-access
   multi_instance_workflows: "guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" # was line 19268
   boris_cherny_case_study: "guide/ultimate-guide.md#real-world-case-boris-cherny-interval" # was line 19421
   boris_cherny_team_patterns: "guide/ultimate-guide.md#boris-chernys-3-principles-for-ai-teams" # was line 6779
   # Dual-Instance Planning Pattern (Jon Williams, Feb 2026)
   dual_instance_planning: "guide/ultimate-guide.md#alternative-pattern-dual-instance-planning-vertical-separation" # was line 19474
   dual_instance_workflow: "guide/workflows/dual-instance-planning.md"
-  dual_instance_overview: 18986  # anchor: alternative-pattern-dual-instance-planning-vertical-separation
+  dual_instance_overview: 18988  # anchor: alternative-pattern-dual-instance-planning-vertical-separation
   dual_instance_setup: "guide/workflows/dual-instance-planning.md#dual-instance-planning-workflow"
   dual_instance_complete_workflow: "guide/workflows/dual-instance-planning.md#dual-instance-planning-workflow"
   dual_instance_plan_template: "guide/workflows/dual-instance-planning.md#dual-instance-planning-workflow"
@@ -1399,7 +1403,7 @@ deep_dive:
   team_tips_paddo_source: "Boris Cherny thread (x.com/bcherny/status/2017742741636321619)"
   team_tips_paddo_evaluation: "docs/resource-evaluations/paddo-team-tips-eval.md"
   team_tips_paddo_score: "4/5"
-  anthropic_study_metrics: 19523  # anchor: anthropic-internal-study-august-2025
+  anthropic_study_metrics: 19525  # anchor: anthropic-internal-study-august-2025
   # Contribution Metrics (Jan 2026 - platform feature, not CLI release)
   contribution_metrics: "guide/ultimate-guide.md#contribution-metrics-january-2026" # was line 20045
   contribution_metrics_source: "https://claude.com/blog/contribution-metrics"
@@ -1413,14 +1417,14 @@ deep_dive:
   git_worktree_clean_command: "examples/skills/git-worktree-clean/SKILL.md"
   git_worktrees_multi_instance: 17005  # anchor: git-worktrees-for-parallel-development
   advanced_worktree_tooling: "guide/ultimate-guide.md#advanced-tooling-for-worktree-management-optional" # was line 19838
-  worktree_tooling_self_assessment: 19364  # anchor: do-i-need-worktrunk-self-assessment
-  anthropic_internal_study: 19523  # anchor: anthropic-internal-study-august-2025
+  worktree_tooling_self_assessment: 19366  # anchor: do-i-need-worktrunk-self-assessment
+  anthropic_internal_study: 19525  # anchor: anthropic-internal-study-august-2025
   multi_instance_costs: "guide/ultimate-guide.md#cost-benefit-analysis"  # was 19268, drifted
   orchestration_frameworks: "guide/ultimate-guide.md#orchestration-frameworks" # was line 20104
-  headless_pm_framework: 19620  # anchor: headless-pm-open-source
+  headless_pm_framework: 19622  # anchor: headless-pm-open-source
   multi_instance_implementation: "guide/ultimate-guide.md#implementation-guide-progressive-scaling"  # was 19268, drifted
   multi_instance_monitoring: "guide/ultimate-guide.md#monitoring--observability"  # was 19268, drifted
-  multi_instance_decision_matrix: 19849  # anchor: decision-matrix | Multi-instance selection matrix
+  multi_instance_decision_matrix: 19851  # anchor: decision-matrix | Multi-instance selection matrix
   # External orchestration systems
   external_orchestrators:
     gas_town:
@@ -1467,7 +1471,7 @@ deep_dive:
       published: "2026-01-21"
       guide_section: "README.md:338"
   # Section 9.18 - Codebase Design for Agent Productivity
-  codebase_design_agents: 19932
+  codebase_design_agents: 19897
   codebase_design_source: "https://marmelab.com/blog/2026/01/21/agent-experience.html"
   codebase_design_author: "François Zaninotto (Marmelab)"
   codebase_design_llms_txt: "guide/ultimate-guide.md#9184-machine-readable-documentation-architecture"
@@ -1478,10 +1482,18 @@ deep_dive:
   # Section 9.21 - Legacy Codebase Modernization
   legacy_codebase_modernization: "guide/ultimate-guide.md#921-legacy-codebase-modernization" # 4-step workflow (Discovery -> Risk -> Planning -> Incremental), COBOL/Fortran/VB6/PL1
   feature_to_code_anchoring: "guide/ultimate-guide.md#feature-to-code-anchoring-when-youre-not-rewriting" # Subsection: layer 0-3 model for auditing without rewriting, Reversa/code-graph-mcp/graphify field-tested verdicts
+  # Brownfield agentic engineering (Osmani, Sep 2026) + Bun Zig-to-Rust case study (added 2026-09-29)
+  brownfield_zones: "guide/ultimate-guide.md#921-legacy-codebase-modernization"  # Step 2: green/yellow/red zones, human draws the map, zone sets the verbs, enforce via deny rules/hooks
+  brownfield_migration_completeness: "guide/ultimate-guide.md#921-legacy-codebase-modernization"  # Step 4: migration done only when old path deleted; SWE Refactor Bench "Blindness" 28/520 runs
+  bun_rust_port_case_study: "guide/ultimate-guide.md#case-study-buns-zig-to-rust-port-with-claude-code"  # PORTING.md rulebook, 3-file pilot, oracle outside the change, 2 adversarial reviewers
+  characterization_tests_independent_author: "guide/workflows/tdd-with-claude.md#tdd-with-legacy-code"  # tests pinned in a separate session, read-only for the refactoring session
+  brownfield_evaluation: "docs/resource-evaluations/osmani-brownfield-agentic-engineering.md"
+  bun_rust_port_evaluation: "docs/resource-evaluations/bun-rust-rewrite-claude-code.md"
+  swe_refactor_bench: "https://arxiv.org/abs/2608.23564"
   # Section 9.20 - Agent Teams (v2.1.32+ experimental)
   agent_teams: "guide/workflows/agent-teams.md"
   agent_teams_quick_start: "guide/workflows/agent-teams-quick-start.md"  # Practical 8-10 min guide with copy-paste patterns
-  agent_teams_overview: 22206  # anchor: 920-agent-teams-multi-agent-coordination
+  agent_teams_overview: 22208  # anchor: 920-agent-teams-multi-agent-coordination
   agent_teams_architecture: "guide/workflows/agent-teams.md#2-architecture-deep-dive"
   agent_teams_setup: "guide/workflows/agent-teams.md#3-setup--configuration"
   agent_teams_use_cases: "guide/workflows/agent-teams.md#4-production-use-cases"
@@ -1610,15 +1622,15 @@ deep_dive:
   openai_harness_engineering: "docs/resource-evaluations/2026-02-11-openai-harness-engineering.md"  # Score 5/5: OpenAI Codex team, 1M lines, 5 months, 3 engineers, no manual code
   commands_table: "guide/ultimate-guide.md#101-commands-table" # was line 47
   shortcuts_table: 446  # anchor: quick-actions--shortcuts
-  troubleshooting: 24294  # anchor: 104-troubleshooting
+  troubleshooting: 24336  # anchor: 104-troubleshooting
   cheatsheet: "guide/ultimate-guide.md#105-cheatsheet" # was line 25158
-  daily_workflow: 24754  # anchor: 106-daily-workflow--checklists
+  daily_workflow: 24796  # anchor: 106-daily-workflow--checklists
   # AI Ecosystem (Section 11, ~line 10525)
-  ai_ecosystem: 25020  # anchor: 11-ai-ecosystem-complementary-tools
-  ai_ecosystem_complementarity: 25020
-  ai_ecosystem_tool_matrix: 25061  # anchor: 112-tool-matrix
-  ai_ecosystem_workflows: 25196  # anchor: 113-practical-workflows
-  ai_ecosystem_integration: 25324  # anchor: 114-integration-patterns
+  ai_ecosystem: 25062  # anchor: 11-ai-ecosystem-complementary-tools
+  ai_ecosystem_complementarity: 25062
+  ai_ecosystem_tool_matrix: 25103  # anchor: 112-tool-matrix
+  ai_ecosystem_workflows: 25238  # anchor: 113-practical-workflows
+  ai_ecosystem_integration: 25366  # anchor: 114-integration-patterns
   ai_ecosystem_detailed: "guide/ecosystem/ai-ecosystem.md"
   ai_ecosystem_coding_environments: "guide/ecosystem/ai-ecosystem.md#6-ide-ade-and-hybrid-coding-environments"
   ai_ecosystem_goose: "guide/ecosystem/ai-ecosystem.md#111-goose-open-source-alternative-block"
@@ -1667,7 +1679,7 @@ deep_dive:
   cowork_prompts: "https://github.com/FlorianBruniaux/claude-cowork-guide/tree/main/prompts"
   cowork_workflows: "https://github.com/FlorianBruniaux/claude-cowork-guide/tree/main/workflows"
   cowork_section: "guide/ecosystem/ai-ecosystem.md#10-claude-cowork-research-preview"
-  cowork_ultimate_guide: 25378  # anchor: for-non-developers-claude-cowork
+  cowork_ultimate_guide: 25420  # anchor: for-non-developers-claude-cowork
   # Team Knowledge Infrastructure (guide/ecosystem/team-knowledge-base.md) - Added 2026-06-23
   team_knowledge_guide: "guide/ecosystem/team-knowledge-base.md"
   team_knowledge_three_way: "guide/ecosystem/team-knowledge-base.md#the-one-tool-for-three-needs-trap"  # static docs vs live systems vs team workflows
@@ -1715,7 +1727,7 @@ deep_dive:
   # Appendix
   appendix_a_file_locations: "guide/ultimate-guide.md#appendix-a-file-locations-reference" # was line 26179
   appendix_b_faq: "guide/ultimate-guide.md#appendix-b-faq" # was line 26357
-  faq_clawdbot_vs_claudecode: 25880
+  faq_clawdbot_vs_claudecode: 25922
   faq_product_managers: "guide/ultimate-guide.md#can-product-managers-use-claude-code" # was line 26428
   appendix_c_resource_evaluation: "guide/ultimate-guide.md#appendix-c-resource-evaluation-process" # was line 26493
   appendix_d_myths_vs_reality: "guide/ultimate-guide.md#appendix-d-myths-vs-reality" # was line 26536
@@ -1739,7 +1751,7 @@ deep_dive:
   # Onboarding matrix required keys (added for v2.0.0 adaptive architecture)
   rules: "guide/ultimate-guide.md#the-golden-rules"  # was bare int 89, a blank line; drifted 1 line from the real heading
   workflow: "guide/ultimate-guide.md#the-workflow"  # was bare int 58, a blank line; drifted 1 line from the real heading
-  fix: 24294  # anchor: 104-troubleshooting | onboarding matrix repair route
+  fix: 24336  # anchor: 104-troubleshooting | onboarding matrix repair route
   architecture: "guide/core/architecture.md"  # was bare int 1280 into ultimate-guide.md, inside a code fence; the comment ("Architecture internals") and its siblings on this line (production_safety, security_hardening) are all plain paths to the dedicated file
   production_safety: "guide/security/production-safety.md"  # Production safety rules
   security_hardening: "guide/security/security-hardening.md"  # Security best practices
@@ -1904,7 +1916,7 @@ deep_dive:
   learning_path_skills: "guide/learning-path/05-skills.md"                  # current frontmatter, ownership, progressive disclosure, evals, retirement
   learning_path_hooks: "guide/learning-path/06-hooks.md"                    # hook events, blocking vs non-blocking
   learning_path_advanced: "guide/learning-path/07-advanced.md"              # MCP, orchestration, production patterns
-  # ── Hooks Events Reference (guide/core/hooks-events-reference.md) — all 30 events
+  # ── Hooks Events Reference (guide/core/hooks-events-reference.md) — all 33 events
   hooks_events_reference: "guide/core/hooks-events-reference.md"
   hooks_events_quick_reference: "guide/core/hooks-events-reference.md#quick-reference"
   hooks_events_matchers: "guide/core/hooks-events-reference.md#matcher-values-by-event"
@@ -2481,7 +2493,7 @@ hook_events:
   PostToolBatch: "after a full batch of parallel tool calls resolves, before next model call (can block)"
   # Permissions
   PermissionDenied: "permission refused"
-  PermissionRequest: "permission being requested (can return decision)"
+  PermissionRequest: "permission being requested (deny or allow through the decision object; exit 2 is not honored)"
   # Compaction
   PreCompact: "before context compaction"
   PostCompact: "after context compaction"
@@ -2498,7 +2510,8 @@ hook_events:
   CwdChanged: "working directory changed"
   FileChanged: "file modified on disk"
   WorktreeCreate: "git worktree created"
-  WorktreeRemove: "git worktree removed"
+  DirectoryAdded: "working directory added via /add-dir or SDK register_repo_root"
+  WorktreeRemove: "git worktree removed (any non-zero exit fails removal)"
   # User interaction
   UserPromptSubmit: "before prompt sent to model (can inject additionalContext)"
   UserPromptExpansion: "slash command expands into a prompt, before it reaches Claude (can block)"
@@ -2506,7 +2519,10 @@ hook_events:
   MessageDisplay: "while assistant text is displayed on screen (display-only, cannot block; hookSpecificOutput.displayContent replaces rendered text)"
   Elicitation: "model requesting additional info"
   ElicitationResult: "user responded to elicitation"
-  # Total: 30 events (updated 2026-06-03, source: official hooks reference)
+  # Model
+  PreModelSwitch: "before a requested model switch is applied (can block)"
+  PostModelSwitch: "after the session model changes"
+  # Total: 33 events (updated 2026-09-29, source: official hooks reference, Claude Code v2.1.284)
 
 # Hook Execution Model (v2.1.0+)
 hooks_execution_model: 9937  # Section in ultimate-guide.md

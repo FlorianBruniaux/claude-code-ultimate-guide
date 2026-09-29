@@ -1,12 +1,12 @@
 ---
-title: "Claude Code Hooks Events Reference: All 30 Events, Matchers & Schemas"
-description: "Complete reference for all 30 Claude Code hook events: matcher fields, input schemas, decision control, and timeout defaults, with copy-paste JSON examples for each event."
+title: "Claude Code Hooks Events Reference: All 33 Events, Matchers & Schemas"
+description: "Complete reference for all 33 Claude Code hook events: matcher fields, input schemas, decision control, and timeout defaults, with copy-paste JSON examples for each event."
 tags: [reference, hooks]
 ---
 
 # Hooks Events Reference
 
-Complete reference for all 30 Claude Code hook events: matcher fields, input schemas, decision control, and timeout defaults. Source: official Anthropic documentation.
+Complete reference for all 33 Claude Code hook events: matcher fields, input schemas, decision control, and timeout defaults. Source: official Anthropic documentation ([hooks reference](https://code.claude.com/docs/en/hooks)), checked against Claude Code v2.1.284.
 
 For the audit skill, see `examples/skills/eval-hooks/SKILL.md`.
 
@@ -23,7 +23,7 @@ See also: [Event-Driven Agent Automation](../workflows/event-driven-agents.md) f
 | `UserPromptSubmit` | User submits a prompt | none | Yes | **30s** |
 | `UserPromptExpansion` | Slash command expands to prompt | `command_name` | Yes | 600s |
 | `PreToolUse` | Before tool call executes | `tool_name` | Yes | 600s |
-| `PermissionRequest` | Permission dialog is about to appear | `tool_name` | Yes (via JSON) | 600s |
+| `PermissionRequest` | Tool call needs a permission decision | `tool_name` | Not by exit 2; JSON `decision` object only | 600s |
 | `PermissionDenied` | Auto-mode classifier denies a call | `tool_name` | No (retry only) | 600s |
 | `PostToolUse` | After tool call succeeds | `tool_name` | No (stderr to Claude) | 600s |
 | `PostToolUseFailure` | After tool call fails | `tool_name` | No | 600s |
@@ -40,16 +40,19 @@ See also: [Event-Driven Agent Automation](../workflows/event-driven-agents.md) f
 | `InstructionsLoaded` | CLAUDE.md or rules file loaded | `load_reason` | No | 600s |
 | `ConfigChange` | Config file changes during session | `source` | Yes (not `policy_settings`) | 600s |
 | `CwdChanged` | Working directory changes | none | No | 600s |
+| `DirectoryAdded` | Directory added via `/add-dir` or SDK `register_repo_root` | `source` | No | 600s |
 | `FileChanged` | Watched file changes on disk | filename (literal) | No | 600s |
 | `WorktreeCreate` | Worktree being created | none | Yes (any non-zero) | 600s |
-| `WorktreeRemove` | Worktree being removed | none | No | 600s |
+| `WorktreeRemove` | Worktree being removed | none | Yes (any non-zero fails removal if the directory remains) | 600s |
 | `PreCompact` | Before context compaction | `trigger` | Yes | 600s |
 | `PostCompact` | After compaction completes | `trigger` | No | 600s |
+| `PreModelSwitch` | Before a requested model switch is applied | canonical target model | Yes | **30s** |
+| `PostModelSwitch` | After the session model changes, including automatic changes | canonical target model | No | **30s** |
 | `Elicitation` | MCP server requests user input | `mcp_server_name` | Yes | 600s |
 | `ElicitationResult` | User responds to MCP elicitation | `mcp_server_name` | Yes | 600s |
 | `SessionEnd` | Session terminates | `reason` | No | **1.5s budget** |
 
-**Timeout exceptions**: `prompt` hooks default to 30s. `agent` hooks default to 60s. `SessionEnd` has a 1.5s total budget; set explicit `timeout` on individual hooks to raise it (max 60s). Plugin hooks do not raise the budget.
+**Timeout exceptions**: the `command`, `http`, and `mcp_tool` default of 600s drops to 30s on `UserPromptSubmit`, `PreModelSwitch`, and `PostModelSwitch`, and to 10s on `MessageDisplay`. `prompt` hooks default to 30s. `agent` hooks default to 60s. `SessionEnd` has a 1.5s total budget; a per-hook `timeout` raises it to the highest configured value, up to 60s. Timeouts on plugin hooks do not raise the budget. A timed-out `command`, `http`, or `mcp_tool` hook on `PreToolUse` does not block the tool call; on `PreModelSwitch` it blocks the switch.
 
 ---
 
@@ -63,10 +66,11 @@ Events: `PreToolUse`, `PostToolUse`, `PostToolUseFailure`, `PermissionRequest`, 
 
 Values: `Bash`, `Edit`, `Write`, `Read`, `Glob`, `Grep`, `Agent`, `WebFetch`, `WebSearch`, `AskUserQuestion`, `ExitPlanMode`, and MCP tools as `mcp__<server>__<tool>`.
 
-Matching rules:
-- Only letters/digits/underscores/pipe: exact string or pipe-separated list (`Edit|Write`)
-- Contains any other character: treated as JS regex (`mcp__memory__.*`)
-- `"*"`, `""`, or absent: matches all
+Matching rules (all events with matcher support):
+- Only letters, digits, `_`, `-`, spaces, `,`, and `|`: exact string, or a list of exact strings separated by `|` or `,` (`Edit|Write`, `Edit, Write`). Hyphens in the exact set require v2.1.195 or later.
+- Contains any other character: unanchored JavaScript regex (`mcp__memory__.*`). `Edit.*` also matches `NotebookEdit`; anchor with `^...$` for a whole-string match.
+- `"*"`, `""`, or absent: matches all.
+- `FileChanged` and `StopFailure` use a narrower exact set (letters, digits, `_`, `|` only); a hyphen, space, or comma there keeps the matcher on the regex path.
 
 To match every tool from an MCP server: `mcp__memory__.*` (the `.*` is required; `mcp__memory` without it is an exact string and matches no tool).
 
@@ -78,6 +82,7 @@ To match every tool from an MCP server: `mcp__memory__.*` (the `.*` is required;
 | `resume` | `--resume`, `--continue`, or `/resume` |
 | `clear` | `/clear` |
 | `compact` | Auto or manual compaction |
+| `fork` | Forked session |
 
 ### Setup: matcher filters on `trigger`
 
@@ -94,12 +99,13 @@ To match every tool from an MCP server: `mcp__memory__.*` (the `.*` is required;
 | `resume` | Interactive `/resume` switch |
 | `logout` | User logged out |
 | `prompt_input_exit` | Exited while prompt input was visible |
-| `bypass_permissions_disabled` | Bypass mode disabled |
 | `other` | Other exit reasons |
+
+`bypass_permissions_disabled` was removed in v2.1.234; drop it from `SessionEnd` matchers.
 
 ### Notification: matcher filters on `notification_type`
 
-Values: `permission_prompt`, `idle_prompt`, `auth_success`, `elicitation_dialog`, `elicitation_complete`, `elicitation_response`
+Values: `permission_prompt`, `idle_prompt`, `auth_success`, `elicitation_dialog`, `elicitation_url_dialog`, `elicitation_complete`, `elicitation_response`, `agent_needs_input`, `agent_completed`, `quota_auto_resume_fired`, `quota_auto_resume_stale`, `quota_auto_resume_disabled`
 
 ### SubagentStart / SubagentStop: matcher filters on `agent_type`
 
@@ -119,7 +125,7 @@ Values: `user_settings`, `project_settings`, `local_settings`, `policy_settings`
 
 ### StopFailure: matcher filters on `error`
 
-Values: `rate_limit`, `overloaded`, `authentication_failed`, `oauth_org_not_allowed`, `billing_error`, `invalid_request`, `model_not_found`, `server_error`, `max_output_tokens`, `unknown`
+Values: `rate_limit`, `overloaded`, `authentication_failed`, `oauth_org_not_allowed`, `account_on_hold`, `billing_error`, `invalid_request`, `model_not_found`, `server_error`, `max_output_tokens`, `cloud_credential_error` (v2.1.267+), `unknown`
 
 ### UserPromptExpansion: matcher filters on `command_name`
 
@@ -128,6 +134,14 @@ Your skill or command name as typed by the user (without the leading `/`).
 ### Elicitation / ElicitationResult: matcher filters on `mcp_server_name`
 
 Your configured MCP server name.
+
+### DirectoryAdded: matcher filters on `source`
+
+Values: `slash_command` (`/add-dir`), `register_repo_root` (SDK control request)
+
+### PreModelSwitch / PostModelSwitch: matcher filters on the canonical target model
+
+The matcher is compared with the canonical name derived from `to_model`, ignoring any `[1m]` suffix: `claude-opus-5`, `claude-opus-4-6|claude-opus-5`, `.*opus.*`. When Claude Code cannot derive a canonical name (for example a gateway-only custom ID), every PreModelSwitch hook runs regardless of matcher, so a blocking hook should also check `to_model`.
 
 ### FileChanged: matcher = literal filenames
 
@@ -143,12 +157,12 @@ Adding a `matcher` field to these events is silently ignored.
 
 ## Exit Code 2 Behavior Per Event
 
-Only exit code 2 blocks. Exit code 1 is non-blocking: the action proceeds and the first line of stderr appears in the transcript. `WorktreeCreate` is the exception: any non-zero code fails creation.
+Exit code 2 is the only exit code that blocks through the code alone. Claude Code reads JSON output fields from stdout on every exit code, not only 0: for events that use the standard decision model, a valid JSON decision (for example `permissionDecision: "deny"` or `decision: "block"`) takes effect with exit 0 or any other non-2 code, and exit 2 still blocks even if the JSON says `allow`. Exit code 1 without valid JSON is a non-blocking error: the action proceeds and the first line of stderr appears in the transcript. `WorktreeCreate` and `WorktreeRemove` are the exceptions: any non-zero code fails them.
 
 | Event | What happens on exit 2 |
 |-------|------------------------|
 | `PreToolUse` | Blocks the tool call; stderr fed to Claude |
-| `PermissionRequest` | Denies the permission |
+| `PermissionRequest` | Not honored: the permission flow proceeds unchanged and stderr is discarded. Deny through the JSON `decision` object |
 | `UserPromptSubmit` | Blocks prompt and erases it from context |
 | `UserPromptExpansion` | Blocks the expansion |
 | `Stop` | Prevents stopping; continues the turn |
@@ -162,6 +176,9 @@ Only exit code 2 blocks. Exit code 1 is non-blocking: the action proceeds and th
 | `Elicitation` | Denies the elicitation |
 | `ElicitationResult` | Blocks response (effective action becomes decline) |
 | `WorktreeCreate` | **Any** non-zero exit code fails creation |
+| `WorktreeRemove` | **Any** non-zero exit code fails removal if the directory still exists afterward |
+| `PreModelSwitch` | Blocks the model switch and shows stderr to the user |
+| `PostModelSwitch` | Shows stderr to user only; the model already switched |
 | `PostToolUse` | Shows stderr to Claude (tool already ran) |
 | `PostToolUseFailure` | Shows stderr to Claude |
 | `StopFailure` | Ignored entirely (output and exit code ignored) |
@@ -170,7 +187,8 @@ Only exit code 2 blocks. Exit code 1 is non-blocking: the action proceeds and th
 | `Notification` | Shows stderr to user only |
 | `InstructionsLoaded` | Exit code ignored |
 | `PermissionDenied` | Exit code and stderr ignored |
-| `CwdChanged`, `FileChanged`, `WorktreeRemove` | Logged in debug mode only |
+| `CwdChanged`, `FileChanged` | Shows stderr to user only |
+| `DirectoryAdded` | Stderr goes to the debug log; the directory is already added |
 | `PostCompact` | Shows stderr to user only |
 | `MessageDisplay` | Original text displayed unchanged |
 
@@ -206,7 +224,17 @@ Uses `hookSpecificOutput` for richer control. Precedence when hooks conflict: `d
 
 `defer` only works in `-p` (non-interactive) mode. Process exits with `stop_reason: "tool_deferred"` and the calling process can resume later. `defer` does not work when Claude makes several tool calls at once.
 
+### PreModelSwitch
+
+Exit code 2 or top-level `decision: "block"` cancels the switch. For finer control use `hookSpecificOutput.permissionDecision` with `allow`, `deny`, or `ask` (no `defer`, `updatedInput`, or `additionalContext`).
+
+### TaskCreated
+
+Exit code 2 or top-level `decision: "block"` cancels the task creation. `continue: false` is ignored.
+
 ### PermissionRequest
+
+A hook that exits 2 without a `decision` object leaves the permission flow unchanged. Only the `decision` object grants or denies. `agent` hooks are skipped on this event. In sessions that cannot show a prompt, such as background subagents in `-p` mode, these hooks still run, and the call is denied if no hook decides.
 
 ```json
 {
@@ -352,11 +380,14 @@ All events receive: `session_id`, `transcript_path`, `cwd`, `hook_event_name`, a
 | `InstructionsLoaded` | `file_path`, `memory_type`, `load_reason`, `globs`, `trigger_file_path`, `parent_file_path` |
 | `ConfigChange` | `source`, `file_path` |
 | `CwdChanged` | `old_cwd`, `new_cwd` |
+| `DirectoryAdded` | `directory`, `source` |
 | `FileChanged` | `file_path`, `event` (`"change"`, `"add"`, `"unlink"`) |
 | `WorktreeCreate` | `name` (slug for the new worktree) |
 | `WorktreeRemove` | `worktree_path` |
 | `PreCompact` | `trigger`, `custom_instructions` |
 | `PostCompact` | `trigger`, `compact_summary` |
+| `PreModelSwitch` | `from_model`, `to_model`, `requested_model`, `source`, `context_tokens`, `prompt_cache_warm`, `cache_ttl`, `estimated_cache_write_usd`, `pricing` |
+| `PostModelSwitch` | Same as `PreModelSwitch`; `source` adds `auto` and `resume` |
 | `Elicitation` | `mcp_server_name`, `message`, `mode`, `url`, `elicitation_id`, `requested_schema` |
 | `ElicitationResult` | `mcp_server_name`, `action`, `mode`, `elicitation_id`, `content` |
 | `SessionEnd` | `reason` |
@@ -371,7 +402,7 @@ All events receive: `session_id`, `transcript_path`, `cwd`, `hook_event_name`, a
 |-------|-------------|
 | `type` | `command`, `http`, `mcp_tool`, `prompt`, or `agent` |
 | `if` | Permission rule syntax to narrow the handler. Tool events only (`PreToolUse`, `PostToolUse`, `PostToolUseFailure`, `PermissionRequest`, `PermissionDenied`). On any other event, a hook with `if` set never runs |
-| `timeout` | Seconds before canceling |
+| `timeout` | Seconds before canceling. Not enforced on a running `async: true` command hook; still enforced with `asyncRewake` |
 | `statusMessage` | Custom spinner message while hook runs |
 | `once` | Run once per session then remove. Honored only in skill frontmatter, ignored in settings files |
 
@@ -416,7 +447,7 @@ Server must already be connected. `SessionStart` and `Setup` typically fire befo
 | `model` | Model override (default: fast model, typically Haiku) |
 | `continueOnBlock` | When `ok: false`, feed the reason back to Claude and continue instead of stopping |
 
-Returns `{ "ok": true/false, "reason": "..." }`. Supports the same events as `command` hooks except `SessionStart` and `Setup`.
+Returns `{ "ok": true/false, "reason": "..." }`. See [Hook type support per event](#hook-type-support-per-event) for the events that accept `prompt` hooks.
 
 ### Agent hook fields
 
@@ -426,6 +457,17 @@ Returns `{ "ok": true/false, "reason": "..." }`. Supports the same events as `co
 | `model` | Model override |
 
 Spawns a subagent that can use Read, Grep, Glob (up to 50 turns), then returns the same `{ "ok": true/false }` schema. Experimental.
+
+### Hook type support per event
+
+| Event group | Supported handler types |
+|-------------|-------------------------|
+| `PermissionDenied`, `PostToolBatch`, `PostToolUse`, `PostToolUseFailure`, `PreToolUse`, `Stop`, `SubagentStop`, `TaskCompleted`, `TaskCreated`, `TeammateIdle`, `UserPromptExpansion`, `UserPromptSubmit` | `command`, `http`, `mcp_tool`, `prompt`, `agent` |
+| `PermissionRequest` | `command`, `http`, `mcp_tool`, `prompt` (an `agent` hook is skipped) |
+| `ConfigChange`, `CwdChanged`, `DirectoryAdded`, `Elicitation`, `ElicitationResult`, `FileChanged`, `InstructionsLoaded`, `MessageDisplay`, `Notification`, `PostCompact`, `PostModelSwitch`, `PreCompact`, `PreModelSwitch`, `SessionEnd`, `StopFailure`, `SubagentStart`, `WorktreeCreate`, `WorktreeRemove` | `command`, `http`, `mcp_tool` |
+| `SessionStart`, `Setup` | `command`, `mcp_tool` |
+
+On `PermissionDenied`, prompt and agent hooks run but their output is discarded.
 
 ---
 
@@ -457,13 +499,13 @@ Use append (`>>`) to preserve variables set by other hooks.
 
 ## Common Gotchas
 
-**Stop hook 8-block cap**: Claude Code overrides Stop hooks after 8 consecutive blocks. Read `stop_hook_active` from stdin and exit 0 when it is `true` to let Claude stop cleanly.
+**Stop hook continuation cap**: both `decision: "block"` and `additionalContext` go through the `stop_hook_active` input and the 8-consecutive-continuation cap. Read `stop_hook_active` from stdin and exit 0 when it is `true` to let Claude stop cleanly.
 
-**Exit 1 does not block**: Only exit 2 blocks a PreToolUse call or UserPromptSubmit. Exit 1 is non-blocking: the action proceeds. This surprises most developers coming from Unix conventions.
+**Exit 1 does not block**: without valid JSON output, only exit 2 blocks a PreToolUse call or UserPromptSubmit. Exit 1 is non-blocking: the action proceeds. A hook can also block with exit 0 plus a JSON decision such as `permissionDecision: "deny"`. A script path that does not exist fails with a code like 127, which is also non-blocking, so a mistyped path silently disables a policy gate.
 
 **asyncRewake vs async**: `asyncRewake: true` runs the hook in the background AND wakes the session when the process exits with code 2, even if Claude is idle. Use when a long-running background check needs to report a failure mid-session.
 
-**SessionEnd budget**: Total budget is 1.5s. Setting `timeout: 30` on a hook raises the budget to 30s for the whole group. Plugin hooks do not contribute to the budget calculation. Override with `CLAUDE_CODE_SESSIONEND_HOOKS_TIMEOUT_MS=5000`.
+**SessionEnd budget**: Total budget is 1.5s. Setting `timeout: 30` on a hook raises the budget to 30s (max 60s), but a hook without its own `timeout` keeps the 1.5s default. Plugin hook timeouts do not raise the budget. `CLAUDE_CODE_SESSIONEND_HOOKS_TIMEOUT_MS=5000` overrides the budget and, since v2.1.268, also sets the timeout of hooks without their own.
 
 **MessageDisplay batching**: Fires multiple times per message (once per batch of lines) in interactive mode, once after the full message in `-p`/Agent SDK mode. `final: true` marks the last batch; don't rely on a non-empty `delta` as the end signal.
 
@@ -471,9 +513,11 @@ Use append (`>>`) to preserve variables set by other hooks.
 
 **if field on non-tool events**: Adding `if` to `SessionStart`, `Stop`, or any non-tool event silently prevents the hook from running at all.
 
-**Multiple PreToolUse hooks with updatedInput**: Hooks run in parallel; the last to finish wins. Order is non-deterministic. Avoid having two hooks on the same matcher both returning `updatedInput`.
+**Multiple PreToolUse hooks with updatedInput**: all matching hooks run in parallel. Conflicting decisions resolve as `deny > defer > ask > allow`, but the documentation does not define which `updatedInput` wins when several hooks rewrite the same call. Avoid having two hooks on the same matcher both returning `updatedInput`.
 
-**PermissionRequest does not prevent via exit 2**: Use `hookSpecificOutput.decision.behavior: "deny"` in JSON output. Exit 2 is not the mechanism here.
+**PermissionRequest does not prevent via exit 2**: Use `hookSpecificOutput.decision.behavior: "deny"` in JSON output. Exit 2 is not honored on this event, and `agent` hooks are skipped on it since v2.1.280.
+
+**Duplicate handlers**: the same handler defined in several settings files runs once. A plugin's or a skill's copy of the same handler stays separate.
 
 **Prompt hooks on PermissionDenied**: Output is discarded. The only field this event reads is `hookSpecificOutput.retry`, which prompt and agent hooks cannot set. Use a command hook for retry signals.
 

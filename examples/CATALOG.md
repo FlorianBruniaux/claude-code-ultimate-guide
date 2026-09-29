@@ -349,16 +349,16 @@ Auto-generated template index with complexity, time, and domain filters.
   Interactive troubleshooting assistant for Claude Code issues
 
 - **[eval-agents](skills/eval-agents/SKILL.md)** *intermediate* • 30 min
-  Audit Claude Code agents defined in .claude/agents/ for description specificity, model tier appropriateness, tools scoping, and system prompt quality. Detects dispatch ambiguity between agents, flags over-permissive tool grants, and checks for human-in-the-loop patterns that break programmatic orchestration. Use when onboarding to a project with existing agents, after adding new agents to a fleet, or when an orchestrator consistently selects the wrong agent.
+  Audit custom subagent definitions for Claude Code (.claude/agents/*.md) and Codex (.codex/agents/*.toml): loadability against the native schema, description overlap, model tier, tool scope, and headless-safe instructions. Use when onboarding to a project with agents, after adding or importing agents, or when the parent agent delegates to the wrong agent.
 
 - **[eval-hooks](skills/eval-hooks/SKILL.md)** *intermediate* • 30 min
-  Audit Claude Code hooks defined in settings.json files for validity, performance safety, and correctness. Resolves each command against the filesystem, checks exit-code strategy for blocking hooks, flags missing timeouts, and reviews interactive vs async patterns. Use when setting up hooks for the first time, debugging a hook that never fires or hangs the agent, or doing a periodic hooks hygiene pass.
+  Audit Claude Code and Codex hooks for validity, safety, and correctness across settings.json, hooks.json, config.toml, plugin, and skill or agent frontmatter hooks. Resolves each command, checks event names, handler types, matchers, exit-code and JSON decision strategy, and timeouts against each host's documented rules, then reviews hooks one by one. Use when setting up hooks, debugging a hook that never fires, never blocks, or hangs the agent, or doing a periodic hooks hygiene pass. Not for writing a new hook from scratch.
 
 - **[eval-rules](skills/eval-rules/SKILL.md)** *intermediate* • 30 min
-  Audit .claude/rules/ files for structural correctness, glob validity, and real-world usefulness. Resolves each paths: pattern against actual project files, then asks the user whether each rule is still relevant and useful. Can update rules in-place based on answers. Use when setting up rules for the first time, debugging rules that fire too often or never, or doing a periodic rules hygiene pass.
+  Audit Claude Code instruction rules in .claude/rules/ and ~/.claude/rules/: frontmatter, paths glob validity against real files, symlink load status, and day-to-day usefulness, then update rules with the user. Use for first-time rules setup, rules that apply too often or never, or periodic rules hygiene. Not for Codex .rules command-approval files.
 
 - **[eval-skills](skills/eval-skills/SKILL.md)** *intermediate* • 30 min
-  Audit all skills in the current project for frontmatter completeness, effort level appropriateness, allowed-tools scoping, and content quality. Produces a scored report with effort-level recommendations for each skill. Use when onboarding to a new project, reviewing skill quality before shipping, or adding effort fields to an existing skill library.
+  Audit a project or library of skills for metadata, trigger boundaries, workflow completion criteria, local resource closure, instruction economy, tool scope, effort, and routing evidence. Use before shipping skills, after importing a skill collection, or when a skill triggers too often or not at all.
 
 - **[explain](skills/explain/SKILL.md)** *intermediate* • 30 min
   Explain code, concepts, or system behavior with adjustable depth levels
@@ -480,15 +480,6 @@ Auto-generated template index with complexity, time, and domain filters.
 - **[qa](skills/qa/SKILL.md)** *intermediate* • 30 min
   Systematic QA testing of a web application: diff-aware, tiered, with fix-and-verify loop
 
-- **[README](skills/release-notes-generator/references/README.md)** *intermediate* • 30 min
-  This directory contains documentation that will be loaded contextually during skill execution.
-
-- **[README](skills/release-notes-generator/scripts/README.md)** *intermediate* • 30 min
-  This directory contains executable scripts for deterministic, repeatable tasks.
-
-- **[README](skills/release-notes-generator/assets/README.md)** *intermediate* • 30 min
-  This directory contains templates, images, and boilerplate code.
-
 - **[README](skills/learning-path/README.md)** *intermediate* • 30 min
   This dependency-free prototype turns the existing [seven-module learning path](../../../guide/learni
 
@@ -497,6 +488,15 @@ Auto-generated template index with complexity, time, and domain filters.
 
 - **[README](skills/talk-pipeline/README.md)** *intermediate* • 30 min
   6-stage skill pipeline that transforms raw material (article, transcript, notes) into a complete con
+
+- **[README](skills/release-notes-generator/references/README.md)** *intermediate* • 30 min
+  This directory contains documentation that will be loaded contextually during skill execution.
+
+- **[README](skills/release-notes-generator/scripts/README.md)** *intermediate* • 30 min
+  This directory contains executable scripts for deterministic, repeatable tasks.
+
+- **[README](skills/release-notes-generator/assets/README.md)** *intermediate* • 30 min
+  This directory contains templates, images, and boilerplate code.
 
 - **[recipe-template](skills/recipe-template/SKILL.md)** *intermediate* • 30 min
   Template for commands that implement a structured recipe: validate preconditions, then execute numbered steps. Fork this and replace the placeholder content. The 'Context Validation Checkpoints' section is the key pattern, forcing Claude to verify preconditions before starting.
@@ -562,11 +562,11 @@ Auto-generated template index with complexity, time, and domain filters.
 - **[skill-creator](skills/skill-creator/SKILL.md)** *intermediate* • 30 min
   Scaffold a new Claude Code skill with SKILL.md, frontmatter, and bundled resources. Use when creating a custom skill, standardizing skill structure across a team, or packaging a skill for distribution.
 
-- **[slack-template](skills/release-notes-generator/assets/slack-template.md)** *intermediate* • 30 min
-  Use this template for generating product-focused Slack messages.
-
 - **[slack-template](skills/guide-recap/assets/slack-template.md)** *intermediate* • 30 min
   Compact, scannable, emoji-rich. Ready to paste.
+
+- **[slack-template](skills/release-notes-generator/assets/slack-template.md)** *intermediate* • 30 min
+  Use this template for generating product-focused Slack messages.
 
 - **[smart-explore](skills/smart-explore.md)** *intermediate* • 30 min
   Progressive code exploration using tree-sitter AST: structure first, drill second. Reduces code reading from 10-15k tokens per file to 200-500 tokens.

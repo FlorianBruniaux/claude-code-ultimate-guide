@@ -91,6 +91,8 @@ Write failing test (RED)
 
 Write the specification before the code. Claude uses the spec as the single source of truth, preventing drift between what was planned and what was built. The loop closes on `Maintain`: a monitoring threshold crossed in production drafts a new `intent.md` automatically, a pattern Anthropic's [AI-native SDLC playbook](https://claude.com/blog/the-ai-native-sdlc-playbook) (2026) documents as the boundary between a one-shot pipeline and a continuous one.
 
+"Automatically" covers the invocation, not the decision. The playbook describes a trigger that invokes Claude "with no person in the invocation path", then a queue that the service owner or on-call engineer triages: "Fix now, schedule, or dismiss." Only product-facing findings are routed to the product owner. The diagram keeps that triage step, because a loop that writes its own intents without an owner deciding which ones deserve work is a backlog generator, not a pipeline.
+
 ```mermaid
 flowchart LR
     A([Idea / Requirement]) --> A1(Write intent.md<br/>problem + author + constraints)
@@ -114,7 +116,9 @@ flowchart LR
     L -->|Yes| N(Merge ✓)
     N --> O(Maintain:<br/>monitor production)
     O --> P{Anomaly threshold<br/>crossed?}
-    P -->|Yes: draft new intent.md| A1
+    P -->|Yes: Claude drafts intent.md| Q{On-call / service owner<br/>triage}
+    Q -->|Fix now or schedule| A1
+    Q -->|Dismiss| O
     P -->|No| O
 
     style A fill:#F5E6D3,color:#333
@@ -127,6 +131,7 @@ flowchart LR
     style N fill:#7BC47F,color:#333
     style O fill:#F5E6D3,color:#333
     style P fill:#E87E2F,color:#fff
+    style Q fill:#E87E2F,color:#fff
 
     click A href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "Idea / Requirement"
     click A1 href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md#with-intentmd-upstream-problem-statement" "Write intent.md"
@@ -146,6 +151,7 @@ flowchart LR
     click N href "https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/workflows/spec-first.md" "Merge ✓"
     click O href "https://claude.com/blog/the-ai-native-sdlc-playbook" "Maintain: monitor production"
     click P href "https://claude.com/blog/the-ai-native-sdlc-playbook" "Anomaly threshold crossed?"
+    click Q href "https://claude.com/blog/the-ai-native-sdlc-playbook" "On-call or service owner triage"
 ```
 
 <details>
@@ -170,9 +176,11 @@ Idea → Write intent.md → Approved by PM? ─No→ Refine intent
                              │
                        Maintain: monitor production
                              │
-                       Anomaly threshold crossed? ─Yes→ draft new intent.md (loop to top)
-                             │ No
-                       keep monitoring
+                       Anomaly threshold crossed? ─Yes→ Claude drafts intent.md
+                             │ No                          │
+                       keep monitoring          On-call / owner triage
+                                                ├─ Fix now or schedule → loop to top
+                                                └─ Dismiss → keep monitoring
 ```
 
 </details>

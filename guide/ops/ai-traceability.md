@@ -813,6 +813,17 @@ For regulated environments and compliance-conscious orgs, capturing a snapshot o
 
 If you'd rather query history that already exists than instrument new logging, tools like [cc-sessions](https://github.com/FlorianBruniaux/cc-sessions) search and analyze Claude Code's own session transcripts directly, useful when the question comes up after the fact and no PR-time hook was in place.
 
+### The Document Chain as a Second Audit Trail
+
+A session log answers "what did Claude do?". It does not answer "who asked for this, and who approved it?". Anthropic's [AI-native SDLC playbook](https://claude.com/blog/the-ai-native-sdlc-playbook) (2026) gets that second answer from the documents the pipeline already commits: "Every stage commits an artifact the next stage can read. Together, the intent, the spec, the plan, the diff and the review findings are the audit trail." In the playbook's words, the chain of commits records "who asked for what, the agent produced, and who approved it."
+
+| Layer | Answers | Source in a Claude Code pipeline |
+|-------|---------|----------------------------------|
+| Decision trail | Who asked, what was agreed, who approved each gate | `intent.md`, `spec.md`, `plan.md` and review findings, committed with their approver (see [spec-first.md](../workflows/spec-first.md#with-intentmd-upstream-problem-statement)) |
+| Execution trail | What the agent actually ran and changed | Session logger hook and PR audit artifact below |
+
+The two layers fail differently, so keep both. A document chain with no execution log cannot show that the diff matches the approved plan. An execution log with no document chain cannot show that anyone with authority asked for the change. The chain is only an audit trail if each gate records a named approver and a date in the committed file or in the PR approval; an unsigned `plan.md` in the repository proves that a plan existed, not that it was approved.
+
 ### What to Capture
 
 A minimal PR audit artifact contains four things:

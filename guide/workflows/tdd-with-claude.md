@@ -296,6 +296,18 @@ First, write characterization tests that capture current behavior.
 Then we'll refactor with confidence.
 ```
 
+Characterization tests pin what the code does today, not what it should do. Keep the odd outputs: in an old system, some of that behavior is what other teams or the business depend on, and an agent will happily "fix" it behind a green suite.
+
+Do not let the session that will change the code be the only author of the tests that judge the change. It then writes a suite that encodes the implementation it is about to invent. Pin the behavior in a separate session, in a separate commit reviewed before the refactor starts, or have a person write the tests; then start the refactor in a fresh session that is told the characterization tests are read-only:
+
+```
+The tests in tests/characterization/ are read-only.
+Refactor legacyFunction until they pass. If a test looks wrong,
+stop and report it instead of editing it.
+```
+
+A `PreToolUse` hook that denies `Edit` and `Write` on the characterization directory turns that instruction into a guarantee. Source: Addy Osmani, [Brownfield Agentic Engineering](https://addyo.substack.com/p/brownfield-agentic-engineering) (September 2026); for zones and migration completeness in legacy codebases, see [Legacy Codebase Modernization](../ultimate-guide.md#921-legacy-codebase-modernization).
+
 ---
 
 ## Example Session
