@@ -304,7 +304,7 @@ Standard pass@1 is insufficient for agent-generated code. A test that passes onc
 
 ## Product Metrics (the often-missing layer)
 
-Engineering metrics measure how code gets built. Product metrics measure whether the code is actually solving the right problems. Most engineering teams track the former and leave the latter entirely to product managers. That creates a gap where a team can be shipping fast, with high DORA scores, while the product drifts away from user needs.
+Engineering metrics measure how code gets built. Product metrics measure whether the code is actually solving the right problems. Most engineering teams track the former and leave the latter entirely to product managers. That creates a gap where a team can be shipping fast, with high DORA scores, while the product drifts away from user needs. Agentic delivery widens that gap, because it raises throughput without improving the decision about what to build; see [the constraint that moves upstream](../workflows/agentic-software-factories.md#the-constraint-moves-upstream-to-what-is-worth-building) in the software factories map.
 
 ### Time-to-Value
 

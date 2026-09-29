@@ -37,6 +37,7 @@ Les documents de travail bruts (prompts Perplexity, audits clients) restent dans
 
 | Ressource | Score Initial | Score Final | Décision | Fichier |
 |-----------|---------------|-------------|----------|---------|
+| **logseq-wiki** (ystreibel/logseq-wiki, LLM Wiki port of obsidian-wiki) | 2/5 | **2/5** | Case study only: memory-systems.md §7.1 (ingestion-time poisoning of a single-user wiki: headless `--dangerously-skip-permissions` over third-party transcripts, opt-in staging not on that path); 5 stars, single author | [logseq-wiki-llm-wiki-port.md](./logseq-wiki-llm-wiki-port.md) |
 | **Brownfield Agentic Engineering** (Addy Osmani, Sep 2026) | 4/5 | **4/5** | Integrated: zones, independent characterization tests, migration completeness, parallelize last | [osmani-brownfield-agentic-engineering.md](./osmani-brownfield-agentic-engineering.md) |
 | **Rewriting Bun in Rust** (Jarred Sumner, Jul 2026) | 4/5 | **4/5** | Integrated as a Claude Code migration case study in guide section 9.21 | [bun-rust-rewrite-claude-code.md](./bun-rust-rewrite-claude-code.md) |
 | **From SDLC to ADLC** (Rakesh Gohel, LinkedIn, Sep 2026) | 2/5 | **2/5** | Not integrated: restates the Anthropic playbook; two fixes made from the primary source | [gohel-sdlc-to-adlc-post.md](./gohel-sdlc-to-adlc-post.md) |

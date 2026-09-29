@@ -911,6 +911,21 @@ Mem0 cloud (shared `user_id`) and doobidoo with `MCP_OAUTH_ENABLED=false` are pa
 
 **Mitigations** (none shipped by current tools): per-entry ACL, read-only mode for untrusted agents, content validation on write, memory signing with provenance.
 
+#### Single-user variant: ingestion-time poisoning in compiled wikis
+
+The same risk exists without a team. The LLM Wiki pattern (Karpathy's gist, formalized as OKF in [ultimate-guide.md §9.18.5](../ultimate-guide.md#9185-open-knowledge-format-okf)) compiles sources into interlinked Markdown pages that later sessions read as trusted context. The write surface is no longer a teammate. It is every source the ingest step reads: web pages, video transcripts, chat exports, other agents' session logs. An instruction planted in one of those sources can land in a page, and the page is then served back to future agents with the authority of your own notes.
+
+[logseq-wiki](https://github.com/ystreibel/logseq-wiki) (MIT, a single-author Logseq port of [obsidian-wiki](https://github.com/Ar9av/obsidian-wiki)) shows how the exposure builds up, because it combines every aggravating factor in one scheduled job. Its weekly runner, [`run_auto.sh`](https://github.com/ystreibel/logseq-wiki/blob/339072e5d10db29a07d611b611e1122c74b3ac02/.skills/ingest-youtube-history/scripts/run_auto.sh#L79), started by launchd, scrapes the user's YouTube history and hands third-party transcripts to `claude -p ... --dangerously-skip-permissions`. The [prompt it sends](https://github.com/ystreibel/logseq-wiki/blob/339072e5d10db29a07d611b611e1122c74b3ac02/.skills/ingest-youtube-history/scripts/auto-prompt.md) asks the session to write wiki pages, commit and `git push` with no human validation, and forbids a Claude co-author trailer, so the agent's authorship is not recorded. The repository also contains a mitigation: a staging mode that sends LLM-written pages to `wiki/_staging/` for human approval. It is opt-in, and the autonomous prompt writes directly to `wiki/<theme>/`. The fuller write-up is in the [evaluation](../../docs/resource-evaluations/logseq-wiki-llm-wiki-port.md).
+
+This is a pattern observed in one small repository, not an incident report. No exploit was attempted. It is useful because each piece looks reasonable on its own: a scheduled job, a headless run, an ingest skill, a push. Together they give untrusted text a path, with every permission granted, into a knowledge base that other sessions trust.
+
+Controls, in order of leverage:
+
+- **Never run an ingest of untrusted sources with `--dangerously-skip-permissions`.** Give the headless session an allow list scoped to the vault path, and keep network, shell and `git push` out of it. See [security-hardening.md](../security/security-hardening.md).
+- **Stage by default for untrusted sources.** Pages derived from the web, videos or third-party exports should wait for review. Direct writes are for sources you authored.
+- **Keep provenance on every page.** A `sources` property plus an agent-authorship trailer on commits lets you find and revert everything one bad source produced.
+- **Scan for secrets before writing, deterministically.** Ingesting your own agent history (`~/.claude/projects/*/*.jsonl`) moves transcripts into a versioned, often pushed, vault. A prompt line such as "skip anything that looks like secrets" is not a control. A scanner in the write path is.
+
 ---
 
 ### 7.2 Stale Memory Driving Wrong Decisions
@@ -948,6 +963,7 @@ SAMEP (Secure Agent Memory Exchange Protocol) proposes: AES-256-GCM encryption p
 | Risk | Likelihood | Impact | Documented? | Mitigation |
 |------|-----------|--------|------------|------------|
 | Memory poisoning via prompt injection | High | Critical | No | Per-entry ACL, read-only mode for untrusted agents |
+| Ingestion-time poisoning of a single-user compiled wiki | Medium | High | Partial (§7.1) | Staged writes for untrusted sources, scoped permissions for headless ingest, provenance on pages and commits |
 | Stale memory driving wrong decisions | High | High | Partial | `superseded_by` relations, TTL policies, manual curation |
 | Context budget blown by memory overhead | Medium | High | Partial | Token-budgeted retrieval, top-K limits, dynamic tool discovery |
 | SQLite corruption on concurrent multi-machine writes | High (if naive) | High | Yes (doobidoo §3.5) | WAL mode + single-writer thread, or switch to Postgres |

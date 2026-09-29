@@ -31,10 +31,22 @@ Buying a platform does not create a software factory. The operating model define
 | mechanical verification | repository harness or policy engine | command, output, exit status, and artifact revision |
 | ambiguous exception or high-impact release | named human or pre-authorized policy | verdict, evidence references, and exception record |
 | future process improvement | versioned improvement loop | candidate diff and held-out evaluation |
+| whether the shipped change delivered the intended value | the person who wrote the intent, usually product | an outcome or adoption signal named before the work starts, read after release |
 
 Pavan Belagatti summarizes the split as ["agents do the work, humans provide the gates"](https://www.youtube.com/watch?v=0nM1ygBm8tA&t=97s). His longer software-factory walkthrough shows a [human review gate](https://www.youtube.com/watch?v=pE1S1egMrAI&t=908s) plus [automated rollback and feedback](https://www.youtube.com/watch?v=pE1S1egMrAI&t=764s) in a Port-oriented workflow. The videos prove that the demonstrated workflow can be configured. They do not measure reliability, total cost, reviewer time, hostile-input behavior, or comparative productivity.
 
 OpenAI's [Harness Engineering](https://openai.com/index/harness-engineering/) report uses the related phrase "Humans steer. Agents execute" and documents one internal greenfield experiment. Its self-reported throughput and time estimate are useful implementation evidence, not a neutral benchmark. In both accounts, the human leaves repeated execution while remaining responsible for governance.
+
+### The constraint moves upstream, to what is worth building
+
+Most software-factory designs, including every level in section 1, optimize engineering time: faster implementation, more parallel agents, tighter verification loops. Once code production speeds up, engineering time stops being the scarce resource. The scarce resources become deciding what is worth shipping and checking that what shipped does what it was meant to do. A factory built only around the engineering stages speeds up the part of the system that is no longer the bottleneck, and ships more features without shipping more value.
+
+OpenAI's account of its own pipeline points the same way (see [section 6](#6-the-half-of-the-factory-that-runs-after-the-merge) for the source and its limits). Venkat Venkataramani places judgment, prioritization and taste in the first stage, where a human defines the outcome, and states that OpenAI's engineers are becoming more like product managers than traditional systems engineers. The same article reports that subject matter experts are embedded in the ChatGPT Work engineering teams, because in some domains developers can no longer channel the needed taste into the harness themselves, for example what a good slide deck or business report looks like. That is one company's self-description, not a measured result, but it locates the work that remains human in intent and judgment rather than in execution.
+
+Two consequences for anyone building a factory:
+
+- **Bring the author of the intent back into verification.** Section 4's first question asks whether a gate is deterministic. A second gap sits beside it: tests can pass while failing to cover what the ticket asked for. A read-only review agent can compare the ticket's acceptance criteria with the tests actually written and report criteria that no test exercises, to the person who wrote them. The output is a gap list for that person to judge, not an approval. [Spec-first development](./spec-first.md) covers how to write acceptance criteria an agent can check.
+- **Measure the other half.** A factory that reports throughput and change failure rate but not adoption or time-to-value repeats, on the product side, the trap section 5 describes on the code side. The product metrics in [Team Metrics](../ops/team-metrics.md#product-metrics-the-often-missing-layer) are the missing half of the factory's dashboard, and the last row of the table above gives them an owner.
 
 ---
 

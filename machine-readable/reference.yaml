@@ -254,6 +254,7 @@ deep_dive:
   memory_systems_architecture_patterns: "guide/core/memory-systems.md#6-architecture-patterns"
   memory_systems_risks: "guide/core/memory-systems.md#7-risks-and-security"
   memory_systems_memory_poisoning: "guide/core/memory-systems.md#71-memory-poisoning-via-prompt-injection"
+  memory_systems_ingestion_poisoning: "guide/core/memory-systems.md#single-user-variant-ingestion-time-poisoning-in-compiled-wikis"  # LLM Wiki / compiled-wiki ingest of untrusted sources; logseq-wiki case (headless --dangerously-skip-permissions + push, opt-in staging off the exposed path); 4 controls
   memory_systems_decision: "guide/core/memory-systems.md#8-decision-frameworks"
   memory_systems_decision_flowchart: "guide/core/memory-systems.md#81-decision-flowchart"
   memory_systems_benchmarks: "guide/core/memory-systems.md#9-benchmarks-and-evaluation"
@@ -1258,6 +1259,7 @@ deep_dive:
   # Agentic Software Factories orientation page (added 2026-07-15)
   agentic_software_factories_hub: "guide/workflows/agentic-software-factories.md"  # single entry point: spectrum, decision tree, file map, governance checklist, velocity-trap case study
   agentic_software_factories_operating_model: "guide/workflows/agentic-software-factories.md#a-software-factory-is-an-operating-model"
+  agentic_software_factories_upstream_constraint: "guide/workflows/agentic-software-factories.md#the-constraint-moves-upstream-to-what-is-worth-building"  # once code is cheap the bottleneck is deciding what to ship and checking value delivered: criteria-to-tests gap check, product metrics as the missing half, value-owner row in the operating-model table
   agentic_software_factories_spectrum: "guide/workflows/agentic-software-factories.md#1-the-spectrum-six-levels-six-costs"  # 6 levels: single session -> /batch -> Agent Teams -> dynamic-workflows -> plan-pipeline -> third-party orchestrator -> closed factory
   agentic_software_factories_decision_tree: "guide/workflows/agentic-software-factories.md#2-the-missing-decision-tree-when-does-a-closed-software-factory-actually-win"  # closed platform vs native stack, branches on team size/budget/compliance
   agentic_software_factories_governance_5th_question: "guide/workflows/agentic-software-factories.md#4-five-governance-questions-before-you-adopt-anything"  # extends spec-first.md's 4 questions with: is the advertised verification feature actually wired
