@@ -36,26 +36,29 @@ if [ -z "$COMMAND" ]; then
 fi
 
 # Define RTK-optimizable commands with their savings
-declare -A RTK_COMMANDS=(
-    ["git log"]="92.3"
-    ["git status"]="76.0"
-    ["git diff"]="55.9"
-    ["find"]="76.3"
-    ["cargo test"]="90.0"
-    ["cargo build"]="80.0"
-    ["cargo clippy"]="80.0"
-    ["pnpm list"]="82.0"
-    ["pnpm outdated"]="90.0"
-    ["pnpm test"]="90.0"
-    ["python pytest"]="90.0"
-    ["python -m pytest"]="90.0"
-    ["go test"]="90.0"
+# Bash 3.2 compatible (macOS /bin/bash has no associative arrays): each entry
+# is "name::value", split with ${entry%%::*} and ${entry#*::}.
+RTK_COMMANDS=(
+    "git log::92.3"
+    "git status::76.0"
+    "git diff::55.9"
+    "find::76.3"
+    "cargo test::90.0"
+    "cargo build::80.0"
+    "cargo clippy::80.0"
+    "pnpm list::82.0"
+    "pnpm outdated::90.0"
+    "pnpm test::90.0"
+    "python pytest::90.0"
+    "python -m pytest::90.0"
+    "go test::90.0"
 )
 
 # Check if command matches RTK-optimizable pattern
-for cmd in "${!RTK_COMMANDS[@]}"; do
+for entry in "${RTK_COMMANDS[@]}"; do
+    cmd="${entry%%::*}"
     if [[ "$COMMAND" == "$cmd"* ]] && [[ "$COMMAND" != "rtk "* ]]; then
-        savings="${RTK_COMMANDS[$cmd]}"
+        savings="${entry#*::}"
 
         # Suggest RTK wrapper
         cat << EOF

@@ -21,22 +21,24 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 # Secret patterns (extended regex)
-declare -A PATTERNS=(
-    ["OpenAI API Key"]="sk-[A-Za-z0-9]{48}"
-    ["GitHub Token (ghp)"]="ghp_[A-Za-z0-9]{36}"
-    ["GitHub Token (gho)"]="gho_[A-Za-z0-9]{36}"
-    ["GitHub Token (ghu)"]="ghu_[A-Za-z0-9]{36}"
-    ["GitHub Token (ghs)"]="ghs_[A-Za-z0-9]{36}"
-    ["GitHub Token (ghr)"]="ghr_[A-Za-z0-9]{36}"
-    ["AWS Access Key"]="AKIA[A-Z0-9]{16}"
-    ["AWS Secret Key"]="[A-Za-z0-9/+=]{40}"
-    ["Anthropic API Key"]="sk-ant-[A-Za-z0-9-]{95,}"
-    ["Generic API Key"]="api[_-]?key[\"']?\s*[:=]\s*[\"']?[A-Za-z0-9]{20,}"
-    ["Generic Secret"]="secret[\"']?\s*[:=]\s*[\"']?[A-Za-z0-9]{20,}"
-    ["Generic Token"]="token[\"']?\s*[:=]\s*[\"']?[A-Za-z0-9]{20,}"
-    ["Database URL with Password"]="(postgres|mysql|mongodb)://[^:]+:[^@]+@"
-    ["Private Key"]="-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----"
-    ["JWT Token"]="eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}"
+# Bash 3.2 compatible (macOS /bin/bash has no associative arrays): each entry
+# is "name::value", split with ${entry%%::*} and ${entry#*::}.
+PATTERNS=(
+    "OpenAI API Key::sk-[A-Za-z0-9]{48}"
+    "GitHub Token (ghp)::ghp_[A-Za-z0-9]{36}"
+    "GitHub Token (gho)::gho_[A-Za-z0-9]{36}"
+    "GitHub Token (ghu)::ghu_[A-Za-z0-9]{36}"
+    "GitHub Token (ghs)::ghs_[A-Za-z0-9]{36}"
+    "GitHub Token (ghr)::ghr_[A-Za-z0-9]{36}"
+    "AWS Access Key::AKIA[A-Z0-9]{16}"
+    "AWS Secret Key::[A-Za-z0-9/+=]{40}"
+    "Anthropic API Key::sk-ant-[A-Za-z0-9-]{95,}"
+    "Generic API Key::api[_-]?key[\"']?\s*[:=]\s*[\"']?[A-Za-z0-9]{20,}"
+    "Generic Secret::secret[\"']?\s*[:=]\s*[\"']?[A-Za-z0-9]{20,}"
+    "Generic Token::token[\"']?\s*[:=]\s*[\"']?[A-Za-z0-9]{20,}"
+    "Database URL with Password::(postgres|mysql|mongodb)://[^:]+:[^@]+@"
+    "Private Key::-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----"
+    "JWT Token::eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}"
 )
 
 # Whitelisted patterns (safe to ignore)
@@ -113,8 +115,9 @@ detect_secrets() {
         content=$(git show ":$file" 2>/dev/null || continue)
 
         # Check each pattern
-        for pattern_name in "${!PATTERNS[@]}"; do
-            local pattern="${PATTERNS[$pattern_name]}"
+        for entry in "${PATTERNS[@]}"; do
+            local pattern_name="${entry%%::*}"
+            local pattern="${entry#*::}"
             local matches
             matches=$(echo "$content" | grep -noE "$pattern" || true)
 

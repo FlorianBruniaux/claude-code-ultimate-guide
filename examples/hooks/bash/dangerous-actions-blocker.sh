@@ -118,7 +118,11 @@ if [[ "$TOOL_NAME" == "Bash" ]]; then
 
     for cred in "${CREDENTIAL_FILE_PATTERNS[@]}"; do
         cred_regex=$(printf '%s' "$cred" | sed 's/\./\\./g')
-        if echo "$COMMAND" | grep -qP "${cred_regex}(?![a-zA-Z0-9._-])"; then
+        # POSIX ERE stand-in for the PCRE lookahead `(?![a-zA-Z0-9._-])` (BSD grep
+        # on macOS has no -P): the name must be followed by a char outside the
+        # class, or by end of line. LC_ALL=C keeps the ranges byte-wise and
+        # identical across BSD and GNU grep.
+        if echo "$COMMAND" | LC_ALL=C grep -qE "${cred_regex}([^a-zA-Z0-9._-]|\$)"; then
             echo "BLOCKED: Command references credential file: '$cred'" >&2
             exit 2
         fi

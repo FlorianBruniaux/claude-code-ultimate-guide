@@ -41,52 +41,55 @@ if [[ -z "$TOOL_OUTPUT" ]]; then
 fi
 
 # Secret patterns to detect
-declare -A SECRET_PATTERNS=(
+# Bash 3.2 compatible (macOS /bin/bash has no associative arrays): each entry
+# is "name::value", split with ${entry%%::*} and ${entry#*::}.
+SECRET_PATTERNS=(
     # API Keys
-    ["OpenAI API Key"]="sk-[a-zA-Z0-9]{20,}"
-    ["Anthropic API Key"]="sk-ant-[a-zA-Z0-9]{20,}"
-    ["AWS Access Key"]="AKIA[0-9A-Z]{16}"
-    ["AWS Secret Key"]="[0-9a-zA-Z/+]{40}"
-    ["GCP API Key"]="AIza[0-9A-Za-z_-]{35}"
-    ["Azure Key"]="[a-zA-Z0-9]{32,}"
-    ["Stripe Key"]="(sk|pk)_(live|test)_[0-9a-zA-Z]{24,}"
-    ["Twilio Key"]="SK[a-f0-9]{32}"
-    ["SendGrid Key"]="SG\.[a-zA-Z0-9_-]{22}\.[a-zA-Z0-9_-]{43}"
-    ["Slack Token"]="xox[baprs]-[0-9a-zA-Z-]{10,}"
-    ["Discord Token"]="[MN][A-Za-z0-9]{23,}\.[A-Za-z0-9-_]{6}\.[A-Za-z0-9-_]{27}"
+    "OpenAI API Key::sk-[a-zA-Z0-9]{20,}"
+    "Anthropic API Key::sk-ant-[a-zA-Z0-9]{20,}"
+    "AWS Access Key::AKIA[0-9A-Z]{16}"
+    "AWS Secret Key::[0-9a-zA-Z/+]{40}"
+    "GCP API Key::AIza[0-9A-Za-z_-]{35}"
+    "Azure Key::[a-zA-Z0-9]{32,}"
+    "Stripe Key::(sk|pk)_(live|test)_[0-9a-zA-Z]{24,}"
+    "Twilio Key::SK[a-f0-9]{32}"
+    "SendGrid Key::SG\.[a-zA-Z0-9_-]{22}\.[a-zA-Z0-9_-]{43}"
+    "Slack Token::xox[baprs]-[0-9a-zA-Z-]{10,}"
+    "Discord Token::[MN][A-Za-z0-9]{23,}\.[A-Za-z0-9-_]{6}\.[A-Za-z0-9-_]{27}"
 
     # Tokens
-    ["GitHub Token"]="(ghp|gho|ghu|ghs|ghr)_[a-zA-Z0-9]{36,}"
-    ["GitLab Token"]="glpat-[a-zA-Z0-9_-]{20,}"
-    ["NPM Token"]="npm_[a-zA-Z0-9]{36}"
-    ["PyPI Token"]="pypi-[a-zA-Z0-9_-]{50,}"
-    ["JWT Token"]="eyJ[a-zA-Z0-9_-]*\.eyJ[a-zA-Z0-9_-]*\.[a-zA-Z0-9_-]*"
-    ["Heroku API Key"]="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
+    "GitHub Token::(ghp|gho|ghu|ghs|ghr)_[a-zA-Z0-9]{36,}"
+    "GitLab Token::glpat-[a-zA-Z0-9_-]{20,}"
+    "NPM Token::npm_[a-zA-Z0-9]{36}"
+    "PyPI Token::pypi-[a-zA-Z0-9_-]{50,}"
+    "JWT Token::eyJ[a-zA-Z0-9_-]*\.eyJ[a-zA-Z0-9_-]*\.[a-zA-Z0-9_-]*"
+    "Heroku API Key::[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
 
     # Private Keys
-    ["Private Key"]="-----BEGIN (RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----"
-    ["PGP Private Key"]="-----BEGIN PGP PRIVATE KEY BLOCK-----"
+    "Private Key::-----BEGIN (RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----"
+    "PGP Private Key::-----BEGIN PGP PRIVATE KEY BLOCK-----"
 
     # Database
-    ["Database URL with Password"]="(postgres|mysql|mongodb)://[^:]+:[^@]+@"
-    ["Redis URL with Password"]="redis://:[^@]+@"
+    "Database URL with Password::(postgres|mysql|mongodb)://[^:]+:[^@]+@"
+    "Redis URL with Password::redis://:[^@]+@"
 
     # Generic (58% of leaked secrets are "generic" - GitGuardian 2025)
-    ["Generic API Key"]="(api[_-]?key|apikey|api[_-]?secret)['\"]?\s*[:=]\s*['\"]?[a-zA-Z0-9_-]{20,}"
-    ["Generic Secret"]="(secret|password|passwd|pwd)['\"]?\s*[:=]\s*['\"]?[^\s'\"]{8,}"
-    ["Generic Token"]="(token|auth[_-]?token|access[_-]?token|bearer)['\"]?\s*[:=]\s*['\"]?[a-zA-Z0-9_-]{20,}"
-    ["Private Key Inline"]="['\"]?-----BEGIN[^-]+PRIVATE KEY-----"
+    "Generic API Key::(api[_-]?key|apikey|api[_-]?secret)['\"]?\s*[:=]\s*['\"]?[a-zA-Z0-9_-]{20,}"
+    "Generic Secret::(secret|password|passwd|pwd)['\"]?\s*[:=]\s*['\"]?[^\s'\"]{8,}"
+    "Generic Token::(token|auth[_-]?token|access[_-]?token|bearer)['\"]?\s*[:=]\s*['\"]?[a-zA-Z0-9_-]{20,}"
+    "Private Key Inline::['\"]?-----BEGIN[^-]+PRIVATE KEY-----"
 
     # Environment Variable Leakage
-    ["Env Dump Command"]="^(env|printenv|set)$"
-    ["Proc Environ Access"]="/proc/self/environ|/proc/[0-9]+/environ"
+    "Env Dump Command::^(env|printenv|set)$"
+    "Proc Environ Access::/proc/self/environ|/proc/[0-9]+/environ"
 )
 
 DETECTED_SECRETS=()
 
 # Check each pattern
-for secret_type in "${!SECRET_PATTERNS[@]}"; do
-    pattern="${SECRET_PATTERNS[$secret_type]}"
+for entry in "${SECRET_PATTERNS[@]}"; do
+    secret_type="${entry%%::*}"
+    pattern="${entry#*::}"
     if echo "$TOOL_OUTPUT" | grep -qiE "$pattern" 2>/dev/null; then
         DETECTED_SECRETS+=("$secret_type")
     fi

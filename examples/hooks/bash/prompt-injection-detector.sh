@@ -110,7 +110,7 @@ DELIMITER_PATTERNS=(
     "### System:"
     "### Human:"
     "### Assistant:"
-    "```system"
+    '```system'
     "SYSTEM:"
 )
 
@@ -168,8 +168,11 @@ if echo "$CONTENT" | grep -qE $'\x1b\[|\x1b\]|\x1b\('; then
 fi
 
 # === NULL BYTE INJECTION ===
-# Null bytes can truncate strings and bypass security checks
-if echo "$CONTENT" | grep -qP '\x00'; then
+# Null bytes can truncate strings and bypass security checks.
+# A bash variable cannot hold a NUL (command substitution drops it), so
+# CONTENT never contains one. Check the decoded JSON strings with jq instead.
+# (No grep -P: BSD grep on macOS does not support it.)
+if printf '%s' "$INPUT" | jq -e '[.tool_input.command?, .tool_input.content?, .tool_input.new_string?, .tool_input.url?] | map(strings | explode | any(. == 0)) | any' >/dev/null 2>&1; then
     echo "BLOCKED: Null byte detected - potential truncation attack" >&2
     exit 2
 fi

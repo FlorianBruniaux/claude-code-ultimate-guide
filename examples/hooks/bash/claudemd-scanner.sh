@@ -66,7 +66,9 @@ scan_file() {
     fi
 
     # Check for uncommon Unicode characters (potential homoglyph attack)
-    if grep -P '[^\x00-\x7F]' "$file" 2>/dev/null | grep -qiE "instruction|ignore|run|execute"; then
+    # LC_ALL=C makes the range byte-wise, so any byte >= 0x80 (part of a multibyte
+    # character) counts as non-ASCII. Portable: BSD grep has no -P.
+    if LC_ALL=C grep $'[\x80-\xff]' "$file" 2>/dev/null | grep -qiE "instruction|ignore|run|execute"; then
         WARNINGS+=("Warning: $file contains non-ASCII characters near sensitive keywords")
     fi
 }
