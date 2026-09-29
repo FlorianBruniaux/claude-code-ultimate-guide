@@ -30,8 +30,11 @@ Sources of truth: the official Claude Code hooks reference (https://code.claude.
 | none | Every Claude Code and Codex location listed below that exists |
 | `claude` or `codex` | That host only |
 | a file path | That file only (settings JSON, `hooks.json`, `config.toml`, skill or agent file) |
+| `audit-only`, or the user asks for no changes | Steps 1-4 and 6 only: list each proposed change instead of asking or editing, and omit the user-feedback lines from the report |
 
 Audit each host with its own rules. Never score a Codex hook against Claude Code semantics or the reverse.
+
+When a `ctxharness doctor --format json` report generated during this task is available, reconcile against it: every hook-layer finding it reports must appear in the audit, and every extra finding needs `file:line` evidence.
 
 ---
 
@@ -206,7 +209,7 @@ Every source loads; higher layers do not replace lower ones. A layer holding bot
 
 ### Trust review
 
-Every non-managed hook, plugin hooks included, must be reviewed and trusted in `/hooks` before it runs. Trust is recorded against the hook's current hash, so an edited hook is skipped until trusted again. When auditing, report that a changed hook needs review; do not assume it runs. `--dangerously-bypass-hook-trust` bypasses the check for one invocation only: flag any automation that relies on it.
+Every non-managed hook, plugin hooks included, must be reviewed and trusted in `/hooks` before it runs. Trust is recorded against the hook's current hash, so an edited hook is skipped until trusted again. When auditing, report that a changed hook needs review; do not assume it runs. The `/hooks` browser is the authoritative view of trust. Current Codex builds also persist it under `[hooks.state]` in `config.toml`, which is undocumented: report what you observe there without printing hash values, and never treat `[hooks.state]` as an event. `--dangerously-bypass-hook-trust` bypasses the check for one invocation only: flag any automation that relies on it.
 
 ### Events (12) and matchers
 
@@ -227,7 +230,7 @@ Codex matchers are regex strings. `Interrupt` and `SessionEnd` do not run for su
 - `timeout` is in seconds, default 600. `SessionEnd` and `Interrupt` default to 1 and allow at most 3.
 - Optional fields: `statusMessage`, `async`, `additionalContextLimit` (default 2,500 tokens; `0` passes everything and can flood the context), `commandWindows` / `command_windows`.
 - Commands run with the session `cwd`. For repo-local scripts, resolve from the git root rather than a relative `.codex/hooks/...` path.
-- `PreToolUse` ignores plain-text stdout. It blocks with `permissionDecision: "deny"`, legacy `decision: "block"`, or exit 2 with the reason on stderr. `permissionDecision: "ask"`, `continue`, `stopReason`, and `suppressOutput` are not supported there: Codex marks the hook run as failed and **continues the tool call**. Flag any Codex policy hook that relies on them.
+- `PreToolUse` ignores plain-text stdout. It blocks with `permissionDecision: "deny"`, legacy `decision: "block"`, or exit 2 with the reason on stderr. It rewrites a call with `permissionDecision: "allow"` plus `updatedInput` (a string `command` for `Bash` and `apply_patch`, the replacement arguments for MCP tools), the same shape Claude Code uses. `permissionDecision: "ask"`, `continue`, `stopReason`, and `suppressOutput` are not supported there: Codex marks the hook run as failed and **continues the tool call**. Flag any Codex policy hook that relies on them.
 - Background (`async`) hooks cannot block, approve, or rewrite; at most eight run concurrently; `SessionEnd` always runs synchronously.
 - `SessionEnd` does not support MCP tool hooks.
 
@@ -270,7 +273,11 @@ Codex:
 ls ~/.codex/hooks.json ~/.codex/config.toml .codex/hooks.json .codex/config.toml 2>/dev/null
 ```
 
-Also read `hooks:` blocks in `.claude/skills/*/SKILL.md`, `.claude/agents/**/*.md`, and enabled plugin `hooks/hooks.json` files when the user asks for a full picture. Managed settings and `requirements.toml` are read-only for this audit: report them, never edit them.
+Plugins are part of the default scope because their hooks run while the plugin is enabled. For Claude Code, take enabled plugins from `enabledPlugins` in the effective settings and the installed version of each from `~/.claude/plugins/installed_plugins.json`; the plugin cache may hold several versions and temporary checkouts, so read only the installed one. List every plugin hook; score them only when the user asks, since the user does not own that code. For Codex, read plugin `hooks/hooks.json` or the `hooks` entry of `.codex-plugin/plugin.json`.
+
+Also read `hooks:` blocks in `.claude/skills/**/SKILL.md` and `.claude/agents/**/*.md`, following symlinked skill directories. Managed settings and `requirements.toml` are read-only for this audit: report them, never edit them.
+
+Note which hooks an external installer owns (for example a tool with an `install-hooks` or `upgrade` command). Such an installer can restore its entries after a manual cleanup, so recommend a change through that tool, or record the drift risk next to the proposal.
 
 Build a flat list of hook records:
 - `host`: `claude` or `codex`
@@ -285,18 +292,30 @@ Done when: every existing location is listed with its host and scope, and each h
 
 ### Step 2: Resolve commands (command hooks only)
 
-Resolve the executable and any script it runs:
+Split a shell-form `command` into shell words before resolving it. A first-word split with `awk` is wrong: it keeps quotes and splits `"$CLAUDE_PROJECT_DIR"/.claude/hooks/x.sh` into two words. Use a shell-word parser:
 
 ```bash
-CMD=$(echo "$command" | awk '{print $1}')
-CMD="${CMD/#\~/$HOME}"
-command -v "$CMD" >/dev/null 2>&1 || test -f "$CMD" && echo "found" || echo "not found"
-test -x "$CMD" && echo "executable" || echo "not executable"
+python3 - "$command" "$PROJECT_ROOT" <<'EOF'
+import os, shlex, shutil, sys
+cmd, root = sys.argv[1], sys.argv[2]
+words = shlex.split(cmd.split(';')[-1].split('&&')[-1])
+words = [os.path.expanduser(w.replace('${CLAUDE_PROJECT_DIR}', root).replace('$CLAUDE_PROJECT_DIR', root)) for w in words]
+while words and (words[0] == 'env' or '=' in words[0].split('/')[0]):
+    words.pop(0)  # skip env and VAR=value prefixes
+exe = words[0] if words else ''
+path = exe if '/' in exe else (shutil.which(exe) or '')
+print('executable', exe, 'found' if path and os.path.exists(path) else 'not found', 'x' if path and os.access(path, os.X_OK) else '-')
+if os.path.basename(exe) in {'bash', 'sh', 'zsh', 'node', 'python3', 'python', 'deno', 'bun'}:
+    script = next((w for w in words[1:] if not w.startswith('-')), '')
+    print('script', script, 'found' if os.path.isfile(script) else 'not found', 'readable' if os.access(script, os.R_OK) else '-')
+EOF
 ```
 
 - With `args` (exec form), `command` is resolved on `PATH` or as a path; `args` elements are literal.
 - For `bash script.sh`, `node script.js`, `python3 script.py`, check that the script exists and is readable; it does not need `chmod +x`.
 - Substitute `${CLAUDE_PROJECT_DIR}` with the project root and `$(git rev-parse --show-toplevel)` with the repository root before testing.
+- For a command chain such as `export PATH=...; tool ...`, resolve the last command that does the work, and note the chain.
+- A name resolved on `PATH` now proves only the current shell's `PATH`, not the environment the host gives hooks. Mark it resolved, and say that the runtime `PATH` is not verified.
 
 Flag:
 - **Not found**: nothing exists at that path; for a policy hook this silently disables the gate
@@ -319,8 +338,11 @@ For hooks on events that can block (see the tables above) whose command is a loc
    - **Codex `permissionDecision: "ask"` or `continue: false` on `PreToolUse`**: ⚠️ unsupported, the tool call continues
    - **No decision at all**: 🔵 observational, fine when intended
 3. Flag slow operations (`curl`, `sleep`, network calls) without an internal timeout guard in hooks on the interactive path.
+4. Before flagging a slow operation against a short `timeout`, check whether it runs detached (`( ... ) &` with `disown`, `nohup`, `setsid`). Detached work outlives the hook, so a short timeout is correct there; report the detached work instead.
+5. For a compiled binary or a script too large to read in full, do not guess its decision logic. Record the version (`--version` or `--help`), classify the blocking strategy as `UNKNOWN`, and propose a behavior canary (a sample payload on stdin, then the exit code and stdout).
+6. Before recommending a host-specific variant of a hook (for example a `codex` subcommand in place of a `claude` one), run both on the same sample payload and compare their outputs against the host's output contract. A Claude-named handler under Codex is not a defect when its output shape is one Codex supports.
 
-Done when: every script-backed hook on a blocking event has one of the classifications above.
+Done when: every script-backed hook on a blocking event has one of the classifications above, or `UNKNOWN` with a proposed canary.
 
 ### Step 4: Check duplicates and dead configuration
 
@@ -332,7 +354,8 @@ Done when: every script-backed hook on a blocking event has one of the classific
 - `async: true` combined with a decision field (no effect).
 - Two or more `PreToolUse` hooks on the same matcher returning `updatedInput` (winner undocumented).
 - A Stop hook that always continues without reading `stop_hook_active`.
-- Codex: a layer with both `hooks.json` and inline `[hooks]`; hooks awaiting trust review.
+- Codex: a layer with both `hooks.json` and inline `[hooks]`; hooks awaiting trust review. When both representations run the same tool on the same event, even through different command strings (a wrapper script and the binary it calls), report a real double run, and name the installer that owns each entry.
+- Secrets in hook sources or settings: token-like literals, credentials in `headers` or `env`. Report the file and line with the value redacted, and recommend moving the value out of the source and rotating it.
 
 Done when: each finding is attached to a hook record, or the list is explicitly empty.
 
