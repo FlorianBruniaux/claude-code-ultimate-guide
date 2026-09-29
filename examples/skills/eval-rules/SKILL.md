@@ -20,6 +20,15 @@ This skill covers Claude Code instruction rules in `.claude/rules/` and `~/.clau
 - Periodic hygiene: are these rules still accurate and useful?
 - After onboarding to a new codebase
 
+## Modes
+
+| Request | Run |
+|---|---|
+| Default | Steps 1-5, with the interactive review |
+| `audit-only`, or the user asks for no changes | Steps 1-3 and 5: list each proposed change instead of asking or editing, and omit the user-answer rows from the report |
+
+When a `ctxharness doctor --format json` report generated during this task is available, every rules-layer finding it reports must appear in the audit. The doctor checks structure only; dead patterns, breadth and content are this skill's job.
+
 ## Key Concepts
 
 | Mechanism | When it loads |
@@ -30,7 +39,7 @@ This skill covers Claude Code instruction rules in `.claude/rules/` and `~/.clau
 | User rule in `~/.claude/rules/` | Applies to every project; loaded before project rules. Whether `paths` scoping applies to user rules is not documented: report it as unverified instead of assuming |
 
 - All `.md` files under `.claude/rules/` are discovered recursively.
-- `paths` is the only frontmatter field Claude Code reads from a rule; other fields are ignored without an error. It accepts a YAML list or a comma-separated string.
+- `paths` is the only frontmatter field Claude Code reads from a rule; other fields are ignored without an error. It accepts a YAML list or a comma-separated string. Fields from other tools' rule formats, such as Cursor's `globs`, `alwaysApply` or `description`, are therefore ignored too: a rule scoped with `globs:` silently loads always-on.
 - If the frontmatter YAML does not parse, Claude Code ignores the frontmatter and loads the rule as if it had no `paths`, so a broken scoped rule silently becomes always-on.
 - Brace expansion works (`"src/**/*.{ts,tsx}"`). A rule's whole `paths` list shares a budget of 1,000 expanded patterns and 4 MiB; a pattern over budget is used unexpanded and its literal braces match nothing.
 - A `[` that cannot be read as a bracket expression (for example `photos [2024/**`) makes that pattern invalid: it matches nothing, the other patterns still work. Escape a literal bracket as `\[`.
@@ -43,7 +52,7 @@ This skill covers Claude Code instruction rules in `.claude/rules/` and `~/.clau
 - A symlink whose target is outside the working directory is treated like an external import: it does not load until external imports are approved for the project, and after approval only the linked rules without `paths` load.
 - A symlink to a network path (UNC share, `/net`, `/Network`) never loads. `\\wsl$` paths are not network paths.
 - Circular symlinks are detected and handled.
-- The documentation says the approval prompt appears only for `@path` imports, but Claude Code v2.1.284 fixed externally symlinked rules being skipped without any prompt and now asks for the same approval. On older versions, an external symlinked rule is skipped silently.
+- The memory documentation says the approval prompt appears only for `@path` imports, but the v2.1.284 changelog reads: "Fixed rules symlinked into `.claude/rules` from outside the project being skipped without ever showing the external-imports approval prompt". From v2.1.284, an external symlinked rule asks for the same approval; on older versions it is skipped silently. Check the running version before reporting the load status.
 
 To share rules across projects without approval, put them in `~/.claude/rules/`.
 
@@ -53,12 +62,14 @@ To share rules across projects without approval, put them in `~/.claude/rules/`.
 |---|---|---|---|
 | 1 | **frontmatter parses** | 1 | Frontmatter, when present, is valid YAML (a broken block turns the rule always-on) |
 | 2 | **paths field** | 2 | Present (1) + at least one non-empty pattern, as a list or comma-separated string (1) |
-| 3 | **pattern validity** | 3 | Each pattern (up to 3 checked) matches at least one file and is not invalid or over the expansion budget |
-| 4 | **scope** | 2 | Not dead (1) + not too broad: under 30% of the project files counted in Step 1 (1) |
+| 3 | **pattern validity** | 3 | Every pattern is checked. Score 3 times the share of patterns that match at least one file and are neither invalid nor over the expansion budget, rounded down |
+| 4 | **scope** | 2 | Not dead: the union of all patterns matches at least one file (1) + not too broad: that union covers under 30% of the project files counted in Step 1 (1) |
 | 5 | **content quality** | 3 | Clear title (1) + specific, actionable rules (1) + under 150 lines (1) |
 | Bonus | **focus** | +1 | Under 15 rules in the file |
 
 **Always-on rules** (no `paths`): score criteria 1 and 5 only (4 pts, plus bonus), mark them `always-on`, and decide in the interactive step whether they should be scoped.
+
+**User rules** (`~/.claude/rules/`): their patterns resolve against whichever project is open, so criteria 3 and 4 are `N/A` in a user-level audit. Score them only when auditing a named project.
 
 **Symlinked rules**: add a load-status note (`loads`, `needs external-import approval`, `loads only after approval and only if unscoped`, `never loads: network path`). A rule that cannot load gets status `Fix` regardless of score.
 
@@ -79,24 +90,64 @@ If an argument names another path, use it. Include `~/.claude/rules/` when the u
 Count project files for the scope percentage from what the repository actually contains, not a fixed list of extensions:
 
 ```bash
-git ls-files | wc -l          # inside a git repository
+git ls-files --cached --others --exclude-standard | wc -l   # inside a git repository
 ```
 
 Outside git, count files while excluding `.git`, `node_modules`, build output and other ignored directories.
 
+Claude Code matches `paths` against the files Claude reads, tracked or not. Resolve patterns in Step 3 against the files on disk (excluding `.git` and `node_modules`), not against `git ls-files` alone, or a pattern that targets a gitignored directory looks dead when it is not.
+
+Check whether the rules directory is shared with the team: `git check-ignore -v .claude/rules/<file>` or `git ls-files .claude/rules | wc -l`. Report a gitignored or untracked rules directory as local-only: those rules apply on this machine and nowhere else.
+
 For every symlink in the rules tree, record the resolved target and whether it is inside the working directory or a network path.
 
-Done when: every rule file is listed with its location (project or user), symlink status, and the project file count is recorded. If no rules directory exists, report it and stop.
+Done when: every rule file is listed with its location (project or user), symlink status and tracking status, and the project file count is recorded. If no rules directory exists, report it and stop.
 
 ### Step 2: Parse each rule
 
-For each file: read it in full, extract the frontmatter, normalize `paths` (list or comma-separated string) into a list, classify the rule as scoped or always-on, and note parse errors, unknown fields (ignored by Claude Code), line count, and title.
+For each file: read it in full, extract the frontmatter, normalize `paths` (list or comma-separated string) into a list, classify the rule as scoped or always-on, and note parse errors, unknown fields (ignored by Claude Code), line count, and title. A `globs` field without `paths` is a finding of its own: the author meant to scope the rule, but it loads always-on; propose renaming the field to `paths`.
 
 Done when: every rule has a classification and a parse status.
 
 ### Step 3: Resolve patterns
 
-For each pattern, resolve it against the project with the file search capability. Record the match count, up to 10 sample paths, and flag dead patterns, invalid `[` patterns, patterns whose brace expansion exceeds the budget, and patterns matching more than 30% of the counted files.
+For each pattern, resolve it against the project files. Record the match count, up to 10 sample paths, and flag dead patterns, invalid `[` patterns, patterns whose brace expansion exceeds the budget, and rules whose pattern union matches more than 30% of the counted files. This resolver lists tracked and untracked files from git, then also walks a gitignored directory when a pattern's literal prefix points into it, so `.claude/rules/**` is not reported dead in a repository that ignores its rules. It expands braces and treats `**/` as zero or more directories; dotfiles match. The exact matcher Claude Code uses is not documented, so report a borderline result as such. Pass one rule's patterns per run:
+
+```bash
+python3 - "$PROJECT_ROOT" "src/**/*.{ts,tsx}" "prisma/**" <<'EOF'
+import os, re, subprocess, sys
+root, patterns = sys.argv[1], sys.argv[2:]
+def braces(p):
+    m = re.search(r"\{([^{}]*)\}", p)
+    return [q for alt in m.group(1).split(",") for q in braces(p[:m.start()] + alt + p[m.end():])] if m else [p]
+def regex(p):
+    out, i = "", 0
+    while i < len(p):
+        if p.startswith("**/", i): out, i = out + "(?:.*/)?", i + 3
+        elif p.startswith("**", i): out, i = out + ".*", i + 2
+        elif p[i] == "*": out, i = out + "[^/]*", i + 1
+        elif p[i] == "?": out, i = out + "[^/]", i + 1
+        else: out, i = out + re.escape(p[i]), i + 1
+    return re.compile(out + r"\Z")
+def walk(top):
+    for d, ds, fs in os.walk(os.path.join(root, top)):
+        ds[:] = [x for x in ds if x not in {".git", "node_modules"}]
+        yield from (os.path.relpath(os.path.join(d, f), root) for f in fs)
+git = subprocess.run(["git", "-C", root, "ls-files", "-co", "--exclude-standard"], capture_output=True, text=True)
+files = set(git.stdout.splitlines()) if git.returncode == 0 else set(walk(""))
+base = len(files)
+for p in patterns:
+    prefix = re.split(r"[*?\[{]", p)[0].rsplit("/", 1)[0] if "/" in p else ""
+    if prefix and git.returncode == 0 and subprocess.run(["git", "-C", root, "check-ignore", "-q", prefix]).returncode == 0:
+        files |= set(walk(prefix))
+union = set()
+for p in patterns:
+    hits = {f for f in files if any(regex(q).match(f) for q in braces(p))}
+    union |= hits
+    print(f"{len(hits):6d}  {p}  {sorted(hits)[:3]}")
+print(f"union {len(union)} of {base} project files ({100 * len(union) / max(base, 1):.1f}%)")
+EOF
+```
 
 Done when: every pattern has a match count and a flag list.
 
@@ -168,4 +219,6 @@ Codex has no equivalent of `.claude/rules/`. When the request is about Codex:
 - **Empty file**: flag as broken, skip the interactive step, ask whether to delete it.
 - **Dead pattern**: flag it and suggest a fix from the rule content.
 - **Pattern matching more than 30% of files**: flag as too broad and suggest narrowing.
+- **`globs:` instead of `paths:`** (a rule written for another tool): the rule loads always-on; propose the rename, or dropping the field if always-on is the intent.
+- **Gitignored rules directory**: the rules are local-only; ask whether team sharing was intended before proposing anything else.
 - **Rule not loading as expected**: add an `InstructionsLoaded` hook; its matcher filters on the load reason (`session_start`, `nested_traversal`, `path_glob_match`, `include`, `compact`) and it logs which rule files load and when.

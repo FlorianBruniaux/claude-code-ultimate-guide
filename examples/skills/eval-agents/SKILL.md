@@ -49,6 +49,8 @@ Claude Code picks the definition from the highest-priority location when several
 - `name` without `description`: skipped.
 - YAML that does not parse: skipped. A plugin agent without `name`, or with unparseable frontmatter, still loads under its filename.
 
+"Does not parse" means Claude Code's own parser, which accepts some frontmatter a strict YAML library rejects, such as an unquoted multi-line `description` whose lines contain `: `. Decide with `claude plugin validate <agents directory>` (v2.1.233 or later) or with the session's agent list (`/agents`), never with a strict YAML library alone. A file that only a strict parser rejects loads: report it as a portability warning (other tools may reject it) and suggest a `>` block scalar.
+
 Two files in the same agents tree that declare the same `name`: only one loads, chosen by filesystem read order, not by a documented precedence. `/doctor` reports them.
 
 ### Claude Code: frontmatter fields
@@ -112,12 +114,12 @@ A Markdown agent with YAML frontmatter, or a TOML file using `prompt` instead of
 
 | # | Criterion | Max | What is checked |
 |---|---|---|---|
-| 1 | **loadable** | 2 | Frontmatter parses and `name` is valid: present, no `:`, no leading `-` (1); `description` present (1). A 0 here means the runtime skips the file: stop scoring and report it as a blocker. |
+| 1 | **loadable** | 2 | Frontmatter parses for Claude Code (see above) and `name` is valid: present, no `:`, no leading `-` (1); `description` present (1). A 0 here means the runtime skips the file: stop scoring and report it as a blocker. A strict-YAML-only failure keeps the point and adds a portability warning. |
 | 2 | **description** | 3 | States when to delegate (1); distinguishable from every other agent in the same scope (1); concise, since combined descriptions above 15,000 tokens trigger a startup warning (1) |
 | 3 | **model** | 2 | Declared or deliberately inherited (1); tier fits the task (1) |
 | 4 | **tools** | 3 | `tools` explicit (1); no write-capable tool (`Bash`, `Edit`, `Write`, `NotebookEdit`) unless the task mutates files or runs commands (1); `disallowedTools` or `tools` excludes `Agent` when the agent must not delegate further (1) |
 | 5 | **system prompt** | 5 | Role and scope in the first paragraph (1); what it does and does not do (1); output or return contract (1); no placeholder or TODO (1); no instruction that requires a tool the runtime removes, such as asking the user a question (1) |
-| Bonus | **field hygiene** | +1 | No unrecognized field, and no field that the agent's source ignores (for example `hooks` in a plugin agent) |
+| Bonus | **field hygiene** | +1 | No unrecognized field, no invalid field value, and no field that the agent's source ignores (for example `hooks` in a plugin agent) |
 
 ### Codex agents (12 pts)
 
@@ -150,17 +152,25 @@ Subagents do not get `AskUserQuestion` or plan-mode tools, and by default they r
 
 Resolve the scope from the argument, or default to the project plus user scope of each requested host.
 
+| Request | Run |
+|---|---|
+| Default | Steps 1-6, with the interactive review |
+| `audit-only`, or the user asks for no changes | Steps 1-4 and 6: list proposed changes instead of asking or editing |
+| More than 20 agents in scope | Triage: run Steps 1-3 and the structural checks of Step 2 on every file, score in full only the agents with a finding plus a sample of the rest, and report the others in one compact table |
+
 ```bash
-# Claude Code: every .md file, recursively
-find .claude/agents -name "*.md" 2>/dev/null
-find ~/.claude/agents -name "*.md" 2>/dev/null   # user scope, when requested
+# Claude Code: every .md file, recursively (-L follows symlinked directories)
+find -L .claude/agents -name "*.md" 2>/dev/null
+find -L ~/.claude/agents -name "*.md" 2>/dev/null   # user scope, when requested
 
 # Codex: one TOML file per agent
-find .codex/agents -name "*.toml" 2>/dev/null
-find ~/.codex/agents -name "*.toml" 2>/dev/null  # user scope, when requested
+find -L .codex/agents -name "*.toml" 2>/dev/null
+find -L ~/.codex/agents -name "*.toml" 2>/dev/null  # user scope, when requested
 ```
 
 Also list nested `.claude/agents/` directories between the working directory and the repository root.
+
+When a `ctxharness doctor --format json` report generated during this task is available, every agents-layer finding it reports must appear in the audit.
 
 Done when: every candidate file is listed with its host and scope, or the report states that no agent directory exists and stops.
 
@@ -168,13 +178,21 @@ Done when: every candidate file is listed with its host and scope, or the report
 
 For each file, read it in full and record: host, scope, `name`, `description` length, `model`, `tools` or `(inherits)`, every other key, body or `developer_instructions` line count.
 
-For Claude Code, `claude plugin validate .claude/agents` (v2.1.233 or later) reports files whose frontmatter does not parse; it does not flag a parseable file with no `name`, so check that separately.
+For Claude Code, `claude plugin validate .claude/agents` (v2.1.233 or later) reports files whose frontmatter does not parse; it does not flag a parseable file with no `name`, so check that separately. It only reads files, so it is safe in `audit-only` mode.
 
-Done when: each file is classified as loadable, skipped by the runtime (with the reason from the host reference above), or unreadable.
+Check values as well as field names:
+
+- `permissionMode` is one of the documented values; anything else, such as `ask`, is not a mode.
+- `model` is an alias from the table or a full model ID; `effort`, `memory`, `isolation` and `experimental.cacheTtl` use their documented values.
+- Each `tools` and `disallowedTools` entry names a tool from the tools reference (https://code.claude.com/docs/en/tools-reference) or an MCP tool (`mcp__server__tool`). An undocumented name, such as `MultiEdit`, does not resolve: flag it, and flag the agent as a launch risk when no entry resolves.
+- Each `skills` entry resolves to a skill available in that scope.
+
+Done when: each file is classified as loadable, skipped by the runtime (with the reason from the host reference above), or unreadable, with its invalid values listed.
 
 ### Step 3: Check collisions and overlap
 
 - Same `name` twice in one Claude Code agents tree, or a Codex custom agent that shadows a built-in: report which file wins or that the choice is undefined.
+- Same `name` in the user and project scopes: the project definition wins inside that project, so the user copy is dead there. List these pairs and whether the two definitions differ.
 - Compare descriptions pairwise within each host and scope. Flag pairs that claim the same kind of request without a stated boundary.
 
 Done when: every collision and overlapping pair is listed with both file paths.
