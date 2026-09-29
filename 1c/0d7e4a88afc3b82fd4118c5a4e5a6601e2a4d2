@@ -1,0 +1,43 @@
+docs/resource-evaluations/README.md
+  s_97f4c6c03b58e7::t_7830d864cb6d75 40
+guide/ecosystem/context-engineering-tools.md
+  s_519fbef46ffd03::t_310e69d3f87009 21,245-307,803
+machine-readable/reference.yaml
+  s_97f4c6c03b58e7::t_aa22400a384454 407-414
+mcp-server/content/reference.yaml
+  s_26422f0a9b0b1c::t_5403fea7222ea6 407-414
+docs/resource-evaluations/spotify-portal-shunt.md
+  s_26422f0a9b0b1c::t_b787e6b716ab5f 1-105
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "1c0d7e4a88afc3b82fd4118c5a4e5a6601e2a4d2",
+  "prompts": {},
+  "sessions": {
+    "s_26422f0a9b0b1c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ffbdabd3-5514-4b0a-9f5d-e4e1b35ccb1c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_519fbef46ffd03": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a9cb1054-c322-4c49-9016-3f663531304b",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_97f4c6c03b58e7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1f955e91-8af4-485f-a74b-58cc333d9a20",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
