@@ -12,17 +12,6 @@
         ]
       }
     ],
-    "SessionStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "'/Users/florianbruniaux/Sites/perso/claude-code-ultimate-guide/.codex/hooks/rtk-baseline.sh'",
-            "timeout": 5000
-          }
-        ]
-      }
-    ],
     "UserPromptSubmit": [
       {
         "hooks": [
