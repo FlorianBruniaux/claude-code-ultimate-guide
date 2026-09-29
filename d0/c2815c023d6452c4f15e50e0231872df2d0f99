@@ -1,0 +1,87 @@
+CHANGELOG.md
+  s_7727736664ad4d::t_17330967fb05f4 13-16
+README.md
+  s_7727736664ad4d::t_68948056cd9aa8 21,420
+docs/resource-evaluations/README.md
+  s_7727736664ad4d::t_3052c50dc6feee 40-42
+docs/resource-evaluations/bun-rust-rewrite-claude-code.md
+  s_7727736664ad4d::t_e7fe001fad89d0 1-47
+docs/resource-evaluations/gohel-sdlc-to-adlc-post.md
+  s_519fbef46ffd03::t_f3f5a6824269dc 1-34
+docs/resource-evaluations/osmani-brownfield-agentic-engineering.md
+  s_7727736664ad4d::t_6e23aa99fb7291 1-51
+examples/CATALOG.md
+  s_519fbef46ffd03::t_c3198429c86aac 352,355,358,361,492-500,568-570
+examples/hooks/README.md
+  s_519fbef46ffd03::t_2e8e02e268c964 54,79,113-114,127-133
+examples/skills/eval-agents/SKILL.md
+  s_519fbef46ffd03::t_d9afd7c9533fad 3,6,11,13,17-21,23,25,27,29,31,33-37,39-42,44,46-50,52,54,56,58,60-77,79,81,83,85-88,90,92,94,96,98-105,107,109,111,113-120,122,124-129,131,133,135-139,141,143,145,147,149,151,153-156,158-160,163,165,167,169,171,173,175,177-178,180,182,184,186,188,190,192-195,197,199,201,203-205,207-215,217-218,220-230,233,235,239-246
+examples/skills/eval-hooks/SKILL.md
+  s_519fbef46ffd03::t_0fcf94e641affd 3,6,11,15-16,22-23,26-38,40,42,44-89,91-96,98,100,102-107,109,111,113-135,137,139-166,170,172,174-195,197-232,240-245,252,260,263-264,267-273,276-282,284,288,293,297-300,302-305,307,309,311,313-321,323,325,327-335,337,347,349,352,364,367,375-377,385,394,403,407,411,413-415,418-419,422,426,432,437-438,445,451-452,456,459-461,467-484
+examples/skills/eval-rules/SKILL.md
+  s_519fbef46ffd03::t_4967f64bf9d1a9 3,11,13,17-20,25-30,32-38,40,42-48,50,53-59,61,63,65,71,77,79,82,85,87,89,91,93,95,97,99,101,103,105,107,109-111,113,115-116,118,120,122,125-126,130-134,137,139,141,144-149,152,154,156,158,160-161,165-171
+examples/skills/eval-skills/SKILL.md
+  s_519fbef46ffd03::t_7d696ad739ae4d 3-6,12,16-19,21,25-27,29-37,39,41,43-48,50,52-55,57,61-71,73-106,109-113,115-120,122-127,131,135-142,144,146-148,150,152,154,156,158,160,162-165,167,169,171,173,175,177,179,181,183-185,187-200,202,204,206-209,211-215,221,223,225,227,229-236,238,242,244,248,256,258-259,265,269-276,278,281-284,287,293,296,302
+guide/README.md
+  s_519fbef46ffd03::t_a6f289e3703828 42
+guide/core/agent-harness.md
+  s_8fd89c0518bd58::t_8366ac20442d8a 142
+guide/core/hooks-events-reference.md
+  s_519fbef46ffd03::t_3521c9609f70cd 2-3,9,26,43,46,49-50,55,69-73,85,104-105,108,128,138-145,160,165,179-181,190-191,227-234,237-238,383,389-390,405,450,461-471,502,504,508,516-518,520
+guide/core/memory-systems.md
+  s_7727736664ad4d::t_e727280115c0e8 162-163
+guide/diagrams/06-development-workflows.md
+  s_8fd89c0518bd58::t_7327b05d6895a4 94-95,119-121,134,154,179-183
+guide/ops/ai-traceability.md
+  s_519fbef46ffd03::t_9b005839f96483 816-826
+guide/ultimate-guide.md
+  s_7727736664ad4d::t_d9df6b5215d404 17056-17057,22510-22511,22531-22542,22579-22584,22596-22597,22618-22635
+guide/workflows/plan-driven.md
+  s_519fbef46ffd03::t_20005139cf05f0 310-311
+guide/workflows/spec-first.md
+  s_8fd89c0518bd58::t_9063524f9d17f7 71-72
+guide/workflows/tdd-with-claude.md
+  s_519fbef46ffd03::t_737ae3cddc9e39 299-310
+llms.txt
+  s_519fbef46ffd03::t_ce35530043c084 14
+machine-readable/llms.txt
+  s_519fbef46ffd03::t_f29327bdf2b9fa 14
+machine-readable/reference.yaml
+  s_7727736664ad4d::t_430e4d6a423c02 1254-1257,1355,1362,1406,1420-1421,1424,1427,1474,1485-1492,1496,1625,1627,1629-1633,1682,1730,1754,1919,2496,2513-2514,2522-2525
+mcp-server/content/llms.txt
+  s_519fbef46ffd03::t_33ddb5d107b9b7 14
+mcp-server/content/reference.yaml
+  s_7727736664ad4d::t_031e65fb22f6d8 1254-1257,1355,1362,1406,1420-1421,1424,1427,1474,1485-1492,1496,1625,1627,1629-1633,1682,1730,1754,1919,2496,2513-2514,2522-2525
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "d0c2815c023d6452c4f15e50e0231872df2d0f99",
+  "prompts": {},
+  "sessions": {
+    "s_519fbef46ffd03": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a9cb1054-c322-4c49-9016-3f663531304b",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_7727736664ad4d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c7f3dd42-25ff-4158-b30b-70bf8e74fea8",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    },
+    "s_8fd89c0518bd58": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fbc7c70e-4130-43bd-bc2a-5d5e2682eaff",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Florian BRUNIAUX <florian@bruniaux.com>"
+    }
+  }
+}
