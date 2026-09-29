@@ -9,7 +9,7 @@ tags: [template, reference, workflows, architecture]
 Annotated templates that teach you **why** patterns work, not just how to configure them. Each template includes comments explaining trade-offs, alternatives, and when to deviate.
 
 > **[📚 Browse Auto-Generated Catalog](./CATALOG.md)**: Indexed by complexity, time, and domain (238 templates across six catalog categories; 271 production templates overall)
-> **[🔍 Browse Interactive Catalog](./index.html)** — View, copy, and download templates with syntax highlighting
+> **[🔍 Browse Interactive Catalog](./index.html)**: View, copy, and download templates with syntax highlighting
 
 ## New: Auto-Generated Catalog
 
@@ -58,7 +58,7 @@ keywords: [tag1, tag2]
 | [`mcp-configs/`](./mcp-configs/) | MCP server configurations | 1 |
 | [`modes/`](./modes/) | Behavioral modes (SuperClaude) | 1 |
 | [`semantic-anchors/`](./semantic-anchors/) | Precise vocabulary for better LLM outputs | 1 |
-| [`multi-provider/`](https://github.com/FlorianBruniaux/cc-copilot-bridge) | Multi-provider bridge → dedicated repo | — |
+| [`multi-provider/`](https://github.com/FlorianBruniaux/cc-copilot-bridge) | Multi-provider bridge → dedicated repo | - |
 
 ## Contribution, review capacity and comprehension
 
@@ -84,7 +84,7 @@ These worksheets are proposed procedures. Their examples do not establish runtim
 | Hooks | `.claude/hooks/` | `~/.claude/hooks/` |
 | Config | `.claude/` | `~/.claude/` |
 | Memory | `./CLAUDE.md` or `.claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
-| Modes | — | `~/.claude/MODE_*.md` |
+| Modes | - | `~/.claude/MODE_*.md` |
 
 > **Windows**: Replace `~/.claude/` with `%USERPROFILE%\.claude\`
 
@@ -100,22 +100,22 @@ These worksheets are proposed procedures. Their examples do not establish runtim
 | [refactoring-specialist.md](./agents/refactoring-specialist.md) | Clean code refactoring | Sonnet |
 | [output-evaluator.md](./agents/output-evaluator.md) | LLM-as-a-Judge quality gate | Haiku |
 | [devops-sre.md](./agents/devops-sre.md) | Infrastructure troubleshooting with FIRE framework | Sonnet |
-| [planner.md](./agents/planner.md) | Strategic planning — read-only, before implementation | Opus |
-| [implementer.md](./agents/implementer.md) | Mechanical execution — bounded scope | Haiku |
-| [architecture-reviewer.md](./agents/architecture-reviewer.md) | Architecture & design review — read-only | Opus |
-| [adr-writer.md](./agents/adr-writer.md) | Architecture Decision Record generator — read-only | Opus |
-| [integration-reviewer.md](./agents/integration-reviewer.md) | Runtime integration validator — read-only | Sonnet |
-| [plan-challenger.md](./agents/plan-challenger.md) | Adversarial plan review across 5 dimensions — read-only | Sonnet |
-| [planning-coordinator.md](./agents/planning-coordinator.md) | Synthesis agent for dynamic research teams — read-only | Sonnet |
-| [security-patcher.md](./agents/security-patcher.md) | Apply security patches from audit findings — proposes for review | Sonnet |
-| [analytics-with-eval/](./agents/analytics-with-eval/) | Collection: analytics agent + evaluation hooks | — |
-| [cyber-defense/](./agents/cyber-defense/) | Collection: anomaly detector, log ingestor, risk classifier, threat reporter | — |
+| [planner.md](./agents/planner.md) | Strategic planning, read-only, before implementation | Opus |
+| [implementer.md](./agents/implementer.md) | Mechanical execution, bounded scope | Haiku |
+| [architecture-reviewer.md](./agents/architecture-reviewer.md) | Architecture & design review, read-only | Opus |
+| [adr-writer.md](./agents/adr-writer.md) | Architecture Decision Record generator, read-only | Opus |
+| [integration-reviewer.md](./agents/integration-reviewer.md) | Runtime integration validator, read-only | Sonnet |
+| [plan-challenger.md](./agents/plan-challenger.md) | Adversarial plan review across 5 dimensions, read-only | Sonnet |
+| [planning-coordinator.md](./agents/planning-coordinator.md) | Synthesis agent for dynamic research teams, read-only | Sonnet |
+| [security-patcher.md](./agents/security-patcher.md) | Apply security patches from audit findings, proposes for review | Sonnet |
+| [analytics-with-eval/](./agents/analytics-with-eval/) | Collection: analytics agent + evaluation hooks | - |
+| [cyber-defense/](./agents/cyber-defense/) | Collection: anomaly detector, log ingestor, risk classifier, threat reporter | - |
 
-### Skills (68) — [9 on SkillHub](https://skills.palebluedot.live/owner/FlorianBruniaux)
+### Skills (68) · [9 on SkillHub](https://skills.palebluedot.live/owner/FlorianBruniaux)
 
 | File | Purpose |
 |------|---------|
-| [git-ai-archaeology/](./skills/git-ai-archaeology/) | Analyze AI config evolution in a git repo — first commits per path, monthly distribution, major PRs, maturity phases |
+| [git-ai-archaeology/](./skills/git-ai-archaeology/) | Analyze AI config evolution in a git repo: first commits per path, monthly distribution, major PRs, maturity phases |
 | [token-audit/](./skills/token-audit/) | Measure fixed-context token overhead, classify rules by usage frequency, audit hook cost, produce prioritized action plan |
 | [design-patterns/](./skills/design-patterns/) | Detect and analyze GoF design patterns with stack-aware suggestions |
 | [tdd-workflow.md](./skills/tdd-workflow.md) | Test-Driven Development process |
@@ -134,7 +134,7 @@ These worksheets are proposed procedures. Their examples do not establish runtim
 | [issue-triage/](./skills/issue-triage/) | 3-phase issue backlog management (audit, deep analysis, validated actions) |
 | [cyber-defense-team/](./skills/cyber-defense-team/) | Multi-agent cyber defense team orchestration |
 | [talk-pipeline/](./skills/talk-pipeline/) | 6-stage pipeline: raw material to slides via Kimi |
-| [eval-rules/](./skills/eval-rules/) | Audit `.claude/rules/` files — resolves glob patterns against real project files, interactive usefulness review, in-place edits |
+| [eval-rules/](./skills/eval-rules/) | Audit `.claude/rules/` and `~/.claude/rules/`: frontmatter, `paths` globs against real files, symlink load status, usefulness review, then in-place edits |
 
 ### Commands (52)
 
@@ -287,7 +287,7 @@ Security-first: 12 security hooks, 8 productivity hooks, 5 automation hooks, 5 m
 | [cc-sessions.py](./scripts/cc-sessions.py) | Advanced session search with incremental indexing | Human |
 | [fresh-context-loop.sh](./scripts/fresh-context-loop.sh) | Auto-restart sessions at context limits | Human |
 | [bridge.py](./scripts/bridge.py) | Plan bridging between sessions | JSON |
-| [bridge-plan-schema.json](./scripts/bridge-plan-schema.json) | JSON Schema for bridge plan v1 format | — |
+| [bridge-plan-schema.json](./scripts/bridge-plan-schema.json) | JSON Schema for bridge plan v1 format | - |
 | [migrate-arguments-syntax.sh](./scripts/migrate-arguments-syntax.sh) | Migrate v1 → v2 argument syntax (bash) | Human |
 | [migrate-arguments-syntax.ps1](./scripts/migrate-arguments-syntax.ps1) | Migrate v1 → v2 argument syntax (PowerShell) | Human |
 | [rtk-benchmark.sh](./scripts/rtk-benchmark.sh) | Benchmark RTK token savings | Human |
