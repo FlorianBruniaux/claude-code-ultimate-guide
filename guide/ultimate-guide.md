@@ -17736,7 +17736,7 @@ Also auto-triggers on phrases like "be brief" or "less tokens please." Auto-disa
 
 **How it saves tokens**: two mechanisms:
 
-1. **Output compression**: Prose responses run 65% shorter on average (22–87% range depending on task type). Most effective on explanation-heavy back-and-forth: architecture discussions, debugging narratives, Q&A.
+1. **Output compression**: The current Caveman README (read 2026-09-30) no longer leads with a 65% or 75% headline. It reports a 50% median output-token reduction on ten developer questions against a plain `Answer concisely.` control (length only, not correctness), and cites JetBrains' independent test on 86 real coding tasks (skill only, no proxy): 8.5% fewer output tokens, no detectable quality change. Earlier claims of "~75%" and "65%" (the v1.9.1 release notes call 65% an average output-token reduction versus default verbose replies on a 10-prompt benchmark, range 22–87%) are no longer in the README. Most effective on explanation-heavy back-and-forth: architecture discussions, debugging narratives, Q&A.
 
 2. **Input compression via `/caveman-compress`**: Rewrites your CLAUDE.md and project memory files into compressed form in place, claimed ~46% reduction in session startup token cost. Code blocks, URLs, and paths are untouched.
 
@@ -17747,7 +17747,7 @@ Also auto-triggers on phrases like "be brief" or "less tokens please." Auto-disa
 - `/caveman-stats`: session token usage and lifetime savings (Claude Code only)
 - `caveman-shrink`: MCP wrapper that compresses tool/prompt description fields before they load into context
 
-**Honest numbers**: The headline "75% fewer output tokens" applies to individual prose responses. In a typical session, prose represents a small fraction of total token budget, so whole-session savings are closer to 4–10%. Caveman pays off most on sessions heavy in conversational back-and-forth, and least on sessions dominated by file reads, tool calls, or code generation.
+**Honest numbers**: Per-response figures apply to prose-style prompts, not to a session. In agentic coding sessions, most tokens are code and tool calls that the skill does not touch: JetBrains measured 8.5% fewer output tokens. The README's proxy benchmark (54 pinned Claude Code runs) reports 33.2% fewer input tokens (885,793 to 591,673) with 18 of 18 answers correct, 95% interval 14.6% to 48.5%; the README itself calls it a pinned report, not a public reproduction. Caveman pays off most on sessions heavy in conversational back-and-forth, and least on sessions dominated by file reads, tool calls, or code generation.
 
 **When NOT to use it**:
 
@@ -17764,7 +17764,7 @@ Also auto-triggers on phrases like "be brief" or "less tokens please." Auto-disa
 
 **RTK (Rust Token Killer)** filters command output before it reaches the model. Its reported reductions concern processed shell output, not the whole session or invoice. `rtk gain` uses local token estimates; count retries and task outcomes separately.
 
-**Repository:** [rtk-ai/rtk](https://github.com/rtk-ai/rtk) | **Website:** [rtk-ai.app](https://www.rtk-ai.app/)
+**Repository:** [rtk-ai/rtk](https://github.com/rtk-ai/rtk) | **Website:** [rtk-ai.app](https://www.rtk-ai.app/) | **Disclosure:** the author of this guide is a core contributor to RTK (not its creator), so this is not an independent recommendation; whole-task measurements from several studies, and the maintainers' response to them, are in [context-engineering-tools.md](./ecosystem/context-engineering-tools.md).
 
 For broader hooks, code navigation and MCP interception, see the [Tokenade comparison and evidence boundary](https://github.com/FlorianBruniaux/claude-code-ultimate-guide/blob/main/guide/ecosystem/third-party-tools.md#tokenade). It covers a proprietary alternative with vendor-maintained benchmark results, not a universal replacement recommendation.
 
@@ -17774,21 +17774,21 @@ For broader hooks, code navigation and MCP interception, see the [Tokenade compa
 # Option 1: Homebrew (macOS/Linux)
 brew install rtk
 
-# Option 2: Cargo (all platforms)
+# Option 2: Cargo (all platforms, use --git: another "rtk" crate exists on crates.io)
 cargo install --git https://github.com/rtk-ai/rtk
 
-# Option 3: Install script
-curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/master/install.sh | bash
+# Option 3: Install script (Linux/macOS, installs to ~/.local/bin)
+curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh
 
 # Verify installation
-rtk --version  # v0.28.0+
+rtk --version  # latest release checked 2026-09-30: v0.50.0
 ```
 
 **Measure the effect on your workload:**
 
 Compare equivalent commands on the same repository state and retain raw output for diagnosis. `rtk gain` reports estimates for filtered shell output, not measured savings on the entire invoice. No universal session reduction follows from a smaller `git log` or test log. See [how RTK measures savings](https://github.com/rtk-ai/rtk#how-savings-work).
 
-**Key Features (v0.28.0):**
+**Key features (listed as of v0.28.0; latest release is v0.50.0):**
 
 ```bash
 # Git operations
@@ -18020,10 +18020,10 @@ code-review-graph build     # first-time parse (~10s for 500 files)
 | **What it saves** | Command output tokens | Code reading tokens |
 | **When** | After running git, cargo, npm | Before reading source files |
 | **How** | Regex + text filtering | AST parsing (signatures only) |
-| **Typical savings** | 60-90% on CLI outputs | 86-92% on code exploration |
+| **Typical savings** | 60-90% on CLI outputs (RTK README: "up to 90%" of bash output, not of the bill) | 86-92% in the per-task estimates above (no controlled measurement cited); 10.5% cache-token savings in a controlled 50-iteration A/B of a comparable tree-sitter tool (jCodeMunch) |
 | **Setup** | `rtk init --global` (2 min) | CLAUDE.md rule (0 min) or script (5 min) |
 
-Use both. A 30-minute session with RTK + smart explore: ~15-20k tokens instead of ~150-200k.
+Use both, but do not extrapolate the per-command figures to a session. No source in this guide supports a whole-session total for RTK plus smart explore. Whole-task measurements of RTK alone differ by study: JetBrains measured +7.6% median cost per task at low reasoning effort and +0.1% at high effort, Dasein +13% total cost, THOL +7.1% with an interval that crosses zero, and Codepointer's replay -0.5% of spend. RTK's maintainers dispute the JetBrains design and report -4.8% on 13 dev tasks (p = 0.305) in their own re-run (see [context-engineering-tools.md](./ecosystem/context-engineering-tools.md)).
 
 **See also:**
 
@@ -18438,7 +18438,7 @@ Six levers control LLM costs. Some are directly accessible within Claude Code; o
 | Lever | Native in Claude Code? | If building with the Anthropic API/SDK | Where documented |
 |-------|------------------------|----------------------------------------|------------------|
 | Cost monitoring | `/cost` command, `ccusage` CLI, subscription credit dashboard | Anthropic Console dashboard, per-call spend tracking | §9.13 above |
-| Output compression | Caveman skill (65-75% prose reduction), RTK for CLI output | Prompt engineering, streaming response handling | §9.13 Caveman + RTK |
+| Output compression | Caveman skill (8.5% fewer output tokens on real coding tasks per JetBrains, larger on prose-only replies), RTK for CLI output | Prompt engineering, streaming response handling | §9.13 Caveman + RTK |
 | Model routing | `/model opusplan`, `model:` agent frontmatter, `haiku` for mechanical tasks | RouteLLM (85% fewer calls to top-tier model on MT-Bench, arXiv 2406.18665) | [§2.5 Model Selection](#25-model-selection--thinking-guide) |
 | Prompt caching | Automatic for stable context prefixes (Anthropic caches repeated prefixes transparently) | `cache_control` breakpoints in API requests; up to 90% savings on repeated context | [§2.2 Token Management](#22-context-management) |
 | Batch processing | Not available in interactive Claude Code sessions | Message Batches API: 50% cheaper, async, 24-hour window, up to 100 requests per batch | [core/architecture.md, Message Batches API](./core/architecture.md#message-batches-api) |

@@ -183,7 +183,7 @@ Because cache reads are priced far below fresh input, a stable context that the 
 
 Routing policy participates in that cache design. Prefer a task-level decision before the session starts when the task can remain on one model-harness pair. If a request-level router may switch models mid-session, measure cache creation, cache reads, cold starts, and total accepted-task cost. A cheaper inference request can make the complete task more expensive when it invalidates a large reusable prefix.
 
-The same lever applies on the tool-output side of the equation. A `git status` or `find` call in a large repo can return thousands of tokens of noise the model never needed. Tools like [rtk](https://github.com/rtk-ai/rtk) filter that CLI output before it reaches the model, cutting input tokens on those calls by a reported 60 to 90% without changing what the agent can act on.
+The same lever applies on the tool-output side of the equation. A `git status` or `find` call in a large repo can return thousands of tokens of noise the model never needed. Tools like [rtk](https://github.com/rtk-ai/rtk) (the guide author is a core contributor to it) filter that CLI output before it reaches the model, cutting input tokens on those calls by a reported 60 to 90% without changing what the agent can act on.
 
 ### Audit what a skill or tool injects, not just what it costs to load
 

@@ -208,15 +208,17 @@ A public leaderboard for AI coding usage, reading the same local `ccusage` data 
 
 ### RTK (Rust Token Killer)
 
-A CLI proxy that filters command outputs **before** they reach Claude's context. 73,531 stars, 4,597 forks (GitHub API, 2026-07-27), up from 69,042 on 2026-07-07, 446 in March 2026, and 24,397 in April 2026, continuing the same steep growth curve that's worth checking against the full star-history graph before quoting in a high-stakes context.
+A CLI proxy that filters command outputs **before** they reach Claude's context. 82,094 stars (GitHub API, 2026-09-30), up from 73,531 stars and 4,597 forks on 2026-07-27, 69,042 on 2026-07-07, 24,397 in April 2026, and 446 in February 2026, continuing the same steep growth curve that's worth checking against the full star-history graph before quoting in a high-stakes context.
+
+> **Disclosure**: the author of this guide is a core contributor to RTK (not its creator). Independent whole-task measurements are in [context-engineering-tools.md](./context-engineering-tools.md).
 
 | Attribute | Details |
 |-----------|---------|
 | **Source** | [GitHub: rtk-ai/rtk](https://github.com/rtk-ai/rtk) |
 | **Website** | [rtk-ai.app](https://www.rtk-ai.app/) |
-| **Install** | `brew install rtk` or `cargo install --git https://github.com/rtk-ai/rtk` |
+| **Install** | `brew install rtk` (recommended by the README), the install script `curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh \| sh`, or `cargo install --git https://github.com/rtk-ai/rtk` (a different "rtk" crate exists on crates.io) |
 | **Language** | Rust (standalone binary) |
-| **Version** | v0.28.0 |
+| **Version** | Latest release v0.50.0 (2026-09-30); the feature list below was written against v0.28.0 |
 
 **Key features**:
 

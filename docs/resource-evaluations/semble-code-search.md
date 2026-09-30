@@ -34,7 +34,7 @@ Key facts, verified against the repo:
 | **Requires Ollama** | No. Model2Vec runs CPU-only, no external service |
 | **Index** | Built on first run, cached automatically. NOT index-free (correcting a common misconception in community posts). |
 | **Scope** | Code + documentation + configuration files |
-| **Claimed savings** | ~98% fewer tokens vs grep + read |
+| **Claimed savings** | Vendor claim, from the repository description (MinishLab/semble, read 2026-09-30): "Uses 99% fewer tokens than grep+read". Denominator: a grep + file-read workflow. Not independently measured here |
 
 ---
 

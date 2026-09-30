@@ -92,7 +92,7 @@ Most of the tooling in this page answers "how many tokens did we save?" A newer,
 
 `alexgreensh/token-optimizer` is the tool most associated with this framing (1,748 stars as of 2026-07-27, up from 1,565 in June and 947 in May 2026, the fastest-growing entry in this category by percentage). Rather than reporting a single reduction percentage, it targets what survives a compaction pass and whether that surviving content is still relevant to the task at hand.
 
-This is a genuinely distinct question from the raw-reduction metrics reported elsewhere on this page (Headroom's 92% on code search, RTK's 60 to 90% on shell output). Raw reduction measures how much was cut. Post-compaction quality measures whether what was kept is still correct and relevant. A tool could score well on the first metric and poorly on the second, if it happens to prune the wrong content. Treat this as an emerging measurement dimension, not yet a mature tooling category. Watch this angle rather than adopt it as a solved problem.
+This is a genuinely distinct question from the raw-reduction metrics reported elsewhere on this page (Headroom's per-scenario token cuts, RTK's up to 90% on shell output). Raw reduction measures how much was cut. Post-compaction quality measures whether what was kept is still correct and relevant. A tool could score well on the first metric and poorly on the second, if it happens to prune the wrong content. Treat this as an emerging measurement dimension, not yet a mature tooling category. Watch this angle rather than adopt it as a solved problem.
 
 ---
 
@@ -102,9 +102,9 @@ Tool outputs, shell command results, test logs, and database query responses sha
 
 ### Independent benchmarks
 
-Six public benchmarks measured token-saving tools on whole agent tasks rather than on one layer. Read on 2026-09-30, they agree on one point: a tool that shrinks shell output, model prose, or one content type rarely shrinks the bill by the same amount, and several tools made tasks more expensive. No tool wins in every benchmark, and each result belongs to one harness, one model, and one effort setting. The models tested were `claude-sonnet-4-6`, `claude-sonnet-5`, GPT-5.6 Sol, and an unnamed Claude Sonnet version; none of the six tested Claude Sonnet 5.5, Claude Opus 5.5, or the GPT-6 models listed in the [LLM market snapshot](../ops/llm-market-snapshot.md), so treat the results as dated evidence about the mechanism, not as current rankings.
+Eight public benchmarks measured token-saving tools on whole agent tasks, or replayed real sessions, rather than on one layer. Read on 2026-09-30, they agree on one point: a tool that shrinks shell output, model prose, or one content type rarely shrinks the bill by the same amount, and several tools made tasks more expensive. No tool wins in every benchmark, and each result belongs to one harness, one model, and one effort setting. The models tested were `claude-sonnet-4-6`, `claude-sonnet-5`, GPT-5.6 Sol, and an unnamed Claude Sonnet version, and the Codepointer replay applied Opus 4.8 prices; none of the eight tested Claude Sonnet 5.5, Claude Opus 5.5, or the GPT-6 models listed in the [LLM market snapshot](../ops/llm-market-snapshot.md), so treat the results as dated evidence about the mechanism, not as current rankings.
 
-> **Disclosure**: the author of this guide is a core contributor to RTK. RTK results are reported below as measured, including the unfavourable ones.
+> **Disclosure**: the author of this guide is a core contributor to RTK. This section does not recommend a tool: it reports what each project claims and what third parties measured, with sources, and gives RTK's results as measured, including the unfavourable ones. The [token-savings page](https://cc.bruniaux.com/token-savings/) extends it with a catalogue of 45 projects selected by a fixed rule (public, not archived, aimed at coding agents, and at least 100 GitHub stars, or measured by one of these benchmarks, or already covered by the guide), each with its claim, the unit the claim uses, and any third-party measurement.
 
 | Benchmark | Method | Publisher's interest |
 |---|---|---|
@@ -113,38 +113,58 @@ Six public benchmarks measured token-saving tools on whole agent tasks rather th
 | [Marmelab, "Cutting the Coding Agent Bill"](https://marmelab.com/blog/2026/08/27/which-agent-based-plugin-should-you-use-in-2026.html), 2026-08-27 | Atomic CRM Builder tasks, 1 to 4 tasks per tool, 3 to 4 runs per configuration; harness, model, and tool versions not stated | Marmelab builds the workload; no compared tool is theirs |
 | [JetBrains, RTK](https://blog.jetbrains.com/ai/2026/07/rtk-claude-code-token-savings/), July 2026 | 86 SkillsBench tasks, 425 billed trials, Claude Code 2.1.201, rtk 0.43.0, `claude-sonnet-5`, low and high effort, Wilcoxon test on per-task medians | None stated |
 | [JetBrains, Caveman](https://blog.jetbrains.com/ai/2026/07/speak-to-ai-agents-like-cavemen-tosave-tokens/), July 2026 | 86 SkillsBench tasks, 82 clean pairs, `claude-sonnet-5` at low effort, Caveman forcibly activated | None stated |
-| [Token-Harness Optimizer Leaderboard](https://pi-infected.github.io/token-harness-optimizer-leaderboard/) | Headless Claude Code with Claude Sonnet, 12 scored tasks, 10 runs per task and tool, end-to-end USD on sessions above 200,000 tokens | Maintained by the author of Tokenade, which tops the table; the page says so |
+| [Token-Harness Optimizer Leaderboard](https://pi-infected.github.io/token-harness-optimizer-leaderboard/) (THOL), Claude Code 2.1.206 campaign, results committed 2026-07-18 | Headless Claude Code with `claude-sonnet-4-6`, 17 tasks, 10 runs per task and tool; the headline keeps the 7 tasks where the tool-free control used at least 200,000 tokens (70 runs per tool), end-to-end USD with bootstrap 95% intervals. The page uses the opposite sign convention; figures are converted here | Maintained by the author of Tokenade, which tops the table; the page says so |
+| [Tura, token-saving plugins](https://github.com/Tura-AI/benchmark/tree/main/blog_data/token-saving-plugin-eza), 2026-07-19 | One task (rewrite the Rust `eza` tool in Python, 52 assertions), Codex CLI 0.144.1 with GPT-5.6 Sol at high reasoning, 2 runs per arm, cost modeled from token counts at list prices | Published by the maintainer of Tura, a competing coding agent; the author says it is not an independent review |
+| [Codepointer, "Cutting LLM token costs"](https://codepointer.dev/p/cutting-llm-token-costs-with-rtk), 2026-06-18 | Counterfactual replay of 500 sessions from the author's own Claude Code history (614M tokens, $926.31 at list prices); no live runs, task success not measured | No relationship with the compared projects stated |
 
 **Results.** Negative means cheaper than the same agent without the tool.
 
 | Tool | Benchmark | What was measured | Result |
 |---|---|---|---|
 | RTK | Dasein | Total cost | +13%, 54 tasks resolved vs 57 without it |
-| RTK | JetBrains | Median cost per task, low then high effort | +7.6% (p=0.004), then +0.1% (p=0.99); quality unchanged |
+| RTK | JetBrains | Median cost per task, low then high effort | +7.6% (p=0.004), then +0.1% (p=0.99); quality unchanged. RTK's maintainers dispute the one-run-per-task design (see the RTK section) |
 | RTK | Stet | Workload cost, run 1 then run 2 | +13%, then -9% |
-| Caveman | JetBrains | Output tokens, forced activation | -8.5%, against 65% advertised |
+| RTK | THOL | End-to-end cost, 7 long tasks | +7.1% (95% interval -7.2% to +26.0%) |
+| RTK | Tura | Modeled cost, one task, 2 runs | +7.2%, 44% more agent rounds; the author says the data do not identify a plugin effect |
+| RTK | Codepointer | Share of replayed spend | -0.5%, while cutting 33% to 99% of the shell output it recognizes |
+| Caveman | JetBrains | Output tokens, forced activation | -8.5%. The README now reports a 50% median output-token cut against an "Answer concisely." control (skill only); the GitHub description still says "cuts 65% of tokens" |
 | Caveman | Dasein | Total cost | -19% |
 | Caveman | Stet | Workload cost, run 1 then run 2 | +9%, then -12% |
+| Caveman | THOL | End-to-end cost, 7 long tasks | -13.6% (interval -30.2% to +3.6%) |
+| Caveman | Tura | Modeled cost, one task, 2 runs | -3.9% |
+| Caveman | Codepointer | Share of replayed spend | -0.4% |
 | Headroom | Dasein | Total cost | +44% |
 | Headroom | Marmelab | Cost per operation, cache mode then token mode | -4% (called noise by the authors), then +32% |
-| Headroom | Token-Harness Optimizer Leaderboard | End-to-end cost, long sessions | +52.8% |
+| Headroom | THOL | End-to-end cost, 7 long tasks | +52.8% (interval +10.2% to +120.2%) |
+| Headroom | Codepointer | Share of replayed spend | -2.8%, with a median 54% cut on the grep and diff output it touches |
 | Ponytail | Stet | Workload cost, run 1 then run 2 | +20%, then -2%; tests 1 win, 4 losses, 15 ties |
+| Ponytail | THOL | End-to-end cost, 7 long tasks | -3.5% (interval -18.1% to +12.4%) |
+| Ponytail | Tura | Modeled cost, one task, 2 runs | -8.9%; the two runs spread by 51.7% of their mean |
 | Context Mode | Stet | Workload cost, run 1 then run 2 | +72%, then +33% |
 | Graphify | Marmelab | Cost on a large transformation | +1% |
+| Graphify, code-review-graph | THOL | End-to-end cost, 7 long tasks | -3.3% and -8.5%, but THOL reports that the agent never called either tool, so the gap is not a tool effect |
+| CodeGraph | THOL | End-to-end cost, 7 long tasks | -7.6% (interval -21.6% to +8.7%) |
+| lean-ctx | THOL | End-to-end cost, 7 long tasks | +10.3% (interval -12.6% to +46.4%) |
+| Edgee | THOL | End-to-end cost, 7 long tasks | -14.7% (interval -37.1% to +11.1%); THOL flags no token accounting for this tool |
+| claude-token-efficient | THOL | End-to-end cost, 7 long tasks | -11.6% (interval -24.2% to +1.4%) |
 | LSP code navigation | Marmelab | Cost on a large transformation | -13% |
 | Parsec | Dasein (sponsor's arm) | Total cost | -39%, 62 tasks resolved |
-| Tokenade | Token-Harness Optimizer Leaderboard (author's tool) | End-to-end cost, long sessions | -38.9% |
+| Fermat | Dasein | Total cost | -22%, 55 tasks resolved; run 2026-09-21 on a later harness, not paired with the other arms |
+| Woz | Dasein | Total cost | -13%, 55 tasks resolved, wall clock +23% |
+| Tokenade | THOL (author's tool) | End-to-end cost, 7 long tasks | -38.9% (interval -53.2% to -22.3%); the agent called the tool in 5 of 70 runs |
 | Switching to GPT-5.6 Terra xhigh | Stet | Workload cost, run 1 then run 2 | -49%, then -49%: a model change, the only repeated drop in that study |
 
-![Four token-saving tools compared on vendor claim versus independent measurement: Caveman claims 65% fewer output tokens and measured 8.5% fewer, RTK claims 60-90% fewer shell-output tokens and measured +7.6% cost per task at low effort, Ponytail claims about 20% cheaper and measured +20% then -2% over two runs, Headroom claims 73-92% fewer tokens on specific content and measured +44% total cost.](../images/token-savings-claimed-vs-measured.webp)
-
-**Research preprints (July to September 2026).** Four arXiv preprints, not yet peer reviewed, reach the same conclusion with controlled setups. Their abstracts were read on 2026-09-30.
+**Research preprints (2025 to September 2026).** These arXiv preprints, not yet peer reviewed, test token reduction against billed or estimated cost, success, or time. Their abstracts were read on 2026-09-30; the [token-savings page](https://cc.bruniaux.com/token-savings/#research) lists 15, separating studies from papers whose authors measure their own method.
 
 | Preprint | Setup | Finding |
 |---|---|---|
 | [Token Reduction Is Not Cost Reduction](https://arxiv.org/abs/2607.12161) (Weinberger, Hozez; v1 2026-07-13, v5 2026-08-12) | Three token-reduction approaches against unmodified Claude Code, provider-billed cost, SWE-bench Go subset | The largest compression setup cut delivered tool-output tokens by 38.4% and raised billed cost by 6.8%; across tasks, token reduction and cost reduction correlated weakly (Pearson r = 0.15) |
 | [An Empirical Cost Attribution of Context-Compression Gateways in Multi-Turn Coding Agents](https://arxiv.org/abs/2609.22114) (Chen, Shi; v1 2026-08-19) | Paritok, a production gateway between Claude Code or Codex and Claude Sonnet or GPT-5 | Tool-schema filtering removes about 21K to 57K tokens per turn; content compression saves about 2% per turn; the authors warn that single-shot compression benchmarks must not be cited as a multi-turn cost argument. The paper instruments the authors' own gateway |
 | [What Does Context Compression Cost an Agent?](https://arxiv.org/abs/2608.16370) (Liu; v1 2026-08-17) | Three models, two task environments, 24-turn horizon | With GPT-5.5, completion moved from 80% to 85% (p = 1.0) while retrieval calls rose from 21.0 to 63.9 (p = .002): the agent reacquires the state that compression dropped |
+| [CAVEWOMAN](https://arxiv.org/abs/2606.24083) (Adeyemi, Rossi, Dernoncourt; v1 2026-06-23) | Eight models, five datasets, single generations rather than an agent loop | Output compression cut realized cost 1.4x to 2.4x per model on most API models; input compression raised net cost, about 1.15x on the five-benchmark mean |
+| [Don't Break the Cache](https://arxiv.org/abs/2601.06007) (Lumer, Nizar, Jangiti et al.; v2 2026-01-31) | Three caching strategies, three providers, over 500 agent sessions | Prompt caching reduced API cost by 41% to 80%: keeping the cache intact matters more than shrinking what goes into it |
+| [Agentic Coding in the Wild](https://arxiv.org/abs/2608.00101) (Liu, Qiu, Goiri et al.; v1 2026-07-30) | June 2026 GitHub Copilot traces: 3.2M users, 13M sessions, 761M calls | Cache hit rates average 90% within a turn and fall to 55% across turn boundaries |
+| [Can your AI agent be cheaper?](https://arxiv.org/abs/2608.25399) (Smekal; v1 2026-08-26) | 2,700 runs with Kimi K3 at three effort levels | Replacing a full task specification with a bare user story raised token spend by 29.7% |
 | [Beyond Token Savings: A Systematic Study of Context Compression in LLM Agents](https://arxiv.org/abs/2609.32961) (Satish, Sinha, Kawada, Yadwadkar; v1 2026-09-26) | Nearly 35,000 runs, three open-weight models, SWE-bench Verified and Terminal-Bench 1.0 | On Terminal-Bench with Qwen, policies using roughly one third as many tokens can take 20% to 80% longer, and the same policy behaves differently across models |
 
 **Why a layer saving does not become a bill saving.** In Marmelab's baseline runs, `Read` results made up 90.6% of tool-result tokens and `Bash` 6.4%. JetBrains found that the Bash calls RTK can rewrite carry just under 20% of tool-result characters, and that tool results are only part of what a session bills, because the same context is re-read on every turn. Over its low-effort run, `rtk gain` reported 96.2 million tokens saved while the measured bill went up.
@@ -165,9 +185,9 @@ flowchart LR
 
 **How to use these results.**
 
-- **Compare denominators before numbers.** "60-90% fewer tokens in shell output" and "+7.6% cost per task" describe different quantities; both can be true.
+- **Compare denominators before numbers.** "Up to 90% fewer tokens in shell output" and "+7.6% cost per task" describe different quantities; both can be true.
 - **Discount single runs.** Dasein runs each arm once on 100 tasks, and Stet's signs flip between its two repetitions for Caveman, Ponytail, and RTK.
-- **Weigh the publisher's interest.** The two benchmarks that rank a tool first are run by that tool's maker.
+- **Weigh the publisher's interest.** The two benchmarks that rank a tool first are run by that tool's maker (Dasein for Parsec, the THOL maintainer for Tokenade), and the Tura benchmark comes from a competing agent's maintainer.
 - **Measure on your own tasks.** Run your workload with and without the tool, paired, and compare cost per accepted task, as described in [AI unit economics](../ops/ai-unit-economics.md#2-building-a-cost-per-accepted-task). The [AI FinOps lever map](../ops/ai-finops.md#3-lever-map) places compression among the other cost levers.
 
 ### RTK (Rust Token Killer)
@@ -177,11 +197,11 @@ RTK is a CLI proxy that intercepts command output before it reaches Claude's con
 | Attribute | Details |
 |-----------|---------|
 | **Source** | [github.com/rtk-ai/rtk](https://github.com/rtk-ai/rtk) |
-| **Install** | `brew install rtk-ai/tap/rtk` or `cargo install rtk` |
-| **Stars** | 69,042 (GitHub API, 2026-07-07), up from 446 in March 2026 and 24,397 in April 2026 |
+| **Install** | `brew install rtk`, the install script from the README, or `cargo install --git https://github.com/rtk-ai/rtk` (a different "rtk" crate exists on crates.io) |
+| **Stars** | 82,094 (GitHub API, 2026-09-30), up from 69,042 on 2026-07-07, 24,397 in April 2026 and 446 in February 2026 |
 | **Integration** | Claude Code hook via `rtk init --global` |
 
-A roughly 2.8x jump in under three months is a steep curve for a CLI proxy. It is plausible given the tool's growing bundling into other agents' default setups (see below), but treat the figure as unverified against the full star-history graph rather than confirmed growth, and re-check before quoting it in a high-stakes context.
+The jump from April to July, roughly 2.8x, is a steep curve for a CLI proxy. It is plausible given the tool's growing bundling into other agents' default setups (see below), but treat the figure as unverified against the full star-history graph rather than confirmed growth, and re-check before quoting it in a high-stakes context.
 
 RTK's own per-command figures, which count shell output only:
 
@@ -197,9 +217,11 @@ The design philosophy: suppress successful output, surface failures. A test suit
 
 RTK supports custom filters via TOML DSL (`.rtk/filters.toml`) for project-specific output patterns without writing Rust. See [Third-Party Tools: RTK](./third-party-tools.md#rtk-rust-token-killer) for the complete feature reference.
 
-**Real-world cost impact**: Real-world billing data from the codepointer substack ($926 API bill, analyzed) shows that bash output accounts for roughly 12% of total token usage in a typical Claude Code session, not the dominant source. File reads represent approximately 65%. At 60-90% compression on bash output alone, RTK's real API cost impact is in the range of 6-10% of the total bill, not 60-90%. The per-command savings are genuine; the headline "60-90% savings" refers to the compression ratio on the commands RTK processes, not to overall session cost reduction. For total context efficiency, pair RTK with a file-read compression tool like lean-ctx or tilth (see below).
+**Real-world cost impact**: RTK's README states the limit itself: it cuts up to 90% of the bash output the agent reads, which "is not the same as cutting your bill by 90%", and Claude Code's built-in Read, Grep and Glob tools bypass its hook. A counterfactual replay of 500 of Codepointer's own Claude Code sessions ($926.31 at list prices) found RTK saving 0.5% of spend while cutting 33% to 99% of the shell output it recognized. The author of the maki agent reports that bash is about 12% of his total token usage and file reads about 65%. The per-command savings are real; they apply to one slice of the context.
 
-**Third-party measurements**: on whole tasks, JetBrains measured a median cost per task of +7.6% with RTK at low effort (p=0.004) and +0.1% at high effort, with quality unchanged; Dasein measured +13% total cost; Stet measured +13% then -9% over two runs. See [independent benchmarks](#independent-benchmarks) for methods and caveats. The author of this guide is a core contributor to RTK.
+**Response from RTK's maintainers**: in ["RTK on SkillsBench: What the Benchmark Measures"](https://www.rtk-ai.app/blog/rtk-on-skillsbench/) (RTK AI Labs, 2026-08-07), the maintainers argue that the JetBrains headline rests on one run per task, and that the extra turns (+13.8%) come from agent behavior rather than compression. Re-running with RTK v0.45.0, they report -4.8% cost on 13 dev tasks (permutation p = 0.305), task-level results from -32% to +14%, run-to-run variation of about 22% on the same task, and a compression ceiling of about 3% to 4% of the bill, because RTK rewrote about one third of Bash calls covering about 20% of tool-output characters. This is the vendor's own analysis. See also [issue #3157](https://github.com/rtk-ai/rtk/issues/3157). The repository description on GitHub says "60-90% on common dev commands", while the README headline says "up to 90% of the bash output your agent reads".
+
+**Third-party measurements**: on whole tasks, JetBrains measured a median cost per task of +7.6% with RTK at low effort (p=0.004) and +0.1% at high effort, with quality unchanged; Dasein measured +13% total cost; Stet measured +13% then -9% over two runs; THOL measured +7.1% on long sessions, with an interval that crosses zero. See [independent benchmarks](#independent-benchmarks) for methods and caveats. The author of this guide is a core contributor to RTK.
 
 ### Headroom
 
@@ -209,11 +231,11 @@ Headroom compresses what enters the context from tool outputs, structured data, 
 |-----------|---------|
 | **Source** | [GitHub: headroomlabs-ai/headroom](https://github.com/headroomlabs-ai/headroom) |
 | **Docs** | [headroom-docs.vercel.app](https://headroom-docs.vercel.app/docs) |
-| **Stars** | 62,778 (GitHub API, 2026-07-27), 4,754 forks (was 57,223 / 4,205 on 2026-07-07) |
+| **Stars** | 74,156 (GitHub API, 2026-09-30), up from 62,778 on 2026-07-27 and 57,223 on 2026-07-07 |
 | **Author** | Tejas Chopra (Senior Engineer, Netflix) |
 | **License** | Apache 2.0 |
 | **Install** | `pip install "headroom-ai[all]"` or `npm install headroom-ai` |
-| **Version** | v0.25.0 (June 2026, latest verified) |
+| **Version** | v0.39.1 (latest release, 2026-09-26) |
 
 > **URL correction**: Earlier versions of this guide linked `headroom.ai` (unrelated domain) and later `github.com/chopratejas/headroom` (the author's personal fork). The project has since moved to the `headroomlabs-ai` org; the old personal slug now redirects, a standard GitHub org transfer.
 
@@ -231,7 +253,7 @@ Headroom compresses what enters the context from tool outputs, structured data, 
 
 **Output shaper** (`HEADROOM_OUTPUT_SHAPER=1`): appends a brevity instruction at the end of the system prompt (cache prefix is preserved) and reduces model effort on turns that follow successful tool results. Savings are reported as "estimated" using a 10% holdout control group with 95% confidence intervals.
 
-**Benchmark scope**: The published token reductions (code search 92%, SRE debugging 92%, GitHub triage 73%) are measured on specific structured content types under optimal conditions, not full-session spend. An independent measurement found approximately 47% full-session reduction. Accuracy benchmarks (GSM8K 0.870 to 0.870, TruthfulQA +0.030) are N=100 samples, run on v0.5.18, not independently reproduced. Reproduction command: `python -m headroom.evals suite --tier 1`.
+**Benchmark scope**: The repository description, read 2026-09-30, says "20% fewer tokens for coding agents, 60-95% fewer tokens for JSON, same answers". The README's current token reductions (SRE incident debugging 57%, codebase exploration 42%, GitHub issue triage 30%, code search 21%, read 2026-09-30) are measured on four seeded offline scenarios built from MCP-server output formats, not on full-session spend; earlier versions quoted 73% to 92% on the same kinds of content. Whole-task third-party results: Dasein measured +44% total cost, THOL +52.8% on long sessions, Marmelab -4% then +32%, and Codepointer's replay -2.8% of spend (see [independent benchmarks](#independent-benchmarks)). Accuracy benchmarks (GSM8K 0.870 to 0.870, TruthfulQA 0.530 vs 0.560) are N=100 samples, not independently reproduced. Reproduction command: `python -m headroom.evals suite --tier 1`.
 
 **Known issues (June 2026, check the issue tracker for current resolution status)**:
 
@@ -263,7 +285,7 @@ npx pxpipe-proxy
 ANTHROPIC_BASE_URL=http://127.0.0.1:47821 claude
 ```
 
-**Benchmarks**: 59 to 70% end-to-end bill reduction, measured per-request via a parallel counterfactual `count_tokens` call logged to `~/.pxpipe/events.jsonl` and cross-checked against actual billed usage, a reproducible methodology rather than a marketing estimate. SWE-bench Lite pilot: 10/10 passing in both arms at -65% request size (small n, disclosed as such in the README). Verbatim recall of hex strings: 13/15 correct on Fable 5, 0/15 on Opus, numbers the README states plainly rather than hides.
+**Benchmarks**: 59 to 70% end-to-end bill reduction, measured per-request via a parallel counterfactual `count_tokens` call logged to `~/.pxpipe/events.jsonl` and cross-checked against actual billed usage, a reproducible methodology rather than a marketing estimate. SWE-bench Lite pilot: 10/10 passing in both arms at -65% request size (small n, disclosed as such in the README). Verbatim recall of 12-character hex strings: 13/15 correct on Fable 5, 0/15 on Sol, numbers the README states plainly rather than hides.
 
 **Model allowlist**: defaults to `claude-fable-5` and `gpt-5.6`. Opus 4.7/4.8 and GPT-5.5 are opt-in because of measured higher misread rates on rendered images.
 
@@ -290,18 +312,9 @@ The core tools it exposes:
 - **Structural diff**: change summary at the function level, not the line level.
 - **Session dedup**: symbols already shown in the session are marked `[shown earlier]` rather than re-expanded.
 
-**Benchmarks** (160 runs across 4 real repositories, metric = cost per correct answer):
+**Benchmarks**: tilth has retired its earlier cost benchmark (v0.5.0, early-2026 models). Its README, read 2026-09-30, says that benchmark "no longer describes the tool" and that "tilth makes no cost claim"; the harness is kept under a `benchmark-archive` tag. Earlier versions of this guide quoted that benchmark's -40% cost per correct answer; do not reuse it. No third-party measurement was found.
 
-| Model | Without tilth | With tilth | Cost change | Accuracy change |
-|-------|--------------|------------|-------------|----------------|
-| Sonnet 4.6 | baseline | tilth | -44% | 84% → 94% |
-| Opus 4.6 | baseline | tilth | -39% | 91% → 92% |
-| Haiku 4.5 | baseline | tilth | -38% | 54% → 73% |
-| Average | | | -40% | 76% → 86% |
-
-The "cost per correct answer" framing is meaningful: it captures both the efficiency gain and the accuracy improvement simultaneously. A tool that saves tokens but degrades output quality is not useful. tilth shows gains on both dimensions.
-
-Why file reads are the right target: they represent about 65% of total token usage in a real Claude Code session (versus ~12% for bash output). Compressing the larger pool produces proportionally larger savings on the total bill.
+Why file reads are a large target: in Marmelab's measured workload, `Read` results were 90.6% of tool-result tokens and `Bash` 6.4%, and the author of the maki agent reports reads at about 65% of his total token usage versus about 12% for bash. A smaller read does not guarantee a smaller bill, for the reasons given in [independent benchmarks](#independent-benchmarks).
 
 **Install:**
 
@@ -413,7 +426,7 @@ Token Savior is a three-in-one MCP server: structural code navigation by symbol 
 | Active tokens/task | ~16,800 | ~3,929 (-77%) |
 | Wall time/task | ~111s | ~26.6s (-76%) |
 
-The project separately reports 97% reduction in characters injected across 170+ real sessions. No independent third-party reproduction of the benchmark has been published. Behavior on large codebases (100K+ lines) has not been benchmarked under controlled conditions.
+The README, read 2026-09-30, now says these figures stand only "as reported and unverified": the tsbench repository is not public, and a re-measurement published on 2026-08-09 was withdrawn the next day because only 1 of 143 sessions called a Token Savior tool (deferred MCP tool loading hid them). Re-measurement is listed as open work. No independent third-party reproduction has been published. Behavior on large codebases (100K+ lines) has not been benchmarked under controlled conditions.
 
 ```bash
 # Recommended install
@@ -424,7 +437,7 @@ ts init --agent claude --yes   # merges hooks into ~/.claude/settings.json
 WORKSPACE_ROOTS=/your/project uvx token-savior
 ```
 
-**Comparison with tilth**: tilth (Rust, 14 languages, controlled benchmark across 4 real repositories) focuses on structural code navigation and file outlines. Token Savior adds Bash output compaction and persistent cross-session memory, features tilth does not have. Choose tilth for a faster, independently benchmarked code navigation layer. Choose Token Savior if you also need Bash compaction and memory persistence across sessions.
+**Comparison with tilth**: tilth (Rust, 14 languages; its cost benchmark is retired) focuses on structural code navigation and file outlines. Token Savior adds Bash output compaction and persistent cross-session memory, features tilth does not have. Choose tilth for a Rust code navigation layer with no index to maintain. Choose Token Savior if you also need Bash compaction and memory persistence across sessions.
 
 ### context-mode
 
@@ -436,7 +449,9 @@ context-mode is an MCP server that operates at the boundary between tools and co
 | **Stars** | 18,654 (GitHub API, 2026-07-07), up from 14,149 in May 2026 (+32% in about 2 months) |
 | **License** | ELv2 (commercial SaaS planned) |
 | **Platforms** | Claude Code plugin, Gemini CLI, Copilot, Cursor, Kiro, Zed, and 11 others (17 total, up from 12 in May 2026) |
-| **Claims** | 98% MCP output compression, 65–75% response compression |
+| **Claims** | "315 KB becomes 5.4 KB. 98% reduction": bytes of raw tool output kept out of the context window on the vendor's scenarios (about 60% without hooks, per its own platform table). Not tokens and not the bill |
+| **License** | Elastic License 2.0 (source-available) |
+| **Third-party measurement** | Stet: workload cost +72%, then +33% over two runs (see [independent benchmarks](#independent-benchmarks)) |
 
 The growth rate reads as consolidation of an already-mature tool rather than a new-entrant spike: other projects now cite context-mode as a dependency or reference, a sign of an ecosystem forming around it rather than just end users adopting it.
 
@@ -487,9 +502,9 @@ This is a shipped production feature at a major infrastructure vendor, not a sid
 
 ### Zero-install approach: claude-token-efficient
 
-[claude-token-efficient](https://github.com/drona23/claude-token-efficient) (5,884 stars, verified 2026-07-27) is a single `CLAUDE.md` file that instructs Claude to generate concise responses. No binary, no MCP server, no hooks.
+[claude-token-efficient](https://github.com/drona23/claude-token-efficient) (6,072 stars, GitHub API, 2026-09-30) is a single `CLAUDE.md` file that instructs Claude to generate concise responses. No binary, no MCP server, no hooks.
 
-The creator claims approximately 63% output token reduction. No methodology is published for that figure. The approach works within a real but narrow scope: if verbose model output is your primary cost driver, a style instruction in `CLAUDE.md` costs nothing to try. It cannot compress shell output, file reads, or tool responses. Those require tools like RTK, lean-ctx, Headroom, or tilth. The near-6K star count reflects genuine demand for zero-config options, not validated performance across diverse workloads.
+The README's 63% figure is a word count over four prompts, single run each, which the README itself calls "a directional indicator"; its newer benchmark with the current file gives about 4%, 12% and 7% fewer output tokens on Haiku, Sonnet and Opus. THOL measured -11.6% end-to-end cost on long sessions, with an interval that crosses zero. The approach works within a real but narrow scope: if verbose model output is your primary cost driver, a style instruction in `CLAUDE.md` costs nothing to try. It cannot compress shell output, file reads, or tool responses. Those require tools like RTK, lean-ctx, Headroom, or tilth. The near-6K star count reflects genuine demand for zero-config options, not validated performance across diverse workloads.
 
 Use it as a starting point. When you hit the ceiling, the tools above address what a `CLAUDE.md` file cannot.
 
@@ -573,9 +588,23 @@ Since September 16, 2026, TSR is on by default for new Claude Code and Codex key
 
 The statistical design of the per-layer experiments is careful: paired per-task comparison, a sign test chosen over a paired t-test because cost differences are heavy-tailed, a 10,000-resample bootstrap, and a nonce injected into each replicate to defeat prompt-cache contamination between runs. The sample sizes still matter: at n=6, the best achievable two-sided sign-test p-value is 0.031, so a perfect 6-of-6 result was the *only* outcome that could clear the conventional 0.05 threshold; one task flipping drops it to 5/6, p=0.22, not significant. TSR's cost effect (5/8) and trimming (4/6) did not reach significance.
 
-**Task resolution is still unmeasured.** None of Edgee's published material reports SWE-bench's actual metric, resolution rate (the share of issues whose patch still passes the tests), with compression on vs. off. The docs answer with one line, "zero measurable drift on SWE-Bench Verified samples," with no sample size, instance list, baseline rate or confidence interval. The [`compression-lab`](https://github.com/edgee-ai/compression-lab) repository measures token consumption and cost; its reports' only quality signal is "comparable lines added/removed," inside an analysis section that its README says is written by an LLM call. As of September 30, 2026, the latest report in its `reports/` folder dates from May 2026. A cheaper agent that solves fewer tickets is not a net win, so treat "semantically lossless on code tasks" as a claim to test on your own workload.
+**Task resolution is still unmeasured.** None of Edgee's published material reports SWE-bench's actual metric, resolution rate (the share of issues whose patch still passes the tests), with compression on vs. off. The docs answer with one line, "zero measurable drift on SWE-Bench Verified samples," with no sample size, instance list, baseline rate or confidence interval. The [`compression-lab`](https://github.com/edgee-ai/compression-lab) repository measures token consumption and cost, not resolution. A cheaper agent that solves fewer tickets is not a net win, so treat "semantically lossless on code tasks" as a claim to test on your own workload.
 
 **Relationship to RTK**: Edgee's methodology post names RTK as the direct inspiration for the tool-result-trimming layer. Structurally, RTK can only ever cover that one layer: it runs as a local shell hook and has no access to the MCP tool catalog or the model's own output. For a Claude Code user already running RTK, Edgee's brevity layer is the genuinely new capability, and trimming overlaps with what RTK already does locally. TSR overlaps with Claude Code's native MCP Tool Search (§ [MCP Tool Search](../core/architecture.md#mcp-tool-search-lazy-loading)); Edgee's launcher force-enables Claude's Tool Search when TSR is on ([edgee#150](https://github.com/edgee-ai/edgee/pull/150)), and no published experiment isolates TSR's gain over native Tool Search alone. The only direct comparison is a pre-V2 Edgee report from March 2026 ([battle report](https://github.com/edgee-ai/compression-lab/blob/main/reports/battle-report-2026-03-12T07-09-26-635Z.md)): 19.5% cost reduction for Edgee vs. 19.0% for RTK on the same instruction set, with RTK's API duration lower (676 s vs. 712 s). It publishes no replicate count or significance test, so it shows the two tools in the same range, not a winner.
+
+#### compression-lab results (published September 30, 2026)
+
+Edgee's [`compression-lab`](https://github.com/edgee-ai/compression-lab) README now publishes the per-layer Compressor V2 results on SWE-bench Lite, as reductions against vanilla Claude Code (aggregate / mean / median per task), with a paired sign test on cost over 300 comparisons per layer:
+
+| Layer | Cost | Tokens | Output tokens | Sign test (cost) |
+|-------|------|--------|---------------|------------------|
+| Brevity | 30.6% / 30.0% / 33.3% | 23.9% / 23.4% / 25.4% | 61.3% / 63.4% / 77.2% | 277/300, p ≈ 1.6×10⁻⁵⁶ |
+| Tool result trimming | 6.3% / 5.6% / 6.0% | 6.9% / 6.0% / 6.0% | 2.0% / 2.5% / 4.3% | 202/300, p ≈ 1.9×10⁻⁹ |
+| TSR | 16.7% / 14.4% / 14.0% | 18.8% / 15.9% / 15.8% | 17.2% / 16.0% / 17.0% | 260/300, p ≈ 1.1×10⁻⁴⁰ |
+
+The same README reports an endurance run on a subscription plan: 26.5 instructions completed instead of 21, a total session cost of $12.26 against $10.25 (+19.6%), and a cost per instruction 5.1% lower ($0.463 against $0.488).
+
+What the README states about its own choices: SWE-bench is not designed for MCP, so it was "artificially augment[ed]" with MCP requests to have something to measure; runs use a randomly selected subset because full SWE-bench runs are costly; and the three layers were measured one at a time, not combined, on the argument that they target different parts of the prompt. Token usage comes from Claude Code's session logs and cost is computed locally from Anthropic's price table, not from invoices; the gateway contributes no numbers. The README table reports cost and tokens, not SWE-bench resolution rates.
 
 #### Routing
 
@@ -587,7 +616,7 @@ The only routing number found is a customer interview hosted on Edgee's blog ([Q
 
 - **Latency**: the "<12ms P50 gateway overhead" on the product page is compression time at the edge. Edgee's own [gateway benchmark](https://www.edgee.ai/blog/posts/i-benchmarked-six-ai-gateways-including-ours) (August 10, 2026) measured time-to-first-token overhead of +24 ms on `gpt-5.4` and +101 ms on `claude-sonnet-4-6`, on short prompts over two days; its own scope note excludes long contexts and tool calls.
 - **Data path**: the hosted gateway processes prompts, code context and tool results in transit. An [on-premise option](https://www.edgee.ai/blog/posts/edgee-on-premise-gateway) (July 16, 2026) keeps "prompts and provider keys" inside your infrastructure, with a headless mode for air-gapped networks.
-- **Independent evidence**: as of September 30, 2026, we found no independent reproduction of Edgee's benchmarks. Third-party write-ups, such as [SFEIR's analysis](https://www.sfeir.com/articles/edgee-compression-contexte-agents-codage/) (in French), re-read Edgee's published data rather than re-running it.
+- **Independent evidence**: as of September 30, 2026, we found no independent reproduction of Edgee's benchmarks. The one third-party measurement is THOL, which reports Edgee 14.7% cheaper on long sessions with an interval that crosses zero, and flags that Edgee's traffic is not visible to its token accounting. Third-party write-ups, such as [SFEIR's analysis](https://www.sfeir.com/articles/edgee-compression-contexte-agents-codage/) (in French), re-read Edgee's published data rather than re-running it.
 
 ### Portkey
 

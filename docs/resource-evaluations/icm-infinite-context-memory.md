@@ -10,7 +10,7 @@
 
 ## Summary
 
-ICM is a persistent memory MCP server from the rtk-ai team (same authors as RTK/Rust Token Killer). It provides a dual memory architecture: "Memories" (episodic, configurable decay) and "Memoirs" (permanent knowledge graph with 9 typed relation types). Distributed as a single Rust binary with zero external dependencies, installable via Homebrew.
+ICM is a persistent memory MCP server published by the rtk-ai organization, the same organization as RTK (Rust Token Killer), to which the guide author contributes. It provides a dual memory architecture: "Memories" (episodic, configurable decay) and "Memoirs" (permanent knowledge graph with 9 typed relation types). Distributed as a single Rust binary with zero external dependencies, installable via Homebrew.
 
 ### Key points
 

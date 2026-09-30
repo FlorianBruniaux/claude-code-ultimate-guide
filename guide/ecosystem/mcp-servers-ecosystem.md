@@ -1009,6 +1009,8 @@ Result: Call graph showing 4 callers across 3 files
 | Grep + Read files (brute force) | ~15K | Noisy, lots of irrelevant context |
 | Semble search (code + docs + config) | ~2-4K | Targeted results, broader scope than code-only |
 
+The MinishLab/semble repository description (read 2026-09-30) claims "99% fewer tokens than grep+read". That is a vendor claim measured against a grep-then-read-files workflow, not against a whole session, and the figures in the table above are illustrative, not measured here.
+
 **Setup**:
 
 ```bash

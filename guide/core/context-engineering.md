@@ -2479,12 +2479,14 @@ Two independent tools operate at different layers of the Claude Code tool pipeli
 
 RTK (Rust Token Killer) is a CLI proxy that intercepts shell command output and compresses it before Claude reads it. It operates via a `PreToolUse` hook that rewrites commands like `git log` to `rtk git log`.
 
-**What it compresses**: git, cargo, npm, pnpm, tsc, vitest, playwright, docker, kubectl, and more. Measured savings: 60-90% on supported commands.
+**What it compresses**: git, cargo, npm, pnpm, tsc, vitest, playwright, docker, kubectl, and more. RTK's README reports "up to 90%" less bash output on supported commands (output reduction, not a reduction of the bill).
+
+> **Disclosure**: the author of this guide is a core contributor to RTK (not its creator).
 
 **What it does not compress**: file reads, MCP tool results, anything not going through a Bash tool call.
 
 ```bash
-brew install rtk-ai/tap/rtk   # or: cargo install rtk
+brew install rtk              # or: cargo install --git https://github.com/rtk-ai/rtk
 rtk init --global              # installs PreToolUse hook + settings.json patch
 rtk gain                       # dashboard: tokens saved per command
 ```

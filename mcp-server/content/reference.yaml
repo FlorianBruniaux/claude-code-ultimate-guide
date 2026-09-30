@@ -379,6 +379,7 @@ deep_dive:
   bridge_schema: "examples/scripts/bridge-plan-schema.json"
   bridge_guide: "guide/ultimate-guide.md#multi-provider-setup-cc-copilot-bridge"
   # Cost optimization - RTK (Rust Token Killer)
+  # Disclosure: the author of this guide is a core contributor to RTK (rtk-ai/rtk), not its creator.
   # Cost Optimization Levers table (Added 2026-06-10)
   cost_levers_table: "guide/ultimate-guide.md#cost-optimization-levers-native-vs-api-level"
   cost_levers_summary: "6 levers: monitoring, output compression, model routing, prompt caching, batch processing, semantic pre-indexing. Native CC vs API/SDK columns."
@@ -396,10 +397,11 @@ deep_dive:
   rtk_claude_md: "examples/claude-md/rtk-optimized.md"
   rtk_skill: "examples/skills/rtk-optimizer/SKILL.md"
   rtk_hook: "examples/hooks/bash/rtk-auto-wrapper.sh"
-  rtk_purpose: "Command output filtering before LLM context (60-90% avg reduction)"
+  rtk_purpose: "Command output filtering before LLM context (README: up to 90% of bash output, not of the bill)"
   rtk_version_tested: "v0.28.0"
+  rtk_latest_release: "v0.50.0 (checked 2026-09-30)"
   rtk_score: "5/5"
-  rtk_installation: "brew install rtk or cargo install --git https://github.com/rtk-ai/rtk"
+  rtk_installation: "brew install rtk (README recommended), install script (curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh), or cargo install --git https://github.com/rtk-ai/rtk"
   # Edgee Compressor V2 (2026-07-02) + routing - reviewed against Edgee's public pages 2026-09-30
   edgee_compressor_v2_guide: "guide/ecosystem/context-engineering-tools.md#edgee"
   edgee_compressor_v2_source: "https://www.edgee.ai/blog/posts/introducing-compressor-v2-three-compression-layers-measured-end-to-end-for-a-50-cost-reduction"
@@ -835,15 +837,15 @@ deep_dive:
   # Context Compression (Added 2026-05-17)
   third_party_lean_ctx_upstream: "https://github.com/yvgude/lean-ctx"
   third_party_lean_ctx_purpose: "Local-first context compression for AI agents — Rust CLI, strips noise from LLM input (AST signatures, diff-loading, session cache, shell compression)"
-  third_party_lean_ctx_stars: "1366"
+  third_party_lean_ctx_stars: "3837 (2026-09-30)"
   third_party_lean_ctx_status: "third_party | breaking_changes_frequent | security_fixes_recent | not_yet_integrated"
-  third_party_lean_ctx_note: "Most direct RTK competitor. 60-95% token reduction claimed. Watch for stabilization before adding a dedicated guide section."
+  third_party_lean_ctx_note: "Most direct RTK competitor. 60-95% token reduction claimed (vendor claim, not independently verified here). Dedicated guide sections exist: guide/ecosystem/third-party-tools.md#lean-ctx and guide/core/context-engineering.md; releases frequently, re-run lean-ctx setup after upgrades."
   # MCP Token Optimization (Added 2026-05-17)
   third_party_mcp2cli_upstream: "https://github.com/knowsuchagency/mcp2cli"
   third_party_mcp2cli_purpose: "Universal CLI bridge for MCP/OpenAPI/GraphQL — lazy-loads tool schemas so LLM receives only --list (16 tok/tool) + --help (120 tok) instead of full schemas injected upfront each turn"
   third_party_mcp2cli_stars: "1900"
   third_party_mcp2cli_status: "third_party | active | dev_single_tenant | cli_first_pattern | Show_HN_Best_March_2026"
-  third_party_mcp2cli_note: "96-99% schema-token reduction benchmarked independently (Firecrawl, Scalekit, CircleCI). Born from 2026 MCP backlash. Caution: 4+ forks with same name — knowsuchagency is the reference. Not for enterprise multi-tenant OAuth/audit."
+  third_party_mcp2cli_note: "96-99% schema-token reduction claimed in the README and cited from external blog posts (Firecrawl, Scalekit, CircleCI); not independently verified per the evaluation. Born from 2026 MCP backlash. Caution: 4+ forks with same name — knowsuchagency is the reference. Not for enterprise multi-tenant OAuth/audit."
   third_party_mcp2cli_evaluation: "docs/resource-evaluations/2026-03-17-mcp2cli-token-optimization.md"
   third_party_mcp2cli_score: "3/5"
   # Executor and agentOS (Added 2026-07-29)

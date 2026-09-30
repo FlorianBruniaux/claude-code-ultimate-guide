@@ -1,5 +1,5 @@
 ---
-title: "AI FinOps for Coding Agents"
+title: "AI FinOps guide: cost regimes and levers for coding agents"
 description: "Entry point for the cost side of coding agents: the three cost regimes (subscription quota, metered tokens, owned capacity), the Inform-Optimize-Operate loop applied to agents, and a map of every cost lever documented in the guide"
 tags: [ops, cost, finops, pricing, enterprise, guide]
 ---
@@ -117,5 +117,7 @@ To judge a vendor's claim that a tool "cuts cost by X%", apply the checklist in 
 - [AI unit economics](./ai-unit-economics.md): the measurement framework
 - [Subscription strategy](./subscription-strategy.md): seats, APIs, and provider portfolios for teams
 - [API gateway](./api-gateway.md): budgets, virtual keys, and allowlists
+- [AI FinOps visual overview](https://cc.bruniaux.com/finops/): the same regimes and levers as an interactive page with a cost calculator
+- [Token-saving tools, measured](https://cc.bruniaux.com/token-savings/): vendor claims against six public benchmarks
 - [Context engineering tools](../ecosystem/context-engineering-tools.md): compression and delegation tools with their measured effects
 - [Local vs cloud inference](../ecosystem/local-vs-cloud-inference.md): hardware, rental, and API break-even

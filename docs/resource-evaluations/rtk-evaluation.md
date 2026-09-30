@@ -10,6 +10,10 @@
 
 ---
 
+> **Conflict of interest**: the maintainer of this guide, Florian Bruniaux, is a core contributor to RTK (not its creator), and the PRs cited below as "@FlorianBruniaux" are his own. The 5/5 score below was assigned by an AI evaluator working for that maintainer and is not an independent assessment. For independent whole-task measurements, see `guide/ecosystem/context-engineering-tools.md` (JetBrains: +7.6% median cost per task at low reasoning effort, +0.1% at high effort; Dasein: +13% total cost).
+
+---
+
 ## UPDATE 2026-02-14: v0.16.0 - massive growth & multi-language support
 
 **The numbers speak for themselves**: RTK went from 17 stars to 446 (+2,524%), 2 to 38 forks, went viral on Reddit (700+ upvotes r/ClaudeAI), and migrated to a dedicated GitHub org.
