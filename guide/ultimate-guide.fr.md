@@ -4,7 +4,7 @@ description: "Guide complet et autonome pour maîtriser Claude Code, du débutan
 tags: [guide, reference, workflows, agents, hooks, mcp, security]
 ---
 
-# The Ultimate Claude Code Guide
+# The ultimate Claude Code guide
 
 > Un guide complet et autonome pour maîtriser Claude Code, du débutant au power user.
 
@@ -244,7 +244,7 @@ Si vous n'avez le temps que pour 5 sections :
 
 <a id="1-quick-start-day-1"></a>
 
-# 1. Quick Start (Jour 1)
+# 1. Quick start (jour 1)
 
 _Navigation rapide :_ [Installation](#11-installation) · [Premier Workflow](#12-first-workflow) · [Commandes Essentielles](#13-essential-commands) · [Modes de Permission](#14-permission-modes) · [Checklist de Productivité](#15-productivity-checklist) · [Migrer depuis d'Autres Outils](#16-migrating-from-other-ai-coding-tools) · [Erreurs de Débutant](#18-eight-beginner-mistakes-and-how-to-avoid-them)
 
@@ -1042,7 +1042,7 @@ Claude approuve automatiquement les modifications de fichiers mais demande encor
 
 ⚠️ **Avertissement** : N'utilisez l'auto-acceptation que pour des opérations bien définies et réversibles.
 
-### Mode Plan
+### Mode plan
 
 ```
 /plan
@@ -2180,7 +2180,7 @@ Exemple de sortie :
 
 ### Conscience des coûts et optimisation
 
-> **Remarque :** Si vous utilisez `claude -p`, l'Agent SDK, GitHub Actions ou tout autre système d'automatisation, une modification du modèle de facturation effective au 15 juin 2026 introduit un nouveau plafond mensuel de crédits sur l'utilisation programmatique, distinct des limites interactives. Voir [§9.13 : The Interactive/Programmatic Billing Split](#the-interactiveprogrammatic-billing-split-effective-june-15-2026) pour la description complète, les outils concernés et les étapes d'audit.
+> **Remarque :** Anthropic a annoncé un crédit mensuel distinct pour l'usage programmatique (`claude -p`, l'Agent SDK, les applications tierces) au 15 juin 2026, puis l'a suspendu. Vérifié le 2026-09-30 : cet usage consomme toujours les limites de votre abonnement. Voir [§9.13 : The Interactive/Programmatic Billing Split](#the-interactiveprogrammatic-billing-split-announced-then-paused) pour le plan annoncé et les étapes d'audit, et [AI FinOps](./ops/ai-finops.md) pour l'ensemble de la section coûts.
 
 L'utilisation de Claude Code peut consommer l'allocation d'un abonnement, des crédits d'usage ou une facturation API. Vérifiez le compte actif et le mode de facturation avant d'interpréter une estimation du coût des tokens.
 
@@ -2700,7 +2700,7 @@ Des modèles prêts à adapter sont disponibles dans `examples/commands/handoff/
 
 <a id="23-plan-mode"></a>
 
-## 2.3 Mode Plan
+## 2.3 Mode plan
 
 Le mode Plan permet à Claude Code d'examiner le projet sans le modifier.
 
@@ -2986,7 +2986,7 @@ Le choix est réinitialisé à la session suivante. Cette approche permet de tes
 
 > **Compromis** : Opus 4.6 ne prend pas en charge `xhigh`, mais accepte `max`. Le fixer conserve un modèle, un tokenizer et une date limite de connaissances plus anciens. Comparez les résultats acceptés et le total des tokens au modèle actuel par défaut avant de considérer ce choix comme une économie.
 
-### Rev the Engine
+### Rev the engine
 
 **Principe** : enchaîner plusieurs tours de planification et de réflexion approfondie avant l'exécution, comme on fait chauffer un moteur avant de partir.
 
@@ -3561,7 +3561,7 @@ Les balises XML fonctionnent comme des **conteneurs étiquetés** qui séparent 
 </output>
 ```
 
-### Pourquoi Utiliser les Balises XML ?
+### Pourquoi utiliser les balises XML ?
 
 | Avantage | Description |
 |---------|-------------|
@@ -3571,7 +3571,7 @@ Les balises XML fonctionnent comme des **conteneurs étiquetés** qui séparent 
 | **Formatage cohérent** | Facilite la création de modèles pour les requêtes complexes |
 | **Requêtes multidimensionnelles** | Les tâches complexes à exigences multiples restent organisées |
 
-### Balises Courantes et Leurs Usages
+### Balises courantes et leurs usages
 
 **Balises d'instruction principales** :
 
@@ -3629,7 +3629,7 @@ Les balises XML fonctionnent comme des **conteneurs étiquetés** qui séparent 
 </avoid>
 ```
 
-### Exemples Pratiques
+### Exemples pratiques
 
 **Exemple 1 : Revue de code avec contexte**
 
@@ -3831,7 +3831,7 @@ Query currently takes 2.5 seconds for 10,000 records
 | Planification d'architecture | ✅ Oui | Organise les objectifs, contraintes et compromis |
 | Correction rapide de faute de frappe | ❌ Non | Complexité inutile |
 
-### Bonnes Pratiques
+### Bonnes pratiques
 
 **À faire** :
 - ✅ Utiliser des noms de balises descriptifs qui clarifient leur rôle
@@ -4117,7 +4117,7 @@ Deux techniques au niveau du prompt qui réduisent l'écart entre des prompts bi
 
 ---
 
-### Prompting Few-Shot
+### Prompting few-shot
 
 Les exemples few-shot montrent au modèle à quoi ressemble une sortie correcte avant qu'il traite l'entrée réelle. Ils sont particulièrement efficaces pour établir le format de sortie, calibrer le ton et définir le style de traitement propre à chaque entrée. Ils ne peuvent pas imposer des règles métier ni garantir la conformité ; utilisez la validation par schéma pour cela.
 
@@ -5070,7 +5070,7 @@ docs/solutions/
 
 Chaque fichier documente : le problème, la solution, pourquoi elle fonctionne, et les cas limites. Claude lit ces fichiers lorsque des patterns similaires apparaissent : la troisième fois qu'un problème connexe survient, le correctif est déjà là. La distinction avec CLAUDE.md est intentionnelle : CLAUDE.md contient des règles, `docs/solutions/` contient des problèmes résolus avec leur contexte complet.
 
-#### La philosophie Compound Engineering (Every.to)
+#### La philosophie compound engineering (every.to)
 
 L'approche Compound Engineering dans son ensemble formalise cette intuition en une boucle en quatre étapes et une philosophie plus large pour les équipes natives à l'IA.
 
@@ -6571,7 +6571,7 @@ Les agents sont des sous-processus spécialisés auxquels Claude peut déléguer
 | Réponses génériques | Expertise propre au domaine |
 | Sélection manuelle des outils | Accès aux outils préconfiguré |
 
-### Agent vs Prompt Direct
+### Agent vs prompt direct
 
 ```
 Prompt Direct :
@@ -6713,7 +6713,7 @@ Vos livrables doivent inclure :
 
 <a id="44-best-practices"></a>
 
-## 4.4 Bonnes Pratiques
+## 4.4 Bonnes pratiques
 
 ### À Faire et À Éviter
 
@@ -7036,7 +7036,7 @@ Scope: Debugging analysis only. Focus on root cause identification without conte
 **Vérification** : [Comment confirmer que ça fonctionne]
 ```
 
-### Exemple 3 : Agent Architecte Backend
+### Exemple 3 : Agent architecte backend
 
 ```markdown
 ---
@@ -7459,7 +7459,7 @@ Tous les skills ne vieillissent pas de la même façon. Le type que vous constru
 
 Les skills sont des packages de connaissances que les agents peuvent hériter.
 
-### Skills vs Agents
+### Skills vs agents
 
 > **Les commandes personnalisées ont fusionné avec les skills, mais les fichiers existants restent utilisables.** Un fichier `.claude/commands/deploy.md` et un skill `.claude/skills/deploy/SKILL.md` créent tous deux `/deploy`. Utilisez le format répertoire de skill pour le nouveau contenu réutilisable : il permet les fichiers complémentaires et les contrôles d'invocation. Réservez `disable-model-invocation: true` aux workflows manuels ayant des effets de bord.
 
@@ -7800,7 +7800,7 @@ Corriger ou retirer
 
 ---
 
-## 5.Y Skill Evals
+## 5.Y skill evals
 
 Les évaluations remplacent une impression non étayée par des preuves reproductibles. Elles ne démontrent ni une correction universelle ni l'absence de variabilité du modèle, et ne suffisent pas à rendre un skill prêt pour la production.
 
@@ -7944,9 +7944,9 @@ description: Security expertise for OWASP Top 10, auth, and data protection
 allowed-tools: Read Grep Bash
 ---
 
-# Security Guardian
+# Security guardian
 
-## Expertise Areas
+## Expertise areas
 
 - OWASP Top 10 vulnerabilities
 - Authentication & Authorization
@@ -7954,15 +7954,15 @@ allowed-tools: Read Grep Bash
 - API security
 - Secrets management
 
-## OWASP Top 10 Checklist
+## OWASP Top 10 checklist
 
-### A01: Broken Access Control
+### A01: Broken access control
 - [ ] Check authorization on every endpoint
 - [ ] Verify row-level permissions
 - [ ] Test IDOR vulnerabilities
 - [ ] Check for privilege escalation
 
-### A02: Cryptographic Failures
+### A02: Cryptographic failures
 - [ ] Check for hardcoded secrets
 - [ ] Verify TLS configuration
 - [ ] Review password hashing (bcrypt/argon2)
@@ -9220,7 +9220,7 @@ Le rapport peut identifier des schémas tels que :
 
 **Suggestions pour CLAUDE.md** (exemple) :
 ```markdown
-## Project Directories
+## Project directories
 Always confirm the correct working directory before starting work:
 - Frontend: /path/to/web-app
 - Backend: /path/to/api
@@ -9656,7 +9656,7 @@ Les commandes sont des fichiers markdown qui définissent un processus.
 Les commandes peuvent accepter des arguments :
 
 ```markdown
-# Ma Commande
+# Ma commande
 
 Vous avez reçu les arguments suivants : $ARGUMENTS[0] $ARGUMENTS[1] $ARGUMENTS[2]
 (Ou utilisez la forme abrégée : $0 $1 $2)
@@ -9889,7 +9889,7 @@ Si le répertoire de travail contient des modifications non validées :
 ### Exemple 3 : Commande Problem Framer
 
 ```markdown
-# Problem Framer
+# Problem framer
 
 ## Purpose
 
@@ -9928,9 +9928,9 @@ Challenge and refine problem definitions before solution design.
    Write refined problem statement:
    "How might we [action] for [user] so that [outcome]?"
 
-## Output Format
+## Output format
 
-### Problem Analysis Report
+### Problem analysis report
 
 **Original Problem**: [As stated]
 
@@ -10821,7 +10821,7 @@ if ($title -match "error" -or $message -match "failed") {
 }
 
 # Optional: Show Windows Toast Notification (requires BurntToast module)
-# Install-Module -Name BurntToast
+# Install-Module -name BurntToast
 # New-BurntToastNotification -Text $title, $body
 
 exit 0
@@ -10881,7 +10881,7 @@ Les hooks de sécurité sont essentiels pour protéger votre système.
 INPUT=$(cat)
 COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // ""')
 
-# === BLOCAGES CRITIQUES (Exit 2) ===
+# === BLOCAGES CRITIQUES (exit 2) ===
 
 # Destruction du système de fichiers
 [[ "$COMMAND" =~ rm.*-rf.*[/~] ]] && { echo "BLOCKED: Recursive delete of root/home" >&2; exit 2; }
@@ -11380,7 +11380,7 @@ Voir : `examples/hooks/bash/test-on-change.sh`
 
 ```bash
 # Detects associated test file and runs it
-# Supports: Jest (.test.ts), Pytest (_test.py), Go (_test.go)
+# Supports: Jest (.test.ts), pytest (_test.py), go (_test.go)
 # Only runs if test file exists
 ```
 
@@ -14726,7 +14726,7 @@ Pour les travaux critiques, combinez tout :
 
 > **Revue de Code (Équipes/Entreprise)** : Pour une revue automatisée de PR sans invite manuelle, consultez [Code Review](./workflows/code-review.md), la fonctionnalité de revue multi-agent d'Anthropic qui publie des commentaires GitHub en ligne sur chaque PR.
 
-> **Facturation (15 juin 2026) :** Tous les workflows de cette section, mode headless (`claude -p`), GitHub Actions, Agent SDK, relèvent du nouveau **compartiment de facturation programmatique** et consomment depuis un crédit mensuel égal au prix de votre abonnement ($20/$100/$200). Une fois épuisé, l'usage est facturé aux tarifs des tokens API. Auditez votre usage CI/CD avec `ccusage` avant l'entrée en vigueur du changement. Consultez [§9.13 : The Interactive/Programmatic Billing Split](#the-interactiveprogrammatic-billing-split-effective-june-15-2026) pour les détails et un cadre de décision.
+> **Facturation :** Anthropic a annoncé que les workflows de cette section (mode headless via `claude -p`, GitHub Actions, Agent SDK) passeraient sur un crédit programmatique mensuel distinct au 15 juin 2026, puis a suspendu ce changement. Vérifié le 2026-09-30 : ils consomment toujours les limites de votre abonnement. Auditez votre usage CI/CD avec `ccusage` pour être prêt si le plan reprend. Consultez [§9.13 : The Interactive/Programmatic Billing Split](#the-interactiveprogrammatic-billing-split-announced-then-paused) pour le plan annoncé et un cadre de décision.
 
 ### Mode Headless
 
@@ -15062,7 +15062,7 @@ Build ✓ → Lint ✓ → Test ✓ → Type-check ✓ → THEN create PR
 **Implémentation en tant que commande** (`.claude/commands/complete-task.md`) :
 
 ```markdown
-# Complete Task
+# Complete task
 
 Run the full verification gate before creating a PR:
 
@@ -15160,7 +15160,7 @@ Automatisez la génération de notes de version et de journaux des modifications
 Créez `.claude/commands/release-notes.md` :
 
 ```markdown
-# Generate Release Notes
+# Generate release notes
 
 Analyze git commits since last release and generate release notes.
 
@@ -15504,7 +15504,7 @@ VERCEL_TOKEN=$(security find-generic-password -s VERCEL_TOKEN -w)
 Pour les secrets multi-plateformes (GitHub, Vercel, AWS simultanément), **Infisical** offre une gestion centralisée avec versionnage et récupération à un instant donné, une alternative open source utile à HashiCorp Vault :
 
 ```bash
-# Install Infisical CLI
+# Install infisical CLI
 brew install infisical/get-cli/infisical
 
 # Inject secrets into Claude Code session
@@ -15523,7 +15523,7 @@ description: Deploy to Vercel staging then production with smoke tests
 allowed-tools: Bash
 ---
 
-## Deploy Workflow
+## Deploy workflow
 
 1. Run tests: `pnpm test` — stop if any fail
 2. Build: `pnpm build` — stop if build fails
@@ -16081,7 +16081,7 @@ Skip obvious explanations.
 
 **Adapté au contexte selon le type de tâche :**
 ```markdown
-## Output Preferences
+## Output preferences
 - **Code reviews**: Detailed, cite specific lines
 - **Bug fixes**: Minimal, show diff only
 - **New features**: Balanced, explain architecture decisions
@@ -16437,7 +16437,7 @@ User: Add error boundaries to all page components:
 ### Traitement par lots avec Claude {#batch-with-claude}
 
 ```markdown
-## Effective Batch Request
+## Effective batch request
 
 "Apply this change pattern to all matching files:
 
@@ -16744,7 +16744,7 @@ VERIFY:
 **`.gitignore` recommandé :**
 
 ```gitignore
-# Claude Code - Personal
+# Claude Code - personal
 .claude/settings.local.json
 .claude/CLAUDE.md
 .claude/.serena/
@@ -17057,7 +17057,7 @@ Voir : [Guide de traçabilité de l'IA](./ops/ai-traceability.md)
 **Personnaliser le style de commit dans CLAUDE.md :**
 
 ```markdown
-## Git Commit Conventions
+## Git commit conventions
 
 Follow Conventional Commits format:
 - feat: New features
@@ -17127,7 +17127,7 @@ git commit -m "fix: correct typo in authenticateUser function"
 **Modèle de branche de fonctionnalité :**
 
 ```markdown
-## CLAUDE.md Git Workflow
+## CLAUDE.md git workflow
 
 Always work on feature branches:
 1. Create branch from main: git checkout -b feature/name
@@ -17323,7 +17323,7 @@ git worktree prune
 Chaque worktree maintient un **contexte Claude Code indépendant** :
 
 ```bash
-# Terminal 1 - Worktree A
+# Terminal 1 - worktree A
 cd .worktrees/feature-a
 claude
 You: "Implement user authentication"
@@ -18032,7 +18032,7 @@ rtk docker compose       # Support docker compose
 # Contrôle de version (extra)
 rtk gt                   # Support Graphite CLI
 
-# Utilitaires Fichiers & Texte
+# Utilitaires fichiers & texte
 rtk tree                 # Structure du projet condensée
 rtk wc                   # Comptages de mots/lignes/octets compacts
 rtk read file.ts         # Contenu de fichier condensé
@@ -18511,37 +18511,41 @@ Les gains de temps liés à une utilisation efficace de Claude Code dépassent g
 - Apprentissage et expérimentation
 - Décisions architecturales complexes
 
-<a id="the-interactiveprogrammatic-billing-split-effective-june-15-2026"></a>
+<a id="the-interactiveprogrammatic-billing-split-announced-then-paused"></a>
 
-### La Séparation Facturation Interactive/Programmatique (Effective le 15 juin 2026)
+### La Séparation Facturation Interactive/Programmatique (Annoncée, puis suspendue)
 
-> **Note :** Cette section documente le changement de facturation annoncé par Anthropic le 13 mai 2026, effectif le 15 juin 2026. Si vous utilisez `claude -p`, l'Agent SDK, GitHub Actions, ou tout harnais d'automatisation tiers, lisez ceci avant cette date.
+> **Statut, vérifié le 2026-09-30 :** Anthropic a annoncé ce changement le 13 mai 2026 ([relayé par Gigazine le 14 mai](https://www.gigazine.net/gsc_news/en/20260514-anthropic-claude-agent-sdk-credits)) pour le 15 juin 2026, puis l'a suspendu. Son article d'aide indique : « We're pausing the changes to Claude Agent SDK usage described below. For now, nothing has changed: Claude Agent SDK, `claude -p`, and third-party app usage still draw from your subscription's usage limits. » Le crédit mensuel n'est pas disponible, et Anthropic dit qu'il communiquera avant tout changement effectif ([Claude Help Center](https://support.claude.com/en/articles/15036540-use-the-claude-agent-sdk-with-your-claude-plan)). La suite de cette section décrit le plan tel qu'annoncé, pour vous préparer s'il reprend.
 
-#### Ce qui a changé
+#### Ce qui avait été annoncé
 
-Anthropic a divisé l'utilisation des abonnements en deux compartiments distincts. Le premier, appelé usage interactif, couvre le terminal et l'IDE Claude Code, ainsi que les interfaces de chat web, desktop et mobile. Rien ne change pour ces flux de travail, les limites d'abonnement existantes restent en l'état.
+Anthropic prévoyait de diviser l'utilisation des abonnements en deux compartiments distincts. Le premier, appelé usage interactif, couvre le terminal et l'IDE Claude Code, ainsi que les interfaces de chat web, desktop et mobile. Ces flux de travail conserveraient les limites d'abonnement existantes.
 
-Le second compartiment, l'usage programmatique, est nouveau et plafonné. Il couvre `claude -p` (mode headless), l'Agent SDK (Python et TypeScript), GitHub Actions avec Claude, et les harnais tiers incluant OpenClaw, Hermes, Conductor, et tout pipeline d'orchestration personnalisé qui invoque Claude en dehors des interfaces propres d'Anthropic. Pour une analyse détaillée de ces harnais tiers et de leur comparaison avec Claude Code, voir [Outils Agents : Au-delà de Claude Code](ecosystem/agentic-tools.md). Chaque plan d'abonnement reçoit un crédit mensuel égal au prix de l'abonnement. Une fois ce crédit épuisé, l'utilisation est facturée aux tarifs API standard sans report.
+Le second compartiment, l'usage programmatique, serait nouveau et plafonné. Il couvre `claude -p` (mode headless), l'Agent SDK (Python et TypeScript), GitHub Actions avec Claude, et les harnais tiers incluant OpenClaw, Hermes, Conductor, et tout pipeline d'orchestration personnalisé qui invoque Claude en dehors des interfaces propres d'Anthropic. Pour une analyse détaillée de ces harnais tiers et de leur comparaison avec Claude Code, voir [Outils Agents : Au-delà de Claude Code](ecosystem/agentic-tools.md). Chaque plan d'abonnement recevrait un crédit mensuel. L'annonce décrivait l'usage au-delà de ce crédit comme facturé aux tarifs API standard, sans report.
 
-La distinction n'est pas « interaction humaine vs automatisation ». La distinction opératoire est **l'interface d'Anthropic vs votre interface**. Exécuter Claude Code interactivement dans le terminal utilise l'interface d'Anthropic : illimité, inchangé. Exécuter votre propre harnais ou orchestrateur utilise votre interface : plafonné. Cela reflète là où Anthropic capture de la valeur à mesure que les modèles LLM se commoditisent : au niveau du harnais et de l'UX, pas du modèle.
+La séparation prévue n'est pas « interaction humaine vs automatisation ». La distinction opératoire est **l'interface d'Anthropic vs votre interface**. Exécuter Claude Code interactivement dans le terminal utilise l'interface d'Anthropic et resterait inchangé. Exécuter votre propre harnais ou orchestrateur utilise votre interface, qui serait plafonnée. Cela reflète là où Anthropic capture de la valeur à mesure que les modèles LLM se commoditisent : au niveau du harnais et de l'UX, pas du modèle.
 
-#### Montants des crédits et tarifs de dépassement
+#### Montants de crédits prévus
 
-| Plan | Prix mensuel | Crédit programmatique | Après épuisement du crédit |
-|------|--------------|---------------------|------------------------|
-| Pro | $20 | $20/mois | Tarifs API (sans report) |
-| Max 5x | $100 | $100/mois | Tarifs API (sans report) |
-| Max 20x | $200 | $200/mois | Tarifs API (sans report) |
+L'article d'aide liste les crédits que recevraient les utilisateurs éligibles « if and when the changes resume » :
 
-**Tarifs de dépassement une fois le crédit épuisé (Sonnet 4.6) :**
-- Entrée : $3,00 par million de tokens
-- Sortie : $15,00 par million de tokens
+| Plan | Crédit programmatique mensuel prévu |
+|------|-------------------------------------|
+| Pro | $20 |
+| Max 5x | $100 |
+| Max 20x | $200 |
+| Team, sièges Standard | $20 |
+| Team, sièges Premium | $100 |
+| Enterprise, usage-based | $20 |
+| Enterprise, sièges Premium seat-based | $200 |
 
-Les crédits ne sont pas reportés au mois suivant. Ils **ne sont pas non plus activés automatiquement** : Anthropic envoie un e-mail environ deux semaines avant le 15 juin avec les instructions d'activation. Si vous ne réclamez pas vos crédits avant la date limite, des limites peuvent s'appliquer immédiatement le 15 juin. Surveillez votre boîte de réception.
+Aucun de ces crédits n'est actif aujourd'hui. Pour les tarifs API actuels, voir le [LLM market snapshot](./ops/llm-market-snapshot.md#2-api-prices).
 
-#### Ce qui est et n'est pas affecté
+#### Ce que le plan affecterait
 
-| Affecté (compartiment programmatique) | Non affecté (compartiment interactif) |
+Ce tableau reflète l'annonce du 13 mai. Rien ne s'applique tant que le changement est suspendu.
+
+| Serait affecté (compartiment programmatique) | Ne serait pas affecté (compartiment interactif) |
 |-------------------------------|----------------------------------|
 | `claude -p` / `claude --print` | Claude Code terminal (sessions interactives) |
 | Agent SDK, Python et TypeScript | Intégrations IDE Claude Code (VS Code, JetBrains, Xcode) |
@@ -18556,7 +18560,7 @@ Les crédits ne sont pas reportés au mois suivant. Ils **ne sont pas non plus a
 
 #### Le piège de facturation ANTHROPIC_API_KEY
 
-> **Avertissement :** Si `ANTHROPIC_API_KEY` est défini dans l'environnement de votre shell ou un fichier `.env`, Claude Code contourne entièrement l'abonnement et facture chaque requête aux tarifs API par token, y compris vos sessions interactives. Ceci est indépendant du changement du 15 juin mais s'y ajoute. Des utilisateurs ont reçu des factures API de 400 $ ou plus en plus d'un plan Max actif à 200 $ à cause de cela.
+> **Avertissement :** Si `ANTHROPIC_API_KEY` est défini dans l'environnement de votre shell ou un fichier `.env`, Claude Code contourne entièrement l'abonnement et facture chaque requête aux tarifs API par token, y compris vos sessions interactives. Ceci est indépendant du plan de crédit programmatique et s'applique dès aujourd'hui. Des utilisateurs ont reçu des factures API de 400 $ ou plus en plus d'un plan Max actif à 200 $ à cause de cela.
 >
 > **Diagnostic :**
 > ```bash
@@ -18566,9 +18570,9 @@ Les crédits ne sont pas reportés au mois suivant. Ils **ne sont pas non plus a
 >
 > **Correction :** Désactivez la variable dans votre profil shell (`~/.zshrc`, `~/.bashrc`) si vous souhaitez router l'utilisation via votre abonnement. Ne définissez `ANTHROPIC_API_KEY` que lorsque vous avez explicitement l'intention d'utiliser la facturation API directe.
 
-#### Auditez votre utilisation avant le 15 juin
+#### Auditez votre usage programmatique
 
-Effectuez cet audit maintenant pour comprendre votre situation avant l'entrée en vigueur du changement.
+Effectuez cet audit pour savoir quelle part de votre usage est programmatique, que le plan de crédit reprenne ou non.
 
 **Étape 1, vérifier les dépenses de session :**
 ```bash
@@ -18580,7 +18584,7 @@ claude /cost    # ou /usage depuis la v2.1.118
 npx ccusage     # Ventilation par modèle et type de session
 ```
 
-Recherchez les sessions initiées par des scripts, des jobs CI, ou de l'automatisation, ce sont vos sessions programmatiques. Estimez le total mensuel des tokens pour ces sessions et comparez-le au montant de crédit de votre plan.
+Recherchez les sessions initiées par des scripts, des jobs CI, ou de l'automatisation, ce sont vos sessions programmatiques. Estimez le total mensuel des tokens pour ces sessions et comparez-le au crédit prévu pour votre plan.
 
 **Étape 3, identifier les flux de travail programmatiques dans votre configuration :**
 ```bash
@@ -18595,11 +18599,11 @@ grep -r "ANTHROPIC_API_KEY" ~/.zshrc ~/.bashrc ~/.env .env* 2>/dev/null
 
 #### Cadre de décision
 
-Une fois vos résultats d'audit en main, appliquez ce cadre :
+Ce cadre s'applique si le plan de crédit reprend. D'ici là, l'usage programmatique consomme les mêmes limites d'abonnement que l'usage interactif, ce qui justifie déjà les chemins A et B.
 
-**Si votre usage programmatique reste dans les limites du crédit mensuel :** Aucune action nécessaire. Continuez comme avant et surveillez avec `/cost` ou `ccusage`.
+**Si votre usage programmatique resterait dans les limites du crédit prévu :** Aucune action nécessaire. Continuez comme avant et surveillez avec `/cost` ou `ccusage`.
 
-**Si votre usage programmatique dépasse ou dépassera le crédit mensuel**, choisissez un ou plusieurs des chemins suivants :
+**Si votre usage programmatique dépasserait le crédit prévu**, choisissez un ou plusieurs des chemins suivants :
 
 **Chemin A, réduire la portée ou la fréquence :**
 - Augmenter l'intervalle des tâches planifiées
@@ -18628,15 +18632,15 @@ La facturation API directe vous donne des coûts prévisibles par appel et des a
 | Synthèse et résumé en volume | Modèles locaux (Ollama + Llama/Qwen) | Coût marginal zéro si le matériel est disponible |
 | Rédaction, planification, revue interactive | Claude (conserver) | Toujours le modèle le plus performant pour ces tâches |
 
-Ces options ne sont pas mutuellement exclusives. Un schéma courant : garder Claude pour le travail interactif et les tâches requérant une qualité rédactionnelle, router les pipelines automatisés à volume élevé vers le fournisseur offrant le meilleur rapport coût-performance pour cette charge de travail spécifique. Voir [Section 11 : Écosystème IA](#11-ai-ecosystem-complementary-tools) pour une matrice complète des outils.
+Ces options ne sont pas mutuellement exclusives. Un schéma courant : garder Claude pour le travail interactif et les tâches requérant une qualité rédactionnelle, router les pipelines automatisés à volume élevé vers le fournisseur offrant le meilleur rapport coût-performance pour cette charge de travail spécifique. Voir [Section 11 : Écosystème IA](#11-ai-ecosystem-complementary-tools) pour une matrice complète des outils et le [LLM market snapshot](./ops/llm-market-snapshot.md) pour les prix datés des fournisseurs.
 
 #### Contexte stratégique
 
-Le moteur économique de ce changement est simple. Avant le 15 juin, un utilisateur intensif exécutant une automatisation d'agents continue pouvait extraire environ 2 000 $ par mois en calcul équivalent API pour un abonnement à 200 $. Les cas extrêmes atteignaient environ 5 000 $ par mois. À ce ratio, Anthropic perdait environ 300 $ par mois sur chaque profil extrême. L'adoption massive de l'automatisation par agents fin 2025 a rendu cela insoutenable.
+Le moteur économique du changement annoncé est simple. Au moment de l'annonce, un utilisateur intensif exécutant une automatisation d'agents continue pouvait extraire environ 2 000 $ par mois en calcul équivalent API pour un abonnement à 200 $. Les cas extrêmes atteignaient environ 5 000 $ par mois. À ce ratio, Anthropic perdait environ 300 $ par mois sur chaque profil extrême. L'adoption massive de l'automatisation par agents fin 2025 a rendu cela insoutenable.
 
-Le calendrier est important : le 6 mai, Anthropic a doublé les limites de débit interactives (annoncé conjointement avec le partenariat SpaceX). Le 13 mai, la séparation de facturation programmatique a été annoncée. Le 15 juin, elle entre en vigueur. Le 13 juillet, le bonus interactif temporaire de +50 % prend fin. Tout cela fait partie du même rééquilibrage de capacité, et non de changements isolés.
+Le calendrier est important : le 6 mai, Anthropic a doublé les limites de débit interactives (annoncé conjointement avec le partenariat SpaceX). Le 13 mai, la séparation de facturation programmatique a été annoncée. Elle était prévue le 15 juin et a été suspendue avant d'entrer en vigueur. Le 13 juillet, le bonus interactif temporaire de +50 % a pris fin. Tout cela fait partie du même rééquilibrage de capacité, et non de changements isolés.
 
-Pour la majorité des utilisateurs de Claude Code qui l'utilisent interactivement dans le terminal, l'impact est nul. Pour les équipes qui ont construit une automatisation significative sur `claude -p` ou l'Agent SDK, il s'agit d'un changement matériel qui mérite d'être planifié avant le 15 juin.
+Pour la majorité des utilisateurs de Claude Code qui l'utilisent interactivement dans le terminal, le plan n'aurait aucun impact. Pour les équipes qui ont construit une automatisation significative sur `claude -p` ou l'Agent SDK, il reste un changement matériel à anticiper, puisqu'Anthropic dit travailler à une version révisée.
 
 ### Leviers d'optimisation des coûts : natif vs. niveau API
 
@@ -19311,7 +19315,7 @@ Claude Zero explore la base de code, vous interroge sur les exigences :
 Claude Zero écrit le plan dans `.claude/plans/Review/auth-jwt.md` :
 
 ```markdown
-# Plan: JWT Authentication
+# Plan: JWT authentication
 
 ## Résumé
 Ajouter une authentification JWT avec des tokens d'accès/rafraîchissement.
@@ -20226,7 +20230,7 @@ La convention-over-configuration réduit directement les besoins en tokens du CL
 
 ```markdown
 # Architecture personnalisée (500+ lignes CLAUDE.md)
-## File Organization
+## File organization
 - API routes in `src/endpoints/`
 - Business logic in `src/domain/`
 - Data access in `src/repositories/`
@@ -20234,7 +20238,7 @@ La convention-over-configuration réduit directement les besoins en tokens du CL
 ... (extensive documentation of custom patterns)
 
 # Next.js (50 lines CLAUDE.md)
-## Project Context
+## Project context
 We use Next.js 14 with App Router.
 ... (minimal context, rest is framework conventions)
 ```
@@ -20260,19 +20264,19 @@ Au-delà de la configuration de base du projet, utilisez CLAUDE.md pour encoder 
 ```markdown
 # CLAUDE.md
 
-## Domain Context
+## Domain context
 
 **Product**: SaaS platform for event management (B2B, enterprise clients)
 **Business model**: Subscription-based, tiered pricing
 **Core value prop**: Seamless integration with 20+ calendar providers
 
-## Design Principles
+## Design principles
 
 1. **Idempotency First**: All API mutations must be idempotent (event industry = duplicate requests common)
 2. **Eventual Consistency**: Calendar sync uses queue-based reconciliation (not real-time)
 3. **Graceful Degradation**: If external calendar API fails, store locally + retry (never block user)
 
-## Domain Terms
+## Domain terms
 
 - **Event**: User-created calendar entry (our domain model)
 - **Appointment**: External calendar system's term (Google/Outlook)
@@ -20344,7 +20348,7 @@ function getUserById(id: string): Promise<User | null> {
 Stocker les ADRs dans `docs/decisions/` et y faire référence depuis le code :
 
 ```markdown
-# ADR-007: Event Deletion Strategy
+# ADR-007: Event deletion strategy
 
 **Status**: Accepted
 **Date**: 2025-11-15
@@ -20494,7 +20498,7 @@ src/
 **src/services/README.md** :
 
 ```markdown
-# Services Layer
+# Services layer
 
 **Purpose**: Business logic and domain operations. Services are framework-agnostic (no Express/HTTP concerns).
 
@@ -20773,7 +20777,7 @@ timestamp: 2026-05-28T14:30:00Z
 | `amount_cents` | INT | Order total in cents |
 | `status` | ENUM | pending, completed, refunded |
 
-# Business Rules
+# Business rules
 Revenue is recognized when `status = completed`. Never sum `amount_cents` across `refunded` rows.
 
 # Joins
@@ -20862,7 +20866,7 @@ tags: [core, auth]
 | `email` | TEXT | Unique, used for login |
 | `deleted_at` | TIMESTAMP | NULL if active |
 
-# Business Rules
+# Business rules
 Filter `WHERE deleted_at IS NULL` in every query unless explicitly auditing deletions.
 EOF
 
@@ -21005,7 +21009,7 @@ class EventService {
 **Configuration dans CLAUDE.md** :
 
 ```markdown
-## Debug Mode
+## Debug mode
 
 To enable verbose logging:
 
@@ -21406,7 +21410,7 @@ class UserProfile {
 **Avec documentation Fluxor** :
 
 ```markdown
-# Fluxor Framework
+# Fluxor framework
 
 ## Cycle de vie des composants
 
@@ -21450,7 +21454,7 @@ class UserProfile {
 **Exemple d'ADR** :
 
 ````markdown
-# ADR-011: Service Layer Architecture
+# ADR-011: Service layer architecture
 
 **Statut** : Accepté
 **Date** : 2025-12-10
@@ -21629,7 +21633,7 @@ jobs:
 **Instruction CLAUDE.md** :
 
 ```markdown
-## CI/CD Validation
+## CI/CD validation
 
 All PRs run automated validation:
 - Linting (ESLint)
@@ -21657,7 +21661,7 @@ Vérifiez la politique effective avec une PR non approuvée, une demande de chan
 **Liste de contrôle pour la revue des PR d'agents** :
 
 ```markdown
-## Agent PR Review Checklist
+## Agent PR review checklist
 
 - [ ] **Intent**: Does the code solve the actual problem (not just pass tests)?
 - [ ] **Edge cases**: Are unusual inputs handled (null, empty, negative, extreme values)?
@@ -21818,7 +21822,7 @@ src/integrations/google-calendar/
 **README.md** :
 
 ````markdown
-# Google Calendar Integration
+# Google Calendar integration
 
 API client for Google Calendar API v3.
 
@@ -21961,7 +21965,7 @@ try {
 **Configuration dans CLAUDE.md** :
 
 ```markdown
-## External Dependencies
+## External dependencies
 
 ### Google Calendar API
 
@@ -21976,7 +21980,7 @@ try {
 
 **Rate limits**: 10 req/sec per user (enforced by our client)
 
-### Why Context7
+### Why context7
 
 Agent's training data may be outdated (pre-2025). Use Context7 to fetch current docs at implementation time.
 
@@ -22167,7 +22171,7 @@ Commencez par ces améliorations à fort impact et faible effort :
 
 **1. Ajouter CLAUDE.md** (30 minutes)
 ```markdown
-# Project Context
+# Project context
 
 **Tech stack**: React, Express, PostgreSQL
 **Architecture**: 3-layer (controllers, services, repositories)
@@ -22184,7 +22188,7 @@ Voir ADR-011 pour les règles de stratification.
 
 **2. Ajouter des README par répertoire** (15 minutes par répertoire)
 ```markdown
-# Services Layer
+# Services layer
 
 Business logic and domain operations. Services are framework-agnostic.
 
@@ -22297,13 +22301,13 @@ L'idée clé : utiliser des variations de CLAUDE.md pour générer des implémen
 ```markdown
 # CLAUDE.md (base)
 
-## Project: [Project Name]
+## Project: [Project name]
 ## Permutation: {{VARIANT_NAME}}
 
 ### Architecture
 {{ARCHITECTURE_PATTERN}}
 
-### State Management
+### State management
 {{STATE_STRATEGY}}
 
 ### Conventions
@@ -23488,7 +23492,7 @@ npm run e2e
 Documentez le contrat dans CLAUDE.md pour que l’agent sache quelles preuves produire :
 
 ```markdown
-## Definition of Done
+## Definition of done
 
 A feature is NOT done until all three layers pass:
 1. `npm run lint && npm run typecheck` — clean
@@ -23595,7 +23599,7 @@ Les fenêtres de contexte sont finies. Toute session qui se termine sans note de
 `progress.md` élimine le coût de reconstruction. C'est une note courte et structurée rédigée à la fin de chaque session et lue au début de la suivante.
 
 ```markdown
-# Session Progress
+# Session progress
 
 ## Dernière mise à jour
 2026-05-04 — Session 7
@@ -24641,7 +24645,7 @@ Utilisez ce guide basé sur les symptômes pour identifier et résoudre rapideme
 - Supprimer la clé de `~/.zshrc`, `~/.bashrc` ou des fichiers `.env` si la facturation par abonnement est souhaitée
 - Utiliser `claude /cost` (ou `/usage` depuis la v2.1.118) pour vérifier les dépenses en temps réel dans la session en cours
 - Utiliser `npx ccusage` pour consulter l'historique des dépenses entre sessions
-- Voir [§9.13 : The Interactive/Programmatic Billing Split](#the-interactiveprogrammatic-billing-split-effective-june-15-2026) pour le modèle de facturation complet et les changements du 15 juin
+- Voir [§9.13 : The Interactive/Programmatic Billing Split](#the-interactiveprogrammatic-billing-split-announced-then-paused) pour le crédit programmatique annoncé, suspendu avant d'entrer en vigueur
 
 <a id="mcp-server-issues"></a>
 
@@ -25119,7 +25123,7 @@ tools: Read, Write, Edit, Bash, Grep, Glob
 skills: []
 ---
 
-# Agent Name
+# Agent name
 
 ## Définition du rôle
 Vous êtes un expert en [domaine].
@@ -25802,16 +25806,16 @@ touch ~/.claude/MODE_Learning.md
 
 2. Ajoutez le contenu (ou copiez-le depuis le framework SuperClaude) :
 ```markdown
-# Learning Mode
+# Learning mode
 
 **Purpose**: Just-in-time skill development with contextual explanations when techniques are first used
 
-## Activation Triggers
+## Activation triggers
 - Manual flag: `--learn`, `--learn focus:[domain]`
 - User explicitly asks "why?" or "how?" about an action
 - First occurrence of advanced technique in session
 
-## Default Behavior
+## Default behavior
 **OFF by default** - Activates via triggers above or explicit `--learn` flag
 
 When active, tracks techniques explained this session to avoid repetition.
@@ -25819,7 +25823,7 @@ When active, tracks techniques explained this session to avoid repetition.
 
 3. Enregistrez dans `~/.claude/CLAUDE.md` :
 ```markdown
-# Behavioral Modes
+# Behavioral modes
 @MODE_Learning.md
 ```
 
@@ -26155,7 +26159,7 @@ claude --debug 2>&1 | grep -i "log"
 Ajoutez ces entrées au `.gitignore` de votre projet :
 
 ```gitignore
-# Claude Code - Personnel/Local
+# Claude Code - personnel/local
 .claude/settings.local.json
 .claude/CLAUDE.md
 .claude/.serena/

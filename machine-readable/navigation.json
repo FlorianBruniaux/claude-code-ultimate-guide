@@ -152,6 +152,20 @@
           "source_path": "guide/roles/adoption-approaches.md"
         },
         {
+          "id": "ai-finops",
+          "title": "AI FinOps",
+          "description": "Understand cost regimes, levers, and dated market prices.",
+          "site_path": "/finops/",
+          "source_path": "guide/ops/ai-finops.md"
+        },
+        {
+          "id": "llm-market-snapshot",
+          "title": "LLM Market Snapshot",
+          "description": "Compare source-checked API prices and subscription quotas.",
+          "site_path": "/guide/llm-market-snapshot/",
+          "source_path": "guide/ops/llm-market-snapshot.md"
+        },
+        {
           "id": "subscription-strategy",
           "title": "Subscription Strategy",
           "description": "Compare seats, APIs, gateways, and self-hosting scenarios.",

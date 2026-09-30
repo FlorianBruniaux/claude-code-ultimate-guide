@@ -4,7 +4,7 @@ description: "How to model the real cost per accepted task in agentic AI develop
 tags: [cost, ops, guide]
 ---
 
-# AI Unit Economics
+# AI unit economics
 
 > **Audience**: Tech leads, platform engineers, and engineering managers who need to reason about what agentic AI costs per accepted unit of work, not just what shows up on the monthly invoice.
 >
@@ -264,15 +264,17 @@ A short checklist for the next "X% faster/cheaper" claim: is the comparison pair
 This page reasons about the cost model. It deliberately does not include:
 
 - **A proprietary benchmark.** There is no measured dataset of cost-per-PR across teams here. The numbers in §2 are illustrative to teach the method, not results.
-- **A provider pricing comparison.** Per-token prices change often enough that a comparison table would be stale within a release or two. For current rates, check the provider's pricing page and the live figures that tools like `ccusage` read from your own sessions.
+- **A provider pricing comparison.** Per-token prices change often enough that a comparison table would be stale within a release or two, so this page keeps none. The dated, source-checked comparison lives in the [LLM market snapshot](./llm-market-snapshot.md), which carries its read date and a refresh rule. For your own rates, check the provider's pricing page and the live figures that tools like `ccusage` read from your own sessions.
 - **A business-value model.** This page treats human-accepted work as the quality denominator. It does not price revenue per feature, defects avoided, customer impact, or regulatory risk. Connecting accepted engineering work to business value remains a separate exercise per team.
 
 If you have measured attempts, acceptance decisions, retries, review time, and rework from your own workflow, use that evidence instead of the illustrative token budget in §2. Treat this page as a measurement framework, not a fleet benchmark.
 
 ---
 
-## See Also
+## See also
 
+- [ai-finops.md](./ai-finops.md) for the AI FinOps section entry point and the full lever map
+- [llm-market-snapshot.md](./llm-market-snapshot.md) for dated provider prices, quotas, and the reference workload cost
 - [api-gateway.md](./api-gateway.md) for the technical implementation of budgets, virtual keys, and per-team caps
 - [observability.md](./observability.md) for per-session cost estimation and the tools that read exact token counts
 - [practitioner-insights.md](../ecosystem/practitioner-insights.md) for the field reports referenced here in full context

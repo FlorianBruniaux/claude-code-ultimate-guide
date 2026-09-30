@@ -4,7 +4,7 @@ description: "40+ Claude Code extensions verified against public repos, with ins
 tags: [reference, integration, plugin, security]
 ---
 
-# Claude Code Community Tools: 40+ Extensions Verified June 2026
+# Claude Code community tools: 40+ Extensions verified June 2026
 
 This page catalogs community-built tools that extend Claude Code, organized by use case. Every entry has been verified against its public repository or package registry. For each category, the "When to use" comparison explains which tool fits which workflow, because the right choice depends on your stack and constraints, not just star count.
 
@@ -14,7 +14,7 @@ These extensions may observe, configure, or coordinate Claude Code, but they do 
 
 > **Last verified**: June 2026. 40+ tools across 17 categories.
 
-## Table of Contents
+## Table of contents
 
 1. [About This Page](#about-this-page)
 2. [Token & Cost Tracking](#token--cost-tracking)
@@ -36,7 +36,7 @@ These extensions may observe, configure, or coordinate Claude Code, but they do 
 
 ---
 
-## About This Page
+## About this page
 
 This page catalogs **community-built tools that extend Claude Code**. Each tool has been verified against its public repository or package registry. Only tools with a public source (GitHub, npm, PyPI) are included.
 
@@ -47,7 +47,7 @@ This page catalogs **community-built tools that extend Claude Code**. Each tool 
 
 ---
 
-## Token & Cost Tracking
+## Token & cost tracking
 
 ### ccusage
 
@@ -244,7 +244,7 @@ A CLI proxy that filters command outputs **before** they reach Claude's context.
 
 ---
 
-### Claude Code Usage Monitor
+### Claude Code usage monitor
 
 Real-time usage monitor with burn-rate predictions and session-level warnings. The highest-starred dedicated monitoring tool for Claude Code as of May 2026, with approximately 7,955 stars (8,540 as of 2026-07-27).
 
@@ -329,7 +329,7 @@ All four tools above (Claude Code Usage Monitor, claude-spend, cc-statistics, cl
 
 ---
 
-## Context Compression
+## Context compression
 
 Tools that reduce tokens entering LLM context through compression, lazy-loading, or intelligent filtering, complementary to the tracking tools above.
 
@@ -581,7 +581,7 @@ mcp2cli bake create petstore --spec URL && mcp2cli @petstore --list
 
 ---
 
-## Session Management
+## Session management
 
 ### claude-code-viewer
 
@@ -722,7 +722,7 @@ Stop criteria: checkpoint > 10 MB/session, push overhead > 5s, or hook conflicts
 
 ---
 
-## Configuration Management
+## Configuration management
 
 ### claude-code-config
 
@@ -767,7 +767,7 @@ A CLI that scaffolds pre-configured Claude Code setups with hooks, commands, sta
 
 ---
 
-### Claude Code Organizer
+### Claude Code organizer
 
 A web dashboard and MCP server for organizing Claude Code configs across the full scope hierarchy (Global > Workspace > Project).
 
@@ -791,7 +791,7 @@ A web dashboard and MCP server for organizing Claude Code configs across the ful
 
 ---
 
-## Security Scanning
+## Security scanning
 
 Two complementary layers: tools that audit your Claude Code configuration for misconfigs, hook injection, and MCP risks; and agent-powered scanners that find logic-level vulnerabilities in the application code itself.
 
@@ -966,7 +966,7 @@ docker run --rm -v "$PWD:/scan" skillspector scan ./my-skill/ --no-llm
 
 ---
 
-## Configuration Quality
+## Configuration quality
 
 Tools that score, audit, and maintain the quality of existing AI agent configs over time, as opposed to creating them from scratch.
 
@@ -1085,7 +1085,7 @@ An OSS tool by Packmind that evaluates CLAUDE.md and AGENTS.md quality using 17 
 
 ---
 
-## Project Context Bootstrapping
+## Project context Bootstrapping
 
 Tools that compile structured codebase knowledge before a Claude Code session starts, so the AI understands routes, schema, dependencies, and high-impact files from the first message, without spending tokens on file exploration.
 
@@ -1210,7 +1210,7 @@ jobs:
 
 ---
 
-## Engineering Standards Distribution
+## Engineering standards distribution
 
 Tools that solve the organizational-scale problem: keeping engineering standards in sync across dozens of repositories and multiple AI coding agents.
 
@@ -1243,7 +1243,7 @@ An open-source "ContextOps" platform (Packmind's term for treating engineering c
 
 ---
 
-## Hook Utilities
+## Hook utilities
 
 Tools that extend Claude Code's hook system with additional logic, conditional execution, or automation patterns. For DIY hook examples, see [the hooks section in the ultimate guide](../ultimate-guide.md).
 
@@ -1324,7 +1324,7 @@ The same quality gate can be written in ~20 lines of bash without gitdiff-watche
 
 ## Alternative UIs
 
-### Claude Chic
+### Claude chic
 
 A styled terminal UI for Claude Code built on Anthropic's claude-agent-sdk. Replaces the default Claude Code TUI with a visually enhanced experience.
 
@@ -1427,7 +1427,7 @@ Users working across 5+ parallel features on multiple repos report the following
 
 ---
 
-### Agent Orchestrator (AO)
+### Agent orchestrator (AO)
 
 The open source, cross-platform equivalent of Conductor above: a desktop app and CLI that supervise multiple coding agent CLIs in parallel, each in its own git worktree, with an automatic feedback loop for CI failures, review comments, and merge conflicts.
 
@@ -1479,7 +1479,7 @@ A cross-platform desktop and web app for agentic AI development. Maintains full 
 
 ---
 
-### Claude Code GUI (VS Code Extension)
+### Claude Code GUI (VS Code extension)
 
 A third-party VS Code extension (not Anthropic's official extension) that adds a graphical layer on top of Claude Code.
 
@@ -1494,7 +1494,7 @@ A third-party VS Code extension (not Anthropic's official extension) that adds a
 
 ---
 
-## Multi-Agent Orchestration
+## Multi-agent orchestration
 
 This section covers tools for running **multiple Claude Code instances in parallel**. For detailed documentation, see:
 
@@ -1610,7 +1610,7 @@ yy merge status             # observe the queue
 
 ---
 
-## External Orchestration Frameworks
+## External orchestration frameworks
 
 > **Architectural distinction**: The tools above (Gas Town, multiclaude) run multiple Claude Code instances side by side. External orchestration frameworks go further: they replace or augment Claude Code's internal orchestration layer with their own runtime, adding swarm coordination, persistent memory, and specialized agent pools on top. Use native Claude Code capabilities (Task tool, sub-agents) first; reach for these frameworks when you've exhausted them.
 
@@ -1658,7 +1658,7 @@ npx ruflo@latest init wizard
 
 ---
 
-### Athena Flow
+### Athena flow
 
 **GitHub**: [github.com/lespaceman/athena-flow](https://github.com/lespaceman/athena-flow) | **License**: MIT (claimed)
 **Status**: Watch, published March 2026, not yet audited
@@ -1708,7 +1708,7 @@ npm install -g mthds
 
 ---
 
-## Knowledge Graph
+## Knowledge graph
 
 ### Graphify
 
@@ -1821,7 +1821,7 @@ Without Graphify: Claude re-reads source files every session to understand struc
 
 ---
 
-## Skills Observability
+## Skills observability
 
 ### Skillsight
 
@@ -1890,7 +1890,7 @@ These are known issues under active development. The fixes are straightforward; 
 
 ---
 
-## Plugin Ecosystem
+## Plugin ecosystem
 
 Claude Code's plugin system supports community-built extensions. For detailed documentation:
 
@@ -1902,12 +1902,12 @@ Claude Code's plugin system supports community-built extensions. For detailed do
 **Notable skill packs**:
 - **[Superpowers](https://github.com/obra/superpowers)**: Complete software development methodology suite (262K stars, 23.4K forks as of 2026-07-27, up from 95K+ stars / 7.5K forks earlier; MIT). 7 context-aware skills covering the full development arc: spec elicitation through Socratic brainstorming, detailed implementation planning (2-5 min tasks with exact file paths), subagent-driven development with two-stage review (spec compliance then code quality), mandatory TDD enforcement (code written before a test gets deleted), code review, git worktree management, and branch lifecycle completion (merge/PR/discard decision). Skills trigger automatically based on context: no manual invocation needed. Install: `/plugin install superpowers@claude-plugins-official`. Created by Jesse Vincent (Prime Radiant), MIT. Also supports Cursor, Codex, OpenCode, and Gemini CLI.
 - **[gstack](https://github.com/garrytan/gstack)**: 6-skill workflow suite covering the full ship cycle: strategic product gate (`/plan-ceo-review`), architecture review (`/plan-eng-review`), paranoid code review (`/review`), automated release (`/ship`), native browser QA (`/browse`), and retrospective (`/retro`). Created by Garry Tan (Y Combinator CEO). See [Cognitive Mode Switching](../workflows/gstack-workflow.md) for the workflow pattern and adoption guide. Despite the `/plan-ceo-review` command name, this is a software engineering tool, not a business persona: for AI agents that actually simulate named executive roles (CFO, CMO, board of directors), see [AI Executive Agents](./ai-executive-agents.md).
-- **[Ponytail](https://github.com/DietrichGebert/ponytail)**: "Lazy senior dev" mode for AI agents. Before writing code, the agent stops at the first rung that holds: does this need to exist? → stdlib? → native platform feature? → installed dependency? → one line? → only then the minimum that works. Benchmarked at 80-94% less code, 47-77% lower cost, and 3-6x faster than an unconstrained agent across Haiku, Sonnet, and Opus (median of 10 runs, 5 tasks). Three intensity levels: `lite` (suggest the lazier path, let the user pick), `full` (enforce the ladder, default), `ultra` (YAGNI extremist, challenges the requirement in the same response). Deliberate shortcuts are marked with a `ponytail:` comment naming the ceiling and upgrade path; `/ponytail-debt` harvests them into a ledger so "later" stays visible. Four commands: `/ponytail [lite|full|ultra|off]`, `/ponytail-review` (over-engineering review of current diff), `/ponytail-audit` (whole-repo scan), `/ponytail-debt` (shortcut ledger). Install: `/plugin install ponytail@ponytail`. MIT. Supports 13 agents: Claude Code, Codex, GitHub Copilot CLI, Gemini CLI, Antigravity CLI, OpenCode, pi, OpenClaw, Cursor, Windsurf, Cline, Kiro, and VS Code with the Codex extension.
+- **[Ponytail](https://github.com/DietrichGebert/ponytail)**: "Lazy senior dev" mode for AI agents. Before writing code, the agent stops at the first rung that holds: does this need to exist? → stdlib? → native platform feature? → installed dependency? → one line? → only then the minimum that works. Its README (read 2026-09-30) reports about 54% less code on average (up to 94% on one task), 22% fewer tokens, and about 20% lower cost on 12 feature tasks with Haiku 4.5 (n=4), and states that the earlier 80-94% figure was a per-task ceiling rather than an average. A third-party run by Stet measured +20% then -2% workload cost over two repetitions, with more test losses than wins (see [independent benchmarks](./context-engineering-tools.md#independent-benchmarks)). Three intensity levels: `lite` (suggest the lazier path, let the user pick), `full` (enforce the ladder, default), `ultra` (YAGNI extremist, challenges the requirement in the same response). Deliberate shortcuts are marked with a `ponytail:` comment naming the ceiling and upgrade path; `/ponytail-debt` harvests them into a ledger so "later" stays visible. Four commands: `/ponytail [lite|full|ultra|off]`, `/ponytail-review` (over-engineering review of current diff), `/ponytail-audit` (whole-repo scan), `/ponytail-debt` (shortcut ledger). Install: `/plugin install ponytail@ponytail`. MIT. Supports 13 agents: Claude Code, Codex, GitHub Copilot CLI, Gemini CLI, Antigravity CLI, OpenCode, pi, OpenClaw, Cursor, Windsurf, Cline, Kiro, and VS Code with the Codex extension.
 - **[fable-mode](https://github.com/mrtooher/fable-mode)**: Execution discipline skill for complex tasks, structured as a 4-step loop: (1) write a numbered stage map with expected outputs before touching anything, (2) delegate independent stages to parallel subagents where the runtime allows, (3) verify each stage with a check that can actually fail (tests, diffs, sources read, not self-assessment), (4) self-critique as a skeptical reviewer before delivery. Named after the Claude Fable model but works on any model; honest that it shapes procedure, not capability ceiling. Three variants: `fable-mode` (inline on current model), `fable-sonnet` (pins a Sonnet subagent), `fable-haiku` (pins a Haiku subagent for cost-sensitive work). Includes 4 worked examples across domains (API null-path bug, mis-attributed research claim, SQL nulls silently dropped from an AVG, multi-session refactor with no done criteria), each showing exactly where the failable check catches what one-shot misses. Two operational rules worth noting: surface accumulated warnings at threshold 3 rather than one by one; anchor sed replacements on word boundaries to avoid corrupting compound words. Install: copy the skill directory to wherever your Claude environment loads skills from (no plugin registry entry yet). No license. 802 stars, 86 forks as of 2026-07-27 (was 477 stars, 54 forks at 5 days post-launch in June 2026).
 
 ---
 
-## Known Gaps
+## Known gaps
 
 As of February 2026, the community tooling ecosystem has notable gaps:
 
@@ -1927,7 +1927,7 @@ As of February 2026, the community tooling ecosystem has notable gaps:
 
 ---
 
-## Recommendations by Persona
+## Recommendations by persona
 
 | Persona | Recommended Tools | Rationale |
 |---------|-------------------|-----------|
@@ -1939,11 +1939,11 @@ As of February 2026, the community tooling ecosystem has notable gaps:
 | **Config-heavy setup** | claude-code-config + AIBlueprint + Caliber | TUI config management + scaffolding + drift detection |
 | **Codebase newcomer / monorepo** | Graphify | Build graph once, query structure instead of re-reading files every session |
 | **Team skills adoption** | Skillsight | Measure which skills are actually invoked across the team, identify dead skills |
-| **Over-engineering fighter** | Ponytail | Force the laziest solution that works; benchmark-verified 80-94% less code than unconstrained agents |
+| **Over-engineering fighter** | Ponytail | Force the laziest solution that works; its README reports about 54% less code on average, and third-party cost results are mixed |
 
 ---
 
-## Related Resources
+## Related resources
 
 - [Observability](../ops/observability.md) - DIY session monitoring, logging hooks, cost tracking scripts
 - [AI Ecosystem](./ai-ecosystem.md) - Complementary AI tools (Perplexity, Gemini, NotebookLM)

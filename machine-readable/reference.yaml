@@ -555,6 +555,23 @@ deep_dive:
   subscription_strategy_decision_gate: "guide/ops/subscription-strategy.md#7-decision-and-pilot-gate"  # criticality and required controls precede seat count and price
   subscription_strategy_personal_plan_gap: "guide/ops/subscription-strategy.md#8-boundaries"  # personal plans are not employer-managed workforce plans
   subscription_strategy_self_hosted_split: "guide/ops/subscription-strategy.md#8-boundaries"  # self-hosted inference remains a separate capacity and operations decision
+  # AI FinOps section (guide/ops/ai-finops.md + guide/ops/llm-market-snapshot.md) - Added 2026-09-30
+  ai_finops_guide: "guide/ops/ai-finops.md"  # section entry point: three cost regimes, FinOps Inform/Optimize/Operate loop, lever map
+  ai_finops_cost_regimes: "guide/ops/ai-finops.md#1-three-cost-regimes-that-move-independently"  # subscription quota vs metered tokens vs owned capacity; a quota is not convertible to tokens
+  ai_finops_loop: "guide/ops/ai-finops.md#2-the-finops-loop-applied-to-agents"  # FinOps Foundation phases mapped to agent measurement, levers, and governance pages
+  ai_finops_lever_map: "guide/ops/ai-finops.md#3-lever-map"  # routing, caching, batch, off-peak, compression, delegation, portability, plan portfolio, local inference, each with what it does not solve
+  llm_market_snapshot: "guide/ops/llm-market-snapshot.md"  # dated 2026-09-30, primary-source-checked prices and quotas across Anthropic, OpenAI, Google, DeepSeek, Mistral, xAI, Moonshot, Z.AI, hosts
+  llm_market_trend: "guide/ops/llm-market-snapshot.md#1-the-trend-quotas-shrink-while-token-prices-fall"  # API changes mostly cuts; subscriptions move to weighted credits and windows; OpenAI Pro $200 20x->10x Plus on 2026-10-30
+  llm_market_api_prices: "guide/ops/llm-market-snapshot.md#2-api-prices"  # per-1M input/cached/output with batch, off-peak, regional modifiers; tokenizer caveat
+  llm_market_subscriptions: "guide/ops/llm-market-snapshot.md#3-subscription-quotas"  # Claude, ChatGPT, Cursor, Copilot, Mistral, Z.AI, Alibaba, OpenCode Go, Cerebras Code
+  llm_market_benchmarks: "guide/ops/llm-market-snapshot.md#4-capability-read-the-benchmark-conditions-first"  # model + harness + effort + attempts; Terminal-Bench versions not comparable
+  llm_market_reference_workload: "guide/ops/llm-market-snapshot.md#5-cost-of-one-reference-workload"  # 20M input (80% cached) + 0.4M output per day: $0.76 (GPT-6 Luna) to $76 (GPT-6 Astra); Claude Fable 5.1 $64, Opus 5.5 $27.20
+  llm_market_data_location: "guide/ops/llm-market-snapshot.md#6-where-the-data-goes"  # Anthropic us/global only, OpenAI EU endpoint +10%, DeepSeek stores in PRC, OpenRouter EU routing
+  llm_market_failed_claims: "guide/ops/llm-market-snapshot.md#7-claims-that-did-not-survive-verification"  # paused Agent SDK credit, sold-out Cerebras Code, DeepSeek weekday peak window, OpenRouter ZDR on all plans
+  llm_market_refresh_rule: "guide/ops/llm-market-snapshot.md#8-refresh-rule"
+  token_saving_independent_benchmarks: "guide/ecosystem/context-engineering-tools.md#independent-benchmarks"  # Dasein (sponsor-run, Parsec), Stet, Marmelab, JetBrains RTK and Caveman, THOL (Tokenade author); end-to-end cost vs vendor layer claims; RTK +7.6% (JetBrains low effort) and +13% (Dasein); Caveman -8.5% output tokens vs 65% claimed; author is an RTK core contributor (disclosed)
+  token_saving_layer_vs_bill: "guide/ecosystem/context-engineering-tools.md#independent-benchmarks"  # Read 90.6% vs Bash 6.4% of tool-result tokens (Marmelab); rewritable Bash calls carry under 20% of tool-result chars (JetBrains); rtk gain 96.2M tokens saved while the bill rose
+  token_saving_research_preprints: "guide/ecosystem/context-engineering-tools.md#independent-benchmarks"  # arXiv 2607.12161 (-38.4% tool-output tokens, +6.8% billed cost, r=0.15), 2609.22114 (gateway cost attribution, tool-schema filtering), 2608.16370 (retrieval calls 21.0 to 63.9), 2609.32961 (35K runs, 1/3 tokens can take 20-80% longer)
   opencode_go_plan: "guide/ecosystem/agentic-tools.md#opencode-go-the-subscription-tier-and-why-it-does-not-scale-to-a-team"  # $10/mo, $12/5h + $30/wk + $60/mo caps, single-seat gate, optional Zen balance fallback, verified 2026-08-30
   local_vs_cloud_team_sizing: "guide/ecosystem/local-vs-cloud-inference.md#sizing-self-hosted-inference-for-a-team"  # workload-specific concurrency, API-price sensitivity, observed coding-agent traces, serving evidence, and ops cost
   # Learning with AI (guide/roles/learning-with-ai.md)
@@ -946,9 +963,10 @@ deep_dive:
   subscription_token_budgets: 2476  # anchor: subscription-plans--limits
   subscription_opus_ratio: "guide/ultimate-guide.md#subscription-plans--limits"
   subscription_monitoring: 2476  # anchor: subscription-plans--limits
-  # Programmatic Billing Change (announced 2026-05-13, effective 2026-06-15)
-  programmatic_billing_change: "guide/ultimate-guide.md#the-interactiveprogrammatic-billing-split-effective-june-15-2026"
-  programmatic_billing_effective: "2026-06-15"
+  # Programmatic Billing Change (announced 2026-05-13 for 2026-06-15, then paused; status verified 2026-09-30)
+  programmatic_billing_change: "guide/ultimate-guide.md#the-interactiveprogrammatic-billing-split-announced-then-paused"
+  programmatic_billing_status: "PAUSED: Agent SDK, claude -p, and third-party app usage still draw from subscription usage limits; monthly credit not available (support.claude.com article 15036540, verified 2026-09-30)"
+  programmatic_billing_effective: "never took effect (was scheduled 2026-06-15)"
   programmatic_billing_announced: "2026-05-13"
   programmatic_billing_affects: "claude -p, Agent SDK (Python+TS), GitHub Actions, OpenClaw/Hermes/Conductor, custom harnesses, CI/CD pipelines, scheduled automation"
   # Agent Tools comparison page (Hermes, Codex CLI, Aider, Devin, SWE-agent, CrewAI, LangGraph, AutoGen, MetaGPT, Symphony, Paperclip)
@@ -991,13 +1009,11 @@ deep_dive:
   agent_harness_machine_data: "machine-readable/agent-harnesses.json"
   deepseek_harness_tool: "guide/ecosystem/agentic-tools.md#18-deepseek-harness-dsh"  # deepseek-ai/deepseek-harness, MIT, developer preview; Cordis plugin architecture, operational limits, and external prompt-injection study
   programmatic_billing_unaffected: "Claude Code terminal (interactive), IDE integrations, web/desktop/mobile chat, human-in-the-loop workflows"
-  programmatic_billing_credits: "Pro $20/mo | Max 5x $100/mo | Max 20x $200/mo — no rollover, not automatic (requires email activation)"
-  programmatic_billing_overage_sonnet: "$3/MTok input, $15/MTok output (standard API rates)"
+  programmatic_billing_credits: "PLANNED, not active: Pro $20 | Max 5x $100 | Max 20x $200 | Team Standard $20 | Team Premium $100 | Enterprise usage-based $20 | Enterprise seat-based Premium $200 per month"
   programmatic_billing_api_key_trap: "guide/ultimate-guide.md#the-anthropic_api_key-billing-trap"
   programmatic_billing_audit: "claude /cost (session) + npx ccusage (cross-session history)"
-  programmatic_billing_claim_deadline: "2026-06-15 — credits require activation via Anthropic email sent ~2 weeks prior"
   programmatic_billing_strategic_context: "Split = Anthropic UX (unlimited interactive) vs your harness (capped programmatic). Related: §9.25 Harness Engineering, §11 AI Ecosystem."
-  programmatic_billing_timeline: "2026-05-06 interactive limits doubled (SpaceX) → 2026-05-13 change announced → 2026-06-15 effective → 2026-07-13 +50% interactive bonus ends"
+  programmatic_billing_timeline: "2026-05-06 interactive limits doubled (SpaceX) → 2026-05-13 change announced → paused before 2026-06-15 → 2026-07-13 +50% interactive bonus ends"
   plan_mode: "guide/ultimate-guide.md#plan-mode"  # was bare int 653, inside a code fence (comment/example text happened to share the key's words)
   rewind: "guide/ultimate-guide.md#24-rewind" # was line 3355
   mental_model: "guide/ultimate-guide.md#26-mental-model" # was line 3654
@@ -1367,14 +1383,14 @@ deep_dive:
   git_best_practices: 16853
   cost_optimization: 2153  # anchor: cost-awareness--optimization
   session_teleportation: "guide/ultimate-guide.md#916-session-teleportation" # was line 19161
-  remote_control: 22703  # anchor: 922-remote-control-mobile-access
+  remote_control: 22707  # anchor: 922-remote-control-mobile-access
   multi_instance_workflows: "guide/ultimate-guide.md#917-scaling-patterns-multi-instance-workflows" # was line 19268
   boris_cherny_case_study: "guide/ultimate-guide.md#real-world-case-boris-cherny-interval" # was line 19421
   boris_cherny_team_patterns: "guide/ultimate-guide.md#boris-chernys-3-principles-for-ai-teams" # was line 6779
   # Dual-Instance Planning Pattern (Jon Williams, Feb 2026)
   dual_instance_planning: "guide/ultimate-guide.md#alternative-pattern-dual-instance-planning-vertical-separation" # was line 19474
   dual_instance_workflow: "guide/workflows/dual-instance-planning.md"
-  dual_instance_overview: 18988  # anchor: alternative-pattern-dual-instance-planning-vertical-separation
+  dual_instance_overview: 18992  # anchor: alternative-pattern-dual-instance-planning-vertical-separation
   dual_instance_setup: "guide/workflows/dual-instance-planning.md#dual-instance-planning-workflow"
   dual_instance_complete_workflow: "guide/workflows/dual-instance-planning.md#dual-instance-planning-workflow"
   dual_instance_plan_template: "guide/workflows/dual-instance-planning.md#dual-instance-planning-workflow"
@@ -1418,7 +1434,7 @@ deep_dive:
   team_tips_paddo_source: "Boris Cherny thread (x.com/bcherny/status/2017742741636321619)"
   team_tips_paddo_evaluation: "docs/resource-evaluations/paddo-team-tips-eval.md"
   team_tips_paddo_score: "4/5"
-  anthropic_study_metrics: 19525  # anchor: anthropic-internal-study-august-2025
+  anthropic_study_metrics: 19529  # anchor: anthropic-internal-study-august-2025
   # Contribution Metrics (Jan 2026 - platform feature, not CLI release)
   contribution_metrics: "guide/ultimate-guide.md#contribution-metrics-january-2026" # was line 20045
   contribution_metrics_source: "https://claude.com/blog/contribution-metrics"
@@ -1432,14 +1448,14 @@ deep_dive:
   git_worktree_clean_command: "examples/skills/git-worktree-clean/SKILL.md"
   git_worktrees_multi_instance: 17005  # anchor: git-worktrees-for-parallel-development
   advanced_worktree_tooling: "guide/ultimate-guide.md#advanced-tooling-for-worktree-management-optional" # was line 19838
-  worktree_tooling_self_assessment: 19366  # anchor: do-i-need-worktrunk-self-assessment
-  anthropic_internal_study: 19525  # anchor: anthropic-internal-study-august-2025
+  worktree_tooling_self_assessment: 19370  # anchor: do-i-need-worktrunk-self-assessment
+  anthropic_internal_study: 19529  # anchor: anthropic-internal-study-august-2025
   multi_instance_costs: "guide/ultimate-guide.md#cost-benefit-analysis"  # was 19268, drifted
   orchestration_frameworks: "guide/ultimate-guide.md#orchestration-frameworks" # was line 20104
-  headless_pm_framework: 19622  # anchor: headless-pm-open-source
+  headless_pm_framework: 19626  # anchor: headless-pm-open-source
   multi_instance_implementation: "guide/ultimate-guide.md#implementation-guide-progressive-scaling"  # was 19268, drifted
   multi_instance_monitoring: "guide/ultimate-guide.md#monitoring--observability"  # was 19268, drifted
-  multi_instance_decision_matrix: 19851  # anchor: decision-matrix | Multi-instance selection matrix
+  multi_instance_decision_matrix: 19855  # anchor: decision-matrix | Multi-instance selection matrix
   # External orchestration systems
   external_orchestrators:
     gas_town:
@@ -1486,7 +1502,7 @@ deep_dive:
       published: "2026-01-21"
       guide_section: "README.md:338"
   # Section 9.18 - Codebase Design for Agent Productivity
-  codebase_design_agents: 19897
+  codebase_design_agents: 19901
   codebase_design_source: "https://marmelab.com/blog/2026/01/21/agent-experience.html"
   codebase_design_author: "François Zaninotto (Marmelab)"
   codebase_design_llms_txt: "guide/ultimate-guide.md#9184-machine-readable-documentation-architecture"
@@ -1508,7 +1524,7 @@ deep_dive:
   # Section 9.20 - Agent Teams (v2.1.32+ experimental)
   agent_teams: "guide/workflows/agent-teams.md"
   agent_teams_quick_start: "guide/workflows/agent-teams-quick-start.md"  # Practical 8-10 min guide with copy-paste patterns
-  agent_teams_overview: 22208  # anchor: 920-agent-teams-multi-agent-coordination
+  agent_teams_overview: 22212  # anchor: 920-agent-teams-multi-agent-coordination
   agent_teams_architecture: "guide/workflows/agent-teams.md#2-architecture-deep-dive"
   agent_teams_setup: "guide/workflows/agent-teams.md#3-setup--configuration"
   agent_teams_use_cases: "guide/workflows/agent-teams.md#4-production-use-cases"
@@ -1637,15 +1653,15 @@ deep_dive:
   openai_harness_engineering: "docs/resource-evaluations/2026-02-11-openai-harness-engineering.md"  # Score 5/5: OpenAI Codex team, 1M lines, 5 months, 3 engineers, no manual code
   commands_table: "guide/ultimate-guide.md#101-commands-table" # was line 47
   shortcuts_table: 446  # anchor: quick-actions--shortcuts
-  troubleshooting: 24336  # anchor: 104-troubleshooting
+  troubleshooting: 24340  # anchor: 104-troubleshooting
   cheatsheet: "guide/ultimate-guide.md#105-cheatsheet" # was line 25158
-  daily_workflow: 24796  # anchor: 106-daily-workflow--checklists
+  daily_workflow: 24800  # anchor: 106-daily-workflow--checklists
   # AI Ecosystem (Section 11, ~line 10525)
-  ai_ecosystem: 25062  # anchor: 11-ai-ecosystem-complementary-tools
-  ai_ecosystem_complementarity: 25062
-  ai_ecosystem_tool_matrix: 25103  # anchor: 112-tool-matrix
-  ai_ecosystem_workflows: 25238  # anchor: 113-practical-workflows
-  ai_ecosystem_integration: 25366  # anchor: 114-integration-patterns
+  ai_ecosystem: 25066  # anchor: 11-ai-ecosystem-complementary-tools
+  ai_ecosystem_complementarity: 25066
+  ai_ecosystem_tool_matrix: 25107  # anchor: 112-tool-matrix
+  ai_ecosystem_workflows: 25242  # anchor: 113-practical-workflows
+  ai_ecosystem_integration: 25370  # anchor: 114-integration-patterns
   ai_ecosystem_detailed: "guide/ecosystem/ai-ecosystem.md"
   ai_ecosystem_coding_environments: "guide/ecosystem/ai-ecosystem.md#6-ide-ade-and-hybrid-coding-environments"
   ai_ecosystem_goose: "guide/ecosystem/ai-ecosystem.md#111-goose-open-source-alternative-block"
@@ -1694,7 +1710,7 @@ deep_dive:
   cowork_prompts: "https://github.com/FlorianBruniaux/claude-cowork-guide/tree/main/prompts"
   cowork_workflows: "https://github.com/FlorianBruniaux/claude-cowork-guide/tree/main/workflows"
   cowork_section: "guide/ecosystem/ai-ecosystem.md#10-claude-cowork-research-preview"
-  cowork_ultimate_guide: 25420  # anchor: for-non-developers-claude-cowork
+  cowork_ultimate_guide: 25424  # anchor: for-non-developers-claude-cowork
   # Team Knowledge Infrastructure (guide/ecosystem/team-knowledge-base.md) - Added 2026-06-23
   team_knowledge_guide: "guide/ecosystem/team-knowledge-base.md"
   team_knowledge_three_way: "guide/ecosystem/team-knowledge-base.md#the-one-tool-for-three-needs-trap"  # static docs vs live systems vs team workflows
@@ -1742,7 +1758,7 @@ deep_dive:
   # Appendix
   appendix_a_file_locations: "guide/ultimate-guide.md#appendix-a-file-locations-reference" # was line 26179
   appendix_b_faq: "guide/ultimate-guide.md#appendix-b-faq" # was line 26357
-  faq_clawdbot_vs_claudecode: 25922
+  faq_clawdbot_vs_claudecode: 25926
   faq_product_managers: "guide/ultimate-guide.md#can-product-managers-use-claude-code" # was line 26428
   appendix_c_resource_evaluation: "guide/ultimate-guide.md#appendix-c-resource-evaluation-process" # was line 26493
   appendix_d_myths_vs_reality: "guide/ultimate-guide.md#appendix-d-myths-vs-reality" # was line 26536
@@ -1766,7 +1782,7 @@ deep_dive:
   # Onboarding matrix required keys (added for v2.0.0 adaptive architecture)
   rules: "guide/ultimate-guide.md#the-golden-rules"  # was bare int 89, a blank line; drifted 1 line from the real heading
   workflow: "guide/ultimate-guide.md#the-workflow"  # was bare int 58, a blank line; drifted 1 line from the real heading
-  fix: 24336  # anchor: 104-troubleshooting | onboarding matrix repair route
+  fix: 24340  # anchor: 104-troubleshooting | onboarding matrix repair route
   architecture: "guide/core/architecture.md"  # was bare int 1280 into ultimate-guide.md, inside a code fence; the comment ("Architecture internals") and its siblings on this line (production_safety, security_hardening) are all plain paths to the dedicated file
   production_safety: "guide/security/production-safety.md"  # Production safety rules
   security_hardening: "guide/security/security-hardening.md"  # Security best practices

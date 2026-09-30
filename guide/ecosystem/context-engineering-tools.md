@@ -4,7 +4,7 @@ description: "A practical map of the tools that compress, optimize, route, and o
 tags: [context, tokens, optimization, ecosystem, tools, advanced]
 ---
 
-# Context Engineering: Tools & Ecosystem
+# Context engineering: Tools & ecosystem
 
 > **Confidence**: Tier 1/2. Core concepts based on published research and production data. Third-party tool details based on public documentation, GitHub API star counts verified 2026-07-07.
 >
@@ -14,11 +14,11 @@ This page maps the ecosystem of tools that help you manage what enters the conte
 
 ---
 
-## Table of Contents
+## Table of contents
 
 1. [The Mental Model](#1-the-mental-model)
 2. [Core Concepts](#2-core-concepts) (MVC, context rot, semantic priming, ghost tokens)
-3. [Output Compression: CLI & Tool Output](#3-output-compression-cli--tool-output) (RTK, Headroom, pxpipe, tilth, shunt, Token Savior, context-mode, stacklit, Cloudflare Code Mode MCP)
+3. [Output Compression: CLI & Tool Output](#3-output-compression-cli--tool-output) ([independent benchmarks](#independent-benchmarks), RTK, Headroom, pxpipe, tilth, shunt, Token Savior, context-mode, stacklit, Cloudflare Code Mode MCP)
 4. [Prompt Compression](#4-prompt-compression) (LLMLingua, Selective Context, AutoCompressors/Gisting, RECOMP, AttnComp, TOON)
 5. [AI Gateways](#5-ai-gateways)
 6. [RAG Optimization](#6-rag-optimization)
@@ -30,7 +30,7 @@ This page maps the ecosystem of tools that help you manage what enters the conte
 
 ---
 
-## 1. The Mental Model
+## 1. The mental model
 
 The framing that makes everything else click: **the context window is RAM, not disk**.
 
@@ -42,9 +42,9 @@ The parallel with system architecture holds further. A CPU without good memory m
 
 ---
 
-## 2. Core Concepts
+## 2. Core concepts
 
-### Minimum Viable Context (MVC)
+### Minimum viable context (MVC)
 
 MVC is the principle of providing exactly the information needed for the task, nothing more. It has two failure modes that look opposite but stem from the same cause:
 
@@ -55,7 +55,7 @@ The research on adherence degradation (see [context engineering guide, section 2
 
 MVC is not about minimalism for its own sake. It's about precision. A 300-token system prompt that covers exactly what the model needs beats a 3,000-token prompt that buries the critical instruction on page five.
 
-### Context Rot
+### Context rot
 
 Context rot describes the degradation in model behavior as context length grows during a session. The most studied form is the "lost-in-the-middle" phenomenon: models consistently underweight information placed in the middle of a long context, attending primarily to the beginning and end.
 
@@ -67,7 +67,7 @@ Empirical consequences in practice:
 
 Mitigation: `/compact` at 70% context usage (not 90%), structured note-taking hooks, and session restarts for fundamentally new task contexts. The `/compact` command summarizes conversation history, moving stale content out of the active attention window while preserving continuity.
 
-### Semantic Priming Hypothesis
+### Semantic priming hypothesis
 
 An observation from compression research with practical implications: when you ultra-compress a context (removing most tokens), the model does not recall the removed information verbatim. Instead, the compressed context acts as a *semantic prime*: it activates relevant latent knowledge that was already present in the model's weights from training.
 
@@ -75,7 +75,7 @@ This matters because it means heavily compressed context can perform better than
 
 The practical implication: prefer keywords and structural cues over prose when context is tight. "Use OpenAPI 3.1, strict mode, no nullable" retrieves more precise behavior than two paragraphs explaining the same thing.
 
-### Context Rot vs. Token Cost: The Two Pressures
+### Context rot vs. token cost: The two pressures
 
 Context management operates under two simultaneous pressures that pull in opposite directions:
 
@@ -86,7 +86,7 @@ Context management operates under two simultaneous pressures that pull in opposi
 
 Compression addresses cost. Pruning addresses rot. Good context engineering does both.
 
-### Context Quality After Compaction ("Ghost Tokens")
+### Context quality after compaction ("Ghost Tokens")
 
 Most of the tooling in this page answers "how many tokens did we save?" A newer, narrower angle asks a different question: after `/compact` or any lossy summarization pass, how much of what remains is still load-bearing, versus dead weight that survived compaction by accident? The term circulating for the latter is "ghost tokens": content that costs budget but no longer does useful work, distinct from the noise MVC targets before compaction ever runs.
 
@@ -96,9 +96,79 @@ This is a genuinely distinct question from the raw-reduction metrics reported el
 
 ---
 
-## 3. Output Compression: CLI & Tool Output
+## 3. Output compression: CLI & tool output
 
 Tool outputs, shell command results, test logs, and database query responses share a structural problem: they contain 70–95% boilerplate. A passing test suite logs hundreds of success lines for the one failure you care about. A `git log` dumps metadata for every commit when you need three fields. This noise enters the context window verbatim unless intercepted.
+
+### Independent benchmarks
+
+Six public benchmarks measured token-saving tools on whole agent tasks rather than on one layer. Read on 2026-09-30, they agree on one point: a tool that shrinks shell output, model prose, or one content type rarely shrinks the bill by the same amount, and several tools made tasks more expensive. No tool wins in every benchmark, and each result belongs to one harness, one model, and one effort setting. The models tested were `claude-sonnet-4-6`, `claude-sonnet-5`, GPT-5.6 Sol, and an unnamed Claude Sonnet version; none of the six tested Claude Sonnet 5.5, Claude Opus 5.5, or the GPT-6 models listed in the [LLM market snapshot](../ops/llm-market-snapshot.md), so treat the results as dated evidence about the mechanism, not as current rankings.
+
+> **Disclosure**: the author of this guide is a core contributor to RTK. RTK results are reported below as measured, including the unfavourable ones.
+
+| Benchmark | Method | Publisher's interest |
+|---|---|---|
+| [Dasein Code-Compression Bench](https://github.com/daseinlabs/code-compression-bench), 2026-07-04 | 100 SWE-bench Verified tasks, headless Claude Code, `claude-sonnet-4-6`, official Docker grader, one run per arm, cache-aware cost | Sponsored and operated by Dasein Labs, which makes Parsec, one of the arms. The Parsec arm also injects a turn-0 brief and a stop decision, beyond compression |
+| [Stet, "Six Ways to Save"](https://www.stet.sh/blog/gpt-56-token-saving-modes), 2026-07-20 | 10 merged changes from one production repo, Codex CLI with GPT-5.6 Sol, 7 arms, 2 repetitions, 140 runs | The unnamed author builds Stet.sh, the evaluation tool used; no compared tool is theirs |
+| [Marmelab, "Cutting the Coding Agent Bill"](https://marmelab.com/blog/2026/08/27/which-agent-based-plugin-should-you-use-in-2026.html), 2026-08-27 | Atomic CRM Builder tasks, 1 to 4 tasks per tool, 3 to 4 runs per configuration; harness, model, and tool versions not stated | Marmelab builds the workload; no compared tool is theirs |
+| [JetBrains, RTK](https://blog.jetbrains.com/ai/2026/07/rtk-claude-code-token-savings/), July 2026 | 86 SkillsBench tasks, 425 billed trials, Claude Code 2.1.201, rtk 0.43.0, `claude-sonnet-5`, low and high effort, Wilcoxon test on per-task medians | None stated |
+| [JetBrains, Caveman](https://blog.jetbrains.com/ai/2026/07/speak-to-ai-agents-like-cavemen-tosave-tokens/), July 2026 | 86 SkillsBench tasks, 82 clean pairs, `claude-sonnet-5` at low effort, Caveman forcibly activated | None stated |
+| [Token-Harness Optimizer Leaderboard](https://pi-infected.github.io/token-harness-optimizer-leaderboard/) | Headless Claude Code with Claude Sonnet, 12 scored tasks, 10 runs per task and tool, end-to-end USD on sessions above 200,000 tokens | Maintained by the author of Tokenade, which tops the table; the page says so |
+
+**Results.** Negative means cheaper than the same agent without the tool.
+
+| Tool | Benchmark | What was measured | Result |
+|---|---|---|---|
+| RTK | Dasein | Total cost | +13%, 54 tasks resolved vs 57 without it |
+| RTK | JetBrains | Median cost per task, low then high effort | +7.6% (p=0.004), then +0.1% (p=0.99); quality unchanged |
+| RTK | Stet | Workload cost, run 1 then run 2 | +13%, then -9% |
+| Caveman | JetBrains | Output tokens, forced activation | -8.5%, against 65% advertised |
+| Caveman | Dasein | Total cost | -19% |
+| Caveman | Stet | Workload cost, run 1 then run 2 | +9%, then -12% |
+| Headroom | Dasein | Total cost | +44% |
+| Headroom | Marmelab | Cost per operation, cache mode then token mode | -4% (called noise by the authors), then +32% |
+| Headroom | Token-Harness Optimizer Leaderboard | End-to-end cost, long sessions | +52.8% |
+| Ponytail | Stet | Workload cost, run 1 then run 2 | +20%, then -2%; tests 1 win, 4 losses, 15 ties |
+| Context Mode | Stet | Workload cost, run 1 then run 2 | +72%, then +33% |
+| Graphify | Marmelab | Cost on a large transformation | +1% |
+| LSP code navigation | Marmelab | Cost on a large transformation | -13% |
+| Parsec | Dasein (sponsor's arm) | Total cost | -39%, 62 tasks resolved |
+| Tokenade | Token-Harness Optimizer Leaderboard (author's tool) | End-to-end cost, long sessions | -38.9% |
+| Switching to GPT-5.6 Terra xhigh | Stet | Workload cost, run 1 then run 2 | -49%, then -49%: a model change, the only repeated drop in that study |
+
+![Four token-saving tools compared on vendor claim versus independent measurement: Caveman claims 65% fewer output tokens and measured 8.5% fewer, RTK claims 60-90% fewer shell-output tokens and measured +7.6% cost per task at low effort, Ponytail claims about 20% cheaper and measured +20% then -2% over two runs, Headroom claims 73-92% fewer tokens on specific content and measured +44% total cost.](../images/token-savings-claimed-vs-measured.webp)
+
+**Research preprints (July to September 2026).** Four arXiv preprints, not yet peer reviewed, reach the same conclusion with controlled setups. Their abstracts were read on 2026-09-30.
+
+| Preprint | Setup | Finding |
+|---|---|---|
+| [Token Reduction Is Not Cost Reduction](https://arxiv.org/abs/2607.12161) (Weinberger, Hozez; v1 2026-07-13, v5 2026-08-12) | Three token-reduction approaches against unmodified Claude Code, provider-billed cost, SWE-bench Go subset | The largest compression setup cut delivered tool-output tokens by 38.4% and raised billed cost by 6.8%; across tasks, token reduction and cost reduction correlated weakly (Pearson r = 0.15) |
+| [An Empirical Cost Attribution of Context-Compression Gateways in Multi-Turn Coding Agents](https://arxiv.org/abs/2609.22114) (Chen, Shi; v1 2026-08-19) | Paritok, a production gateway between Claude Code or Codex and Claude Sonnet or GPT-5 | Tool-schema filtering removes about 21K to 57K tokens per turn; content compression saves about 2% per turn; the authors warn that single-shot compression benchmarks must not be cited as a multi-turn cost argument. The paper instruments the authors' own gateway |
+| [What Does Context Compression Cost an Agent?](https://arxiv.org/abs/2608.16370) (Liu; v1 2026-08-17) | Three models, two task environments, 24-turn horizon | With GPT-5.5, completion moved from 80% to 85% (p = 1.0) while retrieval calls rose from 21.0 to 63.9 (p = .002): the agent reacquires the state that compression dropped |
+| [Beyond Token Savings: A Systematic Study of Context Compression in LLM Agents](https://arxiv.org/abs/2609.32961) (Satish, Sinha, Kawada, Yadwadkar; v1 2026-09-26) | Nearly 35,000 runs, three open-weight models, SWE-bench Verified and Terminal-Bench 1.0 | On Terminal-Bench with Qwen, policies using roughly one third as many tokens can take 20% to 80% longer, and the same policy behaves differently across models |
+
+**Why a layer saving does not become a bill saving.** In Marmelab's baseline runs, `Read` results made up 90.6% of tool-result tokens and `Bash` 6.4%. JetBrains found that the Bash calls RTK can rewrite carry just under 20% of tool-result characters, and that tool results are only part of what a session bills, because the same context is re-read on every turn. Over its low-effort run, `rtk gain` reported 96.2 million tokens saved while the measured bill went up.
+
+![A single stacked bar of tool-result tokens in Marmelab's Atomic CRM Builder baseline: Read 90.6% at 958 tokens per call, Bash 6.4% at 77 tokens per call, Edit, Write and other 3.0%, so a shell-output filter only touches the Bash slice.](../images/token-savings-tool-token-share.webp)
+
+```mermaid
+flowchart LR
+    A["Vendor claim<br/>measured on one layer"] --> B{"Which layer?"}
+    B -->|"Shell output"| C["Bash results<br/>6.4% of tool-result tokens<br/>in Marmelab's workload"]
+    B -->|"Model prose"| D["Output tokens"]
+    B -->|"Context rewrite"| E["Input tokens<br/>can invalidate the prompt cache"]
+    C --> F["Effects on the whole task<br/>extra turns, reruns, cache misses"]
+    D --> F
+    E --> F
+    F --> G["End-to-end cost per task<br/>what the benchmarks measure"]
+```
+
+**How to use these results.**
+
+- **Compare denominators before numbers.** "60-90% fewer tokens in shell output" and "+7.6% cost per task" describe different quantities; both can be true.
+- **Discount single runs.** Dasein runs each arm once on 100 tasks, and Stet's signs flip between its two repetitions for Caveman, Ponytail, and RTK.
+- **Weigh the publisher's interest.** The two benchmarks that rank a tool first are run by that tool's maker.
+- **Measure on your own tasks.** Run your workload with and without the tool, paired, and compare cost per accepted task, as described in [AI unit economics](../ops/ai-unit-economics.md#2-building-a-cost-per-accepted-task). The [AI FinOps lever map](../ops/ai-finops.md#3-lever-map) places compression among the other cost levers.
 
 ### RTK (Rust Token Killer)
 
@@ -113,7 +183,7 @@ RTK is a CLI proxy that intercepts command output before it reaches Claude's con
 
 A roughly 2.8x jump in under three months is a steep curve for a CLI proxy. It is plausible given the tool's growing bundling into other agents' default setups (see below), but treat the figure as unverified against the full star-history graph rather than confirmed growth, and re-check before quoting it in a high-stakes context.
 
-Measured savings across command categories:
+RTK's own per-command figures, which count shell output only:
 
 | Command | Reduction |
 |---------|-----------|
@@ -128,6 +198,8 @@ The design philosophy: suppress successful output, surface failures. A test suit
 RTK supports custom filters via TOML DSL (`.rtk/filters.toml`) for project-specific output patterns without writing Rust. See [Third-Party Tools: RTK](./third-party-tools.md#rtk-rust-token-killer) for the complete feature reference.
 
 **Real-world cost impact**: Real-world billing data from the codepointer substack ($926 API bill, analyzed) shows that bash output accounts for roughly 12% of total token usage in a typical Claude Code session, not the dominant source. File reads represent approximately 65%. At 60-90% compression on bash output alone, RTK's real API cost impact is in the range of 6-10% of the total bill, not 60-90%. The per-command savings are genuine; the headline "60-90% savings" refers to the compression ratio on the commands RTK processes, not to overall session cost reduction. For total context efficiency, pair RTK with a file-read compression tool like lean-ctx or tilth (see below).
+
+**Third-party measurements**: on whole tasks, JetBrains measured a median cost per task of +7.6% with RTK at low effort (p=0.004) and +0.1% at high effort, with quality unchanged; Dasein measured +13% total cost; Stet measured +13% then -9% over two runs. See [independent benchmarks](#independent-benchmarks) for methods and caveats. The author of this guide is a core contributor to RTK.
 
 ### Headroom
 
@@ -405,7 +477,7 @@ stacklit generate-json    # re-index after structure changes
 
 **Comparison with RTK and context-mode**: RTK intercepts CLI output during a session. context-mode intercepts MCP tool output in real time. stacklit eliminates exploration-phase token spend before the session starts, by making the repo structure known from the first message. The three tools target different moments in a session's lifecycle and are complementary.
 
-### Cloudflare Code Mode MCP
+### Cloudflare code mode MCP
 
 A different category of tool-schema cost: an MCP server with hundreds or thousands of endpoints loads a schema per tool, and that schema overhead can dwarf the actual task. Cloudflare's Code Mode MCP (`cloudflare/mcp`) addresses this at the API-surface level rather than the output level.
 
@@ -423,7 +495,7 @@ Use it as a starting point. When you hit the ceiling, the tools above address wh
 
 ---
 
-## 4. Prompt Compression
+## 4. Prompt compression
 
 Prompt compression operates at the model-input level: reducing the token count of the prompt itself before it is sent to the LLM. This differs from output compression (which intercepts tool responses) and context pruning (which manages session history).
 
@@ -445,27 +517,27 @@ The Semantic Priming Hypothesis (see section 2) explains why 20x compression can
 
 **When to use**: Long system prompts, repetitive RAG contexts, few-shot examples where the examples are verbose. Not suitable for code (syntax is load-bearing) or numerical data (every digit matters).
 
-### Selective Context
+### Selective context
 
 Selective Context (Li et al., 2023) predates LLMLingua and scores lexical units (tokens, phrases, or sentences) by Shannon self-information rather than raw perplexity. It is generally cited as LLMLingua's direct predecessor, and LLMLingua has since superseded it in practice. Reported compression/quality figures for it vary by source; treat any specific ratio you find as a secondary-source citation, not a confirmed benchmark result.
 
-### AutoCompressors and Gist Tokens (Soft-Prompt Compression)
+### AutoCompressors and gist tokens (soft-prompt compression)
 
 A distinct family that compresses context into learned vectors instead of shorter text. **AutoCompressors** (Chevalier et al., EMNLP 2023) fine-tune a base model to summarize long segments into reusable "summary vectors." **Gisting** (Mu, Li & Goodman, Stanford, NeurIPS 2023) trains a model to compress a prompt into a handful of cacheable "gist tokens" by modifying attention masks during standard fine-tuning, reporting up to 26x compression with minimal quality loss on the Alpaca+ dataset.
 
 Neither technique is deployed in production tooling as of mid-2026: both require fine-tuning the target model itself, which breaks the "works on any LLM" portability that made LLMLingua adoptable. They exist as a category to track, not yet something to install.
 
-### RECOMP (RAG-Specific Compression)
+### RECOMP (RAG-specific compression)
 
 RECOMP (Xu et al., arXiv 2310.04408) compresses retrieved documents before they enter the prompt, rather than compressing the assembled prompt as a whole (complementary to the Anthropic Contextual Retrieval approach described in §6 below). Two trainable compressors: an extractive one that selects useful sentences, an abstractive one that generates a distilled multi-document summary. Reported gains on Natural Questions, TriviaQA, and HotpotQA for frozen LMs. Still a research technique, not an industry-standard tool, but the underlying principle (compress at retrieval time, not prompt-assembly time) has informed later RAG-compression work.
 
-### AttnComp (Research Direction)
+### AttnComp (research direction)
 
 AttnComp (not yet a shipping product as of March 2026) proposes replacing perplexity scoring with cross-attention patterns as the compression metric. The argument: perplexity measures how "surprising" a token is given its predecessors. That's useful for language modeling, but only loosely correlated with task relevance. Cross-attention patterns directly show which tokens the model attends to for a given output, making it a more principled importance metric.
 
 Published results show AttnComp outperforms LLMLingua at equivalent compression ratios. Monitor for OSS release.
 
-### TOON (Token-Oriented Object Notation)
+### TOON (token-oriented object notation)
 
 TOON operates at a different level than LLMLingua or AttnComp: it is a data serialization format, not a compression algorithm applied after the fact. Instead of scoring and dropping tokens from an existing prompt, it re-encodes structured data (arrays of objects, tabular records) into a denser textual notation before that data ever reaches the model, keyed columns declared once instead of repeated per row, the way CSV avoids repeating field names.
 
@@ -475,7 +547,7 @@ The gains are entirely format-dependent: near zero on deeply nested, non-uniform
 
 ---
 
-## 5. AI Gateways
+## 5. AI gateways
 
 AI gateways sit between configured applications and their LLM providers. They can handle routing, rate limiting, cost management, and active context transformation for requests sent through them. Traffic that bypasses the configured endpoint remains outside their telemetry and policy controls.
 
@@ -536,17 +608,17 @@ Portkey's semantic caching layer is particularly relevant for context optimizati
 
 [LiteLLM](https://github.com/BerriAI/litellm) is an MIT-licensed Python proxy with Redis-backed caching, virtual keys, and configurable per-team or per-user budget caps. Unlike Edgee or Portkey, it ships no active compression layer of its own: its cost levers are caching and routing, not token-level compression of what gets sent. It can be paired with RTK or lean-ctx, which handle compression, when the goal also includes centralized budget enforcement for routed team traffic. See [api-gateway.md](../ops/api-gateway.md) for the budget-enforcement boundary.
 
-### Semantic Caching as a Library: GPTCache
+### Semantic caching as a library: GPTCache
 
 Portkey's semantic caching (above) and Anthropic's prompt caching (§8) both require an exact or near-exact prefix match. [GPTCache](https://github.com/zilliztech/GPTCache) (Zilliz, Apache 2.0) targets a different case: it caches the full *response*, keyed by the embedding of the query, and serves it for any new query above a cosine-similarity threshold, skipping the LLM call entirely rather than reducing what gets sent to it. It's a library to integrate into your own code (not a drop-in gateway), with pluggable vector backends (Milvus, FAISS) and storage backends (Redis, MongoDB); embedding lookup adds roughly 3–8ms. Hit-rate figures of 30 to 70% circulate in vendor and blog material but are not independently verified. Treat them as an order of magnitude, not a measured number, until you benchmark your own traffic.
 
 ---
 
-## 6. RAG Optimization
+## 6. RAG optimization
 
 Retrieval-Augmented Generation has a well-documented failure mode: the retrieval step returns chunks that are semantically relevant in isolation but lack the context to be useful. A fragment mentioning "Q3 revenue grew 3%" is meaningless without the company name and year, both of which may have been in the same document but in a different chunk.
 
-### Anthropic Contextual Retrieval
+### Anthropic contextual retrieval
 
 Anthropic's contextual retrieval method addresses chunk isolation by pre-contextualizing each fragment before indexing. A short LLM-generated preamble is prepended to each chunk, situating it within the document it came from.
 
@@ -570,7 +642,7 @@ The combination of semantic search (embeddings), keyword search (BM25), and a re
 
 Cost at scale: generating contextual preambles for 1M document tokens costs approximately $1.02 after prompt caching. For most production corpora, this is a one-time indexing cost.
 
-### JIT / Agentic Search
+### JIT / agentic search
 
 Traditional RAG loads the retrieval results at the start of the request. JIT (Just-in-Time) retrieval defers this: the agent starts with minimal context and retrieves information on-demand as the task reveals what it actually needs.
 
@@ -578,7 +650,7 @@ This matters for agent workflows with unpredictable information requirements. A 
 
 In Claude Code terms: this is what the agent does naturally when it uses tools (`list_directory`, `read_file`, `grep`) rather than receiving a pre-assembled context. The "search when needed" pattern is a design principle, not just a Claude capability.
 
-### Query-Side Indexing: Semantic Chunking and Synthetic Questions
+### Query-Side indexing: Semantic chunking and synthetic questions
 
 Two indexing-time techniques consistently improve retrieval quality beyond what better embeddings alone achieve.
 
@@ -590,7 +662,7 @@ The two techniques compose well with Anthropic's contextual retrieval approach d
 
 *Source: Guillaume Laforge (Developer Advocate, Google Cloud), [IFTTD ep 361 "Pourquoi le RAG n'est pas mort"](https://www.ifttd.io/episodes/rag); doc2query: Nogueira & Lin (2019); HyDE: Gao et al. (2022).*
 
-### RAG Triad Evaluation
+### RAG triad evaluation
 
 The RAG Triad is a framework for evaluating RAG output quality across three dimensions:
 
@@ -606,11 +678,11 @@ Arize Phoenix implements the RAG Triad as a production evaluation framework (see
 
 ---
 
-## 7. Memory Systems
+## 7. Memory systems
 
 Long-running agents face a variant of the context rot problem: session history grows until it exceeds the context window, or until early context is effectively ignored. Memory systems solve this by moving information out of the context window and into persistent storage, retrieving it on demand.
 
-### Short-Term: Compaction and Structured Note-Taking
+### Short-Term: Compaction and structured note-taking
 
 For Claude Code specifically, two mechanisms handle session-level memory:
 
@@ -620,7 +692,7 @@ For Claude Code specifically, two mechanisms handle session-level memory:
 
 **Auto Memory (v2.1.59+)** and **Auto Dream** provide native CC alternatives: Claude writes its own `MEMORY.md` between sessions, and a background sub-agent consolidates it after ≥5 sessions and ≥24 hours. See [Memory Systems: Auto Memory](../core/memory-systems.md#22-auto-memory-v21594).
 
-### Long-Term: External Memory Systems
+### Long-Term: External memory systems
 
 For multi-session and multi-agent workflows, persistent memory systems store information outside the context window and retrieve it selectively. The CC ecosystem has a three-tier model:
 
@@ -634,7 +706,7 @@ For multi-session and multi-agent workflows, persistent memory systems store inf
 
 ---
 
-## 8. KV Cache Infrastructure
+## 8. KV cache infrastructure
 
 This section has two parts. The first covers Anthropic's prompt caching mechanics as they apply to Claude Code, including how Claude Code structures requests to maximize hit rates. The second covers self-hosted inference infrastructure for teams deploying their own LLMs.
 
@@ -646,11 +718,11 @@ For subsequent requests that share a prefix (e.g., the same system prompt), thes
 
 Without KV cache reuse, every request processes the full context from scratch. With effective caching, only the unique portion of each request (the user message, new tool results) requires fresh computation. Anthropic's prompt caching reduces both latency and cost: cached tokens on Opus are billed at approximately $0.50/M versus $5/M for uncached input tokens. Cache hits require the shared prefix to be long enough (typically 1,024+ tokens) and recent enough (cache expires after approximately 5 minutes without access).
 
-### KV Cache Compression: Research Frontier
+### KV cache compression: Research frontier
 
 Distinct from prompt *caching* (reusing an unchanged prefix) is KV cache *compression*: shrinking the cached tensors themselves, since the KV cache can consume up to 70% of inference memory on long contexts. Three technique families dominate current research: selective token eviction (keep the most relevant, discard the rest), quantization (lower numerical precision), and low-rank compression. Recent work like ChunkKV compresses by semantic chunk rather than token-by-token to preserve linguistic coherence, and TurboQuant (ICLR 2026) applies a random orthogonal rotation before quantization to even out variance. This is an active systems/MLOps research area as of 2026, not yet standardized tooling you install. It matters primarily to teams running self-hosted inference (below), not to Claude Code API users, whose caching is fully managed by Anthropic.
 
-### How Claude Code Uses Prompt Caching
+### How Claude Code uses prompt caching
 
 Claude Code structures every request to maximize cache hit rate. The request order matters because of the prefix constraint: items that change most often must appear last.
 
@@ -665,13 +737,13 @@ Claude Code structures every request to maximize cache hit rate. The request ord
 
 **Production hit rates**: In real Claude Code sessions, prompt caching achieves approximately 96% hit rate. The simple reason is that the system prompt, tool definitions, CLAUDE.md content, and prior conversation turns all hit the cache; only the new user turn and the model's response are fresh computation.
 
-### Cache Anti-Patterns
+### Cache anti-patterns
 
 **Timestamps in the system prompt**: Any frequently-changing value in the system prompt prefix breaks caching by making every user's prefix unique. A Hacker News user reported recovering over 20 percentage points of cache hit rate by moving a timestamp field from the system prompt prefix into a message. The fix: move dynamic values (current date, git branch, file modification times) into message content, not the system prompt.
 
 **Adding or removing tools mid-session**: Because tool definitions sit between the system prompt and conversation history in the request prefix, any change to the tool list invalidates the cache for the entire conversation. Claude Code avoids this by locking tool definitions at session start.
 
-### Plan Mode: A Cache-Stable Design Pattern
+### Plan mode: A cache-stable design pattern
 
 Plan Mode restricts write access during planning phases. A naive implementation would be to remove write tools from the tool list while in Plan Mode. The problem: removing tools from the list changes the prefix, invalidating the entire session cache.
 
@@ -679,13 +751,13 @@ Claude Code's actual implementation: rather than removing tools, two new tools a
 
 This is a concrete example of a broader design principle: prefer instruction-level mode switching over structural changes to the request prefix.
 
-### Compaction vs `/clear` for Cache Continuity
+### Compaction vs `/clear` for cache continuity
 
 Compaction (`/compact`) preserves the cache. The compaction request reuses the same system prompt and tool definitions prefix, so cached KV entries from earlier in the session remain valid after compaction runs. Only the conversation history portion is replaced with the summary.
 
 `/clear` followed by more than approximately 5 minutes of inactivity can result in a full cold start. The TTL for cached entries expires during the idle time, so the next request finds no cached KV entries for the system prompt or tool definitions. This is one reason Claude Code defaults to compaction rather than hard resets for long sessions: compaction preserves continuity without triggering cache expiration.
 
-### Self-Hosted KV Cache Infrastructure
+### Self-Hosted KV cache infrastructure
 
 The following tools apply to teams deploying their own LLMs rather than using Anthropic's managed API.
 
@@ -717,7 +789,7 @@ This is particularly powerful for:
 | **Key innovation** | RadixAttention (trie-based automatic cache reuse) |
 | **Best for** | Shared-prefix workloads, multi-agent systems |
 
-### Semantic Caching
+### Semantic caching
 
 Semantic caching operates above the model layer: instead of caching KV activations, it caches complete LLM responses keyed on semantic similarity of the request. A new request that is semantically close to a cached request returns the cached response without an LLM call.
 
@@ -727,7 +799,7 @@ The risk: cached responses become stale. Semantic caching requires TTL policies 
 
 ---
 
-## 9. LLMOps & Observability
+## 9. LLMOps & observability
 
 You cannot optimize what you do not measure. The LLMOps tooling category provides the instrumentation layer: tracing, cost tracking, quality evaluation, and drift detection for LLM-powered systems.
 
@@ -798,7 +870,7 @@ TruLens implements the RAG Triad evaluation framework as an open-source library.
 | **License** | Open-source |
 | **Best for** | Inline RAG evaluation, library integration, RAG Triad scoring |
 
-### Choosing an Observability Tool
+### Choosing an observability tool
 
 | Need | Recommended |
 |------|------------|
@@ -812,7 +884,7 @@ These tools are not mutually exclusive. Langfuse for tracing plus Phoenix for RA
 
 ---
 
-## 10. Tool Selection by Use Case
+## 10. Tool selection by use case
 
 ### You are a Claude Code user (individual developer)
 
@@ -849,19 +921,19 @@ These tools are not mutually exclusive. Langfuse for tracing plus Phoenix for RA
 
 ---
 
-## 11. Research Landscape
+## 11. Research landscape
 
 Active research directions that have not yet shipped as production tools (March 2026), plus a newer batch of April to July 2026 papers proposing concrete mitigation architectures rather than further documenting the original context-rot problem: ACON, Recursive Language Models, Context Kubernetes, AMA-Bench, ContextBudget, and Classifier Context Rot. Full summary with confidence levels: [Context Engineering: New Research Directions](../core/context-engineering.md#new-research-directions-april-to-july-2026).
 
-### SlimInfer (Dynamic Token Pruning)
+### SlimInfer (dynamic token pruning)
 
 SlimInfer identifies redundant token representations in intermediate transformer layers and prunes them during inference. Published results: 2.53x speedup on Time-to-First-Token for LLaMA 3.1 without measurable quality degradation. The mechanism: mid-layer representations for many tokens converge to near-identical values; pruning these redundant representations saves computation without losing information.
 
-### TopV (Visual Token Pruning)
+### TopV (visual token pruning)
 
 For multimodal models (vision-language models), image tokens dominate context usage. A 1024x1024 image can generate thousands of visual tokens, most of which encode uninformative patches (backgrounds, margins). TopV formulates patch selection as an optimization problem (Sinkhorn algorithm), retaining only the visual regions relevant to the reasoning task. Published results show significant TTFT reduction on VLM inference with maintained task performance.
 
-### The Token Reduction Effect on Hallucination
+### The token reduction effect on hallucination
 
 A finding that cuts across multiple research directions: token reduction in generative models does more than reduce cost, it measurably reduces hallucination and "overthinking" on simple queries. The mechanism is not fully understood, but the correlation is consistent across studies. Shorter, more precise contexts yield more grounded, less verbose outputs. This strengthens the case for MVC as a reliability principle, not just a cost principle.
 
