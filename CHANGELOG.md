@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- **Agent Router listed**: new "Model routing" section in `guide/ecosystem/third-party-tools.md` with Agent Router (per-phase model, effort and skill routing for Claude Code and Codex, FSL-1.1-ALv2, written by the guide's author, no measured gain claimed), and a task-level routing example in `guide/ops/ai-unit-economics.md`. Both reference.yaml copies index the new anchors.
 - **Gemini infographic refresh**: add six reviewed FR/EN diagrams on evidence, acceptance and human oversight. Update embedded figures, accessible descriptions and full-size links. Refresh canonical translation provenance from the committed guide after preserving the concurrent bilingual publication update. Translate the matching context-file and harness passages into French, then bind translation provenance to the reviewed English revision.
 
 ### Documentation

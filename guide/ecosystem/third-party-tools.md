@@ -27,12 +27,13 @@ These extensions may observe, configure, or coordinate Claude Code, but they do 
 9. [Engineering Standards Distribution](#engineering-standards-distribution)
 10. [Hook Utilities](#hook-utilities)
 11. [Alternative UIs](#alternative-uis)
-12. [Multi-Agent Orchestration](#multi-agent-orchestration)
-13. [Knowledge Graph](#knowledge-graph)
-14. [Plugin Ecosystem](#plugin-ecosystem)
-15. [Skills Observability](#skills-observability)
-16. [Known Gaps](#known-gaps)
-17. [Recommendations by Persona](#recommendations-by-persona)
+12. [Model Routing](#model-routing)
+13. [Multi-Agent Orchestration](#multi-agent-orchestration)
+14. [Knowledge Graph](#knowledge-graph)
+15. [Plugin Ecosystem](#plugin-ecosystem)
+16. [Skills Observability](#skills-observability)
+17. [Known Gaps](#known-gaps)
+18. [Recommendations by Persona](#recommendations-by-persona)
 
 ---
 
@@ -1493,6 +1494,28 @@ A third-party VS Code extension (not Anthropic's official extension) that adds a
 **Note**: This is **not** the official [Claude Code for VS Code](https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code) extension by Anthropic. The official extension provides inline diffs, @-mentions, and plan review directly in the editor.
 
 **Limitations**: Third-party, not Anthropic-maintained. Feature set may overlap with or lag behind the official extension.
+
+---
+
+## Model routing
+
+These tools choose which model and effort a coding task gets, instead of leaving one default for the whole session. [AI unit economics](../ops/ai-unit-economics.md#route-by-complexity) explains the three routing levels and why a saving has to be measured on your own tasks.
+
+### Agent Router
+
+A local Rust CLI that picks the model, effort and skills for each phase of a Claude Code or Codex task (plan, execute, verify) and explains the choice. Permissions, budget, risk and missing host evidence remove candidates before any score is computed, and the same inputs replay to the same decision receipt. Each approved phase runs as a separate host process, in an OS sandbox, with writes confined to a Git worktree; it does not switch the model of the conversation you are in.
+
+> **Disclosure**: Agent Router is written by the author of this guide.
+
+| Attribute | Details |
+|-----------|---------|
+| **Source** | [GitHub: FlorianBruniaux/agent-router](https://github.com/FlorianBruniaux/agent-router) |
+| **License** | FSL-1.1-ALv2 (Functional Source License, converting to Apache 2.0): source-available, not an OSI open-source license |
+| **Install** | Build from source with Rust 1.85+: `cargo build --release --locked -p agent-router-cli -p router-sandbox-helper`; no package-manager install |
+| **Hosts** | CLI adapters for Claude Code and Codex; optional OpenCode and Copilot adapters whose native installations remain unverified |
+| **Platforms** | macOS (Seatbelt) and Linux (Bubblewrap); Windows native execution is not implemented |
+
+**Limitations**: the README claims no measured cost or quality gain yet, because the human-labelled evaluation corpus is still open work. Routing runs offline, but a run still needs the host CLI and its credentials.
 
 ---
 
