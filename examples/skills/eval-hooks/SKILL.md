@@ -211,6 +211,8 @@ Every source loads; higher layers do not replace lower ones. A layer holding bot
 
 Every non-managed hook, plugin hooks included, must be reviewed and trusted in `/hooks` before it runs. Trust is recorded against the hook's current hash, so an edited hook is skipped until trusted again. When auditing, report that a changed hook needs review; do not assume it runs. The `/hooks` browser is the authoritative view of trust. Current Codex builds also persist it under `[hooks.state]` in `config.toml`, which is undocumented: report what you observe there without printing hash values, and never treat `[hooks.state]` as an event. `--dangerously-bypass-hook-trust` bypasses the check for one invocation only: flag any automation that relies on it.
 
+Check how `codex` is launched before reading trust state as runtime behavior: `type codex` and `which -a codex`. A terminal integration can put a wrapper first on `PATH` that adds `--dangerously-bypass-hook-trust` and `-c hooks...` overrides to every invocation; Codex then lists the flag among its startup warnings. Observed with cmux, whose wrapper skips the injection when `CMUX_CODEX_HOOKS_DISABLED=1`. Under such a wrapper every hook runs without review: report that trust findings do not describe what runs.
+
 ### Events (12) and matchers
 
 | Event | Matcher filters |
@@ -233,6 +235,7 @@ Codex matchers are regex strings. `Interrupt` and `SessionEnd` do not run for su
 - `PreToolUse` ignores plain-text stdout. It blocks with `permissionDecision: "deny"`, legacy `decision: "block"`, or exit 2 with the reason on stderr. It rewrites a call with `permissionDecision: "allow"` plus `updatedInput` (a string `command` for `Bash` and `apply_patch`, the replacement arguments for MCP tools), the same shape Claude Code uses. `permissionDecision: "ask"`, `continue`, `stopReason`, and `suppressOutput` are not supported there: Codex marks the hook run as failed and **continues the tool call**. Flag any Codex policy hook that relies on them.
 - Background (`async`) hooks cannot block, approve, or rewrite; at most eight run concurrently; `SessionEnd` always runs synchronously.
 - `SessionEnd` does not support MCP tool hooks.
+- Plugins written for Claude Code can print output Codex rejects. Observed on Codex 0.159.2: a `SessionStart` hook printing two JSON objects (`{"async": true, ...}` then a metrics object) fails with `hook returned invalid session start JSON output`, and a `Stop` hook printing `{"metrics": ...}` fails with `hook returned invalid stop hook JSON output`. Read the hooks file that the plugin's `.codex-plugin/plugin.json` names, which can differ from `hooks/hooks.json` (for example `hooks/codex-hooks.json`), run each plugin hook once with a sample payload for its event, and parse stdout against that event's contract. Recommend disabling the plugin in Codex when several of its events fail.
 
 ---
 
@@ -271,6 +274,7 @@ Codex:
 
 ```bash
 ls ~/.codex/hooks.json ~/.codex/config.toml .codex/hooks.json .codex/config.toml 2>/dev/null
+type codex; which -a codex   # a wrapper first on PATH can inject hooks and bypass trust
 ```
 
 Plugins are part of the default scope because their hooks run while the plugin is enabled. For Claude Code, take enabled plugins from `enabledPlugins` in the effective settings and the installed version of each from `~/.claude/plugins/installed_plugins.json`; the plugin cache may hold several versions and temporary checkouts, so read only the installed one. List every plugin hook; score them only when the user asks, since the user does not own that code. For Codex, read plugin `hooks/hooks.json` or the `hooks` entry of `.codex-plugin/plugin.json`.
@@ -340,9 +344,10 @@ For hooks on events that can block (see the tables above) whose command is a loc
 3. Flag slow operations (`curl`, `sleep`, network calls) without an internal timeout guard in hooks on the interactive path.
 4. Before flagging a slow operation against a short `timeout`, check whether it runs detached (`( ... ) &` with `disown`, `nohup`, `setsid`). Detached work outlives the hook, so a short timeout is correct there; report the detached work instead.
 5. For a compiled binary or a script too large to read in full, do not guess its decision logic. Record the version (`--version` or `--help`), classify the blocking strategy as `UNKNOWN`, and propose a behavior canary (a sample payload on stdin, then the exit code and stdout).
-6. Before recommending a host-specific variant of a hook (for example a `codex` subcommand in place of a `claude` one), run both on the same sample payload and compare their outputs against the host's output contract. A Claude-named handler under Codex is not a defect when its output shape is one Codex supports.
+6. Before recommending or dismissing a host-specific variant of a hook (for example a `codex` subcommand in place of a `claude` one), run both on the same sample payload from more than one working directory, including a scratch repository outside your usual projects, and compare each output with the host's contract. The output can depend on the directory: with rtk 0.50.0, `rtk hook claude` returned `updatedInput` with `permissionDecision: "allow"` in one repository and without the decision in a scratch repository, which Codex rejects (`PreToolUse hook returned updatedInput without permissionDecision:allow`); `rtk hook codex` returned the decision in both. A Claude-named handler under Codex is not a defect only when its output fits the Codex contract in every directory tested.
+7. When static checks pass but behavior is in doubt, run a live canary: a disposable git repository, a fresh session, one small edit prompt. Count the `Hook failed` lines and, for a checkpointing tool, the records written per edit. Report the host version and the exact failure messages.
 
-Done when: every script-backed hook on a blocking event has one of the classifications above, or `UNKNOWN` with a proposed canary.
+Done when: every script-backed hook on a blocking event has one of the classifications above, or `UNKNOWN` with a proposed canary, and every host-specific variant verdict cites the directories it was tested in.
 
 ### Step 4: Check duplicates and dead configuration
 
