@@ -400,10 +400,14 @@ deep_dive:
   rtk_version_tested: "v0.28.0"
   rtk_score: "5/5"
   rtk_installation: "brew install rtk or cargo install --git https://github.com/rtk-ai/rtk"
-  # Edgee Compressor V2 (2026-07-02) - documented + cross-referenced with RTK
-  edgee_compressor_v2_guide: "guide/ecosystem/context-engineering-tools.md:419"
+  # Edgee Compressor V2 (2026-07-02) + routing - reviewed against Edgee's public pages 2026-09-30
+  edgee_compressor_v2_guide: "guide/ecosystem/context-engineering-tools.md#edgee"
   edgee_compressor_v2_source: "https://www.edgee.ai/blog/posts/introducing-compressor-v2-three-compression-layers-measured-end-to-end-for-a-50-cost-reduction"
+  edgee_compression_docs: "https://www.edgee.ai/docs/features/token-compression"
+  edgee_production_vs_benchmark: "Edgee docs: 15-20% production token-bill reduction (compression alone, rolling 30 days) vs 50% on SWE-bench Lite (one session, all three layers); no published resolution rate"
   edgee_rtk_lineage: "Edgee's tool-result-trimming layer explicitly credits RTK as its inspiration; TSR and brevity are the two layers RTK cannot cover"
+  edgee_routing_guide: "guide/ecosystem/context-engineering-tools.md#routing"
+  edgee_routing: "Manual rules + smart routing (beta, low/medium/high/max complexity tiers); no published routing benchmark; Qonto interview reports 37.7% combined compression+rerouting"
   # shunt (Spotify Portal) - hook-enforced delegation of large reads to a cheaper model (evaluated 2026-09-29)
   shunt_guide: "guide/ecosystem/context-engineering-tools.md#shunt-delegation-not-compression"
   shunt_evaluation: "docs/resource-evaluations/spotify-portal-shunt.md"
